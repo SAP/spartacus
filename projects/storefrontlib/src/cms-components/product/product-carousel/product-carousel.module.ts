@@ -8,7 +8,7 @@ import {
   UrlTranslationModule,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { MediaModule } from '../../../lib/ui/components/media/media.module';
+import { MediaModule } from '../../../shared/media/media.module';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselService } from './product-carousel.component.service';
 

@@ -13,7 +13,7 @@ import {
   FormComponentsModule,
   MediaModule,
   PaginationAndSortingModule,
-} from '../../../lib/ui/components/index';
+} from '../../../shared/index';
 import { AddToCartModule } from '../../checkout/index';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';

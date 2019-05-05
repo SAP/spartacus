@@ -14,19 +14,21 @@ import {
   ProductSearchService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AddToCartComponent } from '../../../../../cms-components/checkout';
-import { StarRatingComponent } from '../../../../ui';
-import { MediaComponent } from '../../../../ui/components/media/media.component';
-import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
-import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
-import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
+import { PageLayoutService } from '../../../../cms-structure';
+import {
+  MediaComponent,
+  PaginationAndSortingModule,
+  PaginationComponent,
+  SortingComponent,
+  StarRatingComponent,
+} from '../../../../shared';
+import { AddToCartComponent } from '../../../checkout';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
   ProductViewComponent,
   ViewModes,
 } from '../product-view/product-view.component';
-import { PageLayoutService } from './../../../../cms/page-layout/page-layout.service';
 import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
 

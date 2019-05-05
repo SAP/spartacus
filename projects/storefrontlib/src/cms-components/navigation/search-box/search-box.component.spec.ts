@@ -12,8 +12,8 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BootstrapModule } from '../../bootstrap.module';
-import { MediaComponent } from '../../ui/components/media/media.component';
+import { BootstrapModule } from '../../../lib/bootstrap.module';
+import { MediaComponent } from '../../../shared/media/media.component';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 

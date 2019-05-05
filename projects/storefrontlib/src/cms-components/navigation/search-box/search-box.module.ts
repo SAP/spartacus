@@ -15,7 +15,7 @@ import {
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BootstrapModule } from '../../../lib/bootstrap.module';
-import { MediaModule } from '../../../lib/ui/components/media/media.module';
+import { MediaModule } from '../../../shared/index';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 

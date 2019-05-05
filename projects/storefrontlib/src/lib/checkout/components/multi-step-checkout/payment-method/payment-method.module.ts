@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
+import { I18nModule, UserService } from '@spartacus/core';
+import { CardModule } from '../../../../../shared/card/card.module';
+import { SpinnerModule } from '../../../../../shared/spinner/spinner.module';
 import { PaymentFormModule } from './payment-form/payment-form.module';
-import { CardModule } from '../../../../ui/components/card/card.module';
 import { PaymentMethodComponent } from './payment-method.component';
-import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
-import { UserService, I18nModule } from '@spartacus/core';
 
 @NgModule({
   imports: [

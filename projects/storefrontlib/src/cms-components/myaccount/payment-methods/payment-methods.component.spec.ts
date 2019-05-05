@@ -1,14 +1,14 @@
+import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Component, DebugElement } from '@angular/core';
-
-import { I18nTestingModule, PaymentDetails, User } from '@spartacus/core';
-
+import {
+  I18nTestingModule,
+  PaymentDetails,
+  User,
+  UserService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
-import { UserService } from '@spartacus/core';
-import { CardComponent } from './../../../ui/components/card/card.component';
-
+import { CardComponent } from '../../../shared/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
 @Component({

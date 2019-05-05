@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Address, DeliveryMode, Order, PaymentDetails } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { Card } from '../../../../../lib/ui/components/card/card.component';
+import { Card } from '../../../../../shared/card/card.component';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({

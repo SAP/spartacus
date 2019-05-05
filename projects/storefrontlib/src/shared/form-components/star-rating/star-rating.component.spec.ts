@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { NgbRatingModule, NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { StarRatingComponent } from './star-rating.component';
 describe('StarRatingComponent in product', () => {
   let starRatingComponent: StarRatingComponent;
   let fixture: ComponentFixture<StarRatingComponent>;

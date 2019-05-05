@@ -1,15 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { UIProduct } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
-
-import { OutletDirective } from '../../../../outlet';
-
+import { Observable, of } from 'rxjs';
+import { OutletDirective } from '../../../../cms-structure/outlet/index';
+import { CurrentProductService } from '../../current-product.service';
 import { ProductDetailsComponent } from './product-details.component';
-import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 
 const mockProduct: UIProduct = { name: 'mockProduct' };
 

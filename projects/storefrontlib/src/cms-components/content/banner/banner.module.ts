@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
-import { GenericLinkModule } from '../../../lib/ui/components/generic-link/generic-link.module';
-import { MediaModule } from '../../../lib/ui/components/media/media.module';
+import { GenericLinkModule } from '../../../shared/generic-link/generic-link.module';
+import { MediaModule } from '../../../shared/media/media.module';
 import { BannerComponent } from './banner.component';
 
 @NgModule({

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService, StoreFinderService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SpinnerModule } from '../../../../lib/ui/components/spinner/spinner.module';
+import { SpinnerModule } from '../../../../shared/spinner/spinner.module';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';

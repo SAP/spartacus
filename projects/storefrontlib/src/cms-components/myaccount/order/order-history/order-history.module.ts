@@ -11,7 +11,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { BootstrapModule } from '../../../../lib/bootstrap.module';
-import { PaginationAndSortingModule } from '../../../../lib/ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { PaginationAndSortingModule } from '../../../../shared/pagination-and-sorting/pagination-and-sorting.module';
 import { OrderHistoryComponent } from './order-history.component';
 
 @NgModule({

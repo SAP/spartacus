@@ -8,7 +8,7 @@ import {
   StoreDataService,
   StoreFinderService,
 } from '@spartacus/core';
-import { SpinnerComponent } from '../../../../lib/ui/components/spinner/spinner.module';
+import { SpinnerComponent } from '../../../../shared';
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 
 @Pipe({

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { CartSharedModule } from '../../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
-import { CardModule } from '../../../../ui/components/card/card.module';
+import { CardModule } from '../../../../../shared/card/card.module';
 import { ReviewSubmitComponent } from './review-submit.component';
 
 @NgModule({

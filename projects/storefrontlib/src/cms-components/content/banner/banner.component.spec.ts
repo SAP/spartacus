@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CmsBannerComponent, Component as SpaComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { GenericLinkComponent } from '../../../lib/ui/components/generic-link/generic-link.component';
+import { GenericLinkComponent } from '../../../shared/generic-link/generic-link.component';
 import { BannerComponent } from './banner.component';
 
 @Component({

@@ -1,4 +1,3 @@
-export * from './components.module';
 export * from './form-components/form-components.module';
 export * from './form-components/item-counter/item-counter.component';
 export * from './form-components/star-rating/star-rating.component';
@@ -7,6 +6,6 @@ export * from './media/media.component';
 export * from './media/media.model';
 export * from './media/media.module';
 export * from './media/media.service';
-export * from './pagination-and-sorting/pagination-and-sorting.module';
+export * from './pagination-and-sorting/index';
 export * from './spinner/spinner.component';
 export * from './spinner/spinner.module';

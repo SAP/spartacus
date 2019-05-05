@@ -1,11 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { BootstrapModule } from '../../../bootstrap.module';
+import { BootstrapModule } from '../../lib/bootstrap.module';
+import { OnlyNumberDirective } from '../../lib/ui/directives/only-number/only-number.directive';
+import { ItemCounterComponent } from './item-counter/item-counter.component';
 /* Components */
 import { StarRatingComponent } from './star-rating/star-rating.component';
-import { ItemCounterComponent } from './item-counter/item-counter.component';
-import { OnlyNumberDirective } from './../../directives/only-number/only-number.directive';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, BootstrapModule],

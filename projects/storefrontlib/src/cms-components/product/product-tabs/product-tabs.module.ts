@@ -13,7 +13,6 @@ import {
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
 import { PageComponentModule } from '../../../cms-structure/page/index';
-import { ComponentsModule } from '../../../lib/ui/components/index';
 import { CartSharedModule } from '../../checkout/index';
 // guards
 import { ProductTabsComponent } from './container/product-tabs.component';
@@ -27,7 +26,6 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    ComponentsModule,
     CartSharedModule,
     CmsModule,
     OutletModule,

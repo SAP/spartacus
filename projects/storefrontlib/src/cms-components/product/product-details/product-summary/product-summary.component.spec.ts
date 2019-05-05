@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { AddToCartModule } from '../../../../../cms-components/checkout';
-import { OutletDirective } from '../../../../outlet';
+import { AddToCartModule } from '../../../../cms-components/checkout/index';
+import { OutletDirective } from '../../../../cms-structure/outlet/index';
+import { FormComponentsModule } from '../../../../shared/form-components/form-components.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import { FormComponentsModule } from './../../../../ui/components/form-components/form-components.module';
 
 describe('ProductSummaryComponent in product', () => {
   let productSummaryComponent: ProductSummaryComponent;

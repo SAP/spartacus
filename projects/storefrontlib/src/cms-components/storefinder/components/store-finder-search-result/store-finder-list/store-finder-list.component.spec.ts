@@ -1,18 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { StoreFinderListComponent } from './store-finder-list.component';
-import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { SpinnerModule } from '../../../../ui/components/spinner/spinner.module';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import {
-  StoreDataService,
   GoogleMapRendererService,
   I18nTestingModule,
+  StoreDataService,
 } from '@spartacus/core';
+import { SpinnerModule } from '../../../../../shared/spinner/spinner.module';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import { StoreFinderListComponent } from './store-finder-list.component';
 
 const location = {};
 const stores = [location];

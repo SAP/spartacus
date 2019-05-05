@@ -1,15 +1,13 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
-import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 import {
   I18nTestingModule,
   RoutingService,
   StoreFinderService,
 } from '@spartacus/core';
-
-import { Pipe, PipeTransform } from '@angular/core';
+import { SpinnerModule } from '../../../../shared';
+import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 
 @Pipe({
   name: 'cxTranslateUrl',

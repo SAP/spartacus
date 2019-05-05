@@ -7,7 +7,7 @@ import {
   I18nModule,
   UrlTranslationModule,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../lib/ui/components/spinner/spinner.module';
+import { SpinnerModule } from '../../../shared/spinner/spinner.module';
 import { CloseAccountModalComponent } from './components/close-account-modal/close-account-modal.component';
 import { CloseAccountComponent } from './components/close-account/close-account.component';
 
