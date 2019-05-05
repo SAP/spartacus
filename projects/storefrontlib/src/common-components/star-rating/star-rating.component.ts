@@ -3,26 +3,17 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
   HostBinding,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICON_TYPES } from '../../cms-components/misc/index';
 
 @Component({
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => StarRatingComponent),
-    },
-  ],
 })
 export class StarRatingComponent implements OnInit {
   /**
