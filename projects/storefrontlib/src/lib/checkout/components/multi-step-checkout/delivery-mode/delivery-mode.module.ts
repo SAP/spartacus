@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
-import { SpinnerModule } from '../../../../../shared/spinner/spinner.module';
+import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { DeliveryModeComponent } from './delivery-mode.component';
 
 @NgModule({

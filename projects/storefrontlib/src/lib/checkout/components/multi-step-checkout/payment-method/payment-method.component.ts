@@ -17,7 +17,7 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { Card } from '../../../../../shared/card/card.component';
+import { Card } from '../../../../../shared/components/card/card.component';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
 

@@ -6,8 +6,8 @@ import {
   I18nModule,
   UserService,
 } from '@spartacus/core';
-import { CardModule } from '../../../shared/card/card.module';
-import { SpinnerModule } from '../../../shared/spinner/spinner.module';
+import { CardModule } from '../../../shared/components/card/card.module';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
 @NgModule({

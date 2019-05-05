@@ -8,7 +8,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CardComponent } from '../../../shared/card/card.component';
+import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
 @Component({

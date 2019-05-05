@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, CmsService, ConfigModule } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { GenericLinkModule } from '../../../shared/generic-link/generic-link.module';
+import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { FooterNavigationComponent } from './footer-navigation.component';
 

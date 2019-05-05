@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
-import { CardModule } from '../../../../../../shared/card/card.module';
+import { CardModule } from '../../../../../../shared/components/card/card.module';
 import { BootstrapModule } from '../../../../../bootstrap.module';
 import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
 import { PaymentFormComponent } from './payment-form.component';

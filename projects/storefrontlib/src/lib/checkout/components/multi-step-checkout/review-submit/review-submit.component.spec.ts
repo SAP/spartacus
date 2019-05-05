@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../../cms-components/checkout/cart/index';
-import { Card } from '../../../../../shared/card/card.component';
+import { Card } from '../../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
 

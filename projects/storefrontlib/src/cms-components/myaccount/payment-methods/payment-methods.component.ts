@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PaymentDetails, UserService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { Card } from '../../../shared/card/card.component';
+import { Card } from '../../../shared/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-methods',

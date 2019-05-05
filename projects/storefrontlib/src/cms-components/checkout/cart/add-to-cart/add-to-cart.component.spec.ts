@@ -10,7 +10,7 @@ import {
   UIOrderEntry,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SpinnerModule } from '../../../../shared/spinner/spinner.module';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { AddToCartComponent } from './add-to-cart.component';
 
 const productCode = '1234';

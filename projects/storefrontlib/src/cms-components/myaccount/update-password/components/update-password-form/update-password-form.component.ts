@@ -6,8 +6,8 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { CustomFormValidators } from '../../../../../lib/ui/validators/custom-form-validators';
-import { FormUtils } from '../../../../../lib/utils/forms/form-utils';
+import { FormUtils } from '../../../../../shared/utils/forms/form-utils';
+import { CustomFormValidators } from '../../../../../shared/utils/validators/custom-form-validators';
 @Component({
   selector: 'cx-update-password-form',
   templateUrl: './update-password-form.component.html',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '@spartacus/core';
-import { BREAKPOINT, LayoutConfig } from '../../layout/index';
-import { missingProductImgSrc } from '../../lib/ui/images/missingProduct';
+import { BREAKPOINT, LayoutConfig } from '../../../layout/index';
+import { missingProductImgSrc } from '../../../lib/ui/images/missingProduct';
 import { Media, MediaFormats } from './media.model';
 
 /** the default format is used for browsers that do not support   */

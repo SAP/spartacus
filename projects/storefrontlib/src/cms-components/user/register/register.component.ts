@@ -17,7 +17,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { CustomFormValidators } from '../../../lib/ui/validators/custom-form-validators';
+import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-register',

@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { Card } from '../../../../../shared/card/card.component';
+import { Card } from '../../../../../shared/components/card/card.component';
 
 @Component({
   selector: 'cx-review-submit',

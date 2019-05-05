@@ -21,7 +21,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Card } from '../../../../../../shared/card/card.component'; // tslint:disable-line
+import { Card } from '../../../../../../shared/components/card/card.component'; // tslint:disable-line
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
 

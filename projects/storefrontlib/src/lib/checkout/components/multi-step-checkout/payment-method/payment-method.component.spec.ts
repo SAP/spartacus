@@ -11,7 +11,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Card } from '../../../../../shared/card/card.component';
+import { Card } from '../../../../../shared/components/card/card.component';
 import { PaymentMethodComponent } from './payment-method.component';
 
 import createSpy = jasmine.createSpy;

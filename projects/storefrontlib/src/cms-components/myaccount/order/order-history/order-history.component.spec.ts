@@ -11,7 +11,7 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PaginationAndSortingModule } from '../../../../shared/pagination-and-sorting/pagination-and-sorting.module';
+import { PaginationAndSortingModule } from '../../../../shared/components/pagination-and-sorting/pagination-and-sorting.module';
 import { OrderHistoryComponent } from './order-history.component';
 
 const mockOrders: OrderHistoryList = {

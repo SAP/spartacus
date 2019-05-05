@@ -13,7 +13,7 @@ import {
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BootstrapModule } from '../../../lib/bootstrap.module';
-import { MediaComponent } from '../../../shared/media/media.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 

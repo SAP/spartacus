@@ -7,8 +7,8 @@ import {
   UserService,
 } from '@spartacus/core';
 import { AddressFormModule } from '../../../lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
-import { CardModule } from '../../../shared/card/card.module';
-import { SpinnerModule } from '../../../shared/spinner/spinner.module';
+import { CardModule } from '../../../shared/components/card/card.module';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
 import { AddressCardComponent } from './address-card/address-card.component';

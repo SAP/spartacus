@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { CardModule } from '../../../../shared/card/card.module';
+import { CardModule } from '../../../../shared/components/card/card.module';
 import { CartSharedModule } from '../../../checkout/cart/cart-shared/cart-shared.module';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';

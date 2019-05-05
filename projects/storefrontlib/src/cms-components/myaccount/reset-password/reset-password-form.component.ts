@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CustomFormValidators } from '../../../lib/ui/validators/custom-form-validators';
+import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-reset-password-form',

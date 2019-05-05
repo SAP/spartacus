@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { AddToCartModule } from '../../../../cms-components/checkout/index';
 import { OutletDirective } from '../../../../cms-structure/outlet/index';
-import { FormComponentsModule } from '../../../../shared/form-components/form-components.module';
+import { FormComponentsModule } from '../../../../shared/components/form-components/form-components.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
 describe('ProductSummaryComponent in product', () => {

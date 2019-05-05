@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Card } from '../../../../../shared/card/card.component';
+import { Card } from '../../../../../shared/components/card/card.component';
 
 export interface CardWithAddress {
   card: Card;
