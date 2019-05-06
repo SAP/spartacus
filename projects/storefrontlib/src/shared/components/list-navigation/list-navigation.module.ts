@@ -12,4 +12,4 @@ import { SortingComponent } from './sorting/sorting.component';
   declarations: [PaginationComponent, SortingComponent],
   exports: [PaginationComponent, SortingComponent],
 })
-export class PaginationAndSortingModule {}
+export class ListNavigationModule {}

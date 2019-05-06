@@ -11,7 +11,7 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PaginationAndSortingModule } from '../../../../shared/components/pagination-and-sorting/pagination-and-sorting.module';
+import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderHistoryComponent } from './order-history.component';
 
 const mockOrders: OrderHistoryList = {
@@ -71,11 +71,7 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        PaginationAndSortingModule,
-        I18nTestingModule,
-      ],
+      imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
       declarations: [OrderHistoryComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

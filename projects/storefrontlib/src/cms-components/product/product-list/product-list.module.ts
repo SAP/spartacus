@@ -11,8 +11,9 @@ import {
 import { BootstrapModule } from '../../../lib/bootstrap.module';
 import {
   FormComponentsModule,
+  ListNavigationModule,
   MediaModule,
-  PaginationAndSortingModule,
+  StarRatingModule,
 } from '../../../shared/index';
 import { AddToCartModule } from '../../checkout/index';
 import { ProductListComponent } from './container/product-list.component';
@@ -36,10 +37,11 @@ import { ProductViewComponent } from './product-view/product-view.component';
     BootstrapModule,
     AddToCartModule,
     FormComponentsModule,
-    PaginationAndSortingModule,
+    ListNavigationModule,
     StripHtmlModule,
     UrlTranslationModule,
     I18nModule,
+    StarRatingModule,
   ],
   declarations: [
     ProductListComponent,

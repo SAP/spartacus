@@ -16,8 +16,8 @@ import {
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
 import {
+  ListNavigationModule,
   MediaComponent,
-  PaginationAndSortingModule,
   PaginationComponent,
   SortingComponent,
   StarRatingComponent,
@@ -89,7 +89,7 @@ describe('ProductListComponent in product-list', () => {
         NgbPaginationModule,
         NgbCollapseModule,
         NgbRatingModule,
-        PaginationAndSortingModule,
+        ListNavigationModule,
         FormsModule,
         RouterTestingModule,
         I18nTestingModule,

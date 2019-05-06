@@ -4,7 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CmsModule, I18nModule } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
-import { FormComponentsModule, MediaModule } from '../../../shared/index';
+import {
+  FormComponentsModule,
+  MediaModule,
+  StarRatingModule,
+} from '../../../shared/index';
 import { AddToCartModule, CartSharedModule } from '../../checkout/index';
 // guards
 import { ProductDetailsComponent } from './container/product-details.component';
@@ -24,6 +28,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     I18nModule,
     FormComponentsModule,
     MediaModule,
+    StarRatingModule,
   ],
   declarations: [
     ProductDetailsComponent,

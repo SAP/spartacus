@@ -12,7 +12,7 @@ import {
 import { LayoutConfig } from '../../layout/config/layout-config';
 import { BootstrapModule } from '../../lib/bootstrap.module';
 import { CmsModule } from '../../lib/cms/index';
-import { PaginationAndSortingModule, SpinnerModule } from '../../shared/index';
+import { ListNavigationModule, SpinnerModule } from '../../shared/index';
 import {
   ScheduleComponent,
   StoreFinderComponent,
@@ -34,7 +34,7 @@ import {
     CmsModule,
     ReactiveFormsModule,
     RouterModule,
-    PaginationAndSortingModule,
+    ListNavigationModule,
     BootstrapModule,
     SpinnerModule,
     UrlTranslationModule,

@@ -4,16 +4,16 @@ import {
   EventEmitter,
   forwardRef,
   Input,
+  OnChanges,
   OnInit,
   Output,
-  ViewChild,
-  OnChanges,
   Renderer2,
+  ViewChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
   FormControl,
+  NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
