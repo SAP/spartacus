@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { ICON_TYPES } from '../../../../../cms-components/misc/icon/index';
+import { ICON_TYPES } from '../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-product-facet-navigation',
