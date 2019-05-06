@@ -14,7 +14,7 @@ import { CmsComponentData } from '../../../../cms-structure/index';
 import { MiniCartComponent } from './mini-cart.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform(options: TranslateUrlCommandRoute): string {

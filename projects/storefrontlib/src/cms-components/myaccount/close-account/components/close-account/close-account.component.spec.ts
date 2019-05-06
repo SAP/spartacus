@@ -7,7 +7,7 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}

@@ -6,7 +6,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}

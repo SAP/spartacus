@@ -173,7 +173,7 @@
                   {{ 'register.confirmThatRead' | cxTranslate }}
                   <a
                     [routerLink]="
-                      { route: 'termsAndConditions' } | cxTranslateUrl
+                      { route: 'termsAndConditions' } | cxUrl
                     "
                     target="_blank"
                   >
@@ -193,7 +193,7 @@
           </button>
           <a
             class="cx-login-link btn-link"
-            [routerLink]="{ route: 'login' } | cxTranslateUrl"
+            [routerLink]="{ route: 'login' } | cxUrl"
             >{{ 'register.signIn' | cxTranslate }}</a
           >
         </form>

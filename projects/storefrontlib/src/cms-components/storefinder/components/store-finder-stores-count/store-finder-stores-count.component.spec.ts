@@ -10,7 +10,7 @@ import { SpinnerModule } from '../../../../shared';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}

@@ -77,7 +77,7 @@ class MockOrderSummaryComponent {
 class MockPlaceOrderComponent {}
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}

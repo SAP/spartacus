@@ -43,7 +43,7 @@ ConfigModule.withConfig({
 1. when `campaignName` param **is** given:
 
     ```html
-    <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxTranslateUrl"></a>
+    <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxUrl"></a>
     ```
 
     result
@@ -55,7 +55,7 @@ ConfigModule.withConfig({
 2. when `campaignName` param **is not** given:
 
     ```html
-    <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+    <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
     ```
 
     result
@@ -97,11 +97,11 @@ All following examples result in the same:
  1. when `campaignName` param **is** given:
  
      ```html
-     <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxTranslateUrl"></a>
+     <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxUrl"></a>
      ```
 
  2. when `campaignName` param **is not** given:
 
      ```html
-     <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+     <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
      ```

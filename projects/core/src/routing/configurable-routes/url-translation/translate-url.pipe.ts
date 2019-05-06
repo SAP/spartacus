@@ -6,7 +6,7 @@ import {
 } from './translate-url-commands';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 export class UrlPipe implements PipeTransform {
   constructor(private urlTranslator: UrlService) {}

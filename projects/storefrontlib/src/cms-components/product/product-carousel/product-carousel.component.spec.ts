@@ -19,7 +19,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselService } from './product-carousel.component.service';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}

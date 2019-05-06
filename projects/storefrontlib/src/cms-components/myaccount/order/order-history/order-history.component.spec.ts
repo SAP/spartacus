@@ -34,7 +34,7 @@ const mockOrders: OrderHistoryList = {
 };
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}

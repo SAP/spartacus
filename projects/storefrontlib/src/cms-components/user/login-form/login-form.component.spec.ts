@@ -17,7 +17,7 @@ import { PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}

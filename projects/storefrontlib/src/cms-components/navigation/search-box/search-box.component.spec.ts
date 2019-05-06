@@ -18,7 +18,7 @@ import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}

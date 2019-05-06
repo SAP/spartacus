@@ -7,7 +7,7 @@
 
 While the [router configuration](./routes-configuration.md) allows the application to listen to different routes, the links to those routes must take the route configuration into account as well.
 
-Configured router links can be automatically generated in HTML templates using `cxTranslateUrl` pipe. It allows to transform **the name of the route** and **the params object** into the configured path
+Configured router links can be automatically generated in HTML templates using `cxUrl` pipe. It allows to transform **the name of the route** and **the params object** into the configured path
 
 ## Table of contents <!-- omit in toc -->
 
@@ -40,13 +40,13 @@ Import `UrlTranslatorModule` in every module that uses configurable router links
 ### Transform the name of the route and the params object
 
 ```typescript
-{ route: <route> } | cxTranslateUrl
+{ route: <route> } | cxUrl
 ```
 
 Example:
 
 ```html
-<a [routerLink]="{ route: 'cart' } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'cart' } | cxUrl"></a>
 ```
 
 when config is:
@@ -72,7 +72,7 @@ result in:
 When the route needs parameters, the object with route's `name` and `params` can be passed instead of just simple string. For example:
 
 ```html
-<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
 ```
 
 where config is:
@@ -142,7 +142,7 @@ In order to translate the path of parent and child route we need to pass them in
 <a [routerLink]="[
     { route: 'parent', params: { param1: 'value1' },
     { route: 'child',  params: { param2: 'value2' }
-] | cxTranslateUrl,
+] | cxUrl,
 )"></a>
 ```
 
@@ -158,7 +158,7 @@ result:
 If you are already in the context of the activated parent route, you may want to only generate a relative link to the child route. Then you need to pass only the child route and the `relative: true` flag to the pipe. For example:
 
 ```html
-<a [routerLink]="{ route: 'child',  params: { param2: 'value2' } | cxTranslateUrl : { relative: true },
+<a [routerLink]="{ route: 'child',  params: { param2: 'value2' } | cxUrl : { relative: true },
 )"></a>
 ```
 
@@ -173,7 +173,7 @@ result:
 If you want to go i.e. one one level up in the routes tree, you can pass i.e. `../` to the array. For example:
 
 ```html
-<a [routerLink]="[ '../', { route: 'otherChild' } ] | cxTranslateUrl : { relative: true },
+<a [routerLink]="[ '../', { route: 'otherChild' } ] | cxUrl : { relative: true },
 )"></a>
 ```
 
@@ -189,7 +189,7 @@ result:
 <a [routerLink]="[
     { route: 'parent', params: { param1: 'value1' } },
     'SOMETHING'
-] | cxTranslateUrl,
+] | cxUrl,
 )"></a>
 ```
 
@@ -207,7 +207,7 @@ When properties of given `params` object do not match exactly to names of route 
 The `params` object below does not contain necessary property `productCode`, but it has `id`:
 
 ```html
-<a [routerLink]="{ route: 'product', params: { id: 1234 } } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'product', params: { id: 1234 } } | cxUrl"></a>
 ```
 
 Then `paramsMapping` needs to be configured:
@@ -254,7 +254,7 @@ category: {
 
 ### Navigation to the translated path
 
-The `RoutingService.go` method called with `{ route: <route> }` navigates to the translated path - similar like `routerLink` with `cxTranslateUrl` pipe in the HTML template. For example:
+The `RoutingService.go` method called with `{ route: <route> }` navigates to the translated path - similar like `routerLink` with `cxUrl` pipe in the HTML template. For example:
 
 When config is:
 
@@ -276,7 +276,7 @@ routingService.go({ route: 'product', params: { productCode: 1234 } });
 
 ### Simply translation of the path
 
-The `UrlService.translate` method called with `{ route: <route> }` returns the translated path (just like `cxTranslateUrl` pipe in HTML templates). For example:
+The `UrlService.translate` method called with `{ route: <route> }` returns the translated path (just like `cxUrl` pipe in HTML templates). For example:
 
 When config is:
 

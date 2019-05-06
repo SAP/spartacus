@@ -12,7 +12,7 @@ import { SpinnerComponent } from '../../../../shared';
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
