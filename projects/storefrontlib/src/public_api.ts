@@ -5,7 +5,6 @@
 export * from './cms-components/index';
 export * from './cms-components/myaccount/index';
 export * from './cms-structure/index';
-export * from './common-components/index';
 export * from './layout/index';
 export * from './lib/checkout/index';
 export * from './lib/cms-route/index';
