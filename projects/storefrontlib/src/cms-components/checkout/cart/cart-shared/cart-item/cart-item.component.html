@@ -1,9 +1,7 @@
 <div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">
-    <a
-      [routerLink]="{ route: 'product', params: item.product } | cxUrl"
-    >
+    <a [routerLink]="{ route: 'product', params: item.product } | cxUrl">
       <cx-media
         [container]="item.product.images?.PRIMARY"
         format="thumbnail"
@@ -18,9 +16,7 @@
         <div *ngIf="item.product.name" class="cx-name">
           <a
             class="cx-link"
-            [routerLink]="
-              { route: 'product', params: item.product } | cxUrl
-            "
+            [routerLink]="{ route: 'product', params: item.product } | cxUrl"
             >{{ item.product.name }}</a
           >
         </div>

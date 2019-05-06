@@ -7,4 +7,4 @@ import { UrlPipe } from './translate-url.pipe';
   declarations: [UrlPipe],
   exports: [UrlPipe],
 })
-export class UrlTranslationModule {}
+export class UrlModule {}
