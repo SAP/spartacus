@@ -63,7 +63,7 @@ class MockDynamicSlotComponent {
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
 
@@ -77,11 +77,7 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        LoginComponent,
-        MockDynamicSlotComponent,
-        MockTranslateUrlPipe,
-      ],
+      declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
       providers: [
         {
           provide: ActivatedRoute,

@@ -8,7 +8,7 @@ import {
 @Pipe({
   name: 'cxTranslateUrl',
 })
-export class TranslateUrlPipe implements PipeTransform {
+export class UrlPipe implements PipeTransform {
   constructor(private urlTranslator: UrlTranslationService) {}
 
   transform(

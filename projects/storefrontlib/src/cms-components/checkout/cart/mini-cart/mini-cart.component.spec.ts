@@ -16,7 +16,7 @@ import { MiniCartComponent } from './mini-cart.component';
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(options: TranslateUrlCommandRoute): string {
     return options.route;
   }
@@ -73,11 +73,7 @@ describe('MiniCartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        MiniCartComponent,
-        MockTranslateUrlPipe,
-        MockCxIconComponent,
-      ],
+      declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CartService, useClass: MockCartService },

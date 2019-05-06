@@ -33,7 +33,7 @@ const mockTitlesList: Title[] = [
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -88,7 +88,7 @@ describe('RegisterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
-      declarations: [RegisterComponent, MockTranslateUrlPipe],
+      declarations: [RegisterComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },

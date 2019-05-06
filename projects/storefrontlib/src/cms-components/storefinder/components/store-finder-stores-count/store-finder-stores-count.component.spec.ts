@@ -12,7 +12,7 @@ import { StoreFinderStoresCountComponent } from './store-finder-stores-count.com
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -29,7 +29,7 @@ describe('StoreFinderStoresCountComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
-      declarations: [StoreFinderStoresCountComponent, MockTranslateUrlPipe],
+      declarations: [StoreFinderStoresCountComponent, MockUrlPipe],
       providers: [
         {
           provide: RoutingService,

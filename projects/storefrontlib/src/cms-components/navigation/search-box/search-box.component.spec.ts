@@ -20,7 +20,7 @@ import { SearchBoxComponent } from './search-box.component';
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -90,7 +90,7 @@ describe('SearchBoxComponent in CmsLib', () => {
       declarations: [
         SearchBoxComponent,
         MediaComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         MockStripHtmlPipe,
         MockCxIconComponent,
       ],

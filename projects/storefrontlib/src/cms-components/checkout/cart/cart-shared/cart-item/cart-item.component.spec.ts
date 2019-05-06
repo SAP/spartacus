@@ -8,7 +8,7 @@ import { CartItemComponent } from './cart-item.component';
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -52,7 +52,7 @@ describe('CartItemComponent', () => {
         MockMediaComponent,
         MockItemCounterComponent,
         MockPromotionsComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
       ],
       providers: [
         {

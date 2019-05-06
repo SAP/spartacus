@@ -36,7 +36,7 @@ const mockOrders: OrderHistoryList = {
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 class MockAuthService {
@@ -72,7 +72,7 @@ describe('OrderHistoryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
-      declarations: [OrderHistoryComponent, MockTranslateUrlPipe],
+      declarations: [OrderHistoryComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },

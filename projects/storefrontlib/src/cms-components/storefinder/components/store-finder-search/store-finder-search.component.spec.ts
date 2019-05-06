@@ -26,7 +26,7 @@ const mockActivatedRoute = {
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -39,7 +39,7 @@ describe('StoreFinderSearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-      declarations: [StoreFinderSearchComponent, MockTranslateUrlPipe],
+      declarations: [StoreFinderSearchComponent, MockUrlPipe],
       providers: [
         {
           provide: RoutingService,

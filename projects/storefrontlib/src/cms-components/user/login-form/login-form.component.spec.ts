@@ -19,7 +19,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -54,7 +54,7 @@ describe('LoginFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
-      declarations: [LoginFormComponent, MockTranslateUrlPipe],
+      declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },

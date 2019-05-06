@@ -79,7 +79,7 @@ class MockPlaceOrderComponent {}
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -123,7 +123,7 @@ describe('MultiStepCheckoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         MultiStepCheckoutComponent,
         MockDeliveryModeComponent,
         MockPaymentMethodComponent,

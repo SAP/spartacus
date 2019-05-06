@@ -38,7 +38,7 @@ const mockPotentialProductPromotions = [
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -67,11 +67,7 @@ describe('CartItemListComponent', () => {
         PromotionsModule,
         I18nTestingModule,
       ],
-      declarations: [
-        CartItemListComponent,
-        MockCartItemComponent,
-        MockTranslateUrlPipe,
-      ],
+      declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
       providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));

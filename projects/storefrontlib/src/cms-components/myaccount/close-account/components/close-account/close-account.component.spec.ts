@@ -9,7 +9,7 @@ import { CloseAccountModalComponent } from '../close-account-modal/close-account
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -21,7 +21,7 @@ describe('CloseAccountComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, NgbModule, RouterTestingModule],
-      declarations: [CloseAccountComponent, MockTranslateUrlPipe],
+      declarations: [CloseAccountComponent, MockUrlPipe],
       providers: [{ provide: NgbModal, useValue: { open: () => {} } }],
     }).compileComponents();
   }));

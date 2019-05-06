@@ -14,7 +14,7 @@ import { StoreFinderStoreDescriptionComponent } from './store-finder-store-descr
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -65,7 +65,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         StoreFinderStoreDescriptionComponent,
         MockScheduleComponent,
         MockStoreFinderMapComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         SpinnerComponent,
       ],
       providers: [

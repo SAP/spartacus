@@ -21,7 +21,7 @@ import { ProductCarouselService } from './product-carousel.component.service';
 @Pipe({
   name: 'cxTranslateUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -106,11 +106,7 @@ describe('ProductCarouselComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        ProductCarouselComponent,
-        MockMediaComponent,
-        MockTranslateUrlPipe,
-      ],
+      declarations: [ProductCarouselComponent, MockMediaComponent, MockUrlPipe],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: ProductService, useClass: MockProductService },
