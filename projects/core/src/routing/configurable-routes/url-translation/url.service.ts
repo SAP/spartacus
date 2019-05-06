@@ -7,7 +7,7 @@ import {
   UrlCommandRoute,
   UrlCommands,
   TranslateUrlOptions,
-} from './translate-url-commands';
+} from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
 
 @Injectable({ providedIn: 'root' })

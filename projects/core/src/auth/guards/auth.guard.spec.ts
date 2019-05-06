@@ -12,7 +12,7 @@ import { AuthGuard } from './auth.guard';
 import { UserToken } from '../models/token-types.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { UrlCommands } from '../../routing/configurable-routes/url-translation/translate-url-commands';
+import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',

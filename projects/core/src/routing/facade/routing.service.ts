@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../store';
 import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
-import { UrlCommands } from '../configurable-routes/url-translation/translate-url-commands';
+import { UrlCommands } from '../configurable-routes/url-translation/url-command';
 import { UrlService } from '../configurable-routes/url-translation/url.service';
 import { RouterState } from '../store/reducers/router.reducer';
 

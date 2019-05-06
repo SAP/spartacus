@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { UrlService } from './url.service';
-import { UrlCommands, TranslateUrlOptions } from './translate-url-commands';
+import { UrlCommands, TranslateUrlOptions } from './url-command';
 
 @Pipe({
   name: 'cxUrl',
