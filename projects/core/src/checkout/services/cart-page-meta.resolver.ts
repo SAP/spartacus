@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CartService } from '../../cart/facade/cart.service';
-import { UICart } from '../../cart/model';
-import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
+import { CmsService } from '../../cms';
+import { Page, PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageRobotsResolver,
@@ -14,25 +14,31 @@ import { PageType } from '../../occ/occ-models/occ.models';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutPageMetaResolver extends PageMetaResolver
+export class CartPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  constructor(protected cartService: CartService) {
+  constructor(protected cartService: CartService, protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
-    this.pageTemplate = 'MultiStepCheckoutSummaryPageTemplate';
+    this.pageTemplate = 'CartPageTemplate';
   }
 
   resolve(): Observable<PageMeta> {
-    return this.cartService.getActive().pipe(
-      switchMap(cart =>
-        combineLatest([this.resolveTitle(cart), this.resolveRobots()])
+    return this.cms.getCurrentPage().pipe(
+      switchMap(page =>
+        combineLatest([this.resolveTitle(page), this.resolveRobots()])
       ),
       map(([title, robots]) => ({ title, robots }))
     );
   }
 
-  resolveTitle(cart: UICart): Observable<string> {
-    return of(`Checkout ${cart.totalItems} items`);
+  resolveTitle(page: Page): Observable<string> {
+    return this.cartService
+      .getActive()
+      .pipe(
+        map(cart =>
+          cart && cart.code ? `${page.title} (${cart.code})` : page.title
+        )
+      );
   }
 
   resolveRobots(): Observable<PageRobotsMeta[]> {
