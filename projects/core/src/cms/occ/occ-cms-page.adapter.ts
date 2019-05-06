@@ -23,8 +23,23 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     pageContext: PageContext,
     fields?: string
   ): Observable<CmsStructureModel> {
-    const httpParams = this.getPagesRequestParams(pageContext);
+    // load page by Id
+    if (pageContext.type === undefined) {
+      return this.http
+        .get(
+          this.occEndpoints.getUrl('page', {
+            id: pageContext.id,
+            fields: fields ? fields : 'DEFAULT',
+          }),
+          {
+            headers: this.headers,
+          }
+        )
+        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
+    }
 
+    // load page by PageContext
+    const httpParams = this.getPagesRequestParams(pageContext);
     return this.http
       .get(this.getPagesEndpoint(httpParams, fields), {
         headers: this.headers,
@@ -47,6 +62,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
   ): { [key: string]: any } {
     let httpParams = {};
 
+    // smartedit preview page is loaded by previewToken which added by interceptor
     if (pageContext.id !== 'smartedit-preview') {
       httpParams = { pageType: pageContext.type };
 

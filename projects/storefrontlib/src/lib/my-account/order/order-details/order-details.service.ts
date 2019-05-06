@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { map, multicast, refCount, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
 import {
   AuthService,
@@ -36,9 +36,7 @@ export class OrderDetailsService {
           this.userService.clearOrderDetails();
         }
       }),
-      // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
-      multicast(() => new ReplaySubject(1)),
-      refCount()
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
