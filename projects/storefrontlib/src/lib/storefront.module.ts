@@ -45,6 +45,7 @@ import { CmsRouteModule } from './cms-route/cms-route.module';
     I18nModule.forRoot(),
   ],
   exports: [UiModule],
+  providers: [...provideConfigFromMetaTags()],
   declarations: [],
 })
 export class StorefrontModule {
