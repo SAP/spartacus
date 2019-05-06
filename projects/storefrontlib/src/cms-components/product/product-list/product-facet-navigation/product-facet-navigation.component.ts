@@ -1,5 +1,10 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Input,
+} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -14,6 +19,14 @@ import { ICON_TYPES } from '../../../misc/icon';
 export enum ariaState {
   PLUS = 'plus',
   MINUS = 'minus',
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
 }
 
 @Component({
