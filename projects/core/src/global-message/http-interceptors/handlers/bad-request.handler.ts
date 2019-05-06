@@ -36,7 +36,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     }
   }
 
-  protected getErrorMessage(resp: HttpErrorResponse) {
+  protected getErrorMessage(resp: HttpErrorResponse): string {
     let errMsg = resp.message;
     if (resp.error) {
       if (resp.error.errors && resp.error.errors instanceof Array) {
