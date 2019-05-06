@@ -1,32 +1,29 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
   OnInit,
   Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  OnDestroy,
 } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {
-  CheckoutService,
-  CardType,
   Address,
+  AddressValidation,
+  CardType,
+  CheckoutService,
   Country,
-  UserService,
   GlobalMessageService,
   GlobalMessageType,
-  AddressValidation,
+  UserService,
 } from '@spartacus/core';
-
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
-import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Card } from '../../../../../../shared/components/card/card.component'; // tslint:disable-line
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
-import { Card } from '../../../../../ui/components/card/card.component'; // tslint:disable-line
+import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
 
 type monthType = { id: number; name: string };
 type yearType = { id: number; name: number };
@@ -34,7 +31,6 @@ type yearType = { id: number; name: number };
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
-  styleUrls: ['./payment-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
@@ -49,8 +45,15 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
   sameAsShippingAddress = true;
 
+  @Input()
+  paymentMethodsCount: number;
+
   @Output()
-  backToPayment = new EventEmitter<any>();
+  goBack = new EventEmitter<any>();
+
+  @Output()
+  closeForm = new EventEmitter<any>();
+
   @Output()
   addPaymentInfo = new EventEmitter<any>();
 
@@ -90,7 +93,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expMonthAndYear();
-
     this.countries$ = this.userService.getAllBillingCountries().pipe(
       tap(countries => {
         // If the store is empty fetch countries. This is also used when changing language.
@@ -234,8 +236,12 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  close(): void {
+    this.closeForm.emit();
+  }
+
   back(): void {
-    this.backToPayment.emit();
+    this.goBack.emit();
   }
 
   verifyAddress(): void {

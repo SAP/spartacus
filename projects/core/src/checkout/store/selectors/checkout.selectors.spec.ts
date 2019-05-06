@@ -1,21 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
-import { CHECKOUT_FEATURE, CheckoutState } from '../checkout-state';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
 import {
-  PaymentDetails,
-  Order,
   Address,
-  DeliveryModeList,
   DeliveryMode,
+  Order,
+  PaymentDetails,
 } from '../../../occ/occ-models/index';
 
 describe('Checkout Selectors', () => {
-  let store: Store<CheckoutState>;
+  let store: Store<StateWithCheckout>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,9 +56,7 @@ describe('Checkout Selectors', () => {
 
   describe('getDeliveryMode', () => {
     it('should return the cart delivery mode', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       const emptyEntities = {
         supported: {},
@@ -68,8 +65,8 @@ describe('Checkout Selectors', () => {
 
       const entities = {
         supported: {
-          code1: modes.deliveryModes[0],
-          code2: modes.deliveryModes[1],
+          code1: modes[0],
+          code2: modes[1],
         },
         selected: '',
       };
@@ -89,9 +86,7 @@ describe('Checkout Selectors', () => {
 
   describe('getSupportedDeliveryModes', () => {
     it('should return all supported cart delivery modes', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: DeliveryMode[];
       store
@@ -102,15 +97,13 @@ describe('Checkout Selectors', () => {
 
       store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
 
-      expect(result).toEqual(modes.deliveryModes);
+      expect(result).toEqual(modes);
     });
   });
 
   describe('getSelectedDeliveryMode', () => {
     it('should return selected cart delivery mode', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: DeliveryMode;
       store
@@ -122,15 +115,13 @@ describe('Checkout Selectors', () => {
       store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
       store.dispatch(new fromActions.SetDeliveryModeSuccess('code1'));
 
-      expect(result).toEqual(modes.deliveryModes[0]);
+      expect(result).toEqual(modes[0]);
     });
   });
 
   describe('getSelectedCode', () => {
     it('should return selected delivery mode code', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: string;
       store

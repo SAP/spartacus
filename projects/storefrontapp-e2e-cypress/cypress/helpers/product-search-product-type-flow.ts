@@ -1,4 +1,9 @@
 import { PRODUCT_LISTING } from './data-configuration';
+import {
+  checkFirstItem,
+  createDefaultQueryRoute,
+  createQueryRoute,
+} from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
 
@@ -19,7 +24,7 @@ export function productTypeFlow(mobile?: string) {
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
   // Filter by brand
-  createQueryRoute('brand', 'brand_query');
+  createQueryRoute('brand', 'sony', 'brand_query');
 
   clickFacet('Brand');
 
@@ -36,7 +41,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by price
-  createQueryRoute('price', 'price_query');
+  createQueryRoute('price', 'sony', 'price_query');
 
   clickFacet('Price');
 
@@ -57,7 +62,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by category
-  createQueryRoute('category', 'category_query');
+  createQueryRoute('category', 'sony', 'category_query');
 
   clickFacet('Category');
 
@@ -78,7 +83,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by color
-  createQueryRoute('Colour', 'color_query');
+  createQueryRoute('Colour', 'sony', 'color_query');
 
   clickFacet('Color');
 
@@ -120,21 +125,4 @@ function clickFacet(header: string) {
         .first()
         .click({ force: true });
     });
-}
-
-function checkFirstItem(title: string): void {
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', title);
-}
-
-function createDefaultQueryRoute(alias: string): void {
-  cy.route('GET', '/rest/v2/electronics-spa/products/search*').as(alias);
-}
-
-function createQueryRoute(param: string, alias: string): void {
-  cy.route(
-    'GET',
-    `/rest/v2/electronics-spa/products/search?fields=*&query=sony:relevance:${param}*`
-  ).as(alias);
 }

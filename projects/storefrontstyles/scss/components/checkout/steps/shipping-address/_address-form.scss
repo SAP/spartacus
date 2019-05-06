@@ -1,0 +1,5 @@
+@import '../../../../theme';
+
+%cx-address-form {
+  @include checkout-media-style();
+}

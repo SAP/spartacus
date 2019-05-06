@@ -1,22 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import {
-  Order,
-  CheckoutService,
   Cart,
+  CheckoutService,
   I18nTestingModule,
+  Order,
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { Item } from '../../../../cms-components/checkout/cart/index';
+import { Card } from '../../../../shared/components/card/card.component';
+import { OrderConfirmationComponent } from './order-confirmation.component';
 
 import createSpy = jasmine.createSpy;
-
-import { Item } from '../../../cart';
-import { Card } from '../../../ui/components/card/card.component';
-
-import { OrderConfirmationComponent } from './order-confirmation.component';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {

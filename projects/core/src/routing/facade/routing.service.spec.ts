@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
 import { of } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
 import { PageType } from '../../occ';
@@ -14,6 +12,7 @@ import { UrlTranslationService } from '../configurable-routes/url-translation/ur
 import { RouterState } from '../store/reducers/router.reducer';
 
 import { RoutingService } from './routing.service';
+import createSpy = jasmine.createSpy;
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
@@ -40,36 +39,26 @@ describe('RoutingService', () => {
   });
 
   describe('go', () => {
-    it('should dispatch navigation action with non-translated path when first argument is an array', () => {
-      spyOn(urlTranslator, 'translate');
-      service.go(['/search', 'query']);
-      expect(urlTranslator.translate).not.toHaveBeenCalled();
+    it('should dispatch navigation action with translated path', () => {
+      spyOn(urlTranslator, 'translate').and.returnValue(['translated', 'path']);
+      service.go([]);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
-          path: ['/search', 'query'],
+          path: ['translated', 'path'],
           query: undefined,
           extras: undefined,
         })
       );
     });
 
-    it('should dispatch navigation action with translated path when first argument is an object', () => {
-      spyOn(urlTranslator, 'translate').and.returnValue([
-        '',
-        'translated',
-        'path',
-      ]);
-      service.go({ route: ['testRoute'] });
-      expect(urlTranslator.translate).toHaveBeenCalledWith({
-        route: ['testRoute'],
+    it('should call url translator service with given array of commands and true "relative" option', () => {
+      spyOn(urlTranslator, 'translate');
+      const commands = ['test1'];
+      service.go({ route: 'testRoute' });
+      service.go(commands);
+      expect(urlTranslator.translate).toHaveBeenCalledWith(commands, {
+        relative: true,
       });
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.Go({
-          path: ['', 'translated', 'path'],
-          query: undefined,
-          extras: undefined,
-        })
-      );
     });
   });
 
@@ -92,6 +81,7 @@ describe('RoutingService', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
+      spyOn(urlTranslator, 'translate').and.callFake(x => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
@@ -149,7 +139,7 @@ describe('RoutingService', () => {
     expect(routerState).toEqual({});
   });
 
-  it('shoud return only page context from the state', () => {
+  it('should return only page context from the state', () => {
     const pageContext: PageContext = {
       id: 'homepage',
       type: PageType.CATALOG_PAGE,
@@ -164,5 +154,38 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
+  });
+
+  it('getNextPageContext should return nextPageContext state', () => {
+    const pageContext: PageContext = {
+      id: 'homepage',
+      type: PageType.CATALOG_PAGE,
+    };
+    const mockRouterState = createSpy().and.returnValue(() => of(pageContext));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+    let result: PageContext;
+    service
+      .getNextPageContext()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(pageContext);
+    expect(NgrxStore.select).toHaveBeenCalledWith(fromStore.getNextPageContext);
+  });
+
+  it('isNavigating should return isNavigating state', () => {
+    const isNavigating = true;
+    const mockRouterState = createSpy().and.returnValue(() => of(isNavigating));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+    let result: boolean;
+    service
+      .isNavigating()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(isNavigating);
+    expect(NgrxStore.select).toHaveBeenCalledWith(fromStore.isNavigating);
   });
 });

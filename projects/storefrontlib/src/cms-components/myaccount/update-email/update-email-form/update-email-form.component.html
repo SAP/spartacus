@@ -1,0 +1,93 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group row">
+    <div class="col-md-12">
+      <label>
+        <span class="label-content">{{
+          'updateEmailForm.newEmailAddress.label' | cxTranslate
+        }}</span>
+        <input
+          type="email"
+          name="email"
+          formControlName="email"
+          placeholder="{{
+            'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
+          }}"
+          class="form-control"
+          [class.is-invalid]="isNotValid('email')"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('email')">
+          <span>{{ 'updateEmailForm.enterValidEmail' | cxTranslate }}</span>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <label>
+        <span class="label-content">{{
+          'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
+        }}</span>
+        <input
+          type="email"
+          name="confirmEmail"
+          formControlName="confirmEmail"
+          placeholder="{{
+            'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
+          }}"
+          class="form-control"
+          [class.is-invalid]="isEmailConfirmNotValid('confirmEmail')"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="isEmailConfirmNotValid('confirmEmail')"
+        >
+          <span>{{
+            'updateEmailForm.bothPasswordMustMatch' | cxTranslate
+          }}</span>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <label>
+        <span class="label-content">{{
+          'updateEmailForm.password.label' | cxTranslate
+        }}</span>
+        <input
+          type="password"
+          name="password"
+          formControlName="password"
+          placeholder="{{
+            'updateEmailForm.password.placeholder' | cxTranslate
+          }}"
+          class="form-control"
+          [class.is-invalid]="isNotValid('password')"
+          autocomplete="off"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('password')">
+          <span>{{ 'updateEmailForm.pleaseInputPassword' | cxTranslate }}</span>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-6">
+      <button
+        class="btn btn-block btn-secondary"
+        type="button"
+        (click)="onCancel()"
+      >
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-lg-6">
+      <button class="btn btn-block btn-primary" type="submit">
+        {{ 'common.save' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</form>

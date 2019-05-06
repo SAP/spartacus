@@ -37,12 +37,12 @@ export function addShippingAddress() {
 
 export function changePageFromProductToCategory() {
   // click big banner
-  cy.get('.Section1 cx-responsive-banner')
+  cy.get('.Section1 cx-banner')
     .first()
     .find('img')
     .click();
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-responsive-banner:nth-of-type(6) img').click();
+  cy.get('.Section2 cx-banner:nth-of-type(6) img').click();
   cy.get('cx-product-summary').within(() => {
     cy.get('.name').should('contain', product.name);
     cy.get('.code').should('contain', product.code);
@@ -107,7 +107,10 @@ export function selectShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').contains(' Default Shipping Address ');
+  cy.get('.cx-card-body__title').should(
+    'have.text',
+    'Default Shipping Address'
+  );
   cy.getByText(/Ship to this address/i).click();
   cy.get('.card-header').should('contain', ' SELECTED ');
   cy.get('button.btn-primary').click();
@@ -124,7 +127,7 @@ export function selectPaymentMethod() {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').contains(' Default Payment Method ');
+  cy.get('.cx-card-body__title').contains('Default Payment Method');
   cy.getByText(/Use this payment/i).click();
   cy.get('.card-header').should('contain', ' SELECTED ');
   cy.get('button.btn-primary').click();
@@ -138,7 +141,7 @@ export function verifyAndPlaceOrder() {
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
-    .find('.cx-card-container')
+    .find('.cx-card-body__container')
     .within(() => {
       cy.getByText('standard-gross');
     });

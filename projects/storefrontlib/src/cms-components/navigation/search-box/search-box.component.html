@@ -1,0 +1,71 @@
+<form class="cx-form">
+  <div class="cx-form-group form-group">
+    <!-- searchbox input -->
+    <input
+      class="cx-input form-control dropdown-menu-toggle"
+      [ngClass]="{ 'show-mobile': isMobileSearchVisible }"
+      type="text"
+      placeholder="{{ 'searchBox.searchHere' | cxTranslate }}"
+      aria-label="search"
+      [ngbTypeahead]="typeahead"
+      [resultTemplate]="rt"
+      [formControl]="searchBoxControl"
+      (keyup)="onKey($event)"
+      (selectItem)="selectSuggestion($event)"
+    />
+
+    <!-- searchbox button desktop -->
+    <button
+      class="cx-button cx-button-desktop"
+      type="submit"
+      aria-label="Submit"
+      (click)="submitSearch()"
+      [disabled]="!searchBoxControl?.value"
+    >
+      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+    </button>
+
+    <!-- searchbox button mobile -->
+    <button
+      class="cx-button cx-button-mobile"
+      type="button"
+      aria-label="Search"
+      (click)="toggleMobileSearchInput()"
+    >
+      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+    </button>
+
+    <!-- searchbox results -->
+    <ng-template #rt let-suggestion="result">
+      <div
+        *ngIf="!suggestion.code; else productView"
+        class="cx-dropdown-content"
+      >
+        {{ suggestion }}
+      </div>
+      <ng-template #productView>
+        <div
+          [routerLink]="
+            {
+              route: 'product',
+              params: suggestion | stripHtml
+            } | cxTranslateUrl
+          "
+          class="cx-product"
+        >
+          <cx-media
+            [container]="suggestion.images?.PRIMARY"
+            format="product"
+            [alt]="suggestion.summary"
+          ></cx-media>
+          <div [innerHtml]="suggestion.name" class="cx-product-name">
+            {{ suggestion.name }}
+          </div>
+          <div class="cx-product-price">
+            {{ suggestion.price.formattedValue }}
+          </div>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</form>

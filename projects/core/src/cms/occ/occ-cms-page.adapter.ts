@@ -1,92 +1,77 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CMSPage } from '../../occ/index';
-import {
-  CMS_FLEX_COMPONENT_TYPE,
-  JSP_INCLUDE_CMS_COMPONENT_TYPE,
-} from '../config/cms-config';
-import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
-import { ContentSlotData } from '../model/content-slot-data.model';
+import { Observable } from 'rxjs';
+import { PageType } from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { PageContext } from '../../routing/index';
+import { CmsPageAdapter } from '../connectors/page/cms-page.adapter';
+import { CMS_PAGE_NORMALIZE } from '../connectors/page/converters';
+import { ConverterService } from '../../util/converter.service';
 import { CmsStructureModel } from '../model/page.model';
-import { CmsPageAdapter } from '../services/cms-page.adapter';
 
 @Injectable()
-export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
-  adapt(source: CMSPage): CmsStructureModel {
-    const target = {};
-    this.serializePageData(source, target);
-    this.serializePageSlotData(source, target);
-    this.serializePageComponentData(source, target);
-    this.serializeComponentData(source, target);
-    return target;
-  }
+export class OccCmsPageAdapter implements CmsPageAdapter {
+  protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  private serializePageData(source: any, target: CmsStructureModel): void {
-    target.page = {
-      loadTime: Date.now(),
-      name: source.name,
-      type: source.typeCode,
-      title: source.title,
-      pageId: source.uid,
-      template: source.template,
-      slots: {},
-      properties: source.properties,
-    };
-  }
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
+  ) {}
 
-  private serializePageSlotData(source: any, target: CmsStructureModel): void {
-    for (const slot of source.contentSlots.contentSlot) {
-      target.page.slots[slot.position] = {
-        components: [],
-        properties: slot.properties,
-      } as ContentSlotData;
-    }
-  }
-
-  private serializePageComponentData(
-    source: any,
-    target: CmsStructureModel
-  ): void {
-    for (const slot of source.contentSlots.contentSlot) {
-      if (
-        slot.components.component &&
-        Array.isArray(slot.components.component)
-      ) {
-        for (const component of slot.components.component) {
-          const comp: ContentSlotComponentData = {
-            uid: component.uid,
-            typeCode: component.typeCode,
-            properties: component.properties,
-          };
-
-          if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
-            comp.flexType = component.flexType;
-          } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
-            comp.flexType = component.uid;
-          } else {
-            comp.flexType = component.typeCode;
+  load(
+    pageContext: PageContext,
+    fields?: string
+  ): Observable<CmsStructureModel> {
+    // load page by Id
+    if (pageContext.type === undefined) {
+      return this.http
+        .get(
+          this.occEndpoints.getUrl('page', {
+            id: pageContext.id,
+            fields: fields ? fields : 'DEFAULT',
+          }),
+          {
+            headers: this.headers,
           }
-          target.page.slots[slot.position].components.push(comp);
-        }
+        )
+        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
+    }
+
+    // load page by PageContext
+    const httpParams = this.getPagesRequestParams(pageContext);
+    return this.http
+      .get(this.getPagesEndpoint(httpParams, fields), {
+        headers: this.headers,
+      })
+      .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
+  }
+
+  private getPagesEndpoint(
+    params: {
+      [key: string]: string;
+    },
+    fields?: string
+  ): string {
+    fields = fields ? fields : 'DEFAULT';
+    return this.occEndpoints.getUrl('pages', { fields }, params);
+  }
+
+  private getPagesRequestParams(
+    pageContext: PageContext
+  ): { [key: string]: any } {
+    let httpParams = {};
+
+    // smartedit preview page is loaded by previewToken which added by interceptor
+    if (pageContext.id !== 'smartedit-preview') {
+      httpParams = { pageType: pageContext.type };
+
+      if (pageContext.type === PageType.CONTENT_PAGE) {
+        httpParams['pageLabelOrId'] = pageContext.id;
+      } else {
+        httpParams['code'] = pageContext.id;
       }
     }
-  }
-
-  private serializeComponentData(source: any, target: CmsStructureModel): void {
-    target.components = [];
-
-    for (const slot of source.contentSlots.contentSlot) {
-      if (
-        slot.components.component &&
-        Array.isArray(slot.components.component)
-      ) {
-        for (const component of slot.components.component as any) {
-          // we dont put properties into component state
-          if (component.properties) {
-            component.properties = undefined;
-          }
-          target.components.push(component);
-        }
-      }
-    }
+    return httpParams;
   }
 }

@@ -1,21 +1,19 @@
 import {
-  Component,
-  OnInit,
-  Input,
   ChangeDetectionStrategy,
-  Renderer2,
+  Component,
   ElementRef,
+  Input,
+  OnInit,
+  Renderer2,
 } from '@angular/core';
-
 import {
   CmsService,
-  DynamicAttributeService,
-  ContentSlotData,
   ContentSlotComponentData,
+  ContentSlotData,
+  DynamicAttributeService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-import { CmsMappingService } from '../../../lib/cms/services/cms-mapping.service';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-slot',
@@ -25,18 +23,33 @@ import { CmsMappingService } from '../../../lib/cms/services/cms-mapping.service
 export class PageSlotComponent implements OnInit {
   @Input() position: string;
 
+  /**
+   * returns an observable with components (`ContentSlotComponentData[]`)
+   * for the current slot
+   */
+  public components$: Observable<ContentSlotComponentData[]>;
+
   constructor(
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected hostElement: ElementRef,
-    protected cmsMapping: CmsMappingService
+    protected hostElement: ElementRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     // add the position name as a css class so that
     // layout can be applied to it, using the position based class.
     this.renderer.addClass(this.hostElement.nativeElement, this.position);
+
+    this.components$ = this.slot$.pipe(
+      map(slot => (slot && slot.components ? slot.components : [])),
+      distinctUntilChanged(
+        (a, b) =>
+          a.length === b.length &&
+          !a.find((el, index) => el.uid !== b[index].uid)
+      ),
+      tap(components => this.addComponentClass(components))
+    );
   }
 
   /**
@@ -48,25 +61,14 @@ export class PageSlotComponent implements OnInit {
       .pipe(tap(slot => this.addSmartEditSlotClass(slot)));
   }
 
-  /**
-   * returns an observable with components (`ContentSlotComponentData[]`)
-   * for the current slot
-   */
-  get components$(): Observable<ContentSlotComponentData[]> {
-    return this.slot$.pipe(
-      map(slot => (slot && slot.components ? slot.components : [])),
-      tap(components => this.addComponentClass(components))
-    );
-  }
-
   // add a class to indicate whether the class is empty or not
-  private addComponentClass(components) {
+  private addComponentClass(components): void {
     if (components && components.length > 0) {
       this.renderer.addClass(this.hostElement.nativeElement, 'has-components');
     }
   }
 
-  private addSmartEditSlotClass(slot) {
+  private addSmartEditSlotClass(slot): void {
     if (this.cmsService.isLaunchInSmartEdit()) {
       this.addSmartEditContract(slot);
     }

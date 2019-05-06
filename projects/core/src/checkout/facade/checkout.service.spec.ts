@@ -3,12 +3,11 @@ import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromCheckout from '../store/index';
-import { CartDataService } from '../../cart/index';
+import { CartDataService, UICart } from '../../cart/index';
 import {
   PaymentDetails,
   DeliveryMode,
   Address,
-  Cart,
   CardType,
   AddressValidation,
   Order,
@@ -21,7 +20,7 @@ describe('CheckoutService', () => {
   let cartData: CartDataService;
   let store: Store<fromCheckout.CheckoutState>;
   const userId = 'testUserId';
-  const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
+  const cart: UICart = { code: 'testCartId', guid: 'testGuid' };
 
   const paymentDetails: PaymentDetails = {
     id: 'mockPaymentDetails',
@@ -62,9 +61,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get supported delivery modes', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
 
     let deliveryModes: DeliveryMode[];
@@ -79,9 +79,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
@@ -94,9 +95,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get the code of selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
@@ -322,5 +324,43 @@ describe('CheckoutService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.ClearCheckoutStep(2)
     );
+  });
+
+  it('should be able to load checkout details', () => {
+    const cartId = cart.code;
+    service.loadCheckoutDetails(userId, cartId);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromCheckout.LoadCheckoutDetails({ userId, cartId })
+    );
+  });
+
+  describe('get checkout details loaded', () => {
+    it('should return true for success', () => {
+      store.dispatch(
+        new fromCheckout.LoadCheckoutDetailsSuccess({ deliveryAddress: {} })
+      );
+
+      let loaded: boolean;
+      service
+        .getCheckoutDetailsLoaded()
+        .subscribe(data => {
+          loaded = data;
+        })
+        .unsubscribe();
+      expect(loaded).toBeTruthy();
+    });
+  });
+
+  it('should return false for fail', () => {
+    store.dispatch(new fromCheckout.LoadCheckoutDetailsFail(new Error()));
+
+    let loaded: boolean;
+    service
+      .getCheckoutDetailsLoaded()
+      .subscribe(data => {
+        loaded = data;
+      })
+      .unsubscribe();
+    expect(loaded).toBeFalsy();
   });
 });

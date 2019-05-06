@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
-import { Observable, ReplaySubject } from 'rxjs';
-import { map, multicast, refCount, tap } from 'rxjs/operators';
-
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import * as fromStore from '../store/index';
-import { Product } from '../../occ/occ-models/occ.models';
+import { UIProduct } from '../model/product';
 
 @Injectable()
 export class ProductService {
   constructor(private store: Store<fromStore.StateWithProduct>) {}
 
-  private products: { [code: string]: Observable<Product> } = {};
+  private products: { [code: string]: Observable<UIProduct> } = {};
 
   /**
    * Returns the product observable. The product will be loaded
@@ -21,7 +18,7 @@ export class ProductService {
    * The underlying product loader ensures that the product is
    * only loaded once, even in case of parallel observers.
    */
-  get(productCode: string): Observable<Product> {
+  get(productCode: string): Observable<UIProduct> {
     if (!this.products[productCode]) {
       this.products[productCode] = this.store.pipe(
         select(fromStore.getSelectedProductStateFactory(productCode)),
@@ -34,9 +31,7 @@ export class ProductService {
           }
         }),
         map(productState => productState.value),
-        // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
-        multicast(() => new ReplaySubject(1)),
-        refCount()
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     return this.products[productCode];

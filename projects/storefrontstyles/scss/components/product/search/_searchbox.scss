@@ -1,0 +1,177 @@
+@import '../../../theme';
+
+%cx-searchbox {
+  display: var(--cx-display, block);
+  @include media-breakpoint-down(xs) {
+    margin: var(--cx-margin, 0);
+  }
+
+  .cx-form-group {
+    background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+    padding: var(--cx-padding, 0);
+    display: var(--cx-display, flex);
+    margin: var(--cx-margin, auto);
+
+    @include media-breakpoint-down(xs) {
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-transparent)
+      );
+    }
+  }
+
+  .cx-form {
+    display: var(--cx-display, inline-block);
+    vertical-align: var(--cx-vertical-align, middle);
+  }
+
+  .cx-input {
+    color: var(--cx-color, var(--cx-g-color-inverse));
+    @include placeholder {
+      color: currentColor;
+    }
+
+    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
+    border-radius: var(--cx-border-radius, 0);
+    border-style: var(--cx-border-style, none);
+    border-width: var(--cx-border-width, 0);
+    margin: var(--cx-margin, 0);
+    z-index: var(--cx-z-index, 1);
+
+    &[aria-label='search'] {
+      &:focus {
+        background-color: var(
+          --cx-background-color,
+          var(--cx-g-color-transparent)
+        );
+        color: var(--cx-color, var(--cx-g-color-inverse));
+        box-shadow: var(--cx-box-shadow, none);
+      }
+
+      @include media-breakpoint-down(xl) {
+        width: var(--cx-width, 22rem);
+      }
+
+      @include media-breakpoint-down(lg) {
+        width: var(--cx-width, 18rem);
+      }
+
+      @include media-breakpoint-down(md) {
+        width: var(--cx-width, 16rem);
+      }
+
+      @include media-breakpoint-down(sm) {
+        width: var(--cx-width, 7rem);
+      }
+
+      @include media-breakpoint-down(xs) {
+        background-color: var(
+          --cx-background-color,
+          var(--cx-g-color-secondary)
+        );
+        color: var(--cx-color, var(--cx-g-color-inverse));
+        display: var(--cx-display, none);
+        position: var(--cx-position, absolute);
+        left: var(--cx-left, 0);
+        top: var(--cx-top, 56px);
+        width: var(--cx-width, 100%);
+
+        &:focus {
+          background-color: var(
+            --cx-background-color,
+            var(--cx-g-color-secondary)
+          );
+          color: var(--cx-color, var(--cx-g-color-inverse));
+        }
+
+        & + .dropdown-menu {
+          width: var(--cx-width, 100%);
+          border-radius: var(--cx-border-radius, 0);
+          border-style: var(--cx-border-style, none);
+          border-width: var(--cx-border-width, 0);
+          margin: var(--cx-margin, 0);
+        }
+      }
+    }
+
+    &.show-mobile {
+      display: var(--cx-display, block);
+    }
+  }
+
+  .cx-button {
+    display: flex;
+    color: currentColor;
+
+    border-style: var(--cx-border-style, none);
+    border-width: var(--cx-border-width, 0);
+    padding: var(--cx-padding, 5px);
+    margin: var(--cx-margin, 5px);
+    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
+
+    &-desktop {
+      @include media-breakpoint-down(xs) {
+        display: var(--cx-display, none);
+      }
+    }
+
+    &-mobile {
+      display: var(--cx-display, none);
+      @include media-breakpoint-down(xs) {
+        display: var(--cx-display, block);
+      }
+    }
+  }
+
+  .cx-dropdown-content {
+    @include media-breakpoint-down(xl) {
+      width: var(--cx-width, 22rem);
+    }
+
+    @include media-breakpoint-down(lg) {
+      width: var(--cx-width, 18rem);
+    }
+
+    @include media-breakpoint-down(md) {
+      width: var(--cx-width, 16rem);
+    }
+
+    @include media-breakpoint-down(sm) {
+      width: var(--cx-width, 7rem);
+    }
+
+    @include media-breakpoint-down(xs) {
+      width: var(--cx-width, auto);
+    }
+  }
+
+  .cx-product {
+    display: var(--cx-display, flex);
+
+    cx-media {
+      min-width: var(--cx-min-width, 80px);
+      width: var(--cx-width, 80px);
+      flex-shrink: var(--cx-flex-shrink, 0);
+    }
+
+    &-name {
+      padding: var(--cx-padding, 0 15px);
+      flex-grow: var(--cx-flex-grow, 1);
+      flex-shrink: var(--cx-flex-shrink, 1);
+      height: var(--cx-height, 80px);
+      display: var(--cx-display, flex);
+      align-items: var(--cx-align-items, center);
+      overflow: var(--cx-overflow, hidden);
+    }
+
+    &-price {
+      text-align: var(--cx-text-align, right);
+      align-self: var(--cx-align-self, center);
+      flex-shrink: var(--cx-flex-shrink, 0);
+    }
+  }
+
+  .dropdown-menu .dropdown-item.active {
+    background-color: var(--cx-background-color, var(--cx-g-color-primary));
+  }
+}
