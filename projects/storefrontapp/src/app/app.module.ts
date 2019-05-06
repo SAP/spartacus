@@ -69,10 +69,6 @@ if (!environment.production) {
       i18n: {
         resources: translations,
       },
-      icon: {
-        prefix: 'fa-',
-        iconClass: 'fas',
-      },
     }),
 
     ConfigModule.withConfigFactory(defaultCmsContentConfig),
