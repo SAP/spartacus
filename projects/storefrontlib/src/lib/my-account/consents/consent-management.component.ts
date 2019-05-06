@@ -5,8 +5,8 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -40,14 +40,16 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   private consentListInit(): void {
     // TODO:#1185 - reset templateList loading state? This triggers a new http request.
-    this.userService.resetConsentsProcessState();
+    // this.userService.resetConsentsProcessState();
     this.templateList$ = this.userService.getConsents().pipe(
-      tap(templateList => {
-        if (this.consentsExists(templateList)) {
-          this.userService.loadConsents();
+      // TODO:#1184 - check for falsy value? (everywhere)
+      withLatestFrom(this.userService.get()),
+      tap(([templateList, user]) => {
+        if (user && this.consentsExists(templateList)) {
+          this.userService.loadConsents(user.uid);
         }
-        return templateList;
-      })
+      }),
+      map(([templateList, _user]) => templateList)
     );
     this.templateListloading$ = this.userService.getConsentsResultLoading();
     this.templateListSuccess$ = this.userService.getConsentsResultSuccess();
@@ -65,21 +67,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.userService.resetWithdrawConsentProcessState();
     this.withdrawConsentLoading$ = this.userService.withdrawConsentResultLoading();
     this.withdrawConsentError$ = this.userService.withdrawConsentResultError();
-
-    this.withdrawConsentSuccess$ = combineLatest(
-      this.userService.withdrawConsentResultSuccess(),
-      this.userService.getConsentsResultSuccess()
-    ).pipe(
-      tap(x => console.log(`before filter`, x)),
-      filter(([withdrawalSuccess, _]) => withdrawalSuccess),
-      tap(x => console.log(`after filter`, x)),
-      tap(_ => this.userService.loadConsents()),
-      tap(x => console.log(`after tap (load consents)`, x)),
-      map(
-        ([withdrawalSuccess, loadConsentsSuccess]) =>
-          withdrawalSuccess && loadConsentsSuccess
-      )
-    );
+    this.withdrawConsentSuccess$ = this.userService.withdrawConsentResultSuccess();
   }
 
   private consentsExists(templateList: ConsentTemplateList): boolean {
@@ -97,11 +85,24 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     given: boolean;
     template: ConsentTemplate;
   }): void {
-    if (given) {
-      this.userService.giveConsent(template.id, template.version);
-    } else {
-      this.userService.withdrawConsent(template.currentConsent.code);
-    }
+    this.userService
+      .get()
+      .pipe(
+        filter(Boolean),
+        map(user => user.uid),
+        tap(userId => {
+          if (given) {
+            this.userService.giveConsent(userId, template.id, template.version);
+          } else {
+            this.userService.withdrawConsent(
+              userId,
+              template.currentConsent.code
+            );
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 
   onDone(): void {
