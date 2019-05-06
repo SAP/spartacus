@@ -6,9 +6,10 @@
   }
 
   .star {
-    margin-right: 5px;
     font-size: 20px;
-
+    &:before {
+      margin: 0 2.5px;
+    }
     @for $i from 1 to 6 {
       &:nth-child(#{$i}) {
         background: linear-gradient(
