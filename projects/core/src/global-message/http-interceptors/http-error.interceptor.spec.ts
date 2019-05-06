@@ -21,7 +21,7 @@ import {
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import createSpy = jasmine.createSpy;
 
-fdescribe('HttpErrorInterceptor', () => {
+describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
   let http: HttpClient;
