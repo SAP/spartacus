@@ -215,7 +215,9 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  createCart$: Observable<fromActions.LoadCheckoutDetails> = this.actions$.pipe(
+  reloadDetailsOnCreateCart$: Observable<
+    fromActions.LoadCheckoutDetails
+  > = this.actions$.pipe(
     ofType(fromCartActions.CREATE_CART_SUCCESS),
     map((action: fromCartActions.CreateCartSuccess) => action.payload),
     map(payload => {
