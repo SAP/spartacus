@@ -43,6 +43,7 @@ export const address = {
   },
   addressCard: {
     default: 'DEFAULT',
+    selected: 'Selected',
     setAsDefault: 'Set as default',
     shipTo: 'Ship to',
     billTo: 'Bill to',
