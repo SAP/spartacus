@@ -37,6 +37,14 @@ export class MockPictureComponent {
   @Input() alt;
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 @Pipe({
   name: 'cxTranslateUrl',
 })
@@ -81,6 +89,7 @@ describe('ProductListItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockTranslateUrlPipe,
         MockStripHtmlPipe,
+        MockCxIconComponent,
       ],
     })
       .overrideComponent(ProductListItemComponent, {
