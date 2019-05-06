@@ -8,7 +8,6 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
-  styleUrls: ['./order-detail-items.component.scss'],
 })
 export class OrderDetailItemsComponent implements OnInit {
   orderDetailPrefix = 'orderDetails.';

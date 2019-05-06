@@ -1,25 +1,36 @@
-import { Pipe, PipeTransform, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of, Observable } from 'rxjs';
-import { By } from '@angular/platform-browser';
-
 import {
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  CmsProductCarouselComponent,
   ProductService,
   UIProduct,
-  Component,
-  CmsProductCarouselComponent,
 } from '@spartacus/core';
-import { ProductCarouselService } from './product-carousel.component.service';
-import { PictureComponent } from '../../ui/components/media/picture/picture.component';
-import { ProductCarouselComponent } from './product-carousel.component';
+import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { ProductCarouselComponent } from './product-carousel.component';
+import { ProductCarouselService } from './product-carousel.component.service';
 
 @Pipe({
   name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Component({
+  selector: 'cx-media',
+  template: '',
+})
+class MockMediaComponent {
+  @Input() container;
 }
 
 const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
@@ -44,7 +55,7 @@ const mockProduct: UIProduct = {
   },
 };
 
-const MockCmsComponentData = <CmsComponentData<Component>>{
+const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
@@ -97,7 +108,7 @@ describe('ProductCarouselComponent', () => {
       imports: [RouterTestingModule],
       declarations: [
         ProductCarouselComponent,
-        PictureComponent,
+        MockMediaComponent,
         MockTranslateUrlPipe,
       ],
       providers: [

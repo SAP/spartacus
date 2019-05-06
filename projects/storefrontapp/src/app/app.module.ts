@@ -46,7 +46,12 @@ if (!environment.production) {
         urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
         parameters: {
           BASE_SITE: {
-            values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
+            values: [
+              'electronics-spa',
+              'electronics',
+              'apparel-de',
+              'apparel-uk',
+            ],
             defaultValue: 'electronics-spa',
             persistence: 'route',
           },
@@ -56,7 +61,7 @@ if (!environment.production) {
         translations: {
           default: {
             product: {
-              paths: ['product/:productCode', 'product/:name/:productCode'],
+              paths: ['product/:name/:productCode', 'product/:productCode'],
             },
           },
         },
@@ -64,9 +69,14 @@ if (!environment.production) {
       i18n: {
         resources: translations,
       },
+      icon: {
+        prefix: 'fa-',
+        iconClass: 'fas',
+      },
     }),
 
     ConfigModule.withConfigFactory(defaultCmsContentConfig),
+
     ...devImports,
   ],
 

@@ -1,6 +1,6 @@
+export * from './config/config-from-meta-tag-factory';
 export * from './config/default-occ-config';
 export * from './config/occ-config';
-export * from './config/occ-config-from-meta-tag-factory';
 export * from './config/occ-config-validator';
 export * from './miscs/miscs.service';
 export * from './occ-models/index';
