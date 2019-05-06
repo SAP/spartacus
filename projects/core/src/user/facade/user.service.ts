@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import {
   Address,
@@ -554,18 +554,8 @@ export class UserService {
 
   // TODO:#1184 - write API comments
   // TODO:#1184 - test
-  loadConsents(): void {
-    this.get()
-      .pipe(
-        map(user => user.uid),
-        tap(userId => {
-          if (userId) {
-            this.store.dispatch(new fromStore.LoadUserConsents(userId));
-          }
-        }),
-        take(1)
-      )
-      .subscribe();
+  loadConsents(userId: string): void {
+    this.store.dispatch(new fromStore.LoadUserConsents(userId));
   }
 
   getConsents(): Observable<ConsentTemplateList> {
@@ -588,24 +578,18 @@ export class UserService {
     this.store.dispatch(new fromStore.ResetLoadUserConsents());
   }
 
-  giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.get()
-      .pipe(
-        map(user => user.uid),
-        tap(userId => {
-          if (userId) {
-            this.store.dispatch(
-              new fromStore.GiveUserConsent({
-                userId,
-                consentTemplateId,
-                consentTemplateVersion,
-              })
-            );
-          }
-        }),
-        take(1)
-      )
-      .subscribe();
+  giveConsent(
+    userId: string,
+    consentTemplateId: string,
+    consentTemplateVersion: number
+  ): void {
+    this.store.dispatch(
+      new fromStore.GiveUserConsent({
+        userId,
+        consentTemplateId,
+        consentTemplateVersion,
+      })
+    );
   }
 
   giveConsentResultLoading(): Observable<boolean> {
@@ -630,15 +614,20 @@ export class UserService {
     return this.store.dispatch(new fromStore.ResetGiveUserConsentProcess());
   }
 
-  withdrawConsent(consentCode: string): void {
-    this.get()
+  withdrawConsent(userId: string, consentCode: string): void {
+    this.store.dispatch(
+      new fromStore.WithdrawUserConsent({ userId, consentCode })
+    );
+
+    // TODO:#1184 - trigger consent loading here?
+    this.withdrawConsentResultLoading()
       .pipe(
-        map(user => user.uid),
-        tap(userId => {
-          if (userId) {
-            this.store.dispatch(
-              new fromStore.WithdrawUserConsent({ userId, consentCode })
-            );
+        filter(loading => !loading),
+        withLatestFrom(this.withdrawConsentResultSuccess()),
+        map(([_loading, withdrawalSuccess]) => withdrawalSuccess),
+        tap(withdrawalSuccess => {
+          if (withdrawalSuccess) {
+            this.loadConsents(userId);
           }
         }),
         take(1)
