@@ -6,7 +6,7 @@ import {
   CartService,
   CmsMiniCartComponent,
   Component as SpaComponent,
-  TranslateUrlCommandRoute,
+  UrlCommandRoute,
   UICart,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -17,7 +17,7 @@ import { MiniCartComponent } from './mini-cart.component';
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlCommandRoute): string {
+  transform(options: UrlCommandRoute): string {
     return options.route;
   }
 }

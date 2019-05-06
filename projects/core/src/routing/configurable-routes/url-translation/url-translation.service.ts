@@ -4,8 +4,8 @@ import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteConfig, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
 import {
-  TranslateUrlCommandRoute,
-  TranslateUrlCommands,
+  UrlCommandRoute,
+  UrlCommands,
   TranslateUrlOptions,
 } from './translate-url-commands';
 import { RoutingConfigService } from '../routing-config.service';
@@ -20,10 +20,7 @@ export class UrlService {
     private config: ServerConfig
   ) {}
 
-  translate(
-    commands: TranslateUrlCommands,
-    options: TranslateUrlOptions = {}
-  ): any[] {
+  translate(commands: UrlCommands, options: TranslateUrlOptions = {}): any[] {
     if (!Array.isArray(commands)) {
       commands = [commands];
     }
@@ -52,7 +49,7 @@ export class UrlService {
     return result;
   }
 
-  private generateUrl(command: TranslateUrlCommandRoute): string[] | null {
+  private generateUrl(command: UrlCommandRoute): string[] | null {
     this.standarizeRouteCommand(command);
 
     if (!command.route) {
@@ -83,7 +80,7 @@ export class UrlService {
     return result;
   }
 
-  private standarizeRouteCommand(command: TranslateUrlCommandRoute): void {
+  private standarizeRouteCommand(command: UrlCommandRoute): void {
     command.params = command.params || {};
   }
 

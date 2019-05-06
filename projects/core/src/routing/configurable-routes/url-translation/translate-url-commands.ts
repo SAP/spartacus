@@ -1,11 +1,11 @@
-export interface TranslateUrlCommandRoute {
+export interface UrlCommandRoute {
   route?: string;
   params?: object;
 }
 
-export type TranslateUrlCommand = TranslateUrlCommandRoute | any;
+export type UrlCommand = UrlCommandRoute | any;
 
-export type TranslateUrlCommands = TranslateUrlCommand | TranslateUrlCommand[];
+export type UrlCommands = UrlCommand | UrlCommand[];
 
 export interface TranslateUrlOptions {
   relative?: boolean;

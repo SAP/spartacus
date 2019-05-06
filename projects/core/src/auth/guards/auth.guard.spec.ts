@@ -12,7 +12,7 @@ import { AuthGuard } from './auth.guard';
 import { UserToken } from '../models/token-types.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { TranslateUrlCommands } from '../../routing/configurable-routes/url-translation/translate-url-commands';
+import { UrlCommands } from '../../routing/configurable-routes/url-translation/translate-url-commands';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -31,11 +31,7 @@ class AuthServiceStub {
 class ActivatedRouteSnapshotStub {}
 class RouterStateSnapshotStub {}
 class RoutingServiceStub {
-  go(
-    _path: any[] | TranslateUrlCommands,
-    _query?: object,
-    _extras?: NavigationExtras
-  ) {}
+  go(_path: any[] | UrlCommands, _query?: object, _extras?: NavigationExtras) {}
   saveRedirectUrl(_url: string) {}
 }
 
