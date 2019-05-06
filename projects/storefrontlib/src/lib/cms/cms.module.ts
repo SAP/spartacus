@@ -1,20 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgModule } from '@angular/core';
 import {
-  ConfigModule,
-  Config,
   CmsConfig,
   CmsModule as CmsCoreModule,
+  Config,
+  ConfigModule,
   defaultCmsModuleConfig,
 } from '@spartacus/core';
-
+import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
+import { OutletModule } from '../../cms-structure/outlet/outlet.module';
 // guards
 import { guards } from './guards/index';
-
-import { OutletModule } from '../outlet/outlet.module';
-import { OutletDirective } from '../outlet/outlet.directive';
 
 @NgModule({
   imports: [
