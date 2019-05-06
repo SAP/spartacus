@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule, SkipLinkModule } from '../layout/index';
-import { ConsentManagementModule } from '../lib/my-account/consents/consent-management.module';
 import { CartComponentModule } from './checkout/cart/cart.module';
 import {
   BannerModule,
@@ -12,6 +11,7 @@ import { SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
+  ConsentManagementModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
