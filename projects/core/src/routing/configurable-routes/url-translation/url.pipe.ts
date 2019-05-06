@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { UrlService } from './url.service';
-import { UrlCommands, UrlGenerationOptions } from './url-command';
+import { UrlCommands } from './url-command';
 
 @Pipe({
   name: 'cxUrl',
@@ -8,7 +8,7 @@ import { UrlCommands, UrlGenerationOptions } from './url-command';
 export class UrlPipe implements PipeTransform {
   constructor(private urlService: UrlService) {}
 
-  transform(commands: UrlCommands, options: UrlGenerationOptions = {}): any[] {
-    return this.urlService.generateUrl(commands, options);
+  transform(commands: UrlCommands): any[] {
+    return this.urlService.generateUrl(commands);
   }
 }

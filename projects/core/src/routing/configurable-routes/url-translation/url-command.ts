@@ -6,7 +6,3 @@ export interface UrlCommandRoute {
 export type UrlCommand = UrlCommandRoute | any;
 
 export type UrlCommands = UrlCommand | UrlCommand[];
-
-export interface UrlGenerationOptions {
-  relative?: boolean;
-}

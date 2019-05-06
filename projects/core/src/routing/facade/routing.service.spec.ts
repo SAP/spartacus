@@ -51,14 +51,11 @@ describe('RoutingService', () => {
       );
     });
 
-    it('should call url service service with given array of commands and true "relative" option', () => {
+    it('should call url service service with given array of commands', () => {
       spyOn(urlService, 'generateUrl');
-      const commands = ['test1'];
-      service.go({ route: 'testRoute' });
+      const commands = ['testString', { route: 'testRoute' }];
       service.go(commands);
-      expect(urlService.generateUrl).toHaveBeenCalledWith(commands, {
-        relative: true,
-      });
+      expect(urlService.generateUrl).toHaveBeenCalledWith(commands);
     });
   });
 

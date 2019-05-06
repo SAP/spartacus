@@ -33,5 +33,5 @@ Then additional params are also needed in `{ route: <route> }` (otherwise path c
 result:
 
 ```html
-<a [routerLink]="['', 1234, 'custom', 'product-path', 'ABC']"></a>
+<a [routerLink]="['/', 1234, 'custom', 'product-path', 'ABC']"></a>
 ```

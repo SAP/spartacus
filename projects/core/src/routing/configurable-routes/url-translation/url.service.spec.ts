@@ -73,18 +73,21 @@ describe('UrlService', () => {
           route: 'test',
           params: { param1: 'value1' },
         });
-        expect(resultPath[0]).toEqual('');
+        expect(resultPath[0]).toEqual('/');
       });
 
-      it('should return relative path when "relative" option is true', () => {
+      it('should return relative path when the first command is not object with "route" property', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        const resultPath = service.generateUrl(
-          { route: 'test', params: { param1: 'value1' } },
-          { relative: true }
-        );
-        expect(resultPath[0]).not.toEqual('');
+        const resultPath = service.generateUrl([
+          'testString',
+          {
+            route: 'test',
+            params: { param1: 'value1' },
+          },
+        ]);
+        expect(resultPath[0]).toEqual('testString');
       });
 
       function test_generateUrl({
@@ -163,7 +166,7 @@ describe('UrlService', () => {
             },
           ],
 
-          expectedResult: ['', 'path', 'without-parameters'],
+          expectedResult: ['/', 'path', 'without-parameters'],
         });
       });
 
@@ -179,7 +182,7 @@ describe('UrlService', () => {
             },
           ],
 
-          expectedResult: ['', 'path', 'without-parameters'],
+          expectedResult: ['/', 'path', 'without-parameters'],
         });
       });
 
@@ -191,7 +194,7 @@ describe('UrlService', () => {
           },
           routesConfigs: [{ paths: ['path/:param1', 'other-path/:param1'] }],
 
-          expectedResult: ['', 'path', 'value1'],
+          expectedResult: ['/', 'path', 'value1'],
         });
       });
 
@@ -207,7 +210,7 @@ describe('UrlService', () => {
             },
           ],
 
-          expectedResult: ['', 'path', 'without-parameters'],
+          expectedResult: ['/', 'path', 'without-parameters'],
         });
       });
 
@@ -232,7 +235,7 @@ describe('UrlService', () => {
             },
           ],
 
-          expectedResult: ['', 'path', 'value3', 'value2'],
+          expectedResult: ['/', 'path', 'value3', 'value2'],
         });
       });
 
@@ -258,7 +261,7 @@ describe('UrlService', () => {
             },
           ],
 
-          expectedResult: ['', 'path', 'value4'],
+          expectedResult: ['/', 'path', 'value4'],
         });
       });
 
@@ -275,7 +278,7 @@ describe('UrlService', () => {
             },
           ],
 
-          expectedResult: ['', 'path', 'value1'],
+          expectedResult: ['/', 'path', 'value1'],
         });
       });
 
@@ -301,7 +304,7 @@ describe('UrlService', () => {
             },
           ],
 
-          expectedResult: ['', 'path', 'value3', 'value2'],
+          expectedResult: ['/', 'path', 'value3', 'value2'],
         });
       });
 
@@ -317,7 +320,7 @@ describe('UrlService', () => {
         test_generateUrl({
           urlCommands: [{ route: 'test1' }, { route: 'test2' }],
           routesConfigs: [{ paths: ['path1'] }, { paths: ['path2'] }],
-          expectedResult: ['', 'path1', 'path2'],
+          expectedResult: ['/', 'path1', 'path2'],
         });
       });
 
@@ -328,7 +331,7 @@ describe('UrlService', () => {
             { paths: ['path1', 'path10'] },
             { paths: ['path2', 'path20'] },
           ],
-          expectedResult: ['', 'path1', 'path2'],
+          expectedResult: ['/', 'path1', 'path2'],
         });
       });
 
@@ -344,7 +347,7 @@ describe('UrlService', () => {
             { paths: ['path2'] },
             { paths: ['path3'] },
           ],
-          expectedResult: ['', 'path1', 'path2', 'path3'],
+          expectedResult: ['/', 'path1', 'path2', 'path3'],
         });
       });
 
@@ -363,7 +366,7 @@ describe('UrlService', () => {
             { route: 'test2' },
           ],
           routesConfigs: [{ paths: ['path1/:param1'] }, { paths: ['path2'] }],
-          expectedResult: ['', 'path1', 'value1', 'path2'],
+          expectedResult: ['/', 'path1', 'value1', 'path2'],
         });
       });
 
@@ -374,7 +377,7 @@ describe('UrlService', () => {
             { route: 'test2', params: { param2: 'value2' } },
           ],
           routesConfigs: [{ paths: ['path1'] }, { paths: ['path2/:param2'] }],
-          expectedResult: ['', 'path1', 'path2', 'value2'],
+          expectedResult: ['/', 'path1', 'path2', 'value2'],
         });
       });
 
@@ -388,7 +391,7 @@ describe('UrlService', () => {
             { paths: ['path1/:param1'] },
             { paths: [':param2/path2'] },
           ],
-          expectedResult: ['', 'path1', 'value1', 'value2', 'path2'],
+          expectedResult: ['/', 'path1', 'value1', 'value2', 'path2'],
         });
       });
 
@@ -405,7 +408,7 @@ describe('UrlService', () => {
               paramsMapping: { mappedParam2: 'param2' },
             },
           ],
-          expectedResult: ['', 'path1', 'value1', 'value2', 'path2'],
+          expectedResult: ['/', 'path1', 'value1', 'value2', 'path2'],
         });
       });
 
@@ -419,7 +422,7 @@ describe('UrlService', () => {
             { paths: ['path1/:param1'] },
             { paths: ['path2/:param1'] },
           ],
-          expectedResult: ['', 'path1', 'value1', 'path2', 'value10'],
+          expectedResult: ['/', 'path1', 'value1', 'path2', 'value10'],
         });
       });
 
@@ -433,7 +436,7 @@ describe('UrlService', () => {
             { paths: ['path1/:param1'] },
             { paths: ['path2/:param2', 'path2/:param3'] },
           ],
-          expectedResult: ['', 'path1', 'value1', 'path2', 'value3'],
+          expectedResult: ['/', 'path1', 'value1', 'path2', 'value3'],
         });
       });
 
@@ -462,7 +465,6 @@ describe('UrlService', () => {
           ],
           routesConfigs: [{ paths: ['path2/:param2'] }],
           expectedResult: [
-            '',
             111,
             'path2',
             'value2',
