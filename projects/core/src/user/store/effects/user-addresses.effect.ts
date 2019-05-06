@@ -147,10 +147,7 @@ export class UserAddressesEffects {
     this.messageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     // ----------
 
-    this.messageService.add({
-      type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      text,
-    });
+    this.messageService.add(text, GlobalMessageType.MSG_TYPE_CONFIRMATION);
   }
 
   private loadAddresses() {

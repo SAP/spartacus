@@ -57,21 +57,15 @@ if (!environment.production) {
           },
         },
       },
-      routesConfig: {
-        translations: {
-          default: {
-            product: {
-              paths: ['product/:name/:productCode', 'product/:productCode'],
-            },
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:name/:productCode', 'product/:productCode'],
           },
         },
       },
       i18n: {
         resources: translations,
-      },
-      icon: {
-        prefix: 'fa-',
-        iconClass: 'fas',
       },
     }),
 
