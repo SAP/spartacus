@@ -121,12 +121,12 @@ describe('Page Effects', () => {
         spyOn(cmsPageConnector, 'get').and.returnValue(of(pageStructure));
         const action = new fromActions.LoadPageData(context);
 
-        const completion1 = new fromActions.LoadPageDataSuccess(
+        const completion1 = new fromActions.GetComponentFromPage(
+          componentsMock
+        );
+        const completion2 = new fromActions.LoadPageDataSuccess(
           context,
           pageMock
-        );
-        const completion2 = new fromActions.GetComponentFromPage(
-          componentsMock
         );
 
         actions$ = hot('-a', { a: action });

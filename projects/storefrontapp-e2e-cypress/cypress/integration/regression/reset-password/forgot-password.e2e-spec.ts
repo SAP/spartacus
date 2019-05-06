@@ -13,7 +13,7 @@ context('Forgot Password Page', () => {
     // After requesting a reset password email, we should be taken back to the login page
     cy.url().should('match', /\/login/);
     // ... and display a success message.
-    cy.get('cx-global-message .alert-info').should(
+    cy.get('cx-global-message .alert-success').should(
       'contain',
       'An email has been sent to you with information on how to reset your password.'
     );
