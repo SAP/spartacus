@@ -22,8 +22,8 @@ Configured router links can be automatically generated in HTML templates using `
 - [Parameters mapping](#parameters-mapping)
   - [Predefined parameters mapping](#predefined-parameters-mapping)
 - [Programmatic API](#programmatic-api)
-  - [Navigation to the translated path](#navigation-to-the-translated-path)
-  - [Simply translation of the path](#simply-translation-of-the-path)
+  - [Navigation to the generated path](#navigation-to-the-generated-path)
+  - [Simply generation of the path](#simply-generation-of-the-path)
 
 
 ## Assumptions and limitations
@@ -136,7 +136,7 @@ ConfigModule.withConfig({
 })
 ```
 
-In order to translate the path of parent and child route we need to pass them in an array. For example:
+In order to generate the path of parent and child route we need to pass them in an array. For example:
 
 ```html
 <a [routerLink]="[
@@ -183,7 +183,7 @@ result:
 <a [routerLink]="['../', 'child-path', 'value2']"></a>
 ```
 
-**NOTE:** *Every element that is **not an object with `route` property** won't be translated. So for example:*
+**NOTE:** *Every element that is **not an object with `route` property** won't be transformed. So for example:*
 
 ```html
 <a [routerLink]="[
@@ -252,9 +252,9 @@ category: {
 
 ## Programmatic API
 
-### Navigation to the translated path
+### Navigation to the generated path
 
-The `RoutingService.go` method called with `{ route: <route> }` navigates to the translated path - similar like `routerLink` with `cxUrl` pipe in the HTML template. For example:
+The `RoutingService.go` method called with `{ route: <route> }` navigates to the generated path - similar like `routerLink` with `cxUrl` pipe in the HTML template. For example:
 
 When config is:
 
@@ -274,9 +274,9 @@ routingService.go({ route: 'product', params: { productCode: 1234 } });
 // router navigates to ['', 'p', 1234]
 ```
 
-### Simply translation of the path
+### Simply generation of the path
 
-The `UrlService.translate` method called with `{ route: <route> }` returns the translated path (just like `cxUrl` pipe in HTML templates). For example:
+The `UrlService.generateUrl` method called with `{ route: <route> }` returns the generated path (just like `cxUrl` pipe in HTML templates). For example:
 
 When config is:
 
@@ -291,7 +291,7 @@ ConfigModule.withConfig({
 ```
 
 ```typescript
-urlService.translate({ route: 'product', params: { productCode: 1234 } });
+urlService.generateUrl({ route: 'product', params: { productCode: 1234 } });
 
 // ['', 'p', 1234]
 ```

@@ -22,7 +22,7 @@ ConfigModule.withConfig({
 })
 ```
 
-Then additional params are also needed in `{ route: <route> }` (otherwise path cannot be translated). Examples:
+Then additional params are also needed in `{ route: <route> }` (otherwise path cannot be generated). Examples:
 
 `{ route: <route> }` also needs the new `productName` param:
 

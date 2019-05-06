@@ -66,7 +66,7 @@ ConfigModule.withConfig({
 
 ## Wrong order of aliases
 
-When a path with less params (for example `/p/:productCode`) is put before a path that has the same params and more (for example `:campaignName/p/:productCode`), then the first path will **always** be used to translate the path (and the second will **never** be used). For example:
+When a path with less params (for example `/p/:productCode`) is put before a path that has the same params and more (for example `:campaignName/p/:productCode`), then the first path will **always** be used to generate the path (and the second will **never** be used). For example:
 
 ```typescript
 ConfigModule.withConfig({
