@@ -1,100 +1,55 @@
 import { Injectable, Injector } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { ServerConfig } from '../../config/server-config/server-config';
-import {
-  RoutesTranslations,
-  RouteTranslation,
-  RoutesConfig,
-} from './routes-config';
-import { RoutesConfigLoader } from './routes-config-loader';
+import { RoutingConfigService } from './routing-config.service';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
   constructor(
     private config: ServerConfig,
     private injector: Injector,
-    private routesConfigLoader: RoutesConfigLoader,
+    private routingConfigService: RoutingConfigService,
     private urlMatcherFactory: UrlMatcherFactoryService
   ) {}
-
-  private readonly currentLanguageCode = 'en'; // TODO: hardcoded! should be removed when more languages are supported by localized routes
-
-  private allRoutesTranslations: RoutesConfig['translations'];
-
-  private get currentRoutesTranslations(): RoutesTranslations {
-    return this.allRoutesTranslations[
-      this.currentLanguageCode
-    ] as RoutesTranslations;
-  }
 
   private initCalled = false; // guard not to call init() more than once
 
   /**
-   * Initializes service with given translations and translates all existing Routes in the Router.
+   * Configures all existing Routes in the Router
    */
-  async init(): Promise<void> {
+  init(): void {
     if (!this.initCalled) {
       this.initCalled = true;
-      await this.routesConfigLoader.load();
-      this.allRoutesTranslations = this.routesConfigLoader.routesConfig.translations;
-      this.translateRouterConfig();
+      this.configureRouter();
     }
   }
 
-  private translateRouterConfig() {
+  private configureRouter() {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
 
-    const translatedRoutes = this.translateRoutes(
-      router.config,
-      this.currentRoutesTranslations
-    );
+    const configuredRoutes = this.configureRoutes(router.config);
 
-    router.resetConfig(translatedRoutes);
+    router.resetConfig(configuredRoutes);
   }
 
-  getRouteTranslation(routeName: string): RouteTranslation {
-    const routesTranslations = this.currentRoutesTranslations;
-
-    const result = routesTranslations && routesTranslations[routeName];
-    if (!routesTranslations || result === undefined) {
-      this.warn(
-        `No route translation was configured for page '${routeName}' in language '${
-          this.currentLanguageCode
-        }'!`
-      );
-    }
-    return result;
-  }
-
-  private translateRoutes(
-    routes: Routes,
-    routesTranslations: RoutesTranslations
-  ): Routes {
+  private configureRoutes(routes: Routes): Routes {
     const result = [];
     routes.forEach(route => {
-      const translatedRoute = this.translateRoute(route, routesTranslations);
+      const configuredRoute = this.configureRoute(route);
 
       if (route.children && route.children.length) {
-        const translatedChildrenRoutes = this.translateRoutes(
-          route.children,
-          routesTranslations
-        );
-
-        translatedRoute.children = translatedChildrenRoutes;
+        configuredRoute.children = this.configureRoutes(route.children);
       }
-      result.push(translatedRoute);
+      result.push(configuredRoute);
     });
     return result;
   }
 
-  private translateRoute(
-    route: Route,
-    routesTranslations: RoutesTranslations
-  ): Route {
+  private configureRoute(route: Route): Route {
     if (this.isConfigurable(route, 'cxPath')) {
       // we assume that 'path' and 'redirectTo' cannot be both configured for one route
       if (this.isConfigurable(route, 'cxRedirectTo')) {
@@ -102,11 +57,11 @@ export class ConfigurableRoutesService {
           `A path should not have set both "cxPath" and "cxRedirectTo" properties! Route: '${route}`
         );
       }
-      return this.translateRoutePath(route, routesTranslations);
+      return this.configureRoutePath(route);
     }
 
     if (this.isConfigurable(route, 'cxRedirectTo')) {
-      return this.translateRouteRedirectTo(route, routesTranslations);
+      return this.configureRouteRedirectTo(route);
     }
 
     return route; // if nothing is configurable, just pass the original route
@@ -120,11 +75,8 @@ export class ConfigurableRoutesService {
     return route.data && route.data[key];
   }
 
-  private translateRoutePath(
-    route: Route,
-    routesTranslations: RoutesTranslations
-  ): Route {
-    const paths = this.getTranslatedPaths(route, 'cxPath', routesTranslations);
+  private configureRoutePath(route: Route): Route {
+    const paths = this.getConfiguredPaths(route, 'cxPath');
     switch (paths.length) {
       case 0:
         delete route.path;
@@ -146,48 +98,38 @@ export class ConfigurableRoutesService {
     }
   }
 
-  private translateRouteRedirectTo(
-    route: Route,
-    translations: RoutesTranslations
-  ): Route {
-    const translatedPaths = this.getTranslatedPaths(
-      route,
-      'cxRedirectTo',
-      translations
-    );
-    return translatedPaths.length
-      ? { ...route, redirectTo: translatedPaths[0] } // take the first path from list by convention
+  private configureRouteRedirectTo(route: Route): Route {
+    const paths = this.getConfiguredPaths(route, 'cxRedirectTo');
+    return paths.length
+      ? { ...route, redirectTo: paths[0] } // take the first path from list by convention
       : route;
   }
 
-  private getTranslatedPaths(
+  private getConfiguredPaths(
     route: Route,
-    key: ConfigurableRouteKey,
-    routesTranslations: RoutesTranslations
+    key: ConfigurableRouteKey
   ): string[] {
     const routeName = this.getConfigurable(route, key);
-    const translation = this.getRouteTranslation(routeName);
-    if (translation === undefined) {
+    const routeConfig = this.routingConfigService.getRouteConfig(routeName);
+    if (routeConfig === undefined) {
       this.warn(
-        `Could not translate key '${key}' of route '${routeName}'`,
+        `Could not configure the key '${key}' of the named route '${routeName}'`,
         route,
-        `due to undefined key '${routeName}' in routes translations`,
-        routesTranslations
+        `due to undefined key for named route '${routeName}' in config`
       );
       return [];
     }
-    if (translation && translation.paths === undefined) {
+    if (routeConfig && routeConfig.paths === undefined) {
       this.warn(
-        `Could not translate key '${key}' of route '${routeName}'`,
+        `Could not configure the key '${key}' of the named route '${routeName}'`,
         route,
-        `due to undefined 'paths' key for '${routeName}' route in routes translations`,
-        routesTranslations
+        `due to undefined 'paths' for the named route '${routeName}' in config`
       );
       return [];
     }
 
-    // translation or translation.paths can be null - which means switching off the route
-    return (translation && translation.paths) || [];
+    // routeConfig or routeConfig.paths can be null - which means switching off the route
+    return (routeConfig && routeConfig.paths) || [];
   }
 
   private warn(...args) {
