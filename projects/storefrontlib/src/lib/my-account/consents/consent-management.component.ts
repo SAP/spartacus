@@ -11,7 +11,6 @@ import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 @Component({
   selector: 'cx-consent-management',
   templateUrl: './consent-management.component.html',
-  styleUrls: ['./consent-management.component.scss'],
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   templateList$: Observable<ConsentTemplateList>;

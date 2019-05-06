@@ -4,7 +4,6 @@ import { ConsentTemplate } from '@spartacus/core';
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
-  styleUrls: ['./consent-management-form.component.scss'],
 })
 export class ConsentManagementFormComponent implements OnInit {
   @Input()

@@ -1,27 +1,27 @@
+import { isPlatformServer } from '@angular/common';
 import {
   ChangeDetectorRef,
   ComponentRef,
   Directive,
+  Inject,
   Injector,
   Input,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
-  Inject,
-  PLATFORM_ID,
 } from '@angular/core';
 import {
   CmsComponent,
   CmsConfig,
   CmsService,
-  DynamicAttributeService,
   ComponentMapperService,
-  CxApiService,
   ContentSlotComponentData,
+  CxApiService,
+  DynamicAttributeService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
-import { isPlatformServer } from '@angular/common';
 
 @Directive({
   selector: '[cxComponentWrapper]',

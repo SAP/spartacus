@@ -4,7 +4,6 @@ import { ConsentTemplate } from '@spartacus/core';
 @Component({
   selector: 'cx-consent-management-list',
   templateUrl: './consent-management-list.component.html',
-  styleUrls: ['./consent-management-list.component.scss'],
 })
 export class ConsentManagementListComponent {
   @Input()
