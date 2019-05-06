@@ -6,7 +6,7 @@ import { I18nModule } from '@spartacus/core';
 import { CardModule } from '../../../../../../shared/components/card/card.module';
 import { BootstrapModule } from '../../../../../bootstrap.module';
 import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
-import { IconModule } from '../../../../../../cms-components';
+import { IconModule } from '../../../../../../cms-components/misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 
 @NgModule({
