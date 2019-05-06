@@ -5,6 +5,7 @@ export enum ICON_TYPES {
   LIST_MODE = 'bars',
   CARET_DOWN = 'angle-down',
   INFO = 'info-circle',
+  STAR = 'star',
 }
 
 export abstract class IconConfig {

@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageSlotComponent } from './page-slot.component';
-import { OutletModule } from '../../../lib/outlet/outlet.module';
+import { NgModule } from '@angular/core';
+import { OutletModule } from '../../outlet/outlet.module';
 import { PageComponentModule } from '../component/page-component.module';
+import { PageSlotComponent } from './page-slot.component';
 
 @NgModule({
   imports: [CommonModule, OutletModule, PageComponentModule],
