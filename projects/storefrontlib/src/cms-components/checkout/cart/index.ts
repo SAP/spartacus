@@ -7,3 +7,5 @@ export * from './cart-shared/cart-item/cart-item.component';
 export * from './cart-shared/order-summary/order-summary.component';
 export * from './cart-totals/cart-totals.component';
 export * from './cart.module';
+export * from './mini-cart/mini-cart.component';
+export * from './mini-cart/mini-cart.module';

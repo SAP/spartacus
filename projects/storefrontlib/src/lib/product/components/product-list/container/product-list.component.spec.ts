@@ -16,7 +16,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { AddToCartComponent } from '../../../../../cms-components/checkout';
 import { StarRatingComponent } from '../../../../ui';
-import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
+import { MediaComponent } from '../../../../ui/components/media/media.component';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
@@ -28,7 +28,6 @@ import {
 } from '../product-view/product-view.component';
 import { PageLayoutService } from './../../../../cms/page-layout/page-layout.service';
 import { ProductListComponent } from './product-list.component';
-
 import createSpy = jasmine.createSpy;
 
 class MockPageLayoutService {
@@ -39,6 +38,7 @@ class MockPageLayoutService {
     return of('LandingPage2Template');
   }
 }
+
 class MockProductSearchService {
   search = createSpy('search');
   searchResults$ = of();
@@ -111,7 +111,7 @@ describe('ProductListComponent in product-list', () => {
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
         AddToCartComponent,
-        PictureComponent,
+        MediaComponent,
         ProductViewComponent,
         StarRatingComponent,
         MockProductListItemComponent,

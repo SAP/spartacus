@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, ReplaySubject } from 'rxjs';
-import { map, multicast, refCount, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import * as fromStore from '../store/index';
 import { UIProduct } from '../model/product';
 
@@ -31,9 +31,7 @@ export class ProductService {
           }
         }),
         map(productState => productState.value),
-        // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
-        multicast(() => new ReplaySubject(1)),
-        refCount()
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     return this.products[productCode];

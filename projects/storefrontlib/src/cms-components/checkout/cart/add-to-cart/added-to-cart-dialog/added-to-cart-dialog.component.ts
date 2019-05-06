@@ -14,7 +14,6 @@ import { CartService, Cart, OrderEntry } from '@spartacus/core';
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
-  styleUrls: ['./added-to-cart-dialog.component.scss'],
 })
 export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   entry$: Observable<OrderEntry>;
@@ -23,8 +22,10 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   cartLoaded$: Observable<boolean>;
 
   quantity = 0;
+  headerLabel = `addToCart.itemsAddedToYourCart`;
   previousLoaded: boolean;
   finishedLoading: boolean;
+  private firstUpdate = true;
 
   @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
@@ -58,6 +59,16 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
             entryForm.controls.quantity.setValue(entry.quantity);
           }
           this.form.markAsPristine();
+
+          // Announce in header if Add To Cart button has incremented product
+          if (this.firstUpdate && entry.quantity > 1) {
+            this.headerLabel = `addToCart.itemsIncrementedInYourCart`;
+          } else {
+            this.headerLabel = `addToCart.itemsAddedToYourCart`;
+          }
+
+          // Any updates after the first will be flagged as false
+          this.firstUpdate = false;
         }
       })
     );

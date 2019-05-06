@@ -1,6 +1,6 @@
 <div *ngIf="(messages$ | async) as messages">
   <div
-    class="alert alert-info"
+    class="alert alert-success"
     *ngFor="
       let confMsg of messages[messageType.MSG_TYPE_CONFIRMATION];
       let i = index
