@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/checkout/cart/index';
-import { Card } from '../../../ui/components/card/card.component';
+import { Card } from '../../../../shared/components/card/card.component';
 import { OrderConfirmationComponent } from './order-confirmation.component';
 
 import createSpy = jasmine.createSpy;
