@@ -41,10 +41,10 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean): void {
     if (success) {
-      this.globalMessageService.add({
-        text: 'Password updated with success',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      });
+      this.globalMessageService.add(
+        'Password updated with success',
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
       this.routingService.go({ route: 'home' });
     }
   }

@@ -8,15 +8,13 @@ Many route aliases can be configured in `paths` array. For example:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: {
-                    paths: [
-                        ':campaignName/product/:productCode',
-                        'product/:productCode'
-                    ]
-                }
+    routing: {
+        routes: {
+            product: {
+                paths: [
+                    ':campaignName/product/:productCode',
+                    'product/:productCode'
+                ]
             }
         }
     }
@@ -29,23 +27,13 @@ When config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: {
-                    paths: [
-                        ':campaignName/product/:productCode',
-                        'product/:productCode'
-                    ]
-                }
-            },
-            en: {
-                product: {
-                    paths: [
-                        ':campaignName/p/:productCode', /* this will be used when `campaignName` param is given */
-                        'p/:productCode' /* this will be used otherwise */
-                   ]
-                }
+    routing: {
+        routes: {
+            product: {
+                paths: [
+                    ':campaignName/p/:productCode', /* this will be used when `campaignName` param is given */
+                    'p/:productCode' /* this will be used otherwise */
+                ]
             }
         }
     }
@@ -82,28 +70,18 @@ When a path with less params (for example `/p/:productCode`) is put before a pat
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: {
-                    paths: [
-                        ':campaignName/product/:productCode',
-                        'product/:productCode'
-                    ]
-                }
-            },
-            en: {
-                product: {
-                    paths: [
-                        /* WRONG: */
+    routing: {
+        routes: {
+            product: {
+                paths: [
+                    /* WRONG: */
 
-                        /* will always be used */
-                        'p/:productCode', 
+                    /* will always be used */
+                    'p/:productCode', 
 
-                        /* will never be used, because (among others) contains the same params as above */
-                        ':campaignName/p/:productCode'
-                   ]
-                }
+                    /* will never be used, because (among others) contains the same params as above */
+                    ':campaignName/p/:productCode'
+                ]
             }
         }
     }
@@ -127,7 +105,3 @@ All following examples result in the same:
      ```html
      <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
      ```
-
-## Subjects of change
-
-- [#655](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/655) named aliases are under consideration - to allow translating precise aliases of paths and not to base only on the specificity of parameters
