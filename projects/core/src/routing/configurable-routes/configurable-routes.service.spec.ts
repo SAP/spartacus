@@ -1,20 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../config/server-config/server-config';
-import { RoutesConfigLoader } from './routes-config-loader';
+import { RoutingConfigService } from './routing-config.service';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
-import { RoutesConfig } from './routes-config';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 class MockServerConfig {
   production = false;
 }
 
-class MockRoutesConfigLoader {
-  routesConfig: RoutesConfig = {
-    translations: {},
-  };
-  async load(): Promise<void> {}
+class MockRoutingConfigService {
+  getRouteConfig() {}
 }
 
 class MockRouter {
@@ -37,15 +33,15 @@ describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
   let serverConfig: MockServerConfig;
   let router: Router;
-  let loader: RoutesConfigLoader;
+  let routingConfigService: RoutingConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ConfigurableRoutesService,
         {
-          provide: RoutesConfigLoader,
-          useClass: MockRoutesConfigLoader,
+          provide: RoutingConfigService,
+          useClass: MockRoutingConfigService,
         },
         { provide: ServerConfig, useClass: MockServerConfig },
         {
@@ -62,28 +58,15 @@ describe('ConfigurableRoutesService', () => {
     service = TestBed.get(ConfigurableRoutesService);
     serverConfig = TestBed.get(ServerConfig);
     router = TestBed.get(Router);
-    loader = TestBed.get(RoutesConfigLoader);
+    routingConfigService = TestBed.get(RoutingConfigService);
 
     router.config = [];
   });
 
-  describe('translateRouterConfig', () => {
-    it('should load routes config from loader', async () => {
-      spyOn(loader, 'load');
-      await service.init();
-      expect(loader.load).toHaveBeenCalled();
-    });
-
-    it('when called twice, should load routes from routes config only once', async () => {
-      spyOn(loader, 'load');
-      await service.init();
-      await service.init();
-      expect(loader.load).toHaveBeenCalledTimes(1);
-    });
-
-    it('should NOT translate "paths" of routes that are NOT configurable', async () => {
+  describe('configureRouter', () => {
+    it('should NOT configure "path" of routes that are NOT configurable', async () => {
       router.config = [{ path: 'path1' }, { path: 'path2' }];
-      loader.routesConfig.translations = { en: {} };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
       expect(router.config).toEqual([{ path: 'path1' }, { path: 'path2' }]);
     });
@@ -93,7 +76,7 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1' },
         { path: 'path2', children: [{ path: 'subPath' }] },
       ];
-      loader.routesConfig.translations = { en: {} };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
       expect(router.config).toEqual([
         { path: 'path1' },
@@ -101,12 +84,12 @@ describe('ConfigurableRoutesService', () => {
       ]);
     });
 
-    it('should NOT translate "redirectTo" of routes that are NOT configurable', async () => {
+    it('should NOT configure "redirectTo" of routes that are NOT configurable', async () => {
       router.config = [
         { path: 'path1', redirectTo: 'path100' },
         { path: 'path2', redirectTo: 'path200' },
       ];
-      loader.routesConfig.translations = { en: {} };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
       expect(router.config).toEqual([
         { path: 'path1', redirectTo: 'path100' },
@@ -116,37 +99,31 @@ describe('ConfigurableRoutesService', () => {
 
     it('should generate route matching configured path', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+        paths: ['path1'],
+      });
       await service.init();
       expect(router.config[0].path).toEqual('path1');
     });
 
     it('should generate route matching configured multiple paths', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1', 'path100'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+        paths: ['path1', 'path100'],
+      });
       await service.init();
       expect(router.config[0].matcher).toEqual(['path1', 'path100']);
     });
 
-    it('should translate "redirectTo" of configurable routes', async () => {
+    it('should configure "redirectTo" of configurable routes', async () => {
       router.config = [
         { path: 'path1', data: { cxRedirectTo: 'page1' } },
         { path: 'path2', data: { cxRedirectTo: 'page2' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path100'] },
-          page2: { paths: ['path200'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
+        { paths: ['path100'] },
+        { paths: ['path200'] }
+      );
       await service.init();
       expect(router.config[0].path).toEqual('path1');
       expect(router.config[0].redirectTo).toEqual('path100');
@@ -160,12 +137,10 @@ describe('ConfigurableRoutesService', () => {
       router.config = [
         { path: null, data: { cxPath: 'page1', cxRedirectTo: 'page2' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
+        { paths: ['path1'] },
+        { paths: ['path2'] }
+      );
       await service.init();
       expect(console.warn).toHaveBeenCalled();
     });
@@ -175,66 +150,54 @@ describe('ConfigurableRoutesService', () => {
       router.config = [
         { path: null, data: { cxPath: 'page1', cxRedirectTo: 'page2' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
+        { paths: ['path1'] },
+        { paths: ['path2'] }
+      );
       await service.init();
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should generate route for "redirectTo" with with first configured path in translations config for a given page', async () => {
+    it('should generate route for "redirectTo" with with first configured path in config for a given page', async () => {
       router.config = [
         { path: 'path', redirectTo: null, data: { cxRedirectTo: 'page1' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1', 'path100'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+        paths: ['path1', 'path100'],
+      });
       await service.init();
       expect(router.config.length).toEqual(1);
       expect(router.config[0].redirectTo).toEqual('path1');
     });
 
-    it('should generate route that will never match if there are no configured paths in translations config', async () => {
+    it('should generate route that will never match if there are no configured paths in config', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {
-          page1: null,
-        },
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(null);
       await service.init();
       expect(router.config[0].matcher).toBe(false);
     });
 
     // tslint:disable-next-line:max-line-length
-    it('should console.warn in non-production environment if route refers a page name that does not exist in translations config', async () => {
+    it('should console.warn in non-production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
       serverConfig.production = false;
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {},
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
       expect(console.warn).toHaveBeenCalled();
     });
 
     // tslint:disable-next-line:max-line-length
-    it('should NOT console.warn in production environment if route refers a page name that does not exist in translations config', async () => {
+    it('should NOT console.warn in production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
       serverConfig.production = true;
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {},
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should translate configurable routes placed among non-configurable routes', async () => {
+    it('should configure configurable routes placed among non-configurable routes', async () => {
       router.config = [
         // normal routes
         { path: 'path1' },
@@ -251,12 +214,10 @@ describe('ConfigurableRoutesService', () => {
         // normal routes
         { path: 'path5' },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page2: { paths: ['path2', 'path20', 'path200'] },
-          page4: { paths: ['path40', 'path400'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
+        { paths: ['path2', 'path20', 'path200'] },
+        { paths: ['path40', 'path400'] }
+      );
       await service.init();
       expect(router.config).toEqual([
         // normal routes
@@ -281,54 +242,6 @@ describe('ConfigurableRoutesService', () => {
         // normal routes
         { path: 'path5' },
       ]);
-    });
-  });
-
-  describe('getRouteTranslation', () => {
-    it('should return configured paths translations for given page name', async () => {
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1', 'path10'] },
-        },
-      };
-      const expectedResult = { paths: ['path1', 'path10'] };
-      await service.init();
-      expect(service.getRouteTranslation('page1')).toEqual(expectedResult);
-    });
-
-    it('should console.warn in non-production environment if given page name does not exist in translations config', async () => {
-      spyOn(console, 'warn');
-      serverConfig.production = false;
-      loader.routesConfig.translations = {
-        en: {},
-      };
-      await service.init();
-      expect(service.getRouteTranslation('page1')).toBe(undefined);
-      expect(console.warn).toHaveBeenCalled();
-    });
-
-    it('should NOT console.warn in non-production environment if given page name has "null" in translations config', async () => {
-      spyOn(console, 'warn');
-      serverConfig.production = false;
-      loader.routesConfig.translations = {
-        en: {
-          page1: null,
-        },
-      };
-      await service.init();
-      expect(service.getRouteTranslation('page1')).toBe(null);
-      expect(console.warn).not.toHaveBeenCalled();
-    });
-
-    it('should NOT console.warn in production environment if given page name does not exist in translations config', async () => {
-      spyOn(console, 'warn');
-      serverConfig.production = true;
-      loader.routesConfig.translations = {
-        en: {},
-      };
-      await service.init();
-      expect(service.getRouteTranslation('page1')).toBe(undefined);
-      expect(console.warn).not.toHaveBeenCalled();
     });
   });
 });
