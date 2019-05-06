@@ -1,7 +1,16 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ProductViewComponent } from './product-view.component';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
 
 describe('ProductViewComponent in product-list', () => {
   let component: ProductViewComponent;
@@ -10,7 +19,7 @@ describe('ProductViewComponent in product-list', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgSelectModule, FormsModule],
-      declarations: [ProductViewComponent],
+      declarations: [ProductViewComponent, MockCxIconComponent],
     }).compileComponents();
   }));
 
