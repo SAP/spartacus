@@ -87,6 +87,14 @@ class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 describe('ProductListComponent in product-list', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -127,6 +135,7 @@ describe('ProductListComponent in product-list', () => {
         MockProductListItemComponent,
         MockTranslateUrlPipe,
         MockStripHtmlPipe,
+        MockCxIconComponent,
       ],
     }).compileComponents();
   }));
