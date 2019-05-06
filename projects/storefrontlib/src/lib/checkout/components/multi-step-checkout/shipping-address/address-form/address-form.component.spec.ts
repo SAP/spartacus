@@ -383,7 +383,25 @@ describe('AddressFormComponent', () => {
   describe('UI back button', () => {
     const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
 
+    it('should default "showCancelBtn" to true and create button', () => {
+      fixture.detectChanges();
+      expect(getBackBtn()).toBeDefined();
+    });
+
+    it('should not create back button when "showCancelBtn" is false', () => {
+      component.showCancelBtn = false;
+      fixture.detectChanges();
+      expect(getBackBtn()).toBeNull();
+    });
+
+    it('should create back button when "showCancelBtn" is true', () => {
+      component.showCancelBtn = true;
+      fixture.detectChanges();
+      expect(getBackBtn()).toBeDefined();
+    });
+
     it('should call "back" function after being clicked', () => {
+      fixture.detectChanges();
       spyOn(component, 'back');
       getBackBtn().nativeElement.click();
       expect(component.back).toHaveBeenCalled();

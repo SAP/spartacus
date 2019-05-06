@@ -18,7 +18,6 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
-  styleUrls: ['./order-detail-items.component.scss'],
 })
 export class OrderDetailItemsComponent implements OnInit {
   constructor(

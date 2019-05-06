@@ -1,4 +1,4 @@
-import { user, cart, product } from '../sample-data/checkout-flow';
+import { cart, product, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
 
@@ -21,12 +21,12 @@ export function signOutUser() {
 export function goToProductDetailsPage() {
   cy.visit('/');
   // click big banner
-  cy.get('.Section1 cx-responsive-banner')
+  cy.get('.Section1 cx-banner')
     .first()
     .find('img')
     .click({ force: true });
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-responsive-banner:nth-of-type(6) img').click();
+  cy.get('.Section2 cx-banner:nth-of-type(6) img').click();
   cy.get('cx-product-summary').within(() => {
     cy.get('.name').should('contain', product.name);
     cy.get('.code').should('contain', product.code);
@@ -85,7 +85,7 @@ export function placeOrder() {
     .contains('cx-card', 'Shipping Method')
     .find('.cx-card-container')
     .within(() => {
-      cy.getByText('standard-gross');
+      cy.getByText('Standard Delivery');
     });
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
