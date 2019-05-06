@@ -10,9 +10,9 @@ export class ConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
 
   handleError() {
-    this.globalMessageService.add({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'Already exists',
-    });
+    this.globalMessageService.add(
+      'Already exists',
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 }
