@@ -1,7 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Address, CartDataService, CartService, CheckoutService, I18nTestingModule, RoutingService, UserService } from '@spartacus/core';
+import {
+  Address,
+  CartDataService,
+  CartService,
+  CheckoutService,
+  I18nTestingModule,
+  RoutingService,
+  UserService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Card } from '../../../../../shared/components/card/card.component';
 import { ShippingAddressComponent } from './shipping-address.component';
