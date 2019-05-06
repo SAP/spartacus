@@ -44,6 +44,13 @@ const mockOrderEntry: OrderEntry[] = [
       code: 'CODE1111',
     },
   },
+  {
+    quantity: 2,
+    entryNumber: 1,
+    product: {
+      code: 'CODE1111',
+    },
+  },
 ];
 
 @Component({
@@ -188,5 +195,24 @@ describe('AddedToCartDialogComponent', () => {
     const item = mockOrderEntry[0];
     component.updateEntry({ item, updatedQuantity: 5 });
     expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
+  });
+
+  it('should show added dialog title message', () => {
+    component.loaded$ = of(true);
+    fixture.detectChanges();
+    const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
+    expect(dialogTitleEl.textContent).toEqual(
+      ' addToCart.itemsAddedToYourCart '
+    );
+  });
+
+  it('should show increment dialog title message', () => {
+    component.loaded$ = of(true);
+    component.entry$ = of(mockOrderEntry[1]);
+    fixture.detectChanges();
+    const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
+    expect(dialogTitleEl.textContent).toEqual(
+      ' addToCart.itemsIncrementedInYourCart '
+    );
   });
 });

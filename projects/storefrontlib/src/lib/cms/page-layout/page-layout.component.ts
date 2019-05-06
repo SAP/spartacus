@@ -18,6 +18,8 @@ import { PageLayoutService } from './page-layout.service';
 export class PageLayoutComponent implements OnInit {
   @Input() section: string;
 
+  private currentClass;
+
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -44,6 +46,10 @@ export class PageLayoutComponent implements OnInit {
   }
 
   set styleClass(cls: string) {
+    if (this.currentClass) {
+      this.renderer.removeClass(this.el.nativeElement, this.currentClass);
+    }
     this.renderer.addClass(this.el.nativeElement, cls);
+    this.currentClass = cls;
   }
 }

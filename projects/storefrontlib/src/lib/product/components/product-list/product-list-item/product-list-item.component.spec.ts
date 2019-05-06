@@ -1,5 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +5,8 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProductListItemComponent } from './product-list-item.component';
 
 @Component({
@@ -15,12 +14,9 @@ import { ProductListItemComponent } from './product-list-item.component';
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input()
-  iconOnly;
-  @Input()
-  productCode;
-  @Input()
-  quantity;
+  @Input() iconOnly;
+  @Input() productCode;
+  @Input() quantity;
 }
 
 @Component({
@@ -28,27 +24,18 @@ export class MockAddToCartComponent {
   template: '*****',
 })
 export class MockStarRatingComponent {
-  @Input()
-  rating;
-  @Input()
-  disabled;
-  @Input()
-  steps;
+  @Input() rating;
+  @Input() disabled;
+  @Input() steps;
 }
 
 @Component({
-  selector: 'cx-picture',
+  selector: 'cx-media',
   template: 'mock picture component',
 })
 export class MockPictureComponent {
-  @Input()
-  imageContainer;
-  @Input()
-  imageFormat;
-  @Input()
-  imagePosition;
-  @Input()
-  imageAlt;
+  @Input() container;
+  @Input() alt;
 }
 
 @Pipe({
@@ -139,7 +126,7 @@ describe('ProductListItemComponent in product-list', () => {
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('cx-picture')
+      fixture.debugElement.nativeElement.querySelector('cx-media')
     ).not.toBeNull();
   });
 

@@ -41,6 +41,7 @@
       <cx-address-form
         class="cx-form"
         showTitleCode="true"
+        [showCancelBtn]="!((addresses$ | async).length === 0)"
         actionBtnLabel="{{ 'addressBook.addAddress' | cxTranslate }}"
         cancelBtnLabel="{{ 'addressBook.backToAddressList' | cxTranslate }}"
         [setAsDefaultField]="!((addresses$ | async).length === 0)"
