@@ -11,7 +11,7 @@ import {
 import { RoutingConfigService } from '../routing-config.service';
 
 @Injectable({ providedIn: 'root' })
-export class UrlTranslationService {
+export class UrlService {
   readonly ROOT_URL = ['/'];
 
   constructor(

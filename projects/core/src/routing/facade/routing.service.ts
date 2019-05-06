@@ -9,7 +9,7 @@ import * as fromStore from '../store';
 import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
 import { TranslateUrlCommands } from '../configurable-routes/url-translation/translate-url-commands';
-import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { UrlService } from '../configurable-routes/url-translation/url-translation.service';
 import { RouterState } from '../store/reducers/router.reducer';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class RoutingService {
   constructor(
     private store: Store<fromStore.RouterState>,
     private winRef: WindowRef,
-    private urlTranslator: UrlTranslationService
+    private urlTranslator: UrlService
   ) {}
 
   /**

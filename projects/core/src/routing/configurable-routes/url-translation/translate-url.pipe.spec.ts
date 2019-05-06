@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-import { UrlTranslationService } from './url-translation.service';
+import { UrlService } from './url-translation.service';
 import { UrlPipe } from './translate-url.pipe';
 
 describe('UrlPipe', () => {
   let pipe: UrlPipe;
-  let service: UrlTranslationService;
+  let service: UrlService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         UrlPipe,
-        { provide: UrlTranslationService, useValue: { translate: () => {} } },
+        { provide: UrlService, useValue: { translate: () => {} } },
       ],
     });
     pipe = TestBed.get(UrlPipe);
-    service = TestBed.get(UrlTranslationService);
+    service = TestBed.get(UrlService);
   });
 
   describe('transform', () => {

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlParsingService } from './url-parsing.service';
-import { UrlTranslationService } from './url-translation.service';
+import { UrlService } from './url-translation.service';
 import { RouteConfig } from '../routes-config';
 import { TranslateUrlCommands } from './translate-url-commands';
 import { RoutingConfigService } from '../routing-config.service';
@@ -11,8 +11,8 @@ const mockRoutingConfigService = {
   getRouteConfig: () => {},
 };
 
-describe('UrlTranslationService', () => {
-  let service: UrlTranslationService;
+describe('UrlService', () => {
+  let service: UrlService;
   let serverConfig: ServerConfig;
   let routingConfigService: RoutingConfigService;
 
@@ -20,7 +20,7 @@ describe('UrlTranslationService', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UrlTranslationService,
+        UrlService,
         UrlParsingService,
         {
           provide: RoutingConfigService,
@@ -30,7 +30,7 @@ describe('UrlTranslationService', () => {
       ],
     });
 
-    service = TestBed.get(UrlTranslationService);
+    service = TestBed.get(UrlService);
     serverConfig = TestBed.get(ServerConfig);
     routingConfigService = TestBed.get(RoutingConfigService);
   });

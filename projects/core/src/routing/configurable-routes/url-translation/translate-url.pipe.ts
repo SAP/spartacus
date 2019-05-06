@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { UrlTranslationService } from './url-translation.service';
+import { UrlService } from './url-translation.service';
 import {
   TranslateUrlCommands,
   TranslateUrlOptions,
@@ -9,7 +9,7 @@ import {
   name: 'cxTranslateUrl',
 })
 export class UrlPipe implements PipeTransform {
-  constructor(private urlTranslator: UrlTranslationService) {}
+  constructor(private urlTranslator: UrlService) {}
 
   transform(
     commands: TranslateUrlCommands,

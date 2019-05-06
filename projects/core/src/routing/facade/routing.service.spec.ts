@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 import { PageType } from '../../occ';
 import { PageContext } from '../models/page-context.model';
-import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { UrlService } from '../configurable-routes/url-translation/url-translation.service';
 import { RouterState } from '../store/reducers/router.reducer';
 
 import { RoutingService } from './routing.service';
@@ -17,20 +17,20 @@ import createSpy = jasmine.createSpy;
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
-  let urlTranslator: UrlTranslationService;
+  let urlTranslator: UrlService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: UrlTranslationService, useValue: { translate: () => {} } },
+        { provide: UrlService, useValue: { translate: () => {} } },
       ],
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(RoutingService);
-    urlTranslator = TestBed.get(UrlTranslationService);
+    urlTranslator = TestBed.get(UrlService);
     spyOn(store, 'dispatch');
   });
 

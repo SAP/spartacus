@@ -276,7 +276,7 @@ routingService.go({ route: 'product', params: { productCode: 1234 } });
 
 ### Simply translation of the path
 
-The `UrlTranslationService.translate` method called with `{ route: <route> }` returns the translated path (just like `cxTranslateUrl` pipe in HTML templates). For example:
+The `UrlService.translate` method called with `{ route: <route> }` returns the translated path (just like `cxTranslateUrl` pipe in HTML templates). For example:
 
 When config is:
 
