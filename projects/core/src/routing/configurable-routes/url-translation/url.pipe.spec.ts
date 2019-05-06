@@ -10,7 +10,7 @@ describe('UrlPipe', () => {
     TestBed.configureTestingModule({
       providers: [
         UrlPipe,
-        { provide: UrlService, useValue: { translate: () => {} } },
+        { provide: UrlService, useValue: { generateUrl: () => {} } },
       ],
     });
     pipe = TestBed.get(UrlPipe);
