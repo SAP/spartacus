@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
-import { Router, Route } from '@angular/router';
+import { Route, Router } from '@angular/router';
+import { PageLayoutComponent } from '../../cms-structure/page/index';
 import { CmsPageGuard } from '../cms/guards/cms-page.guard';
-import { PageLayoutComponent } from '../cms/page-layout/page-layout.component';
 
 const cmsRoute: Route = {
   path: '**',

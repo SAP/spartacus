@@ -1,20 +1,19 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
-import { tap, switchMap, map } from 'rxjs/operators';
-
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  CheckoutService,
   Address,
   CartService,
-  UserService,
-  UIOrderEntry,
-  UICart,
-  DeliveryMode,
+  CheckoutService,
   Country,
+  DeliveryMode,
   PaymentDetails,
+  UICart,
+  UIOrderEntry,
+  UserService,
   TranslationService,
 } from '@spartacus/core';
-import { Card } from '../../../../ui/components/card/card.component';
+import { Observable, combineLatest } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { Card } from '../../../../../shared/components/card/card.component';
 
 @Component({
   selector: 'cx-review-submit',

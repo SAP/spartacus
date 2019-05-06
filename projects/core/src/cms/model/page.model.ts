@@ -1,6 +1,5 @@
-import { ContentSlotData } from './content-slot-data.model';
-
 import { CmsComponent } from '../../occ/occ-models/index';
+import { ContentSlotData } from './content-slot-data.model';
 
 export interface Page {
   pageId?: string;
@@ -53,6 +52,11 @@ export interface PageMeta {
    * image that can be added to the og:image metatag
    */
   image?: string;
+
+  /**
+   * the list of breadcrumbs that can be rendered in the page UI.
+   */
+  breadcrumbs?: any[];
 }
 
 export enum PageRobotsMeta {

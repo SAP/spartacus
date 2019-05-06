@@ -1,24 +1,23 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
-import { Observable, BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import {
-  RoutingService,
   Address,
   CartDataService,
-  UserService,
-  CheckoutService,
   CartService,
+  CheckoutService,
+  RoutingService,
+  UserService,
   TranslationService,
 } from '@spartacus/core';
-import { Card } from '../../../../ui/components/card/card.component';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Card } from '../../../../../shared/components/card/card.component';
 
 export interface CardWithAddress {
   card: Card;

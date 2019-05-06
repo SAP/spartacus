@@ -1,29 +1,26 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
-  Output,
+  Component,
   EventEmitter,
   OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
-
 import {
-  PaymentDetails,
   Address,
+  CartDataService,
   CheckoutService,
   GlobalMessageService,
   GlobalMessageType,
+  PaymentDetails,
+  UserService,
   TranslationService,
 } from '@spartacus/core';
-import { CartDataService } from '@spartacus/core';
-import { UserService } from '@spartacus/core';
-
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-
+import { Card } from '../../../../../shared/components/card/card.component';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
-import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-method',
@@ -68,10 +65,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         } else {
           Object.keys(paymentInfo).forEach(key => {
             if (key.startsWith('InvalidField')) {
-              this.globalMessageService.add({
-                type: GlobalMessageType.MSG_TYPE_ERROR,
-                text: 'InvalidField: ' + paymentInfo[key],
-              });
+              this.globalMessageService.add(
+                'InvalidField: ' + paymentInfo[key],
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
             }
           });
           this.checkoutService.clearCheckoutStep(3);

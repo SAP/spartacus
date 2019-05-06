@@ -1,22 +1,19 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-
 import {
-  Order,
-  CheckoutService,
   Address,
-  PaymentDetails,
+  CheckoutService,
   DeliveryMode,
+  Order,
+  PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-
 import { Observable, combineLatest } from 'rxjs';
-
-import { Card } from '../../../ui/components/card/card.component';
+import { Card } from '../../../../shared/components/card/card.component';
 import { map } from 'rxjs/operators';
 
 @Component({
