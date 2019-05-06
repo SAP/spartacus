@@ -7,6 +7,7 @@ import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { UICart } from '../../model/cart';
+import * as fromCheckoutActions from './../../../checkout/store/actions/checkout.action';
 
 @Injectable()
 export class CartEffects {
@@ -55,6 +56,7 @@ export class CartEffects {
     | fromActions.MergeCartSuccess
     | fromActions.CreateCartSuccess
     | fromActions.CreateCartFail
+    | fromCheckoutActions.LoadCheckoutDetails
   > = this.actions$.pipe(
     ofType(fromActions.CREATE_CART),
     map((action: fromActions.CreateCart) => action.payload),
@@ -67,6 +69,12 @@ export class CartEffects {
               return [
                 new fromActions.CreateCartSuccess(cart),
                 new fromActions.MergeCartSuccess(),
+                new fromCheckoutActions.LoadCheckoutDetails({
+                  userId: payload.userId,
+                  cartId: payload.toMergeCartGuid
+                    ? payload.toMergeCartGuid
+                    : 'current',
+                }),
               ];
             }
             return [new fromActions.CreateCartSuccess(cart)];
