@@ -1,33 +1,29 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
   OnInit,
   Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  OnDestroy,
-  Input,
 } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {
-  CheckoutService,
-  CardType,
   Address,
+  AddressValidation,
+  CardType,
+  CheckoutService,
   Country,
-  UserService,
   GlobalMessageService,
   GlobalMessageType,
-  AddressValidation,
+  UserService,
 } from '@spartacus/core';
-
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
-import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Card } from '../../../../../../shared/components/card/card.component'; // tslint:disable-line
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
-import { Card } from '../../../../../ui/components/card/card.component'; // tslint:disable-line
+import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
 
 type monthType = { id: number; name: string };
 type yearType = { id: number; name: number };
