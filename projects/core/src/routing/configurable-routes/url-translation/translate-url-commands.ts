@@ -1,6 +1,6 @@
 export interface UrlCommandRoute {
   route?: string;
-  params?: object;
+  params?: { [param: string]: any };
 }
 
 export type UrlCommand = UrlCommandRoute | any;
