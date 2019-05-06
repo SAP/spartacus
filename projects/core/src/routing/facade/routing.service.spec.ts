@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 import { PageType } from '../../occ';
 import { PageContext } from '../models/page-context.model';
-import { UrlService } from '../configurable-routes/url-translation/url-translation.service';
+import { UrlService } from '../configurable-routes/url-translation/url.service';
 import { RouterState } from '../store/reducers/router.reducer';
 
 import { RoutingService } from './routing.service';

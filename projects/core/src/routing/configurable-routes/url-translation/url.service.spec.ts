@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlParsingService } from './url-parsing.service';
-import { UrlService } from './url-translation.service';
+import { UrlService } from './url.service';
 import { RouteConfig } from '../routes-config';
 import { UrlCommands } from './translate-url-commands';
 import { RoutingConfigService } from '../routing-config.service';

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UrlService } from './url-translation.service';
+import { UrlService } from './url.service';
 import { UrlPipe } from './url.pipe';
 
 describe('UrlPipe', () => {
