@@ -35,7 +35,7 @@ describe('UrlService', () => {
     routingConfigService = TestBed.get(RoutingConfigService);
   });
 
-  describe('translate', () => {
+  describe('generateUrl', () => {
     describe(`, when options contain 'route' property,`, () => {
       // tslint:disable-next-line:max-line-length
       it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
@@ -44,7 +44,7 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        service.translate({
+        service.generateUrl({
           route: 'test',
           params: { param2: 'value2' },
         });
@@ -58,7 +58,7 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        service.translate({
+        service.generateUrl({
           route: 'test',
           params: { param2: 'value2' },
         });
@@ -69,7 +69,7 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        const resultPath = service.translate({
+        const resultPath = service.generateUrl({
           route: 'test',
           params: { param1: 'value1' },
         });
@@ -80,7 +80,7 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        const resultPath = service.translate(
+        const resultPath = service.generateUrl(
           { route: 'test', params: { param1: 'value1' } },
           { relative: true }
         );
@@ -99,10 +99,12 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
           ...routesConfigs
         );
-        expect(service.translate(translateUrlOptions)).toEqual(expectedResult);
+        expect(service.generateUrl(translateUrlOptions)).toEqual(
+          expectedResult
+        );
       }
 
-      it(`should return the root path when translations for given route are undefined`, () => {
+      it(`should return the root path when route config for given route are undefined`, () => {
         test_translate({
           translateUrlOptions: { route: 'test' },
           routesConfigs: [undefined],
@@ -110,7 +112,7 @@ describe('UrlService', () => {
         });
       });
 
-      it(`should return the root path when translations for given route are null`, () => {
+      it(`should return the root path when route config for given route are null`, () => {
         test_translate({
           translateUrlOptions: { route: 'test' },
           routesConfigs: [null],
@@ -118,7 +120,7 @@ describe('UrlService', () => {
         });
       });
 
-      it(`should return the root path when translations paths for given route are undefined`, () => {
+      it(`should return the root path when configured paths for given route are undefined`, () => {
         test_translate({
           translateUrlOptions: { route: 'test' },
           routesConfigs: [{ paths: undefined }],
@@ -126,7 +128,7 @@ describe('UrlService', () => {
         });
       });
 
-      it(`should return the root path when translations paths for given route are null`, () => {
+      it(`should return the root path when configured paths for given route are null`, () => {
         test_translate({
           translateUrlOptions: { route: 'test' },
           routesConfigs: [{ paths: null }],
@@ -134,7 +136,7 @@ describe('UrlService', () => {
         });
       });
 
-      it(`should return the root path when translations paths for given route are empty array`, () => {
+      it(`should return the root path when configured paths for given route are empty array`, () => {
         test_translate({
           translateUrlOptions: { route: 'test' },
           routesConfigs: [{ paths: [] }],
@@ -142,7 +144,7 @@ describe('UrlService', () => {
         });
       });
 
-      it(`should return the root path when no path from translations can satisfy its params with given params`, () => {
+      it(`should return the root path when no path from routes config can satisfy its params with given params`, () => {
         test_translate({
           translateUrlOptions: {
             route: 'test',
@@ -305,7 +307,7 @@ describe('UrlService', () => {
         });
       });
 
-      it(`should return the root path when translations paths for one of given routes is null`, () => {
+      it(`should return the root path when configured paths for one of given routes is null`, () => {
         test_translate({
           translateUrlOptions: [{ route: 'test1' }, { route: 'tes2' }],
           routesConfigs: [{ paths: ['path1'] }, { paths: null }],
@@ -348,7 +350,7 @@ describe('UrlService', () => {
         });
       });
 
-      it(`should return the root path when there are no translations for given nested routes`, () => {
+      it(`should return the root path when there are no paths configured for given nested routes`, () => {
         test_translate({
           translateUrlOptions: [{ route: 'test1' }, { route: 'test2' }],
           routesConfigs: [null, null],

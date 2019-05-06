@@ -24,7 +24,7 @@ describe('RoutingService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: UrlService, useValue: { translate: () => {} } },
+        { provide: UrlService, useValue: { generateUrl: () => {} } },
       ],
     });
 
@@ -39,24 +39,24 @@ describe('RoutingService', () => {
   });
 
   describe('go', () => {
-    it('should dispatch navigation action with translated path', () => {
-      spyOn(urlService, 'translate').and.returnValue(['translated', 'path']);
+    it('should dispatch navigation action with generated path', () => {
+      spyOn(urlService, 'generateUrl').and.returnValue(['generated', 'path']);
       service.go([]);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
-          path: ['translated', 'path'],
+          path: ['generated', 'path'],
           query: undefined,
           extras: undefined,
         })
       );
     });
 
-    it('should call url translator service with given array of commands and true "relative" option', () => {
-      spyOn(urlService, 'translate');
+    it('should call url service service with given array of commands and true "relative" option', () => {
+      spyOn(urlService, 'generateUrl');
       const commands = ['test1'];
       service.go({ route: 'testRoute' });
       service.go(commands);
-      expect(urlService.translate).toHaveBeenCalledWith(commands, {
+      expect(urlService.generateUrl).toHaveBeenCalledWith(commands, {
         relative: true,
       });
     });
@@ -81,7 +81,7 @@ describe('RoutingService', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
-      spyOn(urlService, 'translate').and.callFake(x => x);
+      spyOn(urlService, 'generateUrl').and.callFake(x => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({

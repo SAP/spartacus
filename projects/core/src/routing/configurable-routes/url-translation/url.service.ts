@@ -20,7 +20,10 @@ export class UrlService {
     private config: ServerConfig
   ) {}
 
-  translate(commands: UrlCommands, options: UrlGenerationOptions = {}): any[] {
+  generateUrl(
+    commands: UrlCommands,
+    options: UrlGenerationOptions = {}
+  ): any[] {
     if (!Array.isArray(commands)) {
       commands = [commands];
     }
@@ -32,7 +35,7 @@ export class UrlService {
         result.push(command);
       } else {
         // generate array with url segments for given options object:
-        const partialResult = this.generateUrl(command);
+        const partialResult = this.generateUrlPart(command);
 
         if (partialResult === null) {
           return this.ROOT_URL;
@@ -49,7 +52,7 @@ export class UrlService {
     return result;
   }
 
-  private generateUrl(command: UrlCommandRoute): string[] | null {
+  private generateUrlPart(command: UrlCommandRoute): string[] | null {
     this.standarizeRouteCommand(command);
 
     if (!command.route) {

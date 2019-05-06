@@ -9,6 +9,6 @@ export class UrlPipe implements PipeTransform {
   constructor(private urlService: UrlService) {}
 
   transform(commands: UrlCommands, options: UrlGenerationOptions = {}): any[] {
-    return this.urlService.translate(commands, options);
+    return this.urlService.generateUrl(commands, options);
   }
 }

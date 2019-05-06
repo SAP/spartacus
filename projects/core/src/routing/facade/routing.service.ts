@@ -57,7 +57,7 @@ export class RoutingService {
    * @param extras: Represents the extra options used during navigation.
    */
   go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
-    const path = this.urlService.translate(commands, { relative: true });
+    const path = this.urlService.generateUrl(commands, { relative: true });
 
     return this.navigate(path, query, extras);
   }
