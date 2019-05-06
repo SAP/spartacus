@@ -29,10 +29,10 @@ export class BadRequestHandler extends HttpErrorHandler {
     } else if (response.error.errors[0].type === 'PasswordMismatchError') {
       // uses en translation error message instead of backend exception error
       // @todo: this condition could be removed if backend gives better message
-      this.globalMessageService.add({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'Old password incorrect.',
-      });
+      this.globalMessageService.add(
+        'Old password incorrect.',
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
       // text: customError.customError.passwordMismatch,
     } else {
       // this is currently showing up in case we have a page not found. It should be a 404.
