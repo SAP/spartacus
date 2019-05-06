@@ -12,6 +12,7 @@ import { CloseAccountComponent } from './components/close-account/close-account.
 import { RouterModule } from '@angular/router';
 import { CloseAccountModalComponent } from './components/close-account-modal/close-account-modal.component';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
+import { IconModule } from '../../../cms-components/misc/icon/index';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
     RouterModule,
     UrlTranslationModule,
     I18nModule,
+    IconModule,
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {

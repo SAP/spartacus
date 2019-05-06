@@ -19,6 +19,7 @@ import {
 
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { ICON_TYPES } from '../../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-close-account-modal',
@@ -27,6 +28,8 @@ import { first } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseAccountModalComponent implements OnInit, OnDestroy {
+  iconTypes = ICON_TYPES;
+
   private subscription = new Subscription();
   userToken$: Observable<UserToken>;
   isLoading$: Observable<boolean>;
