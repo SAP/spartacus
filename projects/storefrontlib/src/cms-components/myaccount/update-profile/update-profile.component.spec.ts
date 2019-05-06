@@ -189,10 +189,10 @@ describe('UpdateProfileComponent', () => {
         spyOn(routingService, 'go').and.stub();
 
         component.onSuccess(true);
-        expect(globalMessageService.add).toHaveBeenCalledWith({
-          text: 'Personal details successfully updated',
-          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        });
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          'Personal details successfully updated',
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
         expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
       });
     });
