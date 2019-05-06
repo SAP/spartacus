@@ -6,9 +6,9 @@ import { UrlCommands, UrlGenerationOptions } from './url-command';
   name: 'cxUrl',
 })
 export class UrlPipe implements PipeTransform {
-  constructor(private urlTranslator: UrlService) {}
+  constructor(private urlService: UrlService) {}
 
   transform(commands: UrlCommands, options: UrlGenerationOptions = {}): any[] {
-    return this.urlTranslator.translate(commands, options);
+    return this.urlService.translate(commands, options);
   }
 }

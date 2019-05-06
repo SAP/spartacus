@@ -33,7 +33,7 @@ Configured router links can be automatically generated in HTML templates using `
 
 ## Prerequisites
 
-Import `UrlTranslatorModule` in every module that uses configurable router links.
+Import `UrlModule` in every module that uses configurable router links.
 
 ## Router links
 
@@ -291,7 +291,7 @@ ConfigModule.withConfig({
 ```
 
 ```typescript
-urlTranslatorService.translate({ route: 'product', params: { productCode: 1234 } });
+urlService.translate({ route: 'product', params: { productCode: 1234 } });
 
 // ['', 'p', 1234]
 ```

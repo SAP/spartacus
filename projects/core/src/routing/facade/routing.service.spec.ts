@@ -17,7 +17,7 @@ import createSpy = jasmine.createSpy;
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
-  let urlTranslator: UrlService;
+  let urlService: UrlService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('RoutingService', () => {
 
     store = TestBed.get(Store);
     service = TestBed.get(RoutingService);
-    urlTranslator = TestBed.get(UrlService);
+    urlService = TestBed.get(UrlService);
     spyOn(store, 'dispatch');
   });
 
@@ -40,7 +40,7 @@ describe('RoutingService', () => {
 
   describe('go', () => {
     it('should dispatch navigation action with translated path', () => {
-      spyOn(urlTranslator, 'translate').and.returnValue(['translated', 'path']);
+      spyOn(urlService, 'translate').and.returnValue(['translated', 'path']);
       service.go([]);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
@@ -52,11 +52,11 @@ describe('RoutingService', () => {
     });
 
     it('should call url translator service with given array of commands and true "relative" option', () => {
-      spyOn(urlTranslator, 'translate');
+      spyOn(urlService, 'translate');
       const commands = ['test1'];
       service.go({ route: 'testRoute' });
       service.go(commands);
-      expect(urlTranslator.translate).toHaveBeenCalledWith(commands, {
+      expect(urlService.translate).toHaveBeenCalledWith(commands, {
         relative: true,
       });
     });
@@ -81,7 +81,7 @@ describe('RoutingService', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
-      spyOn(urlTranslator, 'translate').and.callFake(x => x);
+      spyOn(urlService, 'translate').and.callFake(x => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
