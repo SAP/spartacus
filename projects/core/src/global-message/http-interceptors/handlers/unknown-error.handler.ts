@@ -9,10 +9,10 @@ import { HttpErrorHandler } from './http-error.handler';
 export class UnknownErrorHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.UNKNOWN;
 
-  handleError(): void {
-    this.globalMessageService.add({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'An unknown error occured',
-    });
+  handleError() {
+    this.globalMessageService.add(
+      'An unknown error occured',
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 }

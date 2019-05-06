@@ -9,10 +9,10 @@ import { HttpErrorHandler } from './http-error.handler';
 export class GatewayTimeoutHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.GATEWAY_TIMEOUT;
 
-  handleError(): void {
-    this.globalMessageService.add({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'The server did not responded, please try again later.',
-    });
+  handleError() {
+    this.globalMessageService.add(
+      'The server did not responded, please try again later.',
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 }
