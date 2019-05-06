@@ -26,7 +26,6 @@ export class MockAddToCartComponent {
 export class MockStarRatingComponent {
   @Input() rating;
   @Input() disabled;
-  @Input() steps;
 }
 
 @Component({
