@@ -76,7 +76,7 @@
         <span class="label-content">{{
           'productReview.rating' | cxTranslate
         }}</span>
-        <cx-star-rating formControlName="rating" [steps]="0.5"></cx-star-rating>
+        <cx-star-rating (change)="setRating($event)"></cx-star-rating>
       </label>
     </div>
     <div class="form-group">
