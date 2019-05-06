@@ -214,6 +214,20 @@ export class CheckoutEffects {
     })
   );
 
+  @Effect()
+  reloadDetailsOnCreateCart$: Observable<
+    fromActions.LoadCheckoutDetails
+  > = this.actions$.pipe(
+    ofType(fromCartActions.CREATE_CART_SUCCESS),
+    map((action: fromCartActions.CreateCartSuccess) => action.payload),
+    map(payload => {
+      return new fromActions.LoadCheckoutDetails({
+        userId: payload.userId,
+        cartId: payload.toMergeCartGuid ? payload.toMergeCartGuid : 'current',
+      });
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private cartDeliveryConnector: CartDeliveryConnector,
