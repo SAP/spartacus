@@ -7,10 +7,7 @@
 
 While the [router configuration](./routes-configuration.md) allows the application to listen to different routes, the links to those routes must take the route configuration into account as well.
 
-Configured router links can be automatically generated in HTML templates using `cxTranslateUrl` pipe. It allows to:
-
-1. transform **the name of the route** and **the params object** into the configured path
-2. transform **the path having the default shape** into the configured path
+Configured router links can be automatically generated in HTML templates using `cxTranslateUrl` pipe. It allows to transform **the name of the route** and **the params object** into the configured path
 
 ## Table of contents <!-- omit in toc -->
 
@@ -24,7 +21,6 @@ Configured router links can be automatically generated in HTML templates using `
   - [Relative links up](#relative-links-up)
 - [Parameters mapping](#parameters-mapping)
   - [Predefined parameters mapping](#predefined-parameters-mapping)
-    - [Define parameters mapping under key: default](#define-parameters-mapping-under-key-default)
 - [Programmatic API](#programmatic-api)
   - [Navigation to the translated path](#navigation-to-the-translated-path)
   - [Simply translation of the path](#simply-translation-of-the-path)
@@ -57,11 +53,9 @@ when config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                cart: { paths: ['custom/cart-path'] }
-            }
+    routing: {
+        routes: {
+            cart: { paths: ['custom/cart-path'] }
         }
     }
 })
@@ -85,11 +79,9 @@ where config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                product: { paths: [':productCode/custom/product-path'] }
-            }
+    routing: {
+        routes: {
+            product: { paths: [':productCode/custom/product-path'] }
         }
     }
 })
@@ -128,18 +120,16 @@ then config should be:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                parent: { // route name
-                    paths: ['parent-path/:param1'],
-                },
-                child: { // route name
-                    paths: ['child-path/:param2'],
-                }
-                otherChild: { // route name
-                    paths: ['other-child-path'],
-                }
+    routing: {
+        routes: {
+            parent: { // route name
+                paths: ['parent-path/:param1'],
+            },
+            child: { // route name
+                paths: ['child-path/:param2'],
+            }
+            otherChild: { // route name
+                paths: ['other-child-path'],
             }
         }
     }
@@ -224,18 +214,12 @@ Then `paramsMapping` needs to be configured:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: {
-                    /* 'productCode' route parameter will be filled with value of 'id' property of 'params' object  */
-                    paramsMapping: { productCode: 'id' }
-                }
-            }
-            en: {
-                product: { 
-                    paths: [':productCode/custom/product-path']
-                },
+    routing: {
+        routes: {
+            product: {
+                /* 'productCode' route parameter will be filled with value of 'id' property of 'params' object  */
+                paramsMapping: { productCode: 'id' }
+                paths: [':productCode/custom/product-path']
             }
         }
     }
@@ -250,31 +234,21 @@ result:
 
 ### Predefined parameters mapping
 
-Some Storefront's routes already have predefined `paramsMapping`. They can be found in [`default-storefront-routes-translations.ts`](../config/default-storefront-routes-translations.ts).
+Some Storefront's routes already have predefined `paramsMapping`. They can be found in [`default-storefront-routes-config.ts`](../config/default-storefront-routes-config.ts).
 
 ```typescript
-// default-storefront-routes-translations.ts
+// default-storefront-routes-config.ts
 
-default: {
-    product: {
-      paramsMapping: { productCode: 'code' }
-      /* ... */
-    },
-    category: {
-      paramsMapping: { categoryCode: 'code' }
-      /* ... */
-    },
-    orderDetails: {
-      paramsMapping: { orderCode: 'code' }
-      /* ... */
-    },
+product: {
+    paramsMapping: { productCode: 'code' }
     /* ... */
-}
+},
+category: {
+    paramsMapping: { categoryCode: 'code' }
+    /* ... */
+},
+/* ... */
 ```
-
-#### Define parameters mapping under key: default
-
-Not to repeat `paramsMapping` for all languages, it's recommended to configure them under `default` key.
 
 ## Programmatic API
 
@@ -286,11 +260,9 @@ When config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { paths: ['p/:productCode'] }
-            }
+    routing: {
+        routes: {
+            product: { paths: ['p/:productCode'] }
         }
     }
 })
@@ -310,11 +282,9 @@ When config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { paths: ['p/:productCode'] }
-            }
+    routing: {
+        routes: {
+            product: { paths: ['p/:productCode'] }
         }
     }
 })
