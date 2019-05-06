@@ -19,7 +19,7 @@ import { CartDataService } from '@spartacus/core';
 import { UserService } from '@spartacus/core';
 
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { tap, filter, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';

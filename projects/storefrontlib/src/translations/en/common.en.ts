@@ -21,4 +21,8 @@ export const common = {
   searchBox: {
     searchHere: 'Search here...',
   },
+  sorting: {
+    byDate: 'Date',
+    byOrderNumber: 'Order Number',
+  },
 };

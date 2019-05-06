@@ -63,37 +63,50 @@ export class ReviewSubmitComponent implements OnInit {
     );
   }
 
-  getShippingAddressCard(deliveryAddress: Address, countryName: string): Card {
-    if (!countryName) {
-      countryName = deliveryAddress.country.isocode;
-    }
+  getShippingAddressCard(
+    deliveryAddress: Address,
+    countryName: string
+  ): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('addressCard.shipTo'),
+    ]).pipe(
+      map(([textTitle]) => {
+        if (!countryName) {
+          countryName = deliveryAddress.country.isocode;
+        }
 
-    let region = '';
-    if (deliveryAddress.region && deliveryAddress.region.isocode) {
-      region = deliveryAddress.region.isocode + ', ';
-    }
+        let region = '';
+        if (deliveryAddress.region && deliveryAddress.region.isocode) {
+          region = deliveryAddress.region.isocode + ', ';
+        }
 
-    return {
-      title: 'Ship To',
-      textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-      text: [
-        deliveryAddress.line1,
-        deliveryAddress.line2,
-        deliveryAddress.town + ', ' + region + countryName,
-        deliveryAddress.postalCode,
-        deliveryAddress.phone,
-      ],
-    };
+        return {
+          title: textTitle,
+          textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+          text: [
+            deliveryAddress.line1,
+            deliveryAddress.line2,
+            deliveryAddress.town + ', ' + region + countryName,
+            deliveryAddress.postalCode,
+            deliveryAddress.phone,
+          ],
+        };
+      })
+    );
   }
 
-  getDeliveryModeCard(deliveryMode: DeliveryMode): Card {
-    if (deliveryMode) {
-      return {
-        title: 'Shipping Method',
-        textBold: deliveryMode.name,
-        text: [deliveryMode.description],
-      };
-    }
+  getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutShipping.shippingMethod'),
+    ]).pipe(
+      map(([textTitle]) => {
+        return {
+          title: textTitle,
+          textBold: deliveryMode.name,
+          text: [deliveryMode.description],
+        };
+      })
+    );
   }
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {

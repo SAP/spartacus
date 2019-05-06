@@ -5,7 +5,7 @@
       class="cx-summary-card col-sm-12 col-md-4"
     >
       <cx-card
-        [content]="getAddressCardContent(order.deliveryAddress)"
+        [content]="getAddressCardContent(order.deliveryAddress) | async"
       ></cx-card>
     </div>
     <div
@@ -14,7 +14,7 @@
     >
       <cx-card
         [content]="
-          getBillingAddressCardContent(order.paymentInfo.billingAddress)
+          getBillingAddressCardContent(order.paymentInfo.billingAddress) | async
         "
       ></cx-card>
     </div>
@@ -25,7 +25,7 @@
     </div>
     <div *ngIf="order.deliveryMode" class="cx-summary-card col-sm-12 col-md-4">
       <cx-card
-        [content]="getShippingMethodCardContent(order.deliveryMode)"
+        [content]="getShippingMethodCardContent(order.deliveryMode) | async"
       ></cx-card>
     </div>
   </div>

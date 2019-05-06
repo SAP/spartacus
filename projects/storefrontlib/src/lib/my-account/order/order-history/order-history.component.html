@@ -15,7 +15,7 @@
           >
             <cx-sorting
               [sortOptions]="orders.sorts"
-              [sortLabels]="sortLabels"
+              [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
               placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
@@ -121,7 +121,7 @@
           >
             <cx-sorting
               [sortOptions]="orders.sorts"
-              [sortLabels]="sortLabels"
+              [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
               placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"

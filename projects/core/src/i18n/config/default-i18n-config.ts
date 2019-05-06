@@ -9,6 +9,7 @@ export const defaultI18nConfig: I18nConfig = {
       spinner: 'common',
       header: 'common',
       searchBox: 'common',
+      sorting: 'common',
 
       cartDetails: 'cart',
       cartItems: 'cart',

@@ -44,5 +44,7 @@ export const address = {
   addressCard: {
     default: 'DEFAULT',
     setAsDefault: 'Set as default',
+    shipTo: 'Ship to',
+    billTo: 'Bill to',
   },
 };
