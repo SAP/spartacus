@@ -9,9 +9,6 @@ export class ConsentManagementListComponent {
   @Input()
   consentTemplates: ConsentTemplate[];
 
-  @Input()
-  doneBtnLabel: string;
-
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
