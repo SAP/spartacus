@@ -1,4 +1,4 @@
-import { ConsentTemplateList } from 'projects/core/src/occ';
+import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
 import * as fromActions from '../actions/user-consents.action';
 
 export const initialState: ConsentTemplateList = {
