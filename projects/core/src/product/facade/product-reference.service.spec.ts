@@ -2,7 +2,6 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { Product } from '../../occ/occ-models';
 import { UIProductReferenceList } from '../model/product-reference-list';
 import * as fromStore from '../store';
 import { PRODUCT_FEATURE } from '../store/product-state';
@@ -11,7 +10,17 @@ import { ProductReferenceService } from './product-reference.service';
 describe('ReferenceService', () => {
   let service: ProductReferenceService;
   let store: Store<fromStore.ProductsState>;
-  const mockProduct: Product = { code: 'productCode' };
+  const productCode = 'productCode';
+  const product = {
+    code: productCode,
+    name: 'testProduct',
+  };
+  const productReferences: UIProductReferenceList = {
+    references: [
+      { referenceType: 'SIMILAR', target: product },
+      { referenceType: 'ACCESSORIES', target: product },
+    ],
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,13 +46,14 @@ describe('ReferenceService', () => {
   describe('get(productCode)', () => {
     it('should be able to get product references', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of([mockProduct])
+        of(productReferences)
       );
       let result: UIProductReferenceList;
-      service.get(mockProduct.code).subscribe(productReferences => {
-        result = productReferences;
+      service.get(productCode).subscribe(data => {
+        result = data;
       });
-      expect(result).toEqual([mockProduct]);
+
+      expect(result).toEqual(productReferences);
     });
 
     it('should be able to load product references', () => {
@@ -51,7 +61,7 @@ describe('ReferenceService', () => {
         of(undefined)
       );
       service
-        .get(mockProduct.code)
+        .get(productCode)
         .subscribe()
         .unsubscribe();
 
