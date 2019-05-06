@@ -39,13 +39,13 @@ export class TranslationChunkService {
     const dupes: string[] = [];
     Object.keys(items).forEach(key => {
       dupes.push(
-        `* '${key}' key occurrences: ${items[key].join(', ')}. '${
+        `* '${key}' found in chunks: ${items[key].join(', ')}. Used '${
           this.chunks[key]
-        }.${key}' has been used.`
+        }.${key}'.`
       );
     });
     console.warn(
-      `Duplicated keys has been found in the 'defaultI18nConfig.i18n.chunks':\n${dupes.join(
+      `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
         '\n'
       )}`
     );
