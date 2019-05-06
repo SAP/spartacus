@@ -6,7 +6,7 @@ import { getParamName, isParam } from './path-utils';
 import {
   UrlCommandRoute,
   UrlCommands,
-  TranslateUrlOptions,
+  UrlGenerationOptions,
 } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
 
@@ -20,7 +20,7 @@ export class UrlService {
     private config: ServerConfig
   ) {}
 
-  translate(commands: UrlCommands, options: TranslateUrlOptions = {}): any[] {
+  translate(commands: UrlCommands, options: UrlGenerationOptions = {}): any[] {
     if (!Array.isArray(commands)) {
       commands = [commands];
     }
