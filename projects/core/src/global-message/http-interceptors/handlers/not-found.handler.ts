@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorHandler } from './http-error.handler';
-import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
+import { HttpErrorHandler } from './http-error.handler';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +8,6 @@ import { HttpResponseStatus } from '../../models/response-status.model';
 export class NotFoundHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.NOT_FOUND;
 
-  handleError() {
-    this.globalMessageService.add(
-      'The requested resource could not be found',
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  }
+  // empty error handler to avoid we fallabck to the unknown error handler
+  handleError(): void {}
 }
