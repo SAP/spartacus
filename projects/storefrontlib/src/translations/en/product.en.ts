@@ -49,6 +49,8 @@ export const product = {
   },
   addToCart: {
     itemsAddedToYourCart: 'Item(s) added to your cart',
+    itemsIncrementedInYourCart:
+      'This item was already in your cart. The quantity was updated.',
     items: 'items',
     updatingCart: 'Updating cart...',
     addToCart: 'Add to cart',

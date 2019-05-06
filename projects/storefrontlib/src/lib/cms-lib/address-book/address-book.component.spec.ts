@@ -86,6 +86,9 @@ class MockAddressFormComponent {
   @Input()
   showTitleCode: boolean;
 
+  @Input()
+  showCancelBtn: boolean;
+
   @Output()
   submitAddress = new EventEmitter<any>();
 
