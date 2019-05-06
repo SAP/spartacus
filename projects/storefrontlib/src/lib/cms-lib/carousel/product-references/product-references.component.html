@@ -1,3 +1,5 @@
+<!-- TODO: need to talk to stan for single references or mixed -->
+
 <!-- <ng-container
   *ngIf="(productReferencesService.getReferenceList() | async) as productList"
 >
@@ -128,6 +130,9 @@
       <button
         class="next"
         (click)="sharedCarouselService.setNextItemAsActive()"
+        [disabled]="
+          carousel.activeItem > carousel.products.length - carousel.maxItemSize
+        "
       ></button>
     </div>
     <div class="indicators">
