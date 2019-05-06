@@ -1,0 +1,15 @@
+@import '../../../../theme';
+
+%cx-shipping-address {
+  @include checkout-media-style();
+
+  .cx-shipping-address-card {
+    padding-bottom: var(--cx-padding, 30px);
+
+    .cx-shipping-address-card-inner {
+      height: var(--cx-height, 100%);
+      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+      cursor: pointer;
+    }
+  }
+}
