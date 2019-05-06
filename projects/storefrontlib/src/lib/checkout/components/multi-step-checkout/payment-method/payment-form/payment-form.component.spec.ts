@@ -137,6 +137,7 @@ describe('PaymentFormComponent', () => {
         PaymentFormComponent,
         MockCardComponent,
         MockBillingAddressFormComponent,
+        MockCxIconComponent,
       ],
       providers: [
         { provide: CheckoutService, useValue: mockCheckoutService },
