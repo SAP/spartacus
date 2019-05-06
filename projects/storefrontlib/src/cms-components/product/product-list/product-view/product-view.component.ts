@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   EventEmitter,
 } from '@angular/core';
-import { ICON_TYPES } from '../../../../../cms-components';
+import { ICON_TYPES } from '../../../misc/icon';
 
 export enum ViewModes {
   Grid = 'grid',
