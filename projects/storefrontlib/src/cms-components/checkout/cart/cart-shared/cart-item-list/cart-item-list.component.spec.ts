@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService, I18nTestingModule } from '@spartacus/core';
 import { PromotionsModule } from '../../../../../lib/checkout/components/promotions/promotions.module';
-import { ComponentsModule } from '../../../../../lib/ui/components/components.module';
 import { CartItemListComponent } from './cart-item-list.component';
 
 class MockCartService {
@@ -63,7 +62,6 @@ describe('CartItemListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ComponentsModule,
         ReactiveFormsModule,
         RouterTestingModule,
         PromotionsModule,
