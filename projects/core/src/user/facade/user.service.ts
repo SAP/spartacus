@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import {
   Address,
@@ -618,21 +618,6 @@ export class UserService {
     this.store.dispatch(
       new fromStore.WithdrawUserConsent({ userId, consentCode })
     );
-
-    // TODO:#1184 - trigger consent loading here?
-    this.withdrawConsentResultLoading()
-      .pipe(
-        filter(loading => !loading),
-        withLatestFrom(this.withdrawConsentResultSuccess()),
-        map(([_loading, withdrawalSuccess]) => withdrawalSuccess),
-        tap(withdrawalSuccess => {
-          if (withdrawalSuccess) {
-            this.loadConsents(userId);
-          }
-        }),
-        take(1)
-      )
-      .subscribe();
   }
 
   withdrawConsentResultLoading(): Observable<boolean> {
