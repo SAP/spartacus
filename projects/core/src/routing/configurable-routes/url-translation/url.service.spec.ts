@@ -2,17 +2,17 @@ import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlParsingService } from './url-parsing.service';
-import { UrlTranslationService } from './url-translation.service';
+import { UrlService } from './url.service';
 import { RouteConfig } from '../routes-config';
-import { TranslateUrlCommands } from './translate-url-commands';
+import { UrlCommands } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
 
 const mockRoutingConfigService = {
   getRouteConfig: () => {},
 };
 
-describe('UrlTranslationService', () => {
-  let service: UrlTranslationService;
+describe('UrlService', () => {
+  let service: UrlService;
   let serverConfig: ServerConfig;
   let routingConfigService: RoutingConfigService;
 
@@ -20,7 +20,7 @@ describe('UrlTranslationService', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UrlTranslationService,
+        UrlService,
         UrlParsingService,
         {
           provide: RoutingConfigService,
@@ -30,13 +30,13 @@ describe('UrlTranslationService', () => {
       ],
     });
 
-    service = TestBed.get(UrlTranslationService);
+    service = TestBed.get(UrlService);
     serverConfig = TestBed.get(ServerConfig);
     routingConfigService = TestBed.get(RoutingConfigService);
   });
 
-  describe('translate', () => {
-    describe(`, when options contain 'route' property,`, () => {
+  describe('generateUrl', () => {
+    describe(`, when commands contain 'route' property,`, () => {
       // tslint:disable-next-line:max-line-length
       it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
         serverConfig.production = false;
@@ -44,7 +44,7 @@ describe('UrlTranslationService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        service.translate({
+        service.generateUrl({
           route: 'test',
           params: { param2: 'value2' },
         });
@@ -58,7 +58,7 @@ describe('UrlTranslationService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        service.translate({
+        service.generateUrl({
           route: 'test',
           params: { param2: 'value2' },
         });
@@ -69,7 +69,7 @@ describe('UrlTranslationService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        const resultPath = service.translate({
+        const resultPath = service.generateUrl({
           route: 'test',
           params: { param1: 'value1' },
         });
@@ -80,71 +80,71 @@ describe('UrlTranslationService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        const resultPath = service.translate(
+        const resultPath = service.generateUrl(
           { route: 'test', params: { param1: 'value1' } },
           { relative: true }
         );
         expect(resultPath[0]).not.toEqual('');
       });
 
-      function test_translate({
-        translateUrlOptions,
+      function test_generateUrl({
+        urlCommands,
         routesConfigs,
         expectedResult,
       }: {
-        translateUrlOptions: TranslateUrlCommands;
+        urlCommands: UrlCommands;
         routesConfigs: RouteConfig[];
         expectedResult: any[];
       }) {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
           ...routesConfigs
         );
-        expect(service.translate(translateUrlOptions)).toEqual(expectedResult);
+        expect(service.generateUrl(urlCommands)).toEqual(expectedResult);
       }
 
-      it(`should return the root path when translations for given route are undefined`, () => {
-        test_translate({
-          translateUrlOptions: { route: 'test' },
+      it(`should return the root path when route config for given route are undefined`, () => {
+        test_generateUrl({
+          urlCommands: { route: 'test' },
           routesConfigs: [undefined],
           expectedResult: ['/'],
         });
       });
 
-      it(`should return the root path when translations for given route are null`, () => {
-        test_translate({
-          translateUrlOptions: { route: 'test' },
+      it(`should return the root path when route config for given route are null`, () => {
+        test_generateUrl({
+          urlCommands: { route: 'test' },
           routesConfigs: [null],
           expectedResult: ['/'],
         });
       });
 
-      it(`should return the root path when translations paths for given route are undefined`, () => {
-        test_translate({
-          translateUrlOptions: { route: 'test' },
+      it(`should return the root path when configured paths for given route are undefined`, () => {
+        test_generateUrl({
+          urlCommands: { route: 'test' },
           routesConfigs: [{ paths: undefined }],
           expectedResult: ['/'],
         });
       });
 
-      it(`should return the root path when translations paths for given route are null`, () => {
-        test_translate({
-          translateUrlOptions: { route: 'test' },
+      it(`should return the root path when configured paths for given route are null`, () => {
+        test_generateUrl({
+          urlCommands: { route: 'test' },
           routesConfigs: [{ paths: null }],
           expectedResult: ['/'],
         });
       });
 
-      it(`should return the root path when translations paths for given route are empty array`, () => {
-        test_translate({
-          translateUrlOptions: { route: 'test' },
+      it(`should return the root path when configured paths for given route are empty array`, () => {
+        test_generateUrl({
+          urlCommands: { route: 'test' },
           routesConfigs: [{ paths: [] }],
           expectedResult: ['/'],
         });
       });
 
-      it(`should return the root path when no path from translations can satisfy its params with given params`, () => {
-        test_translate({
-          translateUrlOptions: {
+      it(`should return the root path when no path from routes config can satisfy its params with given params`, () => {
+        test_generateUrl({
+          urlCommands: {
             route: 'test',
             params: { param3: 'value3' },
           },
@@ -155,8 +155,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should return first path without params when no params given`, () => {
-        test_translate({
-          translateUrlOptions: { route: 'test' },
+        test_generateUrl({
+          urlCommands: { route: 'test' },
           routesConfigs: [
             {
               paths: ['path/:param1', 'path/without-parameters'],
@@ -168,8 +168,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should return first path without params when given params are not sufficient`, () => {
-        test_translate({
-          translateUrlOptions: {
+        test_generateUrl({
+          urlCommands: {
             route: 'test',
             params: { param2: 'value2' },
           },
@@ -184,8 +184,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should return first path that can be satisfied with given params (case 1)`, () => {
-        test_translate({
-          translateUrlOptions: {
+        test_generateUrl({
+          urlCommands: {
             route: 'test',
             params: { param1: 'value1' },
           },
@@ -196,8 +196,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should return first path that can be satisfied with given params (case 2)`, () => {
-        test_translate({
-          translateUrlOptions: {
+        test_generateUrl({
+          urlCommands: {
             route: 'test',
             params: { param2: 'value2' },
           },
@@ -212,8 +212,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should return first path that can be satisfied with given params (case 3)`, () => {
-        test_translate({
-          translateUrlOptions: {
+        test_generateUrl({
+          urlCommands: {
             route: 'test',
             params: {
               param2: 'value2',
@@ -237,8 +237,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should return first path that can be satisfied with given params  (case 4)`, () => {
-        test_translate({
-          translateUrlOptions: {
+        test_generateUrl({
+          urlCommands: {
             route: 'test',
             params: {
               param2: 'value2',
@@ -263,8 +263,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should use given params mapping (case 1)`, () => {
-        test_translate({
-          translateUrlOptions: {
+        test_generateUrl({
+          urlCommands: {
             route: 'test',
             params: { param1: 'value1' },
           },
@@ -280,8 +280,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should use given params mapping (case 2)`, () => {
-        test_translate({
-          translateUrlOptions: {
+        test_generateUrl({
+          urlCommands: {
             route: 'test',
             params: {
               param2: 'value2',
@@ -305,25 +305,25 @@ describe('UrlTranslationService', () => {
         });
       });
 
-      it(`should return the root path when translations paths for one of given routes is null`, () => {
-        test_translate({
-          translateUrlOptions: [{ route: 'test1' }, { route: 'tes2' }],
+      it(`should return the root path when configured paths for one of given routes is null`, () => {
+        test_generateUrl({
+          urlCommands: [{ route: 'test1' }, { route: 'tes2' }],
           routesConfigs: [{ paths: ['path1'] }, { paths: null }],
           expectedResult: ['/'],
         });
       });
 
       it(`should concatenate paths for two nested routes`, () => {
-        test_translate({
-          translateUrlOptions: [{ route: 'test1' }, { route: 'test2' }],
+        test_generateUrl({
+          urlCommands: [{ route: 'test1' }, { route: 'test2' }],
           routesConfigs: [{ paths: ['path1'] }, { paths: ['path2'] }],
           expectedResult: ['', 'path1', 'path2'],
         });
       });
 
       it(`should concatenate paths for two nested routes, using first configured path - separately for every route`, () => {
-        test_translate({
-          translateUrlOptions: [{ route: 'test1' }, { route: 'test2' }],
+        test_generateUrl({
+          urlCommands: [{ route: 'test1' }, { route: 'test2' }],
           routesConfigs: [
             { paths: ['path1', 'path10'] },
             { paths: ['path2', 'path20'] },
@@ -333,8 +333,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should concatenate paths for three nested routes`, () => {
-        test_translate({
-          translateUrlOptions: [
+        test_generateUrl({
+          urlCommands: [
             { route: 'test1' },
             { route: 'test2' },
             { route: 'test3' },
@@ -348,17 +348,17 @@ describe('UrlTranslationService', () => {
         });
       });
 
-      it(`should return the root path when there are no translations for given nested routes`, () => {
-        test_translate({
-          translateUrlOptions: [{ route: 'test1' }, { route: 'test2' }],
+      it(`should return the root path when there are no paths configured for given nested routes`, () => {
+        test_generateUrl({
+          urlCommands: [{ route: 'test1' }, { route: 'test2' }],
           routesConfigs: [null, null],
           expectedResult: ['/'],
         });
       });
 
       it(`should concatenate paths for nested routes, using given params for first route (case 1)`, () => {
-        test_translate({
-          translateUrlOptions: [
+        test_generateUrl({
+          urlCommands: [
             { route: 'test1', params: { param1: 'value1' } },
             { route: 'test2' },
           ],
@@ -368,8 +368,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should concatenate paths for nested routes, using given params for second route (case 2)`, () => {
-        test_translate({
-          translateUrlOptions: [
+        test_generateUrl({
+          urlCommands: [
             { route: 'test1' },
             { route: 'test2', params: { param2: 'value2' } },
           ],
@@ -379,8 +379,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should concatenate paths for nested routes, using given params for all routes`, () => {
-        test_translate({
-          translateUrlOptions: [
+        test_generateUrl({
+          urlCommands: [
             { route: 'test1', params: { param1: 'value1' } },
             { route: 'test2', params: { param2: 'value2' } },
           ],
@@ -393,8 +393,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should concatenate paths for nested routes using given params mapping`, () => {
-        test_translate({
-          translateUrlOptions: [
+        test_generateUrl({
+          urlCommands: [
             { route: 'test1', params: { param1: 'value1' } },
             { route: 'test2', params: { param2: 'value2' } },
           ],
@@ -410,8 +410,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should concatenate paths using params objects given in relevant order for every route`, () => {
-        test_translate({
-          translateUrlOptions: [
+        test_generateUrl({
+          urlCommands: [
             { route: 'test1', params: { param1: 'value1' } },
             { route: 'test2', params: { param1: 'value10' } },
           ],
@@ -424,8 +424,8 @@ describe('UrlTranslationService', () => {
       });
 
       it(`should concatenate paths using first path that can be satisfied with given params - separately every route`, () => {
-        test_translate({
-          translateUrlOptions: [
+        test_generateUrl({
+          urlCommands: [
             { route: 'test1', params: { param1: 'value1' } },
             { route: 'test2', params: { param3: 'value3' } },
           ],
@@ -437,9 +437,9 @@ describe('UrlTranslationService', () => {
         });
       });
 
-      it(`should return the root path when no translation path can satisfy its params with given params for some route`, () => {
-        test_translate({
-          translateUrlOptions: [
+      it(`should return the root path when no configured path can satisfy its params with given params for some route`, () => {
+        test_generateUrl({
+          urlCommands: [
             { route: 'test1', params: { param1: 'value1' } },
             { route: 'test2', params: { param3: 'value3' } },
           ],
@@ -451,9 +451,9 @@ describe('UrlTranslationService', () => {
         });
       });
 
-      it(`should NOT translate options that are are not object with "route" property`, () => {
-        test_translate({
-          translateUrlOptions: [
+      it(`should NOT modify commands that are are not object with "route" property`, () => {
+        test_generateUrl({
+          urlCommands: [
             111,
             { route: 'test2', params: { param2: 'value2' } },
             'testString3',

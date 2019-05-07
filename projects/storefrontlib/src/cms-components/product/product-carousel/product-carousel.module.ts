@@ -5,7 +5,7 @@ import {
   CmsConfig,
   ConfigModule,
   ProductService,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { MediaModule } from '../../../shared/components/media/media.module';
@@ -31,7 +31,7 @@ import { ProductCarouselService } from './product-carousel.component.service';
         },
       },
     }),
-    UrlTranslationModule,
+    UrlModule,
   ],
   declarations: [ProductCarouselComponent],
   entryComponents: [ProductCarouselComponent],
