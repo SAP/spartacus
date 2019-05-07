@@ -91,13 +91,13 @@
           <label>
             <span class="label-content">
               {{ 'paymentForm.securityCode' | cxTranslate }}
-              <img
+              <cx-icon
+                [type]="iconTypes.INFO"
                 class="cx-payment-form-tooltip"
-                [src]="infoIconImgSrc"
                 placement="right"
                 ngbTooltip="Card Verification Value"
                 alt=""
-              />
+              ></cx-icon>
             </span>
             <input
               type="text"
