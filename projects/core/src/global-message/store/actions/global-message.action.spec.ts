@@ -9,7 +9,7 @@ describe('Global Message Actions', () => {
     describe('AddMessage', () => {
       it('Should create the action', () => {
         const message: GlobalMessage = {
-          text: 'Test action',
+          text: { raw: 'Test action' },
           type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         };
 

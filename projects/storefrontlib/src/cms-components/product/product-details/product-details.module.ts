@@ -10,7 +10,6 @@ import {
   StarRatingModule,
 } from '../../../shared/index';
 import { AddToCartModule, CartSharedModule } from '../../checkout/index';
-// guards
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductImagesComponent } from './product-images/product-images.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
