@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { UIProductReferenceList } from '../model/product-reference-list';
+import { UIProductReference } from '../model/product-reference-list';
 import * as fromStore from '../store';
 import { PRODUCT_FEATURE } from '../store/product-state';
 import { ProductReferenceService } from './product-reference.service';
@@ -15,12 +15,10 @@ describe('ReferenceService', () => {
     code: productCode,
     name: 'testProduct',
   };
-  const productReferences: UIProductReferenceList = {
-    references: [
-      { referenceType: 'SIMILAR', target: product },
-      { referenceType: 'ACCESSORIES', target: product },
-    ],
-  };
+  const productReferences: UIProductReference[] = [
+    { referenceType: 'SIMILAR', target: product },
+    { referenceType: 'ACCESSORIES', target: product },
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,7 +46,7 @@ describe('ReferenceService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(productReferences)
       );
-      let result: UIProductReferenceList;
+      let result: UIProductReference[];
       service.get(productCode).subscribe(data => {
         result = data;
       });

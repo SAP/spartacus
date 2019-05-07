@@ -3,7 +3,7 @@ import {
   CmsProductReferencesComponent,
   ProductReferenceService,
   RoutingService,
-  UIProductReferenceList,
+  UIProductReference,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 @Injectable()
 export class ProductReferencesService {
   private title$: Observable<string>;
-  private items$: Observable<UIProductReferenceList>;
+  private items$: Observable<UIProductReference[]>;
 
   constructor(
     protected component: CmsComponentData<CmsProductReferencesComponent>,
@@ -58,19 +58,17 @@ export class ProductReferencesService {
       .pipe(map(data => data.state.params.productCode));
   }
 
-  getReferenceList(): Observable<UIProductReferenceList> {
+  getReferenceList(): Observable<UIProductReference[]> {
     return this.items$;
   }
 
   setReferenceList(pageSize?: number): void {
     this.items$ = this.getProductCode().pipe(
       switchMap((productCode: string) => {
-        return this.referenceService.get(productCode, 'ACCESSORIES', pageSize);
+        return this.referenceService.get(productCode, '', pageSize);
       })
     );
-
     //TODO: merge or combine 2 observables for monday
-
     // this.items$ = this.getReferenceType().pipe(
     //   switchMap((referenceType: string) => {
     //     console.log('what am i ', referenceType);
@@ -78,7 +76,7 @@ export class ProductReferencesService {
     //   })
     // );
     // this.items$ = combineLatest(
-    //   of(this.getProductCode),
+    //   this.getProductCode,
     //   this.getReferenceType
     // ).pipe(
     //   map(data => ({ productCode: data[0], referenceType: data[1] })),
@@ -91,11 +89,21 @@ export class ProductReferencesService {
     //     );
     //   })
     // );
-    // this.item$ = combineLatest(
+
+    // const combined$ = combineLatest(this.getProductCode, this.getReferenceType);
+
+    // this.items$ = combineLatest(
     //   this.getProductCode,
     //   this.getReferenceType
-    // ).switchMap(([pd, rt]) => {
-    //   return this.referenceService.get(pd, rt, pageSize).;
-    // });
+    // ).pipe(
+    //   map(data => ({ productCode: data[0], referenceType: data[1] })),
+    //   switchMap(result => {
+    //     return this.referenceService.get(
+    //       result.productCode,
+    //       result.referenceType,
+    //       pageSize
+    //     );
+    //   })
+    // );
   }
 }

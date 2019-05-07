@@ -4,7 +4,6 @@ export interface UIProductReference {
   description?: string;
   preselected?: boolean;
   quantity?: number;
-  // [referenceType: string]: ProductReference[];
   referenceType?: string;
   target?: UIProduct;
 }

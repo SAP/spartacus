@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { defaultOccProductConfig } from '../../config/product-config';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
-import { UIProductReferenceList } from '../../model/product-reference-list';
+import { UIProductReference } from '../../model/product-reference-list';
 import * as fromActions from '../actions/product-references.action';
 import * as fromEffects from '../effects/product-references.effect';
 
@@ -19,12 +19,10 @@ const product = {
   name: 'testProduct',
 };
 
-const list: UIProductReferenceList = {
-  references: [
-    { referenceType: 'SIMILAR', target: product },
-    { referenceType: 'ACCESSORIES', target: product },
-  ],
-};
+const list: UIProductReference[] = [
+  { referenceType: 'SIMILAR', target: product },
+  { referenceType: 'ACCESSORIES', target: product },
+];
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

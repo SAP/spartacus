@@ -6,7 +6,7 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../connectors/references/converters';
 import { ProductReferencesAdapter } from '../connectors/references/product-references.adapter';
-import { UIProductReferenceList } from '../model/product-reference-list';
+import { UIProductReference } from '../model/product-reference-list';
 
 @Injectable()
 export class OccProductReferencesAdapter implements ProductReferencesAdapter {
@@ -20,13 +20,10 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
     productCode: string,
     referenceType?: string,
     pageSize?: number
-  ): Observable<UIProductReferenceList> {
+  ): Observable<UIProductReference[]> {
     return this.http
       .get(this.getEndpoint(productCode, referenceType, pageSize))
-      .pipe(
-        // pluck('references'),
-        this.converter.pipeable(PRODUCT_REFERENCES_NORMALIZER)
-      );
+      .pipe(this.converter.pipeable(PRODUCT_REFERENCES_NORMALIZER));
   }
 
   protected getEndpoint(

@@ -40,7 +40,6 @@ import { OccProductAdapter } from './occ-product.adapter';
       provide: ProductReferencesAdapter,
       useClass: OccProductReferencesAdapter,
     },
-    // to be continued after hackathon
     {
       provide: PRODUCT_REFERENCES_NORMALIZER,
       useClass: OccProductReferencesListNormalizer,

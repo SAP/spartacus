@@ -12,7 +12,7 @@ import {
   CmsProductReferencesComponent,
   ProductReferenceService,
   RoutingService,
-  UIProductReferenceList,
+  UIProductReference,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -41,12 +41,10 @@ const product = {
   name: 'testProduct',
 };
 
-const list: UIProductReferenceList = {
-  references: [
-    { referenceType: 'SIMILAR', target: product },
-    { referenceType: 'ACCESSORIES', target: product },
-  ],
-};
+const list: UIProductReference[] = [
+  { referenceType: 'SIMILAR', target: product },
+  { referenceType: 'ACCESSORIES', target: product },
+];
 
 const mockComponentData: CmsProductReferencesComponent = {
   uid: '001',
@@ -77,7 +75,7 @@ class MockRoutingService {
 }
 
 class MockProductReferenceService {
-  get(): Observable<UIProductReferenceList> {
+  get(): Observable<UIProductReference[]> {
     return of(list);
   }
 }
@@ -164,7 +162,7 @@ describe('ProductReferencesComponent', () => {
   }));
 
   it('should have product list', async(() => {
-    let list$: UIProductReferenceList;
+    let list$: UIProductReference[];
     productReferencesComponent.productReferencesService.setReferenceList();
     productReferencesComponent.productReferencesService
       .getReferenceList()
