@@ -30,6 +30,7 @@
     "generate:docs": "npx compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:translations": "ts-node ./scripts/generate-translations",
     "lint": "ng lint",
+    "lint-fix": "ng lint --fix",
     "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/src/**/*.html",
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
     "ng": "ng",
