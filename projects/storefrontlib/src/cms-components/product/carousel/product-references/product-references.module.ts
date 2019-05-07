@@ -6,7 +6,7 @@ import {
   ConfigModule,
   ProductReferenceService,
   RoutingService,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { MediaModule } from '../../../../shared/components/media/media.module';
@@ -19,7 +19,7 @@ import { ProductReferencesService } from './product-references.component.service
     CommonModule,
     RouterModule,
     MediaModule,
-    UrlTranslationModule,
+    UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductReferencesComponent: {

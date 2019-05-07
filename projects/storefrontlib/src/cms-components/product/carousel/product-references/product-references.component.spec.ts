@@ -21,9 +21,9 @@ import { ProductReferencesComponent } from './product-references.component';
 import { ProductReferencesService } from './product-references.component.service';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -118,7 +118,7 @@ describe('ProductReferencesComponent', () => {
       declarations: [
         ProductReferencesComponent,
         MockMediaComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
       ],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },

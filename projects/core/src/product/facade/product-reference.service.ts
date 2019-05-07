@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UIProductReference } from '../model/product-reference-list';
-// import { ProductReference } from '../../occ/occ-models/occ.models';
 import * as fromStore from '../store/index';
 
 @Injectable()
@@ -28,7 +27,6 @@ export class ProductReferenceService {
           );
         }
       })
-      // filter(references => !!references)
     );
   }
 }
