@@ -6,6 +6,8 @@ export enum ICON_TYPES {
   CARET_DOWN = 'angle-down',
   INFO = 'info-circle',
   STAR = 'star',
+  EXCLAMATION = 'exclamation-circle',
+  CHECK_MARK = 'check-circle',
 }
 
 export abstract class IconConfig {
