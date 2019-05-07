@@ -37,9 +37,9 @@ const mockStoreFinderService = {
 };
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -59,7 +59,7 @@ describe('StoreFinderGridComponent', () => {
       declarations: [
         StoreFinderGridComponent,
         MockStoreFinderListItemComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
       ],
       providers: [
         { provide: StoreFinderService, useValue: mockStoreFinderService },

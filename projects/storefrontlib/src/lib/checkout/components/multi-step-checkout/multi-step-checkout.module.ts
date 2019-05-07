@@ -7,7 +7,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { CartSharedModule } from '../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
 import { MultiStepCheckoutComponent } from './container/multi-step-checkout.component';
@@ -27,7 +27,7 @@ import { PlaceOrderModule } from './place-order/place-order.module';
     ReviewSubmitModule,
     PlaceOrderModule,
     RouterModule,
-    UrlTranslationModule,
+    UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MultiStepCheckoutComponent: { selector: 'cx-multi-step-checkout' },

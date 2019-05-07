@@ -1,0 +1,10 @@
+@import './progress-bar';
+
+%cx-storefront {
+  &.start-navigating {
+    @extend %progress-bar, %progress-bar-loading !optional;
+  }
+  &.stop-navigating {
+    @extend %progress-bar, %progress-bar-loaded !optional;
+  }
+}
