@@ -5,7 +5,7 @@ import {
   RoutingService,
   UIProductReference,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
@@ -63,48 +63,18 @@ export class ProductReferencesService {
   }
 
   setReferenceList(pageSize?: number): void {
-    this.items$ = this.getProductCode().pipe(
-      switchMap((productCode: string) => {
-        return this.referenceService.get(productCode, '', pageSize);
+    this.items$ = combineLatest(
+      this.getProductCode(),
+      this.getReferenceType()
+    ).pipe(
+      map(data => ({ productCode: data[0], referenceType: data[1] })),
+      switchMap(data => {
+        return this.referenceService.get(
+          data.productCode,
+          data.referenceType,
+          pageSize
+        );
       })
     );
-
-    // TODO: merge or combine 2 observables for monday
-    // this.items$ = this.getReferenceType().pipe(
-    //   switchMap((referenceType: string) => {
-    //     console.log('what am i ', referenceType);
-    //     return this.referenceService.get('358639', referenceType, pageSize);
-    //   })
-    // );
-    // this.items$ = combineLatest(
-    //   this.getProductCode,
-    //   this.getReferenceType
-    // ).pipe(
-    //   map(data => ({ productCode: data[0], referenceType: data[1] })),
-    //   debounceTime(0),
-    //   switchMap(data => {
-    //     return this.referenceService.get(
-    //       data.productCode,
-    //       data.referenceType,
-    //       pageSize
-    //     );
-    //   })
-    // );
-
-    // const combined$ = combineLatest(this.getProductCode, this.getReferenceType);
-
-    // this.items$ = combineLatest(
-    //   this.getProductCode,
-    //   this.getReferenceType
-    // ).pipe(
-    //   map(data => ({ productCode: data[0], referenceType: data[1] })),
-    //   switchMap(result => {
-    //     return this.referenceService.get(
-    //       result.productCode,
-    //       result.referenceType,
-    //       pageSize
-    //     );
-    //   })
-    // );
   }
 }
