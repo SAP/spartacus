@@ -38,6 +38,14 @@ export class MockMediaComponent {
   @Input() alt;
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -81,6 +89,7 @@ describe('ProductGridItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockUrlPipe,
         MockStripHtmlPipe,
+        MockCxIconComponent,
       ],
     })
       .overrideComponent(ProductGridItemComponent, {

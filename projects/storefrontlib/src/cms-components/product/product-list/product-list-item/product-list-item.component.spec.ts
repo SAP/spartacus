@@ -26,7 +26,6 @@ export class MockAddToCartComponent {
 export class MockStarRatingComponent {
   @Input() rating;
   @Input() disabled;
-  @Input() steps;
 }
 
 @Component({
@@ -36,6 +35,14 @@ export class MockStarRatingComponent {
 export class MockPictureComponent {
   @Input() container;
   @Input() alt;
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
 }
 
 @Pipe({
@@ -82,6 +89,7 @@ describe('ProductListItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockUrlPipe,
         MockStripHtmlPipe,
+        MockCxIconComponent,
       ],
     })
       .overrideComponent(ProductListItemComponent, {

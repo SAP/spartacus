@@ -1,19 +1,27 @@
 %cx-star-rating {
+  padding: 15px 0;
+
+  &:not([disabled='true']) {
+    cursor: pointer;
+  }
+
   .star {
-    position: var(--cx-position, relative);
-    display: var(--cx-display, inline-block);
-    color: var(--cx-color, var(--cx-g-color-light));
-    margin: var(--cx-margin, 0 5px 0 0);
-  }
-
-  .full {
-    color: var(--cx-color, var(--cx-g-color-primary));
-  }
-
-  .half {
-    position: var(--cx-position, absolute);
-    display: var(--cx-display, inline-block);
-    overflow: var(--cx-overflow, hidden);
-    color: var(--cx-color, var(--cx-g-color-primary));
+    font-size: 20px;
+    &:before {
+      margin: 0 2.5px;
+    }
+    @for $i from 1 to 6 {
+      &:nth-child(#{$i}) {
+        background: linear-gradient(
+          90deg,
+          var(--cx-g-color-primary) calc((var(--star-fill) - #{$i} + 1) * 100%),
+          var(--cx-g-color-light) calc((var(--star-fill) - #{$i} + 1) * 100%)
+        );
+        // somehow we cannot move the text related clip and fill color outside this loop.
+        // most likely they cannot come before he definition of the background.
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
   }
 }
