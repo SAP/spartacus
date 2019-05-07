@@ -28,7 +28,8 @@ Configured router links can be automatically generated in HTML templates using `
 
 ## Assumptions and limitations
 
-- the output path is absolute (the path array contains the leading `''`), unless option `relative: true` is set
+- the output path array is absolute by default (it contains the leading `'/'`)
+- the output path doesn't contain the leading `/`, when the input starts with an element that is *not an object with `route` property*, i.e. string `'./'`, `'../'` or `{ not_route_property: ... }` 
 - the route that cannot be resolved from *a route's name and params* will return the root URL `['/']`
 
 ## Prerequisites
@@ -64,7 +65,7 @@ ConfigModule.withConfig({
 result in:
 
 ```html
-<a [routerLink]="['', 'custom', 'cart-path']"></a>
+<a [routerLink]="['/', 'custom', 'cart-path']"></a>
 ```
 
 #### The route with parameters
@@ -90,7 +91,7 @@ ConfigModule.withConfig({
 result:
 
 ```html
-<a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
+<a [routerLink]="['/', 1234, 'custom', 'product-path']"></a>
 ```
 
 ## Links to nested routes
@@ -149,32 +150,30 @@ In order to generate the path of parent and child route we need to pass them in 
 result:
 
 ```html
-<a [routerLink]="['', 'parent-path', 'value1', 'child-path', 'value2']"></a>
+<a [routerLink]="['/', 'parent-path', 'value1', 'child-path', 'value2']"></a>
 ```
 
 
 ### Relative links
 
-If you are already in the context of the activated parent route, you may want to only generate a relative link to the child route. Then you need to pass only the child route and the `relative: true` flag to the pipe. For example:
+If you are already in the context of the activated parent route, you may want to only generate a relative link to the child route. Then you need to pass `'./'` string in the beginning of the input array . For example:
 
 ```html
-<a [routerLink]="{ route: 'child',  params: { param2: 'value2' } | cxUrl : { relative: true },
-)"></a>
+<a [routerLink]="[ './', { route: 'child',  params: { param2: 'value2' } } ] | cxUrl"></a>
 ```
 
 result:
 
 ```html
-<a [routerLink]="['child-path', 'value2']"></a>
+<a [routerLink]="['./', 'child-path', 'value2']"></a>
 ```
 
 ### Relative links up
 
-If you want to go i.e. one one level up in the routes tree, you can pass i.e. `../` to the array. For example:
+If you want to go i.e. one one level up in the routes tree, you need to pass `../` to the array. For example:
 
 ```html
-<a [routerLink]="[ '../', { route: 'otherChild' } ] | cxUrl : { relative: true },
-)"></a>
+<a [routerLink]="[ '../', { route: 'otherChild' } ] | cxUrl"></a>
 ```
 
 result:
@@ -196,9 +195,25 @@ result:
 *will result in:*
 
 ```html
-<a [routerLink]="['', 'parent-path', 'value1', 'SOMETHING']"></a>
+<a [routerLink]="['/', 'parent-path', 'value1', 'SOMETHING']"></a>
 ```
 
+**NOTE:** *If the first element in the array is **not an object with `route` property**, the output path array won't have `'/'` element by default. So for example:*
+
+
+```html
+<a [routerLink]="[
+    'SOMETHING',
+    { route: 'parent', params: { param1: 'value1' } }
+] | cxUrl,
+)"></a>
+```
+
+*will result in:*
+
+```html
+<a [routerLink]="['SOMETHING', 'parent-path', 'value1']"></a>
+```
 
 ## Parameters mapping
 
@@ -229,7 +244,7 @@ ConfigModule.withConfig({
 result:
 
 ```html
-<a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
+<a [routerLink]="['/', 1234, 'custom', 'product-path']"></a>
 ```
 
 ### Predefined parameters mapping
@@ -271,7 +286,7 @@ ConfigModule.withConfig({
 ```typescript
 routingService.go({ route: 'product', params: { productCode: 1234 } });
 
-// router navigates to ['', 'p', 1234]
+// router navigates to ['/', 'p', 1234]
 ```
 
 ### Simply generation of the path
@@ -293,5 +308,5 @@ ConfigModule.withConfig({
 ```typescript
 urlService.generateUrl({ route: 'product', params: { productCode: 1234 } });
 
-// ['', 'p', 1234]
+// ['/', 'p', 1234]
 ```
