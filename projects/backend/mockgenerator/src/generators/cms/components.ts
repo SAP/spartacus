@@ -24,7 +24,7 @@ export class ComponentGenerator extends ClientGenerator {
               if (!error) {
                 const pageData = JSON.parse(response.bodyAsText);
                 this.getChildComponents(pageData).forEach(uid => {
-                  if (componentList.includes(uid)) {
+                  if (!componentList.includes(uid)) {
                     componentList.push(uid);
                   }
                 });
@@ -83,7 +83,7 @@ export class ComponentGenerator extends ClientGenerator {
             const idList = JSON.parse(response.bodyAsText);
 
             // this.getChildComponents(pageData).forEach(uid => {
-            //     if (componentList.includes(uid)) {
+            //     if (!componentList.includes(uid)) {
             //         componentList.push(uid);
             //     }
             // });
@@ -114,7 +114,7 @@ export class ComponentGenerator extends ClientGenerator {
               if (!error) {
                 const pageData = JSON.parse(response.bodyAsText);
                 this.getChildComponents(pageData).forEach(uid => {
-                  if (componentList.includes(uid)) {
+                  if (!componentList.includes(uid)) {
                     componentList.push(uid);
                   }
                 });
