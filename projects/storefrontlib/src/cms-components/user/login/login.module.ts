@@ -5,7 +5,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UrlTranslationModule,
+  UrlModule,
   UserModule,
 } from '@spartacus/core';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
@@ -16,7 +16,7 @@ import { LoginComponent } from './login.component';
     CommonModule,
     RouterModule,
     UserModule,
-    UrlTranslationModule,
+    UrlModule,
     PageSlotModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {

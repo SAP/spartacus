@@ -5,11 +5,10 @@ import { TranslationChunkService } from './translation-chunk.service';
 describe('TranslationChunkService', () => {
   let service: TranslationChunkService;
 
+  const mockChunksConfig = {
+    chunk1: ['key1', 'key2', 'key2'],
+  };
   beforeEach(() => {
-    const mockChunksConfig = {
-      key1: 'chunk1',
-    };
-
     TestBed.configureTestingModule({
       providers: [
         TranslationChunkService,
@@ -36,11 +35,23 @@ describe('TranslationChunkService', () => {
     });
 
     it('should return the key if no chunk was configured for it', () => {
-      expect(service.getChunkNameForKey('key2')).toBe('key2');
+      expect(service.getChunkNameForKey('key3')).toBe('key3');
     });
 
     it('should return the main part of the key if no chunk was configured for it', () => {
-      expect(service.getChunkNameForKey('key2.subKey2')).toBe('key2');
+      expect(service.getChunkNameForKey('key3.subKey2')).toBe('key3');
+    });
+  });
+
+  describe('I18n config', () => {
+    it('should warn if there are duplicated keys in the config', () => {
+      const warnSpy = spyOn(console, 'warn');
+      // @ts-ignore: 'mockService' is declared but its value is never read
+      const mockService = new TranslationChunkService({
+        production: false,
+        i18n: { chunks: mockChunksConfig },
+      });
+      expect(warnSpy).toHaveBeenCalled();
     });
   });
 });
