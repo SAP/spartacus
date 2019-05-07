@@ -54,7 +54,7 @@
                     {
                       route: 'orderDetails',
                       params: order
-                    } | cxTranslateUrl
+                    } | cxUrl
                   "
                   class="cx-order-history-value"
                 >
@@ -70,7 +70,7 @@
                     {
                       route: 'orderDetails',
                       params: order
-                    } | cxTranslateUrl
+                    } | cxUrl
                   "
                   class="cx-order-history-value"
                   >{{ order?.placed | cxDate: 'longDate' }}</a
@@ -85,7 +85,7 @@
                     {
                       route: 'orderDetails',
                       params: order
-                    } | cxTranslateUrl
+                    } | cxUrl
                   "
                   class="cx-order-history-value"
                 >
@@ -104,7 +104,7 @@
                     {
                       route: 'orderDetails',
                       params: order
-                    } | cxTranslateUrl
+                    } | cxUrl
                   "
                   class="cx-order-history-value"
                 >
@@ -142,7 +142,7 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>{{ 'orderHistory.noOrders' | cxTranslate }}</div>
             <a
-              [routerLink]="{ route: 'home' } | cxTranslateUrl"
+              [routerLink]="{ route: 'home' } | cxUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
               >{{ 'orderHistory.startShopping' | cxTranslate }}</a

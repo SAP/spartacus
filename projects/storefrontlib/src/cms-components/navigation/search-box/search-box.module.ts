@@ -10,7 +10,7 @@ import {
   ProductSearchService,
   RoutingService,
   StripHtmlModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -44,7 +44,7 @@ import { SearchBoxComponent } from './search-box.component';
       },
     }),
     IconModule,
-    UrlTranslationModule,
+    UrlModule,
     I18nModule,
   ],
   declarations: [SearchBoxComponent],
