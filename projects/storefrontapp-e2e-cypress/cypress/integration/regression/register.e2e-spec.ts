@@ -10,6 +10,7 @@ describe('Register', () => {
     register.registerUser();
 
     register.signOut();
+    register.checkTermsAndConditions();
     register.registerUser();
 
     register.verifyFailedRegistration();
