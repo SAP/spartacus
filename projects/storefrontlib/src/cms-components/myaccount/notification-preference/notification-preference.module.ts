@@ -8,8 +8,7 @@ import {
   UrlTranslationModule,
   I18nModule,
 } from '@spartacus/core';
-import { ComponentsModule } from '../../ui/components/components.module';
-import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 @NgModule({
   declarations: [NotificationPreferenceComponent],
   imports: [
@@ -22,7 +21,6 @@ import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
       },
     }),
     UrlTranslationModule,
-    ComponentsModule,
     SpinnerModule,
     I18nModule,
   ],

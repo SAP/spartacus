@@ -31,4 +31,5 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   updateEmail: { paths: ['my-account/update-email'] },
   updateProfile: { paths: ['my-account/update-profile'] },
   closeAccount: { paths: ['my-account/close-account'] },
+  notificationPreference: { paths: ['my-account/notification-preference'] },
 };
