@@ -20,7 +20,7 @@ import { ProductTabsComponent } from './container/product-tabs.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 import { ProductReviewsModule } from './product-reviews/product-reviews.module';
-import { ProductDetailsTabModule } from '../../../lib/product/components/product-tabs/product-details-tab/product-details-tab.module';
+import { ProductDetailsTabModule } from './product-details-tab/product-details-tab.module';
 
 @NgModule({
   imports: [

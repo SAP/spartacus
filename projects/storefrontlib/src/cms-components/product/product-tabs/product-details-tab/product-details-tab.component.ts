@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UIProduct } from '@spartacus/core';
-import { CurrentProductService } from '../../../../../cms-components/product/current-product.service';
+import { CurrentProductService } from '../../current-product.service';
 import { Observable } from 'rxjs';
 
 @Component({
