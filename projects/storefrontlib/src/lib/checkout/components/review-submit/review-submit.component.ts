@@ -1,24 +1,23 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap, switchMap, map } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import {
-  CheckoutService,
   Address,
   CartService,
-  UserService,
-  UIOrderEntry,
-  UICart,
-  DeliveryMode,
+  CheckoutService,
   Country,
+  DeliveryMode,
   PaymentDetails,
+  UICart,
+  UIOrderEntry,
+  UserService,
 } from '@spartacus/core';
-import { Card } from '../../../ui/components/card/card.component';
+import { Card } from '../../../../shared/components/card/card.component';
 
 @Component({
   selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
-  styleUrls: ['./review-submit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {

@@ -1,20 +1,21 @@
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { of, Observable } from 'rxjs';
-import createSpy = jasmine.createSpy;
+import { Observable, of } from 'rxjs';
 
 import {
-  RoutingService,
   Address,
   CartDataService,
-  UserService,
   CartService,
   CheckoutService,
   I18nTestingModule,
+  RoutingService,
+  UserService,
 } from '@spartacus/core';
-import { Card } from '../../../ui/components/card/card.component';
+import { Card } from '../../../../shared/components/card/card.component';
 import { ShippingAddressComponent } from './shipping-address.component';
+
+import createSpy = jasmine.createSpy;
 
 class MockUserService {
   getAddresses(): Observable<Address[]> {

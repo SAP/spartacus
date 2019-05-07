@@ -28,7 +28,6 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
 @Component({
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
@@ -50,6 +49,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   @Input()
   showTitleCode: boolean;
+
+  @Input()
+  showCancelBtn = true;
 
   @Output()
   submitAddress = new EventEmitter<any>();
@@ -139,15 +141,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           if (
             results.errors.errors.some(error => error.subject === 'titleCode')
           ) {
-            this.globalMessageService.add({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Title is required',
-            });
+            this.globalMessageService.add(
+              'Title is required',
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
           } else {
-            this.globalMessageService.add({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Invalid Address',
-            });
+            this.globalMessageService.add(
+              'Invalid Address',
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
           }
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {

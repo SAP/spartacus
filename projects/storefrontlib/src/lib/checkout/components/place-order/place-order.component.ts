@@ -13,7 +13,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-place-order',
   templateUrl: './place-order.component.html',
-  styleUrls: ['./place-order.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaceOrderComponent implements OnInit, OnDestroy {

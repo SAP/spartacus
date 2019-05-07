@@ -1,33 +1,31 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
   OnInit,
   Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  OnDestroy,
-  Input,
 } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import {
-  CheckoutService,
-  CardType,
   Address,
+  AddressValidation,
+  CardType,
+  CheckoutService,
   Country,
-  UserService,
   GlobalMessageService,
   GlobalMessageType,
-  AddressValidation,
+  UserService,
 } from '@spartacus/core';
 
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
 import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
-import { infoIconImgSrc } from '../../../../ui/images/info-icon';
-import { Card } from '../../../../ui/components/card/card.component'; // tslint:disable-line
+import { ICON_TYPES } from '../../../../../cms-components/misc/icon/index';
+import { Card } from '../../../../../shared/components/card/card.component'; // tslint:disable-line
 
 type monthType = { id: number; name: string };
 type yearType = { id: number; name: number };
@@ -35,10 +33,11 @@ type yearType = { id: number; name: number };
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
-  styleUrls: ['./payment-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
+  iconTypes = ICON_TYPES;
+
   private checkboxSub: Subscription;
   private addressVerifySub: Subscription;
   suggestedAddressModalRef: NgbModalRef;
@@ -86,8 +85,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     postalCode: ['', Validators.required],
   });
 
-  infoIconImgSrc = infoIconImgSrc;
-
   constructor(
     protected checkoutService: CheckoutService,
     protected userService: UserService,
@@ -133,10 +130,10 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'ACCEPT') {
           this.next();
         } else if (results.decision === 'REJECT') {
-          this.globalMessageService.add({
-            type: GlobalMessageType.MSG_TYPE_ERROR,
-            text: 'Invalid Address',
-          });
+          this.globalMessageService.add(
+            'Invalid Address',
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);

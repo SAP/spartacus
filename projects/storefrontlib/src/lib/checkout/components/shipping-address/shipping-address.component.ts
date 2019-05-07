@@ -1,23 +1,23 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
-import { Observable, BehaviorSubject, combineLatest, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
-  RoutingService,
   Address,
   CartDataService,
-  UserService,
-  CheckoutService,
   CartService,
+  CheckoutService,
+  RoutingService,
+  UserService,
 } from '@spartacus/core';
-import { Card } from '../../../ui/components/card/card.component';
+import { Card } from '../../../../shared/components/card/card.component';
 
 export interface CardWithAddress {
   card: Card;
@@ -27,7 +27,6 @@ export interface CardWithAddress {
 @Component({
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
-  styleUrls: ['./shipping-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit, OnDestroy {

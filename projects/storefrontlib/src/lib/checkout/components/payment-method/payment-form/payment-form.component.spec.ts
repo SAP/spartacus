@@ -81,6 +81,14 @@ class MockCardComponent {
   content: any;
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 class MockCheckoutService {
   loadSupportedCardTypes = createSpy();
   getCardTypes(): Observable<CardType[]> {
@@ -129,6 +137,7 @@ describe('PaymentFormComponent', () => {
         PaymentFormComponent,
         MockCardComponent,
         MockBillingAddressFormComponent,
+        MockCxIconComponent,
       ],
       providers: [
         { provide: CheckoutService, useValue: mockCheckoutService },

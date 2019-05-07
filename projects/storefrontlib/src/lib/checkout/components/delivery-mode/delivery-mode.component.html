@@ -8,10 +8,7 @@
       <ng-container
         *ngIf="(supportedDeliveryModes$ | async)?.length; else loading"
       >
-        <div
-          class="form-check"
-          *ngFor="let mode of (supportedDeliveryModes$ | async)"
-        >
+        <div *ngFor="let mode of (supportedDeliveryModes$ | async)">
           <input
             class="form-check-input"
             role="radio"

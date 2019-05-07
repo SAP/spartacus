@@ -4,7 +4,7 @@ $overlayWhileLoading: false !default;
 $zoomThumbOnHover: false !default;
 $zoomOutWhileLoading: false !default;
 
-cx-picture {
+cx-media {
   @if $zoomOutWhileLoading == true {
     &.initialized.loading {
       --cx-zoom: 0.5;
@@ -32,7 +32,7 @@ cx-picture {
 }
 
 .thumbs {
-  cx-picture {
+  cx-media {
     @if $zoomThumbOnHover == true {
       &:hover:not(.active) {
         --cx-zoom: 1.3;
