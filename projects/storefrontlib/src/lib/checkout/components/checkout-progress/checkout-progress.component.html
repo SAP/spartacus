@@ -3,7 +3,7 @@
     <ul class="cx-list">
       <li class="cx-item" *ngFor="let step of steps; let i = index">
         <a
-          [routerLink]="{ url: step.url } | cxTranslateUrl"
+          [routerLink]="{ url: step.url } | cxUrl"
           class="cx-link"
           [ngClass]="{
             ' is-active': step.url === activeStepUrl,

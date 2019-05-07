@@ -11,7 +11,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}

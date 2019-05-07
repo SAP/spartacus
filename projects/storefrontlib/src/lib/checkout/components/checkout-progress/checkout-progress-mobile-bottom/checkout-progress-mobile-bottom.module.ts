@@ -1,5 +1,5 @@
 import {
-  UrlTranslationModule,
+  UrlModule,
   I18nModule,
   ConfigModule,
   CmsConfig,
@@ -13,7 +13,7 @@ import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobil
 @NgModule({
   imports: [
     CommonModule,
-    UrlTranslationModule,
+    UrlModule,
     I18nModule,
     RouterModule,
     ConfigModule.withConfig(defaultCheckoutConfig),

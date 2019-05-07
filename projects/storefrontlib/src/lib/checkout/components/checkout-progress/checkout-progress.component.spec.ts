@@ -26,7 +26,7 @@ class MockRoutingService {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}

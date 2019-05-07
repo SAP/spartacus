@@ -5,7 +5,7 @@ import {
   ConfigModule,
   Config,
   CmsConfig,
-  UrlTranslationModule,
+  UrlModule,
   I18nModule,
 } from '@spartacus/core';
 import { CheckoutProgressComponent } from './checkout-progress.component';
@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     CommonModule,
-    UrlTranslationModule,
+    UrlModule,
     I18nModule,
     RouterModule,
     ConfigModule.withConfig(defaultCheckoutConfig),
