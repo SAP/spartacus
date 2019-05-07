@@ -6,8 +6,8 @@ import * as fromActions from './../actions/index';
 import { TestBed } from '@angular/core/testing';
 
 import {
-  GlobalMessageType,
   GlobalMessage,
+  GlobalMessageType,
 } from '../../models/global-message.model';
 import {
   GLOBAL_MESSAGE_FEATURE,
@@ -20,7 +20,7 @@ describe('Global Messages selectors', () => {
   let store: Store<StateWithGlobalMessage>;
 
   const testMessage: GlobalMessage = {
-    text: { raw: 'test' },
+    text: 'test',
     type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
   };
 
@@ -64,7 +64,7 @@ describe('Global Messages selectors', () => {
       store.dispatch(new fromActions.AddMessage(testMessage));
 
       expect(result).toEqual({
-        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'test' }],
+        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test'],
       });
     });
   });

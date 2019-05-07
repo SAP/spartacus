@@ -1,5 +1,4 @@
 export * from './translation-resources';
-export * from './translatable';
 export * from './date.pipe';
 export * from './translate.pipe';
 export * from './translation.service';

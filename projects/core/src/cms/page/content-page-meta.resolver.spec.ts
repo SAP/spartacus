@@ -1,10 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import { CmsService, Page, PageMetaResolver } from '..';
+import { TestBed, inject } from '@angular/core/testing';
+
 import { PageType } from '../../occ/occ-models/occ.models';
+import { Observable, of } from 'rxjs';
+import { Page, PageMetaResolver, CmsService } from '..';
+import { ContentPageMetaResolver } from './content-page-meta.resolver';
 import { PageMetaService } from '../facade';
 import { PageMeta } from '../model/page.model';
-import { ContentPageMetaResolver } from './content-page-meta.resolver';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -19,7 +20,7 @@ class MockCmsService {
 }
 
 describe('ContentPageTitleResolver', () => {
-  let service: ContentPageMetaResolver;
+  let service: PageMetaService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,45 +36,23 @@ describe('ContentPageTitleResolver', () => {
       ],
     });
 
-    service = TestBed.get(ContentPageMetaResolver);
+    service = TestBed.get(PageMetaService);
   });
 
-  it('should inject service', () => {
-    expect(service).toBeTruthy();
-  });
+  it('PageTitleService should be created', inject(
+    [PageMetaService],
+    (pageTitleService: PageMetaService) => {
+      expect(pageTitleService).toBeTruthy();
+    }
+  ));
 
   it('should resolve content page title', () => {
     let result: PageMeta;
-
-    service
-      .resolve()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
+    const subscription = service.getMeta().subscribe(value => {
+      result = value;
+    });
+    subscription.unsubscribe();
 
     expect(result.title).toEqual('Page title');
-  });
-
-  it('should resolve one breadcrumb', () => {
-    let result: PageMeta;
-    service
-      .resolve()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
-    expect(result.breadcrumbs.length).toEqual(1);
-  });
-
-  it('should resolve home breadcrumb', () => {
-    let result: PageMeta;
-    service
-      .resolve()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
-    expect(result.breadcrumbs[0].label).toEqual('Home');
   });
 });

@@ -22,7 +22,7 @@ describe('Cart reducer', () => {
       const { initialState } = fromGlobalMessage;
 
       const mockMessage: GlobalMessage = {
-        text: { raw: 'Test message' },
+        text: 'Test message',
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       };
 
@@ -38,7 +38,7 @@ describe('Cart reducer', () => {
     it('Should remove the message from the state by index', () => {
       const initialState: GlobalMessageState = {
         entities: {
-          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Test message' }],
+          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Test message'],
         },
       };
 
@@ -59,11 +59,8 @@ describe('Cart reducer', () => {
     it('Should remove messages by type from the state', () => {
       const initialState: GlobalMessageState = {
         entities: {
-          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [
-            { raw: 'test' },
-            { raw: 'test2' },
-          ],
-          [GlobalMessageType.MSG_TYPE_ERROR]: [{ raw: 'test' }],
+          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test', 'test2'],
+          [GlobalMessageType.MSG_TYPE_ERROR]: ['test'],
         },
       };
 

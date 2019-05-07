@@ -7,13 +7,12 @@ import {
 import { Subscription } from 'rxjs';
 import { TranslationService } from './translation.service';
 import { shallowEqualObjects } from './utils/shallow-equal-objects';
-import { Translatable, TranslatableParams } from './translatable';
 
 @Pipe({ name: 'cxTranslate', pure: false })
 export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastKey: string;
   private lastOptions: object;
-  private translatedValue: string;
+  private value: string;
   private sub: Subscription;
 
   constructor(
@@ -21,27 +20,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
     private cd: ChangeDetectorRef
   ) {}
 
-  transform(
-    input: Translatable | string,
-    options: TranslatableParams = {}
-  ): string {
-    if ((input as Translatable).raw) {
-      return (input as Translatable).raw;
-    }
-
-    let key: string;
-    if (typeof input === 'string') {
-      key = input;
-    } else {
-      key = input.key;
-      options = { ...options, ...input.params };
-    }
-
-    this.translate(key, options);
-    return this.translatedValue;
-  }
-
-  private translate(key: any, options: object) {
+  transform(key: any, options: object = {}): string {
     if (
       key !== this.lastKey ||
       !shallowEqualObjects(options, this.lastOptions)
@@ -56,10 +35,11 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
         .translate(key, options, true)
         .subscribe(val => this.markForCheck(val));
     }
+    return this.value;
   }
 
   private markForCheck(value: string) {
-    this.translatedValue = value;
+    this.value = value;
     this.cd.markForCheck();
   }
 

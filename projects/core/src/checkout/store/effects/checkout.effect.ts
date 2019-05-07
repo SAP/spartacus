@@ -184,7 +184,7 @@ export class CheckoutEffects {
           switchMap(data => [
             new fromActions.PlaceOrderSuccess(data),
             new AddMessage({
-              text: { raw: 'Order placed successfully' },
+              text: 'Order placed successfully',
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             }),
           ]),
@@ -211,20 +211,6 @@ export class CheckoutEffects {
             of(new fromActions.LoadCheckoutDetailsFail(error))
           )
         );
-    })
-  );
-
-  @Effect()
-  reloadDetailsOnCreateCart$: Observable<
-    fromActions.LoadCheckoutDetails
-  > = this.actions$.pipe(
-    ofType(fromCartActions.CREATE_CART_SUCCESS),
-    map((action: fromCartActions.CreateCartSuccess) => action.payload),
-    map(payload => {
-      return new fromActions.LoadCheckoutDetails({
-        userId: payload.userId,
-        cartId: payload.toMergeCartGuid ? payload.toMergeCartGuid : 'current',
-      });
     })
   );
 

@@ -1,25 +1,26 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { HttpResponseStatus } from '../models/response-status.model';
 import {
+  HttpTestingController,
+  HttpClientTestingModule,
+} from '@angular/common/http/testing';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import createSpy = jasmine.createSpy;
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
+import { HttpErrorInterceptor } from './http-error.interceptor';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  HttpErrorHandler,
+  UnknownErrorHandler,
+  ForbiddenHandler,
   BadGatewayHandler,
   BadRequestHandler,
   ConflictHandler,
-  ForbiddenHandler,
   GatewayTimeoutHandler,
-  HttpErrorHandler,
   NotFoundHandler,
-  UnknownErrorHandler,
 } from './handlers';
-import { HttpErrorInterceptor } from './http-error.interceptor';
-import createSpy = jasmine.createSpy;
+import { HttpResponseStatus } from '../models/response-status.model';
 
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -136,10 +137,10 @@ describe('HttpErrorInterceptor', () => {
       });
 
       mockReq.flush({}, { status: 123, statusText: 'unknown' });
-      expect(mockMessageService.add).toHaveBeenCalledWith(
-        'An unknown error occured',
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
+      expect(mockMessageService.add).toHaveBeenCalledWith({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: 'An unknown error occured',
+      });
     });
   });
 });

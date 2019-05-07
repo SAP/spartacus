@@ -1,12 +1,12 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import {
-  CardTypeList,
   CountryList,
-  RegionList,
   TitleList,
+  CardTypeList,
+  RegionList,
 } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../services/occ-endpoints.service';
 
@@ -17,9 +17,7 @@ const ENDPOINT_REGIONS = 'regions';
 const COUNTRIES_TYPE_SHIPPING = 'SHIPPING';
 const COUNTRIES_TYPE_BILLING = 'BILLING';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OccMiscsService {
   constructor(
     private http: HttpClient,

@@ -3,7 +3,10 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { GlobalMessageType } from '../models/global-message.model';
+import {
+  GlobalMessage,
+  GlobalMessageType,
+} from '../models/global-message.model';
 import {
   GlobalMessageEntities,
   StateWithGlobalMessage,
@@ -12,7 +15,6 @@ import {
   RemoveMessage,
   RemoveMessagesByType,
 } from '../store/index';
-import { Translatable } from '../../i18n';
 
 @Injectable()
 export class GlobalMessageService {
@@ -32,12 +34,8 @@ export class GlobalMessageService {
    * Add one message into store
    * @param message: GlobalMessage object
    */
-  add(text: string | Translatable, type: GlobalMessageType): void {
-    if (typeof text === 'string') {
-      this.store.dispatch(new AddMessage({ text: { raw: text }, type }));
-    } else {
-      this.store.dispatch(new AddMessage({ text, type }));
-    }
+  add(message: GlobalMessage): void {
+    this.store.dispatch(new AddMessage(message));
   }
 
   /**

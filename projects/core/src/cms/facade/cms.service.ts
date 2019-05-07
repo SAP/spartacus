@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import {
-  catchError,
   filter,
+  tap,
   map,
-  shareReplay,
+  withLatestFrom,
   switchMap,
   take,
-  tap,
-  withLatestFrom,
+  multicast,
+  refCount,
+  catchError,
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -74,19 +75,21 @@ export class CmsService {
     if (!this.components[uid]) {
       this.components[uid] = this.store.pipe(
         select(fromStore.componentStateSelectorFactory(uid)),
-        withLatestFrom(this.routingService.isNavigating()),
-        tap(([componentState, isNavigating]) => {
+        withLatestFrom(this.getCurrentPage()),
+        tap(([componentState, currentPage]) => {
           const attemptedLoad =
             componentState.loading ||
             componentState.success ||
             componentState.error;
-          if (!attemptedLoad && !isNavigating) {
+          if (!attemptedLoad && currentPage) {
             this.store.dispatch(new fromStore.LoadComponent(uid));
           }
         }),
-        filter(([componentState]) => componentState.success),
-        map(([componentState]) => componentState.value),
-        shareReplay({ bufferSize: 1, refCount: true })
+        map(([productState]) => productState.value),
+        filter(Boolean),
+        // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
+        multicast(() => new ReplaySubject(1)),
+        refCount()
       );
     }
 
@@ -98,15 +101,14 @@ export class CmsService {
    * @param position : content slot position
    */
   getContentSlot(position: string): Observable<ContentSlotData> {
-    return this.routingService
-      .getPageContext()
-      .pipe(
-        switchMap(pageContext =>
-          this.store.pipe(
-            select(fromStore.currentSlotSelectorFactory(pageContext, position))
-          )
+    return this.routingService.getPageContext().pipe(
+      switchMap(pageContext =>
+        this.store.pipe(
+          select(fromStore.currentSlotSelectorFactory(pageContext, position)),
+          filter(Boolean)
         )
-      );
+      )
+    );
   }
 
   /**
@@ -187,13 +189,12 @@ export class CmsService {
    * Given pageContext, return whether the CMS page data exists or not
    * @param pageContext
    */
-  hasPage(pageContext: PageContext, forceReload = false): Observable<boolean> {
+  hasPage(pageContext: PageContext): Observable<boolean> {
     return this.store.pipe(
       select(fromStore.getIndexEntity(pageContext)),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
-        const shouldReload = forceReload && !entity.loading;
-        if (!attemptedLoad || shouldReload) {
+        if (!attemptedLoad) {
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
         }
       }),

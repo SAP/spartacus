@@ -125,30 +125,6 @@ describe('ProductPageMetaResolver', () => {
     expect(result.description).toEqual('Product summary');
   });
 
-  it('should resolve 2 breadcrumbs', () => {
-    let result: PageMeta;
-    service
-      .getMeta()
-      .subscribe(value => {
-        result = value;
-      })
-      .unsubscribe();
-
-    expect(result.breadcrumbs.length).toEqual(2);
-  });
-
-  it('should resolve 2nd breadcrumbs with category name', () => {
-    let result: PageMeta;
-    service
-      .getMeta()
-      .subscribe(value => {
-        result = value;
-      })
-      .unsubscribe();
-
-    expect(result.breadcrumbs[1].label).toEqual('one two three');
-  });
-
   it('should resolve product image', () => {
     let result: PageMeta;
     service

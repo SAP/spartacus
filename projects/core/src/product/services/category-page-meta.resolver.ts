@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
-import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
-import { PageTitleResolver } from '../../cms/page/page.resolvers';
+
 import { PageType } from '../../occ/occ-models/occ.models';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { ProductSearchService } from '../facade/product-search.service';
+import { PageTitleResolver } from '../../cms/page/page.resolvers';
 import { UIProductSearchPage } from '../model/product-search-page';
 
 @Injectable({
@@ -33,13 +34,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
         if (this.hasProductListComponent(page)) {
           return this.productSearchService.getSearchResults().pipe(
             filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
-            switchMap(data =>
-              combineLatest([
-                this.resolveTitle(data),
-                this.resolveBreadcrumbs(data),
-              ])
-            ),
-            map(([title, breadcrumbs]) => ({ title, breadcrumbs }))
+            switchMap(data => {
+              return this.resolveTitle(data).pipe(map(title => ({ title })));
+            })
           );
         } else {
           return of({
@@ -58,19 +55,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveBreadcrumbs(data: UIProductSearchPage): Observable<any[]> {
-    const breadcrumbs = [];
-    breadcrumbs.push({ label: 'Home', link: '/' });
-    for (const br of data.breadcrumbs) {
-      breadcrumbs.push({
-        label: br.facetValueName,
-        link: '/c/' + br.facetValueCode,
-      });
-    }
-    return of(breadcrumbs);
-  }
-
-  private hasProductListComponent(page: Page): boolean {
+  protected hasProductListComponent(page: Page): boolean {
     // ProductListComponent
     return !!Object.keys(page.slots).find(
       key =>

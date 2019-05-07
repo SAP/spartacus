@@ -940,10 +940,6 @@ export interface Category {
    */
   code?: string;
   /**
-   * @member {string} [code]
-   */
-  name?: string;
-  /**
    * @member {Image} [image]
    */
   image?: Image;
