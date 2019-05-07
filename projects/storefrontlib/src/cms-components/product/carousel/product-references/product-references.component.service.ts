@@ -32,22 +32,6 @@ export class ProductReferencesService {
     );
   }
 
-  // getReferenceType(): Observable<string> {
-  //   return this.component.data$.pipe(
-  //     map(data => {
-  //       return data.productReferenceTypes;
-  //     })
-  //   );
-  // }
-
-  // getProductCode(): Observable<string> {
-  //   return this.referenceType$ = this.routerService.getRouterState().pipe(
-  //     map(data =>
-  //        data.state.params.productCode
-  //     )
-  //   );
-  // }
-
   getReferenceType(): Observable<string> {
     return this.component.data$.pipe(map(data => data.productReferenceTypes));
   }

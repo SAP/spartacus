@@ -93,9 +93,8 @@ describe('OccProductReferencesAdapter', () => {
         'productReferences',
         {
           productCode,
-          referenceType,
         },
-        { pageSize }
+        { referenceType, pageSize }
       );
     });
 

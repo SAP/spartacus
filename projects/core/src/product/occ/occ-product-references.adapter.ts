@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-// import { ProductReference } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../connectors/references/converters';
@@ -35,9 +34,8 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
       'productReferences',
       {
         productCode: code,
-        referenceType: reference,
       },
-      { pageSize }
+      { referenceType: reference, pageSize }
     );
   }
 }
