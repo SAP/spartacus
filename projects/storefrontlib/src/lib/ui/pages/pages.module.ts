@@ -4,9 +4,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, NotAuthGuard } from '@spartacus/core';
 import { LogoutModule } from '../../../cms-components/index';
+import {
+  PageLayoutComponent,
+  PageLayoutModule,
+} from '../../../cms-structure/page/index';
 import { CmsPageGuard } from '../../cms/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
-import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
