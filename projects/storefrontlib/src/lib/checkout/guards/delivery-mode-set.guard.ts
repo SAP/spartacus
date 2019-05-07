@@ -6,8 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { ServerConfig } from '@spartacus/core';
 import { CheckoutConfig } from '../config/checkout-config';
-import { CheckoutStep } from '../model/checkout-step.model';
-import { CheckoutStepType } from '../config/default-checkout-config';
+import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 @Injectable({
@@ -23,8 +22,7 @@ export class DeliveryModeSetGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     const route = this.checkoutConfig.checkout.steps.find(
-      (step: CheckoutStep) =>
-        step.type.indexOf(CheckoutStepType.deliveryMode) > -1
+      (step: CheckoutStep) => step.type.includes(CheckoutStepType.deliveryMode)
     );
 
     if (!route && !this.serverConfig.production) {

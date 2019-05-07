@@ -1,4 +1,9 @@
-import { CheckoutStepType } from '../config/default-checkout-config';
+export enum CheckoutStepType {
+  shippingAddress = 'shippingAddress',
+  deliveryMode = 'deliveryMode',
+  paymentDetails = 'paymentDetails',
+  reviewOrder = 'reviewOrder',
+}
 
 export interface CheckoutStep {
   id: string;

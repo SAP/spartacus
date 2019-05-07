@@ -6,7 +6,7 @@ import { UrlTree } from '@angular/router';
 import { ServerConfig } from '@spartacus/core';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 import { CheckoutConfig } from '../config/checkout-config';
-import { CheckoutStepType } from '../config/default-checkout-config';
+import { CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 const MockCheckoutConfig: CheckoutConfig = {

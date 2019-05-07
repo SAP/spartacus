@@ -5,10 +5,3 @@ export abstract class CheckoutConfig {
     steps: Array<CheckoutStep>;
   };
 }
-
-export enum CheckoutStepType {
-  shippingAddress = 'shippingAddress',
-  deliveryMode = 'deliveryMode',
-  paymentDetails = 'paymentDetails',
-  reviewOrder = 'reviewOrder',
-}
