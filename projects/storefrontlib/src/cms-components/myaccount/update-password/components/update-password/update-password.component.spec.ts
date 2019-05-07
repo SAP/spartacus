@@ -153,10 +153,10 @@ describe('UpdatePasswordComponent', () => {
         spyOn(routingService, 'go').and.stub();
 
         component.onSuccess(true);
-        expect(globalMessageService.add).toHaveBeenCalledWith({
-          text: 'Password updated with success',
-          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        });
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          'Password updated with success',
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
         expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
       });
     });

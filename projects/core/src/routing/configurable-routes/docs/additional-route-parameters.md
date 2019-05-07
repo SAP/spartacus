@@ -8,16 +8,14 @@ Additional route parameters can be configured to make the URL more specific, whi
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                product: { 
-                    paths: [
-                        // :productCode is an obligatory param, as it's present in default url
-                        // :productName is a new param
-                        ':productCode/custom/product-path/:productName'
-                    ] 
-                }
+    routing: {
+        routes: {
+            product: { 
+                paths: [
+                    // :productCode is an obligatory param, as it's present in default url
+                    // :productName is a new param
+                    ':productCode/custom/product-path/:productName'
+                ] 
             }
         }
     }
