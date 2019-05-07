@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { CheckoutModule as CoreCheckoutModule } from '@spartacus/core';
+import { CheckoutModule } from '@spartacus/core';
 import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
 import { guards } from './guards/index';
 import { CheckoutOrchestratorModule } from './components/checkout-orchestrator/checkout-orchestrator.module';
@@ -22,7 +22,7 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
   imports: [
     CommonModule,
     CartComponentModule,
-    CoreCheckoutModule,
+    CheckoutModule,
     CheckoutOrchestratorModule,
     CheckoutOrderSummaryModule,
     CheckoutProgressModule,
