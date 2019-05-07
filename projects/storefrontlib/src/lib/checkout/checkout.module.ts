@@ -7,6 +7,7 @@ import { guards } from './guards/index';
 import { CheckoutOrchestratorModule } from './components/checkout-orchestrator/checkout-orchestrator.module';
 import { CheckoutOrderSummaryModule } from './components/checkout-order-summary/checkout-order-summary.module';
 import { CheckoutProgressModule } from './components/checkout-progress/checkout-progress.module';
+// tslint:disable:max-line-length
 import { CheckoutProgressMobileTopModule } from './components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CheckoutProgressMobileBottomModule } from './components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.module';
 import { DeliveryModeModule } from './components/delivery-mode/delivery-mode.module';
