@@ -1,10 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, ProductReviewService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductReviewService,
+  UIProduct,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { FormComponentsModule } from '../../../../shared';
 import { ProductReviewsComponent } from './product-reviews.component';
+import { CurrentProductService } from '../../current-product.service';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -28,6 +33,15 @@ class MockStarRatingComponent {
   @Input() rating;
   @Input() disabled;
 }
+
+const mockProduct: UIProduct = { name: 'mockProduct' };
+
+class MockCurrentProductService {
+  getProduct(): Observable<UIProduct> {
+    return of(mockProduct);
+  }
+}
+
 describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
@@ -39,6 +53,10 @@ describe('ProductReviewsComponent in product', () => {
         {
           provide: ProductReviewService,
           useClass: MockProductReviewService,
+        },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
         },
       ],
       declarations: [MockStarRatingComponent, ProductReviewsComponent],
