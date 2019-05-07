@@ -24,9 +24,9 @@ const routingServiceStub = {
 };
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -37,7 +37,7 @@ describe('PlaceOrderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [MockTranslateUrlPipe, PlaceOrderComponent],
+      declarations: [MockUrlPipe, PlaceOrderComponent],
       providers: [
         { provide: CheckoutService, useValue: checkoutServiceStub },
         { provide: RoutingService, useValue: routingServiceStub },

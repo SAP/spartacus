@@ -4,14 +4,14 @@ import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteConfig, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
 import {
-  TranslateUrlCommandRoute,
-  TranslateUrlCommands,
-  TranslateUrlOptions,
-} from './translate-url-commands';
+  UrlCommandRoute,
+  UrlCommands,
+  UrlGenerationOptions,
+} from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
 
 @Injectable({ providedIn: 'root' })
-export class UrlTranslationService {
+export class UrlService {
   readonly ROOT_URL = ['/'];
 
   constructor(
@@ -20,9 +20,9 @@ export class UrlTranslationService {
     private config: ServerConfig
   ) {}
 
-  translate(
-    commands: TranslateUrlCommands,
-    options: TranslateUrlOptions = {}
+  generateUrl(
+    commands: UrlCommands,
+    options: UrlGenerationOptions = {}
   ): any[] {
     if (!Array.isArray(commands)) {
       commands = [commands];
@@ -35,7 +35,7 @@ export class UrlTranslationService {
         result.push(command);
       } else {
         // generate array with url segments for given options object:
-        const partialResult = this.generateUrl(command);
+        const partialResult = this.generateUrlPart(command);
 
         if (partialResult === null) {
           return this.ROOT_URL;
@@ -52,7 +52,7 @@ export class UrlTranslationService {
     return result;
   }
 
-  private generateUrl(command: TranslateUrlCommandRoute): string[] | null {
+  private generateUrlPart(command: UrlCommandRoute): string[] | null {
     this.standarizeRouteCommand(command);
 
     if (!command.route) {
@@ -83,7 +83,7 @@ export class UrlTranslationService {
     return result;
   }
 
-  private standarizeRouteCommand(command: TranslateUrlCommandRoute): void {
+  private standarizeRouteCommand(command: UrlCommandRoute): void {
     command.params = command.params || {};
   }
 
