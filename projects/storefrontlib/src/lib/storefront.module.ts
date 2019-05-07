@@ -37,6 +37,7 @@ import { UiModule } from './ui/index';
     I18nModule.forRoot(),
   ],
   exports: [UiModule],
+  providers: [...provideConfigFromMetaTags()],
   declarations: [],
 })
 export class StorefrontModule {

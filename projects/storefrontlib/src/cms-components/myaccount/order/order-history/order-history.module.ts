@@ -7,7 +7,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UrlTranslationModule,
+  UrlModule,
   UserService,
 } from '@spartacus/core';
 import { BootstrapModule } from '../../../../lib/bootstrap.module';
@@ -27,7 +27,7 @@ import { OrderHistoryComponent } from './order-history.component';
     NgSelectModule,
     BootstrapModule,
     ListNavigationModule,
-    UrlTranslationModule,
+    UrlModule,
     I18nModule,
   ],
   declarations: [OrderHistoryComponent],
