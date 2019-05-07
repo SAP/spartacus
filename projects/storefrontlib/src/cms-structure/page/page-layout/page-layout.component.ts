@@ -3,11 +3,10 @@ import {
   Component,
   ElementRef,
   Input,
-  OnInit,
   Renderer2,
 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { PageLayoutService } from './page-layout.service';
 
 @Component({
@@ -15,8 +14,24 @@ import { PageLayoutService } from './page-layout.service';
   templateUrl: './page-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageLayoutComponent implements OnInit {
-  @Input() section: string;
+export class PageLayoutComponent {
+  @Input() set section(value: string) {
+    this.section$.next(value);
+  }
+  readonly section$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+
+  readonly layoutName$: Observable<string> = this.section$.pipe(
+    switchMap(section =>
+      section ? of(section) : this.pageLayoutService.templateName$
+    ),
+    tap(name => {
+      this.styleClass = name;
+    })
+  );
+
+  readonly slots$: Observable<string[]> = this.section$.pipe(
+    switchMap(section => this.pageLayoutService.getSlots(section))
+  );
 
   private currentClass;
 
@@ -25,25 +40,6 @@ export class PageLayoutComponent implements OnInit {
     private renderer: Renderer2,
     private pageLayoutService: PageLayoutService
   ) {}
-
-  ngOnInit(): void {
-    if (this.section) {
-      this.styleClass = this.section;
-    }
-  }
-
-  get slots$(): Observable<string[]> {
-    return this.pageLayoutService.getSlots(this.section);
-  }
-
-  get templateName$(): Observable<string> {
-    return this.pageLayoutService.templateName$.pipe(
-      // intercept the observable to keep a clean DOM tree
-      tap(name => {
-        this.styleClass = name;
-      })
-    );
-  }
 
   set styleClass(cls: string) {
     if (this.currentClass) {
