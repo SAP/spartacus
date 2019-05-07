@@ -1,4 +1,4 @@
-import { CheckoutStepType } from '../default-checkout-config';
+import { CheckoutStepType } from '../config/default-checkout-config';
 
 export interface CheckoutStep {
   id: string;

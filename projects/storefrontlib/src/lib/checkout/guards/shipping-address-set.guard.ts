@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ServerConfig } from '@spartacus/core';
-import { CheckoutDetailsService } from '../checkout-details.service';
-import { CheckoutStep } from '../config/model/checkout-step.model';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStep } from '../model/checkout-step.model';
 import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutStepType } from '../config/default-checkout-config';
 

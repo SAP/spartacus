@@ -1,4 +1,4 @@
-import { CheckoutStep } from '../../../config/model/checkout-step.model';
+import { CheckoutStep } from '../../../model/checkout-step.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';

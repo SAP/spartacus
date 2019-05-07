@@ -1,11 +1,4 @@
-import { CheckoutConfig } from './checkout-config';
-
-export enum CheckoutStepType {
-  shippingAddress = 'shippingAddress',
-  deliveryMode = 'deliveryMode',
-  paymentDetails = 'paymentDetails',
-  reviewOrder = 'reviewOrder',
-}
+import { CheckoutConfig, CheckoutStepType } from './checkout-config';
 
 export const defaultCheckoutConfig: CheckoutConfig = {
   checkout: {
