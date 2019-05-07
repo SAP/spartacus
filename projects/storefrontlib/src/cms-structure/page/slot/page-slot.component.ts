@@ -12,14 +12,7 @@ import {
   DynamicAttributeService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-slot',
@@ -36,15 +29,11 @@ export class PageSlotComponent {
 
   readonly position$ = new BehaviorSubject<string>(undefined);
 
-  readonly page$ = this.cmsService.getCurrentPage();
-
   /**
    * observable with `ContentSlotData` for the current position
    */
   readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
-    withLatestFrom(this.page$),
-    filter(([_, page]) => !!page),
-    switchMap(([position]) => this.cmsService.getContentSlot(position)),
+    switchMap(position => this.cmsService.getContentSlot(position)),
     tap(slot => this.addSmartEditSlotClass(slot))
   );
 
