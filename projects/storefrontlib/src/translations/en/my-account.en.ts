@@ -14,18 +14,18 @@ export const myAccount = {
     statusDisplay_open: 'Open',
     statusDisplay_processing: 'In Process',
     consignmentTracking: {
-    	action: 'Track package',
-    	dialog: {
-    		header: '{{ consignmentCode }} - Tracking',
-    		shipped: 'Shipped',
-    		estimate: 'Estimated Delivery',
-    		carrier: 'Delivery Service',
-    		trackingId: 'Tracking Number',
-    		noTracking:
-    			'The package has not been dispatched from the warehouse. ' +
-    			'The tracking information will be available after the package is shipped.',
-    			loadingHeader: 'Consignment Tracking',
-    	},
+      action: 'Track package',
+      dialog: {
+        header: '{{ consignmentCode }} - Tracking',
+        shipped: 'Shipped',
+        estimate: 'Estimated Delivery',
+        carrier: 'Delivery Service',
+        trackingId: 'Tracking Number',
+        noTracking:
+          'The package has not been dispatched from the warehouse. ' +
+          'The tracking information will be available after the package is shipped.',
+        loadingHeader: 'Consignment Tracking',
+      },
     },
   },
   orderHistory: {

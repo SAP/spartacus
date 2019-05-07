@@ -6,6 +6,19 @@
         <div>{{ 'orderDetails.shippedOn' | cxTranslate }}&nbsp;</div>
         <div>{{ consignment?.statusDate | date }}</div>
       </div>
+      <button
+        *ngIf="
+          consignment.status === 'SHIPPED' ||
+          consignment.status === 'IN_TRANSIT' ||
+          consignment.status === '' ||
+          consignment.status === 'DELIVERY_COMPLETED' ||
+          consignment.status === 'DELIVERY_REJECTED'
+        "
+        (click)="openTrackingDialog(consignment)"
+        class="btn btn-action"
+      >
+        {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}
+      </button>
     </div>
     <div class="cx-list-item col-12">
       <cx-cart-item-list

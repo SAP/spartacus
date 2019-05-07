@@ -1,21 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Order, Consignment, OrderEntry } from '@spartacus/core';
+import {
+  Order,
+  Consignment,
+  OrderEntry,
+  UserService,
+  ConsignmentTracking,
+} from '@spartacus/core';
 
 import { OrderDetailsService } from '../order-details.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TrackingEventsComponent } from './consignment-tracking/tracking-events.component';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent implements OnInit {
-  constructor(private orderDetailsService: OrderDetailsService) {}
+  constructor(
+    private orderDetailsService: OrderDetailsService,
+    private userService: UserService,
+    private ngbModal: NgbModal
+  ) {}
 
   order$: Observable<Order>;
+  consignmentTracking$: Observable<ConsignmentTracking>;
+  orderCode: string;
+  dialog: any;
 
   ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
+    this.order$ = this.orderDetailsService
+      .getOrderDetails()
+      .pipe(tap(order => (this.orderCode = order.code)));
+    this.consignmentTracking$ = this.userService.getConsignmentTracking();
   }
 
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
@@ -25,5 +44,16 @@ export class OrderDetailItemsComponent implements OnInit {
     });
 
     return products;
+  }
+
+  openTrackingDialog(consignment: Consignment) {
+    this.userService.loadConsignmentTracking(this.orderCode, consignment.code);
+    this.dialog = this.ngbModal.open(TrackingEventsComponent, {
+      centered: true,
+      size: 'lg',
+    }).componentInstance;
+    this.dialog.tracking$ = this.consignmentTracking$;
+    this.dialog.shipDate = consignment.statusDate;
+    this.dialog.consignmentCode = consignment.code;
   }
 }
