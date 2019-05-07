@@ -6,7 +6,7 @@ import {
   ConfigModule,
   I18nModule,
   StripHtmlModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { BootstrapModule } from '../../../lib/bootstrap.module';
 import {
@@ -40,7 +40,7 @@ import { IconModule } from '../../misc/icon/index';
     FormComponentsModule,
     ListNavigationModule,
     StripHtmlModule,
-    UrlTranslationModule,
+    UrlModule,
     I18nModule,
     StarRatingModule,
     IconModule,

@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../store';
 import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
-import { TranslateUrlCommands } from '../configurable-routes/url-translation/translate-url-commands';
-import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { UrlCommands } from '../configurable-routes/url-translation/url-command';
+import { UrlService } from '../configurable-routes/url-translation/url.service';
 import { RouterState } from '../store/reducers/router.reducer';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class RoutingService {
   constructor(
     private store: Store<fromStore.RouterState>,
     private winRef: WindowRef,
-    private urlTranslator: UrlTranslationService
+    private urlService: UrlService
   ) {}
 
   /**
@@ -56,12 +56,8 @@ export class RoutingService {
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  go(
-    commands: TranslateUrlCommands,
-    query?: object,
-    extras?: NavigationExtras
-  ): void {
-    const path = this.urlTranslator.translate(commands, { relative: true });
+  go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
+    const path = this.urlService.generateUrl(commands, { relative: true });
 
     return this.navigate(path, query, extras);
   }

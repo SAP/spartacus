@@ -5,7 +5,7 @@ import {
   CartModule,
   CmsConfig,
   ConfigModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../../cms-components/misc/icon/index';
 import { MiniCartComponent } from './mini-cart.component';
@@ -20,7 +20,7 @@ import { MiniCartComponent } from './mini-cart.component';
         MiniCartComponent: { selector: 'cx-mini-cart' },
       },
     }),
-    UrlTranslationModule,
+    UrlModule,
     IconModule,
   ],
   declarations: [MiniCartComponent],

@@ -43,7 +43,7 @@ ConfigModule.withConfig({
 1. when `campaignName` param **is** given:
 
     ```html
-    <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxTranslateUrl"></a>
+    <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxUrl"></a>
     ```
 
     result
@@ -55,7 +55,7 @@ ConfigModule.withConfig({
 2. when `campaignName` param **is not** given:
 
     ```html
-    <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+    <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
     ```
 
     result
@@ -66,7 +66,7 @@ ConfigModule.withConfig({
 
 ## Wrong order of aliases
 
-When a path with less params (for example `/p/:productCode`) is put before a path that has the same params and more (for example `:campaignName/p/:productCode`), then the first path will **always** be used to translate the path (and the second will **never** be used). For example:
+When a path with less params (for example `/p/:productCode`) is put before a path that has the same params and more (for example `:campaignName/p/:productCode`), then the first path will **always** be used to generate the path (and the second will **never** be used). For example:
 
 ```typescript
 ConfigModule.withConfig({
@@ -97,11 +97,11 @@ All following examples result in the same:
  1. when `campaignName` param **is** given:
  
      ```html
-     <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxTranslateUrl"></a>
+     <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxUrl"></a>
      ```
 
  2. when `campaignName` param **is not** given:
 
      ```html
-     <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+     <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
      ```
