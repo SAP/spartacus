@@ -21,7 +21,6 @@ export class LoginComponent {
         if (token && !!token.access_token && !this.loginService.isLogin) {
           this.loginService.isLogin = true;
           this.userService.load(token.userId);
-          this.auth.login();
         } else if (token && !token.access_token && this.loginService.isLogin) {
           this.loginService.isLogin = false;
         }
