@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
 import { DeliveryModeComponent } from './delivery-mode.component';
-import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 import { ShippingAddressSetGuard } from '../../guards/shipping-address-set.guard';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 
 @NgModule({
   imports: [
