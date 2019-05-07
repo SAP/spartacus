@@ -11,6 +11,16 @@ export function registerUser() {
   register(user);
 }
 
+export function checkTermsAndConditions() {
+  const termsLink = '/electronics-spa/en/USD/termsAndConditions';
+  cy.visit('/register');
+  cy.getByText('Terms & Conditions')
+    .should('have.attr', 'target', '_blank')
+    .should('have.attr', 'href', termsLink);
+  cy.visit(termsLink);
+  cy.get('.title_holder h2').should('contain', 'Terms and Conditions');
+}
+
 export function signOut() {
   cy.selectUserMenuOption('Sign Out');
   cy.visit('/');

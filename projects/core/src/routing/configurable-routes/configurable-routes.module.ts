@@ -14,8 +14,6 @@ export function initConfigurableRoutes(
 
 @NgModule({
   imports: [CommonModule, ConfigModule.withConfig(defaultRoutingConfig)],
-  declarations: [],
-  exports: [],
   providers: [
     {
       provide: APP_INITIALIZER,

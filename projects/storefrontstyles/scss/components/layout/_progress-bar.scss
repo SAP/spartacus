@@ -1,0 +1,57 @@
+%progress-bar {
+  &:before,
+  &:after {
+    height: 2px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+    content: '';
+    position: fixed;
+    z-index: 2;
+  }
+  &:before {
+    background-color: var(--cx-g-color-light);
+  }
+
+  &:after {
+    background-color: var(--cx-g-color-dark);
+  }
+}
+
+%progress-bar-loading {
+  @keyframes loading {
+    0% {
+      margin-left: 0px;
+      margin-right: 100%;
+    }
+    50% {
+      margin-left: 25%;
+      margin-right: 0%;
+    }
+    100% {
+      margin-left: 100%;
+      margin-right: 0;
+    }
+  }
+
+  &:after {
+    animation: loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+%progress-bar-loaded {
+  @keyframes loaded {
+    0% {
+      margin-left: 50%;
+      margin-right: 100%;
+    }
+    100% {
+      margin-left: 100%;
+      margin-right: 0;
+    }
+  }
+  &:after {
+    animation: loaded 0.5s;
+  }
+}
