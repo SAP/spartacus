@@ -16,11 +16,6 @@ import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ICON_TYPES } from '../../../misc/icon';
 
-export enum ariaState {
-  PLUS = 'plus',
-  MINUS = 'minus',
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
