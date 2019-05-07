@@ -25,7 +25,6 @@ export * from './components/promotions/promotions.component';
 export * from './components/promotions/promotions.module';
 export * from './components/review-submit/review-submit.component';
 export * from './components/review-submit/review-submit.module';
-// tslint:disable-next-line:max-line-length
 export * from './components/shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component';
 export * from './components/shipping-address/address-form/address-form.component';
 export * from './components/shipping-address/address-form/address-form.module';
