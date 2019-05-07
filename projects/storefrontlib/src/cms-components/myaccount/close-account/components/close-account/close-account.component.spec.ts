@@ -6,6 +6,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -21,7 +29,7 @@ describe('CloseAccountComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, NgbModule, RouterTestingModule],
-      declarations: [CloseAccountComponent, MockUrlPipe],
+      declarations: [CloseAccountComponent, MockUrlPipe, MockCxIconComponent],
       providers: [{ provide: NgbModal, useValue: { open: () => {} } }],
     }).compileComponents();
   }));

@@ -13,6 +13,14 @@ import {
 } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 describe('ProductFacetNavigationComponent in product-list', () => {
   let component: ProductFacetNavigationComponent;
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
@@ -69,7 +77,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgbCollapseModule, NgbModalModule, I18nTestingModule],
-      declarations: [ProductFacetNavigationComponent],
+      declarations: [ProductFacetNavigationComponent, MockCxIconComponent],
       providers: [
         {
           provide: ProductSearchService,

@@ -22,6 +22,14 @@ class MockMessageService {
   }
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 describe('GlobalMessageComponent', () => {
   let globalMessageComponent: GlobalMessageComponent;
   let messageService: GlobalMessageService;
@@ -30,7 +38,7 @@ describe('GlobalMessageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [GlobalMessageComponent],
+      declarations: [GlobalMessageComponent, MockCxIconComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
       ],
