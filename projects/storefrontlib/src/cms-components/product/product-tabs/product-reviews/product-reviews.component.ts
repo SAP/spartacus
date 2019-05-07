@@ -62,6 +62,10 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
     this.resetReviewForm();
   }
 
+  setRating(rating): void {
+    this.reviewForm.controls.rating.setValue(rating);
+  }
+
   submitReview(): void {
     const reviewFormControls = this.reviewForm.controls;
     const review: Review = {

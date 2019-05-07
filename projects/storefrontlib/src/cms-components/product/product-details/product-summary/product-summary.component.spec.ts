@@ -1,24 +1,32 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { AddToCartModule } from '../../../../cms-components/checkout/index';
 import { OutletDirective } from '../../../../cms-structure/outlet/index';
-import { StarRatingModule } from '../../../../shared';
 import { FormComponentsModule } from '../../../../shared/components/form-components/form-components.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
-describe('ProductSummaryComponent in product', () => {
+@Component({
+  selector: 'cx-star-rating',
+  template: '',
+})
+class MockStarRatingComponent {
+  @Input() rating;
+  @Input() disabled;
+}
+
+describe('ProductSummaryComponent in product ', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AddToCartModule,
-        FormComponentsModule,
-        StarRatingModule,
-        I18nTestingModule,
+      imports: [AddToCartModule, FormComponentsModule, I18nTestingModule],
+      declarations: [
+        ProductSummaryComponent,
+        OutletDirective,
+        MockStarRatingComponent,
       ],
-      declarations: [ProductSummaryComponent, OutletDirective],
     }).compileComponents();
   }));
 
