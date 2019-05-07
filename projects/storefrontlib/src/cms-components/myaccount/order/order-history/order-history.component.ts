@@ -84,8 +84,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
     return combineLatest([
-      this.translation.translate('sorting.byDate'),
-      this.translation.translate('sorting.byOrderNumber'),
+      this.translation.translate('sorting.date'),
+      this.translation.translate('sorting.orderNumber'),
     ]).pipe(
       map(([textByDate, textByOrderNumber]) => {
         return {

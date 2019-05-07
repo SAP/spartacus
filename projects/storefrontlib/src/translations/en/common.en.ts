@@ -22,7 +22,7 @@ export const common = {
     searchHere: 'Search here...',
   },
   sorting: {
-    byDate: 'Date',
-    byOrderNumber: 'Order Number',
+    date: 'Date',
+    orderNumber: 'Order Number',
   },
 };

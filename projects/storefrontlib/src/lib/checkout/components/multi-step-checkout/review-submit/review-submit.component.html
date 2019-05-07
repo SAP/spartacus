@@ -22,8 +22,8 @@
     <div class="col-md-12 col-lg-6 col-xl-4">
       <div class="cx-review-summary-card cx-review-card-shipping">
         <cx-card
-          *ngIf="deliveryMode$"
-          [content]="getDeliveryModeCard(deliveryMode$ | async) | async"
+          *ngIf="(deliveryMode$ | async) as deliveryMode"
+          [content]="getDeliveryModeCard(deliveryMode) | async"
         ></cx-card>
       </div>
     </div>
