@@ -91,10 +91,8 @@ export class SiteContextComponentService {
     switch (context) {
       case LANGUAGE_CONTEXT_ID:
         return item.nativeName;
-        break;
       case CURRENCY_CONTEXT_ID:
         return item.symbol + ' ' + item.isocode;
-        break;
       default:
         return item.isocode;
     }
