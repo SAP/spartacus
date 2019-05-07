@@ -50,9 +50,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   @Input()
   showTitleCode: boolean;
 
-  @Input()
-  showCancelBtn = true;
-
   @Output()
   submitAddress = new EventEmitter<any>();
 

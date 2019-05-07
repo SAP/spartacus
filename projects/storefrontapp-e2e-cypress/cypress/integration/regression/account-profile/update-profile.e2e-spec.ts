@@ -35,7 +35,7 @@ describe('Update profile', () => {
       });
 
       // check for the global message and home screen
-      cy.get('cx-global-message .alert-success').should(
+      cy.get('cx-global-message .alert-info').should(
         'contain',
         'Personal details successfully updated'
       );

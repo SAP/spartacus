@@ -1,11 +1,11 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
-  CmsActivatedRouteSnapshot,
-  CmsService,
-  PageType,
   RoutingService,
+  PageType,
+  CmsService,
+  CmsActivatedRouteSnapshot,
 } from '@spartacus/core';
 
 import { of } from 'rxjs';
@@ -24,7 +24,7 @@ class MockCmsService {
   }
 }
 class MockRoutingService {
-  getNextPageContext() {
+  getPageContext() {
     return of();
   }
   go() {}
@@ -66,7 +66,7 @@ describe('CmsPageGuard', () => {
     });
 
     routingService = TestBed.get(RoutingService);
-    spyOn(routingService, 'getNextPageContext').and.returnValue(
+    spyOn(routingService, 'getPageContext').and.returnValue(
       of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
     );
   });

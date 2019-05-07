@@ -30,9 +30,9 @@ export class CmsPageGuard implements CanActivate {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    return this.routingService.getNextPageContext().pipe(
+    return this.routingService.getPageContext().pipe(
       switchMap(pageContext =>
-        this.cmsService.hasPage(pageContext, true).pipe(
+        this.cmsService.hasPage(pageContext).pipe(
           first(),
           withLatestFrom(of(pageContext))
         )

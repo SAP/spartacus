@@ -50,7 +50,7 @@ describe('Update email', () => {
 
       cy.get('cx-login-form').should('exist');
 
-      cy.get('cx-global-message .alert-success').should(
+      cy.get('cx-global-message .alert-info').should(
         'contain',
         `Success. Please sign in with ${newUid}`
       );

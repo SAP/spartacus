@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
-import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 
 import { of } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
 import { PageType } from '../../occ';
@@ -12,7 +14,6 @@ import { UrlTranslationService } from '../configurable-routes/url-translation/ur
 import { RouterState } from '../store/reducers/router.reducer';
 
 import { RoutingService } from './routing.service';
-import createSpy = jasmine.createSpy;
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
@@ -139,7 +140,7 @@ describe('RoutingService', () => {
     expect(routerState).toEqual({});
   });
 
-  it('should return only page context from the state', () => {
+  it('shoud return only page context from the state', () => {
     const pageContext: PageContext = {
       id: 'homepage',
       type: PageType.CATALOG_PAGE,
@@ -154,38 +155,5 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
-  });
-
-  it('getNextPageContext should return nextPageContext state', () => {
-    const pageContext: PageContext = {
-      id: 'homepage',
-      type: PageType.CATALOG_PAGE,
-    };
-    const mockRouterState = createSpy().and.returnValue(() => of(pageContext));
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
-
-    let result: PageContext;
-    service
-      .getNextPageContext()
-      .subscribe(value => (result = value))
-      .unsubscribe();
-
-    expect(result).toEqual(pageContext);
-    expect(NgrxStore.select).toHaveBeenCalledWith(fromStore.getNextPageContext);
-  });
-
-  it('isNavigating should return isNavigating state', () => {
-    const isNavigating = true;
-    const mockRouterState = createSpy().and.returnValue(() => of(isNavigating));
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
-
-    let result: boolean;
-    service
-      .isNavigating()
-      .subscribe(value => (result = value))
-      .unsubscribe();
-
-    expect(result).toEqual(isNavigating);
-    expect(NgrxStore.select).toHaveBeenCalledWith(fromStore.isNavigating);
   });
 });
