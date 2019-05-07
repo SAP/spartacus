@@ -6,12 +6,13 @@ import {
   GlobalMessageType,
   GlobalMessageService,
   GlobalMessageEntities,
+  I18nTestingModule,
 } from '@spartacus/core';
 
-const mockMessages = {
-  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
-  [GlobalMessageType.MSG_TYPE_INFO]: ['Info'],
-  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error'],
+const mockMessages: GlobalMessageEntities = {
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
+  [GlobalMessageType.MSG_TYPE_INFO]: [{ raw: 'Info' }],
+  [GlobalMessageType.MSG_TYPE_ERROR]: [{ raw: 'Error' }],
 };
 
 class MockMessageService {
@@ -28,6 +29,7 @@ describe('GlobalMessageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [GlobalMessageComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },

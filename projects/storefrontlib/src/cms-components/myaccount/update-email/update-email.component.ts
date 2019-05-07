@@ -50,10 +50,10 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean): void {
     if (success) {
-      this.globalMessageService.add({
-        text: `Success. Please sign in with ${this.newUid}`,
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      });
+      this.globalMessageService.add(
+        `Success. Please sign in with ${this.newUid}`,
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
       this.authService.logout();
       this.routingService.go({ route: 'login' });
     }

@@ -20,7 +20,6 @@ import {
   MediaComponent,
   PaginationComponent,
   SortingComponent,
-  StarRatingComponent,
 } from '../../../../shared';
 import { AddToCartComponent } from '../../../checkout';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
@@ -31,6 +30,15 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
+
+@Component({
+  selector: 'cx-star-rating',
+  template: '',
+})
+class MockStarRatingComponent {
+  @Input() rating;
+  @Input() disabled;
+}
 
 class MockPageLayoutService {
   getSlots(): Observable<string[]> {
@@ -79,6 +87,14 @@ class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 describe('ProductListComponent in product-list', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -112,13 +128,14 @@ describe('ProductListComponent in product-list', () => {
         ProductListComponent,
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
+        MockStarRatingComponent,
         AddToCartComponent,
         MediaComponent,
         ProductViewComponent,
-        StarRatingComponent,
         MockProductListItemComponent,
         MockTranslateUrlPipe,
         MockStripHtmlPipe,
+        MockCxIconComponent,
       ],
     }).compileComponents();
   }));
