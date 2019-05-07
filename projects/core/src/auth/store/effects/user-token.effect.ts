@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as fromActions from './../actions/user-token.action';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from './../../services/user-authentication/user-authentication-token.service';
 
 import { UserTokenAction } from '../actions/user-token.action';
+import { Login } from '../actions/login-logout.action';
+
 @Injectable()
 export class UserTokenEffects {
   @Effect()
@@ -27,6 +29,12 @@ export class UserTokenEffects {
         catchError(error => of(new fromActions.LoadUserTokenFail(error)))
       );
     })
+  );
+
+  @Effect()
+  login$: Observable<Login> = this.actions$.pipe(
+    ofType(fromActions.LOAD_USER_TOKEN_SUCCESS),
+    map(() => new Login())
   );
 
   @Effect()
