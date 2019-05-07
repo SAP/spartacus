@@ -4,7 +4,7 @@
 
 # Disabling standard routes
 
-To disable a route (i.e. to remove it from Angular's router config and avoid translating paths to this route) it suffices to set one of those things in the `routesConfig`:
+To disable a route (i.e. to remove it from Angular's router config and avoid generating paths to this route) it suffices to set one of those things in the `routesConfig`:
 
 - set `null` for this route's name
 - set `null` or `[]` for route's paths
@@ -30,7 +30,7 @@ ConfigModule.withConfig({
 Then [configurable router links](./configurable-router-links.md) will output:
 
 ```html
-<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
 ```
 
 result

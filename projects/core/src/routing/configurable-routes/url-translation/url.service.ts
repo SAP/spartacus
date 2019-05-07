@@ -3,15 +3,11 @@ import { UrlParsingService } from './url-parsing.service';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteConfig, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
-import {
-  TranslateUrlCommandRoute,
-  TranslateUrlCommands,
-  TranslateUrlOptions,
-} from './translate-url-commands';
+import { UrlCommandRoute, UrlCommands, UrlCommand } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
 
 @Injectable({ providedIn: 'root' })
-export class UrlTranslationService {
+export class UrlService {
   readonly ROOT_URL = ['/'];
 
   constructor(
@@ -20,22 +16,19 @@ export class UrlTranslationService {
     private config: ServerConfig
   ) {}
 
-  translate(
-    commands: TranslateUrlCommands,
-    options: TranslateUrlOptions = {}
-  ): any[] {
+  generateUrl(commands: UrlCommands): any[] {
     if (!Array.isArray(commands)) {
       commands = [commands];
     }
 
     const result: string[] = [];
     for (const command of commands) {
-      if (!command || !command.route) {
+      if (!this.isRouteCommand(command)) {
         // don't modify segment that is not route command:
         result.push(command);
       } else {
-        // generate array with url segments for given options object:
-        const partialResult = this.generateUrl(command);
+        // generate array with url segments for given route command:
+        const partialResult = this.generateUrlPart(command);
 
         if (partialResult === null) {
           return this.ROOT_URL;
@@ -45,14 +38,22 @@ export class UrlTranslationService {
       }
     }
 
-    if (!options.relative) {
-      result.unshift(''); // ensure absolute path ( leading '' in path array is equivalent to leading '/' in string)
+    if (this.shouldOutputAbsolute(commands)) {
+      result.unshift('/');
     }
 
     return result;
   }
 
-  private generateUrl(command: TranslateUrlCommandRoute): string[] | null {
+  private isRouteCommand(command: UrlCommand): boolean {
+    return command && Boolean(command.route);
+  }
+
+  private shouldOutputAbsolute(commands: UrlCommands): boolean {
+    return this.isRouteCommand(commands[0]);
+  }
+
+  private generateUrlPart(command: UrlCommandRoute): string[] | null {
     this.standarizeRouteCommand(command);
 
     if (!command.route) {
@@ -83,7 +84,7 @@ export class UrlTranslationService {
     return result;
   }
 
-  private standarizeRouteCommand(command: TranslateUrlCommandRoute): void {
+  private standarizeRouteCommand(command: UrlCommandRoute): void {
     command.params = command.params || {};
   }
 

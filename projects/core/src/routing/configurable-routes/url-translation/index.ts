@@ -1,3 +1,4 @@
-export * from './url-translation.module';
-export * from './translate-url.pipe';
-export * from './translate-url-commands';
+export * from './url.module';
+export * from './url.pipe';
+export * from './url-command';
+export * from './url.service';

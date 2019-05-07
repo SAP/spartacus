@@ -5,7 +5,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CloseAccountModalComponent } from './components/close-account-modal/close-account-modal.component';
@@ -16,7 +16,7 @@ import { CloseAccountComponent } from './components/close-account/close-account.
   imports: [
     CommonModule,
     RouterModule,
-    UrlTranslationModule,
+    UrlModule,
     I18nModule,
     IconModule,
     SpinnerModule,

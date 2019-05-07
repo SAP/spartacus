@@ -19,11 +19,12 @@ import {
   GlobalMessageType,
   UserService,
 } from '@spartacus/core';
+
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Card } from '../../../../../../shared/components/card/card.component'; // tslint:disable-line
-import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
+import { ICON_TYPES } from '../../../../../../cms-components/misc/icon/index';
 
 type monthType = { id: number; name: string };
 type yearType = { id: number; name: number };
@@ -34,6 +35,8 @@ type yearType = { id: number; name: number };
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
+  iconTypes = ICON_TYPES;
+
   private checkboxSub: Subscription;
   private addressVerifySub: Subscription;
   suggestedAddressModalRef: NgbModalRef;
@@ -80,8 +83,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     }),
     postalCode: ['', Validators.required],
   });
-
-  infoIconImgSrc = infoIconImgSrc;
 
   constructor(
     protected checkoutService: CheckoutService,

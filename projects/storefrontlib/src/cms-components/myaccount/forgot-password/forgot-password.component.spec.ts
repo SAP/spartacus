@@ -16,9 +16,9 @@ class MockUserService {}
 class MockRoutingService {}
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -32,7 +32,7 @@ describe('ForgotPasswordComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
-      declarations: [ForgotPasswordComponent, MockTranslateUrlPipe],
+      declarations: [ForgotPasswordComponent, MockUrlPipe],
       providers: [
         { provide: UserService, useClass: MockUserService },
         { provide: RoutingService, useClass: MockRoutingService },
