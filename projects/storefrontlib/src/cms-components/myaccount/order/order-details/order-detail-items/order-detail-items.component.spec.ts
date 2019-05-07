@@ -70,7 +70,7 @@ class MockUserService {
   getConsignmentTracking(): Observable<ConsignmentTracking> {
     return of({ trackingID: '1234567890' });
   }
-  loadConsignmentTracking(_orderCode: string, _consignmentCode: string): void { }
+  loadConsignmentTracking(_orderCode: string, _consignmentCode: string): void {}
 }
 
 @Component({
@@ -110,7 +110,7 @@ describe('OrderDetailItemsComponent', () => {
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         { provide: UserService, useClass: MockUserService },
-        { provide: NgbModal, useValue: { open: () => { } } },
+        { provide: NgbModal, useValue: { open: () => {} } },
       ],
       declarations: [OrderDetailItemsComponent, MockCartItemListComponent],
     }).compileComponents();

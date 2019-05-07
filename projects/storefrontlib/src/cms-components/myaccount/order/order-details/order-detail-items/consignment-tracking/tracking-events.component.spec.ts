@@ -3,7 +3,7 @@ import { TrackingEventsComponent } from './tracking-events.component';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
-import { SpinnerModule } from './../../../../../ui/components/spinner/spinner.module';
+import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
 import { I18nTestingModule, ConsignmentTracking } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 
