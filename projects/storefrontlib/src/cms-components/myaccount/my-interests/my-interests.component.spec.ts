@@ -21,7 +21,7 @@ import { By } from '@angular/platform-browser';
   name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() { }
+  transform() {}
 }
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
@@ -34,7 +34,7 @@ class MockUserService {
     _pageSize: number,
     _currentPage?: number,
     _sort?: string
-  ): void { }
+  ): void {}
   getProdutInterests(
     _userId: string,
     _pageSize: number
@@ -44,8 +44,8 @@ class MockUserService {
   getProdutInterestsLoaded(): Observable<boolean> {
     return of(true);
   }
-  deleteProdutInterest(_userId: string, _item: ProductInterestRelation): void { }
-  clearProductInterests(): void { }
+  deleteProdutInterest(_userId: string, _item: ProductInterestRelation): void {}
+  clearProductInterests(): void {}
 }
 
 const mockedInterests: ProductInterestList = {

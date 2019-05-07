@@ -42,7 +42,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   ];
   pagination: PaginationModel;
 
-  constructor(private auth: AuthService, private userService: UserService) { }
+  constructor(private auth: AuthService, private userService: UserService) {}
 
   ngOnInit() {
     this.subscription = this.auth.getUserToken().subscribe(userData => {
