@@ -24,6 +24,9 @@ class MockCmsService {
   isLaunchInSmartEdit(): boolean {
     return true;
   }
+  getCurrentPage(): Observable<any> {
+    return of({});
+  }
 }
 
 class MockDynamicAttributeService {
