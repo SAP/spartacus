@@ -143,13 +143,6 @@ describe('AuthService', () => {
     );
   });
 
-  it('should dispatch proper action for login', () => {
-    spyOn(store, 'dispatch').and.stub();
-
-    service.login();
-    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
-  });
-
   it('should dispatch proper action for logout', () => {
     spyOn(store, 'dispatch').and.stub();
 

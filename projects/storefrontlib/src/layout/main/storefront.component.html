@@ -1,5 +1,5 @@
 <header
-  [class.is-expanded]="isExpanded | async"
+  [class.is-expanded]="isExpanded$ | async"
   (keydown.escape)="collapseMenu()"
 >
   <cx-page-layout section="header"></cx-page-layout>

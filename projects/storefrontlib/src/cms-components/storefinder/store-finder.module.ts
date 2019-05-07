@@ -7,7 +7,7 @@ import {
   ConfigModule,
   I18nModule,
   StoreFinderCoreModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { LayoutConfig } from '../../layout/config/layout-config';
 import { BootstrapModule } from '../../lib/bootstrap.module';
@@ -37,7 +37,7 @@ import {
     ListNavigationModule,
     BootstrapModule,
     SpinnerModule,
-    UrlTranslationModule,
+    UrlModule,
     StoreFinderCoreModule,
     I18nModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
