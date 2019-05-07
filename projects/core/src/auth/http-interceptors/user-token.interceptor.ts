@@ -47,6 +47,6 @@ export class UserTokenInterceptor implements HttpInterceptor {
   }
 
   private isOccUrl(url: string): boolean {
-    return url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1;
+    return url.includes(this.occEndpoints.getBaseEndpoint());
   }
 }
