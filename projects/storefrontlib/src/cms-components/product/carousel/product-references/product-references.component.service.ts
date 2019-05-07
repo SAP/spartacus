@@ -68,7 +68,8 @@ export class ProductReferencesService {
         return this.referenceService.get(productCode, '', pageSize);
       })
     );
-    //TODO: merge or combine 2 observables for monday
+
+    // TODO: merge or combine 2 observables for monday
     // this.items$ = this.getReferenceType().pipe(
     //   switchMap((referenceType: string) => {
     //     console.log('what am i ', referenceType);

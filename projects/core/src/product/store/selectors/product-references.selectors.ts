@@ -22,6 +22,8 @@ export const getSelectedProductReferencesFactory = (
     getProductReferencesState,
     referenceTypeData => {
       if (referenceTypeData.productCode === productCode) {
+        console.log('ref code', referenceTypeData.productCode);
+        console.log('real product code', productCode);
         return referenceTypeData.list;
       }
     }
