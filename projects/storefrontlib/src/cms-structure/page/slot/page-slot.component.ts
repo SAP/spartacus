@@ -43,10 +43,7 @@ export class PageSlotComponent {
    */
   readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
     withLatestFrom(this.page$),
-    filter(([_, page]) => {
-      return !!page;
-    }),
-    tap(x => console.log('!!!position', x)),
+    filter(([_, page]) => !!page),
     switchMap(([position]) => this.cmsService.getContentSlot(position)),
     tap(slot => this.addSmartEditSlotClass(slot))
   );
