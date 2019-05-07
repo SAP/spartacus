@@ -2,6 +2,7 @@ import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of, Observable } from 'rxjs';
+import { CardModule } from '../../../../../shared/components/card/card.module';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import {
@@ -13,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
-import { CardModule } from 'projects/storefrontlib/src/shared/components/card/card.module';
 
 const mockOrder: Order = {
   code: '1',
@@ -70,7 +70,7 @@ class MockUserService {
   getConsignmentTracking(): Observable<ConsignmentTracking> {
     return of({ trackingID: '1234567890' });
   }
-  loadConsignmentTracking(_orderCode: string, _consignmentCode: string): void {}
+  loadConsignmentTracking(_orderCode: string, _consignmentCode: string): void { }
 }
 
 @Component({
@@ -110,7 +110,7 @@ describe('OrderDetailItemsComponent', () => {
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         { provide: UserService, useClass: MockUserService },
-        { provide: NgbModal, useValue: { open: () => {} } },
+        { provide: NgbModal, useValue: { open: () => { } } },
       ],
       declarations: [OrderDetailItemsComponent, MockCartItemListComponent],
     }).compileComponents();
