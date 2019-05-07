@@ -20,20 +20,17 @@
       --cx-flex: 0 1 100%;
     }
 
-    &.BodyContent {
+    &.BodyContent,
+    &.SideContent {
       --cx-flex: 1 1 auto;
+    }
+
+    &.BodyContent {
       --cx-flex-basis: 66%;
     }
 
     &.SideContent {
-      --cx-flex: 1 1 auto;
       --cx-flex-basis: 33%;
-    }
-
-    &.TopContent {
-      @include media-breakpoint-down(md) {
-        --cx-flex-basis: 100%;
-      }
     }
   }
 }
