@@ -1,22 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import {
+  Address,
   CartDataService,
-  UserService,
-  PaymentDetails,
   CheckoutService,
   GlobalMessageService,
-  Address,
   I18nTestingModule,
+  PaymentDetails,
+  UserService,
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
-
-import { Card } from '../../../../ui/components/card/card.component';
-
+import { Observable, of } from 'rxjs';
+import { Card } from '../../../../../shared/components/card/card.component';
 import { PaymentMethodComponent } from './payment-method.component';
+
 import createSpy = jasmine.createSpy;
 
 const mockPaymentDetails: PaymentDetails = {

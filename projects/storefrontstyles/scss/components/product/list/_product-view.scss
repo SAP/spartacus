@@ -20,75 +20,43 @@
 
   .cx-product-grid {
     display: var(--cx-display, inline-block);
-    padding: var(--cx-padding, 13px 18px 13px 18px);
+    padding: var(--cx-padding, 13px 15px 13px 15px);
     color: var(--cx-color, var(--cx-g-color-light));
+    max-width: var(--cx-max-width, 53px);
 
     @include media-breakpoint-down(sm) {
       padding: var(--cx-padding, 13px 12px 13px 12px);
     }
 
-    span {
-      color: var(--cx-color, var(--cx-g-color-inverse));
-      background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+    .fa-th-large {
+      color: var(--cx-color, var(--cx-g-color-secondary));
+      font-size: var(--cx-font-size, 24px);
+      position: var(--cx-position, relative);
+      bottom: var(--cx-bottom, 1px);
 
       &:hover {
-        background: var(--cx-background, var(--cx-g-color-primary));
-      }
-
-      &:before {
-        -webkit-transform: rotate(90deg);
-        -moz-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        transform: rotate(90deg);
-        content: '';
-        position: var(--cx-position, absolute);
-        width: var(--cx-width, 100%);
-        height: var(--cx-height, 2px);
-        top: var(--cx-top, 50%);
-        left: var(--cx-left, 0);
-        margin: var(--cx-margin, -1px 0 0 0);
-        background-color: var(--cx-background-color, var(--cx-g-color-inverse));
-      }
-
-      &:after {
-        -webkit-transform: rotate(0deg);
-        -moz-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        transform: rotate(0deg);
-        content: '';
-        position: var(--cx-position, absolute);
-        width: var(--cx-width, 100%);
-        height: var(--cx-height, 2px);
-        top: var(--cx-top, 50%);
-        left: var(--cx-left, 0);
-        margin: var(--cx-margin, -1px 0 0 0);
-        background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+        color: var(--cx-color, var(--cx-g-color-primary));
       }
     }
   }
 
   .cx-product-list {
     display: var(--cx-display, inline-block);
-    padding: var(--cx-padding, 13px 18px 13px 18px);
+    padding: var(--cx-padding, 13px 16px 13px 16px);
+    max-width: var(--cx-max-width, 53px);
 
     @include media-breakpoint-down(sm) {
       padding: var(--cx-padding, 13px 12px 13px 12px);
     }
 
-    span {
+    .fa-bars {
       color: var(--cx-color, var(--cx-g-color-secondary));
+      font-size: var(--cx-font-size, 25px);
+      bottom: var(--cx-bottom, 2px);
+      position: var(--cx-position, relative);
 
       &:hover {
         color: var(--cx-color, var(--cx-g-color-primary));
-      }
-
-      &:before {
-        content: '\2630';
-        font-size: var(--cx-font-size, 25px);
-        bottom: var(--cx-bottom, 12px);
-        position: var(--cx-position, relative);
       }
     }
   }
