@@ -53,10 +53,10 @@
                       | cxTranslateUrl
                   "
                 >
-                  <cx-picture
-                    [imageContainer]="result.product.images?.PRIMARY"
-                    imageFormat="thumbnail"
-                  ></cx-picture>
+                  <cx-media
+                    [container]="result.product.images?.PRIMARY"
+                    format="thumbnail"
+                  ></cx-media>
                 </a>
               </td>
               <td>
@@ -78,7 +78,10 @@
                         </a>
                       </div>
                       <div *ngIf="result.product.code" class="cx-code">
-                        <span>ID {{ result.product.code }}</span>
+                        <span>{{
+                          'myInterests.productId'
+                            | cxTranslate: { code: result.product.code }
+                        }}</span>
                       </div>
 
                       <div

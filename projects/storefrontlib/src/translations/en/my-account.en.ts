@@ -35,5 +35,6 @@ export const myAccount = {
     outOfStock: 'Out of Stock',
     sortByMostRecent: 'Sort by Most recent',
     expirationDate: ' - Till {{ expirationDate }}',
+    productId: 'ID {{ code }}',
   },
 };
