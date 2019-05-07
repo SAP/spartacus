@@ -74,10 +74,9 @@ export class RoutingService {
    * Navigating back
    */
   back(): void {
-    const isLastPageInApp =
-      this.winRef.document.referrer.indexOf(
-        this.winRef.nativeWindow.location.origin
-      ) > -1;
+    const isLastPageInApp = this.winRef.document.referrer.includes(
+      this.winRef.nativeWindow.location.origin
+    );
     if (isLastPageInApp) {
       this.store.dispatch(new fromStore.Back());
       return;
