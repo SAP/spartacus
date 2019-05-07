@@ -1,4 +1,5 @@
-import { CheckoutConfig, CheckoutStepType } from './checkout-config';
+import { CheckoutConfig } from './checkout-config';
+import { CheckoutStepType } from '../model/checkout-step.model';
 
 export const defaultCheckoutConfig: CheckoutConfig = {
   checkout: {
