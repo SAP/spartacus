@@ -41,10 +41,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     // TODO:#1185 - reset templateList loading state? This triggers a new http request.
     // this.userService.resetConsentsProcessState();
     this.templateList$ = this.userService.getConsents().pipe(
-      // TODO:#1184 - check for falsy value? (everywhere)
       withLatestFrom(this.userService.get()),
+      filter(([_, user]) => Boolean(user) && Boolean(user.uid)),
       tap(([templateList, user]) => {
-        if (user && this.consentsExists(templateList)) {
+        if (this.consentsExists(templateList)) {
           this.userService.loadConsents(user.uid);
         }
       }),
@@ -66,7 +66,23 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.userService.resetWithdrawConsentProcessState();
     this.withdrawConsentLoading$ = this.userService.withdrawConsentResultLoading();
     this.withdrawConsentError$ = this.userService.withdrawConsentResultError();
-    this.withdrawConsentSuccess$ = this.userService.withdrawConsentResultSuccess();
+    this.withdrawConsentSuccess$ = this.withdrawConsentLoading$.pipe(
+      filter(loading => !loading),
+      withLatestFrom(
+        this.userService.withdrawConsentResultSuccess(),
+        this.userService.get()
+      ),
+      map(([_loading, withdrawalSuccess, user]) => {
+        return { withdrawalSuccess, user };
+      }),
+      filter(data => Boolean(data.user)),
+      tap(data => {
+        if (data.withdrawalSuccess) {
+          this.userService.loadConsents(data.user.uid);
+        }
+      }),
+      map(data => data.withdrawalSuccess)
+    );
   }
 
   private consentsExists(templateList: ConsentTemplateList): boolean {

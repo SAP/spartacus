@@ -30,7 +30,7 @@ CONSENT MANAGEMENT WORKS
     <div class="row d-flex justify-content-center">
       <cx-consent-management-list
         class="col-md-6"
-        [consentTemplates]="(templateList$ | async).consentTemplates"
+        [consentTemplates]="(templateList$ | async)?.consentTemplates"
         (consentChanged)="onConsentChange($event)"
         (done)="onDone()"
       ></cx-consent-management-list>
