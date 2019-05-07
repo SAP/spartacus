@@ -66,7 +66,10 @@ export class CartEffects {
             if (payload.oldCartId) {
               return [
                 new fromActions.CreateCartSuccess(cart),
-                new fromActions.MergeCartSuccess(),
+                new fromActions.MergeCartSuccess({
+                  userId: payload.userId,
+                  cartId: cart.code,
+                }),
               ];
             }
             return [new fromActions.CreateCartSuccess(cart)];
