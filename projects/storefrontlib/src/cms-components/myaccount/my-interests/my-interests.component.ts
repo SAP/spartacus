@@ -11,7 +11,6 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
-  styleUrls: ['./my-interests.component.scss'],
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   interests$: Observable<ProductInterestList>;

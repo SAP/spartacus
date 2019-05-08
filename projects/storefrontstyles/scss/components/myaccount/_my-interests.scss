@@ -1,0 +1,145 @@
+%cx-product-interests {
+
+  .cx-product-interests {
+    @include media-breakpoint-down(sm) {
+      max-width: var(--cx-max-width, 100%);
+      padding: var(--cx-padding, 0);
+    }
+  }
+  .cx-product-interests-table {
+    padding: var(--cx-paddding, 1.5rem 0 1.125rem 0);
+    margin-bottom: var(--cx-margin, 0);
+    border-width: var(--cx-border-width, 1px 0 1px 0);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
+    border-style: var(--cx-border-style, solid);
+
+    tr {
+      width: var(--cx-width, 100%);
+
+      @include media-breakpoint-down(sm) {
+        border-width: var(--cx-border-width, 1px 0 0 0);
+        border-color: var(--cx-border-color, var(--cx-g-color-light));
+        border-style: var(--cx-border-style, solid);
+
+        &:first-child {
+          border-width: var(--cx-border-width, 0);
+          padding: var(--cx-padding, 1.25rem 0 0 0);
+        }
+      }
+    }
+
+    th {
+      padding: var(--cx-padding, 1.5rem 0 1.125rem 0);
+      text-align: var(--cx-text-align, left);
+
+      &:last-child {
+        text-align: var(--cx-text-align, right);
+      }
+    }
+
+    td {
+      width: var(--cx-width, 23%);
+      padding: var(--cx-padding, 1.625rem 0);
+
+      @include media-breakpoint-up(md) {
+        text-align: var(--cx-text-align, left);
+
+        &:first-child {
+          width: var(--cx-width, 12%);
+        }
+
+        &:last-child {
+          text-align: var(--cx-text-align, right);
+          width: var(--cx-width, 8%);
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        width: var(--cx-width, 100%);
+        display: var(--cx-display, flex);
+        border-width: var(--cx-border-width, 0);
+        padding: var(--cx-padding, 0 1.25rem);
+
+        &:first-child {
+          padding-top: var(--cx-padding, 1.25rem);
+        }
+
+        &:last-child {
+          padding-bottom: var(--cx-padding, 1.25rem);
+        }
+      }
+    }
+  }
+
+  .cx-product-interests-header {
+    padding: var(--cx-padding, 40px 0 0 0);
+    color: var(--cx-color, var(--cx-g-color-text));
+
+    @include media-breakpoint-down(sm) {
+      padding: var(cx-padding, 40px 20px 0 20px);
+    }
+  }
+
+  .cx-product-interests-thead-mobile {
+    @include media-breakpoint-down(sm) {
+      display: var(--cx-display, none);
+    }
+  }
+
+  .cx-product-interests-form-group {
+    padding: var(--cx-padding, 0);
+    margin-bottom: var(--cx-margin, 0);
+
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 1.25rem);
+    }
+  }
+
+  .cx-product-interests-sort {
+    &.top {
+      display: var(--cx-display, flex);
+      justify-content: var(--cx-justify-content, space-between);
+      padding: var(--cx-padding, 1rem 0);
+      margin: var(--cx-margin, 0);
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: var(--cx-flex-direction, column);
+        padding-top: var(--cx-padding, 0);
+      }
+    }
+
+    &.bottom {
+      display: var(--cx-display, flex);
+      justify-content: var(--cx-justify-content, space-between);
+      padding: var(--cx-padding, 2rem 0 1rem 0);
+      margin: var(--cx-margin, 0);
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: var(--cx-flex-direction, column);
+        padding-top: var(--cx-padding, 0);
+      }
+    }
+  }
+
+  .cx-product-interests-pagination {
+    @include media-breakpoint-down(sm) {
+      margin: var(--cx-margin, 0 auto);
+    }
+  }
+
+  .cx-product-interests-no-interests {
+    @include type('5');
+    font-weight: $font-weight-normal;
+    min-height: var(--cx-min-height, 415px);
+
+    @include media-breakpoint-down(sm) {
+      min-height: var(--cx-min-height, 474px);
+      padding-left: var(--cx-padding, 1.25rem);
+      padding-right: var(--cx-padding, 1.25rem);
+    }
+
+    .btn {
+      margin: var(--cx-margin, 1.25rem 0);
+    }
+  }
+}
