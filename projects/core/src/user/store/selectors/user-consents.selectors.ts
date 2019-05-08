@@ -10,8 +10,6 @@ import {
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
-// TODO:#1184 - test
-
 export const getConsentsState: MemoizedSelector<
   StateWithUser,
   LoaderState<ConsentTemplateList>

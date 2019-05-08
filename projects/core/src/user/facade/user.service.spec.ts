@@ -19,7 +19,7 @@ import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
-fdescribe('UserService', () => {
+describe('UserService', () => {
   let service: UserService;
   let store: Store<fromStore.UserState>;
 
@@ -658,7 +658,7 @@ fdescribe('UserService', () => {
     });
   });
 
-  fdescribe('consent management', () => {
+  describe('consent management', () => {
     const userId = 'xxx@xxx.xxx';
     const consentTemplateListMock: ConsentTemplateList = {
       consentTemplates: [{ id: 'xxx' }],

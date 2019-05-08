@@ -552,7 +552,6 @@ export class UserService {
     this.store.dispatch(new fromStore.UpdatePasswordReset());
   }
 
-  // TODO:#1184 - test
   /**
    * Retrieves all consents
    * @param userId user ID for which to retrieve consents
