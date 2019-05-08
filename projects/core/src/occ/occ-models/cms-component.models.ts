@@ -39,7 +39,7 @@ export interface CmsParagraphComponent extends CmsComponent {
   title?: string;
 }
 
-export interface CmsTabParagraphComponent extends CmsComponent {
+export interface CMSTabParagraphContainer extends CmsComponent {
   container?: string;
   components?: string;
 }

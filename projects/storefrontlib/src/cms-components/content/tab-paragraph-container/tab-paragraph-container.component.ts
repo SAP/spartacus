@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsTabParagraphComponent } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
+import { CMSTabParagraphContainer } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8,17 +13,31 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
-  styleUrls: ['./tab-paragraph-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent {
+  activatedElements: HTMLElement[] = [];
+
+  @ViewChild('header')
+  set initial(ref: ElementRef) {
+    if (ref) {
+      ref.nativeElement.click();
+    }
+  }
+
   constructor(
-    public componentData: CmsComponentData<CmsTabParagraphComponent>
+    public componentData: CmsComponentData<CMSTabParagraphContainer>
   ) {}
 
   components$: Observable<any> = this.componentData.data$.pipe(
-    map((data: CmsTabParagraphComponent) =>
+    map((data: CMSTabParagraphContainer) =>
       data.components.split(' ').map(component => {
+        if (component === 'deliveryTab') {
+          return {
+            flexType: 'CMSTabParagraphComponent',
+            uid: 'deliveryTab',
+          };
+        }
         return {
           typeCode: component,
           flexType: component,
@@ -27,6 +46,20 @@ export class TabParagraphContainerComponent {
       })
     )
   );
+
+  select(event: MouseEvent, tab: HTMLElement): void {
+    if (!this.activatedElements.includes(tab)) {
+      // remove active class on both header and content panel
+      this.activatedElements.forEach(el =>
+        el.classList.remove('active', 'toggled')
+      );
+      this.activatedElements = [<HTMLElement>event.target, tab];
+      this.activatedElements.forEach(el => el.classList.add('active'));
+      // only scroll if the element is not yet visible
+    } else {
+      this.activatedElements.forEach(el => el.classList.toggle('toggled'));
+    }
+  }
   // map(productIds =>
   //   productIds.forEach(component => {
   //     return {
