@@ -22,16 +22,16 @@ ConfigModule.withConfig({
 })
 ```
 
-Then additional params are also needed in `{ route: <route> }` (otherwise path cannot be translated). Examples:
+Then additional params are also needed in `{ route: <route> }` (otherwise path cannot be generated). Examples:
 
 `{ route: <route> }` also needs the new `productName` param:
 
 ```html
-<a [routerLink]="{ route: 'product', params: { productName: 'ABC', productCode: 1234 } } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'product', params: { productName: 'ABC', productCode: 1234 } } | cxUrl"></a>
 ```
 
 result:
 
 ```html
-<a [routerLink]="['', 1234, 'custom', 'product-path', 'ABC']"></a>
+<a [routerLink]="['/', 1234, 'custom', 'product-path', 'ABC']"></a>
 ```

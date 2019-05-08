@@ -27,7 +27,7 @@ export class HardcodedCheckoutComponent implements HttpInterceptor {
   }
 
   private shouldBeIntercepted(event: HttpResponse<any>): boolean {
-    return event.url.indexOf('pageLabelOrId=multiStepCheckoutSummaryPage') > -1;
+    return event.url.includes('pageLabelOrId=multiStepCheckoutSummaryPage');
   }
 
   private addComponent(body: any) {

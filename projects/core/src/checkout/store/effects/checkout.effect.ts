@@ -215,15 +215,15 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  reloadDetailsOnCreateCart$: Observable<
+  reloadDetailsOnMergeCart$: Observable<
     fromActions.LoadCheckoutDetails
   > = this.actions$.pipe(
-    ofType(fromCartActions.CREATE_CART_SUCCESS),
-    map((action: fromCartActions.CreateCartSuccess) => action.payload),
+    ofType(fromCartActions.MERGE_CART_SUCCESS),
+    map((action: fromCartActions.MergeCartSuccess) => action.payload),
     map(payload => {
       return new fromActions.LoadCheckoutDetails({
         userId: payload.userId,
-        cartId: payload.toMergeCartGuid ? payload.toMergeCartGuid : 'current',
+        cartId: payload.cartId ? payload.cartId : 'current',
       });
     })
   );

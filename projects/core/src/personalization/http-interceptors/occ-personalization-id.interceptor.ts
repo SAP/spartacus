@@ -37,7 +37,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (
       this.personalizationId &&
-      request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1
+      request.url.includes(this.occEndpoints.getBaseEndpoint())
     ) {
       request = request.clone({
         setHeaders: {
@@ -49,7 +49,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap(event => {
         if (event instanceof HttpResponse) {
-          if (event.headers.keys().indexOf(this.requestHeader) > -1) {
+          if (event.headers.keys().includes(this.requestHeader)) {
             const receivedId = event.headers.get(this.requestHeader);
             if (this.personalizationId !== receivedId) {
               this.personalizationId = receivedId;
