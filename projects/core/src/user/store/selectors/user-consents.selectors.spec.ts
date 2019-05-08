@@ -11,7 +11,7 @@ const consents: ConsentTemplateList = {
   consentTemplates: [{ id: 'xxx' }],
 };
 
-fdescribe('User consents selectors', () => {
+describe('User consents selectors', () => {
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
