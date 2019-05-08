@@ -4,8 +4,6 @@ import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
-type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
-
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
   constructor(
@@ -50,80 +48,51 @@ export class ConfigurableRoutesService {
   }
 
   private configureRoute(route: Route): Route {
-    if (this.isConfigurable(route, 'cxPath')) {
-      // we assume that 'path' and 'redirectTo' cannot be both configured for one route
-      if (this.isConfigurable(route, 'cxRedirectTo')) {
-        this.warn(
-          `A path should not have set both "cxPath" and "cxRedirectTo" properties! Route: '${route}`
-        );
+    if (this.getRouteName(route)) {
+      const paths = this.getConfiguredPaths(route);
+      switch (paths.length) {
+        case 0:
+          delete route.path;
+          return {
+            ...route,
+            matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
+          };
+
+        case 1:
+          delete route.matcher;
+          return { ...route, path: paths[0] };
+
+        default:
+          delete route.path;
+          return {
+            ...route,
+            matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+          };
       }
-      return this.configureRoutePath(route);
     }
-
-    if (this.isConfigurable(route, 'cxRedirectTo')) {
-      return this.configureRouteRedirectTo(route);
-    }
-
-    return route; // if nothing is configurable, just pass the original route
+    return route; // if route doesn't have a name, just pass the original route
   }
 
-  private isConfigurable(route: Route, key: ConfigurableRouteKey): boolean {
-    return !!this.getConfigurable(route, key);
+  private getRouteName(route: Route): string {
+    return route.data && route.data.cxRoute;
   }
 
-  private getConfigurable(route: Route, key: ConfigurableRouteKey): string {
-    return route.data && route.data[key];
-  }
-
-  private configureRoutePath(route: Route): Route {
-    const paths = this.getConfiguredPaths(route, 'cxPath');
-    switch (paths.length) {
-      case 0:
-        delete route.path;
-        return {
-          ...route,
-          matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
-        };
-
-      case 1:
-        delete route.matcher;
-        return { ...route, path: paths[0] };
-
-      default:
-        delete route.path;
-        return {
-          ...route,
-          matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
-        };
-    }
-  }
-
-  private configureRouteRedirectTo(route: Route): Route {
-    const paths = this.getConfiguredPaths(route, 'cxRedirectTo');
-    return paths.length
-      ? { ...route, redirectTo: paths[0] } // take the first path from list by convention
-      : route;
-  }
-
-  private getConfiguredPaths(
-    route: Route,
-    key: ConfigurableRouteKey
-  ): string[] {
-    const routeName = this.getConfigurable(route, key);
+  private getConfiguredPaths(route: Route): string[] {
+    const routeName = this.getRouteName(route);
     const routeConfig = this.routingConfigService.getRouteConfig(routeName);
     if (routeConfig === undefined) {
       this.warn(
-        `Could not configure the key '${key}' of the named route '${routeName}'`,
+        `Could not configure the named route '${routeName}'`,
         route,
-        `due to undefined key for named route '${routeName}' in config`
+        `due to undefined key '${routeName}' in the routes config`
       );
       return [];
     }
     if (routeConfig && routeConfig.paths === undefined) {
       this.warn(
-        `Could not configure the key '${key}' of the named route '${routeName}'`,
+        `Could not configure the named route '${routeName}'`,
         route,
-        `due to undefined 'paths' for the named route '${routeName}' in config`
+        `due to undefined 'paths' for the named route '${routeName}' in the routes config`
       );
       return [];
     }

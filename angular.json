@@ -159,34 +159,6 @@
         }
       }
     },
-    "storefrontapp-e2e": {
-      "root": "projects/storefrontapp-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/storefrontapp-e2e/protractor.conf.js",
-            "devServerTarget": "storefrontapp:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "storefrontapp:serve:production"
-            },
-            "ci": {
-              "devServerTarget": "storefrontapp:serve:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
     "storefrontlib": {
       "root": "projects/storefrontlib",
       "sourceRoot": "projects/storefrontlib/src",
