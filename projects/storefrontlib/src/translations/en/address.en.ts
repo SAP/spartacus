@@ -45,7 +45,7 @@ export const address = {
     default: 'DEFAULT',
     selected: 'Selected',
     setAsDefault: 'Set as default',
-    shipTo: 'Ship to',
-    billTo: 'Bill to',
+    shipTo: 'Ship To',
+    billTo: 'Bill To',
   },
 };
