@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ServerConfig } from '@spartacus/core';
-import { CheckoutDetailsService } from '../checkout-details.service';
-import { CheckoutStep } from '../config/model/checkout-step.model';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutConfig } from '../config/checkout-config';
-import { CheckoutStepType } from '../config/default-checkout-config';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +20,8 @@ export class ShippingAddressSetGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const route = this.config.checkout.steps.find(
-      (step: CheckoutStep) =>
-        step.type.indexOf(CheckoutStepType.shippingAddress) > -1
+    const route = this.config.checkout.steps.find((step: CheckoutStep) =>
+      step.type.includes(CheckoutStepType.shippingAddress)
     );
     if (!route && !this.serverConfig.production) {
       console.warn(

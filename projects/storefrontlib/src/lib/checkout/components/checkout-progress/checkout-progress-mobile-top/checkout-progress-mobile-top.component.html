@@ -8,10 +8,7 @@
       <div *ngFor="let step of steps; let i = index">
         <div class="cx-list-media" *ngIf="i < activeStepIndex">
           <div>{{ i + 1 }}. {{ step.name | cxTranslate }}</div>
-          <button
-            class="btn btn-link"
-            [routerLink]="{ url: step.url } | cxUrl"
-          >
+          <button class="btn btn-link" [routerLink]="{ url: step.url } | cxUrl">
             {{ 'common.edit' | cxTranslate }}
           </button>
         </div>

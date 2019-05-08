@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { Order, ServerConfig } from '@spartacus/core';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutDetailsService } from '../checkout-details.service';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutConfig } from '../config/checkout-config';
 
 class MockCheckoutDetailsService {
