@@ -5,7 +5,7 @@ import * as fromReducer from './user-consents.reducer';
 const consentId = 'xxx';
 const consents: ConsentTemplateList = { consentTemplates: [{ id: consentId }] };
 
-fdescribe('User Consents Reducer', () => {
+describe('User Consents Reducer', () => {
   describe('undefined state', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;

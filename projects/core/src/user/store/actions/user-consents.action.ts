@@ -39,8 +39,6 @@ export const WITHDRAW_USER_CONSENT_SUCCESS =
 export const RESET_WITHDRAW_USER_CONSENT_PROCESS =
   '[User] Reset Withdraw User Consent Process';
 
-// TODO:#1184 - test
-
 export class LoadUserConsents extends LoaderLoadAction {
   readonly type = LOAD_USER_CONSENTS;
   constructor(public payload: string) {
