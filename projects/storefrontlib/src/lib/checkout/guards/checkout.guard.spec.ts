@@ -11,10 +11,7 @@ describe(`CheckoutGuard`, () => {
   let guard: CheckoutGuard;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        CheckoutGuard,
-        { provide: CheckoutConfig, useValue: MockCheckoutConfig },
-      ],
+      providers: [{ provide: CheckoutConfig, useValue: MockCheckoutConfig }],
       imports: [RouterTestingModule],
     });
     guard = TestBed.get(CheckoutGuard);
