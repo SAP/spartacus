@@ -249,8 +249,6 @@ result:
 
 ### Predefined parameters mapping
 
-Some Storefront's routes already have predefined `paramsMapping`. They can be found in [`default-storefront-routes-config.ts`](../../../../../storefrontlib/src/lib/ui/pages/default-storefront-routes-config.ts).
-
 ```typescript
 // default-storefront-routes-config.ts
 
