@@ -2,7 +2,7 @@ import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { CloseAccountComponent } from './close-account.component';
 import { I18nTestingModule } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Component, Input } from '@angular/core';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 

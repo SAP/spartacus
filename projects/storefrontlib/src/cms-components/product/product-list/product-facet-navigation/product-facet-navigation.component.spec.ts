@@ -1,6 +1,11 @@
 import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
+import {
+  DebugElement,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+} from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { NgbCollapseModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';

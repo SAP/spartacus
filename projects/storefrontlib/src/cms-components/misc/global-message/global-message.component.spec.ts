@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
