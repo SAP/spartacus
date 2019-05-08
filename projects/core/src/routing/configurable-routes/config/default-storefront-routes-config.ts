@@ -8,7 +8,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   register: { paths: ['register'] },
   resetPassword: { paths: ['login/pw/change'] },
   forgotPassword: { paths: ['forgot-password'] },
-  checkout: { paths: ['checkout'] },
+  shippingAddress: { paths: ['checkout/shipping-address'] },
+  deliveryMode: { paths: ['checkout/delivery-mode'] },
+  paymentDetails: { paths: ['checkout/payment-details'] },
+  reviewOrder: { paths: ['checkout/review-order'] },
   orderConfirmation: { paths: ['order-confirmation'] },
   product: {
     paths: ['product/:productCode'],
