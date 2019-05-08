@@ -67,13 +67,13 @@ It's to support [Route aliases](./route-aliases.md).
 
 ## Angular's `Routes`
 
-In order to have configurable `Routes` we need to name them (in `data.cxPath` property) the same as the route keys in the config. For example:
+In order to have configurable `Routes` we need to name them (in `data.cxRoute` property) the same as the route keys in the config. For example:
 
 ```typescript
 const routes: Routes = [
     {
         data: {
-            cxPath: 'product' // the name of the route
+            cxRoute: 'product' // the name of the route
         },
         path: null, // it will be replaced by the path from config
         component: ProductPageComponent
@@ -108,12 +108,12 @@ When an Angular's `Route` contains `children`:
 const routes: Routes = [
     {
         data: {
-            cxPath: 'parent' // the name of the route
+            cxRoute: 'parent' // the name of the route
         },
         children: [
             {
                 data: {
-                    cxPath: 'child' // the name of the route
+                    cxRoute: 'child' // the name of the route
                 },
                 /* ... */
             }
