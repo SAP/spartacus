@@ -5,7 +5,7 @@ export const defaultI18nConfig: I18nConfig = {
     fallbackLang: false,
     debug: false,
     chunks: {
-      common: ['common', 'spinner', 'header', 'searchBox'],
+      common: ['common', 'spinner', 'header', 'searchBox', 'messages'],
       cart: ['cartDetails', 'cartItems', 'orderCost'],
       address: ['addressForm', 'addressBook', 'addressCard'],
       payment: ['paymentForm', 'paymentMethods'],
