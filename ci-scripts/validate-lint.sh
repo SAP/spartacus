@@ -33,8 +33,6 @@ function validateNoHardCodedText {
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
 validateTsConfigFile
-TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp-e2e/tsconfig.e2e.json"
-validateTsConfigFile
 
 echo "Validating that no 'fdescribe' occurrences are present in tests..."
 results=$(grep -rl --include "*.spec.ts" fdescribe projects || true)
