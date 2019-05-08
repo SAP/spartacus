@@ -11,7 +11,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
-import { MediaModule } from '../../../shared/index';
+import { MediaModule } from '../../../shared/components/media/media.module';
 import { SearchBoxComponent } from './search-box.component';
 
 @NgModule({

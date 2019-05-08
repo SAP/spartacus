@@ -4,43 +4,39 @@ import {
   HostBinding,
   Input,
   Optional,
-  ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CmsSearchBoxComponent } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
-import { Subject } from 'rxjs';
 import { ICON_TYPES } from '../../../cms-components/misc/icon/index';
 import { SearchBoxComponentService } from './search-box-component.service';
 @Component({
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent {
-  iconTypes = ICON_TYPES;
-
   searchBoxControl: FormControl = new FormControl();
 
-  queryText$: Subject<string> = new Subject();
-
-  private ignoreBlur = false;
-
-  @HostBinding('class.open') showResults = false;
-
+  /**
+   * Sets the search box input field
+   */
   @Input('queryText')
   set queryText(value: string) {
     this.searchBoxControl.setValue(value);
   }
 
+  iconTypes = ICON_TYPES;
+  private ignoreBlur = false;
+  @HostBinding('class.open') showResults = false;
+
   constructor(
+    protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
-    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
-    protected service: SearchBoxComponentService
+    protected componentData: CmsComponentData<CmsSearchBoxComponent>
   ) {}
 
-  searchResults$ = this.service.typeahead(
+  searchResults$ = this.searchBoxComponentService.typeahead(
     this.searchBoxControl.valueChanges,
     this.componentData ? this.componentData.data$ : null
   );
@@ -71,12 +67,20 @@ export class SearchBoxComponent {
     this.onBlur(event);
   }
 
+  /**
+   * Clears the search box input field
+   */
   public clear() {
     this.searchBoxControl.reset();
   }
 
+  /**
+   * Closes the searchbox and opens the search result page.
+   */
   public search(event: KeyboardEvent): void {
     this.close(event);
-    this.service.launchSearchPage(this.searchBoxControl.value);
+    this.searchBoxComponentService.launchSearchPage(
+      this.searchBoxControl.value
+    );
   }
 }

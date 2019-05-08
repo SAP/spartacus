@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '@spartacus/core';
-import { BREAKPOINT, LayoutConfig } from '../../../layout/index';
+import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { missingProductImgSrc } from '../../../lib/ui/images/missingProduct';
 import { Media, MediaFormats } from './media.model';
 
