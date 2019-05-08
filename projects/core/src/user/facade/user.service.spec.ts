@@ -739,10 +739,11 @@ fdescribe('UserService', () => {
     });
 
     describe('give consent', () => {
+      const consentTemplateId = 'templateId';
+      const consentTemplateVersion = 0;
+
       describe('giveConsent', () => {
         it('should dispatch an action', () => {
-          const consentTemplateId = 'templateId';
-          const consentTemplateVersion = 0;
           service.giveConsent(
             userId,
             consentTemplateId,
@@ -757,11 +758,123 @@ fdescribe('UserService', () => {
           );
         });
       });
-      describe('giveConsentResultLoading', () => {
-        it('should return the loading flag', () => {});
+      describe('getGiveConsentResultLoading', () => {
+        it('should return the loading flag', () => {
+          store.dispatch(
+            new fromStore.GiveUserConsent({
+              userId,
+              consentTemplateId,
+              consentTemplateVersion,
+            })
+          );
+
+          let result = false;
+          service
+            .getGiveConsentResultLoading()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('getGiveConsentResultSuccess', () => {
+        it('should return the success flag', () => {
+          store.dispatch(new fromStore.GiveUserConsentSuccess({}));
+
+          let result = false;
+          service
+            .getGiveConsentResultSuccess()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('getGiveConsentResultError', () => {
+        it('should return the error flag', () => {
+          store.dispatch(new fromStore.GiveUserConsentFail('an error'));
+
+          let result = false;
+          service
+            .getGiveConsentResultError()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('resetGiveConsentProcessState', () => {
+        it('should dispatch the reset action', () => {
+          service.resetGiveConsentProcessState();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new fromStore.ResetGiveUserConsentProcess()
+          );
+        });
       });
     });
 
-    describe('withdraw consent', () => {});
+    describe('withdraw consent', () => {
+      describe('withdrawConsent', () => {
+        it('should dispatch an action', () => {
+          const consentCode = 'xxx';
+          service.withdrawConsent(userId, consentCode);
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new fromStore.WithdrawUserConsent({
+              userId,
+              consentCode,
+            })
+          );
+        });
+      });
+      describe('getWithdrawConsentResultLoading', () => {
+        it('should return the loading flag', () => {
+          store.dispatch(
+            new fromStore.WithdrawUserConsent({ userId, consentCode: 'xxx' })
+          );
+
+          let result = false;
+          service
+            .getWithdrawConsentResultLoading()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('getWithdrawConsentResultSuccess', () => {
+        it('should return the success flag', () => {
+          store.dispatch(new fromStore.WithdrawUserConsentSuccess());
+
+          let result = false;
+          service
+            .getWithdrawConsentResultSuccess()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('getWithdrawConsentResultError', () => {
+        it('should return the error flag', () => {
+          store.dispatch(new fromStore.WithdrawUserConsentFail('an error'));
+
+          let result = false;
+          service
+            .getWithdrawConsentResultError()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('resetWithdrawConsentProcessState', () => {
+        it('should dispatch the reset action', () => {
+          service.resetWithdrawConsentProcessState();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new fromStore.ResetWithdrawUserConsentProcess()
+          );
+        });
+      });
+    });
   });
 });

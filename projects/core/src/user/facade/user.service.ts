@@ -619,7 +619,7 @@ export class UserService {
   /**
    * Returns the give consent process loading flag
    */
-  giveConsentResultLoading(): Observable<boolean> {
+  getGiveConsentResultLoading(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessLoadingFactory(GIVE_CONSENT_PROCESS_ID))
     );
@@ -628,7 +628,7 @@ export class UserService {
   /**
    * Returns the give consent process success flag
    */
-  giveConsentResultSuccess(): Observable<boolean> {
+  getGiveConsentResultSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(GIVE_CONSENT_PROCESS_ID))
     );
@@ -637,7 +637,7 @@ export class UserService {
   /**
    * Returns the give consent process error flag
    */
-  giveConsentResultError(): Observable<boolean> {
+  getGiveConsentResultError(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessErrorFactory(GIVE_CONSENT_PROCESS_ID))
     );
@@ -664,7 +664,7 @@ export class UserService {
   /**
    * Returns the withdraw consent process loading flag
    */
-  withdrawConsentResultLoading(): Observable<boolean> {
+  getWithdrawConsentResultLoading(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessLoadingFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
@@ -673,7 +673,7 @@ export class UserService {
   /**
    * Returns the withdraw consent process success flag
    */
-  withdrawConsentResultSuccess(): Observable<boolean> {
+  getWithdrawConsentResultSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
@@ -682,7 +682,7 @@ export class UserService {
   /**
    * Returns the withdraw consent process error flag
    */
-  withdrawConsentResultError(): Observable<boolean> {
+  getWithdrawConsentResultError(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessErrorFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
