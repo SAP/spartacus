@@ -74,9 +74,9 @@ class MockProductListItemComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -133,7 +133,7 @@ describe('ProductListComponent in product-list', () => {
         MediaComponent,
         ProductViewComponent,
         MockProductListItemComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         MockStripHtmlPipe,
         MockCxIconComponent,
       ],
