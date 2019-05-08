@@ -28,7 +28,7 @@ Angular requires any defined `redirectTo` in compilation time.
 
 ## Combination of `cxPath` and `cxRedirectTo` is not supported
 
-When both `cxPath` and `cxRedirectTo` are defined, then the route won't be translated.
+When both `cxPath` and `cxRedirectTo` are defined, then the route won't be generated.
 
 More about `cxPath` in [Configure routes](./routes-configuration.md).
 
