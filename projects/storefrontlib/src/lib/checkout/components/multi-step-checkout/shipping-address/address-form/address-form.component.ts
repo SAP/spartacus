@@ -142,12 +142,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             results.errors.errors.some(error => error.subject === 'titleCode')
           ) {
             this.globalMessageService.add(
-              'Title is required',
+              { key: 'messages.titleRequired' },
               GlobalMessageType.MSG_TYPE_ERROR
             );
           } else {
             this.globalMessageService.add(
-              'Invalid Address',
+              { key: 'messages.invalidAddress' },
               GlobalMessageType.MSG_TYPE_ERROR
             );
           }

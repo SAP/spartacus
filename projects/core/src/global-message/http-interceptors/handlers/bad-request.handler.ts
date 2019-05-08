@@ -30,7 +30,7 @@ export class BadRequestHandler extends HttpErrorHandler {
       // uses en translation error message instead of backend exception error
       // @todo: this condition could be removed if backend gives better message
       this.globalMessageService.add(
-        'Old password incorrect.',
+        { key: 'messages.oldPasswordIncorrect' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       // text: customError.customError.passwordMismatch,
@@ -54,6 +54,6 @@ export class BadRequestHandler extends HttpErrorHandler {
       }
     }
 
-    return errMsg || 'An unknown error occured';
+    return errMsg || 'message.unknownError';
   }
 }
