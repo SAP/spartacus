@@ -9,7 +9,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  TranslateUrlCommands,
+  UrlCommands,
   User,
   UserService,
 } from '@spartacus/core';
@@ -31,7 +31,7 @@ class MockUserService {
 }
 class MockRoutingService {
   go(
-    _commands: any[] | TranslateUrlCommands,
+    _commands: any[] | UrlCommands,
     _query?: object,
     _extras?: NavigationExtras
   ): void {}
@@ -153,10 +153,10 @@ describe('UpdatePasswordComponent', () => {
         spyOn(routingService, 'go').and.stub();
 
         component.onSuccess(true);
-        expect(globalMessageService.add).toHaveBeenCalledWith({
-          text: 'Password updated with success',
-          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        });
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          'Password updated with success',
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
         expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
       });
     });

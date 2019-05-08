@@ -1,56 +1,62 @@
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import {
-  Component,
-  Input,
   ChangeDetectionStrategy,
-  forwardRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
+import { ICON_TYPES } from '../../../cms-components/misc/index';
 
 @Component({
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => StarRatingComponent),
-    },
-  ],
 })
-export class StarRatingComponent implements ControlValueAccessor {
-  @Input()
-  rating = 1;
-  @Input()
-  disabled = false;
-  @Input()
-  steps = 1;
+export class StarRatingComponent implements OnInit {
+  /**
+   * The rating component can be used in disabled mode,
+   * so that the interation is not provided.
+   */
+  @Input() @HostBinding('attr.disabled') disabled = false;
 
-  onChange = (_rating: number) => {};
-  onTouched = () => {};
+  /**
+   * The rating will be used to render some colorful stars in the UI.
+   */
+  @Input() rating: number;
 
-  get value(): number {
-    return this.rating;
+  /**
+   * Emits the given rating when the user clicks on a star.
+   */
+  @Output() change = new EventEmitter<number>();
+
+  private initialRate = 0;
+
+  iconTypes = ICON_TYPES;
+
+  constructor(private el: ElementRef) {}
+
+  ngOnInit(): void {
+    this.setRate(this.rating, true);
   }
 
-  setRating(rating: number): void {
-    if (!this.disabled) {
-      this.writeValue(rating);
+  setRate(value: number, force?: boolean): void {
+    if (!this.disabled || force) {
+      this.el.nativeElement.style.setProperty(
+        '--star-fill',
+        value || this.initialRate
+      );
     }
   }
 
-  // ControlvalueAccessor interface
-
-  writeValue(rating: number): void {
-    this.rating = rating;
-    this.onChange(this.rating);
-  }
-
-  registerOnChange(fn: (rating: number) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+  saveRate(rating: number): void {
+    if (this.disabled) {
+      return;
+    }
+    this.initialRate = rating;
+    this.setRate(rating);
+    this.change.emit(rating);
   }
 }

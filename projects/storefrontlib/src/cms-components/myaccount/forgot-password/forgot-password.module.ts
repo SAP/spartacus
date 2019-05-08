@@ -8,7 +8,7 @@ import { ForgotPasswordComponent } from './forgot-password.component';
 import {
   ConfigModule,
   CmsConfig,
-  UrlTranslationModule,
+  UrlModule,
   I18nModule,
 } from '@spartacus/core';
 
@@ -17,7 +17,7 @@ import {
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    UrlTranslationModule,
+    UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ForgotPasswordComponent: { selector: 'cx-forgot-password' },

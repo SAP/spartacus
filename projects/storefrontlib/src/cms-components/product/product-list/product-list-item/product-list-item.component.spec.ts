@@ -26,7 +26,6 @@ export class MockAddToCartComponent {
 export class MockStarRatingComponent {
   @Input() rating;
   @Input() disabled;
-  @Input() steps;
 }
 
 @Component({
@@ -38,10 +37,18 @@ export class MockPictureComponent {
   @Input() alt;
 }
 
-@Pipe({
-  name: 'cxTranslateUrl',
+@Component({
+  selector: 'cx-icon',
+  template: '',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+export class MockCxIconComponent {
+  @Input() type;
+}
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -80,8 +87,9 @@ describe('ProductListItemComponent in product-list', () => {
         MockPictureComponent,
         MockAddToCartComponent,
         MockStarRatingComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         MockStripHtmlPipe,
+        MockCxIconComponent,
       ],
     })
       .overrideComponent(ProductListItemComponent, {

@@ -8,7 +8,7 @@ import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
 import {
   UserModule,
-  UrlTranslationModule,
+  UrlModule,
   ConfigModule,
   CmsConfig,
   I18nModule,
@@ -21,7 +21,7 @@ import {
     ReactiveFormsModule,
     RouterModule,
     UserModule,
-    UrlTranslationModule,
+    UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {
