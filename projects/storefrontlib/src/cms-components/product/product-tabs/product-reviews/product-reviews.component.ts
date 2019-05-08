@@ -1,13 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnChanges,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductReviewService, Review, UIProduct } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
 
 @Component({
@@ -15,10 +10,7 @@ import { CurrentProductService } from '../../current-product.service';
   templateUrl: './product-reviews.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
-  product: UIProduct;
-  subscription: Subscription;
-
+export class ProductReviewsComponent {
   isWritingReview = false;
 
   // TODO: configurable
@@ -26,33 +18,21 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
   maxListItems: number;
   reviewForm: FormGroup;
 
-  reviews$: Observable<Review[]>;
+  product$: Observable<UIProduct> = this.currentProductService.getProduct();
+
+  reviews$: Observable<Review[]> = this.product$.pipe(
+    switchMap(product => this.reviewService.getByProductCode(product.code)),
+    tap(() => {
+      this.resetReviewForm();
+      this.maxListItems = this.initialMaxListItems;
+    })
+  );
 
   constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
     private fb: FormBuilder
   ) {}
-
-  ngOnChanges(): void {
-    this.maxListItems = this.initialMaxListItems;
-  }
-
-  ngOnInit(): void {
-    this.subscription = this.currentProductService
-      .getProduct()
-      .subscribe((product: UIProduct) => {
-        this.product = product;
-        this.reviews$ = this.reviewService.getByProductCode(this.product.code);
-      });
-    this.resetReviewForm();
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
@@ -67,7 +47,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
     this.reviewForm.controls.rating.setValue(rating);
   }
 
-  submitReview(): void {
+  submitReview(product: UIProduct): void {
     const reviewFormControls = this.reviewForm.controls;
     const review: Review = {
       headline: reviewFormControls.title.value,
@@ -76,7 +56,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
       alias: reviewFormControls.reviewerName.value,
     };
 
-    this.reviewService.add(this.product.code, review);
+    this.reviewService.add(product.code, review);
 
     this.isWritingReview = false;
     this.resetReviewForm();
