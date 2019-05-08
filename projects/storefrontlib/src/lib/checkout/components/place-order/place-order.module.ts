@@ -27,6 +27,7 @@ import { PlaceOrderComponent } from './place-order.component';
     }),
   ],
   declarations: [PlaceOrderComponent],
+  entryComponents: [PlaceOrderComponent],
   exports: [PlaceOrderComponent],
 })
 export class PlaceOrderModule {}
