@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
-import { ConsentManagementListComponent } from './components/consent-list/consent-management-list.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
 
 @NgModule({
@@ -20,11 +19,7 @@ import { ConsentManagementComponent } from './components/consent-management.comp
     SpinnerModule,
     I18nModule,
   ],
-  declarations: [
-    ConsentManagementComponent,
-    ConsentManagementListComponent,
-    ConsentManagementFormComponent,
-  ],
+  declarations: [ConsentManagementComponent, ConsentManagementFormComponent],
   exports: [ConsentManagementComponent],
   entryComponents: [ConsentManagementComponent],
 })
