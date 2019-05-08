@@ -1,4 +1,4 @@
-import { RoutingConfig } from './routing-config';
+import { RoutingConfig } from '@spartacus/core';
 import { defaultStorefrontRoutesConfig } from './default-storefront-routes-config';
 
 export const defaultRoutingConfig: RoutingConfig = {

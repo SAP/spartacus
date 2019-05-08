@@ -1,4 +1,4 @@
-import { RoutesConfig } from '../routes-config';
+import { RoutesConfig } from '@spartacus/core';
 
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
