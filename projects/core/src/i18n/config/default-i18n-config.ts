@@ -44,6 +44,7 @@ export const defaultI18nConfig: I18nConfig = {
       updateEmailForm: 'user',
       updatePasswordForm: 'user',
       updateProfileForm: 'user',
+      consentManagementForm: 'user',
 
       storeFinder: 'storeFinder',
       pwa: 'pwa',

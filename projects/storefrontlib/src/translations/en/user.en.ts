@@ -117,4 +117,12 @@ export const user = {
     },
     lastNameIsRequired: 'Last name is required.',
   },
+  consentManagementForm: {
+    message: {
+      success: {
+        given: 'Consent successfully given.',
+        withdrawn: 'Consent successfully withdrawn.',
+      },
+    },
+  },
 };

@@ -5,6 +5,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslationService,
   UserService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -25,7 +26,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private routingService: RoutingService,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +58,16 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.userService
         .giveConsentResultSuccess()
-        .subscribe(success => this.onConsentGivenSuccess(success))
+        .pipe(
+          withLatestFrom(
+            this.translationService.translate(
+              'consentManagementForm.message.success.given'
+            )
+          )
+        )
+        .subscribe(([success, message]) =>
+          this.onConsentGivenSuccess(success, message)
+        )
     );
   }
 
@@ -69,20 +80,27 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           filter(loading => !loading),
           withLatestFrom(
             this.userService.withdrawConsentResultSuccess(),
-            this.userService.get()
+            this.userService.get(),
+            this.translationService.translate(
+              'consentManagementForm.message.success.withdrawn'
+            )
           ),
-          map(([_loading, withdrawalSuccess, user]) => {
-            return { withdrawalSuccess, user };
+          map(([_loading, withdrawalSuccess, user, translatedMessage]) => {
+            return { withdrawalSuccess, user, translatedMessage };
           }),
           filter(data => Boolean(data.user)),
           tap(data => {
             if (data.withdrawalSuccess) {
               this.userService.loadConsents(data.user.uid);
             }
-          }),
-          map(data => data.withdrawalSuccess)
+          })
         )
-        .subscribe(success => this.onConsentWithdrawnSuccess(success))
+        .subscribe(data =>
+          this.onConsentWithdrawnSuccess(
+            data.withdrawalSuccess,
+            data.translatedMessage
+          )
+        )
     );
   }
 
@@ -125,20 +143,20 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.routingService.go({ route: 'home' });
   }
 
-  private onConsentGivenSuccess(success: boolean): void {
+  private onConsentGivenSuccess(success: boolean, message: string): void {
     if (success) {
       this.userService.resetGiveConsentProcessState();
       this.globalMessageService.add(
-        'Consent successfully given',
+        message,
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
   }
-  private onConsentWithdrawnSuccess(success: boolean): void {
+  private onConsentWithdrawnSuccess(success: boolean, message: string): void {
     if (success) {
       this.userService.resetWithdrawConsentProcessState();
       this.globalMessageService.add(
-        'Consent successfully withdrawn',
+        message,
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
