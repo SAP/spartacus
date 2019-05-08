@@ -244,7 +244,6 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  // TODO:#1184 - test
   loadConsents(userId: string): Observable<ConsentTemplateList> {
     const url = this.getUserEndpoint() + userId + CONSENTS_TEMPLATES_ENDPOINT;
     return this.http
@@ -252,7 +251,6 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  // TODO:#1184 - test
   giveConsent(
     userId: string,
     consentTemplateId: string,
@@ -270,10 +268,9 @@ export class OccUserService {
       .pipe(catchError(error => throwError(error)));
   }
 
-  // TODO:#1184 - test
-  withdrawConsent(userId: string, consentCode: string): Observable<void> {
+  withdrawConsent(userId: string, consentCode: string): Observable<{}> {
     const url =
       this.getUserEndpoint() + userId + CONSENTS_ENDPOINT + '/' + consentCode;
-    return this.http.delete<void>(url);
+    return this.http.delete(url);
   }
 }

@@ -20,6 +20,7 @@ export class UserConsentsEffect {
     )
   );
 
+  // TODO:#1184 - test
   @Effect()
   giveConsent$: Observable<fromActions.UserConsentsAction> = this.actions$.pipe(
     ofType(fromActions.GIVE_USER_CONSENT),
