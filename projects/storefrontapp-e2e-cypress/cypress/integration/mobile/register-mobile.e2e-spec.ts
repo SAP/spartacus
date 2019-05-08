@@ -6,9 +6,9 @@ function clickHamburger() {
 }
 
 function waitForHomePage() {
-  cy.get('cx-page-slot .ElectronicsHompageSplashBannerComponent').should(
-    'exist'
-  );
+  cy.get(
+    'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
+  ).should('exist');
   clickHamburger();
 }
 

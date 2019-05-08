@@ -39,7 +39,9 @@ describe('Update profile', () => {
         'contain',
         'Personal details successfully updated'
       );
-      cy.get('.ElectronicsHompageSplashBannerComponent').should('exist');
+      cy.get(
+        'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
+      ).should('exist');
 
       // check is the new name displayed in the upper right corner
       cy.get('.cx-login-greet').should(
@@ -64,7 +66,9 @@ describe('Update profile', () => {
       });
 
       cy.location('pathname').should('contain', '/');
-      cy.get('.ElectronicsHompageSplashBannerComponent').should('exist');
+      cy.get(
+        'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
+      ).should('exist');
     });
   });
 });

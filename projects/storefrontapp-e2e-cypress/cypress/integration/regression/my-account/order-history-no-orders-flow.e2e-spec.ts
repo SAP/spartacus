@@ -35,6 +35,8 @@ describe('Order History with no orders', () => {
       .getByText('Start Shopping')
       .click();
 
-    cy.get('.ElectronicsHompageSplashBannerComponent');
+    cy.get(
+      'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
+    ).should('exist');
   });
 });

@@ -2,7 +2,7 @@ import * as productSearchFlow from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
 
 function clickSearchIcon() {
-  cy.get('cx-searchbox [aria-label="Search "]').click();
+  cy.get('cx-searchbox [aria-label="Search"]').click();
 }
 
 function enterProduct() {

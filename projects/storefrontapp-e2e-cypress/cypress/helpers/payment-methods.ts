@@ -114,7 +114,7 @@ export function deletePayment() {
   // cy.get('.card-link').click({ force: true });
 
   // should see confirmation message
-  cy.get('.cx-card-body__delete-msg').should(
+  cy.get('.cx-card-delete-msg').should(
     'contain',
     'Are you sure you want to delete this payment method?'
   );
@@ -131,7 +131,7 @@ export function deletePayment() {
   cy.getByText('Delete')
     .first()
     .click();
-  cy.get('.btn-primary').should('contain', 'delete');
+  cy.get('.btn-primary').should('contain', 'Delete');
   cy.get('.btn-primary').click();
   cy.get('.cx-payment-card').should('have.length', 1);
 

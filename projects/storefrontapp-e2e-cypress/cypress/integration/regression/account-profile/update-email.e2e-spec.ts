@@ -29,8 +29,9 @@ describe('Update email', () => {
 
     it('should be able to cancel and go back to home', () => {
       cy.get('cx-update-email-form button[type="button"]').click();
-
-      cy.get('.ElectronicsHompageSplashBannerComponent').should('exist');
+      cy.get(
+        'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
+      ).should('exist');
 
       cy.location('pathname').should('contain', '/');
     });
@@ -63,7 +64,9 @@ describe('Update email', () => {
 
       // TODO: uncomment below component and remove update-email assertion when #1957 is implemented
       cy.get('cx-update-email').should('exist');
-      // cy.get('.ElectronicsHompageSplashBannerComponent').should('exist');
+      // cy.get(
+      //   'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
+      // ).should('exist');
     });
   });
 });

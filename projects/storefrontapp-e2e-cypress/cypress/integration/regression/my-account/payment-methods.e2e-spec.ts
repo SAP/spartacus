@@ -18,6 +18,14 @@ function paymentMethodsTest() {
         .click();
     });
 
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
     it('should see spinner when loading', () => {
       paymentMethods.verifySpinner();
     });
