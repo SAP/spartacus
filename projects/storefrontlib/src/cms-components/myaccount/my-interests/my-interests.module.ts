@@ -6,10 +6,10 @@ import { MyInterestsComponent } from './my-interests.component';
 import { MediaModule } from '../../../shared/components/media/media.module';
 
 import {
-  UrlTranslationModule,
   ConfigModule,
   CmsConfig,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -26,8 +26,8 @@ import {
     }),
     RouterModule,
     ListNavigationModule,
-    UrlTranslationModule,
     I18nModule,
+    UrlModule,
     MediaModule,
   ],
   exports: [MyInterestsComponent],

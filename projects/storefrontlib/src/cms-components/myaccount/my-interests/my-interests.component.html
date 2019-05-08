@@ -49,8 +49,7 @@
                 <a
                   class="cx-product-interests-product-image-link"
                   [routerLink]="
-                    { route: [{ name: 'product', params: result.product }] }
-                      | cxTranslateUrl
+                    { route: 'product', params: result.product } | cxUrl
                   "
                 >
                   <cx-media
@@ -67,11 +66,7 @@
                         <a
                           class="cx-link cx-product-interests-product-code-link"
                           [routerLink]="
-                            {
-                              route: [
-                                { name: 'product', params: result.product }
-                              ]
-                            } | cxTranslateUrl
+                            { route: 'product', params: result.product } | cxUrl
                           "
                         >
                           {{ result.product.name }}
