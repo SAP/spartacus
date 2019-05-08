@@ -72,10 +72,11 @@ export class CmsService {
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
-      this.components[uid] = this.store.pipe(
-        select(fromStore.componentStateSelectorFactory(uid)),
-        withLatestFrom(this.routingService.isNavigating()),
-        tap(([componentState, isNavigating]) => {
+      this.components[uid] = this.routingService.isNavigating().pipe(
+        withLatestFrom(
+          this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
+        ),
+        tap(([isNavigating, componentState]) => {
           const attemptedLoad =
             componentState.loading ||
             componentState.success ||
@@ -84,8 +85,8 @@ export class CmsService {
             this.store.dispatch(new fromStore.LoadComponent(uid));
           }
         }),
-        filter(([componentState]) => componentState.success),
-        map(([componentState]) => componentState.value),
+        filter(([_, componentState]) => componentState.success),
+        map(([_, componentState]) => componentState.value),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
