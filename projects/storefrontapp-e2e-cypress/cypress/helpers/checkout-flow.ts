@@ -91,7 +91,9 @@ export function placeOrder() {
     'contain',
     cart.total
   );
-
+  cy.getByText('Terms & Conditions')
+    .should('have.attr', 'target', '_blank')
+    .should('have.attr', 'href', '/electronics-spa/en/USD/termsAndConditions');
   cy.get('.form-check-input').check();
   cy.get('.cx-place-order button.btn-primary').click();
 }

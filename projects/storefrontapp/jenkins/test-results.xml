@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<testsuite name="Chrome 74.0.3729 (Windows 10.0.0)" package="" timestamp="2019-05-07T12:02:12" id="0" hostname="croterham" tests="0" errors="1" failures="0" time="0">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"/>
+  </properties>
+  <system-out>
+    <![CDATA[Chrome 74.0.3729 (Windows 10.0.0) ERROR
+  DisconnectedClient disconnected from CONNECTED state (transport error)
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>

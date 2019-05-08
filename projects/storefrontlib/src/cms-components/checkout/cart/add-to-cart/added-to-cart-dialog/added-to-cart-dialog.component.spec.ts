@@ -66,9 +66,9 @@ class MockCartItemComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -91,7 +91,7 @@ describe('AddedToCartDialogComponent', () => {
       declarations: [
         AddedToCartDialogComponent,
         MockCartItemComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
       ],
       providers: [
         {
