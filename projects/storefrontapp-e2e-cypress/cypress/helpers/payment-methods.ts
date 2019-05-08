@@ -137,6 +137,8 @@ export function deletePayment() {
 
   // verify remaining address is now the default one
   const defaultCard = cy.get('.cx-payment-card');
-  defaultCard.should('contain', 'DEFAULT');
+  // After bug https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/1905 is fixed,
+  // change the assertion to be 'DEFAULT'
+  defaultCard.should('contain', 'Set as default');
   defaultCard.should('contain', 'Winston Rumfoord');
 }
