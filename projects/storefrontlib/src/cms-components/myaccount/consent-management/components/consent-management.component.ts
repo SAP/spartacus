@@ -54,10 +54,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   private giveConsentInit(): void {
     this.userService.resetGiveConsentProcessState();
-    this.giveConsentLoading$ = this.userService.giveConsentResultLoading();
+    this.giveConsentLoading$ = this.userService.getGiveConsentResultLoading();
     this.subscriptions.add(
       this.userService
-        .giveConsentResultSuccess()
+        .getGiveConsentResultSuccess()
         .pipe(
           withLatestFrom(
             this.translationService.translate(
@@ -73,13 +73,13 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   private withdrawConsentInit(): void {
     this.userService.resetWithdrawConsentProcessState();
-    this.withdrawConsentLoading$ = this.userService.withdrawConsentResultLoading();
+    this.withdrawConsentLoading$ = this.userService.getWithdrawConsentResultLoading();
     this.subscriptions.add(
       this.withdrawConsentLoading$
         .pipe(
           filter(loading => !loading),
           withLatestFrom(
-            this.userService.withdrawConsentResultSuccess(),
+            this.userService.getWithdrawConsentResultSuccess(),
             this.userService.get(),
             this.translationService.translate(
               'consentManagementForm.message.success.withdrawn'
