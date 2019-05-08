@@ -8,7 +8,6 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-checkout-progress',
   templateUrl: './checkout-progress.component.html',
-  styleUrls: ['./checkout-progress.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutProgressComponent implements OnInit {
