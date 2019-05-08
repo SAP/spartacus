@@ -1,17 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
+import {
+  OutletModule,
+  PageComponentModule,
+} from 'projects/storefrontlib/src/cms-structure';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
-import { ConfigModule, CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSTabParagraphComponent: { selector: 'cx-tab-paragraph-container' },
+        CMSTabParagraphContainer: { selector: 'cx-tab-paragraph-container' },
       },
     }),
+    PageComponentModule,
+    OutletModule,
   ],
   declarations: [TabParagraphContainerComponent],
   entryComponents: [TabParagraphContainerComponent],

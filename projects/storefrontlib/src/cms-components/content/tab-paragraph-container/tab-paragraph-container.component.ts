@@ -1,4 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CmsTabParagraphComponent } from '@spartacus/core';
+import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 // import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
@@ -8,6 +12,31 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent {
+  constructor(
+    public componentData: CmsComponentData<CmsTabParagraphComponent>
+  ) {}
+
+  components$: Observable<any> = this.componentData.data$.pipe(
+    map((data: CmsTabParagraphComponent) =>
+      data.components.split(' ').map(component => {
+        return {
+          typeCode: component,
+          flexType: component,
+          uid: component,
+        };
+      })
+    )
+  );
+  // map(productIds =>
+  //   productIds.forEach(component => {
+  //     return {
+  //       typeCode: component,
+  //       flexType: component,
+  //       uid: component,
+  //     };
+  //   })
+  // )
+
   // extends AbstractProductComponent {
   // @ViewChild('tabContent') tabContent: Element;
   // fetchData() {

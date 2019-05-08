@@ -1,8 +1,8 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OutletDirective } from '../../../../cms-structure/outlet/index';
-import { ProductImagesComponent } from '../product-images/product-images.component';
+import { OutletDirective } from '../../../cms-structure/outlet/index';
+import { ProductImagesComponent } from './product-images.component';
 
 const firstImage = {
   zoom: {

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UIProduct } from '@spartacus/core';
-import { CurrentProductService } from '../../current-product.service';
 import { Observable } from 'rxjs';
+import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-details-tab',

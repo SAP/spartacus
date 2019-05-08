@@ -30,6 +30,7 @@ import {
   ProductListModule,
   ProductTabsModule,
 } from './product/index';
+import { ProductImagesModule } from './product/product-images/product-images.module';
 import { StoreFinderModule } from './storefinder/index';
 
 @NgModule({
@@ -59,6 +60,7 @@ import { StoreFinderModule } from './storefinder/index';
     CloseAccountModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    ProductImagesModule,
   ],
 })
 export class CmsLibModule {}

@@ -11,16 +11,15 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-
 import { OutletModule } from '../../../cms-structure/outlet/index';
 import { PageComponentModule } from '../../../cms-structure/page/index';
 import { CartSharedModule } from '../../checkout/index';
 // guards
 import { ProductTabsComponent } from './container/product-tabs.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
+import { ProductDetailsTabModule } from './product-details-tab/product-details-tab.module';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 import { ProductReviewsModule } from './product-reviews/product-reviews.module';
-import { ProductDetailsTabModule } from './product-details-tab/product-details-tab.module';
 
 @NgModule({
   imports: [
@@ -36,9 +35,9 @@ import { ProductDetailsTabModule } from './product-details-tab/product-details-t
     PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSTabParagraphContainer: {
-          selector: 'cx-product-tabs',
-        },
+        // CMSTabParagraphContainer: {
+        //   selector: 'cx-product-tabs',
+        // },
         ProductDetailsTabComponent: {
           selector: 'cx-product-details-tab',
         },

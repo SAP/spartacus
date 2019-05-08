@@ -11,7 +11,6 @@ import {
 } from '../../../shared/index';
 import { AddToCartModule, CartSharedModule } from '../../checkout/index';
 import { ProductDetailsComponent } from './container/product-details.component';
-import { ProductImagesComponent } from './product-images/product-images.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
 
 @NgModule({
@@ -29,15 +28,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     MediaModule,
     StarRatingModule,
   ],
-  declarations: [
-    ProductDetailsComponent,
-    ProductSummaryComponent,
-    ProductImagesComponent,
-  ],
-  exports: [
-    ProductDetailsComponent,
-    ProductSummaryComponent,
-    ProductImagesComponent,
-  ],
+  declarations: [ProductDetailsComponent, ProductSummaryComponent],
+  exports: [ProductDetailsComponent, ProductSummaryComponent],
 })
 export class ProductDetailsModule {}
