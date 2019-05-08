@@ -20,7 +20,7 @@ import { CheckoutConfig } from '../../config/checkout-config';
       },
     }),
   ],
-  providers: [CheckoutGuard, { provide: CheckoutConfig, useExisting: Config }],
+  providers: [{ provide: CheckoutConfig, useExisting: Config }],
   declarations: [CheckoutOrchestratorComponent],
   entryComponents: [CheckoutOrchestratorComponent],
   exports: [CheckoutOrchestratorComponent],

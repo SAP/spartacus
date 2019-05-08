@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { CheckoutModule } from '@spartacus/core';
 import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
-import { guards } from './guards/index';
 import { CheckoutOrchestratorModule } from './components/checkout-orchestrator/checkout-orchestrator.module';
 import { CheckoutOrderSummaryModule } from './components/checkout-order-summary/checkout-order-summary.module';
 import { CheckoutProgressModule } from './components/checkout-progress/checkout-progress.module';
@@ -36,6 +35,5 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
     ReviewSubmitModule,
     ShippingAddressModule,
   ],
-  providers: [...guards],
 })
 export class CheckoutComponentModule {}
