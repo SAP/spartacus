@@ -2,6 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   Address,
+  ConsentTemplateList,
   Country,
   Order,
   OrderHistoryList,
@@ -18,7 +19,7 @@ import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
-describe('UserService', () => {
+fdescribe('UserService', () => {
   let service: UserService;
   let store: Store<fromStore.UserState>;
 
@@ -655,5 +656,112 @@ describe('UserService', () => {
         new fromStore.UpdatePasswordReset()
       );
     });
+  });
+
+  fdescribe('consent management', () => {
+    const userId = 'xxx@xxx.xxx';
+    const consentTemplateListMock: ConsentTemplateList = {
+      consentTemplates: [{ id: 'xxx' }],
+    };
+
+    describe('load consents', () => {
+      describe('loadConsents', () => {
+        it('should dispatch an action', () => {
+          service.loadConsents(userId);
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new fromStore.LoadUserConsents(userId)
+          );
+        });
+      });
+      describe('getConsents', () => {
+        it('should return the consent template list', () => {
+          store.dispatch(
+            new fromStore.LoadUserConsentsSuccess(consentTemplateListMock)
+          );
+
+          let result: ConsentTemplateList;
+          service
+            .getConsents()
+            .subscribe(consents => (result = consents))
+            .unsubscribe();
+          expect(result).toEqual(consentTemplateListMock);
+        });
+      });
+      describe('getConsentsResultLoading', () => {
+        it('should return the loading flag', () => {
+          store.dispatch(new fromStore.LoadUserConsents(userId));
+
+          let result = false;
+          service
+            .getConsentsResultLoading()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('getConsentsResultSuccess', () => {
+        it('should return the success flag', () => {
+          store.dispatch(
+            new fromStore.LoadUserConsentsSuccess(consentTemplateListMock)
+          );
+
+          let result = false;
+          service
+            .getConsentsResultSuccess()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('getConsentsResultError', () => {
+        it('should return the error flag', () => {
+          store.dispatch(new fromStore.LoadUserConsentsFail('an error'));
+
+          let result = false;
+          service
+            .getConsentsResultError()
+            .subscribe(loading => (result = loading))
+            .unsubscribe();
+
+          expect(result).toEqual(true);
+        });
+      });
+      describe('resetConsentsProcessState', () => {
+        it('should dispatch the reset action', () => {
+          service.resetConsentsProcessState();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new fromStore.ResetLoadUserConsents()
+          );
+        });
+      });
+    });
+
+    describe('give consent', () => {
+      describe('giveConsent', () => {
+        it('should dispatch an action', () => {
+          const consentTemplateId = 'templateId';
+          const consentTemplateVersion = 0;
+          service.giveConsent(
+            userId,
+            consentTemplateId,
+            consentTemplateVersion
+          );
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new fromStore.GiveUserConsent({
+              userId,
+              consentTemplateId,
+              consentTemplateVersion,
+            })
+          );
+        });
+      });
+      describe('giveConsentResultLoading', () => {
+        it('should return the loading flag', () => {});
+      });
+    });
+
+    describe('withdraw consent', () => {});
   });
 });
