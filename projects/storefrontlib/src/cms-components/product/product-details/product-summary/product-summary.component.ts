@@ -60,7 +60,7 @@ export class ProductSummaryComponent implements OnInit {
 
       // Look through h3 tab elements until finding tab with label
       for (const h3Element of Array.from(h3Elements)) {
-        if (h3Element.innerHTML.indexOf(label) > -1) {
+        if (h3Element.innerHTML.includes(label)) {
           return h3Element;
         }
       }

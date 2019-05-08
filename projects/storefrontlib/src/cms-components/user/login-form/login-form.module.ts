@@ -6,7 +6,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UrlTranslationModule,
+  UrlModule,
   UserModule,
 } from '@spartacus/core';
 import { BootstrapModule } from '../../../lib/bootstrap.module';
@@ -22,7 +22,7 @@ import { LoginFormComponent } from './login-form.component';
     CmsModule,
     BootstrapModule,
     UserModule,
-    UrlTranslationModule,
+    UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ReturningCustomerLoginComponent: {

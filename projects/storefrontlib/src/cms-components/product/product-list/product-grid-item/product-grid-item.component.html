@@ -1,7 +1,5 @@
 <a
-  [routerLink]="
-    { route: 'product', params: product | stripHtml } | cxTranslateUrl
-  "
+  [routerLink]="{ route: 'product', params: product | stripHtml } | cxUrl"
   class="cx-product-image-container"
 >
   <cx-media
@@ -12,9 +10,7 @@
   ></cx-media>
 </a>
 <a
-  [routerLink]="
-    { route: 'product', params: product | stripHtml } | cxTranslateUrl
-  "
+  [routerLink]="{ route: 'product', params: product | stripHtml } | cxUrl"
   class="cx-product-name"
   [innerHTML]="product.name"
   >{{ product.name }}</a

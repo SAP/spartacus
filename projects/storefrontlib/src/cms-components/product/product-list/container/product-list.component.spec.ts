@@ -74,9 +74,9 @@ class MockProductListItemComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -85,6 +85,14 @@ class MockTranslateUrlPipe implements PipeTransform {
 })
 class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
 }
 
 describe('ProductListComponent in product-list', () => {
@@ -125,8 +133,9 @@ describe('ProductListComponent in product-list', () => {
         MediaComponent,
         ProductViewComponent,
         MockProductListItemComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         MockStripHtmlPipe,
+        MockCxIconComponent,
       ],
     }).compileComponents();
   }));

@@ -6,7 +6,7 @@ import {
   ConfigModule,
   I18nModule,
   StripHtmlModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
 import { BootstrapModule } from '../../../lib/bootstrap.module';
 import {
@@ -21,6 +21,7 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation/prod
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
+import { IconModule } from '../../misc/icon/index';
 
 @NgModule({
   imports: [
@@ -39,9 +40,10 @@ import { ProductViewComponent } from './product-view/product-view.component';
     FormComponentsModule,
     ListNavigationModule,
     StripHtmlModule,
-    UrlTranslationModule,
+    UrlModule,
     I18nModule,
     StarRatingModule,
+    IconModule,
   ],
   declarations: [
     ProductListComponent,
