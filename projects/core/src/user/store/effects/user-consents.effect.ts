@@ -7,7 +7,6 @@ import * as fromActions from '../actions/user-consents.action';
 
 @Injectable()
 export class UserConsentsEffect {
-  // TODO:#1184 - test
   @Effect()
   getConsents$: Observable<fromActions.UserConsentsAction> = this.actions$.pipe(
     ofType(fromActions.LOAD_USER_CONSENTS),
@@ -20,7 +19,6 @@ export class UserConsentsEffect {
     )
   );
 
-  // TODO:#1184 - test
   @Effect()
   giveConsent$: Observable<fromActions.UserConsentsAction> = this.actions$.pipe(
     ofType(fromActions.GIVE_USER_CONSENT),
