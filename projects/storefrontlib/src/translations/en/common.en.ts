@@ -20,5 +20,10 @@ export const common = {
   },
   searchBox: {
     searchHere: 'Search here...',
+    suggestion: 'Search for {{ suggestion }}',
+    help: {
+      insufficientChars: 'Please type more characters',
+      noMatch: 'We could not find any results',
+    },
   },
 };

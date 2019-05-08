@@ -1,17 +1,16 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  CmsSearchBoxComponent,
   ProductSearchService,
   RoutingService,
+  TranslationService,
 } from '@spartacus/core';
-import { combineLatest, merge, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   map,
   switchMap,
 } from 'rxjs/operators';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 export interface SearchBoxConfig {
   maxProducts: number;
@@ -21,63 +20,61 @@ export interface SearchBoxConfig {
   displayProducts: boolean;
 }
 
-@Injectable()
-export class SearchBoxComponentService {
-  defaultConfig: SearchBoxConfig = {
-    maxProducts: 2,
-    displaySuggestions: true,
-    maxSuggestions: 5,
-    minCharactersBeforeRequest: 3,
-    displayProducts: true,
-  };
+const DEFAULT_SEARCHBOCH_CONFIG: SearchBoxConfig = {
+  minCharactersBeforeRequest: 1,
+  maxProducts: 2,
+  displaySuggestions: true,
+  maxSuggestions: 3,
+  displayProducts: true,
+};
 
-  config$: Observable<SearchBoxConfig> = of(this.defaultConfig);
+@Injectable({
+  providedIn: 'root',
+})
+export class SearchBoxComponentService {
+  config$: Observable<any>; // = of(DEFAULT_SEARCHBOCH_CONFIG);
 
   queryParam$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map(routingData => routingData.state.params.query));
 
   constructor(
-    @Optional()
-    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     public searchService: ProductSearchService,
-    protected routingService: RoutingService
-  ) {
-    if (componentData) {
-      this.config$ = merge(
-        this.config$,
-        this.componentData.data$.pipe(
-          map(config => ({ ...this.defaultConfig, ...config }))
-        )
-      );
-    }
-  }
+    protected routingService: RoutingService,
+    protected translationService: TranslationService
+  ) {}
 
-  typeahead = (text$: Observable<string>): Observable<any[]> =>
+  typeahead = (
+    text$: Observable<string>,
+    config$?: Observable<any>
+  ): Observable<any> =>
     combineLatest(
       text$.pipe(
         debounceTime(300),
         distinctUntilChanged()
       ),
-      this.config$
+      config$ ? config$ : of(DEFAULT_SEARCHBOCH_CONFIG)
     ).pipe(
       switchMap(([term, config]) => {
-        if (term.length >= config.minCharactersBeforeRequest) {
+        if (!term) {
+          return of({});
+        } else if (term.length >= config.minCharactersBeforeRequest) {
           return this.fetch(term, config);
         } else {
-          return of([]);
+          return this.translationService
+            .translate('searchBox.help.insufficientChars')
+            .pipe(
+              map(msg => {
+                return {
+                  message: msg,
+                };
+              })
+            );
         }
       })
     );
 
-  public launchSearchPage(query: string): void {
-    this.routingService.go({
-      route: 'search',
-      params: { query },
-    });
-  }
-
-  private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
+  private fetch(text: string, config: SearchBoxConfig): Observable<any> {
     this.executeSearch(text, config);
 
     const suggestions = this.searchService
@@ -87,8 +84,26 @@ export class SearchBoxComponentService {
     const products = this.searchService
       .getAuxSearchResults()
       .pipe(map(res => res.products || []));
+
     return combineLatest(suggestions, products).pipe(
-      map(([a, b]) => [...a, ...b])
+      switchMap(([s, p]) => {
+        if (s.length === 0 && p.length === 0) {
+          return this.translationService
+            .translate('searchBox.help.noMatch')
+            .pipe(
+              map(msg => {
+                return {
+                  message: msg,
+                };
+              })
+            );
+        } else {
+          return of({
+            suggestions: s,
+            products: p,
+          });
+        }
+      })
     );
   }
 
@@ -104,5 +119,12 @@ export class SearchBoxComponentService {
         pageSize: config.maxSuggestions,
       });
     }
+  }
+
+  public launchSearchPage(query: string): void {
+    this.routingService.go({
+      route: 'search',
+      params: { query },
+    });
   }
 }

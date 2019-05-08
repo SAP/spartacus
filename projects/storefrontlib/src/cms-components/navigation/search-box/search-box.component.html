@@ -1,71 +1,61 @@
-<form class="cx-form">
-  <div class="cx-form-group form-group">
-    <!-- searchbox input -->
-    <input
-      class="cx-input form-control dropdown-menu-toggle"
-      [ngClass]="{ 'show-mobile': isMobileSearchVisible }"
-      type="text"
-      placeholder="{{ 'searchBox.searchHere' | cxTranslate }}"
-      aria-label="search"
-      [ngbTypeahead]="typeahead"
-      [resultTemplate]="rt"
-      [formControl]="searchBoxControl"
-      (keyup)="onKey($event)"
-      (selectItem)="selectSuggestion($event)"
-    />
+<label class="searchbox">
+  <input
+    [formControl]="searchBoxControl"
+    [placeholder]="'searchBox.searchHere' | cxTranslate"
+    aria-label="search"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (keydown.escape)="onBlur($event)"
+    (keydown.enter)="search($event)"
+  />
 
-    <!-- searchbox button desktop -->
-    <button
-      class="cx-button cx-button-desktop"
-      type="submit"
-      aria-label="Submit"
-      (click)="submitSearch()"
-      [disabled]="!searchBoxControl?.value"
+  <cx-icon
+    [type]="iconTypes.CLOSE"
+    (mousedown)="clear()"
+    class="reset"
+    [class.hidden]="!searchBoxControl.value"
+  ></cx-icon>
+
+  <cx-icon [type]="iconTypes.SEARCH" aria-label="search"></cx-icon>
+</label>
+
+<div
+  *ngIf="searchBoxControl.value && (searchResults$ | async) as result"
+  class="results"
+  (mousedown)="disableClose()"
+  (click)="close()"
+>
+  <div
+    class="message"
+    [class.hidden]="!result.message"
+    [innerHTML]="result.message"
+  ></div>
+  <div class="suggestions">
+    <a
+      *ngFor="let suggestion of result.suggestions"
+      [routerLink]="{ route: 'search', params: { query: suggestion } } | cxUrl"
     >
-      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-    </button>
-
-    <!-- searchbox button mobile -->
-    <button
-      class="cx-button cx-button-mobile"
-      type="button"
-      aria-label="Search"
-      (click)="toggleMobileSearchInput()"
-    >
-      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-    </button>
-
-    <!-- searchbox results -->
-    <ng-template #rt let-suggestion="result">
-      <div
-        *ngIf="!suggestion.code; else productView"
-        class="cx-dropdown-content"
-      >
-        {{ suggestion }}
-      </div>
-      <ng-template #productView>
-        <div
-          [routerLink]="
-            {
-              route: 'product',
-              params: suggestion | stripHtml
-            } | cxUrl
-          "
-          class="cx-product"
-        >
-          <cx-media
-            [container]="suggestion.images?.PRIMARY"
-            format="product"
-            [alt]="suggestion.summary"
-          ></cx-media>
-          <div [innerHtml]="suggestion.name" class="cx-product-name">
-            {{ suggestion.name }}
-          </div>
-          <div class="cx-product-price">
-            {{ suggestion.price.formattedValue }}
-          </div>
-        </div>
-      </ng-template>
-    </ng-template>
+      {{ 'searchBox.suggestion' | cxTranslate: { suggestion: suggestion } }}
+    </a>
   </div>
-</form>
+
+  <div class="products">
+    <a
+      *ngFor="let product of result.products"
+      [routerLink]="
+        {
+          route: 'product',
+          params: product | stripHtml
+        } | cxUrl
+      "
+    >
+      <cx-media
+        [container]="product.images?.PRIMARY"
+        format="product"
+        [alt]="product.summary"
+      ></cx-media>
+      <h4 class="name" [innerHtml]="product.name"></h4>
+      <span class="price" [innerHTML]="product.price.formattedValue"></span>
+    </a>
+  </div>
+</div>
