@@ -30,7 +30,7 @@ describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
     waitForHomePage();
 
     register.signOut();
-
+    register.checkTermsAndConditions();
     clickHamburger();
     register.registerUser();
 

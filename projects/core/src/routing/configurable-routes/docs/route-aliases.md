@@ -43,30 +43,30 @@ ConfigModule.withConfig({
 1. when `campaignName` param **is** given:
 
     ```html
-    <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxTranslateUrl"></a>
+    <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxUrl"></a>
     ```
 
     result
 
     ```html
-    <a [routerLink]="['', 'sale', 'p', '1234']"></a>
+    <a [routerLink]="['/', 'sale', 'p', '1234']"></a>
     ```
 
 2. when `campaignName` param **is not** given:
 
     ```html
-    <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+    <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
     ```
 
     result
 
     ```html
-    <a [routerLink]="['', 'p', '1234']"></a>
+    <a [routerLink]="['/', 'p', '1234']"></a>
     ```
 
 ## Wrong order of aliases
 
-When a path with less params (for example `/p/:productCode`) is put before a path that has the same params and more (for example `:campaignName/p/:productCode`), then the first path will **always** be used to translate the path (and the second will **never** be used). For example:
+When a path with less params (for example `/p/:productCode`) is put before a path that has the same params and more (for example `:campaignName/p/:productCode`), then the first path will **always** be used to generate the path (and the second will **never** be used). For example:
 
 ```typescript
 ConfigModule.withConfig({
@@ -91,17 +91,17 @@ ConfigModule.withConfig({
 All following examples result in the same:
 
 ```html
-<a [routerLink]="['', 'p', '1234']"></a>
+<a [routerLink]="['/', 'p', '1234']"></a>
 ```
 
  1. when `campaignName` param **is** given:
  
      ```html
-     <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxTranslateUrl"></a>
+     <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxUrl"></a>
      ```
 
  2. when `campaignName` param **is not** given:
 
      ```html
-     <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+     <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
      ```
