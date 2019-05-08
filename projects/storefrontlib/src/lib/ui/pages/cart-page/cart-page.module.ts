@@ -13,7 +13,7 @@ const routes: Routes = [
     path: null,
     canActivate: [CmsPageGuard],
     component: CartPageComponent,
-    data: { pageLabel: 'cartPage', cxPath: 'cart' },
+    data: { pageLabel: 'cartPage', cxRoute: 'cart' },
   },
 ];
 
