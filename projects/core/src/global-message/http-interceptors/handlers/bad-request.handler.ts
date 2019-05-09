@@ -54,6 +54,6 @@ export class BadRequestHandler extends HttpErrorHandler {
       }
     }
 
-    return errMsg || 'message.unknownError';
+    return errMsg || 'messages.unknownError';
   }
 }

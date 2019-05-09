@@ -110,7 +110,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         ) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.globalMessageService.add(
-            'messages.titleRequired',
+            { key: 'messages.titleRequired' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
         }

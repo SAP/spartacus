@@ -51,7 +51,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean): void {
     if (success) {
       this.globalMessageService.add(
-        'messages.profileUpdateSuccess',
+        { key: 'messages.profileUpdateSuccess' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       this.routingService.go({ route: 'home' });
