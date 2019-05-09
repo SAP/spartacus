@@ -3,10 +3,11 @@
     [formControl]="searchBoxControl"
     [placeholder]="'searchBox.searchHere' | cxTranslate"
     aria-label="search"
-    (focus)="onFocus($event)"
-    (blur)="onBlur($event)"
-    (keydown.escape)="onBlur($event)"
+    (focus)="open(el)"
+    (blur)="close($event)"
+    (keydown.escape)="close($event)"
     (keydown.enter)="search($event)"
+    #el
   />
 
   <cx-icon
@@ -23,27 +24,24 @@
   ></cx-icon>
 </label>
 
-<div
-  *ngIf="searchBoxControl.value && (searchResults$ | async) as result"
-  class="results"
-  (mousedown)="disableClose()"
-  (click)="close()"
->
+<div *ngIf="(searchResults$ | async) as result" class="results">
   <div
     class="message"
     [class.hidden]="!result.message"
     [innerHTML]="result.message"
   ></div>
-  <div class="suggestions">
+  <div class="suggestions" (mousedown)="disableClose()">
     <a
       *ngFor="let suggestion of result.suggestions"
-      [routerLink]="{ route: 'search', params: { query: suggestion } } | cxUrl"
+      (click)="setSearchboxValue(suggestion, el)"
+      [innerHTML]="
+        'searchBox.suggestion' | cxTranslate: { suggestion: suggestion }
+      "
     >
-      {{ 'searchBox.suggestion' | cxTranslate: { suggestion: suggestion } }}
     </a>
   </div>
 
-  <div class="products">
+  <div class="products" (mousedown)="disableClose()">
     <a
       *ngFor="let product of result.products"
       [routerLink]="
@@ -52,6 +50,7 @@
           params: product | stripHtml
         } | cxUrl
       "
+      (click)="close()"
     >
       <cx-media
         [container]="product.images?.PRIMARY"

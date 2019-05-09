@@ -5,3 +5,9 @@ export interface SearchBoxConfig {
   minCharactersBeforeRequest: number;
   displayProducts: boolean;
 }
+
+export interface SearchResults {
+  messages: string[];
+  products: any[];
+  suggestions: string[];
+}

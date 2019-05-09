@@ -20,7 +20,7 @@ export const common = {
   },
   searchBox: {
     searchHere: 'Search here...',
-    suggestion: 'Search for {{ suggestion }}',
+    suggestion: 'Search for <b>{{ suggestion }}</b>',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',

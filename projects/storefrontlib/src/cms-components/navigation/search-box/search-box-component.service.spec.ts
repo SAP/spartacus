@@ -43,7 +43,7 @@ const componentDataMock = <CmsComponentData<SpaComponent>>{
   data$: of({}),
 };
 
-describe('SearchBoxComponentService', () => {
+fdescribe('SearchBoxComponentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

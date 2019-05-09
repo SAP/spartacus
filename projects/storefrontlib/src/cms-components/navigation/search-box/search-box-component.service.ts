@@ -9,9 +9,10 @@ import {
   debounceTime,
   distinctUntilChanged,
   map,
+  startWith,
   switchMap,
 } from 'rxjs/operators';
-import { SearchBoxConfig } from './search-box.model';
+import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const DEFAULT_SEARCHBOCH_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -33,12 +34,13 @@ export class SearchBoxComponentService {
     protected translationService: TranslationService
   ) {}
 
-  typeahead = (
+  getSearchResults(
     text$: Observable<string>,
     config$?: Observable<any>
-  ): Observable<any> =>
-    combineLatest(
+  ): Observable<SearchResults> {
+    return combineLatest(
       text$.pipe(
+        startWith(''),
         debounceTime(300),
         distinctUntilChanged()
       ),
@@ -54,6 +56,7 @@ export class SearchBoxComponentService {
         }
       })
     );
+  }
 
   /**
    * Navigates to the search result page with a given query
@@ -68,7 +71,7 @@ export class SearchBoxComponentService {
   private fetchSearchResults(
     text: string,
     config: SearchBoxConfig
-  ): Observable<any> {
+  ): Observable<SearchResults> {
     this.executeSearch(text, config);
 
     const suggestions = this.searchService
