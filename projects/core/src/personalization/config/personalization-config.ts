@@ -1,6 +1,6 @@
 export abstract class PersonalizationConfig {
   personalization: {
-    headerName: {
+    httpHeaderName: {
       id: string;
       timestamp: string;
     };

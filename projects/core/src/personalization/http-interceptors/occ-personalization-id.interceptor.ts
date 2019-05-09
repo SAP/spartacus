@@ -27,7 +27,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     private winRef: WindowRef,
     @Inject(PLATFORM_ID) private platform: any
   ) {
-    this.requestHeader = this.config.personalization.headerName.id.toLowerCase();
+    this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
     this.personalizationId =
       this.winRef.localStorage &&
       this.winRef.localStorage.getItem(PERSONALIZATION_KEY);
