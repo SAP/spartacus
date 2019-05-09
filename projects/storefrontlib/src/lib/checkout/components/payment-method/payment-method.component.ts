@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Observable, Subscription , combineLatest} from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import {
