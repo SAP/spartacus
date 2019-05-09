@@ -61,6 +61,7 @@ context(`${formats.mobile.width + 1}p resolution - Product search`, () => {
       cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.visit('/');
       enterProduct();
+      clickSearchIcon();
     });
 
     it('should be able to sort by lowest price', () => {
