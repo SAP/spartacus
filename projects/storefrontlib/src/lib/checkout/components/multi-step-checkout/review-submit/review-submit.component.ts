@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable, combineLatest } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   Address,
   CartService,
@@ -11,8 +13,6 @@ import {
   UserService,
   TranslationService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../../shared/components/card/card.component';
 
 @Component({
