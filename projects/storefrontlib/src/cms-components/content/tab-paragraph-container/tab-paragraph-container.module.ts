@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import {
   OutletModule,
   PageComponentModule,
@@ -17,6 +17,7 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
     }),
     PageComponentModule,
     OutletModule,
+    I18nModule,
   ],
   declarations: [TabParagraphContainerComponent],
   entryComponents: [TabParagraphContainerComponent],

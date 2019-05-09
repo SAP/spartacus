@@ -26,6 +26,7 @@ export const defaultI18nConfig: I18nConfig = {
         'productSummary',
         'productReview',
         'addToCart',
+        'productTabs',
       ],
       user: [
         'forgottenPassword',

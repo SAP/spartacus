@@ -60,6 +60,10 @@ export class TabParagraphContainerComponent {
       this.activatedElements.forEach(el => el.classList.toggle('toggled'));
     }
   }
+
+  createHeader(component: any) {
+    return `productTabs.${component.uid}`;
+  }
   // map(productIds =>
   //   productIds.forEach(component => {
   //     return {
