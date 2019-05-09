@@ -96,16 +96,16 @@
 }
 
 cx-checkout-order-summary {
-  --cx-flex-basis: 100%;
-  margin: var(--cx-margin, 0 0 -2rem );
+  margin: var(--cx-margin, 0 0 -2rem);
   @media (min-width: 992px) {
-    margin: var(--cx-margin, 0 0 -24rem );
+    margin: var(--cx-margin, 0 0 -24rem);
   }
   @media (min-width: 1200px) {
-    margin: var(--cx-margin, 0 0 -20rem );
+    margin: var(--cx-margin, 0 0 -20rem);
   }
 }
 
 cx-place-order {
-  padding: 0 1rem var(--cx-padding, 1rem);
+  --cx-flex-basis: 100%;
+  padding: var(--cx-padding, 1rem);
 }
