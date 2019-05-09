@@ -17,7 +17,7 @@ import {
   PromotionResult,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { SpinnerModule } from '../../../../../lib/ui/components/spinner/spinner.module';
+import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 class MockNgbActiveModal {
@@ -73,9 +73,9 @@ class MockCartItemComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -98,7 +98,7 @@ describe('AddedToCartDialogComponent', () => {
       declarations: [
         AddedToCartDialogComponent,
         MockCartItemComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
       ],
       providers: [
         {

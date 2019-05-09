@@ -1,25 +1,24 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { of, Observable, BehaviorSubject } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
 import {
-  CartService,
-  UserService,
-  UICart,
-  CheckoutService,
-  PaymentDetails,
   Address,
-  PromotionResult,
-  DeliveryMode,
+  CartService,
+  CheckoutService,
   Country,
+  DeliveryMode,
   I18nTestingModule,
+  PaymentDetails,
+  PromotionResult,
+  UICart,
   UIOrderEntry,
+  UserService,
 } from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../../cms-components/checkout/cart/index';
-import { Card } from '../../../../ui/components/card/card.component';
+import { Card } from '../../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
+import createSpy = jasmine.createSpy;
 
 const mockCart: UICart = {
   guid: 'test',
@@ -232,16 +231,17 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {
-    const card = component.getShippingAddressCard(mockAddress, 'Canada');
-    expect(card.title).toEqual('Ship To');
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'Toyosaki 2 create on cart',
-      'line2',
-      'town, JP-27, Canada',
-      'zip',
-      undefined,
-    ]);
+    component.getShippingAddressCard(mockAddress, 'Canada').subscribe(card => {
+      expect(card.title).toEqual('addressCard.shipTo');
+      expect(card.textBold).toEqual('John Doe');
+      expect(card.text).toEqual([
+        'Toyosaki 2 create on cart',
+        'line2',
+        'town, JP-27, Canada',
+        'zip',
+        undefined,
+      ]);
+    });
   });
 
   it('should call getDeliveryModeCard(deliveryMode) to get delivery mode card data', () => {
@@ -250,22 +250,25 @@ describe('ReviewSubmitComponent', () => {
       name: 'Standard gross',
       description: 'Standard Delivery description',
     };
-    const card = component.getDeliveryModeCard(selectedMode);
-    expect(card.title).toEqual('Shipping Method');
-    expect(card.textBold).toEqual('Standard gross');
-    expect(card.text).toEqual(['Standard Delivery description']);
+    component.getDeliveryModeCard(selectedMode).subscribe(card => {
+      expect(card.title).toEqual('checkoutShipping.shippingMethod');
+      expect(card.textBold).toEqual('Standard gross');
+      expect(card.text).toEqual(['Standard Delivery description']);
+    });
   });
 
   it('should call getPaymentMethodCard(paymentDetails) to get payment card data', () => {
-    const card = component.getPaymentMethodCard(mockPaymentDetails);
-    expect(card.title).toEqual('Payment');
-    expect(card.textBold).toEqual(mockPaymentDetails.accountHolderName);
-    expect(card.text).toEqual([
-      mockPaymentDetails.cardNumber,
-      `Expires: ${mockPaymentDetails.expiryMonth}/${
-        mockPaymentDetails.expiryYear
-      }`,
-    ]);
+    component.getPaymentMethodCard(mockPaymentDetails).subscribe(card => {
+      expect(card.title).toEqual('paymentForm.payment');
+      expect(card.textBold).toEqual(mockPaymentDetails.accountHolderName);
+      expect(card.text).toEqual([
+        mockPaymentDetails.cardType.name,
+        mockPaymentDetails.cardNumber,
+        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
+          mockPaymentDetails.expiryYear
+        }`,
+      ]);
+    });
   });
 
   describe('UI cart total section', () => {

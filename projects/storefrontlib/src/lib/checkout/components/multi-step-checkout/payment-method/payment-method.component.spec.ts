@@ -1,22 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import {
+  Address,
   CartDataService,
-  UserService,
-  PaymentDetails,
   CheckoutService,
   GlobalMessageService,
-  Address,
   I18nTestingModule,
+  PaymentDetails,
+  UserService,
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
-
-import { Card } from '../../../../ui/components/card/card.component';
-
+import { Observable, of } from 'rxjs';
+import { Card } from '../../../../../shared/components/card/card.component';
 import { PaymentMethodComponent } from './payment-method.component';
+
 import createSpy = jasmine.createSpy;
 
 const mockPaymentDetails: PaymentDetails = {
@@ -177,27 +174,25 @@ describe('PaymentMethodComponent', () => {
       })
       .unsubscribe();
     expect(paymentMethods).toBe(mockPaymentMethods);
-    expect(component.cards.length).toEqual(2);
+    expect(paymentMethods.length).toEqual(2);
   });
 
   it('should call getCardContent() to get payment method card data', () => {
-    const card = component.getCardContent(mockPaymentDetails);
-    expect(card.title).toEqual('');
-    expect(card.textBold).toEqual('Name');
-    expect(card.text).toEqual(['123456789', 'Expires: 01/2022']);
+    component.getCardContent(mockPaymentDetails).subscribe(card => {
+      expect(card.title).toEqual('');
+      expect(card.textBold).toEqual('Name');
+      expect(card.text).toEqual([
+        '123456789',
+        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
+          mockPaymentDetails.expiryYear
+        }`,
+      ]);
+    });
   });
 
-  it('should call paymentMethodSelected(paymentDetails, index)', () => {
-    const card1: Card = { title: 'test card 1' };
-    const card2: Card = { title: 'test card 2' };
-    const card3: Card = { title: 'test card 3' };
-    component.cards.push(card1, card2, card3);
-    component.paymentMethodSelected(mockPaymentDetails, 1);
-
+  it('should call paymentMethodSelected(paymentDetails)', () => {
+    component.paymentMethodSelected(mockPaymentDetails);
     expect(component.selectedPayment).toEqual(mockPaymentDetails);
-    expect(component.cards[0].header).toEqual('');
-    expect(component.cards[1].header).toEqual('SELECTED');
-    expect(component.cards[2].header).toEqual('');
   });
 
   it('should call next() to submit request', () => {

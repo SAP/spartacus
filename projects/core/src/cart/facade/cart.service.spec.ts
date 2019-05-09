@@ -379,7 +379,9 @@ describe('CartService', () => {
 
   describe('getCartMergeComplete', () => {
     it('should return true when the merge is complete', () => {
-      store.dispatch(new fromCart.MergeCartSuccess());
+      store.dispatch(
+        new fromCart.MergeCartSuccess({ cartId: 'cartId', userId: 'userId' })
+      );
       let result: boolean;
       service
         .getCartMergeComplete()

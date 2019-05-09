@@ -25,9 +25,9 @@ import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -84,7 +84,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
       imports: [BootstrapModule, BrowserAnimationsModule],
       declarations: [
         SiteContextSelectorComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         MockCxIconComponent,
       ],
       providers: [
