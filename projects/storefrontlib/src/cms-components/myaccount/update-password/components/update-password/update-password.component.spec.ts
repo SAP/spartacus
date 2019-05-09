@@ -154,7 +154,7 @@ describe('UpdatePasswordComponent', () => {
 
         component.onSuccess(true);
         expect(globalMessageService.add).toHaveBeenCalledWith(
-          'Password updated with success',
+          { key: 'messages.passwordUpdateSuccess' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
         expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
