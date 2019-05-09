@@ -7,7 +7,8 @@ export interface Component {
 }
 
 export interface ContentSlot {
-  components?: Component[];
+  // TODO: Optimize with converters
+  components?: { component: Component[] };
   name?: string;
   position?: string;
   slotId?: string;
@@ -16,7 +17,8 @@ export interface ContentSlot {
 }
 
 export interface CMSPage {
-  contentSlots?: ContentSlot[];
+  // TODO: Optimize with converters
+  contentSlots?: { contentSlot: ContentSlot[] };
   defaultPage?: boolean;
   name?: string;
   template?: string;

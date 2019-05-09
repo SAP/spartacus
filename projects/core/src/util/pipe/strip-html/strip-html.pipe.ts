@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Product } from '../../../model/product.model';
 
-
 @Pipe({ name: 'stripHtml' })
 export class StripHtmlPipe implements PipeTransform {
   transform(product: Product): Product {

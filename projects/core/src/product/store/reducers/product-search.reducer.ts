@@ -1,6 +1,9 @@
 import { ProductsSearchState } from '../product-state';
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion, ProductSearchPage } from '../../../model/product-search.model';
+import {
+  Suggestion,
+  ProductSearchPage,
+} from '../../../model/product-search.model';
 
 export const initialState: ProductsSearchState = {
   results: {},

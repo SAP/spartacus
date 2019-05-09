@@ -7,7 +7,6 @@ import { OccUserService } from '../../occ/index';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
 import { Occ } from '../../../occ/occ-models/occ.models';
 
-
 @Injectable()
 export class UserPaymentMethodsEffects {
   @Effect()

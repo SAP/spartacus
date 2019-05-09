@@ -11,7 +11,10 @@ import {
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '../connectors/search/converters';
 import { pluck } from 'rxjs/operators';
-import { Suggestion, ProductSearchPage } from '../../model/product-search.model';
+import {
+  Suggestion,
+  ProductSearchPage,
+} from '../../model/product-search.model';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,

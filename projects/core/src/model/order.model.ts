@@ -1,8 +1,19 @@
 import { Price, Product } from './product.model';
-import { GeoPoint, OpeningSchedule, PaginationModel, SortModel } from './misc.model';
+import {
+  GeoPoint,
+  OpeningSchedule,
+  PaginationModel,
+  SortModel,
+} from './misc.model';
 import { Image } from './image.model';
 import { Address } from './address.model';
-import { DeliveryOrderEntryGroup, PaymentDetails, Principal, PromotionResult, Voucher } from './cart.model';
+import {
+  DeliveryOrderEntryGroup,
+  PaymentDetails,
+  Principal,
+  PromotionResult,
+  Voucher,
+} from './cart.model';
 
 export interface DeliveryMode {
   code?: string;

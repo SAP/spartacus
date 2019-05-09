@@ -11,7 +11,6 @@ import {
 } from '../../cms/page/page.resolvers';
 import { PageType } from '../../model/cms.model';
 
-
 @Injectable({
   providedIn: 'root',
 })

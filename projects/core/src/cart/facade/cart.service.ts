@@ -10,7 +10,7 @@ import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { StateWithCart } from '../store/cart-state';
-import { Cart} from '../../model/cart.model';
+import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 
 @Injectable()

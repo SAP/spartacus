@@ -35,6 +35,7 @@ export interface Address {
 
 export interface AddressValidation {
   decision?: string;
-  errors?: ErrorModel[];
+  // TODO: Simplify with converter
+  errors?: { errors: ErrorModel[] };
   suggestedAddresses?: Address[];
 }

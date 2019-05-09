@@ -8,8 +8,10 @@ import { filter } from 'rxjs/operators';
 
 import { SearchConfig } from '../model/search-config';
 import * as fromStore from '../store/index';
-import { Suggestion, ProductSearchPage } from '../../model/product-search.model';
-
+import {
+  Suggestion,
+  ProductSearchPage,
+} from '../../model/product-search.model';
 
 @Injectable()
 export class ProductSearchService {

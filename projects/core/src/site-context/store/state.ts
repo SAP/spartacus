@@ -1,4 +1,3 @@
-
 import { Currency, Language } from '../../model/misc.model';
 export const SITE_CONTEXT_FEATURE = 'siteContext';
 

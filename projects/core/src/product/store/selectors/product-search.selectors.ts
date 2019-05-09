@@ -8,8 +8,10 @@ import {
 import * as fromProductSearch from '../reducers/product-search.reducer';
 
 import { getProductsState } from './feature.selector';
-import { Suggestion, ProductSearchPage } from '../../../model/product-search.model';
-
+import {
+  Suggestion,
+  ProductSearchPage,
+} from '../../../model/product-search.model';
 
 export const getProductsSearchState: MemoizedSelector<
   StateWithProduct,

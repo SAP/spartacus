@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import {
-  Occ,
-} from '../../occ/occ-models/occ.models';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, pluck } from 'rxjs/operators';
@@ -16,7 +14,6 @@ import {
 } from '../connectors/delivery/converters';
 import { Address } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
-
 
 @Injectable()
 export class OccCartDeliveryAdapter implements CartDeliveryAdapter {

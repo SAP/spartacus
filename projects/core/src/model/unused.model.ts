@@ -604,4 +604,3 @@ export interface UserSignUp {
    */
   uid?: string;
 }
-

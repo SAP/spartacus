@@ -2,9 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import {
-Occ
-} from '../../occ/occ-models/occ.models';
+import { Occ } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../services/occ-endpoints.service';
 
 const ENDPOINT_COUNTRIES = 'countries';
