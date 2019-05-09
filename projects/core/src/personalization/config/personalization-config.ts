@@ -1,5 +1,8 @@
 export abstract class PersonalizationConfig {
   personalization: {
-    requestHeader: string;
+    headerName: {
+      id: string;
+      timestamp: string;
+    };
   };
 }
