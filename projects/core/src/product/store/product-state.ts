@@ -1,6 +1,6 @@
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
-import { Review, UIProduct } from '../../model/product.model';
-import { Suggestion, UIProductSearchPage } from '../../model/product-search.model';
+import { Review, Product } from '../../model/product.model';
+import { Suggestion, ProductSearchPage } from '../../model/product-search.model';
 
 export const PRODUCT_FEATURE = 'product';
 export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
@@ -10,15 +10,15 @@ export interface StateWithProduct {
 }
 
 export interface ProductsState {
-  details: EntityLoaderState<UIProduct>;
+  details: EntityLoaderState<Product>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
 }
 
 export interface ProductsSearchState {
-  results: UIProductSearchPage;
+  results: ProductSearchPage;
   suggestions: Suggestion[];
-  auxResults: UIProductSearchPage;
+  auxResults: ProductSearchPage;
 }
 
 export interface ProductReviewsState {

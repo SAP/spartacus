@@ -11,7 +11,7 @@ import * as fromCart from '../../cart/store';
 
 import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
 import { CartService } from './cart.service';
-import { UICart, UIOrderEntry } from '@spartacus/core';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 class CartDataServiceStub {
   userId;
@@ -42,7 +42,7 @@ describe('CartService', () => {
     scope: ['xxx'],
     userId: 'xxx',
   };
-  const mockCartEntry: UIOrderEntry = {
+  const mockCartEntry: OrderEntry = {
     entryNumber: 0,
     product: { code: productCode },
   };
@@ -368,7 +368,7 @@ describe('CartService', () => {
       };
       store.dispatch(new fromCart.LoadCartSuccess(testCart));
 
-      let result: UIOrderEntry;
+      let result: OrderEntry;
       service
         .getEntry('code1')
         .subscribe(value => (result = value))

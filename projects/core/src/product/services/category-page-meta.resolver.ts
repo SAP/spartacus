@@ -7,7 +7,7 @@ import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
-import { UIProductSearchPage } from '../../model/product-search.model';
+import { ProductSearchPage } from '../../model/product-search.model';
 import { PageType } from '../../model/cms.model';
 
 @Injectable({
@@ -50,7 +50,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(data: UIProductSearchPage): Observable<string> {
+  resolveTitle(data: ProductSearchPage): Observable<string> {
     return of(
       `${data.pagination.totalResults} results for ${
         data.breadcrumbs[0].facetValueName
@@ -58,7 +58,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveBreadcrumbs(data: UIProductSearchPage): Observable<any[]> {
+  resolveBreadcrumbs(data: ProductSearchPage): Observable<any[]> {
     const breadcrumbs = [];
     breadcrumbs.push({ label: 'Home', link: '/' });
     for (const br of data.breadcrumbs) {

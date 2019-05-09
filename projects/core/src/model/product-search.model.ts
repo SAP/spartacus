@@ -1,4 +1,4 @@
-import { UIProduct } from './product.model';
+import { Product } from './product.model';
 import { PaginationModel, SortModel } from './misc.model';
 
 export interface SearchQuery {
@@ -41,7 +41,7 @@ export interface SpellingSuggestion {
   suggestion?: string;
 }
 
-export interface UIProductSearchPage {
+export interface ProductSearchPage {
   breadcrumbs?: Breadcrumb[];
   categoryCode?: string;
   currentQuery?: SearchState;
@@ -49,7 +49,7 @@ export interface UIProductSearchPage {
   freeTextSearch?: string;
   keywordRedirectUrl?: string;
   pagination?: PaginationModel;
-  products?: UIProduct[];
+  products?: Product[];
   sorts?: SortModel[];
   spellingSuggestion?: SpellingSuggestion;
 }

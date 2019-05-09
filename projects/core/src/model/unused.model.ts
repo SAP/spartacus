@@ -1,13 +1,13 @@
 import { Address } from './address.model';
 import { Image } from './image.model';
-import { FeatureUnit, FeatureValue, Stock, UIProduct } from './product.model';
+import { FeatureUnit, FeatureValue, Stock, Product } from './product.model';
 import {
   GeoPoint,
   OpeningSchedule,
   PaginationModel,
   SortModel,
 } from './misc.model';
-import { Principal, UICart } from './cart.model';
+import { Principal, Cart } from './cart.model';
 import {
   Breadcrumb,
   Facet,
@@ -400,7 +400,7 @@ export interface ProductList {
   /**
    * @member {Product[]} [products]
    */
-  products?: UIProduct[];
+  products?: Product[];
   /**
    * @member {number} [totalPageCount]
    */
@@ -451,7 +451,7 @@ export interface ProductSearchPage {
   /**
    * @member {Product[]} [products]
    */
-  products?: UIProduct[];
+  products?: Product[];
   /**
    * @member {SortModel[]} [sorts]
    */
@@ -470,7 +470,7 @@ export interface SaveCartResult {
   /**
    * @member {Cart} [savedCartData]
    */
-  savedCartData?: UICart;
+  savedCartData?: Cart;
 }
 
 /**
@@ -505,7 +505,7 @@ export interface StoreFinderStockSearchPage {
   /**
    * @member {Product} [product]
    */
-  product?: UIProduct;
+  product?: Product;
   /**
    * @member {SortModel[]} [sorts]
    */

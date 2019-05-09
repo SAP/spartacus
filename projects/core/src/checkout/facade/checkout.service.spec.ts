@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromCheckout from '../store/index';
-import { CartDataService, UICart } from '../../cart/index';
+import { CartDataService, Cart } from '../../cart/index';
 import {
   PaymentDetails,
   DeliveryMode,

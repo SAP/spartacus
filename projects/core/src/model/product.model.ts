@@ -1,4 +1,4 @@
-import { Image, UIImages } from './image.model';
+import { Image, Images } from './image.model';
 import { User } from './misc.model';
 
 export interface VariantOptionQualifier {
@@ -118,7 +118,7 @@ export interface ProductReference {
   preselected?: boolean;
   quantity?: number;
   referenceType?: string;
-  target?: UIProduct;
+  target?: Product;
 }
 
 export interface Review {
@@ -139,7 +139,7 @@ export interface VariantMatrixElement {
   variantValueCategory?: VariantValueCategory;
 }
 
-export interface UIProductReferences {
+export interface ProductReferences {
   [referenceType: string]: ProductReference[];
 }
 
@@ -149,7 +149,7 @@ export interface BaseOption {
   variantType?: string;
 }
 
-export interface UIProduct {
+export interface Product {
   availableForPickup?: boolean;
   averageRating?: number;
   baseOptions?: BaseOption[];
@@ -159,7 +159,7 @@ export interface UIProduct {
   code?: string;
   description?: string;
   futureStocks?: FutureStock[];
-  images?: UIImages;
+  images?: Images;
   manufacturer?: string;
   multidimensional?: boolean;
   name?: string;
@@ -167,7 +167,7 @@ export interface UIProduct {
   potentialPromotions?: Promotion[];
   price?: Price;
   priceRange?: PriceRange;
-  productReferences?: UIProductReferences;
+  productReferences?: ProductReferences;
   purchasable?: boolean;
   reviews?: Review[];
   stock?: Stock;

@@ -5,12 +5,12 @@ import { BehaviorSubject, of } from 'rxjs';
 import * as fromStore from '../store/index';
 import { ProductsState } from '../store/index';
 import { ProductService } from './product.service';
-import { UIProduct } from '../../model/product.model';
+import { Product } from '../../model/product.model';
 
 describe('ProductService', () => {
   let store: Store<ProductsState>;
   let service: ProductService;
-  const mockProduct: UIProduct = { code: 'testId' };
+  const mockProduct: Product = { code: 'testId' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,7 +40,7 @@ describe('ProductService', () => {
           value: mockProduct,
         })
       );
-      let result: UIProduct;
+      let result: Product;
       service
         .get('testId')
         .subscribe(product => {
@@ -127,7 +127,7 @@ describe('ProductService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: mockProduct })
       );
-      let result: UIProduct;
+      let result: Product;
       service
         .get('existingProduct')
         .subscribe(product => {
@@ -141,7 +141,7 @@ describe('ProductService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: {} })
       );
-      let result: UIProduct;
+      let result: Product;
       service
         .get('emptyObjectProduct')
         .subscribe(product => {
@@ -155,7 +155,7 @@ describe('ProductService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: undefined })
       );
-      let result: UIProduct;
+      let result: Product;
       service
         .get('undefinedProduct')
         .subscribe(product => {

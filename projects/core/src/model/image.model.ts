@@ -1,5 +1,5 @@
-export interface UIImages {
-  [imageType: string]: UIImage | UIImage[];
+export interface Images {
+  [imageType: string]: ImageGroup | ImageGroup[];
 }
 
 export interface Image {
@@ -15,6 +15,6 @@ export enum ImageType {
   GALLERY = 'GALLERY',
 }
 
-export interface UIImage {
+export interface ImageGroup {
   [format: string]: Image;
 }

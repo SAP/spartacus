@@ -8,7 +8,7 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { CART_NORMALIZER } from '../connectors/cart/converters';
 import { CheckoutDetails } from '../../checkout/models/checkout.model';
-import { UICart } from '../../model/cart.model';
+import { Cart } from '../../model/cart.model';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -38,7 +38,7 @@ export class OccCartAdapter implements CartAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public loadAll(userId: string, details?: boolean): Observable<UICart[]> {
+  public loadAll(userId: string, details?: boolean): Observable<Cart[]> {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
@@ -58,7 +58,7 @@ export class OccCartAdapter implements CartAdapter {
     userId: string,
     cartId: string,
     details?: boolean
-  ): Observable<UICart> {
+  ): Observable<Cart> {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = details
       ? new HttpParams({
@@ -106,7 +106,7 @@ export class OccCartAdapter implements CartAdapter {
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
-  ): Observable<UICart> {
+  ): Observable<Cart> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
     let queryString = `fields=${BASIC_PARAMS}`;

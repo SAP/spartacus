@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 
 import { SearchConfig } from '../model/search-config';
 import * as fromStore from '../store/index';
-import { Suggestion, UIProductSearchPage } from '../../model/product-search.model';
+import { Suggestion, ProductSearchPage } from '../../model/product-search.model';
 
 
 @Injectable()
@@ -33,7 +33,7 @@ export class ProductSearchService {
     );
   }
 
-  getSearchResults(): Observable<UIProductSearchPage> {
+  getSearchResults(): Observable<ProductSearchPage> {
     return this.store.pipe(select(fromStore.getSearchResults));
   }
 
@@ -41,7 +41,7 @@ export class ProductSearchService {
     this.store.dispatch(new fromStore.CleanProductSearchState());
   }
 
-  getAuxSearchResults(): Observable<UIProductSearchPage> {
+  getAuxSearchResults(): Observable<ProductSearchPage> {
     return this.store.pipe(
       select(fromStore.getAuxSearchResults),
       filter(results => Object.keys(results).length > 0)

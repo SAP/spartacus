@@ -11,7 +11,7 @@ import {
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '../connectors/search/converters';
 import { pluck } from 'rxjs/operators';
-import { Suggestion, UIProductSearchPage } from '../../model/product-search.model';
+import { Suggestion, ProductSearchPage } from '../../model/product-search.model';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,
@@ -28,7 +28,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   search(
     query: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
-  ): Observable<UIProductSearchPage> {
+  ): Observable<ProductSearchPage> {
     return this.http
       .get(this.getSearchEndpoint(query, searchConfig))
       .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));

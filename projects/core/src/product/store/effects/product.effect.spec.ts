@@ -12,7 +12,7 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import * as fromEffects from './product.effect';
 import { defaultOccProductConfig } from '../../config/product-config';
 import createSpy = jasmine.createSpy;
-import { UIProduct } from '../../../model/product.model';
+import { Product } from '../../../model/product.model';
 
 const router = {
   state: {
@@ -29,7 +29,7 @@ class MockRoutingService {
   }
 }
 const productCode = 'testCode';
-const product: UIProduct = {
+const product: Product = {
   code: 'testCode',
   name: 'testProduct',
 };

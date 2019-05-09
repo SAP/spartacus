@@ -8,7 +8,7 @@ import {
 import * as fromProductSearch from '../reducers/product-search.reducer';
 
 import { getProductsState } from './feature.selector';
-import { Suggestion, UIProductSearchPage } from '../../../model/product-search.model';
+import { Suggestion, ProductSearchPage } from '../../../model/product-search.model';
 
 
 export const getProductsSearchState: MemoizedSelector<
@@ -21,7 +21,7 @@ export const getProductsSearchState: MemoizedSelector<
 
 export const getSearchResults: MemoizedSelector<
   StateWithProduct,
-  UIProductSearchPage
+  ProductSearchPage
 > = createSelector(
   getProductsSearchState,
   fromProductSearch.getSearchResults
@@ -29,7 +29,7 @@ export const getSearchResults: MemoizedSelector<
 
 export const getAuxSearchResults: MemoizedSelector<
   StateWithProduct,
-  UIProductSearchPage
+  ProductSearchPage
 > = createSelector(
   getProductsSearchState,
   fromProductSearch.getAuxSearchResults

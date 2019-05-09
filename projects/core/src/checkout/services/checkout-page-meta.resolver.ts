@@ -8,7 +8,7 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { UICart } from '../../model/cart.model';
+import { Cart } from '../../model/cart.model';
 import { PageType } from '../../model/cms.model';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(cart: UICart): Observable<string> {
+  resolveTitle(cart: Cart): Observable<string> {
     return of(`Checkout ${cart.totalItems} items`);
   }
 

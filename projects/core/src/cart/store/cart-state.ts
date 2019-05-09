@@ -1,5 +1,5 @@
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { UIOrderEntry } from '../../model/order.model';
+import { OrderEntry } from '../../model/order.model';
 
 export const CART_FEATURE = 'cart';
 export const CART_DATA = '[Cart] Cart Data';
@@ -14,7 +14,7 @@ export interface CartsState {
 
 export interface CartState {
   content: any;
-  entries: { [code: string]: UIOrderEntry };
+  entries: { [code: string]: OrderEntry };
   refresh: boolean;
   cartMergeComplete: boolean;
 }

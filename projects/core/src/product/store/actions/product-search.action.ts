@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { SearchConfig } from '../../model/search-config';
-import { Suggestion, UIProductSearchPage } from '../../../model/product-search.model';
+import { Suggestion, ProductSearchPage } from '../../../model/product-search.model';
 import { ErrorModel } from '../../../model/misc.model';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
@@ -30,7 +30,7 @@ export class SearchProductsFail implements Action {
 export class SearchProductsSuccess implements Action {
   readonly type = SEARCH_PRODUCTS_SUCCESS;
   constructor(
-    public payload: UIProductSearchPage,
+    public payload: ProductSearchPage,
     public auxiliary?: boolean
   ) {}
 }

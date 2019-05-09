@@ -1,5 +1,5 @@
 import { Price, Promotion } from './product.model';
-import { DeliveryMode, OrderEntry, PromotionOrderEntryConsumed, UIOrderEntry, UIPickupOrderEntryGroup } from './order.model';
+import { DeliveryMode, OrderEntry, PromotionOrderEntryConsumed, PickupOrderEntryGroup } from './order.model';
 import { Address } from './address.model';
 import { Currency } from './misc.model';
 
@@ -56,7 +56,7 @@ export interface PaymentDetails {
   subscriptionId?: string;
 }
 
-export interface UICart {
+export interface Cart {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];
   appliedVouchers?: Voucher[];
@@ -68,7 +68,7 @@ export interface UICart {
   deliveryMode?: DeliveryMode;
   deliveryOrderGroups?: DeliveryOrderEntryGroup[];
   description?: string;
-  entries?: UIOrderEntry[];
+  entries?: OrderEntry[];
   expirationTime?: Date;
   guid?: string;
   name?: string;
@@ -76,7 +76,7 @@ export interface UICart {
   orderDiscounts?: Price;
   paymentInfo?: PaymentDetails;
   pickupItemsQuantity?: number;
-  pickupOrderGroups?: UIPickupOrderEntryGroup[];
+  pickupOrderGroups?: PickupOrderEntryGroup[];
   potentialOrderPromotions?: PromotionResult[];
   potentialProductPromotions?: PromotionResult[];
   productDiscounts?: Price;

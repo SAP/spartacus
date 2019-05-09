@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { UIProduct } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { Product } from '../../../occ/occ-models/occ.models';
 import { ProductImageNormalizer } from './product-image-normalizer';

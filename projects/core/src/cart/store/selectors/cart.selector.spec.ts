@@ -6,7 +6,7 @@ import * as fromActions from './../actions';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
-import { UICart, UIOrderEntry } from '@spartacus/core';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 describe('UICart selectors', () => {
   let store: Store<StateWithCart>;
@@ -103,7 +103,7 @@ describe('UICart selectors', () => {
 
   describe('getEntriesMap', () => {
     it('should return the cart entries in map', () => {
-      let result: { [code: string]: UIOrderEntry };
+      let result: { [code: string]: OrderEntry };
       store
         .pipe(select(fromSelectors.getEntriesMap))
         .subscribe(value => (result = value));
@@ -120,7 +120,7 @@ describe('UICart selectors', () => {
 
   describe('getEntrySelectorFactory', () => {
     it('should return entry by productCode', () => {
-      let result: UIOrderEntry;
+      let result: OrderEntry;
 
       store
         .pipe(select(fromSelectors.getEntrySelectorFactory('1234')))
@@ -138,7 +138,7 @@ describe('UICart selectors', () => {
 
   describe('getEntriesList', () => {
     it('should return the list of entries', () => {
-      let result: UIOrderEntry[];
+      let result: OrderEntry[];
       store
         .pipe(select(fromSelectors.getEntries))
         .subscribe(value => (result = value));

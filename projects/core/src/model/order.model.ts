@@ -1,4 +1,4 @@
-import { Price, UIProduct } from './product.model';
+import { Price, Product } from './product.model';
 import { GeoPoint, OpeningSchedule, PaginationModel, SortModel } from './misc.model';
 import { Image } from './image.model';
 import { Address } from './address.model';
@@ -27,38 +27,12 @@ export interface PointOfService {
   url?: string;
 }
 
-export interface UIOrderEntry {
-  basePrice?: Price;
-  deliveryMode?: DeliveryMode;
-  deliveryPointOfService?: PointOfService;
-  entryNumber?: number;
-  product?: UIProduct;
-  quantity?: number;
-  totalPrice?: Price;
-  updateable?: boolean;
-}
-
-export interface UIPickupOrderEntryGroup {
-  deliveryPointOfService?: PointOfService;
-  distance?: number;
-  entries?: UIOrderEntry[];
-  quantity?: number;
-  totalPriceWithTax?: Price;
-}
-
-export interface PromotionOrderEntryConsumed {
-  adjustedUnitPrice?: number;
-  code?: string;
-  orderEntryNumber?: number;
-  quantity?: number;
-}
-
 export interface OrderEntry {
   basePrice?: Price;
   deliveryMode?: DeliveryMode;
   deliveryPointOfService?: PointOfService;
   entryNumber?: number;
-  product?: UIProduct;
+  product?: Product;
   quantity?: number;
   totalPrice?: Price;
   updateable?: boolean;
@@ -70,6 +44,13 @@ export interface PickupOrderEntryGroup {
   entries?: OrderEntry[];
   quantity?: number;
   totalPriceWithTax?: Price;
+}
+
+export interface PromotionOrderEntryConsumed {
+  adjustedUnitPrice?: number;
+  code?: string;
+  orderEntryNumber?: number;
+  quantity?: number;
 }
 
 export interface ConsignmentEntry {

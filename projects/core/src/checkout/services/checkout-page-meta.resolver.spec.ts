@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService, UICart } from '../../cart';
+import { CartService, Cart } from '../../cart';
 import {
   PageMeta,
   PageMetaResolver,
