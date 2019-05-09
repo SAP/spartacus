@@ -7,7 +7,7 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   filter,
   map,
@@ -25,9 +25,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   templateList$: Observable<ConsentTemplateList>;
-  templateListloading$: Observable<boolean>;
-  giveConsentLoading$: Observable<boolean>;
-  withdrawConsentLoading$: Observable<boolean>;
+  loading$: Observable<boolean>;
 
   constructor(
     private userService: UserService,
@@ -36,28 +34,38 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loading$ = combineLatest(
+      this.userService.getConsentsResultLoading(),
+      this.userService.getGiveConsentResultLoading(),
+      this.userService.getWithdrawConsentResultLoading()
+    ).pipe(
+      map(
+        ([consentLoading, giveConsentLoading, withdrawConsentLoading]) =>
+          consentLoading || giveConsentLoading || withdrawConsentLoading
+      )
+    );
     this.consentListInit();
     this.giveConsentInit();
     this.withdrawConsentInit();
   }
 
   private consentListInit(): void {
-    this.templateList$ = this.userService.getConsents().pipe(
-      withLatestFrom(this.userService.get()),
-      filter(([_, user]) => Boolean(user) && Boolean(user.uid)),
-      tap(([templateList, user]) => {
+    this.templateList$ = combineLatest(
+      this.userService.get(),
+      this.userService.getConsents()
+    ).pipe(
+      filter(([user]) => Boolean(user) && Boolean(user.uid)),
+      tap(([user, templateList]) => {
         if (this.consentsExists(templateList)) {
           this.userService.loadConsents(user.uid);
         }
       }),
-      map(([templateList, _user]) => templateList)
+      map(([_, templateList]) => templateList)
     );
-    this.templateListloading$ = this.userService.getConsentsResultLoading();
   }
 
   private giveConsentInit(): void {
     this.userService.resetGiveConsentProcessState();
-    this.giveConsentLoading$ = this.userService.getGiveConsentResultLoading();
     this.subscriptions.add(
       this.userService
         .getGiveConsentResultSuccess()
@@ -67,9 +75,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   private withdrawConsentInit(): void {
     this.userService.resetWithdrawConsentProcessState();
-    this.withdrawConsentLoading$ = this.userService.getWithdrawConsentResultLoading();
     this.subscriptions.add(
-      this.withdrawConsentLoading$
+      this.userService
+        .getWithdrawConsentResultLoading()
         .pipe(
           skipWhile(Boolean),
           withLatestFrom(
