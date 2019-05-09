@@ -1,11 +1,11 @@
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrderSummaryComponent } from 'projects/storefrontlib/src/lib/cart';
 import { PromotionsComponent } from '../../promotions/promotions.component';
 import { BehaviorSubject } from 'rxjs';
 import { Cart, CartService, I18nTestingModule } from '@spartacus/core';
 
 import createSpy = jasmine.createSpy;
+import { OrderSummaryComponent } from '../../../../../cms-components/checkout/index';
 
 describe('CheckoutOrderSummaryComponent', () => {
   let component: CheckoutOrderSummaryComponent;

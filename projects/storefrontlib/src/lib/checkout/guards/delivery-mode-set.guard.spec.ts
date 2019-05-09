@@ -8,6 +8,8 @@ import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutStepType } from '../config/default-checkout-config';
 import { CheckoutDetailsService } from '../checkout-details.service';
+import { CheckoutStep } from '../config/model/checkout-step.model';
+import { CheckoutConfigService } from '../checkout-config.service';
 
 const MockCheckoutConfig: CheckoutConfig = {
   checkout: {
@@ -30,10 +32,22 @@ class MockCheckoutDetailsService {
   }
 }
 
+class MockCheckoutConfigService {
+  getCheckoutStep(): CheckoutStep {
+    return {
+      id: 'deliveryMode',
+      name: 'checkoutProgress.label.deliveryMode',
+      url: '/checkout/delivery-mode',
+      type: [CheckoutStepType.deliveryMode],
+    };
+  }
+}
+
 const MockServerConfig: ServerConfig = { production: false };
 
 describe(`DeliveryModeSetGuard`, () => {
   let guard: DeliveryModeSetGuard;
+  let mockCheckoutConfigService: CheckoutConfigService;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
 
@@ -47,11 +61,13 @@ describe(`DeliveryModeSetGuard`, () => {
           useClass: MockCheckoutDetailsService,
         },
         { provide: ServerConfig, useValue: MockServerConfig },
+        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.get(DeliveryModeSetGuard);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
     mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.get(CheckoutConfig);
   });
@@ -76,6 +92,7 @@ describe(`DeliveryModeSetGuard`, () => {
       'getSelectedDeliveryModeCode'
     ).and.returnValue(of(''));
     spyOn(console, 'warn');
+    spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(null);
     mockCheckoutConfig.checkout.steps = [];
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {

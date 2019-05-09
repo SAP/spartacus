@@ -1,16 +1,12 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
-  OnInit,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { DeliveryMode, CheckoutService } from '@spartacus/core';
+import { DeliveryMode, CheckoutService, RoutingService } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CheckoutConfigService } from '../../../checkout-config.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -19,12 +15,11 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeliveryModeComponent implements OnInit {
-  @Output()
-  goToStep = new EventEmitter<number>();
-
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
   currentDeliveryModeId: string;
+  checkoutStepUrlNext: string;
+  checkoutStepUrlPrevious: string;
 
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required],
@@ -32,14 +27,23 @@ export class DeliveryModeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private routingService: RoutingService,
+    private checkoutConfigService: CheckoutConfigService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.checkoutService.loadSupportedDeliveryModes();
-
+    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
+      this.activatedRoute
+    );
+    this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
+      this.activatedRoute
+    );
     this.supportedDeliveryModes$ = this.checkoutService.getSupportedDeliveryModes();
     this.selectedDeliveryMode$ = this.checkoutService.getSelectedDeliveryMode();
+
+    this.checkoutService.loadSupportedDeliveryModes();
 
     this.selectedDeliveryMode$
       .pipe(
@@ -58,12 +62,12 @@ export class DeliveryModeComponent implements OnInit {
   next(): void {
     this.setDeliveryMode(this.mode.value.deliveryModeId);
     if (this.currentDeliveryModeId) {
-      this.goToStep.emit(3);
+      this.routingService.go(this.checkoutStepUrlNext);
     }
   }
 
   back(): void {
-    this.goToStep.emit(1);
+    this.routingService.go(this.checkoutStepUrlPrevious);
   }
 
   get deliveryModeInvalid(): boolean {

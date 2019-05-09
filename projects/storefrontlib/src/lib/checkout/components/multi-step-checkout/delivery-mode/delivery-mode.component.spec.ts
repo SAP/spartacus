@@ -6,6 +6,7 @@ import {
   DeliveryMode,
   CheckoutService,
   I18nTestingModule,
+  RoutingService,
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
@@ -14,6 +15,8 @@ import createSpy = jasmine.createSpy;
 
 import { DeliveryModeComponent } from './delivery-mode.component';
 import { Component } from '@angular/core';
+import { CheckoutConfigService } from '../../../checkout-config.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cx-spinner',
@@ -32,6 +35,25 @@ class MockCheckoutService {
   }
 }
 
+class MockRoutingService {
+  go = createSpy();
+}
+
+class MockCheckoutConfigService {
+  getNextCheckoutStepUrl(): string {
+    return '';
+  }
+  getPreviousCheckoutStepUrl(): string {
+    return '';
+  }
+}
+
+const mockActivatedRoute = {
+  snapshot: {
+    url: ['checkout', 'delivery-mode'],
+  },
+};
+
 const mockDeliveryMode1: DeliveryMode = {
   code: 'standard-gross',
   name: 'Standard Delivery',
@@ -49,26 +71,33 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
   mockDeliveryMode2,
 ];
 
+const mockStepUrl = 'test url';
+
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
   let mockCheckoutService: MockCheckoutService;
+  let mockRoutingService: MockRoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [DeliveryModeComponent, MockSpinnerComponent],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
+      providers: [
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
     }).compileComponents();
 
     mockCheckoutService = TestBed.get(CheckoutService);
+    mockRoutingService = TestBed.get(RoutingService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeComponent);
     component = fixture.componentInstance;
-
-    spyOn(component.goToStep, 'emit').and.callThrough();
   });
 
   it('should be created', () => {
@@ -93,19 +122,24 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should change step after invoking next()', () => {
+    component.checkoutStepUrlNext = mockStepUrl;
     component.mode.controls['deliveryModeId'].setValue(mockDeliveryMode1.code);
     component.currentDeliveryModeId = mockDeliveryMode1.code;
     component.next();
-    expect(component.goToStep.emit).toHaveBeenCalled();
+
+    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
   });
 
   it('should change step after invoking back()', () => {
+    component.checkoutStepUrlPrevious = mockStepUrl;
     component.back();
-    expect(component.goToStep.emit).toHaveBeenCalled();
+
+    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
   });
 
   it('should get deliveryModeInvalid()', () => {
     const invalid = component.deliveryModeInvalid;
+
     expect(invalid).toBe(true);
   });
 
@@ -116,6 +150,7 @@ describe('DeliveryModeComponent', () => {
     it('should be disabled when delivery mode is not selected', () => {
       component.mode.controls['deliveryModeId'].setValue(null);
       fixture.detectChanges();
+
       expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
@@ -124,6 +159,7 @@ describe('DeliveryModeComponent', () => {
         mockDeliveryMode1.code
       );
       fixture.detectChanges();
+
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
     });
 
@@ -131,6 +167,7 @@ describe('DeliveryModeComponent', () => {
       spyOn(component, 'next');
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
+
       expect(component.next).toHaveBeenCalled();
     });
   });
@@ -143,6 +180,7 @@ describe('DeliveryModeComponent', () => {
       spyOn(component, 'back');
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
+
       expect(component.back).toHaveBeenCalled();
     });
   });

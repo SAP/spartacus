@@ -4,13 +4,29 @@ import { Observable, of } from 'rxjs';
 
 import { Order, ServerConfig } from '@spartacus/core';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
-import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import {
+  defaultCheckoutConfig,
+  CheckoutStepType,
+} from '../config/default-checkout-config';
 import { CheckoutDetailsService } from '../checkout-details.service';
 import { CheckoutConfig } from '../config/checkout-config';
+import { CheckoutStep } from '../config/model/checkout-step.model';
+import { CheckoutConfigService } from '../checkout-config.service';
 
 class MockCheckoutDetailsService {
   getDeliveryAddress(): Observable<Order> {
     return of(null);
+  }
+}
+
+class MockCheckoutConfigService {
+  getCheckoutStep(): CheckoutStep {
+    return {
+      id: 'shippingAddress',
+      name: 'checkoutProgress.label.shippingAddress',
+      url: '/checkout/shipping-address',
+      type: [CheckoutStepType.shippingAddress],
+    };
   }
 }
 
@@ -19,6 +35,7 @@ const MockServerConfig: ServerConfig = { production: false };
 
 describe(`ShippingAddressSetGuard`, () => {
   let guard: ShippingAddressSetGuard;
+  let mockCheckoutConfigService: MockCheckoutConfigService;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
 
@@ -32,11 +49,13 @@ describe(`ShippingAddressSetGuard`, () => {
         },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         { provide: ServerConfig, useValue: MockServerConfig },
+        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.get(ShippingAddressSetGuard);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
     mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.get(CheckoutConfig);
   });
@@ -60,6 +79,7 @@ describe(`ShippingAddressSetGuard`, () => {
         of({})
       );
       spyOn(console, 'warn');
+      spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(null);
       mockCheckoutConfig.checkout.steps = [];
 
       guard.canActivate().subscribe(result => {

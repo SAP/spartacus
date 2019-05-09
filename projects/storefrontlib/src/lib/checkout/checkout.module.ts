@@ -4,6 +4,7 @@ import { CheckoutModule } from '@spartacus/core';
 import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
 import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-step-checkout.module';
 import { guards } from './guards/index';
+import { CheckoutConfigService } from './checkout-config.service';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { guards } from './guards/index';
     CartComponentModule,
     CheckoutModule,
   ],
-  providers: [...guards],
+  providers: [...guards, CheckoutConfigService],
 })
 export class CheckoutComponentModule {}

@@ -2,8 +2,6 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
-  Output,
-  EventEmitter,
   OnDestroy,
 } from '@angular/core';
 
@@ -13,6 +11,7 @@ import {
   CheckoutService,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
 } from '@spartacus/core';
 import { CartDataService } from '@spartacus/core';
 import { UserService } from '@spartacus/core';
@@ -23,6 +22,9 @@ import { tap, filter } from 'rxjs/operators';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
 import { Card } from '../../../../ui/components/card/card.component';
+import { ActivatedRoute } from '@angular/router';
+import { CheckoutConfigService } from '../../../checkout-config.service';
+import { CheckoutStepType } from '../../../config/default-checkout-config';
 
 @Component({
   selector: 'cx-payment-method',
@@ -39,23 +41,29 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   getDeliveryAddressSub: Subscription;
   selectedPayment: PaymentDetails;
   deliveryAddress: Address;
-
-  @Output()
-  backStep = new EventEmitter<any>();
-
-  @Output()
-  goToStep = new EventEmitter<any>();
+  checkoutStepUrlNext: string;
+  checkoutStepUrlPrevious: string;
 
   constructor(
     protected cartData: CartDataService,
     protected userService: UserService,
     protected checkoutService: CheckoutService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    private routingService: RoutingService,
+    private checkoutConfigService: CheckoutConfigService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.isLoading$ = this.userService.getPaymentMethodsLoading();
     this.userService.loadPaymentMethods(this.cartData.userId);
+
+    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
+      this.activatedRoute
+    );
+    this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
+      this.activatedRoute
+    );
 
     this.existingPaymentMethods$ = this.userService.getPaymentMethods().pipe(
       tap(payments => {
@@ -141,10 +149,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       payment: this.selectedPayment,
       newPayment: false,
     });
+
+    this.routingService.go(this.checkoutStepUrlNext);
   }
 
   back(): void {
-    this.backStep.emit();
+    this.routingService.go(this.checkoutStepUrlPrevious);
   }
 
   addNewPaymentMethod({
@@ -194,7 +204,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       .getPaymentDetails()
       .subscribe(data => {
         if (data.accountHolderName && data.cardNumber) {
-          this.goToStep.emit(4);
+          const lastStepUrl = this.checkoutConfigService.getCheckoutStep(
+            CheckoutStepType.reviewOrder
+          ).url;
+          this.routingService.go(lastStepUrl);
 
           return;
         }
