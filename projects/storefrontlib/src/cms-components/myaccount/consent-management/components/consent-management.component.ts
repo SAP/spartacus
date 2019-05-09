@@ -5,7 +5,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  TranslationService,
   UserService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -33,8 +32,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private routingService: RoutingService,
-    private globalMessageService: GlobalMessageService,
-    private translationService: TranslationService
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -44,8 +42,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private consentListInit(): void {
-    // TODO:#1185 - reset templateList loading state? This triggers a new http request.
-    // this.userService.resetConsentsProcessState();
     this.templateList$ = this.userService.getConsents().pipe(
       withLatestFrom(this.userService.get()),
       filter(([_, user]) => Boolean(user) && Boolean(user.uid)),
@@ -65,16 +61,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.userService
         .getGiveConsentResultSuccess()
-        .pipe(
-          withLatestFrom(
-            this.translationService.translate(
-              'consentManagementForm.message.success.given'
-            )
-          )
-        )
-        .subscribe(([success, message]) =>
-          this.onConsentGivenSuccess(success, message)
-        )
+        .subscribe(success => this.onConsentGivenSuccess(success))
     );
   }
 
@@ -87,13 +74,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           skipWhile(Boolean),
           withLatestFrom(
             this.userService.getWithdrawConsentResultSuccess(),
-            this.userService.get(),
-            this.translationService.translate(
-              'consentManagementForm.message.success.withdrawn'
-            )
+            this.userService.get()
           ),
-          map(([_loading, withdrawalSuccess, user, translatedMessage]) => {
-            return { withdrawalSuccess, user, translatedMessage };
+          map(([_loading, withdrawalSuccess, user]) => {
+            return { withdrawalSuccess, user };
           }),
           tap(data => {
             if (data.withdrawalSuccess) {
@@ -102,10 +86,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe(data =>
-          this.onConsentWithdrawnSuccess(
-            data.withdrawalSuccess,
-            data.translatedMessage
-          )
+          this.onConsentWithdrawnSuccess(data.withdrawalSuccess)
         )
     );
   }
@@ -148,20 +129,20 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.routingService.go({ route: 'home' });
   }
 
-  private onConsentGivenSuccess(success: boolean, message: string): void {
+  private onConsentGivenSuccess(success: boolean): void {
     if (success) {
       this.userService.resetGiveConsentProcessState();
       this.globalMessageService.add(
-        message,
+        { key: 'consentManagementForm.message.success.given' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
   }
-  private onConsentWithdrawnSuccess(success: boolean, message: string): void {
+  private onConsentWithdrawnSuccess(success: boolean): void {
     if (success) {
       this.userService.resetWithdrawConsentProcessState();
       this.globalMessageService.add(
-        message,
+        { key: 'consentManagementForm.message.success.withdrawn' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
@@ -169,7 +150,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    // TODO:#1185 - reset templateList loading state here?
     this.userService.resetGiveConsentProcessState();
     this.userService.resetWithdrawConsentProcessState();
   }
