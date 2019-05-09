@@ -144,11 +144,13 @@ describe('PaymentMethodsComponent', () => {
     }
     component.ngOnInit();
     fixture.detectChanges();
-    expect(getCardHeader(el)).toContain('DEFAULT');
+    expect(getCardHeader(el)).toContain('paymentCard.defaultPaymentMethod');
     expect(getTextBold(el)).toContain(mockPayment.accountHolderName);
     expect(getCardNumber(el)).toContain(mockPayment.cardNumber);
     expect(getExpiration(el)).toContain(
-      `Expires: ${mockPayment.expiryMonth}/${mockPayment.expiryYear}`
+      `paymentCard.expires month:${mockPayment.expiryMonth} year:${
+        mockPayment.expiryYear
+      }`
     );
   });
 
@@ -169,9 +171,7 @@ describe('PaymentMethodsComponent', () => {
     fixture.detectChanges();
     getDeleteButton(el).click();
     fixture.detectChanges();
-    expect(getDeleteMsg(el)).toContain(
-      'Are you sure you want to delete this payment method?'
-    );
+    expect(getDeleteMsg(el)).toContain('paymentCard.deleteConfirmation');
     getCancelButton(el).nativeElement.click();
     fixture.detectChanges();
     expect(getCancelButton(el)).toBeFalsy();
