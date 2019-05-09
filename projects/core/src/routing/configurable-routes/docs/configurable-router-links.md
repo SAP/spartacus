@@ -41,13 +41,13 @@ Import `UrlModule` in every module that uses configurable router links.
 ### Transform the name of the route and the params object
 
 ```typescript
-{ route: <route> } | cxUrl
+{ cxRoute: <route> } | cxUrl
 ```
 
 Example:
 
 ```html
-<a [routerLink]="{ route: 'cart' } | cxUrl"></a>
+<a [routerLink]="{ cxRoute: 'cart' } | cxUrl"></a>
 ```
 
 when config is:
@@ -73,7 +73,7 @@ result in:
 When the route needs parameters, the object with route's `name` and `params` can be passed instead of just simple string. For example:
 
 ```html
-<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
+<a [routerLink]="{ cxRoute: 'product', params: { productCode: 1234 } } | cxUrl"></a>
 ```
 
 where config is:
@@ -141,8 +141,8 @@ In order to generate the path of parent and child route we need to pass them in 
 
 ```html
 <a [routerLink]="[
-    { route: 'parent', params: { param1: 'value1' },
-    { route: 'child',  params: { param2: 'value2' }
+    { cxRoute: 'parent', params: { param1: 'value1' },
+    { cxRoute: 'child',  params: { param2: 'value2' }
 ] | cxUrl,
 )"></a>
 ```
@@ -159,7 +159,7 @@ result:
 If you are already in the context of the activated parent route, you may want to only generate a relative link to the child route. Then you need to pass `'./'` string in the beginning of the input array . For example:
 
 ```html
-<a [routerLink]="[ './', { route: 'child',  params: { param2: 'value2' } } ] | cxUrl"></a>
+<a [routerLink]="[ './', { cxRoute: 'child',  params: { param2: 'value2' } } ] | cxUrl"></a>
 ```
 
 result:
@@ -173,7 +173,7 @@ result:
 If you want to go i.e. one one level up in the routes tree, you need to pass `../` to the array. For example:
 
 ```html
-<a [routerLink]="[ '../', { route: 'otherChild' } ] | cxUrl"></a>
+<a [routerLink]="[ '../', { cxRoute: 'otherChild' } ] | cxUrl"></a>
 ```
 
 result:
@@ -186,7 +186,7 @@ result:
 
 ```html
 <a [routerLink]="[
-    { route: 'parent', params: { param1: 'value1' } },
+    { cxRoute: 'parent', params: { param1: 'value1' } },
     'SOMETHING'
 ] | cxUrl,
 )"></a>
@@ -204,7 +204,7 @@ result:
 ```html
 <a [routerLink]="[
     'SOMETHING',
-    { route: 'parent', params: { param1: 'value1' } }
+    { cxRoute: 'parent', params: { param1: 'value1' } }
 ] | cxUrl,
 )"></a>
 ```
@@ -222,7 +222,7 @@ When properties of given `params` object do not match exactly to names of route 
 The `params` object below does not contain necessary property `productCode`, but it has `id`:
 
 ```html
-<a [routerLink]="{ route: 'product', params: { id: 1234 } } | cxUrl"></a>
+<a [routerLink]="{ cxRoute: 'product', params: { id: 1234 } } | cxUrl"></a>
 ```
 
 Then `paramsMapping` needs to be configured:
@@ -269,7 +269,7 @@ category: {
 
 ### Navigation to the generated path
 
-The `RoutingService.go` method called with `{ route: <route> }` navigates to the generated path - similar like `routerLink` with `cxUrl` pipe in the HTML template. For example:
+The `RoutingService.go` method called with `{ cxRoute: <route> }` navigates to the generated path - similar like `routerLink` with `cxUrl` pipe in the HTML template. For example:
 
 When config is:
 
@@ -284,14 +284,14 @@ ConfigModule.withConfig({
 ```
 
 ```typescript
-routingService.go({ route: 'product', params: { productCode: 1234 } });
+routingService.go({ cxRoute: 'product', params: { productCode: 1234 } });
 
 // router navigates to ['/', 'p', 1234]
 ```
 
 ### Simply generation of the path
 
-The `UrlService.generateUrl` method called with `{ route: <route> }` returns the generated path (just like `cxUrl` pipe in HTML templates). For example:
+The `UrlService.generateUrl` method called with `{ cxRoute: <route> }` returns the generated path (just like `cxUrl` pipe in HTML templates). For example:
 
 When config is:
 
@@ -306,7 +306,7 @@ ConfigModule.withConfig({
 ```
 
 ```typescript
-urlService.generateUrl({ route: 'product', params: { productCode: 1234 } });
+urlService.generateUrl({ cxRoute: 'product', params: { productCode: 1234 } });
 
 // ['/', 'p', 1234]
 ```

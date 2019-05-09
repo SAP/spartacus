@@ -188,7 +188,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   back(): void {
-    this.routingService.go({ route: 'cart' });
+    this.routingService.go({ cxRoute: 'cart' });
   }
 
   ngOnDestroy(): void {

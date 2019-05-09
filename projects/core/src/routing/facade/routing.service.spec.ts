@@ -53,7 +53,7 @@ describe('RoutingService', () => {
 
     it('should call url service service with given array of commands', () => {
       spyOn(urlService, 'generateUrl');
-      const commands = ['testString', { route: 'testRoute' }];
+      const commands = ['testString', { cxRoute: 'testRoute' }];
       service.go(commands);
       expect(urlService.generateUrl).toHaveBeenCalledWith(commands);
     });

@@ -45,12 +45,12 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
         'Password updated with success',
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      this.routingService.go({ route: 'home' });
+      this.routingService.go({ cxRoute: 'home' });
     }
   }
 
   onCancel(): void {
-    this.routingService.go({ route: 'home' });
+    this.routingService.go({ cxRoute: 'home' });
   }
 
   onSubmit({

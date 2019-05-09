@@ -47,7 +47,7 @@
           <div class="cx-dialog-buttons">
             <a
               [class.disabled]="form.dirty"
-              [routerLink]="{ route: 'cart' } | cxUrl"
+              [routerLink]="{ cxRoute: 'cart' } | cxUrl"
               class="btn btn-primary"
               ngbAutoFocus
               (click)="!form.dirty && activeModal.dismiss('View Cart click')"
@@ -55,7 +55,7 @@
             >
             <a
               [class.disabled]="form.dirty"
-              [routerLink]="{ route: 'checkout' } | cxUrl"
+              [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
               class="btn btn-secondary"
               (click)="
                 !form.dirty && activeModal.dismiss('Proceed To Checkout click')
