@@ -120,11 +120,7 @@ export class ReviewSubmitComponent implements OnInit {
         return {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
-          text: [
-            paymentDetails.cardType.name,
-            paymentDetails.cardNumber,
-            textExpires,
-          ],
+          text: [paymentDetails.cardNumber, textExpires],
         };
       })
     );
