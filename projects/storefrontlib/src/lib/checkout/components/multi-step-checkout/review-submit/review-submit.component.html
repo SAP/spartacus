@@ -12,7 +12,7 @@
             getShippingAddressCard(
               deliveryAddress$ | async,
               countryName$ | async
-            )
+            ) | async
           "
         ></cx-card>
       </div>
@@ -22,7 +22,8 @@
     <div class="col-md-12 col-lg-6 col-xl-4">
       <div class="cx-review-summary-card cx-review-card-shipping">
         <cx-card
-          [content]="getDeliveryModeCard(deliveryMode$ | async)"
+          *ngIf="(deliveryMode$ | async) as deliveryMode"
+          [content]="getDeliveryModeCard(deliveryMode) | async"
         ></cx-card>
       </div>
     </div>
@@ -31,7 +32,7 @@
     <div class="col-md-12 col-lg-6 col-xl-4">
       <div class="cx-review-summary-card cx-review-card-payment">
         <cx-card
-          [content]="getPaymentMethodCard(paymentDetails$ | async)"
+          [content]="getPaymentMethodCard(paymentDetails$ | async) | async"
         ></cx-card>
       </div>
     </div>
