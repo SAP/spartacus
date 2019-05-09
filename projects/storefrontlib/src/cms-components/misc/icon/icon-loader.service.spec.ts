@@ -3,7 +3,11 @@ import { IconLoaderService } from './icon-loader.service';
 import { IconConfig, ICON_TYPES } from './icon.config';
 
 const MockFontIconConfig: IconConfig = {
-  icon: {},
+  icon: {
+    icons: {
+      [ICON_TYPES.CART]: 'basket-icon',
+    },
+  },
 };
 
 const MockFontAwesomeIconConfig: IconConfig = {
@@ -29,6 +33,9 @@ const MockSvgIconWithPathConfig: IconConfig = {
 const MockSvgIconConfig: IconConfig = {
   icon: {
     useSvg: true,
+    icons: {
+      [ICON_TYPES.CART]: 'basket-icon',
+    },
   },
 };
 
@@ -50,7 +57,7 @@ describe('IconLoaderService', () => {
     it('should use standard icon type in font', () => {
       expect(service.getStyleClasses(ICON_TYPES.CART).length).toEqual(1);
       expect(service.getStyleClasses(ICON_TYPES.CART)[0]).toEqual(
-        ICON_TYPES.CART
+        'basket-icon'
       );
     });
 
@@ -99,12 +106,6 @@ describe('IconLoaderService', () => {
       expect(service.useSvg()).toBeTruthy();
     });
 
-    it('should return an external SVG path and  ', () => {
-      expect(service.getSvgPath(ICON_TYPES.SEARCH)).toEqual(
-        'icon/path.svg#search'
-      );
-    });
-
     it('should return an specific icon mapping in the SVG path', () => {
       expect(service.getSvgPath(ICON_TYPES.CART)).toEqual(
         'icon/path.svg#basket-icon'
@@ -121,7 +122,7 @@ describe('IconLoaderService', () => {
     });
 
     it('should return an SVG path without a file reference', () => {
-      expect(service.getSvgPath(ICON_TYPES.SEARCH)).toEqual('#search');
+      expect(service.getSvgPath(ICON_TYPES.CART)).toEqual('#basket-icon');
     });
   });
 });
