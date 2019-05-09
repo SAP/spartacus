@@ -17,6 +17,8 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  ForgotPasswordModule,
+  ResetPasswordModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -61,6 +63,8 @@ import { StoreFinderModule } from './storefinder/index';
     CloseAccountModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
   ],
 })
 export class CmsLibModule {}
