@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
 import { SearchConfig } from '../../model/search-config';
-import { ErrorModel, Suggestion } from '../../../occ/occ-models';
-import { UIProductSearchPage } from '../../model/product-search-page';
+import { Suggestion, UIProductSearchPage } from '../../../model/product-search.model';
+import { ErrorModel } from '../../../model/misc.model';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';

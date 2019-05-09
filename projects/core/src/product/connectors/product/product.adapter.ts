@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { UIProduct } from '../../model/product';
+import { UIProduct } from '../../../model/product.model';
 
 export abstract class ProductAdapter {
   /**

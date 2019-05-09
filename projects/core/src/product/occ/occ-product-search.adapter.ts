@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ProductSearchAdapter } from '../connectors/search/product-search.adapter';
 import { SearchConfig } from '../model/search-config';
-import { Suggestion } from '../../occ/occ-models/occ.models';
 
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -11,8 +10,8 @@ import {
   PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '../connectors/search/converters';
-import { UIProductSearchPage } from '../model/product-search-page';
 import { pluck } from 'rxjs/operators';
+import { Suggestion, UIProductSearchPage } from '../../model/product-search.model';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,

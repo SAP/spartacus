@@ -11,7 +11,7 @@ import { SearchConfig } from '../model/search-config';
 import { StateWithProduct } from '../store/product-state';
 
 import { ProductSearchService } from './product-search.service';
-import { UIProductSearchPage } from '../model/product-search-page';
+import { UIProductSearchPage } from '../../model/product-search-page.model';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;

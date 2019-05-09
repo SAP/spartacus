@@ -15,7 +15,8 @@ import {
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { UICart, UIOrderEntry } from '../../model';
+import { UICart} from '../../../model/cart.model';
+import { UIOrderEntry } from '../../../model/order.model';
 
 export const getCartContentSelector = (state: CartState) => state.content;
 export const getRefreshSelector = (state: CartState) => state.refresh;

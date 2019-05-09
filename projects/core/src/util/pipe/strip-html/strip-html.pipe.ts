@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { UIProduct } from '../../../model/product.model';
 
-import { Product } from '../../../occ/occ-models/occ.models';
 
 @Pipe({ name: 'stripHtml' })
 export class StripHtmlPipe implements PipeTransform {
-  transform(product: Product): Product {
+  transform(product: UIProduct): UIProduct {
     const productClone = Object.assign({}, product);
     productClone.name = product.name.replace(/<[^>]*>/g, '');
 

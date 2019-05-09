@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { StoreModule, Store, select } from '@ngrx/store';
-import { UIProductSearchPage } from '../../model/product-search-page';
 
 import * as fromActions from '../actions';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
@@ -10,6 +9,7 @@ import { SearchConfig } from '../../model/search-config';
 import { Suggestion } from '../../../occ/occ-models/occ.models';
 
 import * as fromSelectors from './product-search.selectors';
+import { UIProductSearchPage } from '../../../model/product-search-page.model';
 
 describe('ProductSearch Selectors', () => {
   let store: Store<StateWithProduct>;

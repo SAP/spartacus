@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import {
   CmsComponent,
   CmsComponentList,
-  PageType,
 } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
@@ -13,6 +12,7 @@ import { IdList } from '../model/idList.model';
 import { ConverterService } from '../../util/converter.service';
 import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
 import { pluck } from 'rxjs/operators';
+import { PageType } from '../../model/cms.model';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {

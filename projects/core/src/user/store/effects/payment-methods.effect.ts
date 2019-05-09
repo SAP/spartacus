@@ -5,7 +5,8 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../occ/index';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
-import { PaymentDetailsList } from '../../../occ/occ-models/index';
+import { Occ } from '../../../occ/occ-models/occ.models';
+
 
 @Injectable()
 export class UserPaymentMethodsEffects {
@@ -18,7 +19,7 @@ export class UserPaymentMethodsEffects {
     ),
     mergeMap(payload => {
       return this.occUserService.loadUserPaymentMethods(payload).pipe(
-        map((paymentsList: PaymentDetailsList) => {
+        map((paymentsList: Occ.PaymentDetailsList) => {
           return new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
             paymentsList.payments
           );

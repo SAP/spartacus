@@ -3,11 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
-  CardTypeList,
-  CountryList,
-  RegionList,
-  TitleList,
-} from '../../occ/occ-models/index';
+Occ
+} from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../services/occ-endpoints.service';
 
 const ENDPOINT_COUNTRIES = 'countries';
@@ -26,37 +23,37 @@ export class OccMiscsService {
     private occEndpoints: OccEndpointsService
   ) {}
 
-  loadDeliveryCountries(): Observable<CountryList> {
+  loadDeliveryCountries(): Observable<Occ.CountryList> {
     return this.http
-      .get<CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
+      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
         params: new HttpParams().set('type', COUNTRIES_TYPE_SHIPPING),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadBillingCountries(): Observable<CountryList> {
+  loadBillingCountries(): Observable<Occ.CountryList> {
     return this.http
-      .get<CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
+      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
         params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadTitles(): Observable<TitleList> {
+  loadTitles(): Observable<Occ.TitleList> {
     return this.http
-      .get<TitleList>(this.occEndpoints.getEndpoint(ENDPOINT_TITLES))
+      .get<Occ.TitleList>(this.occEndpoints.getEndpoint(ENDPOINT_TITLES))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadCardTypes(): Observable<CardTypeList> {
+  loadCardTypes(): Observable<Occ.CardTypeList> {
     return this.http
-      .get<CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
+      .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadRegions(countryIsoCode: string): Observable<RegionList> {
+  loadRegions(countryIsoCode: string): Observable<Occ.RegionList> {
     return this.http
-      .get<RegionList>(
+      .get<Occ.RegionList>(
         this.occEndpoints.getEndpoint(this.buildRegionsUrl(countryIsoCode))
       )
       .pipe(catchError((error: any) => throwError(error.json())));

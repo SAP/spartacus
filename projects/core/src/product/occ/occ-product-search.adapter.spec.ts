@@ -13,8 +13,8 @@ import {
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { SearchConfig } from '../model/search-config';
 import { SuggestionList } from '../../occ/occ-models/occ.models';
-import { UIProductSearchPage } from '../model/product-search-page';
 import createSpy = jasmine.createSpy;
+import { UIProductSearchPage } from '../../model/product-search-page.model';
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(

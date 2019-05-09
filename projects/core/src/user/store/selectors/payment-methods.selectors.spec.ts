@@ -7,8 +7,8 @@ import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 import { PaymentDetailsList } from '../../../occ/occ-models/index';
-import { PaymentDetails } from '../../../occ/occ-models/occ.models';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { PaymentDetails } from '../../../model/cart.model';
 
 const mockUserPaymentMethods: PaymentDetailsList = {
   payments: [{ id: 'payment1' }, { id: 'payment2' }],

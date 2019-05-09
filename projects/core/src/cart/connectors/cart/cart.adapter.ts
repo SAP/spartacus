@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { UICart } from '../../model/cart';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
+import { UICart } from '../../../model/cart.model';
 
 export abstract class CartAdapter {
   /**

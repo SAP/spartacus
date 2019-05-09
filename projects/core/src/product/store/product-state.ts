@@ -1,7 +1,6 @@
-import { Review, Suggestion } from '../../occ/occ-models/occ.models';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
-import { UIProductSearchPage } from '../model/product-search-page';
-import { UIProduct } from '../model/product';
+import { Review, UIProduct } from '../../model/product.model';
+import { Suggestion, UIProductSearchPage } from '../../model/product-search.model';
 
 export const PRODUCT_FEATURE = 'product';
 export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';

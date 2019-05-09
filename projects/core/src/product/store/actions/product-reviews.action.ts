@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
+import { ErrorModel } from '../../../model/misc.model';
+import { Review } from '../../../model/product.model';
 
-import { Review, ErrorModel } from '../../../occ/occ-models';
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
 export const LOAD_PRODUCT_REVIEWS_FAIL =

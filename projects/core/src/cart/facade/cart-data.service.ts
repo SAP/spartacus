@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UICart } from '../model';
+import { UICart } from '../../model/cart.model';
 
 export const ANONYMOUS_USERID = 'anonymous';
 

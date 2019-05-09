@@ -6,7 +6,7 @@ import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { UICart } from '../../model/cart';
+import { UICart } from '../../../model/cart.model';
 
 @Injectable()
 export class CartEffects {

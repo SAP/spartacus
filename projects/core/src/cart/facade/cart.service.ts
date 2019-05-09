@@ -10,7 +10,8 @@ import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { StateWithCart } from '../store/cart-state';
-import { UICart, UIOrderEntry } from '../model/cart';
+import { UICart} from '../../model/cart.model';
+import { UIOrderEntry } from '../../model/order.model';
 
 @Injectable()
 export class CartService {

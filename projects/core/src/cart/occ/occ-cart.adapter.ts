@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CartAdapter } from '../connectors/cart/cart.adapter';
 import { Observable, throwError } from 'rxjs';
-import { Cart, CartList } from '../../occ/occ-models/occ.models';
+import { Occ } from '../../occ/occ-models/occ.models';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, pluck } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { CART_NORMALIZER } from '../connectors/cart/converters';
-import { UICart } from '../model/cart';
 import { CheckoutDetails } from '../../checkout/models/checkout.model';
+import { UICart } from '../../model/cart.model';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -47,7 +47,7 @@ export class OccCartAdapter implements CartAdapter {
       : new HttpParams({
           fromString: `fields=carts(${BASIC_PARAMS},saveTime)`,
         });
-    return this.http.get<CartList>(url, { params: params }).pipe(
+    return this.http.get<Occ.CartList>(url, { params: params }).pipe(
       catchError((error: any) => throwError(error)),
       pluck('carts'),
       this.converter.pipeableMany(CART_NORMALIZER)
@@ -82,7 +82,7 @@ export class OccCartAdapter implements CartAdapter {
         })
       );
     } else {
-      return this.http.get<Cart>(url, { params: params }).pipe(
+      return this.http.get<Occ.Cart>(url, { params: params }).pipe(
         catchError((error: any) => throwError(error)),
         this.converter.pipeable(CART_NORMALIZER)
       );
@@ -121,7 +121,7 @@ export class OccCartAdapter implements CartAdapter {
       fromString: queryString,
     });
 
-    return this.http.post<Cart>(url, toAdd, { params: params }).pipe(
+    return this.http.post<Occ.Cart>(url, toAdd, { params: params }).pipe(
       this.converter.pipeable(CART_NORMALIZER),
       catchError((error: any) => throwError(error.json()))
     );

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CartService } from '../../cart/facade/cart.service';
-import { UICart } from '../../cart/model';
 import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { PageType } from '../../occ/occ-models/occ.models';
+import { UICart } from '../../model/cart.model';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',

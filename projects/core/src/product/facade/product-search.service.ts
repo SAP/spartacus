@@ -8,8 +8,8 @@ import { filter } from 'rxjs/operators';
 
 import { SearchConfig } from '../model/search-config';
 import * as fromStore from '../store/index';
-import { Suggestion } from '../../occ/occ-models';
-import { UIProductSearchPage } from '../model/product-search-page';
+import { Suggestion, UIProductSearchPage } from '../../model/product-search.model';
+
 
 @Injectable()
 export class ProductSearchService {

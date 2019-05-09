@@ -4,7 +4,7 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { UIProduct } from '../../model/product';
+import { UIProduct } from '../../../model/product.model';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';

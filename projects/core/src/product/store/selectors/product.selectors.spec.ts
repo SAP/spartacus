@@ -3,8 +3,8 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import * as fromActions from '../actions';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 import * as fromReducers from '../reducers';
-import { UIProduct } from '../../model/product';
 import * as fromSelectors from './product.selectors';
+import { UIProduct } from '../../../model/product.model';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithProduct>;

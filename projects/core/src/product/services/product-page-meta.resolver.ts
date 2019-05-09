@@ -10,10 +10,10 @@ import {
   PageImageResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
-import { UIProduct } from '../model/product';
+import { UIProduct } from '../../model/product.model';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',

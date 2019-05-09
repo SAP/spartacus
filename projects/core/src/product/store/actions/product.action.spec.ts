@@ -5,7 +5,7 @@ import {
   entityLoadMeta,
   entitySuccessMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { UIProduct } from '../../model/product';
+import { UIProduct } from '../../../model/product.model';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {

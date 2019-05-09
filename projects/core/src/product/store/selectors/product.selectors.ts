@@ -9,8 +9,8 @@ import {
   loaderSuccessSelector,
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
-import { UIProduct } from '../../model/product';
 import { getProductsState } from './feature.selector';
+import { UIProduct } from '../../../model/product.model';
 
 export const getProductState: MemoizedSelector<
   StateWithProduct,

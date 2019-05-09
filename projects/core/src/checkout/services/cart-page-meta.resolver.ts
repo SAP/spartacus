@@ -9,7 +9,8 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { PageType } from '../../occ/occ-models/occ.models';
+import { PageType } from '../../model/cms.model';
+
 
 @Injectable({
   providedIn: 'root',

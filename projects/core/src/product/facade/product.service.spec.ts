@@ -4,8 +4,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';
 import * as fromStore from '../store/index';
 import { ProductsState } from '../store/index';
-import { UIProduct } from '../model/product';
 import { ProductService } from './product.service';
+import { UIProduct } from '../../model/product.model';
 
 describe('ProductService', () => {
   let store: Store<ProductsState>;

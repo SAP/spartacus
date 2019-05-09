@@ -1,5 +1,5 @@
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { UIOrderEntry } from '../model';
+import { UIOrderEntry } from '../../model/order.model';
 
 export const CART_FEATURE = 'cart';
 export const CART_DATA = '[Cart] Cart Data';

@@ -5,10 +5,10 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
-import { UIProductSearchPage } from '../model/product-search-page';
+import { UIProductSearchPage } from '../../model/product-search.model';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',
