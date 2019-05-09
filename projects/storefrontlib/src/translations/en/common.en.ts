@@ -26,4 +26,8 @@ export const common = {
       noMatch: 'We could not find any results',
     },
   },
+  sorting: {
+    date: 'Date',
+    orderNumber: 'Order Number',
+  },
 };

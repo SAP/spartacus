@@ -19,7 +19,6 @@ The following features are supported:
 - [Disabling standard routes](./docs/disabling-standard-routes.md)
 - [Additional route parameters](./docs/additional-route-parameters.md)
 - [Route aliases](./docs/route-aliases.md)
-- [Redirects](./docs/redirects.md)
 
 ## Future outlook
 
