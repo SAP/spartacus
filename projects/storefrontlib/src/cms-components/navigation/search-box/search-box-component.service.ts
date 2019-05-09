@@ -34,7 +34,7 @@ export class SearchBoxComponentService {
     protected translationService: TranslationService
   ) {}
 
-  getSearchResults(
+  public getSearchResults(
     text$: Observable<string>,
     config$?: Observable<any>
   ): Observable<SearchResults> {

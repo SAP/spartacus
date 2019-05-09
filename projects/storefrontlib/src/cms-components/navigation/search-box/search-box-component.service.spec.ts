@@ -5,6 +5,7 @@ import {
   ProductSearchService,
   RoutingService,
   Suggestion,
+  TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -43,7 +44,7 @@ const componentDataMock = <CmsComponentData<SpaComponent>>{
   data$: of({}),
 };
 
-fdescribe('SearchBoxComponentService', () => {
+describe('SearchBoxComponentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -60,6 +61,7 @@ fdescribe('SearchBoxComponentService', () => {
           useClass: MockProductSearchService,
         },
         SearchBoxComponentService,
+        TranslationService,
       ],
     });
   });
@@ -91,21 +93,12 @@ fdescribe('SearchBoxComponentService', () => {
       const productSearchService = TestBed.get(ProductSearchService);
 
       const searchConfig = { pageSize: 5 };
-      service.typeahead(of('testQuery')).subscribe(() => {
+      service.getSearchResults(of('testQuery')).subscribe(() => {
         expect(productSearchService.getSuggestions).toHaveBeenCalledWith(
           'testQuery',
           searchConfig
         );
       });
-    }
-  ));
-
-  it('should expose query param', inject(
-    [SearchBoxComponentService],
-    (service: SearchBoxComponentService) => {
-      let queryParam;
-      service.queryParam$.subscribe(x => (queryParam = x));
-      expect(queryParam).toEqual(mockRouterState.state.params.query);
     }
   ));
 });

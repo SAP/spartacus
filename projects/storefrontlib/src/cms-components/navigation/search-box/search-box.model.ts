@@ -7,7 +7,7 @@ export interface SearchBoxConfig {
 }
 
 export interface SearchResults {
-  messages: string[];
+  message: string;
   products: any[];
   suggestions: string[];
 }
