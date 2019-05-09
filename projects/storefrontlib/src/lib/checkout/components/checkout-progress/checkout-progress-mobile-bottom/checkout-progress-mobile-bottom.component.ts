@@ -8,7 +8,6 @@ import { CheckoutStep } from '../../../model/checkout-step.model';
 @Component({
   selector: 'cx-checkout-progress-mobile-bottom',
   templateUrl: './checkout-progress-mobile-bottom.component.html',
-  styleUrls: ['./checkout-progress-mobile-bottom.component.scss'],
 })
 export class CheckoutProgressMobileBottomComponent implements OnInit {
   constructor(
