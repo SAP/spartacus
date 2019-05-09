@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CheckoutConfig } from './config/checkout-config';
-import { CheckoutStepType } from './config/default-checkout-config';
-import { CheckoutStep } from './config/model/checkout-step.model';
 import { ActivatedRoute } from '@angular/router';
+import { CheckoutStep, CheckoutStepType } from './model/checkout-step.model';
 
 @Injectable()
 export class CheckoutConfigService {

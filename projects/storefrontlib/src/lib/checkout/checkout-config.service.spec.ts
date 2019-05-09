@@ -1,7 +1,6 @@
 import { CheckoutConfig } from './config/checkout-config';
-import { CheckoutStepType } from './config/default-checkout-config';
 import { CheckoutConfigService } from './checkout-config.service';
-import { CheckoutStep } from './config/model/checkout-step.model';
+import { CheckoutStepType, CheckoutStep } from './model/checkout-step.model';
 
 const mockCheckoutStepType = CheckoutStepType.shippingAddress;
 

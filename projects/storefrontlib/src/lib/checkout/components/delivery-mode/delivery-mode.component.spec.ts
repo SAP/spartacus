@@ -122,10 +122,12 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should change step after invoking next()', () => {
-    component.checkoutStepUrlNext = mockStepUrl;
-    component.mode.controls['deliveryModeId'].setValue(mockDeliveryMode1.code);
-    component.currentDeliveryModeId = mockDeliveryMode1.code;
     component.changedOption = true;
+    component.checkoutStepUrlNext = mockStepUrl;
+    component.currentDeliveryModeId = mockDeliveryMode1.code;
+    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
+      of(mockDeliveryMode1)
+    );
 
     component.next();
 
