@@ -42,5 +42,9 @@ export const common = {
     userAddressDeleteSuccess: 'Address deleted successfully!',
     invalidAddress: 'Invalid Address',
     invalidField: 'InvalidField: {{ field }}',
+    orderPlacedSuccessfully: 'Order placed successfully',
+    passwordResetEmailSent:
+      'An email has been sent to you with information on how to reset your password.',
+    passwordResetSuccess: 'Success! You can now login using your new password.',
   },
 };

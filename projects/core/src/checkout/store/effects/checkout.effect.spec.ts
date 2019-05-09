@@ -268,7 +268,7 @@ describe('Checkout effect', () => {
       });
       const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
       const completion2 = new AddMessage({
-        text: { raw: 'Order placed successfully' },
+        text: { key: 'messages.orderPlacedSuccessfully' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 
