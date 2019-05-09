@@ -133,7 +133,7 @@ const pageModules = [
         path: null,
         component: PageLayoutComponent,
         canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'consents', cxPath: 'consentManagement' },
+        data: { pageLabel: 'consents', cxRoute: 'consentManagement' },
       },
       {
         path: null,
