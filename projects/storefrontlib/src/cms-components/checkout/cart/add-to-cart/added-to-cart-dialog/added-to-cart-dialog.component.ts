@@ -61,12 +61,7 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
           this.form.markAsPristine();
 
           // Announce in header if Add To Cart button has incremented product
-          if (this.firstUpdate && entry.quantity > 1) {
-            this.showItemIncrLabel = true;
-          } else {
-            this.showItemIncrLabel = false;
-          }
-
+          this.showItemIncrLabel = this.firstUpdate && entry.quantity > 1;
           // Any updates after the first will be flagged as false
           this.firstUpdate = false;
         }
