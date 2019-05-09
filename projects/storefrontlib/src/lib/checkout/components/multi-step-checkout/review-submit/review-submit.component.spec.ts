@@ -20,7 +20,7 @@ import { Card } from '../../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
 
-const mockCart: UICart = {
+const mockCart: Cart = {
   guid: 'test',
   code: 'test',
   deliveryItemsQuantity: 123,
@@ -104,7 +104,7 @@ class MockUserService {
 }
 
 class MockCartService {
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of(mockCart);
   }
   getEntries(): Observable<OrderEntry[]> {
@@ -151,8 +151,8 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let cart: UICart;
-    component.cart$.subscribe((data: UICart) => {
+    let cart: Cart;
+    component.cart$.subscribe((data: Cart) => {
       cart = data;
     });
 

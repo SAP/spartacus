@@ -70,7 +70,7 @@ class MockShippingAddressComponent {}
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
-  cart: UICart;
+  cart: Cart;
 }
 
 @Component({ selector: 'cx-place-order', template: '' })
@@ -108,7 +108,7 @@ describe('MultiStepCheckoutComponent', () => {
 
   beforeEach(async(() => {
     mockCartService = {
-      getActive(): BehaviorSubject<UICart> {
+      getActive(): BehaviorSubject<Cart> {
         return new BehaviorSubject({
           totalItems: 5141,
           subTotal: { formattedValue: '11119' },

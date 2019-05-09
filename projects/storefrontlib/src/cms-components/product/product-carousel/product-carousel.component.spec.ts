@@ -43,11 +43,11 @@ const mockComponentData: CmsProductCarouselComponent = {
   productCodes: productCodeArray.join(' '),
   scroll: 'ALLVISIBLE',
   title: 'Mock Title',
-  name: 'Mock UIProduct Carousel',
+  name: 'Mock Product Carousel',
   container: 'false',
 };
 
-const mockProduct: UIProduct = {
+const mockProduct: Product = {
   code: '111111',
   name: 'Camera',
   price: {
@@ -60,7 +60,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 };
 
 class MockProductService {
-  get(): Observable<UIProduct> {
+  get(): Observable<Product> {
     return of(mockProduct);
   }
 
@@ -138,7 +138,7 @@ describe('ProductCarouselComponent', () => {
   }));
 
   it('should have products', async(() => {
-    let products$: Observable<UIProduct>[];
+    let products$: Observable<Product>[];
     productCarouselComponent.service.setItems();
     productCarouselComponent.service
       .getItems()

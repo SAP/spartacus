@@ -22,7 +22,7 @@ class MockCartService {
   getLoaded(): Observable<boolean> {
     return of();
   }
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of();
   }
 }

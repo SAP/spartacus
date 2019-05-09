@@ -11,7 +11,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { Input, Component, Pipe, PipeTransform } from '@angular/core';
 
-const cartMock: UICart = {
+const cartMock: Cart = {
   name: 'cart-mock',
 };
 
@@ -30,7 +30,7 @@ const entriesMock: OrderEntry[] = [
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart: Observable<UICart>;
+  cart: Observable<Cart>;
 }
 
 @Pipe({
@@ -41,7 +41,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockCartService {
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of(cartMock);
   }
   getEntries(): Observable<OrderEntry[]> {
@@ -76,12 +76,12 @@ describe('CartTotalsComponent', () => {
   });
 
   it('should get active cart on ngOnInit()', () => {
-    let cart: UICart;
+    let cart: Cart;
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.cart$.subscribe((data: UICart) => (cart = data));
+    component.cart$.subscribe((data: Cart) => (cart = data));
     expect(cart).toEqual(cartMock);
   });
 
