@@ -9,7 +9,14 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  skipWhile,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -77,7 +84,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.withdrawConsentLoading$
         .pipe(
-          filter(loading => !loading),
+          skipWhile(Boolean),
           withLatestFrom(
             this.userService.getWithdrawConsentResultSuccess(),
             this.userService.get(),
@@ -88,7 +95,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           map(([_loading, withdrawalSuccess, user, translatedMessage]) => {
             return { withdrawalSuccess, user, translatedMessage };
           }),
-          filter(data => Boolean(data.user)),
           tap(data => {
             if (data.withdrawalSuccess) {
               this.userService.loadConsents(data.user.uid);
@@ -122,7 +128,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.userService
       .get()
       .pipe(
-        filter(Boolean),
         map(user => user.uid),
         tap(userId => {
           if (given) {
@@ -163,11 +168,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
     // TODO:#1185 - reset templateList loading state here?
     this.userService.resetGiveConsentProcessState();
     this.userService.resetWithdrawConsentProcessState();
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
   }
 }
