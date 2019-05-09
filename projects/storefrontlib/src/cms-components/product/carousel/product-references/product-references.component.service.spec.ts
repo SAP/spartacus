@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   CmsProductReferencesComponent,
   ProductReferenceService,
@@ -54,6 +54,8 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 };
 
 describe('ProductReferencesService', () => {
+  let productReferenceService: ProductReferencesService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -73,73 +75,58 @@ describe('ProductReferencesService', () => {
       ],
     });
 
-    // productCarouselService = TestBed.get(ProductReferencesService);
+    productReferenceService = TestBed.get(ProductReferencesService);
   });
 
-  it('should inject ProductReferencesService', inject(
-    [ProductReferencesService],
-    (service: ProductReferencesService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  it('should inject ProductReferencesService', () => {
+    expect(productReferenceService).toBeTruthy();
+  });
 
-  it('should getReferenceType()', inject(
-    [ProductReferencesService],
-    (service: ProductReferencesService) => {
-      spyOn(service, 'getReferenceType').and.callThrough();
+  it('should getReferenceType()', () => {
+    spyOn(productReferenceService, 'getReferenceType').and.callThrough();
 
-      service.getReferenceType();
-      expect(service.getReferenceType).toHaveBeenCalled();
-    }
-  ));
+    productReferenceService.getReferenceType();
+    expect(productReferenceService.getReferenceType).toHaveBeenCalled();
+  });
 
-  it('should getProductCode()', inject(
-    [ProductReferencesService],
-    (service: ProductReferencesService) => {
-      spyOn(service, 'getProductCode').and.callThrough();
+  it('should getProductCode()', () => {
+    spyOn(productReferenceService, 'getProductCode').and.callThrough();
 
-      service.getProductCode();
-      expect(service.getProductCode).toHaveBeenCalled();
-    }
-  ));
+    productReferenceService.getProductCode();
+    expect(productReferenceService.getProductCode).toHaveBeenCalled();
+  });
 
-  it('should have title', inject(
-    [ProductReferencesService],
-    (service: ProductReferencesService) => {
-      spyOn(service, 'setTitle').and.callThrough();
-      spyOn(service, 'getTitle').and.callThrough();
+  it('should have title', () => {
+    spyOn(productReferenceService, 'setTitle').and.callThrough();
+    spyOn(productReferenceService, 'getTitle').and.callThrough();
 
-      let title$: string;
+    let title$: string;
 
-      service.setTitle();
-      service
-        .getTitle()
-        .subscribe(data => {
-          title$ = data;
-        })
-        .unsubscribe();
+    productReferenceService.setTitle();
+    productReferenceService
+      .getTitle()
+      .subscribe(data => {
+        title$ = data;
+      })
+      .unsubscribe();
 
-      expect(title$).toBe(title);
-    }
-  ));
+    expect(title$).toBe(title);
+  });
 
-  it('should have product list', inject(
-    [ProductReferencesService],
-    (service: ProductReferencesService) => {
-      spyOn(service, 'setReferenceList').and.callThrough();
-      spyOn(service, 'getReferenceList').and.callThrough();
+  it('should have product list', () => {
+    spyOn(productReferenceService, 'setReferenceList').and.callThrough();
+    spyOn(productReferenceService, 'getReferenceList').and.callThrough();
 
-      let list$: UIProductReference[];
+    let list$: UIProductReference[];
 
-      service.setReferenceList();
-      service
-        .getReferenceList()
-        .subscribe(data => {
-          list$ = data;
-        })
-        .unsubscribe();
+    productReferenceService.setReferenceList();
+    productReferenceService
+      .getReferenceList()
+      .subscribe(data => {
+        list$ = data;
+      })
+      .unsubscribe();
 
-      expect(list$).toBe(list);
-    }
-  ));
+    expect(list$).toBe(list);
+  });
 });
