@@ -69,7 +69,7 @@ export class OnlyNumberDirective {
     ];
     // allow some non-numeric characters
     if (
-      allowedKeys.indexOf(key) !== -1 ||
+      allowedKeys.includes(key) ||
       // Allow: Ctrl+A and Command+A
       (key === 'a' && controlOrCommand) ||
       // Allow: Ctrl+C and Command+C

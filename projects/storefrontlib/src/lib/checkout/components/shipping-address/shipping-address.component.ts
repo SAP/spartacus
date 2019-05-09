@@ -16,6 +16,7 @@ import {
   CheckoutService,
   RoutingService,
   UserService,
+  TranslationService,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
 
@@ -52,7 +53,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected cartData: CartDataService,
     protected cartService: CartService,
     protected routingService: RoutingService,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    private translation: TranslationService
   ) {}
 
   ngOnInit() {
@@ -78,27 +80,50 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
     this.cards$ = combineLatest(
       this.existingAddresses$,
-      this.selectedAddress$.asObservable()
+      this.selectedAddress$.asObservable(),
+      this.translation.translate('checkoutAddress.defaultShippingAddress'),
+      this.translation.translate('checkoutAddress.shipToThisAddress'),
+      this.translation.translate('addressCard.selected')
     ).pipe(
-      map(([addresses, selected]) => {
-        return addresses.map(address => {
-          const card = this.getCardContent(address, selected);
-          return {
-            address,
-            card,
-          };
-        });
-      })
+      map(
+        ([
+          addresses,
+          selected,
+          textDefaultShippingAddress,
+          textShipToThisAddress,
+          textSelected,
+        ]) => {
+          return addresses.map(address => {
+            const card = this.getCardContent(
+              address,
+              selected,
+              textDefaultShippingAddress,
+              textShipToThisAddress,
+              textSelected
+            );
+            return {
+              address,
+              card,
+            };
+          });
+        }
+      )
     );
   }
 
-  getCardContent(address: Address, selected: any): Card {
+  getCardContent(
+    address: Address,
+    selected: any,
+    textDefaultShippingAddress: string,
+    textShipToThisAddress: string,
+    textSelected: string
+  ): Card {
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
     const card: Card = {
-      title: address.defaultAddress ? 'Default Shipping Address' : '',
+      title: address.defaultAddress ? textDefaultShippingAddress : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
         address.line1,
@@ -107,8 +132,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         address.postalCode,
         address.phone,
       ],
-      actions: [{ name: 'Ship to this address', event: 'send' }],
-      header: selected && selected.id === address.id ? 'SELECTED' : '',
+      actions: [{ name: textShipToThisAddress, event: 'send' }],
+      header: selected && selected.id === address.id ? textSelected : '',
     };
 
     this.cards.push(card);

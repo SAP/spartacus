@@ -6,3 +6,4 @@ export * from './gateway-timeout.handler';
 export * from './not-found.handler';
 export * from './http-error.handler';
 export * from './unknown-error.handler';
+export * from './http-error.handler';

@@ -39,7 +39,7 @@ export class ProductTabsComponent implements OnInit {
   }
 
   select(event: MouseEvent, tab: HTMLElement): void {
-    if (this.activatedElements.indexOf(tab) === -1) {
+    if (!this.activatedElements.includes(tab)) {
       // remove active class on both header and content panel
       this.activatedElements.forEach(el =>
         el.classList.remove('active', 'toggled')

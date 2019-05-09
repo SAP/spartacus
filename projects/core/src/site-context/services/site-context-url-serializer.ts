@@ -57,7 +57,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
       const paramName = this.urlEncodingParameters[paramId];
       const paramValues = this.siteContextParams.getParamValues(paramName);
 
-      if (paramValues.indexOf(segments[segmentId]) > -1) {
+      if (paramValues.includes(segments[segmentId])) {
         params[paramName] = segments[segmentId];
         segmentId++;
       }
