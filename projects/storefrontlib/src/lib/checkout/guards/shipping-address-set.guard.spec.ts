@@ -4,14 +4,11 @@ import { Observable, of } from 'rxjs';
 
 import { Order, ServerConfig } from '@spartacus/core';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
-import {
-  defaultCheckoutConfig,
-  CheckoutStepType,
-} from '../config/default-checkout-config';
-import { CheckoutDetailsService } from '../checkout-details.service';
+import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutConfig } from '../config/checkout-config';
-import { CheckoutStep } from '../config/model/checkout-step.model';
 import { CheckoutConfigService } from '../checkout-config.service';
+import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 
 class MockCheckoutDetailsService {
   getDeliveryAddress(): Observable<Order> {

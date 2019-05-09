@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import {
-  UrlTranslationModule,
+  UrlModule,
   ConfigModule,
   CmsConfig,
   I18nModule,
@@ -15,7 +15,7 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
   imports: [
     CommonModule,
     RouterModule,
-    UrlTranslationModule,
+    UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartTotalsComponent: {

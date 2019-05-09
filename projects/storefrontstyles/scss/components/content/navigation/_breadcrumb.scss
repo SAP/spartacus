@@ -11,8 +11,16 @@
   nav {
     font-size: var(--cx-font-size-small, 0.85rem);
     padding: 5px 0;
-    a {
+    span {
       color: var(--cx-g-color-secondary);
+
+      &:not(:last-child):after {
+        content: '/';
+      }
+      a {
+        color: inherit;
+        padding: 5px 5px;
+      }
     }
   }
 }

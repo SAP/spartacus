@@ -8,8 +8,9 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../store';
 import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
-import { TranslateUrlCommands } from '../configurable-routes/url-translation/translate-url-commands';
-import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { UrlCommands } from '../configurable-routes/url-translation/url-command';
+import { UrlService } from '../configurable-routes/url-translation/url.service';
+import { RouterState } from '../store/reducers/router.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -18,13 +19,13 @@ export class RoutingService {
   constructor(
     private store: Store<fromStore.RouterState>,
     private winRef: WindowRef,
-    private urlTranslator: UrlTranslationService
+    private urlService: UrlService
   ) {}
 
   /**
    * Get the current router state
    */
-  getRouterState(): Observable<any> {
+  getRouterState(): Observable<RouterState> {
     return this.store.pipe(select(fromStore.getRouterState));
   }
 
@@ -36,17 +37,27 @@ export class RoutingService {
   }
 
   /**
+   * Get the next `PageContext` from the state
+   */
+  getNextPageContext(): Observable<PageContext> {
+    return this.store.pipe(select(fromStore.getNextPageContext));
+  }
+
+  /**
+   * Get the `isNavigating` info from the state
+   */
+  isNavigating(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.isNavigating));
+  }
+
+  /**
    * Navigation with a new state into history
    * @param commands: url commands
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  go(
-    commands: TranslateUrlCommands,
-    query?: object,
-    extras?: NavigationExtras
-  ): void {
-    const path = this.urlTranslator.translate(commands, { relative: true });
+  go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
+    const path = this.urlService.generateUrl(commands);
 
     return this.navigate(path, query, extras);
   }

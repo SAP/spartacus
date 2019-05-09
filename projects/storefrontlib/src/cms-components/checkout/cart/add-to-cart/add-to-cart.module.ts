@@ -5,9 +5,9 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../../lib/ui/components/spinner/spinner.module';
+import { SpinnerModule } from '../../../../shared/index';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
@@ -23,7 +23,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
         ProductAddToCartComponent: { selector: 'cx-add-to-cart' },
       },
     }),
-    UrlTranslationModule,
+    UrlModule,
     I18nModule,
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],

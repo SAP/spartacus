@@ -6,17 +6,16 @@ import { UrlTree } from '@angular/router';
 import { ServerConfig } from '@spartacus/core';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 import { CheckoutConfig } from '../config/checkout-config';
-import { CheckoutStepType } from '../config/default-checkout-config';
-import { CheckoutDetailsService } from '../checkout-details.service';
-import { CheckoutStep } from '../config/model/checkout-step.model';
 import { CheckoutConfigService } from '../checkout-config.service';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepType, CheckoutStep } from '../model/checkout-step.model';
 
 const MockCheckoutConfig: CheckoutConfig = {
   checkout: {
     steps: [
       {
         id: 'deliveryMode',
-        name: 'checkoutProgress.label.deliveryMode',
+        name: 'checkoutProgress.deliveryMode',
         url: '/checkout/delivery-mode',
         type: [CheckoutStepType.deliveryMode],
       },

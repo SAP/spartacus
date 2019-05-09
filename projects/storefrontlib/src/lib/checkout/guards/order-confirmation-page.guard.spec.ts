@@ -19,7 +19,6 @@ describe(`OrderConfirmationPageGuard`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OrderConfirmationPageGuard,
         {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() },

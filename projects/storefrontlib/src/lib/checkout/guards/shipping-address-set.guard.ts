@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ServerConfig, Address } from '@spartacus/core';
-import { CheckoutDetailsService } from '../checkout-details.service';
-import { CheckoutStep } from '../config/model/checkout-step.model';
-import { CheckoutStepType } from '../config/default-checkout-config';
 import { CheckoutConfigService } from '../checkout-config.service';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 
 @Injectable({
   providedIn: 'root',

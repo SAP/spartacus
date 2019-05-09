@@ -46,27 +46,26 @@ if (!environment.production) {
         urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
         parameters: {
           BASE_SITE: {
-            values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
+            values: [
+              'electronics-spa',
+              'electronics',
+              'apparel-de',
+              'apparel-uk',
+            ],
             defaultValue: 'electronics-spa',
             persistence: 'route',
           },
         },
       },
-      routesConfig: {
-        translations: {
-          default: {
-            product: {
-              paths: ['product/:name/:productCode', 'product/:productCode'],
-            },
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:name/:productCode', 'product/:productCode'],
           },
         },
       },
       i18n: {
         resources: translations,
-      },
-      icon: {
-        prefix: 'fa-',
-        iconClass: 'fas',
       },
     }),
 

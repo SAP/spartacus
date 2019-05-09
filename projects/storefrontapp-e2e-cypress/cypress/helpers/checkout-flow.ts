@@ -1,4 +1,4 @@
-import { user, cart, product } from '../sample-data/checkout-flow';
+import { cart, product, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
 
@@ -21,12 +21,12 @@ export function signOutUser() {
 export function goToProductDetailsPage() {
   cy.visit('/');
   // click big banner
-  cy.get('.Section1 cx-responsive-banner')
+  cy.get('.Section1 cx-banner')
     .first()
     .find('img')
     .click({ force: true });
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-responsive-banner:nth-of-type(6) img').click();
+  cy.get('.Section2 cx-banner:nth-of-type(6) img').click();
   cy.get('cx-product-summary').within(() => {
     cy.get('.name').should('contain', product.name);
     cy.get('.code').should('contain', product.code);
@@ -91,7 +91,9 @@ export function placeOrder() {
     'contain',
     cart.total
   );
-
+  cy.getByText('Terms & Conditions')
+    .should('have.attr', 'target', '_blank')
+    .should('have.attr', 'href', '/electronics-spa/en/USD/termsAndConditions');
   cy.get('.form-check-input').check();
   cy.get('.cx-place-order button.btn-primary').click();
 }

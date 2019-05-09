@@ -1,36 +1,30 @@
 import { CheckoutConfig } from './checkout-config';
-
-export enum CheckoutStepType {
-  shippingAddress = 'shippingAddress',
-  deliveryMode = 'deliveryMode',
-  paymentDetails = 'paymentDetails',
-  reviewOrder = 'reviewOrder',
-}
+import { CheckoutStepType } from '../model/checkout-step.model';
 
 export const defaultCheckoutConfig: CheckoutConfig = {
   checkout: {
     steps: [
       {
         id: 'shippingAddress',
-        name: 'checkoutProgress.label.shippingAddress',
+        name: 'checkoutProgress.shippingAddress',
         url: '/checkout/shipping-address',
         type: [CheckoutStepType.shippingAddress],
       },
       {
         id: 'deliveryMode',
-        name: 'checkoutProgress.label.deliveryMode',
+        name: 'checkoutProgress.deliveryMode',
         url: '/checkout/delivery-mode',
         type: [CheckoutStepType.deliveryMode],
       },
       {
         id: 'paymentDetails',
-        name: 'checkoutProgress.label.paymentDetails',
+        name: 'checkoutProgress.paymentDetails',
         url: '/checkout/payment-details',
         type: [CheckoutStepType.paymentDetails],
       },
       {
         id: 'reviewOrder',
-        name: 'checkoutProgress.label.reviewOrder',
+        name: 'checkoutProgress.reviewOrder',
         url: '/checkout/review-order',
         type: [CheckoutStepType.reviewOrder],
       },

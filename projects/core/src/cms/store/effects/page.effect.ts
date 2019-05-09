@@ -31,7 +31,10 @@ export class PageEffects {
       this.routingService.getRouterState().pipe(
         filter(
           routerState =>
-            routerState && routerState.state && routerState.state.cmsRequired
+            routerState &&
+            routerState.state &&
+            routerState.state.cmsRequired &&
+            !routerState.nextState
         ),
         map(routerState => routerState.state.context),
         take(1),
@@ -48,8 +51,8 @@ export class PageEffects {
       return this.cmsPageConnector.get(pageContext).pipe(
         mergeMap((cmsStructure: CmsStructureModel) => {
           return [
-            new pageActions.LoadPageDataSuccess(pageContext, cmsStructure.page),
             new componentActions.GetComponentFromPage(cmsStructure.components),
+            new pageActions.LoadPageDataSuccess(pageContext, cmsStructure.page),
           ];
         }),
         catchError(error => {

@@ -6,7 +6,7 @@ import {
   CartService,
   CmsMiniCartComponent,
   Component as SpaComponent,
-  TranslateUrlCommandRoute,
+  UrlCommandRoute,
   UICart,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -14,10 +14,10 @@ import { CmsComponentData } from '../../../../cms-structure/index';
 import { MiniCartComponent } from './mini-cart.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlCommandRoute): string {
+class MockUrlPipe implements PipeTransform {
+  transform(options: UrlCommandRoute): string {
     return options.route;
   }
 }
@@ -73,11 +73,7 @@ describe('MiniCartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        MiniCartComponent,
-        MockTranslateUrlPipe,
-        MockCxIconComponent,
-      ],
+      declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CartService, useClass: MockCartService },
