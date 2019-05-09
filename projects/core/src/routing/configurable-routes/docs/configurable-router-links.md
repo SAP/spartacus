@@ -101,14 +101,14 @@ When Angular's `Routes` contain **arrays** of `children` routes:
 ```typescript
 const routes: Routes = [
     {
-        data: { cxPath: 'parent' }, // route name
+        data: { cxRoute: 'parent' }, // route name
         children: [
             {
-                data: { cxPath: 'child' }, // route name
+                data: { cxRoute: 'child' }, // route name
                 /* ... */
             },
             {
-                data: { cxPath: 'otherChild' }, // route name
+                data: { cxRoute: 'otherChild' }, // route name
                 /* ... */
             }
         ],
