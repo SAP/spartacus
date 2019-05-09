@@ -3,8 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CartTotalsComponent } from './cart-totals.component';
 import {
-  UICart,
-  UIOrderEntry,
+  Cart,
+  OrderEntry,
   CartService,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -15,7 +15,7 @@ const cartMock: UICart = {
   name: 'cart-mock',
 };
 
-const entriesMock: UIOrderEntry[] = [
+const entriesMock: OrderEntry[] = [
   {
     entryNumber: 1,
   },
@@ -44,7 +44,7 @@ class MockCartService {
   getActive(): Observable<UICart> {
     return of(cartMock);
   }
-  getEntries(): Observable<UIOrderEntry[]> {
+  getEntries(): Observable<OrderEntry[]> {
     return of(entriesMock);
   }
 }
@@ -86,12 +86,12 @@ describe('CartTotalsComponent', () => {
   });
 
   it('should get entries on ngOnInit()', () => {
-    let entries: UIOrderEntry[];
+    let entries: OrderEntry[];
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.entries$.subscribe((data: UIOrderEntry[]) => (entries = data));
+    component.entries$.subscribe((data: OrderEntry[]) => (entries = data));
     expect(entries).toEqual(entriesMock);
   });
 });

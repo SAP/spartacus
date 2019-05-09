@@ -6,8 +6,8 @@ import {
   Country,
   DeliveryMode,
   PaymentDetails,
-  UICart,
-  UIOrderEntry,
+  Cart,
+  OrderEntry,
   UserService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -20,8 +20,8 @@ import { Card } from '../../../../../shared/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
-  entries$: Observable<UIOrderEntry[]>;
-  cart$: Observable<UICart>;
+  entries$: Observable<OrderEntry[]>;
+  cart$: Observable<Cart>;
   deliveryMode$: Observable<DeliveryMode>;
   countryName$: Observable<string>;
   deliveryAddress$: Observable<Address>;

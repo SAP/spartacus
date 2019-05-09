@@ -6,7 +6,7 @@ import {
   CartService,
   I18nTestingModule,
   PromotionResult,
-  UICart,
+  Cart,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';

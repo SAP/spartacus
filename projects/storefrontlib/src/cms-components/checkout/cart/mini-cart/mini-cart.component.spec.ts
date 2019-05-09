@@ -7,7 +7,7 @@ import {
   CmsMiniCartComponent,
   Component as SpaComponent,
   UrlCommandRoute,
-  UICart,
+  Cart,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/index';

@@ -9,7 +9,7 @@ import {
   Address,
   PaymentDetails,
   Order,
-  UICart,
+  Cart,
   I18nTestingModule,
 } from '@spartacus/core';
 

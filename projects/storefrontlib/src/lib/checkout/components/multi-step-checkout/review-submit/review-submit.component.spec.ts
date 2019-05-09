@@ -10,8 +10,8 @@ import {
   I18nTestingModule,
   PaymentDetails,
   PromotionResult,
-  UICart,
-  UIOrderEntry,
+  Cart,
+  OrderEntry,
   UserService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -59,10 +59,7 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-const mockEntries: UIOrderEntry[] = [
-  { entryNumber: 123 },
-  { entryNumber: 456 },
-];
+const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -110,7 +107,7 @@ class MockCartService {
   getActive(): Observable<UICart> {
     return of(mockCart);
   }
-  getEntries(): Observable<UIOrderEntry[]> {
+  getEntries(): Observable<OrderEntry[]> {
     return of(mockEntries);
   }
 }
@@ -166,8 +163,8 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let entries: UIOrderEntry[];
-    component.entries$.subscribe((data: UIOrderEntry[]) => {
+    let entries: OrderEntry[];
+    component.entries$.subscribe((data: OrderEntry[]) => {
       entries = data;
     });
 

@@ -11,7 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
   ProductService,
-  UIProduct,
+  Product,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UIProduct } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../../../cms-structure/outlet/index';
 import { CurrentProductService } from '../../current-product.service';

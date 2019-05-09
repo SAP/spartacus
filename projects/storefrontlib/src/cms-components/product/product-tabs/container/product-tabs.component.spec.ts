@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   ContentSlotComponentData,
   I18nTestingModule,
-  UIProduct,
+  Product,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../../../cms-structure';
