@@ -5,14 +5,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   CartService,
-  RoutingService,
-  CartDataService,
   GlobalMessageService,
   Address,
   PaymentDetails,
   Order,
-  CheckoutService,
-  Cart,
+  UICart,
   I18nTestingModule,
 } from '@spartacus/core';
 
@@ -21,26 +18,20 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
+import { CheckoutDetailsService } from '../../../checkout-details.service';
 
 class MockCheckoutService {
-  clearCheckoutData = createSpy();
-  createAndSetAddress = createSpy();
-  setDeliveryAddress = createSpy();
-  setDeliveryMode = createSpy();
-  createPaymentDetails = createSpy();
-  setPaymentDetails = createSpy();
-  placeOrder = createSpy();
-
+  getCheckoutDetailsLoaded$ = of(true);
   getSelectedDeliveryModeCode(): Observable<string> {
     return of('');
   }
 
   getDeliveryAddress(): Observable<Address> {
-    return of({});
+    return of({ firstName: 'Test' });
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
-    return of({});
+    return of({ accountHolderName: 'test' });
   }
 
   getOrderDetails(): Observable<Order> {
@@ -48,18 +39,6 @@ class MockCheckoutService {
   }
 }
 
-const mockAddress: Address = {
-  id: 'mock address id',
-  firstName: 'John',
-  lastName: 'Doe',
-  titleCode: 'mr',
-  line1: 'Toyosaki 2 create on cart',
-  line2: 'line2',
-  town: 'town',
-  region: { isocode: 'JP-27' },
-  postalCode: 'zip',
-  country: { isocode: 'JP' },
-};
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
   accountHolderName: 'Name',
@@ -77,43 +56,30 @@ const mockSelectedCode = 'test mode';
 const mockOrderDetails = { id: '1234' };
 
 @Component({ selector: 'cx-delivery-mode', template: '' })
-class MockDeliveryModeComponent {
-  @Input()
-  selectedShippingMethod: string;
-}
+class MockDeliveryModeComponent {}
 
 @Component({ selector: 'cx-payment-method', template: '' })
-class MockPaymentMethodComponent {
-  @Input()
-  selectedPayment: PaymentDetails;
-}
+class MockPaymentMethodComponent {}
 
 @Component({ selector: 'cx-review-submit', template: '' })
-class MockReviewSubmitComponent {
-  @Input()
-  deliveryAddress: Address;
-  @Input()
-  shippingMethod: string;
-  @Input()
-  paymentDetails: PaymentDetails;
-}
+class MockReviewSubmitComponent {}
 
 @Component({ selector: 'cx-shipping-address', template: '' })
-class MockShippingAddressComponent {
-  @Input()
-  selectedAddress: Address;
-}
+class MockShippingAddressComponent {}
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
-  cart: Cart;
+  cart: UICart;
 }
 
+@Component({ selector: 'cx-place-order', template: '' })
+class MockPlaceOrderComponent {}
+
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -123,8 +89,6 @@ describe('MultiStepCheckoutComponent', () => {
 
   let mockCheckoutService: MockCheckoutService;
   let mockCartService: any;
-  let mockCartDataService: any;
-  let mockRoutingService: any;
   let mockGlobalMessageService: any;
 
   const mockAllSteps = () => {
@@ -144,19 +108,13 @@ describe('MultiStepCheckoutComponent', () => {
 
   beforeEach(async(() => {
     mockCartService = {
-      getActive(): BehaviorSubject<Cart> {
+      getActive(): BehaviorSubject<UICart> {
         return new BehaviorSubject({
           totalItems: 5141,
           subTotal: { formattedValue: '11119' },
         });
       },
       loadDetails: createSpy(),
-    };
-    mockCartDataService = {
-      getDetails: false,
-    };
-    mockRoutingService = {
-      go: createSpy(),
     };
     mockGlobalMessageService = {
       add: createSpy(),
@@ -165,104 +123,38 @@ describe('MultiStepCheckoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         MultiStepCheckoutComponent,
         MockDeliveryModeComponent,
         MockPaymentMethodComponent,
         MockReviewSubmitComponent,
         MockShippingAddressComponent,
         MockOrderSummaryComponent,
+        MockPlaceOrderComponent,
       ],
       providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: CheckoutDetailsService, useClass: MockCheckoutService },
         { provide: CartService, useValue: mockCartService },
-        { provide: CartDataService, useValue: mockCartDataService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        { provide: RoutingService, useValue: mockRoutingService },
       ],
     }).compileComponents();
 
-    mockCheckoutService = TestBed.get(CheckoutService);
-  }));
+    mockCartService = TestBed.get(CartService);
+    mockCheckoutService = TestBed.get(CheckoutDetailsService);
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MultiStepCheckoutComponent);
     component = fixture.componentInstance;
-
-    spyOn(component, 'addAddress').and.callThrough();
-    spyOn(component, 'nextStep').and.callThrough();
-  });
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
   it('should call ngOnInit() before process steps', () => {
-    const mockCartData = {};
-    mockCartService.getActive().next(mockCartData);
+    spyOn(mockCartService, 'getActive');
     component.ngOnInit();
     expect(component.step).toEqual(1);
-    expect(mockCartService.loadDetails).toHaveBeenCalled();
-  });
-
-  it('should call processSteps() to process step 1: set delivery address', () => {
-    spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
-      of(mockDeliveryAddresses)
-    );
-
-    component.processSteps();
-    expect(component.nextStep).toHaveBeenCalledWith(2);
-  });
-
-  it('should call processSteps() to process step 2: select delivery mode', () => {
-    spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
-      of(mockDeliveryAddresses)
-    );
-    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
-      of(mockSelectedCode)
-    );
-    component.processSteps();
-    expect(component.nextStep).toHaveBeenCalledWith(3);
-  });
-
-  it('should call processSteps() to process step 3: set payment info', () => {
-    spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
-      of(mockDeliveryAddresses)
-    );
-    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
-      of(mockSelectedCode)
-    );
-    spyOn(mockCheckoutService, 'getPaymentDetails').and.returnValue(
-      of(mockPaymentDetails)
-    );
-
-    component.processSteps();
-    expect(component.nextStep).toHaveBeenCalledWith(4);
-  });
-
-  it('should call processSteps() to process step 4: place order', () => {
-    spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
-      of(mockDeliveryAddresses)
-    );
-    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
-      of(mockSelectedCode)
-    );
-    spyOn(mockCheckoutService, 'getPaymentDetails').and.returnValue(
-      of(mockPaymentDetails)
-    );
-    spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(
-      of(mockOrderDetails)
-    );
-
-    component.processSteps();
-    expect(mockRoutingService.go).toHaveBeenCalledWith({
-      route: 'orderConfirmation',
-    });
-  });
-
-  it('should call setStep()', () => {
-    component.setStep(2);
-    expect(component.nextStep).toHaveBeenCalledWith(2);
+    expect(mockCartService.getActive).toHaveBeenCalled();
   });
 
   it('should call nextStep()', () => {
@@ -284,115 +176,12 @@ describe('MultiStepCheckoutComponent', () => {
 
     expect(component.navs[3].status.active).toBeFalsy();
     expect(component.navs[3].progressBar).toBeFalsy();
-  });
 
-  it('should call addAddress() with new created address', () => {
-    component.addAddress({ address: mockAddress, newAddress: true });
-    expect(mockCheckoutService.createAndSetAddress).toHaveBeenCalledWith(
-      mockAddress
-    );
-  });
-
-  it('should call addAddress() with address selected from existing addresses', () => {
-    component.addAddress({ address: mockAddress, newAddress: false });
-    expect(mockCheckoutService.createAndSetAddress).not.toHaveBeenCalledWith(
-      mockAddress
-    );
-    expect(mockCheckoutService.setDeliveryAddress).toHaveBeenCalledWith(
-      mockAddress
-    );
-  });
-
-  it('should call addAddress() with address already set to the cart, then go to next step direclty', () => {
-    component.deliveryAddress = mockAddress;
-    component.addAddress({ address: mockAddress, newAddress: false });
-
-    expect(component.nextStep).toHaveBeenCalledWith(2);
-    expect(mockCheckoutService.setDeliveryAddress).not.toHaveBeenCalledWith(
-      mockAddress
-    );
-  });
-
-  it('should call setDeliveryMode()', () => {
-    const deliveryMode = {
-      deliveryModeId: 'testId',
-    } as any;
-    component.setDeliveryMode(deliveryMode);
-    expect(mockCheckoutService.setDeliveryMode).toHaveBeenCalledWith(
-      deliveryMode.deliveryModeId
-    );
-  });
-
-  it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
-    const deliveryMode = {
-      deliveryModeId: 'testId',
-    } as any;
-    component.shippingMethod = 'testId';
-    component.setDeliveryMode(deliveryMode);
-
-    expect(component.nextStep).toHaveBeenCalledWith(3);
-    expect(mockCheckoutService.setDeliveryMode).not.toHaveBeenCalledWith(
-      deliveryMode.deliveryModeId
-    );
-  });
-
-  it('should call addPaymentInfo() with new created payment info', () => {
-    component.deliveryAddress = mockAddress;
-    component.addPaymentInfo({
-      payment: mockPaymentDetails,
-      newPayment: true,
-      billingAddress: null,
-    });
-    expect(mockCheckoutService.createPaymentDetails).toHaveBeenCalledWith(
-      mockPaymentDetails
-    );
-  });
-
-  it('should call addPaymentInfo() with paymenent selected from existing ones', () => {
-    component.deliveryAddress = mockAddress;
-    component.addPaymentInfo({
-      payment: mockPaymentDetails,
-      newPayment: false,
-      billingAddress: null,
-    });
-    expect(mockCheckoutService.createPaymentDetails).not.toHaveBeenCalledWith(
-      mockPaymentDetails
-    );
-    expect(mockCheckoutService.setPaymentDetails).toHaveBeenCalledWith(
-      mockPaymentDetails
-    );
-  });
-
-  it('should call addPaymentInfo() with paymenent already set to cart, then go to next step direclty', () => {
-    component.paymentDetails = mockPaymentDetails;
-    component.deliveryAddress = mockAddress;
-    component.addPaymentInfo({
-      payment: mockPaymentDetails,
-      newPayment: false,
-      billingAddress: null,
-    });
-    expect(component.nextStep).toHaveBeenCalledWith(4);
-    expect(mockCheckoutService.setPaymentDetails).not.toHaveBeenCalledWith(
-      mockPaymentDetails
-    );
-  });
-
-  it('should call placeOrder()', () => {
-    component.placeOrder();
-    expect(mockCheckoutService.placeOrder).toHaveBeenCalled();
-  });
-
-  it('should call toggleTAndC(toggle)', () => {
-    expect(component.tAndCToggler).toBeFalsy();
-    component.toggleTAndC();
-    expect(component.tAndCToggler).toBeTruthy();
-    component.toggleTAndC();
-    expect(component.tAndCToggler).toBeFalsy();
+    expect(component.step).toBe(3);
   });
 
   it('should contain proper total value and total items', () => {
     fixture.detectChanges();
-
     const values = fixture.debugElement.query(By.css('.cx-list-media'))
       .nativeElement.textContent;
 
@@ -404,22 +193,10 @@ describe('MultiStepCheckoutComponent', () => {
     fixture.detectChanges();
     const steps = fixture.debugElement.queryAll(By.css('.cx-item a'));
     steps[0].nativeElement.click();
-    fixture.detectChanges();
-
     expect(steps[0].nativeElement.getAttribute('class')).toContain('is-active');
     expect(steps[1].nativeElement.getAttribute('class')).not.toContain(
       'is-active'
     );
-  });
-
-  it('should show terms and conditions on step 4, and only step 4', () => {
-    mockAllSteps();
-    component.ngOnInit();
-
-    const getPlaceOrderForm = () =>
-      fixture.debugElement.query(By.css('.cx-place-order-form'));
-
-    expect(getPlaceOrderForm()).toBeTruthy();
   });
 
   it('should show terms and conditions on step 4 only', () => {
@@ -431,41 +208,17 @@ describe('MultiStepCheckoutComponent', () => {
     expect(getPlaceOrderForm()).toBeFalsy();
   });
 
-  it('should call setStep(3) when back button clicked', () => {
-    spyOn(component, 'setStep').and.callThrough();
+  it('should call nextStep(3) when back button clicked', () => {
+    spyOn(component, 'nextStep').and.callThrough();
     mockAllSteps();
+    component.step = 4;
+
     fixture.detectChanges();
 
     const getBackBtn = () =>
       fixture.debugElement.query(By.css('.cx-place-order .btn-action'))
         .nativeElement;
     getBackBtn().click();
-    expect(component.setStep).toHaveBeenCalledWith(3);
-  });
-
-  it('should contain disabled place order button if terms not accepted', () => {
-    mockAllSteps();
-    fixture.detectChanges();
-
-    const getPlaceOrderBtn = () =>
-      fixture.debugElement.query(By.css('.cx-place-order .btn-primary'))
-        .nativeElement;
-    expect(getPlaceOrderBtn().disabled).toBe(true);
-  });
-
-  it('should contain enabled place order button if terms accepted', () => {
-    mockAllSteps();
-    component.ngOnInit();
-
-    const inputCheckbox = fixture.debugElement.query(
-      By.css('.cx-place-order-form .form-check-input')
-    ).nativeElement;
-    inputCheckbox.click();
-    fixture.detectChanges();
-
-    const getPlaceOrderBtn = () =>
-      fixture.debugElement.query(By.css('.cx-place-order .btn-primary'))
-        .nativeElement;
-    expect(getPlaceOrderBtn().disabled).toBe(false);
+    expect(component.nextStep).toHaveBeenCalledWith(3);
   });
 });

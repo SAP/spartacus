@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
-
-import { PageType } from '../../occ/occ-models/occ.models';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
-import { ProductSearchService } from '../facade/product-search.service';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
+import { PageType } from '../../occ/occ-models/occ.models';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { ProductSearchService } from '../facade/product-search.service';
 import { UIProductSearchPage } from '../model/product-search-page';
 
 @Injectable({
@@ -33,13 +32,14 @@ export class CategoryPageMetaResolver extends PageMetaResolver
         // are rendered or if this is an ordinary content page
         if (this.hasProductListComponent(page)) {
           return this.productSearchService.getSearchResults().pipe(
-            map(data => {
-              if (data.breadcrumbs && data.breadcrumbs.length > 0) {
-                return {
-                  title: this.resolveTitle(data),
-                };
-              }
-            })
+            filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
+            switchMap(data =>
+              combineLatest([
+                this.resolveTitle(data),
+                this.resolveBreadcrumbs(data),
+              ])
+            ),
+            map(([title, breadcrumbs]) => ({ title, breadcrumbs }))
           );
         } else {
           return of({
@@ -50,13 +50,27 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(data: UIProductSearchPage) {
-    return `${data.pagination.totalResults} results for ${
-      data.breadcrumbs[0].facetValueName
-    }`;
+  resolveTitle(data: UIProductSearchPage): Observable<string> {
+    return of(
+      `${data.pagination.totalResults} results for ${
+        data.breadcrumbs[0].facetValueName
+      }`
+    );
   }
 
-  protected hasProductListComponent(page: Page): boolean {
+  resolveBreadcrumbs(data: UIProductSearchPage): Observable<any[]> {
+    const breadcrumbs = [];
+    breadcrumbs.push({ label: 'Home', link: '/' });
+    for (const br of data.breadcrumbs) {
+      breadcrumbs.push({
+        label: br.facetValueName,
+        link: '/c/' + br.facetValueCode,
+      });
+    }
+    return of(breadcrumbs);
+  }
+
+  private hasProductListComponent(page: Page): boolean {
     // ProductListComponent
     return !!Object.keys(page.slots).find(
       key =>

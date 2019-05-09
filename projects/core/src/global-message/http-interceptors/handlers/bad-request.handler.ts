@@ -1,8 +1,8 @@
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorHandler } from './http-error.handler';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
+import { HttpErrorHandler } from './http-error.handler';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -12,31 +12,39 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
-  handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
+  handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     if (
-      response.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
+      response.url.includes(OAUTH_ENDPOINT) &&
       response.error.error === 'invalid_grant'
     ) {
       if (request.body.get('grant_type') === 'password') {
-        this.globalMessageService.add({
-          type: GlobalMessageType.MSG_TYPE_ERROR,
-          text: this.getErrorMessage(response) + '. Please login again.',
-        });
+        this.globalMessageService.add(
+          this.getErrorMessage(response) + '. Please login again.',
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
         this.globalMessageService.remove(
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
       }
+    } else if (response.error.errors[0].type === 'PasswordMismatchError') {
+      // uses en translation error message instead of backend exception error
+      // @todo: this condition could be removed if backend gives better message
+      this.globalMessageService.add(
+        'Old password incorrect.',
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      // text: customError.customError.passwordMismatch,
     } else {
       // this is currently showing up in case we have a page not found. It should be a 404.
       // see https://jira.hybris.com/browse/CMSX-8516
-      this.globalMessageService.add({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: this.getErrorMessage(response),
-      });
+      this.globalMessageService.add(
+        this.getErrorMessage(response),
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     }
   }
 
-  protected getErrorMessage(resp: HttpErrorResponse) {
+  protected getErrorMessage(resp: HttpErrorResponse): string {
     let errMsg = resp.message;
     if (resp.error) {
       if (resp.error.errors && resp.error.errors instanceof Array) {

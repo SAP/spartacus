@@ -1,0 +1,24 @@
+<nav *ngIf="(node$ | async) as node">
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-xs-12 col-sm-4 col-md-3 navigation-elements"
+        *ngFor="let child of node?.children"
+      >
+        <h5>{{ child.title }}</h5>
+        <ul>
+          <li *ngFor="let link of child.children">
+            <cx-generic-link
+              [url]="link.url"
+              [target]="link.target === true ? 'blank' : 'self'"
+              >{{ link.title }}</cx-generic-link
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="notice" *ngIf="(service.getComponentData() | async) as data">
+  {{ data.notice }}
+</div>

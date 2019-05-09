@@ -1,0 +1,34 @@
+@import '../../../../theme';
+
+%cx-suggested-addresses-dialog {
+  .cx-dialog-header {
+    padding: var(--cx-padding, 1rem 1rem 1rem 2rem);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
+  }
+  .cx-dialog-title {
+    @include type('3');
+  }
+  .cx-dialog-body {
+    padding: var(--cx-padding, 1rem);
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 15px 0);
+    }
+  }
+  .cx-dialog-suggested,
+  .cx-dialog-entered {
+    @include type('7');
+    margin: var(--cx-margin, 0 0 0 0.75rem);
+  }
+  .cx-dialog-label {
+    @include type('5');
+  }
+  .cx-dialog-actions {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, row);
+  }
+  .cx-dialog-buttons {
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, center);
+    margin: var(--cx-margin, 0 0 0 0.5rem);
+  }
+}

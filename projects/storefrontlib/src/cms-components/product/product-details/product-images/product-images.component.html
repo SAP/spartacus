@@ -1,0 +1,24 @@
+<ng-container *ngIf="product">
+  <ng-container *cxOutlet="outlets.IMAGES">
+    <cx-media
+      [container]="mainImageContainer"
+      format="zoom"
+      (loaded)="loadHandler()"
+    >
+    </cx-media>
+
+    <ng-container *ngIf="product.images?.GALLERY.length > 1">
+      <div class="thumbs">
+        <cx-media
+          *ngFor="let image of product.images.GALLERY"
+          [container]="image"
+          format="thumbnail"
+          (focus)="showImage($event, image)"
+          tabindex="0"
+          [class.active]="isMainImageContainer(image)"
+        >
+        </cx-media>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

@@ -81,6 +81,14 @@ class MockCardComponent {
   content: any;
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 class MockCheckoutService {
   loadSupportedCardTypes = createSpy();
   getCardTypes(): Observable<CardType[]> {
@@ -129,6 +137,7 @@ describe('PaymentFormComponent', () => {
         PaymentFormComponent,
         MockCardComponent,
         MockBillingAddressFormComponent,
+        MockCxIconComponent,
       ],
       providers: [
         { provide: CheckoutService, useValue: mockCheckoutService },
@@ -151,7 +160,7 @@ describe('PaymentFormComponent', () => {
     };
 
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
-    spyOn(component.backToPayment, 'emit').and.callThrough();
+    spyOn(component.closeForm, 'emit').and.callThrough();
 
     showSameAsShippingAddressCheckboxSpy = spyOn(
       component,
@@ -228,9 +237,9 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call back()', () => {
-    component.back();
-    expect(component.backToPayment.emit).toHaveBeenCalled();
+  it('should call close()', () => {
+    component.close();
+    expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
   it('should call paymentSelected(card)', () => {
@@ -437,14 +446,25 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  describe('UI back button', () => {
+  describe('UI close/back button', () => {
     const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
 
     it('should call "back" function after being clicked', () => {
+      component.paymentMethodsCount = 0;
+      fixture.detectChanges();
       spyOn(component, 'back');
       getBackBtn().nativeElement.click();
       fixture.detectChanges();
       expect(component.back).toHaveBeenCalled();
+    });
+
+    it('should call "close" function after being clicked', () => {
+      component.paymentMethodsCount = 1;
+      fixture.detectChanges();
+      spyOn(component, 'close');
+      getBackBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.close).toHaveBeenCalled();
     });
   });
 });

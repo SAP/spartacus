@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
@@ -16,26 +16,31 @@ export class ProductsSearchEffects {
     | productsSearchActions.SearchProductsFail
   > = this.actions$.pipe(
     ofType(productsSearchActions.SEARCH_PRODUCTS),
-    switchMap((action: productsSearchActions.SearchProducts) => {
-      return this.productSearchConnector
-        .search(action.payload.queryText, action.payload.searchConfig)
-        .pipe(
-          map(data => {
-            return new productsSearchActions.SearchProductsSuccess(
-              data,
-              action.auxiliary
-            );
-          }),
-          catchError(error =>
-            of(
-              new productsSearchActions.SearchProductsFail(
-                error,
-                action.auxiliary
+    groupBy((action: productsSearchActions.SearchProducts) => action.auxiliary),
+    mergeMap(group =>
+      group.pipe(
+        switchMap((action: productsSearchActions.SearchProducts) => {
+          return this.productSearchConnector
+            .search(action.payload.queryText, action.payload.searchConfig)
+            .pipe(
+              map(data => {
+                return new productsSearchActions.SearchProductsSuccess(
+                  data,
+                  action.auxiliary
+                );
+              }),
+              catchError(error =>
+                of(
+                  new productsSearchActions.SearchProductsFail(
+                    error,
+                    action.auxiliary
+                  )
+                )
               )
-            )
-          )
-        );
-    })
+            );
+        })
+      )
+    )
   );
 
   @Effect()
@@ -51,12 +56,12 @@ export class ProductsSearchEffects {
       return this.productSearchConnector
         .getSuggestions(payload.term, payload.searchConfig.pageSize)
         .pipe(
-          map(data => {
-            if (data.suggestions === undefined) {
+          map(suggestions => {
+            if (suggestions === undefined) {
               return new productsSearchActions.GetProductSuggestionsSuccess([]);
             }
             return new productsSearchActions.GetProductSuggestionsSuccess(
-              data.suggestions
+              suggestions
             );
           }),
           catchError(error =>

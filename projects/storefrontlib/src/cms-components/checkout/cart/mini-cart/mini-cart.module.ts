@@ -5,28 +5,25 @@ import {
   CartModule,
   CmsConfig,
   ConfigModule,
-  UrlTranslationModule,
+  UrlModule,
 } from '@spartacus/core';
-import { BannerModule } from '../../../../lib/cms-lib/banner/banner.module';
-import { MediaModule } from '../../../../lib/ui/components/media/media.module';
+import { IconModule } from '../../../../cms-components/misc/icon/index';
 import { MiniCartComponent } from './mini-cart.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    BannerModule,
-    MediaModule,
     CartModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MiniCartComponent: { selector: 'cx-mini-cart' },
       },
     }),
-    UrlTranslationModule,
+    UrlModule,
+    IconModule,
   ],
   declarations: [MiniCartComponent],
   entryComponents: [MiniCartComponent],
-  exports: [MiniCartComponent],
 })
 export class MiniCartModule {}

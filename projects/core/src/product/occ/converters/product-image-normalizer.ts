@@ -5,9 +5,7 @@ import { Product } from '../../../occ/occ-models/occ.models';
 import { Converter } from '../../../util/converter.service';
 import { UIImages, UIProduct } from '../../model/product';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ProductImageNormalizer implements Converter<Product, UIProduct> {
   constructor(protected config: OccConfig) {}
 
@@ -19,31 +17,6 @@ export class ProductImageNormalizer implements Converter<Product, UIProduct> {
       target.images = this.normalize(source.images);
     }
     return target;
-  }
-
-  /**
-   * @deprecated Use `convert(source, target?) => target` instead
-   *
-   * TODO: Should be removed when all use cases will be refactored
-   */
-  convertList(list: Array<Product>): void {
-    if (!list) {
-      return;
-    }
-    for (const product of list) {
-      this.convertProduct(product);
-    }
-  }
-
-  /**
-   * @deprecated Use `convert(source, target?) => target` instead
-   *
-   * TODO: Should be removed when all use cases will be refactored
-   */
-  convertProduct(product: any): void {
-    if (product.images) {
-      product.images = this.normalize(product.images);
-    }
   }
 
   /**
@@ -74,8 +47,17 @@ export class ProductImageNormalizer implements Converter<Product, UIProduct> {
           imageContainer = images[image.imageType];
         }
 
-        // set full image URL path
-        image.url = (this.config.backend.occ.baseUrl || '') + image.url;
+        /**
+         * Traditionally, in an on-prem world, medias and other backend related calls
+         * are hosted at the same platform, but in a cloud setup, applications are are
+         * typically distributed cross different environments. For media, we use the
+         * `backend.media.baseUrl` by default, but fallback to `backend.occ.baseUrl`
+         * if none provided.
+         */
+        image.url =
+          (this.config.backend.media.baseUrl ||
+            this.config.backend.occ.baseUrl ||
+            '') + image.url;
 
         imageContainer[image.format] = image;
       }

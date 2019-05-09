@@ -1,0 +1,29 @@
+<!-- https://github.com/angular/angular/issues/24567 -->
+
+<ng-container *ngIf="isExternalUrl(); else isLocalUrl">
+  <a
+    role="link"
+    [href]="url"
+    [attr.target]="target"
+    [attr.class]="class"
+    [attr.id]="id"
+    [attr.style]="style"
+    [attr.title]="title"
+  >
+    <ng-content></ng-content>
+  </a>
+</ng-container>
+
+<ng-template #isLocalUrl>
+  <a
+    role="link"
+    [routerLink]="routerUrl"
+    [attr.target]="target"
+    [attr.class]="class"
+    [attr.id]="id"
+    [attr.style]="style"
+    [attr.title]="title"
+  >
+    <ng-content></ng-content>
+  </a>
+</ng-template>

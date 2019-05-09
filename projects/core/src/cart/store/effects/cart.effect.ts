@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-
-import { ProductImageNormalizer } from '../../../product/index';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
-import { Cart } from '../../../occ/occ-models/occ.models';
 import { CartConnector } from '../../connectors/cart/cart.connector';
+import { UICart } from '../../model/cart';
 
 @Injectable()
 export class CartEffects {
@@ -44,12 +42,7 @@ export class CartEffects {
           loadCartParams.details
         )
         .pipe(
-          map((cart: Cart) => {
-            if (cart && cart.entries) {
-              for (const entry of cart.entries) {
-                this.productImageConverter.convertProduct(entry.product);
-              }
-            }
+          map((cart: UICart) => {
             return new fromActions.LoadCartSuccess(cart);
           }),
           catchError(error => of(new fromActions.LoadCartFail(error)))
@@ -69,16 +62,14 @@ export class CartEffects {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
-          switchMap((cart: Cart) => {
-            if (cart.entries) {
-              for (const entry of cart.entries) {
-                this.productImageConverter.convertProduct(entry.product);
-              }
-            }
+          switchMap((cart: UICart) => {
             if (payload.oldCartId) {
               return [
                 new fromActions.CreateCartSuccess(cart),
-                new fromActions.MergeCartSuccess(),
+                new fromActions.MergeCartSuccess({
+                  userId: payload.userId,
+                  cartId: cart.code,
+                }),
               ];
             }
             return [new fromActions.CreateCartSuccess(cart)];
@@ -107,7 +98,6 @@ export class CartEffects {
 
   constructor(
     private actions$: Actions,
-    private productImageConverter: ProductImageNormalizer,
     private cartConnector: CartConnector,
     private cartData: CartDataService
   ) {}

@@ -1,17 +1,43 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { PromotionsModule } from '../../../../../lib/checkout/components/promotions/promotions.module';
-import { ComponentsModule } from '../../../../../lib/ui/components/components.module';
 import { CartItemComponent } from './cart-item.component';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
+}
+
+@Component({
+  template: '',
+  selector: 'cx-media',
+})
+class MockMediaComponent {
+  @Input() container;
+  @Input() format;
+}
+
+@Component({
+  template: '',
+  selector: 'cx-item-counter',
+})
+class MockItemCounterComponent {
+  @Input() step;
+  @Input() min;
+  @Input() max;
+  @Input() cartIsLoading;
+}
+
+@Component({
+  template: '',
+  selector: 'cx-promotions',
+})
+class MockPromotionsComponent {
+  @Input() promotions;
 }
 
 describe('CartItemComponent', () => {
@@ -20,14 +46,14 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        ComponentsModule,
-        PromotionsModule,
-        I18nTestingModule,
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      declarations: [
+        CartItemComponent,
+        MockMediaComponent,
+        MockItemCounterComponent,
+        MockPromotionsComponent,
+        MockUrlPipe,
       ],
-      declarations: [CartItemComponent, MockTranslateUrlPipe],
       providers: [
         {
           provide: ControlContainer,

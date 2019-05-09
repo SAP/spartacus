@@ -1,0 +1,31 @@
+@import '../../../../theme';
+
+%cx-payment-form {
+  @include checkout-media-style();
+
+  .cx-payment-form-tooltip {
+    margin: var(--cx-margin, 0 0 0 0.1875rem);
+    font-size: var(--cx-font-size, 18px);
+    position: var(--cx-position, relative);
+    top: var(--cx-top, 2px);
+    color: var(--cx-color, var(--cx-g-color-secondary));
+  }
+  .cx-payment-form-billing {
+    margin: var(--cx-margin, 0 0 1.25rem 0);
+  }
+
+  .cx-payment-form-billing-address {
+    @include type('4');
+    padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
+  }
+
+  .cx-payment-form-exp-date {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, row);
+    flex-wrap: var(--cx-flex-wrap, nowrap);
+  }
+
+  .form-check {
+    margin: var(--cx-margin, 0);
+  }
+}

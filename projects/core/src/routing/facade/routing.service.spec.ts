@@ -1,37 +1,36 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
 import { of } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
 import { PageType } from '../../occ';
 import { PageContext } from '../models/page-context.model';
-import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { UrlService } from '../configurable-routes/url-translation/url.service';
 import { RouterState } from '../store/reducers/router.reducer';
 
 import { RoutingService } from './routing.service';
+import createSpy = jasmine.createSpy;
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
-  let urlTranslator: UrlTranslationService;
+  let urlService: UrlService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: UrlTranslationService, useValue: { translate: () => {} } },
+        { provide: UrlService, useValue: { generateUrl: () => {} } },
       ],
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(RoutingService);
-    urlTranslator = TestBed.get(UrlTranslationService);
+    urlService = TestBed.get(UrlService);
     spyOn(store, 'dispatch');
   });
 
@@ -40,26 +39,23 @@ describe('RoutingService', () => {
   });
 
   describe('go', () => {
-    it('should dispatch navigation action with translated path', () => {
-      spyOn(urlTranslator, 'translate').and.returnValue(['translated', 'path']);
+    it('should dispatch navigation action with generated path', () => {
+      spyOn(urlService, 'generateUrl').and.returnValue(['generated', 'path']);
       service.go([]);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
-          path: ['translated', 'path'],
+          path: ['generated', 'path'],
           query: undefined,
           extras: undefined,
         })
       );
     });
 
-    it('should call url translator service with given array of commands and true "relative" option', () => {
-      spyOn(urlTranslator, 'translate');
-      const commands = ['test1'];
-      service.go({ route: 'testRoute' });
+    it('should call url service service with given array of commands', () => {
+      spyOn(urlService, 'generateUrl');
+      const commands = ['testString', { route: 'testRoute' }];
       service.go(commands);
-      expect(urlTranslator.translate).toHaveBeenCalledWith(commands, {
-        relative: true,
-      });
+      expect(urlService.generateUrl).toHaveBeenCalledWith(commands);
     });
   });
 
@@ -82,7 +78,7 @@ describe('RoutingService', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
-      spyOn(urlTranslator, 'translate').and.callFake(x => x);
+      spyOn(urlService, 'generateUrl').and.callFake(x => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
@@ -140,7 +136,7 @@ describe('RoutingService', () => {
     expect(routerState).toEqual({});
   });
 
-  it('shoud return only page context from the state', () => {
+  it('should return only page context from the state', () => {
     const pageContext: PageContext = {
       id: 'homepage',
       type: PageType.CATALOG_PAGE,
@@ -155,5 +151,38 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
+  });
+
+  it('getNextPageContext should return nextPageContext state', () => {
+    const pageContext: PageContext = {
+      id: 'homepage',
+      type: PageType.CATALOG_PAGE,
+    };
+    const mockRouterState = createSpy().and.returnValue(() => of(pageContext));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+    let result: PageContext;
+    service
+      .getNextPageContext()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(pageContext);
+    expect(NgrxStore.select).toHaveBeenCalledWith(fromStore.getNextPageContext);
+  });
+
+  it('isNavigating should return isNavigating state', () => {
+    const isNavigating = true;
+    const mockRouterState = createSpy().and.returnValue(() => of(isNavigating));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+    let result: boolean;
+    service
+      .isNavigating()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(isNavigating);
+    expect(NgrxStore.select).toHaveBeenCalledWith(fromStore.isNavigating);
   });
 });

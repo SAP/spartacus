@@ -5,12 +5,13 @@ import { StoreModule, Store } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 
 import { UserToken, AuthService } from '../../auth';
-import { OrderEntry, Cart } from '../../occ';
+
 import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
 
 import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
 import { CartService } from './cart.service';
+import { UICart, UIOrderEntry } from '@spartacus/core';
 
 class CartDataServiceStub {
   userId;
@@ -41,7 +42,7 @@ describe('CartService', () => {
     scope: ['xxx'],
     userId: 'xxx',
   };
-  const mockCartEntry: OrderEntry = {
+  const mockCartEntry: UIOrderEntry = {
     entryNumber: 0,
     product: { code: productCode },
   };
@@ -359,7 +360,7 @@ describe('CartService', () => {
 
   describe('getEntry', () => {
     it('should return an entry', () => {
-      const testCart: Cart = <Cart>{
+      const testCart: UICart = <UICart>{
         entries: [
           { product: { code: 'code1' } },
           { product: { code: 'code2' } },
@@ -367,7 +368,7 @@ describe('CartService', () => {
       };
       store.dispatch(new fromCart.LoadCartSuccess(testCart));
 
-      let result: OrderEntry;
+      let result: UIOrderEntry;
       service
         .getEntry('code1')
         .subscribe(value => (result = value))
@@ -378,7 +379,9 @@ describe('CartService', () => {
 
   describe('getCartMergeComplete', () => {
     it('should return true when the merge is complete', () => {
-      store.dispatch(new fromCart.MergeCartSuccess());
+      store.dispatch(
+        new fromCart.MergeCartSuccess({ cartId: 'cartId', userId: 'userId' })
+      );
       let result: boolean;
       service
         .getCartMergeComplete()
@@ -391,7 +394,7 @@ describe('CartService', () => {
   describe('getActive', () => {
     it('should return a loaded state', () => {
       store.dispatch(new fromCart.CreateCartSuccess(cart));
-      let result: Cart;
+      let result: UICart;
       service
         .getActive()
         .subscribe(value => (result = value))

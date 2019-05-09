@@ -1,26 +1,22 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-
 import {
-  Order,
-  CheckoutService,
   Address,
-  PaymentDetails,
+  CheckoutService,
   DeliveryMode,
+  Order,
+  PaymentDetails,
 } from '@spartacus/core';
-
 import { Observable } from 'rxjs';
-
-import { Card } from '../../../ui/components/card/card.component';
+import { Card } from '../../../../shared/components/card/card.component';
 
 @Component({
   selector: 'cx-order-confirmation',
   templateUrl: './order-confirmation.component.html',
-  styleUrls: ['./order-confirmation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationComponent implements OnInit, OnDestroy {
@@ -51,7 +47,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     };
   }
 
-  getShippingCardContent(deliveryMode: DeliveryMode): Card {
+  getDeliveryModeCardContent(deliveryMode: DeliveryMode): Card {
     return {
       title: 'Shipping Method',
       textBold: deliveryMode.name,

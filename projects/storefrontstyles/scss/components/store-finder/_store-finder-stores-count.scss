@@ -1,0 +1,64 @@
+%cx-store-finder-stores-count {
+  .cx-count {
+    border-style: var(--cx-border-style, solid);
+    border-width: var(--cx-border-width, 1px 0 0 0);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
+    display: var(--cx-display, inline-block);
+    padding: var(--cx-padding, 40px 0 0 0);
+
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 25px 0 0 0);
+    }
+  }
+
+  .cx-set {
+    width: var(--cx-width, 100%);
+  }
+
+  .cx-title {
+    width: var(--cx-width, 100%);
+    margin-bottom: var(--cx-margin, 1.5rem);
+  }
+
+  .cx-name {
+    @include type('4');
+    padding-right: var(--cx-padding, 0.5rem);
+  }
+
+  .cx-country-count {
+    @include type('4');
+    font-weight: var(--cx-font-weight, normal);
+  }
+
+  .cx-region-set {
+    width: var(--cx-width, 100%);
+  }
+
+  .cx-region-directory {
+    column-count: var(--cx-column-count, 1);
+    list-style: var(--cx-list-style, none);
+    padding-left: var(--cx-padding, 0);
+    @include media-breakpoint-up(md) {
+      column-count: var(--cx-column-count, 4);
+    }
+  }
+
+  .cx-directory-item {
+    padding: var(--cx-padding, 0);
+    line-height: var(--cx-line-height, normal);
+  }
+
+  .cx-item-link {
+    padding: var(--cx-padding, 0 0.5rem 0.5rem 0.2rem);
+    @include type('7');
+    line-height: var(--cx-line-height, normal);
+  }
+
+  .cx-item-count {
+    @include type('7');
+  }
+
+  .cx-count-spinner {
+    padding: var(--cx-padding, 30px 0);
+  }
+}
