@@ -141,7 +141,7 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuard],
         data: {
           pageLabel: 'notification-preference',
-          cxPath: 'notificationPreference',
+          cxRoute: 'notificationPreference',
         },
       },
     ]),
