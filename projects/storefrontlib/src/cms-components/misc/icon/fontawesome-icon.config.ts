@@ -1,9 +1,9 @@
 import { IconConfig, ICON_TYPES } from './icon.config';
 
-export const defaultIconConfig: IconConfig = {
+export const fontawesomeIconConfig: IconConfig = {
   icon: {
-    prefix: 'fa-',
     iconClass: 'fas',
+    prefix: 'fa-',
     icons: {
       [ICON_TYPES.SEARCH]: 'search',
       [ICON_TYPES.CART]: 'shopping-cart',
