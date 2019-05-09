@@ -21,6 +21,10 @@ export const common = {
   searchBox: {
     searchHere: 'Search here...',
   },
+  sorting: {
+    date: 'Date',
+    orderNumber: 'Order Number',
+  },
   messages: {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPasswordMismatch: 'Old password incorrect.', // consider using context here as there are multiple responses possible (TODO)

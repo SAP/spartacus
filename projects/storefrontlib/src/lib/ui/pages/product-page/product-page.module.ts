@@ -11,7 +11,7 @@ const routes: Routes = [
     path: null,
     canActivate: [CmsPageGuard],
     component: ProductPageComponent,
-    data: { cxPath: 'product' },
+    data: { cxRoute: 'product' },
   },
 ];
 
