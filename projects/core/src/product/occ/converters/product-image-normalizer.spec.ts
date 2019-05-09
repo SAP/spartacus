@@ -1,9 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Product } from '@spartacus/core';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { Product } from '../../../occ/occ-models/occ.models';
 import { ProductImageNormalizer } from './product-image-normalizer';
 import { ImageType } from '../../../model/image.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import { Product } from '../../../model/product.model';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -20,7 +20,7 @@ const MockOccModuleConfig: OccConfig = {
 describe('ProductImageNormalizer', () => {
   let service: ProductImageNormalizer;
 
-  const product: Product = {
+  const product: Occ.Product = {
     code: 'testCode',
     description: 'test',
     images: [
@@ -53,7 +53,7 @@ describe('ProductImageNormalizer', () => {
     ],
   };
 
-  const convertedProduct: UIProduct = {
+  const convertedProduct: Product = {
     code: 'testCode',
     description: 'test',
     images: {

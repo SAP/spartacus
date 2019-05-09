@@ -6,11 +6,11 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { PaymentDetailsList } from '../../../occ/occ-models/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { PaymentDetails } from '../../../model/cart.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
-const mockUserPaymentMethods: PaymentDetailsList = {
+const mockUserPaymentMethods: Occ.PaymentDetailsList = {
   payments: [{ id: 'payment1' }, { id: 'payment2' }],
 };
 

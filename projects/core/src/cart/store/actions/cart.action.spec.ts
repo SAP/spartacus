@@ -1,11 +1,11 @@
-import { Cart } from '../../../occ/occ-models/index';
 import * as fromCart from './../actions/cart.action';
 import { CART_DATA } from '../cart-state';
 import {
-  loadMeta,
   failMeta,
+  loadMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
+import { Cart } from '../../../model/cart.model';
 
 const cart: Cart = {
   code: 'xxx',

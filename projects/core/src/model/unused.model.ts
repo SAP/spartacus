@@ -1,19 +1,13 @@
 import { Address } from './address.model';
 import { Image } from './image.model';
-import { FeatureUnit, FeatureValue, Stock, Product } from './product.model';
+import { FeatureUnit, FeatureValue, Product, Stock } from './product.model';
 import {
   GeoPoint,
   OpeningSchedule,
   PaginationModel,
   SortModel,
 } from './misc.model';
-import { Principal, Cart } from './cart.model';
-import {
-  Breadcrumb,
-  Facet,
-  SearchState,
-  SpellingSuggestion,
-} from './product-search.model';
+import { Cart, Principal } from './cart.model';
 
 /**
  *
@@ -413,53 +407,6 @@ export interface ProductList {
    * @member {string} [version]
    */
   version?: string;
-}
-
-/**
- *
- * An interface representing ProductSearchPage.
- */
-export interface ProductSearchPage {
-  /**
-   * @member {Breadcrumb[]} [breadcrumbs]
-   */
-  breadcrumbs?: Breadcrumb[];
-  /**
-   * @member {string} [categoryCode]
-   */
-  categoryCode?: string;
-  /**
-   * @member {SearchState} [currentQuery]
-   */
-  currentQuery?: SearchState;
-  /**
-   * @member {Facet[]} [facets]
-   */
-  facets?: Facet[];
-  /**
-   * @member {string} [freeTextSearch]
-   */
-  freeTextSearch?: string;
-  /**
-   * @member {string} [keywordRedirectUrl]
-   */
-  keywordRedirectUrl?: string;
-  /**
-   * @member {PaginationModel} [pagination]
-   */
-  pagination?: PaginationModel;
-  /**
-   * @member {Product[]} [products]
-   */
-  products?: Product[];
-  /**
-   * @member {SortModel[]} [sorts]
-   */
-  sorts?: SortModel[];
-  /**
-   * @member {SpellingSuggestion} [spellingSuggestion]
-   */
-  spellingSuggestion?: SpellingSuggestion;
 }
 
 /**

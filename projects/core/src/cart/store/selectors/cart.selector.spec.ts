@@ -1,17 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
 import * as fromActions from './../actions';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '../../../model/order.model';
+import { Cart } from '../../../model/cart.model';
 
-describe('UICart selectors', () => {
+describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
 
-  const testCart: UICart = {
+  const testCart: Cart = {
     code: 'xxx',
     guid: 'xxx',
     totalItems: 0,
@@ -26,7 +27,7 @@ describe('UICart selectors', () => {
     },
   };
 
-  const testEmptyCart: UICart = {
+  const testEmptyCart: Cart = {
     code: 'xxx',
     guid: 'xxx',
     totalItems: 0,
@@ -54,7 +55,7 @@ describe('UICart selectors', () => {
 
   describe('getActiveCartContent', () => {
     it('should return the cart content from the state', () => {
-      let result: UICart;
+      let result: Cart;
       store
         .pipe(select(fromSelectors.getCartContent))
         .subscribe(value => (result = value));

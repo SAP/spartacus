@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../occ/occ-models';
 import { Converter, ConverterService } from '../../../util/converter.service';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { Cart } from '../../../model/cart.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 @Injectable()
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {

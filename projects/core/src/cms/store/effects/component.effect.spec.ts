@@ -3,11 +3,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CmsComponent, PageType } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../occ/occ-models/index';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import * as fromActions from '../actions/component.action';
 import * as fromEffects from './component.effect';
+import { PageType } from '../../../model/cms.model';
 
 const router = {
   state: {

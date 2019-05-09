@@ -17,9 +17,9 @@ import { Page } from '../model/page.model';
 import * as fromActions from '../store/actions';
 import { StateWithCms } from '../store/cms-state';
 import * as fromReducers from '../store/reducers';
-import { PageType } from '../../occ/occ-models/occ.models';
 
 import { CmsService } from './cms.service';
+import { PageType } from '../../model/cms.model';
 import createSpy = jasmine.createSpy;
 
 class MockRoutingService {

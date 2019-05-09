@@ -3,11 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  CmsComponent,
-  CmsComponentList,
-  PageType,
-} from '../../occ/occ-models/index';
+import { CmsComponent, CmsComponentList } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfigService } from '../services';
@@ -15,6 +11,7 @@ import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { HttpRequest } from '@angular/common/http';
 import { ConverterService } from '../../util/converter.service';
 import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
+import { PageType } from '../../model/cms.model';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },

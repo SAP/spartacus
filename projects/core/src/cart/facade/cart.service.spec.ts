@@ -1,17 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import { UserToken, AuthService } from '../../auth';
+import { AuthService, UserToken } from '../../auth';
 
 import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
 
-import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
+import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '../../model/order.model';
+import { Cart } from '../../model/cart.model';
 
 class CartDataServiceStub {
   userId;
@@ -360,7 +361,7 @@ describe('CartService', () => {
 
   describe('getEntry', () => {
     it('should return an entry', () => {
-      const testCart: UICart = <UICart>{
+      const testCart: Cart = <Cart>{
         entries: [
           { product: { code: 'code1' } },
           { product: { code: 'code2' } },
@@ -394,7 +395,7 @@ describe('CartService', () => {
   describe('getActive', () => {
     it('should return a loaded state', () => {
       store.dispatch(new fromCart.CreateCartSuccess(cart));
-      let result: UICart;
+      let result: Cart;
       service
         .getActive()
         .subscribe(value => (result = value))
