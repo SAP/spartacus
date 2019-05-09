@@ -7,6 +7,7 @@ export enum ProductDetailOutlets {
   ADDTOCART = 'PDP.ADDTOCART',
   PRICE = 'PDP.PRICE',
   SHARE = 'PDP.SHARE',
+  BACK_IN_STOCK = 'PDP.BACK_IN_STOCK',
 }
 
 export enum ProductTabsOutlets {

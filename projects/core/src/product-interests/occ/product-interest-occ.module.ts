@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { OccModule } from '../../occ/occ.module';
-import { OccUserService } from './user.service';
-import { OccOrderService } from './order.service';
+import { OccProductInterestsService } from './product-interest.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
-  providers: [OccUserService, OccOrderService],
+  providers: [OccProductInterestsService],
 })
-export class UserOccModule {}
+export class ProductInterestOccModule {}

@@ -2,12 +2,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { Store, StoreModule, select } from '@ngrx/store';
 
-import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
+import * as fromSelectors from './index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { ProductInterestList } from '../../model/product-interest.model';
+import {
+  PRODUCT_INTERESTS_FEATURE,
+  StateWithProductInterests,
+} from '../product-interests-state';
 
 const emptyInterestList: ProductInterestList = {
   results: [],
@@ -31,13 +34,16 @@ const mockedInterestList: ProductInterestList = {
 };
 
 describe('Product Interests Selectors', () => {
-  let store: Store<StateWithUser>;
+  let store: Store<StateWithProductInterests>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_INTERESTS_FEATURE,
+          fromReducers.getReducers()
+        ),
       ],
     });
 

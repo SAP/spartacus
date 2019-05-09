@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ProductInterestsService } from '../../occ';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as fromInterestsEffect from './product-interests.effect';
 import * as fromInterestsAction from '../actions/product-interests.actions';
@@ -10,7 +9,8 @@ import { ProductInterestList } from '../../model/product-interest.model';
 import { hot, cold } from 'jasmine-marbles';
 import { Action } from '@ngrx/store';
 import { LoaderResetAction } from '../../../state';
-import { PRODUCT_INTERESTS } from '../user-state';
+import { PRODUCT_INTERESTS } from '../../../user/store/user-state';
+import { OccProductInterestsService } from '../../occ/product-interest.service';
 
 const loadParams = {
   userId: 'jack.ma@hybris.com',
@@ -26,13 +26,13 @@ const delParams = {
 describe('Product Interests Effect', () => {
   let actions$: Actions;
   let productInterestsEffect: fromInterestsEffect.ProductInterestsEffect;
-  let productInterestsService: ProductInterestsService;
+  let productInterestsService: OccProductInterestsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        ProductInterestsService,
+        OccProductInterestsService,
         fromInterestsEffect.ProductInterestsEffect,
         provideMockActions(() => actions$),
       ],
@@ -42,7 +42,7 @@ describe('Product Interests Effect', () => {
     productInterestsEffect = TestBed.get(
       fromInterestsEffect.ProductInterestsEffect
     );
-    productInterestsService = TestBed.get(ProductInterestsService);
+    productInterestsService = TestBed.get(OccProductInterestsService);
   });
 
   describe('loadProductInteres$', () => {

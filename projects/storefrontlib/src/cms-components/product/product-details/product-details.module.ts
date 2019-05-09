@@ -13,6 +13,7 @@ import { AddToCartModule, CartSharedModule } from '../../checkout/index';
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductImagesComponent } from './product-images/product-images.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
+import { ProductInterestsModule } from '../product-interests/product-interests.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     FormComponentsModule,
     MediaModule,
     StarRatingModule,
+    ProductInterestsModule,
   ],
   declarations: [
     ProductDetailsComponent,

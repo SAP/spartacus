@@ -5,7 +5,9 @@
   </div>
 </ng-container>
 
-<div class="images"><ng-content></ng-content></div>
+<div class="images">
+  <ng-content></ng-content>
+</div>
 
 <ng-container *cxOutlet="outlets.RATING">
   <div class="rating">
@@ -26,7 +28,9 @@
   </div>
 </ng-container>
 
-<div class="description"><p [innerHTML]="product?.summary"></p></div>
+<div class="description">
+  <p [innerHTML]="product?.summary"></p>
+</div>
 
 <ng-container *cxOutlet="outlets.ADDTOCART">
   <div class="quantity">
@@ -53,6 +57,14 @@
     [productCode]="product?.code"
     [maxQuantity]="product.stock.stockLevel"
   ></cx-add-to-cart>
+</ng-container>
+
+<ng-container *cxOutlet="outlets.BACK_IN_STOCK">
+  <cx-stock-notification
+    *ngIf="product?.stock?.stockLevelStatus === 'outOfStock'"
+    [productCode]="product?.code"
+  >
+  </cx-stock-notification>
 </ng-container>
 
 <!-- @TODO: Temp. Comment out share link while not in use by CMS -->

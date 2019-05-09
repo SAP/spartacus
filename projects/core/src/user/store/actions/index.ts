@@ -20,4 +20,3 @@ export * from './user-addresses.action';
 export * from './user-details.action';
 export * from './user-orders.action';
 export * from './user-register.action';
-export * from './product-interests.actions';

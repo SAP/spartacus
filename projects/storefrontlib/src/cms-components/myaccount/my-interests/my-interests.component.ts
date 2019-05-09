@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuthService,
-  UserService,
+  ProductInterestService,
   ProductInterestList,
   ProductInterestRelation,
   PaginationModel,
@@ -41,7 +41,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   ];
   pagination: PaginationModel;
 
-  constructor(private auth: AuthService, private userService: UserService) {}
+  constructor(
+    private auth: AuthService,
+    private interestsService: ProductInterestService
+  ) {}
 
   ngOnInit() {
     this.subscription = this.auth.getUserToken().subscribe(userData => {
@@ -49,7 +52,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         this.userId = userData.userId;
       }
     });
-    this.interests$ = this.userService
+    this.interests$ = this.interestsService
       .getProdutInterests(this.userId, this.PAGE_SIZE)
       .pipe(
         tap(
@@ -63,18 +66,18 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
             })
         )
       );
-    this.loaded$ = this.userService.getProdutInterestsLoaded();
+    this.loaded$ = this.interestsService.getProdutInterestsLoaded();
   }
 
   removeInterests(result: ProductInterestRelation): void {
     if (this.userId) {
-      this.userService.deleteProdutInterest(this.userId, result);
+      this.interestsService.deleteProdutInterest(this.userId, result);
     }
   }
 
   sortChange(sort: string): void {
     this.sort = sort;
-    this.userService.loadProductInterests(
+    this.interestsService.loadProductInterests(
       this.userId,
       this.PAGE_SIZE,
       0,
@@ -83,7 +86,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   }
 
   pageChange(page: number): void {
-    this.userService.loadProductInterests(
+    this.interestsService.loadProductInterests(
       this.userId,
       this.PAGE_SIZE,
       page,
@@ -95,6 +98,6 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.userService.clearProductInterests();
+    this.interestsService.clearProductInterests();
   }
 }

@@ -1,4 +1,4 @@
-import { PRODUCT_INTERESTS } from '../user-state';
+import { PRODUCT_INTERESTS } from '../../../user/store/user-state';
 import * as fromInterestsAction from './product-interests.actions';
 import {
   loadMeta,

@@ -1,4 +1,3 @@
-import { PRODUCT_INTERESTS } from '../user-state';
 import {
   ProductInterestList,
   ProductInterestRelation,
@@ -8,6 +7,7 @@ import {
   LoaderFailAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
+import { PRODUCT_INTERESTS } from '../product-interests-state';
 
 export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
 export const LOAD_PRODUCT_INTERESTS_FAIL = 'Load Product Interests Fail';

@@ -1,25 +1,28 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { UserState, StateWithUser } from '../user-state';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderValueSelector,
   loaderSuccessSelector,
 } from '../../../state/utils/loader/loader.selectors';
 
-import { getUserState } from './feature.selector';
 import { ProductInterestList } from '../../model/product-interest.model';
+import {
+  StateWithProductInterests,
+  ProductInterestsState,
+} from '../product-interests-state';
+import { getProductInterestsState } from './feature.selector';
 
 export const getInterestsState: MemoizedSelector<
-  StateWithUser,
+  StateWithProductInterests,
   LoaderState<ProductInterestList>
 > = createSelector(
-  getUserState,
-  (state: UserState) => state.productInterests
+  getProductInterestsState,
+  (state: ProductInterestsState) => state.interests
 );
 
 export const getInterestsLoaded: MemoizedSelector<
-  StateWithUser,
+  StateWithProductInterests,
   boolean
 > = createSelector(
   getInterestsState,
@@ -27,7 +30,7 @@ export const getInterestsLoaded: MemoizedSelector<
 );
 
 export const getInterests: MemoizedSelector<
-  StateWithUser,
+  StateWithProductInterests,
   ProductInterestList
 > = createSelector(
   getInterestsState,

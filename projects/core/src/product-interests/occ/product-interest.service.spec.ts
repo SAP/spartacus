@@ -6,7 +6,7 @@ import {
 import { async, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../occ/config/occ-config';
 
-import { ProductInterestsService } from './product-interests.service';
+import { OccProductInterestsService } from './product-interest.service';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -22,19 +22,19 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 describe('ProductInterestsService', () => {
-  let service: ProductInterestsService;
+  let service: OccProductInterestsService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
-        ProductInterestsService,
+        OccProductInterestsService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(ProductInterestsService);
+    service = TestBed.get(OccProductInterestsService);
     httpMock = TestBed.get(HttpTestingController);
   });
 

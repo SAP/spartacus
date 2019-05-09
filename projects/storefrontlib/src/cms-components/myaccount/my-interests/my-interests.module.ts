@@ -10,6 +10,7 @@ import {
   CmsConfig,
   I18nModule,
   UrlModule,
+  ProductInterestsModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -29,6 +30,7 @@ import {
     I18nModule,
     UrlModule,
     MediaModule,
+    ProductInterestsModule,
   ],
   exports: [MyInterestsComponent],
   entryComponents: [MyInterestsComponent],

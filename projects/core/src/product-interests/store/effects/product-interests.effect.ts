@@ -6,18 +6,18 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
-import { PRODUCT_INTERESTS } from '../user-state';
-import { CLEAR_MISCS_DATA } from '../actions/index';
+import { CLEAR_MISCS_DATA } from '../../../user/store/actions/index';
 import * as fromInterestsAction from '../actions/product-interests.actions';
 import { LoaderResetAction } from '../../../state';
-import { ProductInterestsService } from '../../occ/index';
 import { ProductInterestList } from '../../model/product-interest.model';
+import { OccProductInterestsService } from '../../occ/product-interest.service';
+import { PRODUCT_INTERESTS } from '../product-interests-state';
 
 @Injectable()
 export class ProductInterestsEffect {
   constructor(
     private actions$: Actions,
-    private productInterestsService: ProductInterestsService
+    private productInterestsService: OccProductInterestsService
   ) {}
 
   @Effect()
@@ -53,7 +53,7 @@ export class ProductInterestsEffect {
     map((action: fromInterestsAction.DeleteProductInterests) => action.payload),
     switchMap(payload =>
       this.productInterestsService
-        .removeInterests(payload.userId, payload.item)
+        .deleteInterests(payload.userId, payload.item)
         .pipe(
           map(
             (res: any) =>

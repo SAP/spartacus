@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError, forkJoin } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import {
   ProductInterestList,
   ProductInterestRelation,
+  ProductInterestEntry,
 } from '../model/product-interest.model';
 import { Image } from '../../occ';
 
 @Injectable()
-export class ProductInterestsService {
+export class OccProductInterestsService {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,
@@ -51,22 +52,62 @@ export class ProductInterestsService {
     );
   }
 
-  public removeInterests(
+  public deleteInterests(
     userId: string,
     item: ProductInterestRelation
   ): Observable<any[]> {
-    const r: Observable<any>[] = [];
-    item.productInterestEntry.forEach((entry: any) => {
-      const params: HttpParams = new HttpParams()
-        .set('productCode', item.product.code)
-        .set('notificationType', entry.interestType);
-      r.push(
-        this.http
-          .delete(this.getEndPoint(userId), { params: params })
-          .pipe(catchError((error: any) => throwError(error)))
+    const results: Observable<any>[] = [];
+    item.productInterestEntry.forEach((entry: ProductInterestEntry) => {
+      results.push(
+        this.deleteInterest(userId, item.product.code, entry.interestType)
       );
     });
-    return forkJoin(r);
+    return forkJoin(results);
+  }
+
+  public deleteInterest(
+    userId: string,
+    productCode: string,
+    notificationType: string
+  ): Observable<any> {
+    const params: HttpParams = new HttpParams()
+      .set('productCode', productCode)
+      .set('notificationType', notificationType);
+    return this.http
+      .delete(this.getEndPoint(userId), { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  public createInterest(
+    userId: string,
+    productCode: string,
+    notificationType: string
+  ): Observable<ProductInterestRelation> {
+    const params: HttpParams = new HttpParams()
+      .set('productCode', productCode)
+      .set('notificationType', notificationType);
+    return this.http
+      .post(this.getEndPoint(userId), { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  public hasInterest(
+    userId: string,
+    productCode: string,
+    notificationType: string
+  ): Observable<boolean> {
+    const url = this.getEndPoint(userId);
+    let params = new HttpParams();
+    if (productCode) {
+      params = params.set('productCode', productCode);
+    }
+    if (notificationType) {
+      params = params.set('notificationType', notificationType);
+    }
+    return this.http.get<boolean>(url, { params }).pipe(
+      map((r: any) => r.results && r.results.length > 0),
+      catchError((error: any) => throwError(error))
+    );
   }
 
   protected getEndPoint(userId: string): string {

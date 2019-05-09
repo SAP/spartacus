@@ -11,14 +11,12 @@ import {
   OrderHistoryList,
   PaymentDetails,
 } from '../../../occ/occ-models/occ.models';
-import { ProductInterestList } from '../../index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   UserState,
   USER_ADDRESSES,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  PRODUCT_INTERESTS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
@@ -30,7 +28,6 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import * as fromInterestsReducer from './product-interests.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -55,10 +52,6 @@ export function getReducers(): ActionReducerMap<UserState> {
     titles: fromTitlesReducer.reducer,
     regions: fromRegionsReducer.reducer,
     resetPassword: fromResetPasswordReducer.reducer,
-    productInterests: loaderReducer<ProductInterestList>(
-      PRODUCT_INTERESTS,
-      fromInterestsReducer.reducer
-    ),
   };
 }
 
