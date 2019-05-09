@@ -6,8 +6,8 @@
   </div>
 
   <ng-template #consentManagementForm>
-    <div class="row d-flex justify-content-center ">
-      <div class="col-md-6">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8">
         <div
           *ngFor="
             let consentTemplate of (templateList$ | async)?.consentTemplates
@@ -19,7 +19,7 @@
           ></cx-consent-management-form>
         </div>
         <div class="cx-checkout-btns row">
-          <div class="col-sm-8">
+          <div class="col-lg-12">
             <button class="btn btn-block btn-primary" (click)="onDone()">
               {{ 'common.done' | cxTranslate }}
             </button>
