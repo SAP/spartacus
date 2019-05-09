@@ -43,7 +43,7 @@ const pageModules = [
         // This route can be dropped only when the link from CMS in MyAccount dropdown menu ("my-account/address-book")
         // is the same as the page label ("address-book"). Or when we have a mapping for content pages.
         path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
+        canActivate: [CmsPageGuard],
         data: { pageLabel: 'address-book', cxRoute: 'addressBook' },
         component: PageLayoutComponent,
       },

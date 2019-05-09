@@ -34,7 +34,11 @@ export class PageSlotComponent {
    */
   readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
     switchMap(position => this.cmsService.getContentSlot(position)),
-    tap(slot => this.addSmartEditSlotClass(slot))
+    tap(slot => {
+      if (slot) {
+        this.addSmartEditSlotClass(slot);
+      }
+    })
   );
 
   /**
