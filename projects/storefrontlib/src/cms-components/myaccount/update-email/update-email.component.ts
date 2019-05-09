@@ -51,18 +51,21 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean): void {
     if (success) {
       this.globalMessageService.add(
-        {key: 'messages.emailUpdateSuccess', params: [{ newUid: this.newUid }]},
+        {
+          key: 'messages.emailUpdateSuccess',
+          params: [{ newUid: this.newUid }],
+        },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       this.authService.logout();
       this.routingService.go({ route: 'login' });
     }
   }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-
     this.userService.resetUpdateEmailResultState();
   }
 }
