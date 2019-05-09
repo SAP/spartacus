@@ -1,4 +1,4 @@
-<label class="searchbox">
+<label class="searchbox" [class.dirty]="!!searchBoxControl.value">
   <input
     [formControl]="searchBoxControl"
     [placeholder]="'searchBox.searchHere' | cxTranslate"
@@ -10,13 +10,17 @@
   />
 
   <cx-icon
-    [type]="iconTypes.CLOSE"
+    [type]="iconTypes.RESET"
+    aria-label="reset"
     (mousedown)="clear()"
     class="reset"
-    [class.hidden]="!searchBoxControl.value"
   ></cx-icon>
 
-  <cx-icon [type]="iconTypes.SEARCH" aria-label="search"></cx-icon>
+  <cx-icon
+    [type]="iconTypes.SEARCH"
+    aria-label="search"
+    class="search"
+  ></cx-icon>
 </label>
 
 <div

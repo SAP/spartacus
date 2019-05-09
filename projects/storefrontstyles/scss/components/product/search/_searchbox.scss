@@ -58,20 +58,20 @@
     display: flex;
     margin: 0;
     padding: 6px;
-    input {
-      transition: all 0.4s;
 
+    @include media-breakpoint-up(lg) {
+      width: 25vw;
+
+      // hide search icon when the input is dirty
+      &.dirty cx-icon.search {
+        display: none;
+      }
+    }
+
+    input {
       background: none;
       border: none;
       outline: none;
-
-      @include media-breakpoint-up(lg) {
-        border-right: 1px solid currentColor;
-        width: 25vw;
-        &:focus {
-          width: 35vw;
-        }
-      }
 
       @include media-breakpoint-down(md) {
         position: absolute;
@@ -96,18 +96,21 @@
       }
     }
 
+    // hide reset icon when the input is empty
+    &:not(.dirty) cx-icon.reset {
+      display: none;
+    }
+
     cx-icon {
       color: currentColor;
       flex-basis: 48px;
       text-align: center;
       cursor: pointer;
       &.reset {
-        right: 65px;
-        font-size: 16px;
-        color: var(--cx-g-color-dark);
-        z-index: 20;
-        position: absolute;
         @include media-breakpoint-down(md) {
+          position: absolute;
+          right: 65px;
+          z-index: 20;
           right: 20px;
           margin-top: 52px;
         }
