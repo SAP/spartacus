@@ -17,7 +17,12 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+<<<<<<< HEAD
   MyInterestsModule,
+=======
+  ForgotPasswordModule,
+  ResetPasswordModule,
+>>>>>>> refs/remotes/origin/develop
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -60,6 +65,8 @@ import { StoreFinderModule } from './storefinder/index';
     CloseAccountModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
     MyInterestsModule,
   ],
 })
