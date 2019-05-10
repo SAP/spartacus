@@ -25,7 +25,10 @@ export const myAccount = {
     sortByMostRecent: 'Sort by Most recent',
   },
   notificationProference: {
-    message: 'Select your preferred notification channels',
+    message: 'Select you preferred notification channels',
+    note: 'Note: ',
+    noteMessage:
+      'If you deactivate all channels you will not be able to receive any further notifications.',
     EMAIL: 'Email:',
     SMS: 'SMS:',
     SITE_MESSAGE: 'SiteMessage',
