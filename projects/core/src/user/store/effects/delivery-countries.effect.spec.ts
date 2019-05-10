@@ -8,12 +8,13 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { Country, CountryList } from '../../../occ/occ-models/index';
 
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import { Country } from '../../../model/address.model';
 
 class MockMiscsService {
-  loadDeliveryCountries(): Observable<CountryList> {
+  loadDeliveryCountries(): Observable<Occ.CountryList> {
     return of();
   }
 }
@@ -29,7 +30,7 @@ const mockCountries: Country[] = [
   },
 ];
 
-const mockCountriesList: CountryList = {
+const mockCountriesList: Occ.CountryList = {
   countries: mockCountries,
 };
 

@@ -1,18 +1,18 @@
-import { ProductSearchPage } from '../../../occ/occ-models/occ.models';
+import { Occ } from '../../../occ/occ-models/occ.models';
 import { Converter, ConverterService } from '../../../util/converter.service';
 import { Injectable } from '@angular/core';
-import { UIProductSearchPage } from '../../model/product-search-page';
 import { PRODUCT_NORMALIZER } from '../../connectors/product/converters';
+import { ProductSearchPage } from '../../../model/product-search.model';
 
 @Injectable()
 export class OccProductSearchPageNormalizer
-  implements Converter<ProductSearchPage, UIProductSearchPage> {
+  implements Converter<Occ.ProductSearchPage, ProductSearchPage> {
   constructor(private converterService: ConverterService) {}
 
   convert(
-    source: ProductSearchPage,
-    target: UIProductSearchPage = {}
-  ): UIProductSearchPage {
+    source: Occ.ProductSearchPage,
+    target: ProductSearchPage = {}
+  ): ProductSearchPage {
     target = {
       ...target,
       ...(source as any),

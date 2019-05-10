@@ -1,6 +1,7 @@
 import { CheckoutStepsState } from '../checkout-state';
 import * as fromAction from './../actions/index';
-import { Address, DeliveryMode, Order } from '../../../occ/occ-models/index';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { Address } from '../../../model/address.model';
 
 export const initialState: CheckoutStepsState = {
   address: {},

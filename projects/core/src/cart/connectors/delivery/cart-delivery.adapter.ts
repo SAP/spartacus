@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
-import { Address, DeliveryMode } from '../../../occ/occ-models/occ.models';
+import { Address } from '../../../model/address.model';
+import { DeliveryMode } from '../../../model/order.model';
 
 export abstract class CartDeliveryAdapter {
   /**

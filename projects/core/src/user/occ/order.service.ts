@@ -2,8 +2,8 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { Order, OrderHistoryList } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { Order, OrderHistoryList } from '../../model/order.model';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
