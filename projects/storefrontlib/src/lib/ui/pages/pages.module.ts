@@ -138,13 +138,13 @@ const pageModules = [
         data: { pageLabel: 'close-account', cxRoute: 'closeAccount' },
       },
       {
-    	path: null,
-    	component: PageLayoutComponent,
-    	canActivate: [AuthGuard, CmsPageGuard],
-	    data: {
-		  pageLabel: 'my-interests',
-		  cxPath: 'myInterests',
-	    },
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: {
+          pageLabel: 'my-interests',
+          cxRoute: 'myInterests',
+        },
       },
     ]),
   ],
@@ -156,4 +156,4 @@ const pageModules = [
     },
   ],
 })
-export class PagesModule {}
+export class PagesModule { }
