@@ -6,14 +6,20 @@ import ObjectLike = Cypress.ObjectLike;
 
 export const resultsTitle = 'cx-breadcrumb h1';
 
+enum queries {
+  q1 = 'query1',
+  q2 = 'query2',
+  q3 = 'query3',
+  q4 = 'query4',
+  q5 = 'query5',
+}
 export function productStoreFlow(mobile?: string) {
   cy.server();
 
   // Search for a product
-  createDefaultQueryRoute('query');
+  createDefaultQueryRoute(queries.q1);
   cy.get('cx-searchbox input').type('canon{enter}');
-  cy.wait('@query'); // Workaround: skipping aborted response
-  waitAndGetFirstProductFromXHR()
+  waitAndGetFirstProductFromXHR(queries.q1)
     .then(firstItem => {
       cy.get(resultsTitle).should('contain', '77 results for "canon"');
 
@@ -23,27 +29,27 @@ export function productStoreFlow(mobile?: string) {
       );
       // checkFirstItem('ACK-E5 AC Adapter Kit');
       checkFirstItem(firstItem);
-
       // Navigate to next page
+      createDefaultQueryRoute(queries.q2);
       cy.get('.page-item:last-of-type .page-link:first').click();
     })
-    .then(waitAndGetFirstProductFromXHR)
+    .then(() => waitAndGetFirstProductFromXHR(queries.q2))
     .then(firstItem => {
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
       checkFirstItem(firstItem);
-
       // Sort by name descending
+      createDefaultQueryRoute(queries.q3);
       cy.get('cx-sorting .ng-select:first').ngSelect(
         PRODUCT_LISTING.SORTING_TYPES.BY_NAME_DESC
       );
     })
-    .then(waitAndGetFirstProductFromXHR)
+    .then(() => waitAndGetFirstProductFromXHR(queries.q3))
     .then(firstItem => {
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
       checkFirstItem(firstItem);
-
+      createDefaultQueryRoute(queries.q4);
       // Filter by stores
       cy.get('.cx-facet-header')
         .contains('Stores')
@@ -54,13 +60,13 @@ export function productStoreFlow(mobile?: string) {
             .click({ force: true });
         });
     })
-    .then(waitAndGetFirstProductFromXHR)
+    .then(() => waitAndGetFirstProductFromXHR(queries.q4))
     .then(firstItem => {
       cy.get('.page-item.active > .page-link').should('contain', '1');
       cy.get(resultsTitle).should('contain', '45 results for "canon"');
 
       checkFirstItem(firstItem);
-
+      createDefaultQueryRoute(queries.q5);
       if (mobile) {
         cy.get(
           `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
@@ -70,8 +76,9 @@ export function productStoreFlow(mobile?: string) {
           'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
         ).click();
       }
-
-      cy.wait('@query');
+    })
+    .then(() => waitAndGetFirstProductFromXHR(queries.q5))
+    .then(() => {
       cy.get(resultsTitle).should('contain', '77 results for "canon"');
 
       // Add product to cart from search listing page
@@ -81,8 +88,14 @@ export function productStoreFlow(mobile?: string) {
     });
 }
 
-function waitAndGetFirstProductFromXHR(): Chainable<string> {
-  return cy.wait('@query').then(getFirstItemFromXHR);
+function waitAndGetFirstProductFromXHR(query): Chainable<string> {
+  return cy.wait(`@${query}`).then((xhr: WaitXHR) => {
+    if (xhr.aborted) {
+      return waitAndGetFirstProductFromXHR(query);
+    } else {
+      return getFirstItemFromXHR(xhr);
+    }
+  });
 }
 
 function getFirstItemFromXHR(xhr: WaitXHR): string {
