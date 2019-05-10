@@ -1,16 +1,6 @@
 import * as login from '../../helpers/login';
 import { formats } from '../../sample-data/viewports';
-
-function clickHamburger() {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
-}
-
-function waitForHomePage() {
-  cy.get(
-    'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
-  ).should('exist');
-  clickHamburger();
-}
+import { waitForHomePage, clickHamburger } from '../../helpers/homepage';
 
 describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
   before(() => {

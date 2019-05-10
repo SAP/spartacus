@@ -1,14 +1,13 @@
 import { formats } from '../../sample-data/viewports';
 import * as bigHappyPath from '../../helpers/checkout-flow';
+import { checkBanner } from '../../helpers/homepage';
 
 function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
 }
 
 function waitForHomePage() {
-  cy.get(
-    'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
-  ).should('exist');
+  checkBanner();
   clickHamburger();
 }
 
