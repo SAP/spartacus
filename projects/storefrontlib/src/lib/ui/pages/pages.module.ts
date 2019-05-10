@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthGuard, NotAuthGuard } from '@spartacus/core';
+import { AuthGuard, NotAuthGuard, ConfigModule } from '@spartacus/core';
 import { LogoutModule } from '../../../cms-components/index';
 import {
   PageLayoutComponent,
@@ -15,6 +15,7 @@ import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 import { GuardsModule } from './guards/guards.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { ProductPageModule } from './product-page/product-page.module';
+import { defaultRoutingConfig } from './default-routing-config';
 
 const pageModules = [
   CartPageModule,
@@ -25,6 +26,7 @@ const pageModules = [
 
 @NgModule({
   imports: [
+    ConfigModule.withConfig(defaultRoutingConfig),
     CommonModule,
     ...pageModules,
     PageLayoutModule,
@@ -35,87 +37,90 @@ const pageModules = [
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'homepage', cxPath: 'home' },
+        data: { pageLabel: 'homepage', cxRoute: 'home' },
       },
       {
         // This route can be dropped only when the link from CMS in MyAccount dropdown menu ("my-account/address-book")
         // is the same as the page label ("address-book"). Or when we have a mapping for content pages.
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'address-book', cxPath: 'addressBook' },
+        data: { pageLabel: 'address-book', cxRoute: 'addressBook' },
         component: PageLayoutComponent,
       },
       {
         path: null,
         component: PageLayoutComponent,
         canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'updatePassword', cxPath: 'updatePassword' },
+        data: { pageLabel: 'updatePassword', cxRoute: 'updatePassword' },
       },
       {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'orders', cxPath: 'orders' },
+        data: { pageLabel: 'orders', cxRoute: 'orders' },
       },
       {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard, CartNotEmptyGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' },
+        data: {
+          pageLabel: 'multiStepCheckoutSummaryPage',
+          cxRoute: 'checkout',
+        },
       },
       {
         path: null,
         canActivate: [NotAuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'login', cxPath: 'login' },
+        data: { pageLabel: 'login', cxRoute: 'login' },
       },
       {
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'search', cxPath: 'search' },
+        data: { pageLabel: 'search', cxRoute: 'search' },
       },
       {
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxPath: 'category' },
+        data: { cxRoute: 'category' },
       },
       {
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxPath: 'brand' },
+        data: { cxRoute: 'brand' },
       },
       {
         path: null,
         component: PageLayoutComponent,
         canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'update-email', cxPath: 'updateEmail' },
+        data: { pageLabel: 'update-email', cxRoute: 'updateEmail' },
       },
       {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'payment-details', cxPath: 'paymentManagement' },
+        data: { pageLabel: 'payment-details', cxRoute: 'paymentManagement' },
         component: PageLayoutComponent,
       },
       {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'order', cxPath: 'orderDetails' },
+        data: { pageLabel: 'order', cxRoute: 'orderDetails' },
       },
       {
         path: null,
         canActivate: [NotAuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'forgotPassword', cxPath: 'forgotPassword' },
+        data: { pageLabel: 'forgotPassword', cxRoute: 'forgotPassword' },
       },
       {
         path: null,
         component: PageLayoutComponent,
         canActivate: [NotAuthGuard, CmsPageGuard],
-        data: { pageLabel: 'resetPassword', cxPath: 'resetPassword' },
+        data: { pageLabel: 'resetPassword', cxRoute: 'resetPassword' },
       },
       {
         path: null,
@@ -123,14 +128,14 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuard],
         data: {
           pageLabel: 'update-profile',
-          cxPath: 'updateProfile',
+          cxRoute: 'updateProfile',
         },
       },
       {
         path: null,
         component: PageLayoutComponent,
         canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'close-account', cxPath: 'closeAccount' },
+        data: { pageLabel: 'close-account', cxRoute: 'closeAccount' },
       },
     ]),
   ],

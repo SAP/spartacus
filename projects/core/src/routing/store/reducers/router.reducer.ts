@@ -139,7 +139,8 @@ export const getPageContext: MemoizedSelector<
   PageContext
 > = createSelector(
   getRouterState,
-  (routingState: RouterState) => routingState.state.context
+  (routingState: RouterState) =>
+    (routingState.state && routingState.state.context) || { id: '' }
 );
 
 export const getNextPageContext: MemoizedSelector<
