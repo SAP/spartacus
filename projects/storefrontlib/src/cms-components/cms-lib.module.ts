@@ -17,6 +17,8 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  ForgotPasswordModule,
+  ResetPasswordModule,
   NotificationPreferenceModule,
 } from './myaccount/index';
 import {
@@ -60,6 +62,8 @@ import { StoreFinderModule } from './storefinder/index';
     CloseAccountModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
     NotificationPreferenceModule,
   ],
 })
