@@ -1,6 +1,7 @@
 import * as fromProductSearch from './product-search.action';
-import { ErrorModel, Suggestion } from '../../../occ/occ-models';
 import { SearchConfig } from '../../model/search-config';
+import { ErrorModel } from '../../../model/misc.model';
+import { Suggestion } from '../../../model/product-search.model';
 
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;

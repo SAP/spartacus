@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   CmsProductCarouselComponent,
   ProductService,
-  UIProduct,
+  Product,
 } from '@spartacus/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import {
@@ -22,7 +22,7 @@ export class ProductCarouselService {
   MAX_ITEM_SIZE = 4;
   SPEED = 250;
 
-  private items$: Observable<Observable<UIProduct>[]>;
+  private items$: Observable<Observable<Product>[]>;
   private itemSize$ = of(this.MAX_ITEM_SIZE);
   private activeItem$ = of(0);
   private activeItemWithDelay$ = of(0);
@@ -53,7 +53,7 @@ export class ProductCarouselService {
     );
   }
 
-  getItems(): Observable<Observable<UIProduct>[]> {
+  getItems(): Observable<Observable<Product>[]> {
     return this.items$;
   }
 

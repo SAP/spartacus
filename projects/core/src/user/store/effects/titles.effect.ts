@@ -3,8 +3,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { Title } from '../../../occ/occ-models/occ.models';
 import * as fromAction from '../actions/titles.action';
+import { Title } from '../../../model/misc.model';
 
 @Injectable()
 export class TitlesEffects {

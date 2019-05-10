@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 
 import * as fromStore from './../../store';
 import { StateWithProduct } from './../../store';
-import { Review } from '../../../occ/occ-models/occ.models';
+import { Review } from '../../../model/product.model';
 
 describe('Product Reviews selectors', () => {
   const productCode = '123';
