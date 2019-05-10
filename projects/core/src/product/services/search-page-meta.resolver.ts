@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { ProductSearchService } from '../facade/product-search.service';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageMeta } from '../../cms/model/page.model';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',

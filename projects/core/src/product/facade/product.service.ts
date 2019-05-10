@@ -3,13 +3,13 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import * as fromStore from '../store/index';
-import { UIProduct } from '../model/product';
+import { Product } from '../../model/product.model';
 
 @Injectable()
 export class ProductService {
   constructor(private store: Store<fromStore.StateWithProduct>) {}
 
-  private products: { [code: string]: Observable<UIProduct> } = {};
+  private products: { [code: string]: Observable<Product> } = {};
 
   /**
    * Returns the product observable. The product will be loaded
@@ -18,7 +18,7 @@ export class ProductService {
    * The underlying product loader ensures that the product is
    * only loaded once, even in case of parallel observers.
    */
-  get(productCode: string): Observable<UIProduct> {
+  get(productCode: string): Observable<Product> {
     if (!this.products[productCode]) {
       this.products[productCode] = this.store.pipe(
         select(fromStore.getSelectedProductStateFactory(productCode)),

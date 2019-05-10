@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { CartModification } from '../../../occ/occ-models/occ.models';
+import { CartModification } from '../../../model/cart.model';
 
 export abstract class CartEntryAdapter {
   /**
