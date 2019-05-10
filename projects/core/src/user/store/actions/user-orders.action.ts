@@ -1,10 +1,10 @@
 import { USER_ORDERS } from '../user-state';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
 import {
   LoaderLoadAction,
   LoaderFailAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
+import { OrderHistoryList } from '../../../model/order.model';
 
 export const LOAD_USER_ORDERS = '[User] Load User Orders';
 export const LOAD_USER_ORDERS_FAIL = '[User] Load User Orders Fail';
