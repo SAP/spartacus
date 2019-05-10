@@ -1,11 +1,11 @@
 export enum ICON_TYPES {
-  SEARCH,
-  CART,
-  INFO,
-  GRID_MODE,
-  LIST_MODE,
-  CARET_DOWN,
-  STAR,
+  STAR = 'STAR',
+  SEARCH = 'SEARCH',
+  CART = 'CART',
+  INFO = 'INFO',
+  GRID = 'GRID',
+  LIST = 'LIST',
+  CARET_DOWN = 'CARET_DOWN',
 }
 
 export abstract class IconConfig {

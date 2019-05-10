@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { Config, ConfigModule } from '@spartacus/core';
 import { fontawesomeIconConfig } from './fontawesome-icon.config';
 import { IconComponent } from './icon.component';
-import { IconConfig } from './icon.config';
+import { IconConfig } from './icon.model';
 
 @NgModule({
   declarations: [IconComponent],

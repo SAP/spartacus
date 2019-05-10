@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { IconLoaderService } from './icon-loader.service';
-import { IconConfig, ICON_TYPES } from './icon.config';
+import { IconConfig, ICON_TYPES } from './icon.model';
 
 const MockFontIconConfig: IconConfig = {
   icon: {
