@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { I18nModule } from '@spartacus/core';
 import { CardComponent } from './card.component';
+import { IconModule } from '../../../cms-components/misc/icon';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, IconModule],
   declarations: [CardComponent],
   exports: [CardComponent],
 })

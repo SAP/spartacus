@@ -6,6 +6,8 @@ export enum ICON_TYPES {
   CARET_DOWN = 'angle-down',
   INFO = 'info-circle',
   STAR = 'star',
+  VISA = 'cc-visa',
+  MASTER_CARD = 'cc-mastercard',
 }
 
 export abstract class IconConfig {

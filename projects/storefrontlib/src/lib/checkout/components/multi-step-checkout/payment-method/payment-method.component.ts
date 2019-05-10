@@ -20,6 +20,7 @@ import { filter, tap } from 'rxjs/operators';
 import { Card } from '../../../../../shared/components/card/card.component';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
+import { ICON_TYPES } from '../../../../../cms-components/misc/icon';
 
 @Component({
   selector: 'cx-payment-method',
@@ -27,6 +28,7 @@ import { visaImgSrc } from '../../../../ui/images/visa';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentMethodComponent implements OnInit, OnDestroy {
+  iconTypes = ICON_TYPES;
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   cards: Card[] = [];
@@ -91,11 +93,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   getCardContent(payment: PaymentDetails): Card {
-    let ccImage: string;
+    let ccIcon: string;
     if (payment.cardType.code === 'visa') {
-      ccImage = visaImgSrc;
+      ccIcon = this.iconTypes.VISA;
     } else if (payment.cardType.code === 'master') {
-      ccImage = masterCardImgSrc;
+      ccIcon = this.iconTypes.MASTER_CARD;
     }
     const card: Card = {
       title: payment.defaultPayment ? 'Default Payment Method' : '',
@@ -104,7 +106,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         payment.cardNumber,
         'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear,
       ],
-      img: ccImage,
+      img: ccIcon,
       actions: [{ name: 'Use this payment', event: 'send' }],
     };
 

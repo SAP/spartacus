@@ -1,9 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Component, Input } from '@angular/core';
 import { CardComponent, Card, CardLinkAction } from './card.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
 
 describe('CardComponent', () => {
   let component: CardComponent;

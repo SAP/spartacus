@@ -16,6 +16,14 @@ import { PaymentMethodComponent } from './payment-method.component';
 
 import createSpy = jasmine.createSpy;
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
   accountHolderName: 'Name',
