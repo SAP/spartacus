@@ -103,7 +103,6 @@ export function addDifferentProducts() {
   // navigate to cart details
   cy.get('cx-added-to-cart-dialog .btn-primary').click();
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
-  // cy.get('cx-cart-details').should('contain', 'Shopping Cart (ID ');
 
   // delete a product and check if the total is updated
   cy.get('cx-cart-item-list .cx-item-list-items')

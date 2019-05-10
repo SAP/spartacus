@@ -1,16 +1,6 @@
 import * as productSearchPricingFlow from '../../helpers/product-search-pricing-flow';
 import { formats } from '../../sample-data/viewports';
-
-function clickHamburger() {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
-}
-
-function waitForHomePage() {
-  cy.get(
-    'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
-  ).should('exist');
-  clickHamburger();
-}
+import { waitForHomePage } from '../../helpers/homepage';
 
 context(
   `${formats.mobile.width + 1}p resolution - Product search pricing flow`,

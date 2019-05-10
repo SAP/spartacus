@@ -1,6 +1,7 @@
 import { randomString, generateMail } from '../../../helpers/user';
 import { standardUser } from '../../../sample-data/shared-users';
 import { login } from '../../../helpers/auth-forms';
+import { checkBanner } from '../../../helpers/homepage';
 
 const CLOSE_ACCOUNT = '/my-account/close-account';
 
@@ -30,9 +31,7 @@ describe('Close Account', () => {
     it('should be able to cancel and go back to home', () => {
       cy.get('cx-close-account a').click({ force: true });
 
-      cy.get(
-        'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
-      ).should('exist');
+      checkBanner();
 
       cy.location('pathname').should('contain', '/');
     });
@@ -50,9 +49,7 @@ describe('Close Account', () => {
 
       cy.wait('@deleteQuery');
 
-      cy.get(
-        'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
-      ).should('exist');
+      checkBanner();
 
       cy.location('pathname').should('contain', '/');
 
