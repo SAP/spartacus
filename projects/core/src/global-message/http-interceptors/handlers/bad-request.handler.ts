@@ -19,7 +19,10 @@ export class BadRequestHandler extends HttpErrorHandler {
     ) {
       if (request.body.get('grant_type') === 'password') {
         this.globalMessageService.add(
-          this.getErrorMessage(response) + '. Please login again.',
+          {
+            key: 'httpHandlers.badRequest',
+            params: [{ errorMessage: this.getErrorMessage(response) }],
+          },
           GlobalMessageType.MSG_TYPE_ERROR
         );
         this.globalMessageService.remove(

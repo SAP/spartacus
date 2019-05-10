@@ -27,6 +27,7 @@ export const common = {
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
+    badRequest: '{{ errorMessage }}. Please login again.',
     badRequestPasswordMismatch: 'Old password incorrect.', // consider using translate's context functionality here as there are multiple responses possible (TODO)
     conflict: 'Already exists',
     forbidden: 'You are not authorized to perform this action.',
