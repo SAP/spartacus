@@ -27,6 +27,14 @@ describe('Order History with orders', () => {
     doPlaceOrder();
   });
 
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
   it('should display in Order History after placing orders', () => {
     cy.visit('/my-account/orders');
     cy.get('cx-order-history h3').should('contain', 'Order history');
