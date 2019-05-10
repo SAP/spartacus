@@ -1,7 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { MediaComponent } from './media.component';
 import { Media } from './media.model';
 import { MediaService } from './media.service';
+
+const mediaUrl = 'mockProductImageUrl.jpg';
 
 class MockMediaService {
   getImage(media): Media {
@@ -9,6 +12,11 @@ class MockMediaService {
       src: media ? media.product.url : undefined,
       srcset: undefined,
       alt: undefined,
+    };
+  }
+  getMissingImage() {
+    return {
+      src: 'missing.jpg',
     };
   }
 }
@@ -27,6 +35,11 @@ describe('MediaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MediaComponent);
     component = fixture.componentInstance;
+    const mockImageContainer = {
+      product: { url: mediaUrl },
+    };
+    component.container = mockImageContainer;
+
     fixture.detectChanges();
   });
 
@@ -34,18 +47,15 @@ describe('MediaComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit() with valid image url', () => {
-    const mockImageContainer = { product: { url: 'mockProductImageUrl' } };
-    component.container = mockImageContainer;
-
-    component.ngOnChanges();
-
-    expect(component.media.src).toEqual('mockProductImageUrl');
+  it('should create media object with valid image url', () => {
+    expect(component.media.src).toEqual(mediaUrl);
   });
 
-  it('should call ngOnInit() with invalid image url', () => {
-    component.ngOnChanges();
-
-    expect(component.media.src).toEqual(undefined);
+  it('should update the img element with image url', () => {
+    expect(
+      (<HTMLImageElement>(
+        fixture.debugElement.query(By.css('img')).nativeElement
+      )).src
+    ).toContain(mediaUrl);
   });
 });
