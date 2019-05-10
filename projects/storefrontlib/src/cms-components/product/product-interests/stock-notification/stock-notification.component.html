@@ -1,4 +1,4 @@
-<ng-container *ngIf="(logged$ | async); else subcrible">
+<ng-container *ngIf="(logged$ | async); else anoymous">
   <ng-container *ngIf="!(subscribed$ | async); else unsubcrible">
     <ng-container *ngIf="!(channelEnabled$ | async); else subcrible">
       <div>
@@ -39,8 +39,18 @@
       class="btn btn-primary btn-block"
       type="button"
       (click)="subscribe()"
-      [disabled]="!(logged$ | async)"
     >
+      NOTIFY ME
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #anoymous>
+  <div>
+    To get notified when this product is back in stock again please activate
+    your
+    <a href="#"> notification channels</a>.
+    <button class="btn btn-primary btn-block" type="button" [disabled]="true">
       NOTIFY ME
     </button>
   </div>
