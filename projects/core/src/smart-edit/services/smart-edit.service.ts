@@ -4,9 +4,9 @@ import { takeWhile } from 'rxjs/operators';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
-import { PageType } from '../../occ/occ-models/index';
 import { Page } from '../../cms/model/page.model';
 import { WindowRef } from '../../window/window-ref';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',

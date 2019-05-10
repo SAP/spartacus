@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigurableRoutesService } from './configurable-routes.service';
-import { ConfigModule, Config } from '../../config/config.module';
+import { Config } from '../../config/config.module';
 import { RoutingConfig } from './config/routing-config';
-import { defaultRoutingConfig } from './config/default-routing-config';
 
 export function initConfigurableRoutes(
   service: ConfigurableRoutesService
@@ -13,7 +12,7 @@ export function initConfigurableRoutes(
 }
 
 @NgModule({
-  imports: [CommonModule, ConfigModule.withConfig(defaultRoutingConfig)],
+  imports: [CommonModule],
   providers: [
     {
       provide: APP_INITIALIZER,

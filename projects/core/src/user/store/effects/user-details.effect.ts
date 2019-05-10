@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
-import { User } from '../../../occ/occ-models/index';
 import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
+import { User } from '../../../model/misc.model';
 
 @Injectable()
 export class UserDetailsEffects {
