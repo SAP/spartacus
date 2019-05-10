@@ -92,6 +92,7 @@ export function reducer(
       if (
         contextId === 'login' ||
         contextId === 'register' ||
+        contextId === 'homepage' ||
         currentUrl === state.redirectUrl
       ) {
         redirectUrl = state.redirectUrl;
