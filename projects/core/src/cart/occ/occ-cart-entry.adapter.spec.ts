@@ -4,10 +4,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { Cart, CartModification, OccConfig } from '../../occ';
+import { OccConfig } from '../../occ';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 import { ConverterService } from '../../util/converter.service';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
+import { Cart, CartModification } from '../../model/cart.model';
 
 const userId = '123';
 const cartId = '456';

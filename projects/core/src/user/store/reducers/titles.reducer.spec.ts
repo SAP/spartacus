@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/';
-import { Title } from '../../../occ/occ-models';
 
 import * as fromReducer from './titles.reducer';
+import { Title } from '../../../model/misc.model';
 
 describe('Titles Reducer', () => {
   describe('undefined action', () => {

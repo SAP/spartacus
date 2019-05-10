@@ -6,13 +6,13 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromStore from '../store';
-import { PageType } from '../../occ';
 import { PageContext } from '../models/page-context.model';
 import { UrlService } from '../configurable-routes/url-translation/url.service';
 import { RouterState } from '../store/reducers/router.reducer';
 
 import { RoutingService } from './routing.service';
 import createSpy = jasmine.createSpy;
+import { PageType } from '../../model/cms.model';
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;

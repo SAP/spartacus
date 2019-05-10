@@ -4,13 +4,14 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap, take } from 'rxjs/operators';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { AddressList, User } from '../../../occ/occ-models/index';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
 import { UserService } from '../../facade/index';
 import { OccUserService } from '../../occ/index';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import { User } from '../../../model/misc.model';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -22,7 +23,7 @@ export class UserAddressesEffects {
     map((action: fromUserAddressesAction.LoadUserAddresses) => action.payload),
     mergeMap(payload => {
       return this.occUserService.loadUserAddresses(payload).pipe(
-        map((addressesList: AddressList) => {
+        map((addressesList: Occ.AddressList) => {
           return new fromUserAddressesAction.LoadUserAddressesSuccess(
             addressesList.addresses
           );

@@ -5,10 +5,12 @@ import { cold, hot } from 'jasmine-marbles';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
-import { AddressList, Address, User } from '../../../occ/index';
 import { OccUserService } from '../../occ/index';
 import { UserService } from '../../facade/user.service';
 import { GlobalMessageService } from '../../../global-message/index';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import { User } from '../../../model/misc.model';
+import { Address } from '../../../model/address.model';
 
 class MockOccUserService {
   loadUserAddresses(_userId: string): Observable<any> {
@@ -37,7 +39,9 @@ class MockGlobalMessageService {
   add = jasmine.createSpy();
 }
 
-const mockUserAddresses: AddressList = { addresses: [{ id: 'address123' }] };
+const mockUserAddresses: Occ.AddressList = {
+  addresses: [{ id: 'address123' }],
+};
 const mockUserAddress: Address = {
   firstName: 'John',
   lastName: 'Doe',

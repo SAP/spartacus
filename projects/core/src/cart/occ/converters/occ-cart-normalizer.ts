@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '../../../occ/occ-models';
 import { Converter, ConverterService } from '../../../util/converter.service';
-import { UICart } from '../../model/cart';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
+import { Cart } from '../../../model/cart.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 @Injectable()
-export class OccCartNormalizer implements Converter<Cart, UICart> {
+export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
   constructor(private converter: ConverterService) {}
 
-  convert(source: Cart, target?: UICart): UICart {
+  convert(source: Occ.Cart, target?: Cart): Cart {
     if (target === undefined) {
       target = { ...(source as any) };
     }

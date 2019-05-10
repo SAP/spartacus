@@ -1,5 +1,5 @@
 import { USER_ORDERS } from '../user-state';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
+
 import {
   loadMeta,
   failMeta,
@@ -7,6 +7,7 @@ import {
 } from '../../../state/utils/loader/loader.action';
 
 import * as fromUserOrdersAction from './user-orders.action';
+import { OrderHistoryList } from '../../../model/order.model';
 
 const mockUserOrder: {
   userId: string;
