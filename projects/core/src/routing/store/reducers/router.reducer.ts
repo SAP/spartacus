@@ -12,8 +12,8 @@ import * as fromNgrxRouter from '@ngrx/router-store';
 import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';
 import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
+import { PageType } from '../../../model/cms.model';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {

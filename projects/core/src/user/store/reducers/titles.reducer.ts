@@ -1,6 +1,6 @@
 import { TitlesState } from '../user-state';
 import * as fromAction from '../actions/index';
-import { Title } from '../../../occ';
+import { Title } from '../../../model/misc.model';
 
 export const initialState: TitlesState = {
   entities: {},

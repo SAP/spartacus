@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import {
   ProductSearchService,
   SearchConfig,
-  UIProductSearchPage,
+  ProductSearchPage,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export class ProductListComponent implements OnInit {
   brandCode: string;
   itemPerPage: number;
 
-  model$: Observable<UIProductSearchPage>;
+  model$: Observable<ProductSearchPage>;
   searchConfig: SearchConfig = {};
   categoryTitle: string;
   options: SearchConfig;
@@ -101,7 +101,7 @@ export class ProductListComponent implements OnInit {
     );
   }
 
-  protected getCategoryTitle(data: UIProductSearchPage): string {
+  protected getCategoryTitle(data: ProductSearchPage): string {
     if (data.breadcrumbs && data.breadcrumbs.length > 0) {
       this.categoryTitle = data.breadcrumbs[0].facetValueName;
     } else if (!this.query.includes(':relevance:')) {

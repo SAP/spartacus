@@ -1,8 +1,10 @@
 import * as fromActions from './../actions/index';
-import { Address, DeliveryMode, Order, PaymentDetails } from '../../../occ';
 
 import * as fromCheckout from './checkout.reducer';
 import { CheckoutDetails } from '../../models/checkout.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {

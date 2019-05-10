@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UIProduct } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductDetailOutlets } from '../../product-outlets.model';
@@ -11,7 +11,7 @@ import { ProductDetailOutlets } from '../../product-outlets.model';
 export class ProductDetailsComponent implements OnInit {
   static outlets = ProductDetailOutlets;
 
-  product$: Observable<UIProduct>;
+  product$: Observable<Product>;
 
   get outlets(): any {
     return ProductDetailsComponent.outlets;
