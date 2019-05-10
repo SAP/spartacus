@@ -7,10 +7,10 @@ import {
   PageMetaResolver,
   PageMetaService,
 } from '../../cms';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
+import { PageType } from '../../model/cms.model';
 
 const mockProductPage: Page = {
   type: PageType.PRODUCT_PAGE,

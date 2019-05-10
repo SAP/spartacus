@@ -1,13 +1,12 @@
 import {
-  entityLoadMeta,
   entityFailMeta,
+  entityLoadMeta,
   entitySuccessMeta,
 } from '../../../state';
 import { Page } from '../../model/page.model';
 import { PageContext } from '../../../routing/index';
-import { PageType } from '../../../occ/occ-models/index';
-
 import * as fromPage from './page.action';
+import { PageType } from '../../../model/cms.model';
 
 describe('Cms Page Actions', () => {
   const pageContext: PageContext = {

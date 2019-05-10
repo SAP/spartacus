@@ -5,7 +5,7 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { Title } from '../../../occ/occ-models';
+import { Title } from '../../../model/misc.model';
 
 describe('Titles Selectors', () => {
   let store: Store<StateWithUser>;

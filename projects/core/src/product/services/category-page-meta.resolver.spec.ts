@@ -8,10 +8,10 @@ import {
   PageMetaResolver,
   PageMetaService,
 } from '../../cms';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { RoutingService } from '../../routing';
 import { ProductSearchService } from '../facade';
 import { CategoryPageMetaResolver } from './category-page-meta.resolver';
+import { PageType } from '../../model/cms.model';
 
 const mockPageWithProductList: Page = {
   type: PageType.CATEGORY_PAGE,
