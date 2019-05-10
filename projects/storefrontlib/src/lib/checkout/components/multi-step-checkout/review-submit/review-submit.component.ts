@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable, combineLatest } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   Address,
   CartService,
@@ -6,13 +8,11 @@ import {
   Country,
   DeliveryMode,
   PaymentDetails,
-  UICart,
-  UIOrderEntry,
+  Cart,
+  OrderEntry,
   UserService,
   TranslationService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../../shared/components/card/card.component';
 
 @Component({
@@ -21,8 +21,8 @@ import { Card } from '../../../../../shared/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
-  entries$: Observable<UIOrderEntry[]>;
-  cart$: Observable<UICart>;
+  entries$: Observable<OrderEntry[]>;
+  cart$: Observable<Cart>;
   deliveryMode$: Observable<DeliveryMode>;
   countryName$: Observable<string>;
   deliveryAddress$: Observable<Address>;
@@ -120,11 +120,7 @@ export class ReviewSubmitComponent implements OnInit {
         return {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
-          text: [
-            paymentDetails.cardType.name,
-            paymentDetails.cardNumber,
-            textExpires,
-          ],
+          text: [paymentDetails.cardNumber, textExpires],
         };
       })
     );

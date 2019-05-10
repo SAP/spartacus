@@ -6,12 +6,9 @@ import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import {
-  Address,
-  DeliveryMode,
-  Order,
-  PaymentDetails,
-} from '../../../occ/occ-models/index';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
 
 describe('Checkout Selectors', () => {
   let store: Store<StateWithCheckout>;

@@ -1,6 +1,5 @@
-import { Country } from '../../../occ/occ-models/index';
-
 import * as fromAction from './billing-countries.action';
+import { Country } from '../../../model/address.model';
 
 describe('Billing Countries Actions', () => {
   describe('LoadBillingCountries', () => {
