@@ -181,7 +181,7 @@ describe('UpdateEmailComponent', () => {
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'updateEmailForm.emailUpdateSuccess',
-            params: [{ newUid: 'new@sap.com' }],
+            params: { newUid: 'new@sap.com' },
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );

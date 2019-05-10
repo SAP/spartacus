@@ -1,4 +1,3 @@
-// TODO: consider changing names in this file to keep it consistent (ie. to have login.form instead of loginForm)
 export const user = {
   forgottenPassword: {
     resetPassword: 'Reset password',

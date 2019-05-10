@@ -53,7 +53,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
       this.globalMessageService.add(
         {
           key: 'updateEmailForm.emailUpdateSuccess',
-          params: [{ newUid: this.newUid }],
+          params: { newUid: this.newUid },
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
