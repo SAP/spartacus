@@ -9,7 +9,6 @@
   }
 
   @include media-breakpoint-up(lg) {
-    float: right;
     padding: 10px;
     grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
   }
