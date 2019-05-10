@@ -262,7 +262,6 @@ describe('ReviewSubmitComponent', () => {
       expect(card.title).toEqual('paymentForm.payment');
       expect(card.textBold).toEqual(mockPaymentDetails.accountHolderName);
       expect(card.text).toEqual([
-        mockPaymentDetails.cardType.name,
         mockPaymentDetails.cardNumber,
         `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
           mockPaymentDetails.expiryYear
