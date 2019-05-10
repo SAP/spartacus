@@ -4,8 +4,13 @@
 
   margin-bottom: var(--cx-margin-bottom, 40px);
 
+  @include media-breakpoint-down(md) {
+    padding-top: 1.5em;
+  }
+
   @include media-breakpoint-up(lg) {
-    grid-template-columns: var(--cx-grid-template-columns, 50% auto);
+    float: right;
+    padding: 10px;
     grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
   }
 

@@ -2,7 +2,7 @@
 <ng-container *ngIf="(product$ | async) as product">
   <ng-container *cxOutlet="outlets.PAGE">
     <ng-container *cxOutlet="outlets.SUMMARY">
-      <cx-product-summary class="container" [product]="product">
+      <cx-product-summary [product]="product">
         <!-- <cx-product-images [product]="product"></cx-product-images> -->
       </cx-product-summary>
     </ng-container>

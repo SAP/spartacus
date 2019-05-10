@@ -5,6 +5,7 @@ import { ProductDetailsModule } from '../../../../cms-components/product/index';
 import { PageLayoutModule } from '../../../../cms-structure/page/index';
 import { CmsPageGuard } from '../../../cms/guards/cms-page.guard';
 import { ProductPageComponent } from './product-page.component';
+import { OutletRefModule } from 'projects/storefrontlib/src/cms-structure';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ProductDetailsModule,
     PageLayoutModule,
+    OutletRefModule,
   ],
   declarations: [ProductPageComponent],
   exports: [ProductPageComponent],
