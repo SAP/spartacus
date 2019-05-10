@@ -4,9 +4,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OccOrderService } from '../../occ/index';
-import { Order } from '../../../occ/occ-models/index';
 import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
+import { Order } from '../../../model/order.model';
 
 @Injectable()
 export class OrderDetailsEffect {

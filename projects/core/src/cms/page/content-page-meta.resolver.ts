@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { CmsService } from '../facade/cms.service';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',

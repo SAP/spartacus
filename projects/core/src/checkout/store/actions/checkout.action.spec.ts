@@ -1,5 +1,7 @@
 import * as fromAction from '../actions/checkout.action';
-import { Address, DeliveryMode, Order, PaymentDetails } from '../../../occ';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { Address } from '../../../model/address.model';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
