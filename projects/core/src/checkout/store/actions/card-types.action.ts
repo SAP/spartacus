@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CardType } from '../../../occ/occ-models/index';
+import { CardType } from '../../../model/cart.model';
 
 export const LOAD_CARD_TYPES = '[Checkout] Load Card Types';
 export const LOAD_CARD_TYPES_FAIL = '[Checkout] Load Card Fail';

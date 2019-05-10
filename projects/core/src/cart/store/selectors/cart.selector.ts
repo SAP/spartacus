@@ -15,7 +15,8 @@ import {
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { UICart, UIOrderEntry } from '../../model';
+import { Cart } from '../../../model/cart.model';
+import { OrderEntry } from '../../../model/order.model';
 
 export const getCartContentSelector = (state: CartState) => state.content;
 export const getRefreshSelector = (state: CartState) => state.refresh;
@@ -46,7 +47,7 @@ export const getCartState: MemoizedSelector<
 
 export const getCartContent: MemoizedSelector<
   StateWithCart,
-  UICart
+  Cart
 > = createSelector(
   getCartState,
   getCartContentSelector
@@ -78,7 +79,7 @@ export const getCartMergeComplete: MemoizedSelector<
 
 export const getEntriesMap: MemoizedSelector<
   any,
-  { [code: string]: UIOrderEntry }
+  { [code: string]: OrderEntry }
 > = createSelector(
   getCartState,
   getEntriesSelector
@@ -86,7 +87,7 @@ export const getEntriesMap: MemoizedSelector<
 
 export const getEntrySelectorFactory = (
   productCode
-): MemoizedSelector<any, UIOrderEntry> => {
+): MemoizedSelector<any, OrderEntry> => {
   return createSelector(
     getEntriesMap,
     entries => {
@@ -97,7 +98,7 @@ export const getEntrySelectorFactory = (
   );
 };
 
-export const getEntries: MemoizedSelector<any, UIOrderEntry[]> = createSelector(
+export const getEntries: MemoizedSelector<any, OrderEntry[]> = createSelector(
   getEntriesMap,
   entities => {
     return Object.keys(entities).map(code => entities[code]);

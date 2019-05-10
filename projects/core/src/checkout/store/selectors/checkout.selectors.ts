@@ -12,16 +12,13 @@ import {
   StateWithCheckout,
 } from '../checkout-state';
 import {
-  DeliveryMode,
-  Address,
-  Order,
-  PaymentDetails,
-} from '../../../occ/occ-models/index';
-import {
   loaderLoadingSelector,
   loaderSuccessSelector,
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { Address } from '../../../model/address.model';
 
 export const getDeliveryAddressSelector = (state: CheckoutStepsState) =>
   state.address;
