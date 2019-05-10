@@ -1,5 +1,5 @@
 import * as fromAction from '../actions/address-verification.action';
-import { AddressValidation, Address } from '../../../occ';
+import { Address, AddressValidation } from '../../../model/address.model';
 
 describe('Address Verification Actions', () => {
   describe('VerifyAddress', () => {

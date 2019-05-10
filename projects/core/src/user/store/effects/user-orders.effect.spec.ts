@@ -14,10 +14,10 @@ import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { LoaderResetAction } from '../../../state';
 import { OccOrderService } from '../../occ/index';
-import { OrderHistoryList } from '../../../occ/occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
 
 import * as fromUserOrdersEffect from './user-orders.effect';
+import { OrderHistoryList } from '../../../model/order.model';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],

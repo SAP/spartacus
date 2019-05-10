@@ -1,9 +1,9 @@
 import * as fromActions from '../actions/page.action';
-import { PageType } from '../../../occ';
 import { PageContext } from '../../../routing';
 import { Page } from '../../model/page.model';
 
 import * as fromPage from './page-index.reducer';
+import { PageType } from '../../../model/cms.model';
 
 const pageContext: PageContext = {
   id: 'testPageId',

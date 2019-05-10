@@ -6,7 +6,7 @@ import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { CardType } from '../../../occ/occ-models/occ.models';
+import { CardType } from '../../../model/cart.model';
 
 describe('Card Types Selectors', () => {
   let store: Store<StateWithCheckout>;
