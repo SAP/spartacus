@@ -1,6 +1,6 @@
 import { ProductReviewsState } from '../product-state';
 import * as fromProductReviews from './../actions/product-reviews.action';
-import { Review } from '../../../occ/occ-models';
+import { Review } from '../../../model/product.model';
 
 export const initialState: ProductReviewsState = {
   productCode: '',

@@ -7,18 +7,18 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { RegionList } from '../../../occ/occ-models';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 
 import { RegionsEffects } from './regions.effect';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 class MockMiscsService {
-  loadRegions(_countryIsoCode: string): Observable<RegionList> {
+  loadRegions(_countryIsoCode: string): Observable<Occ.RegionList> {
     return of();
   }
 }
 
-const mockRegionsList: RegionList = {
+const mockRegionsList: Occ.RegionList = {
   regions: [
     {
       isocode: 'CA-ON',

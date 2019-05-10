@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/index';
-import { AddressValidation } from '../../../occ';
 
 import * as fromReducer from './address-verification.reducer';
+import { AddressValidation } from '../../../model/address.model';
 
 describe('Address Verification Reducer', () => {
   describe('undefined action', () => {
