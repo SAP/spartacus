@@ -11,7 +11,7 @@ export const defaultI18nConfig: I18nConfig = {
         'header',
         'searchBox',
         'sorting',
-        'messages',
+        'httpHandlers',
       ],
       cart: ['cartDetails', 'cartItems', 'orderCost'],
       address: ['addressForm', 'addressBook', 'addressCard'],

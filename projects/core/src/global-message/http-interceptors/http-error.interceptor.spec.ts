@@ -137,7 +137,7 @@ describe('HttpErrorInterceptor', () => {
 
       mockReq.flush({}, { status: 123, statusText: 'unknown' });
       expect(mockMessageService.add).toHaveBeenCalledWith(
-        { key: 'messages.unknownError' },
+        { key: 'httpHandlers.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });

@@ -184,7 +184,9 @@ export class CheckoutEffects {
           switchMap(data => [
             new fromActions.PlaceOrderSuccess(data),
             new AddMessage({
-              text: { key: 'messages.orderPlacedSuccessfully' },
+              text: {
+                key: 'checkoutOrderConfirmation.orderPlacedSuccessfully',
+              },
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             }),
           ]),

@@ -25,26 +25,12 @@ export const common = {
     date: 'Date',
     orderNumber: 'Order Number',
   },
-  messages: {
+  httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
-    badRequestPasswordMismatch: 'Old password incorrect.', // consider using context here as there are multiple responses possible (TODO)
+    badRequestPasswordMismatch: 'Old password incorrect.', // consider using translate's context functionality here as there are multiple responses possible (TODO)
     conflict: 'Already exists',
     forbidden: 'You are not authorized to perform this action.',
     gatewayTimeout: 'The server did not responded, please try again later.',
     unknownError: 'An unknown error occured',
-    passwordUpdateSuccess: 'Password updated with success',
-    profileUpdateSuccess: 'Personal details successfully updated',
-    emailUpdateSuccess: 'Success. Please sign in with {{ newUid }}',
-    addedToHomeScreen: 'SAP Storefront was added to your home screen',
-    titleRequired: 'Title is required.',
-    userAddressAddSuccess: 'New address was added successfully!',
-    userAddressUpdateSuccess: 'Address updated successfully!',
-    userAddressDeleteSuccess: 'Address deleted successfully!',
-    invalidAddress: 'Invalid Address',
-    invalidField: 'InvalidField: {{ field }}',
-    orderPlacedSuccessfully: 'Order placed successfully',
-    passwordResetEmailSent:
-      'An email has been sent to you with information on how to reset your password.',
-    passwordResetSuccess: 'Success! You can now login using your new password.',
   },
 };

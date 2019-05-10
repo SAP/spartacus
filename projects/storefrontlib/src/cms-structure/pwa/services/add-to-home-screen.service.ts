@@ -39,7 +39,7 @@ export class AddToHomeScreenService {
 
       this.winRef.nativeWindow.addEventListener('appinstalled', () => {
         this.globalMessageService.add(
-          { key: 'messages.addedToHomeScreen' },
+          { key: 'pwa.addedToHomeScreen' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
 

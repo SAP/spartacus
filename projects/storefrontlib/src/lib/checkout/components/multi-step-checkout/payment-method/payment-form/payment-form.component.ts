@@ -130,7 +130,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
           this.next();
         } else if (results.decision === 'REJECT') {
           this.globalMessageService.add(
-            { key: 'messages.invalidAddress' },
+            { key: 'addressForm.invalidAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
           this.checkoutService.clearAddressVerificationResults();

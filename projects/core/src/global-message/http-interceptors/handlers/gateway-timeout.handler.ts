@@ -11,7 +11,7 @@ export class GatewayTimeoutHandler extends HttpErrorHandler {
 
   handleError() {
     this.globalMessageService.add(
-      { key: 'messages.gatewayTimeout' },
+      { key: 'httpHandlers.gatewayTimeout' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }

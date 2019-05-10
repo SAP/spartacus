@@ -26,7 +26,7 @@ export class ResetPasswordEffects {
         switchMap(() => [
           new fromActions.ResetPasswordSuccess(),
           new AddMessage({
-            text: { key: 'messages.passwordResetSuccess' },
+            text: { key: 'forgottenPassword.passwordResetSuccess' },
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
           }),
         ]),

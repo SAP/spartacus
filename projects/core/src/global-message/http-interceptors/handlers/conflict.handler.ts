@@ -11,7 +11,7 @@ export class ConflictHandler extends HttpErrorHandler {
 
   handleError() {
     this.globalMessageService.add(
-      { key: 'messages.alreadyExists' },
+      { key: 'httpHandlers.conflict' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }

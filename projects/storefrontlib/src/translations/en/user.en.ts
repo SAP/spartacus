@@ -1,3 +1,4 @@
+// TODO: consider changing names in this file to keep it consistent (ie. to have login.form instead of loginForm)
 export const user = {
   forgottenPassword: {
     resetPassword: 'Reset password',
@@ -8,6 +9,9 @@ export const user = {
       placeholder: 'Enter email',
     },
     enterValidEmail: 'Please enter a valid email.',
+    passwordResetEmailSent:
+      'An email has been sent to you with information on how to reset your password.',
+    passwordResetSuccess: 'Success! You can now login using your new password.',
   },
   loginForm: {
     forgotPassword: 'Forgot password?',
@@ -63,8 +67,10 @@ export const user = {
     passwordMinRequirements:
       'Password must be six characters minimum, with one uppercase letter, one number, one symbol',
     bothPasswordMustMatch: 'Both password must match',
+    titleRequired: 'Title is required.',
   },
   login: {
+    // pick another name or move it to common?
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
   },
@@ -84,6 +90,7 @@ export const user = {
       placeholder: 'Enter password',
     },
     pleaseInputPassword: 'Please input password',
+    emailUpdateSuccess: 'Success. Please sign in with {{ newUid }}',
   },
   updatePasswordForm: {
     oldPassword: {
@@ -102,6 +109,7 @@ export const user = {
       placeholder: 'Confirm Password',
     },
     bothPasswordMustMatch: 'Both password must match',
+    passwordUpdateSuccess: 'Password updated with success',
   },
   updateProfileForm: {
     title: '',
@@ -116,5 +124,6 @@ export const user = {
       placeholder: 'Last name',
     },
     lastNameIsRequired: 'Last name is required.',
+    profileUpdateSuccess: 'Personal details successfully updated',
   },
 };

@@ -67,7 +67,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             if (key.startsWith('InvalidField')) {
               this.globalMessageService.add(
                 {
-                  key: 'messages.invalidField',
+                  key: 'paymentMethods.invalidField',
                   params: [{ field: paymentInfo[key] }],
                 },
                 GlobalMessageType.MSG_TYPE_ERROR

@@ -46,7 +46,7 @@ describe('', () => {
       });
       const completion1 = new fromActions.ResetPasswordSuccess();
       const completion2 = new AddMessage({
-        text: { key: 'messages.passwordResetSuccess' },
+        text: { key: 'forgottenPassword.passwordResetSuccess' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 

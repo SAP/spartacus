@@ -11,7 +11,7 @@ export class ForbiddenHandler extends HttpErrorHandler {
 
   handleError() {
     this.globalMessageService.add(
-      { key: 'messages.notAuthorized' },
+      { key: 'httpHandlers.forbidden' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }

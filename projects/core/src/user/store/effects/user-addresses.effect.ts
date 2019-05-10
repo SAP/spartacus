@@ -103,7 +103,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('messages.userAddressAddSuccess');
+      this.showGlobalMessage('addressForm.userAddressAddSuccess');
     })
   );
 
@@ -115,7 +115,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('messages.userAddressUpdateSuccess');
+      this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
     })
   );
 
@@ -127,7 +127,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('messages.userAddressDeleteSuccess');
+      this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
     })
   );
 

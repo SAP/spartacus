@@ -61,7 +61,7 @@ describe('AddToHomeScreenService', () => {
     winRef.nativeWindow.dispatchEvent(event);
     expect(addToHomeService.disableAddToHomeScreen).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'messages.addedToHomeScreen' },
+      { key: 'pwa.addedToHomeScreen' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   });

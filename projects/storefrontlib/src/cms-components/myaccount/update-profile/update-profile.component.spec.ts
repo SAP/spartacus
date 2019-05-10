@@ -190,7 +190,7 @@ describe('UpdateProfileComponent', () => {
 
         component.onSuccess(true);
         expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'messages.profileUpdateSuccess' },
+          { key: 'updateProfileForm.profileUpdateSuccess' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
         expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
