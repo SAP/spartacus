@@ -69,13 +69,13 @@
     "@angular/router": "~7.2.11",
     "@angular/service-worker": "~7.2.11",
     "@compodoc/compodoc": "^1.1.8",
-    "@ng-bootstrap/ng-bootstrap": "^4.0.1",
+    "@ng-bootstrap/ng-bootstrap": "4.1.0",
     "@ng-select/ng-select": "^2.13.2",
     "@ngrx/effects": "~7.4.0",
     "@ngrx/router-store": "~7.4.0",
     "@ngrx/store": "~7.4.0",
-    "@nguniversal/express-engine": "^7.0.2",
-    "@nguniversal/module-map-ngfactory-loader": "^7.0.2",
+    "@nguniversal/express-engine": "^7.1.1",
+    "@nguniversal/module-map-ngfactory-loader": "^7.1.1",
     "@types/googlemaps": "^3.30.13",
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.7",
@@ -130,6 +130,7 @@
     "tsickle": "0.34.0",
     "tslib": "^1.9.3",
     "tslint": "~5.15.0",
-    "typescript": "~3.2.4"
+    "typescript": "~3.2.4",
+    "webpack-cli": "^3.3.2"
   }
 }
