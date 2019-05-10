@@ -101,19 +101,8 @@ export class ProductInterestService {
     this.store.dispatch(new fromStore.ClearProductInterests());
   }
 
-  getBackInStockSubscribed(
-    userId: string,
-    productCode: string,
-    notificationType: string
-  ): Observable<boolean> {
-    return this.store.pipe(
-      select(fromStore.getBackInStockState),
-      tap(state => {
-        if (!state) {
-          this.loadBackInStockSubscribed(userId, productCode, notificationType);
-        }
-      })
-    );
+  getBackInStockSubscribed(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getBackInStockState));
   }
 
   loadBackInStockSubscribed(
@@ -123,9 +112,9 @@ export class ProductInterestService {
   ): void {
     this.store.dispatch(
       new fromStore.LoadBackInStock({
-        userId,
-        productCode,
-        notificationType,
+        userId: userId,
+        productCode: productCode,
+        notificationType: notificationType,
       })
     );
   }
@@ -137,9 +126,23 @@ export class ProductInterestService {
   ): void {
     this.store.dispatch(
       new fromStore.DeleteBackInStock({
-        userId,
-        productCode,
-        notificationType,
+        userId: userId,
+        productCode: productCode,
+        notificationType: notificationType,
+      })
+    );
+  }
+
+  createBackInStock(
+    userId: string,
+    productCode: string,
+    notificationType: string
+  ): void {
+    this.store.dispatch(
+      new fromStore.CreateBackInStock({
+        userId: userId,
+        productCode: productCode,
+        notificationType: notificationType,
       })
     );
   }
@@ -160,9 +163,17 @@ export class ProductInterestService {
     );
   }
 
-  getCreateBackInStockLoading(): Observable<boolean> {
+  getCreateBackInStockSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(CREATE_BACK_IN_STOCK_PROCESS_ID))
+      select(getProcessSuccessFactory(CREATE_BACK_IN_STOCK_PROCESS_ID))
     );
+  }
+
+  resetDeleteState(): void {
+    this.store.dispatch(new fromStore.ResetDeleteAction());
+  }
+
+  resetCreateState(): void {
+    this.store.dispatch(new fromStore.ResetCreateAction());
   }
 }

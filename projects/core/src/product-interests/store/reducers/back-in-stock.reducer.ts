@@ -1,6 +1,6 @@
 import * as fromBackInStockAction from '../actions/back-in-stock.actions';
 
-export const initialState: boolean = null;
+export const initialState: boolean = undefined;
 
 export function reducer(
   state = initialState,

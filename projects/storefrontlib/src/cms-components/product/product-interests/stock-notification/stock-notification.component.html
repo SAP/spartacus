@@ -1,5 +1,58 @@
-<p>
-  stock-notification works!
+<ng-container *ngIf="(logged$ | async); else subcrible">
+  <ng-container *ngIf="!(subscribed$ | async); else unsubcrible">
+    <ng-container *ngIf="!(channelEnabled$ | async); else subcrible">
+      <div>
+        To get notified when this product is back in stock again please activate
+        your
+        <a href="#"> notification channels</a>.
+        <button
+          class="btn btn-primary btn-block"
+          type="button"
+          [disabled]="true"
+        >
+          NOTIFY ME
+        </button>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>
 
-  {{userId}}111111
-</p>
+<ng-template #unsubcrible>
+  <ng-container *ngIf="!(unsubscribeLoading$ | async); else loading">
+    <div>
+      You will be notified when this product is back in stock.
+      <button
+        class="btn btn-primary btn-block"
+        type="button"
+        (click)="unsubscribe()"
+      >
+        STOP NOTIFICATION
+      </button>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #subcrible>
+  <div>
+    Get notified when this product is back in stock.
+    <button
+      class="btn btn-primary btn-block"
+      type="button"
+      (click)="subscribe()"
+      [disabled]="!(logged$ | async)"
+    >
+      NOTIFY ME
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div>Subscribing you to Out of Stock notifications for this product</div>
+  <div class="cx-dialog-body modal-body">
+    <div class="cx-dialog-row">
+      <div class="col-sm-12">
+        <cx-spinner></cx-spinner>
+      </div>
+    </div>
+  </div>
+</ng-template>

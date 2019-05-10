@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <div class="modal-title">
+    Out of Stock Subscription
+  </div>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<ng-container *ngIf="(subscribeSuccess$ | async); else loading">
+  <div class="subscription-message">
+    <div>
+      You will be notified by &lt;{{ selectedChannels }}&gt; as soons as this
+      product is back in stock.
+    </div>
+    <div>
+      Manage your preffered subscriptions channels at the
+      <a (click)="activeModal.dismiss('Cross click')">Channel Settings</a> page
+    </div>
+    <div>
+      You can manage your subscriptopns at
+      <a (click)="activeModal.dismiss('Cross click')">My Interests</a> page.
+    </div>
+
+    <button
+      class="btn btn-primary btn-block subscription-btn"
+      type="button"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      OK
+    </button>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div>Subscribing you to Out of Stock notifications for this product</div>
+  <div class="cx-dialog-body modal-body">
+    <div class="cx-dialog-row">
+      <div class="col-sm-12">
+        <cx-spinner></cx-spinner>
+      </div>
+    </div>
+  </div>
+</ng-template>

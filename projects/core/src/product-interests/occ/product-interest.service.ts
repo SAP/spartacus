@@ -87,7 +87,7 @@ export class OccProductInterestsService {
       .set('productCode', productCode)
       .set('notificationType', notificationType);
     return this.http
-      .post(this.getEndPoint(userId), { params: params })
+      .post(this.getEndPoint(userId), {}, { params: params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

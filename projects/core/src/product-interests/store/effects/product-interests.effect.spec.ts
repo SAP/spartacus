@@ -9,8 +9,8 @@ import { ProductInterestList } from '../../model/product-interest.model';
 import { hot, cold } from 'jasmine-marbles';
 import { Action } from '@ngrx/store';
 import { LoaderResetAction } from '../../../state';
-import { PRODUCT_INTERESTS } from '../../../user/store/user-state';
 import { OccProductInterestsService } from '../../occ/product-interest.service';
+import { PRODUCT_INTERESTS } from '../product-interests-state';
 
 const loadParams = {
   userId: 'jack.ma@hybris.com',
@@ -86,7 +86,7 @@ describe('Product Interests Effect', () => {
   describe('deleteProductInterests$', () => {
     it('should be able to delete product interest', () => {
       const delRes = '200';
-      spyOn(productInterestsService, 'removeInterests').and.returnValue(
+      spyOn(productInterestsService, 'deleteInterests').and.returnValue(
         of(delRes)
       );
       const action = new fromInterestsAction.DeleteProductInterests(delParams);
@@ -101,7 +101,7 @@ describe('Product Interests Effect', () => {
       );
     });
     it('should be able to handle failures for delete product interests', () => {
-      spyOn(productInterestsService, 'removeInterests').and.returnValue(
+      spyOn(productInterestsService, 'deleteInterests').and.returnValue(
         throwError('Error')
       );
       const action = new fromInterestsAction.DeleteProductInterests(delParams);

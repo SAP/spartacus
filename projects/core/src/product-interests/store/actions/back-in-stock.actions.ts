@@ -4,6 +4,7 @@ import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
+  EntityResetAction,
 } from '../../../state';
 import {
   CREATE_BACK_IN_STOCK_PROCESS_ID,
@@ -17,10 +18,12 @@ export const LOAD_BACK_IN_STOCK_SUCCESS = 'Load Back In Stock Success';
 export const DELETE_BACK_IN_STOCK = 'Delete Back In Stock';
 export const DELETE_BACK_IN_STOCK_FAIL = 'Delete Back In Stock Fail';
 export const DELETE_BACK_IN_STOCK_SUCCESS = 'Delete Back In Stock Success';
+export const RESET_DELETE = 'Reset Delete';
 
 export const CREATE_BACK_IN_STOCK = 'Create Back In Stock';
 export const CREATE_BACK_IN_STOCK_FAIL = 'Create Back In Stock Fail';
 export const CREATE_BACK_IN_STOCK_SUCCESS = 'Create Back In Stock Success';
+export const RESET_CREATE = 'Reset Create';
 
 export const RESET_BACK_IN_STOCK = 'Reset Back In Stock';
 
@@ -99,6 +102,20 @@ export class CreateBackInStockSuccess extends EntitySuccessAction {
   }
 }
 
+export class ResetDeleteAction extends EntityResetAction {
+  readonly type = RESET_DELETE;
+  constructor() {
+    super(PROCESS_FEATURE, DELETE_BACK_IN_STOCK_PROCESS_ID);
+  }
+}
+
+export class ResetCreateAction extends EntityResetAction {
+  readonly type = RESET_CREATE;
+  constructor() {
+    super(PROCESS_FEATURE, CREATE_BACK_IN_STOCK_PROCESS_ID);
+  }
+}
+
 export class ResetBackInStock implements Action {
   readonly type = RESET_BACK_IN_STOCK;
 }
@@ -113,4 +130,6 @@ export type BackInStockAction =
   | CreateBackInStock
   | CreateBackInStockFail
   | CreateBackInStockSuccess
+  | ResetDeleteAction
+  | ResetCreateAction
   | ResetBackInStock;

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError, tap } from 'rxjs/operators';
 
 import * as fromBackInStockAction from '../actions/back-in-stock.actions';
 import { OccProductInterestsService } from '../../occ/product-interest.service';
