@@ -131,22 +131,20 @@ const pageModules = [
           cxRoute: 'updateProfile',
         },
       },
-      // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
       {
-        path: '**',
-        canActivate: [CmsPageGuard],
+        path: null,
         component: PageLayoutComponent,
-        data: { pageLabel: 'close-account', cxPath: 'closeAccount' },
+        canActivate: [AuthGuard, CmsPageGuard],
         data: { pageLabel: 'close-account', cxRoute: 'closeAccount' },
       },
       {
-    	  path: null,
-    	  component: PageLayoutComponent,
-    	  canActivate: [AuthGuard, CmsPageGuard],
-    	  data: {
-    		  pageLabel: 'my-interests',
-    		  cxPath: 'myInterests',
-    	  },
+    	path: null,
+    	component: PageLayoutComponent,
+    	canActivate: [AuthGuard, CmsPageGuard],
+	    data: {
+		  pageLabel: 'my-interests',
+		  cxPath: 'myInterests',
+	    },
       },
     ]),
   ],

@@ -17,12 +17,9 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-<<<<<<< HEAD
-  MyInterestsModule,
-=======
   ForgotPasswordModule,
   ResetPasswordModule,
->>>>>>> refs/remotes/origin/develop
+  MyInterestsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
