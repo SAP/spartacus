@@ -3,14 +3,14 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import * as fromActions from '../actions';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 import * as fromReducers from '../reducers';
-import { UIProduct } from '../../model/product';
 import * as fromSelectors from './product.selectors';
+import { Product } from '../../../model/product.model';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithProduct>;
 
   const code = 'testCode';
-  const product: UIProduct = {
+  const product: Product = {
     code,
     name: 'testProduct',
   };
@@ -36,7 +36,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductsFactory', () => {
     it('should return product by code', () => {
-      let result: UIProduct[];
+      let result: Product[];
       store
         .pipe(select(fromSelectors.getSelectedProductsFactory(['testCode'])))
         .subscribe(value => (result = value));
@@ -64,7 +64,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductFactory', () => {
     it('should return a single product by productCode', () => {
-      let result: UIProduct;
+      let result: Product;
       store
         .pipe(select(fromSelectors.getSelectedProductFactory(code)))
         .subscribe(value => (result = value));

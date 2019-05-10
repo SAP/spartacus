@@ -1,12 +1,8 @@
 import * as fromUserOrdersAction from '../actions/user-orders.action';
-import {
-  OrderHistory,
-  PaginationModel,
-  SortModel,
-  OrderHistoryList,
-} from '../../../occ';
 
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import { OrderHistory, OrderHistoryList } from '../../../model/order.model';
+import { PaginationModel, SortModel } from '../../../model/misc.model';
 
 describe('User Orders Reducer', () => {
   describe('undefined action', () => {
