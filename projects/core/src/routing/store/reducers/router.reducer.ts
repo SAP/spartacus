@@ -12,8 +12,8 @@ import * as fromNgrxRouter from '@ngrx/router-store';
 import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';
 import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
+import { PageType } from '../../../model/cms.model';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -214,8 +214,6 @@ export class CustomSerializer
         context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
       } else if (params['brandCode']) {
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-      } else if (params['query']) {
-        context = { id: 'search', type: PageType.CONTENT_PAGE };
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {

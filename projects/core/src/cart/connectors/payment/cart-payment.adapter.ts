@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { PaymentDetails } from '../../../occ/occ-models/occ.models';
+import { PaymentDetails } from '../../../model/cart.model';
 
 export abstract class CartPaymentAdapter {
   /**

@@ -10,10 +10,10 @@ import {
   PageImageResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
-import { UIProduct } from '../model/product';
+import { Product } from '../../model/product.model';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +39,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
       filter(Boolean),
       switchMap(code => this.productService.get(code)),
       filter(Boolean),
-      switchMap((p: UIProduct) =>
+      switchMap((p: Product) =>
         combineLatest([
           this.resolveHeading(p),
           this.resolveTitle(p),
@@ -58,11 +58,11 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveHeading(product: UIProduct): Observable<string> {
+  resolveHeading(product: Product): Observable<string> {
     return of(product.name);
   }
 
-  resolveTitle(product: UIProduct): Observable<string> {
+  resolveTitle(product: Product): Observable<string> {
     let title = product.name;
     title += this.resolveFirstCategory(product);
     title += this.resolveManufacturer(product);
@@ -70,11 +70,11 @@ export class ProductPageMetaResolver extends PageMetaResolver
     return of(title);
   }
 
-  resolveDescription(product: UIProduct): Observable<string> {
+  resolveDescription(product: Product): Observable<string> {
     return of(product.summary);
   }
 
-  resolveBreadcrumbs(product: UIProduct): Observable<any[]> {
+  resolveBreadcrumbs(product: Product): Observable<any[]> {
     const breadcrumbs = [];
     breadcrumbs.push({ label: 'Home', link: '/' });
     for (const c of product.categories) {
@@ -99,7 +99,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
     return of(result);
   }
 
-  private resolveFirstCategory(product: UIProduct): string {
+  private resolveFirstCategory(product: Product): string {
     let firstCategory;
     if (product.categories && product.categories.length > 0) {
       firstCategory = product.categories[0];
@@ -109,7 +109,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
       : '';
   }
 
-  private resolveManufacturer(product: UIProduct): string {
+  private resolveManufacturer(product: Product): string {
     return product.manufacturer ? ` | ${product.manufacturer}` : '';
   }
 }

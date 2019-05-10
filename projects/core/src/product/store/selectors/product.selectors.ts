@@ -9,12 +9,12 @@ import {
   loaderSuccessSelector,
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
-import { UIProduct } from '../../model/product';
 import { getProductsState } from './feature.selector';
+import { Product } from '../../../model/product.model';
 
 export const getProductState: MemoizedSelector<
   StateWithProduct,
-  EntityLoaderState<UIProduct>
+  EntityLoaderState<Product>
 > = createSelector(
   getProductsState,
   (state: ProductsState) => state.details
@@ -22,10 +22,10 @@ export const getProductState: MemoizedSelector<
 
 export const getSelectedProductsFactory = (
   codes: string[]
-): MemoizedSelector<StateWithProduct, UIProduct[]> => {
+): MemoizedSelector<StateWithProduct, Product[]> => {
   return createSelector(
     getProductState,
-    (details: EntityLoaderState<UIProduct>) => {
+    (details: EntityLoaderState<Product>) => {
       return codes
         .map(code =>
           details.entities[code] ? details.entities[code].value : undefined
@@ -37,7 +37,7 @@ export const getSelectedProductsFactory = (
 
 export const getSelectedProductStateFactory = (
   code: string
-): MemoizedSelector<StateWithProduct, LoaderState<UIProduct>> => {
+): MemoizedSelector<StateWithProduct, LoaderState<Product>> => {
   return createSelector(
     getProductState,
     details => entityStateSelector(details, code)
@@ -46,7 +46,7 @@ export const getSelectedProductStateFactory = (
 
 export const getSelectedProductFactory = (
   code: string
-): MemoizedSelector<StateWithProduct, UIProduct> => {
+): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code),
     productState => loaderValueSelector(productState)

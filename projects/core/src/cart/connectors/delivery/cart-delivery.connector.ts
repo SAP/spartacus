@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Address, DeliveryMode } from '../../../occ/occ-models/occ.models';
 import { CartDeliveryAdapter } from './cart-delivery.adapter';
+import { Address } from '../../../model/address.model';
+import { DeliveryMode } from '../../../model/order.model';
 
 @Injectable({
   providedIn: 'root',

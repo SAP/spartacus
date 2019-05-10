@@ -11,9 +11,9 @@ import {
 import { Store, StoreModule } from '@ngrx/store';
 
 import * as fromAction from './../actions/';
-import { PageType } from '../../../occ/occ-models/index';
 
 import * as fromReducer from './router.reducer';
+import { PageType } from '../../../model/cms.model';
 
 @Component({
   selector: 'cx-test-cmp',

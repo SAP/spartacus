@@ -1,12 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { CmsComponentConnector } from './cms-component.connector';
 import { CmsComponentAdapter } from './cms-component.adapter';
-import {
-  CmsStructureConfigService,
-  PageContext,
-  PageType,
-} from '@spartacus/core';
+import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
+import { PageType } from '../../../model/cms.model';
 import createSpy = jasmine.createSpy;
 
 class MockCmsComponentAdapter implements CmsComponentAdapter {

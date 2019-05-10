@@ -1,7 +1,7 @@
 import * as fromActions from './../actions';
-import { Cart } from '../../../occ';
 
 import * as fromCart from './cart.reducer';
+import { Cart } from '../../../model/cart.model';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {

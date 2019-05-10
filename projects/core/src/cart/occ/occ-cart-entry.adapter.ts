@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { CartModification } from '../../occ/occ-models/occ.models';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -8,6 +7,7 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { CartEntryAdapter } from '../connectors/entry/cart-entry.adapter';
 import { ConverterService } from '../../util/converter.service';
 import { CART_MODIFICATION_NORMALIZER } from '../connectors/entry/converters';
+import { CartModification } from '../../model/cart.model';
 
 @Injectable()
 export class OccCartEntryAdapter implements CartEntryAdapter {

@@ -4,17 +4,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   ContentSlotComponentData,
   I18nTestingModule,
-  UIProduct,
+  Product,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../../../cms-structure';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductTabsComponent } from './product-tabs.component';
 
-const mockProduct: UIProduct = { name: 'mockProduct' };
+const mockProduct: Product = { name: 'mockProduct' };
 
 class MockCurrentProductService {
-  getProduct(): Observable<UIProduct> {
+  getProduct(): Observable<Product> {
     return of(mockProduct);
   }
 }
@@ -25,7 +25,7 @@ class MockCurrentProductService {
 })
 class MockProductReviewsComponent {
   @Input()
-  product: UIProduct;
+  product: Product;
   @Input()
   isWritingReview: boolean;
 }
@@ -36,7 +36,7 @@ class MockProductReviewsComponent {
 })
 export class MockProductAttributesComponent {
   @Input()
-  product: UIProduct;
+  product: Product;
 }
 
 @Directive({
@@ -81,7 +81,7 @@ describe('ProductTabsComponent in product', () => {
 
   it('should fetch product data', () => {
     productTabsComponent.ngOnInit();
-    let result: UIProduct;
+    let result: Product;
     productTabsComponent.product$.subscribe(product => (result = product));
     expect(result).toEqual(mockProduct);
   });
