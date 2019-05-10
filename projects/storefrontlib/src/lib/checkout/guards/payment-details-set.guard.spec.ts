@@ -48,7 +48,6 @@ describe(`PaymentDetailsSetGuard`, () => {
       );
 
       guard.canActivate().subscribe(result => {
-        console.log(mockCheckoutConfig.checkout.steps);
         expect(result.toString()).toEqual(
           mockCheckoutConfig.checkout.steps[2].url
         );
