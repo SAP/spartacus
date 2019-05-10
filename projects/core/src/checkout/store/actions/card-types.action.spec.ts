@@ -1,5 +1,5 @@
 import * as fromAction from '../actions/card-types.action';
-import { CardType } from '../../../occ';
+import { CardType } from '../../../model/cart.model';
 
 describe('Card Types Actions', () => {
   describe('LoadCardTypes', () => {

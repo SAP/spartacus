@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import {
-  Address,
-  DeliveryMode,
-  DeliveryModeList,
-} from '../../occ/occ-models/occ.models';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, pluck } from 'rxjs/operators';
@@ -16,6 +12,8 @@ import {
   DELIVERY_ADDRESS_SERIALIZER,
   DELIVERY_MODE_NORMALIZER,
 } from '../connectors/delivery/converters';
+import { Address } from '../../model/address.model';
+import { DeliveryMode } from '../../model/order.model';
 
 @Injectable()
 export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
@@ -38,7 +36,7 @@ export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
     address = this.converter.convert(address, DELIVERY_ADDRESS_SERIALIZER);
 
     return this.http
-      .post<Address>(
+      .post<Occ.Address>(
         this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
         address,
         {
@@ -97,7 +95,7 @@ export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
     cartId: string
   ): Observable<DeliveryMode[]> {
     return this.http
-      .get<DeliveryModeList>(
+      .get<Occ.DeliveryModeList>(
         this.getCartEndpoint(userId) + cartId + '/deliverymodes'
       )
       .pipe(

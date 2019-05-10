@@ -1,17 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
 import * as fromActions from './../actions';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
-import { UICart, UIOrderEntry } from '@spartacus/core';
+import { OrderEntry } from '../../../model/order.model';
+import { Cart } from '../../../model/cart.model';
 
-describe('UICart selectors', () => {
+describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
 
-  const testCart: UICart = {
+  const testCart: Cart = {
     code: 'xxx',
     guid: 'xxx',
     totalItems: 0,
@@ -26,7 +27,7 @@ describe('UICart selectors', () => {
     },
   };
 
-  const testEmptyCart: UICart = {
+  const testEmptyCart: Cart = {
     code: 'xxx',
     guid: 'xxx',
     totalItems: 0,
@@ -54,7 +55,7 @@ describe('UICart selectors', () => {
 
   describe('getActiveCartContent', () => {
     it('should return the cart content from the state', () => {
-      let result: UICart;
+      let result: Cart;
       store
         .pipe(select(fromSelectors.getCartContent))
         .subscribe(value => (result = value));
@@ -103,7 +104,7 @@ describe('UICart selectors', () => {
 
   describe('getEntriesMap', () => {
     it('should return the cart entries in map', () => {
-      let result: { [code: string]: UIOrderEntry };
+      let result: { [code: string]: OrderEntry };
       store
         .pipe(select(fromSelectors.getEntriesMap))
         .subscribe(value => (result = value));
@@ -120,7 +121,7 @@ describe('UICart selectors', () => {
 
   describe('getEntrySelectorFactory', () => {
     it('should return entry by productCode', () => {
-      let result: UIOrderEntry;
+      let result: OrderEntry;
 
       store
         .pipe(select(fromSelectors.getEntrySelectorFactory('1234')))
@@ -138,7 +139,7 @@ describe('UICart selectors', () => {
 
   describe('getEntriesList', () => {
     it('should return the list of entries', () => {
-      let result: UIOrderEntry[];
+      let result: OrderEntry[];
       store
         .pipe(select(fromSelectors.getEntries))
         .subscribe(value => (result = value));

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Review } from '../../../occ/occ-models/occ.models';
+import { Review } from '../../../model/product.model';
 
 export abstract class ProductReviewsAdapter {
   /**

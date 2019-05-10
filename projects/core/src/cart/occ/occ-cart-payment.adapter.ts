@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { PaymentDetails } from '../../occ/occ-models/occ.models';
 import { CustomEncoder } from './custom.encoder';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -11,6 +10,7 @@ import {
   CART_PAYMENT_DETAILS_NORMALIZER,
   CART_PAYMENT_DETAILS_SERIALIZER,
 } from '../connectors/payment/converters';
+import { PaymentDetails } from '../../model/cart.model';
 
 @Injectable()
 export class OccCartPaymentAdapter implements CartPaymentAdapter {

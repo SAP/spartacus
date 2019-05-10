@@ -1,5 +1,5 @@
 import * as fromAction from '../actions/delivery-countries.action';
-import { Country } from '../../../occ/occ-models/index';
+import { Country } from '../../../model/address.model';
 
 describe('Delivery Countries Actions', () => {
   describe('LoadDeliveryCountries', () => {

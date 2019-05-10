@@ -6,7 +6,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 
-import { GlobalMessageService, CartService, UICart } from '@spartacus/core';
+import { GlobalMessageService, CartService, Cart } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 
@@ -20,7 +20,7 @@ import { CheckoutDetailsService } from '../../../checkout-details.service';
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
-  cart$: Observable<UICart>;
+  cart$: Observable<Cart>;
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
