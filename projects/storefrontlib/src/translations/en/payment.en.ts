@@ -24,6 +24,7 @@ export const payment = {
     paymentMethods: 'Payment methods',
     newPaymentMethodsAreAddedDuringCheckout:
       'New payment methods are added during checkout.',
+    invalidField: 'InvalidField: {{ field }}',
   },
   paymentCard: {
     deleteConfirmation: 'Are you sure you want to delete this payment method?',
