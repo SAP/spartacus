@@ -41,12 +41,6 @@ const pageModules = [
       },
       {
         path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'orders', cxRoute: 'orders' },
-      },
-      {
-        path: null,
         canActivate: [AuthGuard, CmsPageGuard, CartNotEmptyGuard],
         component: PageLayoutComponent,
         data: {
