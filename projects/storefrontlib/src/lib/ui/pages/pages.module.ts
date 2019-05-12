@@ -74,12 +74,6 @@ const pageModules = [
       },
       {
         path: null,
-        component: PageLayoutComponent,
-        canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'update-email', cxRoute: 'updateEmail' },
-      },
-      {
-        path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         data: { pageLabel: 'payment-details', cxRoute: 'paymentManagement' },
         component: PageLayoutComponent,
