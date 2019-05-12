@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthGuard, NotAuthGuard, ConfigModule } from '@spartacus/core';
+import { AuthGuard, ConfigModule, NotAuthGuard } from '@spartacus/core';
 import { LogoutModule } from '../../../cms-components/index';
 import {
   PageLayoutComponent,
@@ -11,11 +11,11 @@ import {
 import { CmsPageGuard } from '../../cms/guards/cms-page.guard';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
+import { defaultRoutingConfig } from './default-routing-config';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 import { GuardsModule } from './guards/guards.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { ProductPageModule } from './product-page/product-page.module';
-import { defaultRoutingConfig } from './default-routing-config';
 
 const pageModules = [
   CartPageModule,
@@ -38,14 +38,6 @@ const pageModules = [
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'homepage', cxRoute: 'home' },
-      },
-      {
-        // This route can be dropped only when the link from CMS in MyAccount dropdown menu ("my-account/address-book")
-        // is the same as the page label ("address-book"). Or when we have a mapping for content pages.
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'address-book', cxRoute: 'addressBook' },
-        component: PageLayoutComponent,
       },
       {
         path: null,
