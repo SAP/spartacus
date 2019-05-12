@@ -78,12 +78,6 @@ const pageModules = [
         component: PageLayoutComponent,
         data: { pageLabel: 'order', cxRoute: 'orderDetails' },
       },
-      {
-        path: null,
-        component: PageLayoutComponent,
-        canActivate: [NotAuthGuard, CmsPageGuard],
-        data: { pageLabel: 'resetPassword', cxRoute: 'resetPassword' },
-      },
     ]),
   ],
   providers: [

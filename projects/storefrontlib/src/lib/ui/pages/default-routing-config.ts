@@ -4,10 +4,12 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
   cart: { paths: ['cart'] },
   search: { paths: ['search/:query'] },
+
+  // semantic links for login related pages
   login: { paths: ['login'] },
-  register: { paths: ['register'] },
-  resetPassword: { paths: ['login/pw/change'] },
-  forgotPassword: { paths: ['forgot-password'] },
+  register: { paths: ['login/register'] },
+  forgotPassword: { paths: ['login/forgot-password'] },
+
   checkout: { paths: ['checkout'] },
   orderConfirmation: { paths: ['order-confirmation'] },
   product: {
