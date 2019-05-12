@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthGuard, ConfigModule, NotAuthGuard } from '@spartacus/core';
+import { AuthGuard, ConfigModule } from '@spartacus/core';
 import { LogoutModule } from '../../../cms-components/index';
 import {
   PageLayoutComponent,
@@ -47,12 +47,6 @@ const pageModules = [
           pageLabel: 'multiStepCheckoutSummaryPage',
           cxRoute: 'checkout',
         },
-      },
-      {
-        path: null,
-        canActivate: [NotAuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'login', cxRoute: 'login' },
       },
       {
         path: null,
