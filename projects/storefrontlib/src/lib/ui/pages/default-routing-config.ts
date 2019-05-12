@@ -24,7 +24,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/orders/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
-  updateProfile: { paths: ['my-account/update-profile'] },
   closeAccount: { paths: ['my-account/close-account'] },
 };
 
