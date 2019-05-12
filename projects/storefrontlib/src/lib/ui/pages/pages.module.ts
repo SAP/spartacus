@@ -90,12 +90,6 @@ const pageModules = [
         canActivate: [NotAuthGuard, CmsPageGuard],
         data: { pageLabel: 'resetPassword', cxRoute: 'resetPassword' },
       },
-      {
-        path: null,
-        component: PageLayoutComponent,
-        canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'close-account', cxRoute: 'closeAccount' },
-      },
     ]),
   ],
   providers: [
