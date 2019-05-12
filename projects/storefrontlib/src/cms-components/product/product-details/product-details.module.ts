@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CmsModule, I18nModule } from '@spartacus/core';
+import { CmsModule, I18nModule, UrlModule } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
 import {
   FormComponentsModule,
@@ -27,6 +27,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     FormComponentsModule,
     MediaModule,
     StarRatingModule,
+    UrlModule,
   ],
   declarations: [ProductDetailsComponent, ProductSummaryComponent],
   exports: [ProductDetailsComponent, ProductSummaryComponent],

@@ -35,9 +35,6 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
     PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        // CMSTabParagraphContainer: {
-        //   selector: 'cx-product-tabs',
-        // },
         ProductDetailsTabComponent: {
           selector: 'cx-product-details-tab',
         },

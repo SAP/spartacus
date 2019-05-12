@@ -14,4 +14,8 @@
       }
     }
   }
+
+  .tab-delivery {
+    @extend .container;
+  }
 }
