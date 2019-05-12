@@ -80,12 +80,6 @@ const pageModules = [
       },
       {
         path: null,
-        canActivate: [NotAuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'forgotPassword', cxRoute: 'forgotPassword' },
-      },
-      {
-        path: null,
         component: PageLayoutComponent,
         canActivate: [NotAuthGuard, CmsPageGuard],
         data: { pageLabel: 'resetPassword', cxRoute: 'resetPassword' },
