@@ -8,16 +8,13 @@
   <ng-template #consentManagementForm>
     <div class="row d-flex justify-content-center">
       <div class="col-md-8">
-        <div
+        <cx-consent-management-form
           *ngFor="
             let consentTemplate of (templateList$ | async)?.consentTemplates
           "
-        >
-          <cx-consent-management-form
-            [consentTemplate]="consentTemplate"
-            (consentChanged)="onConsentChange($event)"
-          ></cx-consent-management-form>
-        </div>
+          [consentTemplate]="consentTemplate"
+          (consentChanged)="onConsentChange($event)"
+        ></cx-consent-management-form>
         <div class="cx-checkout-btns row">
           <div class="col-lg-12">
             <button class="btn btn-block btn-primary" (click)="onDone()">

@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
   ConsentTemplate,
@@ -103,7 +104,7 @@ const mockConsentTemplate: ConsentTemplate = {
   },
 };
 
-fdescribe('ConsentManagementComponent', () => {
+describe('ConsentManagementComponent', () => {
   let component: ConsentManagementComponent;
   let fixture: ComponentFixture<ConsentManagementComponent>;
   let el: DebugElement;
@@ -461,5 +462,119 @@ fdescribe('ConsentManagementComponent', () => {
     });
   });
 
-  describe('component UI tests', () => {});
+  describe('component UI tests', () => {
+    describe('spinner', () => {
+      describe('when consents are loading', () => {
+        it('should show spinner', () => {
+          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+            of(true)
+          );
+          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn<any>(component, consentListInitMethod).and.stub();
+          spyOn<any>(component, giveConsentInitMethod).and.stub();
+          spyOn<any>(component, withdrawConsentInitMethod).and.stub();
+
+          component.ngOnInit();
+          fixture.detectChanges();
+
+          expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+        });
+      });
+      describe('when a consent is being given', () => {
+        it('should show spinner', () => {
+          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+            of(true)
+          );
+          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn<any>(component, consentListInitMethod).and.stub();
+          spyOn<any>(component, giveConsentInitMethod).and.stub();
+          spyOn<any>(component, withdrawConsentInitMethod).and.stub();
+
+          component.ngOnInit();
+          fixture.detectChanges();
+
+          expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+        });
+      });
+      describe('when a consent is being withdrawn', () => {
+        it('should show spinner', () => {
+          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
+            of(true)
+          );
+          spyOn<any>(component, consentListInitMethod).and.stub();
+          spyOn<any>(component, giveConsentInitMethod).and.stub();
+          spyOn<any>(component, withdrawConsentInitMethod).and.stub();
+
+          component.ngOnInit();
+          fixture.detectChanges();
+
+          expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+        });
+      });
+
+      describe('when nothing is being loaded', () => {
+        it('should NOT show the spinner but rather diplay a checkbox for each consent', () => {
+          spyOn(userService, 'get').and.returnValue(of(mockUser));
+          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn(userService, 'getConsents').and.returnValue(
+            of({
+              consentTemplates: [
+                mockConsentTemplate,
+                mockConsentTemplate,
+                mockConsentTemplate,
+              ],
+            } as ConsentTemplateList)
+          );
+
+          component.ngOnInit();
+          fixture.detectChanges();
+
+          expect(el.query(By.css('cx-spinner'))).toBeFalsy();
+          expect(
+            (el.nativeElement as HTMLElement).querySelectorAll(
+              'cx-consent-management-form'
+            ).length
+          ).toEqual(3);
+        });
+      });
+    });
+
+    describe('when Done button is clicked', () => {
+      it('should call onDone method', () => {
+        spyOn(component, 'onDone').and.stub();
+
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        const doneBtn = el.query(By.css('button')).nativeElement as HTMLElement;
+        doneBtn.dispatchEvent(new MouseEvent('click'));
+
+        expect(component.onDone).toHaveBeenCalled();
+      });
+    });
+  });
 });
