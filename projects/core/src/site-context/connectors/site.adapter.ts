@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { Currency, Language } from '../../model/misc.model';
 
-export interface SiteAdapter {
-  loadLanguages(): Observable<Language[]>;
+export abstract class SiteAdapter {
+  abstract loadLanguages(): Observable<Language[]>;
 
-  loadCurrencies(): Observable<Currency[]>;
+  abstract loadCurrencies(): Observable<Currency[]>;
 }
