@@ -8,7 +8,6 @@ import { CMSTabParagraphContainer } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-// import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'cx-tab-paragraph-container',

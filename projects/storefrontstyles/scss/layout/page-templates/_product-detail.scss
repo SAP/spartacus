@@ -8,6 +8,7 @@
     @include media-breakpoint-up(lg) {
       cx-product-images {
         flex: 1 1 50%;
+        max-width: 50%;
       }
       cx-product-details {
         flex: 1 1 50%;
