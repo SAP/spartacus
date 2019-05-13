@@ -108,7 +108,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private createSubWithProvider(
+  protected createSubWithProvider(
     postUrl: string,
     parameters: any
   ): Observable<any> {
