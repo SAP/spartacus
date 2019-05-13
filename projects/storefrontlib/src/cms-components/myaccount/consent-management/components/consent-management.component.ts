@@ -33,7 +33,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService
   ) {}
 
-  // TODO:#1185 - simulate an error AND reset the value in the checkbox to what it was before. Let the global error management display the error message
   ngOnInit(): void {
     this.loading$ = combineLatest(
       this.userService.getConsentsResultLoading(),
@@ -101,11 +100,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private consentsExists(templateList: ConsentTemplateList): boolean {
-    return (
-      templateList &&
-      templateList.consentTemplates &&
-      !templateList.consentTemplates.length
-    );
+    return Boolean(templateList) && Boolean(templateList.consentTemplates);
   }
 
   onConsentChange({

@@ -15,12 +15,12 @@ export class ConsentManagementFormComponent implements OnInit {
     template: ConsentTemplate;
   }>();
 
-  consentGiven = false;
+  private consentGiven = false;
 
   constructor() {}
 
   ngOnInit(): void {
-    if (this.consentTemplate.currentConsent) {
+    if (this.consentTemplate && this.consentTemplate.currentConsent) {
       if (this.consentTemplate.currentConsent.consentWithdrawnDate) {
         this.consentGiven = false;
       } else if (this.consentTemplate.currentConsent.consentGivenDate) {
