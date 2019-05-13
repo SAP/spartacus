@@ -1,4 +1,4 @@
-import { RoutingConfig, RoutesConfig } from '@spartacus/core';
+import { RoutesConfig, RoutingConfig } from '@spartacus/core';
 
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
@@ -30,7 +30,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   paymentManagement: { paths: ['my-account/payment-details'] },
   updateEmail: { paths: ['my-account/update-email'] },
   updateProfile: { paths: ['my-account/update-profile'] },
-  consentManagement: { paths: ['my-account/consents'] },
   closeAccount: { paths: ['my-account/close-account'] },
 };
 

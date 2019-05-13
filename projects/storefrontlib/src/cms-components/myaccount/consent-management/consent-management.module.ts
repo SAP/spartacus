@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+} from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
@@ -11,7 +16,10 @@ import { ConsentManagementComponent } from './components/consent-management.comp
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ConsentManagementComponent: { selector: 'cx-consent-management' },
+        ConsentManagementComponent: {
+          selector: 'cx-consent-management',
+          guards: [AuthGuard],
+        },
       },
     }),
     FormsModule,
