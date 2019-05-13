@@ -23,7 +23,7 @@ import { MiniCartComponent } from './mini-cart.component';
     }),
     UrlModule,
     IconModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [MiniCartComponent],
   entryComponents: [MiniCartComponent],
