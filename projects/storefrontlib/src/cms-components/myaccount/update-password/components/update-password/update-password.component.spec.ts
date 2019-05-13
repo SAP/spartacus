@@ -117,7 +117,7 @@ describe('UpdatePasswordComponent', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 
   it('should call updatePassword on submit', () => {
@@ -157,7 +157,7 @@ describe('UpdatePasswordComponent', () => {
           { key: 'updatePasswordForm.passwordUpdateSuccess' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
-        expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
       });
     });
 
