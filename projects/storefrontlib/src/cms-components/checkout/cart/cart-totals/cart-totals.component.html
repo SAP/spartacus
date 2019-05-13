@@ -2,7 +2,7 @@
   <ng-container *ngIf="(entries$ | async) as entries">
     <cx-order-summary [cart]="cart"></cx-order-summary>
     <button
-      [routerLink]="{ route: 'checkout' } | cxUrl"
+      [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
       *ngIf="entries.length"
       class="btn btn-primary btn-block"
       type="button"
