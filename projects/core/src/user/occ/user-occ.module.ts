@@ -4,10 +4,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { OccModule } from '../../occ/occ.module';
 import { OccUserService } from './user.service';
-import { OccOrderService } from './order.service';
+import { OrderAdapter } from '../connectors/order.adapter';
+import { OccOrderAdapter } from './occ-order.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
-  providers: [OccUserService, OccOrderService],
+  providers: [OccUserService, { provide: OrderAdapter, useClass: OccOrderAdapter }],
 })
 export class UserOccModule {}

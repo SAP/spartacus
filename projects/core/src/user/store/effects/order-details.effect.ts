@@ -3,10 +3,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromOrderDetailsAction from '../actions/order-details.action';
-import { OccOrderService } from '../../occ/index';
 import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { Order } from '../../../model/order.model';
+import { OrderConnector } from '../../connectors/order.connector';
 
 @Injectable()
 export class OrderDetailsEffect {
@@ -17,8 +17,8 @@ export class OrderDetailsEffect {
     ofType(fromOrderDetailsAction.LOAD_ORDER_DETAILS),
     map((action: fromOrderDetailsAction.LoadOrderDetails) => action.payload),
     switchMap(payload => {
-      return this.occOrderService
-        .getOrder(payload.userId, payload.orderCode)
+      return this.orderConnector
+        .get(payload.userId, payload.orderCode)
         .pipe(
           map((order: Order) => {
             if (order.consignments) {
@@ -50,7 +50,7 @@ export class OrderDetailsEffect {
 
   constructor(
     private actions$: Actions,
-    private occOrderService: OccOrderService,
+    private orderConnector: OrderConnector,
     private converter: ConverterService
   ) {}
 }
