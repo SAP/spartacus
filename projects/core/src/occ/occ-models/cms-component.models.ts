@@ -1,4 +1,4 @@
-import { Component } from './occ.models';
+import { Component } from '../../model/cms.model';
 
 export type CmsComponent = Component;
 

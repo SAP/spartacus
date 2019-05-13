@@ -30,7 +30,7 @@ ConfigModule.withConfig({
 Then [configurable router links](./configurable-router-links.md) will output:
 
 ```html
-<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxUrl"></a>
+<a [routerLink]="{ cxRoute: 'product', params: { productCode: 1234 } } | cxUrl"></a>
 ```
 
 result

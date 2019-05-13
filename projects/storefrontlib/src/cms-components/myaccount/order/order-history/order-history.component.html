@@ -15,7 +15,7 @@
           >
             <cx-sorting
               [sortOptions]="orders.sorts"
-              [sortLabels]="sortLabels"
+              [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
               placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
@@ -52,7 +52,7 @@
                 <a
                   [routerLink]="
                     {
-                      route: 'orderDetails',
+                      cxRoute: 'orderDetails',
                       params: order
                     } | cxUrl
                   "
@@ -68,7 +68,7 @@
                 <a
                   [routerLink]="
                     {
-                      route: 'orderDetails',
+                      cxRoute: 'orderDetails',
                       params: order
                     } | cxUrl
                   "
@@ -83,7 +83,7 @@
                 <a
                   [routerLink]="
                     {
-                      route: 'orderDetails',
+                      cxRoute: 'orderDetails',
                       params: order
                     } | cxUrl
                   "
@@ -102,7 +102,7 @@
                 <a
                   [routerLink]="
                     {
-                      route: 'orderDetails',
+                      cxRoute: 'orderDetails',
                       params: order
                     } | cxUrl
                   "
@@ -121,7 +121,7 @@
           >
             <cx-sorting
               [sortOptions]="orders.sorts"
-              [sortLabels]="sortLabels"
+              [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
               placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
@@ -142,7 +142,7 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>{{ 'orderHistory.noOrders' | cxTranslate }}</div>
             <a
-              [routerLink]="{ route: 'home' } | cxUrl"
+              [routerLink]="{ cxRoute: 'home' } | cxUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
               >{{ 'orderHistory.startShopping' | cxTranslate }}</a

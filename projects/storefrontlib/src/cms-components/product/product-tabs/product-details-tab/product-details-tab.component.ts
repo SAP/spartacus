@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UIProduct } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -9,7 +9,7 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailsTabComponent implements OnInit {
-  product$: Observable<UIProduct>;
+  product$: Observable<Product>;
 
   constructor(protected currentProductService: CurrentProductService) {}
 

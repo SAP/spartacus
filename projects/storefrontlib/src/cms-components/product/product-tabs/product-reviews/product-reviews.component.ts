@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductReviewService, Review, UIProduct } from '@spartacus/core';
+import { ProductReviewService, Review, Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
@@ -18,7 +18,7 @@ export class ProductReviewsComponent {
   maxListItems: number;
   reviewForm: FormGroup;
 
-  product$: Observable<UIProduct> = this.currentProductService.getProduct();
+  product$: Observable<Product> = this.currentProductService.getProduct();
 
   reviews$: Observable<Review[]> = this.product$.pipe(
     switchMap(product => this.reviewService.getByProductCode(product.code)),

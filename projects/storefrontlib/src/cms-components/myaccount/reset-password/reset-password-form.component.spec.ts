@@ -137,6 +137,6 @@ describe('ResetPasswordFormComponent', () => {
     spyOn(routingService, 'go').and.stub();
     spyOn(userService, 'isPasswordReset').and.returnValue(of(true));
     component.ngOnInit();
-    expect(routingService.go).toHaveBeenCalledWith({ route: 'login' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
   });
 });
