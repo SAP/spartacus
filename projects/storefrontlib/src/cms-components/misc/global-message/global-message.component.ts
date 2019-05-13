@@ -6,6 +6,7 @@ import {
   GlobalMessageType,
   GlobalMessageEntities,
 } from '@spartacus/core';
+import { ICON_TYPES } from '../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-global-message',
@@ -13,6 +14,8 @@ import {
   styleUrls: ['./global-message.component.scss'],
 })
 export class GlobalMessageComponent implements OnInit {
+  iconTypes = ICON_TYPES;
+
   messages$: Observable<GlobalMessageEntities>;
   messageType: typeof GlobalMessageType = GlobalMessageType;
 

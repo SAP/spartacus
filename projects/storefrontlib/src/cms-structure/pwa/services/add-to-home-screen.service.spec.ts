@@ -60,10 +60,10 @@ describe('AddToHomeScreenService', () => {
     const event = new Event('appinstalled');
     winRef.nativeWindow.dispatchEvent(event);
     expect(addToHomeService.disableAddToHomeScreen).toHaveBeenCalled();
-    expect(globalMessageService.add).toHaveBeenCalledWith({
-      type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      text: 'SAP Storefront was added to your home screen',
-    });
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'pwa.addedToHomeScreen' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   });
 
   it('should enableAddToHomeScreen make canPrompt true', () => {

@@ -38,10 +38,10 @@ export class AddToHomeScreenService {
       );
 
       this.winRef.nativeWindow.addEventListener('appinstalled', () => {
-        this.globalMessageService.add({
-          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-          text: 'SAP Storefront was added to your home screen',
-        });
+        this.globalMessageService.add(
+          { key: 'pwa.addedToHomeScreen' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
 
         this.disableAddToHomeScreen();
         this.deferredEvent = null;

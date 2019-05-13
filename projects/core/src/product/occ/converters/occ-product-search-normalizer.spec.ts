@@ -1,7 +1,8 @@
 import { OccProductSearchPageNormalizer } from './occ-product-search-page-normalizer.service';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, ProductSearchPage } from '@spartacus/core';
+import { ConverterService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 class MockConverterService {
   convert = createSpy('ConverterService.convert').and.returnValue({
@@ -9,7 +10,7 @@ class MockConverterService {
   });
 }
 
-const mockSource: ProductSearchPage = {
+const mockSource: Occ.ProductSearchPage = {
   products: [{ images: [] }, { images: [] }],
 };
 

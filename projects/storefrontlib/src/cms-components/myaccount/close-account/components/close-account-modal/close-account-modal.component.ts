@@ -58,12 +58,12 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
         .translate('closeAccount.message.success')
         .pipe(first())
         .subscribe(text => {
-          this.globalMessageService.add({
+          this.globalMessageService.add(
             text,
-            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-          });
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
         });
-      this.routingService.go({ route: 'home' });
+      this.routingService.go({ cxRoute: 'home' });
     }
   }
 

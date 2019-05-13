@@ -91,13 +91,15 @@ export function placeOrder() {
     'contain',
     cart.total
   );
-
+  cy.getByText('Terms & Conditions')
+    .should('have.attr', 'target', '_blank')
+    .should('have.attr', 'href', '/electronics-spa/en/USD/termsAndConditions');
   cy.get('.form-check-input').check();
   cy.get('.cx-place-order button.btn-primary').click();
 }
 
 export function verifyOrderConfirmationPage() {
-  cy.get('.cx-page__title').should('contain', 'Confirmation of Order');
+  cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
   cy.get('.cx-order-review-summary .row').within(() => {
     cy.get('.col-lg-3:nth-child(1) .cx-card').within(() => {

@@ -9,7 +9,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  TranslateUrlCommands,
+  UrlCommands,
   User,
   UserService,
 } from '@spartacus/core';
@@ -54,7 +54,7 @@ class MockAuthService {
 
 class MockRoutingService {
   go(
-    _commands: any[] | TranslateUrlCommands,
+    _commands: any[] | UrlCommands,
     _query?: object,
     _extras?: NavigationExtras
   ): void {}
@@ -138,7 +138,7 @@ describe('UpdateEmailComponent', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 
   it('should call updateEmail on submit', () => {
@@ -178,14 +178,17 @@ describe('UpdateEmailComponent', () => {
 
         component.onSuccess(true);
 
-        expect(globalMessageService.add).toHaveBeenCalledWith({
-          text: `Success. Please sign in with ${newUid}`,
-          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        });
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'updateEmailForm.emailUpdateSuccess',
+            params: { newUid: 'new@sap.com' },
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
 
         expect(authService.logout).toHaveBeenCalled();
 
-        expect(routingService.go).toHaveBeenCalledWith({ route: 'login' });
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       });
     });
 

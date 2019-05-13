@@ -26,7 +26,7 @@ export class ResetPasswordEffects {
         switchMap(() => [
           new fromActions.ResetPasswordSuccess(),
           new AddMessage({
-            text: 'Success! You can now login using your new password.',
+            text: { key: 'forgottenPassword.passwordResetSuccess' },
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
           }),
         ]),

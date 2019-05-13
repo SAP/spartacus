@@ -1,9 +1,9 @@
 import { ProductsSearchState } from '../product-state';
 import * as fromActions from '../actions/product-search.action';
 import { SearchConfig } from '../../model/search-config';
-import { Suggestion } from '../../../occ/occ-models';
 
 import * as fromProductSearch from './product-search.reducer';
+import { Suggestion } from '../../../model/product-search.model';
 
 describe('Product Search Reducer', () => {
   describe('undefined action', () => {

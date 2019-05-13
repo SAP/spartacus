@@ -28,8 +28,7 @@ export class ForgotPasswordEffects {
           switchMap(() => [
             new fromActions.ForgotPasswordEmailRequestSuccess(),
             new AddMessage({
-              text:
-                'An email has been sent to you with information on how to reset your password.',
+              text: { key: 'forgottenPassword.passwordResetEmailSent' },
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             }),
           ]),

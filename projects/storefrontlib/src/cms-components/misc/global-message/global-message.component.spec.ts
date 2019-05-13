@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -6,12 +7,13 @@ import {
   GlobalMessageType,
   GlobalMessageService,
   GlobalMessageEntities,
+  I18nTestingModule,
 } from '@spartacus/core';
 
-const mockMessages = {
-  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
-  [GlobalMessageType.MSG_TYPE_INFO]: ['Info'],
-  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error'],
+const mockMessages: GlobalMessageEntities = {
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
+  [GlobalMessageType.MSG_TYPE_INFO]: [{ raw: 'Info' }],
+  [GlobalMessageType.MSG_TYPE_ERROR]: [{ raw: 'Error' }],
 };
 
 class MockMessageService {
@@ -21,6 +23,14 @@ class MockMessageService {
   }
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 describe('GlobalMessageComponent', () => {
   let globalMessageComponent: GlobalMessageComponent;
   let messageService: GlobalMessageService;
@@ -28,7 +38,8 @@ describe('GlobalMessageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GlobalMessageComponent],
+      imports: [I18nTestingModule],
+      declarations: [GlobalMessageComponent, MockCxIconComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
       ],

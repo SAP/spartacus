@@ -14,7 +14,7 @@ import {
   GlobalMessageType,
   RoutingService,
   Title,
-  TranslateUrlCommands,
+  UrlCommands,
   User,
   UserService,
 } from '@spartacus/core';
@@ -70,7 +70,7 @@ class UserServiceMock {
 }
 class RoutingServiceMock {
   go(
-    _commands: any[] | TranslateUrlCommands,
+    _commands: any[] | UrlCommands,
     _query?: object,
     _extras?: NavigationExtras
   ): void {}
@@ -153,7 +153,7 @@ describe('UpdateProfileComponent', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 
   it('should call updatePersonalDetails on submit', () => {
@@ -189,11 +189,11 @@ describe('UpdateProfileComponent', () => {
         spyOn(routingService, 'go').and.stub();
 
         component.onSuccess(true);
-        expect(globalMessageService.add).toHaveBeenCalledWith({
-          text: 'Personal details successfully updated',
-          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        });
-        expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'updateProfileForm.profileUpdateSuccess' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
       });
     });
 

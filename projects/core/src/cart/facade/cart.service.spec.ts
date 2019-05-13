@@ -1,17 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import { UserToken, AuthService } from '../../auth';
+import { AuthService, UserToken } from '../../auth';
 
 import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
 
-import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
+import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
-import { UICart, UIOrderEntry } from '@spartacus/core';
+import { OrderEntry } from '../../model/order.model';
+import { Cart } from '../../model/cart.model';
 
 class CartDataServiceStub {
   userId;
@@ -42,7 +43,7 @@ describe('CartService', () => {
     scope: ['xxx'],
     userId: 'xxx',
   };
-  const mockCartEntry: UIOrderEntry = {
+  const mockCartEntry: OrderEntry = {
     entryNumber: 0,
     product: { code: productCode },
   };
@@ -360,7 +361,7 @@ describe('CartService', () => {
 
   describe('getEntry', () => {
     it('should return an entry', () => {
-      const testCart: UICart = <UICart>{
+      const testCart: Cart = <Cart>{
         entries: [
           { product: { code: 'code1' } },
           { product: { code: 'code2' } },
@@ -368,7 +369,7 @@ describe('CartService', () => {
       };
       store.dispatch(new fromCart.LoadCartSuccess(testCart));
 
-      let result: UIOrderEntry;
+      let result: OrderEntry;
       service
         .getEntry('code1')
         .subscribe(value => (result = value))
@@ -379,7 +380,9 @@ describe('CartService', () => {
 
   describe('getCartMergeComplete', () => {
     it('should return true when the merge is complete', () => {
-      store.dispatch(new fromCart.MergeCartSuccess());
+      store.dispatch(
+        new fromCart.MergeCartSuccess({ cartId: 'cartId', userId: 'userId' })
+      );
       let result: boolean;
       service
         .getCartMergeComplete()
@@ -392,7 +395,7 @@ describe('CartService', () => {
   describe('getActive', () => {
     it('should return a loaded state', () => {
       store.dispatch(new fromCart.CreateCartSuccess(cart));
-      let result: UICart;
+      let result: Cart;
       service
         .getActive()
         .subscribe(value => (result = value))

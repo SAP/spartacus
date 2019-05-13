@@ -141,15 +141,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           if (
             results.errors.errors.some(error => error.subject === 'titleCode')
           ) {
-            this.globalMessageService.add({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Title is required',
-            });
+            this.globalMessageService.add(
+              { key: 'addressForm.titleRequired' },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
           } else {
-            this.globalMessageService.add({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Invalid Address',
-            });
+            this.globalMessageService.add(
+              { key: 'addressForm.invalidAddress' },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
           }
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {

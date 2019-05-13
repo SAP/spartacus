@@ -9,7 +9,7 @@ import {
   Address,
   PaymentDetails,
   Order,
-  UICart,
+  Cart,
   I18nTestingModule,
 } from '@spartacus/core';
 
@@ -70,16 +70,16 @@ class MockShippingAddressComponent {}
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
-  cart: UICart;
+  cart: Cart;
 }
 
 @Component({ selector: 'cx-place-order', template: '' })
 class MockPlaceOrderComponent {}
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -108,7 +108,7 @@ describe('MultiStepCheckoutComponent', () => {
 
   beforeEach(async(() => {
     mockCartService = {
-      getActive(): BehaviorSubject<UICart> {
+      getActive(): BehaviorSubject<Cart> {
         return new BehaviorSubject({
           totalItems: 5141,
           subTotal: { formattedValue: '11119' },
@@ -123,7 +123,7 @@ describe('MultiStepCheckoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
-        MockTranslateUrlPipe,
+        MockUrlPipe,
         MultiStepCheckoutComponent,
         MockDeliveryModeComponent,
         MockPaymentMethodComponent,

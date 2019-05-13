@@ -3,19 +3,19 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CartTotalsComponent } from './cart-totals.component';
 import {
-  UICart,
-  UIOrderEntry,
+  Cart,
+  OrderEntry,
   CartService,
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Input, Component, Pipe, PipeTransform } from '@angular/core';
 
-const cartMock: UICart = {
+const cartMock: Cart = {
   name: 'cart-mock',
 };
 
-const entriesMock: UIOrderEntry[] = [
+const entriesMock: OrderEntry[] = [
   {
     entryNumber: 1,
   },
@@ -30,21 +30,21 @@ const entriesMock: UIOrderEntry[] = [
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart: Observable<UICart>;
+  cart: Observable<Cart>;
 }
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
 class MockCartService {
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of(cartMock);
   }
-  getEntries(): Observable<UIOrderEntry[]> {
+  getEntries(): Observable<OrderEntry[]> {
     return of(entriesMock);
   }
 }
@@ -59,7 +59,7 @@ describe('CartTotalsComponent', () => {
       declarations: [
         CartTotalsComponent,
         MockOrderSummaryComponent,
-        MockTranslateUrlPipe,
+        MockUrlPipe,
       ],
       providers: [
         {
@@ -76,22 +76,22 @@ describe('CartTotalsComponent', () => {
   });
 
   it('should get active cart on ngOnInit()', () => {
-    let cart: UICart;
+    let cart: Cart;
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.cart$.subscribe((data: UICart) => (cart = data));
+    component.cart$.subscribe((data: Cart) => (cart = data));
     expect(cart).toEqual(cartMock);
   });
 
   it('should get entries on ngOnInit()', () => {
-    let entries: UIOrderEntry[];
+    let entries: OrderEntry[];
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.entries$.subscribe((data: UIOrderEntry[]) => (entries = data));
+    component.entries$.subscribe((data: OrderEntry[]) => (entries = data));
     expect(entries).toEqual(entriesMock);
   });
 });

@@ -15,7 +15,7 @@
           >
             <cx-sorting
               [sortOptions]="orders.sorts"
-              [sortLabels]="sortLabels"
+              [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
               placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
@@ -52,9 +52,9 @@
                 <a
                   [routerLink]="
                     {
-                      route: 'orderDetails',
+                      cxRoute: 'orderDetails',
                       params: order
-                    } | cxTranslateUrl
+                    } | cxUrl
                   "
                   class="cx-order-history-value"
                 >
@@ -68,9 +68,9 @@
                 <a
                   [routerLink]="
                     {
-                      route: 'orderDetails',
+                      cxRoute: 'orderDetails',
                       params: order
-                    } | cxTranslateUrl
+                    } | cxUrl
                   "
                   class="cx-order-history-value"
                   >{{ order?.placed | cxDate: 'longDate' }}</a
@@ -83,9 +83,9 @@
                 <a
                   [routerLink]="
                     {
-                      route: 'orderDetails',
+                      cxRoute: 'orderDetails',
                       params: order
-                    } | cxTranslateUrl
+                    } | cxUrl
                   "
                   class="cx-order-history-value"
                 >
@@ -102,9 +102,9 @@
                 <a
                   [routerLink]="
                     {
-                      route: 'orderDetails',
+                      cxRoute: 'orderDetails',
                       params: order
-                    } | cxTranslateUrl
+                    } | cxUrl
                   "
                   class="cx-order-history-value"
                 >
@@ -121,7 +121,7 @@
           >
             <cx-sorting
               [sortOptions]="orders.sorts"
-              [sortLabels]="sortLabels"
+              [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
               placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
@@ -142,7 +142,7 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>{{ 'orderHistory.noOrders' | cxTranslate }}</div>
             <a
-              [routerLink]="{ route: 'home' } | cxTranslateUrl"
+              [routerLink]="{ cxRoute: 'home' } | cxUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
               >{{ 'orderHistory.startShopping' | cxTranslate }}</a

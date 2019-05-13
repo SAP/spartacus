@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import { ProductDetailOutlets } from '../../product-outlets.model';
 
 @Component({
@@ -60,7 +60,7 @@ export class ProductSummaryComponent implements OnInit {
 
       // Look through h3 tab elements until finding tab with label
       for (const h3Element of Array.from(h3Elements)) {
-        if (h3Element.innerHTML.indexOf(label) > -1) {
+        if (h3Element.innerHTML.includes(label)) {
           return h3Element;
         }
       }
@@ -80,21 +80,24 @@ export class ProductSummaryComponent implements OnInit {
   // Scroll to views component on page and click "Reviews" tab
   showReviews() {
     // Use translated label for Reviews tab reference
-    const reviewsTabLabel = this.translatePipe.transform(
-      'productDetails.label.reviews'
-    );
+    this.translationService
+      .translate('productDetails.reviews')
+      .subscribe(reviewsTabLabel => {
+        const tabsComponent = this.getTabsComponent();
+        const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
+        const reviewsComponent = this.getReviewsComponent();
 
-    const tabsComponent = this.getTabsComponent();
-    const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
-    const reviewsComponent = this.getReviewsComponent();
-
-    if (reviewsTab && reviewsComponent) {
-      reviewsComponent.scrollIntoView();
-      this.clickTabIfInactive(reviewsTab);
-    }
+        if (reviewsTab && reviewsComponent) {
+          reviewsComponent.scrollIntoView();
+          this.clickTabIfInactive(reviewsTab);
+        }
+      });
   }
 
-  constructor(protected translatePipe: TranslatePipe) {}
+  constructor(
+    protected translatePipe: TranslatePipe,
+    private translationService: TranslationService
+  ) {}
 
   ngOnInit() {
     this.reviewsTabAvailable = !!this.getReviewsComponent();

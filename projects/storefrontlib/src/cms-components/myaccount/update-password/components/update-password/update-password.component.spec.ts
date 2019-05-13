@@ -9,7 +9,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  TranslateUrlCommands,
+  UrlCommands,
   User,
   UserService,
 } from '@spartacus/core';
@@ -31,7 +31,7 @@ class MockUserService {
 }
 class MockRoutingService {
   go(
-    _commands: any[] | TranslateUrlCommands,
+    _commands: any[] | UrlCommands,
     _query?: object,
     _extras?: NavigationExtras
   ): void {}
@@ -117,7 +117,7 @@ describe('UpdatePasswordComponent', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 
   it('should call updatePassword on submit', () => {
@@ -153,11 +153,11 @@ describe('UpdatePasswordComponent', () => {
         spyOn(routingService, 'go').and.stub();
 
         component.onSuccess(true);
-        expect(globalMessageService.add).toHaveBeenCalledWith({
-          text: 'Password updated with success',
-          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        });
-        expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'updatePasswordForm.passwordUpdateSuccess' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
       });
     });
 

@@ -11,7 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
   ProductService,
-  UIProduct,
+  Product,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -19,9 +19,9 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselService } from './product-carousel.component.service';
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -43,11 +43,11 @@ const mockComponentData: CmsProductCarouselComponent = {
   productCodes: productCodeArray.join(' '),
   scroll: 'ALLVISIBLE',
   title: 'Mock Title',
-  name: 'Mock UIProduct Carousel',
+  name: 'Mock Product Carousel',
   container: 'false',
 };
 
-const mockProduct: UIProduct = {
+const mockProduct: Product = {
   code: '111111',
   name: 'Camera',
   price: {
@@ -60,7 +60,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 };
 
 class MockProductService {
-  get(): Observable<UIProduct> {
+  get(): Observable<Product> {
     return of(mockProduct);
   }
 
@@ -106,11 +106,7 @@ describe('ProductCarouselComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        ProductCarouselComponent,
-        MockMediaComponent,
-        MockTranslateUrlPipe,
-      ],
+      declarations: [ProductCarouselComponent, MockMediaComponent, MockUrlPipe],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: ProductService, useClass: MockProductService },
@@ -142,7 +138,7 @@ describe('ProductCarouselComponent', () => {
   }));
 
   it('should have products', async(() => {
-    let products$: Observable<UIProduct>[];
+    let products$: Observable<Product>[];
     productCarouselComponent.service.setItems();
     productCarouselComponent.service
       .getItems()
