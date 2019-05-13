@@ -34,7 +34,7 @@ export class ClientAuthenticationTokenService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private getOAuthEndpoint(): string {
+  protected getOAuthEndpoint(): string {
     return (this.config.backend.occ.baseUrl || '') + OAUTH_ENDPOINT;
   }
 }
