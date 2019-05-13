@@ -1,13 +1,13 @@
-import { UIProduct } from './product';
+// import { UIProduct } from './product';
 
-export interface UIProductReference {
-  description?: string;
-  preselected?: boolean;
-  quantity?: number;
-  referenceType?: string;
-  target?: UIProduct;
-}
+// export interface UIProductReference {
+//   description?: string;
+//   preselected?: boolean;
+//   quantity?: number;
+//   referenceType?: string;
+//   target?: UIProduct;
+// }
 
-export interface UIProductReferenceList {
-  references?: UIProductReference[];
-}
+// export interface UIProductReferenceList {
+//   references?: UIProductReference[];
+// }

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductReferenceList } from '../../../occ/occ-models/';
+import { ProductReference } from '../../../model/product.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 import { ConverterService } from '../../../util/converter.service';
-import { UIProductReference } from '../../model';
 import { OccProductReferencesListNormalizer } from './occ-product-references-list-normalizer';
 import createSpy = jasmine.createSpy;
 
@@ -11,7 +11,7 @@ class MockConverterService {
   });
 }
 
-const mockSource: ProductReferenceList = {
+const mockSource: Occ.ProductReferenceList = {
   references: [
     {
       target: { images: [] },
@@ -19,7 +19,7 @@ const mockSource: ProductReferenceList = {
   ],
 };
 
-const mockTarget: UIProductReference[] = [
+const mockTarget: ProductReference[] = [
   {
     target: { images: {} },
   },

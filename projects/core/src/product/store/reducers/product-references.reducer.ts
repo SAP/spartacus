@@ -1,4 +1,4 @@
-import { UIProductReference } from '../../model/product-reference-list';
+import { ProductReference } from '../../../model/product.model';
 import * as fromProductReferences from '../actions/product-references.action';
 import { ProductReferencesState } from '../product-state';
 
@@ -29,7 +29,7 @@ export function reducer(
 
 export const getProductReferenceList = (
   state: ProductReferencesState
-): UIProductReference[] => state.list;
+): ProductReference[] => state.list;
 export const getProductReferenceProductCode = (
   state: ProductReferencesState
 ): string => state.productCode;

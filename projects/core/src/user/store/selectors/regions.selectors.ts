@@ -1,8 +1,8 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 
 import { UserState, RegionsState, StateWithUser } from '../user-state';
-import { Region } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
+import { Region } from '../../../model/address.model';
 
 export const getRegionsState: MemoizedSelector<
   StateWithUser,

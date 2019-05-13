@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { UIProductReference } from '../../model/product-reference-list';
+import { ProductReference } from '../../../model/product.model';
 import {
   ProductReferencesState,
   ProductsState,
@@ -17,7 +17,7 @@ export const getProductReferencesState: MemoizedSelector<
 
 export const getSelectedProductReferencesFactory = (
   productCode: string
-): MemoizedSelector<StateWithProduct, UIProductReference[]> => {
+): MemoizedSelector<StateWithProduct, ProductReference[]> => {
   return createSelector(
     getProductReferencesState,
     referenceTypeData => {

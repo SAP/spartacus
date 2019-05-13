@@ -1,10 +1,5 @@
 import { Action } from '@ngrx/store';
-import {
-  Address,
-  DeliveryMode,
-  Order,
-  PaymentDetails,
-} from '../../../occ/occ-models/index';
+
 import {
   LoaderLoadAction,
   LoaderFailAction,
@@ -12,6 +7,9 @@ import {
 } from '../../../state/utils/loader/loader.action';
 import { CHECKOUT_DETAILS } from '../checkout-state';
 import { CheckoutDetails } from '../../models/checkout.model';
+import { Address } from '../../../model/address.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { PaymentDetails } from '../../../model/cart.model';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';

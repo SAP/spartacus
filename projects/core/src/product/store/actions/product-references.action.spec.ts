@@ -1,5 +1,5 @@
-import { ErrorModel } from '../../../occ/occ-models';
-import { UIProductReference } from '../../model/product-reference-list';
+import { ErrorModel } from '../../../model/misc.model';
+import { ProductReference } from '../../../model/product.model';
 import * as fromActions from './product-references.action';
 
 const productCode = 'productCode';
@@ -33,7 +33,7 @@ describe('Product References Actions', () => {
 
     describe('LOAD_PRODUCT_REFERENCES_SUCCESS', () => {
       it('should create the action', () => {
-        const list: UIProductReference[] = [
+        const list: ProductReference[] = [
           {
             referenceType: 'SIMILAR',
             target: product,

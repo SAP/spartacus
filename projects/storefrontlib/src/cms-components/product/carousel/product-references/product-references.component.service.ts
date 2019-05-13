@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
   CmsProductReferencesComponent,
+  ProductReference,
   ProductReferenceService,
   RoutingService,
-  UIProductReference,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 @Injectable()
 export class ProductReferencesService {
   private title$: Observable<string>;
-  private items$: Observable<UIProductReference[]>;
+  private items$: Observable<ProductReference[]>;
 
   constructor(
     protected component: CmsComponentData<CmsProductReferencesComponent>,
@@ -42,7 +42,7 @@ export class ProductReferencesService {
       .pipe(map(data => data.state.params.productCode));
   }
 
-  getReferenceList(): Observable<UIProductReference[]> {
+  getReferenceList(): Observable<ProductReference[]> {
     return this.items$;
   }
 

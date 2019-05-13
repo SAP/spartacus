@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import {
   CmsProductReferencesComponent,
+  ProductReference,
   ProductReferenceService,
   RoutingService,
-  UIProductReference,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -17,7 +17,7 @@ const product = {
 
 const title = 'mockTitle';
 
-const list: UIProductReference[] = [
+const list: ProductReference[] = [
   { referenceType: 'SIMILAR', target: product },
   { referenceType: 'ACCESSORIES', target: product },
 ];
@@ -37,7 +37,7 @@ class MockRoutingService {
 }
 
 class MockProductReferenceService {
-  get(): Observable<UIProductReference[]> {
+  get(): Observable<ProductReference[]> {
     return of(list);
   }
 }
@@ -117,7 +117,7 @@ describe('ProductReferencesService', () => {
     spyOn(productReferenceService, 'setReferenceList').and.callThrough();
     spyOn(productReferenceService, 'getReferenceList').and.callThrough();
 
-    let list$: UIProductReference[];
+    let list$: ProductReference[];
 
     productReferenceService.setReferenceList();
     productReferenceService

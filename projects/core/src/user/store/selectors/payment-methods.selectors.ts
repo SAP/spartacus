@@ -1,7 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { UserState, StateWithUser } from '../user-state';
-import { PaymentDetails } from '../../../occ/occ-models/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderValueSelector,
@@ -9,6 +8,7 @@ import {
 } from '../../../state/utils/loader/loader.selectors';
 
 import { getUserState } from './feature.selector';
+import { PaymentDetails } from '../../../model/cart.model';
 
 export const getPaymentMethodsState: MemoizedSelector<
   StateWithUser,

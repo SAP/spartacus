@@ -1,4 +1,4 @@
-import { UIProductReference } from '../../model/product-reference-list';
+import { ProductReference } from '../../../model/product.model';
 import * as fromActions from './../actions/product-references.action';
 import * as fromReducer from './../reducers/product-references.reducer';
 
@@ -8,7 +8,7 @@ const product = {
   name: 'testProduct',
 };
 
-const list: UIProductReference[] = [
+const list: ProductReference[] = [
   { referenceType: 'SIMILAR', target: product },
   { referenceType: 'ACCESSORIES', target: product },
 ];

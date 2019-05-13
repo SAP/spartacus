@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService, UICart } from '../../cart';
+import { CartService } from '../../cart';
 import {
   CmsService,
   Page,
@@ -9,8 +9,9 @@ import {
   PageMetaService,
   PageRobotsMeta,
 } from '../../cms';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { CartPageMetaResolver } from './cart-page-meta.resolver';
+import { PageType } from '../../model/cms.model';
+import { Cart } from '../../model/cart.model';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -19,7 +20,7 @@ const mockContentPage: Page = {
   slots: {},
 };
 
-const mockCart: UICart = {
+const mockCart: Cart = {
   code: '1234',
 };
 
@@ -30,7 +31,7 @@ class MockCmsService {
 }
 
 class MockCartService {
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of(mockCart);
   }
 }

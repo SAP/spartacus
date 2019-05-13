@@ -10,8 +10,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
+  Product,
   ProductService,
-  UIProduct,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -44,11 +44,11 @@ const mockComponentData: CmsProductCarouselComponent = {
   productCodes: productCodeArray.join(' '),
   scroll: 'ALLVISIBLE',
   title: 'Mock Title',
-  name: 'Mock UIProduct Carousel',
+  name: 'Mock Product Carousel',
   container: 'false',
 };
 
-const mockProduct: UIProduct = {
+const mockProduct: Product = {
   code: '111111',
   name: 'Camera',
   price: {
@@ -61,7 +61,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 };
 
 class MockProductService {
-  get(): Observable<UIProduct> {
+  get(): Observable<Product> {
     return of(mockProduct);
   }
 
@@ -145,7 +145,7 @@ describe('ProductCarouselComponent', () => {
   }));
 
   it('should have products', async(() => {
-    let products$: Observable<UIProduct>[];
+    let products$: Observable<Product>[];
     productCarouselComponent.productCarouselService.setItems();
     productCarouselComponent.productCarouselService
       .getItems()

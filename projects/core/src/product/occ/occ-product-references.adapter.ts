@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ProductReference } from '../../model/product.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../connectors/references/converters';
 import { ProductReferencesAdapter } from '../connectors/references/product-references.adapter';
-import { UIProductReference } from '../model/product-reference-list';
 
 @Injectable()
 export class OccProductReferencesAdapter implements ProductReferencesAdapter {
@@ -19,7 +19,7 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
     productCode: string,
     referenceType?: string,
     pageSize?: number
-  ): Observable<UIProductReference[]> {
+  ): Observable<ProductReference[]> {
     return this.http
       .get(this.getEndpoint(productCode, referenceType, pageSize))
       .pipe(this.converter.pipeable(PRODUCT_REFERENCES_NORMALIZER));

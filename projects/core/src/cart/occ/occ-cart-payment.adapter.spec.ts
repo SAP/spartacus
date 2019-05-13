@@ -4,13 +4,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { Cart, OccConfig, PaymentDetails } from '../../occ';
+import { OccConfig } from '../../occ';
 import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
 import {
   CART_PAYMENT_DETAILS_NORMALIZER,
   CART_PAYMENT_DETAILS_SERIALIZER,
   ConverterService,
 } from '@spartacus/core';
+import { Cart, PaymentDetails } from '../../model/cart.model';
 
 const userId = '123';
 const cartId = '456';

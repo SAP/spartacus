@@ -16,6 +16,10 @@
     }
   }
 
+  .cx-page-title {
+    color: var(--cx-color, var(--cx-g-color-text));
+  }
+
   .cx-order-review-summary {
     background-color: var(--cx-background-color, var(--cx-g-color-background));
     border-width: var(--cx-border-width, 0 0 1px 0);

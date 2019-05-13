@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { UIProductReference } from '../model/product-reference-list';
+import { ProductReference } from '../../model/product.model';
 import * as fromStore from '../store/index';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class ProductReferenceService {
     productCode: string,
     referenceType?: string,
     pageSize?: number
-  ): Observable<UIProductReference[]> {
+  ): Observable<ProductReference[]> {
     return this.store.pipe(
       select(fromStore.getSelectedProductReferencesFactory(productCode)),
       tap(references => {

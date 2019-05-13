@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
-import { LanguageList, CurrencyList } from '../../occ/occ-models/occ.models';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -46,7 +46,7 @@ describe('OccSiteService', () => {
 
   describe('load languages', () => {
     it('should retrieve two languages', () => {
-      const languages: LanguageList = {
+      const languages: Occ.LanguageList = {
         languages: [{ isocode: 'en' }, { isocode: 'de' }],
       };
 
@@ -67,7 +67,7 @@ describe('OccSiteService', () => {
 
   describe('load currencies', () => {
     it('should retrieve two currencies', () => {
-      const currencies: CurrencyList = {
+      const currencies: Occ.CurrencyList = {
         currencies: [{ isocode: 'USD' }, { isocode: 'JPY' }],
       };
 

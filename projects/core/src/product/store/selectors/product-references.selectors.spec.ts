@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { UIProductReference } from '../../model/product-reference-list';
+import { ProductReference } from '../../../model/product.model';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 import * as fromStore from './../../store';
 
@@ -12,7 +12,7 @@ const product = {
   name: 'testProduct',
 };
 
-const list: UIProductReference[] = [
+const list: ProductReference[] = [
   { referenceType: 'SIMILAR', target: product },
   { referenceType: 'ACCESSORIES', target: product },
 ];
@@ -33,7 +33,7 @@ describe('Product References selectors', () => {
   });
 
   it('getSelectedProductReferencesFactory should return references', () => {
-    let result: UIProductReference[];
+    let result: ProductReference[];
     store
       .pipe(select(fromStore.getSelectedProductReferencesFactory(productCode)))
       .subscribe(data => (result = data))

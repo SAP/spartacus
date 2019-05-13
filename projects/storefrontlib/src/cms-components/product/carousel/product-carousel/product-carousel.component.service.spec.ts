@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import {
   CmsProductCarouselComponent,
+  Product,
   ProductService,
-  UIProduct,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -10,7 +10,7 @@ import { ProductCarouselService } from './product-carousel.component.service';
 
 const title = 'mockTitle';
 
-const mockProduct: UIProduct = {
+const mockProduct: Product = {
   code: '111111',
   name: 'Camera',
   price: {
@@ -19,7 +19,7 @@ const mockProduct: UIProduct = {
 };
 
 class MockProductService {
-  get(): Observable<UIProduct> {
+  get(): Observable<Product> {
     return of(mockProduct);
   }
 }
@@ -83,7 +83,7 @@ describe('ProductCarouselService', () => {
     spyOn(productCarouselService, 'setItems').and.callThrough();
     spyOn(productCarouselService, 'getItems').and.callThrough();
 
-    let products$: Observable<UIProduct>[];
+    let products$: Observable<Product>[];
 
     productCarouselService.setItems();
     productCarouselService

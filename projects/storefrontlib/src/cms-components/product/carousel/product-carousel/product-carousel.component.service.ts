@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
   CmsProductCarouselComponent,
+  Product,
   ProductService,
-  UIProduct,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 
 @Injectable()
 export class ProductCarouselService {
-  private items$: Observable<Observable<UIProduct>[]>;
+  private items$: Observable<Observable<Product>[]>;
   private title$: Observable<string>;
 
   constructor(
@@ -30,12 +30,12 @@ export class ProductCarouselService {
     );
   }
 
-  getItems(): Observable<Observable<UIProduct>[]> {
+  getItems(): Observable<Observable<Product>[]> {
     return this.items$;
   }
 
   /**
-   * Maps the item codes from CMS component to an array of `UIProduct` observables.
+   * Maps the item codes from CMS component to an array of `Product` observables.
    */
   setItems(): void {
     this.items$ = this.component.data$.pipe(

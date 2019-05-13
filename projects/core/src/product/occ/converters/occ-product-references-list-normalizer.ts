@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { ProductReferenceList } from '../../../occ/occ-models/occ.models';
+import { ProductReference } from '../../../model/product.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { Converter, ConverterService } from '../../../util/converter.service';
-import { UIProductReference } from '../../model/product-reference-list';
 
 @Injectable()
 export class OccProductReferencesListNormalizer
-  implements Converter<ProductReferenceList, UIProductReference[]> {
+  implements Converter<Occ.ProductReferenceList, ProductReference[]> {
   constructor(private converter: ConverterService) {}
 
   convert(
-    source: ProductReferenceList,
-    target: UIProductReference[] = []
-  ): UIProductReference[] {
+    source: Occ.ProductReferenceList,
+    target: ProductReference[] = []
+  ): ProductReference[] {
     if (target === undefined) {
       target = { ...(source as any) };
     }

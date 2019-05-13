@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Review } from '../../occ/occ-models/occ.models';
+import { Review } from '../../model/product.model';
 import * as fromStore from '../store/index';
 
 @Injectable()

@@ -10,9 +10,9 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductReferencesComponent,
+  ProductReference,
   ProductReferenceService,
   RoutingService,
-  UIProductReference,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -41,7 +41,7 @@ const product = {
   name: 'testProduct',
 };
 
-const list: UIProductReference[] = [
+const list: ProductReference[] = [
   { referenceType: 'SIMILAR', target: product },
   { referenceType: 'ACCESSORIES', target: product },
 ];
@@ -75,7 +75,7 @@ class MockRoutingService {
 }
 
 class MockProductReferenceService {
-  get(): Observable<UIProductReference[]> {
+  get(): Observable<ProductReference[]> {
     return of(list);
   }
 }
@@ -162,7 +162,7 @@ describe('ProductReferencesComponent', () => {
   }));
 
   it('should have product list', async(() => {
-    let list$: UIProductReference[];
+    let list$: ProductReference[];
     productReferencesComponent.productReferencesService.setReferenceList();
     productReferencesComponent.productReferencesService
       .getReferenceList()

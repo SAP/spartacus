@@ -3,10 +3,10 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { Occ } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../connectors/references/converters';
-import { UIProductReferenceList } from '../model/product-reference-list';
 import { OccProductReferencesAdapter } from './occ-product-references.adapter';
 import createSpy = jasmine.createSpy;
 
@@ -17,7 +17,7 @@ const product = {
 };
 const referenceType = 'SIMILAR';
 const pageSize = 2;
-const productReferences: UIProductReferenceList = {
+const productReferences: Occ.ProductReferenceList = {
   references: [
     { referenceType: 'SIMILAR', target: product },
     { referenceType: 'ACCESSORIES', target: product },

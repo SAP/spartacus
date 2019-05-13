@@ -30,7 +30,7 @@
               *ngIf="(product$ | async) as product"
               class="product"
               [class.active]="i === carousel.activeItem"
-              [routerLink]="{ route: 'product', params: product } | cxUrl"
+              [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
             >
               <cx-media [container]="product.images?.PRIMARY" format="product">
               </cx-media>
