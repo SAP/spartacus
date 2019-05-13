@@ -2,7 +2,7 @@
   [attr.aria-label]="
     'miniCart.item' | cxTranslate: { count: quantity$ | async }
   "
-  [routerLink]="{ route: 'cart' } | cxUrl"
+  [routerLink]="{ cxRoute: 'cart' } | cxUrl"
 >
   <cx-icon [type]="iconTypes.CART"></cx-icon>
 

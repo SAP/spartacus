@@ -19,7 +19,7 @@ import { MiniCartComponent } from './mini-cart.component';
 })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
-    return options.route;
+    return options.cxRoute;
   }
 }
 
