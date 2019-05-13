@@ -17,8 +17,8 @@ export class SmartEditService {
   private _currentPageId: string;
 
   constructor(
-    private cmsService: CmsService,
-    private routingService: RoutingService,
+    protected cmsService: CmsService,
+    protected routingService: RoutingService,
     private zone: NgZone,
     winRef: WindowRef
   ) {
@@ -88,7 +88,7 @@ export class SmartEditService {
     });
   }
 
-  private goToPreviewPage(cmsPage: Page) {
+  protected goToPreviewPage(cmsPage: Page) {
     // the first page is the smartedit preview page
     if (!this.getPreviewPage) {
       this.getPreviewPage = true;
