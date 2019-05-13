@@ -10,10 +10,11 @@ import { NavigationExtras } from '@angular/router';
 import {
   ConsentTemplate,
   ConsentTemplateList,
-  GlobalMessage,
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   RoutingService,
+  Translatable,
   UrlCommands,
   User,
   UserService,
@@ -68,7 +69,13 @@ class UserServiceMock {
   getConsents(): Observable<ConsentTemplateList> {
     return of();
   }
+  giveConsent(
+    _userId: string,
+    _consentTemplateId: string,
+    _consentTemplateVersion: number
+  ): void {}
   resetGiveConsentProcessState(): void {}
+  withdrawConsent(_userId: string, _consentCode: string): void {}
   resetWithdrawConsentProcessState(): void {}
 }
 
@@ -81,7 +88,7 @@ class RoutingServiceMock {
 }
 
 class GlobalMessageServiceMock {
-  add(_message: GlobalMessage): void {}
+  add(_text: string | Translatable, _type: GlobalMessageType): void {}
 }
 
 const mockUser: User = {
@@ -90,6 +97,10 @@ const mockUser: User = {
 
 const mockConsentTemplate: ConsentTemplate = {
   id: 'mock ID',
+  version: 0,
+  currentConsent: {
+    code: 'mock code',
+  },
 };
 
 fdescribe('ConsentManagementComponent', () => {
@@ -193,14 +204,14 @@ fdescribe('ConsentManagementComponent', () => {
         expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
           mockTemplateList
         );
-        expect(userService.loadConsents).not.toHaveBeenCalled();
+        expect(userService.loadConsents).toHaveBeenCalledWith(mockUser.uid);
       });
     });
     describe('when the consents are already present', () => {
       const mockTemplateList: ConsentTemplateList = {
         consentTemplates: [mockConsentTemplate],
       };
-      it('should map consents to observable', () => {
+      it('should not trigger loading of consents and should return consent template list', () => {
         spyOn(userService, 'get').and.returnValue(of(mockUser));
         spyOn(userService, 'getConsents').and.returnValue(of(mockTemplateList));
         spyOn<any>(component, consentsExistsMethod).and.returnValue(true);
@@ -216,7 +227,7 @@ fdescribe('ConsentManagementComponent', () => {
         expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
           mockTemplateList
         );
-        expect(userService.loadConsents).toHaveBeenCalledWith(mockUser.uid);
+        expect(userService.loadConsents).not.toHaveBeenCalled();
       });
     });
   });
@@ -296,6 +307,16 @@ fdescribe('ConsentManagementComponent', () => {
         );
       });
     });
+    describe('when consentTemplates are an empty array', () => {
+      it('should return false', () => {
+        const consentTemplateList: ConsentTemplateList = {
+          consentTemplates: [],
+        };
+        expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
+          false
+        );
+      });
+    });
     describe('when consentTemplates are present', () => {
       it('should return true', () => {
         const consentTemplateList: ConsentTemplateList = {
@@ -305,6 +326,126 @@ fdescribe('ConsentManagementComponent', () => {
           true
         );
       });
+    });
+  });
+
+  describe('onConsentChange', () => {
+    describe('when the consent was given', () => {
+      it('should call facades giveConsent method', () => {
+        spyOn(userService, 'giveConsent').and.stub();
+        spyOn(userService, 'withdrawConsent').and.stub();
+        spyOn(userService, 'get').and.returnValue(of(mockUser));
+
+        component.onConsentChange({
+          given: true,
+          template: mockConsentTemplate,
+        });
+
+        expect(userService.giveConsent).toHaveBeenCalledWith(
+          mockUser.uid,
+          mockConsentTemplate.id,
+          mockConsentTemplate.version
+        );
+        expect(userService.withdrawConsent).not.toHaveBeenCalled();
+      });
+    });
+    describe('when the consent was NOT given', () => {
+      it('should call facades withdrawConsent method', () => {
+        spyOn(userService, 'giveConsent').and.stub();
+        spyOn(userService, 'withdrawConsent').and.stub();
+        spyOn(userService, 'get').and.returnValue(of(mockUser));
+
+        component.onConsentChange({
+          given: false,
+          template: mockConsentTemplate,
+        });
+
+        expect(userService.withdrawConsent).toHaveBeenCalledWith(
+          mockUser.uid,
+          mockConsentTemplate.currentConsent.code
+        );
+        expect(userService.giveConsent).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('onDone', () => {
+    it('should go to home page', () => {
+      spyOn(routingService, 'go').and.stub();
+      component.onDone();
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+  });
+
+  describe(onConsentGivenSuccessMethod, () => {
+    describe('when the consent was NOT successfully given', () => {
+      it('should NOT reset the processing state and display a success message', () => {
+        spyOn(userService, 'resetGiveConsentProcessState').and.stub();
+        spyOn(globalMessageService, 'add').and.stub();
+
+        component[onConsentGivenSuccessMethod](false);
+
+        expect(userService.resetGiveConsentProcessState).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+      });
+    });
+    describe('when the consent was successfully given', () => {
+      it('should reset the processing state and display a success message', () => {
+        spyOn(userService, 'resetGiveConsentProcessState').and.stub();
+        spyOn(globalMessageService, 'add').and.stub();
+
+        component[onConsentGivenSuccessMethod](true);
+
+        expect(userService.resetGiveConsentProcessState).toHaveBeenCalled();
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'consentManagementForm.message.success.given' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
+    });
+  });
+
+  describe(onConsentWithdrawnSuccessMethod, () => {
+    describe('when the consent was NOT successfully withdrawn', () => {
+      it('should NOT reset the processing state and display a success message', () => {
+        spyOn(userService, 'resetWithdrawConsentProcessState').and.stub();
+        spyOn(globalMessageService, 'add').and.stub();
+
+        component[onConsentWithdrawnSuccessMethod](false);
+
+        expect(
+          userService.resetWithdrawConsentProcessState
+        ).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+      });
+    });
+    describe('when the consent was successfully withdrawn', () => {
+      it('should reset the processing state and display a success message', () => {
+        spyOn(userService, 'resetWithdrawConsentProcessState').and.stub();
+        spyOn(globalMessageService, 'add').and.stub();
+
+        component[onConsentWithdrawnSuccessMethod](true);
+
+        expect(userService.resetWithdrawConsentProcessState).toHaveBeenCalled();
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'consentManagementForm.message.success.withdrawn' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe and reset the processing states', () => {
+      spyOn(component['subscriptions'], 'unsubscribe').and.stub();
+      spyOn(userService, 'resetGiveConsentProcessState').and.stub();
+      spyOn(userService, 'resetWithdrawConsentProcessState').and.stub();
+
+      component.ngOnDestroy();
+
+      expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();
+      expect(userService.resetGiveConsentProcessState).toHaveBeenCalled();
+      expect(userService.resetWithdrawConsentProcessState).toHaveBeenCalled();
     });
   });
 });

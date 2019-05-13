@@ -56,7 +56,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     ).pipe(
       filter(([user]) => Boolean(user) && Boolean(user.uid)),
       tap(([user, templateList]) => {
-        if (this.consentsExists(templateList)) {
+        if (!this.consentsExists(templateList)) {
           this.userService.loadConsents(user.uid);
         }
       }),
@@ -100,7 +100,11 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private consentsExists(templateList: ConsentTemplateList): boolean {
-    return Boolean(templateList) && Boolean(templateList.consentTemplates);
+    return (
+      Boolean(templateList) &&
+      Boolean(templateList.consentTemplates) &&
+      templateList.consentTemplates.length > 0
+    );
   }
 
   onConsentChange({
@@ -130,7 +134,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   onDone(): void {
-    this.routingService.go({ route: 'home' });
+    this.routingService.go({ cxRoute: 'home' });
   }
 
   private onConsentGivenSuccess(success: boolean): void {

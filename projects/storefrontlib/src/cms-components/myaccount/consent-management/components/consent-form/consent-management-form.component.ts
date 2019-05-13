@@ -15,7 +15,7 @@ export class ConsentManagementFormComponent implements OnInit {
     template: ConsentTemplate;
   }>();
 
-  private consentGiven = false;
+  consentGiven = false;
 
   constructor() {}
 
