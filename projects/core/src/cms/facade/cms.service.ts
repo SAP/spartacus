@@ -11,7 +11,6 @@ import {
   switchMap,
   take,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
