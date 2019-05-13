@@ -22,7 +22,11 @@ export class ProductImagesComponent implements OnInit {
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
       filter(Boolean),
-      tap(p => this.imageContainer$.next(p.images.PRIMARY))
+      tap(p => {
+        if (!this.imageContainer$.value) {
+          this.imageContainer$.next(p.images.PRIMARY);
+        }
+      })
     );
   }
 
