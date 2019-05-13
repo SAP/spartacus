@@ -45,7 +45,7 @@ const context: PageContext = {
 
 const ids = ['comp_uid1', 'comp_uid2'];
 
-fdescribe('OccCmsComponentAdapter', () => {
+describe('OccCmsComponentAdapter', () => {
   let service: OccCmsComponentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
