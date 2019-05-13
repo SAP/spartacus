@@ -21,7 +21,7 @@ describe('UrlPipe', () => {
     it('should return result from service', () => {
       const serviceResult = 'test-sevice-result';
       spyOn(service, 'generateUrl').and.returnValue(serviceResult);
-      expect(pipe.transform({ route: 'testRoute' })).toBe(serviceResult);
+      expect(pipe.transform({ cxRoute: 'testRoute' })).toBe(serviceResult);
       expect(service.generateUrl).toHaveBeenCalled();
     });
   });
