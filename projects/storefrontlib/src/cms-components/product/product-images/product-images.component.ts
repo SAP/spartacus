@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
-import { Product } from '@spartacus/core';
 
 const WAITING_CLASS = 'waiting';
 
@@ -15,7 +14,10 @@ export class ProductImagesComponent {
 
   waiting: HTMLElement;
 
-  product$ = this.currentProductService.getProduct();
+  product$ = this.currentProductService.getProduct().pipe(
+    filter(Boolean),
+    tap(p => this.imageContainer$.next(p.images.PRIMARY))
+  );
 
   constructor(private currentProductService: CurrentProductService) {}
 
