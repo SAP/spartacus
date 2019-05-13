@@ -1,26 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
-// import { OccSiteAdapter } from './occ-site.adapter';
-
-describe('OccSiteAdapter', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  // it('should be created', () => {
-  //   const service: OccSiteAdapter = TestBed.get(OccSiteAdapter);
-  //   expect(service).toBeTruthy();
-  // });
-});
-
-/*
-import { TestBed } from '@angular/core/testing';
 import {
-  HttpTestingController,
   HttpClientTestingModule,
+  HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { Occ } from '../../occ/occ-models/occ.models';
+import { OccSiteAdapter } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -37,20 +23,20 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccSiteService', () => {
-  let service: OccSiteService;
+fdescribe('OccSiteAdapter', () => {
+  let service: OccSiteAdapter;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccSiteService,
+        OccSiteAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccSiteService);
+    service = TestBed.get(OccSiteAdapter);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -65,7 +51,7 @@ describe('OccSiteService', () => {
       };
 
       service.loadLanguages().subscribe(result => {
-        expect(result).toEqual(languages);
+        expect(result).toEqual(languages.languages);
       });
 
       const mockReq: TestRequest = httpMock.expectOne({
@@ -86,7 +72,7 @@ describe('OccSiteService', () => {
       };
 
       service.loadCurrencies().subscribe(result => {
-        expect(result).toEqual(currencies);
+        expect(result).toEqual(currencies.currencies);
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
@@ -99,5 +85,3 @@ describe('OccSiteService', () => {
     });
   });
 });
-
- */
