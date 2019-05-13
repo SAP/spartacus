@@ -4,15 +4,12 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import * as fromActions from '../actions/index';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
-import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import * as fromUserActions from '../../../user/store/actions/index';
 import * as fromCartActions from './../../../cart/store/actions/index';
 import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
 import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
-import { ConverterService } from '../../../util/converter.service';
 import { CartConnector } from '../../../cart/connectors/cart/cart.connector';
-import { OrderEntry } from '../../../model/order.model';
 import { OrderConnector } from '../../../user/connectors/order.connector';
 
 @Injectable()
@@ -169,29 +166,18 @@ export class CheckoutEffects {
     ofType(fromActions.PLACE_ORDER),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.orderConnector
-        .place(payload.userId, payload.cartId)
-        .pipe(
-          map(data => {
-            for (const entry of data.entries as OrderEntry[]) {
-              entry.product = this.converter.convert(
-                entry.product,
-                PRODUCT_NORMALIZER
-              ) as any;
-            }
-            return data;
+      return this.orderConnector.place(payload.userId, payload.cartId).pipe(
+        switchMap(data => [
+          new fromActions.PlaceOrderSuccess(data),
+          new AddMessage({
+            text: {
+              key: 'checkoutOrderConfirmation.orderPlacedSuccessfully',
+            },
+            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
           }),
-          switchMap(data => [
-            new fromActions.PlaceOrderSuccess(data),
-            new AddMessage({
-              text: {
-                key: 'checkoutOrderConfirmation.orderPlacedSuccessfully',
-              },
-              type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-            }),
-          ]),
-          catchError(error => of(new fromActions.PlaceOrderFail(error)))
-        );
+        ]),
+        catchError(error => of(new fromActions.PlaceOrderFail(error)))
+      );
     })
   );
 
@@ -235,7 +221,6 @@ export class CheckoutEffects {
     private cartDeliveryConnector: CartDeliveryConnector,
     private cartConnector: CartConnector,
     private cartPaymentConnector: CartPaymentConnector,
-    private orderConnector: OrderConnector,
-    private converter: ConverterService
+    private orderConnector: OrderConnector
   ) {}
 }
