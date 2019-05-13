@@ -40,7 +40,7 @@ export function productPricingFlow() {
 
   cy.get('cx-product-list-item:nth-child(1)').should(
     'contain',
-    'Cyber-shot W55'
+    'EASYSHARE Z730 Zoom Digital Camera'
   );
 
   // Sort by price low to high
