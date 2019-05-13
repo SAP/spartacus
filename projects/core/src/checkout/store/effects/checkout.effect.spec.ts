@@ -16,7 +16,6 @@ import {
   CartPaymentConnector,
 } from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
-import { ProductImageNormalizer } from '../../../product';
 import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 
 import * as fromEffects from './checkout.effect';
