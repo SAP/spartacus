@@ -17,7 +17,7 @@ export class OccSiteAdapter implements SiteAdapter {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    private converter: ConverterService
   ) {}
 
   loadLanguages(): Observable<Language[]> {

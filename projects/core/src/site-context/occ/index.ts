@@ -7,6 +7,7 @@ import { OccSiteAdapter } from './occ-site.adapter';
 
 export * from './site-context-occ.module';
 export * from './site-context.interceptor';
+export * from './occ-site.adapter';
 
 export const interceptors: Provider[] = [
   {
@@ -16,6 +17,6 @@ export const interceptors: Provider[] = [
   },
   {
     provide: SiteAdapter,
-    useClass: OccSiteAdapter
-  }
+    useClass: OccSiteAdapter,
+  },
 ];
