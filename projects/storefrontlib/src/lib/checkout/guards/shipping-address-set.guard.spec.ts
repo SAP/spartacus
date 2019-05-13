@@ -25,7 +25,6 @@ describe(`ShippingAddressSetGuard`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ShippingAddressSetGuard,
         {
           provide: CheckoutDetailsService,
           useClass: MockCheckoutDetailsService,

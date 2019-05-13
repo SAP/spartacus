@@ -25,7 +25,6 @@ describe(`PaymentDetailsSetGuard`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        PaymentDetailsSetGuard,
         {
           provide: CheckoutDetailsService,
           useClass: MockCheckoutDetailsService,
