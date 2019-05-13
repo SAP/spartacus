@@ -1,4 +1,4 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, filter, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
