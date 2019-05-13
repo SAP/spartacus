@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Product } from '@spartacus/core';
-
 import { StripHtmlPipe } from './strip-html.pipe';
+import { Product } from '../../../model/product.model';
 
 describe('StripHtmlPipe', () => {
   const mockProduct: Product = {

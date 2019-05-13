@@ -2,15 +2,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Address, AddressValidation } from '../../model/address.model';
+import { User } from '../../model/misc.model';
 import {
-  Address,
-  AddressList,
-  AddressValidation,
   ConsentTemplate,
   ConsentTemplateList,
-  PaymentDetailsList,
-  User,
-} from '../../occ/occ-models/index';
+} from '../../occ/occ-models/additional-occ.models';
+import { Occ } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
@@ -66,14 +64,14 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  loadUserAddresses(userId: string): Observable<AddressList> {
+  loadUserAddresses(userId: string): Observable<Occ.AddressList> {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
     return this.http
-      .get<AddressList>(url, { headers })
+      .get<Occ.AddressList>(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -116,14 +114,14 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  loadUserPaymentMethods(userId: string): Observable<PaymentDetailsList> {
+  loadUserPaymentMethods(userId: string): Observable<Occ.PaymentDetailsList> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}?saved=true`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
     return this.http
-      .get<PaymentDetailsList>(url, { headers })
+      .get<Occ.PaymentDetailsList>(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

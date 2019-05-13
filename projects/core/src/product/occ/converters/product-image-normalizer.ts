@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { Image } from '../../../occ/occ-models';
-import { Product } from '../../../occ/occ-models/occ.models';
+import { Occ } from '../../../occ/occ-models/occ.models';
 import { Converter } from '../../../util/converter.service';
-import { UIImages, UIProduct } from '../../model/product';
+import { Product } from '../../../model/product.model';
+import { Images } from '../../../model/image.model';
 
 @Injectable()
-export class ProductImageNormalizer implements Converter<Product, UIProduct> {
+export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
   constructor(protected config: OccConfig) {}
 
-  convert(source: Product, target?: UIProduct): UIProduct {
+  convert(source: Occ.Product, target?: Product): Product {
     if (target === undefined) {
       target = { ...(source as any) };
     }
@@ -27,7 +27,7 @@ export class ProductImageNormalizer implements Converter<Product, UIProduct> {
    * - images.primary.thumnail.url
    * - images.GALLERY[0].thumnail.url
    */
-  normalize(source: Image[]): UIImages {
+  normalize(source: Occ.Image[]): Images {
     const images = {};
     if (source) {
       for (const image of source) {

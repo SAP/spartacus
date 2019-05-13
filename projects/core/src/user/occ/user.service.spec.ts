@@ -3,17 +3,15 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { Address, AddressValidation } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { User } from '../../model/misc.model';
 import { OccConfig } from '../../occ/config/occ-config';
 import {
-  Address,
-  AddressList,
-  AddressValidation,
   ConsentTemplate,
   ConsentTemplateList,
-  PaymentDetails,
-  PaymentDetailsList,
-  User,
-} from '../../occ/occ-models/index';
+} from '../../occ/occ-models/additional-occ.models';
+import { Occ } from '../../occ/occ-models/occ.models';
 import { OccUserService } from './user.service';
 
 const username = 'mockUsername';
@@ -137,7 +135,7 @@ describe('OccUserService', () => {
       const mockAddress2: Address = {
         companyName: 'mockCompany2',
       };
-      const mockUserAddresses: AddressList = {
+      const mockUserAddresses: Occ.AddressList = {
         addresses: [mockAddress1, mockAddress2],
       };
 
@@ -166,7 +164,7 @@ describe('OccUserService', () => {
       const mockPayment2: PaymentDetails = {
         accountHolderName: 'mockAccountHolderName2',
       };
-      const mockUserPaymentMethods: PaymentDetailsList = {
+      const mockUserPaymentMethods: Occ.PaymentDetailsList = {
         payments: [mockPayment1, mockPayment2],
       };
 

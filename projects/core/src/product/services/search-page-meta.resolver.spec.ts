@@ -1,7 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { Injectable } from '@angular/core';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { Observable, of } from 'rxjs';
 import {
   Page,
@@ -13,6 +12,7 @@ import {
 import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
 import { SearchPageMetaResolver } from './search-page-meta.resolver';
+import { PageType } from '../../model/cms.model';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,

@@ -6,12 +6,10 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/index';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { OrderHistoryList } from '../../../model/order.model';
 import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
-import {
-  Address,
-  OrderHistoryList,
-  PaymentDetails,
-} from '../../../occ/occ-models/occ.models';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   UserState,

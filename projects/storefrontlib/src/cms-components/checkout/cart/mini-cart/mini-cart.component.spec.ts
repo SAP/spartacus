@@ -7,7 +7,7 @@ import {
   CmsMiniCartComponent,
   Component as SpaComponent,
   UrlCommandRoute,
-  UICart,
+  Cart,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/index';
@@ -18,7 +18,7 @@ import { MiniCartComponent } from './mini-cart.component';
 })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
-    return options.route;
+    return options.cxRoute;
   }
 }
 
@@ -30,7 +30,7 @@ export class MockCxIconComponent {
   @Input() type;
 }
 
-const testCart: UICart = {
+const testCart: Cart = {
   code: 'xxx',
   guid: 'xxx',
   totalItems: 0,
@@ -57,7 +57,7 @@ const mockComponentData: CmsMiniCartComponent = {
 };
 
 class MockCartService {
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of(testCart);
   }
 }

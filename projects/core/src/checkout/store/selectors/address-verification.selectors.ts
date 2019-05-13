@@ -6,8 +6,8 @@ import {
   StateWithCheckout,
 } from '../checkout-state';
 import * as fromReducer from './../reducers/address-verification.reducer';
-import { AddressValidation } from '../../../occ/occ-models/occ.models';
 import { getCheckoutState } from './checkout.selectors';
+import { AddressValidation } from '../../../model/address.model';
 
 export const getAddressVerificationResultsState: MemoizedSelector<
   StateWithCheckout,

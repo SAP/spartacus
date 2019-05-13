@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   Facet,
   ProductSearchService,
-  UIProductSearchPage,
+  ProductSearchPage,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -17,12 +17,12 @@ import { filter, tap } from 'rxjs/operators';
 })
 export class ProductFacetNavigationComponent implements OnInit {
   activeFacetValueCode: string;
-  searchResult: UIProductSearchPage;
+  searchResult: ProductSearchPage;
   minPerFacet = 6;
   showAllPerFacetMap: Map<String, boolean>;
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
-  searchResult$: Observable<UIProductSearchPage>;
+  searchResult$: Observable<ProductSearchPage>;
   updateParams$: Observable<Params>;
 
   get visibleFacets(): Facet[] {
