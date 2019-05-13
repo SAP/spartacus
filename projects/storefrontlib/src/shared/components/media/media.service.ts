@@ -37,19 +37,26 @@ export class MediaService {
     };
   }
 
-  getMissingImage(): string {
+  getMissingImage(alt?: string): Media {
+    return {
+      src: this.getMissingImageSrc(),
+      alt: alt || undefined,
+    };
+  }
+
+  private getMissingImageSrc() {
     return missingProductImgSrc;
   }
 
   private getMainImage(media, format?: string): string {
     if (!media) {
-      return this.getMissingImage();
+      return this.getMissingImageSrc();
     } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
     } else if (media.url) {
       return this.getImageUrl(media.url);
     } else {
-      return this.getMissingImage();
+      return this.getMissingImageSrc();
     }
   }
 
