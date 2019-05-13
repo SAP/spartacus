@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Product } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, filter, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 const WAITING_CLASS = 'waiting';
@@ -9,17 +10,21 @@ const WAITING_CLASS = 'waiting';
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
 })
-export class ProductImagesComponent {
+export class ProductImagesComponent implements OnInit {
   imageContainer$ = new BehaviorSubject(null);
 
   waiting: HTMLElement;
 
-  product$ = this.currentProductService.getProduct().pipe(
-    filter(Boolean),
-    tap(p => this.imageContainer$.next(p.images.PRIMARY))
-  );
+  product$: Observable<Product>;
 
   constructor(private currentProductService: CurrentProductService) {}
+
+  ngOnInit(): void {
+    this.product$ = this.currentProductService.getProduct().pipe(
+      filter(Boolean),
+      tap(p => this.imageContainer$.next(p.images.PRIMARY))
+    );
+  }
 
   showImage(event: MouseEvent, imageContainer): void {
     if (this.imageContainer$.value === imageContainer) {

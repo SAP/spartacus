@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, UIProduct } from '@spartacus/core';
+import { I18nTestingModule, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductAttributesComponent } from './product-attributes.component';
 
-const mockProduct: UIProduct = { name: 'mockProduct' };
+const mockProduct: Product = { name: 'mockProduct' };
 
 class MockCurrentProductService {
-  getProduct(): Observable<UIProduct> {
+  getProduct(): Observable<Product> {
     return of(mockProduct);
   }
 }

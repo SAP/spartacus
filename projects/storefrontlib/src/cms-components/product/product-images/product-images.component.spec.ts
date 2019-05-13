@@ -3,6 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ProductImagesComponent } from './product-images.component';
+import { of, Observable } from 'rxjs';
+import { Product } from '@spartacus/core';
+import { CurrentProductService } from '../current-product.service';
 
 const firstImage = {
   zoom: {
@@ -14,19 +17,27 @@ const secondImage = {
     url: '456',
   },
 };
-const mockDataWithMultiplePictures = {
+const mockDataWithMultiplePictures: Product = {
+  name: 'mockProduct1',
   images: {
     PRIMARY: firstImage,
     GALLERY: [firstImage, secondImage],
   },
 };
 
-const mockDataWithOnePicture = {
+const mockDataWithOnePicture: Product = {
+  name: 'mockProduct2',
   images: {
     PRIMARY: firstImage,
     GALLERY: [firstImage],
   },
 };
+
+class MockCurrentProductService {
+  getProduct(): Observable<Product> {
+    return of();
+  }
+}
 
 @Component({
   selector: 'cx-media',
@@ -40,6 +51,7 @@ describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
   let element: DebugElement;
+  let currentProductService: CurrentProductService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -48,6 +60,12 @@ describe('ProductImagesComponent', () => {
         MockMediaComponent,
         OutletDirective,
       ],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -55,78 +73,73 @@ describe('ProductImagesComponent', () => {
     fixture = TestBed.createComponent(ProductImagesComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
-    component.product = mockDataWithMultiplePictures;
+    currentProductService = TestBed.get(CurrentProductService);
     spyOn(component, 'isMainImageContainer').and.callThrough();
   });
 
   describe('ProductImagesComponent with multiple pictures', () => {
     beforeEach(() => {
-      component.product = mockDataWithMultiplePictures;
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockDataWithMultiplePictures)
+      );
     });
 
     it('should be created', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should set mainImageControler', () => {
-      expect(component.mainImageContainer).toBe(
-        undefined,
-        'undefined at first'
-      );
-      component.ngOnChanges();
-      expect(component.mainImageContainer).toEqual(
-        component.product.images.PRIMARY
+    it('should set imageContainer$', () => {
+      expect(component.imageContainer$.value).toBe(null);
+      fixture.detectChanges();
+      expect(component.imageContainer$.value).toEqual(
+        mockDataWithMultiplePictures.images.PRIMARY
       );
     });
 
     it('should have <cx-media>', () => {
-      component.ngOnChanges();
       fixture.detectChanges();
       const picture = element.query(By.css('cx-media'));
       expect(picture.nativeElement).toBeDefined();
     });
 
     it('should have thumb element', () => {
-      component.ngOnChanges();
       fixture.detectChanges();
       const thumbs = element.query(By.css('.thumbs'));
       expect(thumbs.nativeElement).toBeDefined();
     });
 
     it('should have two thumbnail element', () => {
-      component.ngOnChanges();
       fixture.detectChanges();
       expect(element.queryAll(By.css('.thumbs cx-media')).length).toBe(2);
     });
 
     it('should call "imageContainer" for both thumbnails', () => {
-      component.ngOnChanges();
       fixture.detectChanges();
       expect(component.isMainImageContainer).toHaveBeenCalledWith(firstImage);
       expect(component.isMainImageContainer).toHaveBeenCalledWith(secondImage);
     });
 
     it('should toggle main image on focus', () => {
-      component.ngOnChanges();
       fixture.detectChanges();
       const pictureEl = <HTMLElement>(
         element.query(By.css('.thumbs cx-media:nth-child(2)')).nativeElement
       );
       pictureEl.dispatchEvent(new Event('focus'));
-      expect(component.mainImageContainer).toBe(secondImage);
+      expect(component.imageContainer$.value).toBe(secondImage);
     });
   });
 
   describe('ProductImagesComponent with one pictures', () => {
     beforeEach(() => {
-      component.product = mockDataWithOnePicture;
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockDataWithOnePicture)
+      );
     });
 
-    it('should not have a thumb element', () => {
-      component.ngOnChanges();
+    it('should hide thumbs element', () => {
       fixture.detectChanges();
       const thumbs = element.query(By.css('.thumbs'));
-      expect(thumbs).toBeFalsy();
+      expect(thumbs.classes).toEqual({ hidden: true });
     });
   });
 });

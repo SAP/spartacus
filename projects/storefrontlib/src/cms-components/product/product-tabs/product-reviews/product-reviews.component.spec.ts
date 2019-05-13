@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   I18nTestingModule,
   ProductReviewService,
-  UIProduct,
+  Product,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { FormComponentsModule } from '../../../../shared';
@@ -34,10 +34,10 @@ class MockStarRatingComponent {
   @Input() disabled;
 }
 
-const mockProduct: UIProduct = { name: 'mockProduct' };
+const mockProduct: Product = { name: 'mockProduct' };
 
 class MockCurrentProductService {
-  getProduct(): Observable<UIProduct> {
+  getProduct(): Observable<Product> {
     return of(mockProduct);
   }
 }
@@ -66,7 +66,6 @@ describe('ProductReviewsComponent in product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);
     productReviewsComponent = fixture.componentInstance;
-    productReviewsComponent.product = product;
 
     fixture.detectChanges();
   });
@@ -76,8 +75,6 @@ describe('ProductReviewsComponent in product', () => {
   });
 
   it('from get reviews by product code', () => {
-    productReviewsComponent.ngOnChanges();
-
     expect(productReviewsComponent.reviews$).toBeTruthy();
     productReviewsComponent.reviews$.subscribe(result => {
       expect(result).toEqual(reviews);
@@ -85,7 +82,6 @@ describe('ProductReviewsComponent in product', () => {
   });
 
   it('should contain a form object for the review submission form, after init()', () => {
-    productReviewsComponent.ngOnInit();
     const props = ['comment', 'title', 'rating', 'reviewerName'];
 
     props.forEach(prop => {
@@ -109,7 +105,7 @@ describe('ProductReviewsComponent in product', () => {
     });
 
     it('should hide form on submitReview()', () => {
-      productReviewsComponent.submitReview();
+      productReviewsComponent.submitReview(product);
       expect(productReviewsComponent.isWritingReview).toBe(false);
     });
   });
