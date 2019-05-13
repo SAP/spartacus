@@ -22,7 +22,7 @@ import { RouterModule } from '@angular/router';
     ConfigModule.withConfig(defaultCheckoutConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        MultistepCheckoutProgress: {
+        CheckoutProgress: {
           selector: 'cx-checkout-progress',
         },
       },

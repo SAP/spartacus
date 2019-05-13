@@ -23,7 +23,7 @@ import { CheckoutProgressMobileBottomModule } from '../checkout-progress/checkou
     CheckoutProgressMobileBottomModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        MultistepCheckoutShippingAddress: {
+        CheckoutShippingAddress: {
           selector: 'cx-shipping-address',
         },
       },
