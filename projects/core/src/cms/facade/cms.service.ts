@@ -80,14 +80,11 @@ export class CmsService {
             componentState.loading ||
             componentState.success ||
             componentState.error;
-          console.log('at', uid, attemptedLoad);
           if (!attemptedLoad && !isNavigating) {
-            console.log('in', uid);
             this.store.dispatch(new fromStore.LoadComponent(uid));
           }
         }),
         filter(([_, componentState]) => {
-          console.log('filter', uid, componentState);
           return componentState.success;
         }),
         map(([_, componentState]) => componentState.value),

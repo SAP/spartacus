@@ -1,22 +1,24 @@
-<cx-media
-  [container]="imageContainer$ | async"
-  format="zoom"
-  (loaded)="loadHandler()"
->
-</cx-media>
-
-<div
-  class="thumbs"
-  *ngIf="(product$ | async) as product"
-  [class.hidden]="product.images?.GALLERY?.length === 1"
->
+<ng-container *ngIf="(product$ | async) as product">
   <cx-media
-    *ngFor="let image of product.images?.GALLERY"
-    [container]="image"
-    format="thumbnail"
-    (focus)="showImage($event, image)"
-    tabindex="0"
-    [class.active]="isMainImageContainer(image) | async"
+    [container]="product.images?.PRIMARY"
+    format="zoom"
+    (loaded)="loadHandler()"
   >
   </cx-media>
-</div>
+
+  <div
+    class="thumbs"
+    *ngIf="(product$ | async) as product"
+    [class.hidden]="product.images?.GALLERY?.length === 1"
+  >
+    <cx-media
+      *ngFor="let image of product.images?.GALLERY"
+      [container]="image"
+      format="thumbnail"
+      (focus)="showImage($event, image)"
+      tabindex="0"
+      [class.active]="isMainImageContainer(image) | async"
+    >
+    </cx-media>
+  </div>
+</ng-container>

@@ -47,7 +47,7 @@ export class ProductReviewsComponent {
     this.reviewForm.controls.rating.setValue(rating);
   }
 
-  submitReview(product: UIProduct): void {
+  submitReview(product: Product): void {
     const reviewFormControls = this.reviewForm.controls;
     const review: Review = {
       headline: reviewFormControls.title.value,

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
-import { ProductDetailOutlets } from '../product-outlets.model';
+import { Product } from '@spartacus/core';
 
 const WAITING_CLASS = 'waiting';
 
@@ -11,16 +11,11 @@ const WAITING_CLASS = 'waiting';
   templateUrl: './product-images.component.html',
 })
 export class ProductImagesComponent {
-  outlets = ProductDetailOutlets;
-
   imageContainer$ = new BehaviorSubject(null);
 
   waiting: HTMLElement;
 
-  product$ = this.currentProductService.getProduct().pipe(
-    filter(Boolean),
-    tap(p => this.imageContainer$.next(p.images.PRIMARY))
-  );
+  product$ = this.currentProductService.getProduct();
 
   constructor(private currentProductService: CurrentProductService) {}
 
