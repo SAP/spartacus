@@ -16,5 +16,4 @@ export class SiteConnector {
   getCurrencies(): Observable<Currency[]> {
     return this.adapter.loadCurrencies();
   }
-
 }
