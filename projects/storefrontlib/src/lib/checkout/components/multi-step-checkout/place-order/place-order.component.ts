@@ -38,7 +38,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
       .getOrderDetails()
       .pipe(filter(order => Object.keys(order).length !== 0))
       .subscribe(() => {
-        this.routingService.go({ route: ['orderConfirmation'] });
+        this.routingService.go({ route: 'orderConfirmation' });
       });
   }
 
