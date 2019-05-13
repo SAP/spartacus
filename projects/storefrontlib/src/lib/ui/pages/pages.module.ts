@@ -3,7 +3,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, NotAuthGuard, ConfigModule } from '@spartacus/core';
-import { LogoutModule } from '../../../cms-components/index';
+import { LogoutGuard } from '../../../cms-components/index';
 import {
   PageLayoutComponent,
   PageLayoutModule,
@@ -30,7 +30,6 @@ const pageModules = [
     CommonModule,
     ...pageModules,
     PageLayoutModule,
-    LogoutModule,
     RouterModule.forChild([
       {
         // This route can be dropped only when we have a mapping path to page label for content pages
@@ -73,6 +72,12 @@ const pageModules = [
         canActivate: [NotAuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'login', cxRoute: 'login' },
+      },
+      {
+        path: null,
+        canActivate: [LogoutGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'logout' },
       },
       {
         path: null,

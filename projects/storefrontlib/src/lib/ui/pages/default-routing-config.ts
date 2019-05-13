@@ -5,6 +5,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   cart: { paths: ['cart'] },
   search: { paths: ['search/:query'] },
   login: { paths: ['login'] },
+  logout: { paths: ['logout'] },
   register: { paths: ['register'] },
   resetPassword: { paths: ['login/pw/change'] },
   forgotPassword: { paths: ['forgot-password'] },
