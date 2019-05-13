@@ -1,5 +1,4 @@
 import { USER_ADDRESSES } from '../user-state';
-import { Address } from '../../../occ/occ-models/index';
 import {
   loadMeta,
   failMeta,
@@ -7,6 +6,7 @@ import {
 } from '../../../state/utils/loader/loader.action';
 
 import * as fromUserAddressesAction from './user-addresses.action';
+import { Address } from '../../../model/address.model';
 
 const userId = '123';
 const address: Address = {

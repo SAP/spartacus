@@ -1,4 +1,3 @@
-import { User } from '../../../occ/occ-models/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   entityFailMeta,
@@ -8,6 +7,7 @@ import {
 } from '../../../state';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
 import * as fromUserDetailsAction from './user-details.action';
+import { User } from '../../../model/misc.model';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',

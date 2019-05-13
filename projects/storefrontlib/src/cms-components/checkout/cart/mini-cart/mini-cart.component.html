@@ -1,6 +1,6 @@
 <a
   [attr.aria-label]="(quantity$ | async) + ' items currently in your cart'"
-  [routerLink]="{ cxRoute: ['cart'] } | cxUrl"
+  [routerLink]="{ cxRoute: 'cart' } | cxUrl"
 >
   <cx-icon [type]="iconTypes.CART"></cx-icon>
 

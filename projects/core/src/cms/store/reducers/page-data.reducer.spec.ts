@@ -1,9 +1,9 @@
 import * as fromActions from '../actions/page.action';
-import { PageType } from '../../../occ';
 import { PageContext } from '../../../routing';
 import { Page } from '../../model/page.model';
 
 import * as fromPage from './page-data.reducer';
+import { PageType } from '../../../model/cms.model';
 
 describe('Cms Page Data Reducer', () => {
   describe('undefined action', () => {

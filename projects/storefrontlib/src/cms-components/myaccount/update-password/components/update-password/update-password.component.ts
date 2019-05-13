@@ -42,7 +42,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean): void {
     if (success) {
       this.globalMessageService.add(
-        'Password updated with success',
+        { key: 'updatePasswordForm.passwordUpdateSuccess' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       this.routingService.go({ cxRoute: 'home' });
