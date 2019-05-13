@@ -15,7 +15,6 @@ import { OutletModule } from '../../../cms-structure/outlet/index';
 import { PageComponentModule } from '../../../cms-structure/page/index';
 import { CartSharedModule } from '../../checkout/index';
 // guards
-import { ProductTabsComponent } from './container/product-tabs.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductDetailsTabModule } from './product-details-tab/product-details-tab.module';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
@@ -48,13 +47,9 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
     }),
     I18nModule,
   ],
-  declarations: [ProductAttributesComponent, ProductTabsComponent],
-  exports: [
-    ProductAttributesComponent,
-    ProductReviewsComponent,
-    ProductTabsComponent,
-  ],
-  entryComponents: [ProductTabsComponent, ProductAttributesComponent],
+  declarations: [ProductAttributesComponent],
+  exports: [ProductAttributesComponent, ProductReviewsComponent],
+  entryComponents: [ProductAttributesComponent],
   providers: [ProductService, WindowRef, RoutingService],
 })
 export class ProductTabsModule {}
