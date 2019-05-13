@@ -38,7 +38,7 @@ export class UserErrorHandlingService {
         if (token.access_token && token.refresh_token && !oldToken) {
           this.authService.refreshUserToken(token);
         } else if (!token.access_token && !token.refresh_token) {
-          this.routingService.go({ route: 'login' });
+          this.routingService.go({ cxRoute: 'login' });
         }
         oldToken = oldToken || token;
       }),

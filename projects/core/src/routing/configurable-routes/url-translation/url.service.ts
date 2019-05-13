@@ -46,7 +46,7 @@ export class UrlService {
   }
 
   private isRouteCommand(command: UrlCommand): boolean {
-    return command && Boolean(command.route);
+    return command && Boolean(command.cxRoute);
   }
 
   private shouldOutputAbsolute(commands: UrlCommands): boolean {
@@ -56,11 +56,13 @@ export class UrlService {
   private generateUrlPart(command: UrlCommandRoute): string[] | null {
     this.standarizeRouteCommand(command);
 
-    if (!command.route) {
+    if (!command.cxRoute) {
       return null;
     }
 
-    const routeConfig = this.routingConfigService.getRouteConfig(command.route);
+    const routeConfig = this.routingConfigService.getRouteConfig(
+      command.cxRoute
+    );
 
     // if no route translation was configured, return null:
     if (!routeConfig || !routeConfig.paths) {
