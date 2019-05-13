@@ -6,7 +6,11 @@ import {
 } from '@angular/common/http/testing';
 import { OccConfig } from '../../occ/config/occ-config';
 import { Occ } from '../../occ/occ-models/occ.models';
-import { OccSiteAdapter } from '@spartacus/core';
+import { ConverterService, OccSiteAdapter } from '@spartacus/core';
+import {
+  CURRENCY_NORMALIZER,
+  LANGUAGE_NORMALIZER,
+} from '../connectors/converters';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -23,8 +27,9 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-fdescribe('OccSiteAdapter', () => {
+describe('OccSiteAdapter', () => {
   let service: OccSiteAdapter;
+  let converter: ConverterService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -38,6 +43,8 @@ fdescribe('OccSiteAdapter', () => {
 
     service = TestBed.get(OccSiteAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -63,6 +70,12 @@ fdescribe('OccSiteAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(languages);
     });
+
+    it('should use converter', () => {
+      service.loadLanguages().subscribe();
+      httpMock.expectOne('/languages').flush([]);
+      expect(converter.pipeableMany).toHaveBeenCalledWith(LANGUAGE_NORMALIZER);
+    });
   });
 
   describe('load currencies', () => {
@@ -82,6 +95,12 @@ fdescribe('OccSiteAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(currencies);
+    });
+
+    it('should use converter', () => {
+      service.loadCurrencies().subscribe();
+      httpMock.expectOne('/currencies').flush([]);
+      expect(converter.pipeableMany).toHaveBeenCalledWith(CURRENCY_NORMALIZER);
     });
   });
 });
