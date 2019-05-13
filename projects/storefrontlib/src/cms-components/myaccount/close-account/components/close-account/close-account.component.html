@@ -1,19 +1,19 @@
 <div class="col-lg-8 col-md-9">
   <p
     class="cx-info"
-    [innerHTML]="'closeAccount.info.retention' | cxTranslate"
+    [innerHTML]="'closeAccount.infoRetention' | cxTranslate"
   ></p>
   <div class="row cx-btn-group">
     <div class="col-sm-3">
       <a
         [routerLink]="{ cxRoute: 'home' } | cxUrl"
         class="btn btn-block btn-secondary"
-        >{{ 'closeAccount.action.cancel' | cxTranslate }}</a
+        >{{ 'closeAccount.actionCancel' | cxTranslate }}</a
       >
     </div>
     <div class="col-sm-6">
       <button class="btn btn-primary" (click)="openModal()">
-        {{ 'closeAccount.action.closeMyAccount' | cxTranslate }}
+        {{ 'closeAccount.actionCloseAccount' | cxTranslate }}
       </button>
     </div>
   </div>

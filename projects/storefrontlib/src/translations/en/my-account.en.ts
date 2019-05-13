@@ -28,4 +28,13 @@ export const myAccount = {
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
   },
+  closeAccount: {
+    modalTitle: 'Confirm Account Closure',
+    modalConfirmation: 'Are you sure you want to close your account?',
+    actionCancel: 'Cancel',
+    actionCloseAccount: 'CLOSE MY ACCOUNT',
+    messageSuccess: 'Account closed with success',
+    infoRetention:
+      'When you close your account, your profile information will be kept for the retention period mandated by the laws and regulations of your country. Customer Support will be able to assist you with any order history or proof of purchase needs during this time.<br/><br/>At the end of the retention period, the following profile information will be deleted and will no longer be accessible to you or anyone else:<br/><br/><ul><li>email addresses</li><li>contact information</li><li>shipping details</li><li>delivery preferences</li><li>consent management settings</li><li>account history</li><li>payment details</li><li>order history</li></ul>', //tslint:disable-line
+  },
 };
