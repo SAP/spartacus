@@ -2,8 +2,6 @@ export const payment = {
   paymentForm: {
     payment: 'Payment',
     choosePaymentMethod: 'Choose a payment method',
-    expires: 'Expires:',
-    defaultPaymentMethod: 'Default Payment Method',
     paymentType: 'Payment Type',
     accountHolderName: {
       label: 'Account Holder Name',
@@ -26,5 +24,13 @@ export const payment = {
     paymentMethods: 'Payment methods',
     newPaymentMethodsAreAddedDuringCheckout:
       'New payment methods are added during checkout.',
+    invalidField: 'InvalidField: {{ field }}',
+  },
+  paymentCard: {
+    deleteConfirmation: 'Are you sure you want to delete this payment method?',
+    setAsDefault: 'Set as default',
+    expires: 'Expires: {{ month }}/{{ year }}',
+    defaultPaymentMethod: 'Default Payment Method',
+    selected: 'Selected',
   },
 };

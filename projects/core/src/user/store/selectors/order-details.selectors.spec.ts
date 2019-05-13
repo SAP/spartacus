@@ -5,7 +5,7 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { Order } from '../../../occ';
+import { Order } from '../../../model/order.model';
 
 describe('Order Details Selectors', () => {
   let store: Store<StateWithUser>;

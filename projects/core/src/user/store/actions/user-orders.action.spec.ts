@@ -1,4 +1,4 @@
-import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { OrderHistoryList } from '../../../model/order.model';
 import {
   failMeta,
   loadMeta,

@@ -6,8 +6,8 @@ import {
   StateWithCheckout,
 } from '../checkout-state';
 import * as fromReducer from './../reducers/card-types.reducer';
-import { CardType } from '../../../occ/occ-models/index';
 import { getCheckoutState } from './checkout.selectors';
+import { CardType } from '../../../model/cart.model';
 
 export const getCardTypesState: MemoizedSelector<
   StateWithCheckout,

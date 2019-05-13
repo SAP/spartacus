@@ -1,14 +1,8 @@
-import {
-  Address,
-  ConsentTemplateList,
-  Country,
-  Order,
-  OrderHistoryList,
-  PaymentDetails,
-  Region,
-  Title,
-  User,
-} from '../../occ/occ-models/index';
+import { Address, Country, Region } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Title, User } from '../../model/misc.model';
+import { Order, OrderHistoryList } from '../../model/order.model';
+import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';

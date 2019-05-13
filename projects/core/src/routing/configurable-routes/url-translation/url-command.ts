@@ -1,5 +1,5 @@
 export interface UrlCommandRoute {
-  route?: string;
+  cxRoute?: string;
   params?: { [param: string]: any };
 }
 
