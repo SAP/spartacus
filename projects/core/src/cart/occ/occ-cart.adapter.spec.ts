@@ -4,21 +4,23 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { Cart, CartList, OccConfig } from '../../occ';
+import { OccConfig } from '../../occ';
 import { ProductImageNormalizer } from '../../product';
 import { OccCartAdapter } from './occ-cart.adapter';
 import { ConverterService } from '../../util/converter.service';
 import { CART_NORMALIZER } from '@spartacus/core';
 import { CheckoutDetails } from '../../checkout/models/checkout.model';
+import { Occ } from '../../occ/occ-models/occ.models';
+import { Cart } from '../../model/cart.model';
 
 const userId = '123';
 const cartId = '456';
 const toMergeCart = { guid: '123456' };
-const cartData: Cart = {
+const cartData: Occ.Cart = {
   store: 'electronics',
   guid: '1212121',
 };
-const cartDataList: CartList = {
+const cartDataList: Occ.CartList = {
   carts: [cartData],
 };
 const mergedCart: Cart = {

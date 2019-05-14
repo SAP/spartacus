@@ -1,22 +1,16 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  Address,
-  Country,
-  Order,
-  OrderHistoryList,
-  PaymentDetails,
-  PaymentDetailsList,
-  Region,
-  Title,
-  User,
-} from '../../occ/occ-models/index';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
+import { Title, User } from '../../model/misc.model';
+import { Address, Country, Region } from '../../model/address.model';
+import { Order, OrderHistoryList } from '../../model/order.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 describe('UserService', () => {
   let service: UserService;
@@ -211,7 +205,7 @@ describe('UserService', () => {
   });
 
   it('should be able to get user payment methods', () => {
-    const paymentsList: PaymentDetailsList = {
+    const paymentsList: Occ.PaymentDetailsList = {
       payments: [{ id: 'method1' }, { id: 'method2' }],
     };
     store.dispatch(

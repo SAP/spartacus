@@ -1,5 +1,5 @@
 import * as fromActions from '../actions/user-addresses.action';
-import { Address } from '../../../occ';
+import { Address } from '../../../model/address.model';
 
 export const initialState: Address[] = [];
 

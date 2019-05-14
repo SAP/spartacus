@@ -11,7 +11,7 @@ export class GatewayTimeoutHandler extends HttpErrorHandler {
 
   handleError() {
     this.globalMessageService.add(
-      'The server did not responded, please try again later.',
+      { key: 'httpHandlers.gatewayTimeout' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }

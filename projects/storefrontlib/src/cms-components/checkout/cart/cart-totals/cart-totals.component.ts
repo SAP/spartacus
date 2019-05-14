@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { UICart, UIOrderEntry, CartService } from '@spartacus/core';
+import { Cart, OrderEntry, CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-totals',
@@ -10,8 +10,8 @@ import { UICart, UIOrderEntry, CartService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartTotalsComponent implements OnInit {
-  cart$: Observable<UICart>;
-  entries$: Observable<UIOrderEntry[]>;
+  cart$: Observable<Cart>;
+  entries$: Observable<OrderEntry[]>;
 
   constructor(protected cartService: CartService) {}
 

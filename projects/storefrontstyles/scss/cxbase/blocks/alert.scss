@@ -30,13 +30,8 @@
     background-color: mix(#ffffff, theme-color('success'), 80%);
     border: none;
     .alert-icon {
-      background-color: theme-color('success');
-      border-radius: 50%;
-      &::before {
-        content: '\0393';
-        color: mix(#ffffff, theme-color('success'), 80%);
-        transform: rotate(-135deg);
-        bottom: 1px;
+      cx-icon {
+        color: theme-color('success');
       }
     }
   }
@@ -45,11 +40,8 @@
     background-color: mix(#ffffff, theme-color('danger'), 85%);
     border: none;
     .alert-icon {
-      border-radius: 50%;
-      background-color: theme-color('danger');
-      &::before {
-        content: '!';
-        color: mix(#ffffff, theme-color('danger'), 85%);
+      cx-icon {
+        color: theme-color('danger');
       }
     }
   }
@@ -58,12 +50,8 @@
     background-color: mix(#ffffff, theme-color('info'), 80%);
     border: none;
     .alert-icon {
-      background-color: theme-color('info');
-      border-radius: 50%;
-      &::before {
-        content: '\00a1';
-        color: mix(#ffffff, theme-color('info'), 80%);
-        bottom: 3px;
+      cx-icon {
+        color: theme-color('info');
       }
     }
   }
@@ -72,18 +60,8 @@
     background-color: mix(#ffffff, theme-color('warning'), 78%);
     border: none;
     .alert-icon {
-      border-bottom: 25px solid theme-color('warning');
-      border-left: 13px solid transparent;
-      border-right: 13px solid transparent;
-      &::before {
-        content: '!';
-        color: mix(#ffffff, theme-color('warning'), 78%);
-        border-radius: 0;
-        height: 0;
-        width: 0;
-        text-indent: -0.15em;
-        top: 3px;
-        left: 0.5px;
+      cx-icon {
+        color: theme-color('warning');
       }
     }
   }
