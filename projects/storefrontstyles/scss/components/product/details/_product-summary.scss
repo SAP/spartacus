@@ -1,18 +1,18 @@
 %cx-product-summary {
   display: grid;
-  grid-column-gap: var(--cx-grid-column-gap, 30px);
+  grid-column-gap: 30px;
 
-  margin-bottom: var(--cx-margin-bottom, 40px);
+  margin-bottom: 40px;
 
   @include media-breakpoint-up(lg) {
-    grid-template-columns: var(--cx-grid-template-columns, 50% auto);
-    grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
+    grid-template-columns: 50% auto;
+    grid-template-rows: repeat(7, auto) 1fr;
   }
 
   .images {
     @include media-breakpoint-up(lg) {
-      grid-column: var(--cx-grid-column, 1);
-      grid-row: var(--cx-grid-row, 1 / span 8);
+      grid-column: 1;
+      grid-row: 1 / span 8;
     }
   }
 
@@ -22,7 +22,7 @@
 
   .code {
     @include type('7');
-    color: var(--cx-color, var(--cx-g-color-secondary));
+    color: var(--cx-g-color-secondary);
   }
 
   .rating {
@@ -31,7 +31,7 @@
     align-items: baseline;
 
     .count {
-      margin: var(--cx-margin, 0 20px 0 5px);
+      margin: 0 20px 0 5px;
     }
   }
 
@@ -44,17 +44,17 @@
   .quantity {
     label {
       @include type('8');
-      margin: var(--cx-margin, 15px 0 10px 0);
+      margin: 15px 0 10px 0;
     }
 
     .info {
       @include type('7');
-      margin: var(--cx-margin, 0 15px 0 15px);
-      color: var(--cx-color, var(--cx-g-color-secondary));
+      margin: 0 15px 0 15px;
+      color: var(--cx-g-color-secondary);
     }
   }
 
   cx-add-to-cart {
-    margin: var(--cx-margin, 20px 0 10px 0);
+    margin: 20px 0 10px 0;
   }
 }

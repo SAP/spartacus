@@ -1,6 +1,6 @@
 %cx-product-images {
   display: flex;
-  flex-direction: var(--cx-flex-direction, column);
+  flex-direction: column;
 
   height: 100%;
   > cx-media {
@@ -14,8 +14,8 @@
     justify-content: flex-start;
 
     cx-media {
-      width: var(--cx-width, 75px);
-      height: var(--cx-width, 75px);
+      width: 75px;
+      height: 75px;
       transition: all var(--cx-g-transition-duration);
 
       &:not(.active) {
@@ -24,14 +24,14 @@
       overflow: hidden;
       position: relative;
 
-      border: var(--cx-border, 2px solid var(--cx-g-color-light));
+      border: 2px solid var(--cx-g-color-light);
 
-      margin: var(--cx-margin, 0.5vw);
-      padding: var(--cx-padding, 0.5vw);
+      margin: 0.5vw;
+      padding: 0.5vw;
 
       &:hover,
       &.active {
-        border-color: var(--cx-border-color, var(--cx-g-color-primary));
+        border-color: var(--cx-g-color-primary);
       }
     }
   }

@@ -74,6 +74,4 @@ function trim(text: string): string {
     : result;
 }
 
-extractCssVariables(
-  './projects/storefrontlib/src/lib/product/components/product-details'
-);
+extractCssVariables('./projects/storefrontstyles/scss/components');

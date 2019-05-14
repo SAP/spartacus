@@ -7,14 +7,14 @@
   }
 
   &:not(:disabled):hover {
-    color: var(--cx-color, var(--cx-g-color-primary));
+    color: var(--cx-g-color-primary);
   }
 
   &:after {
     content: '';
     border-style: solid;
     border-color: currentColor;
-    border-width: var(--cx-border-width, 4px);
+    border-width: 4px;
     width: 15px;
     height: 15px;
     display: block;
@@ -81,7 +81,7 @@
           text-align: center;
           justify-content: space-between;
           padding-bottom: 10px;
-          color: var(--cx-color, var(--cx-g-color-text));
+          color: var(--cx-g-color-text);
           cx-media {
             height: var(--cx-height, 20vmin);
           }
@@ -139,9 +139,9 @@
       padding: 0;
       margin: 10px;
       background-color: currentColor;
-      transition: var(--cx-transition-duration, 0.6s) all;
+      transition: 0.6s all;
       &[disabled] {
-        color: var(--cx-background-color, var(--cx-g-color-primary));
+        color: var(--cx-g-color-primary);
       }
       &:not(:disabled):hover {
         color: var(--cx-g-color-secondary);
