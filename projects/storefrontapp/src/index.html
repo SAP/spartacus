@@ -1,35 +1,71 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="manifest" href="manifest.json" />
-    <meta charset="utf-8" />
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="manifest" href="manifest.json" />
+  <meta charset="utf-8" />
 
-    <link
-      rel="apple-touch-icon"
-      sizes="192x192"
-      href="assets/icons/icon-192x192.png"
-    />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+  <link
+    rel="apple-touch-icon"
+    sizes="192x192"
+    href="assets/icons/icon-192x192.png"
+  />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="white" />
 
-    <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
-    <meta
-      name="media-backend-base-url"
-      content="MEDIA_BACKEND_BASE_URL_VALUE"
-    />
+  <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
+  <meta
+    name="media-backend-base-url"
+    content="MEDIA_BACKEND_BASE_URL_VALUE"
+  />
 
-    <title>Spartacus Storefront</title>
-    <base href="/" />
-    <script
-      id="smartedit-injector"
-      src="webApplicationInjector.js"
-      data-smartedit-allow-origin="localhost:9002"
-    ></script>
-  </head>
+  <title>Spartacus Storefront</title>
+  <base href="/" />
+  <style>
+    .app-loading {
+      text-align: center;
+      margin: auto;
+      margin-top: calc(50vh - 82px);
+    }
+    .app-loading-image {
+      margin-bottom: 20px;
+      -webkit-animation: rotate-vert-center 3s cubic-bezier(0.455, 0.030, 0.515, 0.955) infinite;
+      animation: rotate-vert-center 3s cubic-bezier(0.455, 0.030, 0.515, 0.955) infinite;
+    }
+    @-webkit-keyframes rotate-vert-center {
+      0% {
+        -webkit-transform: rotateY(0);
+        transform: rotateY(0);
+      }
+      25% {
+        -webkit-transform: rotateY(360deg);
+        transform: rotateY(360deg);
+      }
+      50% {
+        -webkit-transform: rotateY(0);
+        transform: rotateY(0);
+      }
+      100% {
+        -webkit-transform: rotateY(0);
+        transform: rotateY(0);
+      }
+    }
+  </style>
+  <script
+    id="smartedit-injector"
+    src="webApplicationInjector.js"
+    data-smartedit-allow-origin="localhost:9002"
+  ></script>
+</head>
 
-  <body>
-    <cx-storefront>Loading...</cx-storefront>
-  </body>
+<body>
+<cx-storefront>
+  <div class="app-loading">
+    <div class="app-loading-image"><img src="assets/icons/icon-128x128.png"></div>
+    <div class="app-loading-text">Loading...</div>
+  </div>
+</cx-storefront>
+</body>
 </html>
+
