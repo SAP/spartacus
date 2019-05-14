@@ -170,6 +170,7 @@ describe('OccCmsComponentAdapter', () => {
       });
 
       const testRequest = httpMock.expectOne(req => {
+        console.log('get', req);
         return (
           req.method === 'GET' &&
           req.url ===
@@ -186,13 +187,14 @@ describe('OccCmsComponentAdapter', () => {
       );
 
       const testRequestPOST = httpMock.expectOne(req => {
+        console.log('post', req);
         return (
           req.method === 'POST' &&
           req.url === endpoint + `/components?productCode=${context.id}`
         );
       });
 
-      expect(testRequestPOST.request.body).toEqual({ componentIds: ids });
+      expect(testRequestPOST.request.body).toEqual({ idList: ids });
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'components',
         { fields: 'DEFAULT' },
@@ -281,7 +283,7 @@ describe('OccCmsComponentAdapter', () => {
         );
       });
 
-      expect(testRequestPOST.request.body).toEqual({ componentIds: ids });
+      expect(testRequestPOST.request.body).toEqual({ idList: ids });
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'components',
         { fields: 'DEFAULT' },

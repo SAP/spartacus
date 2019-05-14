@@ -9,12 +9,11 @@ import { PageContext } from '../../routing/index';
 import { ConverterService } from '../../util/converter.service';
 import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
-import { ComponentIds } from '../model/componentIds.model';
+import { IdList } from '../model/idList.model';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
-  private componentIdsFlag;
 
   constructor(
     private http: HttpClient,
@@ -41,13 +40,12 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    const componentIds: ComponentIds = { componentIds: ids };
-    this.componentIdsFlag = true;
+    const idList: IdList = { idList: ids };
 
     let requestParams = this.getComponentsRequestParams(
-      componentIds,
+      idList,
       pageContext,
-      this.componentIdsFlag,
+      true,
       currentPage,
       pageSize,
       sort
@@ -65,12 +63,10 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
         catchError(error => {
           if (error.status === 400) {
-            this.componentIdsFlag = false;
-
             requestParams = this.getComponentsRequestParams(
-              componentIds,
+              idList,
               pageContext,
-              this.componentIdsFlag,
+              false,
               currentPage,
               pageSize,
               sort
@@ -79,7 +75,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
             return this.http
               .post<CmsComponentList>(
                 this.getComponentsEndpoint(requestParams, fields),
-                componentIds,
+                idList,
                 {
                   headers: this.headers,
                 }
@@ -106,17 +102,17 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   }
 
   private getComponentsRequestParams(
-    componentIds: ComponentIds,
+    idList: IdList,
     pageContext: PageContext,
-    componentIdsFlag: boolean,
+    isGetRequest: boolean,
     currentPage?: number,
     pageSize?: number,
     sort?: string
   ): { [key: string]: string } {
     const requestParams = this.getComponentRequestParams(pageContext);
 
-    if (componentIdsFlag && componentIds !== undefined) {
-      requestParams['componentIds'] = componentIds.componentIds.toString();
+    if (isGetRequest && idList !== undefined) {
+      requestParams['componentIds'] = idList.idList.toString();
     }
 
     if (currentPage !== undefined) {
