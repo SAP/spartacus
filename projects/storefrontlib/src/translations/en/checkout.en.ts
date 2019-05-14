@@ -20,6 +20,7 @@ export const checkout = {
     invoiceHasBeenSentByEmail:
       'An invoice has been sent by email. You should receive it soon.',
     orderItems: 'Order Items',
+    orderPlacedSuccessfully: 'Order placed successfully',
   },
   checkoutReview: {
     review: 'Review',

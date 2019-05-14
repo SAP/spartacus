@@ -6,6 +6,10 @@ export enum ICON_TYPES {
   GRID = 'GRID',
   LIST = 'LIST',
   CARET_DOWN = 'CARET_DOWN',
+  TIMES = 'TIMES',
+  ERROR = 'ERROR',
+  WARNING = 'WARNING',
+  SUCCESS = 'SUCCESS',
 }
 
 export abstract class IconConfig {
