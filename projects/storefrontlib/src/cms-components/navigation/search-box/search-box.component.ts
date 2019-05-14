@@ -108,6 +108,7 @@ export class SearchBoxComponent {
    * Clears the search box input field
    */
   public clear(): void {
+    this.disableClose();
     this.searchBoxControl.reset();
   }
 

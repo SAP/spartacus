@@ -24,7 +24,10 @@
   ></cx-icon>
 </label>
 
-<div *ngIf="(searchResults$ | async) as result" class="results">
+<div
+  *ngIf="searchBoxControl.value && (searchResults$ | async) as result"
+  class="results"
+>
   <div
     class="message"
     [class.hidden]="!result.message"

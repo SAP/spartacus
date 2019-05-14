@@ -48,6 +48,15 @@
     height: 100%;
   }
 
+  // hide the input on mobile when there's no interaction with searchbox
+  &:not(.open) {
+    input {
+      @include media-breakpoint-down(md) {
+        opacity: 0;
+      }
+    }
+  }
+
   a,
   .message {
     padding: 6px 16px;
@@ -83,9 +92,6 @@
         background-color: var(--cx-g-color-secondary);
         padding: 6px;
         height: 48px;
-        &:not(:focus) {
-          opacity: 0;
-        }
       }
 
       flex-basis: 100%;
