@@ -3,7 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { RoutingService, CartService, Cart } from '@spartacus/core';
+import {
+  RoutingService,
+  CartService,
+  Cart,
+  RoutingConfigService,
+} from '@spartacus/core';
 import { CheckoutConfig } from '../../../config/checkout-config';
 
 @Component({
@@ -14,7 +19,8 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
   constructor(
     protected config: CheckoutConfig,
     protected routingService: RoutingService,
-    protected cartService: CartService
+    protected cartService: CartService,
+    protected routingConfigService: RoutingConfigService
   ) {}
 
   steps: Array<CheckoutStep>;
@@ -23,7 +29,7 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
   activeStepIndex: number;
   activeStepUrl: string;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.steps = this.config.checkout.steps;
     this.cart$ = this.cartService.getActive();
     this.routerState$ = this.routingService.getRouterState().pipe(
@@ -31,7 +37,10 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
         this.activeStepUrl = router.state.context.id;
 
         this.steps.forEach((step, index) => {
-          if (step.url === this.activeStepUrl) {
+          const routeUrl = `/${
+            this.routingConfigService.getRouteConfig(step.route).paths[0]
+          }`;
+          if (routeUrl === this.activeStepUrl) {
             this.activeStepIndex = index;
           }
         });

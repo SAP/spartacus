@@ -3,11 +3,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, Observable } from 'rxjs';
 import { UrlTree } from '@angular/router';
 
-import { ServerConfig } from '@spartacus/core';
+import {
+  ServerConfig,
+  RoutingConfigService,
+  RoutesConfig,
+} from '@spartacus/core';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { defaultStorefrontRoutesConfig } from '../../ui/pages/default-routing-config';
 
 const MockCheckoutConfig: CheckoutConfig = {
   checkout: {
@@ -15,12 +20,13 @@ const MockCheckoutConfig: CheckoutConfig = {
       {
         id: 'deliveryMode',
         name: 'checkoutProgress.deliveryMode',
-        url: '/checkout/delivery-mode',
+        route: 'deliveryMode',
         type: [CheckoutStepType.deliveryMode],
       },
     ],
   },
 };
+const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 const mockDeliveryModeCode = 'test mode code';
 
@@ -30,12 +36,19 @@ class MockCheckoutDetailsService {
   }
 }
 
+class MockRoutingConfigService {
+  getRouteConfig(routeName: string) {
+    return MockRoutesConfig[routeName];
+  }
+}
+
 const MockServerConfig: ServerConfig = { production: false };
 
 describe(`DeliveryModeSetGuard`, () => {
   let guard: DeliveryModeSetGuard;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
+  let mockRoutingConfigService: RoutingConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,6 +59,7 @@ describe(`DeliveryModeSetGuard`, () => {
           useClass: MockCheckoutDetailsService,
         },
         { provide: ServerConfig, useValue: MockServerConfig },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
       imports: [RouterTestingModule],
     });
@@ -53,6 +67,7 @@ describe(`DeliveryModeSetGuard`, () => {
     guard = TestBed.get(DeliveryModeSetGuard);
     mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.get(CheckoutConfig);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService);
   });
 
   it('should redirect to deliveryMode page when no modes selected', done => {
@@ -63,7 +78,10 @@ describe(`DeliveryModeSetGuard`, () => {
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {
       expect(result.toString()).toEqual(
-        mockCheckoutConfig.checkout.steps[0].url
+        '/' +
+          mockRoutingConfigService.getRouteConfig(
+            MockCheckoutConfig.checkout.steps[0].route
+          ).paths[0]
       );
       done();
     });

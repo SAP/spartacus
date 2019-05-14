@@ -8,6 +8,6 @@ export enum CheckoutStepType {
 export interface CheckoutStep {
   id: string;
   name: string;
-  url: string;
+  route: string;
   type: Array<CheckoutStepType>;
 }

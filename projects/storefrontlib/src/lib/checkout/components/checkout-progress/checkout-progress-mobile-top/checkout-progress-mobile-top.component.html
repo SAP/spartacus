@@ -10,7 +10,7 @@
           <div>{{ i + 1 }}. {{ step.name | cxTranslate }}</div>
           <button
             class="btn btn-link"
-            [routerLink]="{ route: step.id } | cxUrl"
+            [routerLink]="{ cxRoute: step.route } | cxUrl"
           >
             {{ 'common.edit' | cxTranslate }}
           </button>

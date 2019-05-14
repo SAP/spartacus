@@ -2,15 +2,29 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { Order, ServerConfig } from '@spartacus/core';
+import {
+  Order,
+  ServerConfig,
+  RoutingConfigService,
+  RoutesConfig,
+} from '@spartacus/core';
 import { PaymentDetailsSetGuard } from './payment-details-set.guard';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutConfig } from '../config/checkout-config';
+import { defaultStorefrontRoutesConfig } from '../../ui/pages/default-routing-config';
+
+const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 class MockCheckoutDetailsService {
   getPaymentDetails(): Observable<Order> {
     return of(null);
+  }
+}
+
+class MockRoutingConfigService {
+  getRouteConfig(routeName: string) {
+    return MockRoutesConfig[routeName];
   }
 }
 
@@ -21,6 +35,7 @@ describe(`PaymentDetailsSetGuard`, () => {
   let guard: PaymentDetailsSetGuard;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
+  let mockRoutingConfigService: RoutingConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,6 +46,7 @@ describe(`PaymentDetailsSetGuard`, () => {
         },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         { provide: ServerConfig, useValue: MockServerConfig },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
       imports: [RouterTestingModule],
     });
@@ -38,6 +54,7 @@ describe(`PaymentDetailsSetGuard`, () => {
     guard = TestBed.get(PaymentDetailsSetGuard);
     mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.get(CheckoutConfig);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService);
   });
 
   describe(`when there is NO payment details present`, () => {
@@ -48,7 +65,10 @@ describe(`PaymentDetailsSetGuard`, () => {
 
       guard.canActivate().subscribe(result => {
         expect(result.toString()).toEqual(
-          mockCheckoutConfig.checkout.steps[2].url
+          '/' +
+            mockRoutingConfigService.getRouteConfig(
+              MockCheckoutConfig.checkout.steps[2].route
+            ).paths[0]
         );
         done();
       });

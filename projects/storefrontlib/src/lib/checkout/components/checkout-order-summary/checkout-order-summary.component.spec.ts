@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { UICart, CartService, I18nTestingModule } from '@spartacus/core';
+import { Cart, CartService, I18nTestingModule } from '@spartacus/core';
 import { OrderSummaryComponent } from '../../../../cms-components/checkout/cart/cart-shared/order-summary/order-summary.component';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import { PromotionsComponent } from '../promotions/promotions.component';
@@ -14,7 +14,7 @@ describe('CheckoutOrderSummaryComponent', () => {
 
   beforeEach(async(() => {
     mockCartService = {
-      getActive(): BehaviorSubject<UICart> {
+      getActive(): BehaviorSubject<Cart> {
         return new BehaviorSubject({
           totalItems: 5141,
           subTotal: { formattedValue: '11119' },

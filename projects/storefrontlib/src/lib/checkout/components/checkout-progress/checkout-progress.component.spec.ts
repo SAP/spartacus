@@ -5,23 +5,38 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutConfig } from '../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  RoutingService,
+  RoutingConfigService,
+  RoutesConfig,
+} from '@spartacus/core';
 import { StoreModule } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
+import { defaultStorefrontRoutesConfig } from './../../../ui/pages/default-routing-config';
 
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 const mockRouterState = {
   state: {
     context: {
-      id: defaultCheckoutConfig.checkout.steps[0].url,
+      id:
+        '/' +
+        MockRoutesConfig[MockCheckoutConfig.checkout.steps[0].route].paths[0],
     },
   },
 };
 class MockRoutingService {
   getRouterState(): Observable<any> {
     return of(mockRouterState);
+  }
+}
+
+class MockRoutingConfigService {
+  getRouteConfig(routeName: string) {
+    return MockRoutesConfig[routeName];
   }
 }
 
@@ -48,6 +63,7 @@ describe('CheckoutProgressComponent', () => {
       providers: [
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     }).compileComponents();
   }));
