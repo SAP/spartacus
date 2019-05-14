@@ -116,7 +116,7 @@ describe('Router Reducer', () => {
     };
 
     it(`should not clear redirect URL if user is at
-     /login, /register or the same page as the redirectUrl. Else, it should clear it`, () => {
+     /login, /register, /homepage or the same page as the redirectUrl. Else, it should clear it`, () => {
       const { initialState } = fromReducer;
       initialState.redirectUrl = '/checkout';
 
@@ -141,7 +141,7 @@ describe('Router Reducer', () => {
       expect(state3.redirectUrl).toBe('/checkout');
 
       action.payload.routerState.url = '/';
-      action.payload.routerState.context.id = 'homepage';
+      action.payload.routerState.context.id = 'test';
       const state4 = fromReducer.reducer(initialState, action);
       expect(state4.redirectUrl).toBe('');
     });

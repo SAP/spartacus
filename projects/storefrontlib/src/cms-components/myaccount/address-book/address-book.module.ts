@@ -5,6 +5,7 @@ import {
   ConfigModule,
   I18nModule,
   UserService,
+  AuthGuard,
 } from '@spartacus/core';
 import { AddressFormModule } from '../../../lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
 import { CardModule } from '../../../shared/components/card/card.module';
@@ -27,6 +28,7 @@ import { AddressCardComponent } from './address-card/address-card.component';
               deps: [UserService],
             },
           ],
+          guards: [AuthGuard],
         },
       },
     }),
