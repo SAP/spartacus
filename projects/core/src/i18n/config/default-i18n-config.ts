@@ -13,7 +13,7 @@ export const defaultI18nConfig: I18nConfig = {
         'sorting',
         'httpHandlers',
       ],
-      cart: ['cartDetails', 'cartItems', 'orderCost'],
+      cart: ['cartDetails', 'cartItems', 'orderCost', 'miniCart'],
       address: ['addressForm', 'addressBook', 'addressCard'],
       payment: ['paymentForm', 'paymentMethods', 'paymentCard'],
       myAccount: ['orderDetails', 'orderHistory'],
