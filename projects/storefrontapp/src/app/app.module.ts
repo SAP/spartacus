@@ -14,6 +14,7 @@ import {
   StorefrontComponent,
   StorefrontModule,
   translations,
+  ICON_TYPES,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 
@@ -66,6 +67,17 @@ if (!environment.production) {
       },
       i18n: {
         resources: translations,
+      },
+      icon: {
+        useSvg: true,
+        svgPath: 'assets/sprite.svg',
+        prefix: '',
+        icons: {
+          [ICON_TYPES.CART]: 'shopping-bag',
+          [ICON_TYPES.SEARCH]: 'ambulance',
+          [ICON_TYPES.CARET_DOWN]: 'align-center',
+          [ICON_TYPES.STAR]: 'plus',
+        },
       },
     }),
 
