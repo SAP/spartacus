@@ -5,7 +5,11 @@ import { catchError } from 'rxjs/operators';
 
 import { StoreFinderSearchConfig, LongitudeLatitude } from '../model/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
-import { StoreFinderSearchPage } from '../../model/store.model';
+import {
+  StoreFinderSearchPage,
+  StoreCountList,
+  PointOfService,
+} from '../../model/store.model';
 import { StoreFinderAdapter } from '../connectors/store-finder.adapter';
 
 const STORES_ENDPOINT = 'stores';
@@ -21,11 +25,11 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     query: string,
     searchConfig: StoreFinderSearchConfig,
     longitudeLatitude?: LongitudeLatitude
-  ): Observable<any> {
+  ): Observable<StoreFinderSearchPage> {
     return this.callOccFindStores(query, searchConfig, longitudeLatitude);
   }
 
-  loadCount(): Observable<any> {
+  loadCount(): Observable<StoreCountList> {
     const storeCountUrl = this.getStoresEndpoint('storescounts');
 
     return this.http
@@ -33,7 +37,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  load(storeId: string): Observable<any> {
+  load(storeId: string): Observable<PointOfService> {
     const storeDetailsUrl = this.getStoresEndpoint(storeId);
     const params = { fields: 'FULL' };
 
