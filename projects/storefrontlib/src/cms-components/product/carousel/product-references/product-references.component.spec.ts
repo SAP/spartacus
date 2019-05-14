@@ -54,6 +54,8 @@ const mockComponentData: CmsProductReferencesComponent = {
   title: 'Mock Title',
   name: 'Mock UIProduct References',
   container: 'false',
+  displayProductTitles: 'true',
+  displayProductPrices: 'true',
 };
 
 const MockCmsComponentData = <CmsComponentData<any>>{
@@ -81,8 +83,24 @@ class MockProductReferenceService {
 }
 
 class MockProductReferencesService {
-  getTitle = jasmine.createSpy('getTitle').and.callFake(() => of('Mock Title'));
-  setTitle = jasmine.createSpy('setTitle').and.callFake(() => of('Mock Title'));
+  getTitle = jasmine
+    .createSpy('getTitle')
+    .and.callFake(() => of(mockComponentData.title));
+  setTitle = jasmine
+    .createSpy('setTitle')
+    .and.callFake(() => of(mockComponentData.title));
+  getDisplayProductTitles = jasmine
+    .createSpy('getTitle')
+    .and.callFake(() => of(mockComponentData.displayProductTitles));
+  setDisplayProductTitles = jasmine
+    .createSpy('setTitle')
+    .and.callFake(() => of(mockComponentData.displayProductTitles));
+  getDisplayProductPrices = jasmine
+    .createSpy('getTitle')
+    .and.callFake(() => of(mockComponentData.displayProductPrices));
+  setDisplayProductPrices = jasmine
+    .createSpy('setTitle')
+    .and.callFake(() => of(mockComponentData.displayProductPrices));
   getReferenceList = jasmine
     .createSpy('getReferenceList')
     .and.callFake(() => of(list));
