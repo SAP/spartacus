@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { CmsComponentList, PageType } from '../../../occ/occ-models/index';
+import { CmsComponentList } from '../../../occ/occ-models/index';
 import { RoutingService } from '../../../routing/index';
 import * as fromEffects from './navigation-entry-item.effect';
 import * as fromActions from '../actions/navigation-entry-item.action';
@@ -14,6 +14,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers/index';
 import { OccConfig } from '@spartacus/core';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import { PageType } from '../../../model/cms.model';
 
 const router = {
   state: {

@@ -6,7 +6,7 @@ import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { UICart } from '../../model/cart';
+import { Cart } from '../../../model/cart.model';
 
 @Injectable()
 export class CartEffects {
@@ -42,7 +42,7 @@ export class CartEffects {
           loadCartParams.details
         )
         .pipe(
-          map((cart: UICart) => {
+          map((cart: Cart) => {
             return new fromActions.LoadCartSuccess(cart);
           }),
           catchError(error => of(new fromActions.LoadCartFail(error)))
@@ -62,7 +62,7 @@ export class CartEffects {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
-          switchMap((cart: UICart) => {
+          switchMap((cart: Cart) => {
             if (payload.oldCartId) {
               return [
                 new fromActions.CreateCartSuccess(cart),

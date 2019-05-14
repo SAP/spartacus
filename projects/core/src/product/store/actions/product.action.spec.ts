@@ -5,7 +5,7 @@ import {
   entityLoadMeta,
   entitySuccessMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { UIProduct } from '../../model/product';
+import { Product } from '../../../model/product.model';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {
@@ -37,7 +37,7 @@ describe('Product Actions', () => {
 
     describe('LoadProductSuccess', () => {
       it('should create an action', () => {
-        const payload: UIProduct = { code: '123' };
+        const payload: Product = { code: '123' };
         const action = new fromProduct.LoadProductSuccess(payload);
 
         expect({ ...action }).toEqual({

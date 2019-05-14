@@ -5,9 +5,9 @@ import { PageContext } from '../../../routing';
 import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import { PageType } from '../../../occ/occ-models/occ.models';
 
 import { getCmsState } from './feature.selectors';
+import { PageType } from '../../../model/cms.model';
 
 export const getPageEntitiesSelector = (state: PageState) =>
   state.pageData.entities;

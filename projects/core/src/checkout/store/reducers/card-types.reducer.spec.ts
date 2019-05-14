@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/index';
-import { CardType } from '../../../occ';
 
 import * as fromReducer from './card-types.reducer';
+import { CardType } from '../../../model/cart.model';
 
 describe('Card Types Reducer', () => {
   describe('undefined action', () => {

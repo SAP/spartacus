@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PaymentDetails, UserService } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import {
+  PaymentDetails,
+  UserService,
+  TranslationService,
+} from '@spartacus/core';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { Card } from '../../../shared/components/card/card.component';
 import { map, tap } from 'rxjs/operators';
 
@@ -16,7 +20,10 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
 
   userServiceSub: Subscription;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private translation: TranslationService
+  ) {}
 
   ngOnInit(): void {
     this.paymentMethods$ = this.userService.getPaymentMethods().pipe(
@@ -45,21 +52,42 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     expiryMonth,
     expiryYear,
     cardNumber,
-  }: PaymentDetails): Card {
-    const actions: { name: string; event: string }[] = [];
-    if (!defaultPayment) {
-      actions.push({ name: 'Set as default', event: 'default' });
-    }
-    actions.push({ name: 'Delete', event: 'edit' });
-    const card: Card = {
-      header: defaultPayment ? 'DEFAULT' : null,
-      textBold: accountHolderName,
-      text: [cardNumber, `Expires: ${expiryMonth}/${expiryYear}`],
-      actions,
-      deleteMsg: 'Are you sure you want to delete this payment method?',
-    };
+  }: PaymentDetails): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('paymentCard.setAsDefault'),
+      this.translation.translate('common.delete'),
+      this.translation.translate('paymentCard.deleteConfirmation'),
+      this.translation.translate('paymentCard.expires', {
+        month: expiryMonth,
+        year: expiryYear,
+      }),
+      this.translation.translate('paymentCard.defaultPaymentMethod'),
+    ]).pipe(
+      map(
+        ([
+          textSetAsDefault,
+          textDelete,
+          textDeleteConfirmation,
+          textExpires,
+          textDefaultPaymentMethod,
+        ]) => {
+          const actions: { name: string; event: string }[] = [];
+          if (!defaultPayment) {
+            actions.push({ name: textSetAsDefault, event: 'default' });
+          }
+          actions.push({ name: textDelete, event: 'edit' });
+          const card: Card = {
+            header: defaultPayment ? textDefaultPaymentMethod : null,
+            textBold: accountHolderName,
+            text: [cardNumber, textExpires],
+            actions,
+            deleteMsg: textDeleteConfirmation,
+          };
 
-    return card;
+          return card;
+        }
+      )
+    );
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {

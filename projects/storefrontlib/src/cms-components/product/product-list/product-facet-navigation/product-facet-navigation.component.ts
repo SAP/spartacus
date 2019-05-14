@@ -5,10 +5,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   Facet,
   ProductSearchService,
-  UIProductSearchPage,
+  ProductSearchPage,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { ICON_TYPES } from '../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -16,13 +17,15 @@ import { filter, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFacetNavigationComponent implements OnInit {
+  iconTypes = ICON_TYPES;
+
   activeFacetValueCode: string;
-  searchResult: UIProductSearchPage;
+  searchResult: ProductSearchPage;
   minPerFacet = 6;
   showAllPerFacetMap: Map<String, boolean>;
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
-  searchResult$: Observable<UIProductSearchPage>;
+  searchResult$: Observable<ProductSearchPage>;
   updateParams$: Observable<Params>;
 
   get visibleFacets(): Facet[] {

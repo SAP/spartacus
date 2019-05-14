@@ -3,13 +3,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CmsComponent, PageType } from '../../occ/occ-models/index';
+import { CmsComponent } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { ConverterService } from '../../util/converter.service';
 import { CMS_PAGE_NORMALIZE } from '../connectors';
 import { CmsStructureConfigService } from '../services';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
+import { PageType } from '../../model/cms.model';
 import createSpy = jasmine.createSpy;
 
 const components: CmsComponent[] = [
