@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  occBaseUrl: '',
-};
+	  production: true,
+	  occBaseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002'
+	};
