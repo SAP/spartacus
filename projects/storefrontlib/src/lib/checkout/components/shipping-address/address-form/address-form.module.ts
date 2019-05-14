@@ -6,7 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { IconModule } from '../../../../../../cms-components/misc/icon/index';
+import { IconModule } from '../../../../../cms-components/misc/icon/index';
 
 @NgModule({
   imports: [

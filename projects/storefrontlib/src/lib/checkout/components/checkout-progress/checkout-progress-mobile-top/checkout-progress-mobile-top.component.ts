@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { RoutingService, CartService, UICart } from '@spartacus/core';
+import { RoutingService, CartService, Cart } from '@spartacus/core';
 import { CheckoutConfig } from '../../../config/checkout-config';
 
 @Component({
@@ -19,7 +19,7 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
 
   steps: Array<CheckoutStep>;
   routerState$: Observable<any>;
-  cart$: Observable<UICart>;
+  cart$: Observable<Cart>;
   activeStepIndex: number;
   activeStepUrl: string;
 

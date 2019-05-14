@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Address } from '@spartacus/core';
-import { ICON_TYPES } from '../../../../../../../cms-components/misc/icon/index';
+import { ICON_TYPES } from '../../../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-suggested-addresses-dialog',
