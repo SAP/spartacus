@@ -13,30 +13,6 @@ export interface Time {
   minute?: Uint8Array;
 }
 
-export interface SpecialOpeningDay {
-  closed?: boolean;
-  closingTime?: Time;
-  comment?: string;
-  date?: Date;
-  formattedDate?: string;
-  name?: string;
-  openingTime?: Time;
-}
-
-export interface WeekdayOpeningDay {
-  closed?: boolean;
-  closingTime?: Time;
-  openingTime?: Time;
-  weekDay?: string;
-}
-
-export interface OpeningSchedule {
-  code?: string;
-  name?: string;
-  specialDayOpeningList?: SpecialOpeningDay[];
-  weekDayOpeningList?: WeekdayOpeningDay[];
-}
-
 export interface GeoPoint {
   latitude?: number;
   longitude?: number;
