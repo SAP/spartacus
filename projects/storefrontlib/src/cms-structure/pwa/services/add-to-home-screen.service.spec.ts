@@ -61,7 +61,7 @@ describe('AddToHomeScreenService', () => {
     winRef.nativeWindow.dispatchEvent(event);
     expect(addToHomeService.disableAddToHomeScreen).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      'SAP Storefront was added to your home screen',
+      { key: 'pwa.addedToHomeScreen' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   });

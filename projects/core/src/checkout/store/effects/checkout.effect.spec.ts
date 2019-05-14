@@ -11,18 +11,11 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from '../actions/checkout.action';
 import * as fromCartActions from './../../../cart/store/actions/index';
 import {
+  CartConnector,
   CartDeliveryConnector,
   CartPaymentConnector,
-  CartConnector,
 } from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
-import {
-  Address,
-  DeliveryMode,
-  OccConfig,
-  Order,
-  PaymentDetails,
-} from '../../../occ';
 import { ProductImageNormalizer } from '../../../product';
 import {
   LoadUserAddresses,
@@ -32,6 +25,10 @@ import {
 
 import * as fromEffects from './checkout.effect';
 import { CheckoutDetails } from '../../models/checkout.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { OccConfig } from '@spartacus/core';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
 import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
@@ -268,7 +265,7 @@ describe('Checkout effect', () => {
       });
       const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
       const completion2 = new AddMessage({
-        text: { raw: 'Order placed successfully' },
+        text: { key: 'checkoutOrderConfirmation.orderPlacedSuccessfully' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 

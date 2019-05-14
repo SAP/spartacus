@@ -1,28 +1,15 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   Facet,
   ProductSearchService,
-  UIProductSearchPage,
+  ProductSearchPage,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { ICON_TYPES } from '../../../misc/icon';
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-export class MockCxIconComponent {
-  @Input() type;
-}
+import { ICON_TYPES } from '../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -33,12 +20,12 @@ export class ProductFacetNavigationComponent implements OnInit {
   iconTypes = ICON_TYPES;
 
   activeFacetValueCode: string;
-  searchResult: UIProductSearchPage;
+  searchResult: ProductSearchPage;
   minPerFacet = 6;
   showAllPerFacetMap: Map<String, boolean>;
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
-  searchResult$: Observable<UIProductSearchPage>;
+  searchResult$: Observable<ProductSearchPage>;
   updateParams$: Observable<Params>;
 
   get visibleFacets(): Facet[] {

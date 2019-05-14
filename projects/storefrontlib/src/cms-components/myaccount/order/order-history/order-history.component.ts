@@ -5,9 +5,10 @@ import {
   OrderHistoryList,
   RoutingService,
   UserService,
+  TranslationService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-history',
@@ -17,7 +18,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private routing: RoutingService,
-    private userService: UserService
+    private userService: UserService,
+    private translation: TranslationService
   ) {}
 
   orders$: Observable<OrderHistoryList>;
@@ -28,10 +30,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   private PAGE_SIZE = 5;
 
   sortType: string;
-  sortLabels = {
-    byDate: 'Date',
-    byOrderNumber: 'Order Number',
-  };
 
   ngOnInit(): void {
     this.subscription = this.auth.getUserToken().subscribe(userData => {
@@ -79,9 +77,23 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   goToOrderDetail(order: Order): void {
     this.routing.go({
-      route: 'orderDetails',
+      cxRoute: 'orderDetails',
       params: order,
     });
+  }
+
+  getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
+    return combineLatest([
+      this.translation.translate('sorting.date'),
+      this.translation.translate('sorting.orderNumber'),
+    ]).pipe(
+      map(([textByDate, textByOrderNumber]) => {
+        return {
+          byDate: textByDate,
+          byOrderNumber: textByOrderNumber,
+        };
+      })
+    );
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {

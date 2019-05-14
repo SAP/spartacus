@@ -4,13 +4,14 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap, take } from 'rxjs/operators';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { AddressList, User } from '../../../occ/occ-models/index';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
 import { UserService } from '../../facade/index';
 import { OccUserService } from '../../occ/index';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import { User } from '../../../model/misc.model';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -22,7 +23,7 @@ export class UserAddressesEffects {
     map((action: fromUserAddressesAction.LoadUserAddresses) => action.payload),
     mergeMap(payload => {
       return this.occUserService.loadUserAddresses(payload).pipe(
-        map((addressesList: AddressList) => {
+        map((addressesList: Occ.AddressList) => {
           return new fromUserAddressesAction.LoadUserAddressesSuccess(
             addressesList.addresses
           );
@@ -102,7 +103,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('New address was added successfully!');
+      this.showGlobalMessage('addressForm.userAddressAddSuccess');
     })
   );
 
@@ -114,7 +115,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('Address updated successfully!');
+      this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
     })
   );
 
@@ -126,7 +127,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('Address deleted successfully!');
+      this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
     })
   );
 
@@ -147,7 +148,10 @@ export class UserAddressesEffects {
     this.messageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     // ----------
 
-    this.messageService.add(text, GlobalMessageType.MSG_TYPE_CONFIRMATION);
+    this.messageService.add(
+      { key: text },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   private loadAddresses() {
