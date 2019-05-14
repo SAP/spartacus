@@ -9,9 +9,9 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/view-all-stores.action';
 import { OccConfig } from '../../../occ';
-import { OccStoreFinderService } from '../../occ/store-finder.service';
 
 import * as fromEffects from './view-all-stores.effect';
+import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -24,7 +24,7 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('ViewAllStores Effects', () => {
   let actions$: Observable<any>;
-  let service: OccStoreFinderService;
+  let connector: StoreFinderConnector;
   let effects: fromEffects.ViewAllStoresEffect;
 
   const searchResult: any = { stores: [] };
@@ -33,17 +33,17 @@ describe('ViewAllStores Effects', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccStoreFinderService,
+        StoreFinderConnector,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ViewAllStoresEffect,
         provideMockActions(() => actions$),
       ],
     });
 
-    service = TestBed.get(OccStoreFinderService);
+    connector = TestBed.get(StoreFinderConnector);
     effects = TestBed.get(fromEffects.ViewAllStoresEffect);
 
-    spyOn(service, 'storesCount').and.returnValue(of(searchResult));
+    spyOn(connector, 'getCount').and.returnValue(of(searchResult));
   });
 
   describe('viewAllStores$', () => {

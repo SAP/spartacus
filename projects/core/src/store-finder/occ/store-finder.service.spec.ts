@@ -7,8 +7,7 @@ import {
 import { OccConfig } from '../../occ';
 import { LongitudeLatitude } from '../model/longitude-latitude';
 import { StoreFinderSearchConfig } from '../model/search-config';
-
-import { OccStoreFinderService } from './store-finder.service';
+import { StoreFinderConnector } from '../connectors/store-finder.connector';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
@@ -34,20 +33,20 @@ export class MockOccModuleConfig {
   };
 }
 
-describe('OccStoreFinderService', () => {
-  let service: OccStoreFinderService;
+describe('StoreFinderConnector', () => {
+  let connector: StoreFinderConnector;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccStoreFinderService,
+        StoreFinderConnector,
         { provide: OccConfig, useClass: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccStoreFinderService);
+    connector = TestBed.get(StoreFinderConnector);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -57,8 +56,8 @@ describe('OccStoreFinderService', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service
-        .findStores(queryText, mockSearchConfig)
+      connector
+        .search(queryText, mockSearchConfig)
         .toPromise()
         .then(result => {
           expect(result).toEqual(searchResults);
@@ -79,8 +78,8 @@ describe('OccStoreFinderService', () => {
 
   describe('longitudeLatitude search', () => {
     it('should return search results for given longitudeLatitude', () => {
-      service
-        .findStores('', mockSearchConfig, longitudeLatitude)
+      connector
+        .search('', mockSearchConfig, longitudeLatitude)
         .toPromise()
         .then(result => {
           expect(result).toEqual(searchResults);
@@ -100,7 +99,7 @@ describe('OccStoreFinderService', () => {
   });
 
   it('should request stores count', () => {
-    service.storesCount().subscribe(result => {
+    connector.getCount().subscribe(result => {
       expect(result).toEqual(storeCountResponseBody);
     });
 
@@ -111,7 +110,7 @@ describe('OccStoreFinderService', () => {
 
   describe('query by store id', () => {
     it('should request stores by store id', () => {
-      service.findStoreById(storeId).subscribe(result => {
+      connector.get(storeId).subscribe(result => {
         expect(result).toEqual(searchResults.stores[0]);
       });
 

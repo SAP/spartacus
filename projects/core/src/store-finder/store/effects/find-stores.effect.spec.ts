@@ -11,9 +11,9 @@ import * as fromActions from '../actions/find-stores.action';
 import { OccConfig } from '../../../occ';
 import { LongitudeLatitude } from '../../model/longitude-latitude';
 import { StoreFinderSearchConfig } from '../../model/search-config';
-import { OccStoreFinderService } from '../../occ/store-finder.service';
 
 import * as fromEffects from './find-stores.effect';
+import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -26,7 +26,7 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('FindStores Effects', () => {
   let actions$: Observable<any>;
-  let service: OccStoreFinderService;
+  let connector: StoreFinderConnector;
   let effects: fromEffects.FindStoresEffect;
   let searchConfig: StoreFinderSearchConfig;
   const longitudeLatitude: LongitudeLatitude = {
@@ -41,19 +41,19 @@ describe('FindStores Effects', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccStoreFinderService,
+        StoreFinderConnector,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.FindStoresEffect,
         provideMockActions(() => actions$),
       ],
     });
 
-    service = TestBed.get(OccStoreFinderService);
+    connector = TestBed.get(StoreFinderConnector);
     effects = TestBed.get(fromEffects.FindStoresEffect);
     searchConfig = { pageSize: 10 };
 
-    spyOn(service, 'findStores').and.returnValue(of(searchResult));
-    spyOn(service, 'findStoreById').and.returnValue(of(singleStoreResult));
+    spyOn(connector, 'search').and.returnValue(of(searchResult));
+    spyOn(connector, 'get').and.returnValue(of(singleStoreResult));
   });
 
   describe('findStores$', () => {

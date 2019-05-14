@@ -3,20 +3,21 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { StoreFinderSearchConfig, LongitudeLatitude } from './../model/index';
+import { StoreFinderSearchConfig, LongitudeLatitude } from '../model/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
-import { StoreFinderSearchPage } from '../../model/store-finder.model';
+import { StoreFinderSearchPage } from '../../model/store.model';
+import { StoreFinderAdapter } from '../connectors/store-finder.adapter';
 
 const STORES_ENDPOINT = 'stores';
 
-@Injectable()
-export class OccStoreFinderService {
+@Injectable({ providedIn: 'root' })
+export class OccStoreFinderAdapter implements StoreFinderAdapter {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService
   ) {}
 
-  findStores(
+  search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
     longitudeLatitude?: LongitudeLatitude
@@ -24,7 +25,7 @@ export class OccStoreFinderService {
     return this.callOccFindStores(query, searchConfig, longitudeLatitude);
   }
 
-  storesCount(): Observable<any> {
+  loadCount(): Observable<any> {
     const storeCountUrl = this.getStoresEndpoint('storescounts');
 
     return this.http
@@ -32,7 +33,7 @@ export class OccStoreFinderService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  findStoreById(storeId: string): Observable<any> {
+  load(storeId: string): Observable<any> {
     const storeDetailsUrl = this.getStoresEndpoint(storeId);
     const params = { fields: 'FULL' };
 
