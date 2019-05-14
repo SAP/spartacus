@@ -7,7 +7,7 @@ import { Currency, Language } from '../../model/misc.model';
   providedIn: 'root',
 })
 export class SiteConnector {
-  constructor(private adapter: SiteAdapter) {}
+  constructor(protected adapter: SiteAdapter) {}
 
   getLanguages(): Observable<Language[]> {
     return this.adapter.loadLanguages();
