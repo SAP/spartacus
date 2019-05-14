@@ -1,19 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError, pluck } from 'rxjs/operators';
+import { PageType } from '../../model/cms.model';
 import { CmsComponent, CmsComponentList } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
-import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
-import { IdList } from '../model/idList.model';
 import { ConverterService } from '../../util/converter.service';
+import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
-import { pluck } from 'rxjs/operators';
-import { PageType } from '../../model/cms.model';
+import { IdList } from '../model/idList.model';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
+  private idListFlag;
 
   constructor(
     private http: HttpClient,
@@ -40,26 +41,55 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    const requestParams = this.getComponentsRequestParams(
+    const idList: IdList = { idList: ids };
+    this.idListFlag = true;
+
+    let requestParams = this.getComponentsRequestParams(
+      idList,
       pageContext,
+      this.idListFlag,
       currentPage,
       pageSize,
       sort
     );
 
-    const idList: IdList = { idList: ids };
-
     return this.http
-      .post<CmsComponentList>(
+      .get<CmsComponentList>(
         this.getComponentsEndpoint(requestParams, fields),
-        idList,
         {
           headers: this.headers,
         }
       )
       .pipe(
         pluck('component'),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
+        catchError(error => {
+          if (error.status === 400) {
+            this.idListFlag = false;
+
+            requestParams = this.getComponentsRequestParams(
+              idList,
+              pageContext,
+              this.idListFlag,
+              currentPage,
+              pageSize,
+              sort
+            );
+
+            return this.http
+              .post<CmsComponentList>(
+                this.getComponentsEndpoint(requestParams, fields),
+                idList,
+                {
+                  headers: this.headers,
+                }
+              )
+              .pipe(
+                pluck('component'),
+                this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+              );
+          }
+        })
       );
   }
 
@@ -76,12 +106,18 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   }
 
   private getComponentsRequestParams(
+    idList: IdList,
     pageContext: PageContext,
+    idListFlag: boolean,
     currentPage?: number,
     pageSize?: number,
     sort?: string
   ): { [key: string]: string } {
     const requestParams = this.getComponentRequestParams(pageContext);
+
+    if (idListFlag && idList !== undefined) {
+      requestParams['idList'] = idList.idList.toString();
+    }
 
     if (currentPage !== undefined) {
       requestParams['currentPage'] = currentPage.toString();
