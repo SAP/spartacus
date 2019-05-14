@@ -72,8 +72,8 @@ export interface CmsProductCarouselComponent extends CmsComponent {
 
 export interface CmsProductReferencesComponent extends CmsComponent {
   title?: string;
-  displayProductTitles?: boolean;
-  displayProductPrices?: boolean;
+  displayProductTitles?: string;
+  displayProductPrices?: string;
   maximumNumberProducts?: number;
   productReferenceTypes?: string;
   container?: string;

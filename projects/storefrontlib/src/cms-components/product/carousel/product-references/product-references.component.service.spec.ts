@@ -16,6 +16,7 @@ const product = {
 };
 
 const title = 'mockTitle';
+const mockDisplay = true;
 
 const list: ProductReference[] = [
   { referenceType: 'SIMILAR', target: product },
@@ -47,13 +48,15 @@ const mockComponentData: CmsProductReferencesComponent = {
   typeCode: 'ProductReferencesComponent',
   title: 'mockTitle',
   productReferenceTypes: 'referenceType',
+  displayProductTitles: 'true',
+  displayProductPrices: 'true',
 };
 
 const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
-describe('ProductReferencesService', () => {
+fdescribe('ProductReferencesService', () => {
   let productReferenceService: ProductReferencesService;
 
   beforeEach(() => {
@@ -111,6 +114,40 @@ describe('ProductReferencesService', () => {
       .unsubscribe();
 
     expect(title$).toBe(title);
+  });
+
+  it('should have displayTitle', () => {
+    spyOn(productReferenceService, 'setDisplayProductTitles').and.callThrough();
+    spyOn(productReferenceService, 'getDisplayProductTitles').and.callThrough();
+
+    let displayTitle$: boolean;
+
+    productReferenceService.setDisplayProductTitles();
+    productReferenceService
+      .getDisplayProductTitles()
+      .subscribe(data => {
+        displayTitle$ = data;
+      })
+      .unsubscribe();
+
+    expect(displayTitle$).toBe(mockDisplay);
+  });
+
+  it('should have displayPrices', () => {
+    spyOn(productReferenceService, 'setDisplayProductPrices').and.callThrough();
+    spyOn(productReferenceService, 'getDisplayProductPrices').and.callThrough();
+
+    let displayPrices$: boolean;
+
+    productReferenceService.setDisplayProductPrices();
+    productReferenceService
+      .getDisplayProductPrices()
+      .subscribe(data => {
+        displayPrices$ = data;
+      })
+      .unsubscribe();
+
+    expect(displayPrices$).toBe(mockDisplay);
   });
 
   it('should have product list', () => {

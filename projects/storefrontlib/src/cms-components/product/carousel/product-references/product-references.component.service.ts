@@ -13,6 +13,8 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 export class ProductReferencesService {
   private title$: Observable<string>;
   private items$: Observable<ProductReference[]>;
+  private displayProductTitles$: Observable<string>;
+  private displayProductPrices$: Observable<string>;
 
   constructor(
     protected component: CmsComponentData<CmsProductReferencesComponent>,
@@ -28,6 +30,34 @@ export class ProductReferencesService {
     this.title$ = this.component.data$.pipe(
       map(data => {
         return data.title;
+      })
+    );
+  }
+
+  getDisplayProductTitles(): Observable<boolean> {
+    return this.displayProductTitles$.pipe(
+      map(data => Boolean(JSON.parse(data.toLowerCase())))
+    );
+  }
+
+  setDisplayProductTitles(): void {
+    this.displayProductTitles$ = this.component.data$.pipe(
+      map(data => {
+        return data.displayProductTitles;
+      })
+    );
+  }
+
+  getDisplayProductPrices(): Observable<boolean> {
+    return this.displayProductPrices$.pipe(
+      map(data => Boolean(JSON.parse(data.toLowerCase())))
+    );
+  }
+
+  setDisplayProductPrices(): void {
+    this.displayProductPrices$ = this.component.data$.pipe(
+      map(data => {
+        return data.displayProductPrices;
       })
     );
   }
