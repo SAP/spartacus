@@ -1,6 +1,6 @@
 import { RegionsState } from '../user-state';
 import * as fromAction from '../actions/index';
-import { Region } from '../../../occ/occ-models';
+import { Region } from '../../../model/address.model';
 
 export const initialState: RegionsState = {
   entities: [],

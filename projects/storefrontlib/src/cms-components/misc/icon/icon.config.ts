@@ -4,8 +4,12 @@ export enum ICON_TYPES {
   GRID_MODE = 'th-large',
   LIST_MODE = 'bars',
   CARET_DOWN = 'angle-down',
+  TIMES = 'times',
   INFO = 'info-circle',
   STAR = 'star',
+  EXCLAMATION_CIRCLE = 'exclamation-circle',
+  EXCLAMATION_TRIANGLE = 'exclamation-triangle',
+  CHECK_CIRCLE = 'check-circle',
 }
 
 export abstract class IconConfig {

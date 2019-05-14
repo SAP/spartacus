@@ -1,6 +1,6 @@
 import * as fromLanguages from '../actions/languages.action';
 import { LanguagesState } from '../state';
-import { Language } from '../../../occ/occ-models/occ.models';
+import { Language } from '../../../model/misc.model';
 
 export const initialState: LanguagesState = {
   entities: null,

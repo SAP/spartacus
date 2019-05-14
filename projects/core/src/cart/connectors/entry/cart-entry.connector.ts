@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { CartModification } from '../../../occ/occ-models/occ.models';
 import { CartEntryAdapter } from './cart-entry.adapter';
+import { CartModification } from '../../../model/cart.model';
 
 @Injectable({
   providedIn: 'root',

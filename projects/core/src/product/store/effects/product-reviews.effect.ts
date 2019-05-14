@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { ErrorModel } from '../../../occ/occ-models/occ.models';
 import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
 import * as productReviewsActions from './../actions/product-reviews.action';
+import { ErrorModel } from '../../../model/misc.model';
 
 @Injectable()
 export class ProductReviewsEffects {

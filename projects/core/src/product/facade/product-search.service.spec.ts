@@ -11,7 +11,7 @@ import { SearchConfig } from '../model/search-config';
 import { StateWithProduct } from '../store/product-state';
 
 import { ProductSearchService } from './product-search.service';
-import { UIProductSearchPage } from '../model/product-search-page';
+import { ProductSearchPage } from '../../model/product-search.model';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
@@ -25,16 +25,16 @@ describe('ProductSearchService', () => {
       return {};
     }
   }
-  const mockSearchResults: UIProductSearchPage = {
+  const mockSearchResults: ProductSearchPage = {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
 
-  const mockAuxSearchResults: UIProductSearchPage = {
+  const mockAuxSearchResults: ProductSearchPage = {
     products: [{ code: 'aux1' }, { code: 'aux2' }],
   };
 
   const mockSelect = (
-    selector: MemoizedSelector<StateWithProduct, UIProductSearchPage>
+    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
   ) => {
     switch (selector) {
       case fromStore.getSearchResults:
@@ -79,7 +79,7 @@ describe('ProductSearchService', () => {
   ));
 
   it('should be able to get search results', () => {
-    let tempSearchResult: UIProductSearchPage;
+    let tempSearchResult: ProductSearchPage;
     service
       .getSearchResults()
       .subscribe(result => (tempSearchResult = result))
@@ -95,7 +95,7 @@ describe('ProductSearchService', () => {
   });
 
   it('should be able to get auxiliary search results', () => {
-    let tempAuxSearchResult: UIProductSearchPage;
+    let tempAuxSearchResult: ProductSearchPage;
     service
       .getAuxSearchResults()
       .subscribe(result => (tempAuxSearchResult = result))

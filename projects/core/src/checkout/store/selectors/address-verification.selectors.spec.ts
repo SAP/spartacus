@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
 import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { AddressValidation } from '../../../occ';
+import { AddressValidation } from '../../../model/address.model';
 
 describe('Address Verification Selectors', () => {
   let store: Store<StateWithCheckout>;

@@ -8,10 +8,11 @@ import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from './../actions/index';
-import { AddressValidation, Address } from '../../../occ';
+
 import { OccUserService } from '../../../user';
 
 import { AddressVerificationEffect } from './address-verification.effect';
+import { Address, AddressValidation } from '../../../model/address.model';
 
 const addressValidation: AddressValidation = {
   decision: 'test address validation',

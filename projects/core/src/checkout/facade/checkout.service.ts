@@ -7,15 +7,10 @@ import { filter } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../store/index';
 import { CartDataService, ANONYMOUS_USERID } from '../../cart/index';
-import {
-  PaymentDetails,
-  CardType,
-  Order,
-  DeliveryMode,
-  AddressValidation,
-  Address,
-} from '../../occ/occ-models/index';
 import * as fromSelector from '../../checkout/store/selectors/index';
+import { DeliveryMode, Order } from '../../model/order.model';
+import { CardType, PaymentDetails } from '../../model/cart.model';
+import { Address, AddressValidation } from '../../model/address.model';
 
 @Injectable()
 export class CheckoutService {

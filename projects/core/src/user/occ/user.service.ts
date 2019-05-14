@@ -2,19 +2,15 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import {
-  Address,
-  AddressList,
-  AddressValidation,
-  PaymentDetailsList,
-  User,
-} from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 import { UserRegisterFormData } from '../model/user.model';
+import { User } from '../../model/misc.model';
+import { Address, AddressValidation } from '../../model/address.model';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -62,14 +58,14 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  loadUserAddresses(userId: string): Observable<AddressList> {
+  loadUserAddresses(userId: string): Observable<Occ.AddressList> {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
     return this.http
-      .get<AddressList>(url, { headers })
+      .get<Occ.AddressList>(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -112,14 +108,14 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  loadUserPaymentMethods(userId: string): Observable<PaymentDetailsList> {
+  loadUserPaymentMethods(userId: string): Observable<Occ.PaymentDetailsList> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}?saved=true`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
     return this.http
-      .get<PaymentDetailsList>(url, { headers })
+      .get<Occ.PaymentDetailsList>(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

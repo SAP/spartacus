@@ -11,7 +11,7 @@ import { CLEAR_MISCS_DATA } from '../actions/index';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { LoaderResetAction } from '../../../state';
 import { OccOrderService } from '../../occ/index';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { OrderHistoryList } from '../../../model/order.model';
 
 @Injectable()
 export class UserOrdersEffect {

@@ -10,8 +10,8 @@ import {
   I18nTestingModule,
   PaymentDetails,
   PromotionResult,
-  UICart,
-  UIOrderEntry,
+  Cart,
+  OrderEntry,
   UserService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -20,7 +20,7 @@ import { Card } from '../../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
 
-const mockCart: UICart = {
+const mockCart: Cart = {
   guid: 'test',
   code: 'test',
   deliveryItemsQuantity: 123,
@@ -59,10 +59,7 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-const mockEntries: UIOrderEntry[] = [
-  { entryNumber: 123 },
-  { entryNumber: 456 },
-];
+const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -107,10 +104,10 @@ class MockUserService {
 }
 
 class MockCartService {
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of(mockCart);
   }
-  getEntries(): Observable<UIOrderEntry[]> {
+  getEntries(): Observable<OrderEntry[]> {
     return of(mockEntries);
   }
 }
@@ -154,8 +151,8 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let cart: UICart;
-    component.cart$.subscribe((data: UICart) => {
+    let cart: Cart;
+    component.cart$.subscribe((data: Cart) => {
       cart = data;
     });
 
@@ -166,8 +163,8 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let entries: UIOrderEntry[];
-    component.entries$.subscribe((data: UIOrderEntry[]) => {
+    let entries: OrderEntry[];
+    component.entries$.subscribe((data: OrderEntry[]) => {
       entries = data;
     });
 
@@ -262,7 +259,6 @@ describe('ReviewSubmitComponent', () => {
       expect(card.title).toEqual('paymentForm.payment');
       expect(card.textBold).toEqual(mockPaymentDetails.accountHolderName);
       expect(card.text).toEqual([
-        mockPaymentDetails.cardType.name,
         mockPaymentDetails.cardNumber,
         `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
           mockPaymentDetails.expiryYear
