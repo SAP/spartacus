@@ -20,7 +20,7 @@ $useTabsOnPDP: false !default;
   }
 
   > div {
-    background: var(--cx-background-color, var(--cx-g-color-background));
+    background: var(--cx-g-color-background);
     &:not(.active) {
       display: none;
     }
@@ -32,7 +32,7 @@ $useTabsOnPDP: false !default;
     margin-bottom: 0;
     &.active,
     &:hover {
-      color: var(--cx-color, var(--cx-g-color-primary));
+      color: var(--cx-g-color-primary);
     }
     cursor: pointer;
     @include media-breakpoint-up(md) {
@@ -46,14 +46,14 @@ $useTabsOnPDP: false !default;
       content: '';
       display: block;
       margin: 15px auto auto auto;
-      height: var(--cx-height, 5px);
-      background: var(--cx-color, var(--cx-g-color-primary));
+      height: 5px;
+      background: var(--cx-g-color-primary);
 
       // the tab hover effect uses a border in the :after pseudo
       // that is animated from 0% to 100% width
       width: 0;
-      opacity: var(--cx-opacity, 0);
-      transition: all var(--cx-g-transition-duration, 0.6s);
+      opacity: 0;
+      transition: all 0.6s;
     }
 
     &.active:after,
@@ -62,19 +62,17 @@ $useTabsOnPDP: false !default;
     }
     &.active:after,
     &.active:hover:after {
-      opacity: var(--cx-opacity, 1);
+      opacity: 1;
     }
     &:not(.active):hover:after {
-      opacity: var(--cx-opacity, 0.5);
+      opacity: 0.5;
     }
   }
 
   @include media-breakpoint-down(sm) {
     > h3 {
       text-indent: 20px;
-      border-top: var(--cx-border-width, 1px)
-        var(--cx-border-color, var(--cx-g-color-light))
-        var(--cx-border-style, solid);
+      border-top: 1px var(--cx-g-color-light) solid;
       font-size: 18px;
       padding: 15px 0 0 0;
       &:before {
@@ -84,7 +82,7 @@ $useTabsOnPDP: false !default;
         font-size: 33px;
         bottom: 12px;
         position: relative;
-        color: var(--cx-color, var(--cx-g-color-text));
+        color: var(--cx-g-color-text);
       }
       &.active {
         &:before {
@@ -130,9 +128,7 @@ $useTabsOnPDP: false !default;
       grid-column-start: 1;
       grid-column-end: -1;
       padding: 50px 0;
-      border-top: var(--cx-border-width, 1px)
-        var(--cx-border-color, var(--cx-g-color-light))
-        var(--cx-border-style, solid);
+      border-top: 1px var(--cx-g-color-light) solid;
     }
   }
 }
