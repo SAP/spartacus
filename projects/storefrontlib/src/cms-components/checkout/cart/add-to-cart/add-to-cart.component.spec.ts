@@ -6,8 +6,8 @@ import {
   CartDataService,
   CartService,
   I18nTestingModule,
-  UICart,
-  UIOrderEntry,
+  Cart,
+  OrderEntry,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
@@ -16,13 +16,13 @@ import { AddToCartComponent } from './add-to-cart.component';
 const productCode = '1234';
 class MockCartService {
   addEntry(_productCode: string, _quantity: number): void {}
-  getEntry(_productCode: string): Observable<UIOrderEntry> {
+  getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
   getLoaded(): Observable<boolean> {
     return of();
   }
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of();
   }
 }
@@ -67,10 +67,10 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call ngOnInit()', () => {
-    const mockCartEntry: UIOrderEntry = { entryNumber: 7 };
+    const mockCartEntry: OrderEntry = { entryNumber: 7 };
     spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.ngOnInit();
-    let result: UIOrderEntry;
+    let result: OrderEntry;
     addToCartComponent.cartEntry$.subscribe(entry => (result = entry));
     expect(result).toEqual(mockCartEntry);
   });

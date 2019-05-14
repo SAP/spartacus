@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/index';
-import { Country } from '../../../occ/occ-models/index';
 
 import * as fromReducer from './billing-countries.reducer';
+import { Country } from '../../../model/address.model';
 
 describe('Billing Countries Reducer', () => {
   describe('undefined action', () => {

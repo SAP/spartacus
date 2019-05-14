@@ -1,8 +1,8 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { OrderDetailsState, UserState, StateWithUser } from '../user-state';
-import { Order } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
+import { Order } from '../../../model/order.model';
 
 export const getOrderState: MemoizedSelector<
   StateWithUser,

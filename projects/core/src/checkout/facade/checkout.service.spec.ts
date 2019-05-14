@@ -1,26 +1,21 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
 import * as fromCheckout from '../store/index';
-import { CartDataService, UICart } from '../../cart/index';
-import {
-  PaymentDetails,
-  DeliveryMode,
-  Address,
-  CardType,
-  AddressValidation,
-  Order,
-} from '../../occ/occ-models/index';
 
 import { CheckoutService } from './checkout.service';
+import { Address, AddressValidation } from '../../model/address.model';
+import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
+import { CartDataService } from '@spartacus/core';
+import { DeliveryMode, Order } from '../../model/order.model';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let cartData: CartDataService;
   let store: Store<fromCheckout.CheckoutState>;
   const userId = 'testUserId';
-  const cart: UICart = { code: 'testCartId', guid: 'testGuid' };
+  const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
   const paymentDetails: PaymentDetails = {
     id: 'mockPaymentDetails',

@@ -7,18 +7,19 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { TitleList } from '../../../occ/occ-models';
+
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 
 import { TitlesEffects } from '.';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 class MockMiscsService {
-  loadTitles(): Observable<TitleList> {
+  loadTitles(): Observable<Occ.TitleList> {
     return of();
   }
 }
 
-const mockTitlesList: TitleList = {
+const mockTitlesList: Occ.TitleList = {
   titles: [
     {
       code: 'mr',
