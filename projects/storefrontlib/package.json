@@ -24,7 +24,7 @@
     "@angular/pwa": "^0.13.7",
     "@angular/router": "~7.2.11",
     "@angular/service-worker": "~7.2.11",
-    "@ng-bootstrap/ng-bootstrap": "^4.0.1",
+    "@ng-bootstrap/ng-bootstrap": "4.1.0",
     "@ng-select/ng-select": "^2.13.2",
     "@ngrx/effects": "~7.4.0",
     "@ngrx/router-store": "~7.4.0",

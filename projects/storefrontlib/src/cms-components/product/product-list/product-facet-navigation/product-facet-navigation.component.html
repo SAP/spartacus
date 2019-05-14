@@ -17,7 +17,9 @@
           aria-label="Close"
           (click)="toggleValue(breadcrumb.removeQuery.query.value)"
         >
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+          </span>
         </button>
       </div>
     </div>
@@ -110,7 +112,9 @@
           aria-label="Close"
           (click)="toggleValue(breadcrumb.removeQuery.query.value)"
         >
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+          </span>
         </button>
       </div>
     </div>
@@ -129,7 +133,9 @@
       aria-label="Close"
       (click)="d('Cross click')"
     >
-      <span aria-hidden="true">&times;</span>
+      <span aria-hidden="true">
+        <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+      </span>
     </button>
   </div>
   <div class="modal-body cx-facet-modal-body">
