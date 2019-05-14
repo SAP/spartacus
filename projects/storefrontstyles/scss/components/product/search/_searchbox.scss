@@ -5,7 +5,7 @@
     display: none;
   }
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     // we position the parent relative to ensure the absolute childs
     // can be aligned to the left of this parent
     position: relative;
@@ -16,7 +16,7 @@
 
   > * {
     z-index: 20;
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
       background-color: var(--cx-g-color-secondary);
       position: relative;
     }
@@ -26,7 +26,7 @@
     .results {
       display: none;
     }
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
       .reset {
         opacity: 0;
       }
@@ -51,7 +51,7 @@
   // hide the input on mobile when there's no interaction with searchbox
   &:not(.open) {
     input {
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(sm) {
         opacity: 0;
       }
     }
@@ -69,9 +69,10 @@
     margin: 0;
     padding: 6px;
 
-    @include media-breakpoint-up(lg) {
-      width: 25vw;
-
+    @include media-breakpoint-up(md) {
+      input {
+        width: 25vw;
+      }
       // hide search icon when the input is dirty
       &.dirty cx-icon.search {
         display: none;
@@ -84,7 +85,7 @@
       outline: none;
       padding-left: 10px;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(sm) {
         position: absolute;
         left: 0;
         top: 57px;
@@ -115,7 +116,7 @@
       text-align: center;
       cursor: pointer;
       &.reset {
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(sm) {
           position: absolute;
           right: 65px;
           z-index: 20;
@@ -134,7 +135,7 @@
     background-color: var(--cx-g-color-background);
     font-size: var(--cx-g-font-small, 1rem);
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
       top: 104px;
       z-index: 10;
     }
