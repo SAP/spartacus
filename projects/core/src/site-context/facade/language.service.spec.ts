@@ -9,9 +9,9 @@ import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
-import { Language } from '../../occ/occ-models/occ.models';
 import { EffectsModule } from '@ngrx/effects';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
+import { Language } from '../../model/misc.model';
 
 const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' },

@@ -5,5 +5,6 @@ export const pwa = {
     noInstallationNeeded: 'No installation needed',
     fastAccessToApplication: 'Fast access to application',
     addToHomeScreen: 'Add to home screen',
+    addedToHomeScreen: 'SAP Storefront was added to your home screen',
   },
 };

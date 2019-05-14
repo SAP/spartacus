@@ -6,11 +6,6 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/index';
-import {
-  Address,
-  OrderHistoryList,
-  PaymentDetails,
-} from '../../../occ/occ-models/occ.models';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   UserState,
@@ -28,6 +23,9 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { OrderHistoryList } from '../../../model/order.model';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {

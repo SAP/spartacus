@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PageType } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsPageAdapter } from '../connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZE } from '../connectors/page/converters';
 import { ConverterService } from '../../util/converter.service';
 import { CmsStructureModel } from '../model/page.model';
+import { PageType } from '../../model/cms.model';
 
 @Injectable()
 export class OccCmsPageAdapter implements CmsPageAdapter {

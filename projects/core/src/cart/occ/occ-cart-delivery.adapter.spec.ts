@@ -3,15 +3,17 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { Address, Cart, DeliveryModeList, OccConfig } from '../../occ';
 import { OccCartDeliveryAdapter } from './occ-cart-delivery.adapter';
 import { ConverterService } from '../../util/converter.service';
 import {
   DELIVERY_ADDRESS_NORMALIZER,
   DELIVERY_ADDRESS_SERIALIZER,
   DELIVERY_MODE_NORMALIZER,
+  OccConfig,
 } from '@spartacus/core';
+import { Cart } from '../../model/cart.model';
+import { Address } from '../../model/address.model';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 const userId = '123';
 const cartId = '456';
@@ -133,7 +135,7 @@ describe('OccCartDeliveryAdapter', () => {
 
   describe('get all supported delivery modes for cart', () => {
     it('should get all supported delivery modes for cart for given user id and cart id', () => {
-      const mockDeliveryModes: DeliveryModeList = {
+      const mockDeliveryModes: Occ.DeliveryModeList = {
         deliveryModes: [{ name: 'mockDeliveryMode' }],
       };
       let result;

@@ -1,15 +1,9 @@
-import {
-  Address,
-  Country,
-  Order,
-  OrderHistoryList,
-  PaymentDetails,
-  Region,
-  Title,
-  User,
-} from '../../occ/occ-models/index';
 import { BasicNotificationPreferenceList } from '../model/user.model';
 import { LoaderState } from '../../state';
+import { Address, Country, Region } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Order, OrderHistoryList } from '../../model/order.model';
+import { Title, User } from '../../model/misc.model';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';

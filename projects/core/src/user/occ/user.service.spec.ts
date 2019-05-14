@@ -5,18 +5,14 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../occ/config/occ-config';
 import {
-  Address,
-  AddressList,
-  AddressValidation,
-  PaymentDetails,
-  PaymentDetailsList,
-  User,
-} from '../../occ/occ-models/index';
-import {
   BasicNotificationPreferenceList,
   NotificationPreferenceList,
 } from '../model/user.model';
 import { OccUserService } from './user.service';
+import { User } from '../../model/misc.model';
+import { Address, AddressValidation } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -138,7 +134,7 @@ describe('OccUserService', () => {
       const mockAddress2: Address = {
         companyName: 'mockCompany2',
       };
-      const mockUserAddresses: AddressList = {
+      const mockUserAddresses: Occ.AddressList = {
         addresses: [mockAddress1, mockAddress2],
       };
 
@@ -167,7 +163,7 @@ describe('OccUserService', () => {
       const mockPayment2: PaymentDetails = {
         accountHolderName: 'mockAccountHolderName2',
       };
-      const mockUserPaymentMethods: PaymentDetailsList = {
+      const mockUserPaymentMethods: Occ.PaymentDetailsList = {
         payments: [mockPayment1, mockPayment2],
       };
 
