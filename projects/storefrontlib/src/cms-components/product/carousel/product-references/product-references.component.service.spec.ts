@@ -56,7 +56,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
-fdescribe('ProductReferencesService', () => {
+describe('ProductReferencesService', () => {
   let productReferenceService: ProductReferencesService;
 
   beforeEach(() => {
