@@ -1,19 +1,17 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { Params, RouterStateSnapshot } from '@angular/router';
-
+import * as fromNgrxRouter from '@ngrx/router-store';
 import {
   ActionReducerMap,
   createFeatureSelector,
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import * as fromNgrxRouter from '@ngrx/router-store';
-
-import * as fromActions from '../actions';
-import { ROUTING_FEATURE } from '../../state';
-import { PageContext } from '../../models/page-context.model';
-import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 import { PageType } from '../../../model/cms.model';
+import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
+import { PageContext } from '../../models/page-context.model';
+import { ROUTING_FEATURE } from '../../state';
+import * as fromActions from '../actions';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -90,7 +88,7 @@ export function reducer(
         : '';
       let redirectUrl;
       if (
-        contextId === 'login' ||
+        contextId === '/login' ||
         contextId === 'register' ||
         currentUrl === state.redirectUrl
       ) {
