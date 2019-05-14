@@ -12,7 +12,7 @@ import {
   RemoveMessage,
   RemoveMessagesByType,
 } from '../store/index';
-import { Translatable } from '../../i18n';
+import { Translatable } from '../../i18n/translatable';
 
 @Injectable()
 export class GlobalMessageService {
@@ -30,7 +30,8 @@ export class GlobalMessageService {
 
   /**
    * Add one message into store
-   * @param message: GlobalMessage object
+   * @param text: string | Translatable
+   * @param type: GlobalMessageType object
    */
   add(text: string | Translatable, type: GlobalMessageType): void {
     if (typeof text === 'string') {
