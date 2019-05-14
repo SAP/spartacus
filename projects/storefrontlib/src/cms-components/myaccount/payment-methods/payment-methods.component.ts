@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PaymentDetails, UserService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { Card } from '../../../shared/components/card/card.component';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-methods',
@@ -14,24 +15,27 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   userId: string;
 
   userServiceSub: Subscription;
-  paymentMethodsSub: Subscription;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.paymentMethods$ = this.userService.getPaymentMethods();
+    this.paymentMethods$ = this.userService.getPaymentMethods().pipe(
+      tap(paymentDetails => {
+        // Set first payment method to DEFAULT if none is set
+        if (
+          paymentDetails.length > 0 &&
+          !paymentDetails.find(paymentDetail => paymentDetail.defaultPayment)
+        ) {
+          this.setDefaultPaymentMethod(paymentDetails[0]);
+        }
+      })
+    );
+
     this.editCard = null;
     this.loading$ = this.userService.getPaymentMethodsLoading();
     this.userServiceSub = this.userService.get().subscribe(data => {
       this.userId = data.uid;
       this.userService.loadPaymentMethods(this.userId);
-    });
-
-    // Mark first payment as default in case there ever is none
-    this.paymentMethodsSub = this.paymentMethods$.subscribe(data => {
-      if (data.length > 0 && !data.find(x => x.defaultPayment)) {
-        this.setDefaultPaymentMethod(data[0]);
-      }
     });
   }
 
@@ -82,9 +86,6 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.userServiceSub) {
       this.userServiceSub.unsubscribe();
-    }
-    if (this.paymentMethodsSub) {
-      this.paymentMethodsSub.unsubscribe();
     }
   }
 }
