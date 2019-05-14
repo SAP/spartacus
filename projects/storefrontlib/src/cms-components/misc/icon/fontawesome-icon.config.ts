@@ -12,6 +12,10 @@ export const fontawesomeIconConfig: IconConfig = {
       GRID: 'th-large',
       LIST: 'bars',
       CARET_DOWN: 'angle-down',
+      ERROR: 'exclamation-circle',
+      WARNING: 'exclamation-triangle',
+      SUCCESS: 'check-circle',
+      TIMES: 'times',
     },
   },
 };
