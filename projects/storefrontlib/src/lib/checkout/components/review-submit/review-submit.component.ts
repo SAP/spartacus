@@ -13,7 +13,7 @@ import {
   UserService,
   TranslationService,
 } from '@spartacus/core';
-import { Card } from '../../../../../shared/components/card/card.component';
+import { Card } from '../../../../shared/components/card/card.component';
 
 @Component({
   selector: 'cx-review-submit',
