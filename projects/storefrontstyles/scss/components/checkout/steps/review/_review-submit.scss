@@ -94,3 +94,18 @@
     }
   }
 }
+
+cx-checkout-order-summary {
+  margin: var(--cx-margin, 0 0 -2rem);
+  @media (min-width: 992px) {
+    margin: var(--cx-margin, 0 0 -24rem);
+  }
+  @media (min-width: 1200px) {
+    margin: var(--cx-margin, 0 0 -20rem);
+  }
+}
+
+cx-place-order {
+  --cx-flex-basis: 100%;
+  padding: var(--cx-padding, 1rem);
+}

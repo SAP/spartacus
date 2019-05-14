@@ -19,7 +19,7 @@ import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobil
     ConfigModule.withConfig(defaultCheckoutConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        MultistepCheckoutProgressMobileBottom: {
+        CheckoutProgressMobileBottom: {
           selector: 'cx-checkout-progress-mobile-bottom',
         },
       },

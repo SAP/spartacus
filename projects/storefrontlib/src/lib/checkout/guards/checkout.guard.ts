@@ -4,7 +4,9 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { CheckoutConfig } from '../config/checkout-config';
 import { Observable, of } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutGuard implements CanActivate {
   constructor(private router: Router, private config: CheckoutConfig) {}
 

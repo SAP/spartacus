@@ -15,7 +15,7 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        MultistepCheckoutDeliveryMode: {
+        CheckoutDeliveryMode: {
           selector: 'cx-delivery-mode',
           guards: [ShippingAddressSetGuard],
         },

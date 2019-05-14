@@ -5,7 +5,7 @@
         class="col-xs-12 col-sm-4 col-md-3 navigation-elements"
         *ngFor="let child of node?.children"
       >
-        <h1>{{ child.title }}</h1>
+        <h5>{{ child.title }}</h5>
         <ul>
           <li *ngFor="let link of child.children">
             <cx-generic-link

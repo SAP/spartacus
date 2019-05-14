@@ -1,4 +1,4 @@
-import { CheckoutStep } from './model/checkout-step.model';
+import { CheckoutStep } from '../model/checkout-step.model';
 
 export abstract class CheckoutConfig {
   checkout?: {

@@ -1,4 +1,4 @@
-import { CheckoutStep } from '../../../config/model/checkout-step.model';
+import { CheckoutStep } from '../../../model/checkout-step.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -9,7 +9,6 @@ import { CheckoutConfig } from '../../../config/checkout-config';
 @Component({
   selector: 'cx-checkout-progress-mobile-top',
   templateUrl: './checkout-progress-mobile-top.component.html',
-  styleUrls: ['./checkout-progress-mobile-top.component.scss'],
 })
 export class CheckoutProgressMobileTopComponent implements OnInit {
   constructor(

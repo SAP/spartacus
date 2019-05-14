@@ -3,12 +3,11 @@ import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutConfig } from '../../../config/checkout-config';
-import { CheckoutStep } from '../../../config/model/checkout-step.model';
+import { CheckoutStep } from '../../../model/checkout-step.model';
 
 @Component({
   selector: 'cx-checkout-progress-mobile-bottom',
   templateUrl: './checkout-progress-mobile-bottom.component.html',
-  styleUrls: ['./checkout-progress-mobile-bottom.component.scss'],
 })
 export class CheckoutProgressMobileBottomComponent implements OnInit {
   constructor(

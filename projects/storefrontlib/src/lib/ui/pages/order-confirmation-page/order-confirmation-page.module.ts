@@ -15,7 +15,7 @@ const routes: Routes = [
     path: null,
     canActivate: [AuthGuard, CmsPageGuard, OrderConfirmationPageGuard],
     component: OrderConfirmationPageComponent,
-    data: { pageLabel: 'orderConfirmationPage', cxPath: 'orderConfirmation' },
+    data: { pageLabel: 'orderConfirmationPage', cxRoute: 'orderConfirmation' },
   },
 ];
 
@@ -27,7 +27,6 @@ const routes: Routes = [
     OutletRefModule,
     RouterModule.forChild(routes),
   ],
-  providers: [OrderConfirmationPageGuard],
   declarations: [OrderConfirmationPageComponent],
   exports: [OrderConfirmationPageComponent],
 })

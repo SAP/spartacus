@@ -1,4 +1,4 @@
-<ng-container *cxOutlet="section || (templateName$ | async)">
+<ng-container *cxOutlet="(layoutName$ | async)">
   <ng-content></ng-content>
   <cx-page-slot
     *ngFor="let slot of (slots$ | async)"

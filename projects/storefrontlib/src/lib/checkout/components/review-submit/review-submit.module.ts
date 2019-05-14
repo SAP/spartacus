@@ -15,7 +15,7 @@ import { DeliveryModeSetGuard } from '../../guards/delivery-mode-set.guard';
     I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        MultistepCheckoutReviewOrder: {
+        CheckoutReviewOrder: {
           selector: 'cx-review-submit',
           guards: [DeliveryModeSetGuard],
         },

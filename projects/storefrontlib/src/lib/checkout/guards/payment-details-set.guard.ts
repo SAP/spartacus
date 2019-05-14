@@ -11,7 +11,7 @@ import { CheckoutConfig } from '../config/checkout-config';
 @Injectable({
   providedIn: 'root',
 })
-export class ShippingAddressSetGuard implements CanActivate {
+export class PaymentDetailsSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
     private router: Router,
@@ -21,17 +21,17 @@ export class ShippingAddressSetGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     const route = this.config.checkout.steps.find((step: CheckoutStep) =>
-      step.type.includes(CheckoutStepType.shippingAddress)
+      step.type.includes(CheckoutStepType.paymentDetails)
     );
     if (!route && !this.serverConfig.production) {
       console.warn(
-        'Missing step with type shippingAddress in checkout configuration.'
+        'Missing step with type paymentDetails in checkout configuration.'
       );
     }
 
-    return this.checkoutDetailsService.getDeliveryAddress().pipe(
-      map(shippingAddress => {
-        if (shippingAddress && Object.keys(shippingAddress).length !== 0) {
+    return this.checkoutDetailsService.getPaymentDetails().pipe(
+      map(paymentDetails => {
+        if (paymentDetails && Object.keys(paymentDetails).length !== 0) {
           return true;
         } else {
           return this.router.parseUrl(route && route.url);
