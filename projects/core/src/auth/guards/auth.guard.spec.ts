@@ -111,7 +111,7 @@ describe('AuthGuard', () => {
       .subscribe()
       .unsubscribe();
 
-    expect(service.go).toHaveBeenCalledWith({ route: 'login' });
+    expect(service.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });
