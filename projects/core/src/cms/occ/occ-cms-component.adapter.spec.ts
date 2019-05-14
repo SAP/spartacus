@@ -123,7 +123,7 @@ describe('OccCmsComponentAdapter', () => {
     it('should get a list of cms component data without pagination parameters', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint +
-          `/components?idList=${ids.toString()}&productCode=${context.id}`
+          `/components?componentIds=${ids.toString()}&productCode=${context.id}`
       );
       service.loadList(ids, context).subscribe(result => {
         expect(result).toEqual(componentList.component);
@@ -134,7 +134,9 @@ describe('OccCmsComponentAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/components?idList=${ids.toString()}&productCode=${context.id}`
+              `/components?componentIds=${ids.toString()}&productCode=${
+                context.id
+              }`
         );
       });
 
@@ -142,7 +144,7 @@ describe('OccCmsComponentAdapter', () => {
         'components',
         { fields: 'DEFAULT' },
         {
-          idList: ids.toString(),
+          componentIds: ids.toString(),
           productCode: '123',
           currentPage: '0',
           pageSize: '2',
@@ -157,7 +159,9 @@ describe('OccCmsComponentAdapter', () => {
     it('should use a post request when get fails to get a list of cms component data without pagination parameters', () => {
       spyOn(endpointsService, 'getUrl').and.returnValues(
         endpoint +
-          `/components?idList=${ids.toString()}&productCode=${context.id}`,
+          `/components?componentIds=${ids.toString()}&productCode=${
+            context.id
+          }`,
         endpoint + `/components?productCode=${context.id}`
       );
 
@@ -170,7 +174,9 @@ describe('OccCmsComponentAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/components?idList=${ids.toString()}&productCode=${context.id}`
+              `/components?componentIds=${ids.toString()}&productCode=${
+                context.id
+              }`
         );
       });
 
@@ -186,7 +192,7 @@ describe('OccCmsComponentAdapter', () => {
         );
       });
 
-      expect(testRequestPOST.request.body).toEqual({ idList: ids });
+      expect(testRequestPOST.request.body).toEqual({ componentIds: ids });
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'components',
         { fields: 'DEFAULT' },
@@ -205,7 +211,7 @@ describe('OccCmsComponentAdapter', () => {
     it('should get a list of cms component data with pagination parameters', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint +
-          `/components?idList=${ids.toString()}&productCode=${context.id}`
+          `/components?componentIds=${ids.toString()}&productCode=${context.id}`
       );
       service.loadList(ids, context, 'FULL', 0, 5).subscribe(result => {
         expect(result).toEqual(componentList.component);
@@ -216,7 +222,9 @@ describe('OccCmsComponentAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/components?idList=${ids.toString()}&productCode=${context.id}`
+              `/components?componentIds=${ids.toString()}&productCode=${
+                context.id
+              }`
         );
       });
 
@@ -224,7 +232,7 @@ describe('OccCmsComponentAdapter', () => {
         'components',
         { fields: 'FULL' },
         {
-          idList: ids.toString(),
+          componentIds: ids.toString(),
           productCode: '123',
           currentPage: '0',
           pageSize: '5',
@@ -240,7 +248,9 @@ describe('OccCmsComponentAdapter', () => {
     it('should use a post request when get fails to get a list of cms component data with pagination parameters', () => {
       spyOn(endpointsService, 'getUrl').and.returnValues(
         endpoint +
-          `/components?idList=${ids.toString()}&productCode=${context.id}`,
+          `/components?componentIds=${ids.toString()}&productCode=${
+            context.id
+          }`,
         endpoint + `/components?productCode=${context.id}`
       );
 
@@ -253,7 +263,9 @@ describe('OccCmsComponentAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/components?idList=${ids.toString()}&productCode=${context.id}`
+              `/components?componentIds=${ids.toString()}&productCode=${
+                context.id
+              }`
         );
       });
 
@@ -269,7 +281,7 @@ describe('OccCmsComponentAdapter', () => {
         );
       });
 
-      expect(testRequestPOST.request.body).toEqual({ idList: ids });
+      expect(testRequestPOST.request.body).toEqual({ componentIds: ids });
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'components',
         { fields: 'DEFAULT' },
