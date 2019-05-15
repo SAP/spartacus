@@ -1,7 +1,7 @@
 <ng-container *ngIf="(userToken$ | async) as userToken">
   <div class="modal-header cx-dialog-header">
     <h3 class="modal-title">
-      {{ 'closeAccount.modal.title' | cxTranslate }}
+      {{ 'closeAccount.confirmAccountClosure' | cxTranslate }}
     </h3>
     <button
       type="button"
@@ -25,7 +25,7 @@
     <div class="modal-body">
       <div class="cx-row">
         <p class="cx-confirmation">
-          {{ 'closeAccount.modal.confirmation' | cxTranslate }}
+          {{ 'closeAccount.confirmAccountClosureMessage' | cxTranslate }}
         </p>
       </div>
       <div class="cx-row">
@@ -34,10 +34,10 @@
             class="btn btn-primary"
             (click)="closeAccount(userToken.userId)"
           >
-            {{ 'closeAccount.action.closeMyAccount' | cxTranslate }}
+            {{ 'closeAccount.closeMyAccount' | cxTranslate }}
           </button>
           <button (click)="closeModal()" class="btn btn-block btn-secondary">
-            {{ 'closeAccount.action.cancel' | cxTranslate }}
+            {{ 'common.cancel' | cxTranslate }}
           </button>
         </div>
       </div>

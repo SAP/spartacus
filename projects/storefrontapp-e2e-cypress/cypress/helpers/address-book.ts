@@ -93,7 +93,7 @@ export function addSecondAddress() {
   };
   cy.get('button')
     .contains(' Add new address ')
-    .click();
+    .click({ force: true });
   fillShippingAddress(secondAddress);
   cy.get('cx-address-card').should('have.length', 2);
 }

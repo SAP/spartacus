@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { LinkComponent } from './link.component';
-import { ConfigModule } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [

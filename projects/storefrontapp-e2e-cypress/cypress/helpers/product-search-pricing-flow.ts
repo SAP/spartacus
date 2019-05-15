@@ -30,7 +30,7 @@ export function productPricingFlow() {
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  checkFirstItem('DSC-WX1');
+  checkFirstItem('DSC-S930');
 
   // Navigate to next page
   cy.get('.page-item:last-of-type .page-link:first').click();
@@ -40,7 +40,7 @@ export function productPricingFlow() {
 
   cy.get('cx-product-list-item:nth-child(1)').should(
     'contain',
-    'PowerShot A480'
+    'EASYSHARE Z730 Zoom Digital Camera'
   );
 
   // Sort by price low to high
