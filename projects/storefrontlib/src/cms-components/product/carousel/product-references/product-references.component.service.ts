@@ -26,7 +26,7 @@ export class ProductReferencesService {
     return this.title$;
   }
 
-  setTitle(): void {
+  fetchTitle(): void {
     this.title$ = this.component.data$.pipe(
       map(data => {
         return data.title;
@@ -40,7 +40,7 @@ export class ProductReferencesService {
     );
   }
 
-  setDisplayProductTitles(): void {
+  fetchDisplayProductTitles(): void {
     this.displayProductTitles$ = this.component.data$.pipe(
       map(data => {
         return data.displayProductTitles;
@@ -54,7 +54,7 @@ export class ProductReferencesService {
     );
   }
 
-  setDisplayProductPrices(): void {
+  fetchDisplayProductPrices(): void {
     this.displayProductPrices$ = this.component.data$.pipe(
       map(data => {
         return data.displayProductPrices;

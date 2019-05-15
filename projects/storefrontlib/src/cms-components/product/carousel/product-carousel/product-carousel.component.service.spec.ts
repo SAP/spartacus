@@ -63,34 +63,30 @@ describe('ProductCarouselService', () => {
   });
 
   it('should have title', () => {
-    spyOn(productCarouselService, 'setTitle').and.callThrough();
+    spyOn(productCarouselService, 'fetchTitle').and.callThrough();
     spyOn(productCarouselService, 'getTitle').and.callThrough();
 
     let title$: string;
 
-    productCarouselService.setTitle();
+    productCarouselService.fetchTitle();
     productCarouselService
       .getTitle()
-      .subscribe(data => {
-        title$ = data;
-      })
+      .subscribe(data => (title$ = data))
       .unsubscribe();
 
     expect(title$).toBe(title);
   });
 
   it('should have products', () => {
-    spyOn(productCarouselService, 'setItems').and.callThrough();
+    spyOn(productCarouselService, 'fetchItems').and.callThrough();
     spyOn(productCarouselService, 'getItems').and.callThrough();
 
     let products$: Observable<Product>[];
 
-    productCarouselService.setItems();
+    productCarouselService.fetchItems();
     productCarouselService
       .getItems()
-      .subscribe(data => {
-        products$ = data;
-      })
+      .subscribe(data => (products$ = data))
       .unsubscribe();
 
     expect(products$.length).toBe(productCodeArray.length);

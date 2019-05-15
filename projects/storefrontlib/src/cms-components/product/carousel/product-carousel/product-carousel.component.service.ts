@@ -22,7 +22,7 @@ export class ProductCarouselService {
     return this.title$;
   }
 
-  setTitle(): void {
+  fetchTitle(): void {
     this.title$ = this.component.data$.pipe(
       map(data => {
         return data.title;
@@ -37,7 +37,7 @@ export class ProductCarouselService {
   /**
    * Maps the item codes from CMS component to an array of `Product` observables.
    */
-  setItems(): void {
+  fetchItems(): void {
     this.items$ = this.component.data$.pipe(
       filter(data => data && !!data.productCodes),
       map(data => {

@@ -86,20 +86,20 @@ class MockProductReferencesService {
   getTitle = jasmine
     .createSpy('getTitle')
     .and.callFake(() => of(mockComponentData.title));
-  setTitle = jasmine
-    .createSpy('setTitle')
+  fetchTitle = jasmine
+    .createSpy('fetchTitle')
     .and.callFake(() => of(mockComponentData.title));
   getDisplayProductTitles = jasmine
-    .createSpy('getTitle')
+    .createSpy('getDisplayProductTitles')
     .and.callFake(() => of(mockComponentData.displayProductTitles));
-  setDisplayProductTitles = jasmine
-    .createSpy('setTitle')
+  fetchDisplayProductTitles = jasmine
+    .createSpy('fetchDisplayProductTitles')
     .and.callFake(() => of(mockComponentData.displayProductTitles));
   getDisplayProductPrices = jasmine
-    .createSpy('getTitle')
+    .createSpy('getDisplayProductPrices')
     .and.callFake(() => of(mockComponentData.displayProductPrices));
-  setDisplayProductPrices = jasmine
-    .createSpy('setTitle')
+  fetchDisplayProductPrices = jasmine
+    .createSpy('fetchDisplayProductPrices')
     .and.callFake(() => of(mockComponentData.displayProductPrices));
   getReferenceList = jasmine
     .createSpy('getReferenceList')

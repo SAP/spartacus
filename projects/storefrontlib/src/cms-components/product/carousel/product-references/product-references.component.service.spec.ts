@@ -100,51 +100,51 @@ describe('ProductReferencesService', () => {
   });
 
   it('should have title', () => {
-    spyOn(productReferenceService, 'setTitle').and.callThrough();
+    spyOn(productReferenceService, 'fetchTitle').and.callThrough();
     spyOn(productReferenceService, 'getTitle').and.callThrough();
 
     let title$: string;
 
-    productReferenceService.setTitle();
+    productReferenceService.fetchTitle();
     productReferenceService
       .getTitle()
-      .subscribe(data => {
-        title$ = data;
-      })
+      .subscribe(data => (title$ = data))
       .unsubscribe();
 
     expect(title$).toBe(title);
   });
 
   it('should have displayTitle', () => {
-    spyOn(productReferenceService, 'setDisplayProductTitles').and.callThrough();
+    spyOn(
+      productReferenceService,
+      'fetchDisplayProductTitles'
+    ).and.callThrough();
     spyOn(productReferenceService, 'getDisplayProductTitles').and.callThrough();
 
     let displayTitle$: boolean;
 
-    productReferenceService.setDisplayProductTitles();
+    productReferenceService.fetchDisplayProductTitles();
     productReferenceService
       .getDisplayProductTitles()
-      .subscribe(data => {
-        displayTitle$ = data;
-      })
+      .subscribe(data => (displayTitle$ = data))
       .unsubscribe();
 
     expect(displayTitle$).toBe(mockDisplay);
   });
 
   it('should have displayPrices', () => {
-    spyOn(productReferenceService, 'setDisplayProductPrices').and.callThrough();
+    spyOn(
+      productReferenceService,
+      'fetchDisplayProductPrices'
+    ).and.callThrough();
     spyOn(productReferenceService, 'getDisplayProductPrices').and.callThrough();
 
     let displayPrices$: boolean;
 
-    productReferenceService.setDisplayProductPrices();
+    productReferenceService.fetchDisplayProductPrices();
     productReferenceService
       .getDisplayProductPrices()
-      .subscribe(data => {
-        displayPrices$ = data;
-      })
+      .subscribe(data => (displayPrices$ = data))
       .unsubscribe();
 
     expect(displayPrices$).toBe(mockDisplay);
@@ -159,9 +159,7 @@ describe('ProductReferencesService', () => {
     productReferenceService.setReferenceList();
     productReferenceService
       .getReferenceList()
-      .subscribe(data => {
-        list$ = data;
-      })
+      .subscribe(data => (list$ = data))
       .unsubscribe();
 
     expect(list$).toBe(list);

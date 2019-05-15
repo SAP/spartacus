@@ -26,9 +26,9 @@ export class ProductReferencesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.productReferencesService.setTitle();
-    this.productReferencesService.setDisplayProductTitles();
-    this.productReferencesService.setDisplayProductPrices();
+    this.productReferencesService.fetchTitle();
+    this.productReferencesService.fetchDisplayProductTitles();
+    this.productReferencesService.fetchDisplayProductPrices();
     this.sharedCarouselService.setItemSize(this.window, this.el.nativeElement);
     this.productReferencesService.setReferenceList();
     this.sharedCarouselService.setItemAsActive(0);
