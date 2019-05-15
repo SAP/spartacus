@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
@@ -22,7 +23,10 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CloseAccountComponent: { selector: 'cx-close-account' },
+        CloseAccountComponent: {
+          selector: 'cx-close-account',
+          guards: [AuthGuard],
+        },
       },
     }),
   ],
