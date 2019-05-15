@@ -65,13 +65,9 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private launchComponent() {
-    console.log(this.cxComponentWrapper);
-
     const factory = this.componentMapper.getComponentFactoryByCode(
       this.cxComponentWrapper.flexType
     );
-
-    console.log(factory);
 
     if (factory) {
       this.cmpRef = this.vcr.createComponent(

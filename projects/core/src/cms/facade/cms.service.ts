@@ -11,7 +11,7 @@ import {
   switchMap,
   take,
   tap,
-  withLatestFrom,
+  combineLatest,
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -73,7 +73,7 @@ export class CmsService {
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
       this.components[uid] = this.routingService.isNavigating().pipe(
-        withLatestFrom(
+        combineLatest(
           this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
         ),
         tap(([isNavigating, componentState]) => {
