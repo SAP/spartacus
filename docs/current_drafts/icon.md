@@ -65,7 +65,7 @@ ConfigModule.withConfig(<IconConfig>{
         url: 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
       },
       {
-        type: IconResourceType.LINK,
+        type: IconResourceType.SVG,
         url: './assets/sprite.svg',
         types: [ICON_TYPE.INFO,ICON_TYPE.WARNING],
       },
