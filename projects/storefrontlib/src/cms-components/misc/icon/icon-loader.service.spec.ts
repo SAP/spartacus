@@ -41,7 +41,6 @@ describe('IconLoaderService', () => {
     });
 
     it('should use configured symbol in the class when using fonts', () => {
-      expect(service.getStyleClasses(ICON_TYPE.VISA).length).toEqual(2);
       expect(service.getStyleClasses(ICON_TYPE.VISA)).toContain('fab');
       expect(service.getStyleClasses(ICON_TYPE.VISA)).toContain('fa-cc-visa');
     });
