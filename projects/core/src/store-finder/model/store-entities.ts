@@ -1,5 +1,5 @@
-import { Location } from './location';
+import { PointOfService } from '../../model/store.model';
 
 export interface StoreEntities {
-  pointOfServices?: Array<Location>;
+  pointOfServices?: Array<PointOfService>;
 }

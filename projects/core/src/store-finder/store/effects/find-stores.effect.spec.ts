@@ -9,11 +9,11 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/find-stores.action';
 import { OccConfig } from '../../../occ';
-import { LongitudeLatitude } from '../../model/longitude-latitude';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 
 import * as fromEffects from './find-stores.effect';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
+import { GeoPoint } from '../../../model/misc.model';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -29,7 +29,7 @@ describe('FindStores Effects', () => {
   let connector: StoreFinderConnector;
   let effects: fromEffects.FindStoresEffect;
   let searchConfig: StoreFinderSearchConfig;
-  const longitudeLatitude: LongitudeLatitude = {
+  const longitudeLatitude: GeoPoint = {
     longitude: 10.1,
     latitude: 20.2,
   };

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { StoreFinderSearchConfig, LongitudeLatitude } from '../model/index';
+import { StoreFinderSearchConfig } from '../model/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   StoreFinderSearchPage,
@@ -11,6 +11,7 @@ import {
   PointOfService,
 } from '../../model/store.model';
 import { StoreFinderAdapter } from '../connectors/store-finder.adapter';
+import { GeoPoint } from '../../model/misc.model';
 
 const STORES_ENDPOINT = 'stores';
 
@@ -24,7 +25,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
   search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: LongitudeLatitude
+    longitudeLatitude?: GeoPoint
   ): Observable<StoreFinderSearchPage> {
     return this.callOccFindStores(query, searchConfig, longitudeLatitude);
   }
@@ -49,7 +50,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
   protected callOccFindStores(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: LongitudeLatitude
+    longitudeLatitude?: GeoPoint
   ): Observable<StoreFinderSearchPage> {
     const url = this.getStoresEndpoint();
     let params: HttpParams = new HttpParams({

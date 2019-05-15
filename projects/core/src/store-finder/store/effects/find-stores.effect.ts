@@ -27,8 +27,6 @@ export class FindStoresEffect {
         )
         .pipe(
           map(data => {
-            data.geolocation = payload.longitudeLatitude;
-
             if (payload.countryIsoCode) {
               data.stores = data.stores.filter(
                 store =>

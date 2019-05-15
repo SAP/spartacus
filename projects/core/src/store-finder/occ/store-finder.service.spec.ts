@@ -5,14 +5,14 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccConfig } from '../../occ';
-import { LongitudeLatitude } from '../model/longitude-latitude';
 import { StoreFinderSearchConfig } from '../model/search-config';
 import { StoreFinderConnector } from '../connectors/store-finder.connector';
+import { GeoPoint } from '../../model/misc.model';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
 const mockSearchConfig: StoreFinderSearchConfig = { pageSize: 5 };
-const longitudeLatitude: LongitudeLatitude = {
+const longitudeLatitude: GeoPoint = {
   longitude: 10.1,
   latitude: 20.2,
 };

@@ -1,5 +1,4 @@
 import { StoreFinderSearchConfig } from '../model/search-config';
-import { LongitudeLatitude } from '../model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { StoreFinderAdapter } from './store-finder.adapter';
@@ -8,6 +7,7 @@ import {
   StoreCountList,
   PointOfService,
 } from '../../model/store.model';
+import { GeoPoint } from '../../model/misc.model';
 
 @Injectable({ providedIn: 'root' })
 export abstract class StoreFinderConnector {
@@ -16,7 +16,7 @@ export abstract class StoreFinderConnector {
   search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: LongitudeLatitude
+    longitudeLatitude?: GeoPoint
   ): Observable<StoreFinderSearchPage> {
     return this.adapter.search(query, searchConfig, longitudeLatitude);
   }
