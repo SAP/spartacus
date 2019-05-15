@@ -15,7 +15,9 @@
         aria-label="Close"
         (click)="activeModal.dismiss('Cross click')"
       >
-        <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+        </span>
       </button>
     </div>
     <!-- Modal Body -->
@@ -83,7 +85,9 @@
         aria-label="Close"
         (click)="activeModal.dismiss('Cross click')"
       >
-        <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+        </span>
       </button>
     </div>
     <!-- Modal Body -->

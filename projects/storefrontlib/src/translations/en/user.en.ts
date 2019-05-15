@@ -83,7 +83,7 @@ export const user = {
       placeholder: 'Enter email',
     },
     enterValidEmail: 'Please enter a valid email.',
-    bothPasswordMustMatch: 'Both password must match',
+    bothEmailMustMatch: 'Both emails must match',
     password: {
       label: 'Password',
       placeholder: 'Enter password',
