@@ -8,11 +8,15 @@ import { OrderAdapter } from '../connectors/order/order.adapter';
 import { OccOrderAdapter } from './occ-order.adapter';
 import { ORDER_NORMALIZER } from '../connectors/order/converters';
 import { OccOrderNormalizer } from './converters/occ-order-normalizer';
+import { UserDetailsAdapter } from '../connectors/details';
+import { OccUserDetailsAdapter } from './occ-user-details.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
   providers: [
     OccUserService,
+    { provide: UserDetailsAdapter, useClass: OccUserDetailsAdapter },
+
     { provide: OrderAdapter, useClass: OccOrderAdapter },
     { provide: ORDER_NORMALIZER, useClass: OccOrderNormalizer, multi: true },
   ],
