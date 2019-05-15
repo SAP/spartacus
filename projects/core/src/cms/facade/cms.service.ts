@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable, of, combineLatest } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
-  map,
+  pluck,
   shareReplay,
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -71,11 +72,11 @@ export class CmsService {
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
-      this.components[uid] = combineLatest(
-        this.routingService.isNavigating(),
-        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
-      ).pipe(
-        tap(([isNavigating, componentState]) => {
+      this.components[uid] = this.routingService.isNavigating().pipe(
+        withLatestFrom(
+          this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
+        ),
+        tap(([isNavigating, componentState]: [boolean, LoaderState<any>]) => {
           const attemptedLoad =
             componentState.loading ||
             componentState.success ||
@@ -84,10 +85,9 @@ export class CmsService {
             this.store.dispatch(new fromStore.LoadComponent(uid));
           }
         }),
-        filter(([_, componentState]) => {
-          return componentState.success;
-        }),
-        map(([_, componentState]) => componentState.value),
+        pluck(1),
+        filter(componentState => componentState.success),
+        pluck('value'),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
@@ -200,7 +200,7 @@ export class CmsService {
         }
       }),
       filter(entity => entity.success || entity.error),
-      map(entity => entity.success),
+      pluck('success'),
       catchError(() => of(false))
     );
   }
