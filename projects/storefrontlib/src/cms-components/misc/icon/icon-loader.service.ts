@@ -33,8 +33,11 @@ export class IconLoaderService {
    * icon IDs in the SVG.
    */
   getSvgPath(iconType: ICON_TYPE): string {
-    const svgResource = this.config.icon.resources.find(res =>
-      res.types.includes(iconType)
+    const svgResource = this.config.icon.resources.find(
+      res =>
+        res.type === IconResourceType.SVG &&
+        res.types &&
+        res.types.includes(iconType)
     );
     if (svgResource) {
       return svgResource.url
