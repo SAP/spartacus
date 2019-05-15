@@ -7,8 +7,9 @@ import {
   ProductService,
   UrlModule,
 } from '@spartacus/core';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { MediaModule } from '../../../shared/components/media/media.module';
+import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { MediaModule } from '../../../../shared/components/media/media.module';
+import { SharedCarouselService } from '../shared-carousel.service';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselService } from './product-carousel.component.service';
 
@@ -26,6 +27,11 @@ import { ProductCarouselService } from './product-carousel.component.service';
               provide: ProductCarouselService,
               useClass: ProductCarouselService,
               deps: [CmsComponentData, ProductService],
+            },
+            {
+              provide: SharedCarouselService,
+              useClass: SharedCarouselService,
+              deps: [],
             },
           ],
         },
