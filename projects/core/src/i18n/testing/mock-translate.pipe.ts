@@ -9,14 +9,10 @@ export class MockTranslatePipe implements PipeTransform {
       return (input as Translatable).raw;
     }
 
-    let key: string;
-    if (typeof input === 'string') {
-      key = input;
-    } else {
-      key = input.key;
+    const key = typeof input === 'string' ? input : input.key;
+    if (typeof input !== 'string') {
       options = { ...options, ...input.params };
     }
-
     return mockTranslate(key, options);
   }
 }
