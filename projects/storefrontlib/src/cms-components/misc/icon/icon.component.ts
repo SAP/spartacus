@@ -6,7 +6,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { IconLoaderService } from './icon-loader.service';
-import { ICON_TYPES } from './icon.config';
+import { ICON_TYPES } from './icon.model';
 
 @Component({
   selector: 'cx-icon',

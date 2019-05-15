@@ -1,9 +1,9 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   Output,
-  ChangeDetectionStrategy,
-  EventEmitter,
 } from '@angular/core';
 import { ICON_TYPES } from '../../../misc/icon';
 
@@ -30,9 +30,9 @@ export class ProductViewComponent {
 
   get viewMode() {
     if (this.mode === 'list') {
-      return this.iconTypes.LIST_MODE;
+      return this.iconTypes.LIST;
     } else if (this.mode === 'grid') {
-      return this.iconTypes.GRID_MODE;
+      return this.iconTypes.GRID;
     }
   }
 
