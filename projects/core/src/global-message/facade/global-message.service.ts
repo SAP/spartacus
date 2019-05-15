@@ -34,11 +34,11 @@ export class GlobalMessageService {
    * @param type: GlobalMessageType object
    */
   add(text: string | Translatable, type: GlobalMessageType): void {
-    if (typeof text === 'string') {
-      this.store.dispatch(new AddMessage({ text: { raw: text }, type }));
-    } else {
-      this.store.dispatch(new AddMessage({ text, type }));
-    }
+    this.store.dispatch(
+      typeof text === 'string'
+        ? new AddMessage({ text: { raw: text }, type })
+        : new AddMessage({ text, type })
+    );
   }
 
   /**
@@ -48,15 +48,13 @@ export class GlobalMessageService {
    * message will be removed from list by index.
    */
   remove(type: GlobalMessageType, index?: number): void {
-    if (index !== undefined) {
-      this.store.dispatch(
-        new RemoveMessage({
-          type: type,
-          index: index,
-        })
-      );
-    } else {
-      this.store.dispatch(new RemoveMessagesByType(type));
-    }
+    this.store.dispatch(
+      index !== undefined
+        ? new RemoveMessage({
+            type: type,
+            index: index,
+          })
+        : new RemoveMessagesByType(type)
+    );
   }
 }
