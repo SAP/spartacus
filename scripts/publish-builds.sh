@@ -67,7 +67,6 @@ publish_snapshot() {
         git add --all && \
         git commit -m "${COMMIT_MSG}" --quiet && \
         git tag "${BUILD_ID}"
-        git push origin "${PUBLISH_BRANCH}" --tags --force
     )
 }
 

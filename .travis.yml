@@ -13,13 +13,7 @@ branches:
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
     - "/^doc\\/.*$/"
-script: ./build.sh sonar
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: bash scripts/publish-builds.sh
-  on:
-    branch: develop
+script: ./build.sh
 notifications:
   email:
     on_failure: always
