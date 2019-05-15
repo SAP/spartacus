@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
-import { ConfigModule, CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [

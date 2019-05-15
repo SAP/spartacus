@@ -55,7 +55,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
     if (success) {
       this.closeModal();
       this.translationService
-        .translate('closeAccount.message.success')
+        .translate('closeAccount.accountClosedSuccessfully')
         .pipe(first())
         .subscribe(text => {
           this.globalMessageService.add(

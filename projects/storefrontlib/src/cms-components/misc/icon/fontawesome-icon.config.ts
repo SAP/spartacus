@@ -15,6 +15,8 @@ export const fontawesomeIconConfig: IconConfig = {
       SUCCESS: 'fas fa-check-circle',
       TIMES: 'fas fa-times',
       VISA: 'fab fa-cc-visa',
+      MINUS: 'fas fa-minus',
+      PLUS: 'fas fa-plus',
     },
     resources: [
       {

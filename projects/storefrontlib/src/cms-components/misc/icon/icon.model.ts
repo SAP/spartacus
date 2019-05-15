@@ -11,6 +11,8 @@ export enum ICON_TYPE {
   WARNING = 'WARNING',
   SUCCESS = 'SUCCESS',
   VISA = 'VISA',
+  PLUS = 'PLUS',
+  MINUS = 'MINUS',
 }
 
 export abstract class IconConfig {
