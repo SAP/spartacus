@@ -1,7 +1,7 @@
 <div class="details">
   <ng-container *ngFor="let component of (components$ | async)">
     <h3 #header (click)="select($event, tab)">
-      {{ createHeader(component) | cxTranslate }}
+      {{ component.title | cxTranslate }}
     </h3>
     <div #tab>
       <ng-container

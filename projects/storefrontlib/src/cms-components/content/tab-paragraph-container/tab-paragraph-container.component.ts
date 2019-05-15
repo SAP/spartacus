@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ViewChild,
   ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { CMSTabParagraphContainer } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
@@ -35,12 +35,14 @@ export class TabParagraphContainerComponent {
           return {
             flexType: 'CMSTabParagraphComponent',
             uid: 'deliveryTab',
+            title: 'productTabs.deliveryTab',
           };
         }
         return {
           typeCode: component,
           flexType: component,
           uid: component,
+          title: `productTabs.${component}`,
         };
       })
     )
@@ -58,9 +60,5 @@ export class TabParagraphContainerComponent {
     } else {
       this.activatedElements.forEach(el => el.classList.toggle('toggled'));
     }
-  }
-
-  createHeader(component: any) {
-    return `productTabs.${component.uid}`;
   }
 }
