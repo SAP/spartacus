@@ -45,7 +45,7 @@ class MockAuthService {
 
 class MockRoutingService {
   goByUrl = createSpy();
-  back = createSpy();
+  go = createSpy();
   clearRedirectUrl = createSpy();
 
   getRedirectUrl() {
@@ -158,11 +158,11 @@ describe('RegisterComponent', () => {
       expect(routingService.clearRedirectUrl).toHaveBeenCalled();
     });
 
-    it('should go back after registration', () => {
+    it('should go to home page after registration', () => {
       spyOn(routingService, 'getRedirectUrl').and.returnValue(of(undefined));
       component.ngOnInit();
 
-      expect(routingService.back).toHaveBeenCalled();
+      expect(routingService.go).toHaveBeenCalledWith(['/']);
     });
   });
 
