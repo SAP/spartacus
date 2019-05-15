@@ -1,3 +1,5 @@
+import { checkBanner } from '../../../helpers/homepage';
+
 const CONSENT_MANAGEMENT_URL = '/my-account/consents';
 
 describe('Consent management', () => {
@@ -15,6 +17,12 @@ describe('Consent management', () => {
 
     beforeEach(() => {
       cy.visit(CONSENT_MANAGEMENT_URL);
+    });
+
+    it('should be able to navigate to the consent management page', () => {
+      cy.get('cx-breadcrumb').within(() => {
+        cy.get('h1').should('contain', 'Consent Management');
+      });
     });
 
     it('should successfully give a consent', () => {
@@ -35,7 +43,7 @@ describe('Consent management', () => {
       it('should go back to a home page', () => {
         cy.get('button').click();
         cy.location('pathname').should('contain', '/');
-        cy.get('.ElectronicsHompageSplashBannerComponent').should('exist');
+        checkBanner();
       });
     });
   });
