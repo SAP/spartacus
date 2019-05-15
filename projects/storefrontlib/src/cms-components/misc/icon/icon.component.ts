@@ -1,4 +1,10 @@
-import { Component, HostBinding, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE } from './icon.model';
 
@@ -6,7 +12,7 @@ import { ICON_TYPE } from './icon.model';
   selector: 'cx-icon',
   templateUrl: './icon.component.html',
 })
-export class IconComponent implements OnChanges {
+export class IconComponent implements OnInit {
   /**
    * The type of the icon which maps to the icon link
    * in the svg icon sprite.
@@ -19,9 +25,15 @@ export class IconComponent implements OnChanges {
    */
   @HostBinding('class') styleClasses = '';
 
-  constructor(protected iconLoader: IconLoaderService) {}
+  private staticStyleClasses: string;
 
-  ngOnChanges() {
+  constructor(
+    protected iconLoader: IconLoaderService,
+    protected elementRef: ElementRef<HTMLElement>
+  ) {}
+
+  ngOnInit() {
+    this.staticStyleClasses = this.elementRef.nativeElement.classList.value;
     this.addStyleClasses();
   }
 
@@ -45,10 +57,15 @@ export class IconComponent implements OnChanges {
    * Adds the style classes and the link resource (if availabe).
    */
   private addStyleClasses() {
+    if (this.staticStyleClasses) {
+      this.styleClasses = this.staticStyleClasses + ' ';
+    }
+
     if (this.useSvg) {
       return;
     }
-    this.styleClasses = this.iconLoader.getStyleClasses(this.type);
+
+    this.styleClasses += this.iconLoader.getStyleClasses(this.type);
     this.iconLoader.addLinkResource(this.type);
   }
 }

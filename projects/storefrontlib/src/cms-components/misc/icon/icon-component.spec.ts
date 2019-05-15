@@ -11,6 +11,12 @@ import { IconModule } from './icon.module';
 })
 export class MockIconTestComponent {}
 
+@Component({
+  selector: 'cx-icon-test-small',
+  template: '<cx-icon type="CART" class="small"></cx-icon>',
+})
+export class MockIconSmallTestComponent {}
+
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
     return false;
@@ -67,6 +73,35 @@ describe('IconComponent', () => {
       const debugElement = fixture.debugElement;
       const element = debugElement.query(By.css('cx-icon'));
       expect(element.nativeElement.classList).toContain('fas');
+      expect(element.nativeElement.classList).toContain('fa-shopping-cart');
+    });
+  });
+
+  describe('Small icons', () => {
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [IconModule],
+        declarations: [MockIconSmallTestComponent],
+        providers: [
+          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(MockIconSmallTestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should be created', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should render remain the small style class', () => {
+      const debugElement = fixture.debugElement;
+      const element = debugElement.query(By.css('cx-icon'));
+      expect(element.nativeElement.classList).toContain('small');
       expect(element.nativeElement.classList).toContain('fa-shopping-cart');
     });
   });
