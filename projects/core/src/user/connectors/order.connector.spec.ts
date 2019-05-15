@@ -19,7 +19,7 @@ class MockOrderAdapter implements OrderAdapter {
   );
 }
 
-describe('SiteConnector', () => {
+describe('OrderConnector', () => {
   let service: OrderConnector;
   let adapter: OrderAdapter;
 
