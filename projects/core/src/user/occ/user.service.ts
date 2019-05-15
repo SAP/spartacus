@@ -9,12 +9,9 @@ import {
 } from '../../occ/utils/interceptor-util';
 import { UserRegisterFormData } from '../model/user.model';
 import { User } from '../../model/misc.model';
-import { Address, AddressValidation } from '../../model/address.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 
 const USER_ENDPOINT = 'users/';
-const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
-const ADDRESSES_ENDPOINT = '/addresses';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
@@ -28,71 +25,6 @@ export class OccUserService {
     protected http: HttpClient,
     private occEndpoints: OccEndpointsService
   ) {}
-
-  verifyAddress(
-    userId: string,
-    address: Address
-  ): Observable<AddressValidation> {
-    const url =
-      this.getUserEndpoint() + userId + ADDRESSES_VERIFICATION_ENDPOINT;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http
-      .post<AddressValidation>(url, address, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  loadUserAddresses(userId: string): Observable<Occ.AddressList> {
-    const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http
-      .get<Occ.AddressList>(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  addUserAddress(userId: string, address: Address): Observable<{}> {
-    const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http
-      .post(url, address, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  updateUserAddress(
-    userId: string,
-    addressId: string,
-    address: Address
-  ): Observable<{}> {
-    const url =
-      this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http
-      .patch(url, address, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  deleteUserAddress(userId: string, addressId: string): Observable<{}> {
-    const url =
-      this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http
-      .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
 
   loadUserPaymentMethods(userId: string): Observable<Occ.PaymentDetailsList> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}?saved=true`;

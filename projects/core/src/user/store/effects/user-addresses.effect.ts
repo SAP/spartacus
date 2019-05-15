@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap, take } from 'rxjs/operators';
+import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import {
@@ -9,9 +9,9 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { UserService } from '../../facade/index';
-import { OccUserService } from '../../occ/index';
-import { Occ } from '../../../occ/occ-models/occ.models';
 import { User } from '../../../model/misc.model';
+import { UserAddressConnector } from '../../connectors/address';
+import { Address } from '../../../model/address.model';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -22,10 +22,10 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.LOAD_USER_ADDRESSES),
     map((action: fromUserAddressesAction.LoadUserAddresses) => action.payload),
     mergeMap(payload => {
-      return this.occUserService.loadUserAddresses(payload).pipe(
-        map((addressesList: Occ.AddressList) => {
+      return this.userAddressConnector.load(payload).pipe(
+        map((addresses: Address[]) => {
           return new fromUserAddressesAction.LoadUserAddressesSuccess(
-            addressesList.addresses
+            addresses
           );
         }),
         catchError(error =>
@@ -42,8 +42,8 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.ADD_USER_ADDRESS),
     map((action: fromUserAddressesAction.AddUserAddress) => action.payload),
     mergeMap(payload => {
-      return this.occUserService
-        .addUserAddress(payload.userId, payload.address)
+      return this.userAddressConnector
+        .add(payload.userId, payload.address)
         .pipe(
           map((data: any) => {
             return new fromUserAddressesAction.AddUserAddressSuccess(data);
@@ -62,8 +62,8 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS),
     map((action: fromUserAddressesAction.UpdateUserAddress) => action.payload),
     mergeMap(payload => {
-      return this.occUserService
-        .updateUserAddress(payload.userId, payload.addressId, payload.address)
+      return this.userAddressConnector
+        .update(payload.userId, payload.addressId, payload.address)
         .pipe(
           map((data: any) => {
             return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
@@ -82,8 +82,8 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.DELETE_USER_ADDRESS),
     map((action: fromUserAddressesAction.DeleteUserAddress) => action.payload),
     mergeMap(payload => {
-      return this.occUserService
-        .deleteUserAddress(payload.userId, payload.addressId)
+      return this.userAddressConnector
+        .delete(payload.userId, payload.addressId)
         .pipe(
           map((data: any) => {
             return new fromUserAddressesAction.DeleteUserAddressSuccess(data);
@@ -133,7 +133,7 @@ export class UserAddressesEffects {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService,
+    private userAddressConnector: UserAddressConnector,
     private userService: UserService,
     private messageService: GlobalMessageService
   ) {}
