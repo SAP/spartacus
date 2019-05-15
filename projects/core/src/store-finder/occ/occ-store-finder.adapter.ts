@@ -15,7 +15,7 @@ import { GeoPoint } from '../../model/misc.model';
 
 const STORES_ENDPOINT = 'stores';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class OccStoreFinderAdapter implements StoreFinderAdapter {
   constructor(
     private http: HttpClient,
