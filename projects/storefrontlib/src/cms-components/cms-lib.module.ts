@@ -31,6 +31,7 @@ import {
 import {
   ProductCarouselModule,
   ProductListModule,
+  ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
 import { StoreFinderModule } from './storefinder/index';
@@ -53,6 +54,7 @@ import { StoreFinderModule } from './storefinder/index';
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
+    ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,

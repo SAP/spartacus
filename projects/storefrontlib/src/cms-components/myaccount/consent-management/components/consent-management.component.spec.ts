@@ -139,6 +139,8 @@ describe('ConsentManagementComponent', () => {
     globalMessageService = TestBed.get(GlobalMessageService);
 
     fixture.detectChanges();
+
+    spyOn(userService, 'get').and.returnValue(of(mockUser));
   });
 
   it('should create', () => {
@@ -193,7 +195,6 @@ describe('ConsentManagementComponent', () => {
       describe('when there are no consents loaded', () => {
         const mockTemplateList = {} as ConsentTemplateList;
         it('should trigger the loadConsents method', () => {
-          spyOn(userService, 'get').and.returnValue(of(mockUser));
           spyOn(userService, 'getConsents').and.returnValue(
             of(mockTemplateList)
           );
@@ -218,7 +219,6 @@ describe('ConsentManagementComponent', () => {
           consentTemplates: [mockConsentTemplate],
         };
         it('should not trigger loading of consents and should return consent template list', () => {
-          spyOn(userService, 'get').and.returnValue(of(mockUser));
           spyOn(userService, 'getConsents').and.returnValue(
             of(mockTemplateList)
           );
@@ -246,7 +246,7 @@ describe('ConsentManagementComponent', () => {
         component[giveConsentInitMethod]();
         expect(userService.resetGiveConsentProcessState).toHaveBeenCalled();
       });
-      it(`should reset the processing state and call ${onConsentGivenSuccessMethod}`, () => {
+      it(`should call ${onConsentGivenSuccessMethod}`, () => {
         const success = true;
         spyOn(userService, 'getGiveConsentResultSuccess').and.returnValue(
           of(success)
@@ -266,7 +266,7 @@ describe('ConsentManagementComponent', () => {
         component[withdrawConsentInitMethod]();
         expect(userService.resetWithdrawConsentProcessState).toHaveBeenCalled();
       });
-      it(`should should load all consents if the withdrawal was successful and call ${onConsentWithdrawnSuccessMethod}`, () => {
+      it(`should load all consents if the withdrawal was successful and call ${onConsentWithdrawnSuccessMethod}`, () => {
         const withdrawalSuccess = true;
         spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
           of(false)
@@ -275,7 +275,6 @@ describe('ConsentManagementComponent', () => {
           of(withdrawalSuccess)
         );
         spyOn(userService, 'loadConsents').and.stub();
-        spyOn(userService, 'get').and.returnValue(of(mockUser));
         spyOn<any>(component, onConsentWithdrawnSuccessMethod).and.stub();
 
         component[withdrawConsentInitMethod]();
@@ -285,7 +284,7 @@ describe('ConsentManagementComponent', () => {
           withdrawalSuccess
         );
       });
-      it('should should NOT load all consents if the withdrawal was NOT successful', () => {
+      it('should NOT load all consents if the withdrawal was NOT successful', () => {
         spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
           of(false)
         );
@@ -293,7 +292,6 @@ describe('ConsentManagementComponent', () => {
           of(false)
         );
         spyOn(userService, 'loadConsents').and.stub();
-        spyOn(userService, 'get').and.returnValue(of(mockUser));
 
         component[withdrawConsentInitMethod]();
 
@@ -342,7 +340,6 @@ describe('ConsentManagementComponent', () => {
         it('should call facades giveConsent method', () => {
           spyOn(userService, 'giveConsent').and.stub();
           spyOn(userService, 'withdrawConsent').and.stub();
-          spyOn(userService, 'get').and.returnValue(of(mockUser));
 
           component.onConsentChange({
             given: true,
@@ -361,7 +358,6 @@ describe('ConsentManagementComponent', () => {
         it('should call facades withdrawConsent method', () => {
           spyOn(userService, 'giveConsent').and.stub();
           spyOn(userService, 'withdrawConsent').and.stub();
-          spyOn(userService, 'get').and.returnValue(of(mockUser));
 
           component.onConsentChange({
             given: false,
@@ -530,7 +526,6 @@ describe('ConsentManagementComponent', () => {
 
       describe('when nothing is being loaded', () => {
         it('should NOT show the spinner but rather diplay a checkbox for each consent', () => {
-          spyOn(userService, 'get').and.returnValue(of(mockUser));
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(false)
           );
