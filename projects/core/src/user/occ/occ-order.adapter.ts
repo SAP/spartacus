@@ -18,9 +18,9 @@ const FULL_PARAMS = 'fields=FULL';
 @Injectable()
 export class OccOrderAdapter implements OrderAdapter {
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
-    private converter: ConverterService
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
   protected getOrderEndpoint(userId: string): string {

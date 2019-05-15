@@ -18,8 +18,8 @@ const USER_ENDPOINT = 'users/';
 export class OccUserDetailsAdapter implements UserDetailsAdapter {
   constructor(
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService,
-    private converter: ConverterService
+    protected occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
   protected getUserEndpoint(): string {
