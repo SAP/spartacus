@@ -21,7 +21,10 @@ export class IconLoaderService {
     return (
       this.config.icon.resources &&
       !!this.config.icon.resources.find(
-        res => res.types && res.types.includes(iconType)
+        res =>
+          res.types &&
+          res.type === IconResourceType.SVG &&
+          res.types.includes(iconType)
       )
     );
   }

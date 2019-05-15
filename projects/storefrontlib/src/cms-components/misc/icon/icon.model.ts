@@ -43,7 +43,7 @@ export abstract class IconConfig {
 }
 
 export interface IconConfigResource {
-  type?: IconResourceType | string;
+  type: IconResourceType | string;
   url?: string;
   types?: ICON_TYPE[];
 }
