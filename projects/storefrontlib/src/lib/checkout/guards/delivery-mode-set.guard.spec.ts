@@ -10,22 +10,11 @@ import {
 } from '@spartacus/core';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 import { CheckoutConfig } from '../config/checkout-config';
-import { CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { defaultStorefrontRoutesConfig } from '../../ui/pages/default-routing-config';
+import { defaultCheckoutConfig } from '../config/default-checkout-config';
 
-const MockCheckoutConfig: CheckoutConfig = {
-  checkout: {
-    steps: [
-      {
-        id: 'deliveryMode',
-        name: 'checkoutProgress.deliveryMode',
-        route: 'deliveryMode',
-        type: [CheckoutStepType.deliveryMode],
-      },
-    ],
-  },
-};
+const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 const mockDeliveryModeCode = 'test mode code';
@@ -80,7 +69,7 @@ describe(`DeliveryModeSetGuard`, () => {
       expect(result.toString()).toEqual(
         '/' +
           mockRoutingConfigService.getRouteConfig(
-            MockCheckoutConfig.checkout.steps[0].route
+            MockCheckoutConfig.checkout.steps[1].route
           ).paths[0]
       );
       done();
