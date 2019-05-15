@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PageLayoutComponent } from '../../cms-structure/page/index';
-import { CmsPageGuard } from '../cms/guards/cms-page.guard';
-import { ProductPageComponent } from '../ui/pages/product-page/product-page.component';
+import { CmsPageGuard } from '../../../lib/cms/guards/cms-page.guard';
+import { ProductPageComponent } from '../../../lib/ui/pages/product-page/product-page.component';
+import { PageLayoutComponent } from '../../page/index';
 import { suffixUrlMatcher } from './suffix-url-matcher';
 
 @NgModule({
