@@ -27,7 +27,7 @@ const testData = [
   { incomingValue: 6, adjustedValue: 5, isMaxOrMinValue: true },
 ];
 
-fdescribe('ItemCounterComponent', () => {
+describe('ItemCounterComponent', () => {
   let itemCounterComponent: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
