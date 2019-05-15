@@ -19,19 +19,24 @@ class MockEvent {
 }
 
 const testData = [
-  { incomingValue: 0, adjustedValue: 1, isOutOfRange: true },
-  { incomingValue: 1, adjustedValue: 1, isOutOfRange: false },
-  { incomingValue: 2, adjustedValue: 2, isOutOfRange: false },
-  { incomingValue: 5, adjustedValue: 5, isOutOfRange: false },
-  { incomingValue: 6, adjustedValue: 5, isOutOfRange: true },
+  { incomingValue: 0, adjustedValue: 1, isMaxOrMinValue: true },
+  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValue: true },
+  { incomingValue: 2, adjustedValue: 2, isMaxOrMinValue: false },
+  { incomingValue: 4, adjustedValue: 4, isMaxOrMinValue: false },
+  { incomingValue: 5, adjustedValue: 5, isMaxOrMinValue: true },
+  { incomingValue: 6, adjustedValue: 5, isMaxOrMinValue: true },
 ];
 
-describe('ItemCounterComponent', () => {
+fdescribe('ItemCounterComponent', () => {
   let itemCounterComponent: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
   let keyBoardEvent: MockEvent;
   let focusEvent: FocusEvent;
+
+  let isInputFocused;
+  let isIncrementBtnFocused;
+  let isDecrementBtnFocused;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -47,9 +52,35 @@ describe('ItemCounterComponent', () => {
   }));
 
   beforeEach(() => {
+    isInputFocused = false;
+    isIncrementBtnFocused = false;
+    isDecrementBtnFocused = false;
     fixture = TestBed.createComponent(ItemCounterComponent);
     itemCounterComponent = fixture.componentInstance;
-    itemCounterComponent.input = { nativeElement: { value: '' } };
+    itemCounterComponent.input = {
+      nativeElement: {
+        value: '',
+        focus: () => {
+          isInputFocused = true;
+        },
+      },
+    };
+    itemCounterComponent.incrementBtn = {
+      nativeElement: {
+        value: '',
+        focus: () => {
+          isIncrementBtnFocused = true;
+        },
+      },
+    };
+    itemCounterComponent.decrementBtn = {
+      nativeElement: {
+        value: '',
+        focus: () => {
+          isDecrementBtnFocused = true;
+        },
+      },
+    };
 
     keyBoardEvent = TestBed.get(KeyboardEvent);
     focusEvent = TestBed.get(FocusEvent);
@@ -57,7 +88,7 @@ describe('ItemCounterComponent', () => {
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
     spyOn(itemCounterComponent, 'updateValue').and.callThrough();
-    spyOn(itemCounterComponent, 'isOutOfRange').and.callThrough();
+    spyOn(itemCounterComponent, 'isMaxOrMinValue').and.callThrough();
     spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
     spyOn(itemCounterComponent, 'manualChange').and.callThrough();
     spyOn(itemCounterComponent.update, 'emit').and.callThrough();
@@ -132,6 +163,16 @@ describe('ItemCounterComponent', () => {
       expect(itemCounterComponent.update.emit).toHaveBeenCalled();
     });
 
+    it('should set focus when value is incremented', () => {
+      const isIncremented = true;
+      itemCounterComponent.setFocus(isIncremented);
+      itemCounterComponent.increment();
+
+      expect(isInputFocused).toBeFalsy();
+      expect(isDecrementBtnFocused).toBeFalsy();
+      expect(isIncrementBtnFocused).toBeTruthy();
+    });
+
     it('should set value to max when it is greater than max', () => {
       itemCounterComponent.value = 3;
       itemCounterComponent.min = 1;
@@ -162,6 +203,26 @@ describe('ItemCounterComponent', () => {
       expect(itemCounterComponent.value).toEqual(2);
       expect(itemCounterComponent.update.emit).toHaveBeenCalled();
     });
+    it('should set focus on the decrement button when value is decremented', () => {
+      const isIncremented = false;
+      itemCounterComponent.setFocus(isIncremented);
+
+      expect(isInputFocused).toBeFalsy();
+      expect(isIncrementBtnFocused).toBeFalsy();
+      expect(isDecrementBtnFocused).toBeTruthy();
+    });
+  });
+
+  it('should set focus on the input field when value is equal to min or equal to max', () => {
+    itemCounterComponent.value = 1;
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+    const isIncremented = true;
+    itemCounterComponent.setFocus(isIncremented);
+
+    expect(isIncrementBtnFocused).toBeFalsy();
+    expect(isDecrementBtnFocused).toBeFalsy();
+    expect(isInputFocused).toBeTruthy();
   });
 
   it('should not display input when isValueChangeable is not passed', () => {
@@ -199,26 +260,13 @@ describe('ItemCounterComponent', () => {
     });
   });
 
-  it('should verify is value out of range', () => {
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-
-    testData.forEach(({ incomingValue, isOutOfRange }) => {
-      expect(itemCounterComponent.isOutOfRange(incomingValue)).toBe(
-        isOutOfRange
-      );
-    });
-  });
-
   it('should try set manual change with value', () => {
     itemCounterComponent.min = 1;
     itemCounterComponent.max = 5;
 
     testData.forEach(({ incomingValue, adjustedValue }) => {
       itemCounterComponent.manualChange(incomingValue);
-      expect(itemCounterComponent.isOutOfRange).toHaveBeenCalledWith(
-        incomingValue
-      );
+
       expect(itemCounterComponent.adjustValueInRange).toHaveBeenCalledWith(
         incomingValue
       );

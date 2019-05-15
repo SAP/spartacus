@@ -39,6 +39,11 @@
       color: var(--cx-color, var(--cx-g-color-primary));
     }
 
+    &:focus {
+      color: var(--cx-color, var(--cx-g-color-primary));
+      cursor: pointer;
+    }
+
     &:disabled {
       color: var(--cx-color, var(--cx-g-color-light));
       opacity: var(--cx-opacity, 1);
