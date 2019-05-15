@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
-  map,
+  pluck,
   shareReplay,
   switchMap,
   take,
@@ -76,7 +76,7 @@ export class CmsService {
         withLatestFrom(
           this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
         ),
-        tap(([isNavigating, componentState]) => {
+        tap(([isNavigating, componentState]: [boolean, LoaderState<any>]) => {
           const attemptedLoad =
             componentState.loading ||
             componentState.success ||
@@ -85,8 +85,9 @@ export class CmsService {
             this.store.dispatch(new fromStore.LoadComponent(uid));
           }
         }),
-        filter(([_, componentState]) => componentState.success),
-        map(([_, componentState]) => componentState.value),
+        pluck(1),
+        filter(componentState => componentState.success),
+        pluck('value'),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
@@ -199,7 +200,7 @@ export class CmsService {
         }
       }),
       filter(entity => entity.success || entity.error),
-      map(entity => entity.success),
+      pluck('success'),
       catchError(() => of(false))
     );
   }
