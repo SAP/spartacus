@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
+  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
@@ -27,6 +28,7 @@ import { AddressCardComponent } from './address-card/address-card.component';
               deps: [UserService],
             },
           ],
+          guards: [AuthGuard],
         },
       },
     }),
