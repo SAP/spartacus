@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpTestingController,
   HttpClientTestingModule,
+  HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { Occ } from '../../occ/occ-models/occ.models';
+import { ConverterService, OccSiteAdapter } from '@spartacus/core';
+import {
+  CURRENCY_NORMALIZER,
+  LANGUAGE_NORMALIZER,
+} from '../connectors/converters';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -23,21 +27,24 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccSiteService', () => {
-  let service: OccSiteService;
+describe('OccSiteAdapter', () => {
+  let service: OccSiteAdapter;
+  let converter: ConverterService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccSiteService,
+        OccSiteAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccSiteService);
+    service = TestBed.get(OccSiteAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -51,7 +58,7 @@ describe('OccSiteService', () => {
       };
 
       service.loadLanguages().subscribe(result => {
-        expect(result).toEqual(languages);
+        expect(result).toEqual(languages.languages);
       });
 
       const mockReq: TestRequest = httpMock.expectOne({
@@ -63,6 +70,12 @@ describe('OccSiteService', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(languages);
     });
+
+    it('should use converter', () => {
+      service.loadLanguages().subscribe();
+      httpMock.expectOne('/languages').flush([]);
+      expect(converter.pipeableMany).toHaveBeenCalledWith(LANGUAGE_NORMALIZER);
+    });
   });
 
   describe('load currencies', () => {
@@ -72,7 +85,7 @@ describe('OccSiteService', () => {
       };
 
       service.loadCurrencies().subscribe(result => {
-        expect(result).toEqual(currencies);
+        expect(result).toEqual(currencies.currencies);
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
@@ -82,6 +95,12 @@ describe('OccSiteService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(currencies);
+    });
+
+    it('should use converter', () => {
+      service.loadCurrencies().subscribe();
+      httpMock.expectOne('/currencies').flush([]);
+      expect(converter.pipeableMany).toHaveBeenCalledWith(CURRENCY_NORMALIZER);
     });
   });
 });
