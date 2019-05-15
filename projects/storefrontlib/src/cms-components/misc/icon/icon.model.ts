@@ -1,15 +1,15 @@
 export enum ICON_TYPES {
-  CART = 'shopping-cart',
-  SEARCH = 'search',
-  GRID_MODE = 'th-large',
-  LIST_MODE = 'bars',
-  CARET_DOWN = 'angle-down',
-  TIMES = 'times',
-  INFO = 'info-circle',
-  STAR = 'star',
-  EXCLAMATION_CIRCLE = 'exclamation-circle',
-  EXCLAMATION_TRIANGLE = 'exclamation-triangle',
-  CHECK_CIRCLE = 'check-circle',
+  STAR = 'STAR',
+  SEARCH = 'SEARCH',
+  CART = 'CART',
+  INFO = 'INFO',
+  GRID = 'GRID',
+  LIST = 'LIST',
+  CARET_DOWN = 'CARET_DOWN',
+  TIMES = 'TIMES',
+  ERROR = 'ERROR',
+  WARNING = 'WARNING',
+  SUCCESS = 'SUCCESS',
 }
 
 export abstract class IconConfig {
