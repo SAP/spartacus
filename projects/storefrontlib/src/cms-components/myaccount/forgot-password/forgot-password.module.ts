@@ -1,16 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { ForgotPasswordComponent } from './forgot-password.component';
+import { RouterModule } from '@angular/router';
 import {
-  ConfigModule,
   CmsConfig,
-  UrlModule,
+  ConfigModule,
   I18nModule,
+  NotAuthGuard,
+  UrlModule,
 } from '@spartacus/core';
+import { ForgotPasswordComponent } from './forgot-password.component';
 
 @NgModule({
   imports: [
@@ -20,7 +19,10 @@ import {
     UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ForgotPasswordComponent: { selector: 'cx-forgot-password' },
+        ForgotPasswordComponent: {
+          selector: 'cx-forgot-password',
+          guards: [NotAuthGuard],
+        },
       },
     }),
     I18nModule,
