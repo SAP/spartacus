@@ -16,7 +16,6 @@ import { NotificationDialogComponent } from './notification-dialog/notification-
 @Component({
   selector: 'cx-stock-notification',
   templateUrl: './stock-notification.component.html',
-  styleUrls: ['./stock-notification.component.scss'],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   @Input()
@@ -41,7 +40,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     private occEndpoints: OccEndpointsService,
     private productInterestService: ProductInterestService,
     private globalMessageService: GlobalMessageService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.logged$ = this.auth.getUserToken().pipe(
