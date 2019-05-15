@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CartAdapter } from './cart.adapter';
-import { UICart } from '../../model/cart';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
+import { Cart } from '../../../model/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 export class CartConnector {
   constructor(private adapter: CartAdapter) {}
 
-  public loadAll(userId: string, details?: boolean): Observable<UICart[]> {
+  public loadAll(userId: string, details?: boolean): Observable<Cart[]> {
     return this.adapter.loadAll(userId, details);
   }
 
@@ -19,7 +19,7 @@ export class CartConnector {
     userId: string,
     cartId: string,
     details?: boolean
-  ): Observable<UICart> {
+  ): Observable<Cart> {
     return this.adapter.load(userId, cartId, details);
   }
 
@@ -34,7 +34,7 @@ export class CartConnector {
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
-  ): Observable<UICart> {
+  ): Observable<Cart> {
     return this.adapter.create(userId, oldCartId, toMergeCartGuid);
   }
 }

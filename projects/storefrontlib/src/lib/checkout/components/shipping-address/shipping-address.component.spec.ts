@@ -190,7 +190,9 @@ describe('ShippingAddressComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(mockRouting.go).toHaveBeenCalledWith(['cart']);
+    expect(mockRouting.go).toHaveBeenCalledWith({
+      cxRoute: 'cart',
+    });
   });
 
   it('new created address should be set', () => {

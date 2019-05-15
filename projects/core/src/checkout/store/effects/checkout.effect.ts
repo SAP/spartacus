@@ -9,12 +9,12 @@ import * as fromCartActions from './../../../cart/store/actions/index';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { OccOrderService } from '../../../user/index';
-import { OrderEntry } from '../../../occ/occ-models/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
 import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
 import { ConverterService } from '../../../util/converter.service';
 import { CartConnector } from '../../../cart/connectors/cart/cart.connector';
+import { OrderEntry } from '../../../model/order.model';
 
 @Injectable()
 export class CheckoutEffects {
@@ -185,7 +185,9 @@ export class CheckoutEffects {
           switchMap(data => [
             new fromActions.PlaceOrderSuccess(data),
             new AddMessage({
-              text: { raw: 'Order placed successfully' },
+              text: {
+                key: 'checkoutOrderConfirmation.orderPlacedSuccessfully',
+              },
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             }),
           ]),

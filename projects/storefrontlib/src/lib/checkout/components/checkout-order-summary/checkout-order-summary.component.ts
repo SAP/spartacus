@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CartService, UICart } from '@spartacus/core';
+import { CartService, Cart } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-order-summary',
@@ -9,7 +9,7 @@ import { CartService, UICart } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutOrderSummaryComponent {
-  cart$: Observable<UICart>;
+  cart$: Observable<Cart>;
 
   constructor(protected cartService: CartService) {
     this.cart$ = this.cartService.getActive();

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthGuard, NotAuthGuard } from '@spartacus/core';
+import { AuthGuard, NotAuthGuard, ConfigModule } from '@spartacus/core';
 import { LogoutModule } from '../../../cms-components/index';
 import {
   PageLayoutComponent,
@@ -12,6 +12,7 @@ import { CartPageModule } from './cart-page/cart-page.module';
 import { GuardsModule } from './guards/guards.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { ProductPageModule } from './product-page/product-page.module';
+import { defaultRoutingConfig } from './default-routing-config';
 
 const pageModules = [
   CartPageModule,
@@ -22,6 +23,7 @@ const pageModules = [
 
 @NgModule({
   imports: [
+    ConfigModule.withConfig(defaultRoutingConfig),
     CommonModule,
     ...pageModules,
     PageLayoutModule,

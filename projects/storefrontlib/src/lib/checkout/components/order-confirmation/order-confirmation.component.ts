@@ -105,7 +105,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
         return {
           title: textTitle,
           textBold: payment.accountHolderName,
-          text: [payment.cardType.name, payment.cardNumber, textExpires],
+          text: [payment.cardNumber, textExpires],
         };
       })
     );

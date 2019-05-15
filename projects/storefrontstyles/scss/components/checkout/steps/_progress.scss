@@ -40,6 +40,7 @@
     &.is-disabled {
       color: var(--cx-color, var(--cx-g-color-light));
       cursor: var(--cx-cursor, not-allowed);
+      pointer-events: var(--cx-pointer-events, none);
     }
 
     &.is-active {

@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '../../../util/converter.service';
-import { Address, DeliveryMode } from '../../../occ/occ-models/occ.models';
+import { Address } from '../../../model/address.model';
+import { DeliveryMode } from '../../../model/order.model';
 
 export const DELIVERY_ADDRESS_NORMALIZER = new InjectionToken<
   Converter<any, Address>
