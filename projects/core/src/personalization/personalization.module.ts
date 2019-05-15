@@ -3,7 +3,7 @@ import { Config, ConfigModule } from '../config/config.module';
 import { PersonalizationConfig } from './config/personalization-config';
 import { defaultPersonalizationConfig } from './config/default-personalization-config';
 
-import { personalizationInterceptors } from './http-interceptors/index';
+import { interceptors } from './http-interceptors/index';
 
 @NgModule({
   imports: [ConfigModule.withConfig(defaultPersonalizationConfig)],
@@ -13,7 +13,7 @@ export class PersonalizationModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: PersonalizationModule,
-      providers: [...personalizationInterceptors],
+      providers: [...interceptors],
     };
   }
 }

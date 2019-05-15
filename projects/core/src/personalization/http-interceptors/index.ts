@@ -4,7 +4,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OccPersonalizationIdInterceptor } from './occ-personalization-id.interceptor';
 import { OccPersonalizationTimeInterceptor } from './occ-personalization-time.interceptor';
 
-export const personalizationInterceptors: Provider[] = [
+export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: OccPersonalizationIdInterceptor,
