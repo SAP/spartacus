@@ -1,3 +1,5 @@
+import { checkBanner } from '../../../helpers/homepage';
+
 const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 describe('Update profile', () => {
@@ -39,7 +41,7 @@ describe('Update profile', () => {
         'contain',
         'Personal details successfully updated'
       );
-      cy.get('.ElectronicsHompageSplashBannerComponent').should('exist');
+      checkBanner();
 
       // check is the new name displayed in the upper right corner
       cy.get('.cx-login-greet').should(
@@ -64,7 +66,7 @@ describe('Update profile', () => {
       });
 
       cy.location('pathname').should('contain', '/');
-      cy.get('.ElectronicsHompageSplashBannerComponent').should('exist');
+      checkBanner();
     });
   });
 });
