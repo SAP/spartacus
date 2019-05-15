@@ -1,4 +1,4 @@
-export enum ICON_TYPE {
+export enum ICON_TYPES {
   STAR = 'STAR',
   SEARCH = 'SEARCH',
   CART = 'CART',
@@ -10,42 +10,44 @@ export enum ICON_TYPE {
   ERROR = 'ERROR',
   WARNING = 'WARNING',
   SUCCESS = 'SUCCESS',
-  VISA = 'VISA',
 }
 
 export abstract class IconConfig {
   icon?: {
+    /** the path from where the SVG icons are loaded */
+    svgPath?: string;
+
     /**
-     * Each icon type can be configured with a so-called symbol. The symbol will
-     * be used to map the icon to an SVG `symbol` (id) or to the style classes of
-     * a font based icon. The following configuration would map to a fontawesome icon:
-     *
-     * icon: {
-     *   symbols: {
-     *     CART: 'fas fa-shopping-cart'
-     *   }
-     * }
+     * Indicates whether we should use inline SVG icon symbols.
      */
-    symbols?: {
+    useSvg?: boolean;
+
+    /**
+     * Each cx-icon will have class name that reflects the icon type by default.
+     * You can customize this by applying a custom mapping to the icon type.
+     */
+    icons?: {
       [ICON_TYPES: string]: string;
     };
 
     /**
-     * Resources are used to map icon types to certain asset, such as an SVG (sprite) image.
-     * The resource type (`IconResourceType`) dictates whether an SVG image is used. The URL
-     * is used for the SVG xlink reference.
+     * The prefix can be used to address the icon id (in svg) or icon class. Icon
+     * libraries tend to prefix their icons. The prefix can be used for both prefixing
+     * the svg id or style class:
+     *
+     * `fa-shopping-cart`
+     * `fas-fa-shopping-cart`
      */
-    resources?: IconConfigResource[];
+    prefix?: string;
+
+    /**
+     * Icon font libraries tend to manage the overall stylion by a generic
+     * class. For example:
+     * `fas fa-shopping-cart`
+     *
+     * In this example, `fas` is the generic style class that must be applied
+     * to all icon elements.
+     */
+    iconClass?: string;
   };
-}
-
-export interface IconConfigResource {
-  type?: IconResourceType | string;
-  url?: string;
-  types?: ICON_TYPE[];
-}
-
-export enum IconResourceType {
-  SVG = 'svg',
-  LINK = 'link',
 }
