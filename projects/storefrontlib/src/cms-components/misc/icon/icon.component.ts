@@ -17,7 +17,7 @@ export class IconComponent implements OnChanges {
    * Keeps the given style classes so that we can
    * clean them up when the icon changes
    */
-  @HostBinding('class') styleClasses: string;
+  @HostBinding('class') styleClasses = '';
 
   constructor(protected iconLoader: IconLoaderService) {}
 

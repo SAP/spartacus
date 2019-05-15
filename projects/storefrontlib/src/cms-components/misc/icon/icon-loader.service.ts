@@ -102,10 +102,12 @@ export class IconLoaderService {
   }
 
   private getSymbol(iconType: ICON_TYPE | string) {
-    return this.config.icon &&
+    if (
+      this.config.icon &&
       this.config.icon.symbols &&
       this.config.icon.symbols[iconType]
-      ? this.config.icon.symbols[iconType]
-      : iconType;
+    ) {
+      return this.config.icon.symbols[iconType];
+    }
   }
 }
