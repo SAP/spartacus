@@ -19,7 +19,7 @@ export class SmartEditService {
   constructor(
     protected cmsService: CmsService,
     protected routingService: RoutingService,
-    private zone: NgZone,
+    protected zone: NgZone,
     winRef: WindowRef
   ) {
     this.getCmsTicket();
