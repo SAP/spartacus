@@ -10,8 +10,8 @@ export enum ICON_TYPES {
   ERROR = 'ERROR',
   WARNING = 'WARNING',
   SUCCESS = 'SUCCESS',
-  PLUS = 'plus',
-  MINUS = 'minus',
+  PLUS = 'PLUS',
+  MINUS = 'MINUS',
 }
 
 export abstract class IconConfig {
