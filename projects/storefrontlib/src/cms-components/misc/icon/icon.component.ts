@@ -14,19 +14,19 @@ import { ICON_TYPE } from './icon.model';
 })
 export class IconComponent implements OnChanges {
   /**
-   * Keeps the given style classes so that we can
-   * clean them up when the icon changes
-   */
-  private iconStyleClasses = [];
-
-  /**
    * The type of the icon which maps to the icon link
    * in the svg icon sprite.
    */
-  @Input() type: ICON_TYPE | string;
+  @Input() type: ICON_TYPE;
+
+  /**
+   * Keeps the given style classes so that we can
+   * clean them up when the icon changes
+   */
+  private styleClasses = [];
 
   constructor(
-    private iconLoader: IconLoaderService,
+    protected iconLoader: IconLoaderService,
     protected renderer: Renderer2,
     protected hostElement: ElementRef
   ) {}
@@ -36,7 +36,7 @@ export class IconComponent implements OnChanges {
   }
 
   get useSvg(): boolean {
-    return this.iconLoader.useSvg();
+    return this.iconLoader.useSvg(this.type);
   }
 
   get path(): string {
@@ -48,14 +48,14 @@ export class IconComponent implements OnChanges {
       return;
     }
     this.clearStyleClasses();
-    this.iconStyleClasses = this.iconLoader.getStyleClasses(this.type);
-    this.iconStyleClasses.forEach(cls => {
+    this.styleClasses = this.iconLoader.getStyleClasses(this.type);
+    this.styleClasses.forEach(cls => {
       this.renderer.addClass(this.hostElement.nativeElement, cls);
     });
   }
 
   private clearStyleClasses() {
-    this.iconStyleClasses.forEach(cls => {
+    this.styleClasses.forEach(cls => {
       this.renderer.removeClass(this.hostElement.nativeElement, cls);
     });
   }

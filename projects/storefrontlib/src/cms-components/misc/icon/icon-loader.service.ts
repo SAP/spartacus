@@ -7,8 +7,13 @@ import { IconConfig, ICON_TYPE } from './icon.model';
 export class IconLoaderService {
   constructor(private config: IconConfig) {}
 
-  useSvg(): boolean {
-    return this.config.icon && this.config.icon.useSvg;
+  /**
+   * Indicates whether the given icon type is configured to use SVG.
+   */
+  useSvg(iconType: ICON_TYPE): boolean {
+    return !!this.config.icon.resources.find(res =>
+      res.types.includes(iconType)
+    );
   }
 
   /**
@@ -17,50 +22,30 @@ export class IconLoaderService {
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  getSvgPath(iconType: ICON_TYPE | string): string {
-    if (!this.useSvg()) {
-      return null;
+  getSvgPath(iconType: ICON_TYPE): string {
+    const svgResource = this.config.icon.resources.find(res =>
+      res.types.includes(iconType)
+    );
+    if (svgResource) {
+      return svgResource.url
+        ? `${svgResource.url}#${this.getSymbol(iconType)}`
+        : `#${this.getSymbol(iconType)}`;
     }
-    let path = '';
-
-    if (this.config.icon && this.config.icon.svgPath) {
-      path = this.config.icon.svgPath;
-    }
-    // if there's no mapping configured, we use the default value
-    path += '#';
-    if (this.config.icon && this.config.icon.prefix) {
-      path += this.config.icon.prefix;
-    }
-    path += this.getMappedType(iconType);
-    return path;
   }
 
   /**
    *
-   * returns an array of css classes that can be used to
-   * render the icon by CSS / font. This is driven by the `iconType`
-   * and the icon configuration, so that multiple icon fonts are
-   * supported, such as font awesome, glypicons, Octicons, etc.
+   * Returns the symbol class(es) for the icon type.
    */
   getStyleClasses(iconType: ICON_TYPE | string): string[] {
-    const styleClasses = [];
-
-    if (this.config.icon && this.config.icon.iconClass) {
-      styleClasses.push(this.config.icon.iconClass);
-    }
-    let type = this.getMappedType(iconType);
-    if (this.config.icon && this.config.icon.prefix) {
-      type = this.config.icon.prefix + type;
-    }
-    styleClasses.push(type);
-    return styleClasses;
+    return this.getSymbol(iconType).split(' ');
   }
 
-  private getMappedType(iconType: ICON_TYPE | string) {
+  private getSymbol(iconType: ICON_TYPE | string) {
     return this.config.icon &&
-      this.config.icon.icons &&
-      this.config.icon.icons[iconType]
-      ? this.config.icon.icons[iconType]
+      this.config.icon.symbols &&
+      this.config.icon.symbols[iconType]
+      ? this.config.icon.symbols[iconType]
       : iconType;
   }
 }
