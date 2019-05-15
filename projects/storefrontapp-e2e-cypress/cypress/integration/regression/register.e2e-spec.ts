@@ -7,7 +7,7 @@ describe('Register', () => {
   });
 
   // Behavior changed to automatic login. Skipping it until confirming that this behavior is intended.
-  it.skip('should contain error when trying to register with the same email', () => {
+  it('should contain error when trying to register with the same email', () => {
     register.registerUser();
 
     register.signOut();
