@@ -14,6 +14,7 @@ import { StoreFinderSearchConfig } from '../../model/search-config';
 import * as fromEffects from './find-stores.effect';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { GeoPoint } from '../../../model/misc.model';
+import createSpy = jasmine.createSpy;
 
 const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -28,12 +29,8 @@ const singleStoreResult = {};
 const searchResult: any = { stores: [] };
 
 const mockStoreFinderConnector = {
-  get: jasmine
-    .createSpy('connector.get')
-    .and.returnValue(of(singleStoreResult)),
-  search: jasmine
-    .createSpy('connector.search')
-    .and.returnValue(of(searchResult)),
+  get: createSpy('connector.get').and.returnValue(of(singleStoreResult)),
+  search: createSpy('connector.search').and.returnValue(of(searchResult)),
 };
 
 describe('FindStores Effects', () => {

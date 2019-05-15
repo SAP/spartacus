@@ -13,6 +13,7 @@ import { OccConfig } from '../../../occ';
 import * as fromEffects from './view-all-stores.effect';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreCountList } from '../../../model/store.model';
+import createSpy = jasmine.createSpy;
 
 const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -26,9 +27,9 @@ const mockOccModuleConfig: OccConfig = {
 const storesCountResult: StoreCountList = { countriesAndRegionsStoreCount: [] };
 
 const mockStoreFinderConnector = {
-  getCount: jasmine
-    .createSpy('connector.getCount')
-    .and.returnValue(of(storesCountResult)),
+  getCount: createSpy('connector.getCount').and.returnValue(
+    of(storesCountResult)
+  ),
 };
 
 describe('ViewAllStores Effects', () => {
