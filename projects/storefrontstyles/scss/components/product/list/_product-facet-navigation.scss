@@ -62,28 +62,25 @@
     display: var(--cx-display, block);
     font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi, 600));
 
-    .cx-facet-header-link {
-      &:after {
-        float: var(--cx-float, right);
-        font-size: var(--cx-font-size, 25px);
-        line-height: var(--cx-line-height, 0);
+    .fa-minus {
+      float: var(--cx-float, right);
+
+      &::before {
+        font-size: var(--cx-font-size, 12px);
+        top: var(--cx-top, 5px);
         position: var(--cx-position, relative);
-        top: var(--cx-top, 10px);
-        font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal, 400));
         color: var(--cx-color, var(--cx-g-color-secondary));
       }
+    }
 
-      &[aria-expanded='false'] {
-        &:after {
-          content: '+';
-        }
-      }
+    .fa-plus {
+      float: var(--cx-float, right);
 
-      &[aria-expanded='true'] {
-        &:after {
-          content: '\2013';
-          height: var(--cx-height, 2px);
-        }
+      &::before {
+        font-size: var(--cx-font-size, 14px);
+        top: var(--cx-top, 5px);
+        position: var(--cx-position, relative);
+        color: var(--cx-color, var(--cx-g-color-secondary));
       }
     }
   }
