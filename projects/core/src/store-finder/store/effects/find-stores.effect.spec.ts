@@ -15,7 +15,7 @@ import * as fromEffects from './find-stores.effect';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { GeoPoint } from '../../../model/misc.model';
 
-const MockOccModuleConfig: OccConfig = {
+const mockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
       baseUrl: '',
@@ -24,9 +24,20 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+const singleStoreResult = {};
+const searchResult: any = { stores: [] };
+
+const mockStoreFinderConnector = {
+  get: jasmine
+    .createSpy('connector.get')
+    .and.returnValue(of(singleStoreResult)),
+  search: jasmine
+    .createSpy('connector.search')
+    .and.returnValue(of(searchResult)),
+};
+
 describe('FindStores Effects', () => {
   let actions$: Observable<any>;
-  let connector: StoreFinderConnector;
   let effects: fromEffects.FindStoresEffect;
   let searchConfig: StoreFinderSearchConfig;
   const longitudeLatitude: GeoPoint = {
@@ -34,26 +45,19 @@ describe('FindStores Effects', () => {
     latitude: 20.2,
   };
 
-  const singleStoreResult = {};
-  const searchResult: any = { stores: [] };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        StoreFinderConnector,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: StoreFinderConnector, useValue: mockStoreFinderConnector },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.FindStoresEffect,
         provideMockActions(() => actions$),
       ],
     });
 
-    connector = TestBed.get(StoreFinderConnector);
     effects = TestBed.get(fromEffects.FindStoresEffect);
     searchConfig = { pageSize: 10 };
-
-    spyOn(connector, 'search').and.returnValue(of(searchResult));
-    spyOn(connector, 'get').and.returnValue(of(singleStoreResult));
   });
 
   describe('findStores$', () => {

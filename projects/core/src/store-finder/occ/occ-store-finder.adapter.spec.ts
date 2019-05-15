@@ -6,8 +6,9 @@ import {
 
 import { OccConfig } from '../../occ';
 import { StoreFinderSearchConfig } from '../model/search-config';
-import { StoreFinderConnector } from '../connectors/store-finder.connector';
 import { GeoPoint } from '../../model/misc.model';
+import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
+import { StoreCountList } from '../../model';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
@@ -17,7 +18,9 @@ const longitudeLatitude: GeoPoint = {
   latitude: 20.2,
 };
 
-const storeCountResponseBody = { CA: 50 };
+const storeCountResponseBody: StoreCountList = {
+  countriesAndRegionsStoreCount: [],
+};
 
 const storeId = 'test';
 
@@ -33,20 +36,20 @@ export class MockOccModuleConfig {
   };
 }
 
-describe('StoreFinderConnector', () => {
-  let connector: StoreFinderConnector;
+describe('OccStoreFinderAdapter', () => {
+  let adapter: OccStoreFinderAdapter;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        StoreFinderConnector,
+        OccStoreFinderAdapter,
         { provide: OccConfig, useClass: MockOccModuleConfig },
       ],
     });
 
-    connector = TestBed.get(StoreFinderConnector);
+    adapter = TestBed.get(OccStoreFinderAdapter);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -56,7 +59,7 @@ describe('StoreFinderConnector', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      connector
+      adapter
         .search(queryText, mockSearchConfig)
         .toPromise()
         .then(result => {
@@ -78,7 +81,7 @@ describe('StoreFinderConnector', () => {
 
   describe('longitudeLatitude search', () => {
     it('should return search results for given longitudeLatitude', () => {
-      connector
+      adapter
         .search('', mockSearchConfig, longitudeLatitude)
         .toPromise()
         .then(result => {
@@ -99,7 +102,7 @@ describe('StoreFinderConnector', () => {
   });
 
   it('should request stores count', () => {
-    connector.getCount().subscribe(result => {
+    adapter.loadCount().subscribe(result => {
       expect(result).toEqual(storeCountResponseBody);
     });
 
@@ -110,7 +113,7 @@ describe('StoreFinderConnector', () => {
 
   describe('query by store id', () => {
     it('should request stores by store id', () => {
-      connector.get(storeId).subscribe(result => {
+      adapter.load(storeId).subscribe(result => {
         expect(result).toEqual(searchResults.stores[0]);
       });
 

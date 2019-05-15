@@ -12,8 +12,9 @@ import { OccConfig } from '../../../occ';
 
 import * as fromEffects from './view-all-stores.effect';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
+import { StoreCountList } from '../../../model/store.model';
 
-const MockOccModuleConfig: OccConfig = {
+const mockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
       baseUrl: '',
@@ -22,34 +23,38 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+const storesCountResult: StoreCountList = { countriesAndRegionsStoreCount: [] };
+
+const mockStoreFinderConnector = {
+  getCount: jasmine
+    .createSpy('connector.getCount')
+    .and.returnValue(of(storesCountResult)),
+};
+
 describe('ViewAllStores Effects', () => {
   let actions$: Observable<any>;
-  let connector: StoreFinderConnector;
   let effects: fromEffects.ViewAllStoresEffect;
-
-  const searchResult: any = { stores: [] };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        StoreFinderConnector,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: StoreFinderConnector, useValue: mockStoreFinderConnector },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.ViewAllStoresEffect,
         provideMockActions(() => actions$),
       ],
     });
 
-    connector = TestBed.get(StoreFinderConnector);
     effects = TestBed.get(fromEffects.ViewAllStoresEffect);
-
-    spyOn(connector, 'getCount').and.returnValue(of(searchResult));
   });
 
   describe('viewAllStores$', () => {
     it('should return searchResult from ViewAllStoresSuccess', () => {
       const action = new fromActions.ViewAllStores();
-      const completion = new fromActions.ViewAllStoresSuccess(searchResult);
+      const completion = new fromActions.ViewAllStoresSuccess(
+        storesCountResult
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
