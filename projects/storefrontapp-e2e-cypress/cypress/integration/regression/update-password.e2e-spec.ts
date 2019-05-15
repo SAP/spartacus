@@ -1,4 +1,5 @@
 import * as helper from '../../helpers/login';
+import { login } from '../../helpers/auth-forms';
 
 describe('My Account - Update Password', () => {
   const PAGE_TITLE_UPDATE_PASSWORD = 'Update Password';
@@ -25,7 +26,8 @@ describe('My Account - Update Password', () => {
 
     beforeEach(() => {
       cy.visit('/');
-      helper.loginWithCredentials(user.email, user.password);
+      cy.contains(/Sign In/i).click();
+      login(user.email, user.password);
       cy.selectUserMenuOption('Password');
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
       cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
@@ -60,7 +62,8 @@ describe('My Account - Update Password', () => {
       cy.get('cx-global-message .alert-success').should('exist');
 
       helper.signOutUser();
-      helper.loginWithCredentials(user.email, newPassword);
+      cy.contains(/Sign In/i).click();
+      login(user.email, newPassword);
       cy.get(helper.userGreetSelector).should('exist');
     });
   });
