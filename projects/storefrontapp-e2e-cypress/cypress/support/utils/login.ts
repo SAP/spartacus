@@ -32,14 +32,20 @@ export function setSessionData(data) {
     userToken: {
       token: data,
     },
-    clientToken: {
-      loading: false,
-      error: false,
-      success: false,
-    },
   };
   cy.window().then(win => {
-    win.sessionStorage.setItem('auth', JSON.stringify(authData));
+    const storageKey = 'spartacus-local-data';
+    let state;
+    try {
+      state = JSON.parse(win.localStorage.getItem(storageKey));
+      if (state === null) {
+        state = {};
+      }
+    } catch (e) {
+      state = {};
+    }
+    state.auth = authData;
+    win.localStorage.setItem(storageKey, JSON.stringify(state));
   });
   return data;
 }
