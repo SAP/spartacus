@@ -8,3 +8,4 @@ import './require-shipping-method-selected.commands';
 import './require-payment-done.commands';
 import './require-placed-order.commands';
 import './login.commands';
+import './storage.commands';
