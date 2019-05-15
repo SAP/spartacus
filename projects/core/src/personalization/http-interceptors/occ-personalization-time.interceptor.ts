@@ -14,11 +14,11 @@ import { PersonalizationConfig } from '../config/personalization-config';
 import { WindowRef } from '../../window/window-ref';
 import { isPlatformServer } from '@angular/common';
 
-const PERSONALIZATION_ID_KEY = 'personalization-id';
+const PERSONALIZATION_TIME_KEY = 'personalization-time';
 
 @Injectable()
-export class OccPersonalizationIdInterceptor implements HttpInterceptor {
-  private personalizationId: string;
+export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
+  private timestamp: string;
   private requestHeader: string;
 
   constructor(
@@ -27,10 +27,10 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     private winRef: WindowRef,
     @Inject(PLATFORM_ID) private platform: any
   ) {
-    this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
-    this.personalizationId =
+    this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
+    this.timestamp =
       this.winRef.localStorage &&
-      this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY);
+      this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY);
   }
 
   intercept(
@@ -42,12 +42,12 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     }
 
     if (
-      this.personalizationId &&
+      this.timestamp &&
       request.url.includes(this.occEndpoints.getBaseEndpoint())
     ) {
       request = request.clone({
         setHeaders: {
-          [this.requestHeader]: this.personalizationId,
+          [this.requestHeader]: this.timestamp,
         },
       });
     }
@@ -56,12 +56,12 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
       tap(event => {
         if (event instanceof HttpResponse) {
           if (event.headers.keys().includes(this.requestHeader)) {
-            const receivedId = event.headers.get(this.requestHeader);
-            if (this.personalizationId !== receivedId) {
-              this.personalizationId = receivedId;
+            const receivedTimestamp = event.headers.get(this.requestHeader);
+            if (this.timestamp !== receivedTimestamp) {
+              this.timestamp = receivedTimestamp;
               this.winRef.localStorage.setItem(
-                PERSONALIZATION_ID_KEY,
-                this.personalizationId
+                PERSONALIZATION_TIME_KEY,
+                this.timestamp
               );
             }
           }
