@@ -18,6 +18,7 @@ export class MockIconFontLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): string {
     return 'fas fa-shopping-cart';
   }
+  addLinkResource() {}
 }
 
 export class MockSvgIconLoaderService {
@@ -28,6 +29,7 @@ export class MockSvgIconLoaderService {
   getSvgPath(_type: ICON_TYPE): string {
     return 'icon/path.svg#cart';
   }
+  addLinkResource() {}
 }
 
 describe('IconComponent', () => {

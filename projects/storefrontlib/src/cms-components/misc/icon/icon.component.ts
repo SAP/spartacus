@@ -41,10 +41,14 @@ export class IconComponent implements OnChanges {
     return this.iconLoader.getSvgPath(this.type);
   }
 
+  /**
+   * Adds the style classes and the link resource (if availabe).
+   */
   private addStyleClasses() {
     if (this.useSvg) {
       return;
     }
     this.styleClasses = this.iconLoader.getStyleClasses(this.type);
+    this.iconLoader.addLinkResource(this.type);
   }
 }

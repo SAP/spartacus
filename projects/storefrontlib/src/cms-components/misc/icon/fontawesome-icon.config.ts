@@ -1,4 +1,4 @@
-import { IconConfig } from './icon.model';
+import { IconConfig, IconResourceType } from './icon.model';
 
 export const fontawesomeIconConfig: IconConfig = {
   icon: {
@@ -16,5 +16,11 @@ export const fontawesomeIconConfig: IconConfig = {
       TIMES: 'fas fa-times',
       VISA: 'fab fa-cc-visa',
     },
+    resources: [
+      {
+        type: IconResourceType.LINK,
+        url: 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
+      },
+    ],
   },
 };

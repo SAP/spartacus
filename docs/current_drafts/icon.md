@@ -61,7 +61,11 @@ ConfigModule.withConfig(<IconConfig>{
     },
     resources: [
       {
-        type: IconResourceType.SVG,
+        type: IconResourceType.LINK,
+        url: 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
+      },
+      {
+        type: IconResourceType.LINK,
         url: './assets/sprite.svg',
         types: [ICON_TYPE.INFO,ICON_TYPE.WARNING],
       },
@@ -72,11 +76,12 @@ ConfigModule.withConfig(<IconConfig>{
 ### SVG based icons
 In order to construct the SVG icon, the component will create an `xlink` to the SVG symbol. If a `url` is given for the icon type, the symbol will be constructed using the url and symbol configuration. The above setup, will produce links to `./assets/sprite.svg#info` and `./assets/sprite.svg#warning`.
 
-**Note**: to generate a font sprit for font awesome, you can use https://github.com/Minecrell/fontawesome-svg-sprite-generator. This is a convenient library to automically generate a sprite with the icons that you use in the storefront. Optionally, the icons can have a custom icon name. 
+**Note**: to generate a font sprite for font awesome, you can use https://github.com/Minecrell/fontawesome-svg-sprite-generator. This is a convenient library to automically generate a sprite with the icons that you use in the storefront. Optionally, the icons can have a custom icon name. 
 
 ### Font based icons
 To support font based icons the component simply adds the icon symbol to the list of style classes, for example 
 ```html
 <cx-icon class="fas fa-shopping-cart"></cx-icon>
 ```
-**Note** The above configuration is not loading the font itself. This is done by importing the font in the application, for example in the `index.html` or inline in a CSS file.  
+
+In order to load the font related CSS file, a resource can be added for a specific icon type or for all (by leaving out types entirely). When a resource is added, the CSS file be *linked* to the DOM dynamically. Spartacus will make sure that the font is only loaded once. 
