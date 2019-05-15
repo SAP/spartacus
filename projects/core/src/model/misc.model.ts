@@ -9,8 +9,8 @@ export interface Currency {
 
 export interface Time {
   formattedHour?: string;
-  hour?: Uint8Array;
-  minute?: Uint8Array;
+  hour?: number;
+  minute?: number;
 }
 
 export interface GeoPoint {

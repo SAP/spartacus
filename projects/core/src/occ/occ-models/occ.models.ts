@@ -776,13 +776,13 @@ export namespace Occ {
      */
     formattedHour?: string;
     /**
-     * @member {Uint8Array} [hour]
+     * @member {number} [hour]
      */
-    hour?: Uint8Array;
+    hour?: number;
     /**
-     * @member {Uint8Array} [minute]
+     * @member {number} [minute]
      */
-    minute?: Uint8Array;
+    minute?: number;
   }
 
   /**
