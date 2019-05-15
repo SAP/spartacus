@@ -1,14 +1,16 @@
-import { RoutingConfig, RoutesConfig } from '@spartacus/core';
+import { RoutesConfig, RoutingConfig } from '@spartacus/core';
 
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
   cart: { paths: ['cart'] },
   search: { paths: ['search/:query'] },
+
+  // semantic links for login related pages
   login: { paths: ['login'] },
   logout: { paths: ['logout'] },
-  register: { paths: ['register'] },
-  resetPassword: { paths: ['login/pw/change'] },
-  forgotPassword: { paths: ['forgot-password'] },
+  register: { paths: ['login/register'] },
+  forgotPassword: { paths: ['login/forgot-password'] },
+
   checkout: { paths: ['checkout'] },
   orderConfirmation: { paths: ['order-confirmation'] },
   product: {
@@ -21,17 +23,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   brand: { paths: ['Brands/:brandName/c/:brandCode'] },
   termsAndConditions: { paths: ['termsAndConditions'] },
-  orders: { paths: ['my-account/orders'] },
   orderDetails: {
     paths: ['my-account/orders/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
-  addressBook: { paths: ['my-account/address-book'] },
-  updatePassword: { paths: ['my-account/update-password'] },
-  paymentManagement: { paths: ['my-account/payment-details'] },
-  updateEmail: { paths: ['my-account/update-email'] },
-  updateProfile: { paths: ['my-account/update-profile'] },
-  closeAccount: { paths: ['my-account/close-account'] },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {
