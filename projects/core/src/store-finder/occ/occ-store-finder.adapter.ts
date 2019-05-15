@@ -14,6 +14,11 @@ import { StoreFinderAdapter } from '../connectors/store-finder.adapter';
 import { GeoPoint } from '../../model/misc.model';
 import { ConverterService } from '../../util/converter.service';
 import { Occ } from '../../occ/occ-models/occ.models';
+import {
+  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
+  STORE_FINDER_COUNT_NORMALIZER,
+  STORE_FINDER_POINT_OF_SERVICE_NORMALIZER,
+} from '../connectors';
 
 const STORES_ENDPOINT = 'stores';
 
@@ -30,7 +35,10 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     searchConfig: StoreFinderSearchConfig,
     longitudeLatitude?: GeoPoint
   ): Observable<StoreFinderSearchPage> {
-    return this.callOccFindStores(query, searchConfig, longitudeLatitude);
+    return this.callOccFindStores(query, searchConfig, longitudeLatitude).pipe(
+      catchError((error: any) => throwError(error.json())),
+      this.converter.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER)
+    );
   }
 
   loadCount(): Observable<StoreCount[]> {
@@ -38,7 +46,8 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
     return this.http.get<Occ.StoreCountList>(storeCountUrl).pipe(
       map(({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount),
-      catchError((error: any) => throwError(error.json()))
+      catchError((error: any) => throwError(error.json())),
+      this.converter.pipeableMany(STORE_FINDER_COUNT_NORMALIZER)
     );
   }
 
@@ -46,16 +55,17 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     const storeDetailsUrl = this.getStoresEndpoint(storeId);
     const params = { fields: 'FULL' };
 
-    return this.http
-      .get(storeDetailsUrl, { params })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.get<Occ.PointOfService>(storeDetailsUrl, { params }).pipe(
+      catchError((error: any) => throwError(error.json())),
+      this.converter.pipeable(STORE_FINDER_POINT_OF_SERVICE_NORMALIZER)
+    );
   }
 
   protected callOccFindStores(
     query: string,
     searchConfig: StoreFinderSearchConfig,
     longitudeLatitude?: GeoPoint
-  ): Observable<StoreFinderSearchPage> {
+  ): Observable<Occ.StoreFinderSearchPage> {
     const url = this.getStoresEndpoint();
     let params: HttpParams = new HttpParams({
       fromString:
@@ -81,7 +91,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
       params = params.set('sort', searchConfig.sort);
     }
 
-    return this.http.get<StoreFinderSearchPage>(url, { params }).pipe(
+    return this.http.get<Occ.StoreFinderSearchPage>(url, { params }).pipe(
       catchError((error: any) => {
         if (error.json) {
           return throwError(error.json());
