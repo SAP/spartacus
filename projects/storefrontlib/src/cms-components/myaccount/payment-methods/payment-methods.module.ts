@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
+  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
@@ -17,7 +18,10 @@ import { PaymentMethodsComponent } from './payment-methods.component';
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AccountPaymentDetailsComponent: { selector: 'cx-payment-methods' },
+        AccountPaymentDetailsComponent: {
+          selector: 'cx-payment-methods',
+          guards: [AuthGuard],
+        },
       },
     }),
     I18nModule,
