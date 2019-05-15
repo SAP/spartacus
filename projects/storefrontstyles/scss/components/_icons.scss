@@ -2,12 +2,27 @@
 
 %cx-icon {
   align-self: center;
+  line-height: normal;
 
-  font-size: 25px;
+  &:before {
+    font-size: 25px;
+  }
+  &.small {
+    &:before {
+      font-size: 15px;
+    }
+  }
 
   svg {
     width: 28px;
     height: 28px;
     fill: currentColor;
+  }
+
+  &.small {
+    svg {
+      width: 14px;
+      height: 14px;
+    }
   }
 }
