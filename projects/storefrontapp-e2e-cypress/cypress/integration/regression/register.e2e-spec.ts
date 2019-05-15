@@ -9,7 +9,7 @@ describe('Register', () => {
     cy.visit('/');
   });
 
-  // Behavior changed to automatic login. LOL
+  // Behavior changed to automatic login.
   it('should login when trying to register with the same email and correct password', () => {
     register.registerUser(user);
     register.signOut();
