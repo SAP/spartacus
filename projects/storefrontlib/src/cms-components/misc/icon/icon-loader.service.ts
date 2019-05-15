@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IconConfig, ICON_TYPES } from './icon.model';
+import { IconConfig, ICON_TYPE } from './icon.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class IconLoaderService {
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  getSvgPath(iconType: ICON_TYPES | string): string {
+  getSvgPath(iconType: ICON_TYPE | string): string {
     if (!this.useSvg()) {
       return null;
     }
@@ -42,7 +42,7 @@ export class IconLoaderService {
    * and the icon configuration, so that multiple icon fonts are
    * supported, such as font awesome, glypicons, Octicons, etc.
    */
-  getStyleClasses(iconType: ICON_TYPES | string): string[] {
+  getStyleClasses(iconType: ICON_TYPE | string): string[] {
     const styleClasses = [];
 
     if (this.config.icon && this.config.icon.iconClass) {
@@ -56,7 +56,7 @@ export class IconLoaderService {
     return styleClasses;
   }
 
-  private getMappedType(iconType: ICON_TYPES | string) {
+  private getMappedType(iconType: ICON_TYPE | string) {
     return this.config.icon &&
       this.config.icon.icons &&
       this.config.icon.icons[iconType]

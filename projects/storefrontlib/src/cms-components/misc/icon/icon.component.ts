@@ -6,7 +6,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { IconLoaderService } from './icon-loader.service';
-import { ICON_TYPES } from './icon.model';
+import { ICON_TYPE } from './icon.model';
 
 @Component({
   selector: 'cx-icon',
@@ -23,7 +23,7 @@ export class IconComponent implements OnChanges {
    * The type of the icon which maps to the icon link
    * in the svg icon sprite.
    */
-  @Input() type: ICON_TYPES | string;
+  @Input() type: ICON_TYPE | string;
 
   constructor(
     private iconLoader: IconLoaderService,
