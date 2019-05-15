@@ -88,8 +88,9 @@ export function reducer(
         : '';
       let redirectUrl;
       if (
+        // TODO: Should be rafactored, utilizimg semantic pages configuration
         contextId === '/login' ||
-        contextId === 'register' ||
+        contextId === '/login/register' ||
         currentUrl === state.redirectUrl
       ) {
         redirectUrl = state.redirectUrl;
