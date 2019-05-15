@@ -7,7 +7,7 @@
     "
   >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.CHECK_CIRCLE"></cx-icon>
+      <cx-icon [type]="iconTypes.SUCCESS"></cx-icon>
     </span>
     <span>{{ confMsg | cxTranslate }}</span>
     <button
@@ -23,7 +23,7 @@
     *ngFor="let infoMsg of messages[messageType.MSG_TYPE_INFO]; let i = index"
   >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.EXCLAMATION_TRIANGLE"></cx-icon>
+      <cx-icon [type]="iconTypes.WARNING"></cx-icon>
     </span>
     <span>{{ infoMsg | cxTranslate }}</span>
     <button
@@ -39,7 +39,7 @@
     *ngFor="let errorMsg of messages[messageType.MSG_TYPE_ERROR]; let i = index"
   >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.EXCLAMATION_CIRCLE"></cx-icon>
+      <cx-icon [type]="iconTypes.ERROR"></cx-icon>
     </span>
     <span>{{ errorMsg | cxTranslate }}</span>
     <button
