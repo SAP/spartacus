@@ -4,9 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { OccModule } from '../../occ/occ.module';
 import { OccUserService } from './user.service';
-import { OrderAdapter } from '../connectors/order.adapter';
+import { OrderAdapter } from '../connectors/order/order.adapter';
 import { OccOrderAdapter } from './occ-order.adapter';
-import { ORDER_NORMALIZER } from '../connectors/converters';
+import { ORDER_NORMALIZER } from '../connectors/order/converters';
 import { OccOrderNormalizer } from './converters/occ-order-normalizer';
 
 @NgModule({
