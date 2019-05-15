@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+} from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdateProfileFormComponent } from './components/update-profile-form.component';
 import { UpdateProfileComponent } from './update-profile.component';
@@ -11,7 +16,10 @@ import { UpdateProfileComponent } from './update-profile.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UpdateProfileComponent: { selector: 'cx-update-profile' },
+        UpdateProfileComponent: {
+          selector: 'cx-update-profile',
+          guards: [AuthGuard],
+        },
       },
     }),
     FormsModule,

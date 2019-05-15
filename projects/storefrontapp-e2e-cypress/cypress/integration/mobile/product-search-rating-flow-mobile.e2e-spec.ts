@@ -2,7 +2,7 @@ import * as productSearchRatingFlow from '../../helpers/product-search-rating-fl
 import { formats } from '../../sample-data/viewports';
 
 function clickSearchIcon() {
-  cy.get('cx-searchbox [aria-label="Search "]').click();
+  cy.get('cx-searchbox [aria-label="Search"]').click();
 }
 
 context(
