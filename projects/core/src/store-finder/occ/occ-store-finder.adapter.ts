@@ -17,7 +17,7 @@ import { Occ } from '../../occ/occ-models/occ.models';
 import {
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
   STORE_FINDER_COUNT_NORMALIZER,
-  STORE_FINDER_POINT_OF_SERVICE_NORMALIZER,
+  POINT_OF_SERVICE_NORMALIZER,
 } from '../connectors';
 
 const STORES_ENDPOINT = 'stores';
@@ -57,7 +57,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
     return this.http.get<Occ.PointOfService>(storeDetailsUrl, { params }).pipe(
       catchError((error: any) => throwError(error.json())),
-      this.converter.pipeable(STORE_FINDER_POINT_OF_SERVICE_NORMALIZER)
+      this.converter.pipeable(POINT_OF_SERVICE_NORMALIZER)
     );
   }
 

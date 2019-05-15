@@ -6,9 +6,9 @@ import {
 } from '../../model/store.model';
 import { InjectionToken } from '@angular/core';
 
-export const STORE_FINDER_POINT_OF_SERVICE_NORMALIZER = new InjectionToken<
+export const POINT_OF_SERVICE_NORMALIZER = new InjectionToken<
   Converter<any, PointOfService>
->('StoreFinderPointOfServiceNormalizer');
+>('PointOfServiceNormalizer');
 
 export const STORE_FINDER_SEARCH_PAGE_NORMALIZER = new InjectionToken<
   Converter<any, StoreFinderSearchPage>
