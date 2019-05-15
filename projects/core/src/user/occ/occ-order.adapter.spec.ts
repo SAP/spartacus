@@ -5,8 +5,12 @@ import {
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../occ/config/occ-config';
-import { OccOrderService } from '../occ/index';
 import { Order } from '../../model/order.model';
+import { ConverterService, OccOrderAdapter } from '@spartacus/core';
+import {
+  ORDER_HISTORY_NORMALIZER,
+  ORDER_NORMALIZER,
+} from '../connectors/converters';
 
 const userId = '123';
 const cartId = '456';
@@ -33,21 +37,24 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccOrderService', () => {
-  let service: OccOrderService;
+describe('OccOrderAdapter', () => {
+  let service: OccOrderAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
-        OccOrderService,
+        OccOrderAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccOrderService);
+    service = TestBed.get(OccOrderAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    spyOn(converter, 'pipeable').and.callThrough();
   });
 
   afterEach(() => {
@@ -56,7 +63,7 @@ describe('OccOrderService', () => {
 
   describe('place order', () => {
     it('should be able to place order for the cart', () => {
-      service.placeOrder(userId, cartId).subscribe(result => {
+      service.place(userId, cartId).subscribe(result => {
         expect(result).toEqual(orderData);
       });
 
@@ -72,12 +79,24 @@ describe('OccOrderService', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orderData);
     });
+
+    it('should use converter', () => {
+      service.place(userId, cartId).subscribe();
+      httpMock
+        .expectOne(
+          req =>
+            req.method === 'POST' &&
+            req.url === usersEndpoint + `/${userId}` + orderEndpoint
+        )
+        .flush({});
+      expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
+    });
   });
 
   describe('getUserOrders', () => {
     it('should fetch user Orders with default options', async(() => {
       const PAGE_SIZE = 5;
-      service.getOrders(userId, PAGE_SIZE).subscribe();
+      service.loadHistory(userId, PAGE_SIZE).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url === usersEndpoint + `/${userId}` + orderEndpoint &&
@@ -91,7 +110,7 @@ describe('OccOrderService', () => {
       const currentPage = 1;
       const sort = 'byDate';
 
-      service.getOrders(userId, PAGE_SIZE, currentPage, sort).subscribe();
+      service.loadHistory(userId, PAGE_SIZE, currentPage, sort).subscribe();
       const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url === usersEndpoint + `/${userId}` + orderEndpoint &&
@@ -106,11 +125,19 @@ describe('OccOrderService', () => {
       );
       expect(mockReq.request.params.get('sort')).toEqual(sort);
     }));
+
+    it('should use converter', () => {
+      service.loadHistory(userId).subscribe();
+      httpMock
+        .expectOne(usersEndpoint + `/${userId}` + orderEndpoint)
+        .flush({});
+      expect(converter.pipeable).toHaveBeenCalledWith(ORDER_HISTORY_NORMALIZER);
+    });
   });
 
   describe('getOrder', () => {
     it('should fetch a single order', async(() => {
-      service.getOrder(userId, orderData.code).subscribe();
+      service.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url ===
@@ -122,5 +149,21 @@ describe('OccOrderService', () => {
         );
       }, `GET a single order`);
     }));
+
+    it('should use converter', () => {
+      service.load(userId, orderData.code).subscribe();
+      httpMock
+        .expectOne(
+          req =>
+            req.url ===
+              usersEndpoint +
+                `/${userId}` +
+                orderEndpoint +
+                '/' +
+                orderData.code && req.method === 'GET'
+        )
+        .flush({});
+      expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
+    });
   });
 });
