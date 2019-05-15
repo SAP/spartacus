@@ -16,7 +16,7 @@
       <div class="cx-detail-label">
         {{ 'orderDetails.status' | cxTranslate }}
       </div>
-      <div class="cx-detail-value">
+      <div class="cx-detail-value" *ngIf="order?.statusDisplay">
         {{
           'orderDetails.statusDisplay'
             | cxTranslate: { context: order?.statusDisplay }
