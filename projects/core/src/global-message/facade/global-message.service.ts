@@ -35,11 +35,10 @@ export class GlobalMessageService {
    */
   add(text: string | Translatable, type: GlobalMessageType): void {
     this.store.dispatch(
-      new AddMessage(
-        typeof text === 'string'
-          ? { text: { raw: text }, type }
-          : { text, type }
-      )
+      new AddMessage({
+        text: typeof text === 'string' ? { raw: text } : text,
+        type,
+      })
     );
   }
 
