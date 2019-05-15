@@ -57,4 +57,29 @@ export const product = {
     viewCart: 'view cart',
     proceedToCheckout: 'proceed to checkout',
   },
+  stockNotification: {
+    notifyMe: 'NOTIFY ME',
+    stopNotify: 'STOP NOTIFICATION',
+    activateChannelsPrefix:
+      'To get notified when this product is back in stock again please activate your ',
+    channelsLink: 'Notification Channels',
+    activateChannelsSuffix: '.',
+    notified: 'You will be notified when this product is back in stock.',
+    getNotified: 'Get notified when this product is back in stock.',
+    subscriptionDialog: {
+      header: 'Out of Stock Subscription',
+      notifiedPrefix: 'You will be notified on:',
+      notifiedSuffix: 'as soons as this product is back in stock.',
+      manageChannelsPrefix:
+        'Manage your preffered subscriptions channels at the ',
+      manageChannelsLink: 'Channel Settings',
+      manageChannelsSuffix: ' page.',
+      manageSubscriptionsPrefix: 'You can manage your subscriptions at ',
+      manageSubscriptionsLink: 'My Interests',
+      manageSubscriptionsSuffix: ' page.',
+      okBtn: 'OK',
+      subscribing:
+        'Subscribing you to Out of Stock notifications for this product',
+    },
+  },
 };

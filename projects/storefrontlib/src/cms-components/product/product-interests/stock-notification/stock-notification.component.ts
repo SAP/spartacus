@@ -125,7 +125,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       size: 'lg',
     }).componentInstance;
     this.modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
-    this.modalInstance.selectedChannels = this.enabledChannels.join(',');
+    this.modalInstance.selectedChannels = this.enabledChannels;
   }
 
   get notificationPrefUrl(): string {
