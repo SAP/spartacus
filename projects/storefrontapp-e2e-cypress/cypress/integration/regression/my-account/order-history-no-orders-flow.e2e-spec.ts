@@ -1,5 +1,6 @@
 import { user } from '../../../sample-data/checkout-flow';
 import { register, login } from '../../../helpers/auth-forms';
+import { checkBanner } from '../../../helpers/homepage';
 
 describe('Order History with no orders', () => {
   const loginLink = 'cx-login [role="link"]';
@@ -35,6 +36,6 @@ describe('Order History with no orders', () => {
       .getByText('Start Shopping')
       .click();
 
-    cy.get('.ElectronicsHompageSplashBannerComponent');
+    checkBanner();
   });
 });
