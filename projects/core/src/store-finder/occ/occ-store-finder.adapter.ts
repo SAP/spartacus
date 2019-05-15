@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { StoreFinderSearchConfig } from '../model/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   StoreFinderSearchPage,
-  StoreCountList,
   PointOfService,
+  StoreCount,
 } from '../../model/store.model';
 import { StoreFinderAdapter } from '../connectors/store-finder.adapter';
 import { GeoPoint } from '../../model/misc.model';
+import { ConverterService } from '../../util/converter.service';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 const STORES_ENDPOINT = 'stores';
 
@@ -19,7 +21,8 @@ const STORES_ENDPOINT = 'stores';
 export class OccStoreFinderAdapter implements StoreFinderAdapter {
   constructor(
     private http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    private converter: ConverterService
   ) {}
 
   search(
@@ -30,12 +33,13 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     return this.callOccFindStores(query, searchConfig, longitudeLatitude);
   }
 
-  loadCount(): Observable<StoreCountList> {
+  loadCount(): Observable<StoreCount[]> {
     const storeCountUrl = this.getStoresEndpoint('storescounts');
 
-    return this.http
-      .get(storeCountUrl)
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.get<Occ.StoreCountList>(storeCountUrl).pipe(
+      map(({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount),
+      catchError((error: any) => throwError(error.json()))
+    );
   }
 
   load(storeId: string): Observable<PointOfService> {

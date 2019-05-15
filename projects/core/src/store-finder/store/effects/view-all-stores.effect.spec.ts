@@ -12,8 +12,8 @@ import { OccConfig } from '../../../occ';
 
 import * as fromEffects from './view-all-stores.effect';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
-import { StoreCountList } from '../../../model/store.model';
 import createSpy = jasmine.createSpy;
+import { StoreCount } from '../../../model/store.model';
 
 const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -24,7 +24,10 @@ const mockOccModuleConfig: OccConfig = {
   },
 };
 
-const storesCountResult: StoreCountList = { countriesAndRegionsStoreCount: [] };
+const storesCountResult: StoreCount[] = [
+  { count: 1, name: 'name1' },
+  { count: 2, name: 'name2' },
+];
 
 const mockStoreFinderConnector = {
   getCount: createSpy('connector.getCount').and.returnValue(

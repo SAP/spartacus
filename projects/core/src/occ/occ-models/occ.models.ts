@@ -2844,6 +2844,17 @@ export namespace Occ {
     uid?: string;
   }
 
+  export interface StoreCount {
+    count?: number;
+    isoCode?: string;
+    name?: string;
+    type?: string;
+  }
+
+  export interface StoreCountList {
+    countriesAndRegionsStoreCount?: StoreCount[];
+  }
+
   /**
    *
    * An interface representing VoucherList.

@@ -4,11 +4,10 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { OccConfig } from '../../occ';
+import { OccConfig, Occ } from '../../occ';
 import { StoreFinderSearchConfig } from '../model/search-config';
 import { GeoPoint } from '../../model/misc.model';
 import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
-import { StoreCountList } from '../../model';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
@@ -18,8 +17,11 @@ const longitudeLatitude: GeoPoint = {
   latitude: 20.2,
 };
 
-const storeCountResponseBody: StoreCountList = {
-  countriesAndRegionsStoreCount: [],
+const storeCountResponseBody: Occ.StoreCountList = {
+  countriesAndRegionsStoreCount: [
+    { count: 1, name: 'name1' },
+    { count: 2, name: 'name2' },
+  ],
 };
 
 const storeId = 'test';
@@ -103,7 +105,10 @@ describe('OccStoreFinderAdapter', () => {
 
   it('should request stores count', () => {
     adapter.loadCount().subscribe(result => {
-      expect(result).toEqual(storeCountResponseBody);
+      expect(result).toEqual([
+        { count: 1, name: 'name1' },
+        { count: 2, name: 'name2' },
+      ]);
     });
 
     httpMock

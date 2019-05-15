@@ -1,9 +1,9 @@
 import { StoreFinderSearchConfig } from '../model/search-config';
 import { Observable } from 'rxjs';
 import {
-  StoreCountList,
   StoreFinderSearchPage,
   PointOfService,
+  StoreCount,
 } from '../../model/store.model';
 import { GeoPoint } from '../../model/misc.model';
 
@@ -14,7 +14,7 @@ export abstract class StoreFinderAdapter {
     longitudeLatitude?: GeoPoint
   ): Observable<StoreFinderSearchPage>;
 
-  abstract loadCount(): Observable<StoreCountList>;
+  abstract loadCount(): Observable<StoreCount[]>;
 
   abstract load(storeId: string): Observable<PointOfService>;
 }

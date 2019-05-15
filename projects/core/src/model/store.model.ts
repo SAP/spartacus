@@ -31,10 +31,6 @@ export interface StoreFinderSearchPage {
   stores?: PointOfService[];
 }
 
-export interface StoreCountList {
-  countriesAndRegionsStoreCount?: StoreCount[];
-}
-
 export interface StoreCount {
   count?: number;
   isoCode?: string;

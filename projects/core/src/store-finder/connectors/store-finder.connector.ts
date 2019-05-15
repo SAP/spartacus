@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import {
   StoreFinderSearchPage,
-  StoreCountList,
   PointOfService,
+  StoreCount,
 } from '../../model/store.model';
 import { GeoPoint } from '../../model/misc.model';
 
@@ -21,7 +21,7 @@ export abstract class StoreFinderConnector {
     return this.adapter.search(query, searchConfig, longitudeLatitude);
   }
 
-  getCount(): Observable<StoreCountList> {
+  getCount(): Observable<StoreCount[]> {
     return this.adapter.loadCount();
   }
 
