@@ -1,17 +1,19 @@
-<h3 *ngIf="(service.getTitle() | async) as title">{{ title }}</h3>
+<h3 *ngIf="(productCarouselService.getTitle() | async) as title">
+  {{ title }}
+</h3>
 
 <ng-container
   *ngIf="{
-    maxItemSize: service.getItemSize() | async,
-    products: service.getItems() | async,
-    activeItem: service.getActiveItemWithDelay() | async,
-    active: service.getActiveItem() | async
+    maxItemSize: sharedCarouselService.getItemSize() | async,
+    products: productCarouselService.getItems() | async,
+    activeItem: sharedCarouselService.getActiveItemWithDelay() | async,
+    active: sharedCarouselService.getActiveItem() | async
   } as carousel"
 >
   <div class="cx-carousel" [ngClass]="'size-' + carousel.maxItemSize">
     <button
       class="previous"
-      (click)="service.setPreviousItemAsActive()"
+      (click)="sharedCarouselService.setPreviousItemAsActive()"
       [disabled]="carousel.activeItem === 0"
     ></button>
 
@@ -43,7 +45,7 @@
 
     <button
       class="next"
-      (click)="service.setNextItemAsActive()"
+      (click)="sharedCarouselService.setNextItemAsActive()"
       [disabled]="
         carousel.activeItem > carousel.products.length - carousel.maxItemSize
       "
@@ -54,7 +56,7 @@
     <ng-container *ngFor="let unused of carousel.products; let i = index">
       <button
         *ngIf="i % carousel.maxItemSize === 0"
-        (click)="service.setItemAsActive(i)"
+        (click)="sharedCarouselService.setItemAsActive(i)"
         [disabled]="i === carousel.activeItem"
       ></button>
     </ng-container></div
