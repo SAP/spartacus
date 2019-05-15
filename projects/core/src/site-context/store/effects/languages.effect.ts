@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, catchError, tap, exhaustMap } from 'rxjs/operators';
 
-import { OccSiteService } from '../../occ/occ-site.service';
 import * as actions from '../actions/languages.action';
 import { WindowRef } from '../../../window/window-ref';
+import { SiteConnector } from '../../connectors/site.connector';
 
 @Injectable()
 export class LanguagesEffects {
@@ -14,8 +14,8 @@ export class LanguagesEffects {
   loadLanguages$: Observable<any> = this.actions$.pipe(
     ofType(actions.LOAD_LANGUAGES),
     exhaustMap(() => {
-      return this.occSiteService.loadLanguages().pipe(
-        map(data => new actions.LoadLanguagesSuccess(data.languages)),
+      return this.siteConnector.getLanguages().pipe(
+        map(languages => new actions.LoadLanguagesSuccess(languages)),
         catchError(error => of(new actions.LoadLanguagesFail(error)))
       );
     })
@@ -34,7 +34,7 @@ export class LanguagesEffects {
 
   constructor(
     private actions$: Actions,
-    private occSiteService: OccSiteService,
+    private siteConnector: SiteConnector,
     private winRef: WindowRef
   ) {}
 }
