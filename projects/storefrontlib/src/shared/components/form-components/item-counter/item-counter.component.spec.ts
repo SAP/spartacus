@@ -19,12 +19,12 @@ class MockEvent {
 }
 
 const testData = [
-  { incomingValue: 0, adjustedValue: 1, isMaxOrMinValue: true },
-  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValue: true },
-  { incomingValue: 2, adjustedValue: 2, isMaxOrMinValue: false },
-  { incomingValue: 4, adjustedValue: 4, isMaxOrMinValue: false },
-  { incomingValue: 5, adjustedValue: 5, isMaxOrMinValue: true },
-  { incomingValue: 6, adjustedValue: 5, isMaxOrMinValue: true },
+  { incomingValue: 0, adjustedValue: 1, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 2, adjustedValue: 2, isMaxOrMinValueOrBeyond: false },
+  { incomingValue: 4, adjustedValue: 4, isMaxOrMinValueOrBeyond: false },
+  { incomingValue: 5, adjustedValue: 5, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 6, adjustedValue: 5, isMaxOrMinValueOrBeyond: true },
 ];
 
 describe('ItemCounterComponent', () => {
@@ -88,7 +88,7 @@ describe('ItemCounterComponent', () => {
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
     spyOn(itemCounterComponent, 'updateValue').and.callThrough();
-    spyOn(itemCounterComponent, 'isMaxOrMinValue').and.callThrough();
+    spyOn(itemCounterComponent, 'isMaxOrMinValueOrBeyond').and.callThrough();
     spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
     spyOn(itemCounterComponent, 'manualChange').and.callThrough();
     spyOn(itemCounterComponent.update, 'emit').and.callThrough();
@@ -223,6 +223,18 @@ describe('ItemCounterComponent', () => {
     expect(isIncrementBtnFocused).toBeFalsy();
     expect(isDecrementBtnFocused).toBeFalsy();
     expect(isInputFocused).toBeTruthy();
+  });
+
+  it('should verify is value out of range', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+
+    testData.forEach(({ incomingValue, isMaxOrMinValueOrBeyond }) => {
+      itemCounterComponent.value = incomingValue;
+      expect(itemCounterComponent.isMaxOrMinValueOrBeyond()).toBe(
+        isMaxOrMinValueOrBeyond
+      );
+    });
   });
 
   it('should not display input when isValueChangeable is not passed', () => {

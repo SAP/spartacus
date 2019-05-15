@@ -191,7 +191,7 @@ export class ItemCounterComponent
    * Determines which HTML element should have focus at a given time
    */
   setFocus(isIncremented: boolean): void {
-    if (this.isMaxOrMinValue()) {
+    if (this.isMaxOrMinValueOrBeyond()) {
       this.input.nativeElement.focus();
     } else if (isIncremented) {
       this.incrementBtn.nativeElement.focus();
@@ -200,7 +200,7 @@ export class ItemCounterComponent
     }
   }
 
-  isMaxOrMinValue(): boolean {
-    return this.value === this.max || this.value === this.min;
+  isMaxOrMinValueOrBeyond(): boolean {
+    return this.value >= this.max || this.value <= this.min;
   }
 }
