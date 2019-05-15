@@ -39,12 +39,12 @@ export enum ICON_TYPES {
 ### Configuration properties
 There are a couple of configuration options available that can be used to change the behaviour of the icon component:
 
-| property | description|
-| --- | --- |
-| useSvg | boolean flag that indicates the icon component to generate the SVG html instead of CSS classes. |
-| svgPath | (optional) Indicates the path from where the SVG icons are loaded.   |
-| prefix | The prefix can be used to address the icon id (in svg) or icon class. Icon libraries tend to prefix their icons. The prefix can be used for both prefixing the svg id or style class. |
-| icons | Icon specific type that is mapped to name (or css class) for the given icon. |
+| property | description                                                                                                                                                                           |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| useSvg   | boolean flag that indicates the icon component to generate the SVG html instead of CSS classes.                                                                                       |
+| svgPath  | (optional) Indicates the path from where the SVG icons are loaded.                                                                                                                    |
+| prefix   | The prefix can be used to address the icon id (in svg) or icon class. Icon libraries tend to prefix their icons. The prefix can be used for both prefixing the svg id or style class. |
+| icons    | Icon specific type that is mapped to name (or css class) for the given icon.                                                                                                          |
 
 
 

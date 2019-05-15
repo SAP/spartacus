@@ -1,19 +1,16 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import {
   RouterStateSerializer,
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
-
-import * as fromAction from './../actions/';
-
-import * as fromReducer from './router.reducer';
 import { PageType } from '../../../model/cms.model';
+import * as fromAction from './../actions/';
+import * as fromReducer from './router.reducer';
 
 @Component({
   selector: 'cx-test-cmp',
@@ -126,12 +123,12 @@ describe('Router Reducer', () => {
       };
 
       action.payload.routerState.url = '/login';
-      action.payload.routerState.context.id = 'login';
+      action.payload.routerState.context.id = '/login';
       const state1 = fromReducer.reducer(initialState, action);
       expect(state1.redirectUrl).toBe('/checkout');
 
       action.payload.routerState.url = '/register';
-      action.payload.routerState.context.id = 'login';
+      action.payload.routerState.context.id = '/login';
       const state2 = fromReducer.reducer(initialState, action);
       expect(state2.redirectUrl).toBe('/checkout');
 
