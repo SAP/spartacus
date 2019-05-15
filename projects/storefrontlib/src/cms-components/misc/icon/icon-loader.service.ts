@@ -11,8 +11,9 @@ export class IconLoaderService {
    * Indicates whether the given icon type is configured to use SVG.
    */
   useSvg(iconType: ICON_TYPE): boolean {
-    return !!this.config.icon.resources.find(res =>
-      res.types.includes(iconType)
+    return (
+      this.config.icon.resources &&
+      !!this.config.icon.resources.find(res => res.types.includes(iconType))
     );
   }
 
@@ -37,8 +38,8 @@ export class IconLoaderService {
    *
    * Returns the symbol class(es) for the icon type.
    */
-  getStyleClasses(iconType: ICON_TYPE | string): string[] {
-    return this.getSymbol(iconType).split(' ');
+  getStyleClasses(iconType: ICON_TYPE | string): string {
+    return this.getSymbol(iconType) || '';
   }
 
   private getSymbol(iconType: ICON_TYPE | string) {

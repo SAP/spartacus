@@ -4,7 +4,7 @@ export const fontawesomeIconConfig: IconConfig = {
   icon: {
     symbols: {
       SEARCH: 'fas fa-search',
-      CART: 'fas-fa-shopping-cart',
+      CART: 'fas fa-shopping-cart',
       INFO: 'fas fa-info-circle',
       STAR: 'fas fa-star',
       GRID: 'fas fa-th-large',
