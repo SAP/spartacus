@@ -13,9 +13,6 @@ describe('Consent management', () => {
   describe('when a user is logged in', () => {
     before(() => {
       cy.requireLoggedIn();
-    });
-
-    beforeEach(() => {
       cy.visit(CONSENT_MANAGEMENT_URL);
     });
 
@@ -26,22 +23,32 @@ describe('Consent management', () => {
     });
 
     it('should successfully give a consent', () => {
-      const firstConsent = cy.get('input[type="checkbox"]').first();
-      firstConsent.should('not.be.checked');
-      firstConsent.click({ force: true });
-      firstConsent.should('be.checked');
+      cy.get('input[type="checkbox"]')
+        .first()
+        .should('not.be.checked');
+      cy.get('input[type="checkbox"]')
+        .first()
+        .check();
+      cy.get('input[type="checkbox"]')
+        .first()
+        .should('be.checked');
     });
 
     it('should successfully withdraw a consent', () => {
-      const firstConsent = cy.get('input[type="checkbox"]').first();
-      firstConsent.should('be.checked');
-      firstConsent.click({ force: true });
-      firstConsent.should('not.be.checked');
+      cy.get('input[type="checkbox"]')
+        .first()
+        .should('be.checked');
+      cy.get('input[type="checkbox"]')
+        .first()
+        .uncheck();
+      cy.get('input[type="checkbox"]')
+        .first()
+        .should('not.be.checked');
     });
 
     describe('when Done button is clicked', () => {
       it('should go back to a home page', () => {
-        cy.get('button').click();
+        cy.get('.btn-primary').click();
         cy.location('pathname').should('contain', '/');
         checkBanner();
       });
