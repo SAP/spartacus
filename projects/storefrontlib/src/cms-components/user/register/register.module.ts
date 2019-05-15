@@ -7,11 +7,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
 import {
-  UserModule,
-  UrlModule,
-  ConfigModule,
   CmsConfig,
+  ConfigModule,
   I18nModule,
+  NotAuthGuard,
+  UrlModule,
+  UserModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -26,6 +27,7 @@ import {
       cmsComponents: {
         RegisterCustomerComponent: {
           selector: 'cx-register',
+          guards: [NotAuthGuard],
         },
       },
     }),

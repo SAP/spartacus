@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
@@ -19,7 +20,10 @@ import { OrderHistoryComponent } from './order-history.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AccountOrderHistoryComponent: { selector: 'cx-order-history' },
+        AccountOrderHistoryComponent: {
+          selector: 'cx-order-history',
+          guards: [AuthGuard],
+        },
       },
     }),
     RouterModule,
