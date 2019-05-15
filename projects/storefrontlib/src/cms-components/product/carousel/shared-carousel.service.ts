@@ -1,37 +1,25 @@
 import { Injectable } from '@angular/core';
-import {
-  CmsProductCarouselComponent,
-  ProductService,
-  Product,
-} from '@spartacus/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import {
   debounceTime,
   delay,
   distinctUntilChanged,
-  filter,
   map,
   startWith,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Injectable()
-export class ProductCarouselService {
+export class SharedCarouselService {
   MAX_WIDTH = 360;
   MAX_ITEM_SIZE = 4;
   SPEED = 250;
 
-  private items$: Observable<Observable<Product>[]>;
   private itemSize$ = of(this.MAX_ITEM_SIZE);
   private activeItem$ = of(0);
   private activeItemWithDelay$ = of(0);
-  private title$: Observable<string>;
 
-  constructor(
-    protected component: CmsComponentData<CmsProductCarouselComponent>,
-    private productService: ProductService
-  ) {}
+  constructor() {}
 
   getActiveItem(): Observable<number> {
     return this.activeItem$;
@@ -41,36 +29,8 @@ export class ProductCarouselService {
     return this.activeItemWithDelay$;
   }
 
-  getTitle(): Observable<string> {
-    return this.title$;
-  }
-
-  setTitle(): void {
-    this.title$ = this.component.data$.pipe(
-      map(data => {
-        return data.title;
-      })
-    );
-  }
-
-  getItems(): Observable<Observable<Product>[]> {
-    return this.items$;
-  }
-
   getItemSize(): Observable<number> {
     return this.itemSize$;
-  }
-  /**
-   * Maps the item codes from CMS component to an array of `Product` observables.
-   */
-  setItems(): void {
-    this.items$ = this.component.data$.pipe(
-      filter(data => data && !!data.productCodes),
-      map(data => {
-        const productCodes = data.productCodes.split(' ');
-        return productCodes.map(code => this.productService.get(code));
-      })
-    );
   }
 
   /**
