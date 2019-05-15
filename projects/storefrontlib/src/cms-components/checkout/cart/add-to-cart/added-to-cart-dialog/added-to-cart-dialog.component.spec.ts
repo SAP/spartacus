@@ -54,6 +54,13 @@ const mockOrderEntry: OrderEntry[] = [
 ];
 
 @Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+@Component({
   selector: 'cx-cart-item',
   template: '',
 })
@@ -99,6 +106,7 @@ describe('AddedToCartDialogComponent', () => {
         AddedToCartDialogComponent,
         MockCartItemComponent,
         MockUrlPipe,
+        MockCxIconComponent,
       ],
       providers: [
         {
