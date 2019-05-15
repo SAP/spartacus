@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import {
+  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
@@ -28,6 +29,7 @@ import { AddressBookComponentService } from './address-book.component.service';
               deps: [UserService],
             },
           ],
+          guards: [AuthGuard],
         },
       },
     }),
