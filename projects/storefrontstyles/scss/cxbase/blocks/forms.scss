@@ -180,7 +180,7 @@ input[type='radio'] {
   display: var(--cx-display, none);
 }
 
-.form-toggle__switch {
+.form-toggle-switch {
   position: var(--cx-position, absolute);
   cursor: var(--cx-cursor, pointer);
   top: var(--cx-top, 0);
@@ -225,7 +225,7 @@ input[type='radio'] {
   right: var(--cx-right, -7%);
 }
 
-input:checked + .form-toggle__switch {
+input:checked + .form-toggle-switch {
   .toggle-on {
     display: var(--cx-display, block);
   }
@@ -235,14 +235,14 @@ input:checked + .form-toggle__switch {
   }
 }
 
-input[role='switch']:checked + .form-toggle__switch {
+input[role='switch']:checked + .form-toggle-switch {
   background-color: var(--cx-background-color, var(--cx-g-color-primary));
   &:before {
     left: var(--cx-left, calc(100% - 5px));
     transform: var(--cx-transform, translateX(-100%));
   }
 
-  &:focus + .form-toggle__switch {
+  &:focus + .form-toggle-switch {
     box-shadow: var(--cx-box-shadow, 0 0 1px var(--cx-g-color-info));
   }
 }
