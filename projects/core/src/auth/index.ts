@@ -6,6 +6,5 @@ export * from './auth.module';
 export * from './config/auth-config';
 export * from './facade/auth.service';
 export * from './guards/index';
-export * from './http-interceptors/index';
 export * from './models/token-types.model';
 export * from './services/index';
