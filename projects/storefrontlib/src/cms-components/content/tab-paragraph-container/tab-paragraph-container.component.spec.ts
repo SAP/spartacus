@@ -47,11 +47,9 @@ const mockTabComponentData3 = {
   flexType: 'ProductReviewsTabComponent',
 };
 
-class MockCmsService {
-  getComponentData(_component) {
-    of();
-  }
-}
+const MockCmsService = {
+  getComponentData: () => of(mockComponentData),
+};
 
 const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
   data$: of(mockComponentData),
@@ -72,7 +70,7 @@ describe('TabParagraphContainerComponent', () => {
       ],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CmsService, useClass: MockCmsService },
+        { provide: CmsService, useValue: MockCmsService },
       ],
     }).compileComponents();
   }));
