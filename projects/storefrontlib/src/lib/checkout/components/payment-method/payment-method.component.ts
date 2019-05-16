@@ -25,7 +25,6 @@ import { masterCardImgSrc } from '../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../ui/images/visa';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
-import { CheckoutStepType } from '../../model/checkout-step.model';
 
 @Component({
   selector: 'cx-payment-method',
@@ -203,15 +202,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       .getPaymentDetails()
       .subscribe(data => {
         if (data.accountHolderName && data.cardNumber) {
-          const nextStepUrl = `/${
-            this.routingConfigService.getRouteConfig(
-              this.checkoutConfigService.getCheckoutStep(
-                CheckoutStepType.reviewOrder
-              ).route
-            ).paths[0]
-          }`;
-
-          this.routingService.go(nextStepUrl);
+          this.routingService.go(this.checkoutStepUrlNext);
 
           return;
         }
