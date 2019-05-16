@@ -1,20 +1,17 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
   PageType,
   RoutingService,
 } from '@spartacus/core';
-
 import { of } from 'rxjs';
-
-import { CmsPageGuard } from './cms-page.guard';
-import { CmsRoutesService } from '@spartacus/storefront';
-import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsGuardsService } from '../services/cms-guards.service';
-import { UrlTree } from '@angular/router';
+import { CmsI18nService } from '../services/cms-i18n.service';
+import { CmsRoutesService } from '../services/cms-routes.service';
+import { CmsPageGuard } from './cms-page.guard';
 
 const mockPageComponentTypes = ['component1', 'component2'];
 class MockCmsService {
