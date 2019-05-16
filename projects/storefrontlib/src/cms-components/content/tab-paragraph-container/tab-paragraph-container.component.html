@@ -1,10 +1,10 @@
 <div class="details">
-  <ng-container *ngFor="let component$ of (components$ | async)">
+  <ng-container *ngFor="let component$ of (components$ | async); let i = index">
     <ng-container *ngIf="(component$ | async) as component">
-      <h3 #header (click)="select($event, tab)">
+      <h3 [ngClass]="{ active: i === 0 }" (click)="select($event, tab)">
         {{ component.title | cxTranslate }}
       </h3>
-      <div #tab>
+      <div [ngClass]="{ active: i === 0 }" #tab>
         <ng-container
           *cxOutlet="component.flexType"
           [cxComponentWrapper]="component"

@@ -1,28 +1,24 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChildren,
-  QueryList,
-  AfterViewInit,
-} from '@angular/core';
-import { CMSTabParagraphContainer, CmsService } from '@spartacus/core';
+  CMSTabParagraphContainer,
+  CmsService,
+  WindowRef,
+} from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
-import { map, filter, take } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabParagraphContainerComponent implements AfterViewInit {
+export class TabParagraphContainerComponent {
   activatedElements: HTMLElement[] = [];
-
-  @ViewChildren('header') headers: QueryList<any>;
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    private cmsService: CmsService
+    private cmsService: CmsService,
+    private windowRef: WindowRef
   ) {}
 
   components$ = this.componentData.data$.pipe(
@@ -41,22 +37,16 @@ export class TabParagraphContainerComponent implements AfterViewInit {
     take(1)
   );
 
-  ngAfterViewInit(): void {
-    if (this.headers.first) {
-      this.headers.first.nativeElement.click();
-    } else {
-      this.headers.changes
-        .pipe(
-          filter((list: QueryList<any>) => list.first),
-          take(1)
-        )
-        .subscribe((list: QueryList<any>) => {
-          list.first.nativeElement.click();
-        });
-    }
-  }
-
   select(event: MouseEvent, tab: HTMLElement): void {
+    if (this.activatedElements.length === 0) {
+      const activeElements = this.windowRef.document.querySelectorAll(
+        'cx-tab-paragraph-container .active'
+      );
+      activeElements.forEach((node: Element) =>
+        node.classList.remove('active')
+      );
+    }
+
     if (!this.activatedElements.includes(tab)) {
       // remove active class on both header and content panel
       this.activatedElements.forEach(el =>
