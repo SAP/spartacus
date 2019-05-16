@@ -3,7 +3,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, ConfigModule } from '@spartacus/core';
-import { CartNotEmptyGuard, LogoutModule } from '../../../cms-components/index';
+import { CartNotEmptyGuard, LogoutGuard } from '../../../cms-components/index';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import {
   PageLayoutComponent,
@@ -27,7 +27,6 @@ const pageModules = [
     CommonModule,
     ...pageModules,
     PageLayoutModule,
-    LogoutModule,
     RouterModule.forChild([
       {
         // This route can be dropped only when we have a mapping path to page label for content pages
@@ -44,6 +43,12 @@ const pageModules = [
           pageLabel: 'multiStepCheckoutSummaryPage',
           cxRoute: 'checkout',
         },
+      },
+      {
+        path: null,
+        canActivate: [LogoutGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'logout' },
       },
       {
         path: null,
