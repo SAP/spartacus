@@ -9,9 +9,9 @@ import createSpy = jasmine.createSpy;
 class MockUserAccountAdapter implements UserAccountAdapter {
   register = createSpy('register').and.callFake(userId => of(userId));
   remove = createSpy('remove').and.returnValue(of({}));
-  requestForgotPasswordEmail = createSpy('requestForgotPasswordEmail').and.returnValue(
-    of({})
-  );
+  requestForgotPasswordEmail = createSpy(
+    'requestForgotPasswordEmail'
+  ).and.returnValue(of({}));
   resetPassword = createSpy('resetPassword').and.returnValue(of({}));
   updateEmail = createSpy('updateEmail').and.returnValue(of({}));
   updatePassword = createSpy('updatePassword').and.returnValue(of({}));
@@ -23,7 +23,9 @@ describe('SiteConnector', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: UserAccountAdapter, useClass: MockUserAccountAdapter }],
+      providers: [
+        { provide: UserAccountAdapter, useClass: MockUserAccountAdapter },
+      ],
     });
 
     service = TestBed.get(UserAccountConnector);
