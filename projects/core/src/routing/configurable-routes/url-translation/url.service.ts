@@ -16,6 +16,16 @@ export class UrlService {
     private config: ServerConfig
   ) {}
 
+  /**
+   * Returns the first path alias configured for given route name
+   */
+  getSemanticUrl(routeName: string): string {
+    const routeConfig = this.routingConfigService.getRouteConfig(routeName);
+    return routeConfig && Array.isArray(routeConfig.paths)
+      ? '/' + routeConfig.paths[0]
+      : undefined;
+  }
+
   generateUrl(commands: UrlCommands): any[] {
     if (!Array.isArray(commands)) {
       commands = [commands];
