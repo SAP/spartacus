@@ -6,6 +6,7 @@ import {
   CmsService,
   PageType,
   RoutingService,
+  UrlService,
 } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 
@@ -18,7 +19,8 @@ export class LogoutGuard implements CanActivate {
   constructor(
     protected auth: AuthService,
     protected cms: CmsService,
-    protected routing: RoutingService
+    protected routing: RoutingService,
+    protected urlService: UrlService
   ) {}
 
   canActivate(): Observable<any> {
@@ -26,7 +28,7 @@ export class LogoutGuard implements CanActivate {
 
     return this.cms
       .hasPage({
-        id: '/logout',
+        id: this.urlService.getSemanticUrl('logout'),
         type: PageType.CONTENT_PAGE,
       })
       .pipe(
