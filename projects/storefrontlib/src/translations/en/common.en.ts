@@ -9,6 +9,7 @@ export const common = {
     continue: 'Continue',
     save: 'Save',
     done: 'Done',
+    home: 'Home',
   },
   spinner: {
     loading: 'Loading...',
