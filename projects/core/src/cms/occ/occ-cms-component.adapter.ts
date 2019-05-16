@@ -32,7 +32,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
       .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
   }
 
-  loadList(
+  findComponentsByIds(
     ids: string[],
     pageContext: PageContext,
     fields = 'DEFAULT',
@@ -42,7 +42,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   ): Observable<CmsComponent[]> {
     const idList: IdList = { idList: ids };
 
-    let requestParams = this.getComponentsRequestParams(
+    const requestParams = this.getComponentsRequestParams(
       idList,
       pageContext,
       true,
@@ -63,29 +63,49 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
         catchError(error => {
           if (error.status === 400) {
-            requestParams = this.getComponentsRequestParams(
-              idList,
+            return this.searchComponentsByIds(
+              ids,
               pageContext,
-              false,
+              fields,
               currentPage,
               pageSize,
               sort
             );
-
-            return this.http
-              .post<CmsComponentList>(
-                this.getComponentsEndpoint(requestParams, fields),
-                idList,
-                {
-                  headers: this.headers,
-                }
-              )
-              .pipe(
-                pluck('component'),
-                this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
-              );
           }
         })
+      );
+  }
+
+  searchComponentsByIds(
+    ids: string[],
+    pageContext: PageContext,
+    fields = 'DEFAULT',
+    currentPage = 0,
+    pageSize = ids.length,
+    sort?: string
+  ): Observable<CmsComponent[]> {
+    const idList: IdList = { idList: ids };
+
+    const requestParams = this.getComponentsRequestParams(
+      idList,
+      pageContext,
+      false,
+      currentPage,
+      pageSize,
+      sort
+    );
+
+    return this.http
+      .post<CmsComponentList>(
+        this.getComponentsEndpoint(requestParams, fields),
+        idList,
+        {
+          headers: this.headers,
+        }
+      )
+      .pipe(
+        pluck('component'),
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }
 

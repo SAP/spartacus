@@ -125,7 +125,7 @@ describe('OccCmsComponentAdapter', () => {
         endpoint +
           `/components?componentIds=${ids.toString()}&productCode=${context.id}`
       );
-      service.loadList(ids, context).subscribe(result => {
+      service.findComponentsByIds(ids, context).subscribe(result => {
         expect(result).toEqual(componentList.component);
       });
 
@@ -165,12 +165,11 @@ describe('OccCmsComponentAdapter', () => {
         endpoint + `/components?productCode=${context.id}`
       );
 
-      service.loadList(ids, context).subscribe(result => {
+      service.findComponentsByIds(ids, context).subscribe(result => {
         expect(result).toEqual(componentList.component);
       });
 
       const testRequest = httpMock.expectOne(req => {
-        console.log('get', req);
         return (
           req.method === 'GET' &&
           req.url ===
@@ -187,7 +186,6 @@ describe('OccCmsComponentAdapter', () => {
       );
 
       const testRequestPOST = httpMock.expectOne(req => {
-        console.log('post', req);
         return (
           req.method === 'POST' &&
           req.url === endpoint + `/components?productCode=${context.id}`
@@ -215,9 +213,12 @@ describe('OccCmsComponentAdapter', () => {
         endpoint +
           `/components?componentIds=${ids.toString()}&productCode=${context.id}`
       );
-      service.loadList(ids, context, 'FULL', 0, 5).subscribe(result => {
-        expect(result).toEqual(componentList.component);
-      });
+
+      service
+        .findComponentsByIds(ids, context, 'FULL', 0, 5)
+        .subscribe(result => {
+          expect(result).toEqual(componentList.component);
+        });
 
       const testRequest = httpMock.expectOne(req => {
         return (
@@ -242,7 +243,6 @@ describe('OccCmsComponentAdapter', () => {
       );
 
       expect(testRequest.request.responseType).toEqual('json');
-
       expect(testRequest.cancelled).toBeFalsy();
       testRequest.flush(componentList);
     });
@@ -256,7 +256,7 @@ describe('OccCmsComponentAdapter', () => {
         endpoint + `/components?productCode=${context.id}`
       );
 
-      service.loadList(ids, context).subscribe(result => {
+      service.findComponentsByIds(ids, context).subscribe(result => {
         expect(result).toEqual(componentList.component);
       });
 
@@ -303,7 +303,8 @@ describe('OccCmsComponentAdapter', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint + '/components'
       );
-      service.loadList(ids, context).subscribe();
+
+      service.findComponentsByIds(ids, context).subscribe();
 
       httpMock
         .expectOne(req => req.url === endpoint + '/components')
