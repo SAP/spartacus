@@ -29,7 +29,7 @@
     .cx-facet-label {
       color: var(--cx-g-color-secondary);
       @include type(6);
-      font-weight: var(--cx-g-font-weight-normal, 400);
+      font-weight: var(--cx-g-font-weight-normal);
       position: relative;
       margin: 0;
       display: flex;
@@ -60,10 +60,10 @@
     padding: 0 0 10px 0;
     margin: 0 0 17px 0;
     display: block;
-    font-weight: var(--cx-g-font-weight-semi, 600);
+    font-weight: var(--cx-g-font-weight-semi);
 
     .fa-minus {
-      float: var(--cx-float, right);
+      float: right;
 
       &::before {
         font-size: 12px;
@@ -74,7 +74,7 @@
     }
 
     .fa-plus {
-      float: var(--cx-float, right);
+      float: right;
 
       &::before {
         font-size: 14px;
@@ -147,7 +147,7 @@
 
     .cx-facet-modal-label {
       @include type(4);
-      font-weight: var(--cx-g-font-weight-semi, 600);
+      font-weight: var(--cx-g-font-weight-semi);
       margin: 0 0 27px 0;
     }
   }
