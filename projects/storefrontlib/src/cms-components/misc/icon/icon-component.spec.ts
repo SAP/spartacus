@@ -1,32 +1,41 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IconLoaderService } from './icon-loader.service';
+import { ICON_TYPE } from './icon.model';
 import { IconModule } from './icon.module';
 
 @Component({
   selector: 'cx-icon-test',
-  template: '<cx-icon type="shopping-cart"></cx-icon>',
+  template: '<cx-icon type="CART"></cx-icon>',
 })
 export class MockIconTestComponent {}
 
+@Component({
+  selector: 'cx-icon-test-small',
+  template: '<cx-icon type="CART" class="small"></cx-icon>',
+})
+export class MockIconSmallTestComponent {}
+
 export class MockIconFontLoaderService {
-  useSvg() {
+  useSvg(_iconType: ICON_TYPE) {
     return false;
   }
-  getStyleClasses(iconType) {
-    return [iconType];
+  getStyleClasses(_iconType: ICON_TYPE): string {
+    return 'fas fa-shopping-cart';
   }
+  addLinkResource() {}
 }
 
 export class MockSvgIconLoaderService {
-  useSvg() {
+  useSvg(_iconType: ICON_TYPE) {
     return true;
   }
 
-  getSvgPath(type: string) {
-    return 'icon/path.svg#' + type;
+  getSvgPath(_type: ICON_TYPE): string {
+    return 'icon/path.svg#cart';
   }
+  addLinkResource() {}
 }
 
 describe('IconComponent', () => {
@@ -39,7 +48,6 @@ describe('IconComponent', () => {
         imports: [IconModule],
         declarations: [MockIconTestComponent],
         providers: [
-          Renderer2,
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         ],
       }).compileComponents();
@@ -61,17 +69,42 @@ describe('IconComponent', () => {
       expect(element).toBeFalsy();
     });
 
-    it('should render the icon type in the classlist', () => {
+    it('should render the symbol classes in the classlist', () => {
       const debugElement = fixture.debugElement;
       const element = debugElement.query(By.css('cx-icon'));
-      expect(element.nativeElement.classList[0]).toEqual('shopping-cart');
+      expect(element.nativeElement.classList).toContain('fas');
+      expect(element.nativeElement.classList).toContain('fa-shopping-cart');
     });
   });
-});
 
-describe('IconComponent', () => {
-  let component: MockIconTestComponent;
-  let fixture: ComponentFixture<MockIconTestComponent>;
+  describe('Small icons', () => {
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [IconModule],
+        declarations: [MockIconSmallTestComponent],
+        providers: [
+          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(MockIconSmallTestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should be created', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should render remain the small style class', () => {
+      const debugElement = fixture.debugElement;
+      const element = debugElement.query(By.css('cx-icon'));
+      expect(element.nativeElement.classList).toContain('small');
+      expect(element.nativeElement.classList).toContain('fa-shopping-cart');
+    });
+  });
 
   describe('SVG based icons', () => {
     beforeEach(async(() => {
@@ -79,7 +112,6 @@ describe('IconComponent', () => {
         imports: [IconModule],
         declarations: [MockIconTestComponent],
         providers: [
-          Renderer2,
           { provide: IconLoaderService, useClass: MockSvgIconLoaderService },
         ],
       }).compileComponents();
@@ -105,7 +137,7 @@ describe('IconComponent', () => {
       const debugElement = fixture.debugElement;
       const element = debugElement.query(By.css('svg use'));
       expect(element.nativeElement.attributes['xlink:href'].value).toBe(
-        'icon/path.svg#shopping-cart'
+        'icon/path.svg#cart'
       );
     });
   });
