@@ -4,8 +4,8 @@ import { CanActivate, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { CheckoutConfigService } from '../checkout-config.service';
 import { ServerConfig, RoutingConfigService } from '@spartacus/core';
-import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
@@ -15,18 +15,18 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 export class DeliveryModeSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
+    private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
     private router: Router,
-    private checkoutConfig: CheckoutConfig,
     private serverConfig: ServerConfig
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const route = this.checkoutConfig.checkout.steps.find(
-      (step: CheckoutStep) => step.type.includes(CheckoutStepType.deliveryMode)
+    const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
+      CheckoutStepType.deliveryMode
     );
 
-    if (!route && !this.serverConfig.production) {
+    if (!checkoutStep && !this.serverConfig.production) {
       console.warn(
         `Missing step with type ${
           CheckoutStepType.deliveryMode
@@ -41,8 +41,9 @@ export class DeliveryModeSetGuard implements CanActivate {
           mode && mode.length
             ? true
             : this.router.parseUrl(
-                route &&
-                  this.routingConfigService.getRouteConfig(route.route).paths[0]
+                checkoutStep &&
+                  this.routingConfigService.getRouteConfig(checkoutStep.route)
+                    .paths[0]
               )
         )
       );

@@ -1,4 +1,3 @@
-import { CheckoutStep } from '../../../model/checkout-step.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -10,6 +9,7 @@ import {
   RoutingConfigService,
 } from '@spartacus/core';
 import { CheckoutConfig } from '../../../config/checkout-config';
+import { CheckoutStep } from '../../../model/checkout-step.model';
 
 @Component({
   selector: 'cx-checkout-progress-mobile-top',

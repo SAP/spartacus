@@ -13,6 +13,7 @@ import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { defaultStorefrontRoutesConfig } from '../../ui/pages/default-routing-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutConfigService } from '../checkout-config.service';
 
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
@@ -30,6 +31,9 @@ class MockRoutingConfigService {
     return MockRoutesConfig[routeName];
   }
 }
+class MockCheckoutConfigService {
+  getCheckoutStep() {}
+}
 
 const MockServerConfig: ServerConfig = { production: false };
 
@@ -38,6 +42,7 @@ describe(`DeliveryModeSetGuard`, () => {
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
   let mockRoutingConfigService: RoutingConfigService;
+  let mockCheckoutConfigService: CheckoutConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,6 +54,7 @@ describe(`DeliveryModeSetGuard`, () => {
         },
         { provide: ServerConfig, useValue: MockServerConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
       imports: [RouterTestingModule],
     });
@@ -57,6 +63,7 @@ describe(`DeliveryModeSetGuard`, () => {
     mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.get(CheckoutConfig);
     mockRoutingConfigService = TestBed.get(RoutingConfigService);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
   });
 
   it('should redirect to deliveryMode page when no modes selected', done => {
@@ -64,6 +71,10 @@ describe(`DeliveryModeSetGuard`, () => {
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'
     ).and.returnValue(of(null));
+
+    spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(
+      MockCheckoutConfig.checkout.steps[1]
+    );
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {
       expect(result.toString()).toEqual(

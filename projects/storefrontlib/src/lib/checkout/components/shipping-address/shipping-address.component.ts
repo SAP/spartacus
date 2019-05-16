@@ -1,13 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 import {
   Address,
@@ -18,6 +17,8 @@ import {
   UserService,
   TranslationService,
 } from '@spartacus/core';
+import { CheckoutStepType } from '../../model/checkout-step.model';
+import { CheckoutConfigService } from '../../checkout-config.service';
 import { Card } from '../../../../shared/components/card/card.component';
 
 export interface CardWithAddress {
@@ -36,7 +37,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   cards: Card[] = [];
   isLoading$: Observable<boolean>;
   selectedAddress: Address;
-  goTo: number;
+  goTo: CheckoutStepType;
   setAddress: Address;
   setAddressSub: Subscription;
   selectedAddressSub: Subscription;
@@ -44,9 +45,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     null
   );
   cards$: Observable<CardWithAddress[]>;
-
-  @Output()
-  goToStep = new EventEmitter<any>();
+  checkoutStepUrlNext: string;
+  checkoutStepUrlPrevious: 'cart';
 
   constructor(
     protected userService: UserService,
@@ -54,30 +54,19 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected cartService: CartService,
     protected routingService: RoutingService,
     protected checkoutService: CheckoutService,
+    private checkoutConfigService: CheckoutConfigService,
+    private activatedRoute: ActivatedRoute,
     private translation: TranslationService
   ) {}
 
   ngOnInit() {
     this.goTo = null;
-    this.cartService.loadDetails();
+    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
+      this.activatedRoute
+    );
+
     this.isLoading$ = this.userService.getAddressesLoading();
-    this.userService.loadAddresses(this.cartData.userId);
-    this.setAddressSub = this.checkoutService
-      .getDeliveryAddress()
-      .subscribe(address => {
-        this.setAddress = address;
-        this.selectedAddress$.next(address);
-        if (this.goTo) {
-          this.goToStep.emit(this.goTo);
-          this.goTo = null;
-        }
-      });
-    this.selectedAddressSub = this.selectedAddress$.subscribe(address => {
-      this.selectedAddress = address;
-    });
-
     this.existingAddresses$ = this.userService.getAddresses();
-
     this.cards$ = combineLatest(
       this.existingAddresses$,
       this.selectedAddress$.asObservable(),
@@ -109,6 +98,23 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    this.cartService.loadDetails();
+    this.userService.loadAddresses(this.cartData.userId);
+
+    this.setAddressSub = this.checkoutService
+      .getDeliveryAddress()
+      .subscribe(address => {
+        this.setAddress = address;
+        this.selectedAddress$.next(address);
+        if (this.goTo) {
+          this.goNext();
+          this.goTo = null;
+        }
+      });
+    this.selectedAddressSub = this.selectedAddress$.subscribe(address => {
+      this.selectedAddress = address;
+    });
   }
 
   getCardContent(
@@ -158,7 +164,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }): void {
     if (newAddress) {
       this.checkoutService.createAndSetAddress(address);
-      this.goTo = 2;
+      this.goTo = CheckoutStepType.deliveryMode;
       return;
     }
     if (
@@ -166,9 +172,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.selectedAddress &&
       this.setAddress.id === this.selectedAddress.id
     ) {
-      this.goToStep.emit(2);
+      this.goNext();
     } else {
-      this.goTo = 2;
+      this.goTo = CheckoutStepType.deliveryMode;
       this.checkoutService.setDeliveryAddress(address);
     }
   }
@@ -188,8 +194,12 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     }
   }
 
+  goNext(): void {
+    this.routingService.go(this.checkoutStepUrlNext);
+  }
+
   back(): void {
-    this.routingService.go({ cxRoute: 'cart' });
+    this.routingService.go(this.checkoutStepUrlPrevious);
   }
 
   ngOnDestroy(): void {

@@ -3,10 +3,10 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ServerConfig, RoutingConfigService } from '@spartacus/core';
+import { ServerConfig, Address, RoutingConfigService } from '@spartacus/core';
+import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutConfig } from '../config/checkout-config';
 
 @Injectable({
   providedIn: 'root',
@@ -14,33 +14,37 @@ import { CheckoutConfig } from '../config/checkout-config';
 export class ShippingAddressSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
+    private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
     private router: Router,
-    private config: CheckoutConfig,
     private serverConfig: ServerConfig
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const route = this.config.checkout.steps.find((step: CheckoutStep) =>
-      step.type.includes(CheckoutStepType.shippingAddress)
+    const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
+      CheckoutStepType.shippingAddress
     );
-    if (!route && !this.serverConfig.production) {
+
+    if (!checkoutStep && !this.serverConfig.production) {
       console.warn(
-        'Missing step with type shippingAddress in checkout configuration.'
+        `Missing step with type ${
+          CheckoutStepType.shippingAddress
+        } in checkout configuration.`
       );
     }
 
-    return this.checkoutDetailsService.getDeliveryAddress().pipe(
-      map(shippingAddress => {
-        if (shippingAddress && Object.keys(shippingAddress).length !== 0) {
-          return true;
-        } else {
-          return this.router.parseUrl(
-            route &&
-              this.routingConfigService.getRouteConfig(route.route).paths[0]
-          );
-        }
-      })
-    );
+    return this.checkoutDetailsService
+      .getDeliveryAddress()
+      .pipe(
+        map((deliveryAddress: Address) =>
+          deliveryAddress && Object.keys(deliveryAddress).length
+            ? true
+            : this.router.parseUrl(
+                checkoutStep &&
+                  this.routingConfigService.getRouteConfig(checkoutStep.route)
+                    .paths[0]
+              )
+        )
+      );
   }
 }
