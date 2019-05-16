@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { CmsRoute, PageContext, PageType } from '@spartacus/core';
-import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
+import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsMappingService } from './cms-mapping.service';
 
 @Injectable({

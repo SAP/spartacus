@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
-import { TranslationService, TranslationChunkService } from '@spartacus/core';
-import { CmsMappingService } from '@spartacus/storefront';
-import createSpy = jasmine.createSpy;
+import { TranslationChunkService, TranslationService } from '@spartacus/core';
 import { CmsI18nService } from './cms-i18n.service';
+import { CmsMappingService } from './cms-mapping.service';
+
+import createSpy = jasmine.createSpy;
 
 describe('CmsI18nService', () => {
   let service: CmsI18nService;
