@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CartService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ICON_TYPES } from '../../../misc/icon/index';
+import { ICON_TYPE } from '../../../misc/icon/index';
 
 @Component({
   selector: 'cx-mini-cart',
@@ -10,7 +10,7 @@ import { ICON_TYPES } from '../../../misc/icon/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCartComponent {
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
 
   quantity$: Observable<number> = this.cartService
     .getActive()

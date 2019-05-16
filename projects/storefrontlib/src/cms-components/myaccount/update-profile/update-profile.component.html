@@ -9,6 +9,7 @@
     <div class="container">
       <div class="row d-flex justify-content-center">
         <cx-update-profile-form
+          *ngIf="(user$ | async)?.uid"
           class="col-md-6"
           [user]="user$ | async"
           [titles]="titles$ | async"
