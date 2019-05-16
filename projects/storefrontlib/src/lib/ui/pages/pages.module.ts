@@ -3,7 +3,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, ConfigModule } from '@spartacus/core';
-import { LogoutModule } from '../../../cms-components/index';
+import { CartNotEmptyGuard, LogoutModule } from '../../../cms-components/index';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import {
   PageLayoutComponent,
@@ -12,8 +12,6 @@ import {
 import { CartPageModule } from './cart-page/cart-page.module';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { defaultRoutingConfig } from './default-routing-config';
-import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
-import { GuardsModule } from './guards/guards.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { ProductPageModule } from './product-page/product-page.module';
 
@@ -21,7 +19,6 @@ const pageModules = [
   CartPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
-  GuardsModule,
 ];
 
 @NgModule({
