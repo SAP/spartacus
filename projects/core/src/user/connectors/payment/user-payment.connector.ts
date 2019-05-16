@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { UserPaymentMethodAdapter } from './user-payment-method.adapter';
+import { UserPaymentAdapter } from './user-payment.adapter';
 import { Observable } from 'rxjs';
 import { PaymentDetails } from '../../../model/cart.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserPaymentMethodConnector {
-  constructor(private adapter: UserPaymentMethodAdapter) {}
+export class UserPaymentConnector {
+  constructor(private adapter: UserPaymentAdapter) {}
 
   loadList(userId: string): Observable<PaymentDetails[]> {
     return this.adapter.loadList(userId);

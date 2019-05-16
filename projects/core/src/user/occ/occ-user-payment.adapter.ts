@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserPaymentMethodAdapter } from '../connectors/payment-method/user-payment-method.adapter';
+import { UserPaymentAdapter } from '../connectors/payment/user-payment.adapter';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { Observable, throwError } from 'rxjs';
@@ -13,7 +13,7 @@ const USER_ENDPOINT = 'users/';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 
 @Injectable()
-export class OccUserPaymentMethodAdapter implements UserPaymentMethodAdapter {
+export class OccUserPaymentAdapter implements UserPaymentAdapter {
   constructor(
     protected http: HttpClient,
     private occEndpoints: OccEndpointsService,

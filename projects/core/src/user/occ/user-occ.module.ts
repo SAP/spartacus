@@ -13,8 +13,8 @@ import { UserAddressAdapter } from '../connectors/address/user-address.adapter';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import { UserAccountAdapter } from '../connectors/account/user-account.adapter';
 import { OccUserAccountAdapter } from './occ-user-account.adapter';
-import { UserPaymentMethodAdapter } from '../connectors/payment-method/user-payment-method.adapter';
-import { OccUserPaymentMethodAdapter } from './occ-user-payment-method.adapter';
+import { UserPaymentAdapter } from '../connectors/payment/user-payment.adapter';
+import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
@@ -23,8 +23,8 @@ import { OccUserPaymentMethodAdapter } from './occ-user-payment-method.adapter';
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },
     { provide: UserAccountAdapter, useClass: OccUserAccountAdapter },
     {
-      provide: UserPaymentMethodAdapter,
-      useClass: OccUserPaymentMethodAdapter,
+      provide: UserPaymentAdapter,
+      useClass: OccUserPaymentAdapter,
     },
     { provide: OrderAdapter, useClass: OccOrderAdapter },
     { provide: ORDER_NORMALIZER, useClass: OccOrderNormalizer, multi: true },
