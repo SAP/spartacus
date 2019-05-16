@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
+import { Review } from '../../model/product.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import {
@@ -8,8 +10,6 @@ import {
   PRODUCT_REVIEW_SERIALIZER,
 } from '../connectors/reviews/converters';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
-import { pluck } from 'rxjs/operators';
-import { Review } from '../../model/product.model';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
