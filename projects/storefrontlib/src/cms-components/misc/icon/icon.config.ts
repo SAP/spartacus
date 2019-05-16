@@ -8,6 +8,9 @@ export enum ICON_TYPES {
   STAR = 'star',
   VISA = 'cc-visa',
   MASTER_CARD = 'cc-mastercard',
+  AMEX = 'cc-amex',
+  DINERS_CLUB = 'cc-diners-club',
+  CREDIT_CARD = 'credit-card',
 }
 
 export abstract class IconConfig {

@@ -101,6 +101,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             ccIcon = this.iconTypes.VISA;
           } else if (payment.cardType.code === 'master') {
             ccIcon = this.iconTypes.MASTER_CARD;
+          } else if (payment.cardType.code === 'diner club') {
+            ccIcon = this.iconTypes.DINERS_CLUB;
+          } else if (payment.cardType.code === 'amex') {
+            ccIcon = this.iconTypes.AMEX;
+          } else if (payment.cardType.code === 'credit card') {
+            ccIcon = this.iconTypes.CREDIT_CARD;
           }
           const card: Card = {
             title: payment.defaultPayment ? textDefaultPaymentMethod : '',
