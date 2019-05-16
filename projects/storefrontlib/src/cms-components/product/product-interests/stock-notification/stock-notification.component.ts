@@ -112,7 +112,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     );
   }
 
-  onUnsubscribeSuccess(success: boolean): void {
+  private onUnsubscribeSuccess(success: boolean): void {
     if (success) {
       this.subscription.add(
         this.translationService
