@@ -7,6 +7,7 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { PaymentDetails } from '../../model/cart.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
+import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
 
 const username = 'mockUsername';
 
@@ -26,9 +27,10 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccUserPaymentAdapter', () => {
+fdescribe('OccUserPaymentAdapter', () => {
   let service: OccUserPaymentAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,6 +43,8 @@ describe('OccUserPaymentAdapter', () => {
 
     service = TestBed.get(OccUserPaymentAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -74,6 +78,18 @@ describe('OccUserPaymentAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserPaymentMethods);
+    });
+
+    it('should use converter', () => {
+      service.loadList(username).subscribe();
+      httpMock
+        .expectOne(
+          `${endpoint}/${username}${paymentDetailsEndpoint}?saved=true`
+        )
+        .flush({});
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        PAYMENT_DETAILS_NORMALIZER
+      );
     });
   });
 
