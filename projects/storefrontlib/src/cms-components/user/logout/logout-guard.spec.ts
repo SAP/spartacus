@@ -1,12 +1,11 @@
+import { NgZone, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
 
 import { AuthService, CmsService, RoutingService } from '@spartacus/core';
-
 import { LogoutGuard } from './logout-guard';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgZone, Component } from '@angular/core';
-import { Observable, of } from 'rxjs';
 
 class MockAuthService {
   logout() {}
@@ -49,7 +48,6 @@ describe('LogoutGuard', () => {
       ],
       declarations: [MockPageLayoutComponent],
       providers: [
-        LogoutGuard,
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },

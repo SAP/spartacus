@@ -35,6 +35,11 @@
           aria-controls=""
         >
           {{ facet.name }}
+          <cx-icon
+            [type]="
+              isFacetCollapsed(facet.name) ? iconTypes.PLUS : iconTypes.MINUS
+            "
+          ></cx-icon>
         </a>
       </span>
       <div [ngbCollapse]="isFacetCollapsed(facet.name)">
