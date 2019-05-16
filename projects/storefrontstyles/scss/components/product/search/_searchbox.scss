@@ -34,7 +34,8 @@
   }
 
   &:before {
-    transition: background-color 0.4s;
+    transition: opacity 0.4s;
+
     content: '';
     position: fixed;
     left: 0;

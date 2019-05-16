@@ -9,7 +9,6 @@ import {
   debounceTime,
   distinctUntilChanged,
   map,
-  startWith,
   switchMap,
 } from 'rxjs/operators';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
@@ -40,7 +39,6 @@ export class SearchBoxComponentService {
   ): Observable<SearchResults> {
     return combineLatest(
       text$.pipe(
-        startWith(''),
         debounceTime(300),
         distinctUntilChanged()
       ),

@@ -64,7 +64,9 @@ export class SearchBoxComponent {
     SearchResults
   > = this.searchBoxComponentService
     .getSearchResults(
-      this.searchBoxControl.valueChanges,
+      this.searchBoxControl.valueChanges.pipe(
+        tap(value => (this.hasResults = !!value))
+      ),
       this.componentData ? this.componentData.data$ : null
     )
     .pipe(
