@@ -1,6 +1,8 @@
 import { product } from '../sample-data/checkout-flow';
 
 export function loginSuccessfully() {
+  cy.login('test-user-cypress@ydev.hybris.com', 'Password123.');
+  cy.visit('/');
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
@@ -9,12 +11,11 @@ export function addShippingAddress() {
     method: 'POST',
     url: `${Cypress.env(
       'API_URL'
-    )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(sessionStorage.getItem('auth')).userToken.token[
-          'access_token'
-        ]
+        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
+          .token.access_token
       }`,
     },
     body: {
@@ -35,7 +36,7 @@ export function addShippingAddress() {
   });
 }
 
-export function changePageFromProductToCategory() {
+export function goToProductPageFromCategory() {
   // click big banner
   cy.get('.Section1 cx-banner')
     .first()
@@ -58,46 +59,48 @@ export function addProductToCart() {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.getByText(/view cart/i).click();
   });
+  cy.get('cx-breadcrumb').should('contain', 'Your Shopping Cart');
 }
 
 export function addPaymentMethod() {
-  cy.get('cx-cart-details h1').then($cart => {
-    const cartid = $cart.text().slice(18, 26);
-    cy.request({
-      method: 'POST',
-      url: `${Cypress.env(
-        'API_URL'
-      )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
-      headers: {
-        Authorization: `bearer ${
-          JSON.parse(sessionStorage.getItem('auth')).userToken.token[
-            'access_token'
-          ]
-        }`,
-      },
-      body: {
-        accountHolderName: 'test user',
-        cardNumber: '4111111111111111',
-        cardType: { code: 'visa' },
-        expiryMonth: '01',
-        expiryYear: '2125',
-        defaultPayment: true,
-        saved: true,
-        billingAddress: {
-          firstName: 'test',
-          lastName: 'user',
-          titleCode: 'mr',
-          line1: '999 de Maisonneuve',
-          line2: '',
-          town: 'Montreal',
-          postalCode: 'H4B3L4',
-          country: { isocode: 'US' },
+  cy.get('cx-breadcrumb')
+    .find('h1')
+    .then($cart => {
+      const cartid = $cart.text().slice(20, 28);
+      cy.request({
+        method: 'POST',
+        url: `${Cypress.env(
+          'API_URL'
+        )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        headers: {
+          Authorization: `bearer ${
+            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
+              .userToken.token.access_token
+          }`,
         },
-      },
-    }).then(response => {
-      expect(response.status).to.eq(201);
+        body: {
+          accountHolderName: 'test user',
+          cardNumber: '4111111111111111',
+          cardType: { code: 'visa' },
+          expiryMonth: '01',
+          expiryYear: '2125',
+          defaultPayment: true,
+          saved: true,
+          billingAddress: {
+            firstName: 'test',
+            lastName: 'user',
+            titleCode: 'mr',
+            line1: '999 de Maisonneuve',
+            line2: '',
+            town: 'Montreal',
+            postalCode: 'H4B3L4',
+            country: { isocode: 'US' },
+          },
+        },
+      }).then(response => {
+        expect(response.status).to.eq(201);
+      });
     });
-  });
 }
 
 export function selectShippingAddress() {
@@ -107,12 +110,9 @@ export function selectShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-body__title').should(
-    'have.text',
-    'Default Shipping Address'
-  );
+  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.getByText(/Ship to this address/i).click();
-  cy.get('.card-header').should('contain', ' SELECTED ');
+  cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
 }
 
@@ -127,9 +127,9 @@ export function selectPaymentMethod() {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-body__title').contains('Default Payment Method');
+  cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.getByText(/Use this payment/i).click();
-  cy.get('.card-header').should('contain', ' SELECTED ');
+  cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
 }
 
@@ -141,10 +141,8 @@ export function verifyAndPlaceOrder() {
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
-    .find('.cx-card-body__container')
-    .within(() => {
-      cy.getByText('standard-gross');
-    });
+    .find('.cx-card-label-bold')
+    .should('contain', 'Standard Delivery');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'not.be.empty'
   );
@@ -176,9 +174,8 @@ export function deleteShippingAddress() {
     )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(sessionStorage.getItem('auth')).userToken.token[
-          'access_token'
-        ]
+        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
+          .token.access_token
       }`,
     },
   })
@@ -196,9 +193,8 @@ export function deleteShippingAddress() {
         )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(sessionStorage.getItem('auth')).userToken.token[
-              'access_token'
-            ]
+            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
+              .userToken.token.access_token
           }`,
         },
       }).then(response => {
@@ -215,9 +211,8 @@ export function deletePaymentCard() {
     )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(sessionStorage.getItem('auth')).userToken.token[
-          'access_token'
-        ]
+        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
+          .token.access_token
       }`,
     },
   })
@@ -235,9 +230,8 @@ export function deletePaymentCard() {
         )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(sessionStorage.getItem('auth')).userToken.token[
-              'access_token'
-            ]
+            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
+              .userToken.token.access_token
           }`,
         },
       }).then(response => {

@@ -1,7 +1,53 @@
 import * as checkoutAsPersistentUser from '../../helpers/checkout-as-persistent-user';
 import { formats } from '../../sample-data/viewports';
+import { config, login, setSessionData } from '../../support/utils/login';
 
 function checkoutAsPersistentUserTest() {
+  const username = 'test-user-cypress@ydev.hybris.com';
+  const password = 'Password123.';
+  const firstName = 'Test';
+  const lastName = 'User';
+  const titleCode = 'mr';
+
+  it('should register user if not exist', () => {
+    function retrieveAuthToken() {
+      return cy.request({
+        method: 'POST',
+        url: config.tokenUrl,
+        body: {
+          ...config.client,
+          grant_type: 'client_credentials',
+        },
+        form: true,
+      });
+    }
+
+    login(username, password, false).then(res => {
+      if (res.status === 200) {
+        // User is already registered - only set session in localStorage
+        setSessionData({ ...res.body, userId: username });
+      } else {
+        // User needs to be registered
+        retrieveAuthToken().then(response =>
+          cy.request({
+            method: 'POST',
+            url: config.newUserUrl,
+            body: {
+              firstName: firstName,
+              lastName: lastName,
+              password: password,
+              titleCode: titleCode,
+              uid: username,
+            },
+            headers: {
+              Authorization: `bearer ` + response.body.access_token,
+            },
+          })
+        );
+      }
+    });
+  });
+
   it('should login successfully', () => {
     checkoutAsPersistentUser.loginSuccessfully();
   });
@@ -11,7 +57,7 @@ function checkoutAsPersistentUserTest() {
   });
 
   it('should go to product page from category page', () => {
-    checkoutAsPersistentUser.changePageFromProductToCategory();
+    checkoutAsPersistentUser.goToProductPageFromCategory();
   });
 
   it('should add product to cart', () => {
@@ -54,10 +100,14 @@ function checkoutAsPersistentUserTest() {
 context('Check login', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.login('test-user-cypress@ydev.hybris.com', 'Password123.');
-    cy.visit('/');
+  });
+  beforeEach(() => {
+    cy.restoreLocalStorage();
   });
 
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
   checkoutAsPersistentUserTest();
 });
 
@@ -65,12 +115,13 @@ context(`${formats.mobile.width + 1}p resolution - Check login`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.login('test-user-cypress@ydev.hybris.com', 'Password123.');
-    cy.visit('/');
   });
   beforeEach(() => {
+    cy.restoreLocalStorage();
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
-
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
   checkoutAsPersistentUserTest();
 });
