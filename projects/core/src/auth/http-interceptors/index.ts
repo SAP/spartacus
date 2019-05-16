@@ -5,7 +5,7 @@ import { AuthErrorInterceptor } from './auth-error.interceptor';
 import { ClientTokenInterceptor } from './client-token.interceptor';
 import { UserTokenInterceptor } from './user-token.interceptor';
 
-export const AuthInterceptors: Provider[] = [
+export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: ClientTokenInterceptor,

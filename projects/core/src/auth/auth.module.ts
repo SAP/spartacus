@@ -7,7 +7,7 @@ import { RoutingModule } from '../routing/routing.module';
 
 import { AuthConfig } from './config/auth-config';
 import { defaultAuthConfig } from './config/default-auth-config';
-import { AuthInterceptors } from './http-interceptors/index';
+import { interceptors } from './http-interceptors/index';
 import { AuthServices } from './services/index';
 import { AuthStoreModule } from './store/auth-store.module';
 
@@ -25,7 +25,7 @@ export class AuthModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: AuthModule,
-      providers: [...AuthInterceptors],
+      providers: [...interceptors],
     };
   }
 }
