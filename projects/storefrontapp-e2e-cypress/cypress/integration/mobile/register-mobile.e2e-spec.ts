@@ -32,7 +32,6 @@ describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
     register.registerUser(user);
     waitForHomePage();
     register.signOut();
-    register.checkTermsAndConditions();
     clickHamburger();
     register.registerUser({ ...user, password: 'Different123.' });
     register.verifyFailedRegistration();

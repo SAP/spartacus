@@ -21,7 +21,6 @@ describe('Register', () => {
   it('should contain error when trying to register with the same email and different password', () => {
     register.registerUser(user);
     register.signOut();
-    register.checkTermsAndConditions();
     register.registerUser({ ...user, password: 'Different123.' });
     register.verifyFailedRegistration();
   });
