@@ -5,12 +5,14 @@ let orderData: any;
 describe('Order History with orders', () => {
   function doPlaceOrder() {
     cy.window().then(win => {
-      const token = JSON.parse(win.sessionStorage.getItem('auth'));
-      cy.requireProductAddedToCart(token).then(resp => {
-        cy.requireShippingAddressAdded(user.address, token);
-        cy.requireShippingMethodSelected(token);
-        cy.requirePaymentDone(token);
-        cy.requirePlacedOrder(token, resp.cartId).then(order => {
+      const savedState = JSON.parse(
+        win.localStorage.getItem('spartacus-local-data')
+      );
+      cy.requireProductAddedToCart(savedState.auth).then(resp => {
+        cy.requireShippingAddressAdded(user.address, savedState.auth);
+        cy.requireShippingMethodSelected(savedState.auth);
+        cy.requirePaymentDone(savedState.auth);
+        cy.requirePlacedOrder(savedState.auth, resp.cartId).then(order => {
           orderData = order;
         });
       });
@@ -23,6 +25,14 @@ describe('Order History with orders', () => {
     doPlaceOrder();
     // do it again to test orders table sorting
     doPlaceOrder();
+  });
+
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
   });
 
   it('should display in Order History after placing orders', () => {
