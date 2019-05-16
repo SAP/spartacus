@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { LOGIN } from 'projects/core/src/auth/store/actions/login-logout.action';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
+import { User } from '../../../model/misc.model';
 import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
-import { User } from '../../../model/misc.model';
 
 @Injectable()
 export class UserDetailsEffects {
@@ -23,6 +24,16 @@ export class UserDetailsEffects {
           of(new fromUserDetailsAction.LoadUserDetailsFail(error))
         )
       );
+    })
+  );
+
+  @Effect()
+  loadUserDetailsOnLogin$: Observable<
+    fromUserDetailsAction.UserDetailsAction
+  > = this.actions$.pipe(
+    ofType(LOGIN),
+    map(_ => {
+      return new fromUserDetailsAction.LoadUserDetails('current');
     })
   );
 

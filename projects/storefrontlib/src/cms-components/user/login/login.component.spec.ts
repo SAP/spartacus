@@ -4,26 +4,15 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AuthService,
   I18nTestingModule,
   RoutingService,
   User,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
 
 import createSpy = jasmine.createSpy;
-
-const mockUserToken: UserToken = {
-  access_token: 'xxx',
-  token_type: 'bearer',
-  refresh_token: 'xxx',
-  expires_in: 1000,
-  scope: ['xxx'],
-  userId: 'xxx',
-};
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -33,21 +22,12 @@ const mockUserDetails: User = {
   uid: 'UID',
 };
 
-class MockAuthService {
-  login = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of(mockUserToken);
-  }
-}
 class MockRoutingService {
   go = createSpy('go');
 }
 class MockUserService {
   get(): Observable<User> {
     return of(mockUserDetails);
-  }
-  load(_userId: string): Observable<any> {
-    return of();
   }
 }
 
@@ -71,7 +51,6 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  let authService: MockAuthService;
   let userService: MockUserService;
 
   beforeEach(async(() => {
@@ -93,11 +72,9 @@ describe('LoginComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
 
-    authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
   }));
 
@@ -111,14 +88,14 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have user details when token exists', () => {
+  it('should have user details when user details are available', () => {
     let user;
     component.user$.subscribe(result => (user = result));
     expect(user).toEqual(mockUserDetails);
   });
 
-  it('should not have user details when token is lacking', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+  it('should user be falsy when no user details are loaded.', () => {
+    spyOn(userService, 'get').and.returnValue(of({} as User));
     let user;
     component.user$.subscribe(result => (user = result));
     expect(user).toBeFalsy();
@@ -126,8 +103,6 @@ describe('LoginComponent', () => {
 
   describe('UI tests', () => {
     it('should contain the dynamic slot: HeaderLinks', () => {
-      spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
-
       fixture.detectChanges();
 
       expect(
@@ -145,13 +120,8 @@ describe('LoginComponent', () => {
     });
 
     it('should display the register message when the user is not logged in', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+      spyOn(userService, 'get').and.returnValue(of({} as User));
       fixture.detectChanges();
-
-      // expect(
-      //   fixture.debugElement.query(By.css('a[role="link"]')).nativeElement
-      //     .innerText
-      // ).toContain('common.action.signInRegister');
 
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'login.signInRegister'

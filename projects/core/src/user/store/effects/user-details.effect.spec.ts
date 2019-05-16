@@ -2,11 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
+import { Login } from 'projects/core/src/auth/store/actions/login-logout.action';
 import { Observable, of, throwError } from 'rxjs';
+import { User } from '../../../model/misc.model';
 import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsEffect from './user-details.effect';
-import { User } from '../../../model/misc.model';
 
 class MockOccUserService {
   loadUser(_username: string): Observable<User> {
@@ -55,6 +56,20 @@ describe('User Details effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userDetailsEffect.loadUserDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadUserDetailsOnLogin$', () => {
+    it('should trigger a load user details action when a login occurs', () => {
+      const action = new Login();
+      const completion = new fromUserDetailsAction.LoadUserDetails('current');
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userDetailsEffect.loadUserDetailsOnLogin$).toBeObservable(
+        expected
+      );
     });
   });
 
