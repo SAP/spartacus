@@ -20,8 +20,13 @@ export class OccUserPaymentMethodAdapter implements UserPaymentMethodAdapter {
     protected converter: ConverterService
   ) {}
 
+  private getPaymentDetailsEndpoint(userId: string): string {
+    const endpoint = `${USER_ENDPOINT}${userId}${PAYMENT_DETAILS_ENDPOINT}`;
+    return this.occEndpoints.getEndpoint(endpoint);
+  }
+
   loadList(userId: string): Observable<PaymentDetails[]> {
-    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}?saved=true`;
+    const url = this.getPaymentDetailsEndpoint(userId) + '?saved=true';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -34,7 +39,7 @@ export class OccUserPaymentMethodAdapter implements UserPaymentMethodAdapter {
   }
 
   delete(userId: string, paymentMethodID: string): Observable<{}> {
-    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
+    const url = this.getPaymentDetailsEndpoint(userId) + `/${paymentMethodID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -45,7 +50,7 @@ export class OccUserPaymentMethodAdapter implements UserPaymentMethodAdapter {
   }
 
   setDefault(userId: string, paymentMethodID: string): Observable<{}> {
-    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
+    const url = this.getPaymentDetailsEndpoint(userId) + `/${paymentMethodID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -58,9 +63,5 @@ export class OccUserPaymentMethodAdapter implements UserPaymentMethodAdapter {
         { headers }
       )
       .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  protected getUserEndpoint(): string {
-    return this.occEndpoints.getEndpoint(USER_ENDPOINT);
   }
 }

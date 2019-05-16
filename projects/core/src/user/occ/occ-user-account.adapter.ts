@@ -28,6 +28,10 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     protected converter: ConverterService
   ) {}
 
+  private getUserEndpoint(userId?: string): string {
+    const endpoint = userId ? `${USER_ENDPOINT}${userId}` : USER_ENDPOINT;
+    return this.occEndpoints.getEndpoint(endpoint);
+  }
   register(user: UserRegisterFormData): Observable<User> {
     const url: string = this.getUserEndpoint();
     let headers = new HttpHeaders({
@@ -74,7 +78,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     currentPassword: string,
     newUserId: string
   ): Observable<{}> {
-    const url = this.getUserEndpoint() + userId + UPDATE_EMAIL_ENDPOINT;
+    const url = this.getUserEndpoint(userId) + UPDATE_EMAIL_ENDPOINT;
     const httpParams: HttpParams = new HttpParams()
       .set('password', currentPassword)
       .set('newLogin', newUserId);
@@ -86,16 +90,12 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  protected getUserEndpoint(): string {
-    return this.occEndpoints.getEndpoint(USER_ENDPOINT);
-  }
-
   updatePassword(
     userId: string,
     oldPassword: string,
     newPassword: string
   ): Observable<{}> {
-    const url = this.getUserEndpoint() + userId + UPDATE_PASSWORD_ENDPOINT;
+    const url = this.getUserEndpoint(userId) + UPDATE_PASSWORD_ENDPOINT;
     const httpParams: HttpParams = new HttpParams()
       .set('old', oldPassword)
       .set('new', newPassword);
@@ -108,7 +108,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
   }
 
   remove(userId: string): Observable<{}> {
-    const url = this.getUserEndpoint() + userId;
+    const url = this.getUserEndpoint(userId);
     return this.http
       .delete<User>(url)
       .pipe(catchError((error: any) => throwError(error)));

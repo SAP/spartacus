@@ -22,20 +22,21 @@ export class OccUserDetailsAdapter implements UserDetailsAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getUserEndpoint(): string {
-    return this.occEndpoints.getEndpoint(USER_ENDPOINT);
+  private getUserEndpoint(userId: string): string {
+    const endpoint = `${USER_ENDPOINT}${userId}`;
+    return this.occEndpoints.getEndpoint(endpoint);
   }
 
   load(userId: string): Observable<User> {
-    const url = this.getUserEndpoint() + userId;
+    const url = this.getUserEndpoint(userId);
     return this.http.get<Occ.User>(url).pipe(
       catchError((error: any) => throwError(error)),
       this.converter.pipeable(USER_NORMALIZER)
     );
   }
 
-  update(username: string, user: User): Observable<{}> {
-    const url = this.getUserEndpoint() + username;
+  update(userId: string, user: User): Observable<{}> {
+    const url = this.getUserEndpoint(userId);
     user = this.converter.convert(user, USER_SERIALIZER);
     return this.http
       .patch(url, user)

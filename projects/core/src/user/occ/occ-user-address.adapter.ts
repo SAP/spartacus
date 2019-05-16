@@ -25,12 +25,13 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getUserEndpoint(): string {
-    return this.occEndpoints.getEndpoint(USER_ENDPOINT);
+  private getUserEndpoint(userId: string): string {
+    const endpoint = `${USER_ENDPOINT}${userId}`;
+    return this.occEndpoints.getEndpoint(endpoint);
   }
 
   load(userId: string): Observable<Address[]> {
-    const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
+    const url = this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -43,7 +44,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   add(userId: string, address: Address): Observable<{}> {
-    const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
+    const url = this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -56,7 +57,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
   update(userId: string, addressId: string, address: Address): Observable<{}> {
     const url =
-      this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
+      this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -68,8 +69,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   verify(userId: string, address: Address): Observable<AddressValidation> {
-    const url =
-      this.getUserEndpoint() + userId + ADDRESSES_VERIFICATION_ENDPOINT;
+    const url = this.getUserEndpoint(userId) + ADDRESSES_VERIFICATION_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -83,7 +83,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
   delete(userId: string, addressId: string): Observable<{}> {
     const url =
-      this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
+      this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
