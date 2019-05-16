@@ -4,9 +4,8 @@ import {
   EventEmitter,
   HostBinding,
   Input,
-  OnInit,
-  Output,
   OnChanges,
+  Output,
 } from '@angular/core';
 import { Media } from './media.model';
 import { MediaService } from './media.service';
@@ -16,7 +15,7 @@ import { MediaService } from './media.service';
   templateUrl: './media.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MediaComponent implements OnInit, OnChanges {
+export class MediaComponent implements OnChanges {
   /**
    * The media container can hold multiple media items, so that
    * a specific media (by format) can be used or multiple media
@@ -57,10 +56,6 @@ export class MediaComponent implements OnInit, OnChanges {
 
   constructor(protected mediaService: MediaService) {}
 
-  ngOnInit(): void {
-    this.create();
-  }
-
   ngOnChanges(): void {
     this.create();
   }
@@ -69,7 +64,7 @@ export class MediaComponent implements OnInit, OnChanges {
    * Creates the `Media` object
    */
   private create(): void {
-    this.media = this.mediaService.getImage(
+    this.media = this.mediaService.getMedia(
       this.container,
       this.format,
       this.alt

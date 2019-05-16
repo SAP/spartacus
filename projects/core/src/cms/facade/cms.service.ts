@@ -75,7 +75,7 @@ export class CmsService {
         this.routingService.isNavigating(),
         this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
       ).pipe(
-        tap(([isNavigating, componentState]: [boolean, LoaderState<any>]) => {
+        tap(([isNavigating, componentState]) => {
           const attemptedLoad =
             componentState.loading ||
             componentState.success ||
