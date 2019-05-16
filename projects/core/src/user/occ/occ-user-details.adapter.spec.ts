@@ -34,7 +34,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-fdescribe('OccUserDetailsAdapter', () => {
+describe('OccUserDetailsAdapter', () => {
   let service: OccUserDetailsAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;

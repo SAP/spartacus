@@ -7,6 +7,12 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
+import {
+  ADDRESS_NORMALIZER,
+  ADDRESS_SERIALIZER,
+  ADDRESS_VALIDATION_NORMALIZER,
+  ConverterService,
+} from '@spartacus/core';
 
 const username = 'mockUsername';
 
@@ -30,6 +36,7 @@ const MockOccModuleConfig: OccConfig = {
 describe('OccUserAddressAdapter', () => {
   let service: OccUserAddressAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,6 +49,10 @@ describe('OccUserAddressAdapter', () => {
 
     service = TestBed.get(OccUserAddressAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -73,6 +84,25 @@ describe('OccUserAddressAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(suggestedAddresses);
     });
+
+    it('should use converter', () => {
+      const address: Address = {
+        companyName: 'ACME',
+        defaultAddress: true,
+      };
+
+      service.verify(username, address).subscribe();
+      httpMock
+        .expectOne(endpoint + `/${username}` + addressVerificationEndpoint)
+        .flush({});
+      expect(converter.convert).toHaveBeenCalledWith(
+        address,
+        ADDRESS_SERIALIZER
+      );
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        ADDRESS_VALIDATION_NORMALIZER
+      );
+    });
   });
 
   describe('load user addresses', () => {
@@ -101,6 +131,14 @@ describe('OccUserAddressAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserAddresses);
+    });
+
+    it('should use converter', () => {
+      service.load(username).subscribe();
+      httpMock
+        .expectOne(endpoint + `/${username}` + addressesEndpoint)
+        .flush({});
+      expect(converter.pipeableMany).toHaveBeenCalledWith(ADDRESS_NORMALIZER);
     });
   });
 });
