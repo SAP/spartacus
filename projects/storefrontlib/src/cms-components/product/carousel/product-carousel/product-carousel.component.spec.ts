@@ -10,11 +10,12 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
-  ProductService,
   Product,
+  ProductService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { SharedCarouselService } from '../shared-carousel.service';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselService } from './product-carousel.component.service';
 
@@ -71,18 +72,22 @@ class MockProductService {
 
 class MockProductCarouselService {
   getTitle = jasmine.createSpy('getTitle').and.callFake(() => of('Mock Title'));
-  setTitle = jasmine.createSpy('setTitle').and.callFake(() => of('Mock Title'));
+  fetchTitle = jasmine
+    .createSpy('fetchTitle')
+    .and.callFake(() => of('Mock Title'));
   getItems = jasmine
     .createSpy('getItems')
     .and.callFake(() =>
       of([of(mockProduct), of(mockProduct), of(mockProduct), of(mockProduct)])
     );
-  setItems = jasmine
+  fetchItems = jasmine
     .createSpy('setItems')
     .and.callFake(() =>
       of([of(mockProduct), of(mockProduct), of(mockProduct), of(mockProduct)])
     );
+}
 
+class MockSharedCarouselService {
   getItemSize = jasmine.createSpy('getItemSize').and.callFake(() => of(4));
   setItemSize = jasmine.createSpy('setItemSize');
   getItemAsActive = jasmine
@@ -119,6 +124,10 @@ describe('ProductCarouselComponent', () => {
               provide: ProductCarouselService,
               useClass: MockProductCarouselService,
             },
+            {
+              provide: SharedCarouselService,
+              useClass: MockSharedCarouselService,
+            },
           ],
         },
       })
@@ -139,8 +148,8 @@ describe('ProductCarouselComponent', () => {
 
   it('should have products', async(() => {
     let products$: Observable<Product>[];
-    productCarouselComponent.service.setItems();
-    productCarouselComponent.service
+    productCarouselComponent.productCarouselService.fetchItems();
+    productCarouselComponent.productCarouselService
       .getItems()
       .subscribe(productData$ => {
         products$ = productData$;

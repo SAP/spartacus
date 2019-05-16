@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import {
+  GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-  GlobalMessageEntities,
 } from '@spartacus/core';
-import { ICON_TYPES } from '../../../cms-components/misc/icon/index';
+import { Observable } from 'rxjs';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-global-message',
@@ -14,7 +13,7 @@ import { ICON_TYPES } from '../../../cms-components/misc/icon/index';
   styleUrls: ['./global-message.component.scss'],
 })
 export class GlobalMessageComponent implements OnInit {
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
 
   messages$: Observable<GlobalMessageEntities>;
   messageType: typeof GlobalMessageType = GlobalMessageType;

@@ -30,6 +30,7 @@ import {
 import {
   ProductCarouselModule,
   ProductListModule,
+  ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
 import { StoreFinderModule } from './storefinder/index';
@@ -53,6 +54,7 @@ import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
+    ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,

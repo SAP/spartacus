@@ -1,12 +1,12 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Input,
   OnInit,
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Address } from '@spartacus/core';
-import { ICON_TYPES } from '../../../../../../cms-components/misc/icon/index';
+import { ICON_TYPE } from '../../../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-suggested-addresses-dialog',
@@ -14,7 +14,7 @@ import { ICON_TYPES } from '../../../../../../cms-components/misc/icon/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuggestedAddressDialogComponent implements OnInit {
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
 
   constructor(public activeModal: NgbActiveModal) {}
 
