@@ -1,128 +1,72 @@
 import { TestBed } from '@angular/core/testing';
 import { IconLoaderService } from './icon-loader.service';
-import { IconConfig, ICON_TYPES } from './icon.model';
+import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
 
 const MockFontIconConfig: IconConfig = {
   icon: {
-    icons: {
-      [ICON_TYPES.CART]: 'basket-icon',
+    symbols: {
+      SEARCH: 'fas fa-search',
+      VISA: 'fab fa-cc-visa',
+      CART: 'cartSymbol',
+      INFO: 'infoSymbol',
     },
-  },
-};
-
-const MockFontAwesomeIconConfig: IconConfig = {
-  icon: {
-    prefix: 'fa-',
-    iconClass: 'fas',
-    icons: {
-      [ICON_TYPES.CART]: 'basket-icon',
-    },
-  },
-};
-
-const MockSvgIconWithPathConfig: IconConfig = {
-  icon: {
-    useSvg: true,
-    svgPath: 'icon/path.svg',
-    icons: {
-      [ICON_TYPES.CART]: 'basket-icon',
-    },
-  },
-};
-
-const MockSvgIconConfig: IconConfig = {
-  icon: {
-    useSvg: true,
-    icons: {
-      [ICON_TYPES.CART]: 'basket-icon',
-    },
+    resources: [
+      {
+        type: IconResourceType.SVG,
+        url: './assets/sprite.svg',
+        types: [ICON_TYPE.CART],
+      },
+      {
+        type: IconResourceType.SVG,
+        types: [ICON_TYPE.INFO],
+      },
+    ],
   },
 };
 
 describe('IconLoaderService', () => {
   let service: IconLoaderService;
 
-  describe('Font Awesome icon configuration', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [{ provide: IconConfig, useValue: MockFontIconConfig }],
-      });
-
-      service = TestBed.get(IconLoaderService);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [{ provide: IconConfig, useValue: MockFontIconConfig }],
     });
+
+    service = TestBed.get(IconLoaderService);
+  });
+
+  describe('Font Awesome icons', () => {
     it('should inject service', () => {
       expect(service).toBeTruthy();
     });
 
-    it('should use standard icon type in font', () => {
-      expect(service.getStyleClasses(ICON_TYPES.CART).length).toEqual(1);
-      expect(service.getStyleClasses(ICON_TYPES.CART)[0]).toEqual(
-        'basket-icon'
-      );
+    it('should use configured symbol in the class when using fonts', () => {
+      expect(service.getStyleClasses(ICON_TYPE.VISA)).toContain('fab');
+      expect(service.getStyleClasses(ICON_TYPE.VISA)).toContain('fa-cc-visa');
+    });
+
+    it('should not use svg', () => {
+      expect(service.useSvg(ICON_TYPE.SEARCH)).toBeFalsy();
     });
 
     it('should not return an svg path when icons are driven by fonts', () => {
-      expect(service.getSvgPath(ICON_TYPES.CART)).toBeFalsy();
+      expect(service.getSvgPath(ICON_TYPE.VISA)).toBeFalsy();
     });
   });
 
-  describe('Font Awesome icon configuration', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          { provide: IconConfig, useValue: MockFontAwesomeIconConfig },
-        ],
-      });
-
-      service = TestBed.get(IconLoaderService);
-    });
-
-    it('should use standard icon type in font', () => {
-      const iconClasses = service.getStyleClasses(ICON_TYPES.SEARCH);
-      expect(iconClasses.length).toEqual(2);
-      expect(iconClasses[0]).toEqual('fas');
-      expect(iconClasses[1]).toEqual(`fa-${ICON_TYPES.SEARCH}`);
-    });
-
-    it('should use custom font awesome class mapping for CART icon', () => {
-      const iconClasses = service.getStyleClasses(ICON_TYPES.CART);
-      expect(iconClasses.length).toEqual(2);
-      expect(iconClasses[0]).toEqual('fas');
-      expect(iconClasses[1]).toEqual('fa-basket-icon');
-    });
-  });
-
-  describe('SVG icon configuration with external path', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          { provide: IconConfig, useValue: MockSvgIconWithPathConfig },
-        ],
-      });
-      service = TestBed.get(IconLoaderService);
-    });
-
+  describe('SVG icons', () => {
     it('should use svg', () => {
-      expect(service.useSvg()).toBeTruthy();
+      expect(service.useSvg(ICON_TYPE.CART)).toBeTruthy();
     });
 
-    it('should return an specific icon mapping in the SVG path', () => {
-      expect(service.getSvgPath(ICON_TYPES.CART)).toEqual(
-        'icon/path.svg#basket-icon'
+    it('should use SVG sprites', () => {
+      expect(service.getSvgPath(ICON_TYPE.CART)).toEqual(
+        './assets/sprite.svg#cartSymbol'
       );
     });
-  });
 
-  describe('SVG icon configuration without external path', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [{ provide: IconConfig, useValue: MockSvgIconConfig }],
-      });
-      service = TestBed.get(IconLoaderService);
-    });
-
-    it('should return an SVG path without a file reference', () => {
-      expect(service.getSvgPath(ICON_TYPES.CART)).toEqual('#basket-icon');
+    it('should use local SVG symbol', () => {
+      expect(service.getSvgPath(ICON_TYPE.INFO)).toEqual('#infoSymbol');
     });
   });
 });
