@@ -12,6 +12,7 @@ import {
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { MediaModule } from '../../../shared/components/media/media.module';
+import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { SearchBoxComponent } from './search-box.component';
     UrlModule,
     I18nModule,
   ],
-  declarations: [SearchBoxComponent],
+  declarations: [SearchBoxComponent, HighlightPipe],
   entryComponents: [SearchBoxComponent],
   exports: [SearchBoxComponent],
 })

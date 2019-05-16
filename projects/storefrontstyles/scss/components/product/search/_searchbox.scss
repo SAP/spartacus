@@ -155,6 +155,15 @@
     a {
       text-decoration: none;
       cursor: pointer;
+
+      font-weight: 800;
+
+      .highlight,
+      .search-results-highlight {
+        font-weight: normal;
+        font-style: normal;
+      }
+
       &:hover {
         background: var(--cx-g-color-light);
         color: currentColor;
@@ -181,14 +190,16 @@
         }
         h4.name {
           text-overflow: ellipsis;
+
           font-size: inherit;
+          font-weight: inherit;
 
           /* Required for text-overflow to do anything */
           white-space: nowrap;
           overflow: hidden;
-          .search-results-highlight {
-            font-weight: bold;
-          }
+        }
+        .price {
+          font-weight: normal;
         }
       }
     }

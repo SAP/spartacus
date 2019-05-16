@@ -21,7 +21,6 @@ export const common = {
   },
   searchBox: {
     placeholder: 'Search here...',
-    suggestion: '<b>{{ suggestion }}</b>',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',

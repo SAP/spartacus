@@ -39,9 +39,7 @@
   <div class="suggestions" (mousedown)="disableClose()">
     <a
       *ngFor="let suggestion of result.suggestions"
-      [innerHTML]="
-        'searchBox.suggestion' | cxTranslate: { suggestion: suggestion }
-      "
+      [innerHTML]="suggestion | cxHighlight: searchBoxControl.value"
       [routerLink]="
         {
           cxRoute: 'search',
