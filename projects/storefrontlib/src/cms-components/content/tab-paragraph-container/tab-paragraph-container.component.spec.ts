@@ -4,11 +4,12 @@ import {
   ContentSlotComponentData,
   I18nTestingModule,
   CMSTabParagraphContainer,
+  CmsService,
 } from '@spartacus/core';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { CmsComponentData } from '../../../cms-structure/index';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -31,6 +32,27 @@ const mockComponentData: CMSTabParagraphContainer = {
   uid: 'TabPanelContainer',
 };
 
+const mockTabComponentData1 = {
+  uid: 'ProductDetailsTabComponent',
+  flexType: 'ProductDetailsTabComponent',
+};
+
+const mockTabComponentData2 = {
+  uid: 'ProductSpecsTabComponent',
+  flexType: 'ProductSpecsTabComponent',
+};
+
+const mockTabComponentData3 = {
+  uid: 'ProductReviewsTabComponent',
+  flexType: 'ProductReviewsTabComponent',
+};
+
+class MockCmsService {
+  getComponentData(_component) {
+    of();
+  }
+}
+
 const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
   data$: of(mockComponentData),
 };
@@ -38,6 +60,7 @@ const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
 describe('TabParagraphContainerComponent', () => {
   let component: TabParagraphContainerComponent;
   let fixture: ComponentFixture<TabParagraphContainerComponent>;
+  let cmsService: CmsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,6 +72,7 @@ describe('TabParagraphContainerComponent', () => {
       ],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: CmsService, useClass: MockCmsService },
       ],
     }).compileComponents();
   }));
@@ -56,6 +80,7 @@ describe('TabParagraphContainerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
     component = fixture.componentInstance;
+    cmsService = TestBed.get(CmsService);
     fixture.detectChanges();
   });
 
@@ -64,18 +89,26 @@ describe('TabParagraphContainerComponent', () => {
   });
 
   it('should render child components', () => {
-    let childComponents;
-    component.components$.subscribe(
-      components => (childComponents = components)
+    spyOn(cmsService, 'getComponentData').and.returnValues(
+      of(mockTabComponentData1),
+      of(mockTabComponentData2),
+      of(mockTabComponentData3)
     );
+    let childComponents$: Observable<any>[];
+    component.components$
+      .subscribe(components => (childComponents$ = components))
+      .unsubscribe();
 
-    for (let i = 0; i < childComponents.length; i++) {
-      expect(childComponents[i]).toEqual({
-        flexType: mockComponents[i],
-        typeCode: mockComponents[i],
-        uid: mockComponents[i],
-        title: `productTabs.${mockComponents[i]}`,
-      });
+    for (let i = 0; i < childComponents$.length; i++) {
+      childComponents$[i]
+        .subscribe(tab => {
+          expect(tab).toEqual({
+            flexType: mockComponents[i],
+            uid: mockComponents[i],
+            title: `productTabs.${mockComponents[i]}`,
+          });
+        })
+        .unsubscribe();
     }
   });
 });
