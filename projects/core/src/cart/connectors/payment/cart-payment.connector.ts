@@ -7,7 +7,7 @@ import { PaymentDetails } from '../../../model/cart.model';
   providedIn: 'root',
 })
 export class CartPaymentConnector {
-  constructor(private adapter: CartPaymentAdapter) {}
+  constructor(protected adapter: CartPaymentAdapter) {}
 
   public create(
     userId: string,
