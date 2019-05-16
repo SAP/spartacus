@@ -35,6 +35,20 @@ describe('UrlService', () => {
     routingConfigService = TestBed.get(RoutingConfigService);
   });
 
+  describe('getSemanticUrl', () => {
+    it(`should return absolute url with path from routes config`, () => {
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
+        paths: ['some/url'],
+      });
+      expect(service.getSemanticUrl('test')).toBe('/some/url');
+    });
+
+    it(`should return undefined when there is no configured path for given route`, () => {
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValue(undefined);
+      expect(service.getSemanticUrl('test')).toBe(undefined);
+    });
+  });
+
   describe('generateUrl', () => {
     describe(`, when commands contain 'route' property,`, () => {
       // tslint:disable-next-line:max-line-length
