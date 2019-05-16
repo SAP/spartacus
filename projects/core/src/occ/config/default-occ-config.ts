@@ -8,6 +8,7 @@ export const defaultOccConfig: OccConfig = {
   backend: {
     occ: {
       prefix: '/rest/v2/',
+      userIdentifier: 'customerId',
     },
     media: {},
   },
