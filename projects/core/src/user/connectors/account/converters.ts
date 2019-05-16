@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '../../../util/converter.service';
+import { UserRegisterFormData } from '../../model/user.model';
 
-export const ACCOUNT_NORMALIZER = new InjectionToken<Converter<any, any>>(
-  'AddressNormalizer'
-);
+export const USER_REGISTER_FORM_SERIALIZER = new InjectionToken<
+  Converter<UserRegisterFormData, any>
+>('UserRegisterFormSerializer');

@@ -3,18 +3,16 @@ import { UserAccountAdapter } from '../connectors/account/user-account.adapter';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN,
-  UserRegisterFormData,
-} from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { User } from '../../model/misc.model';
 import { catchError } from 'rxjs/operators';
+import { USER_NORMALIZER } from '../connectors/details/converters';
+import { USER_REGISTER_FORM_SERIALIZER } from '../connectors/account/converters';
 import {
-  USER_NORMALIZER,
-  USER_REGISTER_FORM_SERIALIZER,
-} from '../connectors/details/converters';
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../occ/utils/interceptor-util';
+import { UserRegisterFormData } from '../model/user.model';
 
 const USER_ENDPOINT = 'users/';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
