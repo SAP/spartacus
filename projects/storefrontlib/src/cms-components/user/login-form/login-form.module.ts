@@ -6,6 +6,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
+  NotAuthGuard,
   UrlModule,
   UserModule,
 } from '@spartacus/core';
@@ -27,6 +28,7 @@ import { LoginFormComponent } from './login-form.component';
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           selector: 'cx-login-form',
+          guard: [NotAuthGuard],
         },
       },
     }),

@@ -6,7 +6,7 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { Card } from '../../../shared/components/card/card.component';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-methods',
@@ -26,7 +26,18 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.paymentMethods$ = this.userService.getPaymentMethods();
+    this.paymentMethods$ = this.userService.getPaymentMethods().pipe(
+      tap(paymentDetails => {
+        // Set first payment method to DEFAULT if none is set
+        if (
+          paymentDetails.length > 0 &&
+          !paymentDetails.find(paymentDetail => paymentDetail.defaultPayment)
+        ) {
+          this.setDefaultPaymentMethod(paymentDetails[0]);
+        }
+      })
+    );
+
     this.editCard = null;
     this.loading$ = this.userService.getPaymentMethodsLoading();
     this.userServiceSub = this.userService.get().subscribe(data => {

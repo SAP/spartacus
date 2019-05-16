@@ -77,7 +77,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.routing.clearRedirectUrl();
         } else {
           // User manual login
-          this.routing.back();
+          this.routing.go(['/']);
         }
       });
   }

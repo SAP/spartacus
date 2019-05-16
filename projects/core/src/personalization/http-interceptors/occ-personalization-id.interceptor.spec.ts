@@ -11,7 +11,10 @@ import { WindowRef } from '../../window/window-ref';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
-    requestHeader: 'test-personalization-id',
+    httpHeaderName: {
+      id: 'test-personalization-id',
+      timestamp: 'test-personalization-time',
+    },
   },
 };
 const store = {};
