@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsPageGuard } from '../../../lib/cms/guards/cms-page.guard';
 import { ProductPageComponent } from '../../../lib/ui/pages/product-page/product-page.component';
+import { CmsPageGuard } from '../../guards/cms-page.guard';
 import { PageLayoutComponent } from '../../page/index';
 import { suffixUrlMatcher } from './suffix-url-matcher';
 
