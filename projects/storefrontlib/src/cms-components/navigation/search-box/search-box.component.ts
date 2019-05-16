@@ -9,7 +9,7 @@ import { FormControl } from '@angular/forms';
 import { CmsSearchBoxComponent } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { Observable } from 'rxjs';
-import { ICON_TYPES } from '../../../cms-components/misc/icon/index';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchResults } from './search-box.model';
 @Component({
@@ -30,7 +30,7 @@ export class SearchBoxComponent {
     }
   }
 
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
 
   /**
    * In some occasions we need to ignore the closing event,

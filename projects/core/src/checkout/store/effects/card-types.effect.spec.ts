@@ -5,19 +5,19 @@ import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from './../actions/index';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { CardTypeList } from '../../../occ/occ-models/occ.models';
 
 import { CardTypesEffects } from '.';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 class MockMiscsService {
   loadCardTypes() {}
 }
 
-const mockCardTypesList: CardTypeList = {
+const mockCardTypesList: Occ.CardTypeList = {
   cardTypes: [
     {
       code: 'amex',

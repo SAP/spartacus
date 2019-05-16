@@ -9,13 +9,13 @@ import {
   ConverterService,
   PRODUCT_REVIEW_NORMALIZER,
   PRODUCT_REVIEW_SERIALIZER,
-  ReviewList,
 } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
+import { Occ } from '../../occ/occ-models/occ.models';
 
 const productCode = 'testCode';
 const maxCount = 2;
-const productReviews: ReviewList = {
+const productReviews: Occ.ReviewList = {
   reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }],
 };
 const endpoint = '/productReviews';

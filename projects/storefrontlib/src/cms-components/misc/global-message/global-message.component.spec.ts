@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -22,6 +23,14 @@ class MockMessageService {
   }
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 describe('GlobalMessageComponent', () => {
   let globalMessageComponent: GlobalMessageComponent;
   let messageService: GlobalMessageService;
@@ -30,7 +39,7 @@ describe('GlobalMessageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [GlobalMessageComponent],
+      declarations: [GlobalMessageComponent, MockCxIconComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
       ],

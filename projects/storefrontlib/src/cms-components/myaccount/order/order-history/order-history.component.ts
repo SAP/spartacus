@@ -77,7 +77,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   goToOrderDetail(order: Order): void {
     this.routing.go({
-      route: 'orderDetails',
+      cxRoute: 'orderDetails',
       params: order,
     });
   }

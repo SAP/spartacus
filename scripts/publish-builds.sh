@@ -55,6 +55,10 @@ publish_snapshot() {
 
     cp -R $LIB_DIR/* $TMP_DIR/
 
+    if [ -e README.md ]; then
+       rm README.md
+    fi
+
     echo `date` > $TMP_DIR/BUILD_INFO
     echo $SHA >> $TMP_DIR/BUILD_INFO
 

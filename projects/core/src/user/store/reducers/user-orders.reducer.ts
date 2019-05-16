@@ -1,5 +1,5 @@
 import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { OrderHistoryList } from '../../../occ';
+import { OrderHistoryList } from '../../../model/order.model';
 
 export const initialState: OrderHistoryList = {
   orders: [],

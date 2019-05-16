@@ -1,6 +1,6 @@
-import { User } from '../../../occ/occ-models/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsReducer from './user-details.reducer';
+import { User } from '../../../model/misc.model';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',

@@ -6,7 +6,7 @@ import {
   BillingCountryEntities,
 } from '../user-state';
 import { getUserState } from './feature.selector';
-import { Country } from '../../../occ/occ-models/occ.models';
+import { Country } from '../../../model/address.model';
 
 export const getBillingCountriesState: MemoizedSelector<
   StateWithUser,

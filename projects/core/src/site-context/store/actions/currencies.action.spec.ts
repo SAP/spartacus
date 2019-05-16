@@ -1,5 +1,5 @@
 import * as fromCurrency from './currencies.action';
-import { Currency } from '../../../occ/occ-models/occ.models';
+import { Currency } from '../../../model/misc.model';
 
 describe('Currencies Actions', () => {
   describe('LoadCurrencies Actions', () => {

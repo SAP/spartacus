@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StoreModule, Store, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
-import { StateWithCms, IndexType } from '../cms-state';
+import { IndexType, StateWithCms } from '../cms-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/page.selectors';
 import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import { PageType } from '../../../occ/occ-models/index';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { ContentSlotComponentData } from '@spartacus/core';
+import { PageType } from '../../../model/cms.model';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;

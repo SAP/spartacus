@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { PaymentDetails } from '../../occ/occ-models/occ.models';
 import { CustomEncoder } from './custom.encoder';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -11,6 +10,7 @@ import {
   CART_PAYMENT_DETAILS_NORMALIZER,
   CART_PAYMENT_DETAILS_SERIALIZER,
 } from '../connectors/payment/converters';
+import { PaymentDetails } from '../../model/cart.model';
 
 @Injectable()
 export class OccCartPaymentAdapter implements CartPaymentAdapter {
@@ -58,21 +58,11 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
         return this.createSubWithProvider(sub.url, sub.parameters).pipe(
           map(response => this.extractPaymentDetailsFromHtml(response)),
           mergeMap(fromPaymentProvider => {
-            if (!fromPaymentProvider['hasError']) {
-              // consume response from payment provider and creates payment details
-
-              return this.createDetailsWithParameters(
-                userId,
-                cartId,
-                this.getPaymentSopResponseParams(
-                  paymentDetails,
-                  fromPaymentProvider,
-                  sub.mappingLabels
-                )
-              ).pipe(this.converter.pipeable(CART_PAYMENT_DETAILS_NORMALIZER));
-            } else {
-              return throwError(fromPaymentProvider);
-            }
+            return this.createDetailsWithParameters(
+              userId,
+              cartId,
+              fromPaymentProvider
+            ).pipe(this.converter.pipeable(CART_PAYMENT_DETAILS_NORMALIZER));
           })
         );
       })
@@ -150,56 +140,6 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  private getPaymentSopResponseParams(
-    paymentDetails: any,
-    fromPaymentProvider: any,
-    mappingLabels: any
-  ) {
-    const sopResponseParams = {};
-
-    sopResponseParams['decision'] =
-      fromPaymentProvider[mappingLabels['hybris_sop_decision']];
-    sopResponseParams['amount'] =
-      fromPaymentProvider[mappingLabels['hybris_sop_amount']];
-    sopResponseParams['currency'] =
-      fromPaymentProvider[mappingLabels['hybris_sop_currency']];
-
-    sopResponseParams['billTo_country'] =
-      fromPaymentProvider[mappingLabels['hybris_billTo_country']];
-    sopResponseParams['billTo_firstName'] =
-      fromPaymentProvider[mappingLabels['hybris_billTo_firstname']];
-    sopResponseParams['billTo_lastName'] =
-      fromPaymentProvider[mappingLabels['hybris_billTo_lastname']];
-    sopResponseParams['billTo_street1'] =
-      fromPaymentProvider[mappingLabels['hybris_billTo_street1']];
-    sopResponseParams['billTo_city'] =
-      fromPaymentProvider[mappingLabels['hybris_billTo_city']];
-    sopResponseParams['billTo_postalCode'] =
-      fromPaymentProvider[mappingLabels['hybris_billTo_postalcode']];
-
-    sopResponseParams['card_cardType'] = paymentDetails.cardType.code;
-    sopResponseParams['card_accountNumber'] =
-      fromPaymentProvider[mappingLabels['hybris_sop_card_number']];
-    sopResponseParams['card_expirationMonth'] = paymentDetails.expiryMonth;
-    sopResponseParams['card_expirationYear'] = paymentDetails.expiryYear;
-    sopResponseParams['card_nameOnCard'] = paymentDetails.accountHolderName;
-    sopResponseParams['defaultPayment'] = paymentDetails.defaultPayment;
-    sopResponseParams['savePaymentInfo'] = true;
-
-    sopResponseParams['reasonCode'] =
-      fromPaymentProvider[mappingLabels['hybris_sop_reason_code']];
-    sopResponseParams['paySubscriptionCreateReply_subscriptionID'] =
-      fromPaymentProvider[mappingLabels['hybris_sop_subscriptionID']];
-
-    if (mappingLabels['hybris_sop_uses_public_signature'] === 'true') {
-      sopResponseParams[
-        'paySubscriptionCreateReply_subscriptionIDPublicSignature'
-      ] = fromPaymentProvider[mappingLabels['hybris_sop_public_signature']];
-    }
-
-    return sopResponseParams;
-  }
-
   private getParamsForPaymentProvider(
     paymentDetails: PaymentDetails,
     parameters: { key; value }[],
@@ -255,17 +195,6 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
       ) {
         values[input.getAttribute('name')] = input.getAttribute('value');
       }
-    }
-
-    // rejected for some reason
-    if (values['decision'] !== 'ACCEPT') {
-      const reason = { hasError: true };
-      Object.keys(values).forEach(name => {
-        if (name === 'reasonCode' || name.startsWith('InvalidField')) {
-          reason[name] = values[name];
-        }
-      });
-      return reason;
     }
 
     return values;
