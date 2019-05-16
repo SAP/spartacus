@@ -42,14 +42,14 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   ): Observable<CmsComponent[]> {
     const idList: IdList = { idList: ids };
 
-    const requestParams = this.getComponentsRequestParams(
-      idList,
+    const requestParams = this.getPaginationParams(
       pageContext,
-      true,
       currentPage,
       pageSize,
       sort
     );
+
+    requestParams['componentIds'] = idList.idList.toString();
 
     return this.http
       .get<CmsComponentList>(
@@ -86,10 +86,8 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   ): Observable<CmsComponent[]> {
     const idList: IdList = { idList: ids };
 
-    const requestParams = this.getComponentsRequestParams(
-      idList,
+    const requestParams = this.getPaginationParams(
       pageContext,
-      false,
       currentPage,
       pageSize,
       sort
@@ -113,7 +111,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return this.occEndpoints.getUrl(
       'component',
       { id },
-      this.getComponentRequestParams(pageContext)
+      this.getContextParams(pageContext)
     );
   }
 
@@ -121,19 +119,13 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return this.occEndpoints.getUrl('components', { fields }, requestParams);
   }
 
-  private getComponentsRequestParams(
-    idList: IdList,
+  private getPaginationParams(
     pageContext: PageContext,
-    isGetRequest: boolean,
     currentPage?: number,
     pageSize?: number,
     sort?: string
   ): { [key: string]: string } {
-    const requestParams = this.getComponentRequestParams(pageContext);
-
-    if (isGetRequest && idList !== undefined) {
-      requestParams['componentIds'] = idList.idList.toString();
-    }
+    const requestParams = this.getContextParams(pageContext);
 
     if (currentPage !== undefined) {
       requestParams['currentPage'] = currentPage.toString();
@@ -148,7 +140,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return requestParams;
   }
 
-  private getComponentRequestParams(
+  private getContextParams(
     pageContext: PageContext
   ): { [key: string]: string } {
     let requestParams = {};
