@@ -33,6 +33,7 @@
       &.active {
         border-color: var(--cx-border-color, var(--cx-g-color-primary));
       }
+      outline: none;
     }
   }
 }

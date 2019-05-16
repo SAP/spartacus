@@ -7,7 +7,7 @@ import { MediaService } from './media.service';
 const mediaUrl = 'mockProductImageUrl.jpg';
 
 class MockMediaService {
-  getImage(media): Media {
+  getMedia(media): Media {
     return {
       src: media ? media.product.url : undefined,
       srcset: undefined,
@@ -40,6 +40,7 @@ describe('MediaComponent', () => {
     };
     component.container = mockImageContainer;
 
+    component.ngOnChanges();
     fixture.detectChanges();
   });
 

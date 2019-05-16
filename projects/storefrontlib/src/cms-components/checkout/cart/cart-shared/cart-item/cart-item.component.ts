@@ -28,6 +28,8 @@ export class CartItemComponent implements OnInit {
   remove = new EventEmitter<any>();
   @Output()
   update = new EventEmitter<any>();
+  @Output()
+  view = new EventEmitter<any>();
 
   @Input()
   parent: FormGroup;
@@ -49,5 +51,9 @@ export class CartItemComponent implements OnInit {
 
   removeItem() {
     this.remove.emit(this.item);
+  }
+
+  viewItem() {
+    this.view.emit();
   }
 }
