@@ -16,6 +16,8 @@ export const fontawesomeIconConfig: IconConfig = {
       WARNING: 'exclamation-triangle',
       SUCCESS: 'check-circle',
       TIMES: 'times',
+      MINUS: 'minus',
+      PLUS: 'plus',
     },
   },
 };

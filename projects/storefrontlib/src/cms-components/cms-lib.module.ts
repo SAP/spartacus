@@ -30,6 +30,7 @@ import {
 import {
   ProductCarouselModule,
   ProductListModule,
+  ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
@@ -53,6 +54,7 @@ import { StoreFinderModule } from './storefinder/index';
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
+    ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,

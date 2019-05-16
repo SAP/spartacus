@@ -35,8 +35,7 @@
   .cx-product-price {
     @include type('3');
     text-align: left;
-    display: inline-block;
-    margin: var(--cx-margin, 0 0 25px 0);
+    margin: var(--cx-margin, 15px 0 0 0);
 
     &.old {
       color: var(--cx-color, var(--cx-g-color-secondary));

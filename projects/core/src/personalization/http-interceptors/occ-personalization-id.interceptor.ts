@@ -14,7 +14,7 @@ import { PersonalizationConfig } from '../config/personalization-config';
 import { WindowRef } from '../../window/window-ref';
 import { isPlatformServer } from '@angular/common';
 
-const PERSONALIZATION_KEY = 'personalization-id';
+const PERSONALIZATION_ID_KEY = 'personalization-id';
 
 @Injectable()
 export class OccPersonalizationIdInterceptor implements HttpInterceptor {
@@ -27,10 +27,10 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     private winRef: WindowRef,
     @Inject(PLATFORM_ID) private platform: any
   ) {
-    this.requestHeader = this.config.personalization.requestHeader.toLowerCase();
+    this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
     this.personalizationId =
       this.winRef.localStorage &&
-      this.winRef.localStorage.getItem(PERSONALIZATION_KEY);
+      this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY);
   }
 
   intercept(
@@ -60,7 +60,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
             if (this.personalizationId !== receivedId) {
               this.personalizationId = receivedId;
               this.winRef.localStorage.setItem(
-                PERSONALIZATION_KEY,
+                PERSONALIZATION_ID_KEY,
                 this.personalizationId
               );
             }

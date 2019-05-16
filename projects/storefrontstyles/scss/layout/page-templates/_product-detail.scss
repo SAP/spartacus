@@ -19,4 +19,12 @@
   .tab-delivery {
     @extend .container;
   }
+
+  cx-page-slot {
+    &.UpSelling,
+    &.CrossSelling {
+      max-width: 1140px;
+      margin: auto;
+    }
+  }
 }
