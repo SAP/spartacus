@@ -6,9 +6,10 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  TranslationService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, first } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
@@ -31,7 +32,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   subscribeSuccess$: Observable<boolean>;
   unsubscribeLoading$: Observable<boolean>;
 
-  private subscription: Subscription;
+  private subscription = new Subscription();
 
   constructor(
     private auth: AuthService,
@@ -39,8 +40,9 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     private ngbModal: NgbModal,
     private occEndpoints: OccEndpointsService,
     private productInterestService: ProductInterestService,
-    private globalMessageService: GlobalMessageService
-  ) { }
+    private globalMessageService: GlobalMessageService,
+    private translationService: TranslationService
+  ) {}
 
   ngOnInit() {
     this.logged$ = this.auth.getUserToken().pipe(
@@ -86,9 +88,11 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     this.subscribed$ = this.productInterestService.getBackInStockSubscribed();
     this.subscribeSuccess$ = this.productInterestService.getCreateBackInStockSuccess();
     this.unsubscribeLoading$ = this.productInterestService.getDeleteBackInStockLoading();
-    this.subscription = this.productInterestService
-      .getDeleteBackInStockSuccess()
-      .subscribe(success => this.onUnsubscribeSuccess(success));
+    this.subscription.add(
+      this.productInterestService
+        .getDeleteBackInStockSuccess()
+        .subscribe(success => this.onUnsubscribeSuccess(success))
+    );
   }
 
   subscribe(): void {
@@ -110,9 +114,13 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
 
   onUnsubscribeSuccess(success: boolean): void {
     if (success) {
-      this.globalMessageService.add(
-        'You will not receive any notifications for this product.',
-        GlobalMessageType.MSG_TYPE_INFO
+      this.subscription.add(
+        this.translationService
+          .translate('stockNotification.unSubscribeSuccess')
+          .pipe(first())
+          .subscribe(text =>
+            this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_INFO)
+          )
       );
       this.productInterestService.resetDeleteState();
     }
