@@ -27,6 +27,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/orders/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
+  notificationPreference: { paths: ['my-account/notification-preference'] },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

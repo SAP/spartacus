@@ -79,6 +79,15 @@ const pageModules = [
         component: PageLayoutComponent,
         data: { pageLabel: 'order', cxRoute: 'orderDetails' },
       },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: {
+          pageLabel: 'notification-preference',
+          cxRoute: 'notificationPreference',
+        },
+      },
     ]),
   ],
   providers: [

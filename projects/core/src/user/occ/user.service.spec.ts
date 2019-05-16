@@ -4,6 +4,10 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../occ/config/occ-config';
+import {
+  BasicNotificationPreferenceList,
+  NotificationPreferenceList,
+} from '../model/user.model';
 import { OccUserService } from './user.service';
 import { User } from '../../model/misc.model';
 import { Address, AddressValidation } from '../../model/address.model';
@@ -25,6 +29,7 @@ const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 const resetPasswordEndpoint = '/resetpassword';
 const updateEmailEndpoint = '/login';
 const updatePasswordEndpoint = '/password';
+const notificationPreferenceEndPoint = '/notificationpreferences';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -340,6 +345,59 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
       expect(result).toEqual('');
+    });
+  });
+  describe('notification preference: ', () => {
+    const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
+      preferences: [
+        {
+          channel: 'EMAIL',
+          enabled: true,
+          value: 'test@sap.com',
+          visible: true,
+        },
+        {
+          channel: 'SITE_MESSAGE',
+          enabled: true,
+          value: '',
+          visible: true,
+        },
+      ],
+    };
+    const preference: NotificationPreferenceList = {
+      preferences: [{ channel: 'EMAIL', enabled: false }],
+    };
+    const userId = 'test@sap.com';
+    it('should be able to get notification preferences', () => {
+      service.getNotificationPreference(userId).subscribe(result => {
+        expect(result).toEqual(basicNotificationPreferenceList);
+      });
+      const mockRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === `${endpoint}/${userId}${notificationPreferenceEndPoint}`
+        );
+      });
+      expect(mockRequest.cancelled).toBeFalsy();
+      expect(mockRequest.request.responseType).toEqual('json');
+      mockRequest.flush(basicNotificationPreferenceList);
+    });
+    it('should be able to update notification preference', () => {
+      service
+        .updateNotificationPreference(userId, preference)
+        .subscribe(result => {
+          expect(result).toEqual('');
+        });
+      const mockRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === `${endpoint}/${userId}${notificationPreferenceEndPoint}`
+        );
+      });
+      expect(mockRequest.cancelled).toBeFalsy();
+      expect(mockRequest.request.responseType).toEqual('json');
+      expect(mockRequest.request.body).toEqual(JSON.stringify(preference));
+      mockRequest.flush('');
     });
   });
 });

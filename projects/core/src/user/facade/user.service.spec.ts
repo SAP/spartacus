@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { BasicNotificationPreferenceList } from '../model/user.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
@@ -647,6 +648,58 @@ describe('UserService', () => {
       service.resetUpdatePasswordProcessState();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.UpdatePasswordReset()
+      );
+    });
+  });
+
+  describe('notification preference:', () => {
+    const userId = 'testUserId';
+    const mockBasicNotificationPreferenceList: BasicNotificationPreferenceList = {
+      preferences: [
+        {
+          channel: 'EMAIL',
+          value: 'test@sap.com',
+          enabled: false,
+          visible: true,
+        },
+      ],
+    };
+    it('should be able to load notification preferences', () => {
+      service.loadNotificationPreferences(userId);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.LoadNotificationPreferences(userId)
+      );
+    });
+
+    it('should be able to get notification preferences', () => {
+      store.dispatch(
+        new fromStore.LoadNotificationPreferencesSuccess(
+          mockBasicNotificationPreferenceList
+        )
+      );
+
+      let basicNotificationPreferenceList: BasicNotificationPreferenceList;
+      service
+        .getNotificationPreferences()
+        .subscribe(data => {
+          basicNotificationPreferenceList = data;
+        })
+        .unsubscribe();
+      expect(basicNotificationPreferenceList).toEqual(
+        mockBasicNotificationPreferenceList
+      );
+    });
+
+    it('should be able to update notification preferences', () => {
+      service.updateNotificationPreferences(
+        userId,
+        mockBasicNotificationPreferenceList
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateNotificationPreferences({
+          userId: userId,
+          basicNotificationPreferenceList: mockBasicNotificationPreferenceList,
+        })
       );
     });
   });

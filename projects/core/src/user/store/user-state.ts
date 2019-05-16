@@ -1,3 +1,4 @@
+import { BasicNotificationPreferenceList } from '../model/user.model';
 import { LoaderState } from '../../state';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
@@ -29,6 +30,7 @@ export interface UserState {
   titles: TitlesState;
   regions: RegionsState;
   resetPassword: boolean;
+  notificationPreference: NotificationPreferenceState;
 }
 
 export interface OrderDetailsState {
@@ -65,4 +67,7 @@ export interface TitlesState {
 
 export interface UserDetailsState {
   details: User;
+}
+export interface NotificationPreferenceState {
+  basicNotificationPreferenceList: BasicNotificationPreferenceList;
 }

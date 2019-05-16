@@ -26,6 +26,7 @@ import * as fromUserOrdersReducer from './user-orders.reducer';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { OrderHistoryList } from '../../../model/order.model';
+import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -50,6 +51,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     titles: fromTitlesReducer.reducer,
     regions: fromRegionsReducer.reducer,
     resetPassword: fromResetPasswordReducer.reducer,
+    notificationPreference: fromNotificationPreferenceReducer.reducer,
   };
 }
 

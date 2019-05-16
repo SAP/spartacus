@@ -9,3 +9,4 @@ export * from './order-details.selectors';
 export * from './feature.selector';
 export * from './billing-countries.selectors';
 export * from './reset-password.selectors';
+export * from './notification-preference.selectors';

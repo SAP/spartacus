@@ -9,6 +9,7 @@ import { OccOrderAdapter } from './occ-order.adapter';
 import { ORDER_NORMALIZER } from '../connectors/converters';
 import { OccOrderNormalizer } from './converters/occ-order-normalizer';
 
+import { OccOrderService } from './order.service';
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
   providers: [

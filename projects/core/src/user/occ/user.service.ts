@@ -2,6 +2,10 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import {
+  BasicNotificationPreferenceList,
+  NotificationPreferenceList,
+} from '../model/user.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
@@ -20,6 +24,7 @@ const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
+const NOTIFICATION_PREFERENCE_ENDPOINT = '/notificationpreferences';
 
 @Injectable()
 export class OccUserService {
@@ -233,6 +238,38 @@ export class OccUserService {
     });
     return this.http
       .put(url, httpParams, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  getNotificationPreference(
+    userId: string
+  ): Observable<BasicNotificationPreferenceList> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http
+      .get<BasicNotificationPreferenceList>(
+        this.getUserEndpoint() + userId + NOTIFICATION_PREFERENCE_ENDPOINT,
+        { headers }
+      )
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateNotificationPreference(
+    userId: string,
+    notificationPreferenceList: NotificationPreferenceList
+  ) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http
+      .patch(
+        this.getUserEndpoint() + userId + NOTIFICATION_PREFERENCE_ENDPOINT,
+        JSON.stringify(notificationPreferenceList),
+        {
+          headers,
+        }
+      )
       .pipe(catchError((error: any) => throwError(error)));
   }
 }
