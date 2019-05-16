@@ -2,6 +2,7 @@ import { RoutesConfig, RoutingConfig } from '@spartacus/core';
 
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
+  notFound: { paths: ['not-found'] },
   cart: { paths: ['cart'] },
   search: { paths: ['search/:query'] },
 

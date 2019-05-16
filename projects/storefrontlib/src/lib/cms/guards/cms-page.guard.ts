@@ -5,6 +5,7 @@ import {
   CmsActivatedRouteSnapshot,
   CmsService,
   RoutingService,
+  UrlService,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -23,7 +24,8 @@ export class CmsPageGuard implements CanActivate {
     private cmsService: CmsService,
     private cmsRoutes: CmsRoutesService,
     private cmsI18n: CmsI18nService,
-    private cmsGuards: CmsGuardsService
+    private cmsGuards: CmsGuardsService,
+    private urlService: UrlService
   ) {}
 
   canActivate(
@@ -66,8 +68,8 @@ export class CmsPageGuard implements CanActivate {
             })
           );
         } else {
-          if (pageContext.id !== '/not-found') {
-            this.routingService.go(['/not-found']);
+          if (pageContext.id !== this.urlService.getSemanticUrl('notFound')) {
+            this.routingService.go({ cxRoute: 'notFound' });
           }
           return of(false);
         }
