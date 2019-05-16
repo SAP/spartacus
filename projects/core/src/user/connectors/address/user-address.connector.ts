@@ -21,10 +21,7 @@ export class UserAddressConnector {
     return this.adapter.update(userId, addressId, address);
   }
 
-  verify(
-    userId: string,
-    address: Address
-  ): Observable<AddressValidation> {
+  verify(userId: string, address: Address): Observable<AddressValidation> {
     return this.adapter.verify(userId, address);
   }
 

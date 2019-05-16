@@ -13,17 +13,11 @@ export class UserPaymentMethodConnector {
     return this.adapter.loadList(userId);
   }
 
-  delete(
-    userId: string,
-    paymentMethodID: string
-  ): Observable<{}> {
+  delete(userId: string, paymentMethodID: string): Observable<{}> {
     return this.adapter.delete(userId, paymentMethodID);
   }
 
-  setDefault(
-    userId: string,
-    paymentMethodID: string
-  ): Observable<{}> {
+  setDefault(userId: string, paymentMethodID: string): Observable<{}> {
     return this.adapter.setDefault(userId, paymentMethodID);
   }
 }

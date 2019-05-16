@@ -10,6 +10,6 @@ export const ADDRESS_SERIALIZER = new InjectionToken<Converter<Address, any>>(
   'AddressSerializer'
 );
 
-export const ADDRESS_VALIDATION_NORMALIZER = new InjectionToken<Converter<any, AddressValidation>>(
-  'AddressValidationNormalizer'
-);
+export const ADDRESS_VALIDATION_NORMALIZER = new InjectionToken<
+  Converter<any, AddressValidation>
+>('AddressValidationNormalizer');
