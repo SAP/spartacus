@@ -21,12 +21,11 @@ export const common = {
   },
   searchBox: {
     placeholder: 'Search here...',
-    suggestion: 'Search for <b>{{ suggestion }}</b>',
-    results: 'Results ({{count}})',
+    suggestion: '<b>{{ suggestion }}</b>',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',
-      empty: 'Search as you type',
+      empty: 'Ask us anything',
     },
   },
   sorting: {

@@ -51,7 +51,7 @@
       top: 57px;
     }
   }
-  &.open:before {
+  &.has-results.open:before {
     height: 100%;
     opacity: 1;
   }
@@ -76,10 +76,10 @@
     display: flex;
     margin: 0;
     padding: 6px;
-
     @include media-breakpoint-up(md) {
+      width: 27vw;
       input {
-        width: 25vw;
+        // width: 25vw;
       }
       // hide search icon when the input is dirty
       &.dirty cx-icon.search {
@@ -124,6 +124,9 @@
       text-align: center;
       cursor: pointer;
       &.reset {
+        &:before {
+          font-size: 1.4rem;
+        }
         @include media-breakpoint-down(sm) {
           position: absolute;
           right: 65px;
@@ -144,7 +147,7 @@
     font-size: var(--cx-g-font-small, 1rem);
 
     @include media-breakpoint-down(sm) {
-      top: 104px;
+      top: 105px;
       z-index: 10;
     }
 
@@ -153,6 +156,7 @@
       cursor: pointer;
       &:hover {
         background: var(--cx-g-color-light);
+        color: currentColor;
       }
     }
     .suggestions {

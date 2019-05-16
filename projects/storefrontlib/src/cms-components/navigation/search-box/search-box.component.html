@@ -24,7 +24,12 @@
   ></cx-icon>
 </label>
 
-<div *ngIf="(searchResults$ | async) as result" class="results">
+<div
+  *ngIf="(searchResults$ | async) as result"
+  class="results"
+  (click)="close()"
+  [class.hidden]="!searchBoxControl.value"
+>
   <div
     class="message"
     [class.hidden]="!result.message"
@@ -34,25 +39,28 @@
   <div class="suggestions" (mousedown)="disableClose()">
     <a
       *ngFor="let suggestion of result.suggestions"
-      (click)="setSearchboxValue(suggestion, searchInput)"
       [innerHTML]="
         'searchBox.suggestion' | cxTranslate: { suggestion: suggestion }
+      "
+      [routerLink]="
+        {
+          cxRoute: 'search',
+          params: { query: suggestion }
+        } | cxUrl
       "
     >
     </a>
   </div>
 
   <div class="products" (mousedown)="disableClose()" *ngIf="result.products">
-    <h3 [innerHTML]="'searchBox.results' | cxTranslate: { count: '?' }"></h3>
     <a
       *ngFor="let product of result.products"
       [routerLink]="
         {
-          route: 'product',
+          cxRoute: 'product',
           params: product | stripHtml
         } | cxUrl
       "
-      (click)="close()"
     >
       <cx-media
         [container]="product.images?.PRIMARY"

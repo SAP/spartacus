@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { CmsSearchBoxComponent } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchResults } from './search-box.model';
@@ -43,6 +44,8 @@ export class SearchBoxComponent {
    */
   @HostBinding('class.open') openResultsList = false;
 
+  @HostBinding('class.has-results') hasResults = false;
+
   /**
    * The component data is optional, so that this component
    * can be reused without a CMS
@@ -59,10 +62,17 @@ export class SearchBoxComponent {
    */
   searchResults$: Observable<
     SearchResults
-  > = this.searchBoxComponentService.getSearchResults(
-    this.searchBoxControl.valueChanges,
-    this.componentData ? this.componentData.data$ : null
-  );
+  > = this.searchBoxComponentService
+    .getSearchResults(
+      this.searchBoxControl.valueChanges,
+      this.componentData ? this.componentData.data$ : null
+    )
+    .pipe(
+      tap(results => {
+        this.hasResults =
+          !!results.products || !!results.suggestions || !!results.message;
+      })
+    );
 
   /**
    * Closes the typehead searchbox.
@@ -94,14 +104,6 @@ export class SearchBoxComponent {
    */
   disableClose(): void {
     this.ignoreCloseEvent = true;
-  }
-
-  /**
-   * sets te search terms and focus the input element
-   */
-  setSearchboxValue(query: string, el: HTMLInputElement): void {
-    this.searchBoxControl.setValue(query);
-    el.focus();
   }
 
   /**
