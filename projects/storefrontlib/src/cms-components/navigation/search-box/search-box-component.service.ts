@@ -48,13 +48,14 @@ export class SearchBoxComponentService {
     ).pipe(
       switchMap(([term, config]) => {
         if (!term) {
-          return of({});
+          return this.fetchMessage('searchBox.help.empty');
         } else if (term.length >= config.minCharactersBeforeRequest) {
           return this.fetchSearchResults(term, config);
         } else {
           return this.fetchMessage('searchBox.help.insufficientChars');
         }
       })
+      // tap(x => console.log('tap', x))
     );
   }
 

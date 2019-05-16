@@ -19,11 +19,13 @@ export const common = {
     skipToFooter: 'Skip to Footer',
   },
   searchBox: {
-    searchHere: 'Search here...',
+    placeholder: 'Search here...',
     suggestion: 'Search for <b>{{ suggestion }}</b>',
+    results: 'Results ({{count}})',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',
+      empty: 'Search as you type',
     },
   },
   sorting: {
