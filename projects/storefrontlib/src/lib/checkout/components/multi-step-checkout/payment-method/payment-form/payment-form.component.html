@@ -95,7 +95,6 @@
                 [type]="iconTypes.INFO"
                 class="cx-payment-form-tooltip"
                 placement="right"
-                ngbTooltip="Card Verification Value"
                 alt=""
               ></cx-icon>
             </span>
@@ -165,7 +164,8 @@
           <cx-billing-address-form
             [billingAddress]="billingAddress"
             [countries$]="countries$"
-          ></cx-billing-address-form>
+          >
+          </cx-billing-address-form>
         </ng-template>
       </div>
     </div>
