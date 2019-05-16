@@ -1,64 +1,81 @@
-// import { TestBed } from '@angular/core/testing';
-//
-// import { UserConnector } from './user.connector';
-// import { of } from 'rxjs/internal/observable/of';
-// import { UserAdapter } from './user.adapter';
-// import createSpy = jasmine.createSpy;
-//
-// class MockUserAdapter implements UserAdapter {
-//   place = createSpy('UserAdapter.place').and.callFake((userId, cartId) =>
-//     of(`placedUser-${userId}-${cartId}`)
-//   );
-//
-//   load = createSpy('UserAdapter.load').and.callFake((userId, userCode) =>
-//     of(`user-${userId}-${userCode}`)
-//   );
-//
-//   loadHistory = createSpy('UserAdapter.loadHistory').and.callFake(userId =>
-//     of(`userHistory-${userId}`)
-//   );
-// }
-//
-// describe('SiteConnector', () => {
-//   let service: UserConnector;
-//   let adapter: UserAdapter;
-//
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       providers: [{ provide: UserAdapter, useClass: MockUserAdapter }],
-//     });
-//
-//     service = TestBed.get(UserConnector);
-//     adapter = TestBed.get(UserAdapter);
-//   });
-//
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-//
-//   it('place should call adapter', () => {
-//     let result;
-//     service.place('user1', 'cart1').subscribe(res => (result = res));
-//     expect(result).toBe('placedUser-user1-cart1');
-//     expect(adapter.place).toHaveBeenCalledWith('user1', 'cart1');
-//   });
-//
-//   it('get should call adapter', () => {
-//     let result;
-//     service.get('user2', 'user2').subscribe(res => (result = res));
-//     expect(result).toBe('user-user2-user2');
-//     expect(adapter.load).toHaveBeenCalledWith('user2', 'user2');
-//   });
-//
-//   it('getHistory should call adapter', () => {
-//     let result;
-//     service.getHistory('user3').subscribe(res => (result = res));
-//     expect(result).toBe('userHistory-user3');
-//     expect(adapter.loadHistory).toHaveBeenCalledWith(
-//       'user3',
-//       undefined,
-//       undefined,
-//       undefined
-//     );
-//   });
-// });
+import { TestBed } from '@angular/core/testing';
+
+import { UserAddressConnector } from './user-address.connector';
+import { of } from 'rxjs/internal/observable/of';
+import { UserAddressAdapter } from './user-address.adapter';
+import { Address } from '../../../model/address.model';
+import createSpy = jasmine.createSpy;
+
+const mockAddress: Address = {
+  email: 'mockEmail',
+  firstName: 'mockFirstName',
+};
+
+class MockAddressUserAdapter implements UserAddressAdapter {
+  add = createSpy('add').and.returnValue(of({}));
+  delete = createSpy('delete').and.returnValue(of({}));
+  load = createSpy('load').and.callFake(userId => of(`load-${userId}`));
+  update = createSpy('update').and.returnValue(of({}));
+  verify = createSpy('verify').and.callFake(userId => of(`verify-${userId}`));
+}
+
+describe('SiteConnector', () => {
+  let service: UserAddressConnector;
+  let adapter: UserAddressAdapter;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: UserAddressAdapter, useClass: MockAddressUserAdapter },
+      ],
+    });
+
+    service = TestBed.get(UserAddressConnector);
+    adapter = TestBed.get(UserAddressAdapter);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('add should call adapter', () => {
+    let result;
+    service.add('user-id', mockAddress).subscribe(res => (result = res));
+    expect(result).toEqual({});
+    expect(adapter.add).toHaveBeenCalledWith('user-id', mockAddress);
+  });
+
+  it('delete should call adapter', () => {
+    let result;
+    service.delete('user-id', 'address-id').subscribe(res => (result = res));
+    expect(result).toEqual({});
+    expect(adapter.delete).toHaveBeenCalledWith('user-id', 'address-id');
+  });
+
+  it('load should call adapter', () => {
+    let result;
+    service.load('user-id').subscribe(res => (result = res));
+    expect(result).toEqual('load-user-id');
+    expect(adapter.load).toHaveBeenCalledWith('user-id');
+  });
+
+  it('update should call adapter', () => {
+    let result;
+    service
+      .update('user-id', 'address-id', mockAddress)
+      .subscribe(res => (result = res));
+    expect(result).toEqual({});
+    expect(adapter.update).toHaveBeenCalledWith(
+      'user-id',
+      'address-id',
+      mockAddress
+    );
+  });
+
+  it('verify should call adapter', () => {
+    let result;
+    service.verify('user-id', mockAddress).subscribe(res => (result = res));
+    expect(result).toEqual('verify-user-id');
+    expect(adapter.verify).toHaveBeenCalledWith('user-id', mockAddress);
+  });
+});

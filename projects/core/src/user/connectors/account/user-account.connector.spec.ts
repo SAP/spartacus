@@ -6,15 +6,15 @@ import { UserAccountAdapter } from './user-account.adapter';
 import { UserRegisterFormData } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
-class MockUserAdapter implements UserAccountAdapter {
-  register = createSpy('UserAdapter.place').and.callFake(userId => of(userId));
-  remove = createSpy('UserAdapter.place').and.returnValue(of({}));
-  requestForgotPasswordEmail = createSpy('UserAdapter.place').and.returnValue(
+class MockUserAccountAdapter implements UserAccountAdapter {
+  register = createSpy('register').and.callFake(userId => of(userId));
+  remove = createSpy('remove').and.returnValue(of({}));
+  requestForgotPasswordEmail = createSpy('requestForgotPasswordEmail').and.returnValue(
     of({})
   );
-  resetPassword = createSpy('UserAdapter.place').and.returnValue(of({}));
-  updateEmail = createSpy('UserAdapter.place').and.returnValue(of({}));
-  updatePassword = createSpy('UserAdapter.place').and.returnValue(of({}));
+  resetPassword = createSpy('resetPassword').and.returnValue(of({}));
+  updateEmail = createSpy('updateEmail').and.returnValue(of({}));
+  updatePassword = createSpy('updatePassword').and.returnValue(of({}));
 }
 
 describe('SiteConnector', () => {
@@ -23,7 +23,7 @@ describe('SiteConnector', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: UserAccountAdapter, useClass: MockUserAdapter }],
+      providers: [{ provide: UserAccountAdapter, useClass: MockUserAccountAdapter }],
     });
 
     service = TestBed.get(UserAccountConnector);
