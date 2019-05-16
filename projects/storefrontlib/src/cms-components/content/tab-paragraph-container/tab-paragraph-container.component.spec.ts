@@ -74,6 +74,7 @@ describe('TabParagraphContainerComponent', () => {
         flexType: mockComponents[i],
         typeCode: mockComponents[i],
         uid: mockComponents[i],
+        title: `productTabs.${mockComponents[i]}`,
       });
     }
   });
