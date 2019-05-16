@@ -125,7 +125,7 @@ describe('OccCmsComponentAdapter', () => {
         endpoint +
           `/components?componentIds=${ids.toString()}&productCode=${context.id}`
       );
-      service.loadList(ids, context).subscribe(result => {
+      service.findComponentsByIds(ids, context).subscribe(result => {
         expect(result).toEqual(componentList.component);
       });
 
@@ -165,7 +165,7 @@ describe('OccCmsComponentAdapter', () => {
         endpoint + `/components?productCode=${context.id}`
       );
 
-      service.loadList(ids, context).subscribe(result => {
+      service.findComponentsByIds(ids, context).subscribe(result => {
         expect(result).toEqual(componentList.component);
       });
 
@@ -192,7 +192,7 @@ describe('OccCmsComponentAdapter', () => {
         );
       });
 
-      expect(testRequestPOST.request.body).toEqual({ componentIds: ids });
+      expect(testRequestPOST.request.body).toEqual({ idList: ids });
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'components',
         { fields: 'DEFAULT' },
@@ -213,9 +213,12 @@ describe('OccCmsComponentAdapter', () => {
         endpoint +
           `/components?componentIds=${ids.toString()}&productCode=${context.id}`
       );
-      service.loadList(ids, context, 'FULL', 0, 5).subscribe(result => {
-        expect(result).toEqual(componentList.component);
-      });
+
+      service
+        .findComponentsByIds(ids, context, 'FULL', 0, 5)
+        .subscribe(result => {
+          expect(result).toEqual(componentList.component);
+        });
 
       const testRequest = httpMock.expectOne(req => {
         return (
@@ -240,7 +243,6 @@ describe('OccCmsComponentAdapter', () => {
       );
 
       expect(testRequest.request.responseType).toEqual('json');
-
       expect(testRequest.cancelled).toBeFalsy();
       testRequest.flush(componentList);
     });
@@ -254,7 +256,7 @@ describe('OccCmsComponentAdapter', () => {
         endpoint + `/components?productCode=${context.id}`
       );
 
-      service.loadList(ids, context).subscribe(result => {
+      service.findComponentsByIds(ids, context).subscribe(result => {
         expect(result).toEqual(componentList.component);
       });
 
@@ -281,7 +283,7 @@ describe('OccCmsComponentAdapter', () => {
         );
       });
 
-      expect(testRequestPOST.request.body).toEqual({ componentIds: ids });
+      expect(testRequestPOST.request.body).toEqual({ idList: ids });
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'components',
         { fields: 'DEFAULT' },
@@ -301,7 +303,8 @@ describe('OccCmsComponentAdapter', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint + '/components'
       );
-      service.loadList(ids, context).subscribe();
+
+      service.findComponentsByIds(ids, context).subscribe();
 
       httpMock
         .expectOne(req => req.url === endpoint + '/components')

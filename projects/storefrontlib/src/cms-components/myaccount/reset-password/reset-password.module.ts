@@ -2,7 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+  NotAuthGuard,
+} from '@spartacus/core';
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 
 @NgModule({
@@ -10,7 +15,10 @@ import { ResetPasswordFormComponent } from './reset-password-form.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ResetPasswordComponent: { selector: 'cx-reset-password-form' },
+        ResetPasswordComponent: {
+          selector: 'cx-reset-password-form',
+          guards: [NotAuthGuard],
+        },
       },
     }),
     FormsModule,
