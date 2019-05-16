@@ -85,11 +85,7 @@ describe('StoreFinderListItemComponent', () => {
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        I18nTestingModule,
-      ],
+      imports: [CommonModule, ReactiveFormsModule, I18nTestingModule],
       declarations: [StoreFinderListItemComponent],
       providers: [StoreFinderService, StoreDataService],
     }).compileComponents();
