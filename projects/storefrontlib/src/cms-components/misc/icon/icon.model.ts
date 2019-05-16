@@ -11,6 +11,7 @@ export enum ICON_TYPE {
   WARNING = 'WARNING',
   SUCCESS = 'SUCCESS',
   VISA = 'VISA',
+  MASTER_CARD = 'MASTER_CARD',
   PLUS = 'PLUS',
   MINUS = 'MINUS',
 }

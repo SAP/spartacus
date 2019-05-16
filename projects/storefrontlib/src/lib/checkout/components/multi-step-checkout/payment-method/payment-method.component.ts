@@ -19,7 +19,7 @@ import {
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Card } from '../../../../../shared/components/card/card.component';
-import { ICON_TYPES } from '../../../../../cms-components/misc/icon';
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon';
 
 @Component({
   selector: 'cx-payment-method',
@@ -27,7 +27,7 @@ import { ICON_TYPES } from '../../../../../cms-components/misc/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentMethodComponent implements OnInit, OnDestroy {
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
