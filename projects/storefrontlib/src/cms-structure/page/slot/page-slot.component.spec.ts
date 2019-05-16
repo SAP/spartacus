@@ -5,9 +5,9 @@ import {
   ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { CmsMappingService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../outlet';
+import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
 
