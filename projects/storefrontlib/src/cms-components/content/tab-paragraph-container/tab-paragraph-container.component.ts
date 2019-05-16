@@ -1,52 +1,60 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  ViewChild,
+  ViewChildren,
+  QueryList,
+  AfterViewInit,
 } from '@angular/core';
-import { CMSTabParagraphContainer } from '@spartacus/core';
+import { CMSTabParagraphContainer, CmsService } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter, take } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabParagraphContainerComponent {
+export class TabParagraphContainerComponent implements AfterViewInit {
   activatedElements: HTMLElement[] = [];
 
-  @ViewChild('header')
-  set initial(ref: ElementRef) {
-    if (ref) {
-      ref.nativeElement.click();
-    }
-  }
+  @ViewChildren('header') headers: QueryList<any>;
 
   constructor(
-    public componentData: CmsComponentData<CMSTabParagraphContainer>
+    public componentData: CmsComponentData<CMSTabParagraphContainer>,
+    private cmsService: CmsService
   ) {}
 
-  components$: Observable<any> = this.componentData.data$.pipe(
-    map((data: CMSTabParagraphContainer) =>
-      data.components.split(' ').map(component => {
-        if (component === 'deliveryTab') {
-          return {
-            flexType: 'CMSTabParagraphComponent',
-            uid: 'deliveryTab',
-            title: 'productTabs.deliveryTab',
-          };
-        }
-        return {
-          typeCode: component,
-          flexType: component,
-          uid: component,
-          title: `productTabs.${component}`,
-        };
-      })
-    )
+  components$ = this.componentData.data$.pipe(
+    map((data: CMSTabParagraphContainer) => {
+      return data.components.split(' ').map(component =>
+        this.cmsService.getComponentData<any>(component).pipe(
+          map(tab => {
+            if (!tab.flexType) {
+              tab.flexType = tab.typeCode;
+            }
+            return { ...tab, title: `productTabs.${tab.uid}` };
+          })
+        )
+      );
+    }),
+    take(1)
   );
+
+  ngAfterViewInit(): void {
+    if (this.headers.first) {
+      this.headers.first.nativeElement.click();
+    } else {
+      this.headers.changes
+        .pipe(
+          filter((list: QueryList<any>) => list.first),
+          take(1)
+        )
+        .subscribe((list: QueryList<any>) => {
+          list.first.nativeElement.click();
+        });
+    }
+  }
 
   select(event: MouseEvent, tab: HTMLElement): void {
     if (!this.activatedElements.includes(tab)) {
@@ -56,7 +64,6 @@ export class TabParagraphContainerComponent {
       );
       this.activatedElements = [<HTMLElement>event.target, tab];
       this.activatedElements.forEach(el => el.classList.add('active'));
-      // only scroll if the element is not yet visible
     } else {
       this.activatedElements.forEach(el => el.classList.toggle('toggled'));
     }
