@@ -32,6 +32,7 @@
             [cartIsLoading]="!loaded"
             (remove)="removeEntry($event)"
             (update)="updateEntry($event)"
+            (view)="activeModal.dismiss('Product selected')"
           ></cx-cart-item>
         </div>
         <!-- Separator -->
