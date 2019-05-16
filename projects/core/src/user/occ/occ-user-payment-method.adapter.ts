@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { UserPaymentMethodAdapter } from '../connectors/payment-method/user-payment-method.adapter';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {
-  Occ,
-  OccEndpointsService,
-  PAYMENT_DETAILS_NORMALIZER,
-} from '@spartacus/core';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { Occ } from '../../occ/occ-models/occ.models';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConverterService } from '../../util/converter.service';
+import { PAYMENT_DETAILS_NORMALIZER } from '../../cart/connectors/payment/converters';
 
 const USER_ENDPOINT = 'users/';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';

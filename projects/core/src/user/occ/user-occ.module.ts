@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { OccModule } from '../../occ/occ.module';
-import { OccUserService } from './user.service';
 import { OrderAdapter } from '../connectors/order/order.adapter';
 import { OccOrderAdapter } from './occ-order.adapter';
 import { ORDER_NORMALIZER } from '../connectors/order/converters';
@@ -14,15 +13,19 @@ import { UserAddressAdapter } from '../connectors/address';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import { UserAccountAdapter } from '../connectors/account';
 import { OccUserAccountAdapter } from './occ-user-account.adapter';
+import { UserPaymentMethodAdapter } from '../connectors/payment-method/user-payment-method.adapter';
+import { OccUserPaymentMethodAdapter } from './occ-user-payment-method.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
   providers: [
-    OccUserService,
     { provide: UserDetailsAdapter, useClass: OccUserDetailsAdapter },
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },
     { provide: UserAccountAdapter, useClass: OccUserAccountAdapter },
-
+    {
+      provide: UserPaymentMethodAdapter,
+      useClass: OccUserPaymentMethodAdapter,
+    },
     { provide: OrderAdapter, useClass: OccOrderAdapter },
     { provide: ORDER_NORMALIZER, useClass: OccOrderNormalizer, multi: true },
   ],
