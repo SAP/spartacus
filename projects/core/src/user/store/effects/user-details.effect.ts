@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import { User } from '../../../model/misc.model';
-import { UserDetailsConnector } from '../../connectors/details';
+import { UserDetailsConnector } from '../../connectors/details/user-details.connector';
 
 @Injectable()
 export class UserDetailsEffects {

@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as fromAction from '../actions/address-verification.action';
-import { UserAddressConnector } from '../../../user/connectors/address';
+import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
 
 @Injectable()
 export class AddressVerificationEffect {
