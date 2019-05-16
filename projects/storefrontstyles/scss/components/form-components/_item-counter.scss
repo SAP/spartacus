@@ -41,6 +41,7 @@
 
     &:focus {
       color: var(--cx-color, var(--cx-g-color-primary));
+      font-weight: var(--cx-g-font-weight-bold);
       cursor: pointer;
     }
 

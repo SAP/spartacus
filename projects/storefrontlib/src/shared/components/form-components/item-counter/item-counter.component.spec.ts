@@ -59,7 +59,6 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent = fixture.componentInstance;
     itemCounterComponent.input = {
       nativeElement: {
-        value: '',
         focus: () => {
           isInputFocused = true;
         },
@@ -67,7 +66,6 @@ describe('ItemCounterComponent', () => {
     };
     itemCounterComponent.incrementBtn = {
       nativeElement: {
-        value: '',
         focus: () => {
           isIncrementBtnFocused = true;
         },
@@ -75,7 +73,6 @@ describe('ItemCounterComponent', () => {
     };
     itemCounterComponent.decrementBtn = {
       nativeElement: {
-        value: '',
         focus: () => {
           isDecrementBtnFocused = true;
         },

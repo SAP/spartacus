@@ -102,7 +102,7 @@ export class ItemCounterComponent
   }
 
   /**
-   * Function set 'isValueOutOfRange' flag and adjust value in range. Then update model value and refresh input
+   * Update model value and refresh input
    */
   manualChange(newValue: number): void {
     newValue = this.adjustValueInRange(newValue);
