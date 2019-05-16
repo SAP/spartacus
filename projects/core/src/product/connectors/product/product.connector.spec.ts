@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import createSpy = jasmine.createSpy;
-
-import { ProductConnector } from './product.connector';
 import { of } from 'rxjs/internal/observable/of';
 import { ProductAdapter } from './product.adapter';
+import { ProductConnector } from './product.connector';
+import createSpy = jasmine.createSpy;
 
 class MockProductAdapter implements ProductAdapter {
   load = createSpy('ProductAdapter.load').and.callFake(code =>

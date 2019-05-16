@@ -7,15 +7,18 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Cart, CartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CartService, Cart, OrderEntry } from '@spartacus/core';
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
 export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
+  iconTypes = ICON_TYPE;
+
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;

@@ -4,11 +4,12 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   Facet,
-  ProductSearchService,
   ProductSearchPage,
+  ProductSearchService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -16,6 +17,8 @@ import { filter, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFacetNavigationComponent implements OnInit {
+  iconTypes = ICON_TYPE;
+
   activeFacetValueCode: string;
   searchResult: ProductSearchPage;
   minPerFacet = 6;

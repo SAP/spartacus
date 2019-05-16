@@ -1,24 +1,22 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
 import {
+  AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslationService,
   UserService,
   UserToken,
-  AuthService,
-  TranslationService,
 } from '@spartacus/core';
-
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-close-account-modal',
@@ -27,6 +25,8 @@ import { first } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseAccountModalComponent implements OnInit, OnDestroy {
+  iconTypes = ICON_TYPE;
+
   private subscription = new Subscription();
   userToken$: Observable<UserToken>;
   isLoading$: Observable<boolean>;
@@ -55,7 +55,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
     if (success) {
       this.closeModal();
       this.translationService
-        .translate('closeAccount.message.success')
+        .translate('closeAccount.accountClosedSuccessfully')
         .pipe(first())
         .subscribe(text => {
           this.globalMessageService.add(
@@ -63,7 +63,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
         });
-      this.routingService.go({ route: 'home' });
+      this.routingService.go({ cxRoute: 'home' });
     }
   }
 

@@ -8,6 +8,7 @@ export const common = {
     submit: 'Submit',
     continue: 'Continue',
     save: 'Save',
+    home: 'Home',
   },
   spinner: {
     loading: 'Loading...',
@@ -24,5 +25,14 @@ export const common = {
   sorting: {
     date: 'Date',
     orderNumber: 'Order Number',
+  },
+  httpHandlers: {
+    badGateway: 'A server error occurred. Please try again later.',
+    badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
+    badRequestOldPasswordIncorrect: 'Old password incorrect.',
+    conflict: 'Already exists',
+    forbidden: 'You are not authorized to perform this action.',
+    gatewayTimeout: 'The server did not responded, please try again later.',
+    unknownError: 'An unknown error occured',
   },
 };

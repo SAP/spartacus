@@ -95,12 +95,12 @@ export class SmartEditService {
 
       if (cmsPage.type === PageType.PRODUCT_PAGE) {
         this.routingService.go({
-          route: 'product',
+          cxRoute: 'product',
           params: { code: 2053367 },
         });
       } else if (cmsPage.type === PageType.CATEGORY_PAGE) {
         this.routingService.go({
-          route: 'category',
+          cxRoute: 'category',
           params: { code: 575 },
         });
       }
