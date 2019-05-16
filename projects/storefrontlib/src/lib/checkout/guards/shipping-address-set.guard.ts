@@ -3,7 +3,7 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ServerConfig, Address } from '@spartacus/core';
+import { ServerConfig, Address, RoutingConfigService } from '@spartacus/core';
 import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
@@ -15,6 +15,7 @@ export class ShippingAddressSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
     private checkoutConfigService: CheckoutConfigService,
+    private routingConfigService: RoutingConfigService,
     private router: Router,
     private serverConfig: ServerConfig
   ) {}
@@ -38,7 +39,11 @@ export class ShippingAddressSetGuard implements CanActivate {
         map((deliveryAddress: Address) =>
           deliveryAddress && Object.keys(deliveryAddress).length
             ? true
-            : this.router.parseUrl(checkoutStep && checkoutStep.url)
+            : this.router.parseUrl(
+                checkoutStep &&
+                  this.routingConfigService.getRouteConfig(checkoutStep.route)
+                    .paths[0]
+              )
         )
       );
   }

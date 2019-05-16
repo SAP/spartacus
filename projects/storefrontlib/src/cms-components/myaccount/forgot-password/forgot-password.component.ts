@@ -32,6 +32,6 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     }
     this.userService.requestForgotPasswordEmail(this.form.value.userEmail);
-    this.routingService.go({ route: 'login' });
+    this.routingService.go({ cxRoute: 'login' });
   }
 }

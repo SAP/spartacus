@@ -1,21 +1,23 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 import {
-  PaymentDetails,
   Address,
+  CartDataService,
   CheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  CartDataService,
+  PaymentDetails,
   UserService,
+  TranslationService,
+  RoutingConfigService,
 } from '@spartacus/core';
 
 import { ActivatedRoute } from '@angular/router';
@@ -33,7 +35,6 @@ import { CheckoutStepType } from '../../model/checkout-step.model';
 export class PaymentMethodComponent implements OnInit, OnDestroy {
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
-  cards: Card[] = [];
   isLoading$: Observable<boolean>;
   getPaymentDetailsSub: Subscription;
   getDeliveryAddressSub: Subscription;
@@ -47,9 +48,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected checkoutService: CheckoutService,
     protected globalMessageService: GlobalMessageService,
+    protected routingConfigService: RoutingConfigService,
     private routingService: RoutingService,
     private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private translation: TranslationService
   ) {}
 
   ngOnInit() {
@@ -63,22 +66,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
 
-    this.existingPaymentMethods$ = this.userService.getPaymentMethods().pipe(
-      tap(payments => {
-        if (this.cards.length === 0) {
-          payments.forEach(payment => {
-            const card = this.getCardContent(payment);
-            if (
-              this.selectedPayment &&
-              this.selectedPayment.id === payment.id
-            ) {
-              card.header = 'SELECTED';
-            }
-          });
-        }
-      })
-    );
-
+    this.existingPaymentMethods$ = this.userService.getPaymentMethods();
     this.getPaymentDetailsSub = this.checkoutService
       .getPaymentDetails()
       .pipe(
@@ -93,7 +81,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
           Object.keys(paymentInfo).forEach(key => {
             if (key.startsWith('InvalidField')) {
               this.globalMessageService.add(
-                'InvalidField: ' + paymentInfo[key],
+                {
+                  key: 'paymentMethods.invalidField',
+                  params: { field: paymentInfo[key] },
+                },
                 GlobalMessageType.MSG_TYPE_ERROR
               );
             }
@@ -103,39 +94,47 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       });
   }
 
-  getCardContent(payment: PaymentDetails): Card {
-    let ccImage: string;
-    if (payment.cardType.code === 'visa') {
-      ccImage = visaImgSrc;
-    } else if (payment.cardType.code === 'master') {
-      ccImage = masterCardImgSrc;
-    }
-    const card: Card = {
-      title: payment.defaultPayment ? 'Default Payment Method' : '',
-      textBold: payment.accountHolderName,
-      text: [
-        payment.cardNumber,
-        'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear,
-      ],
-      img: ccImage,
-      actions: [{ name: 'Use this payment', event: 'send' }],
-    };
-
-    this.cards.push(card);
-    return card;
+  getCardContent(payment: PaymentDetails): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('paymentCard.expires', {
+        month: payment.expiryMonth,
+        year: payment.expiryYear,
+      }),
+      this.translation.translate('paymentForm.useThisPayment'),
+      this.translation.translate('paymentCard.defaultPaymentMethod'),
+      this.translation.translate('paymentCard.selected'),
+    ]).pipe(
+      map(
+        ([
+          textExpires,
+          textUseThisPayment,
+          textDefaultPaymentMethod,
+          textSelected,
+        ]) => {
+          let ccImage: string;
+          if (payment.cardType.code === 'visa') {
+            ccImage = visaImgSrc;
+          } else if (payment.cardType.code === 'master') {
+            ccImage = masterCardImgSrc;
+          }
+          const card: Card = {
+            title: payment.defaultPayment ? textDefaultPaymentMethod : '',
+            textBold: payment.accountHolderName,
+            text: [payment.cardNumber, textExpires],
+            img: ccImage,
+            actions: [{ name: textUseThisPayment, event: 'send' }],
+          };
+          if (this.selectedPayment && this.selectedPayment.id === payment.id) {
+            card.header = textSelected;
+          }
+          return card;
+        }
+      )
+    );
   }
 
-  paymentMethodSelected(paymentDetails: PaymentDetails, index: number) {
+  paymentMethodSelected(paymentDetails: PaymentDetails) {
     this.selectedPayment = paymentDetails;
-
-    for (let i = 0; this.cards[i]; i++) {
-      const card = this.cards[i];
-      if (i === index) {
-        card.header = 'SELECTED';
-      } else {
-        card.header = '';
-      }
-    }
   }
 
   showNewPaymentForm(): void {
@@ -206,9 +205,14 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       .getPaymentDetails()
       .subscribe(data => {
         if (data.accountHolderName && data.cardNumber) {
-          const lastStepUrl = this.checkoutConfigService.getCheckoutStep(
-            CheckoutStepType.reviewOrder
-          ).url;
+          const lastStepUrl = `/${
+            this.routingConfigService.getRouteConfig(
+              this.checkoutConfigService.getCheckoutStep(
+                CheckoutStepType.reviewOrder
+              ).route
+            ).paths[0]
+          }`;
+
           this.routingService.go(lastStepUrl);
 
           return;

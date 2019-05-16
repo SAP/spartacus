@@ -59,7 +59,7 @@ export class OccEndpointsService {
     if (queryParams) {
       let httpParamsOptions: HttpParamsOptions;
 
-      if (endpoint.indexOf('?') !== -1) {
+      if (endpoint.includes('?')) {
         let queryParamsFromEndpoint;
         [endpoint, queryParamsFromEndpoint] = endpoint.split('?');
 

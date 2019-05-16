@@ -8,7 +8,7 @@ const mockCheckoutSteps: CheckoutStep[] = [
   {
     id: 'shippingAddress',
     name: 'checkoutProgress.label.shippingAddress',
-    url: '/checkout/shipping-address',
+    route: 'checkoutShippingAddress',
     type: [CheckoutStepType.shippingAddress],
   },
 ];
@@ -23,7 +23,7 @@ describe('CheckoutConfigService', () => {
   let service: CheckoutConfigService;
 
   beforeEach(() => {
-    service = new CheckoutConfigService(mockCheckoutConfig);
+    service = new CheckoutConfigService(mockCheckoutConfig, null);
   });
 
   it('should be created', () => {

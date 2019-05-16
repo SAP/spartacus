@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
 import { I18nModule } from '@spartacus/core';
 import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { IconModule } from '../../../../../cms-components/misc/icon/index';
 
 @NgModule({
   imports: [
@@ -15,6 +15,7 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
     FormsModule,
     RouterModule,
     NgSelectModule,
+    IconModule,
     I18nModule,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],

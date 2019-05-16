@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UIProduct, WindowRef } from '@spartacus/core';
+import { Product, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductTabsOutlets } from '../../product-outlets.model';
@@ -11,7 +11,7 @@ import { ProductTabsOutlets } from '../../product-outlets.model';
 export class ProductTabsComponent implements OnInit {
   static outlets = ProductTabsOutlets;
 
-  product$: Observable<UIProduct>;
+  product$: Observable<Product>;
 
   isWritingReview = false;
   activatedElements: HTMLElement[] = [];
@@ -39,7 +39,7 @@ export class ProductTabsComponent implements OnInit {
   }
 
   select(event: MouseEvent, tab: HTMLElement): void {
-    if (this.activatedElements.indexOf(tab) === -1) {
+    if (!this.activatedElements.includes(tab)) {
       // remove active class on both header and content panel
       this.activatedElements.forEach(el =>
         el.classList.remove('active', 'toggled')

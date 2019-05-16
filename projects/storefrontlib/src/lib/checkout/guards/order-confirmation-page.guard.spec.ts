@@ -40,7 +40,7 @@ describe(`OrderConfirmationPageGuard`, () => {
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
         expect(routingService.go).toHaveBeenCalledWith({
-          route: 'orders',
+          cxRoute: 'orders',
         });
         done();
       });

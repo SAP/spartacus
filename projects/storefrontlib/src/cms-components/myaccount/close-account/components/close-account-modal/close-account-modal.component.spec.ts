@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { CloseAccountModalComponent } from './close-account-modal.component';
 import {
@@ -50,6 +50,13 @@ class MockRoutingService {
 }
 
 @Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+@Component({
   selector: 'cx-spinner',
   template: '',
 })
@@ -66,7 +73,11 @@ describe('CloseAccountModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, NgbModule],
-      declarations: [CloseAccountModalComponent, MockCxSpinnerComponent],
+      declarations: [
+        CloseAccountModalComponent,
+        MockCxSpinnerComponent,
+        MockCxIconComponent,
+      ],
       providers: [
         {
           provide: NgbActiveModal,
@@ -125,7 +136,7 @@ describe('CloseAccountModalComponent', () => {
 
     expect(component.onSuccess).toHaveBeenCalledWith(true);
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     expect(activeModal.dismiss).toHaveBeenCalled();
   });
 });

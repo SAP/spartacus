@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Review } from '../../../occ/occ-models/occ.models';
 import { ProductReviewsAdapter } from './product-reviews.adapter';
+import { Review } from '../../../model/product.model';
 
 @Injectable({
   providedIn: 'root',

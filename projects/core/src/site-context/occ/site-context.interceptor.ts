@@ -36,7 +36,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1) {
+    if (request.url.includes(this.occEndpoints.getBaseEndpoint())) {
       request = request.clone({
         setParams: {
           lang: this.activeLang,

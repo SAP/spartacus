@@ -1,5 +1,5 @@
 import { USER_PAYMENT_METHODS } from '../user-state';
-import { PaymentDetailsList } from '../../../occ/occ-models/index';
+
 import {
   loadMeta,
   failMeta,
@@ -7,6 +7,7 @@ import {
 } from '../../../state/utils/loader/loader.action';
 
 import * as fromUserPaymentMethodsAction from './payment-methods.action';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 const userId = '123';
 
@@ -41,7 +42,7 @@ describe('User Payment Methods Actions', () => {
   });
 
   describe('LoadUserPaymentMethodsSuccess Action', () => {
-    const mockUserPaymentMethods: PaymentDetailsList = {
+    const mockUserPaymentMethods: Occ.PaymentDetailsList = {
       payments: [{ id: 'payment1' }, { id: 'payment2' }],
     };
 

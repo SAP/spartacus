@@ -4,8 +4,8 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import { Country } from '../../../occ/occ-models/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
+import { Country } from '../../../model/address.model';
 
 describe('Delivery Countries Selectors', () => {
   let store: Store<StateWithUser>;

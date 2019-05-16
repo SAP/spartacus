@@ -1,7 +1,12 @@
 import { By } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  RoutingService,
+  RoutingConfigService,
+  RoutesConfig,
+} from '@spartacus/core';
 import { StoreModule } from '@ngrx/store';
 import { CheckoutConfig } from '../../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../../config/default-checkout-config';
@@ -9,20 +14,17 @@ import { of, Observable } from 'rxjs';
 import { CartService } from '../../../../../../../core/src/cart/facade/cart.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any {}
-}
+import { defaultStorefrontRoutesConfig } from './../../../../ui/pages/default-routing-config';
 
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 const mockRouterState = {
   state: {
     context: {
-      id: defaultCheckoutConfig.checkout.steps[0].url,
+      id:
+        '/' +
+        MockRoutesConfig[MockCheckoutConfig.checkout.steps[0].route].paths[0],
     },
   },
 };
@@ -40,10 +42,23 @@ class MockRoutingService {
   }
 }
 
+class MockRoutingConfigService {
+  getRouteConfig(routeName: string) {
+    return MockRoutesConfig[routeName];
+  }
+}
+
 class MockCartService {
   getActive(): Observable<any> {
     return of(mockActiveCart);
   }
+}
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(): any {}
 }
 
 describe('CheckoutProgressMobileTopComponent', () => {
@@ -61,6 +76,7 @@ describe('CheckoutProgressMobileTopComponent', () => {
       providers: [
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: CartService, useClass: MockCartService },
       ],
     }).compileComponents();

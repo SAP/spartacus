@@ -1,14 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
 import { BaseSiteService } from './base-site.service';
-import { OccConfig, StateWithSiteContext } from '@spartacus/core';
+import { StateWithSiteContext } from '@spartacus/core';
+import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
-import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 import * as fromStore from '../store';
+import { SiteAdapter } from '../connectors/site.adapter';
+import createSpy = jasmine.createSpy;
 
 describe('BaseSiteService', () => {
   let service: BaseSiteService;
@@ -28,7 +29,7 @@ describe('BaseSiteService', () => {
       providers: [
         BaseSiteService,
         {
-          provide: OccConfig,
+          provide: SiteAdapter,
           useValue: {},
         },
       ],

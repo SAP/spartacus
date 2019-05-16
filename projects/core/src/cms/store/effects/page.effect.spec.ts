@@ -2,23 +2,24 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, Action } from '@ngrx/store';
+import { Action, StoreModule } from '@ngrx/store';
 
 import { Observable, of, throwError } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions';
-import { Logout, Login } from '../../../auth';
+import { Login, Logout } from '../../../auth';
 import { PageContext, RoutingService } from '../../../routing';
 import { LanguageChange } from '../../../site-context';
 
-import { Page, CmsStructureModel } from '../../model/page.model';
-import { PageType } from '../../../occ/occ-models';
+import { CmsStructureModel, Page } from '../../model/page.model';
+
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import * as fromEffects from './page.effect';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
+import { PageType } from '../../../model/cms.model';
 
 export function mockDateNow(): number {
   return 1000000000000;

@@ -12,6 +12,8 @@ import {
   RoutingService,
   PaymentDetails,
   UserService,
+  RoutesConfig,
+  RoutingConfigService,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
 import { PaymentMethodComponent } from './payment-method.component';
@@ -23,6 +25,7 @@ import {
   CheckoutStepType,
 } from '../../model/checkout-step.model';
 import { CheckoutConfigService } from '../../checkout-config.service';
+import { defaultStorefrontRoutesConfig } from '../../../ui/pages/default-routing-config';
 
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
@@ -40,9 +43,11 @@ const mockPaymentDetails: PaymentDetails = {
 const mockCheckoutStep: CheckoutStep = {
   id: 'payment-method',
   name: 'Payment method',
-  url: '/checkout/payment-method',
+  route: 'checkoutPaymentDetails',
   type: [CheckoutStepType.paymentDetails],
 };
+
+const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 class MockUserService {
   loadPaymentMethods(_userId: string): void {}
@@ -85,6 +90,12 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
+class MockRoutingConfigService {
+  getRouteConfig(routeName: string) {
+    return MockRoutesConfig[routeName];
+  }
+}
+
 const mockAddress: Address = {
   id: 'mock address id',
   firstName: 'John',
@@ -112,8 +123,6 @@ const mockActivatedRoute = {
     url: ['checkout', 'payment-method'],
   },
 };
-
-const mockStepUrl = 'test url';
 
 @Component({
   selector: 'cx-payment-form',
@@ -149,6 +158,7 @@ describe('PaymentMethodComponent', () => {
   let mockUserService: UserService;
   let mockCheckoutService: CheckoutService;
   let mockRoutingService: MockRoutingService;
+  let mockRoutingConfigService: RoutingConfigService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -167,12 +177,14 @@ describe('PaymentMethodComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     }).compileComponents();
 
     mockUserService = TestBed.get(UserService);
     mockCheckoutService = TestBed.get(CheckoutService);
     mockRoutingService = TestBed.get(RoutingService);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService);
   }));
 
   beforeEach(() => {
@@ -219,27 +231,25 @@ describe('PaymentMethodComponent', () => {
       })
       .unsubscribe();
     expect(paymentMethods).toBe(mockPaymentMethods);
-    expect(component.cards.length).toEqual(2);
+    expect(paymentMethods.length).toEqual(2);
   });
 
   it('should call getCardContent() to get payment method card data', () => {
-    const card = component.getCardContent(mockPaymentDetails);
-    expect(card.title).toEqual('');
-    expect(card.textBold).toEqual('Name');
-    expect(card.text).toEqual(['123456789', 'Expires: 01/2022']);
+    component.getCardContent(mockPaymentDetails).subscribe(card => {
+      expect(card.title).toEqual('');
+      expect(card.textBold).toEqual('Name');
+      expect(card.text).toEqual([
+        '123456789',
+        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
+          mockPaymentDetails.expiryYear
+        }`,
+      ]);
+    });
   });
 
-  it('should call paymentMethodSelected(paymentDetails, index)', () => {
-    const card1: Card = { title: 'test card 1' };
-    const card2: Card = { title: 'test card 2' };
-    const card3: Card = { title: 'test card 3' };
-    component.cards.push(card1, card2, card3);
-    component.paymentMethodSelected(mockPaymentDetails, 1);
-
+  it('should call paymentMethodSelected(paymentDetails)', () => {
+    component.paymentMethodSelected(mockPaymentDetails);
     expect(component.selectedPayment).toEqual(mockPaymentDetails);
-    expect(component.cards[0].header).toEqual('');
-    expect(component.cards[1].header).toEqual('SELECTED');
-    expect(component.cards[2].header).toEqual('');
   });
 
   it('should call next() to submit request', () => {
@@ -277,10 +287,14 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call back()', () => {
-    component.checkoutStepUrlPrevious = mockStepUrl;
+    component.checkoutStepUrlPrevious =
+      '/' +
+      mockRoutingConfigService.getRouteConfig(mockCheckoutStep.route).paths[0];
     component.back();
 
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
+    expect(mockRoutingService.go).toHaveBeenCalledWith(
+      component.checkoutStepUrlPrevious
+    );
   });
 
   describe('UI continue button', () => {

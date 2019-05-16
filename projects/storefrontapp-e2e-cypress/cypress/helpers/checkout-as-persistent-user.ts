@@ -123,7 +123,7 @@ export function verifyAndPlaceOrder() {
 }
 
 export function displaySummaryPage() {
-  cy.get('.cx-page__title').should('contain', 'Confirmation of Order');
+  cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
   cy.get('.cx-order-review-summary .row').within(() => {
     cy.get('.col-lg-3:nth-child(1) .cx-card').should('not.be.empty');

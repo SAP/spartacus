@@ -3,25 +3,20 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, Observable } from 'rxjs';
 import { UrlTree } from '@angular/router';
 
-import { ServerConfig } from '@spartacus/core';
+import {
+  ServerConfig,
+  RoutingConfigService,
+  RoutesConfig,
+} from '@spartacus/core';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 import { CheckoutConfig } from '../config/checkout-config';
-import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
-import { CheckoutStepType, CheckoutStep } from '../model/checkout-step.model';
+import { defaultStorefrontRoutesConfig } from '../../ui/pages/default-routing-config';
+import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutConfigService } from '../checkout-config.service';
 
-const MockCheckoutConfig: CheckoutConfig = {
-  checkout: {
-    steps: [
-      {
-        id: 'deliveryMode',
-        name: 'checkoutProgress.deliveryMode',
-        url: '/checkout/delivery-mode',
-        type: [CheckoutStepType.deliveryMode],
-      },
-    ],
-  },
-};
+const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 const mockDeliveryModeCode = 'test mode code';
 
@@ -31,44 +26,44 @@ class MockCheckoutDetailsService {
   }
 }
 
-class MockCheckoutConfigService {
-  getCheckoutStep(): CheckoutStep {
-    return {
-      id: 'deliveryMode',
-      name: 'checkoutProgress.label.deliveryMode',
-      url: '/checkout/delivery-mode',
-      type: [CheckoutStepType.deliveryMode],
-    };
+class MockRoutingConfigService {
+  getRouteConfig(routeName: string) {
+    return MockRoutesConfig[routeName];
   }
+}
+class MockCheckoutConfigService {
+  getCheckoutStep() {}
 }
 
 const MockServerConfig: ServerConfig = { production: false };
 
 describe(`DeliveryModeSetGuard`, () => {
   let guard: DeliveryModeSetGuard;
-  let mockCheckoutConfigService: CheckoutConfigService;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
+  let mockRoutingConfigService: RoutingConfigService;
+  let mockCheckoutConfigService: CheckoutConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        DeliveryModeSetGuard,
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         {
           provide: CheckoutDetailsService,
           useClass: MockCheckoutDetailsService,
         },
         { provide: ServerConfig, useValue: MockServerConfig },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.get(DeliveryModeSetGuard);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
     mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.get(CheckoutConfig);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
   });
 
   it('should redirect to deliveryMode page when no modes selected', done => {
@@ -77,9 +72,16 @@ describe(`DeliveryModeSetGuard`, () => {
       'getSelectedDeliveryModeCode'
     ).and.returnValue(of(null));
 
+    spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(
+      MockCheckoutConfig.checkout.steps[1]
+    );
+
     guard.canActivate().subscribe((result: boolean | UrlTree) => {
       expect(result.toString()).toEqual(
-        mockCheckoutConfig.checkout.steps[0].url
+        '/' +
+          mockRoutingConfigService.getRouteConfig(
+            MockCheckoutConfig.checkout.steps[1].route
+          ).paths[0]
       );
       done();
     });
@@ -91,7 +93,6 @@ describe(`DeliveryModeSetGuard`, () => {
       'getSelectedDeliveryModeCode'
     ).and.returnValue(of(''));
     spyOn(console, 'warn');
-    spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(null);
     mockCheckoutConfig.checkout.steps = [];
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {
