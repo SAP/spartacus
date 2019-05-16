@@ -126,6 +126,7 @@ export class ItemCounterComponent
     };
 
     if (handlers[event.code]) {
+      console.log('hand', handlers[event.code]());
       handlers[event.code]();
       event.preventDefault();
       event.stopPropagation();

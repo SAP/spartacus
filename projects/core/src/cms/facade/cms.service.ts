@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-
 import { select, Store } from '@ngrx/store';
-
-import { Observable, of, combineLatest } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -11,17 +9,17 @@ import {
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
-
-import * as fromStore from '../store';
+import { CmsComponent } from '../../occ/occ-models/cms-component.models';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
+import * as fromStore from '../store';
 import { StateWithCms } from '../store/cms-state';
-import { CmsComponent } from '../../occ/occ-models/cms-component.models';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { PageContext } from '../../routing/models/page-context.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,10 +69,10 @@ export class CmsService {
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
-      this.components[uid] = combineLatest(
-        this.routingService.isNavigating(),
-        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
-      ).pipe(
+      this.components[uid] = this.routingService.isNavigating().pipe(
+        withLatestFrom(
+          this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
+        ),
         tap(([isNavigating, componentState]) => {
           const attemptedLoad =
             componentState.loading ||

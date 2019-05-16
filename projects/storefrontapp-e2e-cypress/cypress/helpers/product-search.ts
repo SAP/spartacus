@@ -10,7 +10,7 @@ export const firstProductPriceSelector = `${firstProductItemSelector} .cx-produc
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
 
 export function searchResult() {
-  cy.get(resultsTitleSelector).should('contain', '145 results for "camera"');
+  cy.get(resultsTitleSelector).should('contain', '144 results for "camera"');
   cy.get(productItemSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
@@ -52,7 +52,7 @@ export function filterUsingFacetFiltering() {
         .first()
         .click({ force: true });
     });
-  cy.get(resultsTitleSelector).should('contain', '80 results for "camera"');
+  cy.get(resultsTitleSelector).should('contain', '79 results for "camera"');
 }
 
 export function clearActiveFacet(mobile?: string) {
