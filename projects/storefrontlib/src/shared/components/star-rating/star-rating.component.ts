@@ -8,7 +8,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ICON_TYPES } from '../../../cms-components/misc/index';
+import { ICON_TYPE } from '../../../cms-components/misc/index';
 
 @Component({
   selector: 'cx-star-rating',
@@ -34,7 +34,7 @@ export class StarRatingComponent implements OnInit {
 
   private initialRate = 0;
 
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
 
   constructor(private el: ElementRef) {}
 
