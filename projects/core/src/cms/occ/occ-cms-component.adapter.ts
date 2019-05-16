@@ -40,14 +40,12 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    const idList: IdList = { idList: ids };
-
     const requestParams = {
       ...this.getContextParams(pageContext),
       ...this.getPaginationParams(currentPage, pageSize, sort),
     };
 
-    requestParams['componentIds'] = idList.idList.toString();
+    requestParams['componentIds'] = ids.toString();
 
     return this.http
       .get<CmsComponentList>(
@@ -121,7 +119,6 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     sort?: string
   ): { [key: string]: string } {
     const requestParams = {};
-
     if (currentPage !== undefined) {
       requestParams['currentPage'] = currentPage.toString();
     }
