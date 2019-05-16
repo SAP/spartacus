@@ -66,7 +66,7 @@ export const product = {
     activateChannelsSuffix: '.',
     notified: 'You will be notified when this product is back in stock.',
     getNotified: 'Get notified when this product is back in stock.',
-    unSubscribeSuccess:
+    unsubscribeSuccess:
       'You will not receive any notifications for this product.',
     subscriptionDialog: {
       header: 'Out of Stock Subscription',

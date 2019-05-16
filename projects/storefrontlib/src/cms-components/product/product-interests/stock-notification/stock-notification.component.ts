@@ -116,7 +116,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     if (success) {
       this.subscription.add(
         this.translationService
-          .translate('stockNotification.unSubscribeSuccess')
+          .translate('stockNotification.unsubscribeSuccess')
           .pipe(first())
           .subscribe(text =>
             this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_INFO)
