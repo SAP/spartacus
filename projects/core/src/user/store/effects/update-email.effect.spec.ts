@@ -6,6 +6,7 @@ import { Observable, of, throwError } from 'rxjs';
 import * as fromAction from '../actions/update-email.action';
 import * as fromEffect from './update-email.effect';
 import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 
 describe('Update Email Effect', () => {
   let updateEmailEffect: fromEffect.UpdateEmailEffects;
@@ -16,7 +17,7 @@ describe('Update Email Effect', () => {
     TestBed.configureTestingModule({
       providers: [
         fromEffect.UpdateEmailEffects,
-        { provide: UserAccountConnector, useValue: {} },
+        { provide: UserAccountAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });

@@ -10,7 +10,7 @@ import {
 } from '../../../global-message/index';
 import { UserService } from '../../facade/index';
 import { User } from '../../../model/misc.model';
-import { UserAddressConnector } from '../../connectors/address';
+import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { Address } from '../../../model/address.model';
 
 @Injectable()

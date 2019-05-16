@@ -7,7 +7,6 @@ import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
 import { UserService } from '../../facade/user.service';
 import { GlobalMessageService } from '../../../global-message/index';
-import { Occ } from '../../../occ/occ-models/occ.models';
 import { User } from '../../../model/misc.model';
 import { Address } from '../../../model/address.model';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
@@ -25,9 +24,7 @@ class MockGlobalMessageService {
   add = jasmine.createSpy();
 }
 
-const mockUserAddresses: Occ.AddressList = {
-  addresses: [{ id: 'address123' }],
-};
+const mockUserAddresses: Address[] = [{ id: 'address123' }];
 const mockUserAddress: Address = {
   firstName: 'John',
   lastName: 'Doe',
@@ -42,7 +39,7 @@ const mockUserAddress: Address = {
 
 describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
-  let userOccService: UserAddressConnector;
+  let userAddressConnector: UserAddressConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -59,9 +56,13 @@ describe('User Addresses effect', () => {
     userAddressesEffect = TestBed.get(
       fromUserAddressesEffect.UserAddressesEffects
     );
-    userOccService = TestBed.get(UserAddressConnector);
+    userAddressConnector = TestBed.get(UserAddressConnector);
 
-    spyOn(userOccService, 'load').and.returnValue(of(mockUserAddresses));
+    spyOn(userAddressConnector, 'load').and.returnValue(of(mockUserAddresses));
+    spyOn(userAddressConnector, 'add').and.returnValue(of({}));
+
+    spyOn(userAddressConnector, 'update').and.returnValue(of({}));
+    spyOn(userAddressConnector, 'delete').and.returnValue(of({}));
   });
 
   describe('loadUserAddresses$', () => {
@@ -70,7 +71,7 @@ describe('User Addresses effect', () => {
         'address123'
       );
       const completion = new fromUserAddressesAction.LoadUserAddressesSuccess(
-        mockUserAddresses.addresses
+        mockUserAddresses
       );
 
       actions$ = hot('-a', { a: action });
