@@ -4,7 +4,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccPersonalizationIdInterceptor } from './occ-personalization-id.interceptor';
+import { OccPersonalizationTimeInterceptor } from './occ-personalization-time.interceptor';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { WindowRef } from '../../window/window-ref';
@@ -34,7 +34,7 @@ class OccEndpointsServiceMock {
     return endpoint;
   }
 }
-describe('OccPersonalizationIdInterceptor', () => {
+describe('OccPersonalizationTimeInterceptor', () => {
   let httpMock: HttpTestingController;
   let winRef: WindowRef;
 
@@ -47,7 +47,7 @@ describe('OccPersonalizationIdInterceptor', () => {
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: OccPersonalizationIdInterceptor,
+          useClass: OccPersonalizationTimeInterceptor,
           multi: true,
         },
       ],
@@ -61,10 +61,10 @@ describe('OccPersonalizationIdInterceptor', () => {
     httpMock.verify();
   });
 
-  it('should add request header if the personalization-id exists', inject(
+  it('should add request header if the personalization-time exists', inject(
     [HttpClient],
     (http: HttpClient) => {
-      winRef.localStorage.setItem('personalization-id', 'test id');
+      winRef.localStorage.setItem('personalization-time', 'test timestamp');
 
       http.get('https://localhost:9002/test').subscribe(result => {
         expect(result).toBeTruthy();
@@ -75,19 +75,19 @@ describe('OccPersonalizationIdInterceptor', () => {
       });
 
       const perHeader: string = mockReq.request.headers.get(
-        'test-personalization-id'
+        'test-personalization-time'
       );
       expect(perHeader).toBeTruthy();
-      expect(perHeader).toEqual('test id');
+      expect(perHeader).toEqual('test timestamp');
 
       mockReq.flush('someData');
     }
   ));
 
-  it('should keep the new personalization-id, if it is different from the existing id ', inject(
+  it('should keep the new personalization-time, if it is different from the existing time', inject(
     [HttpClient],
     (http: HttpClient) => {
-      winRef.localStorage.setItem('personalization-id', 'old id');
+      winRef.localStorage.setItem('personalization-time', 'old timestamp');
 
       http.get('https://localhost:9002/test').subscribe(response => {
         expect(response).toEqual('');
@@ -96,9 +96,11 @@ describe('OccPersonalizationIdInterceptor', () => {
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
-      mockReq.flush('', { headers: { ['test-personalization-id']: 'new id' } });
-      expect(winRef.localStorage.getItem('personalization-id')).toEqual(
-        'new id'
+      mockReq.flush('', {
+        headers: { ['test-personalization-time']: 'new timestamp' },
+      });
+      expect(winRef.localStorage.getItem('personalization-time')).toEqual(
+        'new timestamp'
       );
     }
   ));
