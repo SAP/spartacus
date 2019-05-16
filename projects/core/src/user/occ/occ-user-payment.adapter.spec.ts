@@ -27,7 +27,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-fdescribe('OccUserPaymentAdapter', () => {
+describe('OccUserPaymentAdapter', () => {
   let service: OccUserPaymentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
