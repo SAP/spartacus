@@ -6,6 +6,11 @@ import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../occ/config/occ-config';
 import { User } from '../../model/misc.model';
 import { OccUserDetailsAdapter } from './occ-user-details.adapter';
+import {
+  ConverterService,
+  USER_NORMALIZER,
+  USER_SERIALIZER,
+} from '@spartacus/core';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -29,9 +34,10 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccUserDetailsAdapter', () => {
+fdescribe('OccUserDetailsAdapter', () => {
   let service: OccUserDetailsAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +50,9 @@ describe('OccUserDetailsAdapter', () => {
 
     service = TestBed.get(OccUserDetailsAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -64,6 +73,12 @@ describe('OccUserDetailsAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(user);
     });
+
+    it('should use converter', () => {
+      service.load(username).subscribe();
+      httpMock.expectOne(endpoint + `/${username}`).flush(user);
+      expect(converter.pipeable).toHaveBeenCalledWith(USER_NORMALIZER);
+    });
   });
 
   describe('update user details', () => {
@@ -81,6 +96,19 @@ describe('OccUserDetailsAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.body).toEqual(userUpdates);
       mockReq.flush(userUpdates);
+    });
+
+    it('should use converter', () => {
+      const userUpdates: User = {
+        title: 'mr',
+      };
+
+      service.update(username, userUpdates).subscribe();
+      httpMock.expectOne(endpoint + `/${username}`).flush(userUpdates);
+      expect(converter.convert).toHaveBeenCalledWith(
+        userUpdates,
+        USER_SERIALIZER
+      );
     });
   });
 });
