@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { ServerConfig, RoutingConfigService } from '@spartacus/core';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutConfig } from '../config/checkout-config';
+import { CheckoutConfigService } from '../checkout-config.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,33 +14,37 @@ import { CheckoutConfig } from '../config/checkout-config';
 export class PaymentDetailsSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
+    private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
     private router: Router,
-    private config: CheckoutConfig,
     private serverConfig: ServerConfig
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const route = this.config.checkout.steps.find((step: CheckoutStep) =>
-      step.type.includes(CheckoutStepType.paymentDetails)
+    const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
+      CheckoutStepType.paymentDetails
     );
-    if (!route && !this.serverConfig.production) {
+
+    if (!checkoutStep && !this.serverConfig.production) {
       console.warn(
-        'Missing step with type paymentDetails in checkout configuration.'
+        `Missing step with type ${
+          CheckoutStepType.paymentDetails
+        } in checkout configuration.`
       );
     }
 
-    return this.checkoutDetailsService.getPaymentDetails().pipe(
-      map(paymentDetails => {
-        if (paymentDetails && Object.keys(paymentDetails).length !== 0) {
-          return true;
-        } else {
-          return this.router.parseUrl(
-            route &&
-              this.routingConfigService.getRouteConfig(route.route).paths[0]
-          );
-        }
-      })
-    );
+    return this.checkoutDetailsService
+      .getPaymentDetails()
+      .pipe(
+        map(paymentDetails =>
+          paymentDetails && Object.keys(paymentDetails).length !== 0
+            ? true
+            : this.router.parseUrl(
+                checkoutStep &&
+                  this.routingConfigService.getRouteConfig(checkoutStep.route)
+                    .paths[0]
+              )
+        )
+      );
   }
 }

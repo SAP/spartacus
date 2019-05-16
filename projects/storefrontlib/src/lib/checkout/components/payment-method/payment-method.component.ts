@@ -150,8 +150,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       payment: this.selectedPayment,
       newPayment: false,
     });
-
-    this.routingService.go(this.checkoutStepUrlNext);
   }
 
   back(): void {
@@ -205,7 +203,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       .getPaymentDetails()
       .subscribe(data => {
         if (data.accountHolderName && data.cardNumber) {
-          const lastStepUrl = `/${
+          const nextStepUrl = `/${
             this.routingConfigService.getRouteConfig(
               this.checkoutConfigService.getCheckoutStep(
                 CheckoutStepType.reviewOrder
@@ -213,7 +211,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             ).paths[0]
           }`;
 
-          this.routingService.go(lastStepUrl);
+          this.routingService.go(nextStepUrl);
 
           return;
         }
