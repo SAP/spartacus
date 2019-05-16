@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { LOGIN } from 'projects/core/src/auth/store/actions/login-logout.action';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
+import { LOGIN } from '../../../auth/store/actions/login-logout.action';
 import { User } from '../../../model/misc.model';
 import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
