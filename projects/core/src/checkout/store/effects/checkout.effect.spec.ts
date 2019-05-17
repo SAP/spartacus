@@ -23,8 +23,8 @@ import { CheckoutDetails } from '../../models/checkout.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
-import { OrderConnector } from '../../../user/connectors/order.connector';
-import { OrderAdapter } from '../../../user/connectors/order.adapter';
+import { OrderConnector } from '../../../user/connectors/order/order.connector';
+import { OrderAdapter } from '../../../user/connectors/order/order.adapter';
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';

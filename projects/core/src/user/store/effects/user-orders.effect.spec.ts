@@ -16,8 +16,8 @@ import { LoaderResetAction } from '../../../state';
 
 import * as fromUserOrdersEffect from './user-orders.effect';
 import { OrderHistoryList } from '../../../model/order.model';
-import { OrderConnector } from '../../connectors/order.connector';
-import { OrderAdapter } from '../../connectors/order.adapter';
+import { OrderConnector } from '../../connectors/order/order.connector';
+import { OrderAdapter } from '../../connectors/order/order.adapter';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
