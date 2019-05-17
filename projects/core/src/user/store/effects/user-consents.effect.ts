@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { OccUserService } from '../../occ/user.service';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 import * as fromActions from '../actions/user-consents.action';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class UserConsentsEffect {
     ofType(fromActions.LOAD_USER_CONSENTS),
     map((action: fromActions.LoadUserConsents) => action.payload),
     switchMap(userId =>
-      this.occUserService.loadConsents(userId).pipe(
+      this.userAccountConnector.loadConsents(userId).pipe(
         map(consents => new fromActions.LoadUserConsentsSuccess(consents)),
         catchError(error => of(new fromActions.LoadUserConsentsFail(error)))
       )
@@ -24,7 +24,7 @@ export class UserConsentsEffect {
     ofType(fromActions.GIVE_USER_CONSENT),
     map((action: fromActions.GiveUserConsent) => action.payload),
     switchMap(({ userId, consentTemplateId, consentTemplateVersion }) =>
-      this.occUserService
+      this.userAccountConnector
         .giveConsent(userId, consentTemplateId, consentTemplateVersion)
         .pipe(
           map(consent => new fromActions.GiveUserConsentSuccess(consent)),
@@ -40,7 +40,7 @@ export class UserConsentsEffect {
     ofType(fromActions.WITHDRAW_USER_CONSENT),
     map((action: fromActions.WithdrawUserConsent) => action.payload),
     switchMap(({ userId, consentCode }) =>
-      this.occUserService.withdrawConsent(userId, consentCode).pipe(
+      this.userAccountConnector.withdrawConsent(userId, consentCode).pipe(
         map(_ => new fromActions.WithdrawUserConsentSuccess()),
         catchError(error => of(new fromActions.WithdrawUserConsentFail(error)))
       )
@@ -49,6 +49,6 @@ export class UserConsentsEffect {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAccountConnector: UserAccountConnector
   ) {}
 }
