@@ -9,38 +9,34 @@ import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from './../actions/index';
 
-import { OccUserService } from '../../../user';
-
 import { AddressVerificationEffect } from './address-verification.effect';
 import { Address, AddressValidation } from '../../../model/address.model';
+import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
+import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
 
 const addressValidation: AddressValidation = {
   decision: 'test address validation',
   suggestedAddresses: [{ id: 'address1' }],
 };
 
-class MockUserService {
-  verifyAddress(_userId: string, _address: Address) {}
-}
-
 describe('Address Verification effect', () => {
   let effect: AddressVerificationEffect;
-  let service: OccUserService;
+  let service: UserAddressConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AddressVerificationEffect,
-        { provide: OccUserService, useClass: MockUserService },
+        { provide: UserAddressAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(AddressVerificationEffect);
-    service = TestBed.get(OccUserService);
+    service = TestBed.get(UserAddressConnector);
 
-    spyOn(service, 'verifyAddress').and.returnValue(of(addressValidation));
+    spyOn(service, 'verify').and.returnValue(of(addressValidation));
   });
 
   describe('verifyAddress$', () => {
