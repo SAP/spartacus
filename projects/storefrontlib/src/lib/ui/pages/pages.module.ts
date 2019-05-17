@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard, ConfigModule } from '@spartacus/core';
 import {
   CartComponentModule,
-  CartNotEmptyGuard,
   LogoutGuard,
 } from '../../../cms-components/index';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
@@ -13,7 +12,6 @@ import {
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
 import { CartPageModule } from './cart-page/cart-page.module';
-import { defaultRoutingConfig } from './default-routing-config';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { ProductPageModule } from './product-page/product-page.module';
 import { defaultRoutingConfig } from './default-routing-config';
