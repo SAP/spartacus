@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   Input,
   Optional,
 } from '@angular/core';
@@ -9,7 +8,6 @@ import { FormControl } from '@angular/forms';
 import { CmsSearchBoxComponent } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchResults } from './search-box.model';
@@ -42,9 +40,12 @@ export class SearchBoxComponent {
   /**
    * The typeahead result list is toggled with CSS
    */
-  @HostBinding('class.open') openResultsList = false;
+  // @HostBinding('class.open') openResultsList = false;
 
-  @HostBinding('class.has-results') hasResults = false;
+  /**
+   * controls whether the overlay is shown on the host.
+   */
+  // @HostBinding('class.has-results') hasResults = false;
 
   /**
    * The component data is optional, so that this component
@@ -62,26 +63,32 @@ export class SearchBoxComponent {
    */
   searchResults$: Observable<
     SearchResults
-  > = this.searchBoxComponentService
-    .getSearchResults(
-      this.searchBoxControl.valueChanges.pipe(
-        tap(value => (this.hasResults = !!value))
-      ),
-      this.componentData ? this.componentData.data$ : null
-    )
-    .pipe(
-      tap(results => {
-        this.hasResults =
-          !!results.products || !!results.suggestions || !!results.message;
-      })
-    );
+  > = this.searchBoxComponentService.getSearchResults(
+    this.searchBoxControl.valueChanges,
+    // .pipe(
+    // tap(value => {
+    //   if (!value) {
+    //     this.hasResults = value;
+    //   }
+    // })
+    // )
+    this.componentData ? this.componentData.data$ : null
+  );
+  // .pipe(
+  //   delay(0),
+  //   tap(results => {
+  //     this.hasResults =
+  //       !!results.products || !!results.suggestions || !!results.message;
+  //   })
+  // );
 
   /**
    * Closes the typehead searchbox.
    */
   close(event: UIEvent): void {
     if (!this.ignoreCloseEvent) {
-      this.openResultsList = false;
+      // this.openResultsList = false;
+      this.searchBoxComponentService.toggleClass('open', false);
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
       }
@@ -94,7 +101,8 @@ export class SearchBoxComponent {
    *
    */
   open(el: HTMLInputElement): void {
-    this.openResultsList = true;
+    this.searchBoxComponentService.toggleClass('open', true);
+    // this.openResultsList = true;
     // put cursor to the end of the text
     const textLength = el.value.length;
     el.selectionStart = textLength;

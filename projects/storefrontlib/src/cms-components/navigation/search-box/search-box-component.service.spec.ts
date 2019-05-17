@@ -6,6 +6,7 @@ import {
   RoutingService,
   Suggestion,
   TranslationService,
+  WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -48,6 +49,7 @@ describe('SearchBoxComponentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        WindowRef,
         {
           provide: CmsComponentData,
           useValue: componentDataMock,

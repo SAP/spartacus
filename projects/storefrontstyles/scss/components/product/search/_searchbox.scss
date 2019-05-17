@@ -1,5 +1,64 @@
 @import '../../../theme';
 
+body.has-results {
+  header {
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+  }
+  cx-storefront {
+    &:before {
+      transition: opacity 0.4s;
+
+      content: '';
+      position: absolite;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 0;
+      z-index: 10;
+
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+  }
+
+  &.open {
+    cx-storefront {
+      &:before {
+        height: 100%;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+body:not(.open) {
+  cx-searchbox {
+    .results {
+      display: none;
+    }
+    @include media-breakpoint-down(sm) {
+      .reset {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+// hide the input on mobile when there's no interaction with searchbox
+
+body:not(.open) {
+  cx-searchbox {
+    input {
+      @include media-breakpoint-down(sm) {
+        opacity: 0;
+      }
+    }
+  }
+}
+
 %cx-searchbox {
   .hidden {
     display: none;
@@ -19,50 +78,6 @@
     @include media-breakpoint-up(md) {
       background-color: var(--cx-g-color-secondary);
       position: relative;
-    }
-  }
-
-  &:not(.open) {
-    .results {
-      display: none;
-    }
-    @include media-breakpoint-down(sm) {
-      .reset {
-        opacity: 0;
-      }
-    }
-  }
-
-  &:before {
-    transition: opacity 0.4s;
-
-    content: '';
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 0;
-    z-index: 10;
-
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.4s;
-    top: 143px;
-    @include media-breakpoint-down(md) {
-      top: 57px;
-    }
-  }
-  &.has-results.open:before {
-    height: 100%;
-    opacity: 1;
-  }
-
-  // hide the input on mobile when there's no interaction with searchbox
-  &:not(.open) {
-    input {
-      @include media-breakpoint-down(sm) {
-        opacity: 0;
-      }
     }
   }
 

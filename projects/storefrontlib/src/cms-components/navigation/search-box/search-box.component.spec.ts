@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -12,7 +12,6 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BootstrapModule } from '../../../lib/bootstrap.module';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 import { SearchResults } from './search-box.model';
@@ -21,6 +20,13 @@ import { SearchResults } from './search-box.model';
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
+  transform(): any {}
+}
+
+@Pipe({
+  name: 'cxHighlight',
+})
+class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -91,9 +97,7 @@ describe('SearchBoxComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        BootstrapModule,
         BrowserAnimationsModule,
-        FormsModule,
         ReactiveFormsModule,
         RouterModule.forRoot([]),
         I18nTestingModule,
@@ -101,6 +105,7 @@ describe('SearchBoxComponent', () => {
       declarations: [
         SearchBoxComponent,
         MockUrlPipe,
+        MockHighlightPipe,
         MockStripHtmlPipe,
         MockCxIconComponent,
         MockMediaComponent,
@@ -170,11 +175,17 @@ describe('SearchBoxComponent', () => {
       expect(fixture.debugElement.query(By.css('.results'))).toBeFalsy();
     });
 
-    it('should contain search results panel after search input', () => {
+    it('should update form field after setting queryText', () => {
+      searchBoxComponent.queryText = 'test input';
+      expect(searchBoxComponent.searchBoxControl.value).toEqual('test input');
+    });
+
+    it('should contain search results panel after search input', async(() => {
       searchBoxComponent.queryText = 'test input';
       fixture.detectChanges();
+
       expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
-    });
+    }));
 
     it('should contain 2 suggestion after search', () => {
       searchBoxComponent.queryText = 'te';

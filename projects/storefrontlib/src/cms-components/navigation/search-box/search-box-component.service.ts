@@ -3,6 +3,7 @@ import {
   ProductSearchService,
   RoutingService,
   TranslationService,
+  WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
@@ -10,6 +11,7 @@ import {
   distinctUntilChanged,
   map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
@@ -30,7 +32,8 @@ export class SearchBoxComponentService {
   constructor(
     public searchService: ProductSearchService,
     protected routingService: RoutingService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
+    protected winRef: WindowRef
   ) {}
 
   public getSearchResults(
@@ -39,6 +42,7 @@ export class SearchBoxComponentService {
   ): Observable<SearchResults> {
     return combineLatest(
       text$.pipe(
+        tap((text: string) => this.toggleClass('has-results', !!text)),
         debounceTime(300),
         distinctUntilChanged()
       ),
@@ -46,14 +50,29 @@ export class SearchBoxComponentService {
     ).pipe(
       switchMap(([term, config]) => {
         if (!term) {
-          return of({});
+          return of();
         } else if (term.length >= config.minCharactersBeforeRequest) {
           return this.fetchSearchResults(term, config);
         } else {
           return this.fetchMessage('searchBox.help.insufficientChars');
         }
-      })
+      }),
+      tap((_results: any) => this.addBody(_results))
     );
+  }
+
+  private addBody(results?: any) {
+    this.toggleClass(
+      'has-results',
+      results &&
+        (!!results.products || !!results.suggestions || !!results.message)
+    );
+  }
+
+  toggleClass(className: string, open = true) {
+    open
+      ? this.winRef.document.body.classList.add(className)
+      : this.winRef.document.body.classList.remove(className);
   }
 
   /**
