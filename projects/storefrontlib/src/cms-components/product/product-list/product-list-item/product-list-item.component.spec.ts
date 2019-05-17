@@ -52,13 +52,6 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-@Pipe({
-  name: 'stripHtml',
-})
-class MockStripHtmlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
@@ -88,7 +81,6 @@ describe('ProductListItemComponent in product-list', () => {
         MockAddToCartComponent,
         MockStarRatingComponent,
         MockUrlPipe,
-        MockStripHtmlPipe,
         MockCxIconComponent,
       ],
     })
