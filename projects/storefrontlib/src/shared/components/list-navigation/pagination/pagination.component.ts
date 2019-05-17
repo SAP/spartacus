@@ -19,18 +19,17 @@ export class PaginationComponent {
   Array = Array;
   Math = Math;
 
-  pageChange(page: number): void {
-    // Emit page change if page is valid
-    if (this.pagination) {
-      if (
-        page >= 0 &&
-        page < this.pagination.totalPages &&
-        page !== this.pagination.currentPage
-      ) {
-        this.viewPageEvent.emit(page);
-      }
-    } else {
-      this.viewPageEvent.emit(page);
+  clickPageNo(page: number): void {
+    if (
+      page >= 1 &&
+      page <= this.pagination.totalPages &&
+      page !== this.pagination.currentPage + 1
+    ) {
+      this.pageChange(page);
     }
+  }
+
+  pageChange(page: number): void {
+    this.viewPageEvent.emit(page - 1);
   }
 }

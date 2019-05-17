@@ -159,7 +159,7 @@ describe('ProductListComponent in product-list', () => {
       done();
     });
 
-    pagination.pageChange(1);
+    pagination.pageChange(2);
   });
 
   it('should change sortings', done => {

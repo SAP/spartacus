@@ -2,12 +2,12 @@
 <ul class="pagination">
   <!-- Previous -->
   <li class="page-item" [ngClass]="{ disabled: pagination.currentPage === 0 }">
-    <a class="page-link" (click)="pageChange(pagination.currentPage - 1)">«</a>
+    <a class="page-link" (click)="clickPageNo(pagination.currentPage)">«</a>
   </li>
 
   <!-- First -->
   <li class="page-item" [ngClass]="{ active: pagination.currentPage === 0 }">
-    <a class="page-link" (click)="pageChange(0)">{{ 1 }}</a>
+    <a class="page-link" (click)="clickPageNo(1)">{{ 1 }}</a>
   </li>
 
   <!-- Continued Backwards -->
@@ -27,7 +27,7 @@
       Math.floor(pagination.currentPage / 3) * 3 + 2 < i
     "
   >
-    <a class="page-link" (click)="pageChange(i)">{{ i + 1 }}</a>
+    <a class="page-link" (click)="clickPageNo(i + 1)">{{ i + 1 }}</a>
   </li>
 
   <!-- Continued Forwards -->
@@ -45,7 +45,7 @@
       active: pagination.currentPage === pagination.totalPages - 1
     }"
   >
-    <a class="page-link" (click)="pageChange(pagination.totalPages - 1)">{{
+    <a class="page-link" (click)="clickPageNo(pagination.totalPages)">{{
       pagination.totalPages
     }}</a>
   </li>
@@ -59,7 +59,7 @@
   >
     <a
       class="page-link"
-      (click)="pageChange(pagination.currentPage + 1)"
+      (click)="clickPageNo(pagination.currentPage + 2)"
       aria-label="next"
       >»</a
     >
