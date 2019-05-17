@@ -125,4 +125,12 @@ export const user = {
     lastNameIsRequired: 'Last name is required.',
     profileUpdateSuccess: 'Personal details successfully updated',
   },
+  consentManagementForm: {
+    message: {
+      success: {
+        given: 'Consent successfully given.',
+        withdrawn: 'Consent successfully withdrawn.',
+      },
+    },
+  },
 };

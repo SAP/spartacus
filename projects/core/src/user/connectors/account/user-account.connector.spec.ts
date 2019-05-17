@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
-import { UserAccountConnector } from './user-account.connector';
+import { UserRegisterFormData } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { UserAccountAdapter } from './user-account.adapter';
-import { UserRegisterFormData } from '@spartacus/core';
+import { UserAccountConnector } from './user-account.connector';
+
 import createSpy = jasmine.createSpy;
 
 class MockUserAccountAdapter implements UserAccountAdapter {
@@ -15,6 +15,9 @@ class MockUserAccountAdapter implements UserAccountAdapter {
   resetPassword = createSpy('resetPassword').and.returnValue(of({}));
   updateEmail = createSpy('updateEmail').and.returnValue(of({}));
   updatePassword = createSpy('updatePassword').and.returnValue(of({}));
+  loadConsents = createSpy('loadConsents').and.returnValue(of({}));
+  giveConsent = createSpy('giveConsent').and.returnValue(of({}));
+  withdrawConsent = createSpy('withdrawConsent').and.returnValue(of({}));
 }
 
 describe('UserAccountConnector', () => {
@@ -98,6 +101,34 @@ describe('UserAccountConnector', () => {
       'email',
       'password',
       'new-password'
+    );
+  });
+
+  it('loadConsents should call adapter', () => {
+    let result;
+    service.loadConsents('userId').subscribe(res => (result = res));
+    expect(result).toEqual({});
+    expect(adapter.loadConsents).toHaveBeenCalledWith('userId');
+  });
+
+  it('giveConsent should call adapter', () => {
+    let result;
+    service
+      .giveConsent('userId', 'templateId', 0)
+      .subscribe(res => (result = res));
+    expect(result).toEqual({});
+    expect(adapter.giveConsent).toHaveBeenCalledWith('userId', 'templateId', 0);
+  });
+
+  it('withdrawConsent should call adapter', () => {
+    let result;
+    service
+      .withdrawConsent('userId', 'consentCode')
+      .subscribe(res => (result = res));
+    expect(result).toEqual({});
+    expect(adapter.withdrawConsent).toHaveBeenCalledWith(
+      'userId',
+      'consentCode'
     );
   });
 });
