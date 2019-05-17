@@ -5,7 +5,7 @@ import { ProductDetailsModule } from '../../../../cms-components/product/index';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutModule } from '../../../../cms-structure/page/index';
 import { ProductPageComponent } from './product-page.component';
-import { OutletRefModule } from 'projects/storefrontlib/src/cms-structure';
+import { OutletRefModule } from '../../../../cms-structure/outlet/outlet-ref/outlet-ref.module';
 
 const routes: Routes = [
   {

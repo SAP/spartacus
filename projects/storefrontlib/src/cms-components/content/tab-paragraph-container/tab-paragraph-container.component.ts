@@ -4,7 +4,7 @@ import {
   CmsService,
   WindowRef,
 } from '@spartacus/core';
-import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
+import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { map, take } from 'rxjs/operators';
 
 @Component({
