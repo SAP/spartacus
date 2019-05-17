@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -9,7 +9,6 @@ import {
   switchMap,
   take,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { CmsComponent } from '../../occ/occ-models/cms-component.models';
 import { RoutingService } from '../../routing/facade/routing.service';
@@ -69,10 +68,10 @@ export class CmsService {
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
-      this.components[uid] = this.routingService.isNavigating().pipe(
-        withLatestFrom(
-          this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
-        ),
+      this.components[uid] = combineLatest(
+        this.routingService.isNavigating(),
+        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
+      ).pipe(
         tap(([isNavigating, componentState]) => {
           const attemptedLoad =
             componentState.loading ||
