@@ -8,7 +8,7 @@ import { Cart } from '../../../model/cart.model';
   providedIn: 'root',
 })
 export class CartConnector {
-  constructor(private adapter: CartAdapter) {}
+  constructor(protected adapter: CartAdapter) {}
 
   public loadAll(userId: string, details?: boolean): Observable<Cart[]> {
     return this.adapter.loadAll(userId, details);
