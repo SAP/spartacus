@@ -11,7 +11,7 @@ import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
 import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
 import { CartConnector } from '../../../cart/connectors/cart/cart.connector';
-import { OrderConnector } from '../../../user/connectors/order.connector';
+import { OrderConnector } from '../../../user/connectors/order/order.connector';
 
 @Injectable()
 export class CheckoutEffects {

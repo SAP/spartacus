@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Order, OrderHistoryList } from '../../model/order.model';
+import { Order, OrderHistoryList } from '../../../model/order.model';
 
 export abstract class OrderAdapter {
   /**
