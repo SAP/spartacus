@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ICON_TYPE } from '../../../../../../cms-components/misc/icon/index';
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 
 import {
   CardType,
