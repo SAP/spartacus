@@ -34,8 +34,8 @@ export class CmsService {
   } = {};
 
   constructor(
-    private store: Store<StateWithCms>,
-    private routingService: RoutingService
+    protected store: Store<StateWithCms>,
+    protected routingService: RoutingService
   ) {}
 
   /**
