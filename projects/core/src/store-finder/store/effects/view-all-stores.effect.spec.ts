@@ -13,7 +13,7 @@ import { OccConfig } from '../../../occ';
 import * as fromEffects from './view-all-stores.effect';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import createSpy = jasmine.createSpy;
-import { StoreCount } from '../../../model/store.model';
+import { StoreCount } from '../../../model/store-finder.model';
 
 const mockOccModuleConfig: OccConfig = {
   backend: {

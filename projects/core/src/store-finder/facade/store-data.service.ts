@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PointOfService } from '../../model/store.model';
+import { PointOfService } from '../../model/point-of-service.model';
 
 @Injectable()
 export class StoreDataService {

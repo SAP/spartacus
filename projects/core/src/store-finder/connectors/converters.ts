@@ -1,10 +1,10 @@
 import { Converter } from '../../util/converter.service';
+import { PointOfService } from '../../model/point-of-service.model';
+import { InjectionToken } from '@angular/core';
 import {
-  PointOfService,
   StoreFinderSearchPage,
   StoreCount,
-} from '../../model/store.model';
-import { InjectionToken } from '@angular/core';
+} from '../../model/store-finder.model';
 
 export const POINT_OF_SERVICE_NORMALIZER = new InjectionToken<
   Converter<any, PointOfService>

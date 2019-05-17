@@ -5,11 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import { StoreFinderSearchConfig } from '../model/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
-import {
-  StoreFinderSearchPage,
-  PointOfService,
-  StoreCount,
-} from '../../model/store.model';
+import { PointOfService } from '../../model/point-of-service.model';
 import { StoreFinderAdapter } from '../connectors/store-finder.adapter';
 import { GeoPoint } from '../../model/misc.model';
 import { ConverterService } from '../../util/converter.service';
@@ -19,6 +15,10 @@ import {
   STORE_COUNT_NORMALIZER,
   POINT_OF_SERVICE_NORMALIZER,
 } from '../connectors';
+import {
+  StoreFinderSearchPage,
+  StoreCount,
+} from '../../model/store-finder.model';
 
 const STORES_ENDPOINT = 'stores';
 

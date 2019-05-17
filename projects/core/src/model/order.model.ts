@@ -8,7 +8,7 @@ import {
   PromotionResult,
   Voucher,
 } from './cart.model';
-import { PointOfService } from './store.model';
+import { PointOfService } from './point-of-service.model';
 
 export interface DeliveryMode {
   code?: string;

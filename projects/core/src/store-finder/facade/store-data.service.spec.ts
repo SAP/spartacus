@@ -1,6 +1,6 @@
 import { StoreDataService } from '.';
 import { TestBed } from '@angular/core/testing';
-import { PointOfService } from '../../model/store.model';
+import { PointOfService } from '../../model/point-of-service.model';
 
 const location: PointOfService = {
   geoPoint: {

@@ -1,4 +1,4 @@
-import { PaginationModel, SortModel, Time, GeoPoint } from './misc.model';
+import { Time, GeoPoint } from './misc.model';
 import { Address } from './address.model';
 import { Image } from './image.model';
 
@@ -16,26 +16,6 @@ export interface PointOfService {
   storeContent?: string;
   storeImages?: Image[];
   url?: string;
-}
-
-export interface StoreFinderSearchPage {
-  boundEastLongitude?: number;
-  boundNorthLatitude?: number;
-  boundSouthLatitude?: number;
-  boundWestLongitude?: number;
-  locationText?: string;
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-  sourceLatitude?: number;
-  sourceLongitude?: number;
-  stores?: PointOfService[];
-}
-
-export interface StoreCount {
-  count?: number;
-  isoCode?: string;
-  name?: string;
-  type?: string;
 }
 
 export interface SpecialOpeningDay {
