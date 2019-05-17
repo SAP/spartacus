@@ -1,5 +1,6 @@
 import { ServerConfig } from '../../config/server-config/server-config';
 
+export type UserIdentifier = 'uid' | 'customerId';
 export abstract class OccConfig extends ServerConfig {
   site?: {
     baseSite?: string;
@@ -13,7 +14,7 @@ export abstract class OccConfig extends ServerConfig {
       endpoints?: {
         [endpoint: string]: string;
       };
-      userIdentifier?: string;
+      userIdentifier?: UserIdentifier;
     };
     media?: {
       /**
