@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
-  LongitudeLatitude,
   SearchConfig,
   StoreFinderSearchQuery,
   StoreFinderService,
+  GeoPoint,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   searchQuery: StoreFinderSearchQuery;
   locations$: Observable<any>;
   isLoading$: Observable<any>;
-  geolocation: LongitudeLatitude;
+  geolocation: GeoPoint;
   subscription: Subscription;
   searchConfig: SearchConfig = {
     currentPage: 0,
@@ -61,7 +61,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
     this.subscription = this.locations$
       .pipe(
         filter(Boolean),
-        map(data => data.geolocation)
+        map(data => data.longitudeLatitude)
       )
       .subscribe(geoData => (this.geolocation = geoData));
   }
