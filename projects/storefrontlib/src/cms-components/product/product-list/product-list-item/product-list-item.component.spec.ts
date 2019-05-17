@@ -58,6 +58,7 @@ describe('ProductListItemComponent in product-list', () => {
 
   const mockProduct = {
     name: 'Test product',
+    nameHtml: 'Test product',
     summary: 'Test summary',
     code: '1',
     averageRating: 4.5,

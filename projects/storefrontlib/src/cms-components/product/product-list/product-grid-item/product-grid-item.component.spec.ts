@@ -59,6 +59,7 @@ describe('ProductGridItemComponent in product-list', () => {
 
   const mockProduct = {
     name: 'Test product',
+    nameHtml: 'Test product',
     code: '1',
     averageRating: 4.5,
     stock: {
