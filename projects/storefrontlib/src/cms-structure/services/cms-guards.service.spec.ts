@@ -1,7 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
-import { CmsGuardsService } from './cms-guards.service';
-import { CmsMappingService } from '@spartacus/storefront';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -9,6 +6,8 @@ import {
   UrlTree,
 } from '@angular/router';
 import { of } from 'rxjs';
+import { CmsGuardsService } from './cms-guards.service';
+import { CmsMappingService } from './cms-mapping.service';
 
 describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
