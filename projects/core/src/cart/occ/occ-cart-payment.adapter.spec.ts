@@ -7,8 +7,8 @@ import {
 import { OccConfig } from '../../occ';
 import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
 import {
-  CART_PAYMENT_DETAILS_NORMALIZER,
-  CART_PAYMENT_DETAILS_SERIALIZER,
+  PAYMENT_DETAILS_NORMALIZER,
+  PAYMENT_DETAILS_SERIALIZER,
   ConverterService,
 } from '@spartacus/core';
 import { Cart, PaymentDetails } from '../../model/cart.model';
@@ -252,11 +252,11 @@ describe('OccCartPaymentAdapter', () => {
         .flush(mockPaymentDetails);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CART_PAYMENT_DETAILS_NORMALIZER
+        PAYMENT_DETAILS_NORMALIZER
       );
       expect(converter.convert).toHaveBeenCalledWith(
         mockPaymentDetails,
-        CART_PAYMENT_DETAILS_SERIALIZER
+        PAYMENT_DETAILS_SERIALIZER
       );
       expect(result).toEqual(mockPaymentDetails);
     });

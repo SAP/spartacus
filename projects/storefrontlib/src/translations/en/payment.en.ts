@@ -10,6 +10,7 @@ export const payment = {
     cardNumber: 'Card Number',
     expirationDate: 'Expiration Date',
     securityCode: 'Security code (CVV)',
+    securityCodeTitle: 'Card Verification Value',
     saveAsDefault: 'Save as default',
     billingAddress: 'Billing address',
     sameAsShippingAddress: 'Same as shipping address',

@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as fromAction from '../actions/address-verification.action';
-import { OccUserService } from '../../../user/occ/user.service';
+import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
 
 @Injectable()
 export class AddressVerificationEffect {
@@ -17,7 +17,7 @@ export class AddressVerificationEffect {
     ofType(fromAction.VERIFY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap(payload =>
-      this.occUserService.verifyAddress(payload.userId, payload.address).pipe(
+      this.userAddressConnector.verify(payload.userId, payload.address).pipe(
         map(data => {
           return new fromAction.VerifyAddressSuccess(data);
         }),
@@ -28,6 +28,6 @@ export class AddressVerificationEffect {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAddressConnector: UserAddressConnector
   ) {}
 }
