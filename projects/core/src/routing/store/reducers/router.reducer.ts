@@ -86,11 +86,12 @@ export function reducer(
       const currentUrl = action.payload.routerState
         ? action.payload.routerState.url
         : '';
+      const preserveRedirectUrl =
+        action.payload.routerState &&
+        action.payload.routerState.preserveRedirectUrl;
       let redirectUrl;
-      if (
-        action.payload.routerState.preserveRedirectUrl ||
-        currentUrl === state.redirectUrl
-      ) {
+
+      if (preserveRedirectUrl || currentUrl === state.redirectUrl) {
         redirectUrl = state.redirectUrl;
       } else {
         redirectUrl = '';

@@ -11,12 +11,20 @@ import { Store, StoreModule } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import * as fromAction from './../actions/';
 import * as fromReducer from './router.reducer';
+import { UrlService } from '../../configurable-routes';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-test-cmp',
   template: 'test-cmp',
 })
 class TestComponent {}
+
+class MockUrlService {
+  getSemanticUrl = createSpy('UrlService.getSemanticUrl').and.callFake(
+    routeName => '/' + routeName
+  );
+}
 
 describe('Router Reducer', () => {
   let router: Router;
@@ -54,6 +62,7 @@ describe('Router Reducer', () => {
       ],
       providers: [
         fromReducer.reducerProvider,
+        { provide: UrlService, useClass: MockUrlService },
         {
           provide: RouterStateSerializer,
           useClass: fromReducer.CustomSerializer,
@@ -103,6 +112,7 @@ describe('Router Reducer', () => {
           params: {},
           context: { id: 'homepage' },
           cmsRequired: true,
+          preserveRedirectUrl: false,
         },
         event: {
           id: 1,
@@ -112,8 +122,8 @@ describe('Router Reducer', () => {
       },
     };
 
-    it(`should not clear redirect URL if user is at
-     /login, /register or the same page as the redirectUrl. Else, it should clear it`, () => {
+    it(`should not clear redirect URL if "preserveRedirectUrl" is true
+    or it's the same page as the redirectUrl. Else, it should clear it`, () => {
       const { initialState } = fromReducer;
       initialState.redirectUrl = '/checkout';
 
@@ -122,25 +132,21 @@ describe('Router Reducer', () => {
         type: fromNgrxRouter.ROUTER_NAVIGATED,
       };
 
-      action.payload.routerState.url = '/login';
-      action.payload.routerState.context.id = '/login';
+      action.payload.routerState.preserveRedirectUrl = true;
       const state1 = fromReducer.reducer(initialState, action);
       expect(state1.redirectUrl).toBe('/checkout');
 
-      action.payload.routerState.url = '/register';
-      action.payload.routerState.context.id = '/login';
+      action.payload.routerState.preserveRedirectUrl = false;
+      action.payload.routerState.url = '/checkout';
+      action.payload.routerState.context.id = 'checkout';
       const state2 = fromReducer.reducer(initialState, action);
       expect(state2.redirectUrl).toBe('/checkout');
 
-      action.payload.routerState.url = '/checkout';
-      action.payload.routerState.context.id = 'checkout';
-      const state3 = fromReducer.reducer(initialState, action);
-      expect(state3.redirectUrl).toBe('/checkout');
-
+      action.payload.routerState.preserveRedirectUrl = false;
       action.payload.routerState.url = '/';
       action.payload.routerState.context.id = 'homepage';
-      const state4 = fromReducer.reducer(initialState, action);
-      expect(state4.redirectUrl).toBe('');
+      const state3 = fromReducer.reducer(initialState, action);
+      expect(state3.redirectUrl).toBe('');
     });
 
     describe('ROUTER_NAVIGATION', () => {
@@ -176,6 +182,7 @@ describe('Router Reducer', () => {
               id: '',
             },
             cmsRequired: false,
+            preserveRedirectUrl: false,
           },
         };
         const action = {
@@ -225,6 +232,7 @@ describe('Router Reducer', () => {
       params: {},
       context: { id: 'homepage', type: PageType.CONTENT_PAGE },
       cmsRequired: false,
+      preserveRedirectUrl: false,
     });
 
     await zone.run(() => router.navigateByUrl('category/1234'));
@@ -234,6 +242,7 @@ describe('Router Reducer', () => {
       params: { categoryCode: '1234' },
       context: { id: '1234', type: PageType.CATEGORY_PAGE },
       cmsRequired: false,
+      preserveRedirectUrl: false,
     });
 
     await zone.run(() => router.navigateByUrl('product/1234'));
@@ -243,6 +252,7 @@ describe('Router Reducer', () => {
       params: { productCode: '1234' },
       context: { id: '1234', type: PageType.PRODUCT_PAGE },
       cmsRequired: false,
+      preserveRedirectUrl: false,
     });
   });
 
