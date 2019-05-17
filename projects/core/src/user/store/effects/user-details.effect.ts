@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
 import { LOGIN } from '../../../auth/store/actions/login-logout.action';
 import { User } from '../../../model/misc.model';
-import { OccUserService } from '../../occ/index';
+import { UserDetailsConnector } from '../../connectors/details/user-details.connector';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class UserDetailsEffects {
     ofType(fromUserDetailsAction.LOAD_USER_DETAILS),
     map((action: fromUserDetailsAction.LoadUserDetails) => action.payload),
     mergeMap(userId => {
-      return this.occUserService.loadUser(userId).pipe(
+      return this.userDetailsConnector.get(userId).pipe(
         map((user: User) => {
           return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
         }),
@@ -45,8 +45,8 @@ export class UserDetailsEffects {
     ofType(fromUserDetailsAction.UPDATE_USER_DETAILS),
     map((action: fromUserDetailsAction.UpdateUserDetails) => action.payload),
     concatMap(payload =>
-      this.occUserService
-        .updateUserDetails(payload.username, payload.userDetails)
+      this.userDetailsConnector
+        .update(payload.username, payload.userDetails)
         .pipe(
           map(
             _ =>
@@ -63,6 +63,6 @@ export class UserDetailsEffects {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userDetailsConnector: UserDetailsConnector
   ) {}
 }
