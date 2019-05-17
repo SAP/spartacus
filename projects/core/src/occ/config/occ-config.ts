@@ -1,6 +1,7 @@
 import { ServerConfig } from '../../config/server-config/server-config';
 
 export type UserIdentifier = 'uid' | 'customerId';
+
 export abstract class OccConfig extends ServerConfig {
   site?: {
     baseSite?: string;
