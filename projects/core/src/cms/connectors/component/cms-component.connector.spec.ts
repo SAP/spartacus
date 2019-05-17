@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsComponentConnector } from './cms-component.connector';
-import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { PageType } from '../../../model/cms.model';
+import { CmsComponentAdapter } from './cms-component.adapter';
+import { CmsComponentConnector } from './cms-component.connector';
 import createSpy = jasmine.createSpy;
 
 class MockCmsComponentAdapter implements CmsComponentAdapter {
@@ -11,9 +11,9 @@ class MockCmsComponentAdapter implements CmsComponentAdapter {
     of('component' + id)
   );
 
-  loadList = createSpy('CmsComponentAdapter.loadList').and.callFake(idList =>
-    of(idList.map(id => 'component' + id))
-  );
+  findComponentsByIds = createSpy(
+    'CmsComponentAdapter.findComponentsByIds'
+  ).and.callFake(idList => of(idList.map(id => 'component' + id)));
 }
 
 const ids = ['comp_uid1', 'comp_uid2'];
@@ -72,7 +72,7 @@ describe('CmsComponentConnector', () => {
   describe('getList', () => {
     it('should call adapter', () => {
       service.getList(ids, context).subscribe();
-      expect(adapter.loadList).toHaveBeenCalledWith(ids, context);
+      expect(adapter.findComponentsByIds).toHaveBeenCalledWith(ids, context);
     });
     it('should use CmsStructureConfigService', () => {
       const structureConfigService = TestBed.get(CmsStructureConfigService);
