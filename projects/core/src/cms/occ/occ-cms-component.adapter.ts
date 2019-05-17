@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError, pluck } from 'rxjs/operators';
+import { PageType } from '../../model/cms.model';
 import { CmsComponent, CmsComponentList } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
-import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
-import { IdList } from '../model/idList.model';
 import { ConverterService } from '../../util/converter.service';
+import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
-import { pluck } from 'rxjs/operators';
-import { PageType } from '../../model/cms.model';
+import { IdList } from '../model/idList.model';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
@@ -32,7 +32,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
       .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
   }
 
-  loadList(
+  findComponentsByIds(
     ids: string[],
     pageContext: PageContext,
     fields = 'DEFAULT',
@@ -40,14 +40,52 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    const requestParams = this.getComponentsRequestParams(
-      pageContext,
-      currentPage,
-      pageSize,
-      sort
-    );
+    const requestParams = {
+      ...this.getContextParams(pageContext),
+      ...this.getPaginationParams(currentPage, pageSize, sort),
+    };
 
+    requestParams['componentIds'] = ids.toString();
+
+    return this.http
+      .get<CmsComponentList>(
+        this.getComponentsEndpoint(requestParams, fields),
+        {
+          headers: this.headers,
+        }
+      )
+      .pipe(
+        pluck('component'),
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
+        catchError(error => {
+          if (error.status === 400) {
+            return this.searchComponentsByIds(
+              ids,
+              pageContext,
+              fields,
+              currentPage,
+              pageSize,
+              sort
+            );
+          }
+        })
+      );
+  }
+
+  searchComponentsByIds(
+    ids: string[],
+    pageContext: PageContext,
+    fields = 'DEFAULT',
+    currentPage = 0,
+    pageSize = ids.length,
+    sort?: string
+  ): Observable<CmsComponent[]> {
     const idList: IdList = { idList: ids };
+
+    const requestParams = {
+      ...this.getContextParams(pageContext),
+      ...this.getPaginationParams(currentPage, pageSize, sort),
+    };
 
     return this.http
       .post<CmsComponentList>(
@@ -67,7 +105,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return this.occEndpoints.getUrl(
       'component',
       { id },
-      this.getComponentRequestParams(pageContext)
+      this.getContextParams(pageContext)
     );
   }
 
@@ -75,14 +113,12 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return this.occEndpoints.getUrl('components', { fields }, requestParams);
   }
 
-  private getComponentsRequestParams(
-    pageContext: PageContext,
+  private getPaginationParams(
     currentPage?: number,
     pageSize?: number,
     sort?: string
   ): { [key: string]: string } {
-    const requestParams = this.getComponentRequestParams(pageContext);
-
+    const requestParams = {};
     if (currentPage !== undefined) {
       requestParams['currentPage'] = currentPage.toString();
     }
@@ -96,7 +132,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return requestParams;
   }
 
-  private getComponentRequestParams(
+  private getContextParams(
     pageContext: PageContext
   ): { [key: string]: string } {
     let requestParams = {};
