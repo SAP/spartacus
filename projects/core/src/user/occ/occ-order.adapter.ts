@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderAdapter } from '../connectors/order.adapter';
+import { OrderAdapter } from '../connectors/order/order.adapter';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { ConverterService } from '../../util/converter.service';
 import {
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
-} from '../connectors/converters';
+} from '../connectors/order/converters';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
@@ -18,9 +18,9 @@ const FULL_PARAMS = 'fields=FULL';
 @Injectable()
 export class OccOrderAdapter implements OrderAdapter {
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
-    private converter: ConverterService
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
   protected getOrderEndpoint(userId: string): string {

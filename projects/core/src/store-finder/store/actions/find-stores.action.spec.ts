@@ -1,12 +1,12 @@
 import * as fromActions from './find-stores.action';
 import { StoreFinderSearchConfig } from '../../model/search-config';
-import { LongitudeLatitude } from '../../model/longitude-latitude';
 import {
   loadMeta,
   failMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
 import { STORE_FINDER_DATA } from '../store-finder-state';
+import { GeoPoint } from '../../../model/misc.model';
 
 describe('Find Stores Actions', () => {
   describe('OnHold', () => {
@@ -22,7 +22,7 @@ describe('Find Stores Actions', () => {
   describe('FindStores', () => {
     it('should create FindStores action', () => {
       const searchConfig: StoreFinderSearchConfig = { pageSize: 10 };
-      const longitudeLatitude: LongitudeLatitude = {
+      const longitudeLatitude: GeoPoint = {
         longitude: 10.1,
         latitude: 20.2,
       };
@@ -39,7 +39,7 @@ describe('Find Stores Actions', () => {
 
   describe('FindStores with coordinates', () => {
     it('should create FindStores action with only coordinates', () => {
-      const longitudeLatitude: LongitudeLatitude = {
+      const longitudeLatitude: GeoPoint = {
         longitude: 10.1,
         latitude: 20.2,
       };

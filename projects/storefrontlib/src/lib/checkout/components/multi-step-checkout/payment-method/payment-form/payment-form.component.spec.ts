@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ICON_TYPE } from '../../../../../../cms-components/misc/icon/index';
 
 import {
   CardType,
@@ -85,8 +86,8 @@ class MockCardComponent {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 class MockCheckoutService {

@@ -3,8 +3,9 @@ import {
   CmsBreadcrumbsComponent,
   PageMeta,
   PageMetaService,
+  TranslationService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
@@ -19,7 +20,8 @@ export class BreadcrumbComponent implements OnInit {
 
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
-    protected pageMetaService: PageMetaService
+    protected pageMetaService: PageMetaService,
+    private translation: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -35,12 +37,13 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   private setCrumbs(): void {
-    this.crumbs$ = this.pageMetaService
-      .getMeta()
-      .pipe(
-        map((meta: PageMeta) =>
-          meta.breadcrumbs ? meta.breadcrumbs : [{ label: 'Home', link: '/' }]
-        )
-      );
+    this.crumbs$ = combineLatest(
+      this.pageMetaService.getMeta(),
+      this.translation.translate('common.home')
+    ).pipe(
+      map(([meta, textHome]) =>
+        meta.breadcrumbs ? meta.breadcrumbs : [{ label: textHome, link: '/' }]
+      )
+    );
   }
 }
