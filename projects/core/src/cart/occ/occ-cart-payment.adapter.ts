@@ -58,6 +58,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
         return this.createSubWithProvider(sub.url, sub.parameters).pipe(
           map(response => this.extractPaymentDetailsFromHtml(response)),
           mergeMap(fromPaymentProvider => {
+            fromPaymentProvider['savePaymentInfo'] = true;
             return this.createDetailsWithParameters(
               userId,
               cartId,
