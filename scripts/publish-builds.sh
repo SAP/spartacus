@@ -55,8 +55,8 @@ publish_snapshot() {
 
     cp -R $LIB_DIR/* $TMP_DIR/
 
-    if [ -e README.md ]; then
-       rm README.md
+    if [ -e $TMP_DIR/README.md ]; then
+       rm $TMP_DIR/README.md
     fi
 
     echo `date` > $TMP_DIR/BUILD_INFO
