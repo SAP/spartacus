@@ -16,7 +16,17 @@ export class PaginationComponent {
   @Input() pagination: PaginationModel;
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
+  Array = Array;
+  Math = Math;
+
   pageChange(page: number): void {
-    this.viewPageEvent.emit(page - 1);
+    // Emit page change if page is valid
+    if (
+      page >= 0 &&
+      page < this.pagination.totalPages &&
+      page !== this.pagination.currentPage
+    ) {
+      this.viewPageEvent.emit(page);
+    }
   }
 }
