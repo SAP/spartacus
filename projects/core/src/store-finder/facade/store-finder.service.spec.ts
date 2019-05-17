@@ -5,8 +5,8 @@ import { StoresState } from '../store/store-finder-state';
 import * as fromStore from '../store';
 
 import { StoreFinderService } from './store-finder.service';
-import { LongitudeLatitude } from '../model/longitude-latitude';
 import { WindowRef } from '../../window/window-ref';
+import { GeoPoint } from '../../model/misc.model';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -18,7 +18,7 @@ describe('StoreFinderService', () => {
   const storeId = 'shop_los_angeles_1';
   const geolocationWatchId = 1;
 
-  const longitudeLatitude: LongitudeLatitude = {
+  const longitudeLatitude: GeoPoint = {
     longitude: 10.1,
     latitude: 20.2,
   };
