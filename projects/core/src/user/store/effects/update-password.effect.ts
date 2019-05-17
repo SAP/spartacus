@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { OccUserService } from '../../occ/index';
 import * as fromActions from '../actions/update-password.action';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 
 @Injectable()
 export class UpdatePasswordEffects {
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAccountConnector: UserAccountConnector
   ) {}
 
   @Effect()
@@ -19,7 +19,7 @@ export class UpdatePasswordEffects {
     ofType(fromActions.UPDATE_PASSWORD),
     map((action: fromActions.UpdatePassword) => action.payload),
     concatMap(payload =>
-      this.occUserService
+      this.userAccountConnector
         .updatePassword(
           payload.userId,
           payload.oldPassword,

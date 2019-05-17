@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderAdapter } from './order.adapter';
-import { Order, OrderHistoryList } from '../../model/order.model';
+import { Order, OrderHistoryList } from '../../../model/order.model';
 
 @Injectable({
   providedIn: 'root',
