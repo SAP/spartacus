@@ -30,7 +30,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     return this.occEndpoints.getEndpoint(endpoint);
   }
 
-  load(userId: string): Observable<Address[]> {
+  loadAll(userId: string): Observable<Address[]> {
     const url = this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

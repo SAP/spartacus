@@ -9,8 +9,8 @@ import { PaymentDetails } from '../../../model/cart.model';
 export class UserPaymentConnector {
   constructor(protected adapter: UserPaymentAdapter) {}
 
-  loadList(userId: string): Observable<PaymentDetails[]> {
-    return this.adapter.loadList(userId);
+  getAll(userId: string): Observable<PaymentDetails[]> {
+    return this.adapter.loadAll(userId);
   }
 
   delete(userId: string, paymentMethodID: string): Observable<{}> {

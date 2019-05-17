@@ -9,7 +9,7 @@ import { User } from '../../../model/misc.model';
 export class UserDetailsConnector {
   constructor(protected adapter: UserDetailsAdapter) {}
 
-  load(userId: string): Observable<User> {
+  get(userId: string): Observable<User> {
     return this.adapter.load(userId);
   }
 

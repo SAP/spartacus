@@ -63,7 +63,7 @@ describe('OccUserPaymentAdapter', () => {
         payments: [mockPayment1, mockPayment2],
       };
 
-      service.loadList(username).subscribe(result => {
+      service.loadAll(username).subscribe(result => {
         expect(result).toEqual(mockUserPaymentMethods.payments);
       });
 
@@ -81,7 +81,7 @@ describe('OccUserPaymentAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.loadList(username).subscribe();
+      service.loadAll(username).subscribe();
       httpMock
         .expectOne(
           `${endpoint}/${username}${paymentDetailsEndpoint}?saved=true`

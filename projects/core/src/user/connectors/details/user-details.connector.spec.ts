@@ -29,9 +29,9 @@ describe('UserDetailsConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('load should call adapter', () => {
+  it('get should call adapter', () => {
     let result;
-    service.load('user-id').subscribe(res => (result = res));
+    service.get('user-id').subscribe(res => (result = res));
     expect(result).toEqual('load-user-id');
     expect(adapter.load).toHaveBeenCalledWith('user-id');
   });

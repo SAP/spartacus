@@ -22,7 +22,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.LOAD_USER_ADDRESSES),
     map((action: fromUserAddressesAction.LoadUserAddresses) => action.payload),
     mergeMap(payload => {
-      return this.userAddressConnector.load(payload).pipe(
+      return this.userAddressConnector.getAll(payload).pipe(
         map((addresses: Address[]) => {
           return new fromUserAddressesAction.LoadUserAddressesSuccess(
             addresses

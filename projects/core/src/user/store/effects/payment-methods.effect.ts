@@ -16,7 +16,7 @@ export class UserPaymentMethodsEffects {
         action.payload
     ),
     mergeMap(payload => {
-      return this.userPaymentMethodConnector.loadList(payload).pipe(
+      return this.userPaymentMethodConnector.getAll(payload).pipe(
         map((payments: PaymentDetails[]) => {
           return new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
             payments

@@ -36,7 +36,7 @@ describe('User Details effect', () => {
 
   describe('loadUserDetails$', () => {
     it('should load user details', () => {
-      spyOn(userService, 'load').and.returnValue(of(mockUserDetails));
+      spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
 
       const action = new fromUserDetailsAction.LoadUserDetails('mockName');
       const completion = new fromUserDetailsAction.LoadUserDetailsSuccess(

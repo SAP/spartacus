@@ -14,7 +14,7 @@ const mockAddress: Address = {
 class MockAddressUserAdapter implements UserAddressAdapter {
   add = createSpy('add').and.returnValue(of({}));
   delete = createSpy('delete').and.returnValue(of({}));
-  load = createSpy('load').and.callFake(userId => of(`load-${userId}`));
+  loadAll = createSpy('loadAll').and.callFake(userId => of(`load-${userId}`));
   update = createSpy('update').and.returnValue(of({}));
   verify = createSpy('verify').and.callFake(userId => of(`verify-${userId}`));
 }
@@ -52,11 +52,11 @@ describe('UserAddressConnector', () => {
     expect(adapter.delete).toHaveBeenCalledWith('user-id', 'address-id');
   });
 
-  it('load should call adapter', () => {
+  it('getAll should call adapter', () => {
     let result;
-    service.load('user-id').subscribe(res => (result = res));
+    service.getAll('user-id').subscribe(res => (result = res));
     expect(result).toEqual('load-user-id');
-    expect(adapter.load).toHaveBeenCalledWith('user-id');
+    expect(adapter.loadAll).toHaveBeenCalledWith('user-id');
   });
 
   it('update should call adapter', () => {

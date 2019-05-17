@@ -15,7 +15,7 @@ export class UserDetailsEffects {
     ofType(fromUserDetailsAction.LOAD_USER_DETAILS),
     map((action: fromUserDetailsAction.LoadUserDetails) => action.payload),
     mergeMap(userId => {
-      return this.userDetailsConnector.load(userId).pipe(
+      return this.userDetailsConnector.get(userId).pipe(
         map((user: User) => {
           return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
         }),

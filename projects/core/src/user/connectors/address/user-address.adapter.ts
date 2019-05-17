@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Address, AddressValidation } from '../../../model/address.model';
 
 export abstract class UserAddressAdapter {
-  abstract load(userId: string): Observable<Address[]>;
+  abstract loadAll(userId: string): Observable<Address[]>;
 
   abstract add(userId: string, address: Address): Observable<{}>;
 

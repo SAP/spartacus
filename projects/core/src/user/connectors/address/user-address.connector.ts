@@ -9,8 +9,8 @@ import { Address, AddressValidation } from '../../../model/address.model';
 export class UserAddressConnector {
   constructor(protected adapter: UserAddressAdapter) {}
 
-  load(userId: string): Observable<Address[]> {
-    return this.adapter.load(userId);
+  getAll(userId: string): Observable<Address[]> {
+    return this.adapter.loadAll(userId);
   }
 
   add(userId: string, address: Address): Observable<{}> {

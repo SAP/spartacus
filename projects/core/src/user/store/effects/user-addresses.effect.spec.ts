@@ -58,7 +58,9 @@ describe('User Addresses effect', () => {
     );
     userAddressConnector = TestBed.get(UserAddressConnector);
 
-    spyOn(userAddressConnector, 'load').and.returnValue(of(mockUserAddresses));
+    spyOn(userAddressConnector, 'getAll').and.returnValue(
+      of(mockUserAddresses)
+    );
     spyOn(userAddressConnector, 'add').and.returnValue(of({}));
 
     spyOn(userAddressConnector, 'update').and.returnValue(of({}));

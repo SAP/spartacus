@@ -117,7 +117,7 @@ describe('OccUserAddressAdapter', () => {
         addresses: [mockAddress1, mockAddress2],
       };
 
-      service.load(username).subscribe(result => {
+      service.loadAll(username).subscribe(result => {
         expect(result).toEqual(mockUserAddresses.addresses);
       });
 
@@ -134,7 +134,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.load(username).subscribe();
+      service.loadAll(username).subscribe();
       httpMock
         .expectOne(endpoint + `/${username}` + addressesEndpoint)
         .flush({});
