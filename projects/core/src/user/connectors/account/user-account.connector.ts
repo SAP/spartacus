@@ -8,7 +8,7 @@ import { UserRegisterFormData } from '../../../user/model/user.model';
   providedIn: 'root',
 })
 export class UserAccountConnector {
-  constructor(private adapter: UserAccountAdapter) {}
+  constructor(protected adapter: UserAccountAdapter) {}
 
   register(user: UserRegisterFormData): Observable<User> {
     return this.adapter.register(user);

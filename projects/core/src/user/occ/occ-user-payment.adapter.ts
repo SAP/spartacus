@@ -16,7 +16,7 @@ const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 export class OccUserPaymentAdapter implements UserPaymentAdapter {
   constructor(
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 

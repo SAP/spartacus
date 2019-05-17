@@ -7,7 +7,7 @@ import { User } from '../../../model/misc.model';
   providedIn: 'root',
 })
 export class UserDetailsConnector {
-  constructor(private adapter: UserDetailsAdapter) {}
+  constructor(protected adapter: UserDetailsAdapter) {}
 
   load(userId: string): Observable<User> {
     return this.adapter.load(userId);

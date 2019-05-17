@@ -7,7 +7,7 @@ import { PaymentDetails } from '../../../model/cart.model';
   providedIn: 'root',
 })
 export class UserPaymentConnector {
-  constructor(private adapter: UserPaymentAdapter) {}
+  constructor(protected adapter: UserPaymentAdapter) {}
 
   loadList(userId: string): Observable<PaymentDetails[]> {
     return this.adapter.loadList(userId);

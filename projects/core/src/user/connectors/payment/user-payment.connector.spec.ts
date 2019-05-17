@@ -11,7 +11,7 @@ class MockUserPaymentAdapter implements UserPaymentAdapter {
   setDefault = createSpy('load').and.returnValue(of({}));
 }
 
-describe('SiteConnector', () => {
+describe('UserPaymentConnector', () => {
   let service: UserPaymentConnector;
   let adapter: UserPaymentAdapter;
 

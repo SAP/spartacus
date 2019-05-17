@@ -7,7 +7,7 @@ import { Address, AddressValidation } from '../../../model/address.model';
   providedIn: 'root',
 })
 export class UserAddressConnector {
-  constructor(private adapter: UserAddressAdapter) {}
+  constructor(protected adapter: UserAddressAdapter) {}
 
   load(userId: string): Observable<Address[]> {
     return this.adapter.load(userId);

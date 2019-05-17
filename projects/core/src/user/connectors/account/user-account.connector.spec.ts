@@ -17,7 +17,7 @@ class MockUserAccountAdapter implements UserAccountAdapter {
   updatePassword = createSpy('updatePassword').and.returnValue(of({}));
 }
 
-describe('SiteConnector', () => {
+describe('UserAccountConnector', () => {
   let service: UserAccountConnector;
   let adapter: UserAccountAdapter;
 

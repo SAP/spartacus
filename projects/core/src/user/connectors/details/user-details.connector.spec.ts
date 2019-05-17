@@ -10,7 +10,7 @@ class MockUserDetailsAdapter implements UserDetailsAdapter {
   update = createSpy('update').and.returnValue(of({}));
 }
 
-describe('SiteConnector', () => {
+describe('UserDetailsConnector', () => {
   let service: UserDetailsConnector;
   let adapter: UserDetailsAdapter;
 

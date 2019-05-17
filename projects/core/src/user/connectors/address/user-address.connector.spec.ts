@@ -19,7 +19,7 @@ class MockAddressUserAdapter implements UserAddressAdapter {
   verify = createSpy('verify').and.callFake(userId => of(`verify-${userId}`));
 }
 
-describe('SiteConnector', () => {
+describe('UserAddressConnector', () => {
   let service: UserAddressConnector;
   let adapter: UserAddressAdapter;
 
