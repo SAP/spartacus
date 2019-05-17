@@ -658,12 +658,13 @@ describe('UserService', () => {
   });
 
   describe('update password', () => {
-    const userId = 'email@test.com';
+    const userId = mockUser.customerId;
     const oldPassword = 'oldPass123';
     const newPassword = 'newPass456';
 
     it('should updatePassword() dispatch UpdatePassword action', () => {
-      service.updatePassword(userId, oldPassword, newPassword);
+      store.dispatch(new fromStore.LoadUserDetailsSuccess(mockUser));
+      service.updatePassword(oldPassword, newPassword);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.UpdatePassword({ userId, oldPassword, newPassword })

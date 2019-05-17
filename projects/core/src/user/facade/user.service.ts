@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { Title, User } from '../../model/misc.model';
@@ -519,19 +519,18 @@ export class UserService {
   }
 
   /**
-   * Updates the password for an authenticated user
-   * @param userId the user id for which the password will be updated
-   * @param oldPassword the current password that will be changed
+   * Update the password for the current user.
+   * @param oldPassword the old password that will be changed
    * @param newPassword the new password
    */
-  updatePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string
-  ): void {
-    this.store.dispatch(
-      new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
-    );
+  updatePassword(oldPassword: string, newPassword: string): void {
+    this.getUserId()
+      .pipe(take(1))
+      .subscribe(userId => {
+        this.store.dispatch(
+          new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+        );
+      });
   }
 
   /**
