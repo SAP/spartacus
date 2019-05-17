@@ -1,20 +1,28 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Address, Country, Region } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Title, User } from '../../model/misc.model';
+import { Order, OrderHistoryList } from '../../model/order.model';
+import { OccConfig } from '../../occ/config/occ-config';
+import { Occ } from '../../occ/occ-models/occ.models';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import { defaultOccProductConfig } from '../../product/config/product-config';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
-import { UserService } from './user.service';
-import { Title, User } from '../../model/misc.model';
-import { Address, Country, Region } from '../../model/address.model';
-import { Order, OrderHistoryList } from '../../model/order.model';
-import { PaymentDetails } from '../../model/cart.model';
-import { Occ } from '../../occ/occ-models/occ.models';
+import { UserService, USER_ID_ANONIMOUS } from './user.service';
+
+const mockUser = {
+  uid: 'testUser@domain.com',
+  customerId: 'EC59BB80-B246-446B-9BD7-F13AFA469BF0',
+} as User;
 
 describe('UserService', () => {
   let service: UserService;
   let store: Store<fromStore.UserState>;
+  let occConfig: OccConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,12 +34,16 @@ describe('UserService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserService],
+      providers: [
+        UserService,
+        { provide: OccConfig, useValue: defaultOccProductConfig },
+      ],
     });
 
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.get(UserService);
+    occConfig = TestBed.get(OccConfig);
   });
 
   it('should UserService is injected', inject(
@@ -54,6 +66,59 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(userDetails).toEqual({ uid: 'testUser' });
+  });
+
+  describe('getUserId', () => {
+    it('should return the customerId value for the default config', () => {
+      store.dispatch(new fromStore.LoadUserDetailsSuccess(mockUser));
+
+      let userId: string;
+      service
+        .getUserId()
+        .subscribe(result => {
+          userId = result;
+        })
+        .unsubscribe();
+      expect(userId).toEqual(mockUser.customerId);
+    });
+
+    it('should return the uid (email) value for the uid override config', () => {
+      occConfig.backend.occ.userIdentifier = 'uid';
+      store.dispatch(new fromStore.LoadUserDetailsSuccess(mockUser));
+
+      let userId: string;
+      service
+        .getUserId()
+        .subscribe(result => {
+          userId = result;
+        })
+        .unsubscribe();
+      expect(userId).toEqual(mockUser.uid);
+    });
+
+    it('should return anonymous for default config if no user is loaded', () => {
+      let userId: string;
+      service
+        .getUserId()
+        .subscribe(result => {
+          userId = result;
+        })
+        .unsubscribe();
+      expect(userId).toEqual(USER_ID_ANONIMOUS);
+    });
+
+    it('should return anonymous for the uid override confifg if no user is loaded', () => {
+      occConfig.backend.occ.userIdentifier = 'uid';
+
+      let userId: string;
+      service
+        .getUserId()
+        .subscribe(result => {
+          userId = result;
+        })
+        .unsubscribe();
+      expect(userId).toEqual(USER_ID_ANONIMOUS);
+    });
   });
 
   it('should be able to load user details', () => {

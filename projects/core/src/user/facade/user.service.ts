@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { Address, Country, Region } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Title, User } from '../../model/misc.model';
+import { Order, OrderHistoryList } from '../../model/order.model';
+import { OccConfig } from '../../occ/config/occ-config';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -14,17 +19,15 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-state';
-import { Title, User } from '../../model/misc.model';
-import { Order, OrderHistoryList } from '../../model/order.model';
-import { PaymentDetails } from '../../model/cart.model';
-import { Address, Country, Region } from '../../model/address.model';
 
+export const USER_ID_ANONIMOUS = 'anonymous';
 @Injectable()
 export class UserService {
   constructor(
     private store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
+    >,
+    private config: OccConfig
   ) {}
 
   /**
@@ -41,6 +44,29 @@ export class UserService {
     this.store.dispatch(new fromStore.LoadUserDetails(userId));
   }
 
+  /**
+   * getUserId() returns the current user's identifier to use with backend calls.
+   *
+   * The identifier value depends on the app configuration property backend.occ.userIdentifier.
+   * By default, getUserId() will return the user's customerId.
+   * getUserId() can also be configured to return the user's uid by setting
+   * backend.occ.userIdentifier to 'uid'.
+   *
+   * In any case, if no authenticated user is present, USER_ID_ANONIMOUS is returned.
+   */
+  getUserId(): Observable<string> {
+    if (this.config.backend.occ.userIdentifier === 'uid') {
+      return this.get().pipe(map(user => this.userIdOrAnonymous(user.uid)));
+    } else {
+      return this.get().pipe(
+        map(user => this.userIdOrAnonymous(user.customerId))
+      );
+    }
+  }
+
+  private userIdOrAnonymous(userId: string): string {
+    return userId ? userId : USER_ID_ANONIMOUS;
+  }
   /**
    * Register a new user
    *
