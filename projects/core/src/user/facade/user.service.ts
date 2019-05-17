@@ -45,14 +45,14 @@ export class UserService {
   }
 
   /**
-   * getUserId() returns the current user's identifier to use with backend calls.
+   * getUserId() returns the current user's identifier value to use with backend calls.
    *
-   * The identifier value depends on the app configuration property backend.occ.userIdentifier.
-   * By default, getUserId() will return the user's customerId.
-   * getUserId() can also be configured to return the user's uid by setting
+   * The identifier field used depends on the app configuration property backend.occ.userIdentifier.
+   * By default, getUserId() will return the user's customerId value.
+   * getUserId() can also be configured to return the user's uid value by setting
    * backend.occ.userIdentifier to 'uid'.
    *
-   * In any case, if no authenticated user is present, USER_ID_ANONIMOUS is returned.
+   * In any case, if no authenticated user is present in the state, USER_ID_ANONIMOUS is returned.
    */
   getUserId(): Observable<string> {
     if (this.config.backend.occ.userIdentifier === 'uid') {
