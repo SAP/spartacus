@@ -32,7 +32,7 @@ export class LogoutGuard implements CanActivate {
       .pipe(
         tap(hasPage => {
           if (!hasPage) {
-            this.routing.go(['/']);
+            this.routing.go({ cxRoute: 'home' });
           }
         })
       );
