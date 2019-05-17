@@ -12,7 +12,7 @@ import { ConverterService } from '../../util/converter.service';
 import {
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
   POINT_OF_SERVICE_NORMALIZER,
-  STORE_FINDER_COUNT_NORMALIZER,
+  STORE_COUNT_NORMALIZER,
 } from '../connectors';
 
 const queryText = 'test';
@@ -141,7 +141,7 @@ describe('OccStoreFinderAdapter', () => {
       adapter.loadCount().subscribe();
       httpMock.expectOne({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        STORE_FINDER_COUNT_NORMALIZER
+        STORE_COUNT_NORMALIZER
       );
     });
   });

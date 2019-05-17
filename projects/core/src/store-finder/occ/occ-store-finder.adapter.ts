@@ -16,7 +16,7 @@ import { ConverterService } from '../../util/converter.service';
 import { Occ } from '../../occ/occ-models/occ.models';
 import {
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
-  STORE_FINDER_COUNT_NORMALIZER,
+  STORE_COUNT_NORMALIZER,
   POINT_OF_SERVICE_NORMALIZER,
 } from '../connectors';
 
@@ -47,7 +47,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     return this.http.get<Occ.StoreCountList>(storeCountUrl).pipe(
       map(({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount),
       catchError((error: any) => throwError(error.json())),
-      this.converter.pipeableMany(STORE_FINDER_COUNT_NORMALIZER)
+      this.converter.pipeableMany(STORE_COUNT_NORMALIZER)
     );
   }
 

@@ -7,15 +7,13 @@ import { StoreFinderSearchConfig } from '../model';
 import { GeoPoint } from '../../model';
 
 class MockStoreFinderAdapter implements StoreFinderAdapter {
-  search = createSpy('adapter.search').and.callFake(() =>
+  search = createSpy('adapter.search').and.returnValue(
     of(`adapter.search result`)
   );
 
-  load = createSpy('adapter.load').and.callFake(() =>
-    of(`adapter.load result`)
-  );
+  load = createSpy('adapter.load').and.returnValue(of(`adapter.load result`));
 
-  loadCount = createSpy('adapter.loadCount').and.callFake(() =>
+  loadCount = createSpy('adapter.loadCount').and.returnValue(
     of(`adapter.loadCount result`)
   );
 }
