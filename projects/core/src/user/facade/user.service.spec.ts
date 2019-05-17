@@ -9,7 +9,6 @@ import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models'
 import { Occ } from '../../occ/occ-models/occ.models';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import { defaultOccProductConfig } from '../../product/config/product-config';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
@@ -19,6 +18,14 @@ const mockUser = {
   uid: 'testUser@domain.com',
   customerId: 'EC59BB80-B246-446B-9BD7-F13AFA469BF0',
 } as User;
+
+const mockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      userIdentifier: 'customerId',
+    },
+  },
+};
 
 describe('UserService', () => {
   let service: UserService;
@@ -37,7 +44,7 @@ describe('UserService', () => {
       ],
       providers: [
         UserService,
-        { provide: OccConfig, useValue: defaultOccProductConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
       ],
     });
 
