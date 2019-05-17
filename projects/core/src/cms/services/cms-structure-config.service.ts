@@ -12,11 +12,11 @@ import { CmsStructureModel } from '../model/page.model';
 /**
  * Service that provides access to CMS structure from a static
  * configuration or configuration file. This class uses static
- * configuration is designed in async fashion so that configuratiosn
+ * configuration is designed in async fashion so that configurations
  * can be loaded from a file or stream.
  *
- * The intend of the `CmsStructureConfigService` however is to provide
- * fast loading pages and default cms structure for comodoty commerce.
+ * The intent of the `CmsStructureConfigService` however is to provide
+ * fast loading pages and default cms structure for commodity commerce.
  */
 @Injectable({
   providedIn: 'root',
