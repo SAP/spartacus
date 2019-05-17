@@ -164,7 +164,7 @@ describe('ProductListComponent in product-list', () => {
       done();
     });
 
-    pagination.pageChange(2);
+    pagination.pageChange(1);
   });
 
   it('should change sortings', done => {

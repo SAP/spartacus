@@ -21,11 +21,15 @@ export class PaginationComponent {
 
   pageChange(page: number): void {
     // Emit page change if page is valid
-    if (
-      page >= 0 &&
-      page < this.pagination.totalPages &&
-      page !== this.pagination.currentPage
-    ) {
+    if (this.pagination) {
+      if (
+        page >= 0 &&
+        page < this.pagination.totalPages &&
+        page !== this.pagination.currentPage
+      ) {
+        this.viewPageEvent.emit(page);
+      }
+    } else {
       this.viewPageEvent.emit(page);
     }
   }
