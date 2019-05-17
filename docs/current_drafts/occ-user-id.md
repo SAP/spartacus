@@ -1,6 +1,6 @@
 # OCC User Identifier with 1905+
 
-It is a security best practice to avoid using sensitive user information in the endpoint urls.  Starting from SAP CX commerce version 1905, it is now possible to use other identifiers than the uid ( which contains the user email by default ).
+It is a security best practice to avoid using sensitive user information in the endpoint urls.  Starting from SAP Commerce 1905, it is now possible to use other identifiers than the uid ( which contains the user email by default ).
 
 Spartacus now uses this security improvement.  By default, Spartacus will use the user's customerId as a user identifier in the OCC call urls.
 
@@ -14,7 +14,7 @@ Where e57924e5-cafe-4b58-997d-9d684367cab8 is the user's customerId.
 
 ## Backward compatibility with versions prior to 1905
 
-In order to use Spartacus with SAP CX commerce 1811, it is possible to override this behaviour with a configuration.
+In order to use Spartacus with SAP Commerce 1811, it is possible to override this behaviour with a configuration.
 
 In the app.module.ts file of your Angular app, set the Spartacus config `backend.occ.userIdentifier` to `uid`.  
 
