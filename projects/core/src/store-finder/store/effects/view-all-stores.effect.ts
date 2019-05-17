@@ -18,7 +18,7 @@ export class ViewAllStoresEffect {
   viewAllStores$: Observable<any> = this.actions$.pipe(
     ofType(fromAction.VIEW_ALL_STORES),
     switchMap(() => {
-      return this.storeFinderConnector.getCount().pipe(
+      return this.storeFinderConnector.getCounts().pipe(
         map(data => new fromAction.ViewAllStoresSuccess(data)),
         catchError(error => of(new fromAction.ViewAllStoresFail(error)))
       );

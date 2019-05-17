@@ -14,7 +14,7 @@ export abstract class StoreFinderAdapter {
     longitudeLatitude?: GeoPoint
   ): Observable<StoreFinderSearchPage>;
 
-  abstract loadCount(): Observable<StoreCount[]>;
+  abstract loadCounts(): Observable<StoreCount[]>;
 
   abstract load(storeId: string): Observable<PointOfService>;
 }

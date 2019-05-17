@@ -13,8 +13,8 @@ class MockStoreFinderAdapter implements StoreFinderAdapter {
 
   load = createSpy('adapter.load').and.returnValue(of(`adapter.load result`));
 
-  loadCount = createSpy('adapter.loadCount').and.returnValue(
-    of(`adapter.loadCount result`)
+  loadCounts = createSpy('adapter.loadCounts').and.returnValue(
+    of(`adapter.loadCounts result`)
   );
 }
 
@@ -62,10 +62,10 @@ describe('StoreFinderConnector', () => {
     expect(adapter.load).toHaveBeenCalledWith('storeId');
   });
 
-  it('getCount should call adapter', () => {
+  it('getCounts should call adapter', () => {
     let result;
-    service.getCount().subscribe(res => (result = res));
-    expect(result).toBe('adapter.loadCount result');
-    expect(adapter.loadCount).toHaveBeenCalled();
+    service.getCounts().subscribe(res => (result = res));
+    expect(result).toBe('adapter.loadCounts result');
+    expect(adapter.loadCounts).toHaveBeenCalled();
   });
 });

@@ -41,7 +41,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     );
   }
 
-  loadCount(): Observable<StoreCount[]> {
+  loadCounts(): Observable<StoreCount[]> {
     const storeCountUrl = this.getStoresEndpoint('storescounts');
 
     return this.http.get<Occ.StoreCountList>(storeCountUrl).pipe(

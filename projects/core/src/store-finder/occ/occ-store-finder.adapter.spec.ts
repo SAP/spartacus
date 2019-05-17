@@ -123,9 +123,9 @@ describe('OccStoreFinderAdapter', () => {
     });
   });
 
-  describe('loadCount', () => {
+  describe('loadCounts', () => {
     it('should request stores count', () => {
-      adapter.loadCount().subscribe(result => {
+      adapter.loadCounts().subscribe(result => {
         expect(result).toEqual([
           { count: 1, name: 'name1' },
           { count: 2, name: 'name2' },
@@ -138,7 +138,7 @@ describe('OccStoreFinderAdapter', () => {
     });
 
     it('should use converter', () => {
-      adapter.loadCount().subscribe();
+      adapter.loadCounts().subscribe();
       httpMock.expectOne({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         STORE_COUNT_NORMALIZER

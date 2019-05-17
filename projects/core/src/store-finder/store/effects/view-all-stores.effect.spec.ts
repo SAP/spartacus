@@ -30,7 +30,7 @@ const storesCountResult: StoreCount[] = [
 ];
 
 const mockStoreFinderConnector = {
-  getCount: createSpy('connector.getCount').and.returnValue(
+  getCounts: createSpy('connector.getCounts').and.returnValue(
     of(storesCountResult)
   ),
 };

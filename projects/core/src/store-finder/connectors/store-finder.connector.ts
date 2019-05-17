@@ -21,8 +21,8 @@ export abstract class StoreFinderConnector {
     return this.adapter.search(query, searchConfig, longitudeLatitude);
   }
 
-  getCount(): Observable<StoreCount[]> {
-    return this.adapter.loadCount();
+  getCounts(): Observable<StoreCount[]> {
+    return this.adapter.loadCounts();
   }
 
   get(storeId: string): Observable<PointOfService> {
