@@ -1,4 +1,4 @@
-import { InjectionToken, Provider, Injectable } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import { Params, RouterStateSnapshot } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import {
@@ -12,7 +12,6 @@ import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 import { PageContext } from '../../models/page-context.model';
 import { ROUTING_FEATURE } from '../../state';
 import * as fromActions from '../actions';
-import { UrlService } from '../../configurable-routes';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -31,7 +30,6 @@ export const initialState: RouterState = {
       id: '',
     },
     cmsRequired: false,
-    preserveRedirectUrl: false,
   },
   nextState: undefined,
 };
@@ -42,7 +40,6 @@ export interface ActivatedRouterStateSnapshot {
   params: Params;
   context: PageContext;
   cmsRequired: boolean;
-  preserveRedirectUrl: boolean;
 }
 
 export interface State {
@@ -86,12 +83,16 @@ export function reducer(
       const currentUrl = action.payload.routerState
         ? action.payload.routerState.url
         : '';
-      const preserveRedirectUrl =
-        action.payload.routerState &&
-        action.payload.routerState.preserveRedirectUrl;
+      const contextId = action.payload.routerState
+        ? action.payload.routerState.context.id
+        : '';
       let redirectUrl;
-
-      if (preserveRedirectUrl || currentUrl === state.redirectUrl) {
+      if (
+        // TODO: Should be rafactored, utilizimg semantic pages configuration
+        contextId === '/login' ||
+        contextId === '/login/register' ||
+        currentUrl === state.redirectUrl
+      ) {
         redirectUrl = state.redirectUrl;
       } else {
         redirectUrl = '';
@@ -163,12 +164,9 @@ export const getRedirectUrl: MemoizedSelector<any, string> = createSelector(
 /* The serializer is there to parse the RouterStateSnapshot,
 and to reduce the amount of properties to be passed to the reducer.
  */
-@Injectable()
 export class CustomSerializer
   implements
     fromNgrxRouter.RouterStateSerializer<ActivatedRouterStateSnapshot> {
-  constructor(private urlService: UrlService) {}
-
   serialize(routerState: RouterStateSnapshot): ActivatedRouterStateSnapshot {
     const { url } = routerState;
     const { queryParams } = routerState.root;
@@ -232,17 +230,7 @@ export class CustomSerializer
         }
       }
     }
-    const preserveRedirectUrl =
-      context.id === this.urlService.getSemanticUrl('login') ||
-      context.id === this.urlService.getSemanticUrl('register');
 
-    return {
-      url,
-      queryParams,
-      params,
-      context,
-      cmsRequired,
-      preserveRedirectUrl,
-    };
+    return { url, queryParams, params, context, cmsRequired };
   }
 }
