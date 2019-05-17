@@ -29,11 +29,11 @@ export class MediaService {
     },
   ];
 
-  getImage(media, format?: string, alt?: string): Media {
+  getMedia(container, format?: string, alt?: string): Media {
     return {
-      src: this.getMainImage(media, format),
-      srcset: this.getSrcSet(media),
-      alt: alt || this.getAlt(media, format),
+      src: this.getMainImage(container, format),
+      srcset: this.getSrcSet(container),
+      alt: alt || this.getAlt(container, format),
     };
   }
 
