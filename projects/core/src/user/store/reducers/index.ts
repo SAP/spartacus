@@ -6,10 +6,15 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/index';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { OrderHistoryList } from '../../../model/order.model';
+import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   UserState,
   USER_ADDRESSES,
+  USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
 } from '../user-state';
@@ -21,11 +26,9 @@ import * as fromRegionsReducer from './regions.reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
 import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
+import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import { Address } from '../../../model/address.model';
-import { PaymentDetails } from '../../../model/cart.model';
-import { OrderHistoryList } from '../../../model/order.model';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -37,6 +40,10 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromAddressesReducer.reducer
     ),
     billingCountries: fromBillingCountriesReducer.reducer,
+    consents: loaderReducer<ConsentTemplateList>(
+      USER_CONSENTS,
+      fromUserConsentsReducer.reducer
+    ),
     payments: loaderReducer<PaymentDetails[]>(
       USER_PAYMENT_METHODS,
       fromPaymentReducer.reducer

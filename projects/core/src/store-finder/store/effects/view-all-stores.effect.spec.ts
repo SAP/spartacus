@@ -9,11 +9,13 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/view-all-stores.action';
 import { OccConfig } from '../../../occ';
-import { OccStoreFinderService } from '../../occ/store-finder.service';
 
 import * as fromEffects from './view-all-stores.effect';
+import { StoreFinderConnector } from '../../connectors/store-finder.connector';
+import createSpy = jasmine.createSpy;
+import { StoreCount } from '../../../model/store-finder.model';
 
-const MockOccModuleConfig: OccConfig = {
+const mockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
       baseUrl: '',
@@ -22,34 +24,41 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+const storesCountResult: StoreCount[] = [
+  { count: 1, name: 'name1' },
+  { count: 2, name: 'name2' },
+];
+
+const mockStoreFinderConnector = {
+  getCounts: createSpy('connector.getCounts').and.returnValue(
+    of(storesCountResult)
+  ),
+};
+
 describe('ViewAllStores Effects', () => {
   let actions$: Observable<any>;
-  let service: OccStoreFinderService;
   let effects: fromEffects.ViewAllStoresEffect;
-
-  const searchResult: any = { stores: [] };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccStoreFinderService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: StoreFinderConnector, useValue: mockStoreFinderConnector },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.ViewAllStoresEffect,
         provideMockActions(() => actions$),
       ],
     });
 
-    service = TestBed.get(OccStoreFinderService);
     effects = TestBed.get(fromEffects.ViewAllStoresEffect);
-
-    spyOn(service, 'storesCount').and.returnValue(of(searchResult));
   });
 
   describe('viewAllStores$', () => {
     it('should return searchResult from ViewAllStoresSuccess', () => {
       const action = new fromActions.ViewAllStores();
-      const completion = new fromActions.ViewAllStoresSuccess(searchResult);
+      const completion = new fromActions.ViewAllStoresSuccess(
+        storesCountResult
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

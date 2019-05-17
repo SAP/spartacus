@@ -7,8 +7,8 @@ import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { Observable, of, throwError } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 import { Order } from '../../../model/order.model';
-import { OrderConnector } from '../../connectors/order.connector';
-import { OrderAdapter } from '../../connectors/order.adapter';
+import { OrderConnector } from '../../connectors/order/order.connector';
+import { OrderAdapter } from '../../connectors/order/order.adapter';
 
 const mockOrderDetails: Order = {};
 
