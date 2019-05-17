@@ -1,7 +1,7 @@
-import { LongitudeLatitude } from './longitude-latitude';
+import { GeoPoint } from '../../model/misc.model';
 
 export interface StoreFinderSearchQuery {
   queryText?: string;
-  longitudeLatitude?: LongitudeLatitude;
+  longitudeLatitude?: GeoPoint;
   useMyLocation?: boolean;
 }
