@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/assets",
+  "lib": {
+    "umdModuleIds": {
+      "@spartacus/core": "core"
+    },
+    "entryFile": "./src/public_api.ts"
+  }
+}
