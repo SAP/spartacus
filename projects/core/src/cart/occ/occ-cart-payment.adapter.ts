@@ -7,8 +7,8 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { CartPaymentAdapter } from '../connectors/payment/cart-payment.adapter';
 import { ConverterService } from '../../util/converter.service';
 import {
-  CART_PAYMENT_DETAILS_NORMALIZER,
-  CART_PAYMENT_DETAILS_SERIALIZER,
+  PAYMENT_DETAILS_NORMALIZER,
+  PAYMENT_DETAILS_SERIALIZER,
 } from '../connectors/payment/converters';
 import { PaymentDetails } from '../../model/cart.model';
 
@@ -38,7 +38,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
   ): Observable<PaymentDetails> {
     paymentDetails = this.converter.convert(
       paymentDetails,
-      CART_PAYMENT_DETAILS_SERIALIZER
+      PAYMENT_DETAILS_SERIALIZER
     );
     return this.getProviderSubInfo(userId, cartId).pipe(
       map(data => {
@@ -63,7 +63,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
               userId,
               cartId,
               fromPaymentProvider
-            ).pipe(this.converter.pipeable(CART_PAYMENT_DETAILS_NORMALIZER));
+            ).pipe(this.converter.pipeable(PAYMENT_DETAILS_NORMALIZER));
           })
         );
       })

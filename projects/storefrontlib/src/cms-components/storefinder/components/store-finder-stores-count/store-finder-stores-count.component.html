@@ -5,10 +5,7 @@
   "
 >
   <div class="cx-count container">
-    <div
-      *ngFor="let country of locations?.countriesAndRegionsStoreCount"
-      class="cx-set"
-    >
+    <div *ngFor="let country of locations" class="cx-set">
       <a [routerLink]="['../country', country.isoCode]" class="btn-link">
         <div class="cx-title">
           <span
