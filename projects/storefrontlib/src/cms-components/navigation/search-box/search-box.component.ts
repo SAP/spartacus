@@ -38,16 +38,6 @@ export class SearchBoxComponent {
   private ignoreCloseEvent = false;
 
   /**
-   * The typeahead result list is toggled with CSS
-   */
-  // @HostBinding('class.open') openResultsList = false;
-
-  /**
-   * controls whether the overlay is shown on the host.
-   */
-  // @HostBinding('class.has-results') hasResults = false;
-
-  /**
    * The component data is optional, so that this component
    * can be reused without a CMS
    */
@@ -65,29 +55,14 @@ export class SearchBoxComponent {
     SearchResults
   > = this.searchBoxComponentService.getSearchResults(
     this.searchBoxControl.valueChanges,
-    // .pipe(
-    // tap(value => {
-    //   if (!value) {
-    //     this.hasResults = value;
-    //   }
-    // })
-    // )
     this.componentData ? this.componentData.data$ : null
   );
-  // .pipe(
-  //   delay(0),
-  //   tap(results => {
-  //     this.hasResults =
-  //       !!results.products || !!results.suggestions || !!results.message;
-  //   })
-  // );
 
   /**
    * Closes the typehead searchbox.
    */
   close(event: UIEvent): void {
     if (!this.ignoreCloseEvent) {
-      // this.openResultsList = false;
       this.searchBoxComponentService.toggleClass('open', false);
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
@@ -102,7 +77,6 @@ export class SearchBoxComponent {
    */
   open(el: HTMLInputElement): void {
     this.searchBoxComponentService.toggleClass('open', true);
-    // this.openResultsList = true;
     // put cursor to the end of the text
     const textLength = el.value.length;
     el.selectionStart = textLength;

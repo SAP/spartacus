@@ -42,7 +42,13 @@ export class SearchBoxComponentService {
   ): Observable<SearchResults> {
     return combineLatest(
       text$.pipe(
-        tap((text: string) => this.toggleClass('has-results', !!text)),
+        tap((text: string) => {
+          // hide the has-result class when there's no text
+          // this is important to avoid flickering of the result panel
+          if (!text) {
+            this.toggleClass('has-results', false);
+          }
+        }),
         debounceTime(300),
         distinctUntilChanged()
       ),
