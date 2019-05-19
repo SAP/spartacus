@@ -12,6 +12,9 @@
         <ol class="cx-list">
           <li
             *ngFor="let location of locations?.stores; let i = index"
+            [ngClass]="{
+              'cx-selected-item': selectedStore === i
+            }"
             class="cx-list-items"
           >
             <i>
@@ -23,7 +26,7 @@
             <div style="padding: 0 20px 0 20px">
               <cx-store-finder-list-item
                 [location]="location"
-                [locationIndex]="i + 1"
+                [locationIndex]="i"
                 (storeItemClick)="centerStoreOnMapByIndex($event)"
               ></cx-store-finder-list-item>
             </div>
@@ -52,17 +55,27 @@
               <ol class="cx-list">
                 <li
                   *ngFor="let location of locations?.stores; let i = index"
-                  id="{{ 'item-' + i }}"
                   [ngClass]="{
                     'cx-selected-item': selectedStore === i
                   }"
-                  class="cx-list-items cx-ordered"
+                  class="cx-list-items"
                 >
-                  <cx-store-finder-list-item
-                    [location]="location"
-                    [locationIndex]="i"
-                    (storeItemClick)="centerStoreOnMapByIndex($event)"
-                  ></cx-store-finder-list-item>
+                  <i>
+                    <cx-icon
+                      [type]="iconTypes.MAP_MARKER"
+                      class="small"
+                    ></cx-icon>
+                  </i>
+                  <span style="padding-left: 5px">
+                    {{ i + 1 }}
+                  </span>
+                  <div style="padding: 0 20px 0 20px">
+                    <cx-store-finder-list-item
+                      [location]="location"
+                      [locationIndex]="i"
+                      (storeItemClick)="centerStoreOnMapByIndex($event)"
+                    ></cx-store-finder-list-item>
+                  </div>
                 </li>
               </ol>
             </div>
