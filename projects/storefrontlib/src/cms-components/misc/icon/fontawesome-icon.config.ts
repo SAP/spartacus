@@ -17,6 +17,7 @@ export const fontawesomeIconConfig: IconConfig = {
       VISA: 'fab fa-cc-visa',
       MINUS: 'fas fa-minus',
       PLUS: 'fas fa-plus',
+      MAP_MARKER: 'fas fa-map-marker-alt',
     },
     resources: [
       {

@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, ViewChild } from '@angular/core';
 import { StoreDataService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 @Component({
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
@@ -13,6 +13,7 @@ export class StoreFinderListComponent {
   locations: any;
   @ViewChild('storeMap')
   storeMap: StoreFinderMapComponent;
+  iconTypes = ICON_TYPE;
 
   selectedStore = 0;
 

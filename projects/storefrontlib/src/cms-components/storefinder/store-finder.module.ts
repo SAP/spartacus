@@ -9,6 +9,7 @@ import {
   StoreFinderCoreModule,
   UrlModule,
 } from '@spartacus/core';
+import { IconModule } from '../../cms-components/misc/icon/index';
 import { CmsModule } from '../../cms-structure/cms.module';
 import { LayoutConfig } from '../../layout/config/layout-config';
 import { BootstrapModule } from '../../lib/bootstrap.module';
@@ -40,6 +41,7 @@ import {
     UrlModule,
     StoreFinderCoreModule,
     I18nModule,
+    IconModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
         StoreFinderComponent: {

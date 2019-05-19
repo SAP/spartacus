@@ -10,6 +10,15 @@
   .cx-store-address {
     @include type('7');
   }
+  .cx-store-street {
+    text-align: left;
+  }
+
+  .cx-store-street-icon {
+    position: var(--cx-position, absolute);
+    left: var(--cx-right, -1.25rem);
+  }
+
   .cx-store-open {
     @include type('8');
     color: var(--cx-color, var(--cx-g-color-success));

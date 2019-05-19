@@ -13,6 +13,7 @@ export enum ICON_TYPE {
   VISA = 'VISA',
   PLUS = 'PLUS',
   MINUS = 'MINUS',
+  MAP_MARKER = 'MAP_MARKER',
 }
 
 export abstract class IconConfig {

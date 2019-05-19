@@ -31,6 +31,14 @@ export class StoreDataService {
   }
 
   /**
+   * Returns store longitude
+   * @param location store locaiton
+   */
+  getStoreDistance(location: PointOfService): string {
+    return location.formattedDistance;
+  }
+
+  /**
    * Returns store closing time
    * @param location store location
    * @param date date to compare
