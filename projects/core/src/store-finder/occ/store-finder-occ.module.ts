@@ -1,12 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-
-import { OccModule } from '../../occ/occ.module';
-import { OccStoreFinderService } from './store-finder.service';
+import { StoreFinderAdapter } from '../connectors/store-finder.adapter';
+import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, OccModule],
-  providers: [OccStoreFinderService],
+  providers: [{ provide: StoreFinderAdapter, useClass: OccStoreFinderAdapter }],
 })
 export class StoreFinderOccModule {}

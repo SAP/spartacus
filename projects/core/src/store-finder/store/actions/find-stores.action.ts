@@ -1,11 +1,11 @@
 import { StoreFinderSearchConfig } from '../../model/search-config';
-import { LongitudeLatitude } from '../../model/longitude-latitude';
 import {
   LoaderLoadAction,
   LoaderFailAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { STORE_FINDER_DATA } from '../store-finder-state';
+import { GeoPoint } from '../../../model/misc.model';
 
 export const ON_HOLD = '[StoreFinder] On Hold';
 export const FIND_STORES = '[StoreFinder] Find Stores';
@@ -29,7 +29,7 @@ export class FindStores extends LoaderLoadAction {
   constructor(
     public payload: {
       queryText: string;
-      longitudeLatitude?: LongitudeLatitude;
+      longitudeLatitude?: GeoPoint;
       useMyLocation?: boolean;
       searchConfig?: StoreFinderSearchConfig;
       countryIsoCode?: string;

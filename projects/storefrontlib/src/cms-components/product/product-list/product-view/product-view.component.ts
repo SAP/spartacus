@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ICON_TYPES } from '../../../misc/icon';
+import { ICON_TYPE } from '../../../misc/icon';
 
 export enum ViewModes {
   Grid = 'grid',
@@ -18,7 +18,7 @@ export enum ViewModes {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductViewComponent {
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
   @Input()
   mode: ViewModes;
   @Output()

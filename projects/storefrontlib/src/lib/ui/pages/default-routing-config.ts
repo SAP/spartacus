@@ -7,6 +7,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
 
   // semantic links for login related pages
   login: { paths: ['login'] },
+  logout: { paths: ['logout'] },
   register: { paths: ['login/register'] },
   forgotPassword: { paths: ['login/forgot-password'] },
 
