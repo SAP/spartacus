@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { User } from '../../../model/misc.model';
+import { Title, User } from '../../../model/misc.model';
 import {
   ConsentTemplate,
   ConsentTemplateList,
@@ -26,6 +26,8 @@ export abstract class UserAccountAdapter {
   ): Observable<{}>;
 
   abstract remove(userId: string): Observable<{}>;
+
+  abstract loadTitles(): Observable<Title[]>;
 
   abstract loadConsents(userId: string): Observable<ConsentTemplateList>;
 
