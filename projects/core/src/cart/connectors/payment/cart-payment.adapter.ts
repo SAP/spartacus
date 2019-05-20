@@ -28,5 +28,8 @@ export abstract class CartPaymentAdapter {
     paymentDetailsId: string
   ): Observable<any>;
 
+  /**
+   * Abstract method used to get available cart types
+   */
   abstract loadCardTypes(): Observable<CardType[]>;
 }
