@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../../../model/misc.model';
+import { Title, User } from '../../../model/misc.model';
 import {
   ConsentTemplate,
   ConsentTemplateList,
@@ -44,6 +44,10 @@ export class UserAccountConnector {
 
   remove(userId: string): Observable<{}> {
     return this.adapter.remove(userId);
+  }
+
+  getTitles(): Observable<Title[]> {
+    return this.adapter.loadTitles();
   }
 
   loadConsents(userId: string): Observable<ConsentTemplateList> {
