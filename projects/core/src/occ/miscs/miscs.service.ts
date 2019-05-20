@@ -6,7 +6,6 @@ import { Occ } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../services/occ-endpoints.service';
 
 const ENDPOINT_COUNTRIES = 'countries';
-const ENDPOINT_TITLES = 'titles';
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 const ENDPOINT_REGIONS = 'regions';
 const COUNTRIES_TYPE_SHIPPING = 'SHIPPING';
@@ -34,12 +33,6 @@ export class OccMiscsService {
       .get<Occ.CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
         params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING),
       })
-      .pipe(catchError((error: any) => throwError(error.json())));
-  }
-
-  loadTitles(): Observable<Occ.TitleList> {
-    return this.http
-      .get<Occ.TitleList>(this.occEndpoints.getEndpoint(ENDPOINT_TITLES))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
