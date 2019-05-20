@@ -59,9 +59,7 @@
             format="product"
             [alt]="suggestion.summary"
           ></cx-media>
-          <div [innerHtml]="suggestion.name" class="cx-product-name">
-            {{ suggestion.name }}
-          </div>
+          <div [innerHtml]="suggestion.nameHtml" class="cx-product-name"></div>
           <div class="cx-product-price">
             {{ suggestion.price.formattedValue }}
           </div>
