@@ -3,7 +3,7 @@ import { ClientErrorHandlingService } from './client-error/client-error-handling
 import { UserAuthenticationTokenService } from './user-authentication/user-authentication-token.service';
 import { UserErrorHandlingService } from './user-error/user-error-handling.service';
 
-export const services: any[] = [
+export const AuthServices: any[] = [
   ClientAuthenticationTokenService,
   ClientErrorHandlingService,
   UserAuthenticationTokenService,

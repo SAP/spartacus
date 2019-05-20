@@ -11,6 +11,7 @@ import { SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
+  ConsentManagementModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
@@ -59,8 +60,9 @@ import { StoreFinderModule } from './storefinder/index';
     UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
-    CartComponentModule,
+    ConsentManagementModule,
     CloseAccountModule,
+    CartComponentModule,
     TabParagraphContainerModule,
     StoreFinderModule,
     ForgotPasswordModule,
