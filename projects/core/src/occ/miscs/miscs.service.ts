@@ -1,13 +1,12 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../services/occ-endpoints.service';
 
-const ENDPOINT_COUNTRIES = 'countries';
 const ENDPOINT_REGIONS = 'regions';
-const COUNTRIES_TYPE_SHIPPING = 'SHIPPING';
+const COUNTRIES_ENDPOINT = 'countries';
 
 @Injectable({
   providedIn: 'root',
@@ -18,14 +17,6 @@ export class OccMiscsService {
     private occEndpoints: OccEndpointsService
   ) {}
 
-  loadDeliveryCountries(): Observable<Occ.CountryList> {
-    return this.http
-      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
-        params: new HttpParams().set('type', COUNTRIES_TYPE_SHIPPING),
-      })
-      .pipe(catchError((error: any) => throwError(error.json())));
-  }
-
   loadRegions(countryIsoCode: string): Observable<Occ.RegionList> {
     return this.http
       .get<Occ.RegionList>(
@@ -35,6 +26,6 @@ export class OccMiscsService {
   }
 
   private buildRegionsUrl(countryIsoCode: string): string {
-    return `${ENDPOINT_COUNTRIES}/${countryIsoCode}/${ENDPOINT_REGIONS}`;
+    return `${COUNTRIES_ENDPOINT}/${countryIsoCode}/${ENDPOINT_REGIONS}`;
   }
 }
