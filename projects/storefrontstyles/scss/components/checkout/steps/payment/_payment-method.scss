@@ -24,7 +24,8 @@
   }
 
   .cx-card-img-container {
-    .fab {
+    .fab,
+    .fas {
       &::before {
         font-size: var(--cx-font-size, 66px);
       }
