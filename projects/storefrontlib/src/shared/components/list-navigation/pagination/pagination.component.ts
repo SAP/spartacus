@@ -19,14 +19,16 @@ export class PaginationComponent {
   Array = Array;
   Math = Math;
 
-  clickPageNo(page: number): void {
+  clickPageNo(page: number): number {
     if (
       page >= 1 &&
       page <= this.pagination.totalPages &&
       page !== this.pagination.currentPage + 1
     ) {
       this.pageChange(page);
+      return page;
     }
+    return this.pagination.currentPage;
   }
 
   pageChange(page: number): void {
