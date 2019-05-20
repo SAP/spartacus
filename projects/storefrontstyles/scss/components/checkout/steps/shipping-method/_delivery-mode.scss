@@ -5,8 +5,7 @@
 
   .cx-delivery-label {
     padding: var(--cx-padding, 0);
-    margin: var(--cx-margin, 0 auto 1.5rem 0.75rem);
-    width: var(--cx-width, 100%);
+    margin: var(--cx-margin, 0 auto 1.5rem 2rem);
     display: var(--cx-display, flex);
     flex-direction: var(--cx-flex-direction, row);
     justify-content: var(--cx-space-justify-content, space-between);
@@ -25,6 +24,10 @@
       flex: var(--cx-flex, 100%);
       color: var(--cx-color, var(--cx-g-color-success));
     }
+  }
+
+  .form-check-input {
+    margin-left: var(--cx-margin, 0);
   }
 
   .form-check {
