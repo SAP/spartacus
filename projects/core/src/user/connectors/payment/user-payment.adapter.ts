@@ -11,4 +11,6 @@ export abstract class UserPaymentAdapter {
 
   abstract loadBillingCountries(): Observable<Country[]>;
 
+  abstract loadDeliveryCountries(): Observable<Country[]>;
+
 }

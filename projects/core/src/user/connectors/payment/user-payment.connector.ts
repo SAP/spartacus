@@ -26,4 +26,7 @@ export class UserPaymentConnector {
     return this.adapter.loadBillingCountries();
   }
 
+  getDeliveryCountries(): Observable<Country[]> {
+    return this.adapter.loadDeliveryCountries();
+  }
 }

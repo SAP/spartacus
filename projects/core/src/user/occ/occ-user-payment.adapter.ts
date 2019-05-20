@@ -15,6 +15,7 @@ const USER_ENDPOINT = 'users/';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 const COUNTRIES_ENDPOINT = 'countries';
 const COUNTRIES_TYPE_BILLING = 'BILLING';
+const COUNTRIES_TYPE_SHIPPING = 'SHIPPING';
 
 @Injectable()
 export class OccUserPaymentAdapter implements UserPaymentAdapter {
@@ -73,6 +74,18 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
     return this.http
       .get<Occ.CountryList>(this.occEndpoints.getEndpoint(COUNTRIES_ENDPOINT), {
         params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING),
+      })
+      .pipe(
+        catchError((error: any) => throwError(error.json())),
+        map(countryList => countryList.countries),
+        this.converter.pipeableMany(COUNTRY_NORMALIZER)
+      );
+  }
+
+  loadDeliveryCountries(): Observable<Country[]> {
+    return this.http
+      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(COUNTRIES_ENDPOINT), {
+        params: new HttpParams().set('type', COUNTRIES_TYPE_SHIPPING),
       })
       .pipe(
         catchError((error: any) => throwError(error.json())),
