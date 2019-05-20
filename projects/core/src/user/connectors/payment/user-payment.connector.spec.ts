@@ -65,4 +65,25 @@ describe('UserPaymentConnector', () => {
     expect(result).toEqual({});
     expect(adapter.setDefault).toHaveBeenCalledWith('user-id', 'payment-id');
   });
+
+  it('getBillingCountries should call adapter', () => {
+    let result;
+    service.getBillingCountries().subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.loadBillingCountries).toHaveBeenCalledWith();
+  });
+
+  it('getDeliveryCountries should call adapter', () => {
+    let result;
+    service.getDeliveryCountries().subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.loadDeliveryCountries).toHaveBeenCalledWith();
+  });
+
+  it('getRegions should call adapter', () => {
+    let result;
+    service.getRegions('CA').subscribe(res => (result = res));
+    expect(result).toEqual('loadRegions-CA');
+    expect(adapter.loadRegions).toHaveBeenCalledWith('CA');
+  });
 });

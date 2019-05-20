@@ -12,7 +12,7 @@ import {
   PAYMENT_DETAILS_SERIALIZER,
 } from '../connectors/payment/converters';
 import { CardType, PaymentDetails } from '../../model/cart.model';
-import { Occ } from '@spartacus/core';
+import { Occ } from '../../occ/occ-models';
 
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 

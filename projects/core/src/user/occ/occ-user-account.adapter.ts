@@ -20,7 +20,7 @@ import {
 import { UserAccountAdapter } from '../connectors/account/user-account.adapter';
 import { USER_NORMALIZER } from '../connectors/details/converters';
 import { UserRegisterFormData } from '../model/user.model';
-import { Occ } from '@spartacus/core';
+import { Occ } from '../../occ/occ-models';
 
 const USER_ENDPOINT = 'users/';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
