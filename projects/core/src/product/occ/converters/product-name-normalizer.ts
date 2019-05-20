@@ -13,13 +13,13 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
       target = { ...(source as any) };
     }
     if (source.name) {
-      target.name = this.transform(source.name);
+      target.name = this.normalize(source.name);
       target.nameHtml = source.name;
     }
     return target;
   }
 
-  transform(name): string {
+  protected normalize(name: string): string {
     return name.replace(/<[^>]*>/g, '');
   }
 }
