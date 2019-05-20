@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { User } from '../../model/misc.model';
+import { catchError, map } from 'rxjs/operators';
+import { Title, User } from '../../model/misc.model';
 import {
   ConsentTemplate,
   ConsentTemplateList,
@@ -13,10 +13,14 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 import { ConverterService } from '../../util/converter.service';
-import { USER_REGISTER_FORM_SERIALIZER } from '../connectors/account/converters';
+import {
+  TITLE_NORMALIZER,
+  USER_REGISTER_FORM_SERIALIZER,
+} from '../connectors/account/converters';
 import { UserAccountAdapter } from '../connectors/account/user-account.adapter';
 import { USER_NORMALIZER } from '../connectors/details/converters';
 import { UserRegisterFormData } from '../model/user.model';
+import { Occ } from '../../occ/occ-models';
 
 const USER_ENDPOINT = 'users/';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
@@ -25,6 +29,7 @@ const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
 const CONSENTS_TEMPLATES_ENDPOINT = '/consenttemplates';
 const CONSENTS_ENDPOINT = '/consents';
+const TITLES_ENDPOINT = 'titles';
 
 @Injectable()
 export class OccUserAccountAdapter implements UserAccountAdapter {
@@ -118,6 +123,16 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     return this.http
       .delete<User>(url)
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  loadTitles(): Observable<Title[]> {
+    return this.http
+      .get<Occ.TitleList>(this.occEndpoints.getEndpoint(TITLES_ENDPOINT))
+      .pipe(
+        catchError((error: any) => throwError(error.json())),
+        map(titleList => titleList.titles),
+        this.converter.pipeableMany(TITLE_NORMALIZER)
+      );
   }
 
   loadConsents(userId: string): Observable<ConsentTemplateList> {

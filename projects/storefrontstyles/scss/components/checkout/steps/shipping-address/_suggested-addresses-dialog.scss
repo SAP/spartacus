@@ -29,6 +29,9 @@
   .cx-dialog-buttons {
     display: flex;
     justify-content: center;
+  }
+
+  .cx-dialog-buttons + .cx-dialog-buttons {
     margin: 0 0 0 0.5rem;
   }
 }
