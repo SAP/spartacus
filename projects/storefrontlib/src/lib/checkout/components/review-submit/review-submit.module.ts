@@ -6,6 +6,9 @@ import { CardModule } from '../../../../shared/components/card/card.module';
 import { ReviewSubmitComponent } from './review-submit.component';
 import { ConfigModule, CmsConfig } from '@spartacus/core';
 import { PaymentDetailsSetGuard } from '../../guards/payment-details-set.guard';
+import { CartNotEmptyGuard } from './../../../../cms-components/checkout/cart/cart-not-empty.guard';
+import { ShippingAddressSetGuard } from './../../guards/shipping-address-set.guard';
+import { DeliveryModeSetGuard } from './../../guards/delivery-mode-set.guard';
 
 @NgModule({
   imports: [
@@ -17,7 +20,13 @@ import { PaymentDetailsSetGuard } from '../../guards/payment-details-set.guard';
       cmsComponents: {
         CheckoutReviewOrder: {
           selector: 'cx-review-submit',
-          guards: [AuthGuard, PaymentDetailsSetGuard],
+          guards: [
+            AuthGuard,
+            CartNotEmptyGuard,
+            ShippingAddressSetGuard,
+            DeliveryModeSetGuard,
+            PaymentDetailsSetGuard,
+          ],
         },
       },
     }),

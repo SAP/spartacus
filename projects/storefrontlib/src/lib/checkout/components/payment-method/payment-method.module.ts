@@ -14,7 +14,8 @@ import { CardModule } from '../../../../shared/components/card/card.module';
 import { PaymentMethodComponent } from './payment-method.component';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { DeliveryModeSetGuard } from '../../guards/delivery-mode-set.guard';
-
+import { CartNotEmptyGuard } from './../../../../cms-components/checkout/cart/cart-not-empty.guard';
+import { ShippingAddressSetGuard } from './../../guards/shipping-address-set.guard';
 @NgModule({
   imports: [
     CommonModule,
@@ -27,7 +28,12 @@ import { DeliveryModeSetGuard } from '../../guards/delivery-mode-set.guard';
       cmsComponents: {
         CheckoutPaymentDetails: {
           selector: 'cx-payment-method',
-          guards: [AuthGuard, DeliveryModeSetGuard],
+          guards: [
+            AuthGuard,
+            CartNotEmptyGuard,
+            ShippingAddressSetGuard,
+            DeliveryModeSetGuard,
+          ],
         },
       },
     }),

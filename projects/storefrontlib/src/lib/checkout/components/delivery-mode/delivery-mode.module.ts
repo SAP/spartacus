@@ -11,7 +11,7 @@ import {
 import { DeliveryModeComponent } from './delivery-mode.component';
 import { ShippingAddressSetGuard } from '../../guards/shipping-address-set.guard';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
-
+import { CartNotEmptyGuard } from './../../../../cms-components/checkout/cart/cart-not-empty.guard';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +22,7 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
       cmsComponents: {
         CheckoutDeliveryMode: {
           selector: 'cx-delivery-mode',
-          guards: [AuthGuard, ShippingAddressSetGuard],
+          guards: [AuthGuard, CartNotEmptyGuard, ShippingAddressSetGuard],
         },
       },
     }),
