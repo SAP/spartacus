@@ -6,10 +6,8 @@ import { Occ } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../services/occ-endpoints.service';
 
 const ENDPOINT_COUNTRIES = 'countries';
-const ENDPOINT_CARD_TYPES = 'cardtypes';
 const ENDPOINT_REGIONS = 'regions';
 const COUNTRIES_TYPE_SHIPPING = 'SHIPPING';
-const COUNTRIES_TYPE_BILLING = 'BILLING';
 
 @Injectable({
   providedIn: 'root',
@@ -25,20 +23,6 @@ export class OccMiscsService {
       .get<Occ.CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
         params: new HttpParams().set('type', COUNTRIES_TYPE_SHIPPING),
       })
-      .pipe(catchError((error: any) => throwError(error.json())));
-  }
-
-  loadBillingCountries(): Observable<Occ.CountryList> {
-    return this.http
-      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
-        params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING),
-      })
-      .pipe(catchError((error: any) => throwError(error.json())));
-  }
-
-  loadCardTypes(): Observable<Occ.CardTypeList> {
-    return this.http
-      .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
