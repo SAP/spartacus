@@ -9,6 +9,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { PageType } from '../../model/cms.model';
+import { TranslationService } from '../../i18n';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ export class CategoryPageMetaResolver extends PageMetaResolver
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
-    protected cms: CmsService
+    protected cms: CmsService,
+    protected translation: TranslationService
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
@@ -35,7 +37,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
             filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
             switchMap(data =>
               combineLatest([
-                this.resolveTitle(data),
+                this.resolveTitle(data).pipe(map(title => ({ title }))),
                 this.resolveBreadcrumbs(data),
               ])
             ),
@@ -51,11 +53,10 @@ export class CategoryPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(data: ProductSearchPage): Observable<string> {
-    return of(
-      `${data.pagination.totalResults} results for ${
-        data.breadcrumbs[0].facetValueName
-      }`
-    );
+    return this.translation.translate('metaResolver:categoryPage.heading', {
+      count: data.pagination.totalResults,
+      query: data.breadcrumbs[0].facetValueName,
+    });
   }
 
   resolveBreadcrumbs(data: ProductSearchPage): Observable<any[]> {

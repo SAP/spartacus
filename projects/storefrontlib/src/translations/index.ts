@@ -10,6 +10,7 @@ import { user } from './en/user.en';
 import { payment } from './en/payment.en';
 import { address } from './en/address.en';
 import { closeAccount } from './en/close-account.en';
+import { metaResolver } from './en/meta-resolver.en';
 
 export const translations: TranslationResources = {
   en: {
@@ -18,6 +19,7 @@ export const translations: TranslationResources = {
     checkout,
     closeAccount,
     common,
+    metaResolver,
     myAccount,
     payment,
     product,
