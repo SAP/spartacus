@@ -10,7 +10,18 @@ class MockUserPaymentAdapter implements UserPaymentAdapter {
   loadAll = createSpy('loadAll').and.callFake(userId =>
     of(`loadList-${userId}`)
   );
-  setDefault = createSpy('load').and.returnValue(of({}));
+  setDefault = createSpy('setDefault').and.returnValue(of({}));
+
+  loadBillingCountries = createSpy('loadBillingCountries').and.returnValue(
+    of([])
+  );
+
+  loadDeliveryCountries = createSpy('loadDeliveryCountries').and.returnValue(
+    of([])
+  );
+  loadRegions = createSpy('loadRegions').and.callFake(countryCode =>
+    of(`loadRegions-${countryCode}`)
+  );
 }
 
 describe('UserPaymentConnector', () => {

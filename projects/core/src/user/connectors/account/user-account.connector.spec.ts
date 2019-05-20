@@ -15,6 +15,7 @@ class MockUserAccountAdapter implements UserAccountAdapter {
   resetPassword = createSpy('resetPassword').and.returnValue(of({}));
   updateEmail = createSpy('updateEmail').and.returnValue(of({}));
   updatePassword = createSpy('updatePassword').and.returnValue(of({}));
+  loadTitles = createSpy('loadTitles').and.returnValue(of([]));
   loadConsents = createSpy('loadConsents').and.returnValue(of({}));
   giveConsent = createSpy('giveConsent').and.returnValue(of({}));
   withdrawConsent = createSpy('withdrawConsent').and.returnValue(of({}));

@@ -99,18 +99,13 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   }
 
   loadRegions(countryIsoCode: string): Observable<Region[]> {
+    const regionsEndpoint = `${COUNTRIES_ENDPOINT}/${countryIsoCode}/${REGIONS_ENDPOINT}`;
     return this.http
-      .get<Occ.RegionList>(
-        this.occEndpoints.getEndpoint(this.buildRegionsUrl(countryIsoCode))
-      )
+      .get<Occ.RegionList>(this.occEndpoints.getEndpoint(regionsEndpoint))
       .pipe(
         catchError((error: any) => throwError(error.json())),
         map(regionList => regionList.regions),
         this.converter.pipeableMany(REGION_NORMALIZER)
       );
-  }
-
-  private buildRegionsUrl(countryIsoCode: string): string {
-    return `${COUNTRIES_ENDPOINT}/${countryIsoCode}/${REGIONS_ENDPOINT}`;
   }
 }

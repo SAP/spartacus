@@ -14,5 +14,4 @@ export abstract class UserPaymentAdapter {
   abstract loadDeliveryCountries(): Observable<Country[]>;
 
   abstract loadRegions(countryIsoCode: string): Observable<Region[]>;
-
 }

@@ -10,6 +10,7 @@ describe('CartPaymentConnector', () => {
   class MockCartPaymentAdapter implements CartPaymentAdapter {
     create = createSpy().and.returnValue(of({}));
     set = createSpy().and.returnValue(of({}));
+    loadCardTypes = createSpy().and.returnValue(of({}));
   }
 
   let service: CartPaymentConnector;
