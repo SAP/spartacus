@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserPaymentAdapter } from './user-payment.adapter';
 import { Observable } from 'rxjs';
 import { PaymentDetails } from '../../../model/cart.model';
-import { Country } from '../../../model/address.model';
+import { Country, Region } from '../../../model/address.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +28,9 @@ export class UserPaymentConnector {
 
   getDeliveryCountries(): Observable<Country[]> {
     return this.adapter.loadDeliveryCountries();
+  }
+
+  getRegions(countryIsoCode: string): Observable<Region[]> {
+    return this.adapter.loadRegions(countryIsoCode);
   }
 }

@@ -8,12 +8,16 @@ import { Occ } from '../../occ/occ-models/occ.models';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConverterService } from '../../util/converter.service';
 import { PAYMENT_DETAILS_NORMALIZER } from '../../cart/connectors/payment/converters';
-import { Country } from '../../model/address.model';
-import { COUNTRY_NORMALIZER } from '../connectors/payment/converters';
+import { Country, Region } from '../../model/address.model';
+import {
+  COUNTRY_NORMALIZER,
+  REGION_NORMALIZER,
+} from '../connectors/payment/converters';
 
 const USER_ENDPOINT = 'users/';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 const COUNTRIES_ENDPOINT = 'countries';
+const REGIONS_ENDPOINT = 'regions';
 const COUNTRIES_TYPE_BILLING = 'BILLING';
 const COUNTRIES_TYPE_SHIPPING = 'SHIPPING';
 
@@ -92,5 +96,21 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
         map(countryList => countryList.countries),
         this.converter.pipeableMany(COUNTRY_NORMALIZER)
       );
+  }
+
+  loadRegions(countryIsoCode: string): Observable<Region[]> {
+    return this.http
+      .get<Occ.RegionList>(
+        this.occEndpoints.getEndpoint(this.buildRegionsUrl(countryIsoCode))
+      )
+      .pipe(
+        catchError((error: any) => throwError(error.json())),
+        map(regionList => regionList.regions),
+        this.converter.pipeableMany(REGION_NORMALIZER)
+      );
+  }
+
+  private buildRegionsUrl(countryIsoCode: string): string {
+    return `${COUNTRIES_ENDPOINT}/${countryIsoCode}/${REGIONS_ENDPOINT}`;
   }
 }
