@@ -3,36 +3,27 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { OccUserService } from '../../occ/index';
 import * as fromActions from '../actions/update-password.action';
 import * as fromEffects from './update-password.effect';
-
-class MockOccUserService {
-  updatePassword(
-    _userid: string,
-    _oldassword: string,
-    _newPassword: string
-  ): Observable<{}> {
-    return of();
-  }
-}
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 
 describe('Update Password Effect', () => {
   let updatePasswordEffect: fromEffects.UpdatePasswordEffects;
-  let userService: OccUserService;
+  let userService: UserAccountConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromEffects.UpdatePasswordEffects,
-        { provide: OccUserService, useClass: MockOccUserService },
+        { provide: UserAccountAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     updatePasswordEffect = TestBed.get(fromEffects.UpdatePasswordEffects);
-    userService = TestBed.get(OccUserService);
+    userService = TestBed.get(UserAccountConnector);
   });
 
   describe('updatePassword$', () => {

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { OccUserService } from '../../occ/index';
 import * as fromUpdateEmailAction from '../actions/update-email.action';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 
 @Injectable()
 export class UpdateEmailEffects {
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAccountConnector: UserAccountConnector
   ) {}
 
   @Effect()
@@ -20,7 +20,7 @@ export class UpdateEmailEffects {
     ofType(fromUpdateEmailAction.UPDATE_EMAIL),
     map((action: fromUpdateEmailAction.UpdateEmailAction) => action.payload),
     concatMap(payload =>
-      this.occUserService
+      this.userAccountConnector
         .updateEmail(payload.uid, payload.password, payload.newUid)
         .pipe(
           map(
