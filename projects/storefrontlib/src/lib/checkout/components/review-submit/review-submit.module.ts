@@ -5,7 +5,7 @@ import { CartSharedModule } from '../../../../cms-components/checkout/cart/cart-
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { ReviewSubmitComponent } from './review-submit.component';
 import { ConfigModule, CmsConfig } from '@spartacus/core';
-import { PaymentDetailsSetGuard } from '../../guards';
+import { PaymentDetailsSetGuard } from '../../guards/payment-details-set.guard';
 
 @NgModule({
   imports: [
