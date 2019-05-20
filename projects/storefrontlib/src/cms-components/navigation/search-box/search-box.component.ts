@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Input,
   OnInit,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -17,6 +19,9 @@ import { SearchBoxComponentService } from './search-box-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit {
+  @ViewChild('searchInput')
+  public input: ElementRef;
+
   iconTypes = ICON_TYPE;
   searchBoxControl: FormControl = new FormControl();
   isMobileSearchVisible: boolean;
@@ -57,6 +62,7 @@ export class SearchBoxComponent implements OnInit {
 
   public onKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
+      this.input.nativeElement.blur();
       this.service.launchSearchPage(this.searchBoxControl.value);
     }
   }

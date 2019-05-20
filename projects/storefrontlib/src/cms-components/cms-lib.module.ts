@@ -11,6 +11,7 @@ import { SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
+  ConsentManagementModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
@@ -60,8 +61,9 @@ import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
     UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
-    CartComponentModule,
+    ConsentManagementModule,
     CloseAccountModule,
+    CartComponentModule,
     TabParagraphContainerModule,
     StoreFinderModule,
     CheckoutComponentModule,
