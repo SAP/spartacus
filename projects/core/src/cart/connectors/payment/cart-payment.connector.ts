@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { CartPaymentAdapter } from './cart-payment.adapter';
-import { PaymentDetails } from '../../../model/cart.model';
+import { CardType, PaymentDetails } from '../../../model/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +23,9 @@ export class CartPaymentConnector {
     paymentDetailsId: string
   ): Observable<any> {
     return this.adapter.set(userId, cartId, paymentDetailsId);
+  }
+
+  getCardTypes(): Observable<CardType[]> {
+    return this.adapter.loadCardTypes();
   }
 }
