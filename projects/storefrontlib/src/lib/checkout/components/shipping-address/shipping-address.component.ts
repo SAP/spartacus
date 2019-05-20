@@ -46,7 +46,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   );
   cards$: Observable<CardWithAddress[]>;
   checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: 'cart';
+  checkoutStepUrlPrevious: string;
 
   constructor(
     protected userService: UserService,
@@ -64,6 +64,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
       this.activatedRoute
     );
+    this.checkoutStepUrlPrevious = 'cart';
 
     this.isLoading$ = this.userService.getAddressesLoading();
     this.existingAddresses$ = this.userService.getAddresses();

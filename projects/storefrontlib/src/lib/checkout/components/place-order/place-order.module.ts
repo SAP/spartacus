@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
+import { CartNotEmptyGuard } from './../../../../cms-components/checkout/cart/cart-not-empty.guard';
 import {
   UrlModule,
   CheckoutModule,
   I18nModule,
   ConfigModule,
   CmsConfig,
+  AuthGuard,
 } from '@spartacus/core';
 import { PlaceOrderComponent } from './place-order.component';
 
@@ -22,6 +23,7 @@ import { PlaceOrderComponent } from './place-order.component';
       cmsComponents: {
         CheckoutPlaceOrder: {
           selector: 'cx-place-order',
+          guards: [AuthGuard, CartNotEmptyGuard],
         },
       },
     }),

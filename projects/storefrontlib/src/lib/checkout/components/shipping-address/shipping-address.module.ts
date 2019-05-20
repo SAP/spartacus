@@ -2,7 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  CmsConfig,
+  I18nModule,
+  AuthGuard,
+} from '@spartacus/core';
 import { AddressFormModule } from './address-form/address-form.module';
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
@@ -10,7 +15,7 @@ import { ShippingAddressComponent } from './shipping-address.component';
 import { CheckoutProgressMobileTopModule } from '../checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 // tslint:disable-next-line:max-line-length
 import { CheckoutProgressMobileBottomModule } from '../checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.module';
-
+import { CartNotEmptyGuard } from './../../../../cms-components/checkout/cart/cart-not-empty.guard';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,6 +30,7 @@ import { CheckoutProgressMobileBottomModule } from '../checkout-progress/checkou
       cmsComponents: {
         CheckoutShippingAddress: {
           selector: 'cx-shipping-address',
+          guards: [AuthGuard, CartNotEmptyGuard],
         },
       },
     }),

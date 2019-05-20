@@ -7,12 +7,13 @@ import {
   CmsConfig,
   UrlModule,
   I18nModule,
+  AuthGuard,
 } from '@spartacus/core';
 import { CheckoutProgressComponent } from './checkout-progress.component';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';
 import { CheckoutConfig } from '../../config/checkout-config';
 import { RouterModule } from '@angular/router';
-
+import { CartNotEmptyGuard } from './../../../../cms-components/checkout/cart/cart-not-empty.guard';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +25,7 @@ import { RouterModule } from '@angular/router';
       cmsComponents: {
         CheckoutProgress: {
           selector: 'cx-checkout-progress',
+          guards: [AuthGuard, CartNotEmptyGuard],
         },
       },
     }),
