@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserPaymentAdapter } from '../connectors/payment/user-payment.adapter';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -8,9 +8,13 @@ import { Occ } from '../../occ/occ-models/occ.models';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConverterService } from '../../util/converter.service';
 import { PAYMENT_DETAILS_NORMALIZER } from '../../cart/connectors/payment/converters';
+import { Country } from '../../model/address.model';
+import { COUNTRY_NORMALIZER } from '../connectors/payment/converters';
 
 const USER_ENDPOINT = 'users/';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
+const COUNTRIES_ENDPOINT = 'countries';
+const COUNTRIES_TYPE_BILLING = 'BILLING';
 
 @Injectable()
 export class OccUserPaymentAdapter implements UserPaymentAdapter {
@@ -63,5 +67,17 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
         { headers }
       )
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  loadBillingCountries(): Observable<Country[]> {
+    return this.http
+      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(COUNTRIES_ENDPOINT), {
+        params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING),
+      })
+      .pipe(
+        catchError((error: any) => throwError(error.json())),
+        map(countryList => countryList.countries),
+        this.converter.pipeableMany(COUNTRY_NORMALIZER)
+      );
   }
 }
