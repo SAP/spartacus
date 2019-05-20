@@ -7,6 +7,7 @@ import {
   ConfigModule,
   CmsConfig,
   I18nModule,
+  AuthGuard,
 } from '@spartacus/core';
 import { PaymentFormModule } from './payment-form/payment-form.module';
 import { CardModule } from '../../../../shared/components/card/card.module';
@@ -26,7 +27,7 @@ import { DeliveryModeSetGuard } from '../../guards/delivery-mode-set.guard';
       cmsComponents: {
         CheckoutPaymentDetails: {
           selector: 'cx-payment-method',
-          guards: [DeliveryModeSetGuard],
+          guards: [AuthGuard, DeliveryModeSetGuard],
         },
       },
     }),

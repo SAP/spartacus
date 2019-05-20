@@ -2,7 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  CmsConfig,
+  I18nModule,
+  AuthGuard,
+} from '@spartacus/core';
 import { AddressFormModule } from './address-form/address-form.module';
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
@@ -25,6 +30,7 @@ import { CheckoutProgressMobileBottomModule } from '../checkout-progress/checkou
       cmsComponents: {
         CheckoutShippingAddress: {
           selector: 'cx-shipping-address',
+          guards: [AuthGuard],
         },
       },
     }),
