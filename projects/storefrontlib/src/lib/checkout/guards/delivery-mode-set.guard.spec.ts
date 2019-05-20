@@ -78,10 +78,11 @@ describe(`DeliveryModeSetGuard`, () => {
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {
       expect(result.toString()).toEqual(
-        '/' +
+        `/${
           mockRoutingConfigService.getRouteConfig(
             MockCheckoutConfig.checkout.steps[1].route
           ).paths[0]
+        }`
       );
       done();
     });

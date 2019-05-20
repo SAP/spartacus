@@ -287,9 +287,9 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call back()', () => {
-    component.checkoutStepUrlPrevious =
-      '/' +
-      mockRoutingConfigService.getRouteConfig(mockCheckoutStep.route).paths[0];
+    component.checkoutStepUrlPrevious = `/${
+      mockRoutingConfigService.getRouteConfig(mockCheckoutStep.route).paths[0]
+    }`;
     component.back();
 
     expect(mockRoutingService.go).toHaveBeenCalledWith(

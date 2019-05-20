@@ -24,7 +24,7 @@ export class CheckoutConfigService {
 
     let stepIndex: number;
     this.steps.forEach((step, index) => {
-      if (currentStepUrl === '/' + this.getStepUrlFromStepRoute(step.route)) {
+      if (currentStepUrl === `/${this.getStepUrlFromStepRoute(step.route)}`) {
         stepIndex = index;
       }
     });
@@ -41,7 +41,7 @@ export class CheckoutConfigService {
 
     let stepIndex: number;
     this.steps.forEach((step, index) => {
-      if (currentStepUrl === '/' + this.getStepUrlFromStepRoute(step.route)) {
+      if (currentStepUrl === `/${this.getStepUrlFromStepRoute(step.route)}`) {
         stepIndex = index;
       }
     });
