@@ -27,7 +27,7 @@
 <div class="description"><p [innerHTML]="product?.summary"></p></div>
 
 <ng-container *cxOutlet="outlets.ADDTOCART">
-  <div class="quantity">
+  <!-- <div class="quantity">
     <label>{{ 'productSummary.quantity' | cxTranslate }}</label>
     <cx-item-counter
       isValueChangeable="true"
@@ -50,7 +50,7 @@
     [quantity]="itemCount"
     [productCode]="product?.code"
     [maxQuantity]="product.stock.stockLevel"
-  ></cx-add-to-cart>
+  ></cx-add-to-cart> -->
 </ng-container>
 
 <!-- @TODO: Temp. Comment out share link while not in use by CMS -->

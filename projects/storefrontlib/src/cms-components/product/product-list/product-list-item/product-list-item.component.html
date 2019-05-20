@@ -35,6 +35,7 @@
       <div class="col-12 col-md-4">
         <cx-add-to-cart
           *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
+          [showQuantity]="false"
           [productCode]="product.code"
         ></cx-add-to-cart>
       </div>

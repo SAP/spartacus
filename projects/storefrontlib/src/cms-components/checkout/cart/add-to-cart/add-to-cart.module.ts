@@ -7,7 +7,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../../shared/index';
+import { SpinnerModule, FormComponentsModule } from '../../../../shared/index';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
@@ -27,6 +27,7 @@ import { IconModule } from '../../../../cms-components/misc/icon/index';
     UrlModule,
     IconModule,
     I18nModule,
+    FormComponentsModule,
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddToCartComponent, AddedToCartDialogComponent],

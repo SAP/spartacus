@@ -35,8 +35,6 @@ export class MockCmsService {
 })
 export class MockAddToCartComponent {
   @Input()
-  iconOnly;
-  @Input()
   productCode: string;
   @Input()
   quantity: number;
