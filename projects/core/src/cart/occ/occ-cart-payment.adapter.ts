@@ -7,10 +7,14 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { CartPaymentAdapter } from '../connectors/payment/cart-payment.adapter';
 import { ConverterService } from '../../util/converter.service';
 import {
+  CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '../connectors/payment/converters';
-import { PaymentDetails } from '../../model/cart.model';
+import { CardType, PaymentDetails } from '../../model/cart.model';
+import { Occ } from '../../occ/occ-models';
+
+const ENDPOINT_CARD_TYPES = 'cardtypes';
 
 @Injectable()
 export class OccCartPaymentAdapter implements CartPaymentAdapter {
@@ -84,6 +88,16 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
         }
       )
       .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  loadCardTypes(): Observable<CardType[]> {
+    return this.http
+      .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
+      .pipe(
+        catchError((error: any) => throwError(error.json())),
+        map(cardTypeList => cardTypeList.cardTypes),
+        this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
+      );
   }
 
   protected getProviderSubInfo(

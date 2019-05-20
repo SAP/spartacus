@@ -3,7 +3,6 @@ import { UserRegisterFormData } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { UserAccountAdapter } from './user-account.adapter';
 import { UserAccountConnector } from './user-account.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockUserAccountAdapter implements UserAccountAdapter {
@@ -15,6 +14,7 @@ class MockUserAccountAdapter implements UserAccountAdapter {
   resetPassword = createSpy('resetPassword').and.returnValue(of({}));
   updateEmail = createSpy('updateEmail').and.returnValue(of({}));
   updatePassword = createSpy('updatePassword').and.returnValue(of({}));
+  loadTitles = createSpy('loadTitles').and.returnValue(of([]));
   loadConsents = createSpy('loadConsents').and.returnValue(of({}));
   giveConsent = createSpy('giveConsent').and.returnValue(of({}));
   withdrawConsent = createSpy('withdrawConsent').and.returnValue(of({}));
@@ -102,6 +102,13 @@ describe('UserAccountConnector', () => {
       'password',
       'new-password'
     );
+  });
+
+  it('getTitles should call adapter', () => {
+    let result;
+    service.getTitles().subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.loadTitles).toHaveBeenCalledWith();
   });
 
   it('loadConsents should call adapter', () => {
