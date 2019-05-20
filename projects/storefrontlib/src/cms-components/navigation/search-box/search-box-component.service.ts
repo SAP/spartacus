@@ -109,6 +109,19 @@ export class SearchBoxComponentService {
       switchMap(([s, p]) => {
         if (s.length === 0 && p.length === 0) {
           return this.fetchMessage('searchBox.help.noMatch');
+        } else if (s.length === 0 && p.length > 0) {
+          return this.fetchTranslation('searchBox.help.exactMatch', {
+            term: text,
+          }).pipe(
+            // we return the exact match, since SOLR doesn't do this
+            // this is expecially helpful for mobile, where we do not show products.
+            switchMap(label => {
+              return of({
+                suggestions: [label],
+                products: p,
+              });
+            })
+          );
         } else {
           return of({
             suggestions: s,
@@ -119,14 +132,21 @@ export class SearchBoxComponentService {
     );
   }
 
-  private fetchMessage(translationKey: string): Observable<any> {
-    return this.translationService.translate(translationKey).pipe(
+  private fetchMessage(translationKey: string, options?: any): Observable<any> {
+    return this.translationService.translate(translationKey, options).pipe(
       map(msg => {
         return {
           message: msg,
         };
       })
     );
+  }
+
+  private fetchTranslation(
+    translationKey: string,
+    options?: any
+  ): Observable<string> {
+    return this.translationService.translate(translationKey, options);
   }
 
   private executeSearch(search: string, config: SearchBoxConfig): void {

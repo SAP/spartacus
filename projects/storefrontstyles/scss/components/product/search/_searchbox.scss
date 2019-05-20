@@ -116,6 +116,7 @@ body:not(.open) {
         background-color: var(--cx-g-color-secondary);
         padding: 6px;
         height: 48px;
+        border-bottom: 1px solid currentColor;
       }
 
       flex-basis: 100%;

@@ -24,6 +24,7 @@ export const common = {
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',
+      exactMatch: '{{ term }}',
       empty: 'Ask us anything',
     },
   },
