@@ -4,44 +4,35 @@ import { provideMockActions } from '@ngrx/effects/testing';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
 
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-
 import { TitlesEffects } from '.';
-import { Occ } from '../../../occ/occ-models/occ.models';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { Title, UserAccountAdapter } from '@spartacus/core';
 
-class MockMiscsService {
-  loadTitles(): Observable<Occ.TitleList> {
-    return of();
-  }
-}
-
-const mockTitlesList: Occ.TitleList = {
-  titles: [
-    {
-      code: 'mr',
-      name: 'Mr.',
-    },
-    {
-      code: 'mrs',
-      name: 'Mrs.',
-    },
-    {
-      code: 'dr',
-      name: 'Dr.',
-    },
-    {
-      code: 'rev',
-      name: 'Rev.',
-    },
-  ],
-};
+const mockTitles: Title[] = [
+  {
+    code: 'mr',
+    name: 'Mr.',
+  },
+  {
+    code: 'mrs',
+    name: 'Mrs.',
+  },
+  {
+    code: 'dr',
+    name: 'Dr.',
+  },
+  {
+    code: 'rev',
+    name: 'Rev.',
+  },
+];
 
 describe('Titles effect', () => {
-  let service: OccMiscsService;
+  let service: UserAccountConnector;
   let effect: TitlesEffects;
   let actions$: Observable<any>;
 
@@ -49,23 +40,21 @@ describe('Titles effect', () => {
     TestBed.configureTestingModule({
       providers: [
         TitlesEffects,
-        { provide: OccMiscsService, useClass: MockMiscsService },
+        { provide: UserAccountAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(TitlesEffects);
-    service = TestBed.get(OccMiscsService);
+    service = TestBed.get(UserAccountConnector);
 
-    spyOn(service, 'loadTitles').and.returnValue(of(mockTitlesList));
+    spyOn(service, 'getTitles').and.returnValue(of(mockTitles));
   });
 
   describe('loadTitles$', () => {
     it('should load the titles', () => {
       const action = new fromActions.LoadTitles();
-      const completion = new fromActions.LoadTitlesSuccess(
-        mockTitlesList.titles
-      );
+      const completion = new fromActions.LoadTitlesSuccess(mockTitles);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

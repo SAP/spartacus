@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromAction from '../actions/delivery-countries.action';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
+import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 
 @Injectable()
 export class DeliveryCountriesEffects {
@@ -16,9 +16,9 @@ export class DeliveryCountriesEffects {
   > = this.actions$.pipe(
     ofType(fromAction.LOAD_DELIVERY_COUNTRIES),
     switchMap(() => {
-      return this.occMiscsService.loadDeliveryCountries().pipe(
+      return this.userPaymentConnector.getDeliveryCountries().pipe(
         map(
-          data => new fromAction.LoadDeliveryCountriesSuccess(data.countries)
+          countries => new fromAction.LoadDeliveryCountriesSuccess(countries)
         ),
         catchError(error => of(new fromAction.LoadDeliveryCountriesFail(error)))
       );
@@ -27,6 +27,6 @@ export class DeliveryCountriesEffects {
 
   constructor(
     private actions$: Actions,
-    private occMiscsService: OccMiscsService
+    private userPaymentConnector: UserPaymentConnector
   ) {}
 }
