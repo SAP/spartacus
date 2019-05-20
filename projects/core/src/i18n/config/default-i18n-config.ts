@@ -43,6 +43,7 @@ export const defaultI18nConfig: I18nConfig = {
         'updateEmailForm',
         'updatePasswordForm',
         'updateProfileForm',
+        'consentManagementForm',
       ],
     },
   },

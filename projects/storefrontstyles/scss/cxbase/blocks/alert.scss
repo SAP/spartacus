@@ -4,70 +4,72 @@
 
 //alert - https://github.com/twbs/bootstrap/blob/v4-dev/scss/alert.scss
 .alert {
-  text-align: center;
-  color: theme-color('text');
+  text-align: var(--cx-text-align, center);
+  color: var(--cx-color, var(--cx-g-color-text));
   @include type('6', 'semi');
-  padding: 22px 4rem 22px 20px;
-  line-height: 1.5;
+  padding: var(--cx-padding, 22px 4rem 22px 20px);
+  line-height: var(--cx-line-height, 1.5);
 
   &-icon {
-    height: 26px;
-    margin-right: spacer(2);
-    position: relative;
-    display: inline-block;
+    height: var(--cx-height, 25px);
+    margin-right: var(--cx-margin-right, spacer(2));
+    position: var(--cx-position, relative);
+    display: var(--cx-display, inline-block);
+    vertical-align: var(--cx-vertical-align, middle);
     &::before {
-      position: relative;
+      position: var(--cx-position, relative);
       font-size: 18px;
       font-weight: $font-weight-bold;
-      text-align: center;
-      display: inline-block;
-      width: 26px;
-      height: 26px;
+      text-align: var(--cx-text-align, center);
+      display: var(--cx-display, inline-block);
+      width: var(--cx-width, 26px);
+      height: var(--cx-height, 26px);
     }
   }
 
   &-success {
     background-color: mix(#ffffff, theme-color('success'), 80%);
-    border: none;
+    border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
-        color: theme-color('success');
+        color: var(--cx-color, var(--cx-g-color-success));
       }
     }
   }
 
   &-danger {
     background-color: mix(#ffffff, theme-color('danger'), 85%);
-    border: none;
+    border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
-        color: theme-color('danger');
+        color: var(--cx-color, var(--cx-g-color-danger));
       }
     }
   }
 
   &-info {
     background-color: mix(#ffffff, theme-color('info'), 80%);
-    border: none;
+    border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
-        color: theme-color('info');
+        color: var(--cx-color, var(--cx-g-color-info));
       }
     }
   }
 
   &-warning {
     background-color: mix(#ffffff, theme-color('warning'), 78%);
-    border: none;
+    border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
-        color: theme-color('warning');
+        color: var(--cx-color, var(--cx-g-color-warning));
       }
     }
   }
 
   .close {
-    font-size: 2rem;
-    font-weight: $font-weight-normal;
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal));
+    position: var(--cx-position, relative);
+    top: var(--cx-top, 1px);
   }
 }
