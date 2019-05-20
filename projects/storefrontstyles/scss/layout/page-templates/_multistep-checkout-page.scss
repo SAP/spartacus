@@ -31,6 +31,7 @@
 
     &.SideContent {
       --cx-flex-basis: 33%;
+      flex-direction: column;
     }
   }
 }
