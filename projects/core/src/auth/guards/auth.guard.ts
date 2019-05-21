@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -22,15 +18,11 @@ export class AuthGuard implements CanActivate {
     private authService: AuthService
   ) {}
 
-  canActivate(
-    _route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     return this.authService.getUserToken().pipe(
       map((token: UserToken) => {
         if (!token.access_token) {
           this.routingService.go({ cxRoute: 'login' });
-          this.routingService.saveRedirectUrl(state.url);
         }
         return !!token.access_token;
       })

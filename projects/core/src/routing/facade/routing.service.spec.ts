@@ -97,35 +97,6 @@ describe('RoutingService', () => {
     });
   });
 
-  describe('clearRedirectUrl', () => {
-    it('should dispatch clear redirect url action', () => {
-      service.clearRedirectUrl();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.ClearRedirectUrl()
-      );
-    });
-  });
-
-  describe('saveRedirectUrl', () => {
-    it('should dispatch save redirect url action', () => {
-      service.saveRedirectUrl('testUrl');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SaveRedirectUrl('testUrl')
-      );
-    });
-  });
-
-  it('should expose the redirectUrl', () => {
-    const mockRedirectUrl = createSpy().and.returnValue(() =>
-      of('redirect_url')
-    );
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRedirectUrl);
-
-    let redirectUrl: string;
-    service.getRedirectUrl().subscribe(url => (redirectUrl = url));
-    expect(redirectUrl).toEqual('redirect_url');
-  });
-
   it('should expose whole router state', () => {
     const mockRouterState = createSpy().and.returnValue(() => of({}));
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
