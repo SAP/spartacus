@@ -1,6 +1,3 @@
-<a
-  *ngIf="(component.data$ | async) as data"
-  role="link"
-  [routerLink]="data.url"
-  >{{ data.linkName }}</a
->
+<cx-generic-link *ngIf="(component.data$ | async) as data" [url]="data.url">{{
+  data.linkName
+}}</cx-generic-link>
