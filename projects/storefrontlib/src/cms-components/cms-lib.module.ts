@@ -35,6 +35,7 @@ import {
   ProductTabsModule,
 } from './product/index';
 import { StoreFinderModule } from './storefinder/index';
+import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import { StoreFinderModule } from './storefinder/index';
     CartComponentModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
   ],

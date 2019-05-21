@@ -9,6 +9,7 @@ import {
   ConsentTemplateList,
 } from '../../occ/occ-models/additional-occ.models';
 import { OccUserAccountAdapter } from './occ-user-account.adapter';
+import { ConverterService, Occ, TITLE_NORMALIZER } from '@spartacus/core';
 
 const endpoint = '/users';
 const forgotPasswordEndpoint = '/forgottenpasswordtokens';
@@ -34,6 +35,7 @@ const MockOccModuleConfig: OccConfig = {
 describe('OccUserAccountAdapter', () => {
   let service: OccUserAccountAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,6 +48,8 @@ describe('OccUserAccountAdapter', () => {
 
     service = TestBed.get(OccUserAccountAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -160,6 +164,41 @@ describe('OccUserAccountAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
       expect(result).toEqual('');
+    });
+  });
+
+  describe('loadTitles', () => {
+    it('load return titles list', () => {
+      const titlesList: Occ.TitleList = {
+        titles: [
+          {
+            code: 'mr',
+            name: 'Mr.',
+          },
+          {
+            code: 'mrs',
+            name: 'Mrs.',
+          },
+        ],
+      };
+
+      service.loadTitles().subscribe(result => {
+        expect(result).toEqual(titlesList.titles);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET' && req.url === '/titles';
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(titlesList);
+    });
+
+    it('should use converter', () => {
+      service.loadTitles().subscribe();
+      httpMock.expectOne('/titles').flush({});
+      expect(converter.pipeableMany).toHaveBeenCalledWith(TITLE_NORMALIZER);
     });
   });
 
