@@ -7,7 +7,7 @@ import { ProductAdapter } from './product.adapter';
   providedIn: 'root',
 })
 export class ProductConnector {
-  constructor(private adapter: ProductAdapter) {}
+  constructor(protected adapter: ProductAdapter) {}
 
   get(productCode: string): Observable<Product> {
     return this.adapter.load(productCode);
