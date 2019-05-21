@@ -10,6 +10,7 @@ export interface StateWithCart {
 
 export interface CartsState {
   active: LoaderState<CartState>;
+  saveForLater: LoaderState<CartState>;
 }
 
 export interface CartState {

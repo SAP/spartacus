@@ -8,10 +8,12 @@ import { PLACE_ORDER_SUCCESS } from '../../../checkout/store/actions/checkout.ac
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 import { reducer as cartReducer } from './cart.reducer';
+import { reducer as saveForLaterReducer } from './save-for-later.reducer';
 
 export function getReducers(): ActionReducerMap<CartsState> {
   return {
     active: loaderReducer<CartState>(CART_DATA, cartReducer),
+    saveForLater: loaderReducer<CartState>(CART_DATA, saveForLaterReducer),
   };
 }
 
