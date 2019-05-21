@@ -1,67 +1,50 @@
 <!-- pagination -->
 <ul class="pagination">
   <!-- Previous -->
-  <li class="page-item" [ngClass]="{ disabled: pagination.currentPage === 0 }">
-    <a class="page-link" (click)="clickPageNo(pagination.currentPage)">«</a>
+  <li class="page-item" [ngClass]="{ disabled: onFirstPage() }">
+    <a class="page-link" (click)="clickPageNo(getPagePrevious())">«</a>
   </li>
 
   <!-- First -->
-  <li class="page-item" [ngClass]="{ active: pagination.currentPage === 0 }">
-    <a class="page-link" (click)="clickPageNo(1)">{{ 1 }}</a>
+  <li class="page-item" [ngClass]="{ active: onFirstPage() }">
+    <a class="page-link" (click)="clickPageNo(getPageFirst())">{{
+      getPageFirst()
+    }}</a>
   </li>
 
   <!-- Continued Backwards -->
-  <li class="page-item disabled" [hidden]="pagination.currentPage <= 2">
+  <li class="page-item disabled" [hidden]="hideContinuedBack()">
     <a class="page-link">...</a>
   </li>
 
   <!-- Page Index -->
   <li
     class="page-item"
-    *ngFor="let page of Array(pagination.totalPages); let i = index"
-    [ngClass]="{ active: pagination.currentPage === i }"
-    [hidden]="
-      i == 0 ||
-      i == pagination.totalPages - 1 ||
-      Math.floor(pagination.currentPage / 3) * 3 > i ||
-      Math.floor(pagination.currentPage / 3) * 3 + 2 < i
-    "
+    *ngFor="let page of getPageIndicies(); let i = index"
+    [ngClass]="{ active: onPageIndex(i) }"
+    [hidden]="hidePageIndex(i)"
   >
     <a class="page-link" (click)="clickPageNo(i + 1)">{{ i + 1 }}</a>
   </li>
 
   <!-- Continued Forwards -->
-  <li
-    class="page-item disabled"
-    [hidden]="pagination.currentPage > pagination.totalPages - 5"
-  >
+  <li class="page-item disabled" [hidden]="hideContinuedForwards()">
     <a class="page-link">...</a>
   </li>
 
   <!-- Last -->
   <li
     class="page-item"
-    [ngClass]="{
-      active: pagination.currentPage === pagination.totalPages - 1
-    }"
+    [ngClass]="{ active: onLastPage() }"
+    [hidden]="getPageLast() < 2"
   >
-    <a class="page-link" (click)="clickPageNo(pagination.totalPages)">{{
-      pagination.totalPages
+    <a class="page-link" (click)="clickPageNo(getPageLast())">{{
+      getPageLast()
     }}</a>
   </li>
 
   <!-- Next -->
-  <li
-    class="page-item"
-    [ngClass]="{
-      disabled: pagination.currentPage === pagination.totalPages - 1
-    }"
-  >
-    <a
-      class="page-link"
-      (click)="clickPageNo(pagination.currentPage + 2)"
-      aria-label="next"
-      >»</a
-    >
+  <li class="page-item" [ngClass]="{ disabled: onLastPage() }">
+    <a class="page-link" (click)="clickPageNo(getPageNext())">»</a>
   </li>
 </ul>
