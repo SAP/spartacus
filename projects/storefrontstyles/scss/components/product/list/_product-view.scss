@@ -25,7 +25,7 @@
     max-width: var(--cx-max-width, 53px);
 
     @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 13px 12px 13px 12px);
+      padding: var(--cx-padding, 12px 11px 13px 12px);
     }
 
     .fa-th-large {
@@ -42,11 +42,11 @@
 
   .cx-product-list {
     display: var(--cx-display, inline-block);
-    padding: var(--cx-padding, 13px 16px 13px 16px);
+    padding: var(--cx-padding, 11px 16px 13px 16px);
     max-width: var(--cx-max-width, 53px);
 
     @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 13px 12px 13px 12px);
+      padding: var(--cx-padding, 12px 11px 13px 12px);
     }
 
     .fa-bars {
