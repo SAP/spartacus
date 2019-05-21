@@ -106,15 +106,37 @@
     <!-- Promotion -->
     <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly" class="cx-actions col-12">
-      <button
-        class="link"
-        [class.disabled]="cartIsLoading"
-        [disabled]="cartIsLoading"
-        (click)="removeItem()"
-      >
-        {{ 'common.remove' | cxTranslate }}
-      </button>
+    <div *ngIf="!isReadOnly" class="cx-actions row col-12">
+      <div *ngIf="!isSavedForLater" class="col-md-3 col-lg-3 col-xl-3">
+        <button
+          class="link"
+          [class.disabled]="cartIsLoading"
+          [disabled]="cartIsLoading"
+          (click)="saveItemForLater()"
+        >
+          Save for Later
+        </button>
+      </div>
+      <div *ngIf="isSavedForLater" class="col-md-3 col-lg-3 col-xl-3">
+        <button
+          class="link"
+          [class.disabled]="cartIsLoading"
+          [disabled]="cartIsLoading"
+          (click)="moveItemToCart()"
+        >
+          Move to Cart
+        </button>
+      </div>
+      <div class="col-md-3 col-lg-3 col-xl-2">
+        <button
+          class="link"
+          [class.disabled]="cartIsLoading"
+          [disabled]="cartIsLoading"
+          (click)="removeItem()"
+        >
+          {{ 'common.remove' | cxTranslate }}
+        </button>
+      </div>
     </div>
   </div>
 </div>

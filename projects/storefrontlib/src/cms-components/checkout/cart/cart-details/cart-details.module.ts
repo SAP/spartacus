@@ -9,11 +9,13 @@ import {
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
+import { SaveForLaterModule } from '../save-for-later/save-for-later.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 @NgModule({
   imports: [
     CartSharedModule,
+    SaveForLaterModule,
     CommonModule,
     RouterModule,
     UrlModule,

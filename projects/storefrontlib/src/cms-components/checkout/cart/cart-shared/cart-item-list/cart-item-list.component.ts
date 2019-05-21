@@ -54,6 +54,10 @@ export class CartItemListComponent implements OnInit {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
+  saveForLater(_item: Item): void {}
+
+  moveToCart(_item: Item): void {}
+
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
     if (
