@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable } from 'rxjs';
 
-import { CartService, OrderEntry, Product } from '@spartacus/core';
+import { CartService, OrderEntry } from '@spartacus/core';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import { CurrentProductService } from '../../../product/current-product.service';
@@ -34,7 +34,6 @@ export class AddToCartComponent implements OnInit {
 
   cartEntry$: Observable<OrderEntry>;
   loaded$: Observable<boolean>;
-  product$: Observable<Product>;
 
   constructor(
     protected cartService: CartService,

@@ -15,7 +15,7 @@ import { ProductGridItemComponent } from './product-grid-item.component';
 })
 export class MockAddToCartComponent {
   @Input() productCode;
-  @Input() quantity;
+  @Input() showQuantity;
 }
 
 @Component({

@@ -22,7 +22,9 @@ export function addProductToCart() {
   cy.get('cx-item-counter')
     .getByText('+')
     .click();
-  cy.get('cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.getByText(/view cart/i).click();

@@ -15,7 +15,7 @@ import { ProductListItemComponent } from './product-list-item.component';
 })
 export class MockAddToCartComponent {
   @Input() productCode;
-  @Input() quantity;
+  @Input() showQuantity;
 }
 
 @Component({

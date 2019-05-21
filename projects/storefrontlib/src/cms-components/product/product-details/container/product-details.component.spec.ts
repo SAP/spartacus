@@ -30,17 +30,6 @@ export class MockCmsService {
 }
 
 @Component({
-  selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>',
-})
-export class MockAddToCartComponent {
-  @Input()
-  productCode: string;
-  @Input()
-  quantity: number;
-}
-
-@Component({
   selector: 'cx-product-images',
   template: 'product-images.component',
 })
@@ -69,7 +58,6 @@ describe('ProductDetailsComponent in product', () => {
         ProductDetailsComponent,
         MockProductImagesComponent,
         MockProductSummaryComponent,
-        MockAddToCartComponent,
         OutletDirective,
       ],
       providers: [
