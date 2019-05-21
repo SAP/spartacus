@@ -116,7 +116,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.userService
       .get()
       .pipe(
-        map(user => user.uid),
+        pluck('uid'),
         tap(userId => {
           if (given) {
             this.userService.giveConsent(userId, template.id, template.version);
