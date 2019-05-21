@@ -80,13 +80,6 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-@Pipe({
-  name: 'stripHtml',
-})
-class MockStripHtmlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -134,7 +127,6 @@ describe('ProductListComponent in product-list', () => {
         ProductViewComponent,
         MockProductListItemComponent,
         MockUrlPipe,
-        MockStripHtmlPipe,
         MockCxIconComponent,
       ],
     }).compileComponents();

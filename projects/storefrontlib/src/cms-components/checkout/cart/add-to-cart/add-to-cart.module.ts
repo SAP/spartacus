@@ -30,6 +30,6 @@ import { IconModule } from '../../../../cms-components/misc/icon/index';
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddToCartComponent, AddedToCartDialogComponent],
-  exports: [AddToCartComponent],
+  exports: [AddToCartComponent, AddedToCartDialogComponent],
 })
 export class AddToCartModule {}

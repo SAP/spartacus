@@ -11,6 +11,7 @@ import {
 import { IconConfig } from '../cms-components/misc/icon/index';
 import { PWAModuleConfig } from '../cms-structure/pwa/index';
 import { LayoutConfig } from '../layout/config/layout-config';
+import { CheckoutConfig } from './checkout/config/checkout-config';
 
 export type StorefrontModuleConfig =
   | AuthConfig
@@ -23,4 +24,5 @@ export type StorefrontModuleConfig =
   | RoutingConfig
   | I18nConfig
   | PersonalizationConfig
-  | IconConfig;
+  | IconConfig
+  | CheckoutConfig;
