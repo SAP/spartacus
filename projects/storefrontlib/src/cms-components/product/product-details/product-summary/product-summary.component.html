@@ -45,12 +45,14 @@
         : ('productSummary.outOfStock' | cxTranslate)
     }}</span>
   </div>
+  
   <cx-add-to-cart
     *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
     [quantity]="itemCount"
     [productCode]="product?.code"
     [maxQuantity]="product.stock.stockLevel"
   ></cx-add-to-cart> -->
+  <cx-page-slot position="AddToCart"></cx-page-slot>
 </ng-container>
 
 <!-- @TODO: Temp. Comment out share link while not in use by CMS -->
