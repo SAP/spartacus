@@ -6,4 +6,8 @@ export const metaResolver = {
   contentPage: {
     heading: '{{content}}',
   },
+  checkoutPage: {
+    heading: 'Checkout {{items}} item',
+    heading_plural: 'Checkout {{items}} items',
+  },
 };

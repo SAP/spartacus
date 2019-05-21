@@ -10,13 +10,17 @@ import {
 } from '../../cms/page/page.resolvers';
 import { Cart } from '../../model/cart.model';
 import { PageType } from '../../model/cms.model';
+import { TranslationService } from '../../i18n';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  constructor(protected cartService: CartService) {
+  constructor(
+    protected cartService: CartService,
+    protected translation: TranslationService
+  ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'MultiStepCheckoutSummaryPageTemplate';
@@ -32,7 +36,9 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(cart: Cart): Observable<string> {
-    return of(`Checkout ${cart.totalItems} items`);
+    return this.translation.translate('metaResolver:checkoutPage.heading', {
+      items: cart.totalItems,
+    });
   }
 
   resolveRobots(): Observable<PageRobotsMeta[]> {
