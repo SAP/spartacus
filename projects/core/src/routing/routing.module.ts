@@ -16,7 +16,7 @@ import { effects } from './store/effects/index';
 import { RouterModule } from '@angular/router';
 import { RoutingService } from './facade/routing.service';
 
-import { ROUTING_FEATURE } from './state';
+import { ROUTING_FEATURE } from './store/state';
 import { ConfigurableRoutesModule } from './configurable-routes/configurable-routes.module';
 
 @NgModule({
