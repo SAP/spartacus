@@ -6,7 +6,6 @@ import {
   GoogleMapRendererService,
   ExternalJsFileLoader,
 } from './service/index';
-import { StoreFinderOccModule } from './occ/store-finder-occ.module';
 import { ConfigModule } from '../config';
 import { defaultStoreFinderConfig } from './config/default-store-finder-config';
 import { StoreFinderConfig } from './config/store-finder-config';
@@ -15,7 +14,6 @@ import { StoreFinderConfig } from './config/store-finder-config';
   imports: [
     ConfigModule.withConfig(defaultStoreFinderConfig),
     StoreFinderStoreModule,
-    StoreFinderOccModule,
   ],
   providers: [
     StoreFinderService,

@@ -1,5 +1,4 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { SiteContextOccModule } from './occ/site-context-occ.module';
 import { SiteContextStoreModule } from './store/site-context-store.module';
 import { StateModule } from '../state/index';
 import { Config, ConfigModule } from '../config/config.module';
@@ -15,7 +14,6 @@ import { interceptors } from './occ/index';
   imports: [
     ConfigModule.withConfigFactory(defaultSiteContextConfigFactory),
     StateModule,
-    SiteContextOccModule,
     SiteContextStoreModule,
   ],
   providers: [

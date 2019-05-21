@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { OccModule } from '../../occ/occ.module';
 import { CartAdapter } from '../connectors/cart/cart.adapter';
 import { OccCartAdapter } from './occ-cart.adapter';
 import { CartDeliveryAdapter } from '../connectors/delivery/cart-delivery.adapter';
@@ -14,7 +13,7 @@ import { CART_NORMALIZER } from '../connectors/cart/converters';
 import { OccCartNormalizer } from './converters/occ-cart-normalizer';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, OccModule],
+  imports: [CommonModule, HttpClientModule],
   providers: [
     {
       provide: CartAdapter,
