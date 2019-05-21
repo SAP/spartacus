@@ -33,7 +33,7 @@ class MockAuthService {
 }
 
 class MockAuthRedirectService {
-  go = createSpy('AuthRedirectService.go');
+  redirect = createSpy('AuthRedirectService.redirect');
 }
 class MockGlobalMessageService {
   remove = createSpy();
