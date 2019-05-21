@@ -9,6 +9,7 @@ import { ProductImageNormalizer } from '../../product';
 import { OccCartAdapter } from './occ-cart.adapter';
 import { ConverterService } from '../../util/converter.service';
 import { CART_NORMALIZER } from '@spartacus/core';
+import { CheckoutDetails } from '../../checkout/models/checkout.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { Cart } from '../../model/cart.model';
 
@@ -26,8 +27,14 @@ const mergedCart: Cart = {
   name: 'mergedCart',
 };
 
+const checkoutData: CheckoutDetails = {
+  deliveryAddress: {
+    firstName: 'Janusz',
+  },
+};
+
 const usersEndpoint = '/users';
-const cartsEndpoint = '/carts/';
+const cartsEndpoint = 'carts';
 const BASIC_PARAMS =
   'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
@@ -38,6 +45,8 @@ const DETAILS_PARAMS =
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
   'appliedVouchers,productDiscounts(formattedValue)';
+
+const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -86,7 +95,7 @@ describe('OccCartAdapter', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -107,7 +116,7 @@ describe('OccCartAdapter', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -129,7 +138,7 @@ describe('OccCartAdapter', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
         );
       });
 
@@ -148,7 +157,7 @@ describe('OccCartAdapter', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
         );
       });
 
@@ -166,7 +175,7 @@ describe('OccCartAdapter', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -180,6 +189,26 @@ describe('OccCartAdapter', () => {
     });
   });
 
+  describe('load checkout details', () => {
+    it('should load checkout details data for given userId, cartId', () => {
+      service.loadCheckoutDetails(userId, cartId).subscribe(result => {
+        expect(result).toEqual(checkoutData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(CHECKOUT_PARAMS);
+      mockReq.flush(checkoutData);
+    });
+  });
+
   describe('create a cart', () => {
     it('should able to create a new cart for the given user ', () => {
       let result;
@@ -188,7 +217,7 @@ describe('OccCartAdapter', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'POST' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -211,7 +240,7 @@ describe('OccCartAdapter', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'POST' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 

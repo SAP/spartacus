@@ -54,7 +54,7 @@ export function paymentDetailCard() {
   fillShippingAddress(user);
 
   // set delivery method
-  cy.get('#deliveryMode-standard-gross').check();
+  cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click();
 
   // fill in payment method
@@ -85,7 +85,7 @@ export function addSecondaryPaymentCard() {
   cy.get('button.btn-primary').click();
 
   // set delivery method
-  cy.get('#deliveryMode-standard-gross').check();
+  cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click();
 
   // fill in payment method
