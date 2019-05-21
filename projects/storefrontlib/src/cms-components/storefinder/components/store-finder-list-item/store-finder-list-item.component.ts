@@ -8,11 +8,11 @@ import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
   templateUrl: './store-finder-list-item.component.html',
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
+  iconTypes = ICON_TYPE;
   @Input()
   locationIndex: number = null;
   @Output()
   storeItemClick: EventEmitter<number> = new EventEmitter();
-  iconTypes = ICON_TYPE;
 
   constructor(protected storeDataService: StoreDataService) {
     super(storeDataService);
