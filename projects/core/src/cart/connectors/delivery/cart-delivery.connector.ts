@@ -8,7 +8,7 @@ import { DeliveryMode } from '../../../model/order.model';
   providedIn: 'root',
 })
 export class CartDeliveryConnector {
-  constructor(private adapter: CartDeliveryAdapter) {}
+  constructor(protected adapter: CartDeliveryAdapter) {}
 
   public createAddress(
     userId: string,

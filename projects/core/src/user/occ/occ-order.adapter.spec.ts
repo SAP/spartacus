@@ -10,7 +10,7 @@ import { ConverterService, OccOrderAdapter } from '@spartacus/core';
 import {
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
-} from '../connectors/converters';
+} from '../connectors/order/converters';
 
 const userId = '123';
 const cartId = '456';
