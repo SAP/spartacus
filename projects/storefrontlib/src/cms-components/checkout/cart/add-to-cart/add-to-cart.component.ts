@@ -19,7 +19,6 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
-  styleUrls: ['./add-to-cart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddToCartComponent implements OnInit {
