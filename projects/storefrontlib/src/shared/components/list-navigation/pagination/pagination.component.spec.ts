@@ -43,14 +43,6 @@ describe('PaginationComponent', () => {
   });
 
   describe('GET functions', () => {
-    it('should return first page', () => {
-      expect(component.getPageFirst()).toEqual(FIRST_PAGE);
-    });
-
-    it('should return last page', () => {
-      expect(component.getPageLast()).toEqual(TOTAL_PAGES);
-    });
-
     it('should return next page', () => {
       expect(component.getPageNext()).toEqual(FIRST_PAGE + 2);
     });

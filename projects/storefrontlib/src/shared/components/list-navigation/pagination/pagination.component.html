@@ -1,46 +1,22 @@
-<!-- pagination -->
 <ul class="pagination">
   <!-- Previous -->
   <li class="page-item" [ngClass]="{ disabled: onFirstPage() }">
     <a class="page-link" (click)="clickPageNo(getPagePrevious())">«</a>
   </li>
 
-  <!-- First -->
-  <li class="page-item" [ngClass]="{ active: onFirstPage() }">
-    <a class="page-link" (click)="clickPageNo(getPageFirst())">{{
-      getPageFirst()
-    }}</a>
-  </li>
-
-  <!-- Continued Backwards -->
-  <li class="page-item disabled" [hidden]="hideContinuedBack()">
-    <a class="page-link">...</a>
-  </li>
-
   <!-- Page Index -->
   <li
     class="page-item"
     *ngFor="let page of getPageIndicies(); let i = index"
-    [ngClass]="{ active: onPageIndex(i) }"
-    [hidden]="hidePageIndex(i)"
+    [ngClass]="{ active: onPageIndex(i), disabled: showDots(i) }"
   >
-    <a class="page-link" (click)="clickPageNo(i + 1)">{{ i + 1 }}</a>
-  </li>
-
-  <!-- Continued Forwards -->
-  <li class="page-item disabled" [hidden]="hideContinuedForwards()">
-    <a class="page-link">...</a>
-  </li>
-
-  <!-- Last -->
-  <li
-    class="page-item"
-    [ngClass]="{ active: onLastPage() }"
-    [hidden]="getPageLast() < 2"
-  >
-    <a class="page-link" (click)="clickPageNo(getPageLast())">{{
-      getPageLast()
-    }}</a>
+    <a class="page-link" [hidden]="!showDots(i)">...</a>
+    <a
+      class="page-link"
+      [hidden]="hidePageIndex(i)"
+      (click)="clickPageNo(i + 1)"
+      >{{ i + 1 }}</a
+    >
   </li>
 
   <!-- Next -->

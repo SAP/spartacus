@@ -8,6 +8,7 @@ import {
 import { PaginationModel } from '@spartacus/core';
 
 const PAGE_FIRST = 1;
+const PAGE_WINDOW_SIZE = 3;
 
 @Component({
   selector: 'cx-pagination',
@@ -17,14 +18,6 @@ const PAGE_FIRST = 1;
 export class PaginationComponent {
   @Input() pagination: PaginationModel;
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
-
-  getPageFirst(): number {
-    return PAGE_FIRST;
-  }
-
-  getPageLast(): number {
-    return this.pagination.totalPages;
-  }
 
   getPagePrevious(): number {
     return this.pagination.currentPage;
@@ -50,24 +43,30 @@ export class PaginationComponent {
     return this.pagination.currentPage === index;
   }
 
-  hideContinuedBack(): boolean {
-    return !(this.pagination.totalPages > 2 && this.hidePageIndex(1));
+  getPageWindowBottom(): number {
+    return (
+      Math.floor(this.pagination.currentPage / PAGE_WINDOW_SIZE) *
+      PAGE_WINDOW_SIZE
+    );
   }
 
-  hideContinuedForwards(): boolean {
-    return !(
-      this.pagination.totalPages > 2 &&
-      this.hidePageIndex(this.pagination.totalPages - 2)
+  getPageWindowTop(): number {
+    return (
+      Math.floor(this.pagination.currentPage / PAGE_WINDOW_SIZE) *
+        PAGE_WINDOW_SIZE +
+      2
     );
   }
 
   hidePageIndex(index: number): boolean {
     return (
-      index === 0 ||
-      index === this.pagination.totalPages - 1 ||
-      Math.floor(this.pagination.currentPage / 3) * 3 > index ||
-      Math.floor(this.pagination.currentPage / 3) * 3 + 2 < index
+      (this.getPageWindowBottom() > index || this.getPageWindowTop() < index) &&
+      (index > 0 && index < this.pagination.totalPages - 1)
     );
+  }
+
+  showDots(index: number): boolean {
+    return this.hidePageIndex(index);
   }
 
   clickPageNo(page: number): number {
