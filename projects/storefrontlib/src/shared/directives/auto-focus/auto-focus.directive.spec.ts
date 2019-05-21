@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { AutoFocusDirective } from './auto-focus.directive';
 @Component({
   template: `
-    <input type="text" cxAutoFocus value="5" />
+    <input type="text" cxAutoFocus value="mockValue" />
   `,
 })
 class TestHoverFocusComponent {}
