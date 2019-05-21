@@ -24,13 +24,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'stripHtml',
-})
-class MockStripHtmlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -91,7 +84,6 @@ describe('SearchBoxComponent in CmsLib', () => {
         SearchBoxComponent,
         MediaComponent,
         MockUrlPipe,
-        MockStripHtmlPipe,
         MockCxIconComponent,
       ],
       providers: [
