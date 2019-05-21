@@ -230,4 +230,26 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.getDeliveryAddressSub.unsubscribe();
     }
   }
+
+  // private getCardIcon(code: string) {
+  //   let ccIcon: string;
+  //   getCardComponent(payment);
+  //   if (payment.cardType.code === 'visa') {
+  //     ccIcon = this.iconTypes.VISA;
+  //   } else if (
+  //     payment.cardType.code === 'master' ||
+  //     payment.cardType.code === 'mastercard_eurocard'
+  //   ) {
+  //     ccIcon = this.iconTypes.MASTER_CARD;
+  //   } else if (payment.cardType.code === 'diners') {
+  //     ccIcon = this.iconTypes.DINERS_CLUB;
+  //   } else if (payment.cardType.code === 'amex') {
+  //     ccIcon = this.iconTypes.AMEX;
+  //   } else if (
+  //     payment.cardType.code === 'maestro' ||
+  //     payment.cardType.code === 'switch'
+  //   ) {
+  //     ccIcon = this.iconTypes.CREDIT_CARD;
+  //   }
+  // }
 }
