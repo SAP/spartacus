@@ -6,7 +6,6 @@ import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 @Component({
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
-  styleUrls: ['./store-finder-list.component.scss'],
 })
 export class StoreFinderListComponent {
   @Input()
