@@ -74,6 +74,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
         'pagination(DEFAULT),' +
         'sorts(DEFAULT)',
     });
+
     if (longitudeLatitude) {
       params = params.set('longitude', String(longitudeLatitude.longitude));
       params = params.set('latitude', String(longitudeLatitude.latitude));
