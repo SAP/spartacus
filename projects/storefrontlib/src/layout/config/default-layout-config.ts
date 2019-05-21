@@ -90,7 +90,7 @@ export const defaultLayoutConfig: LayoutConfig = {
       slots: ['BodyContent', 'SideContent'],
     },
     MultiStepCheckoutSummaryPageTemplate: {
-      slots: ['BodyContent', 'SideContent'],
+      slots: ['TopContent', 'BodyContent', 'SideContent', 'BottomContent'],
     },
   },
 };

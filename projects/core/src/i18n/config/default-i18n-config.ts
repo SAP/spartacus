@@ -25,6 +25,7 @@ export const defaultI18nConfig: I18nConfig = {
         'checkoutOrderConfirmation',
         'checkoutReview',
         'checkoutShipping',
+        'checkoutProgress',
       ],
       product: [
         'productDetails',
