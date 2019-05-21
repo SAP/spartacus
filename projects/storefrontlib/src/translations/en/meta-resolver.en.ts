@@ -13,4 +13,8 @@ export const metaResolver = {
   cartPage: {
     heading: '{{title}} {{code}}',
   },
+  searchPage: {
+    heading: '{{total}} result for {{query}}',
+    heading_plural: '{{total}} results for {{query}}',
+  },
 };
