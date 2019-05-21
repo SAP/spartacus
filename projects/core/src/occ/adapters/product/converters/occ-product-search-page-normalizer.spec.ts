@@ -1,4 +1,4 @@
-import { OccProductSearchPageNormalizer } from './occ-product-search-page-normalizer.service';
+import { OccProductSearchPageNormalizer } from './occ-product-search-page-normalizer';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -14,7 +14,7 @@ const mockSource: Occ.ProductSearchPage = {
   products: [{ images: [] }, { images: [] }],
 };
 
-describe('OccProductSearchNormalizer', () => {
+describe('OccProductSearchPageNormalizer', () => {
   let normalizer: OccProductSearchPageNormalizer;
 
   beforeEach(() => {

@@ -1,8 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../../occ/config/occ-config';
+import { OccConfig } from '../../../config/occ-config';
+import { Occ } from '../../../occ-models/occ.models';
+import { Product } from '../../../../model/product.model';
 import { ProductNameNormalizer } from './product-name-normalizer';
-import { Occ } from '../../../occ/occ-models/occ.models';
-import { Product } from '../../../model/product.model';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

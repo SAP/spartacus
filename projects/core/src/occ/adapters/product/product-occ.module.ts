@@ -11,7 +11,7 @@ import { ProductReviewsAdapter } from '../../../product/connectors/reviews/produ
 import { PRODUCT_SEARCH_PAGE_NORMALIZER } from '../../../product/connectors/search/converters';
 import { ProductSearchAdapter } from '../../../product/connectors/search/product-search.adapter';
 import { OccProductReferencesListNormalizer } from './converters/occ-product-references-list-normalizer';
-import { OccProductSearchPageNormalizer } from './converters/occ-product-search-page-normalizer.service';
+import { OccProductSearchPageNormalizer } from './converters/occ-product-search-page-normalizer';
 import { ProductImageNormalizer } from './converters/product-image-normalizer';
 import { OccProductReferencesAdapter } from './occ-product-references.adapter';
 import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';

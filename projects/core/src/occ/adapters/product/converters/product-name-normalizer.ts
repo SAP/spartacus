@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { Occ } from '../../../occ/occ-models/occ.models';
-import { Converter } from '../../../util/converter.service';
-import { Product } from '../../../model/product.model';
+import { OccConfig } from '../../../config/occ-config';
+import { Occ } from '../../../occ-models/occ.models';
+import { Converter } from '../../../../util/converter.service';
+import { Product } from '../../../../model/product.model';
 
 @Injectable()
 export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
