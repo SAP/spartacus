@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+
 import * as fromActions from '../actions/index';
-import { AddMessage, GlobalMessageType } from '../../../global-message/index';
-import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import * as fromUserActions from '../../../user/store/actions/index';
 import * as fromCartActions from './../../../cart/store/actions/index';
+import { AddMessage, GlobalMessageType } from '../../../global-message/index';
+import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
 import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
 import { CartConnector } from '../../../cart/connectors/cart/cart.connector';
@@ -219,8 +220,8 @@ export class CheckoutEffects {
   constructor(
     private actions$: Actions,
     private cartDeliveryConnector: CartDeliveryConnector,
-    private cartConnector: CartConnector,
     private cartPaymentConnector: CartPaymentConnector,
+    private cartConnector: CartConnector,
     private orderConnector: OrderConnector
   ) {}
 }
