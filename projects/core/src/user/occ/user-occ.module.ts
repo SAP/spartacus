@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { OccModule } from '../../occ/occ.module';
 import { OrderAdapter } from '../connectors/order/order.adapter';
 import { OccOrderAdapter } from './occ-order.adapter';
 import { ORDER_NORMALIZER } from '../connectors/order/converters';
@@ -17,7 +16,7 @@ import { UserPaymentAdapter } from '../connectors/payment/user-payment.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, OccModule],
+  imports: [CommonModule, HttpClientModule],
   providers: [
     { provide: UserDetailsAdapter, useClass: OccUserDetailsAdapter },
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },

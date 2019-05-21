@@ -10,6 +10,7 @@ import { CartOccModule } from '../cart//occ/cart-occ.module';
 import { ProductOccModule } from '../product/occ/product-occ.module';
 import { SiteContextOccModule } from '../site-context/occ/site-context-occ.module';
 import { StoreFinderOccModule } from '../store-finder/occ/store-finder-occ.module';
+import { UserOccModule } from '../user/occ/user-occ.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { StoreFinderOccModule } from '../store-finder/occ/store-finder-occ.modul
     ProductOccModule,
     SiteContextOccModule,
     StoreFinderOccModule,
+    UserOccModule,
   ],
   providers: [
     { provide: OccConfig, useExisting: Config },
