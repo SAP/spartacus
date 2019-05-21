@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromAction from '../actions/card-types.action';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
+import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
 
 @Injectable()
 export class CardTypesEffects {
@@ -16,8 +16,8 @@ export class CardTypesEffects {
   > = this.actions$.pipe(
     ofType(fromAction.LOAD_CARD_TYPES),
     switchMap(() => {
-      return this.occMiscsService.loadCardTypes().pipe(
-        map(data => new fromAction.LoadCardTypesSuccess(data.cardTypes)),
+      return this.cartPaymentConnector.getCardTypes().pipe(
+        map(cardTypes => new fromAction.LoadCardTypesSuccess(cardTypes)),
         catchError(error => of(new fromAction.LoadCardTypesFail(error)))
       );
     })
@@ -25,6 +25,6 @@ export class CardTypesEffects {
 
   constructor(
     private actions$: Actions,
-    private occMiscsService: OccMiscsService
+    private cartPaymentConnector: CartPaymentConnector
   ) {}
 }

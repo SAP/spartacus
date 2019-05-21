@@ -7,6 +7,7 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
+
 import { PageType } from '../../../model/cms.model';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 import { PageContext } from '../../models/page-context.model';

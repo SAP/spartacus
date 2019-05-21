@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
-import { OccUserService } from '../../occ/user.service';
-import { GlobalMessageType, AddMessage } from '../../../global-message/index';
+import { AddMessage, GlobalMessageType } from '../../../global-message/index';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 
 @Injectable()
 export class ResetPasswordEffects {
@@ -22,7 +22,7 @@ export class ResetPasswordEffects {
       return action.payload;
     }),
     switchMap(({ token, password }) => {
-      return this.occUserService.resetPassword(token, password).pipe(
+      return this.userAccountConnector.resetPassword(token, password).pipe(
         switchMap(() => [
           new fromActions.ResetPasswordSuccess(),
           new AddMessage({
@@ -37,6 +37,6 @@ export class ResetPasswordEffects {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAccountConnector: UserAccountConnector
   ) {}
 }

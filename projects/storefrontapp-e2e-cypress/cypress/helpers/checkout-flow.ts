@@ -47,6 +47,11 @@ export function addProductToCart() {
 }
 
 export function fillAddressForm() {
+  // TODO: Remove this behavior when redirect will work correctly
+  cy.get('cx-product-page');
+  cy.get('cx-mini-cart a').click();
+  cy.get('cx-cart-details');
+  cy.get('.btn.btn-primary').click();
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
@@ -58,7 +63,7 @@ export function fillAddressForm() {
 
 export function chooseDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').check();
+  cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click();
 }
 
@@ -95,7 +100,7 @@ export function placeOrder() {
     .should('have.attr', 'target', '_blank')
     .should('have.attr', 'href', '/electronics-spa/en/USD/termsAndConditions');
   cy.get('.form-check-input').check();
-  cy.get('.cx-place-order button.btn-primary').click();
+  cy.get('cx-place-order button.btn-primary').click();
 }
 
 export function verifyOrderConfirmationPage() {

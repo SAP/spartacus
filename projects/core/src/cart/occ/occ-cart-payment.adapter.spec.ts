@@ -4,12 +4,13 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { OccConfig } from '../../occ';
+import { Occ, OccConfig } from '../../occ';
 import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
 import {
-  CART_PAYMENT_DETAILS_NORMALIZER,
-  CART_PAYMENT_DETAILS_SERIALIZER,
+  CARD_TYPE_NORMALIZER,
   ConverterService,
+  PAYMENT_DETAILS_NORMALIZER,
+  PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/core';
 import { Cart, PaymentDetails } from '../../model/cart.model';
 
@@ -181,6 +182,7 @@ describe('OccCartPaymentAdapter', () => {
     converter = TestBed.get(ConverterService);
 
     spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
   });
 
@@ -252,11 +254,11 @@ describe('OccCartPaymentAdapter', () => {
         .flush(mockPaymentDetails);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CART_PAYMENT_DETAILS_NORMALIZER
+        PAYMENT_DETAILS_NORMALIZER
       );
       expect(converter.convert).toHaveBeenCalledWith(
         mockPaymentDetails,
-        CART_PAYMENT_DETAILS_SERIALIZER
+        PAYMENT_DETAILS_SERIALIZER
       );
       expect(result).toEqual(mockPaymentDetails);
     });
@@ -418,6 +420,41 @@ describe('OccCartPaymentAdapter', () => {
       expect(mockReq.request.body.get('param1')).toEqual('mockParam1');
       expect(mockReq.request.body.get('param2')).toEqual('mockParam2');
       mockReq.flush(mockPaymentDetails);
+    });
+  });
+
+  describe('loadCardTypes', () => {
+    it('should return cardTypes', () => {
+      const cardTypesList: Occ.CardTypeList = {
+        cardTypes: [
+          {
+            code: 'amex',
+            name: 'American Express',
+          },
+          {
+            code: 'maestro',
+            name: 'Maestro',
+          },
+        ],
+      };
+
+      service.loadCardTypes().subscribe(result => {
+        expect(result).toEqual(cardTypesList.cardTypes);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET' && req.url === '/cardtypes';
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cardTypesList);
+    });
+
+    it('should use converter', () => {
+      service.loadCardTypes().subscribe();
+      httpMock.expectOne('/cardtypes').flush({});
+      expect(converter.pipeableMany).toHaveBeenCalledWith(CARD_TYPE_NORMALIZER);
     });
   });
 });
