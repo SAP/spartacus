@@ -9,6 +9,7 @@
 @import './page-templates/login-page';
 @import './page-templates/error-page';
 @import './page-templates/order-detail-page';
+@import './page-templates/multistep-checkout-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -64,7 +65,7 @@ cx-category-navigation {
 }
 
 .MultiStepCheckoutSummaryPageTemplate {
-  @extend %ContentPage1Template !optional;
+  @extend %MultiStepCheckoutSummaryPageTemplate !optional;
 }
 
 .ErrorPageTemplate {

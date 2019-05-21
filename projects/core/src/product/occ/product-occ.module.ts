@@ -18,6 +18,7 @@ import { OccProductReferencesAdapter } from './occ-product-references.adapter';
 import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import { OccProductAdapter } from './occ-product.adapter';
+import { ProductNameNormalizer } from './converters/product-name-normalizer';
 
 @NgModule({
   imports: [
@@ -34,6 +35,11 @@ import { OccProductAdapter } from './occ-product.adapter';
     {
       provide: PRODUCT_NORMALIZER,
       useClass: ProductImageNormalizer,
+      multi: true,
+    },
+    {
+      provide: PRODUCT_NORMALIZER,
+      useClass: ProductNameNormalizer,
       multi: true,
     },
     {

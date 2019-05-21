@@ -8,30 +8,27 @@ import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from './../actions/index';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 
 import { CardTypesEffects } from '.';
-import { Occ } from '../../../occ/occ-models/occ.models';
+import {
+  CardType,
+  CartPaymentAdapter,
+  CartPaymentConnector,
+} from '@spartacus/core';
 
-class MockMiscsService {
-  loadCardTypes() {}
-}
-
-const mockCardTypesList: Occ.CardTypeList = {
-  cardTypes: [
-    {
-      code: 'amex',
-      name: 'American Express',
-    },
-    {
-      code: 'maestro',
-      name: 'Maestro',
-    },
-  ],
-};
+const mockCardTypes: CardType[] = [
+  {
+    code: 'amex',
+    name: 'American Express',
+  },
+  {
+    code: 'maestro',
+    name: 'Maestro',
+  },
+];
 
 describe('Card Types effect', () => {
-  let service: OccMiscsService;
+  let service: CartPaymentConnector;
   let effect: CardTypesEffects;
   let actions$: Observable<Action>;
 
@@ -39,23 +36,21 @@ describe('Card Types effect', () => {
     TestBed.configureTestingModule({
       providers: [
         CardTypesEffects,
-        { provide: OccMiscsService, useClass: MockMiscsService },
+        { provide: CartPaymentAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(CardTypesEffects);
-    service = TestBed.get(OccMiscsService);
+    service = TestBed.get(CartPaymentConnector);
 
-    spyOn(service, 'loadCardTypes').and.returnValue(of(mockCardTypesList));
+    spyOn(service, 'getCardTypes').and.returnValue(of(mockCardTypes));
   });
 
   describe('loadCardTypes$', () => {
     it('should load the card types', () => {
       const action = new fromActions.LoadCardTypes();
-      const completion = new fromActions.LoadCardTypesSuccess(
-        mockCardTypesList.cardTypes
-      );
+      const completion = new fromActions.LoadCardTypesSuccess(mockCardTypes);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
