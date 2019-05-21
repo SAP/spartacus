@@ -1,17 +1,17 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { StoreModule, Store, MemoizedSelector } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
+import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 
 import { EMPTY, of } from 'rxjs';
 
 import * as fromStore from '../store';
 import { SearchConfig } from '../model/search-config';
 import { StateWithProduct } from '../store/product-state';
-import { ProductSearchPage } from '../../occ/occ-models/occ.models';
 
 import { ProductSearchService } from './product-search.service';
+import { ProductSearchPage } from '../../model/product-search.model';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
@@ -26,11 +26,11 @@ describe('ProductSearchService', () => {
     }
   }
   const mockSearchResults: ProductSearchPage = {
-    products: [{ code: '1' }, { code: '2' }, { code: '3' }]
+    products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
 
   const mockAuxSearchResults: ProductSearchPage = {
-    products: [{ code: 'aux1' }, { code: 'aux2' }]
+    products: [{ code: 'aux1' }, { code: 'aux2' }],
   };
 
   const mockSelect = (
@@ -52,15 +52,15 @@ describe('ProductSearchService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers())
+        StoreModule.forFeature('product', fromStore.getReducers()),
       ],
       providers: [
         ProductSearchService,
         {
           provide: Router,
-          useClass: MockRouter
-        }
-      ]
+          useClass: MockRouter,
+        },
+      ],
     });
 
     store = TestBed.get(Store);
@@ -112,7 +112,7 @@ describe('ProductSearchService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts({
           queryText: 'test query',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         })
       );
     });
@@ -126,7 +126,7 @@ describe('ProductSearchService', () => {
         new fromStore.SearchProducts(
           {
             queryText: 'test query',
-            searchConfig: searchConfig
+            searchConfig: searchConfig,
           },
           true
         )
@@ -141,7 +141,7 @@ describe('ProductSearchService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.GetProductSuggestions({
           term: 'test term',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         })
       );
     });

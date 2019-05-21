@@ -1,0 +1,171 @@
+%buttonCaret {
+  background-color: transparent;
+  border: none;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  &:not(:disabled):hover {
+    color: var(--cx-color, var(--cx-g-color-primary));
+  }
+
+  &:after {
+    content: '';
+    border-style: solid;
+    border-color: currentColor;
+    border-width: var(--cx-border-width, 4px);
+    width: 15px;
+    height: 15px;
+    display: block;
+    border-top: 0;
+  }
+}
+
+%cx-product-carousel {
+  flex: 100%;
+  --cx-speed: 0.5;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-down(md) {
+    padding: 1rem;
+  }
+
+  > h3 {
+    @include type('3');
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    @include media-breakpoint-up(xl) {
+      margin-bottom: 3rem;
+    }
+  }
+
+  .cx-carousel {
+    display: flex;
+    justify-content: space-between;
+
+    // the size of carousel items depends on the number of items per slide
+    &.size-1 .product {
+      flex: 0 0 100%;
+    }
+    &.size-2 .product {
+      flex: 0 0 50%;
+    }
+    &.size-4 .product {
+      flex: 0 0 25%;
+    }
+
+    .groups {
+      flex: auto;
+      position: relative;
+
+      .group {
+        transition: var(--cx-transition-duration, 0.6s) all;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+
+        &:not(:last-child) {
+          // we keep the last group non-absolute, so the height
+          //  of the parent size is based on contetn
+          position: absolute;
+        }
+
+        .product {
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          justify-content: space-between;
+          padding-bottom: 10px;
+          color: var(--cx-color, var(--cx-g-color-text));
+          cx-media {
+            height: var(--cx-height, 20vmin);
+          }
+          opacity: 0;
+          z-index: -1;
+          &.active {
+            opacity: 1;
+            z-index: 1;
+          }
+
+          transition: var(--cx-transition-duration, 0.6s) all;
+          // we add a transition delay so that items are nicely animated in a sequence
+          @for $i from 1 through 4 {
+            &:nth-child(#{$i}) {
+              transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
+            }
+          }
+
+          h4 {
+            font-size: 0.9rem;
+            height: 30px;
+            font-weight: bold;
+            margin-top: 5px;
+          }
+          &:hover {
+            text-decoration: none;
+            h4 {
+              color: var(--cx-color, var(--cx-g-color-primary));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  button {
+    &:focus {
+      outline: none;
+    }
+    color: var(--cx-g-color-light);
+    &:not(:disabled) {
+      cursor: pointer;
+    }
+  }
+
+  .indicators {
+    display: flex;
+    justify-content: center;
+
+    button {
+      border-radius: 15px;
+      width: 15px;
+      height: 15px;
+      border: none;
+      padding: 0;
+      margin: 10px;
+      background-color: currentColor;
+      transition: var(--cx-transition-duration, 0.6s) all;
+      &[disabled] {
+        color: var(--cx-background-color, var(--cx-g-color-primary));
+      }
+      &:not(:disabled):hover {
+        color: var(--cx-g-color-secondary);
+      }
+    }
+
+    @include media-breakpoint-only(xs) {
+      display: none;
+    }
+  }
+
+  .previous {
+    @extend %buttonCaret;
+    &:after {
+      border-right: 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  .next {
+    @extend %buttonCaret;
+    &:after {
+      border-left: 0;
+      transform: rotate(-45deg);
+    }
+  }
+}

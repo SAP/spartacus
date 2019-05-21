@@ -10,7 +10,7 @@ import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
 
 import { NotAuthGuard } from './not-auth.guard';
-import { TranslateUrlOptions } from '../../routing/configurable-routes/url-translation/translate-url-options';
+import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -18,7 +18,7 @@ const mockUserToken = {
   refresh_token: 'test',
   expires_in: 1,
   scope: ['test'],
-  userId: 'test'
+  userId: 'test',
 } as UserToken;
 
 class AuthServiceStub {
@@ -28,11 +28,7 @@ class AuthServiceStub {
 }
 
 class RoutingServiceStub {
-  go(
-    _path: any[] | TranslateUrlOptions,
-    _query?: object,
-    _extras?: NavigationExtras
-  ) {}
+  go(_path: any[] | UrlCommands, _query?: object, _extras?: NavigationExtras) {}
 }
 
 describe('NotAuthGuard', () => {
@@ -45,9 +41,9 @@ describe('NotAuthGuard', () => {
       providers: [
         NotAuthGuard,
         { provide: RoutingService, useClass: RoutingServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub }
+        { provide: AuthService, useClass: AuthServiceStub },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
     authService = TestBed.get(AuthService);
     authGuard = TestBed.get(NotAuthGuard);
@@ -75,7 +71,7 @@ describe('NotAuthGuard', () => {
         .canActivate()
         .subscribe()
         .unsubscribe();
-      expect(routing.go).toHaveBeenCalledWith({ route: ['home'] });
+      expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
 

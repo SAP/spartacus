@@ -5,16 +5,15 @@ import {
   ActionReducerMap,
   MetaReducer,
   Action,
-  combineReducers
+  combineReducers,
 } from '@ngrx/store';
 
 import {
   CmsState,
   COMPONENT_ENTITY,
   NAVIGATION_DETAIL_ENTITY,
-  StateWithCms
+  StateWithCms,
 } from '../cms-state';
-import { PageType } from '../../../occ';
 import { NodeItem } from '../../model/node-item.model';
 import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
@@ -23,6 +22,7 @@ import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-l
 import * as fromNavigation from './navigation-entry-item.reducer';
 import * as fromPageReducer from './page-data.reducer';
 import * as fromPageIndexReducer from './page-index.reducer';
+import { PageType } from '../../../model/cms.model';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
@@ -44,14 +44,14 @@ export function getReducers(): ActionReducerMap<CmsState> {
         catalog: entityLoaderReducer<string>(
           PageType.CATALOG_PAGE,
           fromPageIndexReducer.reducer(PageType.CATALOG_PAGE)
-        )
-      })
+        ),
+      }),
     }),
     component: entityLoaderReducer(COMPONENT_ENTITY),
     navigation: entityLoaderReducer<NodeItem>(
       NAVIGATION_DETAIL_ENTITY,
       fromNavigation.reducer
-    )
+    ),
   };
 }
 
@@ -61,7 +61,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export function clearCmsState(

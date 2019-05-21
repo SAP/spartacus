@@ -1,0 +1,10 @@
+%cx-register {
+  form {
+    a {
+      text-decoration: var(--cx-text-decoration, underline);
+    }
+    .cx-login-link {
+      margin: var(--cx-margin, 1rem 0 0);
+    }
+  }
+}

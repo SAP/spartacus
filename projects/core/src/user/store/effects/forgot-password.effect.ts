@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { concatMap, switchMap, map, catchError } from 'rxjs/operators';
-import { GlobalMessageType, AddMessage } from '../../../global-message/index';
+import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { AddMessage, GlobalMessageType } from '../../../global-message/index';
 
 import * as fromActions from '../actions/index';
-import { OccUserService } from '../../occ/user.service';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 
 @Injectable()
 export class ForgotPasswordEffects {
@@ -22,16 +22,15 @@ export class ForgotPasswordEffects {
       return action.payload;
     }),
     concatMap(userEmailAddress => {
-      return this.occUserService
+      return this.userAccountConnector
         .requestForgotPasswordEmail(userEmailAddress)
         .pipe(
           switchMap(() => [
             new fromActions.ForgotPasswordEmailRequestSuccess(),
             new AddMessage({
-              text:
-                'An email has been sent to you with information on how to reset your password.',
-              type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-            })
+              text: { key: 'forgottenPassword.passwordResetEmailSent' },
+              type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            }),
           ]),
           catchError(error =>
             of(new fromActions.ForgotPasswordEmailRequestFail(error))
@@ -42,6 +41,6 @@ export class ForgotPasswordEffects {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAccountConnector: UserAccountConnector
   ) {}
 }

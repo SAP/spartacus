@@ -1,3 +1,4 @@
+import { apiUrl } from '../support/utils/login';
 import { PRODUCT_LISTING } from './data-configuration';
 
 export const resultsTitleSelector = 'cx-breadcrumb h1';
@@ -20,22 +21,22 @@ export function searchResult() {
 }
 
 export function nextPage() {
-  cy.get('.page-item:last-of-type .page-link:first').click();
+  cy.get('.page-item:last-of-type .page-link:first').click({ force: true });
   cy.get(pageLinkSelector).should('contain', '2');
 }
 
 export function choosePage() {
-  cy.get('.page-item:nth-child(4) .page-link:first').click();
+  cy.get('.page-item:nth-child(4) .page-link:first').click({ force: true });
   cy.get(pageLinkSelector).should('contain', '3');
 }
 
 export function previousPage() {
-  cy.get('.page-item:first-of-type .page-link:first').click();
+  cy.get('.page-item:first-of-type .page-link:first').click({ force: true });
   cy.get(pageLinkSelector).should('contain', '2');
 }
 
 export function viewMode() {
-  cy.get('cx-product-view > div > div:first').click();
+  cy.get('cx-product-view > div > div:first').click({ force: true });
   cy.get('cx-product-list cx-product-grid-item').should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
@@ -59,12 +60,12 @@ export function clearActiveFacet(mobile?: string) {
     console.log('in here');
     cy.get(
       `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
+    ).click({ force: true });
   } else {
     console.log('out here');
     cy.get(
       'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
+    ).click({ force: true });
   }
   cy.get(resultsTitleSelector).should('contain', 'results for "camera"');
 }
@@ -97,4 +98,26 @@ export function sortByRelevance() {
 export function sortByTopRated() {
   cy.get(sortingOptionSelector).ngSelect('Top Rated');
   cy.get(firstProductNameSelector).should('not.be.empty');
+}
+
+export function checkFirstItem(title: string): void {
+  cy.get('cx-product-list-item .cx-product-name')
+    .first()
+    .should('contain', title);
+}
+export function createDefaultQueryRoute(alias: string): void {
+  cy.route('GET', `${apiUrl}/rest/v2/electronics-spa/products/search*`).as(
+    alias
+  );
+}
+
+export function createQueryRoute(
+  param: string,
+  search: string,
+  alias: string
+): void {
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}:relevance:${param}*`
+  ).as(alias);
 }

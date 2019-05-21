@@ -1,9 +1,9 @@
 import { CardTypesState } from '../checkout-state';
 import * as fromAction from '../actions/index';
-import { CardType } from '../../../occ/occ-models/index';
+import { CardType } from '../../../model/cart.model';
 
 export const initialState: CardTypesState = {
-  entities: {}
+  entities: {},
 };
 
 export function reducer(
@@ -17,17 +17,17 @@ export function reducer(
         (cardTypesEntities: { [code: string]: CardType }, name: CardType) => {
           return {
             ...cardTypesEntities,
-            [name.code]: name
+            [name.code]: name,
           };
         },
         {
-          ...state.entities
+          ...state.entities,
         }
       );
 
       return {
         ...state,
-        entities
+        entities,
       };
     }
 

@@ -1,13 +1,13 @@
 import * as fromActions from '../actions/page.action';
-import { PageType } from '../../../occ';
 import { PageContext } from '../../../routing';
 import { Page } from '../../model/page.model';
 
 import * as fromPage from './page-index.reducer';
+import { PageType } from '../../../model/cms.model';
 
 const pageContext: PageContext = {
   id: 'testPageId',
-  type: PageType.CONTENT_PAGE
+  type: PageType.CONTENT_PAGE,
 };
 
 describe('Cms Page Index Reducer', () => {
@@ -26,7 +26,7 @@ describe('Cms Page Index Reducer', () => {
     it('should populate the page index state', () => {
       const page = {
         pageId: 'testPageId',
-        name: 'testPage'
+        name: 'testPage',
       } as Page;
 
       const { initialState } = fromPage;

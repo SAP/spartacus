@@ -4,7 +4,7 @@ import {
   ComponentFactoryResolver,
   Inject,
   Renderer2,
-  PLATFORM_ID
+  PLATFORM_ID,
 } from '@angular/core';
 import { CmsConfig } from '../config/cms-config';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -16,10 +16,10 @@ export class ComponentMapperService {
   private loadedWebComponents: { [path: string]: any } = {};
 
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private config: CmsConfig,
-    @Inject(DOCUMENT) private document: any,
-    @Inject(PLATFORM_ID) private platform: any
+    protected componentFactoryResolver: ComponentFactoryResolver,
+    protected config: CmsConfig,
+    @Inject(DOCUMENT) protected document: any,
+    @Inject(PLATFORM_ID) protected platform: any
   ) {}
 
   /**
@@ -45,13 +45,11 @@ export class ComponentMapperService {
   protected getType(typeCode: string): string {
     const componentConfig = this.config.cmsComponents[typeCode];
     if (!componentConfig) {
-      if (this.missingComponents.indexOf(typeCode) === -1) {
+      if (!this.missingComponents.includes(typeCode)) {
         this.missingComponents.push(typeCode);
         console.warn(
-          'No component implementation found for the CMS component type',
-          typeCode,
-          '.\n',
-          'Make sure you implement a component and register it in the mapper.'
+          `No component implementation found for the CMS component type '${typeCode}'.\n`,
+          `Make sure you implement a component and register it in the mapper.`
         );
       }
     }
@@ -67,7 +65,16 @@ export class ComponentMapperService {
       this.componentFactoryResolver['_factories'].entries()
     );
 
-    return factoryEntries.find(([, value]: any) => value.selector === alias);
+    const factory = factoryEntries.find(
+      ([, value]: any) => value.selector === alias
+    );
+    if (!factory) {
+      console.warn(
+        `No component factory found for the CMS component type '${typeCode}'.\n`,
+        `Make sure you add a component to the 'entryComponents' array in the NgModule.`
+      );
+    }
+    return factory;
   }
 
   getComponentTypeByCode(typeCode: string): Type<any> {

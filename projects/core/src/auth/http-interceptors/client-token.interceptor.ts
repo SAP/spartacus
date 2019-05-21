@@ -3,7 +3,7 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpHandler,
-  HttpEvent
+  HttpEvent,
 } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
@@ -12,7 +12,7 @@ import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../facade/auth.service';
 import {
   USE_CLIENT_TOKEN,
-  InterceptorUtil
+  InterceptorUtil,
 } from '../../occ/utils/interceptor-util';
 import { ClientToken } from '../models/token-types.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
@@ -33,12 +33,12 @@ export class ClientTokenInterceptor implements HttpInterceptor {
       switchMap((token: ClientToken) => {
         if (
           token &&
-          request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1
+          request.url.includes(this.occEndpoints.getBaseEndpoint())
         ) {
           request = request.clone({
             setHeaders: {
-              Authorization: `${token.token_type} ${token.access_token}`
-            }
+              Authorization: `${token.token_type} ${token.access_token}`,
+            },
           });
         }
         return next.handle(request);

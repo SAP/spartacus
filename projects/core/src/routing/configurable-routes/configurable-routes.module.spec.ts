@@ -10,15 +10,15 @@ class MockConfigurableRoutesService {
 describe('ConfigurableRoutesModule', () => {
   let mockService: MockConfigurableRoutesService;
 
-  it('should call RoutesConfigLoader#load function on app initialization', () => {
+  it('should init configurable routes', () => {
     TestBed.configureTestingModule({
       imports: [ConfigurableRoutesModule],
       providers: [
         {
           provide: ConfigurableRoutesService,
-          useClass: MockConfigurableRoutesService
-        }
-      ]
+          useClass: MockConfigurableRoutesService,
+        },
+      ],
     });
 
     mockService = TestBed.get(ConfigurableRoutesService);

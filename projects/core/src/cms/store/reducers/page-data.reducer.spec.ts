@@ -1,9 +1,9 @@
 import * as fromActions from '../actions/page.action';
-import { PageType } from '../../../occ';
 import { PageContext } from '../../../routing';
 import { Page } from '../../model/page.model';
 
 import * as fromPage from './page-data.reducer';
+import { PageType } from '../../../model/cms.model';
 
 describe('Cms Page Data Reducer', () => {
   describe('undefined action', () => {
@@ -20,11 +20,11 @@ describe('Cms Page Data Reducer', () => {
     it('should populate the page state', () => {
       const pageContext: PageContext = {
         id: 'homepage',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       };
       const page = {
         pageId: 'homepage',
-        name: 'testPage'
+        name: 'testPage',
       } as Page;
 
       const { initialState } = fromPage;
@@ -33,8 +33,8 @@ describe('Cms Page Data Reducer', () => {
 
       expect(state).toEqual({
         entities: {
-          [page.pageId]: page
-        }
+          [page.pageId]: page,
+        },
       });
     });
   });

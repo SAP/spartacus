@@ -8,57 +8,49 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/find-stores.action';
-import { OccConfig } from '../../../occ';
-import { LongitudeLatitude } from '../../model/longitude-latitude';
 import { StoreFinderSearchConfig } from '../../model/search-config';
-import { OccStoreFinderService } from '../../occ/store-finder.service';
 
 import * as fromEffects from './find-stores.effect';
+import { StoreFinderConnector } from '../../connectors/store-finder.connector';
+import { GeoPoint } from '../../../model/misc.model';
+import createSpy = jasmine.createSpy;
 
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
+const singleStoreResult = {};
+const searchResult: any = { stores: [] };
+
+const mockStoreFinderConnector = {
+  get: createSpy('connector.get').and.returnValue(of(singleStoreResult)),
+  search: createSpy('connector.search').and.returnValue(of(searchResult)),
 };
 
 describe('FindStores Effects', () => {
   let actions$: Observable<any>;
-  let service: OccStoreFinderService;
   let effects: fromEffects.FindStoresEffect;
   let searchConfig: StoreFinderSearchConfig;
-  const longitudeLatitude: LongitudeLatitude = {
+  const longitudeLatitude: GeoPoint = {
     longitude: 10.1,
-    latitude: 20.2
+    latitude: 20.2,
   };
-
-  const singleStoreResult = {};
-  const searchResult: any = { stores: [] };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccStoreFinderService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: StoreFinderConnector, useValue: mockStoreFinderConnector },
         fromEffects.FindStoresEffect,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
-    service = TestBed.get(OccStoreFinderService);
     effects = TestBed.get(fromEffects.FindStoresEffect);
     searchConfig = { pageSize: 10 };
-
-    spyOn(service, 'findStores').and.returnValue(of(searchResult));
-    spyOn(service, 'findStoreById').and.returnValue(of(singleStoreResult));
   });
 
   describe('findStores$', () => {
     it('should return searchResult from FindStoresSuccess', () => {
       const action = new fromActions.FindStores({
         queryText: 'test',
-        searchConfig
+        searchConfig,
       });
       const completion = new fromActions.FindStoresSuccess(searchResult);
 
@@ -88,7 +80,7 @@ describe('FindStores Effects', () => {
       const action = new fromActions.FindStores({
         queryText: '',
         longitudeLatitude,
-        searchConfig
+        searchConfig,
       });
       const completion = new fromActions.FindStoresSuccess(searchResult);
 

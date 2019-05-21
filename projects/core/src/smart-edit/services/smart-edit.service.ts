@@ -1,20 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
+import { Page } from '../../cms/model/page.model';
 import { WindowRef } from '../../window/window-ref';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SmartEditService {
   private _cmsTicketId: string;
+  private getPreviewPage = false;
+  private _currentPageId: string;
 
   constructor(
-    private cmsService: CmsService,
-    private routingService: RoutingService,
+    protected cmsService: CmsService,
+    protected routingService: RoutingService,
+    protected zone: NgZone,
     winRef: WindowRef
   ) {
     this.getCmsTicket();
@@ -48,8 +53,8 @@ export class SmartEditService {
     )
       .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
       .subscribe(([, routerState]) => {
-        if (routerState.state && !this._cmsTicketId) {
-          this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
+        if (routerState.nextState && !this._cmsTicketId) {
+          this._cmsTicketId = routerState.nextState.queryParams['cmsTicketId'];
           if (this._cmsTicketId) {
             this.cmsService.launchInSmartEdit = true;
           }
@@ -60,19 +65,46 @@ export class SmartEditService {
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
       if (cmsPage && this._cmsTicketId) {
+        this._currentPageId = cmsPage.pageId;
+
+        // before adding contract, we need redirect to preview page
+        this.goToPreviewPage(cmsPage);
+
+        // remove old page contract
         const previousContract = [];
         Array.from(document.body.classList).forEach(attr =>
           previousContract.push(attr)
         );
         previousContract.forEach(attr => document.body.classList.remove(attr));
 
-        document.body.classList.add(`smartedit-page-uid-${cmsPage.pageId}`);
-        document.body.classList.add(`smartedit-page-uuid-${cmsPage.uuid}`);
-        document.body.classList.add(
-          `smartedit-catalog-version-uuid-${cmsPage.catalogUuid}`
-        );
+        // add new page contract
+        if (cmsPage.properties && cmsPage.properties.smartedit) {
+          const seClasses = cmsPage.properties.smartedit.classes.split(' ');
+          seClasses.forEach(classItem => {
+            document.body.classList.add(classItem);
+          });
+        }
       }
     });
+  }
+
+  protected goToPreviewPage(cmsPage: Page) {
+    // the first page is the smartedit preview page
+    if (!this.getPreviewPage) {
+      this.getPreviewPage = true;
+
+      if (cmsPage.type === PageType.PRODUCT_PAGE) {
+        this.routingService.go({
+          cxRoute: 'product',
+          params: { code: 2053367 },
+        });
+      } else if (cmsPage.type === PageType.CATEGORY_PAGE) {
+        this.routingService.go({
+          cxRoute: 'category',
+          params: { code: 575 },
+        });
+      }
+    }
   }
 
   protected renderComponent(
@@ -81,12 +113,18 @@ export class SmartEditService {
     parentId?: string
   ): boolean {
     if (componentId) {
-      // without parentId, it is slot
-      if (!parentId) {
-        this.cmsService.refreshLatestPage();
-      } else if (componentType) {
-        this.cmsService.refreshComponent(componentId);
-      }
+      this.zone.run(() => {
+        // without parentId, it is slot
+        if (!parentId) {
+          if (this._currentPageId) {
+            this.cmsService.refreshPageById(this._currentPageId);
+          } else {
+            this.cmsService.refreshLatestPage();
+          }
+        } else if (componentType) {
+          this.cmsService.refreshComponent(componentId);
+        }
+      });
     }
 
     return true;

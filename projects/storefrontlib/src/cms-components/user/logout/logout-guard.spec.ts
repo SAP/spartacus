@@ -1,12 +1,11 @@
+import { NgZone, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-
-import { AuthService, CmsService } from '@spartacus/core';
-
-import { LogoutGuard } from './logout-guard';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgZone, Component } from '@angular/core';
 import { Observable, of } from 'rxjs';
+
+import { AuthService, CmsService, RoutingService } from '@spartacus/core';
+import { LogoutGuard } from './logout-guard';
 
 class MockAuthService {
   logout() {}
@@ -14,7 +13,7 @@ class MockAuthService {
 
 @Component({
   selector: 'cx-page-layout',
-  template: 'mock'
+  template: 'mock',
 })
 class MockPageLayoutComponent {}
 
@@ -22,6 +21,11 @@ class MockCmsService {
   hasPage(): Observable<Boolean> {
     return of(false);
   }
+  refreshLatestPage(): void {}
+}
+
+class MockRoutingService {
+  go() {}
 }
 
 describe('LogoutGuard', () => {
@@ -38,16 +42,16 @@ describe('LogoutGuard', () => {
           {
             path: 'logout',
             component: MockPageLayoutComponent,
-            canActivate: [LogoutGuard]
-          }
-        ])
+            canActivate: [LogoutGuard],
+          },
+        ]),
       ],
       declarations: [MockPageLayoutComponent],
       providers: [
-        LogoutGuard,
         { provide: AuthService, useClass: MockAuthService },
-        { provide: CmsService, useClass: MockCmsService }
-      ]
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
     authService = TestBed.get(AuthService);
     logoutGuard = TestBed.get(LogoutGuard);

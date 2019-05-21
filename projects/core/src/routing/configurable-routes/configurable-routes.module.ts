@@ -1,41 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigurableRoutesService } from './configurable-routes.service';
-import { RoutesConfigLoader } from './routes-config-loader';
-import { ConfigModule, Config } from '../../config/config.module';
-import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
-import { defaultConfigurableRoutesConfig } from './config/default-configurable-routes-config';
-import { UrlParsingService } from './url-translation/url-parsing.service';
-import { RouteRecognizerService } from './url-translation/route-recognizer.service';
-import { UrlTranslationService } from './url-translation/url-translation.service';
+import { Config } from '../../config/config.module';
+import { RoutingConfig } from './config/routing-config';
 
 export function initConfigurableRoutes(
   service: ConfigurableRoutesService
-): () => Promise<void> {
+): () => void {
   const result = () => service.init(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfigModule.withConfig(defaultConfigurableRoutesConfig)
-  ],
-  declarations: [],
-  exports: [],
+  imports: [CommonModule],
   providers: [
-    ConfigurableRoutesService,
-    RoutesConfigLoader,
-    UrlTranslationService,
-    RouteRecognizerService,
-    UrlParsingService,
     {
       provide: APP_INITIALIZER,
       useFactory: initConfigurableRoutes,
       deps: [ConfigurableRoutesService],
-      multi: true
+      multi: true,
     },
-    { provide: ConfigurableRoutesConfig, useExisting: Config }
-  ]
+    { provide: RoutingConfig, useExisting: Config },
+  ],
 })
 export class ConfigurableRoutesModule {}

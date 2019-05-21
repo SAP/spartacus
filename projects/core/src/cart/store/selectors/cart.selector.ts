@@ -1,21 +1,22 @@
 import {
-  MemoizedSelector,
+  createFeatureSelector,
   createSelector,
-  createFeatureSelector
+  MemoizedSelector,
 } from '@ngrx/store';
-import { Cart, OrderEntry } from '../../../occ/occ-models/index';
 import {
-  CartState,
+  CART_FEATURE,
   CartsState,
+  CartState,
   StateWithCart,
-  CART_FEATURE
 } from '../cart-state';
 import {
+  loaderLoadingSelector,
   loaderSuccessSelector,
   loaderValueSelector,
-  loaderLoadingSelector
 } from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { Cart } from '../../../model/cart.model';
+import { OrderEntry } from '../../../model/order.model';
 
 export const getCartContentSelector = (state: CartState) => state.content;
 export const getRefreshSelector = (state: CartState) => state.refresh;

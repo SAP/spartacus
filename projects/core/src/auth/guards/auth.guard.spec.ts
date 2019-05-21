@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  NavigationExtras
+  NavigationExtras,
 } from '@angular/router';
 
 import { of, Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { AuthGuard } from './auth.guard';
 import { UserToken } from '../models/token-types.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { TranslateUrlOptions } from '../../routing/configurable-routes/url-translation/translate-url-options';
+import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -20,7 +20,7 @@ const mockUserToken = {
   refresh_token: 'test',
   expires_in: 1,
   scope: ['test'],
-  userId: 'test'
+  userId: 'test',
 } as UserToken;
 
 class AuthServiceStub {
@@ -31,11 +31,7 @@ class AuthServiceStub {
 class ActivatedRouteSnapshotStub {}
 class RouterStateSnapshotStub {}
 class RoutingServiceStub {
-  go(
-    _path: any[] | TranslateUrlOptions,
-    _query?: object,
-    _extras?: NavigationExtras
-  ) {}
+  go(_path: any[] | UrlCommands, _query?: object, _extras?: NavigationExtras) {}
   saveRedirectUrl(_url: string) {}
 }
 
@@ -52,22 +48,22 @@ describe('AuthGuard', () => {
         AuthGuard,
         {
           provide: RoutingService,
-          useClass: RoutingServiceStub
+          useClass: RoutingServiceStub,
         },
         {
           provide: ActivatedRouteSnapshot,
-          useClass: ActivatedRouteSnapshotStub
+          useClass: ActivatedRouteSnapshotStub,
         },
         {
           provide: RouterStateSnapshot,
-          useClass: RouterStateSnapshotStub
+          useClass: RouterStateSnapshotStub,
         },
         {
           provide: AuthService,
-          useClass: AuthServiceStub
-        }
+          useClass: AuthServiceStub,
+        },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
     authGuard = TestBed.get(AuthGuard);
     service = TestBed.get(RoutingService);
@@ -115,7 +111,7 @@ describe('AuthGuard', () => {
       .subscribe()
       .unsubscribe();
 
-    expect(service.go).toHaveBeenCalledWith({ route: ['login'] });
+    expect(service.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });

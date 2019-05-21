@@ -1,7 +1,10 @@
 import * as fromActions from './../actions/index';
-import { DeliveryModeList, PaymentDetails, Order, Address } from '../../../occ';
 
 import * as fromCheckout from './checkout.reducer';
+import { CheckoutDetails } from '../../models/checkout.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
@@ -24,7 +27,7 @@ describe('Checkout reducer', () => {
         line1: 'Toyosaki 2 create on cart',
         town: 'Montreal',
         postalCode: 'L6M1P9',
-        country: { isocode: 'CA' }
+        country: { isocode: 'CA' },
       };
 
       const { initialState } = fromCheckout;
@@ -51,13 +54,11 @@ describe('Checkout reducer', () => {
 
   describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
     it('should load all supported delivery modes from cart', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       const entities = {
-        code1: modes.deliveryModes[0],
-        code2: modes.deliveryModes[1]
+        code1: modes[0],
+        code2: modes[1],
       };
 
       const { initialState } = fromCheckout;
@@ -84,7 +85,7 @@ describe('Checkout reducer', () => {
     it('should create payment details for cart', () => {
       const { initialState } = fromCheckout;
       const paymentDetails: PaymentDetails = {
-        id: 'mockPaymentDetails'
+        id: 'mockPaymentDetails',
       };
 
       const createPaymentDetailsAction = new fromActions.CreatePaymentDetailsSuccess(
@@ -122,7 +123,7 @@ describe('Checkout reducer', () => {
     it('should place order', () => {
       const { initialState } = fromCheckout;
       const orderDetails: Order = {
-        code: 'testOrder123'
+        code: 'testOrder123',
       };
 
       const action = new fromActions.PlaceOrderSuccess(orderDetails);
@@ -200,6 +201,32 @@ describe('Checkout reducer', () => {
       const action = new fromActions.CheckoutClearMiscsData();
       const state = fromCheckout.reducer(initialState, action);
       expect(state.deliveryMode).toEqual(initialState.deliveryMode);
+    });
+  });
+
+  describe('LOAD_CHECKOUT_DETAILS_SUCCESS action', () => {
+    it('should load all details data', () => {
+      const { initialState } = fromCheckout;
+      const code = 'code';
+      const firstName = 'firstName';
+      const accountHolderName = 'accountHolderName';
+      const details: CheckoutDetails = {
+        deliveryAddress: {
+          firstName,
+        },
+        deliveryMode: {
+          code,
+        },
+        paymentInfo: {
+          accountHolderName,
+        },
+      };
+
+      const action = new fromActions.LoadCheckoutDetailsSuccess(details);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.address.firstName).toEqual(firstName);
+      expect(state.deliveryMode.selected).toEqual(code);
+      expect(state.paymentDetails.accountHolderName).toEqual(accountHolderName);
     });
   });
 });

@@ -6,9 +6,9 @@ import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromStore from '../store';
-import { Review } from '../../occ/occ-models';
 
 import { ProductReviewService } from './product-review.service';
+import { Review } from '../../model/product.model';
 
 describe('ReviewService', () => {
   let service: ProductReviewService;
@@ -19,9 +19,9 @@ describe('ReviewService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('products', fromStore.getReducers())
+        StoreModule.forFeature('products', fromStore.getReducers()),
       ],
-      providers: [ProductReviewService]
+      providers: [ProductReviewService],
     });
 
     store = TestBed.get(Store);

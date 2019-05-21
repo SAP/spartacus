@@ -29,7 +29,7 @@ export function productRatingFlow(mobile?: string) {
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
   cy.get('.page-item.active > .page-link').should('contain', '2');
-  cy.get('cx-product-list-item:first').should('contain', 'DSC-H20_MD');
+  cy.get('cx-product-list-item:first').should('contain', 'DSC-WX1');
 
   // Navigate to previous page
   cy.get('.page-item:first-of-type .page-link:first').click();

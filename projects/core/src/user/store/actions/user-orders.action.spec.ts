@@ -1,11 +1,10 @@
-import { USER_ORDERS } from '../user-state';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { OrderHistoryList } from '../../../model/order.model';
 import {
-  loadMeta,
   failMeta,
-  successMeta
+  loadMeta,
+  successMeta,
 } from '../../../state/utils/loader/loader.action';
-
+import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersAction from './user-orders.action';
 
 const mockUserOrder: {
@@ -17,15 +16,15 @@ const mockUserOrder: {
   userId: 'test@sap.com',
   pageSize: 5,
   currentPage: 1,
-  sort: 'byDate'
+  sort: 'byDate',
 };
 
 const mockUserOrders: OrderHistoryList = {
   orders: [{ code: '01' }, { code: '02' }],
   pagination: {
-    totalPages: 13
+    totalPages: 13,
   },
-  sorts: [{ selected: true }, { selected: false }]
+  sorts: [{ selected: true }, { selected: false }],
 };
 
 describe('User Orders Actions', () => {
@@ -36,7 +35,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS,
         payload: mockUserOrder,
-        meta: loadMeta(USER_ORDERS)
+        meta: loadMeta(USER_ORDERS),
       });
     });
   });
@@ -49,7 +48,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS_FAIL,
         payload: error,
-        meta: failMeta(USER_ORDERS, error)
+        meta: failMeta(USER_ORDERS, error),
       });
     });
   });
@@ -63,7 +62,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS,
         payload: mockUserOrders,
-        meta: successMeta(USER_ORDERS)
+        meta: successMeta(USER_ORDERS),
       });
     });
   });

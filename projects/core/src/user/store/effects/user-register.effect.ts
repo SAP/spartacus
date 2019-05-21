@@ -1,36 +1,56 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/user-register.action';
-import { LoadUserToken } from '../../../auth/index';
+import { LoadUserToken, Logout } from '../../../auth/index';
 import { UserRegisterFormData } from '../../../user/model/user.model';
-import { OccUserService } from '../../../user/occ/index';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 
 @Injectable()
 export class UserRegisterEffects {
   @Effect()
   registerUser$: Observable<
-    fromActions.UserRegisterAction | LoadUserToken
+    fromActions.UserRegisterOrRemoveAction | LoadUserToken
   > = this.actions$.pipe(
     ofType(fromActions.REGISTER_USER),
     map((action: fromActions.RegisterUser) => action.payload),
     mergeMap((user: UserRegisterFormData) => {
-      return this.userService.registerUser(user).pipe(
+      return this.userAccountConnector.register(user).pipe(
         switchMap(_result => [
           new LoadUserToken({
             userId: user.uid,
-            password: user.password
+            password: user.password,
           }),
-          new fromActions.RegisterUserSuccess()
+          new fromActions.RegisterUserSuccess(),
         ]),
         catchError(error => of(new fromActions.RegisterUserFail(error)))
       );
     })
   );
 
-  constructor(private actions$: Actions, private userService: OccUserService) {}
+  @Effect()
+  removeUser$: Observable<
+    fromActions.UserRegisterOrRemoveAction | Logout
+  > = this.actions$.pipe(
+    ofType(fromActions.REMOVE_USER),
+    map((action: fromActions.RemoveUser) => action.payload),
+    mergeMap((userId: string) => {
+      return this.userAccountConnector.remove(userId).pipe(
+        switchMap(_result => [
+          new fromActions.RemoveUserSuccess(),
+          new Logout(),
+        ]),
+        catchError(error => of(new fromActions.RemoveUserFail(error)))
+      );
+    })
+  );
+
+  constructor(
+    private actions$: Actions,
+    private userAccountConnector: UserAccountConnector
+  ) {}
 }

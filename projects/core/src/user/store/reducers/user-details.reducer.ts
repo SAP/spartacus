@@ -1,24 +1,31 @@
+import * as fromUpdateEmailAction from '../actions/update-email.action';
 import * as fromUserDetailsAction from '../actions/user-details.action';
-import { UserDetailsState } from '../user-state';
-import { User } from '../../../occ/occ-models/index';
+import { User } from '../../../model/misc.model';
 
-export const initialState: UserDetailsState = {
-  details: <User>{}
-};
+export const initialState: User = <User>{};
 
 export function reducer(
   state = initialState,
-  action: fromUserDetailsAction.UserDetailsAction
-): UserDetailsState {
+  action:
+    | fromUserDetailsAction.UserDetailsAction
+    | fromUpdateEmailAction.EmailActions
+): User {
   switch (action.type) {
     case fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS: {
-      const details: User = action.payload;
+      return action.payload;
+    }
 
-      return {
+    case fromUserDetailsAction.UPDATE_USER_DETAILS_SUCCESS: {
+      const updatedDetails: User = {
         ...state,
-        details
+        ...action.userUpdates,
+      };
+      return {
+        ...updatedDetails,
+        name: `${updatedDetails.firstName} ${updatedDetails.lastName}`,
       };
     }
   }
+
   return state;
 }

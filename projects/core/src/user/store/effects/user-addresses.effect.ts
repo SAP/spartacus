@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap, take } from 'rxjs/operators';
+import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { AddressList, User } from '../../../occ/occ-models/index';
 import {
   GlobalMessageService,
-  GlobalMessageType
+  GlobalMessageType,
 } from '../../../global-message/index';
 import { UserService } from '../../facade/index';
-import { OccUserService } from '../../occ/index';
+import { User } from '../../../model/misc.model';
+import { UserAddressConnector } from '../../connectors/address/user-address.connector';
+import { Address } from '../../../model/address.model';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -21,10 +22,10 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.LOAD_USER_ADDRESSES),
     map((action: fromUserAddressesAction.LoadUserAddresses) => action.payload),
     mergeMap(payload => {
-      return this.occUserService.loadUserAddresses(payload).pipe(
-        map((addressesList: AddressList) => {
+      return this.userAddressConnector.getAll(payload).pipe(
+        map((addresses: Address[]) => {
           return new fromUserAddressesAction.LoadUserAddressesSuccess(
-            addressesList.addresses
+            addresses
           );
         }),
         catchError(error =>
@@ -41,8 +42,8 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.ADD_USER_ADDRESS),
     map((action: fromUserAddressesAction.AddUserAddress) => action.payload),
     mergeMap(payload => {
-      return this.occUserService
-        .addUserAddress(payload.userId, payload.address)
+      return this.userAddressConnector
+        .add(payload.userId, payload.address)
         .pipe(
           map((data: any) => {
             return new fromUserAddressesAction.AddUserAddressSuccess(data);
@@ -61,8 +62,8 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS),
     map((action: fromUserAddressesAction.UpdateUserAddress) => action.payload),
     mergeMap(payload => {
-      return this.occUserService
-        .updateUserAddress(payload.userId, payload.addressId, payload.address)
+      return this.userAddressConnector
+        .update(payload.userId, payload.addressId, payload.address)
         .pipe(
           map((data: any) => {
             return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
@@ -81,8 +82,8 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.DELETE_USER_ADDRESS),
     map((action: fromUserAddressesAction.DeleteUserAddress) => action.payload),
     mergeMap(payload => {
-      return this.occUserService
-        .deleteUserAddress(payload.userId, payload.addressId)
+      return this.userAddressConnector
+        .delete(payload.userId, payload.addressId)
         .pipe(
           map((data: any) => {
             return new fromUserAddressesAction.DeleteUserAddressSuccess(data);
@@ -102,7 +103,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('New address was added successfully!');
+      this.showGlobalMessage('addressForm.userAddressAddSuccess');
     })
   );
 
@@ -114,7 +115,7 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('Address updated successfully!');
+      this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
     })
   );
 
@@ -126,13 +127,13 @@ export class UserAddressesEffects {
     ofType(fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
-      this.showGlobalMessage('Address deleted successfully!');
+      this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
     })
   );
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService,
+    private userAddressConnector: UserAddressConnector,
     private userService: UserService,
     private messageService: GlobalMessageService
   ) {}
@@ -147,10 +148,10 @@ export class UserAddressesEffects {
     this.messageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     // ----------
 
-    this.messageService.add({
-      type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      text
-    });
+    this.messageService.add(
+      { key: text },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   private loadAddresses() {

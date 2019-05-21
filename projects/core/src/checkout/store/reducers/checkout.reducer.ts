@@ -1,15 +1,16 @@
 import { CheckoutStepsState } from '../checkout-state';
 import * as fromAction from './../actions/index';
-import { Address, Order, DeliveryMode } from '../../../occ/occ-models/index';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { Address } from '../../../model/address.model';
 
 export const initialState: CheckoutStepsState = {
   address: {},
   deliveryMode: {
     supported: {},
-    selected: ''
+    selected: '',
   },
   paymentDetails: {},
-  orderDetails: {}
+  orderDetails: {},
 };
 
 export function reducer(
@@ -23,12 +24,12 @@ export function reducer(
 
       return {
         ...state,
-        address
+        address,
       };
     }
 
     case fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
-      const supportedModes = action.payload.deliveryModes;
+      const supportedModes = action.payload;
       if (!supportedModes) {
         return state;
       }
@@ -37,11 +38,11 @@ export function reducer(
         (modes: { [code: string]: DeliveryMode }, mode: DeliveryMode) => {
           return {
             ...modes,
-            [mode.code]: mode
+            [mode.code]: mode,
           };
         },
         {
-          ...state.deliveryMode.supported
+          ...state.deliveryMode.supported,
         }
       );
 
@@ -49,8 +50,8 @@ export function reducer(
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          supported
-        }
+          supported,
+        },
       };
     }
 
@@ -61,8 +62,8 @@ export function reducer(
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          selected
-        }
+          selected,
+        },
       };
     }
 
@@ -70,7 +71,7 @@ export function reducer(
     case fromAction.SET_PAYMENT_DETAILS_SUCCESS: {
       return {
         ...state,
-        paymentDetails: action.payload
+        paymentDetails: action.payload,
       };
     }
 
@@ -79,7 +80,7 @@ export function reducer(
       if (paymentDetails['hasError']) {
         return {
           ...state,
-          paymentDetails
+          paymentDetails,
         };
       }
 
@@ -91,7 +92,7 @@ export function reducer(
 
       return {
         ...state,
-        orderDetails
+        orderDetails,
       };
     }
 
@@ -105,7 +106,7 @@ export function reducer(
         case 1: {
           return {
             ...state,
-            address: {}
+            address: {},
           };
         }
 
@@ -115,15 +116,15 @@ export function reducer(
             deliveryMode: {
               ...state.deliveryMode,
               supported: {},
-              selected: ''
-            }
+              selected: '',
+            },
           };
         }
 
         case 3: {
           return {
             ...state,
-            paymentDetails: {}
+            paymentDetails: {},
           };
         }
       }
@@ -137,19 +138,23 @@ export function reducer(
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          supported: {}
-        }
+          supported: {},
+        },
+      };
+    }
+    case fromAction.LOAD_CHECKOUT_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        address: action.payload.deliveryAddress,
+        deliveryMode: {
+          ...state.deliveryMode,
+          selected:
+            action.payload.deliveryMode && action.payload.deliveryMode.code,
+        },
+        paymentDetails: action.payload.paymentInfo,
       };
     }
   }
 
   return state;
 }
-
-export const getDeliveryAddress = (state: CheckoutStepsState) => state.address;
-export const getDeliveryMode = (state: CheckoutStepsState) =>
-  state.deliveryMode;
-export const getPaymentDetails = (state: CheckoutStepsState) =>
-  state.paymentDetails;
-export const getOrderDetails = (state: CheckoutStepsState) =>
-  state.orderDetails;

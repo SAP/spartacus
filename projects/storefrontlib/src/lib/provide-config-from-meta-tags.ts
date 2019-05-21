@@ -1,10 +1,14 @@
 import { Provider } from '@angular/core';
-import {
-  provideConfigFactory,
-  serverConfigFromMetaTagFactory
-} from '@spartacus/core';
 import { Meta } from '@angular/platform-browser';
+import {
+  mediaServerConfigFromMetaTagFactory,
+  occServerConfigFromMetaTagFactory,
+  provideConfigFactory,
+} from '@spartacus/core';
 
 export function provideConfigFromMetaTags(): Provider[] {
-  return [provideConfigFactory(serverConfigFromMetaTagFactory, [Meta])];
+  return [
+    provideConfigFactory(occServerConfigFromMetaTagFactory, [Meta]),
+    provideConfigFactory(mediaServerConfigFromMetaTagFactory, [Meta]),
+  ];
 }

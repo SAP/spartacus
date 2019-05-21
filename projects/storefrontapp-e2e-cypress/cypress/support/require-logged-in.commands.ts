@@ -48,9 +48,9 @@ Cypress.Commands.add(
         url: config.tokenUrl,
         body: {
           ...config.client,
-          grant_type: 'client_credentials'
+          grant_type: 'client_credentials',
         },
-        form: true
+        form: true,
       });
     }
 
@@ -67,11 +67,11 @@ Cypress.Commands.add(
           lastName: registrationData.lastName,
           password: registrationData.password,
           titleCode: registrationData.titleCode,
-          uid
+          uid,
         },
         headers: {
-          Authorization: `bearer ${access_token}`
-        }
+          Authorization: `bearer ${access_token}`,
+        },
       });
     }
 
@@ -81,8 +81,8 @@ Cypress.Commands.add(
         firstName: 'Winston',
         lastName: 'Rumfoord',
         password: 'Password123.',
-        titleCode: 'mr'
-      }
+        titleCode: 'mr',
+      },
     };
     const account = accountData || defaultAccount;
     const username =

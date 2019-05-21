@@ -1,0 +1,68 @@
+<form (submit)="login()" [formGroup]="form">
+  <div class="form-group">
+    <label>
+      <span class="label-content">{{
+        'loginForm.emailAddress.label' | cxTranslate
+      }}</span>
+      <input
+        type="email"
+        class="form-control"
+        [class.is-invalid]="
+          form.controls['userId'].invalid &&
+          (form.controls['userId'].touched || form.controls['userId'].dirty)
+        "
+        formControlName="userId"
+        placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
+      />
+    </label>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        form.controls['userId'].invalid &&
+        (form.controls['userId'].touched || form.controls['userId'].dirty)
+      "
+    >
+      <span>{{ 'loginForm.wrongEmailFormat' | cxTranslate }}</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>
+      <span class="label-content">{{
+        'loginForm.password.label' | cxTranslate
+      }}</span>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
+        formControlName="password"
+      />
+    </label>
+  </div>
+  <p>
+    <a
+      [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
+      aria-controls="reset-password"
+      class="btn-link"
+      >{{ 'loginForm.forgotPassword' | cxTranslate }}</a
+    >
+  </p>
+
+  <button
+    type="submit"
+    class="btn btn-block btn-primary"
+    [disabled]="form.invalid"
+  >
+    {{ 'loginForm.signIn' | cxTranslate }}
+  </button>
+</form>
+
+<div class="register">
+  <h3 class="cx-section-title cx-section-title-alt">
+    {{ 'loginForm.dontHaveAccount' | cxTranslate }}
+  </h3>
+  <a
+    [routerLink]="{ cxRoute: 'register' } | cxUrl"
+    class="btn btn-block btn-secondary"
+    >{{ 'loginForm.register' | cxTranslate }}</a
+  >
+</div>

@@ -3,18 +3,16 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import {
-  GlobalMessage,
-  GlobalMessageType
-} from '../models/global-message.model';
+import { GlobalMessageType } from '../models/global-message.model';
 import {
   GlobalMessageEntities,
   StateWithGlobalMessage,
   getGlobalMessageEntities,
   AddMessage,
   RemoveMessage,
-  RemoveMessagesByType
+  RemoveMessagesByType,
 } from '../store/index';
+import { Translatable } from '../../i18n/translatable';
 
 @Injectable()
 export class GlobalMessageService {
@@ -32,10 +30,16 @@ export class GlobalMessageService {
 
   /**
    * Add one message into store
-   * @param message: GlobalMessage object
+   * @param text: string | Translatable
+   * @param type: GlobalMessageType object
    */
-  add(message: GlobalMessage): void {
-    this.store.dispatch(new AddMessage(message));
+  add(text: string | Translatable, type: GlobalMessageType): void {
+    this.store.dispatch(
+      new AddMessage({
+        text: typeof text === 'string' ? { raw: text } : text,
+        type,
+      })
+    );
   }
 
   /**
@@ -45,15 +49,13 @@ export class GlobalMessageService {
    * message will be removed from list by index.
    */
   remove(type: GlobalMessageType, index?: number): void {
-    if (index !== undefined) {
-      this.store.dispatch(
-        new RemoveMessage({
-          type: type,
-          index: index
-        })
-      );
-    } else {
-      this.store.dispatch(new RemoveMessagesByType(type));
-    }
+    this.store.dispatch(
+      index !== undefined
+        ? new RemoveMessage({
+            type: type,
+            index: index,
+          })
+        : new RemoveMessagesByType(type)
+    );
   }
 }

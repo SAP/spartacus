@@ -1,9 +1,9 @@
 import { DeliveryCountriesState } from '../user-state';
 import * as fromAction from '../actions/index';
-import { Country } from '../../../occ/occ-models/index';
+import { Country } from '../../../model/address.model';
 
 export const initialState: DeliveryCountriesState = {
-  entities: {}
+  entities: {},
 };
 
 export function reducer(
@@ -17,17 +17,17 @@ export function reducer(
         (countryEntities: { [isocode: string]: Country }, country: Country) => {
           return {
             ...countryEntities,
-            [country.isocode]: country
+            [country.isocode]: country,
           };
         },
         {
-          ...state.entities
+          ...state.entities,
         }
       );
 
       return {
         ...state,
-        entities
+        entities,
       };
     }
 

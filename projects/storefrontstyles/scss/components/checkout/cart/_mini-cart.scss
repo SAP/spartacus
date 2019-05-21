@@ -1,0 +1,50 @@
+@import '../../../theme';
+
+%cx-mini-cart {
+  margin-left: 0.75rem;
+  display: block;
+
+  @include media-breakpoint-up(sm) {
+    margin-right: 0.5rem;
+  }
+
+  a {
+    display: flex;
+    background: var(--cx-background, var(--cx-g-color-primary));
+
+    width: 70px;
+    height: 48px;
+    color: var(--cx-color, var(--cx-g-color-inverse));
+    text-decoration: none;
+    justify-content: space-around;
+
+    color: currentColor;
+
+    &:hover {
+      color: currentColor;
+      text-decoration: none;
+    }
+
+    .count {
+      color: currentColor;
+      align-self: center;
+      padding-right: 7px;
+    }
+    .total {
+      display: none;
+    }
+
+    @include media-breakpoint-only(xs) {
+      width: 55px;
+      height: 57px;
+      background-position: center top 4px;
+      flex-direction: column;
+      justify-content: center;
+
+      .count {
+        padding-right: 0;
+        margin-bottom: -5px;
+      }
+    }
+  }
+}

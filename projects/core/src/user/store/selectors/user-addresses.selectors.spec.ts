@@ -5,8 +5,8 @@ import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { Address } from '../../../occ/occ-models/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { Address } from '../../../model/address.model';
 
 const mockUserAddresses: Address[] = [{ id: 'address1' }, { id: 'address2' }];
 
@@ -17,8 +17,8 @@ describe('User Addresses Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -37,7 +37,7 @@ describe('User Addresses Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: []
+        value: [],
       });
     });
   });

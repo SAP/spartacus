@@ -5,7 +5,7 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { Title } from '../../../occ/occ-models';
+import { Title } from '../../../model/misc.model';
 
 describe('Titles Selectors', () => {
   let store: Store<StateWithUser>;
@@ -14,8 +14,8 @@ describe('Titles Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -27,12 +27,12 @@ describe('Titles Selectors', () => {
       const mockTitles: Title[] = [
         {
           code: 'mr',
-          name: 'Mr.'
+          name: 'Mr.',
         },
         {
           code: 'mrs',
-          name: 'Mrs.'
-        }
+          name: 'Mrs.',
+        },
       ];
 
       let result: Title[];
@@ -54,12 +54,12 @@ describe('Titles Selectors', () => {
       const mockTitles: Title[] = [
         {
           code: 'mr',
-          name: 'Mr.'
+          name: 'Mr.',
         },
         {
           code: 'mrs',
-          name: 'Mrs.'
-        }
+          name: 'Mrs.',
+        },
       ];
 
       let result: Title;

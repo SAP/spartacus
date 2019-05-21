@@ -1,12 +1,19 @@
 <div class="cx-page" *ngIf="(order$ | async) as order">
-  <header class="cx-page__header">
-    <h1 class="cx-page__title">Confirmation of Order: {{ order.code }}</h1>
+  <header class="cx-page-header">
+    <h1 class="cx-page-title">
+      {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
+      {{ order.code }}
+    </h1>
   </header>
 
   <div class="cx-order-confirmation">
     <div class="cx-order-confirmation-message">
-      <h2>Thank you for your order!</h2>
-      <p>An invoice has been sent by email. You should receive it soon.</p>
+      <h2>{{ 'checkoutOrderConfirmation.thankYou' | cxTranslate }}</h2>
+      <p>
+        {{
+          'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate
+        }}
+      </p>
       <!-- <a href="#" class="btn-link">Print Page</a> -->
     </div>
 
@@ -18,7 +25,7 @@
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="summary-card">
               <cx-card
-                [content]="getAddressCardContent(order.deliveryAddress)"
+                [content]="getAddressCardContent(order.deliveryAddress) | async"
               ></cx-card>
             </div>
           </div>
@@ -27,7 +34,9 @@
             <div class="summary-card">
               <cx-card
                 [content]="
-                  getBillingAddressCardContent(order.paymentInfo.billingAddress)
+                  getBillingAddressCardContent(
+                    order.paymentInfo.billingAddress
+                  ) | async
                 "
               ></cx-card>
             </div>
@@ -36,7 +45,9 @@
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="summary-card">
               <cx-card
-                [content]="getShippingCardContent(order.deliveryMode)"
+                [content]="
+                  getDeliveryModeCardContent(order.deliveryMode) | async
+                "
               ></cx-card>
             </div>
           </div>
@@ -44,7 +55,7 @@
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="summary-card">
               <cx-card
-                [content]="getPaymentInfoCardContent(order.paymentInfo)"
+                [content]="getPaymentInfoCardContent(order.paymentInfo) | async"
               ></cx-card>
             </div>
           </div>
@@ -53,7 +64,9 @@
     </div>
 
     <div class="cx-order-items container">
-      <h4 class="cx-order-items-header">Order Items</h4>
+      <h4 class="cx-order-items-header">
+        {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
+      </h4>
       <cx-cart-item-list
         [items]="order.entries"
         [isReadOnly]="true"

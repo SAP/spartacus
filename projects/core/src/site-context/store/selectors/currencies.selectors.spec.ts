@@ -5,25 +5,28 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/currencies.selectors';
 import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
-import { Currency } from '../../../occ/occ-models';
+import { Currency } from '../../../model/misc.model';
 
 describe('Currencies Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
   const currencies: Currency[] = [
-    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   ];
 
   const entities: { [key: string]: Currency } = {
-    USD: currencies[0]
+    USD: currencies[0],
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(SITE_CONTEXT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(
+          SITE_CONTEXT_FEATURE,
+          fromReducers.getReducers()
+        ),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();

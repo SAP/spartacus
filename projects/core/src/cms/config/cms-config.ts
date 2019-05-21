@@ -21,6 +21,7 @@ export interface StandardCmsComponentConfig {
   SearchBoxComponent?: CmsComponentMapping;
   ProductReferencesComponent?: CmsComponentMapping;
   CMSTabParagraphComponent?: CmsComponentMapping;
+  LoginComponent?: CmsComponentMapping;
 }
 
 export interface JspIncludeCmsComponentConfig {
@@ -37,7 +38,8 @@ export interface CmsComponentMapping {
   providers?: StaticProvider[];
   childRoutes?: Routes;
   disableSSR?: boolean;
-  i18nNamespaces?: string[];
+  i18nKeys?: string[];
+  guards?: any[];
 }
 
 export interface CMSComponentConfig

@@ -1,147 +1,73 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// ContentPage
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AuthGuard, ConfigModule } from '@spartacus/core';
+import {
+  CartComponentModule,
+  LogoutGuard,
+} from '../../../cms-components/index';
+import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
+import {
+  PageLayoutComponent,
+  PageLayoutModule,
+} from '../../../cms-structure/page/index';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
-
-// ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
-import { RouterModule } from '@angular/router';
-import { CmsPageGuard } from '../../cms/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
-import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
-import { AuthGuard, NotAuthGuard } from '@spartacus/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
-import { GuardsModule } from './guards/guards.module';
-import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
-import { LogoutModule } from '../../../cms-components/index';
+import { defaultRoutingConfig } from './default-routing-config';
 
 const pageModules = [
   CartPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
-  GuardsModule
 ];
 
 @NgModule({
   imports: [
+    ConfigModule.withConfig(defaultRoutingConfig),
     CommonModule,
     ...pageModules,
     PageLayoutModule,
-    LogoutModule,
+    CartComponentModule,
     RouterModule.forChild([
       {
         // This route can be dropped only when we have a mapping path to page label for content pages
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'homepage', cxPath: 'home' }
-      },
-      {
-        // This route can be dropped only when the link from CMS in MyAccount dropdown menu ("my-account/address-book")
-        // is the same as the page label ("address-book"). Or when we have a mapping for content pages.
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'address-book', cxPath: 'addressBook' },
-        component: PageLayoutComponent
+        data: { pageLabel: 'homepage', cxRoute: 'home' },
       },
       {
         path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
+        canActivate: [LogoutGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'orders', cxPath: 'orders' }
-      },
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard, CartNotEmptyGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
-      },
-      {
-        path: null,
-        canActivate: [NotAuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'login', cxPath: 'login' }
+        data: { cxRoute: 'logout' },
       },
       {
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'search', cxPath: 'search' }
+        data: { pageLabel: 'search', cxRoute: 'search' },
       },
       {
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxPath: 'category' }
+        data: { cxRoute: 'category' },
       },
       {
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxPath: 'brand' }
-      },
-      // redirect OLD links
-      {
-        path: 'Open-Catalogue/:title/c/:categoryCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'category' }
-      },
-      {
-        path: 'Open-Catalogue/:category1/:title/c/:categoryCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'category' }
-      },
-      {
-        path: 'Open-Catalogue/:category1/:category2/:title/c/:categoryCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'category' }
-      },
-      {
-        path: 'OpenCatalogue/:category1/:category2/:title/c/:categoryCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'category' }
-      },
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        data: { pageLabel: 'payment-details', cxPath: 'paymentManagement' },
-        component: PageLayoutComponent
+        data: { cxRoute: 'brand' },
       },
       {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'order', cxPath: 'orderDetails' }
+        data: { pageLabel: 'order', cxRoute: 'orderDetails' },
       },
-      {
-        path: null,
-        canActivate: [NotAuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'forgotPassword', cxPath: 'forgotPassword' }
-      },
-      {
-        path: null,
-        component: PageLayoutComponent,
-        canActivate: [NotAuthGuard, CmsPageGuard],
-        data: { pageLabel: 'resetPassword', cxPath: 'resetPassword' }
-      },
-      // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
-      {
-        path: '**',
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent
-      }
-    ])
+    ]),
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HardcodedCheckoutComponent,
-      multi: true
-    }
-  ]
 })
 export class PagesModule {}

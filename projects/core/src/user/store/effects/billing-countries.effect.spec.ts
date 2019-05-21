@@ -4,37 +4,28 @@ import { provideMockActions } from '@ngrx/effects/testing';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/billing-countries.action';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { Country, CountryList } from '../../../occ/occ-models/index';
 
 import { BillingCountriesEffect } from './billing-countries.effect';
-
-class MockMiscsService {
-  loadBillingCountries(): Observable<CountryList> {
-    return of();
-  }
-}
+import { Country } from '../../../model/address.model';
+import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
+import { UserPaymentAdapter } from '@spartacus/core';
 
 const mockCountries: Country[] = [
   {
     isocode: 'AL',
-    name: 'Albania'
+    name: 'Albania',
   },
   {
     isocode: 'AD',
-    name: 'Andorra'
-  }
+    name: 'Andorra',
+  },
 ];
 
-const mockCountriesList: CountryList = {
-  countries: mockCountries
-};
-
 describe('Billing Countries effect', () => {
-  let service: OccMiscsService;
+  let service: UserPaymentConnector;
   let effect: BillingCountriesEffect;
   let actions$: Observable<any>;
 
@@ -42,24 +33,22 @@ describe('Billing Countries effect', () => {
     TestBed.configureTestingModule({
       providers: [
         BillingCountriesEffect,
-        { provide: OccMiscsService, useClass: MockMiscsService },
-        provideMockActions(() => actions$)
-      ]
+        { provide: UserPaymentAdapter, useValue: {} },
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(BillingCountriesEffect);
-    service = TestBed.get(OccMiscsService);
+    service = TestBed.get(UserPaymentConnector);
 
-    spyOn(service, 'loadBillingCountries').and.returnValue(
-      of(mockCountriesList)
-    );
+    spyOn(service, 'getBillingCountries').and.returnValue(of(mockCountries));
   });
 
   describe('loadBillingCountries$', () => {
     it('should load the billing countries', () => {
       const action = new fromActions.LoadBillingCountries();
       const completion = new fromActions.LoadBillingCountriesSuccess(
-        mockCountriesList.countries
+        mockCountries
       );
 
       actions$ = hot('-a', { a: action });

@@ -5,20 +5,28 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccCartService } from '../../occ/cart.service';
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions';
 import { OccConfig } from '../../../occ/index';
+import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
 };
 
+class MockCartEntryConnector {
+  add = createSpy().and.returnValue(of({ entry: 'testEntry' }));
+  remove = createSpy().and.returnValue(of({}));
+  update = createSpy().and.returnValue(of({}));
+}
+
 describe('Cart effect', () => {
-  let cartService: OccCartService;
   let entryEffects: fromEffects.CartEntryEffects;
   let actions$: Observable<any>;
 
@@ -29,19 +37,14 @@ describe('Cart effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCartService,
+        { provide: CartEntryConnector, useClass: MockCartEntryConnector },
         fromEffects.CartEntryEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     entryEffects = TestBed.get(fromEffects.CartEntryEffects);
-    cartService = TestBed.get(OccCartService);
-
-    spyOn(cartService, 'addEntry').and.returnValue(of({ entry: 'testEntry' }));
-    spyOn(cartService, 'removeEntry').and.returnValue(of({}));
-    spyOn(cartService, 'updateEntry').and.returnValue(of({}));
   });
 
   describe('addEntry$', () => {
@@ -50,10 +53,10 @@ describe('Cart effect', () => {
         userId: userId,
         cartId: cartId,
         productCode: 'testProductCode',
-        quantity: 1
+        quantity: 1,
       });
       const completion = new fromActions.AddEntrySuccess({
-        entry: 'testEntry'
+        entry: 'testEntry',
       });
 
       actions$ = hot('-a', { a: action });
@@ -68,7 +71,7 @@ describe('Cart effect', () => {
       const action = new fromActions.RemoveEntry({
         userId: userId,
         cartId: cartId,
-        entry: 'testEntryNumber'
+        entry: 'testEntryNumber',
       });
       const completion = new fromActions.RemoveEntrySuccess();
 
@@ -85,7 +88,7 @@ describe('Cart effect', () => {
         userId: userId,
         cartId: cartId,
         entry: 'testEntryNumber',
-        qty: 1
+        qty: 1,
       });
       const completion = new fromActions.UpdateEntrySuccess();
 

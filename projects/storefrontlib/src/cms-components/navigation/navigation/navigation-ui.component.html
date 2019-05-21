@@ -1,0 +1,94 @@
+<div *ngIf="node" class="cx-nav-item nav-item" ngbDropdown>
+  <a
+    *ngIf="node.children && !node.title; else nodeWithChildren"
+    ngbDropdownToggle
+    >&nbsp;
+  </a>
+  <ng-template #nodeWithChildren>
+    <span
+      *ngIf="node.children; else noChildren"
+      ngbDropdownToggle
+      class="cx-nav-link nav-link"
+      role="link"
+      id="{{ node.title }}"
+      >{{ node.title }}</span
+    >
+  </ng-template>
+  <ng-template #noChildren>
+    <a
+      [routerLink]="node.url"
+      class="cx-nav-link nav-link"
+      id="{{ node.title }}"
+      >{{ node.title }}
+    </a>
+  </ng-template>
+  <ng-container [ngSwitch]="dropdownMode">
+    <ng-container *ngSwitchCase="'list'">
+      <div
+        ngbDropdownMenu
+        class="cx-nav-child-list"
+        [attr.aria-label]="node.title"
+        role="list"
+      >
+        <div
+          role="listitem"
+          *ngFor="let subCategory of node.children"
+          class="dropdown-item cx-nav-child-item"
+        >
+          <ng-container *ngIf="subCategory.url">
+            <a [routerLink]="subCategory.url" class="cx-nav-child-link"
+              >{{ subCategory.title }}
+            </a>
+          </ng-container>
+          <ng-container *ngIf="!subCategory.url">
+            <a class="cx-nav-child-link">{{ subCategory.title }} </a>
+          </ng-container>
+          <a
+            [routerLink]="subCategoryChild.url"
+            *ngFor="let subCategoryChild of subCategory.children"
+            >{{ subCategoryChild.title }}
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'column'">
+      <div
+        ngbDropdownMenu
+        class="cx-nav-child-list-columns"
+        [attr.aria-label]="node.title"
+      >
+        <div
+          class="cx-nav-child-column"
+          *ngFor="let subCategory of node.children"
+        >
+          <ng-container *ngIf="subCategory.url">
+            <a
+              role="link"
+              [routerLink]="subCategory.url"
+              class="cx-nav-child-link cx-nav-column-title"
+              >{{ subCategory.title }}
+            </a>
+          </ng-container>
+          <ng-container *ngIf="!subCategory.url">
+            <a class="cx-nav-child-link cx-nav-column-title"
+              >{{ subCategory.title }}
+            </a>
+          </ng-container>
+
+          <div
+            *ngFor="let subCategoryChild of subCategory.children"
+            class="dropdown-item cx-nav-child-column-item"
+          >
+            <a
+              role="link"
+              [routerLink]="subCategoryChild.url"
+              class="cx-nav-child-link"
+              >{{ subCategoryChild.title }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

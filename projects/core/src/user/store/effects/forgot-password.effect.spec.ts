@@ -7,19 +7,14 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { OccUserService } from '../../occ/user.service';
 
 import { ForgotPasswordEffects } from './forgot-password.effect';
 import { GlobalMessageType, AddMessage } from '../../../global-message/index';
-
-class MockOccUserService {
-  requestForgotPasswordEmail(): Observable<{}> {
-    return of({});
-  }
-}
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 
 describe('', () => {
-  let service: OccUserService;
+  let service: UserAccountConnector;
   let effect: ForgotPasswordEffects;
   let actions$: Observable<any>;
 
@@ -27,13 +22,13 @@ describe('', () => {
     TestBed.configureTestingModule({
       providers: [
         ForgotPasswordEffects,
-        { provide: OccUserService, useClass: MockOccUserService },
-        provideMockActions(() => actions$)
-      ]
+        { provide: UserAccountAdapter, useValue: {} },
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(ForgotPasswordEffects);
-    service = TestBed.get(OccUserService);
+    service = TestBed.get(UserAccountConnector);
 
     spyOn(service, 'requestForgotPasswordEmail').and.returnValue(of({}));
   });
@@ -45,9 +40,8 @@ describe('', () => {
       );
       const completion1 = new fromActions.ForgotPasswordEmailRequestSuccess();
       const completion2 = new AddMessage({
-        text:
-          'An email has been sent to you with information on how to reset your password.',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+        text: { key: 'forgottenPassword.passwordResetEmailSent' },
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 
       actions$ = hot('-a', { a: action });

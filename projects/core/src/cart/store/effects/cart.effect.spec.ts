@@ -6,12 +6,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
-import { OccCartService } from '../../occ';
+import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromActions from '../actions/cart.action';
-import { OccConfig, Cart } from '../../../occ';
-import { ProductImageConverterService } from '../../../product';
+import { ProductImageNormalizer } from '../../../product';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
@@ -19,31 +18,40 @@ import * as fromAuth from '../../../auth/store/index';
 import * as fromUser from '../../../user/store/index';
 
 import * as fromEffects from './cart.effect';
+import { OccConfig } from '@spartacus/core';
+import { Cart } from '../../../model/cart.model';
+import createSpy = jasmine.createSpy;
+
+const testCart: Cart = {
+  code: 'xxx',
+  guid: 'testGuid',
+  totalItems: 0,
+  totalPrice: {
+    currencyIso: 'USD',
+    value: 0,
+  },
+  totalPriceWithTax: {
+    currencyIso: 'USD',
+    value: 0,
+  },
+};
+
+class MockCartConnector {
+  create = createSpy().and.returnValue(of(testCart));
+  load = createSpy().and.returnValue(of(testCart));
+}
 
 describe('Cart effect', () => {
-  let cartService: OccCartService;
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
 
-  const testCart: Cart = {
-    code: 'xxx',
-    guid: 'testGuid',
-    totalItems: 0,
-    totalPrice: {
-      currencyIso: 'USD',
-      value: 0
-    },
-    totalPriceWithTax: {
-      currencyIso: 'USD',
-      value: 0
-    }
-  };
-
   const MockOccModuleConfig: OccConfig = {
-    server: {
-      baseUrl: '',
-      occPrefix: ''
-    }
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
   };
 
   const userId = 'testUserId';
@@ -56,25 +64,24 @@ describe('Cart effect', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('cart', fromCart.getReducers()),
         StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers())
+        StoreModule.forFeature('auth', fromAuth.getReducers()),
       ],
 
       providers: [
-        OccCartService,
-        ProductImageConverterService,
+        {
+          provide: CartConnector,
+          useClass: MockCartConnector,
+        },
+        ProductImageNormalizer,
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         CartService,
         CartDataService,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     cartEffects = TestBed.get(fromEffects.CartEffects);
-    cartService = TestBed.get(OccCartService);
-
-    spyOn(cartService, 'createCart').and.returnValue(of(testCart));
-    spyOn(cartService, 'loadCart').and.returnValue(of(testCart));
   });
 
   describe('createCart$', () => {
@@ -93,7 +100,7 @@ describe('Cart effect', () => {
     it('should load a cart', () => {
       const action = new fromActions.LoadCart({
         userId: userId,
-        cartId: cartId
+        cartId: cartId,
       });
       const completion = new fromActions.LoadCartSuccess(testCart);
 
@@ -108,12 +115,12 @@ describe('Cart effect', () => {
     it('should merge old cart into the session cart', () => {
       const action = new fromActions.MergeCart({
         userId: userId,
-        cartId: cartId
+        cartId: cartId,
       });
       const completion = new fromActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
-        toMergeCartGuid: 'testGuid'
+        toMergeCartGuid: 'testGuid',
       });
 
       actions$ = hot('-a', { a: action });

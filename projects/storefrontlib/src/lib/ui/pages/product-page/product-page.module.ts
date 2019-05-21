@@ -1,24 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CmsPageGuard } from '../../../cms/guards/cms-page.guard';
+import { ProductDetailsModule } from '../../../../cms-components/product/index';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutModule } from '../../../../cms-structure/page/index';
 import { ProductPageComponent } from './product-page.component';
-import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
-import { ProductDetailsModule } from '../../../product/components/product-details/product-details.module';
 
 const routes: Routes = [
   {
     path: null,
     canActivate: [CmsPageGuard],
     component: ProductPageComponent,
-    data: { cxPath: 'product' }
+    data: { cxRoute: 'product' },
   },
-  {
-    path:
-      'Open-Catalogue/:category1/:category2/:category3/:category4/p/:productCode',
-    redirectTo: null,
-    data: { cxRedirectTo: 'product' }
-  }
 ];
 
 @NgModule({
@@ -26,9 +20,9 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ProductDetailsModule,
-    PageLayoutModule
+    PageLayoutModule,
   ],
   declarations: [ProductPageComponent],
-  exports: [ProductPageComponent]
+  exports: [ProductPageComponent],
 })
 export class ProductPageModule {}

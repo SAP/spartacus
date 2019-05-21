@@ -1,20 +1,24 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 
-import { CheckoutState, AddressVerificationState } from '../checkout-state';
+import {
+  CheckoutState,
+  AddressVerificationState,
+  StateWithCheckout,
+} from '../checkout-state';
 import * as fromReducer from './../reducers/address-verification.reducer';
-import * as fromFeature from './../reducers/index';
-import { AddressValidation } from '../../../occ/occ-models/occ.models';
+import { getCheckoutState } from './checkout.selectors';
+import { AddressValidation } from '../../../model/address.model';
 
 export const getAddressVerificationResultsState: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   AddressVerificationState
 > = createSelector(
-  fromFeature.getCheckoutState,
+  getCheckoutState,
   (state: CheckoutState) => state.addressVerification
 );
 
 export const getAddressVerificationResults: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   string | AddressValidation
 > = createSelector(
   getAddressVerificationResultsState,

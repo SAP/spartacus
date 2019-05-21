@@ -5,25 +5,12 @@ import { cold, hot } from 'jasmine-marbles';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
-import { AddressList, Address, User } from '../../../occ/index';
-import { OccUserService } from '../../occ/index';
 import { UserService } from '../../facade/user.service';
 import { GlobalMessageService } from '../../../global-message/index';
-
-class MockOccUserService {
-  loadUserAddresses(_userId: string): Observable<any> {
-    return;
-  }
-  addUserAddress(): Observable<any> {
-    return of({});
-  }
-  updateUserAddress(): Observable<any> {
-    return of({});
-  }
-  deleteUserAddress(): Observable<any> {
-    return of({});
-  }
-}
+import { User } from '../../../model/misc.model';
+import { Address } from '../../../model/address.model';
+import { UserAddressConnector } from '../../connectors/address/user-address.connector';
+import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 
 class MockUserService {
   loadAddresses = jasmine.createSpy();
@@ -37,7 +24,7 @@ class MockGlobalMessageService {
   add = jasmine.createSpy();
 }
 
-const mockUserAddresses: AddressList = { addresses: [{ id: 'address123' }] };
+const mockUserAddresses: Address[] = [{ id: 'address123' }];
 const mockUserAddress: Address = {
   firstName: 'John',
   lastName: 'Doe',
@@ -47,33 +34,37 @@ const mockUserAddress: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
-  let userOccService: OccUserService;
+  let userAddressConnector: UserAddressConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromUserAddressesEffect.UserAddressesEffects,
-        { provide: OccUserService, useClass: MockOccUserService },
+        { provide: UserAddressAdapter, useValue: {} },
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     userAddressesEffect = TestBed.get(
       fromUserAddressesEffect.UserAddressesEffects
     );
-    userOccService = TestBed.get(OccUserService);
+    userAddressConnector = TestBed.get(UserAddressConnector);
 
-    spyOn(userOccService, 'loadUserAddresses').and.returnValue(
+    spyOn(userAddressConnector, 'getAll').and.returnValue(
       of(mockUserAddresses)
     );
+    spyOn(userAddressConnector, 'add').and.returnValue(of({}));
+
+    spyOn(userAddressConnector, 'update').and.returnValue(of({}));
+    spyOn(userAddressConnector, 'delete').and.returnValue(of({}));
   });
 
   describe('loadUserAddresses$', () => {
@@ -82,7 +73,7 @@ describe('User Addresses effect', () => {
         'address123'
       );
       const completion = new fromUserAddressesAction.LoadUserAddressesSuccess(
-        mockUserAddresses.addresses
+        mockUserAddresses
       );
 
       actions$ = hot('-a', { a: action });
@@ -96,7 +87,7 @@ describe('User Addresses effect', () => {
     it('should add user address', () => {
       const action = new fromUserAddressesAction.AddUserAddress({
         userId: '123',
-        address: mockUserAddress
+        address: mockUserAddress,
       });
       const completion = new fromUserAddressesAction.AddUserAddressSuccess({});
 
@@ -112,8 +103,8 @@ describe('User Addresses effect', () => {
         userId: '123',
         addressId: '123',
         address: {
-          firstName: 'test'
-        }
+          firstName: 'test',
+        },
       });
       const completion = new fromUserAddressesAction.UpdateUserAddressSuccess(
         {}
@@ -129,7 +120,7 @@ describe('User Addresses effect', () => {
     it('should delete user address', () => {
       const action = new fromUserAddressesAction.DeleteUserAddress({
         userId: '123',
-        addressId: 'address123'
+        addressId: 'address123',
       });
       const completion = new fromUserAddressesAction.DeleteUserAddressSuccess(
         {}

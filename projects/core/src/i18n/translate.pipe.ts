@@ -2,17 +2,18 @@ import {
   ChangeDetectorRef,
   OnDestroy,
   Pipe,
-  PipeTransform
+  PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from './translation.service';
 import { shallowEqualObjects } from './utils/shallow-equal-objects';
+import { Translatable, TranslatableParams } from './translatable';
 
 @Pipe({ name: 'cxTranslate', pure: false })
 export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastKey: string;
   private lastOptions: object;
-  private value: string;
+  private translatedValue: string;
   private sub: Subscription;
 
   constructor(
@@ -20,7 +21,24 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
     private cd: ChangeDetectorRef
   ) {}
 
-  transform(key: any, options: object = {}): string {
+  transform(
+    input: Translatable | string,
+    options: TranslatableParams = {}
+  ): string {
+    if ((input as Translatable).raw) {
+      return (input as Translatable).raw;
+    }
+
+    const key = typeof input === 'string' ? input : input.key;
+    if (typeof input !== 'string') {
+      options = { ...options, ...input.params };
+    }
+
+    this.translate(key, options);
+    return this.translatedValue;
+  }
+
+  private translate(key: any, options: object) {
     if (
       key !== this.lastKey ||
       !shallowEqualObjects(options, this.lastOptions)
@@ -35,15 +53,16 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
         .translate(key, options, true)
         .subscribe(val => this.markForCheck(val));
     }
-    return this.value;
   }
 
   private markForCheck(value: string) {
-    this.value = value;
+    this.translatedValue = value;
     this.cd.markForCheck();
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 }

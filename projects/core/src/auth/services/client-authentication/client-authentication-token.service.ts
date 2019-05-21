@@ -11,7 +11,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class ClientAuthenticationTokenService {
-  constructor(private config: AuthConfig, private http: HttpClient) {}
+  constructor(protected config: AuthConfig, protected http: HttpClient) {}
 
   loadClientAuthenticationToken(): Observable<ClientToken> {
     const url: string = this.getOAuthEndpoint();
@@ -27,14 +27,14 @@ export class ClientAuthenticationTokenService {
       .set('grant_type', 'client_credentials');
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
     return this.http
       .post<ClientToken>(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private getOAuthEndpoint(): string {
-    return (this.config.server.baseUrl || '') + OAUTH_ENDPOINT;
+  protected getOAuthEndpoint(): string {
+    return (this.config.backend.occ.baseUrl || '') + OAUTH_ENDPOINT;
   }
 }

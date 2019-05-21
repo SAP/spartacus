@@ -7,10 +7,7 @@
 
 While the [router configuration](./routes-configuration.md) allows the application to listen to different routes, the links to those routes must take the route configuration into account as well.
 
-Configured router links can be automatically generated in HTML templates using `cxTranslateUrl` pipe. It allows to:
-
-1. transform **the name of the route** and **the params object** into the configured path
-2. transform **the path having the default shape** into the configured path
+Configured router links can be automatically generated in HTML templates using `cxUrl` pipe. It allows to transform **the name of the route** and **the params object** into the configured path
 
 ## Table of contents <!-- omit in toc -->
 
@@ -19,52 +16,47 @@ Configured router links can be automatically generated in HTML templates using `
 - [Router links](#router-links)
   - [Transform the name of the route and the params object](#transform-the-name-of-the-route-and-the-params-object)
     - [The route with parameters](#the-route-with-parameters)
-  - [Transform the path having the default shape](#transform-the-path-having-the-default-shape)
 - [Links to nested routes](#links-to-nested-routes)
+  - [Relative links](#relative-links)
+  - [Relative links up](#relative-links-up)
 - [Parameters mapping](#parameters-mapping)
   - [Predefined parameters mapping](#predefined-parameters-mapping)
-    - [Define parameters mapping under key: default](#define-parameters-mapping-under-key-default)
 - [Programmatic API](#programmatic-api)
-  - [Navigation to the translated path](#navigation-to-the-translated-path)
-  - [Simply translation of the path](#simply-translation-of-the-path)
+  - [Navigation to the generated path](#navigation-to-the-generated-path)
+  - [Simply generation of the path](#simply-generation-of-the-path)
 
 
 ## Assumptions and limitations
 
-- the output path is always absolute (the path array contains the leading `''`)
+- the output path array is absolute by default (it contains the leading `'/'`)
+- the output path doesn't contain the leading `/`, when the input starts with an element that is *not an object with `route` property*, i.e. string `'./'`, `'../'` or `{ not_route_property: ... }` 
 - the route that cannot be resolved from *a route's name and params* will return the root URL `['/']`
-- the route that cannot be resolved from the supposed *path having the default shape* will return the original URL
-- a *routes' names and params* are given in an array in order to support [Links to nested routes](#links-to-nested-routes) (planned API optimisation for non-nested routes: [#706](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/706))
-- the relative *path having the default shape* is treated as absolute
-
 
 ## Prerequisites
 
-Import `UrlTranslatorModule` in every module that uses configurable router links.
+Import `UrlModule` in every module that uses configurable router links.
 
 ## Router links
 
 ### Transform the name of the route and the params object
 
 ```typescript
-{ route: <route> } | cxTranslateUrl
+{ cxRoute: <route> } | cxUrl
 ```
 
 Example:
 
 ```html
-<a [routerLink]="{ route: [ { name: 'cart' } ] } | cxTranslateUrl"></a>
+<a [routerLink]="{ cxRoute: 'cart' } | cxUrl"></a>
 ```
 
 when config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                cart: { paths: ['custom/cart-path'] }
-            }
+    routing: {
+        routes: {
+            cart: { paths: ['custom/cart-path'] }
         }
     }
 })
@@ -73,7 +65,7 @@ ConfigModule.withConfig({
 result in:
 
 ```html
-<a [routerLink]="['', 'custom', 'cart-path']"></a>
+<a [routerLink]="['/', 'custom', 'cart-path']"></a>
 ```
 
 #### The route with parameters
@@ -81,18 +73,16 @@ result in:
 When the route needs parameters, the object with route's `name` and `params` can be passed instead of just simple string. For example:
 
 ```html
-<a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
+<a [routerLink]="{ cxRoute: 'product', params: { productCode: 1234 } } | cxUrl"></a>
 ```
 
 where config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                product: { paths: [':productCode/custom/product-path'] }
-            }
+    routing: {
+        routes: {
+            product: { paths: [':productCode/custom/product-path'] }
         }
     }
 })
@@ -101,77 +91,8 @@ ConfigModule.withConfig({
 result:
 
 ```html
-<a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
+<a [routerLink]="['/', 1234, 'custom', 'product-path']"></a>
 ```
-
-
-### Transform the path having the default shape
-
-```typescript
-{ url: <url> } | cxTranslateUrl
-```
-
-Examples:
-
-1. When the predefined path **is not overwritten** in the config
-
-    ```html
-    <a [routerLink]="{ url: '/product/1234' } | cxTranslateUrl"></a> 
-    ```
-
-    config:
-
-    ```typescript
-    ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                /* 
-                default: {
-                    product: { paths: ['product/:productCode'] } // predefined not overwritten
-                }
-                */
-                en: {
-                    product: { paths: [':productCode/custom/product-path'] }
-                }
-            }
-        }
-    })
-    ```
-
-    result:
-
-    ```html
-    <a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
-    ```
-
-2. When the predefined path **is overwritten** in the config
-
-    ```html
-    <a [routerLink]="{ url: 'p/1234' } | cxTranslateUrl"></a>
-    ```
-
-    config:
-
-    ```typescript
-    ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                default: {
-                    product: { paths: ['p/:productCode'] } // predefined overwritten
-                },
-                en: {
-                    product: { paths: [':productCode/custom/product-path'] }
-                }
-            }
-        }
-    })
-    ```
-
-    result:
-
-    ```html
-    <a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
-    ```
 
 ## Links to nested routes
 
@@ -180,16 +101,14 @@ When Angular's `Routes` contain **arrays** of `children` routes:
 ```typescript
 const routes: Routes = [
     {
-        data: { cxPath: 'parent' }, // route name
+        data: { cxRoute: 'parent' }, // route name
         children: [
             {
-                data: { cxPath: 'child' }, // route name
-                children: [
-                    {
-                        data: { cxPath: 'grandChild' }, // route name
-                        /* ... */ 
-                    }
-                ],
+                data: { cxRoute: 'child' }, // route name
+                /* ... */
+            },
+            {
+                data: { cxRoute: 'otherChild' }, // route name
                 /* ... */
             }
         ],
@@ -198,49 +117,103 @@ const routes: Routes = [
 ];
 ```
 
-then config should contain **objects** with `children` routes translations:
+then config should be:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                parent: { // route name
-                    paths: ['parent-path/:param1'],
-                    children: {
-                        child: { // route name
-                            paths: ['child-path/:param2'],
-                            children: {
-                                grandChild: { // route name
-                                    paths: ['grand-child-path/:param3']
-                                }
-                            }
-                        },
-                    }
-                },
+    routing: {
+        routes: {
+            parent: { // route name
+                paths: ['parent-path/:param1'],
+            },
+            child: { // route name
+                paths: ['child-path/:param2'],
+            }
+            otherChild: { // route name
+                paths: ['other-child-path'],
             }
         }
     }
 })
 ```
 
-In order to translate the path of grand child's route, `{ route: <route> }` needs an array of all nested routes from the root to the grand child's route. For example:
+In order to generate the path of parent and child route we need to pass them in an array. For example:
 
 ```html
-<a [routerLink]="{ route: [ 
-    { name: 'parent',     params: { param1: 'value1' } }, 
-    { name: 'child',      params: { param2: 'value2' } },
-    { name: 'grandChild', params: { param3: 'value3' } }
-} | cxTranslateUrl">
-</a>
+<a [routerLink]="[
+    { cxRoute: 'parent', params: { param1: 'value1' },
+    { cxRoute: 'child',  params: { param2: 'value2' }
+] | cxUrl,
+)"></a>
 ```
 
 result:
 
 ```html
-<a [routerLink]="['', 'parent-path', 'value1', 'child-path', 'value2', 'grand-child-path', 'value3']"></a>
+<a [routerLink]="['/', 'parent-path', 'value1', 'child-path', 'value2']"></a>
 ```
 
+
+### Relative links
+
+If you are already in the context of the activated parent route, you may want to only generate a relative link to the child route. Then you need to pass `'./'` string in the beginning of the input array . For example:
+
+```html
+<a [routerLink]="[ './', { cxRoute: 'child',  params: { param2: 'value2' } } ] | cxUrl"></a>
+```
+
+result:
+
+```html
+<a [routerLink]="['./', 'child-path', 'value2']"></a>
+```
+
+### Relative links up
+
+If you want to go i.e. one one level up in the routes tree, you need to pass `../` to the array. For example:
+
+```html
+<a [routerLink]="[ '../', { cxRoute: 'otherChild' } ] | cxUrl"></a>
+```
+
+result:
+
+```html
+<a [routerLink]="['../', 'child-path', 'value2']"></a>
+```
+
+**NOTE:** *Every element that is **not an object with `route` property** won't be transformed. So for example:*
+
+```html
+<a [routerLink]="[
+    { cxRoute: 'parent', params: { param1: 'value1' } },
+    'SOMETHING'
+] | cxUrl,
+)"></a>
+```
+
+*will result in:*
+
+```html
+<a [routerLink]="['/', 'parent-path', 'value1', 'SOMETHING']"></a>
+```
+
+**NOTE:** *If the first element in the array is **not an object with `route` property**, the output path array won't have `'/'` element by default. So for example:*
+
+
+```html
+<a [routerLink]="[
+    'SOMETHING',
+    { cxRoute: 'parent', params: { param1: 'value1' } }
+] | cxUrl,
+)"></a>
+```
+
+*will result in:*
+
+```html
+<a [routerLink]="['SOMETHING', 'parent-path', 'value1']"></a>
+```
 
 ## Parameters mapping
 
@@ -249,25 +222,19 @@ When properties of given `params` object do not match exactly to names of route 
 The `params` object below does not contain necessary property `productCode`, but it has `id`:
 
 ```html
-<a [routerLink]="{ route: [ { name: 'product', params: { id: 1234 } ] | cxTranslateUrl"></a>
+<a [routerLink]="{ cxRoute: 'product', params: { id: 1234 } } | cxUrl"></a>
 ```
 
 Then `paramsMapping` needs to be configured:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: {
-                    /* 'productCode' route parameter will be filled with value of 'id' property of 'params' object  */
-                    paramsMapping: { productCode: 'id' }
-                }
-            }
-            en: {
-                product: { 
-                    paths: [':productCode/custom/product-path']
-                },
+    routing: {
+        routes: {
+            product: {
+                /* 'productCode' route parameter will be filled with value of 'id' property of 'params' object  */
+                paramsMapping: { productCode: 'id' }
+                paths: [':productCode/custom/product-path']
             }
         }
     }
@@ -277,111 +244,67 @@ ConfigModule.withConfig({
 result:
 
 ```html
-<a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
+<a [routerLink]="['/', 1234, 'custom', 'product-path']"></a>
 ```
 
 ### Predefined parameters mapping
 
-Some Storefront's routes already have predefined `paramsMapping`. They can be found in [`default-storefront-routes-translations.ts`](../config/default-storefront-routes-translations.ts).
-
 ```typescript
-// default-storefront-routes-translations.ts
+// default-storefront-routes-config.ts
 
-default: {
-    product: {
-      paramsMapping: { productCode: 'code' }
-      /* ... */
-    },
-    category: {
-      paramsMapping: { categoryCode: 'code' }
-      /* ... */
-    },
-    orderDetails: {
-      paramsMapping: { orderCode: 'code' }
-      /* ... */
-    },
+product: {
+    paramsMapping: { productCode: 'code' }
     /* ... */
-}
+},
+category: {
+    paramsMapping: { categoryCode: 'code' }
+    /* ... */
+},
+/* ... */
 ```
-
-#### Define parameters mapping under key: default
-
-Not to repeat `paramsMapping` for all languages, it's recommended to configure them under `default` key.
 
 ## Programmatic API
 
-### Navigation to the translated path
+### Navigation to the generated path
 
-The `RoutingService.go` method called with `{ route: <route> }` or `{ url: <url> }` navigates to the translated path. For example:
-
-When config is:
-
-```typescript
-ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { paths: ['p/:productCode'] }
-            }
-        }
-    }
-})
-```
-
-1. With `{ route: <route> }`:
-
-    ```typescript
-    routingService.go({ route: [ { name: 'product', params: { productCode: 1234 } } ] });
-
-    // router navigates to ['', 'p', 1234]
-    ```
-
-2. With `{ url: <url> }`:
-    ```typescript
-    routingService.go({ url: '/product/1234' });
-
-    // router navigates to ['', 'p', 1234]
-    ```
-
-**`RoutingService.go` called with an array**
-
-When `RoutingService.go` method is **called with an array**, then **no translation happens**. It just navigates to the path given in the array:
-
-```typescript
-routingService.go(['product', 1234]);
-
-// router navigates to ['product', 1234]
-```
-
-### Simply translation of the path
-
-The `UrlTranslationService.translate` method called with `{ route: <route> }` or `{ url: <url> }` returns the translated path (just like `cxTranslateUrl` pipe in HTML templates). For example:
+The `RoutingService.go` method called with `{ cxRoute: <route> }` navigates to the generated path - similar like `routerLink` with `cxUrl` pipe in the HTML template. For example:
 
 When config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { paths: ['p/:productCode'] }
-            }
+    routing: {
+        routes: {
+            product: { paths: ['p/:productCode'] }
         }
     }
 })
 ```
 
-1. With `{ route: <route> }`:
+```typescript
+routingService.go({ cxRoute: 'product', params: { productCode: 1234 } });
 
-    ```typescript
-    urlTranslatorService.translate({ route: [ { name: 'product', params: { productCode: 1234 } } ] });
+// router navigates to ['/', 'p', 1234]
+```
 
-    // ['', 'p', 1234]
-    ```
+### Simply generation of the path
 
-2. With `{ url: <url> }`:
-    ```typescript
-    urlTranslatorService.translate({ url: '/product/1234' });
+The `UrlService.generateUrl` method called with `{ cxRoute: <route> }` returns the generated path (just like `cxUrl` pipe in HTML templates). For example:
 
-    // ['', 'p', 1234]
-    ```
+When config is:
+
+```typescript
+ConfigModule.withConfig({
+    routing: {
+        routes: {
+            product: { paths: ['p/:productCode'] }
+        }
+    }
+})
+```
+
+```typescript
+urlService.generateUrl({ cxRoute: 'product', params: { productCode: 1234 } });
+
+// ['/', 'p', 1234]
+```

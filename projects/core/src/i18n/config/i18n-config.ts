@@ -10,5 +10,8 @@ export abstract class I18nConfig extends ServerConfig {
     };
     resources?: TranslationResources;
     debug?: boolean;
+    chunks?: {
+      [chunk: string]: string[];
+    };
   };
 }

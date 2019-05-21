@@ -1,0 +1,148 @@
+$space: 0.5rem;
+
+%header {
+  background-color: var(--cx-background-color, var(--cx-g-color-dark));
+  color: var(--cx-color, var(--cx-g-color-inverse));
+  display: block;
+
+  .header {
+    max-width: var(--cx-max-width, 1140px);
+    margin: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      align-self: center;
+      display: block;
+      flex: none;
+    }
+  }
+
+  &.is-expanded {
+    .navigation {
+      position: absolute;
+      width: 100%;
+      z-index: 2;
+    }
+    .PreHeader {
+      z-index: 2;
+    }
+
+    @include media-breakpoint-down(md) {
+      &:after {
+        content: '';
+        display: block;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(black, 0.75);
+        z-index: 1;
+      }
+    }
+  }
+
+  &:not(.is-expanded) {
+    cx-page-layout.navigation {
+      display: none;
+    }
+  }
+
+  .SiteContext,
+  .SiteLinks {
+    font-size: var(--cx-g-font-small, 0.75rem);
+    color: var(--cx-color, var(--cx-g-color-light));
+    > * {
+      flex: none;
+    }
+    justify-content: flex-start;
+  }
+
+  .SiteLinks {
+    --cx-display: block;
+  }
+
+  .SiteLogo {
+    width: 95px;
+  }
+
+  .SearchBox {
+    margin: 4px auto;
+  }
+
+  .NavigationBar {
+    flex: 100%;
+  }
+
+  .cx-hamburger {
+    display: block;
+  }
+
+  @include media-breakpoint-only(xs) {
+    .SearchBox {
+      margin-left: auto;
+    }
+  }
+
+  // non-desktop
+  @include media-breakpoint-down(md) {
+    .SiteContext,
+    .SiteLinks,
+    .SiteLogin {
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-background)
+      );
+      color: var(--cx-color, var(--cx-g-color-text));
+      padding: var(--cx-padding, #{$space / 2} 0);
+    }
+
+    .SiteContext {
+      padding: $space $space * 2 $space / 2;
+    }
+
+    .SiteLinks {
+      padding: $space / 2 $space * 2 $space;
+    }
+  }
+
+  // desktop
+  @include media-breakpoint-up(lg) {
+    header {
+      padding: 0 $space * 2;
+    }
+    .cx-hamburger {
+      display: none;
+    }
+
+    .SiteContext,
+    .SiteLinks {
+      flex: 50%;
+      display: flex;
+      --cx-margin: #{$space} 8px;
+    }
+
+    .SiteContext {
+      justify-content: flex-start;
+      &:after {
+        border-top: var(--cx-border-top, 1px solid currentColor);
+        content: '';
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 32px;
+      }
+    }
+
+    .SiteLinks {
+      justify-content: flex-end;
+      --cx-padding: 0 #{$space};
+    }
+
+    .SiteLogin {
+      padding: $space $space * 2;
+    }
+  }
+}

@@ -1,17 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
-
+import { Inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-import { HttpErrorHandler } from './handlers/http-error.handler';
 import { HttpResponseStatus } from '../models/response-status.model';
+import { HttpErrorHandler } from './handlers/http-error.handler';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -38,7 +36,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   protected handleErrorResponse(
     request: HttpRequest<any>,
     response: HttpErrorResponse
-  ) {
+  ): void {
     const handler = this.getResponseHandler(response);
     if (handler) {
       handler.handleError(request, response);

@@ -5,25 +5,28 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/languages.selectors';
 import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
-import { Language } from '../../../occ/occ-models/occ.models';
+import { Language } from '../../../model/misc.model';
 
 describe('Languages Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
   const languages: Language[] = [
-    { active: true, isocode: 'ja', name: 'Japanese' }
+    { active: true, isocode: 'ja', name: 'Japanese' },
   ];
 
   const entities = {
-    ja: languages[0]
+    ja: languages[0],
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(SITE_CONTEXT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(
+          SITE_CONTEXT_FEATURE,
+          fromReducers.getReducers()
+        ),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();

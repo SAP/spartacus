@@ -1,29 +1,30 @@
+import { isPlatformServer } from '@angular/common';
 import {
   ChangeDetectorRef,
   ComponentRef,
   Directive,
+  Inject,
   Injector,
   Input,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
-  Inject,
-  PLATFORM_ID
 } from '@angular/core';
 import {
   CmsComponent,
   CmsConfig,
   CmsService,
   ComponentMapperService,
+  ContentSlotComponentData,
   CxApiService,
-  ContentSlotComponentData
+  DynamicAttributeService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
-import { isPlatformServer } from '@angular/common';
 
 @Directive({
-  selector: '[cxComponentWrapper]'
+  selector: '[cxComponentWrapper]',
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;
@@ -36,6 +37,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private componentMapper: ComponentMapperService,
     private injector: Injector,
     private cmsService: CmsService,
+    private dynamicAttributeService: DynamicAttributeService,
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
     private config: CmsConfig,
@@ -93,7 +95,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
       this.webElement.cxApi = {
         ...this.injector.get(CxApiService),
-        CmsComponentData: this.getCmsDataForComponent()
+        CmsComponentData: this.getCmsDataForComponent(),
       };
 
       this.renderer.appendChild(
@@ -108,7 +110,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   > {
     return {
       uid: this.cxComponentWrapper.uid,
-      data$: this.cmsService.getComponentData(this.cxComponentWrapper.uid)
+      data$: this.cmsService.getComponentData(this.cxComponentWrapper.uid),
     };
   }
 
@@ -120,35 +122,19 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       providers: [
         {
           provide: CmsComponentData,
-          useValue: this.getCmsDataForComponent()
+          useValue: this.getCmsDataForComponent(),
         },
-        ...configProviders
+        ...configProviders,
       ],
-      parent: this.injector
+      parent: this.injector,
     });
   }
 
   private addSmartEditContract(element: Element) {
-    element.classList.add('smartEditComponent');
-    this.renderer.setAttribute(
+    this.dynamicAttributeService.addDynamicAttributes(
+      this.cxComponentWrapper.properties,
       element,
-      'data-smartedit-component-id',
-      this.cxComponentWrapper.uid
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-component-type',
-      this.cxComponentWrapper.typeCode
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-catalog-version-uuid',
-      this.cxComponentWrapper.catalogUuid
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-component-uuid',
-      this.cxComponentWrapper.uuid
+      this.renderer
     );
   }
 

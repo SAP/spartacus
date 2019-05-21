@@ -1,9 +1,0 @@
-@import 'theme';
-
-@include checkout-media-style();
-
-.cx-payment-card {
-  @include media-breakpoint-down(md) {
-    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
-  }
-}

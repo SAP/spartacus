@@ -1,15 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { AuthGuard } from '@spartacus/core';
-
-import { OrderConfirmationModule } from '../../../checkout/index';
-import { PageLayoutModule } from '../../../cms/index';
-import { OutletRefModule } from '../../../outlet/index';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { OutletRefModule } from '../../../../cms-structure/outlet/index';
+import { PageLayoutModule } from '../../../../cms-structure/page/page-layout/page-layout.module';
 import { OrderConfirmationPageGuard } from '../../../checkout/guards/order-confirmation-page.guard';
-import { CmsPageGuard } from '../../../cms/guards/cms-page.guard';
-
+import { OrderConfirmationModule } from '../../../checkout/index';
 import { OrderConfirmationPageComponent } from './order-confirmation-page.component';
 
 const routes: Routes = [
@@ -18,8 +15,8 @@ const routes: Routes = [
     path: null,
     canActivate: [AuthGuard, CmsPageGuard, OrderConfirmationPageGuard],
     component: OrderConfirmationPageComponent,
-    data: { pageLabel: 'orderConfirmationPage', cxPath: 'orderConfirmation' }
-  }
+    data: { pageLabel: 'orderConfirmationPage', cxRoute: 'orderConfirmation' },
+  },
 ];
 
 @NgModule({
@@ -28,10 +25,9 @@ const routes: Routes = [
     OrderConfirmationModule,
     PageLayoutModule,
     OutletRefModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
-  providers: [OrderConfirmationPageGuard],
   declarations: [OrderConfirmationPageComponent],
-  exports: [OrderConfirmationPageComponent]
+  exports: [OrderConfirmationPageComponent],
 })
 export class OrderConfirmationPageModule {}

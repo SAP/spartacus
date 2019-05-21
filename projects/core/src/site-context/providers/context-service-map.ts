@@ -16,11 +16,11 @@ export function serviceMapFactory() {
   return {
     [LANGUAGE_CONTEXT_ID]: LanguageService,
     [CURRENCY_CONTEXT_ID]: CurrencyService,
-    [BASE_SITE_CONTEXT_ID]: BaseSiteService
+    [BASE_SITE_CONTEXT_ID]: BaseSiteService,
   };
 }
 
 export const contextServiceMapProvider: Provider = {
   provide: ContextServiceMap,
-  useFactory: serviceMapFactory
+  useFactory: serviceMapFactory,
 };

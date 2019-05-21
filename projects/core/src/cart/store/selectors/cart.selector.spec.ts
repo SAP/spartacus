@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
 import * as fromActions from './../actions';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
-import { Cart, OrderEntry } from '../../../occ';
+import { OrderEntry } from '../../../model/order.model';
+import { Cart } from '../../../model/cart.model';
 
 describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
@@ -18,12 +19,12 @@ describe('Cart selectors', () => {
     entries: [{ entryNumber: 0, product: { code: '1234' } }],
     totalPrice: {
       currencyIso: 'USD',
-      value: 0
+      value: 0,
     },
     totalPriceWithTax: {
       currencyIso: 'USD',
-      value: 0
-    }
+      value: 0,
+    },
   };
 
   const testEmptyCart: Cart = {
@@ -32,20 +33,20 @@ describe('Cart selectors', () => {
     totalItems: 0,
     totalPrice: {
       currencyIso: 'USD',
-      value: 0
+      value: 0,
     },
     totalPriceWithTax: {
       currencyIso: 'USD',
-      value: 0
-    }
+      value: 0,
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cart', fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -80,7 +81,7 @@ describe('Cart selectors', () => {
           userId: 'testUserId',
           cartId: 'testCartId',
           productCode: 'testProductCode',
-          quantity: 1
+          quantity: 1,
         })
       );
       expect(result).toEqual(true);
@@ -113,7 +114,7 @@ describe('Cart selectors', () => {
       store.dispatch(new fromActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({
-        '1234': { entryNumber: 0, product: { code: '1234' } }
+        '1234': { entryNumber: 0, product: { code: '1234' } },
       });
     });
   });

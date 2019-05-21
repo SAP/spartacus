@@ -10,20 +10,20 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { StateWithAuth } from '../store/auth-state';
 import { LoadClientToken } from '../store/actions/client-token.action';
-import { Login, Logout } from '../store/actions/login-logout.action';
+import { Logout } from '../store/actions/login-logout.action';
 import {
   LoadUserToken,
+  LoadUserTokenSuccess,
   RefreshUserToken,
-  LoadUserTokenSuccess
 } from '../store/actions/user-token.action';
 import { getClientTokenState } from '../store/selectors/client-token.selectors';
 import { getUserToken } from '../store/selectors/user-token.selectors';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  constructor(private store: Store<StateWithAuth>) {}
+  constructor(protected store: Store<StateWithAuth>) {}
 
   /**
    * Loads a new user token
@@ -34,7 +34,7 @@ export class AuthService {
     this.store.dispatch(
       new LoadUserToken({
         userId: userId,
-        password: password
+        password: password,
       })
     );
   }
@@ -54,7 +54,7 @@ export class AuthService {
     this.store.dispatch(
       new RefreshUserToken({
         userId: token.userId,
-        refreshToken: token.refresh_token
+        refreshToken: token.refresh_token,
       })
     );
   }
@@ -64,13 +64,6 @@ export class AuthService {
    */
   authorizeWithToken(token: UserToken): void {
     this.store.dispatch(new LoadUserTokenSuccess(token));
-  }
-
-  /**
-   * Login
-   */
-  login(): void {
-    this.store.dispatch(new Login());
   }
 
   /**

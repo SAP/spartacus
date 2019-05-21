@@ -1,20 +1,14 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
 import * as fromCheckout from '../store/index';
-import { CartDataService } from '../../cart/index';
-import {
-  PaymentDetails,
-  DeliveryMode,
-  Address,
-  Cart,
-  CardType,
-  AddressValidation,
-  Order
-} from '../../occ/occ-models/index';
 
 import { CheckoutService } from './checkout.service';
+import { Address, AddressValidation } from '../../model/address.model';
+import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
+import { CartDataService } from '@spartacus/core';
+import { DeliveryMode, Order } from '../../model/order.model';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
@@ -24,7 +18,7 @@ describe('CheckoutService', () => {
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
   const paymentDetails: PaymentDetails = {
-    id: 'mockPaymentDetails'
+    id: 'mockPaymentDetails',
   };
 
   const address: Address = {
@@ -34,16 +28,16 @@ describe('CheckoutService', () => {
     line1: 'Toyosaki 2 create on cart',
     town: 'Montreal',
     postalCode: 'L6M1P9',
-    country: { isocode: 'CA' }
+    country: { isocode: 'CA' },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('checkout', fromCheckout.getReducers())
+        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
       ],
-      providers: [CheckoutService, CartDataService]
+      providers: [CheckoutService, CartDataService],
     });
 
     service = TestBed.get(CheckoutService);
@@ -62,9 +56,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get supported delivery modes', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }]
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
 
     let deliveryModes: DeliveryMode[];
@@ -79,9 +74,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }]
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
@@ -94,9 +90,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get the code of selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }]
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
@@ -111,7 +108,7 @@ describe('CheckoutService', () => {
     store.dispatch(
       new fromCheckout.LoadCardTypesSuccess([
         { code: 'visa', name: 'visa' },
-        { code: 'masterCard', name: 'masterCard' }
+        { code: 'masterCard', name: 'masterCard' },
       ])
     );
 
@@ -121,7 +118,7 @@ describe('CheckoutService', () => {
     });
     expect(cardTypes).toEqual([
       { code: 'visa', name: 'visa' },
-      { code: 'masterCard', name: 'masterCard' }
+      { code: 'masterCard', name: 'masterCard' },
     ]);
   });
 
@@ -189,7 +186,7 @@ describe('CheckoutService', () => {
       new fromCheckout.AddDeliveryAddress({
         userId: userId,
         cartId: cart.code,
-        address: address
+        address: address,
       })
     );
   });
@@ -203,7 +200,7 @@ describe('CheckoutService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.LoadSupportedDeliveryModes({
         userId: userId,
-        cartId: cart.code
+        cartId: cart.code,
       })
     );
   });
@@ -219,7 +216,7 @@ describe('CheckoutService', () => {
       new fromCheckout.SetDeliveryMode({
         userId: userId,
         cartId: cart.code,
-        selectedModeId: modeId
+        selectedModeId: modeId,
       })
     );
   });
@@ -241,7 +238,7 @@ describe('CheckoutService', () => {
       new fromCheckout.CreatePaymentDetails({
         userId: userId,
         cartId: cart.code,
-        paymentDetails
+        paymentDetails,
       })
     );
   });
@@ -255,7 +252,7 @@ describe('CheckoutService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.PlaceOrder({
         userId: userId,
-        cartId: cart.code
+        cartId: cart.code,
       })
     );
   });
@@ -269,7 +266,7 @@ describe('CheckoutService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.VerifyAddress({
         userId: userId,
-        address
+        address,
       })
     );
   });
@@ -283,7 +280,7 @@ describe('CheckoutService', () => {
       new fromCheckout.SetDeliveryAddress({
         userId: userId,
         cartId: cartData.cart.code,
-        address: address
+        address: address,
       })
     );
   });
@@ -298,7 +295,7 @@ describe('CheckoutService', () => {
       new fromCheckout.SetPaymentDetails({
         userId: userId,
         cartId: cartData.cart.code,
-        paymentDetails
+        paymentDetails,
       })
     );
   });
@@ -322,5 +319,43 @@ describe('CheckoutService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.ClearCheckoutStep(2)
     );
+  });
+
+  it('should be able to load checkout details', () => {
+    const cartId = cart.code;
+    service.loadCheckoutDetails(userId, cartId);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromCheckout.LoadCheckoutDetails({ userId, cartId })
+    );
+  });
+
+  describe('get checkout details loaded', () => {
+    it('should return true for success', () => {
+      store.dispatch(
+        new fromCheckout.LoadCheckoutDetailsSuccess({ deliveryAddress: {} })
+      );
+
+      let loaded: boolean;
+      service
+        .getCheckoutDetailsLoaded()
+        .subscribe(data => {
+          loaded = data;
+        })
+        .unsubscribe();
+      expect(loaded).toBeTruthy();
+    });
+  });
+
+  it('should return false for fail', () => {
+    store.dispatch(new fromCheckout.LoadCheckoutDetailsFail(new Error()));
+
+    let loaded: boolean;
+    service
+      .getCheckoutDetailsLoaded()
+      .subscribe(data => {
+        loaded = data;
+      })
+      .unsubscribe();
+    expect(loaded).toBeFalsy();
   });
 });

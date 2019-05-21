@@ -5,55 +5,41 @@ import { Actions } from '@ngrx/effects';
 import * as fromOrderDetailsEffect from './order-details.effect';
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { Observable, of, throwError } from 'rxjs';
-import { hot, cold } from 'jasmine-marbles';
-import { ProductImageConverterService } from '../../../product/store/converters/index';
-import { OccOrderService } from '../../occ/index';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { Order } from '../../../occ/occ-models/index';
+import { cold, hot } from 'jasmine-marbles';
+import { Order } from '../../../model/order.model';
+import { OrderConnector } from '../../connectors/order/order.connector';
+import { OrderAdapter } from '../../connectors/order/order.adapter';
 
 const mockOrderDetails: Order = {};
 
 const mockOrderDetailsParams = {
   userId: 'user15355363988711@ydev.hybris.com',
-  orderCode: '00000386'
-};
-
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  },
-
-  site: {
-    baseSite: ''
-  }
+  orderCode: '00000386',
 };
 
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
-  let orderService: OccOrderService;
+  let orderConnector: OrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccOrderService,
         fromOrderDetailsEffect.OrderDetailsEffect,
-        ProductImageConverterService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
-        provideMockActions(() => actions$)
-      ]
+        { provide: OrderAdapter, useValue: {} },
+        provideMockActions(() => actions$),
+      ],
     });
 
     actions$ = TestBed.get(Actions);
     orderDetailsEffect = TestBed.get(fromOrderDetailsEffect.OrderDetailsEffect);
-    orderService = TestBed.get(OccOrderService);
+    orderConnector = TestBed.get(OrderConnector);
   });
 
   describe('loadOrderDetails$', () => {
     it('should load order details', () => {
-      spyOn(orderService, 'getOrder').and.returnValue(of(mockOrderDetails));
+      spyOn(orderConnector, 'get').and.returnValue(of(mockOrderDetails));
       const action = new fromOrderDetailsAction.LoadOrderDetails(
         mockOrderDetailsParams
       );
@@ -69,7 +55,7 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderService, 'getOrder').and.returnValue(throwError('Error'));
+      spyOn(orderConnector, 'get').and.returnValue(throwError('Error'));
 
       const action = new fromOrderDetailsAction.LoadOrderDetails(
         mockOrderDetailsParams

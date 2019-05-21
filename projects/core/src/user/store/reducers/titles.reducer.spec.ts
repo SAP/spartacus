@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/';
-import { Title } from '../../../occ/occ-models';
 
 import * as fromReducer from './titles.reducer';
+import { Title } from '../../../model/misc.model';
 
 describe('Titles Reducer', () => {
   describe('undefined action', () => {
@@ -19,17 +19,17 @@ describe('Titles Reducer', () => {
       const mockTitles: Title[] = [
         {
           code: 'mr',
-          name: 'Mr.'
+          name: 'Mr.',
         },
         {
           code: 'mrs',
-          name: 'Mrs.'
-        }
+          name: 'Mrs.',
+        },
       ];
 
       const mockTitlesList = {
         mr: mockTitles[0],
-        mrs: mockTitles[1]
+        mrs: mockTitles[1],
       };
 
       const { initialState } = fromReducer;

@@ -6,89 +6,39 @@
 
 ## Config
 
-All routes in Spartacus can be configured and internationalized by importing `ConfigModule.withConfig()` with an object containing `routesConfig` property: 
+All routes in Spartacus can be configured by importing `ConfigModule.withConfig()` with an object containing `routing` property: 
 
  ```typescript
 ConfigModule.withConfig({
-    routesConfig: { /* ... */ },
+    routing: { /* ... */ },
     /* ... */
 })
 ```
 
 ### Predefined config
 
-The routing in Spartacus is intended to run without any configuration by default, thanks to the predefined config (which can be found in [`default-storefront-routes-translations.ts`](../config/default-storefront-routes-translations.ts)).
-
 ```typescript
-// default-storefront-routes-translations.ts
-default: {
-    product: { 
-        paths: ['product/:productCode'],
-        /* ... */
-    }
+// default-storefront-routes-config.ts
+product: { 
+    paths: ['product/:productCode'],
     /* ... */
 }
+/* ... */
 ```
 
 ### Extending predefined config
 
 Every part of the predefined config can be extended or overwritten in the application, using `ConfigModule.withConfig`:
 
-1. for all languages (`default` key):
-
-    ```typescript
-    ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                default: {
-                    product: { paths: ['p/:productCode'] }
-                }
-            }
+```typescript
+ConfigModule.withConfig({
+    routing: {
+        routes: {
+            product: { paths: [':productCode/custom/product-path'] }
         }
-    })
-    ```
-
-    Then the route of the product page will be `p/:productCode` for all languages .
-
-2. for specific languages (for example `en` key):
-
-    ```typescript
-    ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                /* predefined not overwritten: 
-                default: {
-                    product: { paths: ['p/:productCode'] }
-                }
-                */
-                en: {
-                    product: { paths: [':productCode/custom/product-path'] }
-                }
-            }
-        }
-    })
-    ```
-
-    Then the route of the product page will be `:productCode/custom/product-path` only for English and `product/:productCode` for every other language.
-
-3. both for all languages (`default` key) and for specific languages (for example `en` key):
-
-    ```typescript
-    ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                default: { 
-                    product: { paths: ['p/:productCode'] } // predefined overwritten
-                },
-                en: {
-                    product: { paths: [':productCode/custom/product-path'] }
-                }
-            }
-        }
-    })
-    ```
-
-    Then the route of product page will be `:productCode/custom/product-path` only for English and `p/:productCode` for every other language.
+    }
+})
+```
 
 ### How predefined config is extended and overwritten
 
@@ -101,11 +51,9 @@ All route parameters that appear in predefined config (for example `:productCode
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { paths: ['product/:productName'] } // overwritten without :productCode
-            }
+    routing: {
+        routes: {
+            product: { paths: ['product/:productName'] } // overwritten without :productCode
         }
     }
 })
@@ -117,13 +65,13 @@ It's to support [Route aliases](./route-aliases.md).
 
 ## Angular's `Routes`
 
-In order to have configurable `Routes` we need to name them (in `data.cxPath` property) the same as the route keys in the config. For example:
+In order to have configurable `Routes` we need to name them (in `data.cxRoute` property) the same as the route keys in the config. For example:
 
 ```typescript
 const routes: Routes = [
     {
         data: {
-            cxPath: 'product' // the name of the route
+            cxRoute: 'product' // the name of the route
         },
         path: null, // it will be replaced by the path from config
         component: ProductPageComponent
@@ -136,12 +84,10 @@ where config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { // the name of the route
-                    paths: [/*...*/]
-                }
+    routing: {
+        routes: {
+            product: { // the name of the route
+                paths: [/*...*/]
             }
         }
     }
@@ -160,12 +106,12 @@ When an Angular's `Route` contains `children`:
 const routes: Routes = [
     {
         data: {
-            cxPath: 'parent' // the name of the route
+            cxRoute: 'parent' // the name of the route
         },
         children: [
             {
                 data: {
-                    cxPath: 'child' // the name of the route
+                    cxRoute: 'child' // the name of the route
                 },
                 /* ... */
             }
@@ -175,28 +121,19 @@ const routes: Routes = [
 ];
 ```
 
-then the children's configuration should be nested at `children` property of the parent route:
+then we need configuration for both parent and child routes:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                parent: { // the name of the route
-                    paths: ['parent-path'],
-                    children: {
-                        child: { // the name of the route
-                            paths: ['child-path']
-                        },
-                    }
-                },
-            }
+    routing: {
+        routes: {
+            parent: { // the name of the route
+                paths: ['parent-path'],
+            },
+            child: { // the name of the route
+                paths: ['child-path']
+            },
         }
     }
 })
 ```
-
-### Subjects of change
-
-- `cxPath` property is considered to be replaced with other, more self-explanatory property
-- `path` is considered not to be `null` but the predefined default path taken into account

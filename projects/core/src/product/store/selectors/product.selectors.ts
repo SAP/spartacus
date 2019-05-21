@@ -1,7 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
 import { ProductsState, StateWithProduct } from '../product-state';
-import { Product } from '../../../occ/occ-models/occ.models';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -9,10 +7,10 @@ import {
   loaderErrorSelector,
   loaderLoadingSelector,
   loaderSuccessSelector,
-  loaderValueSelector
+  loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
-
 import { getProductsState } from './feature.selector';
+import { Product } from '../../../model/product.model';
 
 export const getProductState: MemoizedSelector<
   StateWithProduct,

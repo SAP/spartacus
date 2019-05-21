@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorHandler } from './http-error.handler';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
+import { HttpErrorHandler } from './http-error.handler';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
 
   handleError() {
-    this.globalMessageService.add({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'Already exists'
-    });
+    this.globalMessageService.add(
+      { key: 'httpHandlers.conflict' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 }

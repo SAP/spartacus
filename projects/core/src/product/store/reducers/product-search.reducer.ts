@@ -1,11 +1,14 @@
 import { ProductsSearchState } from '../product-state';
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion, ProductSearchPage } from '../../../occ/occ-models';
+import {
+  Suggestion,
+  ProductSearchPage,
+} from '../../../model/product-search.model';
 
 export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
-  auxResults: {}
+  auxResults: {},
 };
 
 export function reducer(
@@ -18,7 +21,7 @@ export function reducer(
       const res = action.auxiliary ? { auxResults: results } : { results };
       return {
         ...state,
-        ...res
+        ...res,
       };
     }
 
@@ -27,7 +30,7 @@ export function reducer(
 
       return {
         ...state,
-        suggestions
+        suggestions,
       };
     }
 

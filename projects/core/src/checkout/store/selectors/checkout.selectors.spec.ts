@@ -1,28 +1,24 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
-import { CHECKOUT_FEATURE, CheckoutState } from '../checkout-state';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import {
-  PaymentDetails,
-  Order,
-  Address,
-  DeliveryModeList,
-  DeliveryMode
-} from '../../../occ/occ-models/index';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
 
 describe('Checkout Selectors', () => {
-  let store: Store<CheckoutState>;
+  let store: Store<StateWithCheckout>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -39,7 +35,7 @@ describe('Checkout Selectors', () => {
         line1: 'Toyosaki 2 create on cart',
         town: 'Montreal',
         postalCode: 'L6M1P9',
-        country: { isocode: 'CA' }
+        country: { isocode: 'CA' },
       };
 
       let result: Address;
@@ -57,21 +53,19 @@ describe('Checkout Selectors', () => {
 
   describe('getDeliveryMode', () => {
     it('should return the cart delivery mode', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       const emptyEntities = {
         supported: {},
-        selected: ''
+        selected: '',
       };
 
       const entities = {
         supported: {
-          code1: modes.deliveryModes[0],
-          code2: modes.deliveryModes[1]
+          code1: modes[0],
+          code2: modes[1],
         },
-        selected: ''
+        selected: '',
       };
 
       let result;
@@ -89,9 +83,7 @@ describe('Checkout Selectors', () => {
 
   describe('getSupportedDeliveryModes', () => {
     it('should return all supported cart delivery modes', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: DeliveryMode[];
       store
@@ -102,15 +94,13 @@ describe('Checkout Selectors', () => {
 
       store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
 
-      expect(result).toEqual(modes.deliveryModes);
+      expect(result).toEqual(modes);
     });
   });
 
   describe('getSelectedDeliveryMode', () => {
     it('should return selected cart delivery mode', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: DeliveryMode;
       store
@@ -122,15 +112,13 @@ describe('Checkout Selectors', () => {
       store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
       store.dispatch(new fromActions.SetDeliveryModeSuccess('code1'));
 
-      expect(result).toEqual(modes.deliveryModes[0]);
+      expect(result).toEqual(modes[0]);
     });
   });
 
   describe('getSelectedCode', () => {
     it('should return selected delivery mode code', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: string;
       store
@@ -150,7 +138,7 @@ describe('Checkout Selectors', () => {
     it('should return payment details', () => {
       let result: PaymentDetails;
       const paymentDetails: PaymentDetails = {
-        id: 'mockPaymentDetails'
+        id: 'mockPaymentDetails',
       };
 
       store
@@ -171,7 +159,7 @@ describe('Checkout Selectors', () => {
     it('should return order details', () => {
       let result: Order;
       const orderDetails: Order = {
-        code: 'testOrder123'
+        code: 'testOrder123',
       };
 
       store

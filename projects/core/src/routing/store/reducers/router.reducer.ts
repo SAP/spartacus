@@ -1,23 +1,23 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { RouterStateSnapshot, Params } from '@angular/router';
-
-import {
-  createSelector,
-  createFeatureSelector,
-  ActionReducerMap,
-  MemoizedSelector
-} from '@ngrx/store';
+import { Params, RouterStateSnapshot } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
+import {
+  ActionReducerMap,
+  createFeatureSelector,
+  createSelector,
+  MemoizedSelector,
+} from '@ngrx/store';
 
-import * as fromActions from '../actions';
-import { ROUTING_FEATURE } from '../../state';
-import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
+import { PageType } from '../../../model/cms.model';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
+import { PageContext } from '../../models/page-context.model';
+import { ROUTING_FEATURE } from '../../state';
+import * as fromActions from '../actions';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
   redirectUrl: string;
+  nextState?: ActivatedRouterStateSnapshot;
 }
 
 export const initialState: RouterState = {
@@ -28,10 +28,11 @@ export const initialState: RouterState = {
     queryParams: {},
     params: {},
     context: {
-      id: ''
+      id: '',
     },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
+  nextState: undefined,
 };
 
 export interface ActivatedRouterStateSnapshot {
@@ -48,7 +49,7 @@ export interface State {
 
 export function getReducers(): ActionReducerMap<State> {
   return {
-    router: reducer
+    router: reducer,
   };
 }
 
@@ -60,16 +61,24 @@ export function reducer(
     case fromActions.SAVE_REDIRECT_URL: {
       return {
         ...state,
-        redirectUrl: action.payload
+        redirectUrl: action.payload,
       };
     }
     case fromActions.CLEAR_REDIRECT_URL: {
       return {
         ...state,
-        redirectUrl: ''
+        redirectUrl: '',
       };
     }
-    case fromNgrxRouter.ROUTER_NAVIGATION:
+    case fromNgrxRouter.ROUTER_NAVIGATION: {
+      return {
+        ...state,
+        nextState: action.payload.routerState,
+        navigationId: action.payload.event.id,
+      };
+    }
+
+    case fromNgrxRouter.ROUTER_NAVIGATED:
     case fromNgrxRouter.ROUTER_ERROR:
     case fromNgrxRouter.ROUTER_CANCEL: {
       const currentUrl = action.payload.routerState
@@ -80,8 +89,9 @@ export function reducer(
         : '';
       let redirectUrl;
       if (
-        contextId === 'login' ||
-        contextId === 'register' ||
+        // TODO: Should be rafactored, utilizimg semantic pages configuration
+        contextId === '/login' ||
+        contextId === '/login/register' ||
         currentUrl === state.redirectUrl
       ) {
         redirectUrl = state.redirectUrl;
@@ -92,7 +102,8 @@ export function reducer(
       return {
         redirectUrl: redirectUrl,
         state: action.payload.routerState,
-        navigationId: action.payload.event.id
+        navigationId: action.payload.event.id,
+        nextState: undefined,
       };
     }
     default: {
@@ -107,19 +118,20 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export const getRouterFeatureState: MemoizedSelector<
   any,
-  any
-> = createFeatureSelector<
-  fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot>
->(ROUTING_FEATURE);
+  State
+> = createFeatureSelector<State>(ROUTING_FEATURE);
 
-export const getRouterState: MemoizedSelector<any, any> = createSelector(
+export const getRouterState: MemoizedSelector<
+  any,
+  RouterState
+> = createSelector(
   getRouterFeatureState,
-  (state: any) => state[ROUTING_FEATURE]
+  state => state.router
 );
 
 export const getPageContext: MemoizedSelector<
@@ -127,10 +139,25 @@ export const getPageContext: MemoizedSelector<
   PageContext
 > = createSelector(
   getRouterState,
-  (routingState: any) => routingState.state.context
+  (routingState: RouterState) =>
+    (routingState.state && routingState.state.context) || { id: '' }
 );
 
-export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
+export const getNextPageContext: MemoizedSelector<
+  any,
+  PageContext
+> = createSelector(
+  getRouterState,
+  (routingState: RouterState) =>
+    routingState.nextState && routingState.nextState.context
+);
+
+export const isNavigating: MemoizedSelector<any, boolean> = createSelector(
+  getNextPageContext,
+  context => !!context
+);
+
+export const getRedirectUrl: MemoizedSelector<any, string> = createSelector(
   getRouterState,
   state => state.redirectUrl
 );
@@ -177,7 +204,7 @@ export class CustomSerializer
     if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
       context = {
         id: 'smartedit-preview',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       };
     } else {
       if (params['productCode']) {
@@ -186,8 +213,6 @@ export class CustomSerializer
         context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
       } else if (params['brandCode']) {
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-      } else if (params['query']) {
-        context = { id: 'search', type: PageType.CONTENT_PAGE };
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {
@@ -196,12 +221,12 @@ export class CustomSerializer
             '/' + state.url.map(urlSegment => urlSegment.path).join('/');
           context = {
             id: pageLabel,
-            type: PageType.CONTENT_PAGE
+            type: PageType.CONTENT_PAGE,
           };
         } else {
           context = {
             id: 'homepage',
-            type: PageType.CONTENT_PAGE
+            type: PageType.CONTENT_PAGE,
           };
         }
       }

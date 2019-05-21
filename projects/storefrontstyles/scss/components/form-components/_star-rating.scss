@@ -1,0 +1,28 @@
+%cx-star-rating {
+  padding: 15px 0;
+
+  &:not([disabled='true']) {
+    cursor: pointer;
+  }
+
+  .star {
+    font-size: 20px;
+    &:before {
+      margin: 0 2.5px;
+    }
+    @for $i from 1 to 6 {
+      &:nth-child(#{$i}) {
+        background: linear-gradient(
+          90deg,
+          var(--cx-g-color-primary) calc((var(--star-fill) - #{$i} + 1) * 100%),
+          var(--cx-g-color-light) calc((var(--star-fill) - #{$i} + 1) * 100%)
+        );
+        // somehow we cannot move the text related clip and fill color outside this loop.
+        // most likely they cannot come before he definition of the background.
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+}

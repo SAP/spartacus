@@ -1,16 +1,19 @@
+import { Address, Country, Region } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Title, User } from '../../model/misc.model';
+import { Order, OrderHistoryList } from '../../model/order.model';
+import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import { LoaderState } from '../../state';
-import {
-  Address,
-  PaymentDetails,
-  OrderHistoryList,
-  User,
-  Region,
-  Order,
-  Country,
-  Title
-} from '../../occ/occ-models/index';
 
 export const USER_FEATURE = 'user';
+export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
+export const UPDATE_PASSWORD_PROCESS_ID = 'updatePassword';
+export const UPDATE_USER_DETAILS_PROCESS_ID = 'updateUserDetails';
+export const REMOVE_USER_PROCESS_ID = 'removeUser';
+export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
+export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
+
+export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
@@ -22,6 +25,7 @@ export interface StateWithUser {
 export interface UserState {
   account: UserDetailsState;
   addresses: LoaderState<Address[]>;
+  consents: LoaderState<ConsentTemplateList>;
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: LoaderState<PaymentDetails[]>;

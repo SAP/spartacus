@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StoreModule, Store, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
-import { StateWithCms, IndexType } from '../cms-state';
+import { IndexType, StateWithCms } from '../cms-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/page.selectors';
 import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import { PageType } from '../../../occ/occ-models/index';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { ContentSlotComponentData } from '@spartacus/core';
+import { PageType } from '../../../model/cms.model';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
@@ -19,34 +19,34 @@ describe('Cms PageData Selectors', () => {
   const components: ContentSlotComponentData[] = [
     {
       uid: 'comp1',
-      flexType: 'SimpleBannerComponent'
+      flexType: 'SimpleBannerComponent',
     },
     {
       uid: 'comp2',
-      flexType: 'CMSLinkComponent'
+      flexType: 'CMSLinkComponent',
     },
     {
       uid: 'comp3',
-      flexType: 'NavigationComponent'
-    }
+      flexType: 'NavigationComponent',
+    },
   ];
   const page: Page = {
     pageId: 'homepage',
     name: 'HomePage',
-    slots: { left: { components } }
+    slots: { left: { components } },
   };
 
   const pageContext: PageContext = {
     id: 'homepage',
-    type: PageType.CONTENT_PAGE
+    type: PageType.CONTENT_PAGE,
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cms', fromReducers.getReducers()),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
@@ -69,13 +69,13 @@ describe('Cms PageData Selectors', () => {
               loading: false,
               error: false,
               success: true,
-              value: page.pageId
-            }
-          }
+              value: page.pageId,
+            },
+          },
         },
         product: { entities: {} },
         category: { entities: {} },
-        catalog: { entities: {} }
+        catalog: { entities: {} },
       };
 
       expect(result).toEqual(expectedResult);
@@ -98,9 +98,9 @@ describe('Cms PageData Selectors', () => {
             loading: false,
             error: false,
             success: true,
-            value: page.pageId
-          }
-        }
+            value: page.pageId,
+          },
+        },
       });
     });
   });
@@ -129,7 +129,7 @@ describe('Cms PageData Selectors', () => {
         loading: false,
         error: false,
         success: true,
-        value: page.pageId
+        value: page.pageId,
       });
     });
   });
@@ -175,7 +175,7 @@ describe('Cms PageData Selectors', () => {
       expect(result).toEqual([
         'SimpleBannerComponent',
         'CMSLinkComponent',
-        'NavigationComponent'
+        'NavigationComponent',
       ]);
     });
   });

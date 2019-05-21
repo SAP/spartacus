@@ -17,7 +17,7 @@ export class MockTranslationService implements TranslationService {
     });
   }
 
-  loadNamespaces(_namespaces: string | string[]): Promise<any> {
+  loadChunks(_chunks: string | string[]): Promise<any> {
     return Promise.resolve();
   }
 }

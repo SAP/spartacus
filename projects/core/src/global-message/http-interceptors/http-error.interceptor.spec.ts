@@ -1,26 +1,25 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
+  HttpClientTestingModule,
   HttpTestingController,
-  HttpClientTestingModule
 } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-
-import { HttpErrorInterceptor } from './http-error.interceptor';
+import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpResponseStatus } from '../models/response-status.model';
 import {
-  HttpErrorHandler,
-  UnknownErrorHandler,
-  ForbiddenHandler,
   BadGatewayHandler,
   BadRequestHandler,
   ConflictHandler,
+  ForbiddenHandler,
   GatewayTimeoutHandler,
-  NotFoundHandler
+  HttpErrorHandler,
+  NotFoundHandler,
+  UnknownErrorHandler,
 } from './handlers';
-import { HttpResponseStatus } from '../models/response-status.model';
+import { HttpErrorInterceptor } from './http-error.interceptor';
+import createSpy = jasmine.createSpy;
 
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -30,7 +29,7 @@ describe('HttpErrorInterceptor', () => {
   beforeEach(() => {
     mockMessageService = {
       add: createSpy(),
-      remove: createSpy()
+      remove: createSpy(),
     };
 
     TestBed.configureTestingModule({
@@ -39,12 +38,12 @@ describe('HttpErrorInterceptor', () => {
         {
           provide: HTTP_INTERCEPTORS,
           useClass: HttpErrorInterceptor,
-          multi: true
+          multi: true,
         },
         {
           provide: HttpErrorHandler,
           useClass: HttpErrorHandler,
-          multi: true
+          multi: true,
         },
         BadGatewayHandler,
         BadRequestHandler,
@@ -56,40 +55,40 @@ describe('HttpErrorInterceptor', () => {
         {
           provide: HttpErrorHandler,
           useExisting: UnknownErrorHandler,
-          multi: true
+          multi: true,
         },
         {
           provide: HttpErrorHandler,
           useExisting: BadGatewayHandler,
-          multi: true
+          multi: true,
         },
         {
           provide: HttpErrorHandler,
           useExisting: BadRequestHandler,
-          multi: true
+          multi: true,
         },
         {
           provide: HttpErrorHandler,
           useExisting: ConflictHandler,
-          multi: true
+          multi: true,
         },
         {
           provide: HttpErrorHandler,
           useExisting: ForbiddenHandler,
-          multi: true
+          multi: true,
         },
         {
           provide: HttpErrorHandler,
           useExisting: GatewayTimeoutHandler,
-          multi: true
+          multi: true,
         },
         {
           provide: HttpErrorHandler,
           useExisting: NotFoundHandler,
-          multi: true
+          multi: true,
         },
-        { provide: GlobalMessageService, useValue: mockMessageService }
-      ]
+        { provide: GlobalMessageService, useValue: mockMessageService },
+      ],
     });
 
     httpMock = TestBed.get(HttpTestingController);
@@ -137,10 +136,10 @@ describe('HttpErrorInterceptor', () => {
       });
 
       mockReq.flush({}, { status: 123, statusText: 'unknown' });
-      expect(mockMessageService.add).toHaveBeenCalledWith({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'An unknown error occured'
-      });
+      expect(mockMessageService.add).toHaveBeenCalledWith(
+        { key: 'httpHandlers.unknownError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

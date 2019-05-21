@@ -5,16 +5,18 @@ import { OccConfig } from '@spartacus/core';
 
 describe('OccEndpointsService', () => {
   const mockOccConfig: OccConfig = {
-    server: {
-      baseUrl: 'test-baseUrl',
-      occPrefix: '/test-occPrefix'
+    backend: {
+      occ: {
+        baseUrl: 'test-baseUrl',
+        prefix: '/test-occPrefix',
+        endpoints: {
+          endpoint1: 'configured-endpoint1/${test}?fields=abc',
+        },
+      },
     },
     site: {
-      baseSite: '/test-baseSite'
+      baseSite: '/test-baseSite',
     },
-    endpoints: {
-      endpoint1: 'configured-endpoint1/${test}?fields=abc'
-    }
   };
 
   const baseEndpoint = 'test-baseUrl/test-occPrefix/test-baseSite';
@@ -23,7 +25,7 @@ describe('OccEndpointsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: OccConfig, useValue: mockOccConfig }]
+      providers: [{ provide: OccConfig, useValue: mockOccConfig }],
     });
     service = TestBed.get(OccEndpointsService);
   });

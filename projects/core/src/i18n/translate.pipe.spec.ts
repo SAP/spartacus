@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
-import { TranslatePipe } from '.';
+import { TranslatePipe } from './translate.pipe';
 import { ChangeDetectorRef } from '@angular/core';
 
 describe('TranslatePipe', () => {
@@ -12,7 +12,7 @@ describe('TranslatePipe', () => {
 
   beforeEach(() => {
     const mockTranslateService = {
-      translate: () => {}
+      translate: () => {},
     };
 
     TestBed.configureTestingModule({
@@ -20,10 +20,10 @@ describe('TranslatePipe', () => {
         TranslatePipe,
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') }
+          useValue: { markForCheck: createSpy('markForCheck') },
         },
-        { provide: TranslationService, useValue: mockTranslateService }
-      ]
+        { provide: TranslationService, useValue: mockTranslateService },
+      ],
     });
 
     pipe = TestBed.get(TranslatePipe);
@@ -32,6 +32,11 @@ describe('TranslatePipe', () => {
   });
 
   describe('transform', () => {
+    it('should return raw string when input is object with "raw" property ', () => {
+      const result = pipe.transform({ raw: 'test' });
+      expect(result).toBe('test');
+    });
+
     it('should return result of service.translate', () => {
       spyOn(service, 'translate').and.returnValue(of('expectedValue'));
       const result = pipe.transform('testKey', { param: 'param1' });
@@ -41,6 +46,19 @@ describe('TranslatePipe', () => {
         true
       );
       expect(result).toBe('expectedValue');
+    });
+
+    it('should translate with merged params from the first and the second argument', () => {
+      spyOn(service, 'translate').and.returnValue(of());
+      pipe.transform(
+        { key: 'testKey', params: { param1: 'value1' } },
+        { param2: 'value2' }
+      );
+      expect(service.translate).toHaveBeenCalledWith(
+        'testKey',
+        { param1: 'value1', param2: 'value2' },
+        true
+      );
     });
 
     it('should NOT call service.translate twice if pipe.transform was called twice with the same arguments', () => {

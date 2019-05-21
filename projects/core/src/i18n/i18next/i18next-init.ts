@@ -12,7 +12,7 @@ export function i18nextInit(
     let i18nextConfig: i18next.InitOptions = {
       ns: [], // don't preload any namespaces
       fallbackLng: config.i18n.fallbackLang,
-      debug: config.i18n.debug
+      debug: config.i18n.debug,
     };
     if (config.i18n.backend) {
       i18next.use(i18nextXhrBackend);
@@ -29,11 +29,11 @@ export function i18nextInit(
 
 export function i18nextAddTranslations(resources: TranslationResources = {}) {
   Object.keys(resources).forEach(lang => {
-    Object.keys(resources[lang]).forEach(namespace => {
+    Object.keys(resources[lang]).forEach(chunkName => {
       i18next.addResourceBundle(
         lang,
-        namespace,
-        resources[lang][namespace],
+        chunkName,
+        resources[lang][chunkName],
         true,
         true
       );

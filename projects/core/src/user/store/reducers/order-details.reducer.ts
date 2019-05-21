@@ -1,9 +1,9 @@
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OrderDetailsState } from '../user-state';
-import { Order } from '../../../occ/occ-models/index';
+import { Order } from '../../../model/order.model';
 
 export const initialState: OrderDetailsState = {
-  order: {}
+  order: {},
 };
 
 export function reducer(
@@ -16,7 +16,7 @@ export function reducer(
 
       return {
         ...state,
-        order
+        order,
       };
     }
     case fromOrderDetailsAction.CLEAR_ORDER_DETAILS: {

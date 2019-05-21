@@ -1,39 +1,115 @@
-import { CmsPageSlotsConfig } from '@spartacus/core';
+import { CmsPageSlotsConfig, ContentSlotComponentData } from '@spartacus/core';
+
+export const headerComponents: {
+  [key: string]: ContentSlotComponentData | any;
+} = {
+  SkipLinkComponent: {
+    typeCode: 'SkipLinkComponent',
+    flexType: 'SkipLinkComponent',
+    uid: 'SkipLinkComponent',
+  },
+  HamburgerMenuComponent: {
+    typeCode: 'HamburgerMenuComponent',
+    flexType: 'HamburgerMenuComponent',
+  },
+  LanguageComponent: {
+    typeCode: 'CMSSiteContextComponent',
+    flexType: 'CMSSiteContextComponent',
+    context: 'LANGUAGE',
+  },
+  CurrencyComponent: {
+    typeCode: 'CMSSiteContextComponent',
+    flexType: 'CMSSiteContextComponent',
+    context: 'CURRENCY',
+  },
+  LanguageCurrencyComponent: {
+    typeCode: 'LanguageCurrencyComponent',
+    flexType: 'LanguageCurrencyComponent',
+  },
+  StoreFinder: {
+    typeCode: 'CMSLinkComponent',
+    flexType: 'CMSLinkComponent',
+    linkName: 'Find a Store',
+    url: '/store-finder',
+  },
+  BreadcrumbComponent: {
+    typeCode: 'BreadcrumbComponent',
+    flexType: 'BreadcrumbComponent',
+  },
+  Logo: {
+    typeCode: 'SimpleBannerComponent',
+    flexType: 'SimpleBannerComponent',
+    uid: 'logo',
+    media: {
+      mime: 'svg/image/svg+xml',
+      url: 'https://www.sap.com/dam/application/shared/logos/sap-logo-svg.svg',
+    },
+    urlLink: '/',
+  },
+  SearchBox: {
+    typeCode: 'SearchBoxComponent',
+    flexType: 'SearchBoxComponent',
+    uid: 'SearchBoxComponent',
+  },
+  MiniCart: {
+    typeCode: 'MiniCartComponent',
+    flexType: 'MiniCartComponent',
+    uid: 'MiniCartComponent',
+  },
+  LoginComponent: {
+    typeCode: 'LoginComponent',
+    flexType: 'LoginComponent',
+    uid: 'LoginComponent',
+  },
+  CategoryNavigationComponent: {
+    typeCode: 'CategoryNavigationComponent',
+    flexType: 'CategoryNavigationComponent',
+    uid: 'ElectronicsCategoryNavComponent',
+    navigationNode: {
+      uid: 'ElectronicsCategoryNavNode',
+      children: [
+        {
+          uid: 'CameraLensesNavNode',
+          title: 'Electronic catalog',
+          entries: [
+            {
+              itemId: 'CameraLensesCategoryLink',
+              itemSuperType: 'AbstractCMSComponent',
+              itemType: 'CMSLinkComponent',
+            },
+          ],
+        },
+      ],
+    },
+  },
+};
 
 export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
+  PreHeader: {
+    componentIds: ['SkipLinkComponent', 'HamburgerMenuComponent'],
+  },
   SiteContext: {
-    components: [
-      {
-        typeCode: 'CMSSiteContextComponent',
-        flexType: 'CMSSiteContextComponent',
-        uid: 'LanguageComponent',
-        context: 'LANGUAGE'
-      },
-      {
-        typeCode: 'CMSSiteContextComponent',
-        flexType: 'CMSSiteContextComponent',
-        uid: 'CurrencyComponent',
-        context: 'CURRENCY'
-      }
-    ]
+    componentIds: ['LanguageComponent', 'CurrencyComponent'],
   },
   SiteLinks: {
-    components: [
-      {
-        typeCode: 'CMSLinkComponent',
-        flexType: 'CMSLinkComponent',
-        linkName: 'Find a Store',
-        url: '/store-finder'
-      }
-    ]
+    componentIds: ['StoreFinder'],
+  },
+  SiteLogo: {
+    componentIds: ['Logo'],
+  },
+  SearchBox: {
+    componentIds: ['SearchBox'],
+  },
+  MiniCart: {
+    componentIds: ['MiniCart'],
+  },
+  SiteLogin: {
+    componentIds: ['LoginComponent'],
+  },
+  NavigationBar: {
+    componentIds: ['CategoryNavigationComponent'],
   },
   BottomHeaderSlot: {
-    components: [
-      {
-        typeCode: 'BreadcrumbComponent',
-        flexType: 'BreadcrumbComponent',
-        uid: 'breadcrumbComponent'
-      }
-    ]
-  }
+    componentIds: ['BreadcrumbComponent'],
+  },
 };

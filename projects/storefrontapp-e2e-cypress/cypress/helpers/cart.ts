@@ -33,7 +33,9 @@ export function addProductToCartViaAutoComplete() {
 }
 
 export function addProductToCartViaSearchPage() {
-  cy.get('cx-searchbox input').type(`${PRODUCT_TYPE}{enter}`);
+  cy.get('cx-searchbox input')
+    .clear()
+    .type(`${PRODUCT_TYPE}{enter}`);
   cy.get('cx-product-list')
     .contains('cx-product-list-item', 'Photosmart E317 Digital')
     .within(() => {
@@ -60,7 +62,7 @@ export function removeAllItemsFromCart() {
     cy.getByText('Remove').click();
   });
 
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (1 items)');
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (1 item)');
 
   getCartItem('Photosmart E317 Digital Camera').within(() => {
     cy.getByText('Remove').click();
@@ -84,7 +86,7 @@ export function addProductWhenLoggedIn() {
   cy.get('cx-product-summary cx-add-to-cart button').click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
-    'Cart total (1 items)'
+    'Cart total (1 item)'
   );
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 }
@@ -111,7 +113,7 @@ export function addProductAsAnonymous() {
 
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
-    'Cart total (1 items)'
+    'Cart total (1 item)'
   );
 
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
@@ -147,6 +149,7 @@ export function verifyMergedCartWhenLoggedIn() {
 
 export function logOutAndEmptyCart() {
   cy.selectUserMenuOption('Sign Out');
+  cy.visit('/cart');
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('.EmptyCartMiddleContent').should(
     'contain',
@@ -159,7 +162,7 @@ export function manipulateCartQuantity() {
   cy.get('cx-product-summary cx-add-to-cart button').click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
-    'Cart total (1 items)'
+    'Cart total (1 item)'
   );
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 

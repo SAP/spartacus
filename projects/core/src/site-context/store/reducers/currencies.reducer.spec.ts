@@ -1,7 +1,7 @@
 import * as fromCurrencies from './currencies.reducer';
 import * as fromActions from '../actions/currencies.action';
-import { Currency } from '../../../occ/occ-models/occ.models';
 import { CurrenciesAction } from '../actions/currencies.action';
+import { Currency } from '../../../model/misc.model';
 
 describe('Currencies Reducer', () => {
   describe('undefined action', () => {
@@ -17,11 +17,11 @@ describe('Currencies Reducer', () => {
   describe('LOAD_CURRENCIES_SUCCESS action', () => {
     it('should populate the currencies state entities', () => {
       const currencies: Currency[] = [
-        { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+        { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
       ];
 
       const entities: { [key: string]: Currency } = {
-        USD: currencies[0]
+        USD: currencies[0],
       };
 
       const { initialState } = fromCurrencies;

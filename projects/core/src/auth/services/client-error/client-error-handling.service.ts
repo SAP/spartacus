@@ -9,7 +9,7 @@ import { ClientToken } from '../../models/token-types.model';
 
 @Injectable()
 export class ClientErrorHandlingService {
-  constructor(private authService: AuthService) {}
+  constructor(protected authService: AuthService) {}
 
   public handleExpiredClientToken(
     request: HttpRequest<any>,
@@ -23,14 +23,14 @@ export class ClientErrorHandlingService {
     );
   }
 
-  private createNewRequestWithNewToken(
+  protected createNewRequestWithNewToken(
     request: HttpRequest<any>,
     token: ClientToken
   ): HttpRequest<any> {
     request = request.clone({
       setHeaders: {
-        Authorization: `${token.token_type} ${token.access_token}`
-      }
+        Authorization: `${token.token_type} ${token.access_token}`,
+      },
     });
     return request;
   }

@@ -1,7 +1,7 @@
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
-import { PaymentDetails } from '../../../occ/occ-models/index';
 
 import * as fromUserPaymentMethodsReducer from './payment-methods.reducer';
+import { PaymentDetails } from '../../../model/cart.model';
 
 describe('User Payment Methods Reducer', () => {
   describe('undefined action', () => {
@@ -18,7 +18,7 @@ describe('User Payment Methods Reducer', () => {
     it('should populate the user Payment Methods state entities', () => {
       const mockUserPaymentMethods: PaymentDetails[] = [
         { id: 'payment1' },
-        { id: 'payment2' }
+        { id: 'payment2' },
       ];
 
       const { initialState } = fromUserPaymentMethodsReducer;

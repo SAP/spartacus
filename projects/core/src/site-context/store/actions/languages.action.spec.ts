@@ -1,5 +1,5 @@
 import * as fromLanguage from './languages.action';
-import { Language } from '../../../occ/occ-models/occ.models';
+import { Language } from '../../../model/misc.model';
 
 describe('Languages Actions', () => {
   describe('LoadLanguages Actions', () => {
@@ -7,7 +7,7 @@ describe('Languages Actions', () => {
       it('should create an action', () => {
         const action = new fromLanguage.LoadLanguages();
         expect({ ...action }).toEqual({
-          type: fromLanguage.LOAD_LANGUAGES
+          type: fromLanguage.LOAD_LANGUAGES,
         });
       });
     });
@@ -19,7 +19,7 @@ describe('Languages Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromLanguage.LOAD_LANGUAGES_FAIL,
-          payload
+          payload,
         });
       });
     });
@@ -31,14 +31,14 @@ describe('Languages Actions', () => {
             active: false,
             isocode: 'en',
             name: 'English',
-            nativeName: 'English'
-          }
+            nativeName: 'English',
+          },
         ];
         const action = new fromLanguage.LoadLanguagesSuccess(payload);
 
         expect({ ...action }).toEqual({
           type: fromLanguage.LOAD_LANGUAGES_SUCCESS,
-          payload
+          payload,
         });
       });
     });
@@ -49,7 +49,7 @@ describe('Languages Actions', () => {
       const action = new fromLanguage.SetActiveLanguage('en');
       expect({ ...action }).toEqual({
         type: fromLanguage.SET_ACTIVE_LANGUAGE,
-        payload: 'en'
+        payload: 'en',
       });
     });
   });
@@ -58,7 +58,7 @@ describe('Languages Actions', () => {
     it('should create an action', () => {
       const action = new fromLanguage.LanguageChange();
       expect({ ...action }).toEqual({
-        type: fromLanguage.LANGUAGE_CHANGE
+        type: fromLanguage.LANGUAGE_CHANGE,
       });
     });
   });

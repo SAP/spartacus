@@ -1,51 +1,49 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import {
   AuthModule,
   ConfigModule,
+  CxApiModule,
+  I18nModule,
+  PersonalizationModule,
   provideConfig,
   RoutingModule,
-  StateModule,
   SmartEditModule,
-  CxApiModule,
-  I18nModule
+  StateModule,
 } from '@spartacus/core';
-
-import { StorefrontModuleConfig } from './storefront-config';
-
-import { CmsLibModule } from './cms-lib/index';
-import { CmsModule } from './cms/index';
-import { OccModule } from './occ/index';
-import { UiModule, UiFrameworkModule } from './ui/index';
+import { CmsLibModule } from '../cms-components/index';
+import { CmsModule } from '../cms-structure/cms.module';
+import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
+import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
-import { MultiStepCheckoutModule } from './checkout/index';
-import { StoreFinderModule } from './store-finder/store-finder.module';
+import { StorefrontModuleConfig } from './storefront-config';
+import { UiModule } from './ui/index';
 
 @NgModule({
   imports: [
     StateModule,
     RoutingModule,
     AuthModule.forRoot(),
-    OccModule,
-    StoreFinderModule,
     CmsLibModule,
     CmsModule,
     UiModule,
-    UiFrameworkModule,
+    SuffixRoutesModule,
+    CmsRouteModule,
     ConfigModule.forRoot(),
     CxApiModule,
     SmartEditModule.forRoot(),
-    MultiStepCheckoutModule,
-    I18nModule.forRoot()
+    PersonalizationModule.forRoot(),
+    I18nModule.forRoot(),
   ],
   exports: [UiModule],
-  declarations: []
+  providers: [...provideConfigFromMetaTags()],
+  declarations: [],
 })
 export class StorefrontModule {
   static withConfig(config?: StorefrontModuleConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
-      providers: [provideConfig(config), ...provideConfigFromMetaTags()]
+      providers: [provideConfig(config), ...provideConfigFromMetaTags()],
     };
   }
 }

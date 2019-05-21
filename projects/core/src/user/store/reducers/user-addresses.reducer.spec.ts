@@ -1,7 +1,7 @@
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { Address } from '../../../occ/occ-models/index';
 
 import * as fromUserAddressesReducer from './user-addresses.reducer';
+import { Address } from '../../../model/address.model';
 
 describe('User Addresses Reducer', () => {
   describe('undefined action', () => {
@@ -18,7 +18,7 @@ describe('User Addresses Reducer', () => {
     it('should populate the user addresses state entities', () => {
       const mockUserAddresses: Address[] = [
         { id: 'address1' },
-        { id: 'address2' }
+        { id: 'address2' },
       ];
 
       const { initialState } = fromUserAddressesReducer;

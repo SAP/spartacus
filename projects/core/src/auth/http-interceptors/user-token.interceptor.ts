@@ -3,7 +3,7 @@ import {
   HttpInterceptor,
   HttpHandler,
   HttpEvent,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -38,8 +38,8 @@ export class UserTokenInterceptor implements HttpInterceptor {
         setHeaders: {
           Authorization: `${this.userToken.token_type} ${
             this.userToken.access_token
-          }`
-        }
+          }`,
+        },
       });
     }
 
@@ -47,6 +47,6 @@ export class UserTokenInterceptor implements HttpInterceptor {
   }
 
   private isOccUrl(url: string): boolean {
-    return url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1;
+    return url.includes(this.occEndpoints.getBaseEndpoint());
   }
 }

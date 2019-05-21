@@ -1,17 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { Order, CheckoutService, Cart } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
+import {
+  Cart,
+  CheckoutService,
+  I18nTestingModule,
+  Order,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { Item } from '../../../../cms-components/checkout/cart/index';
+import { Card } from '../../../../shared/components/card/card.component';
+import { OrderConfirmationComponent } from './order-confirmation.component';
 
 import createSpy = jasmine.createSpy;
-
-import { Item } from '../../../cart';
-import { Card } from '../../../ui/components/card/card.component';
-
-import { OrderConfirmationComponent } from './order-confirmation.component';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
@@ -41,14 +42,14 @@ class MockCheckoutService {
     return of({
       code: 'test-code-412',
       deliveryAddress: {
-        country: {}
+        country: {},
       },
       deliveryMode: {},
       paymentInfo: {
         billingAddress: {
-          country: {}
-        }
-      }
+          country: {},
+        },
+      },
     });
   }
 }
@@ -59,14 +60,15 @@ describe('OrderConfirmationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         OrderConfirmationComponent,
         MockReviewSubmitComponent,
         MockCardComponent,
         MockOrderSummaryComponent,
-        MockAddtoHomeScreenBannerComponent
+        MockAddtoHomeScreenBannerComponent,
       ],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
     }).compileComponents();
   }));
 
@@ -83,7 +85,7 @@ describe('OrderConfirmationComponent', () => {
   it('should create', () => {
     component.ngOnInit();
     fixture.detectChanges();
-    const titleText = fixture.debugElement.query(By.css('.cx-page__title'))
+    const titleText = fixture.debugElement.query(By.css('.cx-page-title'))
       .nativeElement.textContent;
 
     expect(titleText).toContain('test-code-412');

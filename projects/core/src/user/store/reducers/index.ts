@@ -1,40 +1,49 @@
 import { InjectionToken, Provider } from '@angular/core';
-
-import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
-
+import {
+  ActionReducer,
+  ActionReducerMap,
+  combineReducers,
+  MetaReducer,
+} from '@ngrx/store';
+import { LOGOUT } from '../../../auth/index';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { OrderHistoryList } from '../../../model/order.model';
+import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   UserState,
+  USER_ADDRESSES,
+  USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  USER_ADDRESSES
 } from '../user-state';
-import { LOGOUT } from '../../../auth/index';
-import {
-  PaymentDetails,
-  OrderHistoryList,
-  Address
-} from '../../../occ/occ-models/occ.models';
-import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromRegionsReducer from './regions.reducer';
+import * as fromResetPasswordReducer from './reset-password.reducer';
 import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
+import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import * as fromResetPasswordReducer from './reset-password.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
-    account: fromUserDetailsReducer.reducer,
+    account: combineReducers({
+      details: fromUserDetailsReducer.reducer,
+    }),
     addresses: loaderReducer<Address[]>(
       USER_ADDRESSES,
       fromAddressesReducer.reducer
     ),
     billingCountries: fromBillingCountriesReducer.reducer,
+    consents: loaderReducer<ConsentTemplateList>(
+      USER_CONSENTS,
+      fromUserConsentsReducer.reducer
+    ),
     payments: loaderReducer<PaymentDetails[]>(
       USER_PAYMENT_METHODS,
       fromPaymentReducer.reducer
@@ -47,7 +56,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,
     regions: fromRegionsReducer.reducer,
-    resetPassword: fromResetPasswordReducer.reducer
+    resetPassword: fromResetPasswordReducer.reducer,
   };
 }
 
@@ -57,7 +66,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export function clearUserState(

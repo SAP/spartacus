@@ -1,17 +1,15 @@
+import { CmsComponent } from '../../occ/occ-models/index';
 import { ContentSlotData } from './content-slot-data.model';
 
-import { CmsComponent } from '../../occ/occ-models/index';
-
 export interface Page {
-  uuid?: string;
   pageId?: string;
-  catalogUuid?: string;
   name?: string;
   type?: string;
   title?: string;
   template?: string;
   loadTime?: number;
   slots: { [key: string]: ContentSlotData };
+  properties?: any;
 }
 
 /**
@@ -54,11 +52,16 @@ export interface PageMeta {
    * image that can be added to the og:image metatag
    */
   image?: string;
+
+  /**
+   * the list of breadcrumbs that can be rendered in the page UI.
+   */
+  breadcrumbs?: any[];
 }
 
 export enum PageRobotsMeta {
   INDEX = 'INDEX',
   NOINDEX = 'NOINDEX',
   FOLLOW = 'FOLLOW',
-  NOFOLLOW = 'NOFOLLOW'
+  NOFOLLOW = 'NOFOLLOW',
 }

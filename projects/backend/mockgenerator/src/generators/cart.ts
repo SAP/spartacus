@@ -7,7 +7,7 @@ export class CartGenerator extends ClientGenerator {
     const productName = faker.commerce.productName();
     return {
       [`${site}-${ENDPOINTS.CARTS}`]: [],
-      [ENDPOINTS.CART_ENTRIES]: []
+      [ENDPOINTS.CART_ENTRIES]: [],
     };
   }
 }

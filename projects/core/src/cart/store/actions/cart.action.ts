@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import {
   LoaderLoadAction,
   LoaderFailAction,
-  LoaderSuccessAction
+  LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { CART_DATA } from '../cart-state';
 
@@ -68,7 +68,7 @@ export class MergeCart implements Action {
 
 export class MergeCartSuccess implements Action {
   readonly type = MERGE_CART_SUCCESS;
-  constructor() {}
+  constructor(public payload: any) {}
 }
 
 export type CartAction =

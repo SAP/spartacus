@@ -2,23 +2,24 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, Action } from '@ngrx/store';
+import { Action, StoreModule } from '@ngrx/store';
 
 import { Observable, of, throwError } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions';
-import { Logout, Login } from '../../../auth';
+import { Login, Logout } from '../../../auth';
 import { PageContext, RoutingService } from '../../../routing';
 import { LanguageChange } from '../../../site-context';
 
-import { Page, CmsStructureModel } from '../../model/page.model';
-import { PageType } from '../../../occ/occ-models';
+import { CmsStructureModel, Page } from '../../model/page.model';
+
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import * as fromEffects from './page.effect';
-import { CmsPageLoader } from '../../services';
+import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
+import { PageType } from '../../../model/cms.model';
 
 export function mockDateNow(): number {
   return 1000000000000;
@@ -26,64 +27,57 @@ export function mockDateNow(): number {
 
 const context: PageContext = {
   id: 'homepage',
-  type: PageType.CONTENT_PAGE
+  type: PageType.CONTENT_PAGE,
 };
 const mockRouterState = {
   state: {
     cmsRequired: true,
-    context
-  }
+    context,
+  },
 };
 
 const pageMock: Page = {
-  uuid: 'mockPageUuid',
   loadTime: 1000000000000,
   name: 'testPage',
   pageId: 'testPageId',
   type: 'ContentPage',
   template: 'testTemplate',
   title: 'testPageTitle',
-  catalogUuid: 'mockPageCatalogUuid',
   slots: {
     testPosition: {
-      uid: 'mockContentSlotUid',
-      uuid: 'mockSlotUuid',
-      catalogUuid: 'mockSlotCatalogUuid',
       components: [
         {
           uid: 'comp1',
           typeCode: 'SimpleBannerComponent',
-          uuid: 'compUuid1',
-          flexType: 'SimpleBannerComponent'
+          flexType: 'SimpleBannerComponent',
         },
         {
           uid: 'comp2',
           typeCode: 'CMSFlexComponent',
-          uuid: 'compUuid2',
-          flexType: 'AccountAddressBookComponent'
-        }
-      ]
-    }
-  }
+          flexType: 'AccountAddressBookComponent',
+        },
+      ],
+    },
+  },
 };
 
 const componentsMock = [
   {
     uid: 'comp1',
-    typeCode: 'SimpleBannerComponent'
+    typeCode: 'SimpleBannerComponent',
   },
   {
     uid: 'comp2',
-    typeCode: 'CMSFlexComponent'
-  }
+    typeCode: 'CMSFlexComponent',
+  },
 ];
 
 const pageStructure: CmsStructureModel = {
   page: pageMock,
-  components: componentsMock
+  components: componentsMock,
 };
 
-class CmsPageLoaderMock {
+class MockCmsPageConnector {
   get(): Observable<any> {
     return of(pageStructure);
   }
@@ -97,7 +91,7 @@ class RoutingServiceMock {
 
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
-  let cmsPageLoader: CmsPageLoader<any>;
+  let cmsPageConnector: CmsPageConnector;
   let effects: fromEffects.PageEffects;
   let routingService: RoutingService;
 
@@ -106,17 +100,17 @@ describe('Page Effects', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
       ],
       providers: [
         { provide: RoutingService, useClass: RoutingServiceMock },
-        { provide: CmsPageLoader, useClass: CmsPageLoaderMock },
+        { provide: CmsPageConnector, useClass: MockCmsPageConnector },
         fromEffects.PageEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
-    cmsPageLoader = TestBed.get(CmsPageLoader);
+    cmsPageConnector = TestBed.get(CmsPageConnector);
     effects = TestBed.get(fromEffects.PageEffects);
     routingService = TestBed.get(RoutingService);
     Date.now = mockDateNow;
@@ -125,21 +119,21 @@ describe('Page Effects', () => {
   describe('loadPageData$', () => {
     describe('when LoadPageData is dispatched', () => {
       it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
-        spyOn(cmsPageLoader, 'get').and.returnValue(of(pageStructure));
+        spyOn(cmsPageConnector, 'get').and.returnValue(of(pageStructure));
         const action = new fromActions.LoadPageData(context);
 
-        const completion1 = new fromActions.LoadPageDataSuccess(
+        const completion1 = new fromActions.GetComponentFromPage(
+          componentsMock
+        );
+        const completion2 = new fromActions.LoadPageDataSuccess(
           context,
           pageMock
-        );
-        const completion2 = new fromActions.GetComponentFromPage(
-          componentsMock
         );
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-(bc)', {
           b: completion1,
-          c: completion2
+          c: completion2,
         });
 
         expect(effects.loadPageData$).toBeObservable(expected);
@@ -147,14 +141,14 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = 'error';
-        spyOn<any>(cmsPageLoader, 'get').and.returnValue(throwError(error));
+        spyOn<any>(cmsPageConnector, 'get').and.returnValue(throwError(error));
         const action = new fromActions.LoadPageData(context);
 
         const completion = new fromActions.LoadPageDataFail(context, error);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
-          b: completion
+          b: completion,
         });
 
         expect(effects.loadPageData$).toBeObservable(expected);

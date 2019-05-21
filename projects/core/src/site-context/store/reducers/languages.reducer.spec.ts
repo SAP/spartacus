@@ -1,6 +1,6 @@
 import * as fromLanguages from './languages.reducer';
 import * as fromActions from '../actions/languages.action';
-import { Language, Currency } from '../../../occ/occ-models/occ.models';
+import { Currency, Language } from '../../../model/misc.model';
 
 describe('Languages Reducer', () => {
   describe('undefined action', () => {
@@ -16,11 +16,11 @@ describe('Languages Reducer', () => {
   describe('LOAD_LANGUAGES_SUCCESS action', () => {
     it('should populate the languages state entities', () => {
       const languages: Language[] = [
-        { active: true, isocode: 'ja', name: 'Japanese' }
+        { active: true, isocode: 'ja', name: 'Japanese' },
       ];
 
       const entities: { [key: string]: Currency } = {
-        ja: languages[0]
+        ja: languages[0],
       };
 
       const { initialState } = fromLanguages;

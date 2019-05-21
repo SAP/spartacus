@@ -3,7 +3,7 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -36,12 +36,12 @@ export class SiteContextInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1) {
+    if (request.url.includes(this.occEndpoints.getBaseEndpoint())) {
       request = request.clone({
         setParams: {
           lang: this.activeLang,
-          curr: this.activeCurr
-        }
+          curr: this.activeCurr,
+        },
       });
     }
 

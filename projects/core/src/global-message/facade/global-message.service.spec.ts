@@ -5,15 +5,12 @@ import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store/index';
-import {
-  GlobalMessageType,
-  GlobalMessage
-} from '../models/global-message.model';
+import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageService } from './global-message.service';
 
 const mockMessages = {
-  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
-  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error']
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
+  [GlobalMessageType.MSG_TYPE_ERROR]: [{ raw: 'Error' }],
 };
 
 describe('GlobalMessageService', () => {
@@ -31,9 +28,9 @@ describe('GlobalMessageService', () => {
         StoreModule.forFeature(
           fromStore.GLOBAL_MESSAGE_FEATURE,
           fromStore.getReducers()
-        )
+        ),
       ],
-      providers: [GlobalMessageService]
+      providers: [GlobalMessageService],
     });
 
     store = TestBed.get(Store);
@@ -56,14 +53,25 @@ describe('GlobalMessageService', () => {
   });
 
   it('Should be able to add a message', () => {
-    const message: GlobalMessage = {
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'Test error message'
-    };
-
-    service.add(message);
+    service.add('Test error message', GlobalMessageType.MSG_TYPE_ERROR);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage(message)
+      new fromStore.AddMessage({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: { raw: 'Test error message' },
+      })
+    );
+  });
+
+  it('Should be able to add a translation message', () => {
+    service.add(
+      { key: 'test.key', params: { param: 'value' } },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.AddMessage({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: { key: 'test.key', params: { param: 'value' } },
+      })
     );
   });
 
@@ -72,7 +80,7 @@ describe('GlobalMessageService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.RemoveMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
-        index: 0
+        index: 0,
       })
     );
   });

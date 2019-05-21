@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-
-import { ProductImageConverterService } from '../../../product/index';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
-import { OccCartService } from '../../occ/cart.service';
-import { Cart } from '../../../occ/occ-models/occ.models';
+import { CartConnector } from '../../connectors/cart/cart.connector';
+import { Cart } from '../../../model/cart.model';
 
 @Injectable()
 export class CartEffects {
@@ -30,26 +28,21 @@ export class CartEffects {
         details:
           payload && payload.details !== undefined
             ? payload.details
-            : this.cartData.getDetails
+            : this.cartData.getDetails,
       };
 
       if (this.isMissingData(loadCartParams)) {
         return of(new fromActions.LoadCartFail({}));
       }
 
-      return this.occCartService
-        .loadCart(
+      return this.cartConnector
+        .load(
           loadCartParams.userId,
           loadCartParams.cartId,
           loadCartParams.details
         )
         .pipe(
           map((cart: Cart) => {
-            if (cart && cart.entries) {
-              for (const entry of cart.entries) {
-                this.productImageConverter.convertProduct(entry.product);
-              }
-            }
             return new fromActions.LoadCartSuccess(cart);
           }),
           catchError(error => of(new fromActions.LoadCartFail(error)))
@@ -66,19 +59,17 @@ export class CartEffects {
     ofType(fromActions.CREATE_CART),
     map((action: fromActions.CreateCart) => action.payload),
     mergeMap(payload => {
-      return this.occCartService
-        .createCart(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
+      return this.cartConnector
+        .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
           switchMap((cart: Cart) => {
-            if (cart.entries) {
-              for (const entry of cart.entries) {
-                this.productImageConverter.convertProduct(entry.product);
-              }
-            }
-            if (payload.toMergeCartGuid) {
+            if (payload.oldCartId) {
               return [
                 new fromActions.CreateCartSuccess(cart),
-                new fromActions.MergeCartSuccess()
+                new fromActions.MergeCartSuccess({
+                  userId: payload.userId,
+                  cartId: cart.code,
+                }),
               ];
             }
             return [new fromActions.CreateCartSuccess(cart)];
@@ -93,12 +84,12 @@ export class CartEffects {
     ofType(fromActions.MERGE_CART),
     map((action: fromActions.MergeCart) => action.payload),
     mergeMap(payload => {
-      return this.occCartService.loadCart(payload.userId, 'current').pipe(
+      return this.cartConnector.load(payload.userId, 'current').pipe(
         map(currentCart => {
           return new fromActions.CreateCart({
             userId: payload.userId,
             oldCartId: payload.cartId,
-            toMergeCartGuid: currentCart ? currentCart.guid : undefined
+            toMergeCartGuid: currentCart ? currentCart.guid : undefined,
           });
         })
       );
@@ -107,8 +98,7 @@ export class CartEffects {
 
   constructor(
     private actions$: Actions,
-    private productImageConverter: ProductImageConverterService,
-    private occCartService: OccCartService,
+    private cartConnector: CartConnector,
     private cartData: CartDataService
   ) {}
 

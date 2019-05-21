@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/index';
-import { Region } from '../../../occ/occ-models/index';
 
 import * as fromReducer from './regions.reducer';
+import { Region } from '../../../model/address.model';
 
 describe('Regions Reducer', () => {
   describe('undefined action', () => {
@@ -19,12 +19,12 @@ describe('Regions Reducer', () => {
       const mockRegions: Region[] = [
         {
           isocode: 'CA-ON',
-          name: 'Ontario'
+          name: 'Ontario',
         },
         {
           isocode: 'CA-QC',
-          name: 'Quebec'
-        }
+          name: 'Quebec',
+        },
       ];
 
       const { initialState } = fromReducer;

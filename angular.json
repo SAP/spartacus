@@ -28,7 +28,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
-            "ngswConfigPath": "projects/storefrontlib/src/lib/pwa/ngsw-config.json",
+            "ngswConfigPath": "projects/storefrontlib/src/cms-structure/pwa/ngsw-config.json",
             "scripts": []
           },
           "configurations": {
@@ -159,34 +159,6 @@
         }
       }
     },
-    "storefrontapp-e2e": {
-      "root": "projects/storefrontapp-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/storefrontapp-e2e/protractor.conf.js",
-            "devServerTarget": "storefrontapp:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "storefrontapp:serve:production"
-            },
-            "ci": {
-              "devServerTarget": "storefrontapp:serve:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
     "storefrontlib": {
       "root": "projects/storefrontlib",
       "sourceRoot": "projects/storefrontlib/src",
@@ -251,6 +223,39 @@
             "tsConfig": [
               "projects/core/tsconfig.lib.json",
               "projects/core/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "vendor": {
+      "root": "projects/vendor",
+      "sourceRoot": "projects/vendor/src",
+      "projectType": "library",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/vendor/tsconfig.lib.json",
+            "project": "projects/vendor/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/vendor/src/test.ts",
+            "tsConfig": "projects/vendor/tsconfig.spec.json",
+            "karmaConfig": "projects/vendor/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/vendor/tsconfig.lib.json",
+              "projects/vendor/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
