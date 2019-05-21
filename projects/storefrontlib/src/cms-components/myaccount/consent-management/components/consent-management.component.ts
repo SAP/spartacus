@@ -11,6 +11,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   filter,
   map,
+  pluck,
   skipWhile,
   take,
   tap,
@@ -60,7 +61,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           this.userService.loadConsents(user.uid);
         }
       }),
-      map(([_, templateList]) => templateList)
+      pluck(1)
     );
   }
 
@@ -84,9 +85,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
             this.userService.getWithdrawConsentResultSuccess(),
             this.userService.get()
           ),
-          map(([_loading, withdrawalSuccess, user]) => {
-            return { withdrawalSuccess, user };
-          }),
+          map(([, withdrawalSuccess, user]) => ({ withdrawalSuccess, user })),
           tap(data => {
             if (data.withdrawalSuccess) {
               this.userService.loadConsents(data.user.uid);
