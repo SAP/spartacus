@@ -44,7 +44,6 @@
         var(--cx-g-color-background)
       );
     }
-
     &.cx-selected-item {
       background-color: var(--cx-background-color, var(--cx-g-color-light));
       &:hover {
@@ -52,15 +51,12 @@
       }
     }
   }
-
   .cx-store-info-container {
     padding: var(--cx-padding, 0 25px 0 25px);
   }
-
   .cx-order-icon {
     padding: var(--cx-padding, 0 9px 0 9px);
   }
-
   .cx-not-found {
     @include type('4');
     text-align: var(--cx-text-align, center);

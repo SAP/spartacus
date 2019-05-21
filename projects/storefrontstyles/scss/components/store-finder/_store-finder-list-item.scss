@@ -14,12 +14,10 @@
   .cx-store-street {
     text-align: var(--cx-text-align, left);
   }
-
   .cx-store-street-icon {
     position: var(--cx-position, absolute);
     left: var(--cx-right, -1rem);
   }
-
   .cx-store-open {
     @include type('8');
     color: var(--cx-color, var(--cx-g-color-success));
