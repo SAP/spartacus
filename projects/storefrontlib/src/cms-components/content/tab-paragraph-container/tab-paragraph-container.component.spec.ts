@@ -9,7 +9,7 @@ import {
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { CmsComponentData } from '../../../cms-structure/index';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -92,21 +92,17 @@ describe('TabParagraphContainerComponent', () => {
       of(mockTabComponentData2),
       of(mockTabComponentData3)
     );
-    let childComponents$: Observable<any>[];
+    let childComponents: any[];
     component.components$
-      .subscribe(components => (childComponents$ = components))
+      .subscribe(components => (childComponents = components))
       .unsubscribe();
 
-    for (let i = 0; i < childComponents$.length; i++) {
-      childComponents$[i]
-        .subscribe(tab => {
-          expect(tab).toEqual({
-            flexType: mockComponents[i],
-            uid: mockComponents[i],
-            title: `productTabs.${mockComponents[i]}`,
-          });
-        })
-        .unsubscribe();
+    for (let i = 0; i < childComponents.length; i++) {
+      expect(childComponents[i]).toEqual({
+        flexType: mockComponents[i],
+        uid: mockComponents[i],
+        title: `productTabs.${mockComponents[i]}`,
+      });
     }
   });
 });
