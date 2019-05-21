@@ -7,7 +7,7 @@ import { SiteContextConfig } from './config/site-context-config';
 import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
 import { siteContextParamsProviders } from './providers/site-context-params-providers';
-import { interceptors } from './occ/index';
+import { interceptors } from '../occ/adapters/site-context/index';
 
 // @dynamic
 @NgModule({

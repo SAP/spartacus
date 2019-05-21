@@ -10,7 +10,7 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromActions from '../actions/cart.action';
-import { ProductImageNormalizer } from '../../../product';
+import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/product-image-normalizer';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
