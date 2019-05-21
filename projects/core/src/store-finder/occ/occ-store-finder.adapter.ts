@@ -70,7 +70,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     let params: HttpParams = new HttpParams({
       fromString:
         'fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
-        'geoPoint(latitude,longitude),formattedDistance,address(line1,line2,town,region(FULL),postalCode,phone,country,email), features),' +
+        'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email), features),' +
         'pagination(DEFAULT),' +
         'sorts(DEFAULT)',
     });

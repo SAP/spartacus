@@ -5,14 +5,12 @@
     </div>
 
     <div class="cx-store-address" *ngIf="location.address">
-      <div style="position: relative;">
-        <i class="cx-store-street-icon">
-          <cx-icon [type]="iconTypes.MAP_MARKER" class="small"></cx-icon>
-        </i>
-        <span class="cx-store-street">
-          {{ location.address.line1 }}
-        </span>
-      </div>
+      <i class="cx-store-street-icon">
+        <cx-icon [type]="iconTypes.MAP_MARKER" class="small"></cx-icon>
+      </i>
+      <span class="cx-store-street">
+        {{ location.address.line1 }}
+      </span>
       {{ location.address.town }},
       {{ location.address.region ? location.address.region.name + ',' : '' }}
       {{ location.address.postalCode }}

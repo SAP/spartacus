@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StoreDataService } from '@spartacus/core';
+
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 @Component({

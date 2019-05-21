@@ -17,13 +17,11 @@
             }"
             class="cx-list-items"
           >
-            <i>
+            <div class="cx-order-icon">
               <cx-icon [type]="iconTypes.MAP_MARKER" class="small"></cx-icon>
-            </i>
-            <span style="padding-left: 5px">
               {{ i + 1 }}
-            </span>
-            <div style="padding: 0 20px 0 20px">
+            </div>
+            <div class="cx-store-info-container">
               <cx-store-finder-list-item
                 [location]="location"
                 [locationIndex]="i"
@@ -60,16 +58,14 @@
                   }"
                   class="cx-list-items"
                 >
-                  <i>
+                  <div class="cx-order-icon">
                     <cx-icon
                       [type]="iconTypes.MAP_MARKER"
                       class="small"
                     ></cx-icon>
-                  </i>
-                  <span style="padding-left: 5px">
                     {{ i + 1 }}
-                  </span>
-                  <div style="padding: 0 20px 0 20px">
+                  </div>
+                  <div class="cx-store-info-container">
                     <cx-store-finder-list-item
                       [location]="location"
                       [locationIndex]="i"

@@ -30,6 +30,7 @@
     @include type('6');
     list-style: var(--cx-list-style, none);
     text-align: var(--cx-text-align, left);
+    padding: var(--cx-padding, inherit inherit inherit 0);
   }
   .cx-list-items {
     border-width: var(--cx-border-width, 1px 0 0 0);
@@ -52,13 +53,12 @@
     }
   }
 
-  .cx-ordered {
-    counter-increment: var(--cx-counter-increment, resultCount);
+  .cx-store-info-container {
+    padding: var(--cx-padding, 0 25px 0 25px);
   }
-  .cx-ordered:before {
-    content: var(--cx-content, counter(resultCount, decimal));
-    position: var(--cx-position, absolute);
-    left: var(--cx-left, 1rem);
+
+  .cx-order-icon {
+    padding: var(--cx-padding, 0 9px 0 9px);
   }
 
   .cx-not-found {
