@@ -6,10 +6,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  RoutingService,
   Title,
   UserService,
   UserToken,
+  AuthRedirectService,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -43,14 +43,8 @@ class MockAuthService {
   }
 }
 
-class MockRoutingService {
-  goByUrl = createSpy();
-  go = createSpy();
-  clearRedirectUrl = createSpy();
-
-  getRedirectUrl() {
-    return of();
-  }
+class MockAuthRedirectService {
+  go = createSpy('AuthRedirectService.go');
 }
 
 class MockUserService {
@@ -81,7 +75,7 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let routingService: MockRoutingService;
+  let authRedirectService: AuthRedirectService;
   let userService: MockUserService;
   let globalMessageService: MockGlobalMessageService;
 
@@ -90,7 +84,7 @@ describe('RegisterComponent', () => {
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockUrlPipe],
       providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -100,7 +94,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    routingService = TestBed.get(RoutingService);
+    authRedirectService = TestBed.get(AuthRedirectService);
     userService = TestBed.get(UserService);
     globalMessageService = TestBed.get(GlobalMessageService);
     component = fixture.componentInstance;
@@ -151,18 +145,8 @@ describe('RegisterComponent', () => {
     });
 
     it('should go to redirect url after registration', () => {
-      spyOn(routingService, 'getRedirectUrl').and.returnValue(of('testUrl'));
       component.ngOnInit();
-
-      expect(routingService.goByUrl).toHaveBeenCalledWith('testUrl');
-      expect(routingService.clearRedirectUrl).toHaveBeenCalled();
-    });
-
-    it('should go to home page after registration', () => {
-      spyOn(routingService, 'getRedirectUrl').and.returnValue(of(undefined));
-      component.ngOnInit();
-
-      expect(routingService.go).toHaveBeenCalledWith(['/']);
+      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
   });
 

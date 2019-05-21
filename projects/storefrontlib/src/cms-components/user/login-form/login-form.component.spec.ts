@@ -4,8 +4,8 @@ import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import {
   AuthService,
   I18nTestingModule,
-  RoutingService,
   UserToken,
+  AuthRedirectService,
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
@@ -32,14 +32,9 @@ class MockAuthService {
   }
 }
 
-class MockRoutingService {
-  goByUrl = createSpy();
-  clearRedirectUrl = createSpy();
-  getRedirectUrl() {
-    return of('/test');
-  }
+class MockAuthRedirectService {
+  go = createSpy('AuthRedirectService.go');
 }
-
 class MockGlobalMessageService {
   remove = createSpy();
 }
@@ -49,7 +44,7 @@ describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: MockAuthService;
-  let routingService: MockRoutingService;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -57,7 +52,7 @@ describe('LoginFormComponent', () => {
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
@@ -67,7 +62,7 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService);
-    routingService = TestBed.get(RoutingService);
+    authRedirectService = TestBed.get(AuthRedirectService);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -93,8 +88,8 @@ describe('LoginFormComponent', () => {
     );
   });
 
-  it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+  it('should redirect to return url after auth', () => {
+    expect(authRedirectService.redirect).toHaveBeenCalled();
   });
 
   describe('userId form field', () => {
