@@ -1,16 +1,12 @@
-<div class="details">
-  <ng-container *ngFor="let component$ of (components$ | async); let i = index">
-    <ng-container *ngIf="(component$ | async) as component">
-      <h3 [ngClass]="{ active: i === 0 }" (click)="select($event, tab)">
-        {{ component.title | cxTranslate }}
-      </h3>
-      <div [ngClass]="{ active: i === 0 }" #tab>
-        <ng-container
-          *cxOutlet="component.flexType"
-          [cxComponentWrapper]="component"
-        >
-        </ng-container>
-      </div>
+<ng-container *ngFor="let component of (components$ | async); let i = index">
+  <h3 [class.active]="i === activeTabNum" (click)="select(i)">
+    {{ component.title | cxTranslate }}
+  </h3>
+  <div [class.active]="i === activeTabNum">
+    <ng-container
+      *cxOutlet="component.flexType"
+      [cxComponentWrapper]="component"
+    >
     </ng-container>
-  </ng-container>
-</div>
+  </div>
+</ng-container>

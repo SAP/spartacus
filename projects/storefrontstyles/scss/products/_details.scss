@@ -166,7 +166,7 @@ $useTabsOnPDP: false !default;
 }
 
 cx-product-page {
-  .details {
+  cx-tab-paragraph-container {
     @if $useTabsOnPDP == true {
       @extend %pdpTabs !optional;
     } @else {
