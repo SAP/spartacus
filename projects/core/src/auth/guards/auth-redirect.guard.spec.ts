@@ -5,16 +5,16 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthRedirectGuard } from './auth-redirect.guard';
-import { AuthRedirectService } from './auth-redirect.service';
+import { RedirectAfterAuthGuard } from './auth-redirect.guard';
+import { RedirectAfterAuthService } from './auth-redirect.service';
 
-class MockAuthRedirectService {
+class MockRedirectAfterAuthService {
   reportNavigation = jasmine.createSpy('reportNavigation');
 }
 
-describe('AuthRedirectGuard', () => {
-  let guard: AuthRedirectGuard;
-  let service: AuthRedirectService;
+describe('RedirectAfterAuthGuard', () => {
+  let guard: RedirectAfterAuthGuard;
+  let service: RedirectAfterAuthService;
   let routerStateSnapshot: RouterStateSnapshot;
   let activatedRouteSnapshot: ActivatedRouteSnapshot;
 
@@ -23,17 +23,17 @@ describe('AuthRedirectGuard', () => {
     activatedRouteSnapshot = {} as ActivatedRouteSnapshot;
     TestBed.configureTestingModule({
       providers: [
-        AuthRedirectGuard,
+        RedirectAfterAuthGuard,
         {
-          provide: AuthRedirectService,
-          useClass: MockAuthRedirectService,
+          provide: RedirectAfterAuthService,
+          useClass: MockRedirectAfterAuthService,
         },
         { provide: Router, useValue: { url: '/previous-url' } },
       ],
       imports: [RouterTestingModule],
     });
-    guard = TestBed.get(AuthRedirectGuard);
-    service = TestBed.get(AuthRedirectService);
+    guard = TestBed.get(RedirectAfterAuthGuard);
+    service = TestBed.get(RedirectAfterAuthService);
   });
 
   it('should return true', () => {
@@ -42,7 +42,7 @@ describe('AuthRedirectGuard', () => {
     );
   });
 
-  it('should notify AuthRedirectService with previous url and current url', () => {
+  it('should notify RedirectAfterAuthService with previous url and current url', () => {
     guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
     expect(service.reportNavigation).toHaveBeenCalledWith(
       '/previous-url',

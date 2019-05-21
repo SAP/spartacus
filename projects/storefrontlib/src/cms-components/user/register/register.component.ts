@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  AuthRedirectService,
+  RedirectAfterAuthService,
   AuthService,
   GlobalMessageEntities,
   GlobalMessageService,
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     private auth: AuthService,
-    private authRedirectService: AuthRedirectService,
+    private redirectAfterAuthService: RedirectAfterAuthService,
     private userService: UserService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscription = this.auth.getUserToken().subscribe(data => {
       if (data && data.access_token) {
         this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-        this.authRedirectService.redirect();
+        this.redirectAfterAuthService.redirect();
       }
     });
   }

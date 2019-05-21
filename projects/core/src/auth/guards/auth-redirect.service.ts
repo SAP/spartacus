@@ -5,7 +5,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthRedirectService {
+export class RedirectAfterAuthService {
   constructor(private routing: RoutingService) {}
 
   private redirectUrl: string;

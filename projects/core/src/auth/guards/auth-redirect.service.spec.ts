@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthRedirectGuard } from './auth-redirect.guard';
-import { AuthRedirectService } from './auth-redirect.service';
+import { RedirectAfterAuthGuard } from './auth-redirect.guard';
+import { RedirectAfterAuthService } from './auth-redirect.service';
 import { RoutingService } from '../../routing/facade/routing.service';
 
 class MockRoutingService {
@@ -9,14 +9,14 @@ class MockRoutingService {
   goByUrl = jasmine.createSpy('goByUrl');
 }
 
-describe('AuthRedirectService', () => {
-  let service: AuthRedirectService;
+describe('RedirectAfterAuthService', () => {
+  let service: RedirectAfterAuthService;
   let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AuthRedirectGuard,
+        RedirectAfterAuthGuard,
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -24,7 +24,7 @@ describe('AuthRedirectService', () => {
       ],
       imports: [RouterTestingModule],
     });
-    service = TestBed.get(AuthRedirectService);
+    service = TestBed.get(RedirectAfterAuthService);
     routingService = TestBed.get(RoutingService);
   });
 

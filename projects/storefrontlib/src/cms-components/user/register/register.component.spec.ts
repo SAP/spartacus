@@ -9,7 +9,7 @@ import {
   Title,
   UserService,
   UserToken,
-  AuthRedirectService,
+  RedirectAfterAuthService,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -43,8 +43,8 @@ class MockAuthService {
   }
 }
 
-class MockAuthRedirectService {
-  redirect = createSpy('AuthRedirectService.redirect');
+class MockRedirectAfterAuthService {
+  redirect = createSpy('RedirectAfterAuthService.redirect');
 }
 
 class MockUserService {
@@ -75,7 +75,7 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let authRedirectService: AuthRedirectService;
+  let redirectAfterAuthService: RedirectAfterAuthService;
   let userService: MockUserService;
   let globalMessageService: MockGlobalMessageService;
 
@@ -84,7 +84,10 @@ describe('RegisterComponent', () => {
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockUrlPipe],
       providers: [
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+        {
+          provide: RedirectAfterAuthService,
+          useClass: MockRedirectAfterAuthService,
+        },
         { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -94,7 +97,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    redirectAfterAuthService = TestBed.get(RedirectAfterAuthService);
     userService = TestBed.get(UserService);
     globalMessageService = TestBed.get(GlobalMessageService);
     component = fixture.componentInstance;
@@ -146,7 +149,7 @@ describe('RegisterComponent', () => {
 
     it('should go to redirect url after registration', () => {
       component.ngOnInit();
-      expect(authRedirectService.redirect).toHaveBeenCalled();
+      expect(redirectAfterAuthService.redirect).toHaveBeenCalled();
     });
   });
 

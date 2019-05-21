@@ -5,7 +5,7 @@ import {
   AuthService,
   I18nTestingModule,
   UserToken,
-  AuthRedirectService,
+  RedirectAfterAuthService,
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
@@ -32,8 +32,8 @@ class MockAuthService {
   }
 }
 
-class MockAuthRedirectService {
-  redirect = createSpy('AuthRedirectService.redirect');
+class MockRedirectAfterAuthService {
+  redirect = createSpy('RedirectAfterAuthService.redirect');
 }
 class MockGlobalMessageService {
   remove = createSpy();
@@ -44,7 +44,7 @@ describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: MockAuthService;
-  let authRedirectService: AuthRedirectService;
+  let redirectAfterAuthService: RedirectAfterAuthService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -52,7 +52,10 @@ describe('LoginFormComponent', () => {
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+        {
+          provide: RedirectAfterAuthService,
+          useClass: MockRedirectAfterAuthService,
+        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
@@ -62,7 +65,7 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    redirectAfterAuthService = TestBed.get(RedirectAfterAuthService);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -89,7 +92,7 @@ describe('LoginFormComponent', () => {
   });
 
   it('should redirect to return url after auth', () => {
-    expect(authRedirectService.redirect).toHaveBeenCalled();
+    expect(redirectAfterAuthService.redirect).toHaveBeenCalled();
   });
 
   describe('userId form field', () => {

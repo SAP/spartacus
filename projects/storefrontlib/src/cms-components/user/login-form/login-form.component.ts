@@ -4,7 +4,7 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
-  AuthRedirectService,
+  RedirectAfterAuthService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -21,14 +21,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService
+    private redirectAfterAuthService: RedirectAfterAuthService
   ) {}
 
   ngOnInit() {
     this.sub = this.auth.getUserToken().subscribe(data => {
       if (data && data.access_token) {
         this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-        this.authRedirectService.redirect();
+        this.redirectAfterAuthService.redirect();
       }
     });
 
