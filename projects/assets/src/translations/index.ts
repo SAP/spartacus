@@ -1,4 +1,3 @@
-import { TranslationResources } from '@spartacus/core';
 import { cart } from './en/cart';
 import { checkout } from './en/checkout';
 import { common } from './en/common';
@@ -9,6 +8,14 @@ import { storeFinder } from './en/store-finder';
 import { user } from './en/user';
 import { payment } from './en/payment';
 import { address } from './en/address';
+
+interface TranslationResources {
+  [lang: string]: {
+    [chunkName: string]: {
+      [key: string]: any;
+    };
+  };
+}
 
 export const translations: TranslationResources = {
   en: {

@@ -1,7 +1,4 @@
 {
   "name": "@spartacus/assets",
-  "version": "0.0.1",
-  "peerDependencies": {
-    "@spartacus/core": "^0.1.0-alpha"
-  }
+  "version": "0.0.1"
 }
