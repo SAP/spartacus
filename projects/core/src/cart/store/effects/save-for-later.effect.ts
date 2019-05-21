@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/save-for-later.action';
-import { CartDataService } from '../../facade/cart-data.service';
+import { SaveForLaterDataService } from '../../facade/save-for-later-data.service';
 import { SaveForLaterConnector } from '../../connectors/cart/save-for-later.connector';
 import { Cart } from '../../../model/cart.model';
 
@@ -18,13 +18,13 @@ export class SaveForLaterEffects {
     map(
       (action: {
         type: string;
-        payload?: { userId: string; cartId: string; details?: boolean };
+        payload?: { userId: string; cartId: string };
       }) => action.payload
     ),
     mergeMap(payload => {
       const loadSaveForLaterParams = {
-        userId: (payload && payload.userId) || this.cartData.userId,
-        cartId: (payload && payload.cartId) || this.cartData.cartId,
+        userId: (payload && payload.userId) || this.saveForLaterData.userId,
+        cartId: (payload && payload.cartId) || this.saveForLaterData.cartId,
       };
 
       if (this.isMissingData(loadSaveForLaterParams)) {
@@ -63,7 +63,7 @@ export class SaveForLaterEffects {
   constructor(
     private actions$: Actions,
     private saveForLaterConnector: SaveForLaterConnector,
-    private cartData: CartDataService
+    private saveForLaterData: SaveForLaterDataService
   ) {}
 
   private isMissingData(payload) {
