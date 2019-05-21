@@ -3,4 +3,7 @@ export const metaResolver = {
     heading: '{{count}} result for {{query}}',
     heading_plural: '{{count}} results for {{query}}',
   },
+  contentPage: {
+    heading: '{{content}}',
+  },
 };
