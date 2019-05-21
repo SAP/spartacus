@@ -12,11 +12,11 @@ import { CmsStructureModel } from '../model/page.model';
 /**
  * Service that provides access to CMS structure from a static
  * configuration or configuration file. This class uses static
- * configuration is designed in async fashion so that configuratiosn
+ * configuration is designed in async fashion so that configurations
  * can be loaded from a file or stream.
  *
- * The intend of the `CmsStructureConfigService` however is to provide
- * fast loading pages and default cms structure for comodoty commerce.
+ * The intent of the `CmsStructureConfigService` however is to provide
+ * fast loading pages and default cms structure for commodity commerce.
  */
 @Injectable({
   providedIn: 'root',
@@ -74,7 +74,7 @@ export abstract class CmsStructureConfigService {
   /**
    * returns an observable with the `PageConfig`.
    */
-  private getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
+  protected getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
     return of(
       this.cmsDataConfig.cmsStructure && this.cmsDataConfig.cmsStructure.pages
         ? this.cmsDataConfig.cmsStructure.pages.find(p => p.pageId === pageId)
@@ -87,7 +87,7 @@ export abstract class CmsStructureConfigService {
    * If the given page structure is empty, a page is created and the page slots are
    * are merged into the page.
    */
-  private mergePage(
+  protected mergePage(
     pageId: string,
     pageStructure: CmsStructureModel
   ): Observable<CmsStructureModel> {
@@ -119,7 +119,7 @@ export abstract class CmsStructureConfigService {
    * components), so that the cms structure is able to override the (static)
    * configuration.
    */
-  private mergeSlots(
+  protected mergeSlots(
     pageStructure: CmsStructureModel,
     slots?: CmsPageSlotsConfig
   ): Observable<CmsStructureModel> {
@@ -162,7 +162,7 @@ export abstract class CmsStructureConfigService {
     return of(pageStructure);
   }
 
-  private getComponentsByPosition(
+  protected getComponentsByPosition(
     slots: CmsPageSlotsConfig,
     position: string
   ): ContentSlotComponentData[] {
@@ -185,7 +185,7 @@ export abstract class CmsStructureConfigService {
     return components;
   }
 
-  private getComponentById(componentId: string): ContentSlotComponentData {
+  protected getComponentById(componentId: string): ContentSlotComponentData {
     return this.cmsDataConfig.cmsStructure &&
       this.cmsDataConfig.cmsStructure.components
       ? this.cmsDataConfig.cmsStructure.components[componentId]

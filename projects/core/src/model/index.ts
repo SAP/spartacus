@@ -7,4 +7,5 @@ export * from './order.model';
 export * from './product.model';
 export * from './product-search.model';
 export * from './shared.model';
+export * from './point-of-service.model';
 export * from './store-finder.model';

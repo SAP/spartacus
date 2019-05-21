@@ -2,6 +2,7 @@
   <div class="cx-form-group form-group">
     <!-- searchbox input -->
     <input
+      #searchInput
       class="cx-input form-control dropdown-menu-toggle"
       [ngClass]="{ 'show-mobile': isMobileSearchVisible }"
       type="text"
@@ -48,7 +49,7 @@
           [routerLink]="
             {
               cxRoute: 'product',
-              params: suggestion | stripHtml
+              params: suggestion
             } | cxUrl
           "
           class="cx-product"
@@ -58,9 +59,7 @@
             format="product"
             [alt]="suggestion.summary"
           ></cx-media>
-          <div [innerHtml]="suggestion.name" class="cx-product-name">
-            {{ suggestion.name }}
-          </div>
+          <div [innerHtml]="suggestion.nameHtml" class="cx-product-name"></div>
           <div class="cx-product-price">
             {{ suggestion.price.formattedValue }}
           </div>

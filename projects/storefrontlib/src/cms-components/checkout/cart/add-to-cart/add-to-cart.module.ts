@@ -32,6 +32,6 @@ import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-foc
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddToCartComponent, AddedToCartDialogComponent],
-  exports: [AddToCartComponent],
+  exports: [AddToCartComponent, AddedToCartDialogComponent],
 })
 export class AddToCartModule {}

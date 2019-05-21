@@ -18,8 +18,6 @@ export class AddedToCartDialogComponent implements OnInit {
   loaded$: Observable<boolean>;
 
   quantity = 0;
-  previousLoaded: boolean;
-  finishedLoading: boolean;
   firstUpdate = true;
   showItemIncrLabel: boolean;
 
@@ -35,15 +33,6 @@ export class AddedToCartDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loaded$ = this.loaded$.pipe(
-      tap(res => {
-        if (this.previousLoaded !== res) {
-          this.finishedLoading = this.previousLoaded === false;
-          this.previousLoaded = res;
-        }
-      })
-    );
-
     this.entry$ = this.entry$.pipe(
       tap(entry => {
         if (entry) {
