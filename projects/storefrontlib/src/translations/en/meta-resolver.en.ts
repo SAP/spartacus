@@ -10,4 +10,7 @@ export const metaResolver = {
     heading: 'Checkout {{items}} item',
     heading_plural: 'Checkout {{items}} items',
   },
+  cartPage: {
+    heading: '{{title}} {{code}}',
+  },
 };

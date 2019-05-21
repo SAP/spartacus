@@ -10,13 +10,18 @@ import {
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
 import { PageType } from '../../model/cms.model';
+import { TranslationService } from '../../i18n';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  constructor(protected cartService: CartService, protected cms: CmsService) {
+  constructor(
+    protected cartService: CartService,
+    protected cms: CmsService,
+    protected translation: TranslationService
+  ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'CartPageTemplate';
@@ -32,13 +37,19 @@ export class CartPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(page: Page): Observable<string> {
-    return this.cartService
-      .getActive()
-      .pipe(
-        map(cart =>
-          cart && cart.code ? `${page.title} (${cart.code})` : page.title
-        )
-      );
+    return this.cartService.getActive().pipe(
+      switchMap(cart =>
+        cart && cart.code
+          ? this.translation.translate('metaResolver:cartPage.heading', {
+              title: page.title,
+              code: cart.code,
+            })
+          : this.translation.translate('metaResolver:cartPage.heading', {
+              title: page.title,
+              code: '',
+            })
+      )
+    );
   }
 
   resolveRobots(): Observable<PageRobotsMeta[]> {

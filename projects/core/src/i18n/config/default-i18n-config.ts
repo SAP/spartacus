@@ -16,7 +16,7 @@ export const defaultI18nConfig: I18nConfig = {
       cart: ['cartDetails', 'cartItems', 'orderCost'],
       address: ['addressForm', 'addressBook', 'addressCard'],
       payment: ['paymentForm', 'paymentMethods', 'paymentCard'],
-      metaResolver: ['categoryPage', 'contentPage', 'checkoutPage'],
+      metaResolver: ['categoryPage', 'contentPage', 'checkoutPage', 'cartPage'],
       myAccount: ['orderDetails', 'orderHistory'],
       storeFinder: ['storeFinder'],
       pwa: ['pwa'],
