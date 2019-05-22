@@ -34,7 +34,7 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
         },
       },
     }),
-    SiteContextModule.forRoot(),
+    SiteContextModule,
     IconModule,
   ],
   providers: [SiteContextComponentService],

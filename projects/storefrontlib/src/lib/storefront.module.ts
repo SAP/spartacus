@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import {
+  OccModule,
   AuthModule,
   ConfigModule,
   CxApiModule,
@@ -21,6 +22,7 @@ import { UiModule } from './ui/index';
 
 @NgModule({
   imports: [
+    OccModule,
     StateModule,
     RoutingModule,
     AuthModule.forRoot(),
