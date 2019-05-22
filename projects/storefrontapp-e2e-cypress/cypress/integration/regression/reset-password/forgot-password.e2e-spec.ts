@@ -2,7 +2,7 @@ context('Forgot Password Page', () => {
   beforeEach(() => {
     // Clear the session to make sure no user is athenticated.
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/forgot-password');
+    cy.visit('/login/forgot-password');
   });
 
   it('should request password reset email on submit', () => {
