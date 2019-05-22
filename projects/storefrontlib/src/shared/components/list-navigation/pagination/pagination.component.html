@@ -1,6 +1,6 @@
 <ul class="pagination">
   <!-- Previous -->
-  <li class="page-item" [ngClass]="{ disabled: onFirstPage() }">
+  <li class="page-item" [ngClass]="{ disabled: onFirstPage() || !hasPages() }">
     <a class="page-link" (click)="clickPageNo(getPagePrevious())">«</a>
   </li>
 
@@ -20,7 +20,7 @@
   </li>
 
   <!-- Next -->
-  <li class="page-item" [ngClass]="{ disabled: onLastPage() }">
+  <li class="page-item" [ngClass]="{ disabled: onLastPage() || !hasPages() }">
     <a class="page-link" (click)="clickPageNo(getPageNext())">»</a>
   </li>
 </ul>

@@ -19,6 +19,10 @@ export class PaginationComponent {
   @Input() pagination: PaginationModel;
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
+  hasPages(): boolean {
+    return this.pagination.totalPages > 0;
+  }
+
   getPagePrevious(): number {
     return this.pagination.currentPage;
   }
@@ -66,7 +70,11 @@ export class PaginationComponent {
   }
 
   showDots(index: number): boolean {
-    return this.hidePageIndex(index);
+    return (
+      this.hidePageIndex(index) &&
+      (index === this.getPageWindowTop() + 1 ||
+        index === this.getPageWindowBottom() - 1)
+    );
   }
 
   clickPageNo(page: number): number {
