@@ -2,14 +2,14 @@ import { CheckoutConfig } from './config/checkout-config';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutStepType, CheckoutStep } from './model/checkout-step.model';
 
-const mockCheckoutStepType = CheckoutStepType.shippingAddress;
+const mockCheckoutStepType = CheckoutStepType.SHIPPING_ADDRESS;
 
 const mockCheckoutSteps: CheckoutStep[] = [
   {
     id: 'shippingAddress',
     name: 'checkoutProgress.label.shippingAddress',
-    route: 'checkoutShippingAddress',
-    type: [CheckoutStepType.shippingAddress],
+    routeName: 'checkoutShippingAddress',
+    type: [CheckoutStepType.SHIPPING_ADDRESS],
   },
 ];
 

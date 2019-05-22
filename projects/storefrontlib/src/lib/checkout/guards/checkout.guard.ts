@@ -19,7 +19,7 @@ export class CheckoutGuard implements CanActivate {
     return of(
       this.router.parseUrl(
         this.routingConfigService.getRouteConfig(
-          this.config.checkout.steps[0].route
+          this.config.checkout.steps[0].routeName
         ).paths[0]
       )
     );

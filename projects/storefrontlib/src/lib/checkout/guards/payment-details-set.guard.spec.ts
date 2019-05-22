@@ -79,7 +79,7 @@ describe(`PaymentDetailsSetGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              MockCheckoutConfig.checkout.steps[2].route
+              MockCheckoutConfig.checkout.steps[2].routeName
             ).paths[0]
           }`
         );
