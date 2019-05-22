@@ -13,7 +13,7 @@ import {
   NotAuthGuard,
   UrlModule,
   UserModule,
-  RedirectAfterAuthGuard,
+  BackAfterAuthGuard,
 } from '@spartacus/core';
 
 @NgModule({
@@ -28,7 +28,7 @@ import {
       cmsComponents: {
         RegisterCustomerComponent: {
           selector: 'cx-register',
-          guards: [NotAuthGuard, RedirectAfterAuthGuard],
+          guards: [NotAuthGuard, BackAfterAuthGuard],
         },
       },
     }),

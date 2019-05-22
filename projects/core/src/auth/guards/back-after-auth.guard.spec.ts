@@ -5,35 +5,41 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RedirectAfterAuthGuard } from './auth-redirect.guard';
-import { RedirectAfterAuthService } from './auth-redirect.service';
+import { BackAfterAuthGuard } from './back-after-auth.guard';
+import { AuthRedirectService } from './auth-redirect.service';
 
 class MockRedirectAfterAuthService {
   reportNavigation = jasmine.createSpy('reportNavigation');
 }
 
-describe('RedirectAfterAuthGuard', () => {
-  let guard: RedirectAfterAuthGuard;
-  let service: RedirectAfterAuthService;
+describe('BackAfterAuthGuard', () => {
+  let guard: BackAfterAuthGuard;
+  let service: AuthRedirectService;
   let routerStateSnapshot: RouterStateSnapshot;
   let activatedRouteSnapshot: ActivatedRouteSnapshot;
 
   beforeEach(() => {
     routerStateSnapshot = { url: '/current-url' } as RouterStateSnapshot;
     activatedRouteSnapshot = {} as ActivatedRouteSnapshot;
+    const mockRouter = {
+      url: '/previous-url',
+      getCurrentNavigation: jasmine
+        .createSpy('getCurrentNavigation')
+        .and.returnValue({ id: 123 }),
+    };
     TestBed.configureTestingModule({
       providers: [
-        RedirectAfterAuthGuard,
+        BackAfterAuthGuard,
         {
-          provide: RedirectAfterAuthService,
+          provide: AuthRedirectService,
           useClass: MockRedirectAfterAuthService,
         },
-        { provide: Router, useValue: { url: '/previous-url' } },
+        { provide: Router, useValue: mockRouter },
       ],
       imports: [RouterTestingModule],
     });
-    guard = TestBed.get(RedirectAfterAuthGuard);
-    service = TestBed.get(RedirectAfterAuthService);
+    guard = TestBed.get(BackAfterAuthGuard);
+    service = TestBed.get(AuthRedirectService);
   });
 
   it('should return true', () => {
@@ -42,11 +48,12 @@ describe('RedirectAfterAuthGuard', () => {
     );
   });
 
-  it('should notify RedirectAfterAuthService with previous url and current url', () => {
+  it('should notify AuthRedirectService with previous url and current url', () => {
     guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
-    expect(service.reportNavigation).toHaveBeenCalledWith(
+    expect(service.reportNavigationToAuthUrl).toHaveBeenCalledWith(
       '/previous-url',
-      '/current-url'
+      '/current-url',
+      123
     );
   });
 });

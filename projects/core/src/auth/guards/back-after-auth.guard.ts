@@ -5,17 +5,17 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { RedirectAfterAuthService } from './auth-redirect.service';
+import { AuthRedirectService } from './auth-redirect.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RedirectAfterAuthGuard implements CanActivate {
-  static GUARD_NAME = 'RedirectAfterAuthGuard';
+export class BackAfterAuthGuard implements CanActivate {
+  static GUARD_NAME = 'BackAfterAuthGuard';
 
   constructor(
     private router: Router,
-    private redirectAfterAuthService: RedirectAfterAuthService
+    private authRedirectService: AuthRedirectService
   ) {}
 
   canActivate(
@@ -25,7 +25,13 @@ export class RedirectAfterAuthGuard implements CanActivate {
     const previousUrl = this.router.url;
     const authUrl = state.url;
 
-    this.redirectAfterAuthService.reportNavigation(previousUrl, authUrl);
+    const navigationId = this.router.getCurrentNavigation().id;
+
+    this.authRedirectService.reportNavigationToAuthUrl(
+      previousUrl,
+      authUrl,
+      navigationId
+    );
     return true;
   }
 }

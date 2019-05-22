@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RedirectAfterAuthGuard } from './auth-redirect.guard';
-import { RedirectAfterAuthService } from './auth-redirect.service';
+import { BackAfterAuthGuard } from './back-after-auth.guard';
+import { AuthRedirectService } from './auth-redirect.service';
 import { RoutingService } from '../../routing/facade/routing.service';
 
 class MockRoutingService {
@@ -9,14 +9,14 @@ class MockRoutingService {
   goByUrl = jasmine.createSpy('goByUrl');
 }
 
-describe('RedirectAfterAuthService', () => {
-  let service: RedirectAfterAuthService;
+describe('AuthRedirectService', () => {
+  let service: AuthRedirectService;
   let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        RedirectAfterAuthGuard,
+        BackAfterAuthGuard,
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -24,13 +24,13 @@ describe('RedirectAfterAuthService', () => {
       ],
       imports: [RouterTestingModule],
     });
-    service = TestBed.get(RedirectAfterAuthService);
+    service = TestBed.get(AuthRedirectService);
     routingService = TestBed.get(RoutingService);
   });
 
   describe('when navigated to auth url and called "redirect"', () => {
     beforeEach(() => {
-      service.reportNavigation('/test', '/login');
+      service.reportNavigationToAuthUrl('/test', '/login');
       service.redirect();
     });
 
@@ -46,8 +46,8 @@ describe('RedirectAfterAuthService', () => {
 
   describe('when navigated to one auth url, then to other auth url and then called "redirect"', () => {
     beforeEach(() => {
-      service.reportNavigation('/test', '/login');
-      service.reportNavigation('/login', '/register');
+      service.reportNavigationToAuthUrl('/test', '/login');
+      service.reportNavigationToAuthUrl('/login', '/register');
       service.redirect();
     });
 

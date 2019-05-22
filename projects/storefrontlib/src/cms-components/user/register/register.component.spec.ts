@@ -9,7 +9,7 @@ import {
   Title,
   UserService,
   UserToken,
-  RedirectAfterAuthService,
+  AuthRedirectService,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -44,7 +44,7 @@ class MockAuthService {
 }
 
 class MockRedirectAfterAuthService {
-  redirect = createSpy('RedirectAfterAuthService.redirect');
+  redirect = createSpy('AuthRedirectService.redirect');
 }
 
 class MockUserService {
@@ -75,7 +75,7 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let redirectAfterAuthService: RedirectAfterAuthService;
+  let authRedirectService: AuthRedirectService;
   let userService: MockUserService;
   let globalMessageService: MockGlobalMessageService;
 
@@ -85,7 +85,7 @@ describe('RegisterComponent', () => {
       declarations: [RegisterComponent, MockUrlPipe],
       providers: [
         {
-          provide: RedirectAfterAuthService,
+          provide: AuthRedirectService,
           useClass: MockRedirectAfterAuthService,
         },
         { provide: UserService, useClass: MockUserService },
@@ -97,7 +97,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    redirectAfterAuthService = TestBed.get(RedirectAfterAuthService);
+    authRedirectService = TestBed.get(AuthRedirectService);
     userService = TestBed.get(UserService);
     globalMessageService = TestBed.get(GlobalMessageService);
     component = fixture.componentInstance;
@@ -149,7 +149,7 @@ describe('RegisterComponent', () => {
 
     it('should go to redirect url after registration', () => {
       component.ngOnInit();
-      expect(redirectAfterAuthService.redirect).toHaveBeenCalled();
+      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
   });
 
