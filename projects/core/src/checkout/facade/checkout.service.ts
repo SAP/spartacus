@@ -7,7 +7,6 @@ import * as fromSelector from '../../checkout/store/selectors/index';
 import { Address, AddressValidation } from '../../model/address.model';
 import { CardType, PaymentDetails } from '../../model/cart.model';
 import { DeliveryMode, Order } from '../../model/order.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromCheckoutStore from '../store/index';
 
 @Injectable()
@@ -243,7 +242,7 @@ export class CheckoutService {
   loadCheckoutDetails(cartId: string) {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.LoadCheckoutDetails({
-        userId: USERID_CURRENT,
+        userId: this.cartData.userId,
         cartId,
       })
     );
