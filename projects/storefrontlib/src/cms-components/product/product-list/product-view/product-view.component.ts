@@ -25,14 +25,19 @@ export class ProductViewComponent {
   modeChange = new EventEmitter<string>();
 
   get buttonClass() {
-    return `cx-product-${this.mode}`;
+    const viewName: string = this.viewMode.toLowerCase();
+    return `cx-product-${viewName}`;
   }
 
+  /**
+   *   Display icons inversely to allow users
+   *   to see the view they will navigate to
+   */
   get viewMode() {
     if (this.mode === 'list') {
-      return this.iconTypes.LIST;
-    } else if (this.mode === 'grid') {
       return this.iconTypes.GRID;
+    } else if (this.mode === 'grid') {
+      return this.iconTypes.LIST;
     }
   }
 

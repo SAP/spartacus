@@ -9,7 +9,7 @@ import { SetActiveBaseSite } from '../store/actions/base-site.action';
 
 @Injectable()
 export class BaseSiteService implements SiteContext<string> {
-  constructor(private store: Store<StateWithSiteContext>) {}
+  constructor(protected store: Store<StateWithSiteContext>) {}
 
   /**
    * Represents the current baseSite.
