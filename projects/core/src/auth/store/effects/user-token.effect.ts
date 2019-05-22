@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserToken } from '../../models/token-types.model';
-import { USERID_CURRENT } from '../../util/auth-constants';
+import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 import { Login } from '../actions/login-logout.action';
 import { UserTokenAction } from '../actions/user-token.action';
 import { UserAuthenticationTokenService } from './../../services/user-authentication/user-authentication-token.service';
