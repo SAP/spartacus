@@ -5,7 +5,6 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  StripHtmlModule,
   UrlModule,
 } from '@spartacus/core';
 import { BootstrapModule } from '../../../lib/bootstrap.module';
@@ -39,7 +38,6 @@ import { IconModule } from '../../misc/icon/index';
     AddToCartModule,
     FormComponentsModule,
     ListNavigationModule,
-    StripHtmlModule,
     UrlModule,
     I18nModule,
     StarRatingModule,

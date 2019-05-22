@@ -23,7 +23,7 @@ import { getUserToken } from '../store/selectors/user-token.selectors';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private store: Store<StateWithAuth>) {}
+  constructor(protected store: Store<StateWithAuth>) {}
 
   /**
    * Loads a new user token

@@ -1,10 +1,4 @@
-import {
-  AfterViewChecked,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Cart, CartService, OrderEntry } from '@spartacus/core';
@@ -16,17 +10,14 @@ import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
+export class AddedToCartDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
-  cartLoaded$: Observable<boolean>;
 
   quantity = 0;
-  previousLoaded: boolean;
-  finishedLoading: boolean;
   firstUpdate = true;
   showItemIncrLabel: boolean;
 
@@ -42,15 +33,6 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit() {
-    this.loaded$ = this.loaded$.pipe(
-      tap(res => {
-        if (this.previousLoaded !== res) {
-          this.finishedLoading = this.previousLoaded === false;
-          this.previousLoaded = res;
-        }
-      })
-    );
-
     this.entry$ = this.entry$.pipe(
       tap(entry => {
         if (entry) {
@@ -70,18 +52,6 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
         }
       })
     );
-  }
-
-  ngAfterViewChecked() {
-    if (this.finishedLoading) {
-      this.finishedLoading = false;
-      const elementToFocus = this.dialog.nativeElement.querySelector(
-        `[ngbAutofocus]`
-      ) as HTMLElement;
-      if (elementToFocus) {
-        elementToFocus.focus();
-      }
-    }
   }
 
   removeEntry(item): void {

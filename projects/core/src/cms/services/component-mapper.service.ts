@@ -16,10 +16,10 @@ export class ComponentMapperService {
   private loadedWebComponents: { [path: string]: any } = {};
 
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private config: CmsConfig,
-    @Inject(DOCUMENT) private document: any,
-    @Inject(PLATFORM_ID) private platform: any
+    protected componentFactoryResolver: ComponentFactoryResolver,
+    protected config: CmsConfig,
+    @Inject(DOCUMENT) protected document: any,
+    @Inject(PLATFORM_ID) protected platform: any
   ) {}
 
   /**

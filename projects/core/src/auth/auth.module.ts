@@ -8,7 +8,7 @@ import { RoutingModule } from '../routing/routing.module';
 import { AuthConfig } from './config/auth-config';
 import { defaultAuthConfig } from './config/default-auth-config';
 import { interceptors } from './http-interceptors/index';
-import { services } from './services/index';
+import { AuthServices } from './services/index';
 import { AuthStoreModule } from './store/auth-store.module';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { AuthStoreModule } from './store/auth-store.module';
     AuthStoreModule,
     ConfigModule.withConfig(defaultAuthConfig),
   ],
-  providers: [...services, { provide: AuthConfig, useExisting: Config }],
+  providers: [...AuthServices, { provide: AuthConfig, useExisting: Config }],
 })
 export class AuthModule {
   static forRoot(): ModuleWithProviders {
