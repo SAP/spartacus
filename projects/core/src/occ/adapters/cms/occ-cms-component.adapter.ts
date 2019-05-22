@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, pluck } from 'rxjs/operators';
 import { CmsComponent, PageType } from '../../../model/cms.model';
-import { CmsComponentList } from '../../occ-models';
+import { Occ } from '../../occ-models/occ.models';
+import { CmsComponentList } from '../../occ-models/cms-component.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
-import { IdList } from '../../../cms/model/idList.model';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
@@ -80,7 +80,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    const idList: IdList = { idList: ids };
+    const idList: Occ.ComponentIDList = { idList: ids };
 
     const requestParams = {
       ...this.getContextParams(pageContext),
