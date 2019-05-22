@@ -1,0 +1,37 @@
+%MultiStepCheckoutSummaryPageTemplate {
+  // @extend %pageBody !optional;
+
+  max-width: 1140px;
+  padding: 2rem 1.5rem 0 1.5rem;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+
+  @include media-breakpoint-down(md) {
+    display: inline-block;
+  }
+
+  cx-page-slot {
+    &.TopContent,
+    &.BottomContent {
+      --cx-flex: 0 1 100%;
+    }
+
+    &.BodyContent,
+    &.SideContent {
+      --cx-flex: 1 1 auto;
+    }
+
+    &.BodyContent {
+      --cx-flex-basis: 66%;
+    }
+
+    &.SideContent {
+      --cx-flex-basis: 33%;
+      flex-direction: column;
+    }
+  }
+}

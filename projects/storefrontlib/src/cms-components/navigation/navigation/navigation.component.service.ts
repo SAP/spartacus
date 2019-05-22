@@ -85,11 +85,11 @@ export class NavigationComponentService {
     return children;
   }
 
-  getComponentData(): Observable<CmsNavigationComponent> {
+  public getComponentData(): Observable<CmsNavigationComponent> {
     return this.componentData.data$;
   }
 
-  getNodes(): Observable<NavigationNode> {
+  public getNodes(): Observable<NavigationNode> {
     return this.getComponentData().pipe(
       switchMap(data => {
         if (data) {

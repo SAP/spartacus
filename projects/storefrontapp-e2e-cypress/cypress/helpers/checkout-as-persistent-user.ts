@@ -118,7 +118,7 @@ export function selectShippingAddress() {
 
 export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').check();
+  cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click();
 }
 

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { DatePipe } from './date.pipe';
+import { CxDatePipe } from './date.pipe';
 import { LanguageService } from '../site-context';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
@@ -10,7 +10,7 @@ const mockDate = '2017-01-11T10:14:39+0000';
 const mockDateFormat = 'longDate';
 
 describe('DatePipe', () => {
-  let pipe: DatePipe;
+  let pipe: CxDatePipe;
   let languageService: LanguageService;
 
   beforeEach(() => {
@@ -20,13 +20,13 @@ describe('DatePipe', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        DatePipe,
+        CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: I18nConfig, useValue: { production: false } },
       ],
     });
 
-    pipe = TestBed.get(DatePipe);
+    pipe = TestBed.get(CxDatePipe);
     languageService = TestBed.get(LanguageService);
   });
 

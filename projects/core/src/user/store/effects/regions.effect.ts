@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
+import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 
 @Injectable()
 export class RegionsEffects {
@@ -17,8 +17,8 @@ export class RegionsEffects {
       return action.payload;
     }),
     switchMap((countryCode: string) => {
-      return this.occMiscsService.loadRegions(countryCode).pipe(
-        map(data => new fromActions.LoadRegionsSuccess(data.regions)),
+      return this.userPaymentConnector.getRegions(countryCode).pipe(
+        map(regions => new fromActions.LoadRegionsSuccess(regions)),
         catchError(error => of(new fromActions.LoadRegionsFail(error)))
       );
     })
@@ -26,6 +26,6 @@ export class RegionsEffects {
 
   constructor(
     private actions$: Actions,
-    private occMiscsService: OccMiscsService
+    private userPaymentConnector: UserPaymentConnector
   ) {}
 }

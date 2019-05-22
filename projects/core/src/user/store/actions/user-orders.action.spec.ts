@@ -1,13 +1,11 @@
-import { USER_ORDERS } from '../user-state';
-
+import { OrderHistoryList } from '../../../model/order.model';
 import {
-  loadMeta,
   failMeta,
+  loadMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
-
+import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersAction from './user-orders.action';
-import { OrderHistoryList } from '../../../model/order.model';
 
 const mockUserOrder: {
   userId: string;

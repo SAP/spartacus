@@ -10,7 +10,7 @@ import { PageMetaResolver } from '../page/page-meta.resolver';
 })
 export class PageMetaService {
   constructor(
-    @Inject(PageMetaResolver) private resolvers: PageMetaResolver[],
+    @Inject(PageMetaResolver) protected resolvers: PageMetaResolver[],
     protected cms: CmsService
   ) {}
 
