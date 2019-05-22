@@ -41,13 +41,15 @@ export class SaveForLaterService {
   }
 
   protected init(): void {
-    this.store.pipe(select(fromSelector.getCartContent)).subscribe(cart => {
-      this.saveForLaterData.cart = cart;
-      if (this.callback) {
-        this.callback();
-        this.callback = null;
-      }
-    });
+    this.store
+      .pipe(select(fromSelector.getSavaForLaterContent))
+      .subscribe(cart => {
+        this.saveForLaterData.cart = cart;
+        if (this.callback) {
+          this.callback();
+          this.callback = null;
+        }
+      });
 
     this.authService
       .getUserToken()
@@ -56,12 +58,13 @@ export class SaveForLaterService {
       )
       .subscribe(userToken => {
         this.setUserId(userToken);
-        this.load();
+        this.userService.get().subscribe(user => {
+          if (user.customerId) {
+            this.saveForLaterData.customerId = user.customerId;
+            this.load();
+          }
+        });
       });
-
-    this.userService
-      .get()
-      .subscribe(user => (this.saveForLaterData.customerId = user.customerId));
 
     this.refresh();
   }
