@@ -21,7 +21,7 @@ describe('CardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [CardComponent],
+      declarations: [CardComponent, MockCxIconComponent],
     }).compileComponents();
   }));
 
@@ -120,15 +120,16 @@ describe('CardComponent', () => {
   });
 
   it('should render passed img', () => {
-    function getImage(elem: DebugElement): HTMLImageElement {
-      return elem.query(By.css('.cx-card-img-container img')).nativeElement;
+    function getImage(elem: DebugElement) {
+      return elem.query(By.css('.cx-card-img-container cx-icon'));
     }
     const mockCard: Card = {
-      img: '/test.png',
+      img: 'mock-image',
     };
     component.content = mockCard;
     fixture.detectChanges();
-    expect(getImage(el).src).toContain('/test.png');
+    console.log(getImage(el).componentInstance);
+    expect(getImage(el).componentInstance.type).toEqual(mockCard.img);
   });
 
   it('should properly handle editMode', () => {
