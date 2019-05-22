@@ -101,7 +101,7 @@ describe('TabParagraphContainerComponent', () => {
       expect(childComponents[i]).toEqual({
         flexType: mockComponents[i],
         uid: mockComponents[i],
-        title: `productTabs.${mockComponents[i]}`,
+        title: `CMSTabParagraphContainer.tabs.${mockComponents[i]}`,
       });
     }
   });
