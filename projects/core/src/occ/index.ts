@@ -6,3 +6,4 @@ export * from './occ-models/index';
 export * from './occ.module';
 export * from './services/index';
 export * from './utils/interceptor-util';
+export * from './adapters/index';
