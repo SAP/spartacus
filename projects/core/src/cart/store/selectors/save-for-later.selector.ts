@@ -68,3 +68,26 @@ export const getSaveForLaterEntriesMap: MemoizedSelector<
   getSaveForLaterState,
   getEntriesSelector
 );
+
+export const getSaveForLaterEntrySelectorFactory = (
+  productCode
+): MemoizedSelector<any, OrderEntry> => {
+  return createSelector(
+    getSaveForLaterEntriesMap,
+    entries => {
+      if (entries) {
+        return entries[productCode];
+      }
+    }
+  );
+};
+
+export const getSaveForLaterEntries: MemoizedSelector<
+  any,
+  OrderEntry[]
+> = createSelector(
+  getSaveForLaterEntriesMap,
+  entities => {
+    return Object.keys(entities).map(code => entities[code]);
+  }
+);

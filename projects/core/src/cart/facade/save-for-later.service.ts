@@ -33,7 +33,7 @@ export class SaveForLaterService {
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.store.pipe(select(fromSelector.getEntries));
+    return this.store.pipe(select(fromSelector.getSaveForLaterEntries));
   }
 
   getLoaded(): Observable<boolean> {
