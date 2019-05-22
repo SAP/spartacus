@@ -28,15 +28,11 @@ export class ProductViewComponent {
     return `cx-product-${this.mode}`;
   }
 
-  /**
-   * Display icons inversely to allow users to
-   * see the view they will navigate to
-   */
   get viewMode() {
     if (this.mode === 'list') {
-      return this.iconTypes.GRID;
-    } else if (this.mode === 'grid') {
       return this.iconTypes.LIST;
+    } else if (this.mode === 'grid') {
+      return this.iconTypes.GRID;
     }
   }
 
