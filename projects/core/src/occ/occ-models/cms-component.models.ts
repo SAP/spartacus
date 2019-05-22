@@ -15,6 +15,7 @@ export interface CmsLinkComponent extends CmsComponent {
   contentPageLabelOrId?: string;
   linkName?: string;
   target?: boolean;
+  styleAttributes?: string;
 }
 
 export interface CmsSiteContextSelectorComponent extends CmsComponent {
