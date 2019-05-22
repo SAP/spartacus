@@ -37,4 +37,10 @@ export const checkout = {
   checkout: {
     backToCart: 'Back to cart',
   },
+  checkoutProgress: {
+    shippingAddress: 'Shipping Address',
+    deliveryMode: 'Delivery mode',
+    paymentDetails: 'Payment details',
+    reviewOrder: 'Review order',
+  },
 };

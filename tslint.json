@@ -1,6 +1,7 @@
 {
   "rulesDirectory": ["node_modules/codelyzer"],
   "rules": {
+    "no-unused-variable": true,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,

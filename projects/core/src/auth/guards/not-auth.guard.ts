@@ -12,8 +12,8 @@ export class NotAuthGuard implements CanActivate {
   static GUARD_NAME = 'NotAuthGuard';
 
   constructor(
-    private routingService: RoutingService,
-    private authService: AuthService
+    protected routingService: RoutingService,
+    protected authService: AuthService
   ) {}
 
   canActivate(): Observable<boolean> {
