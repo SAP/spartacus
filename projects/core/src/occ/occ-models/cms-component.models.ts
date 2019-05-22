@@ -1,6 +1,4 @@
-import { Component } from '../../model/cms.model';
-
-export type CmsComponent = Component;
+import { CmsComponent } from '../../model/cms.model';
 
 export interface CmsComponentList {
   component: CmsComponent[];

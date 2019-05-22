@@ -1,4 +1,4 @@
-export interface Component {
+export interface CmsComponent {
   modifiedtime?: Date;
   name?: string;
   otherProperties?: any;
