@@ -23,8 +23,8 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 

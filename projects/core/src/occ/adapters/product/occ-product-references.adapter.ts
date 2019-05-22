@@ -10,8 +10,8 @@ import { ProductReferencesAdapter } from '../../../product/connectors/references
 @Injectable()
 export class OccProductReferencesAdapter implements ProductReferencesAdapter {
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 

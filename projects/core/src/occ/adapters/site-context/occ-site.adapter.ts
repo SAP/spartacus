@@ -15,9 +15,9 @@ import {
 @Injectable()
 export class OccSiteAdapter implements SiteAdapter {
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
-    private converter: ConverterService
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
   loadLanguages(): Observable<Language[]> {

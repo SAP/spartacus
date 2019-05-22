@@ -20,7 +20,7 @@ const ENDPOINT_CARD_TYPES = 'cardtypes';
 export class OccCartPaymentAdapter implements CartPaymentAdapter {
   constructor(
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {
     if (typeof DOMParser !== 'undefined') {

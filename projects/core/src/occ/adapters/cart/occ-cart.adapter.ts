@@ -30,7 +30,7 @@ const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 export class OccCartAdapter implements CartAdapter {
   constructor(
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 

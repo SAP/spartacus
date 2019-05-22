@@ -13,7 +13,7 @@ import { CartModification } from '../../../model/cart.model';
 export class OccCartEntryAdapter implements CartEntryAdapter {
   constructor(
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 

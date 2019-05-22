@@ -10,8 +10,8 @@ import { Product } from '../../../model/product.model';
 @Injectable()
 export class OccProductAdapter implements ProductAdapter {
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 

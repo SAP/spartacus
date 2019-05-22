@@ -14,8 +14,8 @@ import { ProductReviewsAdapter } from '../../../product/connectors/reviews/produ
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 

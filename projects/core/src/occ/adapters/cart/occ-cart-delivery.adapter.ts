@@ -19,7 +19,7 @@ import { DeliveryMode } from '../../../model/order.model';
 export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
   constructor(
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 

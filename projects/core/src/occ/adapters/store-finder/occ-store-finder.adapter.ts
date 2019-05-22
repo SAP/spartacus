@@ -25,9 +25,9 @@ const STORES_ENDPOINT = 'stores';
 @Injectable()
 export class OccStoreFinderAdapter implements StoreFinderAdapter {
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
-    private converter: ConverterService
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
   search(
