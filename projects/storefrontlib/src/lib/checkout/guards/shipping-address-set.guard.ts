@@ -22,13 +22,13 @@ export class ShippingAddressSetGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
-      CheckoutStepType.shippingAddress
+      CheckoutStepType.SHIPPING_ADDRESS
     );
 
     if (!checkoutStep && !this.serverConfig.production) {
       console.warn(
         `Missing step with type ${
-          CheckoutStepType.shippingAddress
+          CheckoutStepType.SHIPPING_ADDRESS
         } in checkout configuration.`
       );
     }
@@ -41,8 +41,9 @@ export class ShippingAddressSetGuard implements CanActivate {
             ? true
             : this.router.parseUrl(
                 checkoutStep &&
-                  this.routingConfigService.getRouteConfig(checkoutStep.route)
-                    .paths[0]
+                  this.routingConfigService.getRouteConfig(
+                    checkoutStep.routeName
+                  ).paths[0]
               )
         )
       );
