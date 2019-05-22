@@ -37,7 +37,7 @@ class MockCartService {
   }
 }
 
-describe('CartPageTitleResolver', () => {
+describe('CartPageMetaResolver', () => {
   let service: CartPageMetaResolver;
 
   beforeEach(() => {

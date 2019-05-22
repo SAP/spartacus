@@ -69,7 +69,7 @@ class MockProductSearchService {
 }
 class MockRoutingService {}
 
-describe('CategoryPageTitleResolver', () => {
+describe('CategoryPageMetaResolver', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
 

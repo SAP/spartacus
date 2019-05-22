@@ -19,7 +19,7 @@ class MockCmsService {
   }
 }
 
-describe('ContentPageTitleResolver', () => {
+describe('ContentPageMetaResolver', () => {
   let service: ContentPageMetaResolver;
 
   beforeEach(() => {

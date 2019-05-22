@@ -9,6 +9,7 @@ import {
 } from '../../cms';
 import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
 import { Cart } from '../../model/cart.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockCart: Cart = {
   code: '1234',
@@ -21,12 +22,12 @@ class MockCartService {
   }
 }
 
-describe('CartPageTitleResolver', () => {
+describe('CheckoutPageMetaResolver', () => {
   let service: CheckoutPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CartService, useClass: MockCartService },
@@ -55,7 +56,7 @@ describe('CartPageTitleResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Checkout 5 items');
+    expect(result.title).toEqual('checkoutPage.heading count:5');
   });
 
   it('should resolve robots with nofollow,noindex', () => {
