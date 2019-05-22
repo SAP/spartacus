@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { ProductViewComponent } from './product-view.component';
+import { ProductViewComponent, ViewModes } from './product-view.component';
 
 @Component({
   selector: 'cx-icon',
@@ -26,6 +26,7 @@ describe('ProductViewComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductViewComponent);
     component = fixture.componentInstance;
+    component.mode = ViewModes.List;
     fixture.detectChanges();
   });
 
