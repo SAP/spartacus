@@ -73,7 +73,7 @@ describe('CartPageTitleResolver', () => {
       .unsubscribe();
 
     expect(result.title).toEqual(
-      'metaResolver:cartPage.heading code:1234 title:Shopping Cart'
+      'cartPage.heading code:1234 title:Shopping Cart'
     );
   });
 

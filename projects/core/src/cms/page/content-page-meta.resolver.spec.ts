@@ -53,7 +53,7 @@ describe('ContentPageTitleResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Page title');
+    expect(result.title).toEqual('contentPage.heading content:Page title');
   });
 
   it('should resolve one breadcrumb', () => {

@@ -123,7 +123,7 @@ describe('CategoryPageTitleResolver', () => {
         .unsubscribe();
 
       expect(result.title).toEqual(
-        'metaResolver:categoryPage.heading count:6 query:Hand-held Camcorders'
+        'categoryPage.heading count:6 query:Hand-held Camcorders'
       );
     });
 

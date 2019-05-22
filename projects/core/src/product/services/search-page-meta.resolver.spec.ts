@@ -122,7 +122,7 @@ describe('SearchPageTitleResolver', () => {
         })
         .unsubscribe();
 
-      expect(result.title).toEqual('3 results for "Canon"');
+      expect(result.title).toEqual('searchPage.heading query:Canon total:3');
     });
   });
 

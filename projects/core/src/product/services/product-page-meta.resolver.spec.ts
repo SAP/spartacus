@@ -99,7 +99,7 @@ describe('ProductPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.heading).toEqual('Product title');
+    expect(result.heading).toEqual('productPage.heading name:Product title');
   });
 
   it('should resolve product page title', () => {
@@ -111,7 +111,9 @@ describe('ProductPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Product title | one two three | Canon');
+    expect(result.title).toEqual(
+      'productPage.title title:Product title | one two three | Canon'
+    );
   });
 
   it('should resolve product description', () => {
@@ -123,7 +125,9 @@ describe('ProductPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.description).toEqual('Product summary');
+    expect(result.description).toEqual(
+      'productPage.description summary:Product summary'
+    );
   });
 
   it('should resolve 2 breadcrumbs', () => {
