@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserToken } from '../../models/token-types.model';
+import { USERID_CURRENT } from '../../util/auth-constants';
 import { Login } from '../actions/login-logout.action';
 import { UserTokenAction } from '../actions/user-token.action';
 import { UserAuthenticationTokenService } from './../../services/user-authentication/user-authentication-token.service';
@@ -19,7 +20,7 @@ export class UserTokenEffects {
         map((token: UserToken) => {
           const date = new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
-          token.userId = 'current';
+          token.userId = USERID_CURRENT;
           token.expiration_time = date;
           return new fromActions.LoadUserTokenSuccess(token);
         }),
