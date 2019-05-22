@@ -117,6 +117,18 @@
           Save for Later
         </button>
       </div>
+      <div class="col-md-3 col-lg-3 col-xl-2">
+        <button
+          class="link"
+          [class.disabled]="cartIsLoading"
+          [disabled]="cartIsLoading"
+          (click)="removeItem()"
+        >
+          {{ 'common.remove' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+    <div *ngIf="isReadOnly" class="cx-actions row col-12">
       <div *ngIf="isSavedForLater" class="col-md-3 col-lg-3 col-xl-3">
         <button
           class="link"

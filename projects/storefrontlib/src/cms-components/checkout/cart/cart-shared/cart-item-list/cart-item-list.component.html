@@ -27,9 +27,10 @@
         [isReadOnly]="isReadOnly"
         (remove)="removeEntry($event)"
         [cartIsLoading]="cartIsLoading"
+        [isSavedForLater]="isSavedForLater"
         (update)="updateEntry($event)"
-        (saveForLater)="saveForLater($event)"
-        (moveToCart)="moveToCart($event)"
+        (saveForLater)="saveItemForLater($event)"
+        (moveToCart)="moveItemToCart($event)"
       >
       </cx-cart-item>
     </div>

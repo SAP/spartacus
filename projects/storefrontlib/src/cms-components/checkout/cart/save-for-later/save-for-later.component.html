@@ -5,9 +5,11 @@
         Saved for later (2 items): $340.72
       </div>
       <cx-cart-item-list
-        [items]="sflEntries$"
+        [items]="entries"
         [cartIsLoading]="!(sflCartLoaded$ | async)"
+        [isReadOnly]="true"
         [potentialProductPromotions]="cart.potentialProductPromotions"
+        [isSavedForLater]="true"
       ></cx-cart-item-list>
     </div>
   </ng-container>
