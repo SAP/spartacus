@@ -2,10 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, ConfigModule } from '@spartacus/core';
-import {
-  CartComponentModule,
-  LogoutGuard,
-} from '../../../cms-components/index';
+import { LogoutGuard } from '../../../cms-components/index';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import {
   PageLayoutComponent,
@@ -28,7 +25,6 @@ const pageModules = [
     CommonModule,
     ...pageModules,
     PageLayoutModule,
-    CartComponentModule,
     RouterModule.forChild([
       {
         // This route can be dropped only when we have a mapping path to page label for content pages
