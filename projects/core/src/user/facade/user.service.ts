@@ -25,7 +25,7 @@ import {
 @Injectable()
 export class UserService {
   constructor(
-    private store: Store<
+    protected store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
     >
   ) {}
