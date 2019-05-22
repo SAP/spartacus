@@ -4,7 +4,6 @@ import { CartDataService } from '@spartacus/core';
 import { Address, AddressValidation } from '../../model/address.model';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
 import { DeliveryMode, Order } from '../../model/order.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromCheckout from '../store/index';
 import { CheckoutService } from './checkout.service';
 
@@ -321,9 +320,10 @@ describe('CheckoutService', () => {
 
   it('should be able to load checkout details', () => {
     const cartId = cart.code;
+    cartData.userId = userId;
     service.loadCheckoutDetails(cartId);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.LoadCheckoutDetails({ userId: USERID_CURRENT, cartId })
+      new fromCheckout.LoadCheckoutDetails({ userId, cartId })
     );
   });
 
