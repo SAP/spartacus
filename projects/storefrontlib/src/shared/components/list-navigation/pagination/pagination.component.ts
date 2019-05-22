@@ -19,10 +19,6 @@ export class PaginationComponent {
   @Input() pagination: PaginationModel;
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
-  hasPages(): boolean {
-    return this.pagination.totalPages > 0;
-  }
-
   getPagePrevious(): number {
     return this.pagination.currentPage;
   }
@@ -33,18 +29,6 @@ export class PaginationComponent {
 
   getPageIndicies(): Array<number> {
     return Array(this.pagination.totalPages);
-  }
-
-  onFirstPage(): boolean {
-    return this.pagination.currentPage === 0;
-  }
-
-  onLastPage(): boolean {
-    return this.pagination.currentPage === this.pagination.totalPages - 1;
-  }
-
-  onPageIndex(index: number): boolean {
-    return this.pagination.currentPage === index;
   }
 
   getPageWindowBottom(): number {
@@ -60,6 +44,22 @@ export class PaginationComponent {
         PAGE_WINDOW_SIZE +
       2
     );
+  }
+
+  hasPages(): boolean {
+    return this.pagination.totalPages > 0;
+  }
+
+  onFirstPage(): boolean {
+    return this.pagination.currentPage === 0;
+  }
+
+  onLastPage(): boolean {
+    return this.pagination.currentPage === this.pagination.totalPages - 1;
+  }
+
+  onPageIndex(index: number): boolean {
+    return this.pagination.currentPage === index;
   }
 
   hidePageIndex(index: number): boolean {
