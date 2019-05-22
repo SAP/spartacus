@@ -36,7 +36,7 @@ describe(`CheckoutGuard`, () => {
       expect(result.toString()).toEqual(
         `/${
           mockRoutingConfigService.getRouteConfig(
-            MockCheckoutConfig.checkout.steps[0].route
+            MockCheckoutConfig.checkout.steps[0].routeName
           ).paths[0]
         }`
       );

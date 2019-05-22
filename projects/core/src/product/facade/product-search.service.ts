@@ -16,8 +16,8 @@ import {
 @Injectable()
 export class ProductSearchService {
   constructor(
-    private store: Store<fromStore.StateWithProduct>,
-    private router: Router
+    protected store: Store<fromStore.StateWithProduct>,
+    protected router: Router
   ) {}
 
   search(query: string, searchConfig?: SearchConfig): void {

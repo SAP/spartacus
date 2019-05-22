@@ -33,7 +33,6 @@ describe('CartNotEmptyGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CartNotEmptyGuard,
         {
           provide: RoutingService,
           useValue: mockRoutingService,

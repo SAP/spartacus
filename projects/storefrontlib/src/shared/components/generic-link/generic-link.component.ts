@@ -18,6 +18,10 @@ export class GenericLinkComponent {
   @Input() style: string;
   @Input() title: string;
 
+  get rel() {
+    return this.target === '_blank' ? 'noopener' : null;
+  }
+
   get routerUrl(): any[] {
     if (typeof this.url === 'string') {
       return [this.getAbsoluteUrl(this.url)];
