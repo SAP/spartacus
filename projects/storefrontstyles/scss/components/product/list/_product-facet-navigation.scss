@@ -57,10 +57,20 @@
     border-color: var(--cx-border-color, var(--cx-g-color-light));
     @include type(4);
     color: var(--cx-color, var(--cx-g-color-text));
-    padding: var(--cx-padding, 0 0 10px 0);
     margin: var(--cx-margin, 0 0 17px 0);
     display: var(--cx-display, block);
     font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi, 600));
+
+    &-link {
+      padding: var(--cx-padding, 5px);
+      display: block;
+      cursor: pointer;
+      transition: var(--cx-transition, 0.3s);
+
+      &:hover {
+        background-color: var(--cx-background-color, var(--cx-g-color-light));
+      }
+    }
 
     .fa-minus {
       float: var(--cx-float, right);
