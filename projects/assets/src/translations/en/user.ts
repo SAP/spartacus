@@ -69,7 +69,6 @@ export const user = {
     titleRequired: 'Title is required.',
   },
   login: {
-    // pick another name or move it to common?
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
   },
