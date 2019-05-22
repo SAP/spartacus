@@ -8,6 +8,7 @@ import {
   StoreFinderService,
 } from '@spartacus/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
+import { IconModule } from '../../../misc';
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
@@ -91,6 +92,7 @@ describe('StoreFinderListItemComponent', () => {
         ReactiveFormsModule,
         NgbTabsetModule,
         I18nTestingModule,
+        IconModule,
       ],
       declarations: [StoreFinderListItemComponent],
       providers: [StoreFinderService, StoreDataService],
