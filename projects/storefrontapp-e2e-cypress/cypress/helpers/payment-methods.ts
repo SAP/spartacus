@@ -54,7 +54,7 @@ export function paymentDetailCard() {
   fillShippingAddress(user);
 
   // set delivery method
-  cy.get('#deliveryMode-standard-gross').check();
+  cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click();
 
   // fill in payment method
@@ -85,7 +85,7 @@ export function addSecondaryPaymentCard() {
   cy.get('button.btn-primary').click();
 
   // set delivery method
-  cy.get('#deliveryMode-standard-gross').check();
+  cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click();
 
   // fill in payment method
@@ -103,7 +103,7 @@ export function setSecondPaymentToDefault() {
   cy.getByText('Set as default').click();
 
   const firstCard = cy.get('.cx-payment-card').first();
-  firstCard.should('contain', 'DEFAULT');
+  firstCard.should('contain', 'Default Payment Method');
   firstCard.should('contain', 'Bar Foo');
 }
 
@@ -114,7 +114,7 @@ export function deletePayment() {
   // cy.get('.card-link').click({ force: true });
 
   // should see confirmation message
-  cy.get('.cx-card-body__delete-msg').should(
+  cy.get('.cx-card-delete-msg').should(
     'contain',
     'Are you sure you want to delete this payment method?'
   );
@@ -131,14 +131,12 @@ export function deletePayment() {
   cy.getByText('Delete')
     .first()
     .click();
-  cy.get('.btn-primary').should('contain', 'delete');
+  cy.get('.btn-primary').should('contain', 'Delete');
   cy.get('.btn-primary').click();
   cy.get('.cx-payment-card').should('have.length', 1);
 
   // verify remaining address is now the default one
   const defaultCard = cy.get('.cx-payment-card');
-  // After bug https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/1905 is fixed,
-  // change the assertion to be 'DEFAULT'
-  defaultCard.should('contain', 'Set as default');
+  defaultCard.should('contain', 'DEFAULT');
   defaultCard.should('contain', 'Winston Rumfoord');
 }

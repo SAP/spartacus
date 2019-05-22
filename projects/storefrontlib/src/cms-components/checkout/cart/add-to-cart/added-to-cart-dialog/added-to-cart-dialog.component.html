@@ -15,7 +15,9 @@
         aria-label="Close"
         (click)="activeModal.dismiss('Cross click')"
       >
-        <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+        </span>
       </button>
     </div>
     <!-- Modal Body -->
@@ -30,6 +32,7 @@
             [cartIsLoading]="!loaded"
             (remove)="removeEntry($event)"
             (update)="updateEntry($event)"
+            (view)="activeModal.dismiss('Product selected')"
           ></cx-cart-item>
         </div>
         <!-- Separator -->
@@ -51,15 +54,15 @@
           <div class="cx-dialog-buttons">
             <a
               [class.disabled]="form.dirty"
-              [routerLink]="{ route: 'cart' } | cxUrl"
+              [routerLink]="{ cxRoute: 'cart' } | cxUrl"
               class="btn btn-primary"
-              ngbAutoFocus
+              cxAutoFocus
               (click)="!form.dirty && activeModal.dismiss('View Cart click')"
               >{{ 'addToCart.viewCart' | cxTranslate }}</a
             >
             <a
               [class.disabled]="form.dirty"
-              [routerLink]="{ route: 'checkout' } | cxUrl"
+              [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
               class="btn btn-secondary"
               (click)="
                 !form.dirty && activeModal.dismiss('Proceed To Checkout click')
@@ -83,7 +86,9 @@
         aria-label="Close"
         (click)="activeModal.dismiss('Cross click')"
       >
-        <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+        </span>
       </button>
     </div>
     <!-- Modal Body -->

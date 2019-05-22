@@ -13,7 +13,7 @@ export const defaultI18nConfig: I18nConfig = {
         'sorting',
         'httpHandlers',
       ],
-      cart: ['cartDetails', 'cartItems', 'orderCost'],
+      cart: ['cartDetails', 'cartItems', 'orderCost', 'miniCart'],
       address: ['addressForm', 'addressBook', 'addressCard'],
       payment: ['paymentForm', 'paymentMethods', 'paymentCard'],
       metaResolver: [
@@ -22,9 +22,9 @@ export const defaultI18nConfig: I18nConfig = {
         'checkoutPage',
         'cartPage',
         'searchPage',
-        'productPage',
+        'productPage'
       ],
-      myAccount: ['orderDetails', 'orderHistory'],
+      myAccount: ['orderDetails', 'orderHistory', 'closeAccount'],
       storeFinder: ['storeFinder'],
       pwa: ['pwa'],
       checkout: [
@@ -33,6 +33,7 @@ export const defaultI18nConfig: I18nConfig = {
         'checkoutOrderConfirmation',
         'checkoutReview',
         'checkoutShipping',
+        'checkoutProgress',
       ],
       product: [
         'productDetails',
@@ -50,6 +51,7 @@ export const defaultI18nConfig: I18nConfig = {
         'updateEmailForm',
         'updatePasswordForm',
         'updateProfileForm',
+        'consentManagementForm',
       ],
     },
   },

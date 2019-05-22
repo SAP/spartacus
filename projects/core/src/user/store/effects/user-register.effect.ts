@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/user-register.action';
 import { LoadUserToken, Logout } from '../../../auth/index';
 import { UserRegisterFormData } from '../../../user/model/user.model';
-import { OccUserService } from '../../../user/occ/index';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 
 @Injectable()
 export class UserRegisterEffects {
@@ -19,7 +19,7 @@ export class UserRegisterEffects {
     ofType(fromActions.REGISTER_USER),
     map((action: fromActions.RegisterUser) => action.payload),
     mergeMap((user: UserRegisterFormData) => {
-      return this.userService.registerUser(user).pipe(
+      return this.userAccountConnector.register(user).pipe(
         switchMap(_result => [
           new LoadUserToken({
             userId: user.uid,
@@ -39,7 +39,7 @@ export class UserRegisterEffects {
     ofType(fromActions.REMOVE_USER),
     map((action: fromActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
-      return this.userService.removeUser(userId).pipe(
+      return this.userAccountConnector.remove(userId).pipe(
         switchMap(_result => [
           new fromActions.RemoveUserSuccess(),
           new Logout(),
@@ -49,5 +49,8 @@ export class UserRegisterEffects {
     })
   );
 
-  constructor(private actions$: Actions, private userService: OccUserService) {}
+  constructor(
+    private actions$: Actions,
+    private userAccountConnector: UserAccountConnector
+  ) {}
 }

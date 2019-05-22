@@ -1,11 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   Output,
-  ChangeDetectionStrategy,
-  EventEmitter,
 } from '@angular/core';
-import { ICON_TYPES } from '../../../misc/icon';
+import { ICON_TYPE } from '../../../misc/icon';
 
 export enum ViewModes {
   Grid = 'grid',
@@ -18,7 +18,7 @@ export enum ViewModes {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductViewComponent {
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
   @Input()
   mode: ViewModes;
   @Output()
@@ -30,9 +30,9 @@ export class ProductViewComponent {
 
   get viewMode() {
     if (this.mode === 'list') {
-      return this.iconTypes.LIST_MODE;
+      return this.iconTypes.LIST;
     } else if (this.mode === 'grid') {
-      return this.iconTypes.GRID_MODE;
+      return this.iconTypes.GRID;
     }
   }
 

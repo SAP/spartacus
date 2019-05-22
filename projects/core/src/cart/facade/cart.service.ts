@@ -18,9 +18,9 @@ export class CartService {
   private callback: Function;
 
   constructor(
-    private store: Store<StateWithCart>,
-    private cartData: CartDataService,
-    private authService: AuthService
+    protected store: Store<StateWithCart>,
+    protected cartData: CartDataService,
+    protected authService: AuthService
   ) {
     this.init();
   }

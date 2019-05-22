@@ -22,7 +22,7 @@ export function productRatingFlow(mobile?: string) {
   cy.get('.page-item:last-of-type .page-link:first').click();
   cy.get('.page-item.active > .page-link').should('contain', '2');
 
-  cy.get('cx-product-list-item:nth-child(1)').should('contain', 'DSC-W180');
+  cy.get('cx-product-list-item:nth-child(1)').should('contain', 'DSC-WX1');
 
   // Sort by top rated
   cy.get('cx-sorting .ng-select:first').ngSelect(

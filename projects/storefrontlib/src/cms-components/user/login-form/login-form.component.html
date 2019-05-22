@@ -40,7 +40,7 @@
   </div>
   <p>
     <a
-      [routerLink]="{ route: 'forgotPassword' } | cxUrl"
+      [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
       aria-controls="reset-password"
       class="btn-link"
       >{{ 'loginForm.forgotPassword' | cxTranslate }}</a
@@ -57,11 +57,11 @@
 </form>
 
 <div class="register">
-  <h3 class="cx-section__title cx-section__title--alt">
+  <h3 class="cx-section-title cx-section-title-alt">
     {{ 'loginForm.dontHaveAccount' | cxTranslate }}
   </h3>
   <a
-    [routerLink]="{ route: 'register' } | cxUrl"
+    [routerLink]="{ cxRoute: 'register' } | cxUrl"
     class="btn btn-block btn-secondary"
     >{{ 'loginForm.register' | cxTranslate }}</a
   >

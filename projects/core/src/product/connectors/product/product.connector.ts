@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductAdapter } from './product.adapter';
 import { Product } from '../../../model/product.model';
+import { ProductAdapter } from './product.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductConnector {
-  constructor(private adapter: ProductAdapter) {}
+  constructor(protected adapter: ProductAdapter) {}
 
   get(productCode: string): Observable<Product> {
     return this.adapter.load(productCode);

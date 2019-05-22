@@ -29,27 +29,34 @@ export class MediaService {
     },
   ];
 
-  getImage(media, format?: string, alt?: string): Media {
+  getMedia(container, format?: string, alt?: string): Media {
     return {
-      src: this.getMainImage(media, format),
-      srcset: this.getSrcSet(media),
-      alt: alt || this.getAlt(media, format),
+      src: this.getMainImage(container, format),
+      srcset: this.getSrcSet(container),
+      alt: alt || this.getAlt(container, format),
     };
   }
 
-  getMissingImage(): string {
+  getMissingImage(alt?: string): Media {
+    return {
+      src: this.getMissingImageSrc(),
+      alt: alt || undefined,
+    };
+  }
+
+  private getMissingImageSrc() {
     return missingProductImgSrc;
   }
 
   private getMainImage(media, format?: string): string {
     if (!media) {
-      return this.getMissingImage();
+      return this.getMissingImageSrc();
     } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
     } else if (media.url) {
       return this.getImageUrl(media.url);
     } else {
-      return this.getMissingImage();
+      return this.getMissingImageSrc();
     }
   }
 

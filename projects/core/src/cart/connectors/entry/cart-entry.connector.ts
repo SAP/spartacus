@@ -7,7 +7,7 @@ import { CartModification } from '../../../model/cart.model';
   providedIn: 'root',
 })
 export class CartEntryConnector {
-  constructor(private adapter: CartEntryAdapter) {}
+  constructor(protected adapter: CartEntryAdapter) {}
 
   public add(
     userId: string,

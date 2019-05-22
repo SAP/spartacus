@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import {
   AuthModule,
   ConfigModule,
@@ -11,12 +12,11 @@ import {
   StateModule,
 } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/index';
-import { MultiStepCheckoutModule } from './checkout/index';
-import { CmsRouteModule } from './cms-route/cms-route.module';
-import { CmsModule } from './cms/index';
+import { CmsModule } from '../cms-structure/cms.module';
+import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
+import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './storefront-config';
-import { SuffixRoutesModule } from './suffix-routes/suffix-routes.module';
 import { UiModule } from './ui/index';
 
 @NgModule({
@@ -33,7 +33,6 @@ import { UiModule } from './ui/index';
     CxApiModule,
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
-    MultiStepCheckoutModule,
     I18nModule.forRoot(),
   ],
   exports: [UiModule],

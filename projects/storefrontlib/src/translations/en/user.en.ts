@@ -83,7 +83,7 @@ export const user = {
       placeholder: 'Enter email',
     },
     enterValidEmail: 'Please enter a valid email.',
-    bothPasswordMustMatch: 'Both password must match',
+    bothEmailMustMatch: 'Both emails must match',
     password: {
       label: 'Password',
       placeholder: 'Enter password',
@@ -124,5 +124,13 @@ export const user = {
     },
     lastNameIsRequired: 'Last name is required.',
     profileUpdateSuccess: 'Personal details successfully updated',
+  },
+  consentManagementForm: {
+    message: {
+      success: {
+        given: 'Consent successfully given.',
+        withdrawn: 'Consent successfully withdrawn.',
+      },
+    },
   },
 };

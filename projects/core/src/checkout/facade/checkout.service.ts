@@ -15,8 +15,8 @@ import { Address, AddressValidation } from '../../model/address.model';
 @Injectable()
 export class CheckoutService {
   constructor(
-    private checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
-    private cartData: CartDataService
+    protected checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
+    protected cartData: CartDataService
   ) {}
 
   /**
@@ -254,7 +254,7 @@ export class CheckoutService {
     );
   }
 
-  private actionAllowed(): boolean {
+  protected actionAllowed(): boolean {
     return this.cartData.userId !== ANONYMOUS_USERID;
   }
 }

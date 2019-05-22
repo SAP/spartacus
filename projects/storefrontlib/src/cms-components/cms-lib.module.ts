@@ -11,6 +11,7 @@ import { SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
+  ConsentManagementModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
@@ -30,9 +31,11 @@ import {
 import {
   ProductCarouselModule,
   ProductListModule,
+  ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
 import { StoreFinderModule } from './storefinder/index';
+import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
 
 @NgModule({
   imports: [
@@ -52,15 +55,18 @@ import { StoreFinderModule } from './storefinder/index';
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
+    ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
-    CartComponentModule,
+    ConsentManagementModule,
     CloseAccountModule,
+    CartComponentModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
   ],

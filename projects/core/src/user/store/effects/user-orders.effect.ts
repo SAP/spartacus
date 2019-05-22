@@ -10,14 +10,14 @@ import { USER_ORDERS } from '../user-state';
 import { CLEAR_MISCS_DATA } from '../actions/index';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { LoaderResetAction } from '../../../state';
-import { OccOrderService } from '../../occ/index';
 import { OrderHistoryList } from '../../../model/order.model';
+import { OrderConnector } from '../../connectors/order/order.connector';
 
 @Injectable()
 export class UserOrdersEffect {
   constructor(
     private actions$: Actions,
-    private occOrderService: OccOrderService
+    private orderConnector: OrderConnector
   ) {}
 
   @Effect()
@@ -27,8 +27,8 @@ export class UserOrdersEffect {
     ofType(fromUserOrdersAction.LOAD_USER_ORDERS),
     map((action: fromUserOrdersAction.LoadUserOrders) => action.payload),
     switchMap(payload => {
-      return this.occOrderService
-        .getOrders(
+      return this.orderConnector
+        .getHistory(
           payload.userId,
           payload.pageSize,
           payload.currentPage,

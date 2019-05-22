@@ -28,4 +28,11 @@ export const myAccount = {
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
   },
+  closeAccount: {
+    confirmAccountClosure: 'Confirm Account Closure',
+    confirmAccountClosureMessage:
+      'Are you sure you want to close your account?',
+    closeMyAccount: 'CLOSE MY ACCOUNT',
+    accountClosedSuccessfully: 'Account closed with success',
+  },
 };
