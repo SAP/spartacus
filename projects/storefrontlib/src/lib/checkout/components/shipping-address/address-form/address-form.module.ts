@@ -7,6 +7,7 @@ import { I18nModule } from '@spartacus/core';
 import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { IconModule } from '../../../../../cms-components/misc/icon/index';
+import { AutoFocusDirectiveModule } from '../../../../../shared/directives/auto-focus/auto-focus.directive.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { IconModule } from '../../../../../cms-components/misc/icon/index';
     NgSelectModule,
     IconModule,
     I18nModule,
+    AutoFocusDirectiveModule,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
   entryComponents: [SuggestedAddressDialogComponent],

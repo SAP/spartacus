@@ -10,6 +10,7 @@
     (focus)="onFocus($event)"
   >
     <button
+      #decrementBtn
       type="button"
       class="cx-counter-action"
       (click)="decrement()"
@@ -31,6 +32,7 @@
       {{ value }}
     </div>
     <button
+      #incrementBtn
       type="button"
       class="cx-counter-action"
       (click)="increment()"
