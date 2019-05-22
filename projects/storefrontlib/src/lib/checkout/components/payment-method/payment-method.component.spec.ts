@@ -43,8 +43,8 @@ const mockPaymentDetails: PaymentDetails = {
 const mockCheckoutStep: CheckoutStep = {
   id: 'payment-method',
   name: 'Payment method',
-  route: 'checkoutPaymentDetails',
-  type: [CheckoutStepType.paymentDetails],
+  routeName: 'checkoutPaymentDetails',
+  type: [CheckoutStepType.PAYMENT_DETAILS],
 };
 
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
@@ -288,7 +288,8 @@ describe('PaymentMethodComponent', () => {
 
   it('should call back()', () => {
     component.checkoutStepUrlPrevious = `/${
-      mockRoutingConfigService.getRouteConfig(mockCheckoutStep.route).paths[0]
+      mockRoutingConfigService.getRouteConfig(mockCheckoutStep.routeName)
+        .paths[0]
     }`;
     component.back();
 

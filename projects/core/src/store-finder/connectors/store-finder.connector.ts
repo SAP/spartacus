@@ -5,12 +5,12 @@ import { StoreFinderAdapter } from './store-finder.adapter';
 import { PointOfService } from '../../model/point-of-service.model';
 import { GeoPoint } from '../../model/misc.model';
 import {
-  StoreFinderSearchPage,
   StoreCount,
+  StoreFinderSearchPage,
 } from '../../model/store-finder.model';
 
 @Injectable({ providedIn: 'root' })
-export abstract class StoreFinderConnector {
+export class StoreFinderConnector {
   constructor(protected adapter: StoreFinderAdapter) {}
 
   search(
