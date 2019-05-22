@@ -3,8 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { PageType } from '../../../model/cms.model';
-import { CmsComponent, CmsComponentList } from '../../occ-models';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { CmsComponentList } from '../../occ-models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
