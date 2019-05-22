@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { CurrentProductService } from '../../current-product.service';
 import { Observable } from 'rxjs';
+import { CurrentProductService } from '../../current-product.service';
 
 @Component({
-  selector: 'cx-product-attributes',
-  templateUrl: './product-attributes.component.html',
+  selector: 'cx-product-details-tab',
+  templateUrl: './product-details-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductAttributesComponent implements OnInit {
+export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product>;
 
   constructor(protected currentProductService: CurrentProductService) {}
