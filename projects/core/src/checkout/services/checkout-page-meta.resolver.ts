@@ -37,7 +37,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
 
   resolveTitle(cart: Cart): Observable<string> {
     return this.translation.translate('checkoutPage.heading', {
-      items: cart.totalItems,
+      count: cart.totalItems,
     });
   }
 

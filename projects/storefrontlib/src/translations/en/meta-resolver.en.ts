@@ -7,8 +7,8 @@ export const metaResolver = {
     heading: '{{content}}',
   },
   checkoutPage: {
-    heading: 'Checkout {{items}} item',
-    heading_plural: 'Checkout {{items}} items',
+    heading: 'Checkout {{count}} item',
+    heading_plural: 'Checkout {{count}} items',
   },
   cartPage: {
     heading: '{{title}} ({{code}})',
