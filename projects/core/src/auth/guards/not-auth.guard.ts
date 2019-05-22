@@ -28,7 +28,6 @@ export class NotAuthGuard implements CanActivate {
     _route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    // report the current navigation in case if we want to redirect back after login:
     const url = state.url;
     const lastActivatedUrl = this.router.url;
     const navigationId = this.router.getCurrentNavigation().id;

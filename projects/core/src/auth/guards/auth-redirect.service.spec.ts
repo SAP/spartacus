@@ -44,7 +44,7 @@ describe('AuthRedirectService', () => {
       });
     });
 
-    describe(', when opened sequentially to two urls with NotAuthGuard,', () => {
+    describe(', when just opened sequentially two urls with NotAuthGuard,', () => {
       beforeEach(() => {
         service.reportNotAuthGuard('/test', '/login', 1);
         service.reportNotAuthGuard('/login', '/register', 2);
@@ -56,7 +56,7 @@ describe('AuthRedirectService', () => {
       });
     });
 
-    describe(', when AuthGuard blocked url, user was redirected to url with NotAuthGuard,', () => {
+    describe(', when AuthGuard just blocked url and redirected to url with NotAuthGuard,', () => {
       beforeEach(() => {
         service.reportAuthGuard('/my-account', 1);
         service.reportNotAuthGuard('/test', '/register', 2);
@@ -75,7 +75,7 @@ describe('AuthRedirectService', () => {
         service.redirect();
       });
 
-      it('should redirect to the manually opened url', () => {
+      it('should redirect to the previous url', () => {
         expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
       });
     });
