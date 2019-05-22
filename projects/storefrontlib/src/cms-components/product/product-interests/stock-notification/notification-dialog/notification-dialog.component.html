@@ -20,7 +20,9 @@
           'stockNotification.subscriptionDialog.notifiedPrefix' | cxTranslate
         }}
       </p>
-      <p *ngFor="let ch of selectedChannels">{{ ch }}</p>
+      <p *ngFor="let ch of selectedChannels">
+        {{ ch.channel + ': ' + ch.value }}
+      </p>
       <p>
         {{
           'stockNotification.subscriptionDialog.notifiedSuffix' | cxTranslate

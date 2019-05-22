@@ -1,6 +1,6 @@
 <ng-container *ngIf="(logged$ | async); else anonymous">
-  <ng-container *ngIf="!(subscribed$ | async); else unsubcrible">
-    <ng-container *ngIf="!(channelEnabled$ | async); else subcrible">
+  <ng-container *ngIf="!(subscribed$ | async); else stop_notify">
+    <ng-container *ngIf="!(channelEnabled$ | async); else notifyMe">
       <div>
         {{ 'stockNotification.activateChannelsPrefix' | cxTranslate }}
         <a [routerLink]="{ route: 'notificationPreference' } | cxUrl">
@@ -18,14 +18,14 @@
   </ng-container>
 </ng-container>
 
-<ng-template #unsubcrible>
+<ng-template #stop_notify>
   <ng-container *ngIf="!(unsubscribeLoading$ | async); else loading">
     <div>
       {{ 'stockNotification.notified' | cxTranslate }}
       <button
         class="btn btn-primary btn-block"
         type="button"
-        (click)="unsubscribe()"
+        (click)="stopNotify()"
       >
         {{ 'stockNotification.stopNotify' | cxTranslate }}
       </button>
@@ -33,14 +33,10 @@
   </ng-container>
 </ng-template>
 
-<ng-template #subcrible>
+<ng-template #notifyMe>
   <div>
     {{ 'stockNotification.getNotified' | cxTranslate }}
-    <button
-      class="btn btn-primary btn-block"
-      type="button"
-      (click)="subscribe()"
-    >
+    <button class="btn btn-primary btn-block" type="button" (click)="notify()">
       {{ 'stockNotification.notifyMe' | cxTranslate }}
     </button>
   </div>

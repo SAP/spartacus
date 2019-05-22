@@ -23,7 +23,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   productCode: string;
 
   userId: string;
-  enabledChannels: string[] = [];
+  enabledChannels: any[] = [];
   modalInstance: any;
 
   logged$: Observable<boolean>;
@@ -55,34 +55,22 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
             this.productCode,
             NotificationType.BACK_IN_STOCK
           );
-          this.channelEnabled$ = this.http
-            .get<any>(this.notificationPrefUrl)
-            .pipe(
-              map((r: any) => {
-                this.enabledChannels.splice(0, this.enabledChannels.length);
-                r.preferences.forEach((p: any) => {
-                  if (p.enabled) {
-                    this.enabledChannels.push(p.channel);
-                  }
-                });
-                return this.enabledChannels.length > 0;
-              })
-            );
         }
+        this.channelEnabled$ = this.http
+          .get<any>(this.notificationPrefUrl)
+          .pipe(
+            map((r: any) => {
+              this.enabledChannels.splice(0, this.enabledChannels.length);
+              r.preferences.forEach((p: any) => {
+                if (p.enabled) {
+                  this.enabledChannels.push(p);
+                }
+              });
+              return this.enabledChannels.length > 0;
+            })
+          );
       }),
       map(userId => !!userId)
-    );
-
-    this.channelEnabled$ = this.http.get<any>(this.notificationPrefUrl).pipe(
-      map((r: any) => {
-        this.enabledChannels.splice(0, this.enabledChannels.length);
-        r.preferences.forEach((p: any) => {
-          if (p.enabled) {
-            this.enabledChannels.push(p.channel);
-          }
-        });
-        return this.enabledChannels.length > 0;
-      })
     );
 
     this.subscribed$ = this.productInterestService.getBackInStockSubscribed();
@@ -95,7 +83,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     );
   }
 
-  subscribe(): void {
+  notify(): void {
     this.openDialog();
     this.productInterestService.createBackInStock(
       this.userId,
@@ -104,7 +92,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     );
   }
 
-  unsubscribe(): void {
+  stopNotify(): void {
     this.productInterestService.deleteBackInStock(
       this.userId,
       this.productCode,

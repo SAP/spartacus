@@ -8,7 +8,7 @@ import { ProductInterestService } from '@spartacus/core';
   templateUrl: './notification-dialog.component.html',
 })
 export class NotificationDialogComponent implements OnDestroy {
-  selectedChannels: string[];
+  selectedChannels: any[];
   subscribeSuccess$: Observable<boolean>;
 
   constructor(
