@@ -9,7 +9,7 @@ import { CurrencyService } from './currency.service';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { EffectsModule } from '@ngrx/effects';
 import { Currency } from '../../model/misc.model';
-import { SiteAdapter } from '../connectors/site.adapter';
+import { SiteConnector } from '../connectors/site.connector';
 import createSpy = jasmine.createSpy;
 
 const mockCurrencies: Currency[] = [
@@ -17,6 +17,16 @@ const mockCurrencies: Currency[] = [
 ];
 
 const mockActiveCurr = 'USD';
+
+class MockSiteConnector {
+  getCurrencies() {
+    return of([]);
+  }
+
+  getLanguages() {
+    return of([]);
+  }
+}
 
 describe('CurrencyService', () => {
   const mockSelect0 = createSpy('select').and.returnValue(() => of(undefined));
@@ -37,7 +47,10 @@ describe('CurrencyService', () => {
         EffectsModule.forRoot([]),
         SiteContextStoreModule,
       ],
-      providers: [CurrencyService, { provide: SiteAdapter, useValue: {} }],
+      providers: [
+        CurrencyService,
+        { provide: SiteConnector, useClass: MockSiteConnector },
+      ],
     });
 
     store = TestBed.get(Store);

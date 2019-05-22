@@ -24,13 +24,15 @@ export class CheckoutConfigService {
 
     let stepIndex: number;
     this.steps.forEach((step, index) => {
-      if (currentStepUrl === `/${this.getStepUrlFromStepRoute(step.route)}`) {
+      if (
+        currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
+      ) {
         stepIndex = index;
       }
     });
 
     return stepIndex >= 0 && this.steps[stepIndex + 1]
-      ? this.getStepUrlFromStepRoute(this.steps[stepIndex + 1].route)
+      ? this.getStepUrlFromStepRoute(this.steps[stepIndex + 1].routeName)
       : null;
   }
 
@@ -41,13 +43,15 @@ export class CheckoutConfigService {
 
     let stepIndex: number;
     this.steps.forEach((step, index) => {
-      if (currentStepUrl === `/${this.getStepUrlFromStepRoute(step.route)}`) {
+      if (
+        currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
+      ) {
         stepIndex = index;
       }
     });
 
     return stepIndex >= 1 && this.steps[stepIndex - 1]
-      ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].route)
+      ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].routeName)
       : null;
   }
 
