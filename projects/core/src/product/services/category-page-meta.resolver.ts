@@ -53,7 +53,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(data: ProductSearchPage): Observable<string> {
-    return this.translation.translate('metaResolver:categoryPage.heading', {
+    return this.translation.translate('categoryPage.heading', {
       count: data.pagination.totalResults,
       query: data.breadcrumbs[0].facetValueName,
     });

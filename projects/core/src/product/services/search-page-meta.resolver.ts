@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
@@ -47,8 +47,7 @@ export class SearchPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(total: number, query: string): Observable<string> {
-    return of(`${total} results for "${query}"`);
-    return this.translation.translate('metaResolver:searchPage.heading', {
+    return this.translation.translate('searchPage.heading', {
       total: total,
       query: query,
     });

@@ -40,11 +40,11 @@ export class CartPageMetaResolver extends PageMetaResolver
     return this.cartService.getActive().pipe(
       switchMap(cart =>
         cart && cart.code
-          ? this.translation.translate('metaResolver:cartPage.heading', {
+          ? this.translation.translate('cartPage.heading', {
               title: page.title,
               code: cart.code,
             })
-          : this.translation.translate('metaResolver:cartPage.heading', {
+          : this.translation.translate('cartPage.heading', {
               title: page.title,
               code: '',
             })
