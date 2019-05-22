@@ -7,12 +7,15 @@ import { ContentSlotComponentData } from '../../../../cms/model/content-slot-com
 import { ContentSlotData } from '../../../../cms/model/content-slot-data.model';
 import { CmsStructureModel } from '../../../../cms/model/page.model';
 import { Converter } from '../../../../util/converter.service';
-import { CMSPage } from '../../../../model/cms.model';
+import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable()
 export class OccCmsPageNormalizer
-  implements Converter<CMSPage, CmsStructureModel> {
-  convert(source: CMSPage, target: CmsStructureModel = {}): CmsStructureModel {
+  implements Converter<Occ.CMSPage, CmsStructureModel> {
+  convert(
+    source: Occ.CMSPage,
+    target: CmsStructureModel = {}
+  ): CmsStructureModel {
     this.normalizePageData(source, target);
     this.normalizePageSlotData(source, target);
     this.normalizePageComponentData(source, target);
