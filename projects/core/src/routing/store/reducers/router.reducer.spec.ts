@@ -188,26 +188,28 @@ describe('Router Reducer', () => {
     });
 
     describe('ROUTER_ERROR', () => {
-      it('should should populate the state and the navigationId', () => {
+      it('should clear next state', () => {
         const { initialState } = fromReducer;
+        const beforeState = { ...initialState, nextState: initialState.state };
         const action = {
           ...templateAction,
           type: fromNgrxRouter.ROUTER_ERROR,
         };
-        const state = fromReducer.reducer(initialState, action);
-        expect(state.state).toBe(action.payload.routerState);
+        const state = fromReducer.reducer(beforeState, action);
+        expect(state.nextState).toBe(undefined);
       });
     });
 
     describe('ROUTER_CANCEL', () => {
-      it('should should populate the state and the navigationId', () => {
+      it('should clear next state', () => {
         const { initialState } = fromReducer;
+        const beforeState = { ...initialState, nextState: initialState.state };
         const action = {
           ...templateAction,
           type: fromNgrxRouter.ROUTER_CANCEL,
         };
-        const state = fromReducer.reducer(initialState, action);
-        expect(state.state).toBe(action.payload.routerState);
+        const state = fromReducer.reducer(beforeState, action);
+        expect(state.nextState).toBe(undefined);
       });
     });
   });
