@@ -50,7 +50,7 @@ describe('BackAfterAuthGuard', () => {
 
   it('should notify AuthRedirectService with previous url and current url', () => {
     guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
-    expect(service.reportNavigationToAuthUrl).toHaveBeenCalledWith(
+    expect(service.reportNotAuthGuard).toHaveBeenCalledWith(
       '/previous-url',
       '/current-url',
       123

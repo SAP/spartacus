@@ -36,10 +36,7 @@ export class AuthGuard implements CanActivate {
           this.routingService.go({ cxRoute: 'login' });
 
           const navigationId = this.router.getCurrentNavigation().id;
-          this.authRedirectService.reportAuthGuardedUrl(
-            state.url,
-            navigationId
-          );
+          this.authRedirectService.reportAuthGuard(state.url, navigationId);
         }
         return !!token.access_token;
       })

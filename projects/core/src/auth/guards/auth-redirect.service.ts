@@ -6,60 +6,60 @@ import { RoutingService } from '../../routing/facade/routing.service';
   providedIn: 'root',
 })
 export class AuthRedirectService {
+  /**
+   * This service is responsible for redirecting to the last page before authorization. "The last page" can be:
+   * 1. Just the previously opened page; or
+   * 2. The page that we just tried to open, but AuthGuard cancelled it
+   *
+   * For example:
+   * 1. The user opens the product page, then clicks /login link and signs in
+   *    -> Then we should redirect to the product page; or
+   * 2. The user opens the product page, then he clicks /my-account link,
+   *    but is automatically redirected to the login page by the AuthGuard, and he signs in
+   *    -> Then we should redirect to the my-account page, not the product page
+   */
   constructor(private routing: RoutingService) {}
 
-  private lastNavigationCancelledByAuthGuard: {
+  private redirectUrl: string;
+  private ignoredUrls = new Set<string>();
+  private lastAuthGuardNavigation: {
     url: string;
     navigationId: number;
   };
 
-  private redirectUrl: string;
-
-  private authUrls = new Set<string>();
-
   redirect() {
-    debugger; //spike remove
     if (this.redirectUrl === undefined) {
       this.routing.go('/');
     } else {
       this.routing.goByUrl(this.redirectUrl);
     }
     this.redirectUrl = undefined;
-    this.lastNavigationCancelledByAuthGuard = undefined;
+    this.lastAuthGuardNavigation = undefined;
   }
 
-  // spike todo add docs
-  reportAuthGuardedUrl(url: string, navigationId: number) {
-    this.lastNavigationCancelledByAuthGuard = { url, navigationId };
+  reportAuthGuard(url: string, navigationId: number) {
+    this.lastAuthGuardNavigation = { url, navigationId };
     this.redirectUrl = url;
   }
 
-  // spike todo add docs
-  reportNavigationToAuthUrl(
-    lastActivatedUrl: string,
-    authUrl: string,
+  reportNotAuthGuard(
+    notAuthGuardUrl: string,
+    previousUrl: string,
     currentNavigationId: number
   ) {
-    this.authUrls.add(authUrl);
+    this.ignoredUrls.add(notAuthGuardUrl);
 
-    // don't save redirect url if you've already come from auth page (i.e. come from login to register)
-    if (!this.isAuthUrl(lastActivatedUrl)) {
-      // We compare the navigation id to find out if the url from AuthGuard is more recent than the lastActivatedUrl.
-      // It's because the url blocked by the AuthGuard doesn't can't be the activated url (it was cancelled).
-      //
-      // If the url from AuthGuard isn't the most recent, just use the last activated url:
+    // Don't save redirect url if you've already come from page with NotAuthGuard (i.e. user has come from login to register)
+    if (!this.ignoredUrls.has(previousUrl)) {
+      // We compare the navigation id to find out if the url cancelled by AuthGuard (i.e. my-account) is more recent
+      // than the last opened page
       if (
-        !this.lastNavigationCancelledByAuthGuard ||
-        this.lastNavigationCancelledByAuthGuard.navigationId <
-          currentNavigationId - 1
+        !this.lastAuthGuardNavigation ||
+        this.lastAuthGuardNavigation.navigationId < currentNavigationId - 1
       ) {
-        this.redirectUrl = lastActivatedUrl;
-        this.lastNavigationCancelledByAuthGuard = undefined; // redirect url is already overwritten, so it's not needed anymore
+        this.redirectUrl = previousUrl;
+        this.lastAuthGuardNavigation = undefined;
       }
     }
-  }
-
-  protected isAuthUrl(url: string): boolean {
-    return this.authUrls.has(url);
   }
 }

@@ -30,7 +30,7 @@ describe('AuthRedirectService', () => {
 
   describe('when navigated to auth url and called "redirect"', () => {
     beforeEach(() => {
-      service.reportNavigationToAuthUrl('/test', '/login');
+      service.reportNotAuthGuard('/test', '/login', 1);
       service.redirect();
     });
 
@@ -46,8 +46,8 @@ describe('AuthRedirectService', () => {
 
   describe('when navigated to one auth url, then to other auth url and then called "redirect"', () => {
     beforeEach(() => {
-      service.reportNavigationToAuthUrl('/test', '/login');
-      service.reportNavigationToAuthUrl('/login', '/register');
+      service.reportNotAuthGuard('/test', '/login', 1);
+      service.reportNotAuthGuard('/login', '/register', 2);
       service.redirect();
     });
 

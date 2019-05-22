@@ -9,7 +9,6 @@ import {
   NotAuthGuard,
   UrlModule,
   UserModule,
-  BackAfterAuthGuard,
 } from '@spartacus/core';
 import { CmsModule } from '../../../cms-structure/cms.module';
 import { BootstrapModule } from '../../../lib/bootstrap.module';
@@ -29,7 +28,7 @@ import { LoginFormComponent } from './login-form.component';
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           selector: 'cx-login-form',
-          guards: [NotAuthGuard, BackAfterAuthGuard],
+          guards: [NotAuthGuard],
         },
       },
     }),
