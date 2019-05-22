@@ -11,7 +11,7 @@ import {
 import { PageType } from '../../../model/cms.model';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 import { PageContext } from '../../models/page-context.model';
-import { ROUTING_FEATURE } from '../../state';
+import { ROUTING_FEATURE } from '../state';
 import * as fromActions from '../actions';
 
 export interface RouterState
@@ -78,9 +78,15 @@ export function reducer(
       };
     }
 
-    case fromNgrxRouter.ROUTER_NAVIGATED:
     case fromNgrxRouter.ROUTER_ERROR:
     case fromNgrxRouter.ROUTER_CANCEL: {
+      return {
+        ...state,
+        nextState: undefined,
+      };
+    }
+
+    case fromNgrxRouter.ROUTER_NAVIGATED: {
       const currentUrl = action.payload.routerState
         ? action.payload.routerState.url
         : '';

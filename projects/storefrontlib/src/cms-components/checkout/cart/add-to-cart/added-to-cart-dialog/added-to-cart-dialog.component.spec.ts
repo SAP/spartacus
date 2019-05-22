@@ -16,9 +16,10 @@ import {
   OrderEntry,
   PromotionResult,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+import { AutoFocusDirectiveModule } from '../../../../../shared/directives/auto-focus/auto-focus.directive.module';
 
 class MockNgbActiveModal {
   dismiss(): void {}
@@ -101,6 +102,7 @@ describe('AddedToCartDialogComponent', () => {
         NgbModule,
         SpinnerModule,
         I18nTestingModule,
+        AutoFocusDirectiveModule,
       ],
       declarations: [
         AddedToCartDialogComponent,
@@ -130,6 +132,7 @@ describe('AddedToCartDialogComponent', () => {
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
     spyOn(component.activeModal, 'dismiss').and.callThrough();
+    component.loaded$ = of(true);
   });
 
   it('should create', () => {
@@ -146,19 +149,13 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should handle focus of elements', () => {
-    const loaded$ = new BehaviorSubject<boolean>(false);
-    component.loaded$ = loaded$.asObservable();
-
     fixture.detectChanges();
-    loaded$.next(true);
-    fixture.detectChanges();
-    expect(el.query(By.css('.btn-primary')).nativeElement).toEqual(
-      document.activeElement
-    );
+    expect(
+      el.query(By.css('.cx-dialog-buttons > .btn-primary')).nativeElement
+    ).toEqual(document.activeElement);
   });
 
   it('should display quantity', () => {
-    component.loaded$ = of(true);
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
@@ -166,7 +163,6 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should display cart item', () => {
-    component.loaded$ = of(true);
     fixture.detectChanges();
     expect(el.query(By.css('cx-cart-item'))).toBeDefined();
   });
@@ -178,7 +174,6 @@ describe('AddedToCartDialogComponent', () => {
         formattedValue: '$100.00',
       },
     });
-    component.loaded$ = of(true);
     fixture.detectChanges();
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
     expect(cartTotalEl.children[0].textContent).toEqual(
@@ -188,7 +183,6 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should remove entry', () => {
-    component.loaded$ = of(true);
     component.ngOnInit();
     component.entry$.subscribe();
     const item = mockOrderEntry[0];
@@ -206,7 +200,6 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show added dialog title message', () => {
-    component.loaded$ = of(true);
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
@@ -215,7 +208,6 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show increment dialog title message', () => {
-    component.loaded$ = of(true);
     component.entry$ = of(mockOrderEntry[1]);
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
