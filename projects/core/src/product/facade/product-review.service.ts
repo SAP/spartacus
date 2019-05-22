@@ -7,7 +7,7 @@ import * as fromStore from '../store/index';
 
 @Injectable()
 export class ProductReviewService {
-  constructor(private store: Store<fromStore.StateWithProduct>) {}
+  constructor(protected store: Store<fromStore.StateWithProduct>) {}
 
   getByProductCode(productCode: string): Observable<Review[]> {
     const selector = fromStore.getSelectedProductReviewsFactory(productCode);

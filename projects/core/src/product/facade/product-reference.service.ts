@@ -7,7 +7,7 @@ import * as fromStore from '../store/index';
 
 @Injectable()
 export class ProductReferenceService {
-  constructor(private store: Store<fromStore.StateWithProduct>) {}
+  constructor(protected store: Store<fromStore.StateWithProduct>) {}
 
   get(
     productCode: string,
