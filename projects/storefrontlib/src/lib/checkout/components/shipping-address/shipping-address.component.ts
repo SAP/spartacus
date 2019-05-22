@@ -165,7 +165,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }): void {
     if (newAddress) {
       this.checkoutService.createAndSetAddress(address);
-      this.goTo = CheckoutStepType.deliveryMode;
+      this.goTo = CheckoutStepType.DELIVERY_MODE;
       return;
     }
     if (
@@ -175,7 +175,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     ) {
       this.goNext();
     } else {
-      this.goTo = CheckoutStepType.deliveryMode;
+      this.goTo = CheckoutStepType.DELIVERY_MODE;
       this.checkoutService.setDeliveryAddress(address);
     }
   }

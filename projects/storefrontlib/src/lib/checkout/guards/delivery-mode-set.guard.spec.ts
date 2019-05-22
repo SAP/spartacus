@@ -80,7 +80,7 @@ describe(`DeliveryModeSetGuard`, () => {
       expect(result.toString()).toEqual(
         `/${
           mockRoutingConfigService.getRouteConfig(
-            MockCheckoutConfig.checkout.steps[1].route
+            MockCheckoutConfig.checkout.steps[1].routeName
           ).paths[0]
         }`
       );

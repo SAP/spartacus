@@ -38,7 +38,7 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
 
         this.steps.forEach((step, index) => {
           const routeUrl = `/${
-            this.routingConfigService.getRouteConfig(step.route).paths[0]
+            this.routingConfigService.getRouteConfig(step.routeName).paths[0]
           }`;
           if (routeUrl === this.activeStepUrl) {
             this.activeStepIndex = index;
