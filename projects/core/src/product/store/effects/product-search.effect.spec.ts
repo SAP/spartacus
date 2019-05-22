@@ -13,7 +13,7 @@ import { ProductSearchConnector } from '../../connectors/search/product-search.c
 import { OccConfig } from '../../../occ/config/occ-config';
 
 import * as fromEffects from './product-search.effect';
-import { defaultOccProductConfig } from '../../config/product-config';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/product-config';
 import createSpy = jasmine.createSpy;
 import { ProductSearchPage } from '../../../model/product-search.model';
 import { Occ } from '../../../occ/occ-models/occ.models';

@@ -1,4 +1,3 @@
-export * from './config/product-config';
 export * from './connectors/index';
 export * from './facade/index';
 export * from './model/index';
