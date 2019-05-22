@@ -9,91 +9,93 @@ function checkoutAsPersistentUserTest() {
   const lastName = 'User';
   const titleCode = 'mr';
 
-  it('should register user if not exist', () => {
-    function retrieveAuthToken() {
-      return cy.request({
-        method: 'POST',
-        url: config.tokenUrl,
-        body: {
-          ...config.client,
-          grant_type: 'client_credentials',
-        },
-        form: true,
-      });
-    }
-
-    login(username, password, false).then(res => {
-      if (res.status === 200) {
-        // User is already registered - only set session in localStorage
-        setSessionData({ ...res.body, userId: username });
-      } else {
-        // User needs to be registered
-        retrieveAuthToken().then(response =>
-          cy.request({
-            method: 'POST',
-            url: config.newUserUrl,
-            body: {
-              firstName: firstName,
-              lastName: lastName,
-              password: password,
-              titleCode: titleCode,
-              uid: username,
-            },
-            headers: {
-              Authorization: `bearer ` + response.body.access_token,
-            },
-          })
-        );
+  describe('Checkout Flow', () => {
+    before(() => {
+      function retrieveAuthToken() {
+        return cy.request({
+          method: 'POST',
+          url: config.tokenUrl,
+          body: {
+            ...config.client,
+            grant_type: 'client_credentials',
+          },
+          form: true,
+        });
       }
+
+      login(username, password, false).then(res => {
+        if (res.status === 200) {
+          // User is already registered - only set session in localStorage
+          setSessionData({ ...res.body, userId: username });
+        } else {
+          // User needs to be registered
+          retrieveAuthToken().then(response =>
+            cy.request({
+              method: 'POST',
+              url: config.newUserUrl,
+              body: {
+                firstName: firstName,
+                lastName: lastName,
+                password: password,
+                titleCode: titleCode,
+                uid: username,
+              },
+              headers: {
+                Authorization: `bearer ` + response.body.access_token,
+              },
+            })
+          );
+        }
+      });
     });
-  });
 
-  it('should login successfully', () => {
-    checkoutAsPersistentUser.loginSuccessfully();
-  });
+    it('should login successfully', () => {
+      checkoutAsPersistentUser.loginSuccessfully();
+    });
 
-  it('should add a shipping address', () => {
-    checkoutAsPersistentUser.addShippingAddress();
-  });
+    it('should add a shipping address', () => {
+      checkoutAsPersistentUser.addShippingAddress();
+    });
 
-  it('should go to product page from category page', () => {
-    checkoutAsPersistentUser.goToProductPageFromCategory();
-  });
+    it('should go to product page from category page', () => {
+      checkoutAsPersistentUser.goToProductPageFromCategory();
+    });
 
-  it('should add product to cart', () => {
-    checkoutAsPersistentUser.addProductToCart();
-  });
+    it('should add product to cart', () => {
+      checkoutAsPersistentUser.addProductToCart();
+    });
 
-  it('should get cartId and add a payment method', () => {
-    checkoutAsPersistentUser.addPaymentMethod();
-  });
+    it('should get cartId and add a payment method', () => {
+      checkoutAsPersistentUser.addPaymentMethod();
+    });
 
-  it('should proceed to checkout and select shipping address', () => {
-    checkoutAsPersistentUser.selectShippingAddress();
-  });
+    it('should proceed to checkout and select shipping address', () => {
+      checkoutAsPersistentUser.selectShippingAddress();
+    });
 
-  it('should choose delivery', () => {
-    checkoutAsPersistentUser.selectDeliveryMethod();
-  });
+    it('should choose delivery', () => {
+      checkoutAsPersistentUser.selectDeliveryMethod();
+    });
 
-  it('should select payment method', () => {
-    checkoutAsPersistentUser.selectPaymentMethod();
-  });
+    it('should select payment method', () => {
+      checkoutAsPersistentUser.selectPaymentMethod();
+    });
 
-  it('should review and place order', () => {
-    checkoutAsPersistentUser.verifyAndPlaceOrder();
-  });
+    it('should review and place order', () => {
+      checkoutAsPersistentUser.verifyAndPlaceOrder();
+    });
 
-  it('should display summary page', () => {
-    checkoutAsPersistentUser.displaySummaryPage();
-  });
+    it('should display summary page', () => {
+      checkoutAsPersistentUser.displaySummaryPage();
+    });
 
-  it('should delete shipping address', () => {
-    checkoutAsPersistentUser.deleteShippingAddress();
-  });
+    it('should delete shipping address', () => {
+      checkoutAsPersistentUser.deleteShippingAddress();
+    });
 
-  it('should delete payment card', () => {
-    checkoutAsPersistentUser.deletePaymentCard();
+    it('should delete payment card', () => {
+      checkoutAsPersistentUser.deletePaymentCard();
+    });
   });
 }
 
