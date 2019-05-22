@@ -1,0 +1,61 @@
+<div class="details" *ngIf="(product$ | async) as product">
+  <ng-container *cxOutlet="outlets.DESCRIPTION">
+    <h3 #descriptionHeader (click)="select($event, description)">
+      {{ 'productDetails.productDetails' | cxTranslate }}
+    </h3>
+    <div #description>
+      <div class="container" [innerHTML]="product?.description"></div>
+    </div>
+  </ng-container>
+
+  <ng-container *cxOutlet="outlets.SPECIFICATIONS">
+    <h3 (click)="select($event, specifications)">
+      {{ 'productDetails.specification' | cxTranslate }}
+    </h3>
+    <div #specifications>
+      <div class="container">
+        <h2>{{ 'productDetails.specification' | cxTranslate }}</h2>
+        <cx-product-attributes [product]="product"></cx-product-attributes>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *cxOutlet="outlets.REVIEWS">
+    <h3 #reviewHeader (click)="select($event, reviews)">
+      {{ 'productDetails.reviews' | cxTranslate }} ({{
+        product?.numberOfReviews
+      }})
+    </h3>
+    <div #reviews>
+      <div class="container">
+        <h2>
+          {{ 'productDetails.reviews' | cxTranslate }} ({{
+            product?.numberOfReviews
+          }})
+        </h2>
+        <cx-product-reviews
+          class="container"
+          [(isWritingReview)]="isWritingReview"
+          [product]="product"
+        ></cx-product-reviews>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *cxOutlet="outlets.SHIPPING">
+    <h3 (click)="select($event, shipping)">
+      {{ 'productDetails.shipping' | cxTranslate }}
+    </h3>
+    <div #shipping>
+      <div class="container">
+        <h2>{{ 'productDetails.shipping' | cxTranslate }}</h2>
+        <ng-container
+          [cxComponentWrapper]="{
+            flexType: 'CMSTabParagraphComponent',
+            uid: 'deliveryTab'
+          }"
+        ></ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>

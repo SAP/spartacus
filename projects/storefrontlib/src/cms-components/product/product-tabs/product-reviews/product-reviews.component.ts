@@ -1,38 +1,57 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductReviewService, Review, Product } from '@spartacus/core';
+import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
-import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductReviewsComponent {
-  isWritingReview = false;
+export class ProductReviewsComponent implements OnChanges, OnInit {
+  @Input() product: Product;
+  @Input() get isWritingReview(): boolean {
+    return this._isWritingReview;
+  }
+  @Output() isWritingReviewChange = new EventEmitter();
+
+  set isWritingReview(val) {
+    this._isWritingReview = val;
+    this.isWritingReviewChange.emit(this.isWritingReview);
+  }
+  private _isWritingReview = false;
 
   // TODO: configurable
   initialMaxListItems = 5;
   maxListItems: number;
   reviewForm: FormGroup;
 
-  product$: Observable<Product> = this.currentProductService.getProduct();
-
-  reviews$: Observable<Review[]> = this.product$.pipe(
-    switchMap(product => this.reviewService.getByProductCode(product.code)),
-    tap(() => {
-      this.resetReviewForm();
-      this.maxListItems = this.initialMaxListItems;
-    })
-  );
+  reviews$: Observable<Review[]>;
 
   constructor(
     protected reviewService: ProductReviewService,
-    protected currentProductService: CurrentProductService,
     private fb: FormBuilder
   ) {}
+
+  ngOnChanges(): void {
+    this.maxListItems = this.initialMaxListItems;
+
+    if (this.product) {
+      this.reviews$ = this.reviewService.getByProductCode(this.product.code);
+    }
+  }
+
+  ngOnInit(): void {
+    this.resetReviewForm();
+  }
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
@@ -47,7 +66,7 @@ export class ProductReviewsComponent {
     this.reviewForm.controls.rating.setValue(rating);
   }
 
-  submitReview(product: Product): void {
+  submitReview(): void {
     const reviewFormControls = this.reviewForm.controls;
     const review: Review = {
       headline: reviewFormControls.title.value,
@@ -56,7 +75,7 @@ export class ProductReviewsComponent {
       alias: reviewFormControls.reviewerName.value,
     };
 
-    this.reviewService.add(product.code, review);
+    this.reviewService.add(this.product.code, review);
 
     this.isWritingReview = false;
     this.resetReviewForm();

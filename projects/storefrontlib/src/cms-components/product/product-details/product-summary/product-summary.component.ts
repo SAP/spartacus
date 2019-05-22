@@ -46,7 +46,7 @@ export class ProductSummaryComponent implements OnInit {
 
   // Get Tabs Component if exists on page
   private getTabsComponent(): Element {
-    return document.querySelector('cx-tab-paragraph-container');
+    return document.querySelector('cx-product-tabs');
   }
 
   // Get Tab by label if exists on page
@@ -85,12 +85,11 @@ export class ProductSummaryComponent implements OnInit {
       .subscribe(reviewsTabLabel => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
-
         const reviewsComponent = this.getReviewsComponent();
 
         if (reviewsTab && reviewsComponent) {
-          this.clickTabIfInactive(reviewsTab);
           reviewsComponent.scrollIntoView();
+          this.clickTabIfInactive(reviewsTab);
         }
       });
   }
