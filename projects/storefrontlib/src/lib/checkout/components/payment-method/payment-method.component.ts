@@ -110,30 +110,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
           textDefaultPaymentMethod,
           textSelected,
         ]) => {
-          let ccIcon: string;
-          if (payment.cardType.code === 'visa') {
-            ccIcon = this.iconTypes.VISA;
-          } else if (
-            payment.cardType.code === 'master' ||
-            payment.cardType.code === 'mastercard_eurocard'
-          ) {
-            ccIcon = this.iconTypes.MASTER_CARD;
-          } else if (payment.cardType.code === 'diners') {
-            ccIcon = this.iconTypes.DINERS_CLUB;
-          } else if (payment.cardType.code === 'amex') {
-            ccIcon = this.iconTypes.AMEX;
-          } else if (
-            payment.cardType.code === 'maestro' ||
-            payment.cardType.code === 'switch'
-          ) {
-            ccIcon = this.iconTypes.CREDIT_CARD;
-          }
-
           const card: Card = {
             title: payment.defaultPayment ? textDefaultPaymentMethod : '',
             textBold: payment.accountHolderName,
             text: [payment.cardNumber, textExpires],
-            img: ccIcon,
+            img: this.getCardIcon(payment.cardType.code),
             actions: [{ name: textUseThisPayment, event: 'send' }],
           };
           if (this.selectedPayment && this.selectedPayment.id === payment.id) {
@@ -231,25 +212,20 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     }
   }
 
-  // private getCardIcon(code: string) {
-  //   let ccIcon: string;
-  //   getCardComponent(payment);
-  //   if (payment.cardType.code === 'visa') {
-  //     ccIcon = this.iconTypes.VISA;
-  //   } else if (
-  //     payment.cardType.code === 'master' ||
-  //     payment.cardType.code === 'mastercard_eurocard'
-  //   ) {
-  //     ccIcon = this.iconTypes.MASTER_CARD;
-  //   } else if (payment.cardType.code === 'diners') {
-  //     ccIcon = this.iconTypes.DINERS_CLUB;
-  //   } else if (payment.cardType.code === 'amex') {
-  //     ccIcon = this.iconTypes.AMEX;
-  //   } else if (
-  //     payment.cardType.code === 'maestro' ||
-  //     payment.cardType.code === 'switch'
-  //   ) {
-  //     ccIcon = this.iconTypes.CREDIT_CARD;
-  //   }
-  // }
+  protected getCardIcon(code: string): string {
+    let ccIcon: string;
+    if (code === 'visa') {
+      ccIcon = this.iconTypes.VISA;
+    } else if (code === 'master' || code === 'mastercard_eurocard') {
+      ccIcon = this.iconTypes.MASTER_CARD;
+    } else if (code === 'diners') {
+      ccIcon = this.iconTypes.DINERS_CLUB;
+    } else if (code === 'amex') {
+      ccIcon = this.iconTypes.AMEX;
+    } else {
+      ccIcon = this.iconTypes.CREDIT_CARD;
+    }
+
+    return ccIcon;
+  }
 }
