@@ -33,8 +33,8 @@ export class NotAuthGuard implements CanActivate {
     const lastActivatedUrl = this.router.url;
     const navigationId = this.router.getCurrentNavigation().id;
     this.authRedirectService.reportNotAuthGuard(
-      url,
       lastActivatedUrl,
+      url,
       navigationId
     );
 
@@ -42,7 +42,7 @@ export class NotAuthGuard implements CanActivate {
     return this.authService.getUserToken().pipe(
       map(token => {
         if (token.access_token) {
-          this.routingService.go({ cxRoute: 'home' }); // spike todo - redirect to previous page
+          this.routingService.go({ cxRoute: 'home' });
         }
         return !token.access_token;
       })

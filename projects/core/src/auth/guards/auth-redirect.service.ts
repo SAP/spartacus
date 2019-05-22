@@ -43,8 +43,8 @@ export class AuthRedirectService {
   }
 
   reportNotAuthGuard(
-    notAuthGuardUrl: string,
     previousUrl: string,
+    notAuthGuardUrl: string,
     currentNavigationId: number
   ) {
     this.ignoredUrls.add(notAuthGuardUrl);

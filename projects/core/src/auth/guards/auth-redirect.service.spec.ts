@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BackAfterAuthGuard } from './back-after-auth.guard';
 import { AuthRedirectService } from './auth-redirect.service';
 import { RoutingService } from '../../routing/facade/routing.service';
 
@@ -16,7 +15,7 @@ describe('AuthRedirectService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        BackAfterAuthGuard,
+        AuthRedirectService,
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -28,31 +27,57 @@ describe('AuthRedirectService', () => {
     routingService = TestBed.get(RoutingService);
   });
 
-  describe('when navigated to auth url and called "redirect"', () => {
-    beforeEach(() => {
-      service.reportNotAuthGuard('/test', '/login', 1);
-      service.redirect();
-    });
-
-    it('user should be navigated to previous url', () => {
-      expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
-    });
-
-    it('calling "redirect" again should navigate to the home page', () => {
+  describe('redirect', () => {
+    it('should redirect to the home page', () => {
       service.redirect();
       expect(routingService.go).toHaveBeenCalledWith('/');
     });
-  });
 
-  describe('when navigated to one auth url, then to other auth url and then called "redirect"', () => {
-    beforeEach(() => {
-      service.reportNotAuthGuard('/test', '/login', 1);
-      service.reportNotAuthGuard('/login', '/register', 2);
-      service.redirect();
+    describe(', when just opened url with NotAuthGuard,', () => {
+      beforeEach(() => {
+        service.reportNotAuthGuard('/test', '/login', 1);
+        service.redirect();
+      });
+
+      it('should redirect to the previous url', () => {
+        expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+      });
     });
 
-    it('user should be navigated to the first url that came from', () => {
-      expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+    describe(', when opened sequentially to two urls with NotAuthGuard,', () => {
+      beforeEach(() => {
+        service.reportNotAuthGuard('/test', '/login', 1);
+        service.reportNotAuthGuard('/login', '/register', 2);
+        service.redirect();
+      });
+
+      it('should redirect to the very first url', () => {
+        expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+      });
+    });
+
+    describe(', when AuthGuard blocked url, user was redirected to url with NotAuthGuard,', () => {
+      beforeEach(() => {
+        service.reportAuthGuard('/my-account', 1);
+        service.reportNotAuthGuard('/test', '/register', 2);
+        service.redirect();
+      });
+
+      it('should redirect to the url blocked by AuthGuard', () => {
+        expect(routingService.goByUrl).toHaveBeenCalledWith('/my-account');
+      });
+    });
+
+    describe(', when AuthGuard blocked url, then opened manually different url, and then opened url with NotAuthGuard,', () => {
+      beforeEach(() => {
+        service.reportAuthGuard('/my-account', 1);
+        service.reportNotAuthGuard('/test', '/register', 3);
+        service.redirect();
+      });
+
+      it('should redirect to the manually opened url', () => {
+        expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+      });
     });
   });
 });
