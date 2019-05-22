@@ -11,9 +11,9 @@ export class UrlService {
   readonly ROOT_URL = ['/'];
 
   constructor(
-    private routingConfigService: RoutingConfigService,
-    private urlParser: UrlParsingService,
-    private config: ServerConfig
+    protected routingConfigService: RoutingConfigService,
+    protected urlParser: UrlParsingService,
+    protected config: ServerConfig
   ) {}
 
   generateUrl(commands: UrlCommands): any[] {

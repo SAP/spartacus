@@ -22,13 +22,13 @@ export class PaymentDetailsSetGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
-      CheckoutStepType.paymentDetails
+      CheckoutStepType.PAYMENT_DETAILS
     );
 
     if (!checkoutStep && !this.serverConfig.production) {
       console.warn(
         `Missing step with type ${
-          CheckoutStepType.paymentDetails
+          CheckoutStepType.PAYMENT_DETAILS
         } in checkout configuration.`
       );
     }
@@ -41,8 +41,9 @@ export class PaymentDetailsSetGuard implements CanActivate {
             ? true
             : this.router.parseUrl(
                 checkoutStep &&
-                  this.routingConfigService.getRouteConfig(checkoutStep.route)
-                    .paths[0]
+                  this.routingConfigService.getRouteConfig(
+                    checkoutStep.routeName
+                  ).paths[0]
               )
         )
       );

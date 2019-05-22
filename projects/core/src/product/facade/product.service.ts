@@ -7,7 +7,7 @@ import { Product } from '../../model/product.model';
 
 @Injectable()
 export class ProductService {
-  constructor(private store: Store<fromStore.StateWithProduct>) {}
+  constructor(protected store: Store<fromStore.StateWithProduct>) {}
 
   private products: { [code: string]: Observable<Product> } = {};
 

@@ -5,8 +5,6 @@ export * from './model/node-item.model';
 export * from './model/content-slot-data.model';
 export * from './model/content-slot-component-data.model';
 
-export * from './occ/index';
-export * from './occ/cms-occ.module';
 export * from './connectors/index';
 
 export * from './store/cms-state';
