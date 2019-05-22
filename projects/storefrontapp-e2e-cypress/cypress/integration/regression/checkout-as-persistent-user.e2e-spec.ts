@@ -99,7 +99,7 @@ function checkoutAsPersistentUserTest() {
   });
 }
 
-context('Check login', () => {
+context('Checkout with persistent user', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });
@@ -113,17 +113,20 @@ context('Check login', () => {
   checkoutAsPersistentUserTest();
 });
 
-context(`${formats.mobile.width + 1}p resolution - Check login`, () => {
-  before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
-  checkoutAsPersistentUserTest();
-});
+context(
+  `${formats.mobile.width + 1}p resolution - Checkout with persistent user`,
+  () => {
+    before(() => {
+      cy.window().then(win => win.sessionStorage.clear());
+      cy.viewport(formats.mobile.width, formats.mobile.height);
+    });
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      cy.viewport(formats.mobile.width, formats.mobile.height);
+    });
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+    checkoutAsPersistentUserTest();
+  }
+);
