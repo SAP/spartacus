@@ -1,31 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Product, Page, CmsService } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../../../cms-structure/outlet/index';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductDetailsComponent } from './product-details.component';
 
 const mockProduct: Product = { name: 'mockProduct' };
-const mockPage: Page = {
-  name: 'MockPage',
-  pageId: 'ProductPage',
-  slots: {
-    slot1: {},
-    slot2: {},
-  },
-};
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
     return of(mockProduct);
-  }
-}
-
-export class MockCmsService {
-  getCurrentPage(): Observable<Page> {
-    return of(mockPage);
   }
 }
 
@@ -79,10 +65,6 @@ describe('ProductDetailsComponent in product', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        {
-          provide: CmsService,
-          useClass: MockCmsService,
-        },
       ],
     }).compileComponents();
   }));
@@ -103,12 +85,5 @@ describe('ProductDetailsComponent in product', () => {
     let result: Product;
     productDetailsComponent.product$.subscribe(product => (result = product));
     expect(result).toEqual(mockProduct);
-  });
-
-  it('should fetch page', () => {
-    productDetailsComponent.ngOnInit();
-    let result: Page;
-    productDetailsComponent.page$.subscribe(page => (result = page));
-    expect(result).toEqual(mockPage);
   });
 });

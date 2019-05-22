@@ -1,44 +1,41 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsService, CMSTabParagraphContainer } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-
-import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+// import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
+  styleUrls: ['./tab-paragraph-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent {
-  activeTabNum = 0;
-
-  constructor(
-    public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    private cmsService: CmsService
-  ) {}
-
-  components$: Observable<any[]> = this.componentData.data$.pipe(
-    switchMap(data =>
-      combineLatest(
-        data.components.split(' ').map(component =>
-          this.cmsService.getComponentData<any>(component).pipe(
-            map(tab => {
-              if (!tab.flexType) {
-                tab.flexType = tab.typeCode;
-              }
-              return {
-                ...tab,
-                title: `CMSTabParagraphContainer.tabs.${tab.uid}`,
-              };
-            })
-          )
-        )
-      )
-    )
-  );
-
-  select(tabNum: number): void {
-    this.activeTabNum = tabNum;
-  }
+  // extends AbstractProductComponent {
+  // @ViewChild('tabContent') tabContent: Element;
+  // fetchData() {
+  //     // console.log(this.contextParameters.tab);
+  //     // this.contextParameters.tab.title = new BehaviorSubject<any>({});
+  //     // this.contextParameters.tab.title.next('test');
+  //     // this.contextParameters.tab.title.complete();
+  //     // const s = new AsyncSubject<any>();
+  //     // this.occProductSearchService.query(query)
+  //     //     .then((pageData) => {
+  //     //         s.next(pageData);
+  //     //         s.complete();
+  //     // });
+  //     // return s;
+  //     // if (!this.contextParameters.tab) {
+  //     //     this.contextParameters.tab = {};
+  //     // }
+  //     // this.contextParameters.tab.title = this.component.title;
+  //     // console.log(this.contextParameters.tab);
+  //     // this.cd.detectChanges();
+  //     // console.log(this.component.title);
+  //     // console.log(this.tabContent);
+  //     // console.log(this.contextParameters);
+  //     // this.contextParameters);
+  // }
+  // ngOnInit() {
+  //     this.contextParameters.tabTitle.next('test');
+  //     this.cd.detectChanges();
+  //     // super.fetchData();
+  // }
 }

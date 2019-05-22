@@ -65,9 +65,8 @@ export const defaultLayoutConfig: LayoutConfig = {
     ProductDetailsPageTemplate: {
       slots: [
         'TopHeaderSlot',
-        'ProductDetails',
         'VariantSelectorSlot',
-        // 'AddToCart', // the add to cart is currently hard coded in the PDP component
+        // 'AddToCart', the add to cart is currently hard coded in the PDP component
         'UpSelling',
         'CrossSelling',
         'Tabs',

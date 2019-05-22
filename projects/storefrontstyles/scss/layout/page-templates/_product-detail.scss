@@ -1,25 +1,6 @@
 %ProductDetailsPageTemplate {
   padding: var(--cx-padding, 2.5rem 0 0);
 
-  .ProductDetails {
-    @extend .container;
-    margin-bottom: 40px;
-
-    @include media-breakpoint-up(lg) {
-      cx-product-images {
-        flex: 1 1 50%;
-        max-width: 50%;
-      }
-      cx-product-details {
-        flex: 1 1 50%;
-      }
-    }
-  }
-
-  .tab-delivery {
-    @extend .container;
-  }
-
   cx-page-slot {
     &.UpSelling,
     &.CrossSelling {

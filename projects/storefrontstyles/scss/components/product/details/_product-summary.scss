@@ -4,13 +4,16 @@
 
   margin-bottom: var(--cx-margin-bottom, 40px);
 
-  @include media-breakpoint-down(md) {
-    padding-top: 1.5em;
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: var(--cx-grid-template-columns, 50% auto);
+    grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
   }
 
-  @include media-breakpoint-down(lg) {
-    padding: 20px;
-    grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
+  .images {
+    @include media-breakpoint-up(lg) {
+      grid-column: var(--cx-grid-column, 1);
+      grid-row: var(--cx-grid-row, 1 / span 8);
+    }
   }
 
   .name {
