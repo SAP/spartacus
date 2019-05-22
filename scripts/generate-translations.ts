@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as rimraf from 'rimraf';
-import { translations } from '../projects/storefrontlib/src/translations/index';
+import { translations } from '../projects/assets/src/translations/index';
 
-const libDist = './dist/storefrontlib/';
+const libDist = './dist/assets/';
 const translationsDist = libDist + 'i18n-assets/';
 function createDir(dir) {
   if (!fs.existsSync(dir)) {
@@ -10,8 +10,7 @@ function createDir(dir) {
   }
 }
 const getLangDir = lang => `${translationsDist}${lang}/`;
-const getFileName = (lang, chunk) =>
-  `${getLangDir(lang)}${chunk}.${lang}.json`;
+const getFileName = (lang, chunk) => `${getLangDir(lang)}${chunk}.json`;
 
 if (!fs.existsSync(libDist)) {
   console.log(
