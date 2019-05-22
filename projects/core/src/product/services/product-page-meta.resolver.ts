@@ -74,8 +74,6 @@ export class ProductPageMetaResolver extends PageMetaResolver
     return this.translation.translate('metaResolver:productPage.title', {
       title: title,
     });
-
-    return of(title);
   }
 
   resolveDescription(product: Product): Observable<string> {
