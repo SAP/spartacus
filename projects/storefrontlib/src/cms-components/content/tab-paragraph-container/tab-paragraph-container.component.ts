@@ -27,7 +27,10 @@ export class TabParagraphContainerComponent {
               if (!tab.flexType) {
                 tab.flexType = tab.typeCode;
               }
-              return { ...tab, title: `productTabs.${tab.uid}` };
+              return {
+                ...tab,
+                title: `CMSTabParagraphContainer.tabs.${tab.uid}`,
+              };
             })
           )
         )

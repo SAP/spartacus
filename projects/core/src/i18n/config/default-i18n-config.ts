@@ -34,7 +34,7 @@ export const defaultI18nConfig: I18nConfig = {
         'productSummary',
         'productReview',
         'addToCart',
-        'productTabs',
+        'CMSTabParagraphContainer',
       ],
       user: [
         'forgottenPassword',
