@@ -1,21 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import {
-  map,
-  shareReplay,
-  skipWhile,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-
 import {
   Address,
-  PaymentDetails,
-  CheckoutService,
   CartService,
-  AuthService,
+  CheckoutService,
+  PaymentDetails,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map, shareReplay, skipWhile, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -26,23 +17,15 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
-    private authService: AuthService,
     private checkoutService: CheckoutService,
     private cartService: CartService
   ) {
-    this.userId$ = this.authService
-      .getUserToken()
-      .pipe(map(userData => userData.userId));
-
     this.cartId$ = this.cartService
       .getActive()
       .pipe(map(cartData => cartData.code));
 
-    this.getCheckoutDetailsLoaded$ = this.userId$.pipe(
-      withLatestFrom(this.cartId$),
-      tap(([userId, cartId]: [string, string]) =>
-        this.checkoutService.loadCheckoutDetails(userId, cartId)
-      ),
+    this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
+      tap(cartId => this.checkoutService.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
       skipWhile(loaded => !loaded)
