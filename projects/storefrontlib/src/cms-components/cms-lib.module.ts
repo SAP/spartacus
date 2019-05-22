@@ -34,6 +34,7 @@ import {
   ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
+import { ProductImagesModule } from './product/product-images/product-images.module';
 import { StoreFinderModule } from './storefinder/index';
 import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
 
@@ -66,6 +67,7 @@ import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
     CartComponentModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    ProductImagesModule,
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
