@@ -17,4 +17,9 @@ export const metaResolver = {
     heading: '{{total}} result for {{query}}',
     heading_plural: '{{total}} results for {{query}}',
   },
+  productPage: {
+    heading: '{{name}}',
+    title: '{{title}}',
+    description: '{{summary}}',
+  },
 };

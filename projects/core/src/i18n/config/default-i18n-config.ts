@@ -22,6 +22,7 @@ export const defaultI18nConfig: I18nConfig = {
         'checkoutPage',
         'cartPage',
         'searchPage',
+        'productPage',
       ],
       myAccount: ['orderDetails', 'orderHistory'],
       storeFinder: ['storeFinder'],
