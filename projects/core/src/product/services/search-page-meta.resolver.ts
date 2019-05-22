@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, filter, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { PageMeta } from '../../cms/model/page.model';
+import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
+import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
-import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
-import { PageMeta } from '../../cms/model/page.model';
-import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export class SearchPageMetaResolver extends PageMetaResolver
   resolve(): Observable<PageMeta> {
     const total$: Observable<
       number
-    > = this.productSearchService.getSearchResults().pipe(
+    > = this.productSearchService.getResults().pipe(
       filter(data => !!(data && data.pagination)),
       map(results => results.pagination.totalResults)
     );

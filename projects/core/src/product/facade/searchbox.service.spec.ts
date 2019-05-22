@@ -4,14 +4,15 @@ import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
-import { SearchConfig } from '../model/search-config';
+import { SearchConfig } from '../model';
 import * as fromStore from '../store';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSearchService } from './product-search.service';
+import { SearchboxService } from './searchbox.service';
 
-describe('ProductSearchService', () => {
-  let service: ProductSearchService;
-  let routerService: Router;
+describe('SearchboxService', () => {
+  let service: SearchboxService;
+  //   let routerService: Router;
   let store: Store<fromStore.ProductsState>;
   class MockRouter {
     createUrlTree() {
@@ -25,12 +26,18 @@ describe('ProductSearchService', () => {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
 
+  const mockAuxSearchResults: ProductSearchPage = {
+    products: [{ code: 'aux1' }, { code: 'aux2' }],
+  };
+
   const mockSelect = (
     selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
   ) => {
     switch (selector) {
       case fromStore.getSearchResults:
         return () => of(mockSearchResults);
+      case fromStore.getAuxSearchResults:
+        return () => of(mockAuxSearchResults);
       default:
         return () => EMPTY;
     }
@@ -46,6 +53,7 @@ describe('ProductSearchService', () => {
       ],
       providers: [
         ProductSearchService,
+        SearchboxService,
         {
           provide: Router,
           useClass: MockRouter,
@@ -54,9 +62,8 @@ describe('ProductSearchService', () => {
     });
 
     store = TestBed.get(Store);
-    service = TestBed.get(ProductSearchService);
-    routerService = TestBed.get(Router);
-    spyOn(routerService, 'navigateByUrl').and.callThrough();
+    service = TestBed.get(SearchboxService);
+    // routerService = TestBed.get(Router);
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -74,14 +81,14 @@ describe('ProductSearchService', () => {
       .getResults()
       .subscribe(result => (tempSearchResult = result))
       .unsubscribe();
-    expect(tempSearchResult).toEqual(mockSearchResults);
+    expect(tempSearchResult).toEqual(mockAuxSearchResults);
   });
 
   it('should be able to clear search results', () => {
     service.clearResults();
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.ClearProductSearchResult({
-        clearPageResults: true,
+        clearSearchboxResults: true,
       })
     );
   });
@@ -91,10 +98,25 @@ describe('ProductSearchService', () => {
       const searchConfig: SearchConfig = {};
 
       service.search('test query', searchConfig);
-      expect(routerService.navigateByUrl).toHaveBeenCalledWith({});
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SearchProducts({
-          queryText: 'test query',
+        new fromStore.SearchProducts(
+          {
+            queryText: 'test query',
+            searchConfig: searchConfig,
+          },
+          true
+        )
+      );
+    });
+  });
+
+  describe('getSuggestions(query, searchConfig)', () => {
+    it('should be able to get suggestion for the given product', () => {
+      const searchConfig: SearchConfig = {};
+      service.getSuggestionResults('test term', searchConfig);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.GetProductSuggestions({
+          term: 'test term',
           searchConfig: searchConfig,
         })
       );

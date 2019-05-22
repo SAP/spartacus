@@ -1,7 +1,7 @@
-import * as fromProductSearch from './product-search.action';
-import { SearchConfig } from '../../model/search-config';
 import { ErrorModel } from '../../../model/misc.model';
-import { Suggestion } from '../../../model/product-search.model';
+import { ClearSearch, Suggestion } from '../../../model/product-search.model';
+import { SearchConfig } from '../../model/search-config';
+import * as fromProductSearch from './product-search.action';
 
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;
@@ -108,9 +108,17 @@ describe('Product Search Actions', () => {
   describe('CleanProductSearchState Action', () => {
     describe('Clean ProductSearch State', () => {
       it('should create an action', () => {
-        const action = new fromProductSearch.CleanProductSearchState();
+        const payload: ClearSearch = {
+          clearPageResults: true,
+          clearSearchboxResults: false,
+        };
+        const action = new fromProductSearch.ClearProductSearchResult({
+          clearPageResults: true,
+          clearSearchboxResults: false,
+        });
         expect({ ...action }).toEqual({
-          type: fromProductSearch.CLEAN_PRODUCT_SEARCH,
+          type: fromProductSearch.CLEAR_PRODUCT_SEARCH,
+          payload,
         });
       });
     });

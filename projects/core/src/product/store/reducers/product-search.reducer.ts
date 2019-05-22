@@ -1,9 +1,9 @@
-import { ProductsSearchState } from '../product-state';
-import * as fromProductsSearch from '../actions/product-search.action';
 import {
-  Suggestion,
   ProductSearchPage,
+  Suggestion,
 } from '../../../model/product-search.model';
+import * as fromProductsSearch from '../actions/product-search.action';
+import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {
   results: {},
@@ -34,8 +34,17 @@ export function reducer(
       };
     }
 
-    case fromProductsSearch.CLEAN_PRODUCT_SEARCH: {
-      return initialState;
+    case fromProductsSearch.CLEAR_PRODUCT_SEARCH: {
+      return {
+        ...state,
+        results: action.payload.clearPageResults ? {} : state.results,
+        suggestions: action.payload.clearSearchboxResults
+          ? []
+          : state.suggestions,
+        auxResults: action.payload.clearSearchboxResults
+          ? {}
+          : state.auxResults,
+      };
     }
   }
   return state;

@@ -8,10 +8,10 @@ import {
   PageMetaResolver,
   PageMetaService,
 } from '../../cms';
+import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
 import { ProductSearchService } from '../facade';
 import { CategoryPageMetaResolver } from './category-page-meta.resolver';
-import { PageType } from '../../model/cms.model';
 
 const mockPageWithProductList: Page = {
   type: PageType.CATEGORY_PAGE,
@@ -53,7 +53,7 @@ class ContentPageTitleResolver extends PageMetaResolver {
 }
 
 class MockProductSearchService {
-  getSearchResults() {
+  getResults() {
     return of({
       breadcrumbs: [
         {

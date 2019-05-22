@@ -5,10 +5,10 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
+import { PageType } from '../../model/cms.model';
+import { ProductSearchPage } from '../../model/product-search.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
-import { ProductSearchPage } from '../../model/product-search.model';
-import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
         // only the existence of a plp component tells us if products
         // are rendered or if this is an ordinary content page
         if (this.hasProductListComponent(page)) {
-          return this.productSearchService.getSearchResults().pipe(
+          return this.productSearchService.getResults().pipe(
             filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
             switchMap(data =>
               combineLatest([

@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
-
-import { SearchConfig } from '../../model/search-config';
-import {
-  Suggestion,
-  ProductSearchPage,
-} from '../../../model/product-search.model';
 import { ErrorModel } from '../../../model/misc.model';
+import {
+  ClearSearch,
+  ProductSearchPage,
+  Suggestion,
+} from '../../../model/product-search.model';
+import { SearchConfig } from '../../model/search-config';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';
@@ -15,7 +15,7 @@ export const GET_PRODUCT_SUGGESTIONS_SUCCESS =
   '[Product] Get Product Suggestions Success';
 export const GET_PRODUCT_SUGGESTIONS_FAIL =
   '[Product] Get Product Suggestions Fail';
-export const CLEAN_PRODUCT_SEARCH = '[Product] Clean Product Search State';
+export const CLEAR_PRODUCT_SEARCH = '[Product] Clear Product Search State';
 
 export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
@@ -50,9 +50,14 @@ export class GetProductSuggestionsFail implements Action {
   constructor(public payload: ErrorModel) {}
 }
 
-export class CleanProductSearchState implements Action {
-  readonly type = CLEAN_PRODUCT_SEARCH;
-  constructor() {}
+export class ClearProductSearchResult implements Action {
+  readonly type = CLEAR_PRODUCT_SEARCH;
+  constructor(
+    public payload: ClearSearch = {
+      clearPageResults: false,
+      clearSearchboxResults: false,
+    }
+  ) {}
 }
 
 // action types
@@ -63,4 +68,4 @@ export type ProductSearchAction =
   | GetProductSuggestions
   | GetProductSuggestionsSuccess
   | GetProductSuggestionsFail
-  | CleanProductSearchState;
+  | ClearProductSearchResult;

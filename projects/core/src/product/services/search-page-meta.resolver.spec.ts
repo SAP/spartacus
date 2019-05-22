@@ -1,18 +1,17 @@
-import { TestBed, inject } from '@angular/core/testing';
-
 import { Injectable } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
-  Page,
-  PageMetaResolver,
   CmsService,
-  PageMetaService,
+  Page,
   PageMeta,
+  PageMetaResolver,
+  PageMetaService,
 } from '../../cms';
-import { ProductSearchService } from '../facade';
-import { RoutingService } from '../../routing';
-import { SearchPageMetaResolver } from './search-page-meta.resolver';
 import { PageType } from '../../model/cms.model';
+import { RoutingService } from '../../routing';
+import { ProductSearchService } from '../facade';
+import { SearchPageMetaResolver } from './search-page-meta.resolver';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -48,7 +47,7 @@ class FakeContentPageTitleResolver extends PageMetaResolver {
 }
 
 class MockProductSearchService {
-  getSearchResults() {
+  getResults() {
     return of({
       pagination: {
         totalResults: 3,
