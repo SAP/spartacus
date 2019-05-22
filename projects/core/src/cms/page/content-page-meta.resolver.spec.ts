@@ -5,6 +5,7 @@ import { PageMetaService } from '../facade';
 import { PageMeta } from '../model/page.model';
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
 import { PageType } from '../../model/cms.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -23,7 +24,7 @@ describe('ContentPageTitleResolver', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CmsService, useClass: MockCmsService },

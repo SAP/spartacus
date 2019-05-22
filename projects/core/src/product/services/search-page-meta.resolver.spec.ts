@@ -13,6 +13,7 @@ import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
 import { SearchPageMetaResolver } from './search-page-meta.resolver';
 import { PageType } from '../../model/cms.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -75,7 +76,7 @@ describe('SearchPageTitleResolver', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         FakeContentPageTitleResolver,

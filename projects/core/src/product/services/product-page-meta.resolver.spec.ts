@@ -11,6 +11,7 @@ import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
 import { PageType } from '../../model/cms.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockProductPage: Page = {
   type: PageType.PRODUCT_PAGE,
@@ -65,7 +66,7 @@ describe('ProductPageMetaResolver', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CmsService, useClass: MockCmsService },

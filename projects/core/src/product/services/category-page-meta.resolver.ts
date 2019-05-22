@@ -37,7 +37,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
             filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
             switchMap(data =>
               combineLatest([
-                this.resolveTitle(data).pipe(map(title => ({ title }))),
+                this.resolveTitle(data),
                 this.resolveBreadcrumbs(data),
               ])
             ),

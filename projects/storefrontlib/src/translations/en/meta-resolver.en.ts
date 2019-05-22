@@ -11,7 +11,7 @@ export const metaResolver = {
     heading_plural: 'Checkout {{items}} items',
   },
   cartPage: {
-    heading: '{{title}} {{code}}',
+    heading: '{{title}} ({{code}})',
   },
   searchPage: {
     heading: '{{total}} result for {{query}}',
