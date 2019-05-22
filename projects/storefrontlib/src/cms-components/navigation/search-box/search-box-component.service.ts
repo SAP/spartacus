@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core';
 import {
-  ProductSearchService,
+  Product,
   RoutingService,
+  SearchboxService,
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { Observable, of, zip } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const DEFAULT_SEARCHBOCH_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
-  maxProducts: 2,
+  maxProducts: 5,
   displaySuggestions: true,
-  maxSuggestions: 3,
+  maxSuggestions: 5,
   displayProducts: true,
 };
 
@@ -30,55 +25,177 @@ export class SearchBoxComponentService {
   config$: Observable<any>;
 
   constructor(
-    public searchService: ProductSearchService,
+    public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected winRef: WindowRef
   ) {}
 
-  public getSearchResults(
-    text$: Observable<string>,
-    config$?: Observable<any>
-  ): Observable<SearchResults> {
-    return combineLatest(
-      text$.pipe(
-        tap((text: string) => {
-          // hide the has-result class when there's no text
-          // this is important to avoid flickering of the result panel
-          if (!text) {
-            this.toggleClass('has-results', false);
-          }
-        }),
-        debounceTime(300),
-        distinctUntilChanged()
-      ),
-      config$ ? config$ : of(DEFAULT_SEARCHBOCH_CONFIG)
+  /**
+   * Executes the search for products and suggestions,
+   * unless the configuration is setup to not search for
+   * products or suggestions.
+   */
+  search(
+    query: string,
+    config: SearchBoxConfig = DEFAULT_SEARCHBOCH_CONFIG
+  ): void {
+    if (!query || query === '') {
+      this.clearResults();
+      return;
+    }
+    if (config.displayProducts) {
+      this.searchService.search(query, {
+        pageSize: config.maxProducts,
+      });
+    }
+
+    if (config.displaySuggestions) {
+      this.searchService.getSuggestionResults(query, {
+        pageSize: config.maxSuggestions,
+      });
+    }
+  }
+
+  getResults(): Observable<SearchResults> {
+    return zip(
+      this.productResults$,
+      this.productSuggestions$,
+      this.searchMessage$
     ).pipe(
-      switchMap(([term, config]) => {
-        if (!term) {
-          return of();
-        } else if (term.length >= config.minCharactersBeforeRequest) {
-          return this.fetchSearchResults(term, config);
-        } else {
-          return this.fetchMessage('searchBox.help.insufficientChars');
-        }
+      // tap(results => console.log('results', results)),
+      map(([products, suggestions, message]) => {
+        return { products, suggestions, message };
       }),
-      tap((_results: any) => this.addBody(_results))
+      tap(results =>
+        console.log(
+          (!!results.products && results.products.length > 0) ||
+            (!!results.suggestions && results.suggestions.length > 0) ||
+            !!results.message
+        )
+      ),
+      tap(results =>
+        this.toggleClass(
+          'has-results',
+          (!!results.products && results.products.length > 0) ||
+            (!!results.suggestions && results.suggestions.length > 0) ||
+            !!results.message
+        )
+      )
     );
   }
 
-  private addBody(results?: any) {
-    this.toggleClass(
-      'has-results',
-      results &&
-        (!!results.products || !!results.suggestions || !!results.message)
+  // getResults(
+  // ): Observable<any> {
+  //   return combineLatest(
+  //     text.pipe(
+  //       tap(t => this.toggleResultPanel(t)),
+  //       debounceTime(300)
+  //     ),
+  //     config ? config : of(DEFAULT_SEARCHBOCH_CONFIG)
+  //   ).pipe(
+  //     // tap(([term, c, p, s]) => this.executeSearch(term, c)),
+  //     // switchMap(() => zip()),
+  //     // switchMap(([products, suggestions]) => {
+  //     //   return this.fetchMessage(products, suggestions).pipe(
+  //     //     map(message => {
+  //     //       return {
+  //     //         products,
+  //     //         suggestions,
+  //     //         message,
+  //     //       };
+  //     //     })
+  //     //   );
+  //     // }),
+
+  //     tap(r => console.log('results???', r)),
+  //     tap(results =>
+  //       this.toggleClass(
+  //         'has-results',
+  //         !!results.products || !!results.suggestions || !results.message
+  //       )
+  //     )
+  //   );
+  // }
+
+  // results(): Observable<SearchResults> {
+  //   return combineLatest(
+  //     this.productResults$,
+  //     this.productSuggestions$).pipe(map());
+  // }
+
+  /**
+   * Clears the searchbox results, so that old values are
+   * no longer emited upon next search.
+   */
+  clearResults() {
+    this.searchService.clearResults();
+  }
+
+  private get productResults$(): Observable<Product[]> {
+    return this.searchService.getResults().pipe(map(res => res.products));
+  }
+
+  private get productSuggestions$(): Observable<string[]> {
+    return this.searchService
+      .searchSuggestions()
+      .pipe(map(res => res.map(suggestion => suggestion.value)));
+  }
+
+  private get searchMessage$(): Observable<string> {
+    return zip(this.productResults$, this.productSuggestions$).pipe(
+      switchMap(([products, suggestions]) => {
+        if (!products || !suggestions) {
+          return of(null);
+        } else if (suggestions.length === 0 && products.length === 0) {
+          return this.fetchTranslation('searchBox.help.noMatch');
+        } else if (suggestions.length === 0 && products.length > 0) {
+          return this.fetchTranslation('searchBox.help.exactMatch', {
+            term: 'TODO',
+          });
+        } else {
+          return of(null);
+        }
+      })
     );
   }
 
-  toggleClass(className: string, open = true) {
-    open
-      ? this.winRef.document.body.classList.add(className)
-      : this.winRef.document.body.classList.remove(className);
+  // private fetchMessage(
+  //   products: Product[],
+  //   suggestions: string[]
+  // ): Observable<string> {
+  //   if (!products || !suggestions) {
+  //     return of(null);
+  //   } else if (suggestions.length === 0 && products.length === 0) {
+  //     return this.fetchTranslation('searchBox.help.noMatch');
+  //   } else if (suggestions.length === 0 && products.length > 0) {
+  //     return this.fetchTranslation('searchBox.help.exactMatch', {
+  //       term: 'TODO',
+  //     });
+  //   } else {
+  //     return of(null);
+  //   }
+  // }
+
+  /**
+   * hide the has-result class when there's no text
+   * this is important to avoid flickering of the result panel
+   */
+  private toggleResultPanel(text: string): void {
+    if (!text) {
+      // this.toggleClass('has-results', false);
+    }
+  }
+
+  toggleClass(className: string, add?: boolean) {
+    // console.log('toggleClass', className, add);
+    if (add === undefined) {
+      this.winRef.document.body.classList.toggle(className);
+    } else {
+      add
+        ? this.winRef.document.body.classList.add(className)
+        : this.winRef.document.body.classList.remove(className);
+    }
   }
 
   /**
@@ -91,75 +208,10 @@ export class SearchBoxComponentService {
     });
   }
 
-  private fetchSearchResults(
-    text: string,
-    config: SearchBoxConfig
-  ): Observable<SearchResults> {
-    this.executeSearch(text, config);
-
-    const suggestions = this.searchService
-      .getSearchSuggestions()
-      .pipe(map(res => res.map(suggestion => suggestion.value)));
-
-    const products = this.searchService
-      .getAuxSearchResults()
-      .pipe(map(res => res.products || []));
-
-    return combineLatest(suggestions, products).pipe(
-      switchMap(([s, p]) => {
-        if (s.length === 0 && p.length === 0) {
-          return this.fetchMessage('searchBox.help.noMatch');
-        } else if (s.length === 0 && p.length > 0) {
-          return this.fetchTranslation('searchBox.help.exactMatch', {
-            term: text,
-          }).pipe(
-            // we return the exact match, since SOLR doesn't do this
-            // this is expecially helpful for mobile, where we do not show products.
-            switchMap(label => {
-              return of({
-                suggestions: [label],
-                products: p,
-              });
-            })
-          );
-        } else {
-          return of({
-            suggestions: s,
-            products: p,
-          });
-        }
-      })
-    );
-  }
-
-  private fetchMessage(translationKey: string, options?: any): Observable<any> {
-    return this.translationService.translate(translationKey, options).pipe(
-      map(msg => {
-        return {
-          message: msg,
-        };
-      })
-    );
-  }
-
   private fetchTranslation(
     translationKey: string,
     options?: any
   ): Observable<string> {
     return this.translationService.translate(translationKey, options);
-  }
-
-  private executeSearch(search: string, config: SearchBoxConfig): void {
-    if (config.displayProducts) {
-      this.searchService.searchAuxiliary(search, {
-        pageSize: config.maxProducts,
-      });
-    }
-
-    if (config.displaySuggestions) {
-      this.searchService.getSuggestions(search, {
-        pageSize: config.maxSuggestions,
-      });
-    }
   }
 }

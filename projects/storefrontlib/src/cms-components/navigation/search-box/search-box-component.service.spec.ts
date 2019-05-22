@@ -1,13 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import {
-  Component as SpaComponent,
-  ProductSearchPage,
-  ProductSearchService,
-  RoutingService,
-  Suggestion,
-  TranslationService,
-  WindowRef,
-} from '@spartacus/core';
+import { Component as SpaComponent, ProductSearchPage, ProductSearchService, RoutingService, Suggestion, TranslationService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -95,7 +87,7 @@ describe('SearchBoxComponentService', () => {
       const productSearchService = TestBed.get(ProductSearchService);
 
       const searchConfig = { pageSize: 5 };
-      service.getSearchResults(of('testQuery')).subscribe(() => {
+      service.get results(of('testQuery')).subscribe(() => {
         expect(productSearchService.getSuggestions).toHaveBeenCalledWith(
           'testQuery',
           searchConfig

@@ -1,19 +1,19 @@
-<label class="searchbox" [class.dirty]="!!searchBoxControl.value">
+<label class="searchbox" [class.dirty]="!!query.value">
   <input
-    [formControl]="searchBoxControl"
+    #query
     [placeholder]="'searchBox.placeholder' | cxTranslate"
     aria-label="search"
-    (focus)="open(searchInput)"
+    (focus)="open($event)"
+    (input)="search(query.value)"
     (blur)="close($event)"
     (keydown.escape)="close($event)"
-    (keydown.enter)="search($event)"
-    #searchInput
+    (keydown.enter)="openSearch($event, query.value)"
   />
 
   <cx-icon
     [type]="iconTypes.RESET"
     aria-label="reset"
-    (mousedown)="clear()"
+    (mousedown)="clear(query)"
     class="reset"
   ></cx-icon>
 
@@ -24,22 +24,18 @@
   ></cx-icon>
 </label>
 
-<div
-  *ngIf="(searchResults$ | async) as result"
-  class="results"
-  (click)="close()"
-  [class.hidden]="!searchBoxControl.value"
->
+<div *ngIf="(results$ | async) as result" class="results" (click)="close()">
+  <!-- [class.hidden]="!searchBoxControl.value" -->
   <div
+    *ngIf="result.message"
     class="message"
-    [class.hidden]="!result.message"
     [innerHTML]="result.message"
   ></div>
 
   <div class="suggestions" (mousedown)="disableClose()">
     <a
       *ngFor="let suggestion of result.suggestions"
-      [innerHTML]="suggestion | cxHighlight: searchBoxControl.value"
+      [innerHTML]="suggestion | cxHighlight: query.value"
       [routerLink]="
         {
           cxRoute: 'search',

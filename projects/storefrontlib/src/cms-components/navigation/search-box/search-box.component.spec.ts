@@ -4,12 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import {
-  CmsSearchBoxComponent,
-  CmsService,
-  I18nTestingModule,
-  ProductSearchService,
-} from '@spartacus/core';
+import { CmsSearchBoxComponent, CmsService, I18nTestingModule, ProductSearchService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -149,14 +144,14 @@ describe('SearchBoxComponent', () => {
   it('should dispatch new search query on text update', () => {
     searchBoxComponent.searchBoxControl.setValue('testQuery');
     fixture.detectChanges();
-    expect(serviceSpy.getSearchResults).toHaveBeenCalled();
+    expect(serviceSpy.get results).toHaveBeenCalled();
   });
 
   it('should dispatch new search query on input', () => {
     searchBoxComponent.queryText = 'test input';
     fixture.detectChanges();
     expect(searchBoxComponent.searchBoxControl.value).toEqual('test input');
-    expect(serviceSpy.getSearchResults).toHaveBeenCalled();
+    expect(serviceSpy.get results).toHaveBeenCalled();
   });
 
   it('should launch the search page', () => {

@@ -1,5 +1,22 @@
 @import '../../../theme';
 
+body {
+  cx-searchbox {
+    .results {
+      display: none;
+    }
+  }
+  &.has-results {
+    &.open {
+      cx-searchbox {
+        .results {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
 body.has-results {
   header {
     position: relative;
@@ -8,7 +25,7 @@ body.has-results {
   cx-storefront {
     &:before {
       content: '';
-      position: absolite;
+      position: absolute;
       left: 0;
       top: 0;
       width: 100%;
@@ -29,18 +46,18 @@ body.has-results {
     }
   }
 
-  &:not(.open) {
-    cx-searchbox {
-      .results {
-        display: none;
-      }
-      @include media-breakpoint-down(sm) {
-        .reset {
-          opacity: 0;
-        }
-      }
-    }
-  }
+  // &:not(.open) {
+  //   cx-searchbox {
+  //     // .results {
+  //     //   display: none;
+  //     // }
+  //     @include media-breakpoint-down(sm) {
+  //       .reset {
+  //         opacity: 0;
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 // hide the input on mobile when there's no interaction with searchbox

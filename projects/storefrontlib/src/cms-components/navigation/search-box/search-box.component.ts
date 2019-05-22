@@ -4,7 +4,6 @@ import {
   Input,
   Optional,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { CmsSearchBoxComponent } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { Observable } from 'rxjs';
@@ -17,7 +16,7 @@ import { SearchResults } from './search-box.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent {
-  searchBoxControl: FormControl = new FormControl();
+  // searchBoxControl: FormControl = new FormControl();
 
   /**
    * Sets the search box input field
@@ -25,7 +24,8 @@ export class SearchBoxComponent {
   @Input('queryText')
   set queryText(value: string) {
     if (value) {
-      this.searchBoxControl.setValue(value);
+      // this.searchBoxControl.setValue(value);
+      this.search(value);
     }
   }
 
@@ -47,16 +47,24 @@ export class SearchBoxComponent {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>
   ) {}
 
-  /**
-   * Returns the search results for the typeahead searchbox.
-   * The cms component data (searchbox config) will be passed if availalble.
-   */
-  searchResults$: Observable<
+  results$: Observable<
     SearchResults
-  > = this.searchBoxComponentService.getSearchResults(
-    this.searchBoxControl.valueChanges,
-    this.componentData ? this.componentData.data$ : null
-  );
+  > = this.searchBoxComponentService.getResults();
+
+  /**
+   * Closes the searchbox and opens the search result page.
+   */
+  search(query): void {
+    this.searchBoxComponentService.search(
+      query
+      // this.componentData ? this.componentData.data$ : null
+    );
+  }
+
+  openSearch(event: UIEvent, query: string): void {
+    this.close(event);
+    this.searchBoxComponentService.launchSearchPage(query);
+  }
 
   /**
    * Closes the typehead searchbox.
@@ -73,14 +81,9 @@ export class SearchBoxComponent {
 
   /**
    * Opens the typeahead searchbox
-   *
    */
-  open(el: HTMLInputElement): void {
+  open(): void {
     this.searchBoxComponentService.toggleClass('open', true);
-    // put cursor to the end of the text
-    const textLength = el.value.length;
-    el.selectionStart = textLength;
-    el.selectionEnd = textLength;
   }
 
   /**
@@ -88,23 +91,15 @@ export class SearchBoxComponent {
    */
   disableClose(): void {
     this.ignoreCloseEvent = true;
+    // console.log('disableClose', this.ignoreCloseEvent);
   }
 
   /**
    * Clears the search box input field
    */
-  public clear(): void {
+  public clear(el: HTMLInputElement): void {
     this.disableClose();
-    this.searchBoxControl.reset();
-  }
-
-  /**
-   * Closes the searchbox and opens the search result page.
-   */
-  public search(event: KeyboardEvent): void {
-    this.close(event);
-    this.searchBoxComponentService.launchSearchPage(
-      this.searchBoxControl.value
-    );
+    el.value = '';
+    this.searchBoxComponentService.clearResults();
   }
 }
