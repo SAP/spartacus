@@ -7,7 +7,6 @@ import {
   ConfigModule,
   defaultCmsModuleConfig,
 } from '@spartacus/core';
-import { CmsPageGuard } from './guards/index';
 
 @NgModule({
   imports: [
@@ -15,6 +14,6 @@ import { CmsPageGuard } from './guards/index';
     ConfigModule.withConfig(defaultCmsModuleConfig),
     CmsCoreModule,
   ],
-  providers: [CmsPageGuard, { provide: CmsConfig, useExisting: Config }],
+  providers: [{ provide: CmsConfig, useExisting: Config }],
 })
 export class CmsModule {}
