@@ -8,7 +8,15 @@ import {
   StoreFinderService,
 } from '@spartacus/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import { IconModule } from '../../../misc';
+import { Input, Component } from '@angular/core';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
@@ -92,9 +100,8 @@ describe('StoreFinderListItemComponent', () => {
         ReactiveFormsModule,
         NgbTabsetModule,
         I18nTestingModule,
-        IconModule,
       ],
-      declarations: [StoreFinderListItemComponent],
+      declarations: [StoreFinderListItemComponent, MockCxIconComponent],
       providers: [StoreFinderService, StoreDataService],
     }).compileComponents();
   }));
