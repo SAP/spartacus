@@ -23,13 +23,13 @@ export class DeliveryModeSetGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
-      CheckoutStepType.deliveryMode
+      CheckoutStepType.DELIVERY_MODE
     );
 
     if (!checkoutStep && !this.serverConfig.production) {
       console.warn(
         `Missing step with type ${
-          CheckoutStepType.deliveryMode
+          CheckoutStepType.DELIVERY_MODE
         } in checkout configuration.`
       );
     }
@@ -42,8 +42,9 @@ export class DeliveryModeSetGuard implements CanActivate {
             ? true
             : this.router.parseUrl(
                 checkoutStep &&
-                  this.routingConfigService.getRouteConfig(checkoutStep.route)
-                    .paths[0]
+                  this.routingConfigService.getRouteConfig(
+                    checkoutStep.routeName
+                  ).paths[0]
               )
         )
       );
