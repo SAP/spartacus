@@ -19,6 +19,9 @@ describe('My Account - Update Password', () => {
     const newPassword = 'newPassword123!';
 
     before(() => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+      });
       cy.visit('/');
       user = helper.registerUser();
     });
