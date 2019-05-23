@@ -46,7 +46,13 @@ export const common = {
     skipToFooter: 'Skip to Footer',
   },
   searchBox: {
-    searchHere: 'Search here...',
+    placeholder: 'Search here...',
+    help: {
+      insufficientChars: 'Please type more characters',
+      noMatch: 'We could not find any results',
+      exactMatch: '{{ term }}',
+      empty: 'Ask us anything',
+    },
   },
   sorting: {
     date: 'Date',

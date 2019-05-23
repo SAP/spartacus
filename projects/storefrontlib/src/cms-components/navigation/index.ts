@@ -11,7 +11,4 @@ export * from './footer-navigation/footer-navigation.module';
 export * from './navigation/navigation.component.service';
 export * from './navigation/navigation.component';
 export * from './navigation/navigation.module';
-// searchbox
-export * from './search-box/search-box-component.service';
-export * from './search-box/search-box.component';
-export * from './search-box/search-box.module';
+export * from './search-box/index';

@@ -46,3 +46,12 @@ $theme: ''; // conconut
     }
   }
 }
+
+// add body specific selectors
+body {
+  @each $selector in $selectors {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}
