@@ -17,7 +17,6 @@ import {
   RoutingService,
   Translatable,
   UrlCommands,
-  User,
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -48,7 +47,7 @@ class MockConsentManagementFormComponent {
 }
 
 class UserServiceMock {
-  loadConsents(_userId: string): void {}
+  loadConsents(): void {}
   getConsentsResultLoading(): Observable<boolean> {
     return of();
   }
@@ -64,19 +63,15 @@ class UserServiceMock {
   getWithdrawConsentResultSuccess(): Observable<boolean> {
     return of();
   }
-  get(): Observable<User> {
-    return of();
-  }
   getConsents(): Observable<ConsentTemplateList> {
     return of();
   }
   giveConsent(
-    _userId: string,
     _consentTemplateId: string,
     _consentTemplateVersion: number
   ): void {}
   resetGiveConsentProcessState(): void {}
-  withdrawConsent(_userId: string, _consentCode: string): void {}
+  withdrawConsent(_consentCode: string): void {}
   resetWithdrawConsentProcessState(): void {}
 }
 
@@ -92,10 +87,6 @@ class GlobalMessageServiceMock {
   add(_text: string | Translatable, _type: GlobalMessageType): void {}
 }
 
-const mockUser: User = {
-  uid: 'xxx@xxx.xxx',
-};
-
 const mockConsentTemplate: ConsentTemplate = {
   id: 'mock ID',
   version: 0,
@@ -104,7 +95,7 @@ const mockConsentTemplate: ConsentTemplate = {
   },
 };
 
-describe('ConsentManagementComponent', () => {
+fdescribe('ConsentManagementComponent', () => {
   let component: ConsentManagementComponent;
   let fixture: ComponentFixture<ConsentManagementComponent>;
   let el: DebugElement;
@@ -139,8 +130,6 @@ describe('ConsentManagementComponent', () => {
     globalMessageService = TestBed.get(GlobalMessageService);
 
     fixture.detectChanges();
-
-    spyOn(userService, 'get').and.returnValue(of(mockUser));
   });
 
   it('should create', () => {
@@ -211,7 +200,7 @@ describe('ConsentManagementComponent', () => {
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
             mockTemplateList
           );
-          expect(userService.loadConsents).toHaveBeenCalledWith(mockUser.uid);
+          expect(userService.loadConsents).toHaveBeenCalled();
         });
       });
       describe('when the consents are already present', () => {
@@ -279,7 +268,7 @@ describe('ConsentManagementComponent', () => {
 
         component[withdrawConsentInitMethod]();
 
-        expect(userService.loadConsents).toHaveBeenCalledWith(mockUser.uid);
+        expect(userService.loadConsents).toHaveBeenCalled();
         expect(component[onConsentWithdrawnSuccessMethod]).toHaveBeenCalledWith(
           withdrawalSuccess
         );
@@ -347,7 +336,6 @@ describe('ConsentManagementComponent', () => {
           });
 
           expect(userService.giveConsent).toHaveBeenCalledWith(
-            mockUser.uid,
             mockConsentTemplate.id,
             mockConsentTemplate.version
           );
@@ -365,7 +353,6 @@ describe('ConsentManagementComponent', () => {
           });
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
-            mockUser.uid,
             mockConsentTemplate.currentConsent.code
           );
           expect(userService.giveConsent).not.toHaveBeenCalled();

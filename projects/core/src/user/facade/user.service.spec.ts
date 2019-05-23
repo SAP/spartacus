@@ -653,7 +653,7 @@ describe('UserService', () => {
   });
 
   describe('consent management', () => {
-    const userId = 'xxx@xxx.xxx';
+    const userId = 'current';
     const consentTemplateListMock: ConsentTemplateList = {
       consentTemplates: [{ id: 'xxx' }],
     };
@@ -661,7 +661,7 @@ describe('UserService', () => {
     describe('load consents', () => {
       describe('loadConsents', () => {
         it('should dispatch an action', () => {
-          service.loadConsents(userId);
+          service.loadConsents();
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromStore.LoadUserConsents(userId)
           );
@@ -738,11 +738,7 @@ describe('UserService', () => {
 
       describe('giveConsent', () => {
         it('should dispatch an action', () => {
-          service.giveConsent(
-            userId,
-            consentTemplateId,
-            consentTemplateVersion
-          );
+          service.giveConsent(consentTemplateId, consentTemplateVersion);
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromStore.GiveUserConsent({
               userId,
@@ -811,7 +807,7 @@ describe('UserService', () => {
       describe('withdrawConsent', () => {
         it('should dispatch an action', () => {
           const consentCode = 'xxx';
-          service.withdrawConsent(userId, consentCode);
+          service.withdrawConsent(consentCode);
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromStore.WithdrawUserConsent({
               userId,
