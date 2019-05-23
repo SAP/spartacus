@@ -6,7 +6,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, zip } from 'rxjs';
+import { combineLatest, Observable, of, zip } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
@@ -46,6 +46,14 @@ export class SearchBoxComponentService {
       this.clearResults();
       return;
     }
+
+    if (
+      config.minCharactersBeforeRequest &&
+      query.length < config.minCharactersBeforeRequest
+    ) {
+      return;
+    }
+
     if (config.displayProducts) {
       this.searchService.search(query, {
         pageSize: config.maxProducts,
@@ -65,7 +73,7 @@ export class SearchBoxComponentService {
    * rules can be applied.
    */
   getResults(): Observable<SearchResults> {
-    return zip(
+    return combineLatest(
       this.productResults$,
       this.productSuggestions$,
       this.searchMessage$
