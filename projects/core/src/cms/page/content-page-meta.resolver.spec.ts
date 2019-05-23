@@ -53,7 +53,9 @@ describe('ContentPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('contentPage.heading content:Page title');
+    expect(result.title).toEqual(
+      'pageMetaResolver.content.title content:Page title'
+    );
   });
 
   it('should resolve one breadcrumb', () => {

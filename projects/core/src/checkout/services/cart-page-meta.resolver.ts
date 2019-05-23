@@ -39,7 +39,7 @@ export class CartPageMetaResolver extends PageMetaResolver
   resolveTitle(page: Page): Observable<string> {
     return this.cartService.getActive().pipe(
       switchMap(cart =>
-        this.translation.translate('cartPage.heading', {
+        this.translation.translate('pageMetaResolver.cart.title', {
           title: page.title,
           code: (cart && cart.code) || '',
         })

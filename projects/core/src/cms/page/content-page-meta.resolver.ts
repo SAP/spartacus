@@ -32,7 +32,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(page: Page): Observable<string> {
-    return this.translation.translate('contentPage.heading', {
+    return this.translation.translate('pageMetaResolver.content.title', {
       content: page.title,
     });
   }

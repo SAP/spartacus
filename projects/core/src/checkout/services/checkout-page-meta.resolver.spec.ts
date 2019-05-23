@@ -56,7 +56,7 @@ describe('CheckoutPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('checkoutPage.heading count:5');
+    expect(result.title).toEqual('pageMetaResolver.checkout.title count:5');
   });
 
   it('should resolve robots with nofollow,noindex', () => {

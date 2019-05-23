@@ -122,7 +122,9 @@ describe('SearchPageMetaResolver', () => {
         })
         .unsubscribe();
 
-      expect(result.title).toEqual('searchPage.heading query:Canon total:3');
+      expect(result.title).toEqual(
+        'pageMetaResolver.search.title count:3 query:Canon'
+      );
     });
   });
 

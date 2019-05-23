@@ -61,8 +61,8 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   resolveHeading(product: Product): Observable<string> {
-    return this.translation.translate('productPage.heading', {
-      name: product.name,
+    return this.translation.translate('pageMetaResolver.product.heading', {
+      heading: product.name,
     });
   }
 
@@ -71,14 +71,14 @@ export class ProductPageMetaResolver extends PageMetaResolver
     title += this.resolveFirstCategory(product);
     title += this.resolveManufacturer(product);
 
-    return this.translation.translate('productPage.title', {
+    return this.translation.translate('pageMetaResolver.product.title', {
       title: title,
     });
   }
 
   resolveDescription(product: Product): Observable<string> {
-    return this.translation.translate('productPage.description', {
-      summary: product.summary,
+    return this.translation.translate('pageMetaResolver.product.description', {
+      description: product.summary,
     });
   }
 

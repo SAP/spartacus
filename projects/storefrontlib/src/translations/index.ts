@@ -9,7 +9,6 @@ import { storeFinder } from './en/store-finder.en';
 import { user } from './en/user.en';
 import { payment } from './en/payment.en';
 import { address } from './en/address.en';
-import { metaResolver } from './en/meta-resolver.en';
 
 export const translations: TranslationResources = {
   en: {
@@ -17,7 +16,6 @@ export const translations: TranslationResources = {
     cart,
     checkout,
     common,
-    metaResolver,
     myAccount,
     payment,
     product,

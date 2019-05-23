@@ -47,8 +47,8 @@ export class SearchPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(total: number, query: string): Observable<string> {
-    return this.translation.translate('searchPage.heading', {
-      total: total,
+    return this.translation.translate('pageMetaResolver.search.title', {
+      count: total,
       query: query,
     });
   }
