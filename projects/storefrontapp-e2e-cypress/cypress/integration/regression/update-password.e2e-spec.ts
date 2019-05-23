@@ -1,5 +1,5 @@
-import * as helper from '../../helpers/login';
 import { login } from '../../helpers/auth-forms';
+import * as helper from '../../helpers/login';
 
 describe('My Account - Update Password', () => {
   const PAGE_TITLE_UPDATE_PASSWORD = 'Update Password';
@@ -21,35 +21,12 @@ describe('My Account - Update Password', () => {
     before(() => {
       cy.visit('/');
       user = helper.registerUser();
-      helper.signOutUser();
     });
 
     beforeEach(() => {
-      cy.visit('/');
-      cy.contains(/Sign In/i).click();
-      login(user.email, user.password);
-      cy.selectUserMenuOption('Password');
+      cy.visit(PAGE_URL_UPDATE_PASSWORD);
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
       cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
-    });
-
-    it('should cancel bring back to the home page.', () => {
-      cy.get('cx-update-password button[type="button"]').click();
-      cy.title().should('eq', PAGE_TITLE_HOME);
-      cy.get('cx-global-message .alert').should('not.exist');
-      helper.signOutUser();
-    });
-
-    it('should display server error if old password is wrong.', () => {
-      cy.get('cx-global-message .alert-danger').should('not.exist');
-      cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
-      cy.get('[formcontrolname="newPassword"]').type(newPassword);
-      cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-      cy.get('cx-update-password button[type="submit"]').click();
-      cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
-      cy.get('cx-global-message .alert-danger').should('exist');
-      cy.visit('/');
-      helper.signOutUser();
     });
 
     it('should update the password with success.', () => {
@@ -65,6 +42,22 @@ describe('My Account - Update Password', () => {
       cy.contains(/Sign In/i).click();
       login(user.email, newPassword);
       cy.get(helper.userGreetSelector).should('exist');
+    });
+
+    it('should cancel bring back to the home page.', () => {
+      cy.get('cx-update-password button[type="button"]').click();
+      cy.title().should('eq', PAGE_TITLE_HOME);
+      cy.get('cx-global-message .alert').should('not.exist');
+    });
+
+    it('should display server error if old password is wrong.', () => {
+      cy.get('cx-global-message .alert-danger').should('not.exist');
+      cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
+      cy.get('[formcontrolname="newPassword"]').type(newPassword);
+      cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
+      cy.get('cx-update-password button[type="submit"]').click();
+      cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
+      cy.get('cx-global-message .alert-danger').should('exist');
     });
   });
 });
