@@ -9,7 +9,7 @@ import { LanguageService } from './language.service';
 import { EffectsModule } from '@ngrx/effects';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { Language } from '../../model/misc.model';
-import { SiteAdapter } from '../connectors/site.adapter';
+import { SiteConnector } from '../connectors/site.connector';
 import createSpy = jasmine.createSpy;
 
 const mockLanguages: Language[] = [
@@ -17,6 +17,16 @@ const mockLanguages: Language[] = [
 ];
 
 const mockActiveLang = 'ja';
+
+class MockSiteConnector {
+  getCurrencies() {
+    return of([]);
+  }
+
+  getLanguages() {
+    return of([]);
+  }
+}
 
 describe('LanguageService', () => {
   const mockSelect1 = createSpy('select').and.returnValue(() =>
@@ -36,7 +46,10 @@ describe('LanguageService', () => {
         EffectsModule.forRoot([]),
         SiteContextStoreModule,
       ],
-      providers: [LanguageService, { provide: SiteAdapter, useValue: {} }],
+      providers: [
+        LanguageService,
+        { provide: SiteConnector, useClass: MockSiteConnector },
+      ],
     });
 
     store = TestBed.get(Store);

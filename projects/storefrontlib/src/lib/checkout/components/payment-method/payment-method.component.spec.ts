@@ -27,6 +27,14 @@ import {
 import { CheckoutConfigService } from '../../checkout-config.service';
 import { defaultStorefrontRoutesConfig } from '../../../ui/pages/default-routing-config';
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
   accountHolderName: 'Name',
@@ -43,8 +51,8 @@ const mockPaymentDetails: PaymentDetails = {
 const mockCheckoutStep: CheckoutStep = {
   id: 'payment-method',
   name: 'Payment method',
-  route: 'checkoutPaymentDetails',
-  type: [CheckoutStepType.paymentDetails],
+  routeName: 'checkoutPaymentDetails',
+  type: [CheckoutStepType.PAYMENT_DETAILS],
 };
 
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
@@ -168,6 +176,7 @@ describe('PaymentMethodComponent', () => {
         MockPaymentFormComponent,
         MockCardComponent,
         MockSpinnerComponent,
+        MockCxIconComponent,
       ],
       providers: [
         { provide: CartDataService, useValue: mockCartDataService },
@@ -288,7 +297,8 @@ describe('PaymentMethodComponent', () => {
 
   it('should call back()', () => {
     component.checkoutStepUrlPrevious = `/${
-      mockRoutingConfigService.getRouteConfig(mockCheckoutStep.route).paths[0]
+      mockRoutingConfigService.getRouteConfig(mockCheckoutStep.routeName)
+        .paths[0]
     }`;
     component.back();
 

@@ -19,7 +19,7 @@ export class CurrencyService implements SiteContext<Currency> {
   private sessionStorage: Storage;
 
   constructor(
-    private store: Store<fromStore.StateWithSiteContext>,
+    protected store: Store<fromStore.StateWithSiteContext>,
     winRef: WindowRef
   ) {
     this.sessionStorage = winRef.sessionStorage;

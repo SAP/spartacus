@@ -6,7 +6,9 @@ import { skipWhile, map, switchMap } from 'rxjs/operators';
 
 import { CartService, RoutingService } from '@spartacus/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CartNotEmptyGuard implements CanActivate {
   constructor(
     private cartService: CartService,
