@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   CartService,
@@ -11,7 +17,7 @@ import { Item } from '../cart-item/cart-item.component';
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
 })
-export class CartItemListComponent implements OnInit {
+export class CartItemListComponent implements OnInit, OnChanges {
   @Input()
   isReadOnly = false;
 
@@ -42,9 +48,20 @@ export class CartItemListComponent implements OnInit {
     this.createFormgroupControls();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes.items &&
+      changes.items.currentValue &&
+      changes.items.previousValue &&
+      changes.items.currentValue.length !== changes.items.previousValue.length
+    ) {
+      console.log(changes.items);
+      this.createFormgroupControls();
+    }
+  }
+
   removeEntry(item: Item): void {
     this.cartService.removeEntry(item);
-    delete this.form.controls[item.product.code];
   }
 
   updateEntry({
