@@ -104,7 +104,7 @@ export function setSecondPaymentToDefault() {
 
   const firstCard = cy.get('.cx-payment-card').first();
   firstCard.should('contain', 'Default Payment Method');
-  firstCard.should('contain', 'Bar Foo');
+  // firstCard.should('contain', 'Bar Foo');
 }
 
 export function deletePayment() {
