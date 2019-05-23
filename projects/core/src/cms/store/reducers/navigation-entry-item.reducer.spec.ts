@@ -1,6 +1,6 @@
 import * as fromComponent from './navigation-entry-item.reducer';
 import * as fromActions from '../actions/navigation-entry-item.action';
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../model/cms.model';
 import { NavigationNodes } from '../cms-state';
 
 describe('Navigation Entry Item Reducer', () => {

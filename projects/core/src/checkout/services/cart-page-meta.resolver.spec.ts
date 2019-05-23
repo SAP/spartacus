@@ -12,6 +12,7 @@ import {
 import { CartPageMetaResolver } from './cart-page-meta.resolver';
 import { PageType } from '../../model/cms.model';
 import { Cart } from '../../model/cart.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -36,12 +37,12 @@ class MockCartService {
   }
 }
 
-describe('CartPageTitleResolver', () => {
+describe('CartPageMetaResolver', () => {
   let service: CartPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CartService, useClass: MockCartService },
@@ -71,7 +72,9 @@ describe('CartPageTitleResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Shopping Cart (1234)');
+    expect(result.title).toEqual(
+      'pageMetaResolver.cart.title code:1234 title:Shopping Cart'
+    );
   });
 
   it('should resolve robots with nofollow,noindex', () => {
