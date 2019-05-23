@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
@@ -10,7 +9,7 @@ import { PageType } from '../../model/cms.model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
-})
+
 export class CategoryPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver {
   constructor(
