@@ -6,7 +6,7 @@ import {
   Optional,
 } from '@angular/core';
 import { CmsSearchBoxComponent } from '@spartacus/core';
-import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
+import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure/page/model/cms-component-data';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
