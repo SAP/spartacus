@@ -35,6 +35,7 @@ import {
   ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
+import { ProductImagesModule } from './product/product-images/product-images.module';
 import { StoreFinderModule } from './storefinder/index';
 
 @NgModule({
@@ -66,6 +67,7 @@ import { StoreFinderModule } from './storefinder/index';
     CartComponentModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    ProductImagesModule,
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
