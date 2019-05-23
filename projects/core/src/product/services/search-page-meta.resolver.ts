@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { PageMeta } from '../../cms/model/page.model';
-import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
-import { TranslationService } from '../../i18n';
 import { PageType } from '../../model/cms.model';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { ProductSearchService } from '../facade/product-search.service';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',
