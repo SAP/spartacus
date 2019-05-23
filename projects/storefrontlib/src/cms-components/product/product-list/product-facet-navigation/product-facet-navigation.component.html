@@ -1,5 +1,5 @@
 <div class="cx-search-facet" *ngIf="(searchResult$ | async) as searchResult">
-  <ng-template [ngIf]="searchResult.breadcrumbs?.length">
+  <ng-container *ngIf="searchResult.breadcrumbs?.length">
     <h4 class="cx-facet-filter-header">
       {{ 'productList.filterBy.label' | cxTranslate }}
     </h4>
@@ -23,11 +23,11 @@
         </button>
       </div>
     </div>
-  </ng-template>
+  </ng-container>
 
-  <ng-template ngFor let-facet [ngForOf]="visibleFacets" let-facetId="index">
+  <ng-container *ngFor="let facet of visibleFacets; let facetId = index">
     <div class="cx-facet-group">
-      <span class="cx-facet-header">
+      <div class="cx-facet-header">
         <a
           class="cx-facet-header-link"
           (click)="toggleFacet(facet.name)"
@@ -41,8 +41,8 @@
             "
           ></cx-icon>
         </a>
-      </span>
-      <div [ngbCollapse]="isFacetCollapsed(facet.name)">
+      </div>
+      <ng-container *ngIf="!isFacetCollapsed(facet.name)">
         <ul class="cx-facet-list">
           <li
             *ngFor="
@@ -84,9 +84,9 @@
             {{ 'productList.showMore' | cxTranslate }}
           </li>
         </ul>
-      </div>
+      </ng-container>
     </div>
-  </ng-template>
+  </ng-container>
 </div>
 
 <div class="cx-facet-mobile">
@@ -99,7 +99,7 @@
 </div>
 
 <!-- START ONLY SHOW FILTER SECTION IN MOBILE WHEN THEY ARE SELECTED -->
-<div *ngIf="(updateParams$ | async) as params">
+<ng-container *ngIf="(updateParams$ | async) as params">
   <div class="cx-facet-mobile" *ngIf="searchResult.breadcrumbs?.length">
     <div class="cx-facet-filter-container">
       <h4 class="cx-facet-filter-header">
@@ -124,7 +124,7 @@
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 <!-- END ONLY SHOW FILTER SECTION IN MOBILE WHEN THEY ARE SELECTED -->
 
 <ng-template #content let-c="close" let-d="dismiss">
