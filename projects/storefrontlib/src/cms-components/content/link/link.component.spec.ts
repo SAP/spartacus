@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import { CmsComponentData } from '@spartacus/storefront';
 import { CmsLinkComponent, CmsComponent, CmsConfig } from '@spartacus/core';
+import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -32,7 +33,7 @@ describe('LinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, GenericLinkModule],
       declarations: [LinkComponent],
       providers: [
         { provide: CmsConfig, useValue: UseCmsModuleConfig },
