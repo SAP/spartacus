@@ -57,16 +57,15 @@ export class SearchBoxComponent {
       query
       // this.componentData ? this.componentData.data$ : null
     );
+    // force the searchbox to open
+    this.open();
   }
 
   /**
-   * Opens the PLP with the given query.
-   *
-   * TODO: if there's a singe product match, we could open the PDP.
+   * Opens the typeahead searchbox
    */
-  launchSearchResult(event: UIEvent, query: string): void {
-    this.close(event);
-    this.searchBoxComponentService.launchSearchPage(query);
+  open(): void {
+    this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
   }
 
   /**
@@ -86,10 +85,23 @@ export class SearchBoxComponent {
   }
 
   /**
-   * Opens the typeahead searchbox
+   * Especially in mobile we do not want the search icon
+   * to focus the input again when it's already open.
+   * */
+  avoidReopen(event: UIEvent): void {
+    if (this.searchBoxComponentService.hasBodyClass('searchbox-is-active')) {
+      this.close(event);
+    }
+  }
+
+  /**
+   * Opens the PLP with the given query.
+   *
+   * TODO: if there's a singe product match, we could open the PDP.
    */
-  open(): void {
-    this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
+  launchSearchResult(event: UIEvent, query: string): void {
+    this.close(event);
+    this.searchBoxComponentService.launchSearchPage(query);
   }
 
   /**

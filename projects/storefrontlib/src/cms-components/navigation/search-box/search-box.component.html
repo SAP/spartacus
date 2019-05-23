@@ -21,6 +21,7 @@
     [type]="iconTypes.SEARCH"
     aria-label="search"
     class="search"
+    (mousedown)="avoidReopen($event)"
   ></cx-icon>
 </label>
 

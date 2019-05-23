@@ -92,6 +92,10 @@ export class SearchBoxComponentService {
     this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
   }
 
+  hasBodyClass(className: string): boolean {
+    return this.winRef.document.body.classList.contains(className);
+  }
+
   toggleBodyClass(className: string, add?: boolean) {
     if (add === undefined) {
       this.winRef.document.body.classList.toggle(className);

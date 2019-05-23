@@ -1,16 +1,37 @@
 @import '../../../theme';
 
+/**
+ * To control visual effects while searching the searchbox requries
+ * some CSS rules to the outer elements.
+ */
 %cx-searchbox__body {
-  cx-searchbox {
-    .results {
-      display: none;
-    }
-  }
-  &.has-searchbox-results {
-    &.searchbox-is-active {
+  // when there are results and the searchbox is active
+  // we display the searchbox
+  &.searchbox-is-active {
+    &.has-searchbox-results {
       cx-searchbox {
         .results {
           display: block;
+        }
+      }
+
+      // the searchbox requires an overlay over the page (except for the header)
+      // we do this with an overlay under the header, on top of the rest of the page
+      header {
+        position: relative;
+        z-index: 100;
+      }
+      cx-storefront {
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 10;
+
+          background: rgba(0, 0, 0, 0.5);
         }
       }
     }
@@ -22,49 +43,12 @@
       cx-searchbox {
         input {
           // we cannot use display:none, visible:hidden or opacity: 0
+          // as this will no longer emit a focus event to the controller logic
           width: 0;
           padding: 0;
         }
         cx-icon.reset {
           display: none;
-        }
-      }
-    }
-
-    // prevent the searchbox to open when we're in mobile view; the user expects to close
-    // the searchbox when the search icon is clicked
-    &.searchbox-is-active {
-      cx-searchbox label {
-        pointer-events: none;
-      }
-    }
-  }
-
-  &.has-searchbox-results {
-    header {
-      position: relative;
-      z-index: 100;
-    }
-    cx-storefront {
-      &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 0;
-        z-index: 10;
-
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-      }
-    }
-
-    &.searchbox-is-active {
-      cx-storefront {
-        &:before {
-          height: 100%;
-          opacity: 1;
         }
       }
     }
@@ -103,6 +87,7 @@
     padding: 6px 6px 6px 10px;
     @include media-breakpoint-up(md) {
       width: 27vw;
+      min-width: 300px;
       // hide search icon when the input is dirty
       &.dirty cx-icon.search {
         display: none;
@@ -163,6 +148,8 @@
   }
 
   .results {
+    // hide the result by default
+    display: none;
     position: absolute;
     left: 0;
     width: 100%;
