@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ProductPageComponent } from '../../../lib/ui/pages/product-page/product-page.component';
-import { ProductPageModule } from '../../../lib/ui/pages/product-page/product-page.module';
+import { ProductPageComponent } from '../../../cms-components/product/product-page/product-page.component';
+import { ProductPageModule } from '../../../cms-components/product/product-page/product-page.module';
 import { CmsPageGuard } from '../../guards/cms-page.guard';
 import { PageLayoutComponent } from '../../page/index';
 import { suffixUrlMatcher } from './suffix-url-matcher';
@@ -10,6 +10,7 @@ import { suffixUrlMatcher } from './suffix-url-matcher';
   imports: [
     ProductPageModule,
     RouterModule.forChild([
+      // TODO: consider moving to product page module
       {
         matcher: suffixUrlMatcher,
         canActivate: [CmsPageGuard],
