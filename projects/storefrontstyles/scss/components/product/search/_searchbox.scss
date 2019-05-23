@@ -1,6 +1,6 @@
 @import '../../../theme';
 
-body {
+%cx-searchbox__body {
   cx-searchbox {
     .results {
       display: none;
@@ -15,10 +15,8 @@ body {
       }
     }
   }
-}
 
-@include media-breakpoint-down(sm) {
-  body {
+  @include media-breakpoint-down(sm) {
     // hide the input on mobile when there's no interaction with searchbox
     &:not(.searchbox-is-active) {
       cx-searchbox {
@@ -41,33 +39,33 @@ body {
       }
     }
   }
-}
 
-body.has-searchbox-results {
-  header {
-    position: relative;
-    z-index: 100;
-  }
-  cx-storefront {
-    &:before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 0;
-      z-index: 10;
-
-      background: rgba(0, 0, 0, 0.5);
-      opacity: 0;
+  &.has-searchbox-results {
+    header {
+      position: relative;
+      z-index: 100;
     }
-  }
-
-  &.searchbox-is-active {
     cx-storefront {
       &:before {
-        height: 100%;
-        opacity: 1;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 0;
+        z-index: 10;
+
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+      }
+    }
+
+    &.searchbox-is-active {
+      cx-storefront {
+        &:before {
+          height: 100%;
+          opacity: 1;
+        }
       }
     }
   }
