@@ -5,7 +5,10 @@ import { select, Store } from '@ngrx/store';
 import { filter, map, take } from 'rxjs/operators';
 import { getActiveBaseSite } from '../store/selectors/base-site.selectors';
 import { StateWithSiteContext } from '../store/state';
-import { SetActiveBaseSite } from '../store/actions/base-site.action';
+import {
+  SetActiveBaseSite,
+  LoadBaseSite,
+} from '../store/actions/base-site.action';
 
 @Injectable()
 export class BaseSiteService implements SiteContext<string> {
@@ -37,6 +40,7 @@ export class BaseSiteService implements SiteContext<string> {
       .subscribe(activeBaseSite => {
         if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(new SetActiveBaseSite(baseSite));
+          this.store.dispatch(new LoadBaseSite());
         }
       });
   }

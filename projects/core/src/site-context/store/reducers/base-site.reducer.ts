@@ -11,7 +11,7 @@ export function reducer(
   action: fromBaseSite.BaseSiteAction
 ): BaseSiteState {
   switch (action.type) {
-    case fromBaseSite.SET_ACTIVE_BASE_SITE_SUCCESS: {
+    case fromBaseSite.LOAD_BASE_SITE_SUCCESS: {
       return {
         ...state,
         details: action.payload,
