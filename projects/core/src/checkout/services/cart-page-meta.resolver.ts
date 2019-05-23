@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { CartService } from '../../cart/facade/cart.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
@@ -29,6 +29,7 @@ export class CartPageMetaResolver extends PageMetaResolver
 
   resolve(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
+      filter(page => page !== undefined),
       switchMap(page =>
         combineLatest([this.resolveTitle(page), this.resolveRobots()])
       ),
