@@ -10,9 +10,9 @@ export class GoogleMapRendererService {
   private markers: google.maps.Marker[];
 
   constructor(
-    private config: StoreFinderConfig,
-    private externalJsFileLoader: ExternalJsFileLoader,
-    private storeDataService: StoreDataService
+    protected config: StoreFinderConfig,
+    protected externalJsFileLoader: ExternalJsFileLoader,
+    protected storeDataService: StoreDataService
   ) {}
 
   /**
