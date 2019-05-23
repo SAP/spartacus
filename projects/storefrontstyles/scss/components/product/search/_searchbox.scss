@@ -17,17 +17,27 @@ body {
   }
 }
 
-// hide the input on mobile when there's no interaction with searchbox
-body:not(.open) {
-  cx-searchbox {
-    @include media-breakpoint-down(sm) {
-      input {
-        // we cannot use display:none, visible:hidden or opacity: 0
-        width: 0;
-        padding: 0;
+@include media-breakpoint-down(sm) {
+  body {
+    // hide the input on mobile when there's no interaction with searchbox
+    &:not(.open) {
+      cx-searchbox {
+        input {
+          // we cannot use display:none, visible:hidden or opacity: 0
+          width: 0;
+          padding: 0;
+        }
+        cx-icon.reset {
+          display: none;
+        }
       }
-      cx-icon.reset {
-        display: none;
+    }
+
+    // prevent the searchbox to open when we're in mobile view; the user expects to close
+    // the searchbox when the search icon is clicked
+    &.open {
+      cx-searchbox label {
+        pointer-events: none;
       }
     }
   }
@@ -107,8 +117,9 @@ body.has-results {
 
   label {
     display: flex;
+    align-content: stretch;
     margin: 0;
-    padding: 6px;
+    padding: 6px 6px 6px 10px;
     @include media-breakpoint-up(md) {
       width: 27vw;
       // hide search icon when the input is dirty
@@ -121,7 +132,6 @@ body.has-results {
       background: none;
       border: none;
       outline: none;
-      padding-left: 10px;
 
       display: block;
 

@@ -71,7 +71,6 @@ export class SearchBoxComponentService {
       map(([products, suggestions, message]) => {
         return { products, suggestions, message };
       }),
-      tap(results => console.log(results)),
       tap(results =>
         this.toggleBodyClass('has-results', this.hasResults(results))
       )

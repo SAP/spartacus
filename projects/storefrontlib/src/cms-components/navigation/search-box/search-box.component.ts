@@ -16,8 +16,6 @@ import { SearchResults } from './search-box.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent {
-  // searchBoxControl: FormControl = new FormControl();
-
   /**
    * Sets the search box input field
    */
@@ -32,14 +30,14 @@ export class SearchBoxComponent {
   iconTypes = ICON_TYPE;
 
   /**
-   * In some occasions we need to ignore the closing event,
+   * In some occasions we need to ignore the close event,
    * for example when we click inside the search result section.
    */
   private ignoreCloseEvent = false;
 
   /**
    * The component data is optional, so that this component
-   * can be reused without a CMS
+   * can be reused without CMS integration.
    */
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -54,7 +52,7 @@ export class SearchBoxComponent {
   /**
    * Closes the searchbox and opens the search result page.
    */
-  search(query): void {
+  search(query: string): void {
     this.searchBoxComponentService.search(
       query
       // this.componentData ? this.componentData.data$ : null
@@ -88,7 +86,6 @@ export class SearchBoxComponent {
    * Opens the typeahead searchbox
    */
   open(): void {
-    console.log('focus!');
     this.searchBoxComponentService.toggleBodyClass('open', true);
   }
 
@@ -97,7 +94,6 @@ export class SearchBoxComponent {
    */
   disableClose(): void {
     this.ignoreCloseEvent = true;
-    // console.log('disableClose', this.ignoreCloseEvent);
   }
 
   /**
