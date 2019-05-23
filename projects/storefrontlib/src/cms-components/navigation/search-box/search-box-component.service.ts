@@ -18,6 +18,8 @@ const DEFAULT_SEARCHBOCH_CONFIG: SearchBoxConfig = {
   displayProducts: true,
 };
 
+const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -76,7 +78,7 @@ export class SearchBoxComponentService {
         };
       }),
       tap(results =>
-        this.toggleBodyClass('has-results', this.hasResults(results))
+        this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, this.hasResults(results))
       )
     );
   }
@@ -87,7 +89,7 @@ export class SearchBoxComponentService {
    */
   clearResults() {
     this.searchService.clearResults();
-    this.toggleBodyClass('has-results', false);
+    this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
   }
 
   toggleBodyClass(className: string, add?: boolean) {

@@ -74,7 +74,10 @@ export class SearchBoxComponent {
    */
   close(event: UIEvent): void {
     if (!this.ignoreCloseEvent) {
-      this.searchBoxComponentService.toggleBodyClass('open', false);
+      this.searchBoxComponentService.toggleBodyClass(
+        'searchbox-is-active',
+        false
+      );
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
       }
@@ -86,7 +89,7 @@ export class SearchBoxComponent {
    * Opens the typeahead searchbox
    */
   open(): void {
-    this.searchBoxComponentService.toggleBodyClass('open', true);
+    this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
   }
 
   /**

@@ -6,8 +6,8 @@ body {
       display: none;
     }
   }
-  &.has-results {
-    &.open {
+  &.has-searchbox-results {
+    &.searchbox-is-active {
       cx-searchbox {
         .results {
           display: block;
@@ -20,7 +20,7 @@ body {
 @include media-breakpoint-down(sm) {
   body {
     // hide the input on mobile when there's no interaction with searchbox
-    &:not(.open) {
+    &:not(.searchbox-is-active) {
       cx-searchbox {
         input {
           // we cannot use display:none, visible:hidden or opacity: 0
@@ -35,7 +35,7 @@ body {
 
     // prevent the searchbox to open when we're in mobile view; the user expects to close
     // the searchbox when the search icon is clicked
-    &.open {
+    &.searchbox-is-active {
       cx-searchbox label {
         pointer-events: none;
       }
@@ -43,7 +43,7 @@ body {
   }
 }
 
-body.has-results {
+body.has-searchbox-results {
   header {
     position: relative;
     z-index: 100;
@@ -63,7 +63,7 @@ body.has-results {
     }
   }
 
-  &.open {
+  &.searchbox-is-active {
     cx-storefront {
       &:before {
         height: 100%;
