@@ -1,20 +1,18 @@
-import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-
+import { Pipe, PipeTransform } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
+  GlobalMessageService,
   I18nTestingModule,
   RoutingService,
   UserToken,
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { LoginFormComponent } from './login-form.component';
 
 import createSpy = jasmine.createSpy;
-
-import { GlobalMessageService } from '@spartacus/core';
-import { PipeTransform, Pipe } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
   name: 'cxUrl',
@@ -23,13 +21,12 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-import { LoginFormComponent } from './login-form.component';
-
 class MockAuthService {
   authorize = createSpy();
   getUserToken(): Observable<UserToken> {
     return of({ access_token: 'test' } as UserToken);
   }
+  authorizeOpenId(_username: string, _password: string): void {}
 }
 
 class MockRoutingService {
@@ -83,13 +80,18 @@ describe('LoginFormComponent', () => {
   });
 
   it('should login', () => {
-    component.form.controls['userId'].setValue('test@email.com');
-    component.form.controls['password'].setValue('secret');
+    spyOn(authService, 'authorizeOpenId').and.stub();
+    const username = 'test@email.com';
+    const password = 'secret';
+
+    component.form.controls['userId'].setValue(username);
+    component.form.controls['password'].setValue(password);
     component.login();
 
-    expect(authService.authorize).toHaveBeenCalledWith(
-      'test@email.com',
-      'secret'
+    expect(authService.authorize).toHaveBeenCalledWith(username, password);
+    expect(authService.authorizeOpenId).toHaveBeenCalledWith(
+      username,
+      password
     );
   });
 

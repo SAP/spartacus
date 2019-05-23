@@ -58,7 +58,7 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsLoading', () => {
-    it('should return the value', () => {
+    it('should return the loading flag', () => {
       store.dispatch(new fromActions.LoadUserConsents('xxx@xxx.xxx'));
 
       let result = false;
@@ -71,7 +71,7 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsSuccess', () => {
-    it('should return the value', () => {
+    it('should return the success flag', () => {
       store.dispatch(new fromActions.LoadUserConsentsSuccess({}));
 
       let result = false;
@@ -84,7 +84,7 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsError', () => {
-    it('should return the value', () => {
+    it('should return the error flag', () => {
       store.dispatch(new fromActions.LoadUserConsentsFail('error'));
 
       let result = false;
