@@ -7,13 +7,19 @@ import {
   defaultPageHeaderConfig,
   headerComponents,
 } from './default-header.config';
+import { defaultPdpComponents, defaultPdpSlots } from './default-pdp-config';
 
 export function defaultCmsContentConfig(): CmsStructureConfig {
   return {
     cmsStructure: {
-      components: { ...headerComponents, ...cartComponents },
+      components: {
+        ...headerComponents,
+        ...cartComponents,
+        ...defaultPdpComponents,
+      },
       slots: {
         ...defaultPageHeaderConfig,
+        ...defaultPdpSlots,
       },
       pages: [defaultCartPageConfig],
     },
