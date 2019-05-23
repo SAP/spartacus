@@ -17,6 +17,22 @@ body {
   }
 }
 
+// hide the input on mobile when there's no interaction with searchbox
+body:not(.open) {
+  cx-searchbox {
+    @include media-breakpoint-down(sm) {
+      input {
+        // we cannot use display:none, visible:hidden or opacity: 0
+        width: 0;
+        padding: 0;
+      }
+      cx-icon.reset {
+        display: none;
+      }
+    }
+  }
+}
+
 body.has-results {
   header {
     position: relative;
@@ -58,19 +74,6 @@ body.has-results {
   //     }
   //   }
   // }
-}
-
-// hide the input on mobile when there's no interaction with searchbox
-
-body:not(.open) {
-  cx-searchbox {
-    input {
-      @include media-breakpoint-down(sm) {
-        // opacity: 0;
-        display: none;
-      }
-    }
-  }
 }
 
 %cx-searchbox {

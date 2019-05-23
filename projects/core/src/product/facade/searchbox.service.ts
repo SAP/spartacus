@@ -40,11 +40,11 @@ export class SearchboxService extends ProductSearchService {
     );
   }
 
-  searchSuggestions(): Observable<Suggestion[]> {
+  getSuggestionResults(): Observable<Suggestion[]> {
     return this.store.pipe(select(fromStore.getProductSuggestions));
   }
 
-  getSuggestionResults(query: string, searchConfig?: SearchConfig): void {
+  searchSuggestions(query: string, searchConfig?: SearchConfig): void {
     this.store.dispatch(
       new fromStore.GetProductSuggestions({
         term: query,

@@ -7,7 +7,7 @@
     (input)="search(query.value)"
     (blur)="close($event)"
     (keydown.escape)="close($event)"
-    (keydown.enter)="openSearch($event, query.value)"
+    (keydown.enter)="launchSearchResult($event, query.value)"
   />
 
   <cx-icon

@@ -61,7 +61,12 @@ export class SearchBoxComponent {
     );
   }
 
-  openSearch(event: UIEvent, query: string): void {
+  /**
+   * Opens the PLP with the given query.
+   *
+   * TODO: if there's a singe product match, we could open the PDP.
+   */
+  launchSearchResult(event: UIEvent, query: string): void {
     this.close(event);
     this.searchBoxComponentService.launchSearchPage(query);
   }
@@ -71,7 +76,7 @@ export class SearchBoxComponent {
    */
   close(event: UIEvent): void {
     if (!this.ignoreCloseEvent) {
-      this.searchBoxComponentService.toggleClass('open', false);
+      this.searchBoxComponentService.toggleBodyClass('open', false);
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
       }
@@ -83,7 +88,8 @@ export class SearchBoxComponent {
    * Opens the typeahead searchbox
    */
   open(): void {
-    this.searchBoxComponentService.toggleClass('open', true);
+    console.log('focus!');
+    this.searchBoxComponentService.toggleBodyClass('open', true);
   }
 
   /**

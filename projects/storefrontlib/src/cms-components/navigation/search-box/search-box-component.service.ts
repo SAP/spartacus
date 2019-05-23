@@ -51,78 +51,32 @@ export class SearchBoxComponentService {
     }
 
     if (config.displaySuggestions) {
-      this.searchService.getSuggestionResults(query, {
+      this.searchService.searchSuggestions(query, {
         pageSize: config.maxSuggestions,
       });
     }
   }
 
+  /**
+   * Returns an observable with the SearchResults. When there's any
+   * result, the body tag will get a classname, so that specific style
+   * rules can be applied.
+   */
   getResults(): Observable<SearchResults> {
     return zip(
       this.productResults$,
       this.productSuggestions$,
       this.searchMessage$
     ).pipe(
-      // tap(results => console.log('results', results)),
       map(([products, suggestions, message]) => {
         return { products, suggestions, message };
       }),
+      tap(results => console.log(results)),
       tap(results =>
-        console.log(
-          (!!results.products && results.products.length > 0) ||
-            (!!results.suggestions && results.suggestions.length > 0) ||
-            !!results.message
-        )
-      ),
-      tap(results =>
-        this.toggleClass(
-          'has-results',
-          (!!results.products && results.products.length > 0) ||
-            (!!results.suggestions && results.suggestions.length > 0) ||
-            !!results.message
-        )
+        this.toggleBodyClass('has-results', this.hasResults(results))
       )
     );
   }
-
-  // getResults(
-  // ): Observable<any> {
-  //   return combineLatest(
-  //     text.pipe(
-  //       tap(t => this.toggleResultPanel(t)),
-  //       debounceTime(300)
-  //     ),
-  //     config ? config : of(DEFAULT_SEARCHBOCH_CONFIG)
-  //   ).pipe(
-  //     // tap(([term, c, p, s]) => this.executeSearch(term, c)),
-  //     // switchMap(() => zip()),
-  //     // switchMap(([products, suggestions]) => {
-  //     //   return this.fetchMessage(products, suggestions).pipe(
-  //     //     map(message => {
-  //     //       return {
-  //     //         products,
-  //     //         suggestions,
-  //     //         message,
-  //     //       };
-  //     //     })
-  //     //   );
-  //     // }),
-
-  //     tap(r => console.log('results???', r)),
-  //     tap(results =>
-  //       this.toggleClass(
-  //         'has-results',
-  //         !!results.products || !!results.suggestions || !results.message
-  //       )
-  //     )
-  //   );
-  // }
-
-  // results(): Observable<SearchResults> {
-  //   return combineLatest(
-  //     this.productResults$,
-  //     this.productSuggestions$).pipe(map());
-  // }
 
   /**
    * Clears the searchbox results, so that old values are
@@ -130,6 +84,25 @@ export class SearchBoxComponentService {
    */
   clearResults() {
     this.searchService.clearResults();
+    this.toggleBodyClass('has-results', false);
+  }
+
+  toggleBodyClass(className: string, add?: boolean) {
+    if (add === undefined) {
+      this.winRef.document.body.classList.toggle(className);
+    } else {
+      add
+        ? this.winRef.document.body.classList.add(className)
+        : this.winRef.document.body.classList.remove(className);
+    }
+  }
+
+  private hasResults(results: SearchResults): boolean {
+    return (
+      (!!results.products && results.products.length > 0) ||
+      (!!results.suggestions && results.suggestions.length > 0) ||
+      !!results.message
+    );
   }
 
   private get productResults$(): Observable<Product[]> {
@@ -138,7 +111,7 @@ export class SearchBoxComponentService {
 
   private get productSuggestions$(): Observable<string[]> {
     return this.searchService
-      .searchSuggestions()
+      .getSuggestionResults()
       .pipe(map(res => res.map(suggestion => suggestion.value)));
   }
 
@@ -158,44 +131,6 @@ export class SearchBoxComponentService {
         }
       })
     );
-  }
-
-  // private fetchMessage(
-  //   products: Product[],
-  //   suggestions: string[]
-  // ): Observable<string> {
-  //   if (!products || !suggestions) {
-  //     return of(null);
-  //   } else if (suggestions.length === 0 && products.length === 0) {
-  //     return this.fetchTranslation('searchBox.help.noMatch');
-  //   } else if (suggestions.length === 0 && products.length > 0) {
-  //     return this.fetchTranslation('searchBox.help.exactMatch', {
-  //       term: 'TODO',
-  //     });
-  //   } else {
-  //     return of(null);
-  //   }
-  // }
-
-  /**
-   * hide the has-result class when there's no text
-   * this is important to avoid flickering of the result panel
-   */
-  private toggleResultPanel(text: string): void {
-    if (!text) {
-      // this.toggleClass('has-results', false);
-    }
-  }
-
-  toggleClass(className: string, add?: boolean) {
-    // console.log('toggleClass', className, add);
-    if (add === undefined) {
-      this.winRef.document.body.classList.toggle(className);
-    } else {
-      add
-        ? this.winRef.document.body.classList.add(className)
-        : this.winRef.document.body.classList.remove(className);
-    }
   }
 
   /**

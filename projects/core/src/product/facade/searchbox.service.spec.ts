@@ -113,7 +113,7 @@ describe('SearchboxService', () => {
   describe('getSuggestions(query, searchConfig)', () => {
     it('should be able to get suggestion for the given product', () => {
       const searchConfig: SearchConfig = {};
-      service.getSuggestionResults('test term', searchConfig);
+      service.searchSuggestions('test term', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.GetProductSuggestions({
           term: 'test term',
