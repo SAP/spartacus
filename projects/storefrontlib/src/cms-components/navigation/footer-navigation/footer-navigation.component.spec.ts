@@ -2,7 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Component as SpaComponent } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
@@ -52,7 +52,7 @@ describe('FooterNavigationComponent', () => {
     },
   ];
 
-  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
+  const mockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: of(),
   };
 
