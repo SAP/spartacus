@@ -13,8 +13,8 @@ import {
   defaultCmsContentConfig,
   StorefrontComponent,
   StorefrontModule,
-  translations,
 } from '@spartacus/storefront';
+import { translations } from '@spartacus/assets';
 import { environment } from '../environments/environment';
 
 registerLocaleData(localeDe);

@@ -10,6 +10,7 @@ import {
   Component as SpaComponent,
   CmsConfig,
 } from '@spartacus/core';
+import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -36,7 +37,7 @@ describe('LinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, GenericLinkModule],
       declarations: [LinkComponent],
       providers: [
         { provide: CmsConfig, useValue: UseCmsModuleConfig },
