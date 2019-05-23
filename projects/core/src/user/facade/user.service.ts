@@ -7,6 +7,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -21,7 +22,6 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
-
 @Injectable()
 export class UserService {
   constructor(
@@ -501,13 +501,13 @@ export class UserService {
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
    */
-  updatePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string
-  ): void {
+  updatePassword(oldPassword: string, newPassword: string): void {
     this.store.dispatch(
-      new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+      new fromStore.UpdatePassword({
+        userId: USERID_CURRENT,
+        oldPassword,
+        newPassword,
+      })
     );
   }
 
