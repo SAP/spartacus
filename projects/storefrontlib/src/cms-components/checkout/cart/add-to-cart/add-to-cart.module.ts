@@ -12,6 +12,7 @@ import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import { IconModule } from '../../../../cms-components/misc/icon/index';
+import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { IconModule } from '../../../../cms-components/misc/icon/index';
     IconModule,
     I18nModule,
     FormComponentsModule,
+    AutoFocusDirectiveModule,
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddToCartComponent, AddedToCartDialogComponent],

@@ -9,7 +9,7 @@ import { ProductConnector } from '../../connectors/product/product.connector';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import * as fromEffects from './product.effect';
-import { defaultOccProductConfig } from '../../config/product-config';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import createSpy = jasmine.createSpy;
 import { Product } from '../../../model/product.model';
 import { PageType } from '../../../model/cms.model';

@@ -8,10 +8,11 @@ import {
   PageMetaResolver,
   PageMetaService,
 } from '../../cms';
+import { I18nTestingModule } from '../../i18n';
+import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
 import { ProductSearchService } from '../facade';
 import { CategoryPageMetaResolver } from './category-page-meta.resolver';
-import { PageType } from '../../model/cms.model';
 
 const mockPageWithProductList: Page = {
   type: PageType.CATEGORY_PAGE,
@@ -53,7 +54,7 @@ class ContentPageTitleResolver extends PageMetaResolver {
 }
 
 class MockProductSearchService {
-  getSearchResults() {
+  getResults() {
     return of({
       breadcrumbs: [
         {
@@ -68,13 +69,13 @@ class MockProductSearchService {
 }
 class MockRoutingService {}
 
-describe('CategoryPageTitleResolver', () => {
+describe('CategoryPageMetaResolver', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         ContentPageTitleResolver,
@@ -121,7 +122,9 @@ describe('CategoryPageTitleResolver', () => {
         })
         .unsubscribe();
 
-      expect(result.title).toEqual('6 results for Hand-held Camcorders');
+      expect(result.title).toEqual(
+        'pageMetaResolver.category.title count:6 query:Hand-held Camcorders'
+      );
     });
 
     it('should resolve 2 breadcrumbs', () => {
@@ -144,7 +147,6 @@ describe('CategoryPageTitleResolver', () => {
           result = value;
         })
         .unsubscribe();
-      console.log(result.breadcrumbs);
       expect(result.breadcrumbs[1].label).toEqual('Hand-held Camcorders');
     });
   });

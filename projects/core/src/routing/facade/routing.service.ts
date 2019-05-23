@@ -17,9 +17,9 @@ import { RouterState } from '../store/reducers/router.reducer';
 })
 export class RoutingService {
   constructor(
-    private store: Store<fromStore.RouterState>,
-    private winRef: WindowRef,
-    private urlService: UrlService
+    protected store: Store<fromStore.RouterState>,
+    protected winRef: WindowRef,
+    protected urlService: UrlService
   ) {}
 
   /**
@@ -120,7 +120,7 @@ export class RoutingService {
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  private navigate(
+  protected navigate(
     path: any[],
     query?: object,
     extras?: NavigationExtras

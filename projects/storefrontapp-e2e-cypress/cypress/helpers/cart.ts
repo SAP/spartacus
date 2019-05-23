@@ -81,7 +81,7 @@ export function removeAllItemsFromCart() {
 export function loginRegisteredUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
-  cy.visit('/login');
+  cy.reload();
 }
 
 export function addProductWhenLoggedIn() {
