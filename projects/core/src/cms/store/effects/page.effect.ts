@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
+  groupBy,
   map,
   mergeMap,
   switchMap,
@@ -47,19 +48,29 @@ export class PageEffects {
   loadPageData$: Observable<Action> = this.actions$.pipe(
     ofType(pageActions.LOAD_PAGE_DATA),
     map((action: pageActions.LoadPageData) => action.payload),
-    switchMap(pageContext => {
-      return this.cmsPageConnector.get(pageContext).pipe(
-        mergeMap((cmsStructure: CmsStructureModel) => {
-          return [
-            new componentActions.GetComponentFromPage(cmsStructure.components),
-            new pageActions.LoadPageDataSuccess(pageContext, cmsStructure.page),
-          ];
-        }),
-        catchError(error => {
-          return of(new pageActions.LoadPageDataFail(pageContext, error));
+    groupBy(pageContext => pageContext.type + pageContext.id),
+    mergeMap(group =>
+      group.pipe(
+        switchMap(pageContext => {
+          return this.cmsPageConnector.get(pageContext).pipe(
+            mergeMap((cmsStructure: CmsStructureModel) => {
+              return [
+                new componentActions.GetComponentFromPage(
+                  cmsStructure.components
+                ),
+                new pageActions.LoadPageDataSuccess(
+                  pageContext,
+                  cmsStructure.page
+                ),
+              ];
+            }),
+            catchError(error => {
+              return of(new pageActions.LoadPageDataFail(pageContext, error));
+            })
+          );
         })
-      );
-    })
+      )
+    )
   );
 
   constructor(

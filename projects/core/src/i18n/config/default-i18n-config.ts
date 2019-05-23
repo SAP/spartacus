@@ -25,6 +25,7 @@ export const defaultI18nConfig: I18nConfig = {
         'checkoutOrderConfirmation',
         'checkoutReview',
         'checkoutShipping',
+        'checkoutProgress',
       ],
       product: [
         'productDetails',
@@ -42,6 +43,7 @@ export const defaultI18nConfig: I18nConfig = {
         'updateEmailForm',
         'updatePasswordForm',
         'updateProfileForm',
+        'consentManagementForm',
       ],
     },
   },

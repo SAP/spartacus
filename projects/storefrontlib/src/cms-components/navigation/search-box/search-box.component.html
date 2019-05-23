@@ -1,19 +1,19 @@
-<label class="searchbox" [class.dirty]="!!query.value">
+<label class="searchbox" [class.dirty]="!!searchInput.value">
   <input
-    #query
+    #searchInput
     [placeholder]="'searchBox.placeholder' | cxTranslate"
     aria-label="search"
     (focus)="open($event)"
-    (input)="search(query.value)"
+    (input)="search(searchInput.value)"
     (blur)="close($event)"
     (keydown.escape)="close($event)"
-    (keydown.enter)="launchSearchResult($event, query.value)"
+    (keydown.enter)="launchSearchResult($event, searchInput.value)"
   />
 
   <cx-icon
     [type]="iconTypes.RESET"
     aria-label="reset"
-    (mousedown)="clear(query)"
+    (mousedown)="clear(searchInput)"
     class="reset"
   ></cx-icon>
 
@@ -34,7 +34,7 @@
   <div class="suggestions" (mousedown)="disableClose()">
     <a
       *ngFor="let suggestion of result.suggestions"
-      [innerHTML]="suggestion | cxHighlight: query.value"
+      [innerHTML]="suggestion | cxHighlight: searchInput.value"
       [routerLink]="
         {
           cxRoute: 'search',

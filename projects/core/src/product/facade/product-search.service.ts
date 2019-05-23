@@ -10,7 +10,7 @@ import * as fromStore from '../store/index';
 export class ProductSearchService {
   constructor(
     protected store: Store<fromStore.StateWithProduct>,
-    private router: Router
+    protected router: Router
   ) {}
 
   search(query: string, searchConfig?: SearchConfig): void {

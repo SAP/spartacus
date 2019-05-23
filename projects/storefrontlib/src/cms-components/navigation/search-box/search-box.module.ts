@@ -6,7 +6,6 @@ import {
   ConfigModule,
   I18nModule,
   ProductModule,
-  StripHtmlModule,
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
@@ -19,7 +18,6 @@ import { SearchBoxComponent } from './search-box.component';
     RouterModule,
     MediaModule,
     ProductModule,
-    StripHtmlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SearchBoxComponent: {

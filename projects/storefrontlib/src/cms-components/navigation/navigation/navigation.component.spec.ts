@@ -6,10 +6,7 @@ import createSpy = jasmine.createSpy;
 
 import { NavigationComponent } from './navigation.component';
 import { NavigationComponentService } from './navigation.component.service';
-import {
-  CmsNavigationComponent,
-  Component as SpaComponent,
-} from '@spartacus/core';
+import { CmsNavigationComponent, CmsComponent } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
 
@@ -60,7 +57,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
 
   const componentData$ = new BehaviorSubject(componentData);
 
-  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
+  const mockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: componentData$.asObservable(),
   };
 

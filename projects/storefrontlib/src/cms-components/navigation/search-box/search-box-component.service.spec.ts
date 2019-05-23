@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  Component as SpaComponent,
+  CmsComponent,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -41,7 +41,7 @@ const MockRoutingService = {
     return of(mockRouterState);
   },
 };
-const MockComponentData = <CmsComponentData<SpaComponent>>{
+const MockComponentData = <CmsComponentData<CmsComponent>>{
   data$: of({}),
 };
 
