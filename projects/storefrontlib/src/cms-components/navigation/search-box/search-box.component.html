@@ -51,7 +51,7 @@
       [routerLink]="
         {
           cxRoute: 'product',
-          params: product | stripHtml
+          params: product
         } | cxUrl
       "
     >
@@ -60,7 +60,7 @@
         format="product"
         [alt]="product.summary"
       ></cx-media>
-      <h4 class="name">{{ product.name }}</h4>
+      <h4 class="name" [innerHTML]="product.nameHtml"></h4>
       <span class="price">{{ product.price?.formattedValue }}</span>
     </a>
   </div>
