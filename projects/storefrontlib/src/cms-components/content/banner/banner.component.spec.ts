@@ -2,7 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsBannerComponent, Component as SpaComponent } from '@spartacus/core';
+import { CmsBannerComponent, CmsComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
@@ -36,7 +36,7 @@ describe('BannerComponent', () => {
     urlLink: '/logo',
   };
 
-  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
+  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: of(componentData),
     uid: 'test',
   };
