@@ -3,15 +3,15 @@ import {
   CmsConfig,
   I18nConfig,
   OccConfig,
-  RoutingConfig,
   PersonalizationConfig,
+  RoutingConfig,
   SiteContextConfig,
   StateConfig,
 } from '@spartacus/core';
+import { CheckoutConfig } from '../cms-components/checkout/config/checkout-config';
 import { IconConfig } from '../cms-components/misc/icon/index';
 import { PWAModuleConfig } from '../cms-structure/pwa/index';
 import { LayoutConfig } from '../layout/config/layout-config';
-import { CheckoutConfig } from './checkout/config/checkout-config';
 
 export type StorefrontModuleConfig =
   | AuthConfig

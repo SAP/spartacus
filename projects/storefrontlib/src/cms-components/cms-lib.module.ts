@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule, SkipLinkModule } from '../layout/index';
-import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
-import { CartComponentModule } from './checkout/cart/cart.module';
+import { CartComponentModule } from './cart/cart.module';
+import { CheckoutComponentModule } from './checkout/checkout.module';
 import {
   BannerModule,
   CmsParagraphModule,

@@ -9,7 +9,7 @@ import {
   MediaModule,
   StarRatingModule,
 } from '../../../shared/index';
-import { AddToCartModule, CartSharedModule } from '../../checkout/index';
+import { AddToCartModule, CartSharedModule } from '../../cart/index';
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
 
