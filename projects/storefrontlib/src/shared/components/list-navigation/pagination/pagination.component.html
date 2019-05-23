@@ -10,10 +10,10 @@
     *ngFor="let page of getPageIndicies(); let i = index"
     [ngClass]="{ active: onPageIndex(i), disabled: showDots(i) }"
   >
-    <a class="page-link" [hidden]="!showDots(i)">...</a>
+    <a class="page-link" *ngIf="showDots(i)">...</a>
     <a
       class="page-link"
-      [hidden]="hidePageIndex(i)"
+      *ngIf="!hidePageIndex(i)"
       (click)="clickPageNo(i + 1)"
       >{{ i + 1 }}</a
     >
