@@ -71,26 +71,9 @@ body.has-results {
       }
     }
   }
-
-  // &:not(.open) {
-  //   cx-searchbox {
-  //     // .results {
-  //     //   display: none;
-  //     // }
-  //     @include media-breakpoint-down(sm) {
-  //       .reset {
-  //         opacity: 0;
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 %cx-searchbox {
-  .hidden {
-    display: none;
-  }
-
   @include media-breakpoint-up(md) {
     // we position the parent relative to ensure the absolute childs
     // can be aligned to the left of this parent

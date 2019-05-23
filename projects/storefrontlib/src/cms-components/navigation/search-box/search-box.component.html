@@ -25,7 +25,6 @@
 </label>
 
 <div *ngIf="(results$ | async) as result" class="results" (click)="close()">
-  <!-- [class.hidden]="!searchBoxControl.value" -->
   <div
     *ngIf="result.message"
     class="message"
