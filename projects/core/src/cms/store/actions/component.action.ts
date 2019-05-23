@@ -1,4 +1,4 @@
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../model/cms.model';
 import {
   EntityFailAction,
   EntityLoadAction,
