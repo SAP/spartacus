@@ -35,7 +35,7 @@ export class BaseSiteService implements SiteContext<string> {
         take(1)
       )
       .subscribe(activeBaseSite => {
-        if (activeBaseSite !== baseSite) {
+        if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(new SetActiveBaseSite(baseSite));
         }
       });
