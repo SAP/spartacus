@@ -51,7 +51,7 @@ export class ProductFacetNavigationComponent implements OnInit {
       })
     );
 
-    this.searchResult$ = this.productSearchService.getSearchResults().pipe(
+    this.searchResult$ = this.productSearchService.getResults().pipe(
       tap(searchResult => {
         this.searchResult = searchResult;
         if (this.searchResult.facets) {

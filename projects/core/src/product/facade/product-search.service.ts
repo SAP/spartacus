@@ -1,17 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { select, Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
+import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
 import * as fromStore from '../store/index';
-import {
-  Suggestion,
-  ProductSearchPage,
-} from '../../model/product-search.model';
 
 @Injectable()
 export class ProductSearchService {
@@ -35,42 +28,14 @@ export class ProductSearchService {
     );
   }
 
-  getSearchResults(): Observable<ProductSearchPage> {
+  getResults(): Observable<ProductSearchPage> {
     return this.store.pipe(select(fromStore.getSearchResults));
   }
 
-  clearSearchResults(): void {
-    this.store.dispatch(new fromStore.CleanProductSearchState());
-  }
-
-  getAuxSearchResults(): Observable<ProductSearchPage> {
-    return this.store.pipe(
-      select(fromStore.getAuxSearchResults),
-      filter(results => Object.keys(results).length > 0)
-    );
-  }
-
-  getSearchSuggestions(): Observable<Suggestion[]> {
-    return this.store.pipe(select(fromStore.getProductSuggestions));
-  }
-
-  searchAuxiliary(query: string, searchConfig?: SearchConfig): void {
+  clearResults(): void {
     this.store.dispatch(
-      new fromStore.SearchProducts(
-        {
-          queryText: query,
-          searchConfig: searchConfig,
-        },
-        true
-      )
-    );
-  }
-
-  getSuggestions(query: string, searchConfig?: SearchConfig): void {
-    this.store.dispatch(
-      new fromStore.GetProductSuggestions({
-        term: query,
-        searchConfig: searchConfig,
+      new fromStore.ClearProductSearchResult({
+        clearPageResults: true,
       })
     );
   }
