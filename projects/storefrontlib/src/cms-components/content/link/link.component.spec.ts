@@ -5,11 +5,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import { CmsComponentData } from '@spartacus/storefront';
-import {
-  CmsLinkComponent,
-  Component as SpaComponent,
-  CmsConfig,
-} from '@spartacus/core';
+import { CmsLinkComponent, CmsComponent, CmsConfig } from '@spartacus/core';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 
 const UseCmsModuleConfig: CmsConfig = {
@@ -31,7 +27,7 @@ describe('LinkComponent', () => {
     url: '/store-finder',
   };
 
-  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
+  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: of(componentData),
   };
 
