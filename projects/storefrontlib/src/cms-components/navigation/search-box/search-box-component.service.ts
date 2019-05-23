@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  Product,
+  ProductSearchPage,
   RoutingService,
   SearchboxService,
   TranslationService,
@@ -68,8 +68,12 @@ export class SearchBoxComponentService {
       this.productSuggestions$,
       this.searchMessage$
     ).pipe(
-      map(([products, suggestions, message]) => {
-        return { products, suggestions, message };
+      map(([productResults, suggestions, message]) => {
+        return {
+          products: productResults ? productResults.products : null,
+          suggestions,
+          message,
+        };
       }),
       tap(results =>
         this.toggleBodyClass('has-results', this.hasResults(results))
@@ -104,8 +108,8 @@ export class SearchBoxComponentService {
     );
   }
 
-  private get productResults$(): Observable<Product[]> {
-    return this.searchService.getResults().pipe(map(res => res.products));
+  private get productResults$(): Observable<ProductSearchPage> {
+    return this.searchService.getResults();
   }
 
   private get productSuggestions$(): Observable<string[]> {
@@ -116,14 +120,20 @@ export class SearchBoxComponentService {
 
   private get searchMessage$(): Observable<string> {
     return zip(this.productResults$, this.productSuggestions$).pipe(
-      switchMap(([products, suggestions]) => {
-        if (!products || !suggestions) {
+      switchMap(([productResult, suggestions]) => {
+        if (!productResult || !productResult.products || !suggestions) {
           return of(null);
-        } else if (suggestions.length === 0 && products.length === 0) {
+        } else if (
+          suggestions.length === 0 &&
+          productResult.products.length === 0
+        ) {
           return this.fetchTranslation('searchBox.help.noMatch');
-        } else if (suggestions.length === 0 && products.length > 0) {
+        } else if (
+          suggestions.length === 0 &&
+          productResult.products.length > 0
+        ) {
           return this.fetchTranslation('searchBox.help.exactMatch', {
-            term: 'TODO',
+            term: productResult.freeTextSearch,
           });
         } else {
           return of(null);
