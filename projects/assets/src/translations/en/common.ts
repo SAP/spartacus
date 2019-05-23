@@ -11,6 +11,31 @@ export const common = {
     done: 'Done',
     home: 'Home',
   },
+  pageMetaResolver: {
+    category: {
+      title: '{{count}} result for {{query}}',
+      title_plural: '{{count}} results for {{query}}',
+    },
+    content: {
+      title: '{{content}}',
+    },
+    checkout: {
+      title: 'Checkout {{count}} item',
+      title_plural: 'Checkout {{count}} items',
+    },
+    cart: {
+      title: '{{title}} ({{code}})',
+    },
+    search: {
+      title: '{{count}} result for "{{query}}"',
+      title_plural: '{{count}} results for "{{query}}"',
+    },
+    product: {
+      description: '{{description}}',
+      heading: '{{heading}}',
+      title: '{{title}}',
+    },
+  },
   spinner: {
     loading: 'Loading...',
   },

@@ -14,6 +14,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
 import { Product } from '../../model/product.model';
 import { PageType } from '../../model/cms.model';
+import { TranslationService } from '../../i18n';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,8 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageImageResolver {
   constructor(
     protected routingService: RoutingService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected translation: TranslationService
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -59,7 +61,9 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   resolveHeading(product: Product): Observable<string> {
-    return of(product.name);
+    return this.translation.translate('pageMetaResolver.product.heading', {
+      heading: product.name,
+    });
   }
 
   resolveTitle(product: Product): Observable<string> {
@@ -67,11 +71,15 @@ export class ProductPageMetaResolver extends PageMetaResolver
     title += this.resolveFirstCategory(product);
     title += this.resolveManufacturer(product);
 
-    return of(title);
+    return this.translation.translate('pageMetaResolver.product.title', {
+      title: title,
+    });
   }
 
   resolveDescription(product: Product): Observable<string> {
-    return of(product.summary);
+    return this.translation.translate('pageMetaResolver.product.description', {
+      description: product.summary,
+    });
   }
 
   resolveBreadcrumbs(product: Product): Observable<any[]> {
