@@ -17,6 +17,7 @@ export enum ICON_TYPE {
   CREDIT_CARD = 'CREDIT_CARD',
   PLUS = 'PLUS',
   MINUS = 'MINUS',
+  RESET = 'RESET',
 }
 
 export abstract class IconConfig {
