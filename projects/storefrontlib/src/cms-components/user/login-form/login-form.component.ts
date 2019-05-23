@@ -59,6 +59,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       this.form.controls.userId.value,
       this.form.controls.password.value
     );
+    this.auth.authorizeOpenId(
+      this.form.controls.userId.value,
+      this.form.controls.password.value
+    );
   }
 
   ngOnDestroy() {
