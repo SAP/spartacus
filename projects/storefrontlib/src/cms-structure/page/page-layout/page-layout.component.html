@@ -1,5 +1,8 @@
+<!-- ???? {{ layoutName$ | async }} -->
 <ng-container *cxOutlet="(layoutName$ | async)">
   <ng-content></ng-content>
+
+  <!-- {{ slots$ | async }} -->
   <cx-page-slot
     *ngFor="let slot of (slots$ | async)"
     [position]="slot"

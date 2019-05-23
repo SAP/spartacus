@@ -119,7 +119,6 @@ describe('AuthService', () => {
     service.refreshUserToken(mockToken);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromAuthStore.RefreshUserToken({
-        userId: mockToken.userId,
         refreshToken: mockToken.refresh_token,
       })
     );

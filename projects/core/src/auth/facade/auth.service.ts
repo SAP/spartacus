@@ -55,7 +55,6 @@ export class AuthService {
   refreshUserToken(token: UserToken): void {
     this.store.dispatch(
       new RefreshUserToken({
-        userId: token.userId,
         refreshToken: token.refresh_token,
       })
     );
