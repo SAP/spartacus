@@ -24,8 +24,6 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
   providedIn: 'root',
 })
 export class SearchBoxComponentService {
-  config$: Observable<any>;
-
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,

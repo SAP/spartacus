@@ -2,32 +2,36 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
   Optional,
 } from '@angular/core';
 import { CmsSearchBoxComponent } from '@spartacus/core';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { SearchResults } from './search-box.model';
+import { SearchBoxConfig, SearchResults } from './search-box.model';
+
 @Component({
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchBoxComponent {
+export class SearchBoxComponent implements OnInit {
   /**
    * Sets the search box input field
    */
   @Input('queryText')
   set queryText(value: string) {
     if (value) {
-      // this.searchBoxControl.setValue(value);
       this.search(value);
     }
   }
 
   iconTypes = ICON_TYPE;
+
+  private config: SearchBoxConfig;
 
   /**
    * In some occasions we need to ignore the close event,
@@ -49,14 +53,19 @@ export class SearchBoxComponent {
     SearchResults
   > = this.searchBoxComponentService.getResults();
 
+  ngOnInit() {
+    if (this.componentData) {
+      this.componentData.data$
+        .pipe(first())
+        .subscribe(c => (this.config = <SearchBoxConfig>c));
+    }
+  }
+
   /**
    * Closes the searchbox and opens the search result page.
    */
   search(query: string): void {
-    this.searchBoxComponentService.search(
-      query
-      // this.componentData ? this.componentData.data$ : null
-    );
+    this.searchBoxComponentService.search(query, this.config);
     // force the searchbox to open
     this.open();
   }
@@ -91,6 +100,7 @@ export class SearchBoxComponent {
   avoidReopen(event: UIEvent): void {
     if (this.searchBoxComponentService.hasBodyClass('searchbox-is-active')) {
       this.close(event);
+      event.preventDefault();
     }
   }
 
