@@ -1,4 +1,3 @@
-export * from '../occ/converters/index';
 export * from './actions/index';
 export * from './effects/index';
 export * from './product-state';

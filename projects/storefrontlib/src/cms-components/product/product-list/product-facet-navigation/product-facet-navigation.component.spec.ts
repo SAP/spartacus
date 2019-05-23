@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { NgbCollapseModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 import {
@@ -17,13 +17,14 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
+import { ICON_TYPE } from '../../../misc/index';
 
 @Component({
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 describe('ProductFacetNavigationComponent in product-list', () => {
@@ -81,7 +82,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbCollapseModule, NgbModalModule, I18nTestingModule],
+      imports: [NgbModalModule, I18nTestingModule],
       declarations: [ProductFacetNavigationComponent, MockCxIconComponent],
       providers: [
         {
@@ -158,24 +159,34 @@ describe('ProductFacetNavigationComponent in product-list', () => {
     });
 
     it('should toggle facet after clicking the title', () => {
-      const facetTitleLink = element.query(By.css('.cx-facet-header-link'));
-      const facetCollapsableList = element.query(
-        By.css('.cx-facet-header + .collapse')
-      );
+      const group = element.query(By.css('.cx-facet-group'));
+      const trigger = group.children
+        .find(child =>
+          child.nativeElement.className.includes('cx-facet-header')
+        )
+        .query(By.css('.cx-facet-header-link')).nativeElement;
+      const getList = () =>
+        group.children.find(child =>
+          child.nativeElement.className.includes('cx-facet-list')
+        );
+      let list = getList();
 
-      expect(facetCollapsableList.nativeElement.className).toContain('show');
+      // initial state
+      expect(list && list.nativeElement).toBeTruthy();
 
-      facetTitleLink.nativeElement.click();
+      trigger.click();
       fixture.detectChanges();
+      list = getList();
 
-      expect(facetCollapsableList.nativeElement.className).not.toContain(
-        'show'
-      );
+      // after first click, should not be visible
+      expect(list && list.nativeElement).toBeFalsy();
 
-      facetTitleLink.nativeElement.click();
+      trigger.click();
       fixture.detectChanges();
+      list = getList();
 
-      expect(facetCollapsableList.nativeElement.className).toContain('show');
+      // after second click, should be visible
+      expect(list && list.nativeElement).toBeTruthy();
     });
   });
 });

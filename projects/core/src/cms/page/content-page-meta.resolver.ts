@@ -6,13 +6,17 @@ import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 import { PageType } from '../../model/cms.model';
+import { TranslationService } from '../../i18n';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContentPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  constructor(protected cms: CmsService) {
+  constructor(
+    protected cms: CmsService,
+    protected translation: TranslationService
+  ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
   }
@@ -28,7 +32,9 @@ export class ContentPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(page: Page): Observable<string> {
-    return of(page.title);
+    return this.translation.translate('pageMetaResolver.content.title', {
+      content: page.title,
+    });
   }
 
   resolveBreadcrumbs(_page: Page): Observable<any[]> {

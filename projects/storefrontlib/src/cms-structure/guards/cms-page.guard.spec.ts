@@ -52,7 +52,6 @@ describe('CmsPageGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CmsPageGuard,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: CmsRoutesService, useClass: MockCmsRoutesService },

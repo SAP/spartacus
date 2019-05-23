@@ -13,6 +13,7 @@ import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
 import { SearchPageMetaResolver } from './search-page-meta.resolver';
 import { PageType } from '../../model/cms.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -69,13 +70,13 @@ class MockRoutingService {
   }
 }
 
-describe('SearchPageTitleResolver', () => {
+describe('SearchPageMetaResolver', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         FakeContentPageTitleResolver,
@@ -121,7 +122,9 @@ describe('SearchPageTitleResolver', () => {
         })
         .unsubscribe();
 
-      expect(result.title).toEqual('3 results for "Canon"');
+      expect(result.title).toEqual(
+        'pageMetaResolver.search.title count:3 query:Canon'
+      );
     });
   });
 
