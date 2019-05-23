@@ -9,7 +9,11 @@ import { PageType } from '../../model/cms.model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class CategoryPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver {
   constructor(
