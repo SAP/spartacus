@@ -2,14 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, pluck } from 'rxjs/operators';
-import { CmsComponent, PageType } from '../../../model/cms.model';
-import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { PageContext } from '../../../routing';
-import { ConverterService } from '../../../util/converter.service';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
+let retries = 0;
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -48,7 +49,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
 
     return this.http
       .get<Occ.ComponentList>(
-        this.getComponentsEndpoint(requestParams, fields),
+        this.getComponentsEndpoint(requestParams, 'fields'),
         {
           headers: this.headers,
         }
@@ -57,7 +58,8 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         pluck('component'),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
         catchError(error => {
-          if (error.status === 400) {
+          console.log('t', retries);
+          if (retries++ < 2 && error.status === 400) {
             return this.searchComponentsByIds(
               ids,
               pageContext,
@@ -66,6 +68,8 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
               pageSize,
               sort
             );
+          } else {
+            throw error;
           }
         })
       );
