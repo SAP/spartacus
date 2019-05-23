@@ -3,7 +3,7 @@
     #searchInput
     [placeholder]="'searchBox.placeholder' | cxTranslate"
     aria-label="search"
-    (focus)="open($event)"
+    (focus)="open()"
     (input)="search(searchInput.value)"
     (blur)="close($event)"
     (keydown.escape)="close($event)"
@@ -25,7 +25,11 @@
   ></cx-icon>
 </label>
 
-<div *ngIf="(results$ | async) as result" class="results" (click)="close()">
+<div
+  *ngIf="(results$ | async) as result"
+  class="results"
+  (click)="close($event)"
+>
   <div
     *ngIf="result.message"
     class="message"
