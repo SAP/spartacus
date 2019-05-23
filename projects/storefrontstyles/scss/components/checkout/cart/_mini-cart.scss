@@ -4,10 +4,6 @@
   margin-left: 0.75rem;
   display: block;
 
-  @include media-breakpoint-up(sm) {
-    margin-right: 0.5rem;
-  }
-
   a {
     display: flex;
     background: var(--cx-background, var(--cx-g-color-primary));
@@ -34,7 +30,7 @@
       display: none;
     }
 
-    @include media-breakpoint-only(xs) {
+    @include media-breakpoint-down(md) {
       width: 55px;
       height: 57px;
       background-position: center top 4px;

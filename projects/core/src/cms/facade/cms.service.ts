@@ -10,7 +10,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CmsComponent } from '../../occ/occ-models/cms-component.models';
+import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state';

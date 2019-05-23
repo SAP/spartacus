@@ -27,6 +27,14 @@ import {
 import { CheckoutConfigService } from '../../checkout-config.service';
 import { defaultStorefrontRoutesConfig } from '../../../ui/pages/default-routing-config';
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
   accountHolderName: 'Name',
@@ -168,6 +176,7 @@ describe('PaymentMethodComponent', () => {
         MockPaymentFormComponent,
         MockCardComponent,
         MockSpinnerComponent,
+        MockCxIconComponent,
       ],
       providers: [
         { provide: CartDataService, useValue: mockCartDataService },

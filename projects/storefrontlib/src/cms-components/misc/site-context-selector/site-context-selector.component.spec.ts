@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   CmsService,
   CmsSiteContextSelectorComponent,
-  Component as SpaComponent,
+  CmsComponent,
   contextServiceMapProvider,
   CurrencyService,
   Language,
@@ -75,7 +75,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     getComponentData: () => of(mockComponentData),
   };
 
-  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
+  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: of(mockComponentData),
   };
 
