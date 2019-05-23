@@ -39,15 +39,7 @@ export class CartItemListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.items.forEach(item => {
-      const { code } = item.product;
-      if (!this.form.controls[code]) {
-        this.form.setControl(code, this.createEntryFormGroup(item));
-      } else {
-        const entryForm = this.form.controls[code] as FormGroup;
-        entryForm.controls.quantity.setValue(item.quantity);
-      }
-    });
+    this.createFormgroupControls();
   }
 
   removeEntry(item: Item): void {
@@ -112,5 +104,16 @@ export class CartItemListComponent implements OnInit {
     } else {
       return consumendEntryNumber === entry.entryNumber;
     }
+  }
+  private createFormgroupControls() {
+    this.items.forEach(item => {
+      const { code } = item.product;
+      if (!this.form.controls[code]) {
+        this.form.setControl(code, this.createEntryFormGroup(item));
+      } else {
+        const entryForm = this.form.controls[code] as FormGroup;
+        entryForm.controls.quantity.setValue(item.quantity);
+      }
+    });
   }
 }

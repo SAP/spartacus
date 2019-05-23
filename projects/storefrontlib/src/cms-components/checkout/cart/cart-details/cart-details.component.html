@@ -1,25 +1,26 @@
 <ng-container *ngIf="(cart$ | async) as cart">
   <ng-container *ngIf="(entries$ | async) as entries">
-    <div class="cart-details-wrapper">
-      <div class="cx-total">
-        {{
-          'cartItems.cartTotal'
-            | cxTranslate: { count: cart.deliveryItemsQuantity }
-        }}:
-        {{ cart.totalPrice?.formattedValue }}
+    <ng-container *ngIf="entries.length > 0">
+      <div class="cart-details-wrapper">
+        <div class="cx-total">
+          {{
+            'cartItems.cartTotal'
+              | cxTranslate: { count: cart.deliveryItemsQuantity }
+          }}:
+          {{ cart.totalPrice?.formattedValue }}
+        </div>
+        <cx-promotions
+          [promotions]="getAllPromotionsForCart(cart)"
+        ></cx-promotions>
+        <cx-cart-item-list
+          [items]="entries"
+          [potentialProductPromotions]="cart.potentialProductPromotions"
+          [cartIsLoading]="!(cartLoaded$ | async)"
+          [enableSaveForLater]="true"
+        ></cx-cart-item-list>
+        <!-- NOT FOR MVP  <cx-cart-coupon></cx-cart-coupon> -->
       </div>
-      <cx-promotions
-        [promotions]="getAllPromotionsForCart(cart)"
-      ></cx-promotions>
-      <cx-cart-item-list
-        [items]="entries"
-        [potentialProductPromotions]="cart.potentialProductPromotions"
-        [cartIsLoading]="!(cartLoaded$ | async)"
-        [enableSaveForLater]="true"
-      ></cx-cart-item-list>
-      <!-- NOT FOR MVP  <cx-cart-coupon></cx-cart-coupon> -->
-    </div>
+    </ng-container>
   </ng-container>
 </ng-container>
-
 <cx-save-for-later></cx-save-for-later>

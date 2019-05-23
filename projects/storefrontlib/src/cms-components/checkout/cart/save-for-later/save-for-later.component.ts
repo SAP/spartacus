@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SaveForLaterService, Cart, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-save-for-later',
@@ -16,9 +15,7 @@ export class SaveForLaterComponent implements OnInit {
 
   ngOnInit() {
     this.sflCart$ = this.saveForLaterService.getSaveForLater();
-    this.sflEntries$ = this.saveForLaterService
-      .getEntries()
-      .pipe(filter(entries => entries.length > 0));
+    this.sflEntries$ = this.saveForLaterService.getEntries();
     this.sflCartLoaded$ = this.saveForLaterService.getLoaded();
   }
 
