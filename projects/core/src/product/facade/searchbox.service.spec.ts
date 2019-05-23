@@ -13,7 +13,7 @@ import { StateWithProduct } from '../store/product-state';
 import { ProductSearchService } from './product-search.service';
 import { SearchboxService } from './searchbox.service';
 
-fdescribe('SearchboxService', () => {
+describe('SearchboxService', () => {
   let service: SearchboxService;
   let store: Store<fromStore.ProductsState>;
   class MockRouter {
