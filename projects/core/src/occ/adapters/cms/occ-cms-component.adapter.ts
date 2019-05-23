@@ -49,7 +49,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
 
     return this.http
       .get<Occ.ComponentList>(
-        this.getComponentsEndpoint(requestParams, 'fields'),
+        this.getComponentsEndpoint(requestParams, fields),
         {
           headers: this.headers,
         }
