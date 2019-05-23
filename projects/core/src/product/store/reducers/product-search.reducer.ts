@@ -34,7 +34,7 @@ export function reducer(
       };
     }
 
-    case fromProductsSearch.CLEAR_PRODUCT_SEARCH: {
+    case fromProductsSearch.CLEAR_PRODUCT_SEARCH_RESULT: {
       return {
         ...state,
         results: action.payload.clearPageResults ? {} : state.results,

@@ -15,7 +15,8 @@ export const GET_PRODUCT_SUGGESTIONS_SUCCESS =
   '[Product] Get Product Suggestions Success';
 export const GET_PRODUCT_SUGGESTIONS_FAIL =
   '[Product] Get Product Suggestions Fail';
-export const CLEAR_PRODUCT_SEARCH = '[Product] Clear Product Search State';
+export const CLEAR_PRODUCT_SEARCH_RESULT =
+  '[Product] Clear Product Search Result';
 
 export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
@@ -51,7 +52,7 @@ export class GetProductSuggestionsFail implements Action {
 }
 
 export class ClearProductSearchResult implements Action {
-  readonly type = CLEAR_PRODUCT_SEARCH;
+  readonly type = CLEAR_PRODUCT_SEARCH_RESULT;
   constructor(
     public payload: ClearSearch = {
       clearPageResults: false,

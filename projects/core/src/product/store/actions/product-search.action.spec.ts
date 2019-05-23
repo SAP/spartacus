@@ -117,7 +117,7 @@ describe('Product Search Actions', () => {
           clearSearchboxResults: false,
         });
         expect({ ...action }).toEqual({
-          type: fromProductSearch.CLEAR_PRODUCT_SEARCH,
+          type: fromProductSearch.CLEAR_PRODUCT_SEARCH_RESULT,
           payload,
         });
       });
