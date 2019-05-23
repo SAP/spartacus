@@ -126,7 +126,7 @@ export function verifyMergedCartWhenLoggedIn() {
     standardUser.registrationData.password
   );
 
-  cy.get('cx-breadcrumb h1').should('contain', '1 results');
+  cy.get('cx-breadcrumb h1').should('contain', '1 result');
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
