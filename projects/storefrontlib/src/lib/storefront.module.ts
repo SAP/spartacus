@@ -1,18 +1,17 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-
 import {
-  OccModule,
   AuthModule,
   ConfigModule,
   CxApiModule,
   I18nModule,
+  OccModule,
   PersonalizationModule,
   provideConfig,
   RoutingModule,
   SmartEditModule,
   StateModule,
 } from '@spartacus/core';
-import { CmsLibModule } from '../cms-components/index';
+import { CmsLibModule, ProductPageModule } from '../cms-components/index';
 import { CmsModule } from '../cms-structure/cms.module';
 import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
 import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
@@ -36,6 +35,8 @@ import { UiModule } from './ui/index';
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
     I18nModule.forRoot(),
+    // partial usage:
+    ProductPageModule,
   ],
   exports: [UiModule],
   providers: [...provideConfigFromMetaTags()],
