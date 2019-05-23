@@ -12,7 +12,6 @@ import { map, shareReplay, skipWhile, switchMap, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CheckoutDetailsService {
-  userId$: Observable<string>;
   cartId$: Observable<string>;
   getCheckoutDetailsLoaded$: Observable<boolean>;
 
