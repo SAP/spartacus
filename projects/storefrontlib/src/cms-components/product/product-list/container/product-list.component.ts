@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
+  ProductSearchPage,
   ProductSearchService,
   SearchConfig,
-  ProductSearchPage,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -87,9 +87,9 @@ export class ProductListComponent implements OnInit {
     });
 
     // clean previous search result
-    this.productSearchService.clearSearchResults();
+    this.productSearchService.clearResults();
 
-    this.model$ = this.productSearchService.getSearchResults().pipe(
+    this.model$ = this.productSearchService.getResults().pipe(
       tap(searchResult => {
         if (Object.keys(searchResult).length === 0) {
           this.search(this.query, this.options);
