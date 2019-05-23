@@ -2,14 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, pluck } from 'rxjs/operators';
-import { PageType } from '../../../model/cms.model';
-import { CmsComponent, CmsComponentList } from '../../occ-models';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
-import { IdList } from '../../../cms/model/idList.model';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
@@ -48,7 +47,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     requestParams['componentIds'] = ids.toString();
 
     return this.http
-      .get<CmsComponentList>(
+      .get<Occ.ComponentList>(
         this.getComponentsEndpoint(requestParams, fields),
         {
           headers: this.headers,
@@ -80,7 +79,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    const idList: IdList = { idList: ids };
+    const idList: Occ.ComponentIDList = { idList: ids };
 
     const requestParams = {
       ...this.getContextParams(pageContext),
@@ -88,7 +87,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     };
 
     return this.http
-      .post<CmsComponentList>(
+      .post<Occ.ComponentList>(
         this.getComponentsEndpoint(requestParams, fields),
         idList,
         {
