@@ -4,13 +4,13 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CmsComponent, PageType } from '../../../model/cms.model';
-import { CmsComponentList } from '../../occ-models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsStructureConfigService } from '../../../cms/services';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
+import { Occ } from '../../occ-models/occ.models';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -20,9 +20,8 @@ const components: CmsComponent[] = [
 
 const component: CmsComponent = components[1];
 
-const componentList: CmsComponentList = {
+const componentList: Occ.ComponentList = {
   component: [{ uid: 'comp_uid1' }, { uid: 'comp_uid2' }],
-  pagination: { count: 10 },
 };
 
 class CmsStructureConfigServiceMock {}

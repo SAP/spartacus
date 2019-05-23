@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { catchError, pluck } from 'rxjs/operators';
 import { CmsComponent, PageType } from '../../../model/cms.model';
 import { Occ } from '../../occ-models/occ.models';
-import { CmsComponentList } from '../../occ-models/cms-component.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
@@ -48,7 +47,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     requestParams['componentIds'] = ids.toString();
 
     return this.http
-      .get<CmsComponentList>(
+      .get<Occ.ComponentList>(
         this.getComponentsEndpoint(requestParams, fields),
         {
           headers: this.headers,
@@ -88,7 +87,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     };
 
     return this.http
-      .post<CmsComponentList>(
+      .post<Occ.ComponentList>(
         this.getComponentsEndpoint(requestParams, fields),
         idList,
         {
