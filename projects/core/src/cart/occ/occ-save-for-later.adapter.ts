@@ -22,7 +22,7 @@ export class OccSaveForLaterAdapter implements SaveForLaterAdapter {
     protected http: HttpClient,
     private occEndpoints: OccEndpointsService,
     protected converter: ConverterService
-  ) { }
+  ) {}
 
   protected getCartEndpoint(userId: string): string {
     const cartEndpoint = `users/${userId}/carts/`;

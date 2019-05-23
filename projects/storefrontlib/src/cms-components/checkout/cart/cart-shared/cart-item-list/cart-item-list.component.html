@@ -28,6 +28,8 @@
         (remove)="removeEntry($event)"
         [cartIsLoading]="cartIsLoading"
         (update)="updateEntry($event)"
+        [enableSaveForLater]="enableSaveForLater"
+        (saveForLater)="saveItemForLater($event)"
       >
       </cx-cart-item>
     </div>

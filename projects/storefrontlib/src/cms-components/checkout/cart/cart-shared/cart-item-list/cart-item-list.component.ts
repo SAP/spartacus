@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CartService, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  PromotionResult,
+  SaveForLaterService,
+} from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
@@ -23,9 +27,16 @@ export class CartItemListComponent implements OnInit {
   @Input()
   cartIsLoading = false;
 
+  @Input()
+  enableSaveForLater = false;
+
   form: FormGroup = this.fb.group({});
 
-  constructor(protected cartService: CartService, protected fb: FormBuilder) {}
+  constructor(
+    protected cartService: CartService,
+    protected fb: FormBuilder,
+    protected saveForLaterService: SaveForLaterService
+  ) {}
 
   ngOnInit() {
     this.items.forEach(item => {
@@ -52,6 +63,11 @@ export class CartItemListComponent implements OnInit {
     updatedQuantity: number;
   }): void {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
+  }
+
+  saveItemForLater(item: Item): void {
+    this.saveForLaterService.addEntry(item.product.code, item.quantity);
+    this.removeEntry(item);
   }
 
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {

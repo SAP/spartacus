@@ -15,6 +15,7 @@
         [items]="entries"
         [potentialProductPromotions]="cart.potentialProductPromotions"
         [cartIsLoading]="!(cartLoaded$ | async)"
+        [enableSaveForLater]="true"
       ></cx-cart-item-list>
       <!-- NOT FOR MVP  <cx-cart-coupon></cx-cart-coupon> -->
     </div>

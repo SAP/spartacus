@@ -23,6 +23,8 @@ export class CartItemComponent implements OnInit {
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
+  @Input()
+  enableSaveForLater = false;
 
   @Output()
   remove = new EventEmitter<any>();
@@ -30,6 +32,8 @@ export class CartItemComponent implements OnInit {
   update = new EventEmitter<any>();
   @Output()
   view = new EventEmitter<any>();
+  @Output()
+  saveForLater = new EventEmitter<any>();
 
   @Input()
   parent: FormGroup;
@@ -55,5 +59,9 @@ export class CartItemComponent implements OnInit {
 
   viewItem() {
     this.view.emit();
+  }
+
+  saveItemForLater() {
+    this.saveForLater.emit(this.item);
   }
 }
