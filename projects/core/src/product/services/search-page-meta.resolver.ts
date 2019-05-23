@@ -6,7 +6,7 @@ import { ProductSearchService } from '../facade/product-search.service';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageMeta } from '../../cms/model/page.model';
 import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',

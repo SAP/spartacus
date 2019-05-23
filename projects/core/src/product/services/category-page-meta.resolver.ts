@@ -9,7 +9,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',
