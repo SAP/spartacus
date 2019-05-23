@@ -3,16 +3,18 @@ import { Router } from '@angular/router';
 import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
-import { ProductSearchPage } from '../../model/product-search.model';
+import {
+  ProductSearchPage,
+  Suggestion,
+} from '../../model/product-search.model';
 import { SearchConfig } from '../model';
 import * as fromStore from '../store';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSearchService } from './product-search.service';
 import { SearchboxService } from './searchbox.service';
 
-describe('SearchboxService', () => {
+fdescribe('SearchboxService', () => {
   let service: SearchboxService;
-  //   let routerService: Router;
   let store: Store<fromStore.ProductsState>;
   class MockRouter {
     createUrlTree() {
@@ -30,6 +32,13 @@ describe('SearchboxService', () => {
     products: [{ code: 'aux1' }, { code: 'aux2' }],
   };
 
+  const mockSuggestions: Suggestion[] = [
+    {
+      value: 'sug1',
+    },
+    { value: 'sug2' },
+  ];
+
   const mockSelect = (
     selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
   ) => {
@@ -38,6 +47,8 @@ describe('SearchboxService', () => {
         return () => of(mockSearchResults);
       case fromStore.getAuxSearchResults:
         return () => of(mockAuxSearchResults);
+      case fromStore.getProductSuggestions:
+        return () => of(mockSuggestions);
       default:
         return () => EMPTY;
     }
@@ -63,7 +74,6 @@ describe('SearchboxService', () => {
 
     store = TestBed.get(Store);
     service = TestBed.get(SearchboxService);
-    // routerService = TestBed.get(Router);
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -75,15 +85,6 @@ describe('SearchboxService', () => {
     }
   ));
 
-  it('should be able to get search results', () => {
-    let tempSearchResult: ProductSearchPage;
-    service
-      .getResults()
-      .subscribe(result => (tempSearchResult = result))
-      .unsubscribe();
-    expect(tempSearchResult).toEqual(mockAuxSearchResults);
-  });
-
   it('should be able to clear search results', () => {
     service.clearResults();
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -93,7 +94,7 @@ describe('SearchboxService', () => {
     );
   });
 
-  describe('search(query, searchConfig)', () => {
+  describe('search products', () => {
     it('should be able to search products', () => {
       const searchConfig: SearchConfig = {};
 
@@ -108,10 +109,19 @@ describe('SearchboxService', () => {
         )
       );
     });
+
+    it('should be able to get search results', () => {
+      let tempSearchResult: ProductSearchPage;
+      service
+        .getResults()
+        .subscribe(result => (tempSearchResult = result))
+        .unsubscribe();
+      expect(tempSearchResult).toEqual(mockAuxSearchResults);
+    });
   });
 
-  describe('getSuggestions(query, searchConfig)', () => {
-    it('should be able to get suggestion for the given product', () => {
+  describe('search suggestions', () => {
+    it('should be able to search suggestions', () => {
       const searchConfig: SearchConfig = {};
       service.searchSuggestions('test term', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -120,6 +130,15 @@ describe('SearchboxService', () => {
           searchConfig: searchConfig,
         })
       );
+    });
+
+    it('should be able to get search suggestions', () => {
+      let tempSearchResult: Suggestion[];
+      service
+        .getSuggestionResults()
+        .subscribe(result => (tempSearchResult = result))
+        .unsubscribe();
+      expect(tempSearchResult).toEqual(mockSuggestions);
     });
   });
 });

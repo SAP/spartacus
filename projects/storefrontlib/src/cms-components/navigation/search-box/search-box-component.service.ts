@@ -6,7 +6,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, zip } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
@@ -133,7 +133,7 @@ export class SearchBoxComponentService {
   }
 
   private get searchMessage$(): Observable<string> {
-    return zip(this.productResults$, this.productSuggestions$).pipe(
+    return combineLatest(this.productResults$, this.productSuggestions$).pipe(
       switchMap(([productResult, suggestions]) => {
         if (!productResult || !productResult.products || !suggestions) {
           return of(null);
