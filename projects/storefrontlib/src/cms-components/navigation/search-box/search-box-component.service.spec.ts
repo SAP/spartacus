@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import {
-  Component as SpaComponent,
+  CmsComponent,
   ProductSearchPage,
   ProductSearchService,
   RoutingService,
@@ -39,7 +39,7 @@ const routingServiceMock = {
     return of(mockRouterState);
   },
 };
-const componentDataMock = <CmsComponentData<SpaComponent>>{
+const componentDataMock = <CmsComponentData<CmsComponent>>{
   data$: of({}),
 };
 

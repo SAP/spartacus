@@ -3,7 +3,7 @@ import {
   SiteContextUrlSerializer,
   UrlTreeWithSiteContext,
 } from './site-context-url-serializer';
-import { SiteContextParamsService } from '../facade/site-context-params.service';
+import { SiteContextParamsService } from './site-context-params.service';
 import { UrlSegmentGroup, UrlTree } from '@angular/router';
 import { SiteContextConfig } from '@spartacus/core';
 

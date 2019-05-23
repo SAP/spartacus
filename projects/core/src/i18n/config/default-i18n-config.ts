@@ -12,6 +12,7 @@ export const defaultI18nConfig: I18nConfig = {
         'searchBox',
         'sorting',
         'httpHandlers',
+        'pageMetaResolver',
       ],
       cart: ['cartDetails', 'cartItems', 'orderCost', 'miniCart'],
       address: ['addressForm', 'addressBook', 'addressCard'],
@@ -34,7 +35,6 @@ export const defaultI18nConfig: I18nConfig = {
         'productSummary',
         'productReview',
         'addToCart',
-        'CMSTabParagraphContainer',
       ],
       user: [
         'forgottenPassword',
