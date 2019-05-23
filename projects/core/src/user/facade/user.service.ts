@@ -7,6 +7,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -550,8 +551,7 @@ export class UserService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    // TODO:#2513 - switch to the constant
-    this.store.dispatch(new fromStore.LoadUserConsents('current'));
+    this.store.dispatch(new fromStore.LoadUserConsents(USERID_CURRENT));
   }
 
   /**
@@ -597,8 +597,7 @@ export class UserService {
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
     this.store.dispatch(
       new fromStore.GiveUserConsent({
-        // TODO:#2513 - switch to the constant
-        userId: 'current',
+        userId: USERID_CURRENT,
         consentTemplateId,
         consentTemplateVersion,
       })
@@ -645,8 +644,7 @@ export class UserService {
    */
   withdrawConsent(consentCode: string): void {
     this.store.dispatch(
-      // TODO:#2513 - switch to the constant
-      new fromStore.WithdrawUserConsent({ userId: 'current', consentCode })
+      new fromStore.WithdrawUserConsent({ userId: USERID_CURRENT, consentCode })
     );
   }
 

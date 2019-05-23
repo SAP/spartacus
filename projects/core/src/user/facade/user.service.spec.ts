@@ -6,6 +6,7 @@ import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import { Occ } from '../../occ/occ-models/occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
@@ -653,7 +654,7 @@ describe('UserService', () => {
   });
 
   describe('consent management', () => {
-    const userId = 'current';
+    const userId = USERID_CURRENT;
     const consentTemplateListMock: ConsentTemplateList = {
       consentTemplates: [{ id: 'xxx' }],
     };
