@@ -60,8 +60,8 @@
         format="product"
         [alt]="product.summary"
       ></cx-media>
-      <h4 class="name" [innerHtml]="product.name"></h4>
-      <span class="price" [innerHTML]="product.price?.formattedValue"></span>
+      <h4 class="name">{{ product.name }}</h4>
+      <span class="price">{{ product.price?.formattedValue }}</span>
     </a>
   </div>
 </div>

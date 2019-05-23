@@ -1,22 +1,20 @@
-import { ActivatedRoute } from '@angular/router';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  DebugElement,
   ChangeDetectionStrategy,
   Component,
+  DebugElement,
   Input,
 } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
+import { ActivatedRoute } from '@angular/router';
 import { NgbCollapseModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 import {
-  ProductSearchService,
-  ProductSearchPage,
   I18nTestingModule,
+  ProductSearchPage,
+  ProductSearchService,
 } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 
 @Component({
   selector: 'cx-icon',
@@ -34,7 +32,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   class MockProductSearchService {
     search = jasmine.createSpy('search');
-    getSearchResults(): Observable<ProductSearchPage> {
+    getResults(): Observable<ProductSearchPage> {
       return of();
     }
 
@@ -124,7 +122,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
   describe('ProductFacetNavigationComponent UI tests', () => {
     beforeEach(() => {
       component.ngOnInit();
-      spyOn(service, 'getSearchResults').and.returnValue(
+      spyOn(service, 'getResults').and.returnValue(
         of({
           facets: mockFacets,
         })

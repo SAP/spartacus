@@ -1,5 +1,13 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { Component as SpaComponent, ProductSearchPage, ProductSearchService, RoutingService, Suggestion, TranslationService, WindowRef } from '@spartacus/core';
+import { TestBed } from '@angular/core/testing';
+import {
+  Component as SpaComponent,
+  ProductSearchPage,
+  RoutingService,
+  SearchboxService,
+  Suggestion,
+  TranslationService,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -7,14 +15,14 @@ import createSpy = jasmine.createSpy;
 
 const mockQueryString = '?query=mockQuery';
 
-class MockProductSearchService {
+class MockSearchboxService {
   searchAuxiliary = createSpy().and.returnValue(of([]));
   getSuggestions = createSpy().and.returnValue(of({}));
 
-  getSearchSuggestions(): Observable<Suggestion[]> {
+  getSuggestionResults(): Observable<Suggestion[]> {
     return of();
   }
-  getAuxSearchResults(): Observable<ProductSearchPage> {
+  getResults(): Observable<ProductSearchPage> {
     return of();
   }
 }
@@ -27,72 +35,67 @@ const mockRouterState = {
   },
 };
 
-const routingServiceMock = {
+const MockRoutingService = {
   go: createSpy('go'),
   getRouterState() {
     return of(mockRouterState);
   },
 };
-const componentDataMock = <CmsComponentData<SpaComponent>>{
+const MockComponentData = <CmsComponentData<SpaComponent>>{
   data$: of({}),
 };
 
+class MockTranslationService {}
+
 describe('SearchBoxComponentService', () => {
+  let service: SearchBoxComponentService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        WindowRef,
         {
           provide: CmsComponentData,
-          useValue: componentDataMock,
+          useValue: MockComponentData,
         },
         {
           provide: RoutingService,
-          useValue: routingServiceMock,
+          useValue: MockRoutingService,
         },
         {
-          provide: ProductSearchService,
-          useClass: MockProductSearchService,
+          provide: SearchboxService,
+          useClass: MockSearchboxService,
         },
+        { provide: TranslationService, useClass: MockTranslationService },
         SearchBoxComponentService,
-        TranslationService,
+        WindowRef,
       ],
+    });
+    service = TestBed.get(SearchBoxComponentService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should navigate at launchSearchPage(query: string)', () => {
+    spyOn(service, 'launchSearchPage').and.callThrough();
+
+    service.launchSearchPage(mockQueryString);
+    expect(service.launchSearchPage).toHaveBeenCalled();
+    expect(MockRoutingService.go).toHaveBeenCalledWith({
+      cxRoute: 'search',
+      params: { query: mockQueryString },
     });
   });
 
-  it('should be created', inject(
-    [SearchBoxComponentService],
-    (service: SearchBoxComponentService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  it('should get suggestions from search)', () => {
+    const productSearchService = TestBed.get(SearchboxService);
 
-  it('should navigate at launchSearchPage(query: string)', inject(
-    [SearchBoxComponentService],
-    (service: SearchBoxComponentService) => {
-      spyOn(service, 'launchSearchPage').and.callThrough();
-
-      service.launchSearchPage(mockQueryString);
-      expect(service.launchSearchPage).toHaveBeenCalled();
-      expect(routingServiceMock.go).toHaveBeenCalledWith({
-        cxRoute: 'search',
-        params: { query: mockQueryString },
-      });
-    }
-  ));
-
-  it('should get suggestions from search)', inject(
-    [SearchBoxComponentService],
-    (service: SearchBoxComponentService) => {
-      const productSearchService = TestBed.get(ProductSearchService);
-
-      const searchConfig = { pageSize: 5 };
-      service.get results(of('testQuery')).subscribe(() => {
-        expect(productSearchService.getSuggestions).toHaveBeenCalledWith(
-          'testQuery',
-          searchConfig
-        );
-      });
-    }
-  ));
+    const searchConfig = { pageSize: 5 };
+    service.getResults().subscribe(() => {
+      expect(productSearchService.getSuggestions).toHaveBeenCalledWith(
+        'testQuery',
+        searchConfig
+      );
+    });
+  });
 });

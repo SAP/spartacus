@@ -1,10 +1,14 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { CmsSearchBoxComponent, CmsService, I18nTestingModule, ProductSearchService } from '@spartacus/core';
+import {
+  CmsSearchBoxComponent,
+  CmsService,
+  I18nTestingModule,
+  ProductSearchService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -76,7 +80,7 @@ describe('SearchBoxComponent', () => {
 
   class SearchBoxComponentServiceSpy {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
-    getSearchResults = jasmine.createSpy('search').and.callFake(() =>
+    getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{
         suggestions: ['te', 'test'],
         message: 'I found stuff for you!',
@@ -87,13 +91,15 @@ describe('SearchBoxComponent', () => {
         ],
       })
     );
+
+    search() {}
+    toggleBodyClass() {}
   }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        ReactiveFormsModule,
         RouterModule.forRoot([]),
         I18nTestingModule,
       ],
@@ -134,24 +140,23 @@ describe('SearchBoxComponent', () => {
     ) as any;
 
     spyOn(searchBoxComponent, 'search').and.callThrough();
-    spyOn(searchBoxComponent.searchBoxControl, 'reset').and.callThrough();
+    // spyOn(searchBoxComponent.searchBoxControl, 'reset').and.callThrough();
   });
 
   it('should be created', () => {
     expect(searchBoxComponent).toBeTruthy();
   });
 
-  it('should dispatch new search query on text update', () => {
-    searchBoxComponent.searchBoxControl.setValue('testQuery');
+  it('should dispatch new results when search is executed', () => {
+    searchBoxComponent.search('testQuery');
     fixture.detectChanges();
-    expect(serviceSpy.get results).toHaveBeenCalled();
+    expect(serviceSpy.getResults).toHaveBeenCalled();
   });
 
   it('should dispatch new search query on input', () => {
     searchBoxComponent.queryText = 'test input';
     fixture.detectChanges();
-    expect(searchBoxComponent.searchBoxControl.value).toEqual('test input');
-    expect(serviceSpy.get results).toHaveBeenCalled();
+    expect(searchBoxComponent.search).toHaveBeenCalledWith('test input');
   });
 
   it('should launch the search page', () => {
@@ -168,11 +173,6 @@ describe('SearchBoxComponent', () => {
 
     it('should not contain search results panel', () => {
       expect(fixture.debugElement.query(By.css('.results'))).toBeFalsy();
-    });
-
-    it('should update form field after setting queryText', () => {
-      searchBoxComponent.queryText = 'test input';
-      expect(searchBoxComponent.searchBoxControl.value).toEqual('test input');
     });
 
     it('should contain search results panel after search input', async(() => {

@@ -30,11 +30,11 @@ describe('HighlightPipe', () => {
       expect(pipe.transform('eos 400D', ' eos')).toBe(
         '<span class="highlight">eos</span> 400D'
       );
+    });
 
-      it('should not return hightlight when there is no match', () => {
-        expect(pipe.transform('eos 400D')).toBe('eos 400D');
-        expect(pipe.transform('eos 400D', undefined)).toBe('eos 400D');
-      });
+    it('should not return hightlight when there is no match', () => {
+      expect(pipe.transform('eos 400D')).toBe('eos 400D');
+      expect(pipe.transform('eos 400D', undefined)).toBe('eos 400D');
     });
   });
 });
