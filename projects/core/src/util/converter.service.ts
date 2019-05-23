@@ -27,12 +27,12 @@ export interface Converter<S, T> {
 export class ConverterService {
   constructor(protected injector: Injector) {}
 
-  converters: Map<
+  private converters: Map<
     InjectionToken<Converter<any, any>>,
     Converter<any, any>[]
   > = new Map();
 
-  getConverters<S, T>(
+  private getConverters<S, T>(
     injectionToken: InjectionToken<Converter<S, T>>
   ): Converter<S, T>[] {
     if (!this.converters.has(injectionToken)) {
@@ -113,7 +113,7 @@ export class ConverterService {
     }
   }
 
-  convertSource<S, T>(
+  private convertSource<S, T>(
     source: S,
     injectionToken: InjectionToken<Converter<S, T>>
   ): T {
