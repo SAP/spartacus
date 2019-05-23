@@ -1,4 +1,4 @@
-<div *ngIf="hasHeader" class="d-none d-md-block d-lg-block d-xl-block">
+<div class="d-none d-md-block d-lg-block d-xl-block">
   <div class="cx-item-list-header row">
     <div class="cx-item-list-desc col-md-5 col-lg-5 col-xl-6">
       {{ 'cartItems.description' | cxTranslate }}
@@ -15,21 +15,15 @@
   </div>
 </div>
 
-<div [formGroup]="form">
+<div>
   <div class="cx-item-list-row" *ngFor="let item of items">
     <div class="cx-item-list-items">
-      <cx-cart-item
-        [parent]="form.controls[item.product.code]"
+      <cx-save-for-later-item
         [item]="item"
-        [potentialProductPromotions]="
-          getPotentialProductPromotionsForItem(item)
-        "
-        [isReadOnly]="isReadOnly"
+        [saveForLaterLoading]="saveForLaterLoading"
         (remove)="removeEntry($event)"
-        [cartIsLoading]="cartIsLoading"
-        (update)="updateEntry($event)"
-      >
-      </cx-cart-item>
+        (moveToCart)="moveItemToCart($event)"
+      ></cx-save-for-later-item>
     </div>
   </div>
 </div>

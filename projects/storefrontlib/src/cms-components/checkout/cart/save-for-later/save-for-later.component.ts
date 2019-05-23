@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  SaveForLaterService,
-  Cart,
-  OrderEntry,
-  CartService,
-} from '@spartacus/core';
+import { SaveForLaterService, Cart, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
-import { Item } from '../cart-shared';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-save-for-later',
@@ -18,10 +12,7 @@ export class SaveForLaterComponent implements OnInit {
   sflEntries$: Observable<OrderEntry[]>;
   sflCartLoaded$: Observable<boolean>;
 
-  constructor(
-    private cartService: CartService,
-    private saveForLaterService: SaveForLaterService
-  ) {}
+  constructor(private saveForLaterService: SaveForLaterService) {}
 
   ngOnInit() {
     this.sflCart$ = this.saveForLaterService.getSaveForLater();
@@ -31,13 +22,9 @@ export class SaveForLaterComponent implements OnInit {
     this.sflCartLoaded$ = this.saveForLaterService.getLoaded();
   }
 
-  saveItemForLater(item: Item): void {
-    this.saveForLaterService.addEntry(item.product.code, item.quantity);
-    this.cartService.removeEntry(item);
-  }
-
-  moveItemToCart(item: Item): void {
-    this.cartService.addEntry(item.product.code, item.quantity);
-    this.saveForLaterService.removeEntry(item);
+  getAllPromotionsForCart(cart: Cart): Cart[] {
+    const potentialPromotions = cart.potentialOrderPromotions || [];
+    const appliedPromotions = cart.appliedOrderPromotions || [];
+    return [...potentialPromotions, ...appliedPromotions];
   }
 }

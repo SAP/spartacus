@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cart, CartService, SaveForLaterService } from '@spartacus/core';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-page',
@@ -13,13 +12,11 @@ export class CartPageComponent implements OnInit {
 
   constructor(
     protected cartService: CartService,
-    private sflCartService: SaveForLaterService
+    protected sflCartService: SaveForLaterService
   ) {}
 
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
-    this.sflCart$ = this.sflCartService
-      .getSaveForLater()
-      .pipe(tap(c => console.log(JSON.stringify(c))));
+    this.sflCart$ = this.sflCartService.getSaveForLater();
   }
 }

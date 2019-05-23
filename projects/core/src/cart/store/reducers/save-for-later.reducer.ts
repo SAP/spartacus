@@ -16,7 +16,7 @@ export function reducer(
   switch (action.type) {
     case fromAction.LOAD_SAVE_FOR_LATER_SUCCESS:
     case fromAction.CREATE_SAVE_FOR_LATER_SUCCESS: {
-      const content = { ...action.payload.savedCartData };
+      const content = { ...action.payload };
       let entries = {};
       if (content.entries) {
         entries = content.entries.reduce(

@@ -22,7 +22,7 @@ export class OccSaveForLaterAdapter implements SaveForLaterAdapter {
     protected http: HttpClient,
     private occEndpoints: OccEndpointsService,
     protected converter: ConverterService
-  ) {}
+  ) { }
 
   protected getCartEndpoint(userId: string): string {
     const cartEndpoint = `users/${userId}/carts/`;
@@ -41,7 +41,7 @@ export class OccSaveForLaterAdapter implements SaveForLaterAdapter {
   }
 
   public create(userId: string, cartId?: string): Observable<Cart> {
-    const url = this.getCartEndpoint(userId) + cartId + `/savedcart`;
+    const url = this.getCartEndpoint(userId) + cartId;
     return this.http.get<Occ.Cart>(url).pipe(
       this.converter.pipeable(CART_NORMALIZER),
       catchError((error: any) => throwError(error.json()))

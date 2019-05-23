@@ -1,10 +1,7 @@
-<div [ngClass]="compact ? 'cx-compact row' : 'row'">
+<div class="row">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">
-    <a
-      [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-      (click)="viewItem()"
-    >
+    <a [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl">
       <cx-media
         [container]="item.product.images?.PRIMARY"
         format="thumbnail"
@@ -15,12 +12,11 @@
   <div class="cx-info col-10">
     <div class="cx-info-container row ">
       <!-- Item Description -->
-      <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
+      <div class="col-md-3 col-lg-3 col-xl-5">
         <div *ngIf="item.product.name" class="cx-name">
           <a
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-            (click)="viewItem()"
             >{{ item.product.name }}</a
           >
         </div>
@@ -40,12 +36,9 @@
       <div
         *ngIf="item.basePrice"
         class="cx-price"
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+        class="col-md-3 col-lg-3 col-xl-2"
       >
-        <div
-          class="cx-label"
-          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
-        >
+        <div class="cx-label" class="d-block d-md-none d-lg-none d-xl-none">
           {{ 'cartItems.item' | cxTranslate }}
         </div>
         <div *ngIf="item.basePrice" class="cx-value">
@@ -53,47 +46,24 @@
         </div>
       </div>
       <!-- Item Quantity -->
-      <div
-        *ngIf="item.quantity"
-        class="cx-quantity"
-        [ngClass]="compact ? '' : ' col-3'"
-      >
+      <div *ngIf="item.quantity" class="cx-quantity" class="' : ' col-3'">
         <div
           class="cx-label"
-          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+          class="d-block d-md-none d-lg-none d-xl-none"
           placement="left"
           title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
-        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
-        <div
-          *ngIf="!isReadOnly && parent"
-          class="cx-value"
-          [formGroup]="parent"
-        >
-          <cx-item-counter
-            isValueChangeable="true"
-            [step]="1"
-            [min]="1"
-            [max]="item.product.stock?.stockLevel || 1000"
-            (update)="updateItem($event)"
-            [cartIsLoading]="cartIsLoading"
-            formControlName="quantity"
-          >
-          </cx-item-counter>
-        </div>
+        <div class="cx-value">{{ item.quantity }}</div>
       </div>
       <!-- Total -->
       <div
         *ngIf="item.totalPrice"
         class="cx-total"
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+        class="col-md-3 col-lg-3 col-xl-2"
       >
-        <div
-          class="cx-label"
-          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
-        >
+        <div class="cx-label" class="d-block d-md-none d-lg-none d-xl-none">
           {{ 'cartItems.total' | cxTranslate }}
         </div>
         <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
@@ -104,17 +74,29 @@
       {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
     <!-- Promotion -->
-    <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
+    <!-- <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions> -->
     <!-- Actions -->
-    <div *ngIf="!isReadOnly" class="cx-actions col-12">
-      <button
-        class="link"
-        [class.disabled]="cartIsLoading"
-        [disabled]="cartIsLoading"
-        (click)="removeItem()"
-      >
-        {{ 'common.remove' | cxTranslate }}
-      </button>
+    <div class="cx-actions row col-12">
+      <div class="col-md-3 col-lg-3 col-xl-3">
+        <button
+          class="link"
+          [class.disabled]="saveForLaterLoading"
+          [disabled]="saveForLaterLoading"
+          (click)="moveItemToCart()"
+        >
+          Move to Cart
+        </button>
+      </div>
+      <div class="col-md-3 col-lg-3 col-xl-2">
+        <button
+          class="link"
+          [class.disabled]="saveForLaterLoading"
+          [disabled]="saveForLaterLoading"
+          (click)="removeItem()"
+        >
+          {{ 'common.remove' | cxTranslate }}
+        </button>
+      </div>
     </div>
   </div>
 </div>
