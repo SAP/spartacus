@@ -1,177 +1,221 @@
 @import '../../../theme';
 
+/**
+ * To control visual effects while searching the searchbox requries
+ * some CSS rules to the outer elements.
+ */
+%cx-searchbox__body {
+  // when there are results and the searchbox is active
+  // we display the searchbox
+  &.searchbox-is-active {
+    &.has-searchbox-results {
+      cx-searchbox {
+        .results {
+          display: block;
+        }
+      }
+
+      // the searchbox requires an overlay over the page (except for the header)
+      // we do this with an overlay under the header, on top of the rest of the page
+      header {
+        position: relative;
+        z-index: 100;
+      }
+      cx-storefront {
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 10;
+
+          background: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+
+  &:not(.searchbox-is-active) {
+    @include media-breakpoint-down(sm) {
+      // hide the input on mobile when there's no interaction with searchbox
+      cx-searchbox {
+        input {
+          // we cannot use display:none, visible:hidden or opacity: 0
+          // as this will no longer emit a focus event to the controller logic
+          width: 0;
+          padding: 0;
+        }
+        cx-icon.reset {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 %cx-searchbox {
-  display: var(--cx-display, block);
-  @include media-breakpoint-down(xs) {
-    margin: var(--cx-margin, 0);
+  @include media-breakpoint-up(md) {
+    // we position the parent relative to ensure the result panel
+    // is aligned to the left of searchbox
+    position: relative;
   }
 
-  .cx-form-group {
-    background-color: var(--cx-background-color, var(--cx-g-color-secondary));
-    padding: var(--cx-padding, 0);
-    display: var(--cx-display, flex);
-    margin: var(--cx-margin, auto);
+  z-index: 10;
+  display: block;
 
-    @include media-breakpoint-down(xs) {
-      background-color: var(
-        --cx-background-color,
-        var(--cx-g-color-transparent)
-      );
+  > * {
+    z-index: 20;
+    @include media-breakpoint-up(md) {
+      background-color: var(--cx-g-color-secondary);
+      position: relative;
     }
   }
 
-  .cx-form {
-    display: var(--cx-display, inline-block);
-    vertical-align: var(--cx-vertical-align, middle);
+  a,
+  .message {
+    padding: 6px 16px;
+    color: currentColor;
+    user-select: none;
   }
 
-  .cx-input {
-    color: var(--cx-color, var(--cx-g-color-inverse));
-    @include placeholder {
-      color: currentColor;
+  label {
+    display: flex;
+    align-content: stretch;
+    margin: 0;
+    padding: 6px 6px 6px 10px;
+    @include media-breakpoint-up(md) {
+      width: 27vw;
+      min-width: 300px;
+      // hide search icon when the input is dirty
+      &.dirty cx-icon.search {
+        display: none;
+      }
     }
 
-    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
-    border-radius: var(--cx-border-radius, 0);
-    border-style: var(--cx-border-style, none);
-    border-width: var(--cx-border-width, 0);
-    margin: var(--cx-margin, 0);
-    z-index: var(--cx-z-index, 1);
+    input {
+      background: none;
+      border: none;
+      outline: none;
 
-    &[aria-label='search'] {
-      &:focus {
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-transparent)
-        );
-        color: var(--cx-color, var(--cx-g-color-inverse));
-        box-shadow: var(--cx-box-shadow, none);
-      }
-
-      @include media-breakpoint-down(xl) {
-        width: var(--cx-width, 22rem);
-      }
-
-      @include media-breakpoint-down(lg) {
-        width: var(--cx-width, 18rem);
-      }
-
-      @include media-breakpoint-down(md) {
-        width: var(--cx-width, 16rem);
-      }
+      display: block;
 
       @include media-breakpoint-down(sm) {
-        width: var(--cx-width, 7rem);
+        position: absolute;
+        left: 0;
+        top: 57px;
+        width: 100%;
+        background-color: var(--cx-g-color-secondary);
+        padding: 6px 16px;
+        height: 48px;
+        border-bottom: 1px solid var(--cx-g-color-light);
       }
 
-      @include media-breakpoint-down(xs) {
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-secondary)
-        );
-        color: var(--cx-color, var(--cx-g-color-inverse));
-        display: var(--cx-display, none);
-        position: var(--cx-position, absolute);
-        left: var(--cx-left, 0);
-        top: var(--cx-top, 56px);
-        width: var(--cx-width, 100%);
+      flex-basis: 100%;
+      height: 35px;
+      color: currentColor;
+      z-index: 20;
 
-        &:focus {
-          background-color: var(
-            --cx-background-color,
-            var(--cx-g-color-secondary)
-          );
-          color: var(--cx-color, var(--cx-g-color-inverse));
+      @include placeholder {
+        color: currentColor;
+      }
+    }
+
+    // hide reset icon when the input is empty
+    &:not(.dirty) cx-icon.reset {
+      display: none;
+    }
+
+    cx-icon {
+      color: currentColor;
+      flex-basis: 48px;
+      text-align: center;
+      cursor: pointer;
+      &.reset {
+        &:before {
+          font-size: 1.4rem;
         }
-
-        & + .dropdown-menu {
-          width: var(--cx-width, 100%);
-          border-radius: var(--cx-border-radius, 0);
-          border-style: var(--cx-border-style, none);
-          border-width: var(--cx-border-width, 0);
-          margin: var(--cx-margin, 0);
+        @include media-breakpoint-down(sm) {
+          position: absolute;
+          right: 65px;
+          z-index: 20;
+          right: 20px;
+          margin-top: 52px;
         }
-      }
-    }
-
-    &.show-mobile {
-      display: var(--cx-display, block);
-    }
-  }
-
-  .cx-button {
-    display: flex;
-    color: currentColor;
-
-    border-style: var(--cx-border-style, none);
-    border-width: var(--cx-border-width, 0);
-    padding: var(--cx-padding, 5px);
-    margin: var(--cx-margin, 5px);
-    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
-
-    &-desktop {
-      @include media-breakpoint-down(xs) {
-        display: var(--cx-display, none);
-      }
-    }
-
-    &-mobile {
-      display: var(--cx-display, none);
-      @include media-breakpoint-down(xs) {
-        display: var(--cx-display, block);
       }
     }
   }
 
-  .cx-dropdown-content {
-    @include media-breakpoint-down(xl) {
-      width: var(--cx-width, 22rem);
-    }
-
-    @include media-breakpoint-down(lg) {
-      width: var(--cx-width, 18rem);
-    }
-
-    @include media-breakpoint-down(md) {
-      width: var(--cx-width, 16rem);
-    }
+  .results {
+    // hide the result by default
+    display: none;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    color: #000;
+    background-color: var(--cx-g-color-background);
+    font-size: var(--cx-g-font-small, 1rem);
 
     @include media-breakpoint-down(sm) {
-      width: var(--cx-width, 7rem);
+      top: 105px;
+      z-index: 10;
     }
 
-    @include media-breakpoint-down(xs) {
-      width: var(--cx-width, auto);
+    a {
+      text-decoration: none;
+      cursor: pointer;
+
+      font-weight: 800;
+
+      .highlight,
+      .search-results-highlight {
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      &:hover {
+        background: var(--cx-g-color-light);
+        color: currentColor;
+      }
     }
-  }
-
-  .cx-product {
-    display: var(--cx-display, flex);
-
-    cx-media {
-      min-width: var(--cx-min-width, 80px);
-      width: var(--cx-width, 80px);
-      flex-shrink: var(--cx-flex-shrink, 0);
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      a {
+        flex: 100%;
+        line-height: 2rem;
+      }
     }
+    .products {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
 
-    &-name {
-      padding: var(--cx-padding, 0 15px);
-      flex-grow: var(--cx-flex-grow, 1);
-      flex-shrink: var(--cx-flex-shrink, 1);
-      height: var(--cx-height, 80px);
-      display: var(--cx-display, flex);
-      align-items: var(--cx-align-items, center);
-      overflow: var(--cx-overflow, hidden);
+      a {
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        grid-column-gap: 16px;
+
+        border-top: solid 1px var(--cx-g-color-light);
+
+        cx-media {
+          grid-row: 1 / 3;
+        }
+        h4.name {
+          text-overflow: ellipsis;
+
+          font-size: inherit;
+          font-weight: inherit;
+
+          /* Required for text-overflow to do anything */
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .price {
+          font-weight: normal;
+        }
+      }
     }
-
-    &-price {
-      text-align: var(--cx-text-align, right);
-      align-self: var(--cx-align-self, center);
-      flex-shrink: var(--cx-flex-shrink, 0);
-    }
-  }
-
-  .dropdown-menu .dropdown-item.active {
-    background-color: var(--cx-background-color, var(--cx-g-color-primary));
   }
 }
