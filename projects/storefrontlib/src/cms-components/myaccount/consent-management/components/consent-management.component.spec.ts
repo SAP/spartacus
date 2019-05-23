@@ -95,7 +95,7 @@ const mockConsentTemplate: ConsentTemplate = {
   },
 };
 
-fdescribe('ConsentManagementComponent', () => {
+describe('ConsentManagementComponent', () => {
   let component: ConsentManagementComponent;
   let fixture: ComponentFixture<ConsentManagementComponent>;
   let el: DebugElement;
