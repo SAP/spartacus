@@ -37,12 +37,6 @@ const pageModules = [CartPageModule, OrderConfirmationPageModule];
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'category' },
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
         data: { cxRoute: 'brand' },
       },
       {

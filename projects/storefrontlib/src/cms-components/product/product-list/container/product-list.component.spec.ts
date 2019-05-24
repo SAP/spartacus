@@ -21,7 +21,7 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '../../../../shared';
-import { AddToCartComponent } from '../../../checkout';
+import { AddToCartComponent } from '../../../cart';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {

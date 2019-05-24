@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { AddToCartModule } from '../../../../cms-components/checkout/index';
 import { OutletDirective } from '../../../../cms-structure/outlet/index';
 import { FormComponentsModule } from '../../../../shared/components/form-components/form-components.module';
+import { AddToCartModule } from '../../../cart/index';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
 @Component({
