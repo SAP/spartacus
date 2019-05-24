@@ -2,23 +2,32 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
   Optional,
 } from '@angular/core';
 import { CmsSearchBoxComponent } from '@spartacus/core';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
+
+const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
+  minCharactersBeforeRequest: 1,
+  displayProducts: true,
+  displaySuggestions: true,
+  maxProducts: 5,
+  maxSuggestions: 5,
+  displayProductImages: false,
+};
 
 @Component({
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchBoxComponent implements OnInit {
+export class SearchBoxComponent {
+  config: SearchBoxConfig;
   /**
    * Sets the search box input field
    */
@@ -30,8 +39,6 @@ export class SearchBoxComponent implements OnInit {
   }
 
   iconTypes = ICON_TYPE;
-
-  private config: SearchBoxConfig;
 
   /**
    * In some occasions we need to ignore the close event,
@@ -49,15 +56,16 @@ export class SearchBoxComponent implements OnInit {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>
   ) {}
 
-  results$: Observable<
-    SearchResults
-  > = this.searchBoxComponentService.getResults();
+  results$: Observable<SearchResults> = this.config$.pipe(
+    tap(c => (this.config = c)),
+    switchMap(config => this.searchBoxComponentService.getResults(config))
+  );
 
-  ngOnInit() {
+  get config$(): Observable<SearchBoxConfig> {
     if (this.componentData) {
-      this.componentData.data$
-        .pipe(first())
-        .subscribe(c => (this.config = <SearchBoxConfig>c));
+      return <Observable<SearchBoxConfig>>this.componentData.data$;
+    } else {
+      return of(DEFAULT_SEARCHBOX_CONFIG);
     }
   }
 
