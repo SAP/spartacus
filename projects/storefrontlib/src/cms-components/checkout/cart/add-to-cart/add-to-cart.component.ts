@@ -33,7 +33,6 @@ export class AddToCartComponent implements OnInit {
   quantity = 1;
 
   cartEntry$: Observable<OrderEntry>;
-  loaded$: Observable<boolean>;
 
   constructor(
     protected cartService: CartService,
@@ -44,7 +43,6 @@ export class AddToCartComponent implements OnInit {
 
   ngOnInit() {
     if (this.productCode) {
-      this.loaded$ = this.cartService.getLoaded();
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
       this.hasStock = true;
     } else {
@@ -53,22 +51,19 @@ export class AddToCartComponent implements OnInit {
         .pipe(filter(Boolean))
         .subscribe(product => {
           this.productCode = product.code;
+
           if (
             product.stock &&
-            product.stock.stockLevelStatus !== 'outOfStock'
+            product.stock.stockLevelStatus !== 'outOfStock' &&
+            product.stock.stockLevel > 0
           ) {
             this.maxQuantity = product.stock.stockLevel;
-            if (
-              product.stock.stockLevel > 0 ||
-              product.stock.stockLevelStatus === 'inStock'
-            ) {
-              this.hasStock = true;
-            }
+            this.hasStock = true;
           } else {
             this.hasStock = false;
             this.maxQuantity = 0;
           }
-          this.loaded$ = this.cartService.getLoaded();
+
           this.cartEntry$ = this.cartService.getEntry(this.productCode);
 
           this.cd.markForCheck();
@@ -95,7 +90,7 @@ export class AddToCartComponent implements OnInit {
     }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
     this.modalInstance.cart$ = this.cartService.getActive();
-    this.modalInstance.loaded$ = this.loaded$;
+    this.modalInstance.loaded$ = this.cartService.getLoaded();
     this.modalInstance.quantity = this.quantity;
   }
 }
