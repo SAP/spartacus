@@ -27,24 +27,24 @@ describe('My Account - Update Password', () => {
     });
 
     beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    beforeEach(() => {
       cy.visit(PAGE_URL_UPDATE_PASSWORD);
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
       cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
     });
 
-    it('should update the password with success.', () => {
-      cy.get('cx-global-message .alert-success').should('not.exist');
-      cy.get('[formcontrolname="oldPassword"]').type(user.password);
-      cy.get('[formcontrolname="newPassword"]').type(newPassword);
-      cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-      cy.get('cx-update-password button[type="submit"]').click();
-      cy.title().should('eq', PAGE_TITLE_HOME);
-      cy.get('cx-global-message .alert-success').should('exist');
-
-      helper.signOutUser();
-      cy.contains(/Sign In/i).click();
-      login(user.email, newPassword);
-      cy.get(helper.userGreetSelector).should('exist');
+    it('should access the update password page from the menu.', () => {
+      cy.visit('/');
+      cy.selectUserMenuOption('Password');
+      cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
+      cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
     });
 
     it('should cancel bring back to the home page.', () => {
@@ -61,6 +61,21 @@ describe('My Account - Update Password', () => {
       cy.get('cx-update-password button[type="submit"]').click();
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
       cy.get('cx-global-message .alert-danger').should('exist');
+    });
+
+    it('should update the password with success.', () => {
+      cy.get('cx-global-message .alert-success').should('not.exist');
+      cy.get('[formcontrolname="oldPassword"]').type(user.password);
+      cy.get('[formcontrolname="newPassword"]').type(newPassword);
+      cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
+      cy.get('cx-update-password button[type="submit"]').click();
+      cy.title().should('eq', PAGE_TITLE_HOME);
+      cy.get('cx-global-message .alert-success').should('exist');
+
+      helper.signOutUser();
+      cy.contains(/Sign In/i).click();
+      login(user.email, newPassword);
+      cy.get(helper.userGreetSelector).should('exist');
     });
   });
 });
