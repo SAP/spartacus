@@ -35,7 +35,7 @@ export class TranslationChunkService {
     return chunk;
   }
 
-  protected warnDuplicates(items: { [key: string]: string[] }): void {
+  private warnDuplicates(items: { [key: string]: string[] }): void {
     const dupes: string[] = [];
     Object.keys(items).forEach(key => {
       dupes.push(
