@@ -10,14 +10,6 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
-const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
-  minCharactersBeforeRequest: 1,
-  displayProducts: true,
-  displaySuggestions: true,
-  maxProducts: 5,
-  maxSuggestions: 5,
-};
-
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 
 @Injectable({
@@ -36,10 +28,7 @@ export class SearchBoxComponentService {
    * unless the configuration is setup to not search for
    * products or suggestions.
    */
-  search(
-    query: string,
-    config: SearchBoxConfig = DEFAULT_SEARCHBOX_CONFIG
-  ): void {
+  search(query: string, config: SearchBoxConfig): void {
     if (!query || query === '') {
       this.clearResults();
       return;
@@ -70,9 +59,7 @@ export class SearchBoxComponentService {
    * result, the body tag will get a classname, so that specific style
    * rules can be applied.
    */
-  getResults(
-    config: SearchBoxConfig = DEFAULT_SEARCHBOX_CONFIG
-  ): Observable<SearchResults> {
+  getResults(config: SearchBoxConfig): Observable<SearchResults> {
     return combineLatest(
       this.getProductResults(config),
       this.getProductSuggestions(config),

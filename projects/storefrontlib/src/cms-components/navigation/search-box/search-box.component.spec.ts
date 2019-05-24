@@ -47,7 +47,7 @@ export class MockMediaComponent {
   @Input() alt;
 }
 
-describe('SearchBoxComponent', () => {
+fdescribe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
   let serviceSpy: SearchBoxComponentService;
