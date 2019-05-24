@@ -131,7 +131,7 @@ describe('AddToCartComponent', () => {
       );
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
-      expect(addToCartComponent.maxQuantity).toEqual(0);
+      expect(addToCartComponent.maxQuantity).toBe(undefined);
       expect(addToCartComponent.hasStock).toEqual(false);
     });
   });
