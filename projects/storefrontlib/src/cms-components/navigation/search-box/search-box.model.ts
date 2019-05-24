@@ -1,9 +1,10 @@
 export interface SearchBoxConfig {
-  maxProducts: number;
   displaySuggestions: boolean;
-  maxSuggestions: number;
-  minCharactersBeforeRequest: number;
   displayProducts: boolean;
+  displayProductImages?: boolean;
+  maxProducts?: number;
+  maxSuggestions?: number;
+  minCharactersBeforeRequest?: number;
 }
 
 export interface SearchResults {

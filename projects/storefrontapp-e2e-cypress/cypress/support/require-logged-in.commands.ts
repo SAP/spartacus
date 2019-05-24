@@ -93,7 +93,7 @@ Cypress.Commands.add(
     login(username, account.registrationData.password, false).then(res => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
-        setSessionData({ ...res.body, userId: username });
+        setSessionData(res.body);
       } else {
         /* User needs to be registered
            1. Login as guest for access token
@@ -110,7 +110,7 @@ Cypress.Commands.add(
           )
           .then(() => login(username, account.registrationData.password))
           .then(response => {
-            setSessionData({ ...response.body, userId: username });
+            setSessionData(response.body);
           });
       }
     });
