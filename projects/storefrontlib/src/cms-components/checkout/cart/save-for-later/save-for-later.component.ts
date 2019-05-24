@@ -18,10 +18,4 @@ export class SaveForLaterComponent implements OnInit {
     this.sflEntries$ = this.saveForLaterService.getEntries();
     this.sflCartLoaded$ = this.saveForLaterService.getLoaded();
   }
-
-  getAllPromotionsForCart(cart: Cart): Cart[] {
-    const potentialPromotions = cart.potentialOrderPromotions || [];
-    const appliedPromotions = cart.appliedOrderPromotions || [];
-    return [...potentialPromotions, ...appliedPromotions];
-  }
 }

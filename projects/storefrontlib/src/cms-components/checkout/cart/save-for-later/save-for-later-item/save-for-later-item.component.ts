@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Item } from '../../cart-shared';
+import { PromotionResult } from '@spartacus/core';
 
 @Component({
   selector: 'cx-save-for-later-item',
@@ -10,6 +11,8 @@ export class SaveForLaterItemComponent implements OnInit {
   item: Item;
   @Input()
   saveForLaterLoading = false;
+  @Input()
+  potentialProductPromotions: PromotionResult[];
 
   @Output()
   remove = new EventEmitter<any>();

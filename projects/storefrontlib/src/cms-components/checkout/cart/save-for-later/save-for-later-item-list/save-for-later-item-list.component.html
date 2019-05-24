@@ -21,6 +21,9 @@
       <cx-save-for-later-item
         [item]="item"
         [saveForLaterLoading]="saveForLaterLoading"
+        [potentialProductPromotions]="
+          getPotentialProductPromotionsForItem(item)
+        "
         (remove)="removeEntry($event)"
         (moveToCart)="moveItemToCart($event)"
       ></cx-save-for-later-item>

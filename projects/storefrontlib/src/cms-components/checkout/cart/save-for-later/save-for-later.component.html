@@ -5,12 +5,10 @@
         <div class="cx-total">
           Saved for later (2 items): $340.72
         </div>
-        <cx-promotions
-          [promotions]="getAllPromotionsForCart(cart)"
-        ></cx-promotions>
         <cx-save-for-later-item-list
           [saveForLaterLoading]="!(sflCartLoaded$ | async)"
           [items]="entries"
+          [potentialProductPromotions]="cart.potentialProductPromotions"
         >
         </cx-save-for-later-item-list>
       </div>
