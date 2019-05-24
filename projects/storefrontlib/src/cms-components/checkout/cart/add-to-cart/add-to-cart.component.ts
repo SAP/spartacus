@@ -61,7 +61,6 @@ export class AddToCartComponent implements OnInit {
             this.hasStock = true;
           } else {
             this.hasStock = false;
-            this.maxQuantity = 0;
           }
 
           this.cartEntry$ = this.cartService.getEntry(this.productCode);
