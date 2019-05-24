@@ -74,4 +74,4 @@ function trim(text: string): string {
     : result;
 }
 
-extractCssVariables('./projects/storefrontstyles/scss/cxbase/mixins');
+extractCssVariables('./projects/storefrontstyles/scss/misc');
