@@ -24,7 +24,9 @@
   </div>
 </ng-container>
 
-<div class="description"><p [innerHTML]="product?.summary"></p></div>
+<ng-container *cxOutlet="outlets.DESCRIPTION">
+  <div class="description"><p [innerHTML]="product?.summary"></p></div>
+</ng-container>
 
 <ng-container *cxOutlet="outlets.ADDTOCART">
   <div class="quantity">
