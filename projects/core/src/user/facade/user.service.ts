@@ -7,6 +7,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -21,7 +22,6 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
-
 @Injectable()
 export class UserService {
   constructor(
@@ -393,9 +393,9 @@ export class UserService {
    * Updates the user's details
    * @param userDetails to be updated
    */
-  updatePersonalDetails(username: string, userDetails: User): void {
+  updatePersonalDetails(userDetails: User): void {
     this.store.dispatch(
-      new fromStore.UpdateUserDetails({ username, userDetails })
+      new fromStore.UpdateUserDetails({ username: USERID_CURRENT, userDetails })
     );
   }
 

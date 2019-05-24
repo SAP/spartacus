@@ -6,6 +6,7 @@ import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import { Occ } from '../../occ/occ-models/occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
@@ -457,9 +458,12 @@ describe('UserService', () => {
     };
 
     it('should dispatch UpdateUserDetails action', () => {
-      service.updatePersonalDetails(username, userDetails);
+      service.updatePersonalDetails(userDetails);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateUserDetails({ username, userDetails })
+        new fromStore.UpdateUserDetails({
+          username: USERID_CURRENT,
+          userDetails,
+        })
       );
     });
 
