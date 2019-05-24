@@ -17,8 +17,8 @@ export class StoreFinderService {
   private geolocationWatchId: number = null;
 
   constructor(
-    private store: Store<StateWithStoreFinder>,
-    private winRef: WindowRef
+    protected store: Store<StateWithStoreFinder>,
+    protected winRef: WindowRef
   ) {}
 
   /**
