@@ -15,8 +15,8 @@ import { OutletModule } from '../../../cms-structure/outlet/index';
 import { PageComponentModule } from '../../../cms-structure/page/index';
 import { CartSharedModule } from '../../checkout/index';
 // guards
-import { ProductTabsComponent } from './container/product-tabs.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
+import { ProductDetailsTabModule } from './product-details-tab/product-details-tab.module';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 import { ProductReviewsModule } from './product-reviews/product-reviews.module';
 
@@ -30,23 +30,26 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
     CmsModule,
     OutletModule,
     ProductReviewsModule,
+    ProductDetailsTabModule,
     PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSTabParagraphContainer: {
-          selector: 'cx-product-tabs',
+        ProductDetailsTabComponent: {
+          selector: 'cx-product-details-tab',
+        },
+        ProductSpecsTabComponent: {
+          selector: 'cx-product-attributes',
+        },
+        ProductReviewsTabComponent: {
+          selector: 'cx-product-reviews',
         },
       },
     }),
     I18nModule,
   ],
-  declarations: [ProductAttributesComponent, ProductTabsComponent],
-  exports: [
-    ProductAttributesComponent,
-    ProductReviewsComponent,
-    ProductTabsComponent,
-  ],
-  entryComponents: [ProductTabsComponent],
+  declarations: [ProductAttributesComponent],
+  exports: [ProductAttributesComponent, ProductReviewsComponent],
+  entryComponents: [ProductAttributesComponent],
   providers: [ProductService, WindowRef, RoutingService],
 })
 export class ProductTabsModule {}

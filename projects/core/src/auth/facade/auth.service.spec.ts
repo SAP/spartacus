@@ -1,14 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Store } from '@ngrx/store';
-
-import * as fromAuthStore from '../store';
 import { ClientToken, UserToken } from '../models/token-types.model';
-import { AuthState } from '../store/auth-state';
-import { AuthStoreModule } from '../store/auth-store.module';
 import { ClientAuthenticationTokenService } from '../services/client-authentication/client-authentication-token.service';
 import { UserAuthenticationTokenService } from '../services/user-authentication/user-authentication-token.service';
-
+import * as fromAuthStore from '../store';
+import { AuthState } from '../store/auth-state';
+import { AuthStoreModule } from '../store/auth-store.module';
 import { AuthService } from './auth.service';
 
 class MockUserAuthenticationTokenService {}
@@ -128,7 +125,6 @@ describe('AuthService', () => {
     service.refreshUserToken(mockToken);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromAuthStore.RefreshUserToken({
-        userId: mockToken.userId,
         refreshToken: mockToken.refresh_token,
       })
     );
