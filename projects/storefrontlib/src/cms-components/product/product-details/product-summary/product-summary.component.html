@@ -26,9 +26,7 @@
 
 <div class="description"><p [innerHTML]="product?.summary"></p></div>
 
-<ng-container *cxOutlet="outlets.ADDTOCART">
-  <cx-page-slot position="AddToCart"></cx-page-slot>
-</ng-container>
+<cx-page-slot position="AddToCart"></cx-page-slot>
 
 <!-- @TODO: Temp. Comment out share link while not in use by CMS -->
 <!-- <ng-container *cxOutlet="outlets.SHARE">
