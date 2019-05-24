@@ -57,4 +57,12 @@ export const product = {
     viewCart: 'view cart',
     proceedToCheckout: 'proceed to checkout',
   },
+  CMSTabParagraphContainer: {
+    tabs: {
+      ProductDetailsTabComponent: 'Product Details',
+      ProductSpecsTabComponent: 'Specs',
+      ProductReviewsTabComponent: 'Reviews',
+      deliveryTab: 'Shipping',
+    },
+  },
 };
