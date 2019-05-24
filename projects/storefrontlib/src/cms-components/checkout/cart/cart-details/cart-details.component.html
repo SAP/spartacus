@@ -23,17 +23,20 @@
     </ng-container>
   </ng-container>
 </ng-container>
+
 <ng-template #message>
   <div class="cart-details-wrapper">
     <div class="cx-total">
       Cart
     </div>
-  </div>
-  <ul>
-    <li>
+    <div class="d-none d-md-block d-lg-block d-xl-block">
+      <div class="cx-item-list-header row"></div>
+    </div>
+    <div class="cx-msg">
       Your shopping cart is empty. But you have item(s) in the Save for Later
       list.
-    </li>
-  </ul>
+    </div>
+  </div>
 </ng-template>
+
 <cx-save-for-later></cx-save-for-later>
