@@ -7,6 +7,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -58,8 +59,8 @@ export class UserService {
    *
    * @param userId
    */
-  remove(userId: string): void {
-    this.store.dispatch(new fromStore.RemoveUser(userId));
+  remove(): void {
+    this.store.dispatch(new fromStore.RemoveUser(USERID_CURRENT));
   }
 
   /**
