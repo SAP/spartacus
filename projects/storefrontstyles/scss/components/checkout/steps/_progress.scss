@@ -33,14 +33,14 @@
 
   .cx-link,
   .cx-link:hover {
-    color: var(--cx-color, var(--cx-g-color-text));
-    cursor: var(--cx-cursor, pointer);
-    text-decoration: var(--cx-text-decoration, none);
+    color: var(--cx-g-color-text);
+    cursor: pointer;
+    text-decoration: none;
 
     &.is-disabled {
-      color: var(--cx-color, var(--cx-g-color-light));
-      cursor: var(--cx-cursor, not-allowed);
-      pointer-events: var(--cx-pointer-events, none);
+      color: var(--cx-g-color-light);
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     &.is-active {
@@ -55,28 +55,28 @@
     .cx-list-media {
       display: none;
       @include type('3');
-      justify-content: var(--cx-justify-content, space-between);
-      align-items: var(--cx-align-items, center);
-      line-height: var(--cx-line-height, 4.75rem);
-      min-width: var(--cx-min-width, 100%);
-      border-width: var(--cx-border-width, 1px 0 0 0);
-      border-style: var(--cx-border-style, solid);
-      border-color: var(--cx-border-color, var(--cx-g-color-light));
-      margin: var(--cx-margin, 0);
+      justify-content: space-between;
+      align-items: center;
+      line-height: 4.75rem;
+      min-width: 100%;
+      border-width: 1px 0 0 0;
+      border-style: solid;
+      border-color: var(--cx-g-color-light);
+      margin: 0;
       &.is-active {
         background-color: var(--cx-g-color-background);
-        border: var(--cx-border, 0);
+        border: 0;
       }
 
       button {
-        font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi));
+        font-weight: var(--cx-g-font-weight-semi);
       }
       @include media-breakpoint-down(md) {
-        display: var(--cx-display, flex);
-        padding: var(--cx-padding, 0 3.5rem);
-        border-width: var(--cx-border-width, 0 0 1px 0);
-        border-style: var(--cx-border-style, solid);
-        border-color: var(--cx-border-color, var(--cx-g-color-light));
+        display: flex;
+        padding: 0 3.5rem;
+        border-width: 0 0 1px 0;
+        border-style: solid;
+        border-color: var(--cx-g-color-light);
       }
 
       @include media-breakpoint-down(sm) {
