@@ -1,6 +1,7 @@
 export * from './form-components/form-components.module';
 export * from './form-components/item-counter/item-counter.component';
 export * from './generic-link/generic-link.component';
+export * from './generic-link/generic-link.module';
 export * from './list-navigation/index';
 export * from './media/index';
 export * from './spinner/spinner.component';
