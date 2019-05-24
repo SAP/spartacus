@@ -9,6 +9,10 @@ $space: 0.5rem;
     max-width: var(--cx-max-width, 1140px);
     margin: auto;
 
+    @include media-breakpoint-up(lg) {
+      padding: 0 10px;
+    }
+
     display: flex;
     flex-wrap: wrap;
 
@@ -70,6 +74,10 @@ $space: 0.5rem;
 
   .SearchBox {
     margin: 4px auto;
+
+    @include media-breakpoint-down(sm) {
+      margin: 4px 0 4px auto;
+    }
   }
 
   .NavigationBar {
