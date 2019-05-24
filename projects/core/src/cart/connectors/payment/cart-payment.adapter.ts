@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { PaymentDetails } from '../../../occ/occ-models/occ.models';
+import { CardType, PaymentDetails } from '../../../model/cart.model';
 
 export abstract class CartPaymentAdapter {
   /**
@@ -27,4 +27,9 @@ export abstract class CartPaymentAdapter {
     cartId: string,
     paymentDetailsId: string
   ): Observable<any>;
+
+  /**
+   * Abstract method used to get available cart types
+   */
+  abstract loadCardTypes(): Observable<CardType[]>;
 }

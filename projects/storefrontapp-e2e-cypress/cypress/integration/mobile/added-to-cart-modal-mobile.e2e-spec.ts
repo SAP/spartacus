@@ -19,7 +19,7 @@ describe(`${formats.mobile.width +
   });
 
   it('adding different products to cart', () => {
-    cy.get('cx-searchbox [aria-label="Search "]').click();
+    cy.get('cx-searchbox [aria-label="Search"]').click();
     addedToCartModal.addDifferentProducts();
   });
 

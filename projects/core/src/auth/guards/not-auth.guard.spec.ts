@@ -39,7 +39,6 @@ describe('NotAuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        NotAuthGuard,
         { provide: RoutingService, useClass: RoutingServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
       ],
@@ -71,7 +70,7 @@ describe('NotAuthGuard', () => {
         .canActivate()
         .subscribe()
         .unsubscribe();
-      expect(routing.go).toHaveBeenCalledWith({ route: 'home' });
+      expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
 

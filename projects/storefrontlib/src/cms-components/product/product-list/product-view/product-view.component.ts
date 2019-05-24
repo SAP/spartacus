@@ -1,11 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   Output,
-  ChangeDetectionStrategy,
-  EventEmitter,
 } from '@angular/core';
-import { ICON_TYPES } from '../../../misc/icon';
+import { ICON_TYPE } from '../../../misc/icon';
 
 export enum ViewModes {
   Grid = 'grid',
@@ -18,21 +18,26 @@ export enum ViewModes {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductViewComponent {
-  iconTypes = ICON_TYPES;
+  iconTypes = ICON_TYPE;
   @Input()
   mode: ViewModes;
   @Output()
   modeChange = new EventEmitter<string>();
 
   get buttonClass() {
-    return `cx-product-${this.mode}`;
+    const viewName: string = this.viewMode.toLowerCase();
+    return `cx-product-${viewName}`;
   }
 
+  /**
+   *   Display icons inversely to allow users
+   *   to see the view they will navigate to
+   */
   get viewMode() {
     if (this.mode === 'list') {
-      return this.iconTypes.LIST_MODE;
+      return this.iconTypes.GRID;
     } else if (this.mode === 'grid') {
-      return this.iconTypes.GRID_MODE;
+      return this.iconTypes.LIST;
     }
   }
 

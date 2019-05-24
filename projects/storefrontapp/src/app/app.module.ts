@@ -8,12 +8,12 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { translations } from '@spartacus/assets';
 import { ConfigModule } from '@spartacus/core';
 import {
   defaultCmsContentConfig,
   StorefrontComponent,
   StorefrontModule,
-  translations,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 
@@ -73,7 +73,6 @@ if (!environment.production) {
 
     ...devImports,
   ],
-
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

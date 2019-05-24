@@ -10,8 +10,6 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromActions from '../actions/cart.action';
-import { Cart, OccConfig } from '../../../occ';
-import { ProductImageNormalizer } from '../../../product';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
@@ -19,6 +17,8 @@ import * as fromAuth from '../../../auth/store/index';
 import * as fromUser from '../../../user/store/index';
 
 import * as fromEffects from './cart.effect';
+import { OccConfig } from '@spartacus/core';
+import { Cart } from '../../../model/cart.model';
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
@@ -71,7 +71,6 @@ describe('Cart effect', () => {
           provide: CartConnector,
           useClass: MockCartConnector,
         },
-        ProductImageNormalizer,
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         CartService,

@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-
-import { OccUserService } from '../../occ/index';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
-import { PaymentDetailsList } from '../../../occ/occ-models/index';
+import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
+import { PaymentDetails } from '../../../model/cart.model';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
@@ -17,10 +16,10 @@ export class UserPaymentMethodsEffects {
         action.payload
     ),
     mergeMap(payload => {
-      return this.occUserService.loadUserPaymentMethods(payload).pipe(
-        map((paymentsList: PaymentDetailsList) => {
+      return this.userPaymentMethodConnector.getAll(payload).pipe(
+        map((payments: PaymentDetails[]) => {
           return new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
-            paymentsList.payments
+            payments
           );
         }),
         catchError(error =>
@@ -38,8 +37,8 @@ export class UserPaymentMethodsEffects {
         action.payload
     ),
     mergeMap(payload => {
-      return this.occUserService
-        .setDefaultUserPaymentMethod(payload.userId, payload.paymentMethodId)
+      return this.userPaymentMethodConnector
+        .setDefault(payload.userId, payload.paymentMethodId)
         .pipe(
           switchMap((data: any) => {
             return [
@@ -69,8 +68,8 @@ export class UserPaymentMethodsEffects {
         action.payload
     ),
     mergeMap(payload => {
-      return this.occUserService
-        .deleteUserPaymentMethod(payload.userId, payload.paymentMethodId)
+      return this.userPaymentMethodConnector
+        .delete(payload.userId, payload.paymentMethodId)
         .pipe(
           switchMap((data: any) => {
             return [
@@ -95,6 +94,6 @@ export class UserPaymentMethodsEffects {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userPaymentMethodConnector: UserPaymentConnector
   ) {}
 }

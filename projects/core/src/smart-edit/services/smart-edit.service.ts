@@ -4,9 +4,9 @@ import { takeWhile } from 'rxjs/operators';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
-import { PageType } from '../../occ/occ-models/index';
 import { Page } from '../../cms/model/page.model';
 import { WindowRef } from '../../window/window-ref';
+import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +17,9 @@ export class SmartEditService {
   private _currentPageId: string;
 
   constructor(
-    private cmsService: CmsService,
-    private routingService: RoutingService,
-    private zone: NgZone,
+    protected cmsService: CmsService,
+    protected routingService: RoutingService,
+    protected zone: NgZone,
     winRef: WindowRef
   ) {
     this.getCmsTicket();
@@ -88,19 +88,19 @@ export class SmartEditService {
     });
   }
 
-  private goToPreviewPage(cmsPage: Page) {
+  protected goToPreviewPage(cmsPage: Page) {
     // the first page is the smartedit preview page
     if (!this.getPreviewPage) {
       this.getPreviewPage = true;
 
       if (cmsPage.type === PageType.PRODUCT_PAGE) {
         this.routingService.go({
-          route: 'product',
+          cxRoute: 'product',
           params: { code: 2053367 },
         });
       } else if (cmsPage.type === PageType.CATEGORY_PAGE) {
         this.routingService.go({
-          route: 'category',
+          cxRoute: 'category',
           params: { code: 575 },
         });
       }

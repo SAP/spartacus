@@ -9,13 +9,21 @@ function paymentMethodsTest() {
   describe('should go to payment details page for login user', () => {
     before(() => {
       cy.requireLoggedIn();
-      cy.visit('/login');
+      cy.visit('/');
       cy.get('.cx-nav-link')
         .getByText('My Account')
         .click();
       cy.get('.cx-nav-child-link')
         .getByText('Payment Details')
         .click();
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
     });
 
     it('should see spinner when loading', () => {

@@ -1,7 +1,9 @@
-import { ProductsSearchState } from '../product-state';
+import {
+  ProductSearchPage,
+  Suggestion,
+} from '../../../model/product-search.model';
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion } from '../../../occ/occ-models';
-import { UIProductSearchPage } from '../../model/product-search-page';
+import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {
   results: {},
@@ -32,8 +34,17 @@ export function reducer(
       };
     }
 
-    case fromProductsSearch.CLEAN_PRODUCT_SEARCH: {
-      return initialState;
+    case fromProductsSearch.CLEAR_PRODUCT_SEARCH_RESULT: {
+      return {
+        ...state,
+        results: action.payload.clearPageResults ? {} : state.results,
+        suggestions: action.payload.clearSearchboxResults
+          ? []
+          : state.suggestions,
+        auxResults: action.payload.clearSearchboxResults
+          ? {}
+          : state.auxResults,
+      };
     }
   }
   return state;
@@ -41,10 +52,10 @@ export function reducer(
 
 export const getSearchResults = (
   state: ProductsSearchState
-): UIProductSearchPage => state.results;
+): ProductSearchPage => state.results;
 export const getAuxSearchResults = (
   state: ProductsSearchState
-): UIProductSearchPage => state.auxResults;
+): ProductSearchPage => state.auxResults;
 export const getProductSuggestions = (
   state: ProductsSearchState
 ): Suggestion[] => state.suggestions;

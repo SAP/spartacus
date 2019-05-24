@@ -14,7 +14,6 @@ import {
   NAVIGATION_DETAIL_ENTITY,
   StateWithCms,
 } from '../cms-state';
-import { PageType } from '../../../occ';
 import { NodeItem } from '../../model/node-item.model';
 import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
@@ -23,6 +22,7 @@ import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-l
 import * as fromNavigation from './navigation-entry-item.reducer';
 import * as fromPageReducer from './page-data.reducer';
 import * as fromPageIndexReducer from './page-index.reducer';
+import { PageType } from '../../../model/cms.model';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {

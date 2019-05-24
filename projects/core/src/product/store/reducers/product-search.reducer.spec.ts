@@ -1,8 +1,7 @@
-import { ProductsSearchState } from '../product-state';
-import * as fromActions from '../actions/product-search.action';
+import { Suggestion } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
-import { Suggestion } from '../../../occ/occ-models';
-
+import * as fromActions from '../actions/product-search.action';
+import { ProductsSearchState } from '../product-state';
 import * as fromProductSearch from './product-search.reducer';
 
 describe('Product Search Reducer', () => {
@@ -90,7 +89,7 @@ describe('Product Search Reducer', () => {
       fromProductSearch.reducer(initialState, queryAction);
       fromProductSearch.reducer(initialState, querySuggestionAction);
 
-      const cleanAction = new fromActions.CleanProductSearchState();
+      const cleanAction = new fromActions.ClearProductSearchResult();
       const newState: ProductsSearchState = fromProductSearch.reducer(
         initialState,
         cleanAction

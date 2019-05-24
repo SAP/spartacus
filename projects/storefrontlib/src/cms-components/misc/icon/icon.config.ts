@@ -6,6 +6,7 @@ export enum ICON_TYPES {
   CARET_DOWN = 'angle-down',
   INFO = 'info-circle',
   STAR = 'star',
+  RESET = 'times',
 }
 
 export abstract class IconConfig {

@@ -19,7 +19,6 @@ describe(`OrderConfirmationPageGuard`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OrderConfirmationPageGuard,
         {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() },
@@ -41,7 +40,7 @@ describe(`OrderConfirmationPageGuard`, () => {
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
         expect(routingService.go).toHaveBeenCalledWith({
-          route: 'orders',
+          cxRoute: 'orders',
         });
         done();
       });

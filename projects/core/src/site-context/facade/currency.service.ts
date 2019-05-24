@@ -6,9 +6,10 @@ import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
 import { filter, take, tap } from 'rxjs/operators';
-import { Currency } from '../../occ/occ-models';
+
 import { WindowRef } from '../../window/window-ref';
 import { SiteContext } from './site-context.interface';
+import { Currency } from '../../model/misc.model';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
@@ -18,7 +19,7 @@ export class CurrencyService implements SiteContext<Currency> {
   private sessionStorage: Storage;
 
   constructor(
-    private store: Store<fromStore.StateWithSiteContext>,
+    protected store: Store<fromStore.StateWithSiteContext>,
     winRef: WindowRef
   ) {
     this.sessionStorage = winRef.sessionStorage;

@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CmsService, Page, PageMetaResolver } from '..';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { PageMetaService } from '../facade';
 import { PageMeta } from '../model/page.model';
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
+import { PageType } from '../../model/cms.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -18,12 +19,12 @@ class MockCmsService {
   }
 }
 
-describe('ContentPageTitleResolver', () => {
+describe('ContentPageMetaResolver', () => {
   let service: ContentPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CmsService, useClass: MockCmsService },
@@ -52,7 +53,9 @@ describe('ContentPageTitleResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Page title');
+    expect(result.title).toEqual(
+      'pageMetaResolver.content.title content:Page title'
+    );
   });
 
   it('should resolve one breadcrumb', () => {

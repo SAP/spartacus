@@ -9,11 +9,11 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { Observable, of } from 'rxjs';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { Review } from '../../../occ/occ-models';
-import { defaultOccProductConfig } from '../../config/product-config';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import * as fromActions from '../actions/product-reviews.action';
 import * as fromEffects from '../effects/product-reviews.effect';
 import createSpy = jasmine.createSpy;
+import { Review } from '../../../model/product.model';
 
 const reviewData: Review[] = [
   {

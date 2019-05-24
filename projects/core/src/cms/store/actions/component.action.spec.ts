@@ -1,5 +1,5 @@
 import * as fromComponent from './component.action';
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../model/cms.model';
 import { COMPONENT_ENTITY } from '../cms-state';
 import {
   entityFailMeta,

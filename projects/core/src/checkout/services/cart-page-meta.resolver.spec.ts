@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService, UICart } from '../../cart';
+import { CartService } from '../../cart';
 import {
   CmsService,
   Page,
@@ -9,8 +9,10 @@ import {
   PageMetaService,
   PageRobotsMeta,
 } from '../../cms';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { CartPageMetaResolver } from './cart-page-meta.resolver';
+import { PageType } from '../../model/cms.model';
+import { Cart } from '../../model/cart.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -19,7 +21,7 @@ const mockContentPage: Page = {
   slots: {},
 };
 
-const mockCart: UICart = {
+const mockCart: Cart = {
   code: '1234',
 };
 
@@ -30,17 +32,17 @@ class MockCmsService {
 }
 
 class MockCartService {
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of(mockCart);
   }
 }
 
-describe('CartPageTitleResolver', () => {
+describe('CartPageMetaResolver', () => {
   let service: CartPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CartService, useClass: MockCartService },
@@ -70,7 +72,9 @@ describe('CartPageTitleResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Shopping Cart (1234)');
+    expect(result.title).toEqual(
+      'pageMetaResolver.cart.title code:1234 title:Shopping Cart'
+    );
   });
 
   it('should resolve robots with nofollow,noindex', () => {

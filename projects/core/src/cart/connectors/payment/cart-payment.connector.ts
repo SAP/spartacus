@@ -1,13 +1,13 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { PaymentDetails } from '../../../occ/occ-models/occ.models';
 import { CartPaymentAdapter } from './cart-payment.adapter';
+import { CardType, PaymentDetails } from '../../../model/cart.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartPaymentConnector {
-  constructor(private adapter: CartPaymentAdapter) {}
+  constructor(protected adapter: CartPaymentAdapter) {}
 
   public create(
     userId: string,
@@ -23,5 +23,9 @@ export class CartPaymentConnector {
     paymentDetailsId: string
   ): Observable<any> {
     return this.adapter.set(userId, cartId, paymentDetailsId);
+  }
+
+  getCardTypes(): Observable<CardType[]> {
+    return this.adapter.loadCardTypes();
   }
 }

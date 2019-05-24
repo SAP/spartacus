@@ -8,17 +8,17 @@ import {
 
 import * as fromStore from '../store/index';
 import { StoreFinderSearchConfig } from './../model/search-config';
-import { LongitudeLatitude } from './../model/longitude-latitude';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
+import { GeoPoint } from '../../model/misc.model';
 
 @Injectable()
 export class StoreFinderService {
   private geolocationWatchId: number = null;
 
   constructor(
-    private store: Store<StateWithStoreFinder>,
-    private winRef: WindowRef
+    protected store: Store<StateWithStoreFinder>,
+    protected winRef: WindowRef
   ) {}
 
   /**
@@ -58,7 +58,7 @@ export class StoreFinderService {
    */
   findStoresAction(
     queryText: string,
-    longitudeLatitude: LongitudeLatitude,
+    longitudeLatitude: GeoPoint,
     searchConfig: StoreFinderSearchConfig,
     countryIsoCode?: string
   ) {
@@ -97,7 +97,7 @@ export class StoreFinderService {
       this.clearWatchGeolocation(new fromStore.OnHold());
       this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
         (pos: Position) => {
-          const longitudeLatitude: LongitudeLatitude = {
+          const longitudeLatitude: GeoPoint = {
             longitude: pos.coords.longitude,
             latitude: pos.coords.latitude,
           };

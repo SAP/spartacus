@@ -7,17 +7,17 @@ import { Action } from '@ngrx/store';
 
 import { Observable, of, throwError } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import { CLEAR_MISCS_DATA } from '../actions';
 import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { LoaderResetAction } from '../../../state';
-import { OccOrderService } from '../../occ/index';
-import { OrderHistoryList } from '../../../occ/occ-models';
-import { OccConfig } from '../../../occ/config/occ-config';
 
 import * as fromUserOrdersEffect from './user-orders.effect';
+import { OrderHistoryList } from '../../../model/order.model';
+import { OrderConnector } from '../../connectors/order/order.connector';
+import { OrderAdapter } from '../../connectors/order/order.adapter';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
@@ -25,43 +25,29 @@ const mockUserOrders: OrderHistoryList = {
   sorts: [],
 };
 
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  site: {
-    baseSite: '',
-  },
-};
-
 describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
-  let orderService: OccOrderService;
+  let orderConnector: OrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     actions$ = TestBed.get(Actions);
     userOrdersEffect = TestBed.get(fromUserOrdersEffect.UserOrdersEffect);
-    orderService = TestBed.get(OccOrderService);
+    orderConnector = TestBed.get(OrderConnector);
   });
 
   describe('loadUserOrders$', () => {
     it('should load user Orders', () => {
-      spyOn(orderService, 'getOrders').and.returnValue(of(mockUserOrders));
+      spyOn(orderConnector, 'getHistory').and.returnValue(of(mockUserOrders));
       const action = new fromUserOrdersAction.LoadUserOrders({
         userId: 'test@sap.com',
         pageSize: 5,
@@ -78,7 +64,7 @@ describe('User Orders effect', () => {
     });
 
     it('should handle failures for load user Orders', () => {
-      spyOn(orderService, 'getOrders').and.returnValue(throwError('Error'));
+      spyOn(orderConnector, 'getHistory').and.returnValue(throwError('Error'));
 
       const action = new fromUserOrdersAction.LoadUserOrders({
         userId: 'test@sap.com',

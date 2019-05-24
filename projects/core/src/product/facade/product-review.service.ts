@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
+import { Review } from '../../model/product.model';
 import * as fromStore from '../store/index';
-import { Review } from '../../occ/occ-models/occ.models';
 
 @Injectable()
 export class ProductReviewService {
-  constructor(private store: Store<fromStore.StateWithProduct>) {}
+  constructor(protected store: Store<fromStore.StateWithProduct>) {}
 
   getByProductCode(productCode: string): Observable<Review[]> {
     const selector = fromStore.getSelectedProductReviewsFactory(productCode);

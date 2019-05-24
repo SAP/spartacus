@@ -45,7 +45,6 @@ describe('AuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AuthGuard,
         {
           provide: RoutingService,
           useClass: RoutingServiceStub,
@@ -111,7 +110,7 @@ describe('AuthGuard', () => {
       .subscribe()
       .unsubscribe();
 
-    expect(service.go).toHaveBeenCalledWith({ route: 'login' });
+    expect(service.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });

@@ -1,8 +1,11 @@
 import { Action } from '@ngrx/store';
-
+import { ErrorModel } from '../../../model/misc.model';
+import {
+  ClearSearch,
+  ProductSearchPage,
+  Suggestion,
+} from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
-import { ErrorModel, Suggestion } from '../../../occ/occ-models';
-import { UIProductSearchPage } from '../../model/product-search-page';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';
@@ -12,7 +15,8 @@ export const GET_PRODUCT_SUGGESTIONS_SUCCESS =
   '[Product] Get Product Suggestions Success';
 export const GET_PRODUCT_SUGGESTIONS_FAIL =
   '[Product] Get Product Suggestions Fail';
-export const CLEAN_PRODUCT_SEARCH = '[Product] Clean Product Search State';
+export const CLEAR_PRODUCT_SEARCH_RESULT =
+  '[Product] Clear Product Search Result';
 
 export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
@@ -29,10 +33,7 @@ export class SearchProductsFail implements Action {
 
 export class SearchProductsSuccess implements Action {
   readonly type = SEARCH_PRODUCTS_SUCCESS;
-  constructor(
-    public payload: UIProductSearchPage,
-    public auxiliary?: boolean
-  ) {}
+  constructor(public payload: ProductSearchPage, public auxiliary?: boolean) {}
 }
 
 export class GetProductSuggestions implements Action {
@@ -50,9 +51,14 @@ export class GetProductSuggestionsFail implements Action {
   constructor(public payload: ErrorModel) {}
 }
 
-export class CleanProductSearchState implements Action {
-  readonly type = CLEAN_PRODUCT_SEARCH;
-  constructor() {}
+export class ClearProductSearchResult implements Action {
+  readonly type = CLEAR_PRODUCT_SEARCH_RESULT;
+  constructor(
+    public payload: ClearSearch = {
+      clearPageResults: false,
+      clearSearchboxResults: false,
+    }
+  ) {}
 }
 
 // action types
@@ -63,4 +69,4 @@ export type ProductSearchAction =
   | GetProductSuggestions
   | GetProductSuggestionsSuccess
   | GetProductSuggestionsFail
-  | CleanProductSearchState;
+  | ClearProductSearchResult;

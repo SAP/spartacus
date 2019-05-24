@@ -53,6 +53,10 @@ publish_snapshot() {
     git checkout -b "${PUBLISH_BRANCH}"
     )
 
+    if [ -e $LIB_DIR/README.md ]; then
+       rm $LIB_DIR/README.md
+    fi
+
     cp -R $LIB_DIR/* $TMP_DIR/
 
     echo `date` > $TMP_DIR/BUILD_INFO

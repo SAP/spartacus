@@ -3,19 +3,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { User } from '../../../occ/occ-models';
-import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsEffect from './user-details.effect';
-
-class MockOccUserService {
-  loadUser(_username: string): Observable<User> {
-    return of();
-  }
-  updateUserDetails(_username: string, _user: User): Observable<{}> {
-    return of();
-  }
-}
+import { User } from '../../../model/misc.model';
+import { UserDetailsConnector } from '../../connectors/details/user-details.connector';
+import { UserDetailsAdapter } from '../../connectors/details/user-details.adapter';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -26,25 +18,25 @@ const mockUserDetails: User = {
 
 describe('User Details effect', () => {
   let userDetailsEffect: fromUserDetailsEffect.UserDetailsEffects;
-  let userService: OccUserService;
+  let userService: UserDetailsConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromUserDetailsEffect.UserDetailsEffects,
-        { provide: OccUserService, useClass: MockOccUserService },
+        { provide: UserDetailsAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     userDetailsEffect = TestBed.get(fromUserDetailsEffect.UserDetailsEffects);
-    userService = TestBed.get(OccUserService);
+    userService = TestBed.get(UserDetailsConnector);
   });
 
   describe('loadUserDetails$', () => {
     it('should load user details', () => {
-      spyOn(userService, 'loadUser').and.returnValue(of(mockUserDetails));
+      spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
 
       const action = new fromUserDetailsAction.LoadUserDetails('mockName');
       const completion = new fromUserDetailsAction.LoadUserDetailsSuccess(
@@ -60,7 +52,7 @@ describe('User Details effect', () => {
 
   describe('updateUserDetails$', () => {
     it('should return UpdateUserDetailsSuccess ', () => {
-      spyOn(userService, 'updateUserDetails').and.returnValue(of({}));
+      spyOn(userService, 'update').and.returnValue(of({}));
 
       const username = 'xxx';
       const userDetails: User = {
@@ -83,9 +75,7 @@ describe('User Details effect', () => {
 
     it('should return UpdateUserDetailsFail action', () => {
       const error = 'error';
-      spyOn(userService, 'updateUserDetails').and.returnValue(
-        throwError(error)
-      );
+      spyOn(userService, 'update').and.returnValue(throwError(error));
 
       const username = 'xxx';
       const userDetails: User = {

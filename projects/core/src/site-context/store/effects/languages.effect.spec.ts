@@ -4,44 +4,43 @@ import { hot, cold } from 'jasmine-marbles';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { of, Observable } from 'rxjs';
 
-import { OccSiteService } from '../../occ/index';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
 import { OccModule } from '../../../occ/occ.module';
 import { ConfigModule } from '../../../config/config.module';
-import { Language } from '../../../occ/occ-models/occ.models';
+import { Language } from '../../../model/misc.model';
+import { SiteConnector } from '../../connectors/site.connector';
+import { SiteAdapter } from '../../connectors/site.adapter';
 
 describe('Languages Effects', () => {
   let actions$: Observable<fromActions.LanguagesAction>;
-  let service: OccSiteService;
+  let connector: SiteConnector;
   let effects: fromEffects.LanguagesEffects;
 
   const languages: Language[] = [
     { active: true, isocode: 'ja', name: 'Japanese' },
   ];
 
-  const data = { languages };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
       providers: [
-        OccSiteService,
         fromEffects.LanguagesEffects,
+        { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    service = TestBed.get(OccSiteService);
+    connector = TestBed.get(SiteConnector);
     effects = TestBed.get(fromEffects.LanguagesEffects);
 
-    spyOn(service, 'loadLanguages').and.returnValue(of(data));
+    spyOn(connector, 'getLanguages').and.returnValue(of(languages));
   });
 
   describe('loadLanguages$', () => {
     it('should populate all languages from LoadLanguagesSuccess', () => {
       const action = new fromActions.LoadLanguages();
-      const completion = new fromActions.LoadLanguagesSuccess(data.languages);
+      const completion = new fromActions.LoadLanguagesSuccess(languages);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

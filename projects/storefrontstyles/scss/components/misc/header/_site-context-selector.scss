@@ -16,12 +16,12 @@ $caretSize: 7px;
     }
   }
   label {
+    display: flex;
     span {
       @include sr-only();
     }
   }
   cx-icon {
-    font-size: 15px;
     margin-left: -10px;
   }
 

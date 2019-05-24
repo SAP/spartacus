@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, filter, switchMap } from 'rxjs/operators';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { PageType } from '../../occ/occ-models/occ.models';
-import { ProductSearchService } from '../facade/product-search.service';
-import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { PageMetaResolver } from '../../cms';
 import { PageMeta } from '../../cms/model/page.model';
+import { TranslationService } from '../../i18n/translation.service';
+import { PageType } from '../../model/cms.model';
+import { RoutingService } from '../../routing';
+import { ProductSearchService } from '../facade';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ export class SearchPageMetaResolver extends PageMetaResolver
   implements PageMetaResolver {
   constructor(
     protected routingService: RoutingService,
-    protected productSearchService: ProductSearchService
+    protected productSearchService: ProductSearchService,
+    protected translation: TranslationService
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -24,7 +26,7 @@ export class SearchPageMetaResolver extends PageMetaResolver
   resolve(): Observable<PageMeta> {
     const total$: Observable<
       number
-    > = this.productSearchService.getSearchResults().pipe(
+    > = this.productSearchService.getResults().pipe(
       filter(data => !!(data && data.pagination)),
       map(results => results.pagination.totalResults)
     );
@@ -45,6 +47,9 @@ export class SearchPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(total: number, query: string): Observable<string> {
-    return of(`${total} results for "${query}"`);
+    return this.translation.translate('pageMetaResolver.search.title', {
+      count: total,
+      query: query,
+    });
   }
 }

@@ -6,13 +6,13 @@ import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from '../actions/product.action';
 import { ProductConnector } from '../../connectors/product/product.connector';
-import { UIProduct } from '../../model/product';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { PageType } from '../../../occ/occ-models/occ.models';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import * as fromEffects from './product.effect';
-import { defaultOccProductConfig } from '../../config/product-config';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import createSpy = jasmine.createSpy;
+import { Product } from '../../../model/product.model';
+import { PageType } from '../../../model/cms.model';
 
 const router = {
   state: {
@@ -29,7 +29,7 @@ class MockRoutingService {
   }
 }
 const productCode = 'testCode';
-const product: UIProduct = {
+const product: Product = {
   code: 'testCode',
   name: 'testProduct',
 };

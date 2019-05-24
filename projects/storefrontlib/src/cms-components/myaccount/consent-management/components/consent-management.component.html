@@ -1,0 +1,28 @@
+<ng-container>
+  <div *ngIf="(loading$ | async); else consentManagementForm">
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
+  </div>
+
+  <ng-template #consentManagementForm>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8">
+        <cx-consent-management-form
+          *ngFor="
+            let consentTemplate of (templateList$ | async)?.consentTemplates
+          "
+          [consentTemplate]="consentTemplate"
+          (consentChanged)="onConsentChange($event)"
+        ></cx-consent-management-form>
+        <div class="cx-checkout-btns row">
+          <div class="col-lg-12">
+            <button class="btn btn-block btn-primary" (click)="onDone()">
+              {{ 'common.done' | cxTranslate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ng-container>

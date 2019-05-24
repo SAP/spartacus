@@ -6,7 +6,6 @@ import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map
 @Component({
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
-  styleUrls: ['./store-finder-list.component.scss'],
 })
 export class StoreFinderListComponent {
   @Input()

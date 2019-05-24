@@ -11,7 +11,7 @@ function addressBookTest() {
   describe('when logged in', () => {
     before(() => {
       cy.requireLoggedIn();
-      cy.visit('/login');
+      cy.visit('/');
       cy.get('.cx-nav-link')
         .getByText('My Account')
         .click();

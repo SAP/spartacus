@@ -3,9 +3,9 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../store/index';
 import { filter, take, tap } from 'rxjs/operators';
-import { Language } from '../../occ/occ-models';
 import { WindowRef } from '../../window/window-ref';
 import { SiteContext } from './site-context.interface';
+import { Language } from '../../model/misc.model';
 /**
  * Facade that provides easy access to language state, actions and selectors.
  */
@@ -14,7 +14,7 @@ export class LanguageService implements SiteContext<Language> {
   private sessionStorage: Storage;
 
   constructor(
-    private store: Store<fromStore.StateWithSiteContext>,
+    protected store: Store<fromStore.StateWithSiteContext>,
     winRef: WindowRef
   ) {
     this.sessionStorage = winRef.sessionStorage;

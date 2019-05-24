@@ -11,37 +11,21 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from '../actions/checkout.action';
 import * as fromCartActions from './../../../cart/store/actions/index';
 import {
+  CartConnector,
   CartDeliveryConnector,
   CartPaymentConnector,
-  CartConnector,
 } from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
-import {
-  Address,
-  DeliveryMode,
-  OccConfig,
-  Order,
-  PaymentDetails,
-} from '../../../occ';
-import { ProductImageNormalizer } from '../../../product';
-import {
-  LoadUserAddresses,
-  LoadUserPaymentMethods,
-  OccOrderService,
-} from '../../../user';
+import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 
 import * as fromEffects from './checkout.effect';
 import { CheckoutDetails } from '../../models/checkout.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { OrderConnector } from '../../../user/connectors/order/order.connector';
+import { OrderAdapter } from '../../../user/connectors/order/order.adapter';
 import createSpy = jasmine.createSpy;
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-};
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -86,10 +70,9 @@ class MockCartConnector {
 }
 
 describe('Checkout effect', () => {
-  let orderService: OccOrderService;
+  let orderConnector: OrderConnector;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
-  let productImageConverter: ProductImageNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,19 +82,16 @@ describe('Checkout effect', () => {
         { provide: CartDeliveryConnector, useClass: MockCartDeliveryConnector },
         { provide: CartPaymentConnector, useClass: MockCartPaymentConnector },
         { provide: CartConnector, useClass: MockCartConnector },
-        OccOrderService,
-        ProductImageNormalizer,
         fromEffects.CheckoutEffects,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
-    orderService = TestBed.get(OccOrderService);
-    productImageConverter = TestBed.get(ProductImageNormalizer);
+    orderConnector = TestBed.get(OrderConnector);
 
-    spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
+    spyOn(orderConnector, 'place').and.returnValue(of(orderDetails));
   });
 
   describe('addDeliveryAddress$', () => {
@@ -260,15 +240,13 @@ describe('Checkout effect', () => {
 
   describe('placeOrder$', () => {
     it('should place order', () => {
-      spyOn(productImageConverter, 'convert').and.returnValue(orderDetails);
-
       const action = new fromActions.PlaceOrder({
         userId: userId,
         cartId: cartId,
       });
       const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
       const completion2 = new AddMessage({
-        text: { raw: 'Order placed successfully' },
+        text: { key: 'checkoutOrderConfirmation.orderPlacedSuccessfully' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 

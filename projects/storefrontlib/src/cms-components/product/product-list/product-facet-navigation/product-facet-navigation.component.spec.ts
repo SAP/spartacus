@@ -1,17 +1,29 @@
-import { ActivatedRoute } from '@angular/router';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
-import { By } from '@angular/platform-browser';
-
-import { NgbCollapseModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 import {
-  ProductSearchService,
-  ProductSearchPage,
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+  Input,
+} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {
   I18nTestingModule,
+  ProductSearchPage,
+  ProductSearchService,
 } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { ICON_TYPES } from '../../../misc/icon/icon.config';
+import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPES;
+}
 
 describe('ProductFacetNavigationComponent in product-list', () => {
   let component: ProductFacetNavigationComponent;
@@ -21,7 +33,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   class MockProductSearchService {
     search = jasmine.createSpy('search');
-    getSearchResults(): Observable<ProductSearchPage> {
+    getResults(): Observable<ProductSearchPage> {
       return of();
     }
 
@@ -68,8 +80,8 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbCollapseModule, NgbModalModule, I18nTestingModule],
-      declarations: [ProductFacetNavigationComponent],
+      imports: [NgbModalModule, I18nTestingModule],
+      declarations: [ProductFacetNavigationComponent, MockCxIconComponent],
       providers: [
         {
           provide: ProductSearchService,
@@ -111,7 +123,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
   describe('ProductFacetNavigationComponent UI tests', () => {
     beforeEach(() => {
       component.ngOnInit();
-      spyOn(service, 'getSearchResults').and.returnValue(
+      spyOn(service, 'getResults').and.returnValue(
         of({
           facets: mockFacets,
         })
@@ -145,24 +157,34 @@ describe('ProductFacetNavigationComponent in product-list', () => {
     });
 
     it('should toggle facet after clicking the title', () => {
-      const facetTitleLink = element.query(By.css('.cx-facet-header-link'));
-      const facetCollapsableList = element.query(
-        By.css('.cx-facet-header + .collapse')
-      );
+      const group = element.query(By.css('.cx-facet-group'));
+      const trigger = group.children
+        .find(child =>
+          child.nativeElement.className.includes('cx-facet-header')
+        )
+        .query(By.css('.cx-facet-header-link')).nativeElement;
+      const getList = () =>
+        group.children.find(child =>
+          child.nativeElement.className.includes('cx-facet-list')
+        );
+      let list = getList();
 
-      expect(facetCollapsableList.nativeElement.className).toContain('show');
+      // initial state
+      expect(list && list.nativeElement).toBeTruthy();
 
-      facetTitleLink.nativeElement.click();
+      trigger.click();
       fixture.detectChanges();
+      list = getList();
 
-      expect(facetCollapsableList.nativeElement.className).not.toContain(
-        'show'
-      );
+      // after first click, should not be visible
+      expect(list && list.nativeElement).toBeFalsy();
 
-      facetTitleLink.nativeElement.click();
+      trigger.click();
       fixture.detectChanges();
+      list = getList();
 
-      expect(facetCollapsableList.nativeElement.className).toContain('show');
+      // after second click, should be visible
+      expect(list && list.nativeElement).toBeTruthy();
     });
   });
 });

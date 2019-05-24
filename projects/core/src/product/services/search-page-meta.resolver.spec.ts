@@ -1,17 +1,17 @@
-import { TestBed, inject } from '@angular/core/testing';
-
 import { Injectable } from '@angular/core';
-import { PageType } from '../../occ/occ-models/occ.models';
+import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
-  Page,
-  PageMetaResolver,
   CmsService,
-  PageMetaService,
+  Page,
   PageMeta,
+  PageMetaResolver,
+  PageMetaService,
 } from '../../cms';
-import { ProductSearchService } from '../facade';
+import { I18nTestingModule } from '../../i18n';
+import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
+import { ProductSearchService } from '../facade';
 import { SearchPageMetaResolver } from './search-page-meta.resolver';
 
 const mockSearchPage: Page = {
@@ -48,7 +48,7 @@ class FakeContentPageTitleResolver extends PageMetaResolver {
 }
 
 class MockProductSearchService {
-  getSearchResults() {
+  getResults() {
     return of({
       pagination: {
         totalResults: 3,
@@ -69,13 +69,13 @@ class MockRoutingService {
   }
 }
 
-describe('SearchPageTitleResolver', () => {
+describe('SearchPageMetaResolver', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         FakeContentPageTitleResolver,
@@ -121,7 +121,9 @@ describe('SearchPageTitleResolver', () => {
         })
         .unsubscribe();
 
-      expect(result.title).toEqual('3 results for "Canon"');
+      expect(result.title).toEqual(
+        'pageMetaResolver.search.title count:3 query:Canon'
+      );
     });
   });
 

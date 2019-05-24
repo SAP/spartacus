@@ -7,10 +7,11 @@ import {
   PageMetaResolver,
   PageMetaService,
 } from '../../cms';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
+import { PageType } from '../../model/cms.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockProductPage: Page = {
   type: PageType.PRODUCT_PAGE,
@@ -65,7 +66,7 @@ describe('ProductPageMetaResolver', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CmsService, useClass: MockCmsService },
@@ -98,7 +99,9 @@ describe('ProductPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.heading).toEqual('Product title');
+    expect(result.heading).toEqual(
+      'pageMetaResolver.product.heading heading:Product title'
+    );
   });
 
   it('should resolve product page title', () => {
@@ -110,7 +113,9 @@ describe('ProductPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Product title | one two three | Canon');
+    expect(result.title).toEqual(
+      'pageMetaResolver.product.title title:Product title | one two three | Canon'
+    );
   });
 
   it('should resolve product description', () => {
@@ -122,7 +127,9 @@ describe('ProductPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.description).toEqual('Product summary');
+    expect(result.description).toEqual(
+      'pageMetaResolver.product.description description:Product summary'
+    );
   });
 
   it('should resolve 2 breadcrumbs', () => {

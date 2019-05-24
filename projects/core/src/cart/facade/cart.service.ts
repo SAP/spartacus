@@ -10,25 +10,26 @@ import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { StateWithCart } from '../store/cart-state';
-import { UICart, UIOrderEntry } from '../model/cart';
+import { Cart } from '../../model/cart.model';
+import { OrderEntry } from '../../model/order.model';
 
 @Injectable()
 export class CartService {
   private callback: Function;
 
   constructor(
-    private store: Store<StateWithCart>,
-    private cartData: CartDataService,
-    private authService: AuthService
+    protected store: Store<StateWithCart>,
+    protected cartData: CartDataService,
+    protected authService: AuthService
   ) {
     this.init();
   }
 
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return this.store.pipe(select(fromSelector.getCartContent));
   }
 
-  getEntries(): Observable<UIOrderEntry[]> {
+  getEntries(): Observable<OrderEntry[]> {
     return this.store.pipe(select(fromSelector.getEntries));
   }
 
@@ -154,7 +155,7 @@ export class CartService {
     }
   }
 
-  removeEntry(entry: UIOrderEntry): void {
+  removeEntry(entry: OrderEntry): void {
     this.store.dispatch(
       new fromAction.RemoveEntry({
         userId: this.cartData.userId,
@@ -185,17 +186,17 @@ export class CartService {
     }
   }
 
-  getEntry(productCode: string): Observable<UIOrderEntry> {
+  getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
       select(fromSelector.getEntrySelectorFactory(productCode))
     );
   }
 
-  isCreated(cart: UICart): boolean {
+  isCreated(cart: Cart): boolean {
     return cart && !!Object.keys(cart).length;
   }
 
-  isEmpty(cart: UICart): boolean {
+  isEmpty(cart: Cart): boolean {
     return cart && !cart.totalItems;
   }
 }

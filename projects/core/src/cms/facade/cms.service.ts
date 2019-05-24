@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
-
 import { select, Store } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
-  map,
+  pluck,
   shareReplay,
   switchMap,
   take,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
-
-import * as fromStore from '../store';
+import { CmsComponent } from '../../model/cms.model';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
+import * as fromStore from '../store';
 import { StateWithCms } from '../store/cms-state';
-import { CmsComponent } from '../../occ/occ-models/cms-component.models';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { PageContext } from '../../routing/models/page-context.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,8 +31,8 @@ export class CmsService {
   } = {};
 
   constructor(
-    private store: Store<StateWithCms>,
-    private routingService: RoutingService
+    protected store: Store<StateWithCms>,
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -72,10 +68,10 @@ export class CmsService {
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
-      this.components[uid] = this.routingService.isNavigating().pipe(
-        withLatestFrom(
-          this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
-        ),
+      this.components[uid] = combineLatest(
+        this.routingService.isNavigating(),
+        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
+      ).pipe(
         tap(([isNavigating, componentState]) => {
           const attemptedLoad =
             componentState.loading ||
@@ -85,8 +81,9 @@ export class CmsService {
             this.store.dispatch(new fromStore.LoadComponent(uid));
           }
         }),
-        filter(([_, componentState]) => componentState.success),
-        map(([_, componentState]) => componentState.value),
+        pluck(1),
+        filter(componentState => componentState.success),
+        pluck('value'),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
@@ -199,7 +196,7 @@ export class CmsService {
         }
       }),
       filter(entity => entity.success || entity.error),
-      map(entity => entity.success),
+      pluck('success'),
       catchError(() => of(false))
     );
   }

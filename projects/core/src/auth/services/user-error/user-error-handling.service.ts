@@ -11,8 +11,8 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 @Injectable()
 export class UserErrorHandlingService {
   constructor(
-    private authService: AuthService,
-    private routingService: RoutingService
+    protected authService: AuthService,
+    protected routingService: RoutingService
   ) {}
 
   public handleExpiredUserToken(
@@ -31,14 +31,14 @@ export class UserErrorHandlingService {
     this.authService.logout();
   }
 
-  private handleExpiredToken(): Observable<UserToken> {
+  protected handleExpiredToken(): Observable<UserToken> {
     let oldToken: UserToken;
     return this.authService.getUserToken().pipe(
       tap((token: UserToken) => {
         if (token.access_token && token.refresh_token && !oldToken) {
           this.authService.refreshUserToken(token);
         } else if (!token.access_token && !token.refresh_token) {
-          this.routingService.go({ route: 'login' });
+          this.routingService.go({ cxRoute: 'login' });
         }
         oldToken = oldToken || token;
       }),
@@ -49,7 +49,7 @@ export class UserErrorHandlingService {
     );
   }
 
-  private createNewRequestWithNewToken(
+  protected createNewRequestWithNewToken(
     request: HttpRequest<any>,
     token: UserToken
   ): HttpRequest<any> {

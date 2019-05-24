@@ -33,7 +33,9 @@ export function addProductToCartViaAutoComplete() {
 }
 
 export function addProductToCartViaSearchPage() {
-  cy.get('cx-searchbox input').type(`${PRODUCT_TYPE}{enter}`);
+  cy.get('cx-searchbox input')
+    .clear()
+    .type(`${PRODUCT_TYPE}{enter}`);
   cy.get('cx-product-list')
     .contains('cx-product-list-item', 'Photosmart E317 Digital')
     .within(() => {
@@ -75,7 +77,7 @@ export function removeAllItemsFromCart() {
 export function loginRegisteredUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
-  cy.visit('/login');
+  cy.reload();
 }
 
 export function addProductWhenLoggedIn() {
@@ -147,6 +149,7 @@ export function verifyMergedCartWhenLoggedIn() {
 
 export function logOutAndEmptyCart() {
   cy.selectUserMenuOption('Sign Out');
+  cy.visit('/cart');
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('.EmptyCartMiddleContent').should(
     'contain',

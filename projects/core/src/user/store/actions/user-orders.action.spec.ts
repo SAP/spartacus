@@ -1,11 +1,10 @@
-import { USER_ORDERS } from '../user-state';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { OrderHistoryList } from '../../../model/order.model';
 import {
-  loadMeta,
   failMeta,
+  loadMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
-
+import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersAction from './user-orders.action';
 
 const mockUserOrder: {
