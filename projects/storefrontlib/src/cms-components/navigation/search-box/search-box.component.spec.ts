@@ -132,7 +132,6 @@ describe('SearchBoxComponent', () => {
     ) as any;
 
     spyOn(searchBoxComponent, 'search').and.callThrough();
-    // spyOn(searchBoxComponent.searchBoxControl, 'reset').and.callThrough();
   });
 
   it('should be created', () => {
