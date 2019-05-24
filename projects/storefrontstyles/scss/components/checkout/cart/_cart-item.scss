@@ -1,6 +1,7 @@
 @import '../../../theme';
 
-%cx-cart-item {
+%cx-cart-item,
+%cx-save-for-later-item {
   .cx-info-container {
     @include media-breakpoint-down(sm) {
       display: var(--cx-display, flex);

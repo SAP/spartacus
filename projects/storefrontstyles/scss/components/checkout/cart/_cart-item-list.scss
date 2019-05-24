@@ -1,6 +1,7 @@
 @import '../../../theme';
 
-%cx-cart-item-list {
+%cx-cart-item-list,
+%cx-save-for-later-item-list {
   .cx-item-list-header {
     @include type('8');
     margin: var(--cx-margin, 0);
