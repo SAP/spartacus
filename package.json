@@ -11,7 +11,7 @@
     "build:core:lib": "ng build core && ng build storefrontlib && yarn build:assets",
     "build:qa": "ng build -c=qa",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
-    "e2e:cy:spec": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:spec",
+    "e2e:cy:cli": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:cli",
     "e2e:cy:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
     "e2e:cy:run:ci": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
     "e2e:cy:run:mobile": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:mobile",
