@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
-
 import { select, Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-
 import { LoaderState } from '../../state/utils/loader/loader-state';
-
 import { ClientToken, UserToken } from '../models/token-types.model';
-import { StateWithAuth } from '../store/auth-state';
 import { LoadClientToken } from '../store/actions/client-token.action';
 import { Logout } from '../store/actions/login-logout.action';
 import {
@@ -16,6 +11,7 @@ import {
   LoadUserTokenSuccess,
   RefreshUserToken,
 } from '../store/actions/user-token.action';
+import { StateWithAuth } from '../store/auth-state';
 import { getClientTokenState } from '../store/selectors/client-token.selectors';
 import { getUserToken } from '../store/selectors/user-token.selectors';
 
@@ -53,7 +49,6 @@ export class AuthService {
   refreshUserToken(token: UserToken): void {
     this.store.dispatch(
       new RefreshUserToken({
-        userId: token.userId,
         refreshToken: token.refresh_token,
       })
     );

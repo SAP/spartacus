@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -25,6 +25,14 @@ const mockPayment: PaymentDetails = {
   expiryYear: '2020',
   id: '2',
 };
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
 
 class MockUserService {
   getPaymentMethodsLoading(): Observable<boolean> {
@@ -54,6 +62,7 @@ describe('PaymentMethodsComponent', () => {
         PaymentMethodsComponent,
         MockCxSpinnerComponent,
         CardComponent,
+        MockCxIconComponent,
       ],
       providers: [{ provide: UserService, useClass: MockUserService }],
     }).compileComponents();
