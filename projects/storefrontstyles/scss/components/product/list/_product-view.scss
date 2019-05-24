@@ -21,7 +21,6 @@
   .cx-product-grid {
     display: inline-block;
     padding: 13px 15px 13px 15px;
-    color: var(--cx-g-color-light);
     max-width: 53px;
 
     @include media-breakpoint-down(sm) {

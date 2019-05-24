@@ -57,10 +57,20 @@
     border-color: var(--cx-g-color-light);
     @include type(4);
     color: var(--cx-g-color-text);
-    padding: 0 0 10px 0;
     margin: 0 0 17px 0;
     display: block;
     font-weight: var(--cx-g-font-weight-semi);
+
+    &-link {
+      padding: var(--cx-padding, 5px);
+      display: block;
+      cursor: pointer;
+      transition: var(--cx-transition, 0.3s);
+
+      &:hover {
+        background-color: var(--cx-g-color-light);
+      }
+    }
 
     .fa-minus {
       float: right;

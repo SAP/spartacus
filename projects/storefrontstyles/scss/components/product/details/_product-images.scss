@@ -11,6 +11,9 @@
 
   .thumbs {
     display: flex;
+    &.hidden {
+      display: none;
+    }
     justify-content: flex-start;
 
     cx-media {

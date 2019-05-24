@@ -1,5 +1,5 @@
 import * as fromAction from './navigation-entry-item.action';
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../model/cms.model';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 import {
   entityFailMeta,

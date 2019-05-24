@@ -39,7 +39,6 @@ describe('NotAuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        NotAuthGuard,
         { provide: RoutingService, useClass: RoutingServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
       ],

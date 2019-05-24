@@ -33,6 +33,10 @@ export class ItemCounterComponent
   implements OnInit, ControlValueAccessor, OnChanges {
   @ViewChild('itemCounterInput')
   public input: ElementRef;
+  @ViewChild('incrementBtn')
+  public incrementBtn: ElementRef;
+  @ViewChild('decrementBtn')
+  public decrementBtn: ElementRef;
 
   value = 0;
   @Input()
@@ -98,10 +102,9 @@ export class ItemCounterComponent
   }
 
   /**
-   * Function set 'isValueOutOfRange' flag and adjust value in range. Then update model value and refresh input
+   * Update model value and refresh input
    */
   manualChange(newValue: number): void {
-    this.isValueOutOfRange = this.isOutOfRange(newValue);
     newValue = this.adjustValueInRange(newValue);
     this.updateValue(newValue);
     /* We use the value from the input, however, this value
@@ -110,13 +113,6 @@ export class ItemCounterComponent
       fails, then the input will need to display this.value, and not what the user
       recently typed in */
     this.renderer.setProperty(this.input.nativeElement, 'value', newValue);
-  }
-
-  /**
-   * Verify value for decision about displaying error about range
-   */
-  isOutOfRange(value: number): boolean {
-    return value < this.min || value > this.max;
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -151,6 +147,7 @@ export class ItemCounterComponent
    */
   increment(): void {
     this.manualChange(this.value + this.step);
+    this.setFocus(true);
   }
 
   /**
@@ -158,6 +155,7 @@ export class ItemCounterComponent
    */
   decrement(): void {
     this.manualChange(this.value - this.step);
+    this.setFocus(false);
   }
 
   // ControlValueAccessor interface
@@ -187,5 +185,22 @@ export class ItemCounterComponent
     // Additionally, we emit a change event, so that users may optionally do something on change
     this.update.emit(updatedQuantity);
     this.onTouch();
+  }
+
+  /**
+   * Determines which HTML element should have focus at a given time
+   */
+  setFocus(isIncremented: boolean): void {
+    if (this.isMaxOrMinValueOrBeyond()) {
+      this.input.nativeElement.focus();
+    } else if (isIncremented) {
+      this.incrementBtn.nativeElement.focus();
+    } else {
+      this.decrementBtn.nativeElement.focus();
+    }
+  }
+
+  isMaxOrMinValueOrBeyond(): boolean {
+    return this.value >= this.max || this.value <= this.min;
   }
 }

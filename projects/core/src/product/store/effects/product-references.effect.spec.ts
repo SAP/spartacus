@@ -6,7 +6,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ProductReference } from '../../../model/product.model';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { defaultOccProductConfig } from '../../config/product-config';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
 import * as fromActions from '../actions/product-references.action';
 import * as fromEffects from '../effects/product-references.effect';

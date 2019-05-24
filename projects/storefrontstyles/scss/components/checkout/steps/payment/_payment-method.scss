@@ -23,6 +23,15 @@
     }
   }
 
+  .cx-card-img-container {
+    .fab,
+    .fas {
+      &::before {
+        font-size: var(--cx-font-size, 48px);
+      }
+    }
+  }
+
   .cx-checkout-title {
     text-transform: uppercase;
     margin: 0 auto;

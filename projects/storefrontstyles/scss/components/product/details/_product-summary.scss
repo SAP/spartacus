@@ -4,16 +4,13 @@
 
   margin-bottom: 40px;
 
-  @include media-breakpoint-up(lg) {
-    grid-template-columns: 50% auto;
-    grid-template-rows: repeat(7, auto) 1fr;
+  @include media-breakpoint-down(md) {
+    padding-top: 1.5em;
   }
 
-  .images {
-    @include media-breakpoint-up(lg) {
-      grid-column: 1;
-      grid-row: 1 / span 8;
-    }
+  @include media-breakpoint-down(lg) {
+    padding: 20px;
+    grid-template-rows: repeat(7, auto) 1fr;
   }
 
   .name {

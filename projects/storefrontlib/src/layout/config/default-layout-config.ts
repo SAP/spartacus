@@ -65,8 +65,9 @@ export const defaultLayoutConfig: LayoutConfig = {
     ProductDetailsPageTemplate: {
       slots: [
         'TopHeaderSlot',
+        'ProductDetails',
         'VariantSelectorSlot',
-        // 'AddToCart', the add to cart is currently hard coded in the PDP component
+        // 'AddToCart', // the add to cart is currently hard coded in the PDP component
         'UpSelling',
         'CrossSelling',
         'Tabs',
@@ -89,7 +90,7 @@ export const defaultLayoutConfig: LayoutConfig = {
       slots: ['BodyContent', 'SideContent'],
     },
     MultiStepCheckoutSummaryPageTemplate: {
-      slots: ['BodyContent', 'SideContent'],
+      slots: ['TopContent', 'BodyContent', 'SideContent', 'BottomContent'],
     },
   },
 };

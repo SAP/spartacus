@@ -4,7 +4,7 @@ import { DebugElement, Component, Input } from '@angular/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { Component as SpaComponent } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -42,7 +42,7 @@ describe('CategoryNavigationComponent', () => {
     ],
   };
 
-  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
+  const mockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: of(componentData),
   };
 
