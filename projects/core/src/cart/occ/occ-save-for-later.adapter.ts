@@ -42,7 +42,10 @@ export class OccSaveForLaterAdapter implements SaveForLaterAdapter {
 
   public create(userId: string, cartId?: string): Observable<Cart> {
     const url = this.getCartEndpoint(userId) + cartId;
-    return this.http.get<Occ.Cart>(url).pipe(
+    const params = new HttpParams({
+      fromString: `fields=${DETAILS_PARAMS}`,
+    });
+    return this.http.get<Occ.Cart>(url, { params: params }).pipe(
       this.converter.pipeable(CART_NORMALIZER),
       catchError((error: any) => throwError(error.json()))
     );
