@@ -10,7 +10,7 @@
 
   @include media-breakpoint-down(lg) {
     padding: 20px;
-    grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
+    grid-template-rows: var(--cx-grid-template-row, repeat(6, auto) 1fr);
   }
 
   .name {
@@ -36,22 +36,5 @@
     display: inline-block;
     @include type('3');
     font-weight: $font-weight-normal;
-  }
-
-  .quantity {
-    label {
-      @include type('8');
-      margin: var(--cx-margin, 15px 0 10px 0);
-    }
-
-    .info {
-      @include type('7');
-      margin: var(--cx-margin, 0 15px 0 15px);
-      color: var(--cx-color, var(--cx-g-color-secondary));
-    }
-  }
-
-  cx-add-to-cart {
-    margin: var(--cx-margin, 20px 0 10px 0);
   }
 }
