@@ -3,8 +3,8 @@ import { I18nConfig } from './config/i18n-config';
 
 @Injectable()
 export class TranslationChunkService {
-  private duplicates: { [key: string]: string[] } = {};
-  private chunks: { [key: string]: string } = {};
+  protected duplicates: { [key: string]: string[] } = {};
+  protected chunks: { [key: string]: string } = {};
   constructor(protected config: I18nConfig) {
     Object.keys(config.i18n.chunks).forEach(chunk => {
       config.i18n.chunks[chunk].forEach(key => {

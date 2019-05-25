@@ -3,7 +3,6 @@ export enum ProductDetailOutlets {
   IMAGES = 'PDP.IMAGES',
   TITLE = 'PDP.TITLE',
   RATING = 'PDP.RATING',
-  ADDTOCART = 'PDP.ADDTOCART',
   PRICE = 'PDP.PRICE',
   SHARE = 'PDP.SHARE',
 }
