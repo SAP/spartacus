@@ -7,7 +7,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
-  CartDataService,
   CheckoutService,
   GlobalMessageService,
   GlobalMessageType,
@@ -41,7 +40,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   checkoutStepUrlPrevious: string;
 
   constructor(
-    protected cartData: CartDataService,
     protected userService: UserService,
     protected checkoutService: CheckoutService,
     protected globalMessageService: GlobalMessageService,

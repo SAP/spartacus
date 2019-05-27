@@ -176,6 +176,7 @@ export class UserService {
 
   /**
    * Sets the payment as a default one
+   * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
     this.store.dispatch(
