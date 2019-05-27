@@ -13,6 +13,8 @@ import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
 const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
+const ORDERS_ENDPOINT = '/orders';
+const CARTS_ENDPOINT = '/carts/';
 
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
@@ -22,18 +24,13 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getOrderEndpoint(userId: string): string {
-    const orderEndpoint = 'users/' + userId + '/orders';
+  protected getEndpoint(userId: string, subEndpoint: string): string {
+    const orderEndpoint = 'users/' + userId + subEndpoint;
     return this.occEndpoints.getEndpoint(orderEndpoint);
   }
 
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint = `users/${userId}/carts/`;
-    return this.occEndpoints.getEndpoint(cartEndpoint);
-  }
-
   public placeOrder(userId: string, cartId: string): Observable<Order> {
-    const url = this.getOrderEndpoint(userId);
+    const url = this.getEndpoint(userId, ORDERS_ENDPOINT);
     const params = new HttpParams({
       fromString: 'cartId=' + cartId + '&' + FULL_PARAMS,
     });
@@ -52,7 +49,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     userId: string,
     cartId: string
   ): Observable<CheckoutDetails> {
-    const url = this.getCartEndpoint(userId) + cartId;
+    const url = this.getEndpoint(userId, CARTS_ENDPOINT) + cartId;
     const params = new HttpParams({
       fromString: `fields=${CHECKOUT_PARAMS}`,
     });
