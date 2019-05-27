@@ -41,7 +41,7 @@ class MockUserService {
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of([mockPayment]);
   }
-  loadPaymentMethods(_userId: string): void {}
+  loadPaymentMethods(): void {}
   deletePaymentMethod(_userId: string, _paymentMethodId: string): void {}
   setPaymentMethodAsDefault(_userId: string, _paymentMethodId: string): void {}
   get(): Observable<User> {

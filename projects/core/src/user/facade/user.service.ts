@@ -4,8 +4,10 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -19,7 +21,6 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
-import { ConsentTemplate } from '../../model/consent.model';
 
 @Injectable()
 export class UserService {
@@ -156,10 +157,9 @@ export class UserService {
 
   /**
    * Loads all user's payment methods.
-   * @param userId a user ID
    */
-  loadPaymentMethods(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
+  loadPaymentMethods(): void {
+    this.store.dispatch(new fromStore.LoadUserPaymentMethods(USERID_CURRENT));
   }
 
   /**

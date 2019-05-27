@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   PaymentDetails,
-  UserService,
   TranslationService,
+  UserService,
 } from '@spartacus/core';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { Card } from '../../../shared/components/card/card.component';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { Card } from '../../../shared/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-methods',
@@ -42,7 +42,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     this.loading$ = this.userService.getPaymentMethodsLoading();
     this.userServiceSub = this.userService.get().subscribe(data => {
       this.userId = data.uid;
-      this.userService.loadPaymentMethods(this.userId);
+      this.userService.loadPaymentMethods();
     });
   }
 
