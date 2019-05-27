@@ -72,9 +72,14 @@ export class SearchBoxComponent {
         map(c => {
           return {
             ...c,
-            displayProducts: JSON.parse(<any>c.displayProducts),
-            displayProductImages: JSON.parse(<any>c.displayProductImages),
-            displaySuggestions: JSON.parse(<any>c.displaySuggestions),
+            displayProducts:
+              <any>c.displayProducts === 'true' || c.displayProducts === true,
+            displayProductImages:
+              <any>c.displayProductImages === 'true' ||
+              c.displayProductImages === true,
+            displaySuggestions:
+              <any>c.displaySuggestions === 'true' ||
+              c.displaySuggestions === true,
           };
         })
       );
