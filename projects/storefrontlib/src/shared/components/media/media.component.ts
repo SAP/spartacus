@@ -108,5 +108,6 @@ export class MediaComponent implements OnChanges {
     this.isLoading = false;
     this.isInitialized = true;
     this.isMissing = true;
+    this.loaded.emit(false);
   }
 }
