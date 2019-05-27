@@ -5,9 +5,6 @@ import { ModalOptions } from './modal-options';
 
 /**
  * A service to open modal
- *
- * @export
- * @class ModalService
  */
 @Injectable({
   providedIn: 'root',
