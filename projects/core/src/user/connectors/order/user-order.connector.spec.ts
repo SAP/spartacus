@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserOrderConnector } from './order.connector';
+import { UserOrderConnector } from './user-order.connector';
 import { of } from 'rxjs/internal/observable/of';
-import { UserOrderAdapter } from './order.adapter';
+import { UserOrderAdapter } from './user-order.adapter';
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements UserOrderAdapter {
