@@ -17,8 +17,14 @@ export class OpenIdAuthenticationTokenService {
   ): Observable<OpenIdToken> {
     const url = this.getOAuthEndpoint();
     const params = new HttpParams()
-      .set('client_id', this.config.authentication.kyma_client_id)
-      .set('client_secret', this.config.authentication.kyma_client_secret)
+      .set(
+        'client_id',
+        encodeURIComponent(this.config.authentication.kyma_client_id)
+      )
+      .set(
+        'client_secret',
+        encodeURIComponent(this.config.authentication.kyma_client_secret)
+      )
       .set('grant_type', 'password') // authorization_code, client_credentials, password
       .set('username', username)
       .set('password', password)

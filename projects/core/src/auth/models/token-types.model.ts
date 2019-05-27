@@ -15,11 +15,7 @@ export interface ClientToken {
   scope: string;
 }
 
-export interface OpenIdToken {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string[];
+export interface OpenIdToken extends UserToken {
   id_token: string;
 }
 
