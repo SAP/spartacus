@@ -191,13 +191,12 @@ export class UserService {
   /**
    * Deletes the payment method
    *
-   * @param userId a user ID
    * @param paymentMethodId a payment method ID
    */
-  deletePaymentMethod(userId: string, paymentMethodId: string): void {
+  deletePaymentMethod(paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserPaymentMethod({
-        userId: userId,
+        userId: USERID_CURRENT,
         paymentMethodId,
       })
     );

@@ -16,7 +16,6 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
   loading$: Observable<boolean>;
-  userId: string;
 
   userServiceSub: Subscription;
 
@@ -40,10 +39,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
 
     this.editCard = null;
     this.loading$ = this.userService.getPaymentMethodsLoading();
-    this.userServiceSub = this.userService.get().subscribe(data => {
-      this.userId = data.uid;
-      this.userService.loadPaymentMethods();
-    });
+    this.userService.loadPaymentMethods();
   }
 
   getCardContent({
@@ -91,9 +87,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
-    if (this.userId) {
-      this.userService.deletePaymentMethod(this.userId, paymentMethod.id);
-    }
+    this.userService.deletePaymentMethod(paymentMethod.id);
     this.editCard = null;
   }
 
@@ -106,9 +100,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    if (this.userId) {
-      this.userService.setPaymentMethodAsDefault(paymentMethod.id);
-    }
+    this.userService.setPaymentMethodAsDefault(paymentMethod.id);
   }
 
   ngOnDestroy(): void {

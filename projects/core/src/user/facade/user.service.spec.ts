@@ -247,10 +247,10 @@ describe('UserService', () => {
   });
 
   it('should dispatch proper action for deleteUserPaymentMethod', () => {
-    service.deletePaymentMethod('userId', 'paymentMethodId');
+    service.deletePaymentMethod('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.DeleteUserPaymentMethod({
-        userId: 'userId',
+        userId: USERID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
     );

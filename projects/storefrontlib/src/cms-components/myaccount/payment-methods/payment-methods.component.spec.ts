@@ -42,7 +42,7 @@ class MockUserService {
     return of([mockPayment]);
   }
   loadPaymentMethods(): void {}
-  deletePaymentMethod(_userId: string, _paymentMethodId: string): void {}
+  deletePaymentMethod(_paymentMethodId: string): void {}
   setPaymentMethodAsDefault(_paymentMethodId: string): void {}
   get(): Observable<User> {
     return of({ uid: 'userId' } as User);
@@ -203,7 +203,6 @@ describe('PaymentMethodsComponent', () => {
     getConfirmButton(el).nativeElement.click();
     fixture.detectChanges();
     expect(userService.deletePaymentMethod).toHaveBeenCalledWith(
-      'userId',
       mockPayment.id
     );
   });
