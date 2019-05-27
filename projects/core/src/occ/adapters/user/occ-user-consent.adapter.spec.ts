@@ -5,7 +5,11 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
 import { OccUserConsentAdapter } from './occ-user-consent.adapter';
-import { ConverterService, Occ } from '@spartacus/core';
+import {
+  CONSENT_TEMPLATE_NORMALIZER,
+  ConverterService,
+  Occ,
+} from '@spartacus/core';
 import { ConsentTemplate } from '../../../model/consent.model';
 
 const endpoint = '/users';
@@ -43,6 +47,7 @@ describe('OccUserConsentAdapter', () => {
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(converter, 'pipeable').and.callThrough();
   });
 
   afterEach(() => {
@@ -70,6 +75,17 @@ describe('OccUserConsentAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockConsentTemplateList);
+    });
+
+    it('should use converter', () => {
+      const userId = 'xxx@xxx.xxx';
+      service.loadConsents(userId).subscribe();
+      httpMock
+        .expectOne(endpoint + `/${userId}${CONSENTS_TEMPLATES_ENDPOINT}`)
+        .flush([]);
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        CONSENT_TEMPLATE_NORMALIZER
+      );
     });
   });
 
@@ -102,6 +118,16 @@ describe('OccUserConsentAdapter', () => {
         'application/x-www-form-urlencoded'
       );
       mockReq.flush(expectedConsentTemplate);
+    });
+
+    it('should use converter', () => {
+      const userId = 'xxx@xxx.xxx';
+
+      service.giveConsent(userId, 'xxx', 1).subscribe();
+      httpMock.expectOne(`${endpoint}/${userId}${CONSENTS_ENDPOINT}`).flush({});
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CONSENT_TEMPLATE_NORMALIZER
+      );
     });
   });
 
