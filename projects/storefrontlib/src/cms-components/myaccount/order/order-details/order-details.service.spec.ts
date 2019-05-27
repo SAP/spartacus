@@ -1,11 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  AuthService,
-  Order,
-  RoutingService,
-  UserService,
-  UserToken,
-} from '@spartacus/core';
+import { Order, RoutingService, UserService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
@@ -73,12 +67,6 @@ const mockRouter = {
 
 const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ userId: 'test' } as UserToken);
-  }
-}
-
 class MockUserService {
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
@@ -95,7 +83,6 @@ class MockRoutingService {
 
 describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
-  let authService;
   let userService;
   let routingService;
 
@@ -103,10 +90,6 @@ describe('OrderDetailsService', () => {
     TestBed.configureTestingModule({
       providers: [
         OrderDetailsService,
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
         {
           provide: UserService,
           useClass: MockUserService,
@@ -119,7 +102,6 @@ describe('OrderDetailsService', () => {
     });
 
     service = TestBed.get(OrderDetailsService);
-    authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
     routingService = TestBed.get(RoutingService);
   });
@@ -129,7 +111,6 @@ describe('OrderDetailsService', () => {
   });
 
   it('should load order details', () => {
-    spyOn(authService, 'getUserToken');
     spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
     spyOn(userService, 'clearOrderDetails');
@@ -147,7 +128,6 @@ describe('OrderDetailsService', () => {
   });
 
   it('should clean order details', () => {
-    spyOn(authService, 'getUserToken');
     spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
     spyOn(userService, 'clearOrderDetails');
