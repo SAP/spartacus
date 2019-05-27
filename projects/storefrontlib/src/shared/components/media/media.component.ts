@@ -47,12 +47,23 @@ export class MediaComponent implements OnChanges {
   media: Media;
 
   /**
+   * The `cx-media` component has an `initialized` class as long as the
+   * media is being initialized.
+   */
+  @HostBinding('class.initialized') isInitialized = false;
+
+  /**
    * The `cx-media` component has a `loading` class as long as the
    * media is loaded. Wehn the media is loaded, the `initialized` class
    * is added.
    */
   @HostBinding('class.loading') isLoading = true;
-  @HostBinding('class.initialized') isInitialized = false;
+
+  /**
+   * When there's not media provided for the content, or in case an error
+   * happened during loading, we add the missing class.
+   */
+  @HostBinding('class.is-missing') isMissing = false;
 
   constructor(protected mediaService: MediaService) {}
 
@@ -69,6 +80,9 @@ export class MediaComponent implements OnChanges {
       this.format,
       this.alt
     );
+    if (!this.media.src) {
+      this.handleMissing();
+    }
   }
 
   /**
@@ -82,11 +96,16 @@ export class MediaComponent implements OnChanges {
   }
 
   /**
-   * Whenever an error happens during load, we fall back to a missing image.
-   * This means we need to update the local media object. In this scenario we
-   * do not provide a `srcset` for responsive images.
+   * Whenever an error happens during load, we mark the component
+   * with css classes to have a missing media.
    */
   errorHandler(): void {
-    this.media = this.mediaService.getMissingImage();
+    this.handleMissing();
+  }
+
+  private handleMissing() {
+    this.isLoading = false;
+    this.isInitialized = true;
+    this.isMissing = true;
   }
 }
