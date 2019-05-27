@@ -14,6 +14,8 @@ import { UserAccountAdapter } from '../../../user/connectors/account/user-accoun
 import { OccUserAccountAdapter } from './occ-user-account.adapter';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
+import { OccUserConsentAdapter } from './occ-user-consent.adapter';
+import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -21,6 +23,7 @@ import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
     { provide: UserDetailsAdapter, useClass: OccUserDetailsAdapter },
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },
     { provide: UserAccountAdapter, useClass: OccUserAccountAdapter },
+    { provide: UserConsentAdapter, useClass: OccUserConsentAdapter },
     {
       provide: UserPaymentAdapter,
       useClass: OccUserPaymentAdapter,
