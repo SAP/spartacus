@@ -1,8 +1,9 @@
 export const productContainer = 'cx-product-details';
 export const summaryContainer = `${productContainer} cx-product-summary`;
-export const tabsContainer = 'cx-product-tabs .details';
+export const tabsContainer = 'cx-tab-paragraph-container';
 export const tabsHeaderList = `${tabsContainer} > h3`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
+export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
 export const reviewContainer = 'cx-product-reviews';
 export const reviewList = `${reviewContainer} .review`;
 export const writeAReviewButton = `${reviewContainer} .header button`;
@@ -71,7 +72,7 @@ export function verifyTextInTabs() {
   cy.get(tabsHeaderList)
     .eq(3)
     .click();
-  cy.get(activeTabContainer).should('contain', 'Lorem ipsum dolor sit amet,');
+  cy.get(shippingTabActive).should('contain', 'Lorem ipsum dolor sit amet,');
 }
 
 export function verifyContentInReviewTab() {
@@ -80,9 +81,6 @@ export function verifyContentInReviewTab() {
     .click();
   cy.get(reviewList).should('have.length', 5);
   cy.get(writeAReviewButton).should('be.visible');
-  cy.get(`${reviewContainer}`)
-    .eq(0)
-    .should('be.visible');
 }
 
 export function verifyReviewForm() {
@@ -117,7 +115,9 @@ export function verifyReviewForm() {
 }
 
 export function verifyQuantityInCart() {
-  cy.get(addToCartButton).click();
+  cy.get(addToCartButton)
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get(atcModal).should('be.visible');
   cy.get(atcModalTitle).should('contain', 'Item(s) added to your cart');
   cy.get(`${atcModalItem} .cx-name`).should('contain', PRODUCT_NAME);
@@ -128,7 +128,9 @@ export function verifyQuantityInCart() {
       .getByText('+')
       .click();
   }
-  cy.get(addToCartButton).click();
+  cy.get(addToCartButton)
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
 }

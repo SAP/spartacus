@@ -1,10 +1,8 @@
 export enum ProductDetailOutlets {
-  PAGE = 'PDP.PAGE',
   SUMMARY = 'PDP.SUMMARY',
   IMAGES = 'PDP.IMAGES',
   TITLE = 'PDP.TITLE',
   RATING = 'PDP.RATING',
-  ADDTOCART = 'PDP.ADDTOCART',
   PRICE = 'PDP.PRICE',
   SHARE = 'PDP.SHARE',
 }

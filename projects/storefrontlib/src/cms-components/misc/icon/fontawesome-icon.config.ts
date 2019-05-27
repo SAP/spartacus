@@ -21,6 +21,7 @@ export const fontawesomeIconConfig: IconConfig = {
       CREDIT_CARD: 'fas fa-credit-card',
       MINUS: 'fas fa-minus',
       PLUS: 'fas fa-plus',
+      RESET: 'fas fa-times-circle',
     },
     resources: [
       {
