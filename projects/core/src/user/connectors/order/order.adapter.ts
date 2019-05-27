@@ -3,14 +3,6 @@ import { Order, OrderHistoryList } from '../../../model/order.model';
 
 export abstract class OrderAdapter {
   /**
-   * Abstract method used to place an order.
-   *
-   * @param userId The `userId` for given user
-   * @param cartId The `cartId` for cart used for placing order
-   */
-  abstract place(userId: string, cartId: string): Observable<Order>;
-
-  /**
    * Abstract method used to load order data.
    *
    * @param userId The `userId` for given user

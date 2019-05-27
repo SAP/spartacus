@@ -9,10 +9,6 @@ import { Order, OrderHistoryList } from '../../../model/order.model';
 export class OrderConnector {
   constructor(protected adapter: OrderAdapter) {}
 
-  public place(userId: string, cartId: string): Observable<Order> {
-    return this.adapter.place(userId, cartId);
-  }
-
   public get(userId: string, orderCode: string): Observable<Order> {
     return this.adapter.load(userId, orderCode);
   }

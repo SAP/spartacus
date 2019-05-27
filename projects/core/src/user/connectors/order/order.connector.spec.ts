@@ -6,10 +6,6 @@ import { OrderAdapter } from './order.adapter';
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements OrderAdapter {
-  place = createSpy('OrderAdapter.place').and.callFake((userId, cartId) =>
-    of(`placedOrder-${userId}-${cartId}`)
-  );
-
   load = createSpy('OrderAdapter.load').and.callFake((userId, orderCode) =>
     of(`order-${userId}-${orderCode}`)
   );
@@ -34,13 +30,6 @@ describe('OrderConnector', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('place should call adapter', () => {
-    let result;
-    service.place('user1', 'cart1').subscribe(res => (result = res));
-    expect(result).toBe('placedOrder-user1-cart1');
-    expect(adapter.place).toHaveBeenCalledWith('user1', 'cart1');
   });
 
   it('get should call adapter', () => {
