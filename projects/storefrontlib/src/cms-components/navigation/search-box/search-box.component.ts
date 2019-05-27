@@ -63,19 +63,20 @@ export class SearchBoxComponent {
 
   /**
    * Returns the backend configuration or default configuration for the searchbox.
-   * Since the backend returns string values (i.e. displayProducts: "true") for
-   * boolean values, we replace them with boolean values.
    */
   private get config$(): Observable<SearchBoxConfig> {
     if (this.componentData) {
       return <Observable<SearchBoxConfig>>this.componentData.data$.pipe(
-        map(c =>
-          JSON.parse(
-            JSON.stringify(c)
-              .replace(/"true"/g, 'true')
-              .replace(/"false"/g, 'false')
-          )
-        )
+        // Since the backend returns string values (i.e. displayProducts: "true") for
+        // boolean values, we replace them with boolean values.
+        map(c => {
+          return {
+            ...c,
+            displayProducts: JSON.parse(<any>c.displayProducts),
+            displayProductImages: JSON.parse(<any>c.displayProductImages),
+            displaySuggestions: JSON.parse(<any>c.displaySuggestions),
+          };
+        })
       );
     } else {
       return of(DEFAULT_SEARCHBOX_CONFIG);
