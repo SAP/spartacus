@@ -11,6 +11,7 @@ import { WindowRef } from '../../window/window-ref';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
+    enabled: true,
     httpHeaderName: {
       id: 'test-personalization-id',
       timestamp: 'test-personalization-time',
@@ -25,6 +26,11 @@ const MockWindowRef = {
     },
     setItem: (key: string, value: string) => {
       store[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        store[key] = undefined;
+      }
     },
   },
 };
