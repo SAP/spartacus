@@ -45,7 +45,7 @@ export class CartItemListComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.createFormgroupControls();
+    this.createOrUpdateFormgroupControls();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,7 +57,7 @@ export class CartItemListComponent implements OnInit, OnChanges {
         changes.items.previousValue.includes(e)
       )
     ) {
-      this.createFormgroupControls();
+      this.createOrUpdateFormgroupControls();
     }
   }
 
@@ -124,7 +124,7 @@ export class CartItemListComponent implements OnInit, OnChanges {
       return consumendEntryNumber === entry.entryNumber;
     }
   }
-  private createFormgroupControls() {
+  private createOrUpdateFormgroupControls() {
     this.items.forEach(item => {
       const { code } = item.product;
       if (!this.form.controls[code]) {
