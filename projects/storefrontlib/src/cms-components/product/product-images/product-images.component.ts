@@ -42,7 +42,9 @@ export class ProductImagesComponent implements OnInit {
     return this.imageContainer$.pipe(
       map(
         (container: any) =>
-          container.zoom && container.zoom.url === currentContainer.zoom.url
+          container.zoom &&
+          currentContainer.zoom &&
+          container.zoom.url === currentContainer.zoom.url
       )
     );
   }
