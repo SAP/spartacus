@@ -6,7 +6,7 @@ import {
   Cart,
   CartService,
   CmsMiniCartComponent,
-  Component as SpaComponent,
+  CmsComponent,
   I18nTestingModule,
   UrlCommandRoute,
 } from '@spartacus/core';
@@ -63,7 +63,7 @@ class MockCartService {
   }
 }
 
-const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
+const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
   data$: of(mockComponentData),
 };
 

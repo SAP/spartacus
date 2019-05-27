@@ -21,10 +21,9 @@ import {
 } from '@spartacus/core';
 
 import { ActivatedRoute } from '@angular/router';
-import { masterCardImgSrc } from '../../../ui/images/masterCard';
-import { visaImgSrc } from '../../../ui/images/visa';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon';
 
 @Component({
   selector: 'cx-payment-method',
@@ -32,6 +31,7 @@ import { CheckoutConfigService } from '../../checkout-config.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentMethodComponent implements OnInit, OnDestroy {
+  iconTypes = ICON_TYPE;
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
@@ -110,17 +110,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
           textDefaultPaymentMethod,
           textSelected,
         ]) => {
-          let ccImage: string;
-          if (payment.cardType.code === 'visa') {
-            ccImage = visaImgSrc;
-          } else if (payment.cardType.code === 'master') {
-            ccImage = masterCardImgSrc;
-          }
           const card: Card = {
             title: payment.defaultPayment ? textDefaultPaymentMethod : '',
             textBold: payment.accountHolderName,
             text: [payment.cardNumber, textExpires],
-            img: ccImage,
+            img: this.getCardIcon(payment.cardType.code),
             actions: [{ name: textUseThisPayment, event: 'send' }],
           };
           if (this.selectedPayment && this.selectedPayment.id === payment.id) {
@@ -216,5 +210,22 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     if (this.getDeliveryAddressSub) {
       this.getDeliveryAddressSub.unsubscribe();
     }
+  }
+
+  protected getCardIcon(code: string): string {
+    let ccIcon: string;
+    if (code === 'visa') {
+      ccIcon = this.iconTypes.VISA;
+    } else if (code === 'master' || code === 'mastercard_eurocard') {
+      ccIcon = this.iconTypes.MASTER_CARD;
+    } else if (code === 'diners') {
+      ccIcon = this.iconTypes.DINERS_CLUB;
+    } else if (code === 'amex') {
+      ccIcon = this.iconTypes.AMEX;
+    } else {
+      ccIcon = this.iconTypes.CREDIT_CARD;
+    }
+
+    return ccIcon;
   }
 }

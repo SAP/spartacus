@@ -4,7 +4,11 @@ import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsParagraphComponent, Component, CmsConfig } from '@spartacus/core';
+import {
+  CmsParagraphComponent,
+  CmsComponent,
+  CmsConfig,
+} from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -29,7 +33,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
   const data$ = new BehaviorSubject<CmsParagraphComponent>({});
 
-  const MockCmsComponentData = <CmsComponentData<Component>>{
+  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: data$.asObservable(),
   };
 

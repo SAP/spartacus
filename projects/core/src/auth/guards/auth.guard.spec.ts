@@ -58,7 +58,6 @@ describe('AuthGuard', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        AuthGuard,
         {
           provide: RoutingService,
           useClass: RoutingServiceStub,

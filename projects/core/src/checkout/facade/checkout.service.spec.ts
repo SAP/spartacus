@@ -1,14 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
-
 import { Store, StoreModule } from '@ngrx/store';
-
-import * as fromCheckout from '../store/index';
-
-import { CheckoutService } from './checkout.service';
+import { CartDataService } from '@spartacus/core';
 import { Address, AddressValidation } from '../../model/address.model';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
-import { CartDataService } from '@spartacus/core';
 import { DeliveryMode, Order } from '../../model/order.model';
+import * as fromCheckout from '../store/index';
+import { CheckoutService } from './checkout.service';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
@@ -323,7 +320,8 @@ describe('CheckoutService', () => {
 
   it('should be able to load checkout details', () => {
     const cartId = cart.code;
-    service.loadCheckoutDetails(userId, cartId);
+    cartData.userId = userId;
+    service.loadCheckoutDetails(cartId);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.LoadCheckoutDetails({ userId, cartId })
     );

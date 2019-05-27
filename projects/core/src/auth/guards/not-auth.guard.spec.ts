@@ -61,7 +61,6 @@ describe('NotAuthGuard', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        NotAuthGuard,
         { provide: RoutingService, useClass: RoutingServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         { provide: Router, useValue: mockRouter },
