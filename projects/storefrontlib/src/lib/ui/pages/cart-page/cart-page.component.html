@@ -1,3 +1,6 @@
 <cx-page-layout
   [class.empty]="!(cart$ | async).totalItems && !(sflCart$ | async).totalItems"
+  [class.saveForLater]="
+    !(cart$ | async).totalItems && (sflCart$ | async).totalItems
+  "
 ></cx-page-layout>

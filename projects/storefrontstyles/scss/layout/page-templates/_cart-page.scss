@@ -48,4 +48,10 @@
       display: none;
     }
   }
+
+  &.saveForLater {
+    .CenterRightContentSlot {
+      display: none;
+    }
+  }
 }
