@@ -9,14 +9,14 @@ import { LOGOUT } from '../../../auth/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { OrderHistoryList } from '../../../model/order.model';
-import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../../occ/occ-models/additional-occ.models';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
-  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  UserState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
@@ -40,7 +40,7 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromAddressesReducer.reducer
     ),
     billingCountries: fromBillingCountriesReducer.reducer,
-    consents: loaderReducer<ConsentTemplateList>(
+    consents: loaderReducer<ConsentTemplate[]>(
       USER_CONSENTS,
       fromUserConsentsReducer.reducer
     ),

@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../../occ/occ-models/additional-occ.models';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderErrorSelector,
@@ -12,7 +12,7 @@ import { getUserState } from './feature.selector';
 
 export const getConsentsState: MemoizedSelector<
   StateWithUser,
-  LoaderState<ConsentTemplateList>
+  LoaderState<ConsentTemplate[]>
 > = createSelector(
   getUserState,
   (state: UserState) => state.consents
@@ -20,7 +20,7 @@ export const getConsentsState: MemoizedSelector<
 
 export const getConsentsValue: MemoizedSelector<
   StateWithUser,
-  ConsentTemplateList
+  ConsentTemplate[]
 > = createSelector(
   getConsentsState,
   loaderValueSelector

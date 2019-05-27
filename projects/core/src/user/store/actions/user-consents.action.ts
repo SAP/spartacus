@@ -1,7 +1,4 @@
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../../occ/occ-models/additional-occ.models';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -55,7 +52,7 @@ export class LoadUserConsentsFail extends LoaderFailAction {
 
 export class LoadUserConsentsSuccess extends LoaderSuccessAction {
   readonly type = LOAD_USER_CONSENTS_SUCCESS;
-  constructor(public payload: ConsentTemplateList) {
+  constructor(public payload: ConsentTemplate[]) {
     super(USER_CONSENTS);
   }
 }

@@ -6,7 +6,7 @@ import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../occ/occ-models/additional-occ.models';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -556,7 +556,7 @@ export class UserService {
   /**
    * Returns all consents
    */
-  getConsents(): Observable<ConsentTemplateList> {
+  getConsents(): Observable<ConsentTemplate[]> {
     return this.store.pipe(select(fromStore.getConsentsValue));
   }
 

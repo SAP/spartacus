@@ -1,11 +1,5 @@
 import { Observable } from 'rxjs';
-import { Title, User } from '../../../model/misc.model';
-import { UserRegisterFormData } from '../../../user/model/user.model';
 import { Title, User, UserSignUp } from '../../../model/misc.model';
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../../occ/occ-models/additional-occ.models';
 
 export abstract class UserAccountAdapter {
   abstract register(user: UserSignUp): Observable<User>;
