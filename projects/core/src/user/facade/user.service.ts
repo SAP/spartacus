@@ -55,11 +55,9 @@ export class UserService {
 
   /**
    * Remove user account, that's also called close user's account
-   *
-   * @param userId
    */
-  remove(userId: string): void {
-    this.store.dispatch(new fromStore.RemoveUser(userId));
+  remove(): void {
+    this.store.dispatch(new fromStore.RemoveUser(USERID_CURRENT));
   }
 
   /**

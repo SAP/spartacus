@@ -80,9 +80,9 @@ describe('UserService', () => {
 
   describe('Remove User Account', () => {
     it('should be able to remove user account', () => {
-      service.remove('testUserId');
+      service.remove();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RemoveUser('testUserId')
+        new fromStore.RemoveUser(USERID_CURRENT)
       );
     });
 
