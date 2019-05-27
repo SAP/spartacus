@@ -25,13 +25,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sub = this.auth.getUserToken().subscribe(data => {
-      if (data && data.access_token) {
-        this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-        this.authRedirectService.redirect();
-      }
-    });
-
     this.form = this.fb.group({
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required],
@@ -43,6 +36,15 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       this.form.controls.userId.value,
       this.form.controls.password.value
     );
+
+    if (!this.sub) {
+      this.sub = this.auth.getUserToken().subscribe(data => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
+      });
+    }
   }
 
   ngOnDestroy() {

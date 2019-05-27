@@ -59,12 +59,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
-    this.subscription = this.auth.getUserToken().subscribe(data => {
-      if (data && data.access_token) {
-        this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-        this.authRedirectService.redirect();
-      }
-    });
   }
 
   submit(): void {
@@ -83,6 +77,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
       titleCode,
     };
     this.userService.register(userRegisterFormData);
+
+    if (!this.subscription) {
+      this.subscription = this.auth.getUserToken().subscribe(data => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
+      });
+    }
+
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.globalMessageService
       .get()
