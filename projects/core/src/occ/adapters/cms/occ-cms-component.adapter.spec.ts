@@ -3,14 +3,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CmsComponent, PageType } from '../../../model/cms.model';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { PageContext } from '../../../routing';
-import { ConverterService } from '../../../util/converter.service';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsStructureConfigService } from '../../../cms/services';
-import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing';
+import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -155,7 +155,7 @@ describe('OccCmsComponentAdapter', () => {
       testRequest.flush(componentList);
     });
 
-    it('should use a post request when get fails to get a list of cms component data without pagination parameters', () => {
+    it('should use a post request when get fails to get a list of cms component data without pagination parameters - 400', () => {
       spyOn(endpointsService, 'getUrl').and.returnValues(
         endpoint +
           `/components?componentIds=${ids.toString()}&productCode=${
@@ -182,6 +182,58 @@ describe('OccCmsComponentAdapter', () => {
       testRequest.flush(
         { error: 'Bad Request' },
         { status: 400, statusText: 'Bad Request' }
+      );
+
+      const testRequestPOST = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url === endpoint + `/components?productCode=${context.id}`
+        );
+      });
+
+      expect(testRequestPOST.request.body).toEqual({ idList: ids });
+      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+        'components',
+        { fields: 'DEFAULT' },
+        {
+          productCode: '123',
+          currentPage: '0',
+          pageSize: '2',
+        }
+      );
+
+      expect(testRequestPOST.cancelled).toBeFalsy();
+      expect(testRequestPOST.request.responseType).toEqual('json');
+      testRequestPOST.flush(componentList);
+    });
+
+    it('should use a post request when get fails to get a list of cms component data without pagination parameters - 405', () => {
+      spyOn(endpointsService, 'getUrl').and.returnValues(
+        endpoint +
+          `/components?componentIds=${ids.toString()}&productCode=${
+            context.id
+          }`,
+        endpoint + `/components?productCode=${context.id}`
+      );
+
+      service.findComponentsByIds(ids, context).subscribe(result => {
+        expect(result).toEqual(componentList.component);
+      });
+
+      const testRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            endpoint +
+              `/components?componentIds=${ids.toString()}&productCode=${
+                context.id
+              }`
+        );
+      });
+
+      testRequest.flush(
+        { error: 'Method Not Allowed' },
+        { status: 405, statusText: 'Method Not Allowed' }
       );
 
       const testRequestPOST = httpMock.expectOne(req => {
@@ -246,7 +298,7 @@ describe('OccCmsComponentAdapter', () => {
       testRequest.flush(componentList);
     });
 
-    it('should use a post request when get fails to get a list of cms component data with pagination parameters', () => {
+    it('should use a post request when get fails to get a list of cms component data with pagination parameters - 400', () => {
       spyOn(endpointsService, 'getUrl').and.returnValues(
         endpoint +
           `/components?componentIds=${ids.toString()}&productCode=${
@@ -273,6 +325,58 @@ describe('OccCmsComponentAdapter', () => {
       testRequest.flush(
         { error: 'Bad Request' },
         { status: 400, statusText: 'Bad Request' }
+      );
+
+      const testRequestPOST = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url === endpoint + `/components?productCode=${context.id}`
+        );
+      });
+
+      expect(testRequestPOST.request.body).toEqual({ idList: ids });
+      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+        'components',
+        { fields: 'DEFAULT' },
+        {
+          productCode: '123',
+          currentPage: '0',
+          pageSize: '2',
+        }
+      );
+
+      expect(testRequestPOST.cancelled).toBeFalsy();
+      expect(testRequestPOST.request.responseType).toEqual('json');
+      testRequestPOST.flush(componentList);
+    });
+
+    it('should use a post request when get fails to get a list of cms component data with pagination parameters - 405', () => {
+      spyOn(endpointsService, 'getUrl').and.returnValues(
+        endpoint +
+          `/components?componentIds=${ids.toString()}&productCode=${
+            context.id
+          }`,
+        endpoint + `/components?productCode=${context.id}`
+      );
+
+      service.findComponentsByIds(ids, context).subscribe(result => {
+        expect(result).toEqual(componentList.component);
+      });
+
+      const testRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            endpoint +
+              `/components?componentIds=${ids.toString()}&productCode=${
+                context.id
+              }`
+        );
+      });
+
+      testRequest.flush(
+        { error: 'Method Not Allowed' },
+        { status: 405, statusText: 'Method Not Allowed' }
       );
 
       const testRequestPOST = httpMock.expectOne(req => {
