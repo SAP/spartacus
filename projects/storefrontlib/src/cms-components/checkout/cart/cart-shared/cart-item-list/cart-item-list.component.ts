@@ -53,7 +53,9 @@ export class CartItemListComponent implements OnInit, OnChanges {
       changes.items &&
       changes.items.currentValue &&
       changes.items.previousValue &&
-      changes.items.currentValue.length !== changes.items.previousValue.length
+      !changes.items.currentValue.every(e =>
+        changes.items.previousValue.includes(e)
+      )
     ) {
       this.createFormgroupControls();
     }
