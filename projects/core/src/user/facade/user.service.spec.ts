@@ -2,14 +2,13 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
-import { Title, User } from '../../model/misc.model';
+import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
@@ -66,7 +65,7 @@ describe('UserService', () => {
   });
 
   it('should be able to register user', () => {
-    const userRegisterFormData: UserRegisterFormData = {
+    const userRegisterFormData: UserSignUp = {
       titleCode: 'Mr.',
       firstName: 'firstName',
       lastName: 'lastName',
@@ -659,9 +658,7 @@ describe('UserService', () => {
 
   describe('consent management', () => {
     const userId = 'xxx@xxx.xxx';
-    const consentTemplateListMock: ConsentTemplateList = {
-      consentTemplates: [{ id: 'xxx' }],
-    };
+    const consentTemplateListMock: ConsentTemplate[] = [{ id: 'xxx' }];
 
     describe('load consents', () => {
       describe('loadConsents', () => {
@@ -678,7 +675,7 @@ describe('UserService', () => {
             new fromStore.LoadUserConsentsSuccess(consentTemplateListMock)
           );
 
-          let result: ConsentTemplateList;
+          let result: ConsentTemplate[];
           service
             .getConsents()
             .subscribe(consents => (result = consents))
