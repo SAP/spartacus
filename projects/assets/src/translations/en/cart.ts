@@ -27,4 +27,7 @@ export const cart = {
     item: '{{count}} item currently in your cart',
     item_plural: '{{count}} items currently in your cart',
   },
+  httpHandlers: {
+    cartNotFound: 'Cart not found.',
+  },
 };
