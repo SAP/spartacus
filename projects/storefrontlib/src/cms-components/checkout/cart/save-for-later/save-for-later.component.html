@@ -3,7 +3,14 @@
     <ng-container *ngIf="entries.length > 0">
       <div class="cart-details-wrapper">
         <div class="cx-total">
-          Saved for later (2 items): $340.72
+          {{
+            'saveForLaterItems.itemTotal'
+              | cxTranslate
+                : {
+                    count: cart.deliveryItemsQuantity,
+                    totalPrice: cart.totalPrice?.formattedValue
+                  }
+          }}
         </div>
         <cx-save-for-later-item-list
           [saveForLaterLoading]="!(sflCartLoaded$ | async)"
