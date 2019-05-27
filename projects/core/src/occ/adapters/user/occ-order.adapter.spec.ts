@@ -7,13 +7,10 @@ import { async, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
 import { Order } from '../../../model/order.model';
 import { ConverterService, OccOrderAdapter } from '@spartacus/core';
-import {
-  ORDER_HISTORY_NORMALIZER,
-  ORDER_NORMALIZER,
-} from '../../../user/connectors/order/converters';
+import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 
 const userId = '123';
-const cartId = '456';
 
 const orderData: Order = {
   site: 'electronics',
@@ -59,38 +56,6 @@ describe('OccOrderAdapter', () => {
 
   afterEach(() => {
     httpMock.verify();
-  });
-
-  describe('place order', () => {
-    it('should be able to place order for the cart', () => {
-      service.place(userId, cartId).subscribe(result => {
-        expect(result).toEqual(orderData);
-      });
-
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === usersEndpoint + `/${userId}` + orderEndpoint
-        );
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.params.get('cartId')).toEqual(cartId);
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(orderData);
-    });
-
-    it('should use converter', () => {
-      service.place(userId, cartId).subscribe();
-      httpMock
-        .expectOne(
-          req =>
-            req.method === 'POST' &&
-            req.url === usersEndpoint + `/${userId}` + orderEndpoint
-        )
-        .flush({});
-      expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
-    });
   });
 
   describe('getUserOrders', () => {
