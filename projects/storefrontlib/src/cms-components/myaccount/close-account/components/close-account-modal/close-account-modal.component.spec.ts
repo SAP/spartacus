@@ -1,20 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-import { CloseAccountModalComponent } from './close-account-modal.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
-  I18nTestingModule,
-  UserService,
-  GlobalMessageService,
-  RoutingService,
-  UserToken,
   AuthService,
+  GlobalMessageService,
+  I18nTestingModule,
+  RoutingService,
+  UserService,
+  UserToken,
 } from '@spartacus/core';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
+import { CloseAccountModalComponent } from './close-account-modal.component';
 
 import createSpy = jasmine.createSpy;
-
-const mockUserId = 'userId1';
 
 class MockNgbActiveModal {
   dismiss(): void {}
@@ -122,9 +120,9 @@ describe('CloseAccountModalComponent', () => {
   it('should close account', () => {
     spyOn(userService, 'remove');
 
-    component.closeAccount(mockUserId);
+    component.closeAccount();
 
-    expect(userService.remove).toHaveBeenCalledWith(mockUserId);
+    expect(userService.remove).toHaveBeenCalled();
   });
 
   it('should navigate away and dismiss modal when account is closed', () => {
