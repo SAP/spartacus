@@ -4,12 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../occ-models/additional-occ.models';
-import { OccUserAccountAdapter } from './occ-user-account.adapter';
-import { ConverterService } from '@spartacus/core';
+import { OccUserConsentAdapter } from './occ-user-consent.adapter';
+import { ConverterService, Occ } from '@spartacus/core';
+import { ConsentTemplate } from '../../../model/consent.model';
 
 const endpoint = '/users';
 const CONSENTS_TEMPLATES_ENDPOINT = '/consenttemplates';
@@ -28,8 +25,8 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccUserAccountAdapter', () => {
-  let service: OccUserAccountAdapter;
+describe('OccUserConsentAdapter', () => {
+  let service: OccUserConsentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -37,12 +34,12 @@ describe('OccUserAccountAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccUserAccountAdapter,
+        OccUserConsentAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccUserAccountAdapter);
+    service = TestBed.get(OccUserConsentAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -55,12 +52,12 @@ describe('OccUserAccountAdapter', () => {
   describe('loadConsents', () => {
     it('should retrive user consents for the given user id', () => {
       const userId = 'xxx@xxx.xxx';
-      const mockConsentTemplateList: ConsentTemplateList = {
+      const mockConsentTemplateList: Occ.ConsentTemplateList = {
         consentTemplates: [{ id: 'xxx' }],
       };
 
       service.loadConsents(userId).subscribe(result => {
-        expect(result).toEqual(mockConsentTemplateList);
+        expect(result).toEqual(mockConsentTemplateList.consentTemplates);
       });
 
       const mockReq = httpMock.expectOne(req => {
