@@ -59,10 +59,10 @@
           params: product
         } | cxUrl
       "
-      [class.has-media]="config?.displayProductImages"
+      [class.has-media]="config.displayProductImages"
     >
       <cx-media
-        *ngIf="config?.displayProductImages"
+        *ngIf="config.displayProductImages"
         [container]="product.images?.PRIMARY"
         format="thumbnail"
         [alt]="product.summary"
