@@ -35,7 +35,7 @@ describe('SemanticPathService', () => {
     routingConfigService = TestBed.get(RoutingConfigService);
   });
 
-  describe('getSemanticUrl', () => {
+  describe('get', () => {
     it(`should return absolute url with path from routes config`, () => {
       spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
         paths: ['some/url'],
