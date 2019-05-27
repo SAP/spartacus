@@ -6,7 +6,7 @@ import {
   CmsService,
   PageType,
   RoutingService,
-  UrlService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 
@@ -14,13 +14,11 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LogoutGuard implements CanActivate {
-  static GUARD_NAME = 'LogoutGuard';
-
   constructor(
     protected auth: AuthService,
     protected cms: CmsService,
     protected routing: RoutingService,
-    protected urlService: UrlService
+    protected semanticPathService: SemanticPathService
   ) {}
 
   canActivate(): Observable<any> {
@@ -28,7 +26,7 @@ export class LogoutGuard implements CanActivate {
 
     return this.cms
       .hasPage({
-        id: this.urlService.getSemanticUrl('logout'),
+        id: this.semanticPathService.get('logout'),
         type: PageType.CONTENT_PAGE,
       })
       .pipe(

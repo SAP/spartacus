@@ -7,7 +7,7 @@ import { UrlCommandRoute, UrlCommands, UrlCommand } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
 
 @Injectable({ providedIn: 'root' })
-export class UrlService {
+export class SemanticPathService {
   readonly ROOT_URL = ['/'];
 
   constructor(
@@ -19,14 +19,22 @@ export class UrlService {
   /**
    * Returns the first path alias configured for given route name
    */
-  getSemanticUrl(routeName: string): string {
+  get(routeName: string): string {
     const routeConfig = this.routingConfigService.getRouteConfig(routeName);
     return routeConfig && Array.isArray(routeConfig.paths)
       ? '/' + routeConfig.paths[0]
       : undefined;
   }
 
-  generateUrl(commands: UrlCommands): any[] {
+  /**
+   * Transforms the array of url commands. Each command can be:
+   * a) string - will be bypassed
+   * b) object { cxRoute: <route name> } - will be replaced with semantic path
+   * c) object { cxRoute: <route name>, params: { ... } } - same as above, but with passed params
+   *
+   * If the first command is the object with the `cxRoute` property, returns an absolute url (with the first element of the array `'/'`)
+   */
+  transform(commands: UrlCommands): any[] {
     if (!Array.isArray(commands)) {
       commands = [commands];
     }

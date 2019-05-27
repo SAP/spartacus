@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlParsingService } from './url-parsing.service';
-import { UrlService } from './url.service';
+import { SemanticPathService } from './semantic-path.service';
 import { RouteConfig } from '../routes-config';
 import { UrlCommands } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
@@ -11,8 +11,8 @@ const mockRoutingConfigService = {
   getRouteConfig: () => {},
 };
 
-describe('UrlService', () => {
-  let service: UrlService;
+describe('SemanticPathService', () => {
+  let service: SemanticPathService;
   let serverConfig: ServerConfig;
   let routingConfigService: RoutingConfigService;
 
@@ -20,7 +20,7 @@ describe('UrlService', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UrlService,
+        SemanticPathService,
         UrlParsingService,
         {
           provide: RoutingConfigService,
@@ -30,7 +30,7 @@ describe('UrlService', () => {
       ],
     });
 
-    service = TestBed.get(UrlService);
+    service = TestBed.get(SemanticPathService);
     serverConfig = TestBed.get(ServerConfig);
     routingConfigService = TestBed.get(RoutingConfigService);
   });
@@ -40,16 +40,16 @@ describe('UrlService', () => {
       spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
         paths: ['some/url'],
       });
-      expect(service.getSemanticUrl('test')).toBe('/some/url');
+      expect(service.get('test')).toBe('/some/url');
     });
 
     it(`should return undefined when there is no configured path for given route`, () => {
       spyOn(routingConfigService, 'getRouteConfig').and.returnValue(undefined);
-      expect(service.getSemanticUrl('test')).toBe(undefined);
+      expect(service.get('test')).toBe(undefined);
     });
   });
 
-  describe('generateUrl', () => {
+  describe('transform', () => {
     describe(`, when commands contain 'route' property,`, () => {
       // tslint:disable-next-line:max-line-length
       it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
@@ -58,7 +58,7 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        service.generateUrl({
+        service.transform({
           cxRoute: 'test',
           params: { param2: 'value2' },
         });
@@ -72,7 +72,7 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        service.generateUrl({
+        service.transform({
           cxRoute: 'test',
           params: { param2: 'value2' },
         });
@@ -83,7 +83,7 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        const resultPath = service.generateUrl({
+        const resultPath = service.transform({
           cxRoute: 'test',
           params: { param1: 'value1' },
         });
@@ -94,7 +94,7 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
-        const resultPath = service.generateUrl([
+        const resultPath = service.transform([
           'testString',
           {
             cxRoute: 'test',
@@ -104,7 +104,7 @@ describe('UrlService', () => {
         expect(resultPath[0]).toEqual('testString');
       });
 
-      function test_generateUrl({
+      function test_transform({
         urlCommands,
         routesConfigs,
         expectedResult,
@@ -116,11 +116,11 @@ describe('UrlService', () => {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
           ...routesConfigs
         );
-        expect(service.generateUrl(urlCommands)).toEqual(expectedResult);
+        expect(service.transform(urlCommands)).toEqual(expectedResult);
       }
 
       it(`should return the root path when route config for given route are undefined`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: { cxRoute: 'test' },
           routesConfigs: [undefined],
           expectedResult: ['/'],
@@ -128,7 +128,7 @@ describe('UrlService', () => {
       });
 
       it(`should return the root path when route config for given route are null`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: { cxRoute: 'test' },
           routesConfigs: [null],
           expectedResult: ['/'],
@@ -136,7 +136,7 @@ describe('UrlService', () => {
       });
 
       it(`should return the root path when configured paths for given route are undefined`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: { cxRoute: 'test' },
           routesConfigs: [{ paths: undefined }],
           expectedResult: ['/'],
@@ -144,7 +144,7 @@ describe('UrlService', () => {
       });
 
       it(`should return the root path when configured paths for given route are null`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: { cxRoute: 'test' },
           routesConfigs: [{ paths: null }],
           expectedResult: ['/'],
@@ -152,7 +152,7 @@ describe('UrlService', () => {
       });
 
       it(`should return the root path when configured paths for given route are empty array`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: { cxRoute: 'test' },
           routesConfigs: [{ paths: [] }],
           expectedResult: ['/'],
@@ -160,7 +160,7 @@ describe('UrlService', () => {
       });
 
       it(`should return the root path when no path from routes config can satisfy its params with given params`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: {
             cxRoute: 'test',
             params: { param3: 'value3' },
@@ -172,7 +172,7 @@ describe('UrlService', () => {
       });
 
       it(`should return first path without params when no params given`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: { cxRoute: 'test' },
           routesConfigs: [
             {
@@ -185,7 +185,7 @@ describe('UrlService', () => {
       });
 
       it(`should return first path without params when given params are not sufficient`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: {
             cxRoute: 'test',
             params: { param2: 'value2' },
@@ -201,7 +201,7 @@ describe('UrlService', () => {
       });
 
       it(`should return first path that can be satisfied with given params (case 1)`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: {
             cxRoute: 'test',
             params: { param1: 'value1' },
@@ -213,7 +213,7 @@ describe('UrlService', () => {
       });
 
       it(`should return first path that can be satisfied with given params (case 2)`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: {
             cxRoute: 'test',
             params: { param2: 'value2' },
@@ -229,7 +229,7 @@ describe('UrlService', () => {
       });
 
       it(`should return first path that can be satisfied with given params (case 3)`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: {
             cxRoute: 'test',
             params: {
@@ -254,7 +254,7 @@ describe('UrlService', () => {
       });
 
       it(`should return first path that can be satisfied with given params  (case 4)`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: {
             cxRoute: 'test',
             params: {
@@ -280,7 +280,7 @@ describe('UrlService', () => {
       });
 
       it(`should use given params mapping (case 1)`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: {
             cxRoute: 'test',
             params: { param1: 'value1' },
@@ -297,7 +297,7 @@ describe('UrlService', () => {
       });
 
       it(`should use given params mapping (case 2)`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: {
             cxRoute: 'test',
             params: {
@@ -323,7 +323,7 @@ describe('UrlService', () => {
       });
 
       it(`should return the root path when configured paths for one of given routes is null`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [{ cxRoute: 'test1' }, { cxRoute: 'tes2' }],
           routesConfigs: [{ paths: ['path1'] }, { paths: null }],
           expectedResult: ['/'],
@@ -331,7 +331,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths for two nested routes`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [{ cxRoute: 'test1' }, { cxRoute: 'test2' }],
           routesConfigs: [{ paths: ['path1'] }, { paths: ['path2'] }],
           expectedResult: ['/', 'path1', 'path2'],
@@ -339,7 +339,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths for two nested routes, using first configured path - separately for every route`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [{ cxRoute: 'test1' }, { cxRoute: 'test2' }],
           routesConfigs: [
             { paths: ['path1', 'path10'] },
@@ -350,7 +350,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths for three nested routes`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             { cxRoute: 'test1' },
             { cxRoute: 'test2' },
@@ -366,7 +366,7 @@ describe('UrlService', () => {
       });
 
       it(`should return the root path when there are no paths configured for given nested routes`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [{ cxRoute: 'test1' }, { cxRoute: 'test2' }],
           routesConfigs: [null, null],
           expectedResult: ['/'],
@@ -374,7 +374,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths for nested routes, using given params for first route (case 1)`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             { cxRoute: 'test1', params: { param1: 'value1' } },
             { cxRoute: 'test2' },
@@ -385,7 +385,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths for nested routes, using given params for second route (case 2)`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             { cxRoute: 'test1' },
             { cxRoute: 'test2', params: { param2: 'value2' } },
@@ -396,7 +396,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths for nested routes, using given params for all routes`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             { cxRoute: 'test1', params: { param1: 'value1' } },
             { cxRoute: 'test2', params: { param2: 'value2' } },
@@ -410,7 +410,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths for nested routes using given params mapping`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             { cxRoute: 'test1', params: { param1: 'value1' } },
             { cxRoute: 'test2', params: { param2: 'value2' } },
@@ -427,7 +427,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths using params objects given in relevant order for every route`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             { cxRoute: 'test1', params: { param1: 'value1' } },
             { cxRoute: 'test2', params: { param1: 'value10' } },
@@ -441,7 +441,7 @@ describe('UrlService', () => {
       });
 
       it(`should concatenate paths using first path that can be satisfied with given params - separately every route`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             { cxRoute: 'test1', params: { param1: 'value1' } },
             { cxRoute: 'test2', params: { param3: 'value3' } },
@@ -455,7 +455,7 @@ describe('UrlService', () => {
       });
 
       it(`should return the root path when no configured path can satisfy its params with given params for some route`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             { cxRoute: 'test1', params: { param1: 'value1' } },
             { cxRoute: 'test2', params: { param3: 'value3' } },
@@ -469,7 +469,7 @@ describe('UrlService', () => {
       });
 
       it(`should NOT modify commands that are are not object with "route" property`, () => {
-        test_generateUrl({
+        test_transform({
           urlCommands: [
             111,
             { cxRoute: 'test2', params: { param2: 'value2' } },
