@@ -56,8 +56,6 @@ export class UserService {
 
   /**
    * Remove user account, that's also called close user's account
-   *
-   * @param userId
    */
   remove(): void {
     this.store.dispatch(new fromStore.RemoveUser(USERID_CURRENT));
