@@ -25,10 +25,12 @@ export class AddressBookComponent implements OnInit {
 
     this.service
       .getUserId()
-      .pipe(take(1))
+      .pipe(take(2)) // Take twice incase first value is undefined
       .subscribe(id => {
-        this.userId = id;
-        this.service.loadAddresses(id);
+        if (id) {
+          this.userId = id;
+          this.service.loadAddresses(id);
+        }
       });
   }
 

@@ -41,8 +41,10 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     this.editCard = null;
     this.loading$ = this.userService.getPaymentMethodsLoading();
     this.userServiceSub = this.userService.get().subscribe(data => {
-      this.userId = data.uid;
-      this.userService.loadPaymentMethods(this.userId);
+      if (data.uid) {
+        this.userId = data.uid;
+        this.userService.loadPaymentMethods(this.userId);
+      }
     });
   }
 
