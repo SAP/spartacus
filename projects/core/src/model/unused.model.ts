@@ -1,13 +1,9 @@
 import { Address } from './address.model';
 import { Image } from './image.model';
 import { Product, Stock } from './product.model';
-import {
-  GeoPoint,
-  OpeningSchedule,
-  PaginationModel,
-  SortModel,
-} from './misc.model';
+import { GeoPoint, PaginationModel, SortModel } from './misc.model';
 import { Cart, Principal } from './cart.model';
+import { OpeningSchedule } from './point-of-service.model';
 
 export interface CategoryHierarchy {
   id?: string;
@@ -120,12 +116,4 @@ export interface UserGroupList {
   pageSize?: number;
   totalNumber?: number;
   userGroups?: UserGroup[];
-}
-
-export interface UserSignUp {
-  firstName?: string;
-  lastName?: string;
-  password?: string;
-  titleCode?: string;
-  uid?: string;
 }
