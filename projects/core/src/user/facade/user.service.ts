@@ -4,8 +4,10 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -19,7 +21,6 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
-import { ConsentTemplate } from '../../model/consent.model';
 
 @Injectable()
 export class UserService {
@@ -230,21 +231,19 @@ export class UserService {
 
   /**
    * Retrieves user's addresses
-   * @param userId a user ID
    */
-  loadAddresses(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserAddresses(userId));
+  loadAddresses(): void {
+    this.store.dispatch(new fromStore.LoadUserAddresses(USERID_CURRENT));
   }
 
   /**
    * Adds user address
-   * @param userId a user ID
    * @param address a user address
    */
-  addUserAddress(userId: string, address: Address): void {
+  addUserAddress(address: Address): void {
     this.store.dispatch(
       new fromStore.AddUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         address: address,
       })
     );
@@ -252,13 +251,12 @@ export class UserService {
 
   /**
    * Sets user address as default
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  setAddressAsDefault(userId: string, addressId: string): void {
+  setAddressAsDefault(addressId: string): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: { defaultAddress: true },
       })
@@ -267,14 +265,13 @@ export class UserService {
 
   /**
    * Updates existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    * @param address a user address
    */
-  updateUserAddress(userId: string, addressId: string, address: Address): void {
+  updateUserAddress(addressId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: address,
       })
@@ -283,20 +280,19 @@ export class UserService {
 
   /**
    * Deletes existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  deleteUserAddress(userId: string, addressId: string): void {
+  deleteUserAddress(addressId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
       })
     );
   }
 
   /**
-   * Returns addresses
+   * Rxeturns addresses
    */
   getAddresses(): Observable<Address[]> {
     return this.store.pipe(select(fromStore.getAddresses));
