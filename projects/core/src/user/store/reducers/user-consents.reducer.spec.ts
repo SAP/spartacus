@@ -1,9 +1,9 @@
-import { ConsentTemplate, ConsentTemplateList } from '../../../occ';
+import { ConsentTemplate } from '../../../model/consent.model';
 import * as fromAction from '../actions/user-consents.action';
 import * as fromReducer from './user-consents.reducer';
 
 const consentId = 'xxx';
-const consents: ConsentTemplateList = { consentTemplates: [{ id: consentId }] };
+const consents: ConsentTemplate[] = [{ id: consentId }];
 
 describe('User Consents Reducer', () => {
   describe('undefined state', () => {
@@ -34,9 +34,7 @@ describe('User Consents Reducer', () => {
       );
       const result = fromReducer.reducer(consents, action);
 
-      const expectedResult: ConsentTemplateList = {
-        consentTemplates: [consentGivenTemplate],
-      };
+      const expectedResult: ConsentTemplate[] = [consentGivenTemplate];
       expect(result).toEqual(expectedResult);
     });
   });

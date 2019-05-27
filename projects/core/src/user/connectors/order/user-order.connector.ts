@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OrderAdapter } from './order.adapter';
+import { UserOrderAdapter } from './user-order.adapter';
 import { Order, OrderHistoryList } from '../../../model/order.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OrderConnector {
-  constructor(protected adapter: OrderAdapter) {}
-
-  public place(userId: string, cartId: string): Observable<Order> {
-    return this.adapter.place(userId, cartId);
-  }
+export class UserOrderConnector {
+  constructor(protected adapter: UserOrderAdapter) {}
 
   public get(userId: string, orderCode: string): Observable<Order> {
     return this.adapter.load(userId, orderCode);
