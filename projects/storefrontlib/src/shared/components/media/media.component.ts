@@ -88,7 +88,6 @@ export class MediaComponent implements OnChanges {
 
   /**
    * This handler is called from the UI when the image is loaded.
-   * The
    */
   loadHandler(): void {
     this.isLoading = false;
