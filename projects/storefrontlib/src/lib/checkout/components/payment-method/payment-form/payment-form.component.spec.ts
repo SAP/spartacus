@@ -2,10 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
-
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import createSpy = jasmine.createSpy;
 import {
   CardType,
   Address,
@@ -16,11 +15,9 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 
-import { Observable, of, BehaviorSubject } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
-
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
+import { ModalService } from '../../../../../shared/components/modal/index';
 
 const mockBillingCountries: Country[] = [
   {
@@ -141,6 +138,7 @@ describe('PaymentFormComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
+        { provide: ModalService, useValue: { open: () => {} } },
         { provide: CheckoutService, useValue: mockCheckoutService },
         { provide: UserService, useValue: mockUserService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
