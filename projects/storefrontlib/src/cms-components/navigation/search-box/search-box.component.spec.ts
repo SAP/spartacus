@@ -106,7 +106,6 @@ describe('SearchBoxComponent', () => {
         MockMediaComponent,
       ],
       providers: [
-        // { provide: CmsService, useValue: MockCmsService },
         {
           provide: ProductSearchService,
           useValue: {},
