@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthGuard, ConfigModule } from '@spartacus/core';
+import { ConfigModule } from '@spartacus/core';
 import { LogoutGuard } from '../../../cms-components/index';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import {
@@ -38,12 +38,6 @@ const pageModules = [CartPageModule, OrderConfirmationPageModule];
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'brand' },
-      },
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'order', cxRoute: 'orderDetails' },
       },
     ]),
   ],
