@@ -391,9 +391,9 @@ export class UserService {
    * Updates the user's details
    * @param userDetails to be updated
    */
-  updatePersonalDetails(username: string, userDetails: User): void {
+  updatePersonalDetails(userDetails: User): void {
     this.store.dispatch(
-      new fromStore.UpdateUserDetails({ username, userDetails })
+      new fromStore.UpdateUserDetails({ username: USERID_CURRENT, userDetails })
     );
   }
 
