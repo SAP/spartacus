@@ -1,3 +1,21 @@
+<div
+  class="cart-details-wrapper"
+  *ngIf="
+    (sflEntries$ | async).length > 0 && (cartEntries$ | async).length === 0
+  "
+>
+  <div class="cx-total">{{ 'saveForLaterItems.cartTitle' | cxTranslate }}</div>
+  <div class="d-none d-md-block d-lg-block d-xl-block">
+    <div class="cx-empty-cart-header row"></div>
+  </div>
+  <div class="cx-msg">
+    {{
+      'saveForLaterItems.cartEmpty'
+        | cxTranslate: { count: (sflCart$ | async).deliveryItemsQuantity }
+    }}
+  </div>
+</div>
+
 <ng-container *ngIf="(sflCart$ | async) as cart">
   <ng-container *ngIf="(sflEntries$ | async) as entries">
     <ng-container *ngIf="entries.length > 0">

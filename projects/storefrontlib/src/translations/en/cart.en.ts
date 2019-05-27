@@ -2,11 +2,6 @@ export const cart = {
   cartDetails: {
     id: 'ID',
     proceedToCheckout: 'Proceed to Checkout',
-    cartTitle: 'Cart',
-    cartEmpty:
-      'Your shopping cart is empty. But you have an item in the Save For Later list.',
-    cartEmpty_plural:
-      'Your shopping cart is empty. But you have items in the Save For Later list.',
   },
   cartItems: {
     id: 'ID',
@@ -23,6 +18,11 @@ export const cart = {
   saveForLaterItems: {
     itemTotal: 'Saved for later ({{count}} item): {{totalPrice}}',
     itemTotal_plural: 'Saved for later ({{count}} items): {{totalPrice}}',
+    cartTitle: 'Cart',
+    cartEmpty:
+      'Your shopping cart is empty. But you have {{count}} item in the Save For Later list.',
+    cartEmpty_plural:
+      'Your shopping cart is empty. But you have {{count}} items in the Save For Later list.',
   },
   orderCost: {
     orderSummary: 'Order Summary',

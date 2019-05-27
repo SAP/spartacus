@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SaveForLaterService, Cart, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
   templateUrl: './save-for-later.component.html',
 })
 export class SaveForLaterComponent implements OnInit {
+  @Input()
+  cartEntries$: Observable<OrderEntry[]>;
+
   sflCart$: Observable<Cart>;
   sflEntries$: Observable<OrderEntry[]>;
   sflCartLoaded$: Observable<boolean>;
