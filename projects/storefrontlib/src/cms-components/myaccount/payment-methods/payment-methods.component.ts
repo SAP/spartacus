@@ -107,7 +107,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     if (this.userId) {
-      this.userService.setPaymentMethodAsDefault(this.userId, paymentMethod.id);
+      this.userService.setPaymentMethodAsDefault(paymentMethod.id);
     }
   }
 

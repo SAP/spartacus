@@ -178,13 +178,11 @@ export class UserService {
 
   /**
    * Sets the payment as a default one
-   * @param userId a user ID
-   * @param paymentMethodId a payment method ID
    */
-  setPaymentMethodAsDefault(userId: string, paymentMethodId: string): void {
+  setPaymentMethodAsDefault(paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.SetDefaultUserPaymentMethod({
-        userId: userId,
+        userId: USERID_CURRENT,
         paymentMethodId,
       })
     );

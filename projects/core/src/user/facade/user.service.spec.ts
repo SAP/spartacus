@@ -237,10 +237,10 @@ describe('UserService', () => {
   });
 
   it('should dispatch proper action for setPaymentMethodAsDefault', () => {
-    service.setPaymentMethodAsDefault('userId', 'paymentMethodId');
+    service.setPaymentMethodAsDefault('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.SetDefaultUserPaymentMethod({
-        userId: 'userId',
+        userId: USERID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
     );
