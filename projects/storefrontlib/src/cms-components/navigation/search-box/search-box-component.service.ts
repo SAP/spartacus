@@ -10,14 +10,6 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
-const DEFAULT_SEARCHBOCH_CONFIG: SearchBoxConfig = {
-  minCharactersBeforeRequest: 1,
-  maxProducts: 5,
-  displaySuggestions: true,
-  maxSuggestions: 5,
-  displayProducts: true,
-};
-
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 
 @Injectable({
@@ -36,10 +28,7 @@ export class SearchBoxComponentService {
    * unless the configuration is setup to not search for
    * products or suggestions.
    */
-  search(
-    query: string,
-    config: SearchBoxConfig = DEFAULT_SEARCHBOCH_CONFIG
-  ): void {
+  search(query: string, config: SearchBoxConfig): void {
     if (!query || query === '') {
       this.clearResults();
       return;
@@ -70,11 +59,11 @@ export class SearchBoxComponentService {
    * result, the body tag will get a classname, so that specific style
    * rules can be applied.
    */
-  getResults(): Observable<SearchResults> {
+  getResults(config: SearchBoxConfig): Observable<SearchResults> {
     return combineLatest(
-      this.productResults$,
-      this.productSuggestions$,
-      this.searchMessage$
+      this.getProductResults(config),
+      this.getProductSuggestions(config),
+      this.getSearchMessage(config)
     ).pipe(
       map(([productResults, suggestions, message]) => {
         return {
@@ -120,33 +109,68 @@ export class SearchBoxComponentService {
     );
   }
 
-  private get productResults$(): Observable<ProductSearchPage> {
-    return this.searchService.getResults();
+  private getProductResults(
+    config: SearchBoxConfig
+  ): Observable<ProductSearchPage> {
+    if (config.displayProducts) {
+      return this.searchService.getResults();
+    } else {
+      return of({});
+    }
   }
 
-  private get productSuggestions$(): Observable<string[]> {
-    return this.searchService
-      .getSuggestionResults()
-      .pipe(map(res => res.map(suggestion => suggestion.value)));
+  /**
+   * Loads suggestions from the backend. In case there's no suggestion
+   * available, we try to get an exact match suggestion.
+   */
+  private getProductSuggestions(config: SearchBoxConfig): Observable<string[]> {
+    if (!config.displaySuggestions) {
+      return of([]);
+    } else {
+      return this.searchService.getSuggestionResults().pipe(
+        map(res => res.map(suggestion => suggestion.value)),
+        switchMap(suggestions => {
+          if (suggestions.length === 0) {
+            return this.getExactSuggestion(config).pipe(
+              map(match => (match ? [match] : []))
+            );
+          } else {
+            return of(suggestions);
+          }
+        })
+      );
+    }
   }
 
-  private get searchMessage$(): Observable<string> {
-    return combineLatest(this.productResults$, this.productSuggestions$).pipe(
+  /**
+   * whenever there is at least 1 product, we simulate
+   * a suggestion to provide easy access to the search result page
+   */
+  private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
+    return this.getProductResults(config).pipe(
+      switchMap(productResult => {
+        return productResult.products && productResult.products.length > 0
+          ? this.fetchTranslation('searchBox.help.exactMatch', {
+              term: productResult.freeTextSearch,
+            })
+          : of(null);
+      })
+    );
+  }
+
+  private getSearchMessage(config: SearchBoxConfig): Observable<string> {
+    return combineLatest(
+      this.getProductResults(config),
+      this.getProductSuggestions(config)
+    ).pipe(
       switchMap(([productResult, suggestions]) => {
-        if (!productResult || !productResult.products || !suggestions) {
-          return of(null);
-        } else if (
-          suggestions.length === 0 &&
-          productResult.products.length === 0
+        if (
+          productResult &&
+          productResult.products &&
+          productResult.products.length === 0 &&
+          (suggestions && suggestions.length === 0)
         ) {
           return this.fetchTranslation('searchBox.help.noMatch');
-        } else if (
-          suggestions.length === 0 &&
-          productResult.products.length > 0
-        ) {
-          return this.fetchTranslation('searchBox.help.exactMatch', {
-            term: productResult.freeTextSearch,
-          });
         } else {
           return of(null);
         }

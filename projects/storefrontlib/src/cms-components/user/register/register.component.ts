@@ -12,7 +12,7 @@ import {
   GlobalMessageType,
   RoutingService,
   Title,
-  UserRegisterFormData,
+  UserSignUp,
   UserService,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password,
       titleCode,
     } = this.userRegistrationForm.value;
-    const userRegisterFormData: UserRegisterFormData = {
+    const userRegisterFormData: UserSignUp = {
       firstName,
       lastName,
       uid: email,
