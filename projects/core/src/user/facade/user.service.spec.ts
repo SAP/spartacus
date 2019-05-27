@@ -4,7 +4,7 @@ import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
@@ -654,9 +654,7 @@ describe('UserService', () => {
 
   describe('consent management', () => {
     const userId = 'xxx@xxx.xxx';
-    const consentTemplateListMock: ConsentTemplateList = {
-      consentTemplates: [{ id: 'xxx' }],
-    };
+    const consentTemplateListMock: ConsentTemplate[] = [{ id: 'xxx' }];
 
     describe('load consents', () => {
       describe('loadConsents', () => {
@@ -673,7 +671,7 @@ describe('UserService', () => {
             new fromStore.LoadUserConsentsSuccess(consentTemplateListMock)
           );
 
-          let result: ConsentTemplateList;
+          let result: ConsentTemplate[];
           service
             .getConsents()
             .subscribe(consents => (result = consents))
