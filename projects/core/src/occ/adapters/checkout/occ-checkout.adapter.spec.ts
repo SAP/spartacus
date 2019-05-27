@@ -6,7 +6,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
 import { Order } from '../../../model/order.model';
-import { ConverterService } from '@spartacus/core';
+import { CheckoutDetails, ConverterService } from '@spartacus/core';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 
@@ -34,6 +34,14 @@ const MockOccModuleConfig: OccConfig = {
     baseSite: '',
   },
 };
+
+const checkoutData: CheckoutDetails = {
+  deliveryAddress: {
+    firstName: 'Janusz',
+  },
+};
+const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
+const cartsEndpoint = 'carts';
 
 describe('OccCheckoutAdapter', () => {
   let service: OccCheckoutAdapter;
@@ -88,6 +96,26 @@ describe('OccCheckoutAdapter', () => {
         )
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
+    });
+  });
+
+  describe('load checkout details', () => {
+    it('should load checkout details data for given userId, cartId', () => {
+      service.loadCheckoutDetails(userId, cartId).subscribe(result => {
+        expect(result).toEqual(checkoutData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(CHECKOUT_PARAMS);
+      mockReq.flush(checkoutData);
     });
   });
 });

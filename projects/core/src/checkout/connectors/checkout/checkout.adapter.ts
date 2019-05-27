@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { Order } from '../../../model/order.model';
+import { CheckoutDetails } from '@spartacus/core';
 
 export abstract class CheckoutAdapter {
   /**
@@ -9,4 +10,15 @@ export abstract class CheckoutAdapter {
    * @param cartId The `cartId` for cart used for placing order
    */
   abstract placeOrder(userId: string, cartId: string): Observable<Order>;
+
+  /**
+   * Abstract method used to load checkout details
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract loadCheckoutDetails(
+    userId: string,
+    cartId: string
+  ): Observable<CheckoutDetails>;
 }
