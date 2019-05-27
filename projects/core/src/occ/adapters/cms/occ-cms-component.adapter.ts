@@ -2,13 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, pluck } from 'rxjs/operators';
-import { CmsComponent, PageType } from '../../../model/cms.model';
-import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { PageContext } from '../../../routing';
-import { ConverterService } from '../../../util/converter.service';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
@@ -57,7 +57,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         pluck('component'),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
         catchError(error => {
-          if (error.status === 400) {
+          if (error.status === 405 || error.status === 400) {
             return this.searchComponentsByIds(
               ids,
               pageContext,
