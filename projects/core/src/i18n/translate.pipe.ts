@@ -17,8 +17,8 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private sub: Subscription;
 
   constructor(
-    private service: TranslationService,
-    private cd: ChangeDetectorRef
+    protected service: TranslationService,
+    protected cd: ChangeDetectorRef
   ) {}
 
   transform(

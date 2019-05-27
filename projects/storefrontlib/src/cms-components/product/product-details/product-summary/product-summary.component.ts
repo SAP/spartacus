@@ -29,15 +29,6 @@ export class ProductSummaryComponent implements OnInit {
     this.itemCount = value;
   }
 
-  get hasStock(): boolean {
-    return (
-      this.product &&
-      this.product.stock &&
-      (this.product.stock.stockLevel > 0 ||
-        this.product.stock.stockLevelStatus === 'inStock')
-    );
-  }
-
   // NOTE: Does not currently exists as its own component
   // but part of tabs component. This is likely to change in refactor.
   private getReviewsComponent(): Element {

@@ -28,7 +28,9 @@ export function verifyItemCounterOnPDP() {
 export function addSameProductTwice() {
   // add a product to cart
   cy.visit(`/product/${productId}`);
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
 
   cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
     'have.value',
@@ -41,7 +43,9 @@ export function addSameProductTwice() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
   // add same product to cart again
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
 
   // quantity is correctly updated
   cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
@@ -80,7 +84,9 @@ export function addDifferentProducts() {
     .contains('.cx-product', 'DSC-W180')
     .click();
   cy.get('cx-breadcrumb h1').contains('DSC-W180');
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
 
   // quantity is correctly updated
   cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
@@ -153,7 +159,9 @@ export function addDifferentProducts() {
 export function refreshPage() {
   cy.visit(`/product/${productId}`);
 
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
 
   cy.reload();
 
@@ -177,8 +185,9 @@ export function increaseProductQtyOnPDP() {
   cy.get('cx-product-summary cx-item-counter')
     .contains('+')
     .click();
-  cy.get('cx-product-summary cx-add-to-cart button').click();
-
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   // check if the item price * quantity matches the total
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-price .cx-value').then($itemPrice => {
