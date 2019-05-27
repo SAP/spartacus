@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   CmsConfig,
   ConfigModule,
@@ -11,7 +12,6 @@ import {
 } from '@spartacus/core';
 import { CmsModule } from '../../cms-structure/cms.module';
 import { LayoutConfig } from '../../layout/config/layout-config';
-import { BootstrapModule } from '../../lib/bootstrap.module';
 import { ListNavigationModule, SpinnerModule } from '../../shared/index';
 import {
   ScheduleComponent,
@@ -35,7 +35,6 @@ import {
     ReactiveFormsModule,
     RouterModule,
     ListNavigationModule,
-    BootstrapModule,
     SpinnerModule,
     UrlModule,
     StoreFinderCoreModule,
@@ -78,6 +77,7 @@ import {
         },
       },
     }),
+    NgbTabsetModule,
   ],
   declarations: [
     StoreFinderSearchComponent,

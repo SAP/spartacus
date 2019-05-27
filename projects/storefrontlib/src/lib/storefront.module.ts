@@ -15,7 +15,7 @@ import { CmsLibModule, ProductPageModule } from '../cms-components/index';
 import { CmsModule } from '../cms-structure/cms.module';
 import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
 import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
-import { LayoutModule } from '../layout';
+import { LayoutModule } from '../layout/layout.module';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './storefront-config';
 import { CartPageModule, UiModule } from './ui/index';
