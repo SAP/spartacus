@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import {
   PageLayoutComponent,
   PageLayoutModule,
-} from 'projects/storefrontlib/src/cms-structure';
+} from '../../../cms-structure/page/index';
 import { LogoutGuard } from './logout-guard';
 
 @NgModule({

@@ -17,7 +17,7 @@ import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.mod
 import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './storefront-config';
-import { UiModule } from './ui/index';
+import { CartPageModule, UiModule } from './ui/index';
 
 @NgModule({
   imports: [
@@ -37,6 +37,8 @@ import { UiModule } from './ui/index';
     I18nModule.forRoot(),
     // partial usage:
     ProductPageModule,
+    // as longs as we do not have #2661 in place we need a specific cart page module
+    CartPageModule,
   ],
   exports: [UiModule],
   providers: [...provideConfigFromMetaTags()],

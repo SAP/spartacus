@@ -1,18 +1,14 @@
-export * from './cart.module';
-// add-to-cart
-export * from './add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
 export * from './add-to-cart/add-to-cart.component';
 export * from './add-to-cart/add-to-cart.module';
-// cart-details
+export * from './add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
 export * from './cart-details/cart-details.component';
 export * from './cart-details/cart-details.module';
-// cart-shared
-export * from './cart-shared/index';
-// cart-not-empty guard
 export * from './cart-not-empty.guard';
-// cart-totals
+export * from './cart-page/cart-page.component';
+export * from './cart-page/cart-page.module';
+export * from './cart-shared/index';
 export * from './cart-totals/cart-totals.component';
 export * from './cart-totals/cart-totals.module';
-// mini-cart
+export * from './cart.module';
 export * from './mini-cart/mini-cart.component';
 export * from './mini-cart/mini-cart.module';
