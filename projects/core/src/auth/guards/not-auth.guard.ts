@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
-  Router,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from '@angular/router';
@@ -15,27 +14,14 @@ import { AuthRedirectService } from './auth-redirect.service';
   providedIn: 'root',
 })
 export class NotAuthGuard implements CanActivate {
-  static GUARD_NAME = 'NotAuthGuard';
-
   constructor(
     protected routingService: RoutingService,
     protected authService: AuthService,
-    private router: Router,
     private authRedirectService: AuthRedirectService
   ) {}
 
-  canActivate(
-    _route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
-    const url = state.url;
-    const lastActivatedUrl = this.router.url;
-    const navigationId = this.router.getCurrentNavigation().id;
-    this.authRedirectService.reportNotAuthGuard(
-      lastActivatedUrl,
-      url,
-      navigationId
-    );
+  canActivate(): Observable<boolean> {
+    this.authRedirectService.reportNotAuthGuard();
 
     // redirect, if user is already logged in:
     return this.authService.getUserToken().pipe(

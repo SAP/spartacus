@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { RoutingService } from '../../routing/facade/routing.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class AuthRedirectService {
    *    but is automatically redirected to the login page by the AuthGuard, and he signs in
    *    -> Then we should redirect to the my-account page, not the product page
    */
-  constructor(private routing: RoutingService) {}
+  constructor(private routing: RoutingService, private router: Router) {}
 
   private redirectUrl: string;
   private ignoredUrls = new Set<string>();
@@ -37,29 +38,43 @@ export class AuthRedirectService {
     this.lastAuthGuardNavigation = undefined;
   }
 
-  reportAuthGuard(url: string, navigationId: number) {
+  reportAuthGuard() {
+    const { url, navigationId } = this.getCurrentNavigation();
     this.lastAuthGuardNavigation = { url, navigationId };
     this.redirectUrl = url;
   }
 
-  reportNotAuthGuard(
-    previousUrl: string,
-    notAuthGuardUrl: string,
-    currentNavigationId: number
-  ) {
-    this.ignoredUrls.add(notAuthGuardUrl);
+  reportNotAuthGuard() {
+    const { url, initialUrl, navigationId } = this.getCurrentNavigation();
+
+    this.ignoredUrls.add(url);
 
     // Don't save redirect url if you've already come from page with NotAuthGuard (i.e. user has come from login to register)
-    if (!this.ignoredUrls.has(previousUrl)) {
+    if (!this.ignoredUrls.has(initialUrl)) {
       // We compare the navigation id to find out if the url cancelled by AuthGuard (i.e. my-account) is more recent
       // than the last opened page
       if (
         !this.lastAuthGuardNavigation ||
-        this.lastAuthGuardNavigation.navigationId < currentNavigationId - 1
+        this.lastAuthGuardNavigation.navigationId < navigationId - 1
       ) {
-        this.redirectUrl = previousUrl;
+        this.redirectUrl = initialUrl;
         this.lastAuthGuardNavigation = undefined;
       }
     }
+  }
+
+  private getCurrentNavigation(): {
+    navigationId: number;
+    url: string;
+    initialUrl: string;
+  } {
+    const initialUrl = this.router.url;
+    const navigation = this.router.getCurrentNavigation();
+    const url = this.router.serializeUrl(navigation.finalUrl);
+    return {
+      navigationId: navigation.id,
+      url,
+      initialUrl,
+    };
   }
 }

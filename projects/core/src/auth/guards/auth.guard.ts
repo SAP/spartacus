@@ -17,8 +17,6 @@ import { AuthRedirectService } from './auth-redirect.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  static GUARD_NAME = 'AuthGuard';
-
   constructor(
     protected routingService: RoutingService,
     protected authService: AuthService,
@@ -26,17 +24,12 @@ export class AuthGuard implements CanActivate {
     protected router: Router
   ) {}
 
-  canActivate(
-    _route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     return this.authService.getUserToken().pipe(
       map((token: UserToken) => {
         if (!token.access_token) {
           this.routingService.go({ cxRoute: 'login' });
-
-          const navigationId = this.router.getCurrentNavigation().id;
-          this.authRedirectService.reportAuthGuard(state.url, navigationId);
+          this.authRedirectService.reportAuthGuard();
         }
         return !!token.access_token;
       })
