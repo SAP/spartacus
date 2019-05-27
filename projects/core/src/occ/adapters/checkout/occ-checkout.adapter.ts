@@ -8,7 +8,7 @@ import { Occ } from '../../occ-models/occ.models';
 import { ConverterService } from '../../../util/converter.service';
 import { CheckoutAdapter } from '../../../checkout/connectors/checkout/checkout.adapter';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
-import { CheckoutDetails } from '@spartacus/core';
+import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';

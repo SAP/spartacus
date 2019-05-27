@@ -9,6 +9,9 @@ class MockOrderAdapter implements CheckoutAdapter {
   placeOrder = createSpy('CheckoutAdapter.placeOrder').and.callFake(
     (userId, cartId) => of(`placedOrder-${userId}-${cartId}`)
   );
+  loadCheckoutDetails = createSpy().and.callFake((user, cart) =>
+    of('loadCheckoutDetails' + user + cart)
+  );
 }
 
 describe('OrderConnector', () => {
