@@ -7,6 +7,7 @@ import { ConverterService } from '../../../util/converter.service';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { Occ } from '../../occ-models/occ.models';
+import { CONSENT_TEMPLATE_NORMALIZER } from '../../../user/connectors/consent/converters';
 
 const USER_ENDPOINT = 'users/';
 const CONSENTS_TEMPLATES_ENDPOINT = '/consenttemplates';
@@ -30,7 +31,8 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
     return this.http.get<Occ.ConsentTemplateList>(url, { headers }).pipe(
       catchError((error: any) => throwError(error)),
-      map(consentList => consentList.consentTemplates)
+      map(consentList => consentList.consentTemplates),
+      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
     );
   }
 
@@ -49,7 +51,10 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     });
     return this.http
       .post<Occ.ConsentTemplate>(url, httpParams, { headers })
-      .pipe(catchError(error => throwError(error)));
+      .pipe(
+        catchError(error => throwError(error)),
+        this.converter.pipeable(CONSENT_TEMPLATE_NORMALIZER)
+      );
   }
 
   withdrawConsent(userId: string, consentCode: string): Observable<{}> {
