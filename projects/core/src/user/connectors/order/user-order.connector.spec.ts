@@ -1,31 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OrderConnector } from './order.connector';
+import { UserOrderConnector } from './order.connector';
 import { of } from 'rxjs/internal/observable/of';
-import { OrderAdapter } from './order.adapter';
+import { UserOrderAdapter } from './order.adapter';
 import createSpy = jasmine.createSpy;
 
-class MockOrderAdapter implements OrderAdapter {
-  load = createSpy('OrderAdapter.load').and.callFake((userId, orderCode) =>
+class MockOrderAdapter implements UserOrderAdapter {
+  load = createSpy('UserOrderAdapter.load').and.callFake((userId, orderCode) =>
     of(`order-${userId}-${orderCode}`)
   );
 
-  loadHistory = createSpy('OrderAdapter.loadHistory').and.callFake(userId =>
+  loadHistory = createSpy('UserOrderAdapter.loadHistory').and.callFake(userId =>
     of(`orderHistory-${userId}`)
   );
 }
 
-describe('OrderConnector', () => {
-  let service: OrderConnector;
-  let adapter: OrderAdapter;
+describe('UserOrderConnector', () => {
+  let service: UserOrderConnector;
+  let adapter: UserOrderAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: OrderAdapter, useClass: MockOrderAdapter }],
+      providers: [{ provide: UserOrderAdapter, useClass: MockOrderAdapter }],
     });
 
-    service = TestBed.get(OrderConnector);
-    adapter = TestBed.get(OrderAdapter);
+    service = TestBed.get(UserOrderConnector);
+    adapter = TestBed.get(UserOrderAdapter);
   });
 
   it('should be created', () => {

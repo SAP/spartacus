@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Order, OrderHistoryList } from '../../../model/order.model';
 
-export abstract class OrderAdapter {
+export abstract class UserOrderAdapter {
   /**
    * Abstract method used to load order data.
    *

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderAdapter } from '../../../user/connectors/order/order.adapter';
+import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converte
 const FULL_PARAMS = 'fields=FULL';
 
 @Injectable()
-export class OccOrderAdapter implements OrderAdapter {
+export class OccUserOrderAdapter implements UserOrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

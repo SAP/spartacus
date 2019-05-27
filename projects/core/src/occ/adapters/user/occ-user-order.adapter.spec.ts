@@ -6,7 +6,7 @@ import {
 import { async, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
 import { Order } from '../../../model/order.model';
-import { ConverterService, OccOrderAdapter } from '@spartacus/core';
+import { ConverterService, OccUserOrderAdapter } from '@spartacus/core';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 
@@ -34,8 +34,8 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccOrderAdapter', () => {
-  let service: OccOrderAdapter;
+describe('OccUserOrderAdapter', () => {
+  let service: OccUserOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -43,12 +43,12 @@ describe('OccOrderAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
-        OccOrderAdapter,
+        OccUserOrderAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccOrderAdapter);
+    service = TestBed.get(OccUserOrderAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeable').and.callThrough();
