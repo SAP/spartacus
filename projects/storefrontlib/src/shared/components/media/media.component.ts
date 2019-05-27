@@ -47,21 +47,22 @@ export class MediaComponent implements OnChanges {
   media: Media;
 
   /**
-   * The `cx-media` component has an `initialized` class as long as the
+   * The `cx-media` component has an `is-initialized` class as long as the
    * media is being initialized.
    */
-  @HostBinding('class.initialized') isInitialized = false;
+  @HostBinding('class.is-initialized') isInitialized = false;
 
   /**
-   * The `cx-media` component has a `loading` class as long as the
-   * media is loaded. Wehn the media is loaded, the `initialized` class
+   * The `cx-media` component has a `is-loading` class as long as the
+   * media is loaded. Wehn the media is loaded, the `is-initialized` class
    * is added.
    */
-  @HostBinding('class.loading') isLoading = true;
+  @HostBinding('class.is-loading') isLoading = true;
 
   /**
-   * When there's not media provided for the content, or in case an error
-   * happened during loading, we add the missing class.
+   * When there's no media provided for the content, or in case an error
+   * happened during loading, we add the `is-missing` class. Visual effects
+   * can be controlled by CSS.
    */
   @HostBinding('class.is-missing') isMissing = false;
 

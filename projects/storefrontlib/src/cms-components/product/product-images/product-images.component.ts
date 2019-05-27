@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
-const WAITING_CLASS = 'waiting';
+const WAITING_CLASS = 'is-waiting';
 
 @Component({
   selector: 'cx-product-images',

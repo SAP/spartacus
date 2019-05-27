@@ -6,7 +6,7 @@ $zoomOutWhileLoading: false !default;
 
 cx-media {
   @if $zoomOutWhileLoading == true {
-    &.initialized.loading {
+    &.is-initialized.is-loading {
       --cx-zoom: 0.5;
     }
   }
@@ -20,12 +20,12 @@ cx-media {
   // the effects run always, but are made visible only when loading or waiting
   // this is done so we can slowly fadein/out the effect
   @if $spinWhileLoading == true {
-    &.loading:after {
+    &.is-loading:after {
       --cx-opacity: 1;
     }
   }
   @if $spinWhileWaiting == true {
-    &.waiting:after {
+    &.is-waiting:after {
       --cx-opacity: 1;
     }
   }
@@ -40,13 +40,13 @@ cx-media {
     }
 
     @if $overlayWhileLoading == true {
-      &.initialized:before {
+      &.is-initialized:before {
         @extend %overlay !optional;
       }
       // the effects run always, but are made visible only when loading or waiting
       // this is done so we can slowly fadein/out the effect
-      &.loading:before,
-      &.waiting:before {
+      &.is-loading:before,
+      &.is-waiting:before {
         --cx-opacity: 1;
       }
     }
