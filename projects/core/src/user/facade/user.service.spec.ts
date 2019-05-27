@@ -6,6 +6,7 @@ import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import { Occ } from '../../occ/occ-models/occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
@@ -13,7 +14,7 @@ import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
-describe('UserService', () => {
+fdescribe('UserService', () => {
   let service: UserService;
   let store: Store<fromStore.UserState>;
 
@@ -538,14 +539,17 @@ describe('UserService', () => {
   });
 
   describe('Update Email ', () => {
-    const uid = 'test@test.com';
     const password = 'Qwe123!';
     const newUid = 'tester@sap.com';
 
     it('should dispatch UpdateEmail action', () => {
-      service.updateEmail(uid, password, newUid);
+      service.updateEmail(password, newUid);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateEmailAction({ uid, password, newUid })
+        new fromStore.UpdateEmailAction({
+          uid: USERID_CURRENT,
+          password,
+          newUid,
+        })
       );
     });
 

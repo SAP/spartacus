@@ -7,6 +7,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -455,9 +456,9 @@ export class UserService {
    * Updates the user's email
    * @param uid to be updated
    */
-  updateEmail(uid: string, password: string, newUid: string): void {
+  updateEmail(password: string, newUid: string): void {
     this.store.dispatch(
-      new fromStore.UpdateEmailAction({ uid, password, newUid })
+      new fromStore.UpdateEmailAction({ uid: USERID_CURRENT, password, newUid })
     );
   }
 
