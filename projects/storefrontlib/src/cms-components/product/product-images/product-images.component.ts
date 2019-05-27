@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 const WAITING_CLASS = 'is-waiting';
@@ -10,25 +10,20 @@ const WAITING_CLASS = 'is-waiting';
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
 })
-export class ProductImagesComponent implements OnInit {
+export class ProductImagesComponent {
   imageContainer$ = new BehaviorSubject(null);
 
   waiting: HTMLElement;
 
-  product$: Observable<Product>;
+  product$: Observable<Product> = this.currentProductService
+    .getProduct()
+    .pipe(
+      tap(p =>
+        this.imageContainer$.next(p && p.images ? p.images.PRIMARY : null)
+      )
+    );
 
   constructor(private currentProductService: CurrentProductService) {}
-
-  ngOnInit(): void {
-    this.product$ = this.currentProductService.getProduct().pipe(
-      filter(Boolean),
-      tap(p => {
-        if (!this.imageContainer$.value && p.images) {
-          this.imageContainer$.next(p.images.PRIMARY);
-        }
-      })
-    );
-  }
 
   showImage(event: MouseEvent, imageContainer): void {
     if (this.imageContainer$.value === imageContainer) {
@@ -42,6 +37,7 @@ export class ProductImagesComponent implements OnInit {
     return this.imageContainer$.pipe(
       map(
         (container: any) =>
+          container &&
           container.zoom &&
           currentContainer.zoom &&
           container.zoom.url === currentContainer.zoom.url
