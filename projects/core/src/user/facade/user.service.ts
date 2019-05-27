@@ -292,7 +292,7 @@ export class UserService {
   }
 
   /**
-   * Rxeturns addresses
+   * Returns addresses
    */
   getAddresses(): Observable<Address[]> {
     return this.store.pipe(select(fromStore.getAddresses));
