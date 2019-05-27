@@ -4,8 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { OrderAdapter } from '../../../user/connectors/order/order.adapter';
 import { OccOrderAdapter } from './occ-order.adapter';
-import { ORDER_NORMALIZER } from '../../../user/connectors/order/converters';
-import { OccOrderNormalizer } from './converters/occ-order-normalizer';
 import { UserDetailsAdapter } from '../../../user/connectors/details/user-details.adapter';
 import { OccUserDetailsAdapter } from './occ-user-details.adapter';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
@@ -26,7 +24,6 @@ import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
       useClass: OccUserPaymentAdapter,
     },
     { provide: OrderAdapter, useClass: OccOrderAdapter },
-    { provide: ORDER_NORMALIZER, useClass: OccOrderNormalizer, multi: true },
   ],
 })
 export class UserOccModule {}
