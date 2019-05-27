@@ -64,7 +64,7 @@
       <cx-media
         *ngIf="config?.displayProductImages"
         [container]="product.images?.PRIMARY"
-        format="product"
+        format="thumbnail"
         [alt]="product.summary"
       ></cx-media>
       <h4 class="name" [innerHTML]="product.nameHtml"></h4>
