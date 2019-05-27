@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ConsentTemplate } from '../../../occ/occ-models/additional-occ.models';
 import { UserConsentAdapter } from './user-consent.adapter';
+import { ConsentTemplate } from '../../../model/consent.model';
 
 @Injectable({
   providedIn: 'root',

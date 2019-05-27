@@ -1,5 +1,5 @@
-import { ConsentTemplate } from '../../../occ/occ-models/additional-occ.models';
 import * as fromActions from '../actions/user-consents.action';
+import { ConsentTemplate } from '../../../model/consent.model';
 
 export const initialState: ConsentTemplate[] = [];
 

@@ -6,7 +6,6 @@ import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplate } from '../../occ/occ-models/additional-occ.models';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -20,6 +19,7 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
+import { ConsentTemplate } from '../../model/consent.model';
 
 @Injectable()
 export class UserService {

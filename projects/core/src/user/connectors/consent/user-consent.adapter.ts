@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ConsentTemplate } from '../../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../../model/consent.model';
 
 export abstract class UserConsentAdapter {
   abstract loadConsents(userId: string): Observable<ConsentTemplate[]>;

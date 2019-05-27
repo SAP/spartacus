@@ -2,8 +2,8 @@ import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplate } from '../../occ/occ-models/additional-occ.models';
 import { LoaderState } from '../../state';
+import { ConsentTemplate } from '../../model/consent.model';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
