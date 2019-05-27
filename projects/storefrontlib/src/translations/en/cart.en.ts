@@ -2,6 +2,9 @@ export const cart = {
   cartDetails: {
     id: 'ID',
     proceedToCheckout: 'Proceed to Checkout',
+    cartTitle: 'Cart',
+    cartEmpty:
+      'Your shopping cart is empty. But you have item(s) in the Save For Later list.',
   },
   cartItems: {
     id: 'ID',

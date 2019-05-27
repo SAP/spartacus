@@ -1,6 +1,6 @@
 <ng-container *ngIf="(cart$ | async) as cart">
   <ng-container *ngIf="(entries$ | async) as entries">
-    <ng-container *ngIf="entries.length > 0; else message">
+    <ng-container *ngIf="entries.length > 0; else cartEmpty">
       <div class="cart-details-wrapper">
         <div class="cx-total">
           {{
@@ -24,18 +24,13 @@
   </ng-container>
 </ng-container>
 
-<ng-template #message>
+<ng-template #cartEmpty>
   <div class="cart-details-wrapper">
-    <div class="cx-total">
-      Cart
-    </div>
+    <div class="cx-total">{{ 'cartDetails.cartTitle' | cxTranslate }}</div>
     <div class="d-none d-md-block d-lg-block d-xl-block">
-      <div class="cx-item-list-header row"></div>
+      <div class="cx-empty-cart-header row"></div>
     </div>
-    <div class="cx-msg">
-      Your shopping cart is empty. But you have item(s) in the Save for Later
-      list.
-    </div>
+    <div class="cx-msg">{{ 'cartDetails.cartEmpty' | cxTranslate }}</div>
   </div>
 </ng-template>
 
