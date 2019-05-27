@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoadOpenIdToken, LoadUserToken, Logout } from '../../../auth/index';
-import { UserRegisterFormData } from '../../../user/model/user.model';
+import { UserSignUp } from '../../../model/misc.model';
 import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 import * as fromActions from '../actions/user-register.action';
 
@@ -15,7 +15,7 @@ export class UserRegisterEffects {
   > = this.actions$.pipe(
     ofType(fromActions.REGISTER_USER),
     map((action: fromActions.RegisterUser) => action.payload),
-    mergeMap((user: UserRegisterFormData) => {
+    mergeMap((user: UserSignUp) => {
       return this.userAccountConnector.register(user).pipe(
         switchMap(_result => [
           new LoadUserToken({

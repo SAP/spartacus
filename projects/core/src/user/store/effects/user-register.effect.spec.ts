@@ -4,13 +4,13 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { LoadOpenIdToken, LoadUserToken, Logout } from '../../../auth/index';
-import { UserRegisterFormData } from '../../../user/index';
+import { UserSignUp } from '../../../model/misc.model';
 import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
 
-const user: UserRegisterFormData = {
+const user: UserSignUp = {
   firstName: '',
   lastName: '',
   password: '',

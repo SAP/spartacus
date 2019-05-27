@@ -194,8 +194,12 @@
 
       a {
         display: grid;
-        grid-template-columns: 50px 1fr;
         grid-column-gap: 16px;
+
+        &.has-media {
+          // create a grid layout in case we show an image
+          grid-template-columns: 50px 1fr;
+        }
 
         border-top: solid 1px var(--cx-g-color-light);
 
