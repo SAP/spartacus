@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Title, User } from '../../../model/misc.model';
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../../occ/occ-models/additional-occ.models';
-import { UserRegisterFormData } from '../../../user/model/user.model';
+import { Title, User, UserSignUp } from '../../../model/misc.model';
 import { UserAccountAdapter } from './user-account.adapter';
 
 @Injectable({
@@ -14,7 +9,7 @@ import { UserAccountAdapter } from './user-account.adapter';
 export class UserAccountConnector {
   constructor(protected adapter: UserAccountAdapter) {}
 
-  register(user: UserRegisterFormData): Observable<User> {
+  register(user: UserSignUp): Observable<User> {
     return this.adapter.register(user);
   }
 
@@ -48,25 +43,5 @@ export class UserAccountConnector {
 
   getTitles(): Observable<Title[]> {
     return this.adapter.loadTitles();
-  }
-
-  loadConsents(userId: string): Observable<ConsentTemplateList> {
-    return this.adapter.loadConsents(userId);
-  }
-
-  giveConsent(
-    userId: string,
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): Observable<ConsentTemplate> {
-    return this.adapter.giveConsent(
-      userId,
-      consentTemplateId,
-      consentTemplateVersion
-    );
-  }
-
-  withdrawConsent(userId: string, consentCode: string): Observable<{}> {
-    return this.adapter.withdrawConsent(userId, consentCode);
   }
 }

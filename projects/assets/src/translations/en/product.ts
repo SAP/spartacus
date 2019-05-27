@@ -32,10 +32,7 @@ export const product = {
   productSummary: {
     id: 'ID',
     showReviews: 'Show reviews',
-    quantity: 'Qty',
     share: 'Share',
-    outOfStock: 'Out of stock',
-    inStock: 'In stock',
   },
   productReview: {
     overallRating: 'Overall Rating',
@@ -56,6 +53,9 @@ export const product = {
     addToCart: 'Add to cart',
     viewCart: 'view cart',
     proceedToCheckout: 'proceed to checkout',
+    quantity: 'Qty',
+    outOfStock: 'Out of stock',
+    inStock: 'In stock',
   },
   CMSTabParagraphContainer: {
     tabs: {
