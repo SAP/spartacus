@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router, RouterStateSnapshot } from '@angular/router';
+import { AuthService, RoutingService } from '@spartacus/core';
 
 export interface Item {
   product?: any;
@@ -40,6 +42,12 @@ export class CartItemComponent implements OnInit {
 
   ngOnInit() {}
 
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private routingService: RoutingService
+  ) {}
+
   isProductOutOfStock(product) {
     // TODO Move stocklevelstatuses across the app to an enum
     return (
@@ -62,6 +70,14 @@ export class CartItemComponent implements OnInit {
   }
 
   saveItemForLater() {
-    this.saveForLater.emit(this.item);
+    const snapshot: RouterStateSnapshot = this.router.routerState.snapshot;
+    this.authService.getUserToken().subscribe(token => {
+      if (!token.access_token) {
+        this.routingService.go({ cxRoute: 'login' });
+        this.routingService.saveRedirectUrl(snapshot.url);
+      } else {
+        this.saveForLater.emit(this.item);
+      }
+    });
   }
 }

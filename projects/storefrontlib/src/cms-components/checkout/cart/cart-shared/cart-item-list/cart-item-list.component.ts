@@ -55,13 +55,13 @@ export class CartItemListComponent implements OnInit, OnChanges {
       changes.items.previousValue &&
       changes.items.currentValue.length !== changes.items.previousValue.length
     ) {
-      console.log(changes.items);
       this.createFormgroupControls();
     }
   }
 
   removeEntry(item: Item): void {
     this.cartService.removeEntry(item);
+    delete this.form.controls[item.product.code];
   }
 
   updateEntry({

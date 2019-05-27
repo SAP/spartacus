@@ -5,7 +5,7 @@ import { CartSharedModule } from '../cart-shared';
 import { SaveForLaterItemListComponent } from './save-for-later-item-list/save-for-later-item-list.component';
 import { SaveForLaterItemComponent } from './save-for-later-item/save-for-later-item.component';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { MediaModule } from 'projects/storefrontlib/src/shared';
+import { MediaModule } from '../../../../shared';
 import { RouterModule } from '@angular/router';
 import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';
 
