@@ -6,12 +6,12 @@ import { cold, hot } from 'jasmine-marbles';
 
 import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
-import { UserRegisterFormData } from '../../../user/index';
+import { UserSignUp } from '../../../model/misc.model';
 import { LoadUserToken, Logout } from '../../../auth/index';
 import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 
-const user: UserRegisterFormData = {
+const user: UserSignUp = {
   firstName: '',
   lastName: '',
   password: '',
