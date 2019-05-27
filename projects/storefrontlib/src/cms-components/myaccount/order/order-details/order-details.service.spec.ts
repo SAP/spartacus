@@ -1,6 +1,4 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-
 import {
   AuthService,
   Order,
@@ -8,6 +6,7 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
 const mockOrder: Order = {
@@ -84,7 +83,7 @@ class MockUserService {
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
   }
-  loadOrderDetails(_userId: string, _orderCode: string): void {}
+  loadOrderDetails(_orderCode: string): void {}
   clearOrderDetails(): void {}
 }
 
@@ -142,7 +141,7 @@ describe('OrderDetailsService', () => {
       .getOrderDetails()
       .subscribe(data => (orderDetails = data))
       .unsubscribe();
-    expect(userService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
+    expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
     expect(userService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
   });

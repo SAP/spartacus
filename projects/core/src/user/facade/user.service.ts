@@ -7,6 +7,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -109,10 +110,10 @@ export class UserService {
    * @param userId a user's ID
    * @param orderCode an order code
    */
-  loadOrderDetails(userId: string, orderCode: string): void {
+  loadOrderDetails(orderCode: string): void {
     this.store.dispatch(
       new fromStore.LoadOrderDetails({
-        userId: userId,
+        userId: USERID_CURRENT,
         orderCode: orderCode,
       })
     );
@@ -128,10 +129,7 @@ export class UserService {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(
-    userId: string,
-    pageSize: number
-  ): Observable<OrderHistoryList> {
+  getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
       select(fromStore.getOrdersState),
       tap(orderListState => {
@@ -139,8 +137,8 @@ export class UserService {
           orderListState.loading ||
           orderListState.success ||
           orderListState.error;
-        if (!attemptedLoad && !!userId) {
-          this.loadOrderList(userId, pageSize);
+        if (!attemptedLoad) {
+          this.loadOrderList(pageSize);
         }
       }),
       map(orderListState => orderListState.value)
@@ -212,15 +210,10 @@ export class UserService {
    * @param currentPage current page
    * @param sort sort
    */
-  loadOrderList(
-    userId: string,
-    pageSize: number,
-    currentPage?: number,
-    sort?: string
-  ): void {
+  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
       new fromStore.LoadUserOrders({
-        userId: userId,
+        userId: USERID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
