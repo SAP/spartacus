@@ -80,9 +80,9 @@ describe('UserService', () => {
 
   describe('Remove User Account', () => {
     it('should be able to remove user account', () => {
-      service.remove('testUserId');
+      service.remove();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RemoveUser('testUserId')
+        new fromStore.RemoveUser(USERID_CURRENT)
       );
     });
 
@@ -457,9 +457,12 @@ describe('UserService', () => {
     };
 
     it('should dispatch UpdateUserDetails action', () => {
-      service.updatePersonalDetails(username, userDetails);
+      service.updatePersonalDetails(userDetails);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateUserDetails({ username, userDetails })
+        new fromStore.UpdateUserDetails({
+          username: USERID_CURRENT,
+          userDetails,
+        })
       );
     });
 
@@ -599,10 +602,14 @@ describe('UserService', () => {
     const newPassword = 'newPass456';
 
     it('should updatePassword() dispatch UpdatePassword action', () => {
-      service.updatePassword(userId, oldPassword, newPassword);
+      service.updatePassword(oldPassword, newPassword);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+        new fromStore.UpdatePassword({
+          userId: USERID_CURRENT,
+          oldPassword,
+          newPassword,
+        })
       );
     });
 
