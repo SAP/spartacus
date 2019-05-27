@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
@@ -557,7 +557,7 @@ export class UserService {
   /**
    * Returns all consents
    */
-  getConsents(): Observable<ConsentTemplateList> {
+  getConsents(): Observable<ConsentTemplate[]> {
     return this.store.pipe(select(fromStore.getConsentsValue));
   }
 
