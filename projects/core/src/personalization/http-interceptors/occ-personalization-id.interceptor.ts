@@ -30,7 +30,6 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   ) {
     this.enabled = this.config.personalization.enabled || false;
 
-    console.log('in constructor: ', this.enabled);
     if (this.enabled) {
       this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
       this.personalizationId =
