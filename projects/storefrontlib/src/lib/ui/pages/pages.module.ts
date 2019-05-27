@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfigModule } from '@spartacus/core';
-import { LogoutGuard } from '../../../cms-components/index';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import {
   PageLayoutComponent,
@@ -21,12 +20,6 @@ const pageModules = [CartPageModule, OrderConfirmationPageModule];
     ...pageModules,
     PageLayoutModule,
     RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [LogoutGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'logout' },
-      },
       {
         path: null,
         canActivate: [CmsPageGuard],
