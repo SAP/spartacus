@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
-import { Title, User } from '../../model/misc.model';
+import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
@@ -14,7 +14,6 @@ import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
-import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import {
   GIVE_CONSENT_PROCESS_ID,
@@ -50,7 +49,7 @@ export class UserService {
    *
    * @param submitFormData as UserRegisterFormData
    */
-  register(userRegisterFormData: UserRegisterFormData): void {
+  register(userRegisterFormData: UserSignUp): void {
     this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
