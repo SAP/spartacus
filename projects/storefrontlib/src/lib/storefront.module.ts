@@ -11,6 +11,7 @@ import {
   SmartEditModule,
   StateModule,
 } from '@spartacus/core';
+import { CartPageModule } from '../cms-components/cart';
 import { CmsLibModule, ProductPageModule } from '../cms-components/index';
 import { CmsModule } from '../cms-structure/cms.module';
 import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
@@ -18,7 +19,7 @@ import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffi
 import { LayoutModule } from '../layout/layout.module';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './storefront-config';
-import { CartPageModule, UiModule } from './ui/index';
+import { UiModule } from './ui/index';
 
 @NgModule({
   imports: [
