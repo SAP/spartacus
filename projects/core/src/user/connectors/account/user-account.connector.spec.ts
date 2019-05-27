@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UserRegisterFormData } from '@spartacus/core';
+import { UserSignUp } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { UserAccountAdapter } from './user-account.adapter';
 import { UserAccountConnector } from './user-account.connector';
@@ -42,7 +42,7 @@ describe('UserAccountConnector', () => {
   it('register should call adapter', () => {
     let result;
 
-    const registerData: UserRegisterFormData = {
+    const registerData: UserSignUp = {
       firstName: 'name',
       lastName: 'name',
       password: 'pass',
