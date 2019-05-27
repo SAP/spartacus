@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthRedirectService } from './auth-redirect.service';
 import { RoutingService } from '../../routing/facade/routing.service';
+import { Router } from '@angular/router';
 
 class MockRoutingService {
   go = jasmine.createSpy('go');
@@ -11,8 +12,15 @@ class MockRoutingService {
 describe('AuthRedirectService', () => {
   let service: AuthRedirectService;
   let routingService: RoutingService;
+  let router: Router;
 
   beforeEach(() => {
+    const mockRouter = {
+      url: '',
+      getCurrentNavigation: () => {},
+      serializeUrl: x => x,
+    };
+
     TestBed.configureTestingModule({
       providers: [
         AuthRedirectService,
@@ -20,11 +28,13 @@ describe('AuthRedirectService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        { provide: Router, useValue: mockRouter },
       ],
       imports: [RouterTestingModule],
     });
     service = TestBed.get(AuthRedirectService);
     routingService = TestBed.get(RoutingService);
+    router = TestBed.get(Router);
   });
 
   describe('redirect', () => {
@@ -35,7 +45,13 @@ describe('AuthRedirectService', () => {
 
     describe(', when just opened url with NotAuthGuard,', () => {
       beforeEach(() => {
-        service.reportNotAuthGuard('/test', '/login', 1);
+        router['url' as any] = '/test';
+        spyOn(router, 'getCurrentNavigation').and.returnValue({
+          id: 1,
+          finalUrl: '/login',
+        });
+        service.reportNotAuthGuard();
+
         service.redirect();
       });
 
@@ -46,8 +62,16 @@ describe('AuthRedirectService', () => {
 
     describe(', when just opened sequentially two urls with NotAuthGuard,', () => {
       beforeEach(() => {
-        service.reportNotAuthGuard('/test', '/login', 1);
-        service.reportNotAuthGuard('/login', '/register', 2);
+        spyOn(router, 'getCurrentNavigation').and.returnValues(
+          { id: 1, finalUrl: '/login' },
+          { id: 2, finalUrl: '/register' }
+        );
+
+        router['url' as any] = '/test';
+        service.reportNotAuthGuard();
+        router['url' as any] = '/login';
+        service.reportNotAuthGuard();
+
         service.redirect();
       });
 
@@ -58,8 +82,14 @@ describe('AuthRedirectService', () => {
 
     describe(', when AuthGuard just blocked url and redirected to url with NotAuthGuard,', () => {
       beforeEach(() => {
-        service.reportAuthGuard('/my-account', 1);
-        service.reportNotAuthGuard('/test', '/register', 2);
+        spyOn(router, 'getCurrentNavigation').and.returnValues(
+          { id: 1, finalUrl: '/my-account' },
+          { id: 2, finalUrl: '/register' }
+        );
+        router['url' as any] = '/test';
+        service.reportAuthGuard();
+        service.reportNotAuthGuard();
+
         service.redirect();
       });
 
@@ -70,13 +100,21 @@ describe('AuthRedirectService', () => {
 
     describe(', when AuthGuard blocked url, then opened manually different url, and then opened url with NotAuthGuard,', () => {
       beforeEach(() => {
-        service.reportAuthGuard('/my-account', 1);
-        service.reportNotAuthGuard('/test', '/register', 3);
+        spyOn(router, 'getCurrentNavigation').and.returnValues(
+          { id: 1, finalUrl: '/my-account' },
+          { id: 3, finalUrl: '/register' } // id 3 matters here
+        );
+
+        router['url' as any] = '/test';
+        service.reportAuthGuard();
+        router['url' as any] = '/test2';
+        service.reportNotAuthGuard();
+
         service.redirect();
       });
 
       it('should redirect to the previous url', () => {
-        expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+        expect(routingService.goByUrl).toHaveBeenCalledWith('/test2');
       });
     });
   });

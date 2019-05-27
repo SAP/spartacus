@@ -1,11 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  NavigationExtras,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Router,
-} from '@angular/router';
+import { NavigationExtras } from '@angular/router';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 
@@ -46,24 +41,12 @@ describe('NotAuthGuard', () => {
   let authService: AuthServiceStub;
   let routing: RoutingService;
   let authRedirectService: AuthRedirectService;
-  let routerStateSnapshot: RouterStateSnapshot;
-  let activatedRouteSnapshot: ActivatedRouteSnapshot;
 
   beforeEach(() => {
-    routerStateSnapshot = { url: '/current-url' } as RouterStateSnapshot;
-    activatedRouteSnapshot = {} as ActivatedRouteSnapshot;
-    const mockRouter = {
-      url: '/previous-url',
-      getCurrentNavigation: jasmine
-        .createSpy('getCurrentNavigation')
-        .and.returnValue({ id: 123 }),
-    };
-
     TestBed.configureTestingModule({
       providers: [
         { provide: RoutingService, useClass: RoutingServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
-        { provide: Router, useValue: mockRouter },
         {
           provide: AuthRedirectService,
           useClass: MockAuthRedirectService,
@@ -85,7 +68,7 @@ describe('NotAuthGuard', () => {
     it('should return false', () => {
       let result: boolean;
       guard
-        .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+        .canActivate()
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -95,7 +78,7 @@ describe('NotAuthGuard', () => {
     it('should redirect to homepage', () => {
       spyOn(routing, 'go');
       guard
-        .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+        .canActivate()
         .subscribe()
         .unsubscribe();
       expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'home' });
@@ -112,7 +95,7 @@ describe('NotAuthGuard', () => {
     it('should return true', () => {
       let result: boolean;
       guard
-        .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+        .canActivate()
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -122,7 +105,7 @@ describe('NotAuthGuard', () => {
     it('should not redirect to home', () => {
       spyOn(routing, 'go');
       guard
-        .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+        .canActivate()
         .subscribe()
         .unsubscribe();
       expect(routing.go).not.toHaveBeenCalled();
@@ -130,14 +113,10 @@ describe('NotAuthGuard', () => {
 
     it('should notify AuthRedirectService with the current navigation', () => {
       guard
-        .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+        .canActivate()
         .subscribe()
         .unsubscribe();
-      expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalledWith(
-        '/previous-url',
-        '/current-url',
-        123
-      );
+      expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();
     });
   });
 });

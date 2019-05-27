@@ -1,11 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  NavigationExtras,
-  Router,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { NavigationExtras } from '@angular/router';
 
 import { of, Observable } from 'rxjs';
 
@@ -43,19 +38,8 @@ describe('AuthGuard', () => {
   let service: RoutingService;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
-  let activatedRouteSnapshot: ActivatedRouteSnapshot;
-  let routerStateSnapshot: RouterStateSnapshot;
 
   beforeEach(() => {
-    routerStateSnapshot = { url: '/current-url' } as RouterStateSnapshot;
-    activatedRouteSnapshot = {} as ActivatedRouteSnapshot;
-    const mockRouter = {
-      url: '/previous-url',
-      getCurrentNavigation: jasmine
-        .createSpy('getCurrentNavigation')
-        .and.returnValue({ id: 123 }),
-    };
-
     TestBed.configureTestingModule({
       providers: [
         {
@@ -70,7 +54,6 @@ describe('AuthGuard', () => {
           provide: AuthRedirectService,
           useClass: MockAuthRedirectService,
         },
-        { provide: Router, useValue: mockRouter },
       ],
       imports: [RouterTestingModule],
     });
@@ -92,7 +75,7 @@ describe('AuthGuard', () => {
     it('should return false', () => {
       let result: boolean;
       guard
-        .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+        .canActivate()
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toBe(false);
@@ -100,13 +83,10 @@ describe('AuthGuard', () => {
 
     it('should notify AuthRedirectService with the current navigation', () => {
       guard
-        .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+        .canActivate()
         .subscribe()
         .unsubscribe();
-      expect(authRedirectService.reportAuthGuard).toHaveBeenCalledWith(
-        '/current-url',
-        123
-      );
+      expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
     });
   });
 
@@ -118,7 +98,7 @@ describe('AuthGuard', () => {
     it('should return true', () => {
       let result: boolean;
       guard
-        .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+        .canActivate()
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toBe(true);
