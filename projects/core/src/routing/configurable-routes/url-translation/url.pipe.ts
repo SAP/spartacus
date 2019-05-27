@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { UrlService } from './url.service';
+import { SemanticPathService } from './semantic-path.service';
 import { UrlCommands } from './url-command';
 
 @Pipe({
   name: 'cxUrl',
 })
 export class UrlPipe implements PipeTransform {
-  constructor(private urlService: UrlService) {}
+  constructor(private urlService: SemanticPathService) {}
 
   transform(commands: UrlCommands): any[] {
-    return this.urlService.generateUrl(commands);
+    return this.urlService.transform(commands);
   }
 }

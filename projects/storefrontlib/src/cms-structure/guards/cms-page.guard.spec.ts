@@ -6,6 +6,7 @@ import {
   CmsService,
   PageType,
   RoutingService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsGuardsService } from '../services/cms-guards.service';
@@ -44,6 +45,10 @@ class MockCmsGuardsService {
     .and.returnValue(of(true));
 }
 
+class MockSemanticPathService {
+  get() {}
+}
+
 const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
 describe('CmsPageGuard', () => {
@@ -57,6 +62,7 @@ describe('CmsPageGuard', () => {
         { provide: CmsRoutesService, useClass: MockCmsRoutesService },
         { provide: CmsI18nService, useClass: MockCmsI18nService },
         { provide: CmsGuardsService, useClass: MockCmsGuardsService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
       imports: [RouterTestingModule],
     });
