@@ -15,6 +15,7 @@ import { CmsLibModule, ProductPageModule } from '../cms-components/index';
 import { CmsModule } from '../cms-structure/cms.module';
 import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
 import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
+import { LayoutModule } from '../layout';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './storefront-config';
 import { CartPageModule, UiModule } from './ui/index';
@@ -35,6 +36,8 @@ import { CartPageModule, UiModule } from './ui/index';
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
     I18nModule.forRoot(),
+
+    LayoutModule,
     // partial usage:
     ProductPageModule,
     // as longs as we do not have #2661 in place we need a specific cart page module
