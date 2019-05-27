@@ -2,9 +2,9 @@ import { InjectionToken } from '@angular/core';
 import { Converter } from '../../../util/converter.service';
 import { Title, UserSignUp } from '../../../model/misc.model';
 
-export const USER_REGISTER_FORM_SERIALIZER = new InjectionToken<
+export const USER_SIGN_UP_SERIALIZER = new InjectionToken<
   Converter<UserSignUp, any>
->('UserRegisterFormSerializer');
+>('UserSignUpSerializer');
 
 export const TITLE_NORMALIZER = new InjectionToken<Converter<any, Title>>(
   'TitleNormalizer'

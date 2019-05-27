@@ -15,7 +15,7 @@ import {
 import { ConverterService } from '../../../util/converter.service';
 import {
   TITLE_NORMALIZER,
-  USER_REGISTER_FORM_SERIALIZER,
+  USER_SIGN_UP_SERIALIZER,
 } from '../../../user/connectors/account/converters';
 import { UserAccountAdapter } from '../../../user/connectors/account/user-account.adapter';
 import { USER_NORMALIZER } from '../../../user/connectors/details/converters';
@@ -48,7 +48,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
       'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    user = this.converter.convert(user, USER_REGISTER_FORM_SERIALIZER);
+    user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
     return this.http.post<User>(url, user, { headers }).pipe(
       catchError((error: any) => throwError(error)),
