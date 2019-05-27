@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Title, User } from '../../../model/misc.model';
 import { UserRegisterFormData } from '../../../user/model/user.model';
+import { Title, User, UserSignUp } from '../../../model/misc.model';
+import {
+  ConsentTemplate,
+  ConsentTemplateList,
+} from '../../../occ/occ-models/additional-occ.models';
 import { UserAccountAdapter } from './user-account.adapter';
 
 @Injectable({
@@ -10,7 +15,7 @@ import { UserAccountAdapter } from './user-account.adapter';
 export class UserAccountConnector {
   constructor(protected adapter: UserAccountAdapter) {}
 
-  register(user: UserRegisterFormData): Observable<User> {
+  register(user: UserSignUp): Observable<User> {
     return this.adapter.register(user);
   }
 

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Title, User } from '../../../model/misc.model';
+import { Title, User, UserSignUp } from '../../../model/misc.model';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import {
   InterceptorUtil,
@@ -11,11 +11,10 @@ import {
 import { ConverterService } from '../../../util/converter.service';
 import {
   TITLE_NORMALIZER,
-  USER_REGISTER_FORM_SERIALIZER,
+  USER_SIGN_UP_SERIALIZER,
 } from '../../../user/connectors/account/converters';
 import { UserAccountAdapter } from '../../../user/connectors/account/user-account.adapter';
 import { USER_NORMALIZER } from '../../../user/connectors/details/converters';
-import { UserRegisterFormData } from '../../../user/model/user.model';
 import { Occ } from '../../occ-models';
 
 const USER_ENDPOINT = 'users/';
@@ -37,13 +36,13 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     const endpoint = userId ? `${USER_ENDPOINT}${userId}` : USER_ENDPOINT;
     return this.occEndpoints.getEndpoint(endpoint);
   }
-  register(user: UserRegisterFormData): Observable<User> {
+  register(user: UserSignUp): Observable<User> {
     const url: string = this.getUserEndpoint();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    user = this.converter.convert(user, USER_REGISTER_FORM_SERIALIZER);
+    user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
     return this.http.post<User>(url, user, { headers }).pipe(
       catchError((error: any) => throwError(error)),
