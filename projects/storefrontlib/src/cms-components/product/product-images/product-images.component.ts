@@ -23,7 +23,7 @@ export class ProductImagesComponent implements OnInit {
     this.product$ = this.currentProductService.getProduct().pipe(
       filter(Boolean),
       tap(p => {
-        if (!this.imageContainer$.value) {
+        if (!this.imageContainer$.value && p.images) {
           this.imageContainer$.next(p.images.PRIMARY);
         }
       })
