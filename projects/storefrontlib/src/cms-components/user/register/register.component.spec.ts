@@ -138,19 +138,6 @@ describe('RegisterComponent', () => {
         })
         .unsubscribe();
     });
-
-    it('should remove error messages', () => {
-      spyOn(globalMessageService, 'remove').and.callThrough();
-      component.ngOnInit();
-      expect(globalMessageService.remove).toHaveBeenCalledWith(
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
-
-    it('should go to redirect url after registration', () => {
-      component.ngOnInit();
-      expect(authRedirectService.redirect).toHaveBeenCalled();
-    });
   });
 
   describe('form validate', () => {
@@ -226,9 +213,13 @@ describe('RegisterComponent', () => {
   });
 
   describe('submit', () => {
-    it('should submit form', () => {
+    beforeEach(() => {
+      spyOn(globalMessageService, 'remove').and.callThrough();
       spyOn(userService, 'register').and.stub();
       component.submit();
+    });
+
+    it('should submit form', () => {
       expect(userService.register).toHaveBeenCalledWith({
         firstName: '',
         lastName: '',
@@ -236,6 +227,13 @@ describe('RegisterComponent', () => {
         password: '',
         titleCode: '',
       });
+    });
+
+    it('should go to redirect url after registration and remove error messages', () => {
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+      expect(globalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

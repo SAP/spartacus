@@ -80,7 +80,7 @@ describe('LoginFormComponent', () => {
     expect(component.form.controls['password'].value).toBe('');
   });
 
-  it('should login', () => {
+  it('should login and redirect to return url after auth', () => {
     component.form.controls['userId'].setValue('test@email.com');
     component.form.controls['password'].setValue('secret');
     component.login();
@@ -89,9 +89,7 @@ describe('LoginFormComponent', () => {
       'test@email.com',
       'secret'
     );
-  });
 
-  it('should redirect to return url after auth', () => {
     expect(authRedirectService.redirect).toHaveBeenCalled();
   });
 
