@@ -78,9 +78,15 @@ export function reducer(
       };
     }
 
-    case fromNgrxRouter.ROUTER_NAVIGATED:
     case fromNgrxRouter.ROUTER_ERROR:
     case fromNgrxRouter.ROUTER_CANCEL: {
+      return {
+        ...state,
+        nextState: undefined,
+      };
+    }
+
+    case fromNgrxRouter.ROUTER_NAVIGATED: {
       const currentUrl = action.payload.routerState
         ? action.payload.routerState.url
         : '';

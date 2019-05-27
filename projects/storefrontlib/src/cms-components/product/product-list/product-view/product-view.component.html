@@ -1,15 +1,11 @@
 <div class="cx-product-layout" (click)="changeMode()">
   <div [ngClass]="buttonClass">
-    <!--
-        Display icons inversely to allow users
-        to see the view they will navigate to
-    -->
     <cx-icon
-      *ngIf="viewMode === iconTypes.LIST"
+      *ngIf="viewMode === iconTypes.GRID"
       [type]="iconTypes.GRID"
     ></cx-icon>
     <cx-icon
-      *ngIf="viewMode === iconTypes.GRID"
+      *ngIf="viewMode === iconTypes.LIST"
       [type]="iconTypes.LIST"
     ></cx-icon>
   </div>

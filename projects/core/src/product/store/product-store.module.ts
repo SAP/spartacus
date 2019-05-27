@@ -8,7 +8,6 @@ import {
   StateConfig,
   StateTransferType,
 } from '../../state/config/state-config';
-import { ProductOccModule } from '../occ/product-occ.module';
 import { effects } from './effects/index';
 import { PRODUCT_FEATURE } from './product-state';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
@@ -29,7 +28,6 @@ export function productStoreConfigFactory(): StateConfig {
   imports: [
     CommonModule,
     HttpClientModule,
-    ProductOccModule,
     StoreModule.forFeature(PRODUCT_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
     ConfigModule.withConfigFactory(productStoreConfigFactory),
