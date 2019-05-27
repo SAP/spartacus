@@ -35,8 +35,7 @@ if (!environment.production) {
       production: environment.production,
       backend: {
         occ: {
-          baseUrl:
-            'https://electronics.dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
+          baseUrl: environment.occBaseUrl,
         },
       },
       pwa: {
