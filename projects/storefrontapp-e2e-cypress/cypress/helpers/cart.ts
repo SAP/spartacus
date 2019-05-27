@@ -16,7 +16,9 @@ export function addProductToCartViaAutoComplete() {
   cy.get('cx-searchbox input').type(PRODUCT_CODE_1);
   cy.get('.dropdown-item.active').click();
 
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
   const miniCart = cy.get('cx-mini-cart');
@@ -39,7 +41,9 @@ export function addProductToCartViaSearchPage() {
   cy.get('cx-product-list')
     .contains('cx-product-list-item', 'Photosmart E317 Digital')
     .within(() => {
-      cy.get('cx-add-to-cart button').click();
+      cy.get('cx-add-to-cart')
+        .getByText(/Add To Cart/i)
+        .click();
     });
 
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
@@ -83,7 +87,9 @@ export function loginRegisteredUser() {
 export function addProductWhenLoggedIn() {
   cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
   cy.get('.dropdown-item.active').click();
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
     'Cart total (1 item)'
@@ -108,7 +114,9 @@ export function addProductAsAnonymous() {
   cy.get('cx-product-list')
     .contains('cx-product-list-item', 'EASYSHARE M381')
     .within(() => {
-      cy.get('cx-add-to-cart button').click();
+      cy.get('cx-add-to-cart')
+        .getByText(/Add To Cart/i)
+        .click();
     });
 
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
@@ -159,7 +167,9 @@ export function logOutAndEmptyCart() {
 
 export function manipulateCartQuantity() {
   cy.visit(`/product/${PRODUCT_CODE_2}`);
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
     'Cart total (1 item)'

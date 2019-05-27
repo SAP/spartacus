@@ -66,3 +66,11 @@ export interface ErrorModel {
   subjectType?: string;
   type?: string;
 }
+
+export interface UserSignUp {
+  firstName?: string;
+  lastName?: string;
+  password?: string;
+  titleCode?: string;
+  uid?: string;
+}

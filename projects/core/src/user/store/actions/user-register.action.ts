@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { UserRegisterFormData } from '../../model/user.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -9,6 +8,7 @@ import {
   EntitySuccessAction,
 } from '../../../state';
 import { REMOVE_USER_PROCESS_ID } from '../user-state';
+import { UserSignUp } from '../../../model/misc.model';
 
 export const REGISTER_USER = '[User] Register User';
 export const REGISTER_USER_FAIL = '[User] Register User Fail';
@@ -21,7 +21,7 @@ export const REMOVE_USER_RESET = '[User] Reset Remove User Process State';
 
 export class RegisterUser implements Action {
   readonly type = REGISTER_USER;
-  constructor(public payload: UserRegisterFormData) {}
+  constructor(public payload: UserSignUp) {}
 }
 
 export class RegisterUserFail implements Action {
