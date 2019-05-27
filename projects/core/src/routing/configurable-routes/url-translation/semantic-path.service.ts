@@ -28,7 +28,7 @@ export class SemanticPathService {
 
   /**
    * Transforms the array of url commands. Each command can be:
-   * a) string - will be bypassed
+   * a) string - will be left untouched
    * b) object { cxRoute: <route name> } - will be replaced with semantic path
    * c) object { cxRoute: <route name>, params: { ... } } - same as above, but with passed params
    *
