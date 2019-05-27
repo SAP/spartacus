@@ -1,5 +1,5 @@
-import * as fromUserToken from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
+import * as fromUserToken from './../actions/user-token.action';
 
 const token: UserToken = {
   access_token: 'xxx',
@@ -52,7 +52,6 @@ describe('User Token Actions', () => {
   describe('RefreshUserToken Actions', () => {
     it('should create the action', () => {
       const refreshTokenRequest = {
-        userId: 'xxx@xxx.xxx',
         refreshToken: '1234',
       };
 

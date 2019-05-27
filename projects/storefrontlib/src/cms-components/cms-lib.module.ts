@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule, SkipLinkModule } from '../layout/index';
+import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
 import { CartComponentModule } from './checkout/cart/cart.module';
 import {
   BannerModule,
@@ -11,14 +12,15 @@ import { SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
+  ConsentManagementModule,
+  ForgotPasswordModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
+  ResetPasswordModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-  ForgotPasswordModule,
-  ResetPasswordModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -33,6 +35,7 @@ import {
   ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
+import { ProductImagesModule } from './product/product-images/product-images.module';
 import { StoreFinderModule } from './storefinder/index';
 
 @NgModule({
@@ -59,10 +62,13 @@ import { StoreFinderModule } from './storefinder/index';
     UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
-    CartComponentModule,
+    ConsentManagementModule,
     CloseAccountModule,
+    CartComponentModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    ProductImagesModule,
+    CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
   ],

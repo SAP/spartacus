@@ -1,2 +1,2 @@
+export * from './additional-occ.models';
 export * from './occ.models';
-export * from './cms-component.models';

@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostBinding,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { Component, ElementRef, HostBinding, Input } from '@angular/core';
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE } from './icon.model';
 
@@ -12,12 +6,17 @@ import { ICON_TYPE } from './icon.model';
   selector: 'cx-icon',
   templateUrl: './icon.component.html',
 })
-export class IconComponent implements OnInit {
+export class IconComponent {
   /**
    * The type of the icon which maps to the icon link
    * in the svg icon sprite.
    */
-  @Input() type: ICON_TYPE;
+  _type: ICON_TYPE;
+  @Input('type')
+  set type(type: ICON_TYPE) {
+    this._type = type;
+    this.addStyleClasses(type);
+  }
 
   /**
    * Keeps the given style classes so that we can
@@ -25,6 +24,10 @@ export class IconComponent implements OnInit {
    */
   @HostBinding('class') styleClasses = '';
 
+  /**
+   * Style class names from the host element are taken into account
+   * when classes are set dynamically.
+   */
   private staticStyleClasses: string;
 
   constructor(
@@ -32,16 +35,11 @@ export class IconComponent implements OnInit {
     protected elementRef: ElementRef<HTMLElement>
   ) {}
 
-  ngOnInit() {
-    this.staticStyleClasses = this.elementRef.nativeElement.classList.value;
-    this.addStyleClasses();
-  }
-
   /**
    * Indicates whether the icon is configured to use SVG or not.
    */
   get useSvg(): boolean {
-    return this.iconLoader.useSvg(this.type);
+    return this.iconLoader.useSvg(this._type);
   }
 
   /**
@@ -50,22 +48,26 @@ export class IconComponent implements OnInit {
    * an existing SVG symbol in the DOM.
    */
   get svgPath(): string {
-    return this.iconLoader.getSvgPath(this.type);
+    return this.iconLoader.getSvgPath(this._type);
   }
 
   /**
    * Adds the style classes and the link resource (if availabe).
    */
-  private addStyleClasses() {
-    if (this.staticStyleClasses) {
-      this.styleClasses = this.staticStyleClasses + ' ';
-    }
-
+  private addStyleClasses(type: ICON_TYPE) {
     if (this.useSvg) {
       return;
     }
 
-    this.styleClasses += this.iconLoader.getStyleClasses(this.type);
-    this.iconLoader.addLinkResource(this.type);
+    if (this.staticStyleClasses === undefined) {
+      this.staticStyleClasses = this.elementRef.nativeElement.classList.value
+        ? this.elementRef.nativeElement.classList.value + ' '
+        : '';
+    }
+
+    this.styleClasses =
+      this.staticStyleClasses + this.iconLoader.getStyleClasses(type);
+
+    this.iconLoader.addLinkResource(type);
   }
 }

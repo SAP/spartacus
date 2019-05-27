@@ -20,7 +20,7 @@ declare namespace Cypress {
        *
        * @example
         ```
-        cy.saveLocalStorage()
+        cy.restoreLocalStorage()
         ```
        */
     restoreLocalStorage: () => void;

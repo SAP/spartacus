@@ -21,7 +21,6 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '../../../../shared';
-import { AddToCartComponent } from '../../../checkout';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -80,19 +79,21 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-@Pipe({
-  name: 'stripHtml',
-})
-class MockStripHtmlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
 })
 export class MockCxIconComponent {
   @Input() type;
+}
+
+@Component({
+  selector: 'cx-add-to-cart',
+  template: '<button>add to cart</button>',
+})
+export class MockAddToCartComponent {
+  @Input() productCode;
+  @Input() showQuantity;
 }
 
 describe('ProductListComponent in product-list', () => {
@@ -129,12 +130,11 @@ describe('ProductListComponent in product-list', () => {
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
         MockStarRatingComponent,
-        AddToCartComponent,
+        MockAddToCartComponent,
         MediaComponent,
         ProductViewComponent,
         MockProductListItemComponent,
         MockUrlPipe,
-        MockStripHtmlPipe,
         MockCxIconComponent,
       ],
     }).compileComponents();

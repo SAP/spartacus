@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-import * as fromCheckoutStore from '../store/index';
-import { CartDataService, ANONYMOUS_USERID } from '../../cart/index';
+import { ANONYMOUS_USERID, CartDataService } from '../../cart/index';
 import * as fromSelector from '../../checkout/store/selectors/index';
-import { DeliveryMode, Order } from '../../model/order.model';
-import { CardType, PaymentDetails } from '../../model/cart.model';
 import { Address, AddressValidation } from '../../model/address.model';
+import { CardType, PaymentDetails } from '../../model/cart.model';
+import { DeliveryMode, Order } from '../../model/order.model';
+import * as fromCheckoutStore from '../store/index';
 
 @Injectable()
 export class CheckoutService {
   constructor(
-    private checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
-    private cartData: CartDataService
+    protected checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
+    protected cartData: CartDataService
   ) {}
 
   /**
@@ -242,9 +239,12 @@ export class CheckoutService {
     );
   }
 
-  loadCheckoutDetails(userId: string, cartId: string) {
+  loadCheckoutDetails(cartId: string) {
     this.checkoutStore.dispatch(
-      new fromCheckoutStore.LoadCheckoutDetails({ userId, cartId })
+      new fromCheckoutStore.LoadCheckoutDetails({
+        userId: this.cartData.userId,
+        cartId,
+      })
     );
   }
 
@@ -254,7 +254,7 @@ export class CheckoutService {
     );
   }
 
-  private actionAllowed(): boolean {
+  protected actionAllowed(): boolean {
     return this.cartData.userId !== ANONYMOUS_USERID;
   }
 }

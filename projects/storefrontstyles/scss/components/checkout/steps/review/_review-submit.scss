@@ -94,3 +94,12 @@
     }
   }
 }
+
+cx-checkout-order-summary {
+  flex-grow: 0;
+}
+
+cx-place-order {
+  --cx-flex-basis: auto;
+  padding: var(--cx-padding, 1rem);
+}

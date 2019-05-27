@@ -15,7 +15,9 @@ import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CmsPageGuard implements CanActivate {
   static guardName = 'CmsPageGuard';
 

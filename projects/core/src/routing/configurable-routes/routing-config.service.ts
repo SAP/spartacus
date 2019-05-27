@@ -4,7 +4,7 @@ import { RoutingConfig } from './config/routing-config';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingConfigService {
-  constructor(private config: RoutingConfig) {}
+  constructor(protected config: RoutingConfig) {}
 
   getRouteConfig(routeName: string): RouteConfig {
     const routeConfig =

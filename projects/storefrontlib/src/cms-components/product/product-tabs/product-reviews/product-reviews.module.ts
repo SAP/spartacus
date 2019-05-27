@@ -18,6 +18,7 @@ import { ProductReviewsComponent } from './product-reviews.component';
     StarRatingModule,
   ],
   declarations: [ProductReviewsComponent],
+  entryComponents: [ProductReviewsComponent],
   exports: [ProductReviewsComponent],
 })
 export class ProductReviewsModule {}
