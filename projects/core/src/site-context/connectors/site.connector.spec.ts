@@ -7,6 +7,7 @@ import createSpy = jasmine.createSpy;
 
 const mockLanguages = ['l', 'a', 'n', 'g'];
 const mockCurrencies = ['c', 'u', 'r', 'r'];
+const mockBaseSite = { uid: 'test-uid' };
 
 class MockSiteAdapter implements SiteAdapter {
   loadCurrencies = createSpy('SiteAdapter.loadCurrencies').and.callFake(() =>
@@ -15,6 +16,10 @@ class MockSiteAdapter implements SiteAdapter {
 
   loadLanguages = createSpy('SiteAdapter.loadLanguages').and.callFake(() =>
     of(mockLanguages)
+  );
+
+  loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
+    of(mockBaseSite)
   );
 }
 
@@ -47,5 +52,12 @@ describe('SiteConnector', () => {
     service.getCurrencies().subscribe(res => (result = res));
     expect(result).toBe(mockCurrencies);
     expect(adapter.loadCurrencies).toHaveBeenCalled();
+  });
+
+  it('getBaseSite should call adapter', () => {
+    let result;
+    service.getBaseSite().subscribe(res => (result = res));
+    expect(result).toBe(mockBaseSite);
+    expect(adapter.loadBaseSite).toHaveBeenCalled();
   });
 });
