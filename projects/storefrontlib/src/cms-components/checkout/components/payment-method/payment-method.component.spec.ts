@@ -2,14 +2,27 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Address, CartDataService, CheckoutService, GlobalMessageService, I18nTestingModule, PaymentDetails, RoutesConfig, RoutingConfigService, RoutingService, UserService } from '@spartacus/core';
+import {
+  Address,
+  CartDataService,
+  CheckoutService,
+  GlobalMessageService,
+  I18nTestingModule,
+  PaymentDetails,
+  RoutesConfig,
+  RoutingConfigService,
+  RoutingService,
+  UserService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../../lib/ui/pages/default-routing-config';
+import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
-import { CheckoutStep, CheckoutStepType } from '../../model/checkout-step.model';
+import {
+  CheckoutStep,
+  CheckoutStepType,
+} from '../../model/checkout-step.model';
 import { PaymentMethodComponent } from './payment-method.component';
-
 
 import createSpy = jasmine.createSpy;
 

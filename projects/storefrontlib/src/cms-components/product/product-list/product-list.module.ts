@@ -11,6 +11,7 @@ import {
   CmsPageGuard,
   PageLayoutComponent,
 } from '../../../cms-structure/index';
+import { suffixUrlMatcher } from '../../../cms-structure/routing/index';
 import {
   FormComponentsModule,
   ListNavigationModule,
@@ -36,6 +37,17 @@ import { ProductViewComponent } from './product-view/product-view.component';
       },
     }),
     RouterModule.forChild([
+      {
+        matcher: suffixUrlMatcher,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxSuffixUrlMatcher: {
+            marker: 'c',
+            paramName: 'categoryCode',
+          },
+        },
+      },
       {
         path: null,
         canActivate: [CmsPageGuard],

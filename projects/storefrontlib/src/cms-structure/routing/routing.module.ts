@@ -5,14 +5,12 @@ import {
 } from '@spartacus/core';
 import { CmsRouteModule } from './cms-route';
 import { defaultRoutingConfig } from './default-routing-config';
-import { SuffixRoutesModule } from './suffix-routes';
 
 @NgModule({
   imports: [
     CoreRoutingModule,
     ConfigModule.withConfig(defaultRoutingConfig),
     CmsRouteModule,
-    SuffixRoutesModule,
   ],
 })
 export class RoutingModule {}
