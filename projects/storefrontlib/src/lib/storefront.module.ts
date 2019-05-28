@@ -7,15 +7,13 @@ import {
   OccModule,
   PersonalizationModule,
   provideConfig,
-  RoutingModule,
   SmartEditModule,
   StateModule,
 } from '@spartacus/core';
-import { CartPageModule } from '../cms-components/cart';
+import { CartPageModule } from '../cms-components/cart/cart-page/cart-page.module';
 import { CmsLibModule, ProductPageModule } from '../cms-components/index';
 import { CmsModule } from '../cms-structure/cms.module';
-import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
-import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
+import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './storefront-config';
@@ -25,15 +23,13 @@ import { UiModule } from './ui/index';
   imports: [
     OccModule,
     StateModule,
-    RoutingModule,
     AuthModule.forRoot(),
     CmsLibModule,
     CmsModule,
     UiModule,
-    SuffixRoutesModule,
-    CmsRouteModule,
-    ConfigModule.forRoot(),
     CxApiModule,
+    ConfigModule.forRoot(),
+    RoutingModule,
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
     I18nModule.forRoot(),
