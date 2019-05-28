@@ -1,5 +1,7 @@
 <ng-container *cxOutlet="(position$ | async)">
+  <!-- position: {{ position$ | async }} -->
   <ng-container *ngFor="let component of (components$ | async)">
+    <!-- flexType: {{ component.flexType }} -->
     <ng-container
       *cxOutlet="component.flexType"
       [cxComponentWrapper]="component"

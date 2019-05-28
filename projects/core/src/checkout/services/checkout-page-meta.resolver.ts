@@ -10,7 +10,7 @@ import {
 } from '../../cms/page/page.resolvers';
 import { Cart } from '../../model/cart.model';
 import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',

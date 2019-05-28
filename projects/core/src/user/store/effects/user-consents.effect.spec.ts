@@ -3,13 +3,13 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ConsentTemplate, ConsentTemplateList } from '../../../occ';
-import { UserAccountAdapter } from '../../connectors';
+import { ConsentTemplate } from '../../../model/consent.model';
+import { UserConsentAdapter } from '../../connectors';
 import * as fromAction from '../actions/user-consents.action';
 import * as fromEffect from './user-consents.effect';
 
 class MockOccUserAdapter {
-  loadConsents(_userId: string): Observable<ConsentTemplateList> {
+  loadConsents(_userId: string): Observable<ConsentTemplate[]> {
     return of();
   }
   giveConsent(
@@ -26,33 +26,31 @@ class MockOccUserAdapter {
 
 describe('User Consents effect', () => {
   let userConsentEffect: fromEffect.UserConsentsEffect;
-  let userAccountAdapter: UserAccountAdapter;
+  let userConsentAdapter: UserConsentAdapter;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromEffect.UserConsentsEffect,
-        { provide: UserAccountAdapter, useClass: MockOccUserAdapter },
+        { provide: UserConsentAdapter, useClass: MockOccUserAdapter },
         provideMockActions(() => actions$),
       ],
     });
 
     userConsentEffect = TestBed.get(fromEffect.UserConsentsEffect);
-    userAccountAdapter = TestBed.get(UserAccountAdapter);
+    userConsentAdapter = TestBed.get(UserConsentAdapter);
   });
 
   describe('getConsents$', () => {
     const userId = 'xxx@xxx.xxx';
-    const templateList: ConsentTemplateList = {
-      consentTemplates: [
-        {
-          id: 'xxx',
-        },
-      ],
-    };
+    const templateList: ConsentTemplate[] = [
+      {
+        id: 'xxx',
+      },
+    ];
     it('should return LoadUserConsentsSuccess', () => {
-      spyOn(userAccountAdapter, 'loadConsents').and.returnValue(
+      spyOn(userConsentAdapter, 'loadConsents').and.returnValue(
         of(templateList)
       );
 
@@ -75,7 +73,7 @@ describe('User Consents effect', () => {
       version: consentTemplateVersion,
     };
     it('should return GiveUserConsentSuccess', () => {
-      spyOn(userAccountAdapter, 'giveConsent').and.returnValue(
+      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
         of(consentTemplate)
       );
 
@@ -95,7 +93,7 @@ describe('User Consents effect', () => {
 
   describe('withdrawConsent$', () => {
     it('should return WithdrawUserConsentSuccess', () => {
-      spyOn(userAccountAdapter, 'withdrawConsent').and.returnValue(of({}));
+      spyOn(userConsentAdapter, 'withdrawConsent').and.returnValue(of({}));
 
       const action = new fromAction.WithdrawUserConsent({
         userId: 'xxx@xxx.xxx',

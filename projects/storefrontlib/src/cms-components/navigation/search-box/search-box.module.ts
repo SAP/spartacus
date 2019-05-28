@@ -1,43 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
   I18nModule,
   ProductModule,
-  ProductSearchService,
-  RoutingService,
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BootstrapModule } from '../../../lib/bootstrap.module';
-import { MediaModule } from '../../../shared/index';
-import { SearchBoxComponentService } from './search-box-component.service';
+import { MediaModule } from '../../../shared/components/media/media.module';
+import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
-
 @NgModule({
   imports: [
     CommonModule,
-    BootstrapModule,
-    FormsModule,
     RouterModule,
-    ReactiveFormsModule,
     MediaModule,
     ProductModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SearchBoxComponent: {
           selector: 'cx-searchbox',
-          providers: [
-            {
-              provide: SearchBoxComponentService,
-              useClass: SearchBoxComponentService,
-              deps: [CmsComponentData, ProductSearchService, RoutingService],
-            },
-          ],
         },
       },
     }),
@@ -45,7 +29,7 @@ import { SearchBoxComponent } from './search-box.component';
     UrlModule,
     I18nModule,
   ],
-  declarations: [SearchBoxComponent],
+  declarations: [SearchBoxComponent, HighlightPipe],
   entryComponents: [SearchBoxComponent],
   exports: [SearchBoxComponent],
 })
