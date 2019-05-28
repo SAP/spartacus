@@ -11,7 +11,7 @@ import { CheckoutProgressMobileTopModule } from './components/checkout-progress/
 // tslint:disable-next-line
 import { CheckoutProgressMobileBottomModule } from './components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.module';
 import { DeliveryModeModule } from './components/delivery-mode/delivery-mode.module';
-import { OrderConfirmationModule } from './components/order-confirmation/order-confirmation.module';
+import { OrderConfirmationModule } from './../../cms-components/order-confirmation/order-confirmation.module';
 import { PaymentMethodModule } from './components/payment-method/payment-method.module';
 import { PlaceOrderModule } from './components/place-order/place-order.module';
 import { PromotionsModule } from './components/promotions/promotions.module';

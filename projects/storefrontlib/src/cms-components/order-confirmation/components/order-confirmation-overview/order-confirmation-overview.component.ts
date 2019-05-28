@@ -17,11 +17,11 @@ import { Card } from '../../../../shared/components/card/card.component';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-order-confirmation',
-  templateUrl: './order-confirmation.component.html',
+  selector: 'cx-order-confirmation-overview',
+  templateUrl: './order-confirmation-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderConfirmationComponent implements OnInit, OnDestroy {
+export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
 
   constructor(
@@ -38,10 +38,8 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
   }
 
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('addressCard.shipTo'),
-    ]).pipe(
-      map(([textTitle]) => {
+    return this.translation.translate('addressCard.shipTo').pipe(
+      map(textTitle => {
         return {
           title: textTitle,
           textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
@@ -59,10 +57,8 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
   }
 
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('checkoutShipping.shippingMethod'),
-    ]).pipe(
-      map(([textTitle]) => {
+    return this.translation.translate('checkoutShipping.shippingMethod').pipe(
+      map(textTitle => {
         return {
           title: textTitle,
           textBold: deliveryMode.name,
@@ -73,10 +69,8 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
   }
 
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('addressCard.billTo'),
-    ]).pipe(
-      map(([textTitle]) => {
+    return this.translation.translate('addressCard.billTo').pipe(
+      map(textTitle => {
         return {
           title: textTitle,
           textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,

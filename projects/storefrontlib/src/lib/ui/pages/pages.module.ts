@@ -9,15 +9,11 @@ import {
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
 import { CartPageModule } from './cart-page/cart-page.module';
-import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { ProductPageModule } from './product-page/product-page.module';
 import { defaultRoutingConfig } from './default-routing-config';
+import { OrderConfirmationPageGuard } from '../../checkout/guards/order-confirmation-page.guard';
 
-const pageModules = [
-  CartPageModule,
-  OrderConfirmationPageModule,
-  ProductPageModule,
-];
+const pageModules = [CartPageModule, ProductPageModule];
 
 @NgModule({
   imports: [
@@ -62,6 +58,15 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'order', cxRoute: 'orderDetails' },
+      },
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard, OrderConfirmationPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          pageLabel: 'orderConfirmationPage',
+          cxRoute: 'orderConfirmation',
+        },
       },
     ]),
   ],
