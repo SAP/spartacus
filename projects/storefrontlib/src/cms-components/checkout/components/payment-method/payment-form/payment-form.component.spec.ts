@@ -3,16 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Address, CardType, CheckoutService, Country, GlobalMessageService, I18nTestingModule, UserService } from '@spartacus/core';
+import {
+  Address,
+  CardType,
+  CheckoutService,
+  Country,
+  GlobalMessageService,
+  I18nTestingModule,
+  UserService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 
-
-
-
 import createSpy = jasmine.createSpy;
-
 
 const mockBillingCountries: Country[] = [
   {
