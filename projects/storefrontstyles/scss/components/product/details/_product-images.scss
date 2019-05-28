@@ -4,6 +4,8 @@ $overlayWhileLoading: false !default;
 $zoomThumbOnHover: false !default;
 $zoomOutWhileLoading: false !default;
 
+$productThumbSize: 75px !default;
+
 %cx-product-images {
   display: flex;
   flex-direction: var(--cx-flex-direction, column);
@@ -57,8 +59,13 @@ $zoomOutWhileLoading: false !default;
     justify-content: flex-start;
 
     cx-media {
-      width: var(--cx-width, 75px);
-      height: var(--cx-width, 75px);
+      width: $productThumbSize;
+      height: $productThumbSize;
+
+      &.is-missing {
+        min-height: $productThumbSize;
+        background-size: $productThumbSize;
+      }
 
       transition: all var(--cx-g-transition-duration);
 
