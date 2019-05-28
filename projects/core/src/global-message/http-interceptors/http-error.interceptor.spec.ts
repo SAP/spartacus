@@ -141,5 +141,19 @@ describe('HttpErrorInterceptor', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
+
+    it(`should not display "An unknown error occured" in global message service when calling /cms/components`, () => {
+      http
+        .get('/cms/components')
+        .pipe(catchError((error: any) => throwError(error)))
+        .subscribe(_result => {}, error => (this.error = error));
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+
+      mockReq.flush({}, { status: 405, statusText: 'Method Not Allowed' });
+      expect(mockMessageService.add).not.toHaveBeenCalled();
+    });
   });
 });
