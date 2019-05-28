@@ -2,9 +2,9 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplate } from '../../model/consent.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
@@ -269,9 +269,9 @@ describe('UserService', () => {
   });
 
   it('should be able to load user addresses', () => {
-    service.loadAddresses('testUserId');
+    service.loadAddresses();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserAddresses('testUserId')
+      new fromStore.LoadUserAddresses(USERID_CURRENT)
     );
   });
 
@@ -382,10 +382,10 @@ describe('UserService', () => {
       country: { isocode: 'JP' },
     };
 
-    service.addUserAddress('testUserId', mockAddress);
+    service.addUserAddress(mockAddress);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.AddUserAddress({
-        userId: 'testUserId',
+        userId: USERID_CURRENT,
         address: mockAddress,
       })
     );
@@ -396,10 +396,10 @@ describe('UserService', () => {
       town: 'Test Town',
     };
 
-    service.updateUserAddress('testUserId', '123', mockAddressUpdate);
+    service.updateUserAddress('123', mockAddressUpdate);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.UpdateUserAddress({
-        userId: 'testUserId',
+        userId: USERID_CURRENT,
         addressId: '123',
         address: mockAddressUpdate,
       })
@@ -407,20 +407,20 @@ describe('UserService', () => {
   });
 
   it('should be able to delete user address', () => {
-    service.deleteUserAddress('testUserId', '123');
+    service.deleteUserAddress('123');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.DeleteUserAddress({
-        userId: 'testUserId',
+        userId: USERID_CURRENT,
         addressId: '123',
       })
     );
   });
 
   it('should be able to set address as default address', () => {
-    service.setAddressAsDefault('testUserId', '123');
+    service.setAddressAsDefault('123');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.UpdateUserAddress({
-        userId: 'testUserId',
+        userId: USERID_CURRENT,
         addressId: '123',
         address: {
           defaultAddress: true,

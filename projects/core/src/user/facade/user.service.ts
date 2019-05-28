@@ -219,21 +219,19 @@ export class UserService {
 
   /**
    * Retrieves user's addresses
-   * @param userId a user ID
    */
-  loadAddresses(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserAddresses(userId));
+  loadAddresses(): void {
+    this.store.dispatch(new fromStore.LoadUserAddresses(USERID_CURRENT));
   }
 
   /**
    * Adds user address
-   * @param userId a user ID
    * @param address a user address
    */
-  addUserAddress(userId: string, address: Address): void {
+  addUserAddress(address: Address): void {
     this.store.dispatch(
       new fromStore.AddUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         address: address,
       })
     );
@@ -241,13 +239,12 @@ export class UserService {
 
   /**
    * Sets user address as default
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  setAddressAsDefault(userId: string, addressId: string): void {
+  setAddressAsDefault(addressId: string): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: { defaultAddress: true },
       })
@@ -256,14 +253,13 @@ export class UserService {
 
   /**
    * Updates existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    * @param address a user address
    */
-  updateUserAddress(userId: string, addressId: string, address: Address): void {
+  updateUserAddress(addressId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: address,
       })
@@ -272,13 +268,12 @@ export class UserService {
 
   /**
    * Deletes existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  deleteUserAddress(userId: string, addressId: string): void {
+  deleteUserAddress(addressId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
       })
     );

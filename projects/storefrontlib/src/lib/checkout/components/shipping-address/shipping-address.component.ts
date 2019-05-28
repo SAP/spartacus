@@ -4,22 +4,20 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-
 import {
   Address,
-  CartDataService,
   CartService,
   CheckoutService,
   RoutingService,
-  UserService,
   TranslationService,
+  UserService,
 } from '@spartacus/core';
-import { CheckoutStepType } from '../../model/checkout-step.model';
-import { CheckoutConfigService } from '../../checkout-config.service';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
+import { CheckoutConfigService } from '../../checkout-config.service';
+import { CheckoutStepType } from '../../model/checkout-step.model';
 
 export interface CardWithAddress {
   card: Card;
@@ -50,7 +48,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userService: UserService,
-    protected cartData: CartDataService,
     protected cartService: CartService,
     protected routingService: RoutingService,
     protected checkoutService: CheckoutService,
@@ -101,7 +98,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     );
 
     this.cartService.loadDetails();
-    this.userService.loadAddresses(this.cartData.userId);
+    this.userService.loadAddresses();
 
     this.setAddressSub = this.checkoutService
       .getDeliveryAddress()
