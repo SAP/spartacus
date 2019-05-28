@@ -1,23 +1,33 @@
-import { IconConfig } from './icon.model';
+import { IconConfig, IconResourceType } from './icon.model';
 
 export const fontawesomeIconConfig: IconConfig = {
   icon: {
-    iconClass: 'fas',
-    prefix: 'fa-',
-    icons: {
-      SEARCH: 'search',
-      CART: 'shopping-cart',
-      INFO: 'info-circle',
-      STAR: 'star',
-      GRID: 'th-large',
-      LIST: 'bars',
-      CARET_DOWN: 'angle-down',
-      ERROR: 'exclamation-circle',
-      WARNING: 'exclamation-triangle',
-      SUCCESS: 'check-circle',
-      TIMES: 'times',
-      MINUS: 'minus',
-      PLUS: 'plus',
+    symbols: {
+      SEARCH: 'fas fa-search',
+      CART: 'fas fa-shopping-cart',
+      INFO: 'fas fa-info-circle',
+      STAR: 'fas fa-star',
+      GRID: 'fas fa-th-large',
+      LIST: 'fas fa-bars',
+      CARET_DOWN: 'fas fa-angle-down',
+      ERROR: 'fas fa-exclamation-circle',
+      WARNING: 'fas fa-exclamation-triangle',
+      SUCCESS: 'fas fa-check-circle',
+      TIMES: 'fas fa-times',
+      VISA: 'fab fa-cc-visa',
+      MASTER_CARD: 'fab fa-cc-mastercard',
+      AMEX: 'fab fa-cc-amex',
+      DINERS_CLUB: 'fab fa-cc-diners-club',
+      CREDIT_CARD: 'fas fa-credit-card',
+      MINUS: 'fas fa-minus',
+      PLUS: 'fas fa-plus',
+      RESET: 'fas fa-times-circle',
     },
+    resources: [
+      {
+        type: IconResourceType.LINK,
+        url: 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
+      },
+    ],
   },
 };

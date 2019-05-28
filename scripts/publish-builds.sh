@@ -53,11 +53,11 @@ publish_snapshot() {
     git checkout -b "${PUBLISH_BRANCH}"
     )
 
-    cp -R $LIB_DIR/* $TMP_DIR/
-
-    if [ -e README.md ]; then
-       rm README.md
+    if [ -e $LIB_DIR/README.md ]; then
+       rm $LIB_DIR/README.md
     fi
+
+    cp -R $LIB_DIR/* $TMP_DIR/
 
     echo `date` > $TMP_DIR/BUILD_INFO
     echo $SHA >> $TMP_DIR/BUILD_INFO

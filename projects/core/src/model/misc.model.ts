@@ -9,32 +9,8 @@ export interface Currency {
 
 export interface Time {
   formattedHour?: string;
-  hour?: Uint8Array;
-  minute?: Uint8Array;
-}
-
-export interface SpecialOpeningDay {
-  closed?: boolean;
-  closingTime?: Time;
-  comment?: string;
-  date?: Date;
-  formattedDate?: string;
-  name?: string;
-  openingTime?: Time;
-}
-
-export interface WeekdayOpeningDay {
-  closed?: boolean;
-  closingTime?: Time;
-  openingTime?: Time;
-  weekDay?: string;
-}
-
-export interface OpeningSchedule {
-  code?: string;
-  name?: string;
-  specialDayOpeningList?: SpecialOpeningDay[];
-  weekDayOpeningList?: WeekdayOpeningDay[];
+  hour?: number;
+  minute?: number;
 }
 
 export interface GeoPoint {
@@ -89,4 +65,12 @@ export interface ErrorModel {
   subject?: string;
   subjectType?: string;
   type?: string;
+}
+
+export interface UserSignUp {
+  firstName?: string;
+  lastName?: string;
+  password?: string;
+  titleCode?: string;
+  uid?: string;
 }

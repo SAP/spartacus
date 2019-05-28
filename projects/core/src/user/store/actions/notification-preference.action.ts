@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { BasicNotificationPreferenceList } from '../../model/user.model';
+import { BasicNotificationPreferenceList } from '../../../model/notification-preference.model';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';

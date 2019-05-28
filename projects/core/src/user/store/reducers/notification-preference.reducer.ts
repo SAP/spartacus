@@ -1,6 +1,6 @@
 import { NotificationPreferenceState } from '../user-state';
-import { BasicNotificationPreferenceList } from '../../model/user.model';
 import * as fromAction from '../actions/index';
+import { BasicNotificationPreferenceList } from 'projects/core/src/model/notification-preference.model';
 
 export const initialState: NotificationPreferenceState = {
   basicNotificationPreferenceList: {

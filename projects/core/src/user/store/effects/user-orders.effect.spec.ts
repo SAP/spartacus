@@ -16,8 +16,8 @@ import { LoaderResetAction } from '../../../state';
 
 import * as fromUserOrdersEffect from './user-orders.effect';
 import { OrderHistoryList } from '../../../model/order.model';
-import { OrderConnector } from '../../connectors/order.connector';
-import { OrderAdapter } from '../../connectors/order.adapter';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
@@ -27,7 +27,7 @@ const mockUserOrders: OrderHistoryList = {
 
 describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
-  let orderConnector: OrderConnector;
+  let orderConnector: UserOrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -35,14 +35,14 @@ describe('User Orders effect', () => {
       imports: [HttpClientTestingModule],
       providers: [
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: OrderAdapter, useValue: {} },
+        { provide: UserOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     actions$ = TestBed.get(Actions);
     userOrdersEffect = TestBed.get(fromUserOrdersEffect.UserOrdersEffect);
-    orderConnector = TestBed.get(OrderConnector);
+    orderConnector = TestBed.get(UserOrderConnector);
   });
 
   describe('loadUserOrders$', () => {

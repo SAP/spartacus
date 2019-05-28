@@ -1,5 +1,6 @@
 export * from './address-book/index';
 export * from './close-account/index';
+export * from './consent-management/index';
 export * from './forgot-password/forgot-password.component';
 export * from './forgot-password/forgot-password.module';
 export * from './order/index';

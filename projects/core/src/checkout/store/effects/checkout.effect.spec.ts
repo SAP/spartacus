@@ -10,11 +10,7 @@ import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
 import * as fromCartActions from './../../../cart/store/actions/index';
-import {
-  CartConnector,
-  CartDeliveryConnector,
-  CartPaymentConnector,
-} from '../../../cart';
+import { CartDeliveryConnector, CartPaymentConnector } from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 
@@ -23,8 +19,7 @@ import { CheckoutDetails } from '../../models/checkout.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
-import { OrderConnector } from '../../../user/connectors/order.connector';
-import { OrderAdapter } from '../../../user/connectors/order.adapter';
+import { CheckoutConnector } from '../../connectors/checkout';
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
@@ -65,12 +60,13 @@ class MockCartPaymentConnector {
   create = createSpy().and.returnValue(of(paymentDetails));
 }
 
-class MockCartConnector {
+class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
+  placeOrder = () => of({});
 }
 
 describe('Checkout effect', () => {
-  let orderConnector: OrderConnector;
+  let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
 
@@ -81,17 +77,16 @@ describe('Checkout effect', () => {
         CartPaymentConnector,
         { provide: CartDeliveryConnector, useClass: MockCartDeliveryConnector },
         { provide: CartPaymentConnector, useClass: MockCartPaymentConnector },
-        { provide: CartConnector, useClass: MockCartConnector },
+        { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
-        { provide: OrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
-    orderConnector = TestBed.get(OrderConnector);
+    checkoutConnector = TestBed.get(CheckoutConnector);
 
-    spyOn(orderConnector, 'place').and.returnValue(of(orderDetails));
+    spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
 
   describe('addDeliveryAddress$', () => {

@@ -1,21 +1,39 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  CmsService,
   I18nTestingModule,
   ProductSearchService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BootstrapModule } from '../../../lib/bootstrap.module';
-import { MediaComponent } from '../../../shared/components/media/media.component';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
+import { SearchResults } from './search-box.model';
+
+const mockSearchBoxComponentData: CmsSearchBoxComponent = {
+  uid: '001',
+  typeCode: 'SearchBoxComponent ',
+  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
+  name: 'Mock SearchBox',
+  displayProductImages: true,
+  displayProducts: true,
+  displaySuggestions: true,
+  container: false,
+  maxProducts: 5,
+  maxSuggestions: 5,
+  minCharactersBeforeRequest: 3,
+  waitTimeBeforeRequest: 500,
+};
+
+class MockCmsComponentData {
+  get data$(): Observable<CmsSearchBoxComponent> {
+    return of();
+  }
+}
 
 @Pipe({
   name: 'cxUrl',
@@ -25,9 +43,9 @@ class MockUrlPipe implements PipeTransform {
 }
 
 @Pipe({
-  name: 'stripHtml',
+  name: 'cxHighlight',
 })
-class MockStripHtmlPipe implements PipeTransform {
+class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -39,143 +57,232 @@ export class MockCxIconComponent {
   @Input() type;
 }
 
-describe('SearchBoxComponent in CmsLib', () => {
+@Component({
+  selector: 'cx-media',
+  template: '<img>',
+})
+export class MockMediaComponent {
+  @Input() container;
+  @Input() format;
+  @Input() alt;
+}
+
+describe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
-  let serviceSpy: any;
-
-  const mockSearchBoxComponentData: CmsSearchBoxComponent = {
-    uid: '001',
-    typeCode: 'SearchBoxComponent',
-    modifiedtime: new Date('2017-12-21T18:15:15+0000'),
-    name: 'Mock SearchBox',
-    displayProductImages: true,
-    displayProducts: true,
-    displaySuggestions: true,
-    container: false,
-    maxProducts: 5,
-    maxSuggestions: 5,
-    minCharactersBeforeRequest: 3,
-    waitTimeBeforeRequest: 500,
-  };
-
-  const MockCmsService = {
-    getComponentData: () => of(mockSearchBoxComponentData),
-  };
-
-  const mockKeyEvent1 = <KeyboardEvent>{
-    key: 'Enter',
-  };
-
-  const mockKeyEvent2 = <KeyboardEvent>{
-    key: 'Enter123',
-  };
+  let serviceSpy: SearchBoxComponentService;
+  let cmsComponentData: CmsComponentData<CmsSearchBoxComponent>;
 
   class SearchBoxComponentServiceSpy {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
-    typeahead = jasmine.createSpy('search').and.callFake(() => of([]));
-    queryParam$ = of('test');
+    getResults = jasmine.createSpy('search').and.callFake(() =>
+      of(<SearchResults>{
+        suggestions: ['te', 'test'],
+        message: 'I found stuff for you!',
+        products: [
+          {
+            name: 'title 1',
+          },
+        ],
+      })
+    );
+
+    search() {}
+    toggleBodyClass() {}
   }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        BootstrapModule,
         BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
+        RouterModule.forRoot([]),
         I18nTestingModule,
       ],
       declarations: [
         SearchBoxComponent,
-        MediaComponent,
         MockUrlPipe,
-        MockStripHtmlPipe,
+        MockHighlightPipe,
         MockCxIconComponent,
+        MockMediaComponent,
       ],
       providers: [
-        { provide: CmsService, useValue: MockCmsService },
         {
           provide: ProductSearchService,
           useValue: {},
         },
         {
           provide: CmsComponentData,
-          useValue: {
-            data$: of({}),
-          },
+          useClass: MockCmsComponentData,
+        },
+        {
+          provide: SearchBoxComponentService,
+          useClass: SearchBoxComponentServiceSpy,
         },
       ],
-    })
-      .overrideComponent(SearchBoxComponent, {
-        set: {
-          providers: [
-            {
-              provide: SearchBoxComponentService,
-              useClass: SearchBoxComponentServiceSpy,
-            },
-          ],
-        },
-      })
-
-      .compileComponents();
+    }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SearchBoxComponent);
-    searchBoxComponent = fixture.componentInstance;
+  describe('Default config', () => {
+    beforeEach(() => {
+      cmsComponentData = TestBed.get(CmsComponentData);
 
-    serviceSpy = fixture.debugElement.injector.get(
-      SearchBoxComponentService
-    ) as any;
+      spyOnProperty(cmsComponentData, 'data$').and.returnValue(
+        of(mockSearchBoxComponentData)
+      );
 
-    spyOn(searchBoxComponent, 'onKey').and.callThrough();
-    //    spyOn(searchBoxComponent, 'launchSearchPage').and.callThrough();
-    spyOn(searchBoxComponent.searchBoxControl, 'reset').and.callThrough();
-  });
+      fixture = TestBed.createComponent(SearchBoxComponent);
+      searchBoxComponent = fixture.componentInstance;
 
-  it('should be created', () => {
-    expect(searchBoxComponent).toBeTruthy();
-  });
+      serviceSpy = fixture.debugElement.injector.get(
+        SearchBoxComponentService
+      ) as any;
 
-  it('should search input value be equal to search query if was defined', () => {
-    fixture.detectChanges();
-    expect(searchBoxComponent.searchBoxControl.value).toEqual('test');
-  });
-
-  it('should dispatch new search query on text update', () => {
-    searchBoxComponent.searchBoxControl.setValue('testQuery');
-    expect(searchBoxComponent.searchBoxControl.value).toEqual('testQuery');
-    fixture.detectChanges();
-    expect(serviceSpy.typeahead).toHaveBeenCalled();
-  });
-
-  it('should dispatch new search query on input', () => {
-    searchBoxComponent.queryText = 'test input';
-    expect(searchBoxComponent.searchBoxControl.value).toEqual('test input');
-    fixture.detectChanges();
-    expect(serviceSpy.typeahead).toHaveBeenCalled();
-  });
-
-  it('should call onKey(event: any) and launchSearchPage(query: string)', () => {
-    searchBoxComponent.onKey(mockKeyEvent1);
-    expect(searchBoxComponent.onKey).toHaveBeenCalled();
-    expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
-  });
-
-  it('should only call onKey(event: any)', () => {
-    searchBoxComponent.onKey(mockKeyEvent2);
-    expect(searchBoxComponent.onKey).toHaveBeenCalled();
-    expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
-  });
-
-  describe('UI tests', () => {
-    it('should contain an input text field', () => {
-      expect(
-        fixture.debugElement.query(By.css('input[type="text"]'))
-      ).not.toBeNull();
+      spyOn(searchBoxComponent, 'search').and.callThrough();
     });
-    // TODO: UI test once auto complete is no longer with material
+
+    it('should be created', () => {
+      expect(searchBoxComponent).toBeTruthy();
+    });
+
+    it('should dispatch new results when search is executed', () => {
+      searchBoxComponent.search('testQuery');
+      fixture.detectChanges();
+      expect(serviceSpy.getResults).toHaveBeenCalled();
+    });
+
+    it('should dispatch new search query on input', () => {
+      searchBoxComponent.queryText = 'test input';
+      fixture.detectChanges();
+      expect(searchBoxComponent.search).toHaveBeenCalledWith('test input');
+    });
+
+    it('should launch the search page', () => {
+      const input = fixture.debugElement.query(By.css('input'));
+      input.triggerEventHandler('keydown.enter', {});
+      fixture.detectChanges();
+      expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
+    });
+
+    describe('UI tests', () => {
+      it('should contain an input text field', () => {
+        expect(fixture.debugElement.query(By.css('input'))).not.toBeNull();
+      });
+
+      it('should not contain search results panel', () => {
+        expect(fixture.debugElement.query(By.css('.results'))).toBeFalsy();
+      });
+
+      it('should contain search results panel after search input', async(() => {
+        searchBoxComponent.queryText = 'test input';
+        fixture.detectChanges();
+
+        expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
+      }));
+
+      it('should contain 2 suggestion after search', () => {
+        searchBoxComponent.queryText = 'te';
+        fixture.detectChanges();
+
+        expect(
+          fixture.debugElement.queryAll(By.css('.suggestions a')).length
+        ).toEqual(2);
+      });
+
+      it('should contain a message after search', () => {
+        searchBoxComponent.queryText = 'te';
+        fixture.detectChanges();
+
+        const el = fixture.debugElement.query(By.css('.results .message'));
+        expect(el).toBeTruthy();
+        expect((<HTMLElement>el.nativeElement).innerText).toEqual(
+          'I found stuff for you!'
+        );
+      });
+    });
+
+    it('should contain 1 product after search', () => {
+      searchBoxComponent.queryText = 'te';
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.queryAll(By.css('.products a')).length
+      ).toEqual(1);
+    });
+
+    it('should contain product image in search result', () => {
+      searchBoxComponent.queryText = 'te';
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(By.css('.products a:first-child cx-media'))
+      ).toBeTruthy();
+    });
+
+    it('should contain .has-media class', () => {
+      searchBoxComponent.queryText = 'te';
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.query(By.css('.products a:first-child.has-media'))
+      ).toBeTruthy();
+    });
+  });
+
+  describe('Searchbox config ', () => {
+    describe('displayProductImages=false', () => {
+      beforeEach(() => {
+        cmsComponentData = TestBed.get(CmsComponentData);
+
+        spyOnProperty(cmsComponentData, 'data$').and.returnValue(
+          of({
+            ...mockSearchBoxComponentData,
+            displayProductImages: false,
+          })
+        );
+
+        fixture = TestBed.createComponent(SearchBoxComponent);
+        searchBoxComponent = fixture.componentInstance;
+        fixture.detectChanges();
+      });
+
+      it('should have config', () => {
+        expect(searchBoxComponent.config.displayProductImages).toBeFalsy();
+      });
+
+      it('should not contain product image', () => {
+        expect(
+          fixture.debugElement.query(By.css('.products a:first-child cx-media'))
+        ).toBeNull();
+      });
+
+      it('should not contain .has-media class', () => {
+        expect(
+          fixture.debugElement.query(
+            By.css('.products a:first-child.has-media')
+          )
+        ).toBeFalsy();
+      });
+    });
+
+    describe('displaySuggestions=false', () => {
+      beforeEach(() => {
+        cmsComponentData = TestBed.get(CmsComponentData);
+
+        spyOnProperty(cmsComponentData, 'data$').and.returnValue(
+          of({
+            ...mockSearchBoxComponentData,
+            displaySuggestions: false,
+          })
+        );
+
+        fixture = TestBed.createComponent(SearchBoxComponent);
+        searchBoxComponent = fixture.componentInstance;
+
+        fixture.detectChanges();
+      });
+
+      it('should have displaySuggestions=false in config', () => {
+        expect(searchBoxComponent.config.displaySuggestions).toBeFalsy();
+      });
+    });
   });
 });

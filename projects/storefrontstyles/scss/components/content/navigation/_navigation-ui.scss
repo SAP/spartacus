@@ -56,10 +56,6 @@
         justify-content: var(--cx-justify-content, space-between);
         padding: var(--cx-padding, 0.5rem 1rem);
       }
-
-      @include media-breakpoint-only(lg) {
-        padding: var(--cx-padding, 0.5rem 0);
-      }
     }
     &-child-list {
       border-radius: var(--cx-border-radius, 0);

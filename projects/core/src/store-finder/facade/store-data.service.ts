@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Location } from '../model';
+import { PointOfService } from '../../model/point-of-service.model';
 
 @Injectable()
 export class StoreDataService {
@@ -18,7 +18,7 @@ export class StoreDataService {
    * Returns store latitude
    * @param location store location
    */
-  getStoreLatitude(location: Location): number {
+  getStoreLatitude(location: PointOfService): number {
     return location.geoPoint.latitude;
   }
 
@@ -26,7 +26,7 @@ export class StoreDataService {
    * Returns store longitude
    * @param location store location
    */
-  getStoreLongitude(location: Location): number {
+  getStoreLongitude(location: PointOfService): number {
     return location.geoPoint.longitude;
   }
 
@@ -35,7 +35,7 @@ export class StoreDataService {
    * @param location store location
    * @param date date to compare
    */
-  getStoreClosingTime(location: Location, date: Date): Date {
+  getStoreClosingTime(location: PointOfService, date: Date): Date {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result: Date = null;
 
@@ -57,7 +57,7 @@ export class StoreDataService {
    * @param location store location
    * @param date date to compare
    */
-  getStoreOpeningTime(location: Location, date: Date): Date {
+  getStoreOpeningTime(location: PointOfService, date: Date): Date {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result: Date = null;
 
@@ -79,7 +79,7 @@ export class StoreDataService {
    * @param location store location
    * @param date date to compare
    */
-  isStoreOpen(location: Location, date: Date): boolean {
+  isStoreOpen(location: PointOfService, date: Date): boolean {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result = false;
 
@@ -100,7 +100,7 @@ export class StoreDataService {
    *
    * @returns payload describing the store's schedule for the given day.
    */
-  private getSchedule(location: Location, date: Date): any {
+  protected getSchedule(location: PointOfService, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
     return location.openingHours.weekDayOpeningList.find(
       weekDayOpeningListItem => weekDayOpeningListItem.weekDay === weekday

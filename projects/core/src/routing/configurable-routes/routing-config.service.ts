@@ -4,13 +4,14 @@ import { RoutingConfig } from './config/routing-config';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingConfigService {
-  constructor(private config: RoutingConfig) {}
+  constructor(protected config: RoutingConfig) {}
 
   getRouteConfig(routeName: string): RouteConfig {
-    const routesConfig = this.config.routing.routes;
+    const routeConfig =
+      this.config && this.config.routing && this.config.routing.routes;
 
-    const result = routesConfig && routesConfig[routeName];
-    if (!routesConfig || result === undefined) {
+    const result = routeConfig && routeConfig[routeName];
+    if (!routeConfig || result === undefined) {
       this.warn(`No path was configured for the named route '${routeName}'!`);
     }
     return result;

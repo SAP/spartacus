@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import * as fromActions from '../actions/component.action';

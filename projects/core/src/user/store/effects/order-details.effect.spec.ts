@@ -7,8 +7,8 @@ import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { Observable, of, throwError } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 import { Order } from '../../../model/order.model';
-import { OrderConnector } from '../../connectors/order.connector';
-import { OrderAdapter } from '../../connectors/order.adapter';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 
 const mockOrderDetails: Order = {};
 
@@ -19,7 +19,7 @@ const mockOrderDetailsParams = {
 
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
-  let orderConnector: OrderConnector;
+  let orderConnector: UserOrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -27,14 +27,14 @@ describe('Order Details effect', () => {
       imports: [HttpClientTestingModule],
       providers: [
         fromOrderDetailsEffect.OrderDetailsEffect,
-        { provide: OrderAdapter, useValue: {} },
+        { provide: UserOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     actions$ = TestBed.get(Actions);
     orderDetailsEffect = TestBed.get(fromOrderDetailsEffect.OrderDetailsEffect);
-    orderConnector = TestBed.get(OrderConnector);
+    orderConnector = TestBed.get(UserOrderConnector);
   });
 
   describe('loadOrderDetails$', () => {

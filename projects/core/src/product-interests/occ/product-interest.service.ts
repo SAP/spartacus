@@ -9,7 +9,7 @@ import {
   ProductInterestRelation,
   ProductInterestEntry,
 } from '../model/product-interest.model';
-import { Image } from '../../occ';
+import { Image } from '../../model/image.model';
 
 @Injectable()
 export class OccProductInterestsService {

@@ -9,11 +9,11 @@ import { MiniCartModule } from './mini-cart/mini-cart.module';
 
 @NgModule({
   imports: [
+    CartModule,
+    NgbModule,
     CartDetailsModule,
     CartTotalsModule,
     CartSharedModule,
-    NgbModule,
-    CartModule,
   ],
   exports: [
     CartDetailsModule,

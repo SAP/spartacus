@@ -10,9 +10,11 @@ describe('CartPaymentConnector', () => {
   class MockCartPaymentAdapter implements CartPaymentAdapter {
     create = createSpy().and.returnValue(of({}));
     set = createSpy().and.returnValue(of({}));
+    loadCardTypes = createSpy().and.returnValue(of([]));
   }
 
   let service: CartPaymentConnector;
+  let adapter: CartPaymentAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,6 +24,7 @@ describe('CartPaymentConnector', () => {
     });
 
     service = TestBed.get(CartPaymentConnector);
+    adapter = TestBed.get(CartPaymentAdapter);
   });
 
   it('should be created', () => {
@@ -29,14 +32,19 @@ describe('CartPaymentConnector', () => {
   });
 
   it('create should call adapter', () => {
-    const adapter = TestBed.get(CartPaymentAdapter);
     service.create('1', '2', {}).subscribe();
     expect(adapter.create).toHaveBeenCalledWith('1', '2', {});
   });
 
   it('set should call adapter', () => {
-    const adapter = TestBed.get(CartPaymentAdapter);
     service.set('1', '2', '3').subscribe();
     expect(adapter.set).toHaveBeenCalledWith('1', '2', '3');
+  });
+
+  it('getCardTypes should call adapter', () => {
+    let result;
+    service.getCardTypes().subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.loadCardTypes).toHaveBeenCalledWith();
   });
 });

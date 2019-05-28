@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { OccUserService } from '../../occ/user.service';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 import * as fromAction from '../actions/notification-preference.action';
 import {
   BasicNotificationPreferenceList,
   NotificationPreferenceList,
-} from '../../model/user.model';
+} from '../../../model/notification-preference.model';
+
 @Injectable()
 export class NotificationPreferenceEffects {
   @Effect()
@@ -17,7 +18,7 @@ export class NotificationPreferenceEffects {
     ofType(fromAction.LOAD_NOTIFICATION_PREFERENCES),
     map((action: fromAction.LoadNotificationPreferences) => action.payload),
     switchMap(payload => {
-      return this.occUserService.getNotificationPreference(payload).pipe(
+      return this.userAccountConnector.getNotificationPreference(payload).pipe(
         map(
           (preferences: BasicNotificationPreferenceList) =>
             new fromAction.LoadNotificationPreferencesSuccess(preferences)
@@ -46,7 +47,7 @@ export class NotificationPreferenceEffects {
         });
       });
 
-      return this.occUserService
+      return this.userAccountConnector
         .updateNotificationPreference(
           payload.userId,
           notificationPreferenceList
@@ -66,6 +67,6 @@ export class NotificationPreferenceEffects {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAccountConnector: UserAccountConnector
   ) {}
 }

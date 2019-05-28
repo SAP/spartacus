@@ -17,6 +17,7 @@ export * from './titles.action';
 export * from './update-email.action';
 export * from './update-password.action';
 export * from './user-addresses.action';
+export * from './user-consents.action';
 export * from './user-details.action';
 export * from './user-orders.action';
 export * from './user-register.action';

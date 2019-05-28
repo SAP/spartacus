@@ -11,6 +11,9 @@
 
   .thumbs {
     display: flex;
+    &.hidden {
+      display: none;
+    }
     justify-content: flex-start;
 
     cx-media {
@@ -33,6 +36,7 @@
       &.active {
         border-color: var(--cx-border-color, var(--cx-g-color-primary));
       }
+      outline: none;
     }
   }
 }

@@ -11,13 +11,13 @@ import { CLEAR_MISCS_DATA } from '../actions/index';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { LoaderResetAction } from '../../../state';
 import { OrderHistoryList } from '../../../model/order.model';
-import { OrderConnector } from '../../connectors/order.connector';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 
 @Injectable()
 export class UserOrdersEffect {
   constructor(
     private actions$: Actions,
-    private orderConnector: OrderConnector
+    private orderConnector: UserOrderConnector
   ) {}
 
   @Effect()

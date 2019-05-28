@@ -9,9 +9,9 @@ import {
   StoreFinderCoreModule,
   UrlModule,
 } from '@spartacus/core';
+import { CmsModule } from '../../cms-structure/cms.module';
 import { LayoutConfig } from '../../layout/config/layout-config';
 import { BootstrapModule } from '../../lib/bootstrap.module';
-import { CmsModule } from '../../lib/cms/index';
 import { ListNavigationModule, SpinnerModule } from '../../shared/index';
 import {
   ScheduleComponent,

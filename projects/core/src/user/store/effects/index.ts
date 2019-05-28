@@ -9,6 +9,7 @@ import { TitlesEffects } from './titles.effect';
 import { UpdateEmailEffects } from './update-email.effect';
 import { UpdatePasswordEffects } from './update-password.effect';
 import { UserAddressesEffects } from './user-addresses.effect';
+import { UserConsentsEffect } from './user-consents.effect';
 import { UserDetailsEffects } from './user-details.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { UserRegisterEffects } from './user-register.effect';
@@ -28,6 +29,7 @@ export const effects: any[] = [
   ForgotPasswordEffects,
   UpdateEmailEffects,
   UpdatePasswordEffects,
+  UserConsentsEffect,
   NotificationPreferenceEffects,
 ];
 
@@ -39,6 +41,7 @@ export * from './regions.effect';
 export * from './reset-password.effect';
 export * from './titles.effect';
 export * from './user-addresses.effect';
+export * from './user-consents.effect';
 export * from './user-details.effect';
 export * from './user-orders.effect';
 export * from './user-register.effect';

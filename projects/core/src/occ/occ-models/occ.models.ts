@@ -776,13 +776,13 @@ export namespace Occ {
      */
     formattedHour?: string;
     /**
-     * @member {Uint8Array} [hour]
+     * @member {number} [hour]
      */
-    hour?: Uint8Array;
+    hour?: number;
     /**
-     * @member {Uint8Array} [minute]
+     * @member {number} [minute]
      */
-    minute?: Uint8Array;
+    minute?: number;
   }
 
   /**
@@ -2844,6 +2844,17 @@ export namespace Occ {
     uid?: string;
   }
 
+  export interface StoreCount {
+    count?: number;
+    isoCode?: string;
+    name?: string;
+    type?: string;
+  }
+
+  export interface StoreCountList {
+    countriesAndRegionsStoreCount?: StoreCount[];
+  }
+
   /**
    *
    * An interface representing VoucherList.
@@ -3925,5 +3936,23 @@ export namespace Occ {
     All = 'all',
     Product = 'product',
     Order = 'order',
+  }
+
+  export interface ConsentTemplate {
+    id?: string;
+    name?: string;
+    description?: string;
+    version?: number;
+    currentConsent?: Consent;
+  }
+
+  export interface Consent {
+    code?: string;
+    consentGivenDate?: Date;
+    consentWithdrawnDate?: Date;
+  }
+
+  export interface ConsentTemplateList {
+    consentTemplates?: ConsentTemplate[];
   }
 }

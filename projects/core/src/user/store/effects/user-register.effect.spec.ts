@@ -1,24 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
-import { OccUserService, UserRegisterFormData } from '../../../user/index';
+import { UserSignUp } from '../../../model/misc.model';
 import { LoadUserToken, Logout } from '../../../auth/index';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 
-class MockUserService {
-  registerUser(_user: UserRegisterFormData): Observable<any> {
-    return;
-  }
-  removeUser(_userId: String): Observable<any> {
-    return;
-  }
-}
-
-const user: UserRegisterFormData = {
+const user: UserSignUp = {
   firstName: '',
   lastName: '',
   password: '',
@@ -29,7 +22,7 @@ const user: UserRegisterFormData = {
 describe('UserRegister effect', () => {
   let effect: UserRegisterEffects;
   let actions$: Observable<any>;
-  let userService: OccUserService;
+  let userService: UserAccountConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,16 +34,16 @@ describe('UserRegister effect', () => {
       ],
       providers: [
         UserRegisterEffects,
-        { provide: OccUserService, useClass: MockUserService },
+        { provide: UserAccountAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(UserRegisterEffects);
-    userService = TestBed.get(OccUserService);
+    userService = TestBed.get(UserAccountConnector);
 
-    spyOn(userService, 'registerUser').and.returnValue(of({}));
-    spyOn(userService, 'removeUser').and.returnValue(of({}));
+    spyOn(userService, 'register').and.returnValue(of({}));
+    spyOn(userService, 'remove').and.returnValue(of({}));
   });
 
   describe('registerUser$', () => {

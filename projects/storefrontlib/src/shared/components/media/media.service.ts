@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '@spartacus/core';
-import { BREAKPOINT, LayoutConfig } from '../../../layout/index';
+import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { missingProductImgSrc } from '../../../lib/ui/images/missingProduct';
 import { Media, MediaFormats } from './media.model';
 
@@ -29,11 +29,11 @@ export class MediaService {
     },
   ];
 
-  getImage(media, format?: string, alt?: string): Media {
+  getMedia(container, format?: string, alt?: string): Media {
     return {
-      src: this.getMainImage(media, format),
-      srcset: this.getSrcSet(media),
-      alt: alt || this.getAlt(media, format),
+      src: this.getMainImage(container, format),
+      srcset: this.getSrcSet(container),
+      alt: alt || this.getAlt(container, format),
     };
   }
 

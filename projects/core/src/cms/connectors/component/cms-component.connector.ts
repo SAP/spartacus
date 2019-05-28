@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { CmsComponent } from '../../../occ/occ-models/index';
-import { CmsComponentAdapter } from './cms-component.adapter';
-import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
+import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/models/page-context.model';
+import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
+import { CmsComponentAdapter } from './cms-component.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +46,7 @@ export class CmsComponentConnector {
 
         if (missingIds.length > 0) {
           return this.adapter
-            .loadList(missingIds, pageContext)
+            .findComponentsByIds(missingIds, pageContext)
             .pipe(
               map(loadedComponents => [
                 ...configuredComponents.filter(Boolean),
