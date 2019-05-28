@@ -4,8 +4,15 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
-import { OccUserAdapter } from './occ-user-account.adapter';
-import { ConverterService, Occ, TITLE_NORMALIZER } from '@spartacus/core';
+import { OccUserAdapter } from './occ-user.adapter';
+import {
+  ConverterService,
+  Occ,
+  TITLE_NORMALIZER,
+  User,
+  USER_NORMALIZER,
+  USER_SERIALIZER,
+} from '@spartacus/core';
 
 const endpoint = '/users';
 const forgotPasswordEndpoint = '/forgottenpasswordtokens';
@@ -26,7 +33,15 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccUserAccountAdapter', () => {
+const username = 'mockUsername';
+const password = '1234';
+
+const user: User = {
+  customerId: username,
+  displayUid: password,
+};
+
+describe('OccUserAdapter', () => {
   let service: OccUserAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
@@ -44,10 +59,65 @@ describe('OccUserAccountAdapter', () => {
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   afterEach(() => {
     httpMock.verify();
+  });
+
+  describe('load user details', () => {
+    it('should load user details for given username and access token', () => {
+      service.load(username).subscribe(result => {
+        expect(result).toEqual(user);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET' && req.url === endpoint + `/${username}`;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(user);
+    });
+
+    it('should use converter', () => {
+      service.load(username).subscribe();
+      httpMock.expectOne(endpoint + `/${username}`).flush(user);
+      expect(converter.pipeable).toHaveBeenCalledWith(USER_NORMALIZER);
+    });
+  });
+
+  describe('update user details', () => {
+    it('should update user details for the given username', () => {
+      const userUpdates: User = {
+        title: 'mr',
+      };
+      service.update(username, userUpdates).subscribe(_ => _);
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'PATCH' && req.url === endpoint + `/${username}`;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.body).toEqual(userUpdates);
+      mockReq.flush(userUpdates);
+    });
+
+    it('should use converter', () => {
+      const userUpdates: User = {
+        title: 'mr',
+      };
+
+      service.update(username, userUpdates).subscribe();
+      httpMock.expectOne(endpoint + `/${username}`).flush(userUpdates);
+      expect(converter.convert).toHaveBeenCalledWith(
+        userUpdates,
+        USER_SERIALIZER
+      );
+    });
   });
 
   describe('forgot password: ', () => {

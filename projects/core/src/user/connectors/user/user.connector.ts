@@ -9,6 +9,14 @@ import { UserAdapter } from './user.adapter';
 export class UserConnector {
   constructor(protected adapter: UserAdapter) {}
 
+  get(userId: string): Observable<User> {
+    return this.adapter.load(userId);
+  }
+
+  update(username: string, user: User): Observable<{}> {
+    return this.adapter.update(username, user);
+  }
+
   register(user: UserSignUp): Observable<User> {
     return this.adapter.register(user);
   }

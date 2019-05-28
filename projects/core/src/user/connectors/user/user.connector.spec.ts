@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { UserSignUp } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import { UserAdapter } from './user-account.adapter';
-import { UserConnector } from './user-account.connector';
+import { UserAdapter } from './user.adapter';
+import { UserConnector } from './user.connector';
 import createSpy = jasmine.createSpy;
 
-class MockUserAccountAdapter implements UserAdapter {
+class MockUserAdapter implements UserAdapter {
+  load = createSpy('load').and.callFake(userId => of(`load-${userId}`));
+  update = createSpy('update').and.returnValue(of({}));
   register = createSpy('register').and.callFake(userId => of(userId));
   remove = createSpy('remove').and.returnValue(of({}));
   requestForgotPasswordEmail = createSpy(
@@ -17,14 +19,14 @@ class MockUserAccountAdapter implements UserAdapter {
   loadTitles = createSpy('loadTitles').and.returnValue(of([]));
 }
 
-describe('UserAccountConnector', () => {
+describe('UserConnector', () => {
   let service: UserConnector;
   let adapter: UserAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: UserAdapter, useClass: MockUserAccountAdapter },
+        { provide: UserAdapter, useClass: MockUserAdapter },
       ],
     });
 
@@ -34,6 +36,20 @@ describe('UserAccountConnector', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('get should call adapter', () => {
+    let result;
+    service.get('user-id').subscribe(res => (result = res));
+    expect(result).toEqual('load-user-id');
+    expect(adapter.load).toHaveBeenCalledWith('user-id');
+  });
+
+  it('update should call adapter', () => {
+    let result;
+    service.update('user-id', {}).subscribe(res => (result = res));
+    expect(result).toEqual({});
+    expect(adapter.update).toHaveBeenCalledWith('user-id', {});
   });
 
   it('register should call adapter', () => {

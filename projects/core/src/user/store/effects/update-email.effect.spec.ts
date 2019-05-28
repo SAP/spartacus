@@ -5,8 +5,8 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import * as fromAction from '../actions/update-email.action';
 import * as fromEffect from './update-email.effect';
-import { UserConnector } from '../../connectors/user/user-account.connector';
-import { UserAdapter } from '../../connectors/user/user-account.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 describe('Update Email Effect', () => {
   let updateEmailEffect: fromEffect.UpdateEmailEffects;

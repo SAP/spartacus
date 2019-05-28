@@ -10,8 +10,8 @@ import * as fromActions from './../actions';
 
 import { ForgotPasswordEffects } from './forgot-password.effect';
 import { GlobalMessageType, AddMessage } from '../../../global-message/index';
-import { UserConnector } from '../../connectors/user/user-account.connector';
-import { UserAdapter } from '../../connectors/user/user-account.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 describe('', () => {
   let service: UserConnector;

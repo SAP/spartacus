@@ -9,7 +9,7 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 
 import { TitlesEffects } from '.';
-import { UserConnector } from '../../connectors/user/user-account.connector';
+import { UserConnector } from '../../connectors/user/user.connector';
 import { Title, UserAdapter } from '@spartacus/core';
 
 const mockTitles: Title[] = [

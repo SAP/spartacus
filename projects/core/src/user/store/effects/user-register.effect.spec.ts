@@ -8,8 +8,8 @@ import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
 import { UserSignUp } from '../../../model/misc.model';
 import { LoadUserToken, Logout } from '../../../auth/index';
-import { UserConnector } from '../../connectors/user/user-account.connector';
-import { UserAdapter } from '../../connectors/user/user-account.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 const user: UserSignUp = {
   firstName: '',

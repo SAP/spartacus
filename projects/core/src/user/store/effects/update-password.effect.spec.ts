@@ -5,8 +5,8 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import * as fromActions from '../actions/update-password.action';
 import * as fromEffects from './update-password.effect';
-import { UserConnector } from '../../connectors/user/user-account.connector';
-import { UserAdapter } from '../../connectors/user/user-account.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 describe('Update Password Effect', () => {
   let updatePasswordEffect: fromEffects.UpdatePasswordEffects;

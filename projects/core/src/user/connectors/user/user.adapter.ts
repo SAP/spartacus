@@ -2,6 +2,10 @@ import { Observable } from 'rxjs';
 import { Title, User, UserSignUp } from '../../../model/misc.model';
 
 export abstract class UserAdapter {
+  abstract load(userId: string): Observable<User>;
+
+  abstract update(username: string, user: User): Observable<{}>;
+
   abstract register(user: UserSignUp): Observable<User>;
 
   abstract requestForgotPasswordEmail(userEmailAddress: string): Observable<{}>;

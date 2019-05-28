@@ -4,7 +4,7 @@ import { UserConsentAdapter } from './user-consent.adapter';
 import { UserConsentConnector } from './user-consent.connector';
 import createSpy = jasmine.createSpy;
 
-class MockUserAccountAdapter implements UserConsentAdapter {
+class MockUserAdapter implements UserConsentAdapter {
   loadConsents = createSpy('loadConsents').and.returnValue(of({}));
   giveConsent = createSpy('giveConsent').and.returnValue(of({}));
   withdrawConsent = createSpy('withdrawConsent').and.returnValue(of({}));
@@ -17,7 +17,7 @@ describe('UserConsentConnector', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: UserConsentAdapter, useClass: MockUserAccountAdapter },
+        { provide: UserConsentAdapter, useClass: MockUserAdapter },
       ],
     });
 
