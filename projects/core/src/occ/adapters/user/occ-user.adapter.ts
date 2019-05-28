@@ -12,8 +12,8 @@ import { ConverterService } from '../../../util/converter.service';
 import {
   TITLE_NORMALIZER,
   USER_SIGN_UP_SERIALIZER,
-} from '../../../user/connectors/account/converters';
-import { UserAccountAdapter } from '../../../user/connectors/account/user-account.adapter';
+} from '../../../user/connectors/user/converters';
+import { UserAdapter } from '../../../user/connectors/user/user.adapter';
 import { USER_NORMALIZER } from '../../../user/connectors/details/converters';
 import { Occ } from '../../occ-models';
 
@@ -25,7 +25,7 @@ const UPDATE_PASSWORD_ENDPOINT = '/password';
 const TITLES_ENDPOINT = 'titles';
 
 @Injectable()
-export class OccUserAccountAdapter implements UserAccountAdapter {
+export class OccUserAdapter implements UserAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

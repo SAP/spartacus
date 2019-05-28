@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
-import { OccUserAccountAdapter } from './occ-user-account.adapter';
+import { OccUserAdapter } from './occ-user-account.adapter';
 import { ConverterService, Occ, TITLE_NORMALIZER } from '@spartacus/core';
 
 const endpoint = '/users';
@@ -27,7 +27,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 describe('OccUserAccountAdapter', () => {
-  let service: OccUserAccountAdapter;
+  let service: OccUserAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -35,12 +35,12 @@ describe('OccUserAccountAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccUserAccountAdapter,
+        OccUserAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccUserAccountAdapter);
+    service = TestBed.get(OccUserAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeableMany').and.callThrough();

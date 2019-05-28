@@ -7,7 +7,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/user-register.action';
 import { LoadUserToken, Logout } from '../../../auth/index';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserConnector } from '../../connectors/user/user.connector';
 import { UserSignUp } from '../../../model/misc.model';
 
 @Injectable()
@@ -51,6 +51,6 @@ export class UserRegisterEffects {
 
   constructor(
     private actions$: Actions,
-    private userAccountConnector: UserAccountConnector
+    private userAccountConnector: UserConnector
   ) {}
 }

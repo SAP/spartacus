@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { UserSignUp } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import { UserAccountAdapter } from './user-account.adapter';
-import { UserAccountConnector } from './user-account.connector';
+import { UserAdapter } from './user-account.adapter';
+import { UserConnector } from './user-account.connector';
 import createSpy = jasmine.createSpy;
 
-class MockUserAccountAdapter implements UserAccountAdapter {
+class MockUserAccountAdapter implements UserAdapter {
   register = createSpy('register').and.callFake(userId => of(userId));
   remove = createSpy('remove').and.returnValue(of({}));
   requestForgotPasswordEmail = createSpy(
@@ -18,18 +18,18 @@ class MockUserAccountAdapter implements UserAccountAdapter {
 }
 
 describe('UserAccountConnector', () => {
-  let service: UserAccountConnector;
-  let adapter: UserAccountAdapter;
+  let service: UserConnector;
+  let adapter: UserAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: UserAccountAdapter, useClass: MockUserAccountAdapter },
+        { provide: UserAdapter, useClass: MockUserAccountAdapter },
       ],
     });
 
-    service = TestBed.get(UserAccountConnector);
-    adapter = TestBed.get(UserAccountAdapter);
+    service = TestBed.get(UserConnector);
+    adapter = TestBed.get(UserAdapter);
   });
 
   it('should be created', () => {
