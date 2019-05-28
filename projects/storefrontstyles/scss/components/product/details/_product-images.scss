@@ -30,6 +30,9 @@ $zoomOutWhileLoading: false !default;
       &:after {
         @extend %spinner !optional;
       }
+      &:not(.is-loading):after {
+        animation-play-state: paused;
+      }
     }
 
     // the effects run always, but are made visible only when loading or waiting
