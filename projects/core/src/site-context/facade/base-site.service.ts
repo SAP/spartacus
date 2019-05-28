@@ -3,16 +3,23 @@ import { Observable } from 'rxjs';
 import { SiteContext } from './site-context.interface';
 import { select, Store } from '@ngrx/store';
 import { filter, map, take } from 'rxjs/operators';
-import { getActiveBaseSite } from '../store/selectors/base-site.selectors';
+import {
+  getActiveBaseSite,
+  getBaseSiteData,
+} from '../store/selectors/base-site.selectors';
 import { StateWithSiteContext } from '../store/state';
-import { SetActiveBaseSite } from '../store/actions/base-site.action';
+import {
+  SetActiveBaseSite,
+  LoadBaseSite,
+} from '../store/actions/base-site.action';
+import { BaseSite } from '../../model/misc.model';
 
 @Injectable()
 export class BaseSiteService implements SiteContext<string> {
   constructor(protected store: Store<StateWithSiteContext>) {}
 
   /**
-   * Represents the current baseSite.
+   * Represents the current baseSite uid.
    */
   getActive(): Observable<string> {
     return this.store.pipe(
@@ -35,8 +42,9 @@ export class BaseSiteService implements SiteContext<string> {
         take(1)
       )
       .subscribe(activeBaseSite => {
-        if (activeBaseSite !== baseSite) {
+        if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(new SetActiveBaseSite(baseSite));
+          this.store.dispatch(new LoadBaseSite());
         }
       });
   }
@@ -46,5 +54,15 @@ export class BaseSiteService implements SiteContext<string> {
    */
   initialize(defaultBaseSite: string) {
     this.setActive(defaultBaseSite);
+  }
+
+  /**
+   * Get the base site details data
+   */
+  getBaseSiteData(): Observable<BaseSite> {
+    return this.store.pipe(
+      select(getBaseSiteData),
+      filter(Boolean)
+    );
   }
 }
