@@ -6,10 +6,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  RoutingService,
   Title,
   UserService,
   UserToken,
+  AuthRedirectService,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -43,14 +43,8 @@ class MockAuthService {
   }
 }
 
-class MockRoutingService {
-  goByUrl = createSpy();
-  go = createSpy();
-  clearRedirectUrl = createSpy();
-
-  getRedirectUrl() {
-    return of();
-  }
+class MockRedirectAfterAuthService {
+  redirect = createSpy('AuthRedirectService.redirect');
 }
 
 class MockUserService {
@@ -81,7 +75,7 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let routingService: MockRoutingService;
+  let authRedirectService: AuthRedirectService;
   let userService: MockUserService;
   let globalMessageService: MockGlobalMessageService;
 
@@ -90,7 +84,10 @@ describe('RegisterComponent', () => {
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockUrlPipe],
       providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
         { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -100,7 +97,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    routingService = TestBed.get(RoutingService);
+    authRedirectService = TestBed.get(AuthRedirectService);
     userService = TestBed.get(UserService);
     globalMessageService = TestBed.get(GlobalMessageService);
     component = fixture.componentInstance;
@@ -140,29 +137,6 @@ describe('RegisterComponent', () => {
           done();
         })
         .unsubscribe();
-    });
-
-    it('should remove error messages', () => {
-      spyOn(globalMessageService, 'remove').and.callThrough();
-      component.ngOnInit();
-      expect(globalMessageService.remove).toHaveBeenCalledWith(
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
-
-    it('should go to redirect url after registration', () => {
-      spyOn(routingService, 'getRedirectUrl').and.returnValue(of('testUrl'));
-      component.ngOnInit();
-
-      expect(routingService.goByUrl).toHaveBeenCalledWith('testUrl');
-      expect(routingService.clearRedirectUrl).toHaveBeenCalled();
-    });
-
-    it('should go to home page after registration', () => {
-      spyOn(routingService, 'getRedirectUrl').and.returnValue(of(undefined));
-      component.ngOnInit();
-
-      expect(routingService.go).toHaveBeenCalledWith(['/']);
     });
   });
 
@@ -239,9 +213,13 @@ describe('RegisterComponent', () => {
   });
 
   describe('submit', () => {
-    it('should submit form', () => {
+    beforeEach(() => {
+      spyOn(globalMessageService, 'remove').and.callThrough();
       spyOn(userService, 'register').and.stub();
       component.submit();
+    });
+
+    it('should submit form', () => {
       expect(userService.register).toHaveBeenCalledWith({
         firstName: '',
         lastName: '',
@@ -249,6 +227,13 @@ describe('RegisterComponent', () => {
         password: '',
         titleCode: '',
       });
+    });
+
+    it('should go to redirect url after registration and remove error messages', () => {
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+      expect(globalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

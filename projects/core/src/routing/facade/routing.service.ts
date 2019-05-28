@@ -93,28 +93,6 @@ export class RoutingService {
   }
 
   /**
-   * Get the redirect url from store
-   */
-  getRedirectUrl(): Observable<string> {
-    return this.store.pipe(select(fromStore.getRedirectUrl));
-  }
-
-  /**
-   * Remove the redirect url from store
-   */
-  clearRedirectUrl(): void {
-    this.store.dispatch(new fromStore.ClearRedirectUrl());
-  }
-
-  /**
-   * Put redirct url into store
-   * @param url: redirect url
-   */
-  saveRedirectUrl(url: string): void {
-    this.store.dispatch(new fromStore.SaveRedirectUrl(url));
-  }
-
-  /**
    * Navigation with a new state into history
    * @param path
    * @param query
