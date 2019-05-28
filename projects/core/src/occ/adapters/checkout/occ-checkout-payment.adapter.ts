@@ -4,7 +4,7 @@ import { CustomEncoder } from '../cart/custom.encoder';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/cart-payment.adapter';
+import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import {
   CARD_TYPE_NORMALIZER,

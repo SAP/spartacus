@@ -5,7 +5,7 @@ import { Occ } from '../../occ-models/occ.models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, pluck } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/cart-delivery.adapter';
+import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/checkout-delivery.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import {
   DELIVERY_ADDRESS_NORMALIZER,

@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromAction from '../actions/card-types.action';
-import { CheckoutPaymentConnector } from '../../connectors/payment/cart-payment.connector';
+import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 
 @Injectable()
 export class CardTypesEffects {

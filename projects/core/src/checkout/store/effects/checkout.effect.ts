@@ -8,8 +8,8 @@ import * as fromUserActions from '../../../user/store/actions/index';
 import * as fromCartActions from './../../../cart/store/actions/index';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
-import { CheckoutDeliveryConnector } from '../../connectors/delivery/cart-delivery.connector';
-import { CheckoutPaymentConnector } from '../../connectors/payment/cart-payment.connector';
+import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
+import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 
 @Injectable()
