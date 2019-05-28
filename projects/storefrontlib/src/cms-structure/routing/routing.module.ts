@@ -3,7 +3,7 @@ import {
   ConfigModule,
   RoutingModule as CoreRoutingModule,
 } from '@spartacus/core';
-import { CmsRouteModule } from './cms-route';
+import { CmsRouteModule } from './cms-route/index';
 import { defaultRoutingConfig } from './default-routing-config';
 
 @NgModule({

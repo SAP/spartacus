@@ -10,14 +10,14 @@ import {
   SmartEditModule,
   StateModule,
 } from '@spartacus/core';
-import { CartPageModule } from '../cms-components/cart/cart-page/cart-page.module';
-import { CmsLibModule, ProductPageModule } from '../cms-components/index';
-import { CmsModule } from '../cms-structure/cms.module';
-import { RoutingModule } from '../cms-structure/routing/routing.module';
-import { LayoutModule } from '../layout/layout.module';
-import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
-import { StorefrontModuleConfig } from './storefront-config';
-import { OrderConfirmationPageModule } from './ui/pages/order-confirmation-page/order-confirmation-page.module';
+import { CartPageModule } from './cms-components/cart/cart-page/cart-page.module';
+import { CmsLibModule, ProductPageModule } from './cms-components/index';
+import { CmsModule } from './cms-structure/cms.module';
+import { RoutingModule } from './cms-structure/routing/routing.module';
+import { provideConfigFromMetaTags } from './config/provide-config-from-meta-tags';
+import { StorefrontModuleConfig } from './config/storefront-config';
+import { LayoutModule } from './layout/layout.module';
+import { OrderConfirmationPageModule } from './lib/ui/pages/order-confirmation-page/order-confirmation-page.module';
 
 @NgModule({
   imports: [
