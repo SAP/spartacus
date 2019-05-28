@@ -109,7 +109,7 @@ describe('OccSiteAdapter', () => {
     });
   });
 
-  describe('loadDeliveryCountries', () => {
+  describe('loadCountries', () => {
     it('should return delivery countries list', () => {
       const countryList: Occ.CountryList = {
         countries: [
@@ -124,7 +124,7 @@ describe('OccSiteAdapter', () => {
         ],
       };
 
-      service.loadDeliveryCountries().subscribe(result => {
+      service.loadCountries().subscribe(result => {
         expect(result).toEqual(countryList.countries);
       });
 
@@ -138,7 +138,7 @@ describe('OccSiteAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.loadDeliveryCountries().subscribe();
+      service.loadCountries().subscribe();
       httpMock
         .expectOne(req => {
           return req.method === 'GET' && req.url === '/countries';
