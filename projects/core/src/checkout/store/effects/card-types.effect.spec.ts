@@ -12,8 +12,8 @@ import * as fromActions from './../actions/index';
 import { CardTypesEffects } from '.';
 import {
   CardType,
-  CartPaymentAdapter,
-  CartPaymentConnector,
+  CheckoutPaymentAdapter,
+  CheckoutPaymentConnector,
 } from '@spartacus/core';
 
 const mockCardTypes: CardType[] = [
@@ -28,7 +28,7 @@ const mockCardTypes: CardType[] = [
 ];
 
 describe('Card Types effect', () => {
-  let service: CartPaymentConnector;
+  let service: CheckoutPaymentConnector;
   let effect: CardTypesEffects;
   let actions$: Observable<Action>;
 
@@ -36,13 +36,13 @@ describe('Card Types effect', () => {
     TestBed.configureTestingModule({
       providers: [
         CardTypesEffects,
-        { provide: CartPaymentAdapter, useValue: {} },
+        { provide: CheckoutPaymentAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(CardTypesEffects);
-    service = TestBed.get(CartPaymentConnector);
+    service = TestBed.get(CheckoutPaymentConnector);
 
     spyOn(service, 'getCardTypes').and.returnValue(of(mockCardTypes));
   });

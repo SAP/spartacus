@@ -144,14 +144,11 @@ describe('UpdateEmailComponent', () => {
   it('should call updateEmail on submit', () => {
     spyOn(userService, 'updateEmail').and.stub();
 
-    const uid = 'test@sap.com';
     const newUid = 'tester@sap.com';
     const password = 'Qwe123!';
 
-    component['uid'] = uid;
-
     component.onSubmit({ newUid, password });
-    expect(userService.updateEmail).toHaveBeenCalledWith(uid, password, newUid);
+    expect(userService.updateEmail).toHaveBeenCalledWith(password, newUid);
   });
 
   it('should call the internal onSuccess() method when the user was successfully updated', () => {

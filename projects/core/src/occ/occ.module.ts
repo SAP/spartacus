@@ -11,12 +11,14 @@ import { ProductOccModule } from './adapters/product/product-occ.module';
 import { SiteContextOccModule } from './adapters/site-context/site-context-occ.module';
 import { StoreFinderOccModule } from './adapters/store-finder/store-finder-occ.module';
 import { UserOccModule } from './adapters/user/user-occ.module';
+import { CheckoutOccModule } from './adapters/checkout/checkout-occ.module';
 
 @NgModule({
   imports: [
     ConfigModule.withConfig(defaultOccConfig),
     CmsOccModule,
     CartOccModule,
+    CheckoutOccModule,
     ProductOccModule,
     SiteContextOccModule,
     StoreFinderOccModule,
