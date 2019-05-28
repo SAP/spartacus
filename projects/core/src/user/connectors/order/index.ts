@@ -1,3 +1,3 @@
-export * from './order.connector';
-export * from './order.adapter';
+export * from './user-order.connector';
+export * from './user-order.adapter';
 export * from './converters';

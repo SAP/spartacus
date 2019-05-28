@@ -1,6 +1,3 @@
-export interface ConsentTemplateList {
-  consentTemplates?: ConsentTemplate[];
-}
 export interface ConsentTemplate {
   id?: string;
   name?: string;
@@ -8,6 +5,7 @@ export interface ConsentTemplate {
   version?: number;
   currentConsent?: Consent;
 }
+
 export interface Consent {
   code?: string;
   consentGivenDate?: Date;
