@@ -3,14 +3,13 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccCartDeliveryAdapter } from './occ-cart-delivery.adapter';
+import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 import { ConverterService } from '../../../util/converter.service';
+import { DELIVERY_MODE_NORMALIZER, OccConfig } from '@spartacus/core';
 import {
-  DELIVERY_ADDRESS_NORMALIZER,
-  DELIVERY_ADDRESS_SERIALIZER,
-  DELIVERY_MODE_NORMALIZER,
-  OccConfig,
-} from '@spartacus/core';
+  ADDRESS_NORMALIZER,
+  ADDRESS_SERIALIZER,
+} from '../../../user/connectors/address/converters';
 import { Cart } from '../../../model/cart.model';
 import { Address } from '../../../model/address.model';
 import { Occ } from '../../occ-models/occ.models';
@@ -37,8 +36,8 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccCartDeliveryAdapter', () => {
-  let service: OccCartDeliveryAdapter;
+describe('OccCheckoutDeliveryAdapter', () => {
+  let service: OccCheckoutDeliveryAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -46,12 +45,12 @@ describe('OccCartDeliveryAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCartDeliveryAdapter,
+        OccCheckoutDeliveryAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccCartDeliveryAdapter);
+    service = TestBed.get(OccCheckoutDeliveryAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
 
@@ -93,12 +92,10 @@ describe('OccCartDeliveryAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockAddress);
       expect(result).toEqual(mockAddress);
-      expect(converter.pipeable).toHaveBeenCalledWith(
-        DELIVERY_ADDRESS_NORMALIZER
-      );
+      expect(converter.pipeable).toHaveBeenCalledWith(ADDRESS_NORMALIZER);
       expect(converter.convert).toHaveBeenCalledWith(
         mockAddress,
-        DELIVERY_ADDRESS_SERIALIZER
+        ADDRESS_SERIALIZER
       );
     });
   });
