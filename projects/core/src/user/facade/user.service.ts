@@ -4,8 +4,10 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -19,7 +21,6 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
-import { ConsentTemplate } from '../../model/consent.model';
 
 @Injectable()
 export class UserService {
@@ -54,11 +55,9 @@ export class UserService {
 
   /**
    * Remove user account, that's also called close user's account
-   *
-   * @param userId
    */
-  remove(userId: string): void {
-    this.store.dispatch(new fromStore.RemoveUser(userId));
+  remove(): void {
+    this.store.dispatch(new fromStore.RemoveUser(USERID_CURRENT));
   }
 
   /**
@@ -106,13 +105,12 @@ export class UserService {
   /**
    * Retrieves order's details
    *
-   * @param userId a user's ID
    * @param orderCode an order code
    */
-  loadOrderDetails(userId: string, orderCode: string): void {
+  loadOrderDetails(orderCode: string): void {
     this.store.dispatch(
       new fromStore.LoadOrderDetails({
-        userId: userId,
+        userId: USERID_CURRENT,
         orderCode: orderCode,
       })
     );
@@ -128,10 +126,7 @@ export class UserService {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(
-    userId: string,
-    pageSize: number
-  ): Observable<OrderHistoryList> {
+  getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
       select(fromStore.getOrdersState),
       tap(orderListState => {
@@ -139,8 +134,8 @@ export class UserService {
           orderListState.loading ||
           orderListState.success ||
           orderListState.error;
-        if (!attemptedLoad && !!userId) {
-          this.loadOrderList(userId, pageSize);
+        if (!attemptedLoad) {
+          this.loadOrderList(pageSize);
         }
       }),
       map(orderListState => orderListState.value)
@@ -207,20 +202,14 @@ export class UserService {
 
   /**
    * Retrieves an order list
-   * @param userId a user ID
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
    */
-  loadOrderList(
-    userId: string,
-    pageSize: number,
-    currentPage?: number,
-    sort?: string
-  ): void {
+  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
       new fromStore.LoadUserOrders({
-        userId: userId,
+        userId: USERID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
@@ -392,9 +381,9 @@ export class UserService {
    * Updates the user's details
    * @param userDetails to be updated
    */
-  updatePersonalDetails(username: string, userDetails: User): void {
+  updatePersonalDetails(userDetails: User): void {
     this.store.dispatch(
-      new fromStore.UpdateUserDetails({ username, userDetails })
+      new fromStore.UpdateUserDetails({ username: USERID_CURRENT, userDetails })
     );
   }
 
@@ -500,13 +489,13 @@ export class UserService {
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
    */
-  updatePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string
-  ): void {
+  updatePassword(oldPassword: string, newPassword: string): void {
     this.store.dispatch(
-      new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+      new fromStore.UpdatePassword({
+        userId: USERID_CURRENT,
+        oldPassword,
+        newPassword,
+      })
     );
   }
 

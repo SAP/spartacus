@@ -1,5 +1,5 @@
-import * as helper from '../../helpers/login';
 import { login } from '../../helpers/auth-forms';
+import * as helper from '../../helpers/login';
 
 describe('My Account - Update Password', () => {
   const PAGE_TITLE_UPDATE_PASSWORD = 'Update Password';
@@ -19,15 +19,29 @@ describe('My Account - Update Password', () => {
     const newPassword = 'newPassword123!';
 
     before(() => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+      });
       cy.visit('/');
       user = helper.registerUser();
-      helper.signOutUser();
     });
 
     beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    beforeEach(() => {
+      cy.visit(PAGE_URL_UPDATE_PASSWORD);
+      cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
+      cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
+    });
+
+    it('should access the update password page from the menu.', () => {
       cy.visit('/');
-      cy.contains(/Sign In/i).click();
-      login(user.email, user.password);
       cy.selectUserMenuOption('Password');
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
       cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
@@ -37,7 +51,6 @@ describe('My Account - Update Password', () => {
       cy.get('cx-update-password button[type="button"]').click();
       cy.title().should('eq', PAGE_TITLE_HOME);
       cy.get('cx-global-message .alert').should('not.exist');
-      helper.signOutUser();
     });
 
     it('should display server error if old password is wrong.', () => {
@@ -48,8 +61,6 @@ describe('My Account - Update Password', () => {
       cy.get('cx-update-password button[type="submit"]').click();
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
       cy.get('cx-global-message .alert-danger').should('exist');
-      cy.visit('/');
-      helper.signOutUser();
     });
 
     it('should update the password with success.', () => {

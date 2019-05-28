@@ -6,6 +6,7 @@ import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { Occ } from '../../occ/occ-models/occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import * as fromStore from '../store/index';
@@ -79,9 +80,9 @@ describe('UserService', () => {
 
   describe('Remove User Account', () => {
     it('should be able to remove user account', () => {
-      service.remove('testUserId');
+      service.remove();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RemoveUser('testUserId')
+        new fromStore.RemoveUser(USERID_CURRENT)
       );
     });
 
@@ -145,10 +146,10 @@ describe('UserService', () => {
   });
 
   it('should be able to load order details', () => {
-    service.loadOrderDetails('userId', 'orderCode');
+    service.loadOrderDetails('orderCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadOrderDetails({
-        userId: 'userId',
+        userId: USERID_CURRENT,
         orderCode: 'orderCode',
       })
     );
@@ -172,7 +173,7 @@ describe('UserService', () => {
 
     let orderList: OrderHistoryList;
     service
-      .getOrderHistoryList('', 1)
+      .getOrderHistoryList(1)
       .subscribe(data => {
         orderList = data;
       })
@@ -256,10 +257,10 @@ describe('UserService', () => {
   });
 
   it('should be able to load order list data', () => {
-    service.loadOrderList('userId', 10, 1, 'byDate');
+    service.loadOrderList(10, 1, 'byDate');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserOrders({
-        userId: 'userId',
+        userId: USERID_CURRENT,
         pageSize: 10,
         currentPage: 1,
         sort: 'byDate',
@@ -456,9 +457,12 @@ describe('UserService', () => {
     };
 
     it('should dispatch UpdateUserDetails action', () => {
-      service.updatePersonalDetails(username, userDetails);
+      service.updatePersonalDetails(userDetails);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateUserDetails({ username, userDetails })
+        new fromStore.UpdateUserDetails({
+          username: USERID_CURRENT,
+          userDetails,
+        })
       );
     });
 
@@ -598,10 +602,14 @@ describe('UserService', () => {
     const newPassword = 'newPass456';
 
     it('should updatePassword() dispatch UpdatePassword action', () => {
-      service.updatePassword(userId, oldPassword, newPassword);
+      service.updatePassword(oldPassword, newPassword);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+        new fromStore.UpdatePassword({
+          userId: USERID_CURRENT,
+          oldPassword,
+          newPassword,
+        })
       );
     });
 
