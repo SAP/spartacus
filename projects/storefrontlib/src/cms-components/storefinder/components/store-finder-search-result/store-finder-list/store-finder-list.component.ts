@@ -10,7 +10,7 @@ import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map
 export class StoreFinderListComponent {
   @Input()
   locations: any;
-  @ViewChild('storeMap')
+  @ViewChild('storeMap', { static: false })
   storeMap: StoreFinderMapComponent;
 
   selectedStore = 0;
