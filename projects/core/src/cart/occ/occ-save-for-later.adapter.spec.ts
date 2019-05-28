@@ -97,10 +97,10 @@ describe('OccCartEntryAdapter', () => {
       });
       mockReq.error(
         new ErrorEvent('Server Error', {
-          error: 500,
+          error: 404,
         }),
         {
-          status: 500,
+          status: 404,
           statusText: 'Not Found',
         }
       );
@@ -139,10 +139,10 @@ describe('OccCartEntryAdapter', () => {
       });
       mockReq.error(
         new ErrorEvent('Server Error', {
-          error: 500,
+          error: 404,
         }),
         {
-          status: 500,
+          status: 404,
           statusText: 'Not Found',
         }
       );
