@@ -1,6 +1,6 @@
 import * as fromAction from './../actions';
-import { OrderEntry } from '../../../occ/occ-models/index';
 import { CartState } from '../cart-state';
+import { OrderEntry } from '../../../model/order.model';
 
 export const initialState: CartState = {
   content: {},

@@ -4,44 +4,43 @@ import { hot, cold } from 'jasmine-marbles';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { of, Observable } from 'rxjs';
 
-import { OccSiteService } from '../../occ/index';
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
 import { OccModule } from '../../../occ/occ.module';
 import { ConfigModule } from '../../../config/config.module';
-import { Currency } from '../../../occ/occ-models/occ.models';
+import { Currency } from '../../../model/misc.model';
+import { SiteConnector } from '../../connectors/site.connector';
+import { SiteAdapter } from '../../connectors/site.adapter';
 
 describe('Currencies Effects', () => {
   let actions$: Observable<fromActions.CurrenciesAction>;
-  let service: OccSiteService;
+  let connector: SiteConnector;
   let effects: fromEffects.CurrenciesEffects;
 
   const currencies: Currency[] = [
     { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   ];
 
-  const data = { currencies };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
       providers: [
-        OccSiteService,
         fromEffects.CurrenciesEffects,
+        { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    service = TestBed.get(OccSiteService);
+    connector = TestBed.get(SiteConnector);
     effects = TestBed.get(fromEffects.CurrenciesEffects);
 
-    spyOn(service, 'loadCurrencies').and.returnValue(of(data));
+    spyOn(connector, 'getCurrencies').and.returnValue(of(currencies));
   });
 
   describe('loadCurrencies$', () => {
     it('should populate all currencies from LoadCurrenciesSuccess', () => {
       const action = new fromActions.LoadCurrencies();
-      const completion = new fromActions.LoadCurrenciesSuccess(data.currencies);
+      const completion = new fromActions.LoadCurrenciesSuccess(currencies);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

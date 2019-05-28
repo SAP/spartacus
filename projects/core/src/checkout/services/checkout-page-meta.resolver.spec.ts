@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService, UICart } from '../../cart';
+import { CartService } from '../../cart';
 import {
   PageMeta,
   PageMetaResolver,
@@ -8,14 +8,15 @@ import {
   PageRobotsMeta,
 } from '../../cms';
 import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
+import { Cart } from '../../model/cart.model';
 
-const mockCart: UICart = {
+const mockCart: Cart = {
   code: '1234',
   totalItems: 5,
 };
 
 class MockCartService {
-  getActive(): Observable<UICart> {
+  getActive(): Observable<Cart> {
     return of(mockCart);
   }
 }

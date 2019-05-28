@@ -1,19 +1,17 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { Params, RouterStateSnapshot } from '@angular/router';
-
+import * as fromNgrxRouter from '@ngrx/router-store';
 import {
   ActionReducerMap,
   createFeatureSelector,
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import * as fromNgrxRouter from '@ngrx/router-store';
-
-import * as fromActions from '../actions';
-import { ROUTING_FEATURE } from '../../state';
-import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
+import { PageType } from '../../../model/cms.model';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
+import { PageContext } from '../../models/page-context.model';
+import { ROUTING_FEATURE } from '../../state';
+import * as fromActions from '../actions';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -90,8 +88,9 @@ export function reducer(
         : '';
       let redirectUrl;
       if (
-        contextId === 'login' ||
-        contextId === 'register' ||
+        // TODO: Should be rafactored, utilizimg semantic pages configuration
+        contextId === '/login' ||
+        contextId === '/login/register' ||
         currentUrl === state.redirectUrl
       ) {
         redirectUrl = state.redirectUrl;
@@ -139,7 +138,8 @@ export const getPageContext: MemoizedSelector<
   PageContext
 > = createSelector(
   getRouterState,
-  (routingState: RouterState) => routingState.state.context
+  (routingState: RouterState) =>
+    (routingState.state && routingState.state.context) || { id: '' }
 );
 
 export const getNextPageContext: MemoizedSelector<
@@ -212,8 +212,6 @@ export class CustomSerializer
         context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
       } else if (params['brandCode']) {
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-      } else if (params['query']) {
-        context = { id: 'search', type: PageType.CONTENT_PAGE };
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {

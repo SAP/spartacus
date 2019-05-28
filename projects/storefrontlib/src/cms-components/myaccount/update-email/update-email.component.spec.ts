@@ -138,7 +138,7 @@ describe('UpdateEmailComponent', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 
   it('should call updateEmail on submit', () => {
@@ -179,13 +179,16 @@ describe('UpdateEmailComponent', () => {
         component.onSuccess(true);
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
-          `Success. Please sign in with ${newUid}`,
+          {
+            key: 'updateEmailForm.emailUpdateSuccess',
+            params: { newUid: 'new@sap.com' },
+          },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
 
         expect(authService.logout).toHaveBeenCalled();
 
-        expect(routingService.go).toHaveBeenCalledWith({ route: 'login' });
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       });
     });
 

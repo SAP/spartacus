@@ -17,6 +17,9 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  ForgotPasswordModule,
+  ResetPasswordModule,
+  NotificationPreferenceModule,
   MyInterestsModule,
 } from './myaccount/index';
 import {
@@ -29,6 +32,7 @@ import {
 import {
   ProductCarouselModule,
   ProductListModule,
+  ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
 import { StoreFinderModule } from './storefinder/index';
@@ -51,6 +55,7 @@ import { StoreFinderModule } from './storefinder/index';
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
+    ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,
@@ -60,6 +65,9 @@ import { StoreFinderModule } from './storefinder/index';
     CloseAccountModule,
     TabParagraphContainerModule,
     StoreFinderModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
+    NotificationPreferenceModule,
     MyInterestsModule,
   ],
 })

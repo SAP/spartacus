@@ -4,8 +4,9 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions/billing-countries.action';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/billing-countries.selectors';
-import { Country } from '../../../occ/occ-models/index';
+
 import { USER_FEATURE, StateWithUser } from '../user-state';
+import { Country } from '../../../model/address.model';
 
 describe('Billing Countries Selectors', () => {
   let store: Store<StateWithUser>;

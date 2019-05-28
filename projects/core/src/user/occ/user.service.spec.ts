@@ -5,14 +5,14 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../occ/config/occ-config';
 import {
-  Address,
-  AddressList,
-  AddressValidation,
-  PaymentDetails,
-  PaymentDetailsList,
-  User,
-} from '../../occ/occ-models/index';
+  BasicNotificationPreferenceList,
+  NotificationPreferenceList,
+} from '../model/user.model';
 import { OccUserService } from './user.service';
+import { User } from '../../model/misc.model';
+import { Address, AddressValidation } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Occ } from '../../occ/occ-models/occ.models';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -29,6 +29,7 @@ const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 const resetPasswordEndpoint = '/resetpassword';
 const updateEmailEndpoint = '/login';
 const updatePasswordEndpoint = '/password';
+const notificationPreferenceEndPoint = '/notificationpreferences';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -133,7 +134,7 @@ describe('OccUserService', () => {
       const mockAddress2: Address = {
         companyName: 'mockCompany2',
       };
-      const mockUserAddresses: AddressList = {
+      const mockUserAddresses: Occ.AddressList = {
         addresses: [mockAddress1, mockAddress2],
       };
 
@@ -162,7 +163,7 @@ describe('OccUserService', () => {
       const mockPayment2: PaymentDetails = {
         accountHolderName: 'mockAccountHolderName2',
       };
-      const mockUserPaymentMethods: PaymentDetailsList = {
+      const mockUserPaymentMethods: Occ.PaymentDetailsList = {
         payments: [mockPayment1, mockPayment2],
       };
 
@@ -344,6 +345,59 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
       expect(result).toEqual('');
+    });
+  });
+  describe('notification preference: ', () => {
+    const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
+      preferences: [
+        {
+          channel: 'EMAIL',
+          enabled: true,
+          value: 'test@sap.com',
+          visible: true,
+        },
+        {
+          channel: 'SITE_MESSAGE',
+          enabled: true,
+          value: '',
+          visible: true,
+        },
+      ],
+    };
+    const preference: NotificationPreferenceList = {
+      preferences: [{ channel: 'EMAIL', enabled: false }],
+    };
+    const userId = 'test@sap.com';
+    it('should be able to get notification preferences', () => {
+      service.getNotificationPreference(userId).subscribe(result => {
+        expect(result).toEqual(basicNotificationPreferenceList);
+      });
+      const mockRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === `${endpoint}/${userId}${notificationPreferenceEndPoint}`
+        );
+      });
+      expect(mockRequest.cancelled).toBeFalsy();
+      expect(mockRequest.request.responseType).toEqual('json');
+      mockRequest.flush(basicNotificationPreferenceList);
+    });
+    it('should be able to update notification preference', () => {
+      service
+        .updateNotificationPreference(userId, preference)
+        .subscribe(result => {
+          expect(result).toEqual('');
+        });
+      const mockRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === `${endpoint}/${userId}${notificationPreferenceEndPoint}`
+        );
+      });
+      expect(mockRequest.cancelled).toBeFalsy();
+      expect(mockRequest.request.responseType).toEqual('json');
+      expect(mockRequest.request.body).toEqual(JSON.stringify(preference));
+      mockRequest.flush('');
     });
   });
 });

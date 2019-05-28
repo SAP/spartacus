@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Product } from '../../../model/product.model';
 import { ProductAdapter } from './product.adapter';
-import { UIProduct } from '../../model/product';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { UIProduct } from '../../model/product';
 export class ProductConnector {
   constructor(private adapter: ProductAdapter) {}
 
-  get(productCode: string): Observable<UIProduct> {
+  get(productCode: string): Observable<Product> {
     return this.adapter.load(productCode);
   }
 }

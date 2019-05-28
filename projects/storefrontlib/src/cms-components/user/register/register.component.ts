@@ -77,7 +77,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.routing.clearRedirectUrl();
         } else {
           // User manual login
-          this.routing.back();
+          this.routing.go(['/']);
         }
       });
   }
@@ -110,7 +110,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         ) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.globalMessageService.add(
-            'Title is required.',
+            { key: 'register.titleRequired' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
         }

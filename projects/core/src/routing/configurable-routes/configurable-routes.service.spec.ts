@@ -98,7 +98,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should generate route matching configured path', async () => {
-      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
         paths: ['path1'],
       });
@@ -107,7 +107,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should generate route matching configured multiple paths', async () => {
-      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
         paths: ['path1', 'path100'],
       });
@@ -115,63 +115,8 @@ describe('ConfigurableRoutesService', () => {
       expect(router.config[0].matcher).toEqual(['path1', 'path100']);
     });
 
-    it('should configure "redirectTo" of configurable routes', async () => {
-      router.config = [
-        { path: 'path1', data: { cxRedirectTo: 'page1' } },
-        { path: 'path2', data: { cxRedirectTo: 'page2' } },
-      ];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
-        { paths: ['path100'] },
-        { paths: ['path200'] }
-      );
-      await service.init();
-      expect(router.config[0].path).toEqual('path1');
-      expect(router.config[0].redirectTo).toEqual('path100');
-      expect(router.config[1].path).toEqual('path2');
-      expect(router.config[1].redirectTo).toEqual('path200');
-    });
-
-    it('should console.warn in non-production environment if a route has configurable both "path" and "redirectTo"', async () => {
-      spyOn(console, 'warn');
-      serverConfig.production = false;
-      router.config = [
-        { path: null, data: { cxPath: 'page1', cxRedirectTo: 'page2' } },
-      ];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
-        { paths: ['path1'] },
-        { paths: ['path2'] }
-      );
-      await service.init();
-      expect(console.warn).toHaveBeenCalled();
-    });
-    it('should NOT console.warn in production environment if a route has configurable both "path" and "redirectTo"', async () => {
-      spyOn(console, 'warn');
-      serverConfig.production = true;
-      router.config = [
-        { path: null, data: { cxPath: 'page1', cxRedirectTo: 'page2' } },
-      ];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
-        { paths: ['path1'] },
-        { paths: ['path2'] }
-      );
-      await service.init();
-      expect(console.warn).not.toHaveBeenCalled();
-    });
-
-    it('should generate route for "redirectTo" with with first configured path in config for a given page', async () => {
-      router.config = [
-        { path: 'path', redirectTo: null, data: { cxRedirectTo: 'page1' } },
-      ];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
-        paths: ['path1', 'path100'],
-      });
-      await service.init();
-      expect(router.config.length).toEqual(1);
-      expect(router.config[0].redirectTo).toEqual('path1');
-    });
-
     it('should generate route that will never match if there are no configured paths in config', async () => {
-      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(null);
       await service.init();
       expect(router.config[0].matcher).toBe(false);
@@ -181,7 +126,7 @@ describe('ConfigurableRoutesService', () => {
     it('should console.warn in non-production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
       serverConfig.production = false;
-      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
       expect(console.warn).toHaveBeenCalled();
@@ -191,7 +136,7 @@ describe('ConfigurableRoutesService', () => {
     it('should NOT console.warn in production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
       serverConfig.production = true;
-      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
       expect(console.warn).not.toHaveBeenCalled();
@@ -203,20 +148,20 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1' },
 
         // configurable routes
-        { path: null, data: { cxPath: 'page2' } },
+        { path: null, data: { cxRoute: 'page2' } },
 
         // normal routes
         { path: 'path3', redirectTo: 'path30' },
 
         // configurable routes
-        { path: 'path4', redirectTo: null, data: { cxRedirectTo: 'page4' } },
+        { path: null, data: { cxRoute: 'page4' } },
 
         // normal routes
         { path: 'path5' },
       ];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
         { paths: ['path2', 'path20', 'path200'] },
-        { paths: ['path40', 'path400'] }
+        { paths: ['path4'] }
       );
       await service.init();
       expect(router.config).toEqual([
@@ -225,7 +170,7 @@ describe('ConfigurableRoutesService', () => {
 
         // configurable routes
         {
-          data: { cxPath: 'page2' },
+          data: { cxRoute: 'page2' },
           matcher: ['path2', 'path20', 'path200'] as any,
         },
 
@@ -235,8 +180,7 @@ describe('ConfigurableRoutesService', () => {
         // configurable routes
         {
           path: 'path4',
-          redirectTo: 'path40',
-          data: { cxRedirectTo: 'page4' },
+          data: { cxRoute: 'page4' },
         },
 
         // normal routes

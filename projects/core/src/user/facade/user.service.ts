@@ -2,16 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import {
-  Address,
-  Country,
-  Order,
-  OrderHistoryList,
-  PaymentDetails,
-  Region,
-  Title,
-  User,
-} from '../../occ/occ-models/index';
+import { BasicNotificationPreferenceList } from '../model/user.model';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -24,6 +15,10 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-state';
+import { Title, User } from '../../model/misc.model';
+import { Order, OrderHistoryList } from '../../model/order.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { Address, Country, Region } from '../../model/address.model';
 
 @Injectable()
 export class UserService {
@@ -547,5 +542,35 @@ export class UserService {
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new fromStore.UpdatePasswordReset());
+  }
+
+  /**
+   *  Returns the user's notification preferences
+   */
+  getNotificationPreferences(): Observable<BasicNotificationPreferenceList> {
+    return this.store.pipe(select(fromStore.getNotificationPreferenceList));
+  }
+
+  /**
+   * Retrieves the user's notification preferences
+   *
+   * @param userId a user ID
+   */
+  loadNotificationPreferences(userId: string) {
+    this.store.dispatch(new fromStore.LoadNotificationPreferences(userId));
+  }
+  /**
+   * Updates notification preference
+   */
+  updateNotificationPreferences(
+    userId: string,
+    basicNotificationPreferenceList: BasicNotificationPreferenceList
+  ) {
+    this.store.dispatch(
+      new fromStore.UpdateNotificationPreferences({
+        userId,
+        basicNotificationPreferenceList,
+      })
+    );
   }
 }

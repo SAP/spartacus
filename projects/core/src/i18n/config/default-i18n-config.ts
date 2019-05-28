@@ -5,11 +5,24 @@ export const defaultI18nConfig: I18nConfig = {
     fallbackLang: false,
     debug: false,
     chunks: {
-      common: ['common', 'spinner', 'header', 'searchBox'],
-      cart: ['cartDetails', 'cartItems', 'orderCost'],
+      common: [
+        'common',
+        'spinner',
+        'header',
+        'searchBox',
+        'sorting',
+        'httpHandlers',
+      ],
+      cart: ['cartDetails', 'cartItems', 'orderCost', 'miniCart'],
       address: ['addressForm', 'addressBook', 'addressCard'],
-      payment: ['paymentForm', 'paymentMethods'],
-      myAccount: ['orderDetails', 'orderHistory', 'myInterests'],
+      payment: ['paymentForm', 'paymentMethods', 'paymentCard'],
+      myAccount: [
+        'orderDetails',
+        'orderHistory',
+        'closeAccount',
+        'notificationProference',
+        'myInterests',
+      ],
       storeFinder: ['storeFinder'],
       pwa: ['pwa'],
       checkout: [

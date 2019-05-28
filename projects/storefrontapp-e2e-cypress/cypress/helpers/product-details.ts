@@ -12,8 +12,8 @@ export const atcModal = `cx-added-to-cart-dialog`;
 export const atcModalTitle = `${atcModal} .cx-dialog-title`;
 export const atcModalItem = `${atcModal} cx-cart-item`;
 export const atcModalCloseButton = `${atcModal} [aria-label="Close"]`;
-export const header = `cx-header`;
-export const headerCartButton = `${header} cx-mini-cart`;
+export const header = `cx-page-layout[section="header"]`;
+export const headerCartButton = `${header} cx-mini-cart .count`;
 export const itemCounter = 'cx-item-counter';
 export const itemCounterButtons = `${itemCounter} button`;
 
@@ -80,7 +80,7 @@ export function verifyContentInReviewTab() {
     .click();
   cy.get(reviewList).should('have.length', 5);
   cy.get(writeAReviewButton).should('be.visible');
-  cy.get(`${reviewContainer} ngb-rating`)
+  cy.get(`${reviewContainer}`)
     .eq(0)
     .should('be.visible');
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { CartService, UICart, UIOrderEntry } from '@spartacus/core';
+import { CartService, Cart, OrderEntry } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -11,8 +11,8 @@ import { filter } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartDetailsComponent implements OnInit {
-  cart$: Observable<UICart>;
-  entries$: Observable<UIOrderEntry[]>;
+  cart$: Observable<Cart>;
+  entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
 
   constructor(protected cartService: CartService) {}
@@ -25,7 +25,7 @@ export class CartDetailsComponent implements OnInit {
     this.cartLoaded$ = this.cartService.getLoaded();
   }
 
-  getAllPromotionsForCart(cart: UICart): UICart[] {
+  getAllPromotionsForCart(cart: Cart): Cart[] {
     const potentialPromotions = cart.potentialOrderPromotions || [];
     const appliedPromotions = cart.appliedOrderPromotions || [];
     return [...potentialPromotions, ...appliedPromotions];

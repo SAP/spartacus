@@ -1,5 +1,6 @@
 import * as fromActions from './product-reviews.action';
-import { ErrorModel, ReviewList } from '../../../occ/occ-models';
+import { ErrorModel } from '../../../model/misc.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 describe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {
@@ -28,7 +29,7 @@ describe('Product Review Actions', () => {
     describe('LOAD_PRODUCT_REVIEWS_SUCCESS', () => {
       it('should create the action', () => {
         const productCode = '123';
-        const list: ReviewList = {
+        const list: Occ.ReviewList = {
           reviews: [
             {
               id: '1',

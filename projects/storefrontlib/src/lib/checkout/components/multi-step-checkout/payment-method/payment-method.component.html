@@ -34,8 +34,8 @@
             <cx-card
               [border]="true"
               [fitToContainer]="true"
-              [content]="cards[i]"
-              (sendCard)="paymentMethodSelected(method, i)"
+              [content]="getCardContent(method) | async"
+              (sendCard)="paymentMethodSelected(method)"
             ></cx-card>
           </div>
         </div>

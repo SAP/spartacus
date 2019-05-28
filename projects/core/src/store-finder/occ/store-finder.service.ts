@@ -4,8 +4,8 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { StoreFinderSearchConfig, LongitudeLatitude } from './../model/index';
-import { StoreFinderSearchPage } from '../../occ/occ-models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { StoreFinderSearchPage } from '../../model/store-finder.model';
 
 const STORES_ENDPOINT = 'stores';
 
