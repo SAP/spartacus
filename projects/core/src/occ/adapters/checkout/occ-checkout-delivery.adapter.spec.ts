@@ -6,11 +6,10 @@ import {
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import {
-  DELIVERY_ADDRESS_NORMALIZER,
-  DELIVERY_ADDRESS_SERIALIZER,
   DELIVERY_MODE_NORMALIZER,
   OccConfig,
 } from '@spartacus/core';
+import { ADDRESS_NORMALIZER, ADDRESS_SERIALIZER } from '../../../user/connectors/address/converters';
 import { Cart } from '../../../model/cart.model';
 import { Address } from '../../../model/address.model';
 import { Occ } from '../../occ-models/occ.models';
@@ -94,11 +93,11 @@ describe('OccCheckoutDeliveryAdapter', () => {
       mockReq.flush(mockAddress);
       expect(result).toEqual(mockAddress);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        DELIVERY_ADDRESS_NORMALIZER
+        ADDRESS_NORMALIZER
       );
       expect(converter.convert).toHaveBeenCalledWith(
         mockAddress,
-        DELIVERY_ADDRESS_SERIALIZER
+        ADDRESS_SERIALIZER
       );
     });
   });

@@ -8,12 +8,11 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/checkout-delivery.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import {
-  DELIVERY_ADDRESS_NORMALIZER,
-  DELIVERY_ADDRESS_SERIALIZER,
   DELIVERY_MODE_NORMALIZER,
 } from '../../../checkout/connectors/delivery/converters';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
+import { ADDRESS_NORMALIZER, ADDRESS_SERIALIZER } from '../../../user/connectors/address/converters';
 
 @Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
@@ -33,7 +32,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     cartId: string,
     address: Address
   ): Observable<Address> {
-    address = this.converter.convert(address, DELIVERY_ADDRESS_SERIALIZER);
+    address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
     return this.http
       .post<Occ.Address>(
@@ -45,7 +44,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
       )
       .pipe(
         catchError((error: any) => throwError(error.json())),
-        this.converter.pipeable(DELIVERY_ADDRESS_NORMALIZER)
+        this.converter.pipeable(ADDRESS_NORMALIZER)
       );
   }
 
