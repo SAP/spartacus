@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   PaymentDetails,
-  User,
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -44,9 +43,6 @@ class MockUserService {
   loadPaymentMethods(): void {}
   deletePaymentMethod(_paymentMethodId: string): void {}
   setPaymentMethodAsDefault(_paymentMethodId: string): void {}
-  get(): Observable<User> {
-    return of({ uid: 'userId' } as User);
-  }
 }
 
 describe('PaymentMethodsComponent', () => {
