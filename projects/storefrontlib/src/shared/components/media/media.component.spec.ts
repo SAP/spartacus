@@ -21,6 +21,12 @@ class MockMediaService {
   }
 }
 
+const mockImageContainer = {
+  product: { url: mediaUrl },
+};
+
+const mockMissingImageContainer = null;
+
 describe('MediaComponent', () => {
   let component: MediaComponent;
   let fixture: ComponentFixture<MediaComponent>;
@@ -35,9 +41,6 @@ describe('MediaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MediaComponent);
     component = fixture.componentInstance;
-    const mockImageContainer = {
-      product: { url: mediaUrl },
-    };
     component.container = mockImageContainer;
 
     component.ngOnChanges();
@@ -58,5 +61,36 @@ describe('MediaComponent', () => {
         fixture.debugElement.query(By.css('img')).nativeElement
       )).src
     ).toContain(mediaUrl);
+  });
+
+  it('should contain is-loading classes while loading', () => {
+    expect(
+      (<HTMLImageElement>fixture.debugElement.nativeElement).classList
+    ).toContain('is-loading');
+  });
+
+  it('should update classes when loaded', () => {
+    const load = new UIEvent('load');
+    fixture.debugElement.query(By.css('img')).nativeElement.dispatchEvent(load);
+
+    fixture.detectChanges();
+
+    expect(
+      (<HTMLImageElement>fixture.debugElement.nativeElement).classList
+    ).not.toContain('is-loading');
+    expect(
+      (<HTMLImageElement>fixture.debugElement.nativeElement).classList
+    ).toContain('is-initialized');
+  });
+
+  it('should have is-missing class when theres no image', () => {
+    component.container = mockMissingImageContainer;
+
+    component.ngOnChanges();
+    fixture.detectChanges();
+
+    expect(
+      (<HTMLImageElement>fixture.debugElement.nativeElement).classList
+    ).toContain('is-missing');
   });
 });
