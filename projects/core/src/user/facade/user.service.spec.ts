@@ -541,14 +541,17 @@ describe('UserService', () => {
   });
 
   describe('Update Email ', () => {
-    const uid = 'test@test.com';
     const password = 'Qwe123!';
     const newUid = 'tester@sap.com';
 
     it('should dispatch UpdateEmail action', () => {
-      service.updateEmail(uid, password, newUid);
+      service.updateEmail(password, newUid);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateEmailAction({ uid, password, newUid })
+        new fromStore.UpdateEmailAction({
+          uid: USERID_CURRENT,
+          password,
+          newUid,
+        })
       );
     });
 
