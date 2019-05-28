@@ -16,9 +16,7 @@ describe('UserConsentConnector', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        { provide: UserConsentAdapter, useClass: MockUserAdapter },
-      ],
+      providers: [{ provide: UserConsentAdapter, useClass: MockUserAdapter }],
     });
 
     service = TestBed.get(UserConsentConnector);

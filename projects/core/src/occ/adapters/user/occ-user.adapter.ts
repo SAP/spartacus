@@ -10,7 +10,8 @@ import {
 } from '../../utils/interceptor-util';
 import { ConverterService } from '../../../util/converter.service';
 import {
-  TITLE_NORMALIZER, USER_SERIALIZER,
+  TITLE_NORMALIZER,
+  USER_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
 } from '../../../user/connectors/user/converters';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';

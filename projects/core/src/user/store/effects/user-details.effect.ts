@@ -34,19 +34,17 @@ export class UserDetailsEffects {
     ofType(fromUserDetailsAction.UPDATE_USER_DETAILS),
     map((action: fromUserDetailsAction.UpdateUserDetails) => action.payload),
     concatMap(payload =>
-      this.userConnector
-        .update(payload.username, payload.userDetails)
-        .pipe(
-          map(
-            _ =>
-              new fromUserDetailsAction.UpdateUserDetailsSuccess(
-                payload.userDetails
-              )
-          ),
-          catchError(error =>
-            of(new fromUserDetailsAction.UpdateUserDetailsFail(error))
-          )
+      this.userConnector.update(payload.username, payload.userDetails).pipe(
+        map(
+          _ =>
+            new fromUserDetailsAction.UpdateUserDetailsSuccess(
+              payload.userDetails
+            )
+        ),
+        catchError(error =>
+          of(new fromUserDetailsAction.UpdateUserDetailsFail(error))
         )
+      )
     )
   );
 
