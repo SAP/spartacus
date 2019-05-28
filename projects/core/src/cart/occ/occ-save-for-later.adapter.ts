@@ -46,8 +46,8 @@ export class OccSaveForLaterAdapter implements SaveForLaterAdapter {
       fromString: `fields=${DETAILS_PARAMS}`,
     });
     return this.http.get<Occ.Cart>(url, { params: params }).pipe(
-      this.converter.pipeable(CART_NORMALIZER),
-      catchError((error: any) => throwError(error.json()))
+      catchError((error: any) => throwError(error.json())),
+      this.converter.pipeable(CART_NORMALIZER)
     );
   }
 }

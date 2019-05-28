@@ -15,7 +15,7 @@ import {
   getEntriesSelector,
 } from './cart.selector';
 
-export const getSavaForLaterContentSelector = (state: CartState) =>
+export const getSaveForLaterContentSelector = (state: CartState) =>
   state.content;
 
 export const getSaveForLaterCartState: MemoizedSelector<
@@ -34,12 +34,12 @@ export const getSaveForLaterState: MemoizedSelector<
   state => loaderValueSelector(state)
 );
 
-export const getSavaForLaterContent: MemoizedSelector<
+export const getSaveForLaterContent: MemoizedSelector<
   StateWithCart,
   Cart
 > = createSelector(
   getSaveForLaterState,
-  getSavaForLaterContentSelector
+  getSaveForLaterContentSelector
 );
 
 export const getSaveForLaterRefresh: MemoizedSelector<

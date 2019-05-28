@@ -29,7 +29,7 @@ export class SaveForLaterService {
   }
 
   getSaveForLater(): Observable<Cart> {
-    return this.store.pipe(select(fromSelector.getSavaForLaterContent));
+    return this.store.pipe(select(fromSelector.getSaveForLaterContent));
   }
 
   getEntries(): Observable<OrderEntry[]> {
@@ -42,7 +42,7 @@ export class SaveForLaterService {
 
   protected init(): void {
     this.store
-      .pipe(select(fromSelector.getSavaForLaterContent))
+      .pipe(select(fromSelector.getSaveForLaterContent))
       .subscribe(cart => {
         this.saveForLaterData.cart = cart;
         if (this.callback) {
