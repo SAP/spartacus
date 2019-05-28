@@ -16,6 +16,18 @@ class MockSiteAdapter implements SiteAdapter {
   loadLanguages = createSpy('SiteAdapter.loadLanguages').and.callFake(() =>
     of(mockLanguages)
   );
+
+  loadBillingCountries = createSpy('loadBillingCountries').and.returnValue(
+    of([])
+  );
+
+  loadDeliveryCountries = createSpy('loadDeliveryCountries').and.returnValue(
+    of([])
+  );
+  loadRegions = createSpy('loadRegions').and.callFake(countryCode =>
+    of(`loadRegions-${countryCode}`)
+  );
+
 }
 
 describe('SiteConnector', () => {
@@ -48,4 +60,26 @@ describe('SiteConnector', () => {
     expect(result).toBe(mockCurrencies);
     expect(adapter.loadCurrencies).toHaveBeenCalled();
   });
+
+  it('getBillingCountries should call adapter', () => {
+    let result;
+    service.getBillingCountries().subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.loadBillingCountries).toHaveBeenCalledWith();
+  });
+
+  it('getDeliveryCountries should call adapter', () => {
+    let result;
+    service.getDeliveryCountries().subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.loadDeliveryCountries).toHaveBeenCalledWith();
+  });
+
+  it('getRegions should call adapter', () => {
+    let result;
+    service.getRegions('CA').subscribe(res => (result = res));
+    expect(result).toEqual('loadRegions-CA');
+    expect(adapter.loadRegions).toHaveBeenCalledWith('CA');
+  });
+
 });
