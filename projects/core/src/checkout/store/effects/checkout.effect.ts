@@ -8,8 +8,8 @@ import * as fromUserActions from '../../../user/store/actions/index';
 import * as fromCartActions from './../../../cart/store/actions/index';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
-import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
-import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
+import { CheckoutDeliveryConnector } from '../../connectors/delivery/cart-delivery.connector';
+import { CheckoutPaymentConnector } from '../../connectors/payment/cart-payment.connector';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 
 @Injectable()
@@ -220,8 +220,8 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
-    private cartDeliveryConnector: CartDeliveryConnector,
-    private cartPaymentConnector: CartPaymentConnector,
+    private cartDeliveryConnector: CheckoutDeliveryConnector,
+    private cartPaymentConnector: CheckoutPaymentConnector,
     private checkoutConnector: CheckoutConnector
   ) {}
 }

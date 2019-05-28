@@ -12,7 +12,7 @@ import * as fromActions from './../actions/index';
 import { CardTypesEffects } from '.';
 import {
   CardType,
-  CartPaymentAdapter,
+  CheckoutPaymentAdapter,
   CartPaymentConnector,
 } from '@spartacus/core';
 

@@ -5,18 +5,18 @@ import { Occ } from '../../occ-models/occ.models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, pluck } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { CartDeliveryAdapter } from '../../../cart/connectors/delivery/cart-delivery.adapter';
+import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/cart-delivery.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import {
   DELIVERY_ADDRESS_NORMALIZER,
   DELIVERY_ADDRESS_SERIALIZER,
   DELIVERY_MODE_NORMALIZER,
-} from '../../../cart/connectors/delivery/converters';
+} from '../../../checkout/connectors/delivery/converters';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
 
 @Injectable()
-export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
+export class OccCartDeliveryAdapter implements CheckoutDeliveryAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

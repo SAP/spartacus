@@ -4,20 +4,20 @@ import { CustomEncoder } from './custom.encoder';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { CartPaymentAdapter } from '../../../cart/connectors/payment/cart-payment.adapter';
+import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/cart-payment.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import {
   CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
-} from '../../../cart/connectors/payment/converters';
+} from '../../../checkout/connectors/payment/converters';
 import { CardType, PaymentDetails } from '../../../model/cart.model';
 import { Occ } from '../../occ-models';
 
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 
 @Injectable()
-export class OccCartPaymentAdapter implements CartPaymentAdapter {
+export class OccCartPaymentAdapter implements CheckoutPaymentAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
