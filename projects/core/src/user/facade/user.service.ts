@@ -452,13 +452,9 @@ export class UserService {
   /**
    * Updates the user's email
    */
-  updateEmail(password: string, newEmail: string): void {
+  updateEmail(password: string, newUid: string): void {
     this.store.dispatch(
-      new fromStore.UpdateEmailAction({
-        uid: USERID_CURRENT,
-        password,
-        newUid: newEmail,
-      })
+      new fromStore.UpdateEmailAction({ uid: USERID_CURRENT, password, newUid })
     );
   }
 
