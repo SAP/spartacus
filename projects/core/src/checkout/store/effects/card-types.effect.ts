@@ -16,7 +16,7 @@ export class CardTypesEffects {
   > = this.actions$.pipe(
     ofType(fromAction.LOAD_CARD_TYPES),
     switchMap(() => {
-      return this.cartPaymentConnector.getCardTypes().pipe(
+      return this.checkoutPaymentConnector.getCardTypes().pipe(
         map(cardTypes => new fromAction.LoadCardTypesSuccess(cardTypes)),
         catchError(error => of(new fromAction.LoadCardTypesFail(error)))
       );
@@ -25,6 +25,6 @@ export class CardTypesEffects {
 
   constructor(
     private actions$: Actions,
-    private cartPaymentConnector: CheckoutPaymentConnector
+    private checkoutPaymentConnector: CheckoutPaymentConnector
   ) {}
 }

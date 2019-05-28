@@ -23,7 +23,7 @@ export class CheckoutEffects {
     ofType(fromActions.ADD_DELIVERY_ADDRESS),
     map((action: fromActions.AddDeliveryAddress) => action.payload),
     mergeMap(payload =>
-      this.cartDeliveryConnector
+      this.checkoutDeliveryConnector
         .createAddress(payload.userId, payload.cartId, payload.address)
         .pipe(
           mergeMap(address => {
@@ -51,7 +51,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.cartDeliveryConnector
+      return this.checkoutDeliveryConnector
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
           mergeMap(() => [
@@ -74,7 +74,7 @@ export class CheckoutEffects {
     ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.cartDeliveryConnector
+      return this.checkoutDeliveryConnector
         .getSupportedModes(payload.userId, payload.cartId)
         .pipe(
           map(data => {
@@ -96,7 +96,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.cartDeliveryConnector
+      return this.checkoutDeliveryConnector
         .setMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
           mergeMap(() => {
@@ -124,7 +124,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       // get information for creating a subscription directly with payment provider
-      return this.cartPaymentConnector
+      return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
           mergeMap(details => {
@@ -147,7 +147,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.cartPaymentConnector
+      return this.checkoutPaymentConnector
         .set(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
           map(
@@ -220,8 +220,8 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
-    private cartDeliveryConnector: CheckoutDeliveryConnector,
-    private cartPaymentConnector: CheckoutPaymentConnector,
+    private checkoutDeliveryConnector: CheckoutDeliveryConnector,
+    private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutConnector: CheckoutConnector
   ) {}
 }
