@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -12,9 +13,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { CurrentProductService } from '../../product';
 import { AddToCartComponent } from './add-to-cart.component';
-import { Input, Component } from '@angular/core';
-import { CurrentProductService } from '../../../product';
 
 const productCode = '1234';
 const mockProduct: Product = {

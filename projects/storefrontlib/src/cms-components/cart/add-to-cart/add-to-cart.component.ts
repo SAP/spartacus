@@ -1,20 +1,16 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
 } from '@angular/core';
-
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { Observable } from 'rxjs';
-
 import { CartService, OrderEntry } from '@spartacus/core';
-
-import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
-import { CurrentProductService } from '../../../product/current-product.service';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { CurrentProductService } from '../../product';
+import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
 @Component({
   selector: 'cx-add-to-cart',
