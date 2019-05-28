@@ -56,7 +56,7 @@ const mockCheckoutStep: CheckoutStep = {
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 class MockUserService {
-  loadPaymentMethods(_userId: string): void {}
+  loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of();
   }
