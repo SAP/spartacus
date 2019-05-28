@@ -8,6 +8,10 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  CmsPageGuard,
+  PageLayoutComponent,
+} from '../../../cms-structure/index';
+import {
   FormComponentsModule,
   ListNavigationModule,
   MediaModule,
@@ -31,7 +35,20 @@ import { ProductViewComponent } from './product-view/product-view.component';
         ProductRefinementComponent: { selector: 'cx-product-facet-navigation' },
       },
     }),
-    RouterModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'search', cxRoute: 'search' },
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'brand' },
+      },
+    ]),
     MediaModule,
     AddToCartModule,
     FormComponentsModule,
