@@ -151,10 +151,9 @@ export class UserService {
 
   /**
    * Loads all user's payment methods.
-   * @param userId a user ID
    */
-  loadPaymentMethods(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
+  loadPaymentMethods(): void {
+    this.store.dispatch(new fromStore.LoadUserPaymentMethods(USERID_CURRENT));
   }
 
   /**
@@ -173,13 +172,12 @@ export class UserService {
 
   /**
    * Sets the payment as a default one
-   * @param userId a user ID
    * @param paymentMethodId a payment method ID
    */
-  setPaymentMethodAsDefault(userId: string, paymentMethodId: string): void {
+  setPaymentMethodAsDefault(paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.SetDefaultUserPaymentMethod({
-        userId: userId,
+        userId: USERID_CURRENT,
         paymentMethodId,
       })
     );
@@ -188,13 +186,12 @@ export class UserService {
   /**
    * Deletes the payment method
    *
-   * @param userId a user ID
    * @param paymentMethodId a payment method ID
    */
-  deletePaymentMethod(userId: string, paymentMethodId: string): void {
+  deletePaymentMethod(paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserPaymentMethod({
-        userId: userId,
+        userId: USERID_CURRENT,
         paymentMethodId,
       })
     );
