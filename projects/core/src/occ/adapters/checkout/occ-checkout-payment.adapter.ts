@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { CustomEncoder } from './custom.encoder';
+import { CustomEncoder } from '../cart/custom.encoder';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
@@ -17,7 +17,7 @@ import { Occ } from '../../occ-models';
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 
 @Injectable()
-export class OccCartPaymentAdapter implements CheckoutPaymentAdapter {
+export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

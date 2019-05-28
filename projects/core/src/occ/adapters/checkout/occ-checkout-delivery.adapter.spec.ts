@@ -3,7 +3,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccCartDeliveryAdapter } from './occ-cart-delivery.adapter';
+import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import {
   DELIVERY_ADDRESS_NORMALIZER,
@@ -37,8 +37,8 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccCartDeliveryAdapter', () => {
-  let service: OccCartDeliveryAdapter;
+describe('OccCheckoutDeliveryAdapter', () => {
+  let service: OccCheckoutDeliveryAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -46,12 +46,12 @@ describe('OccCartDeliveryAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCartDeliveryAdapter,
+        OccCheckoutDeliveryAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccCartDeliveryAdapter);
+    service = TestBed.get(OccCheckoutDeliveryAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
 

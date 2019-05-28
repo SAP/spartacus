@@ -16,7 +16,7 @@ import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
 
 @Injectable()
-export class OccCartDeliveryAdapter implements CheckoutDeliveryAdapter {
+export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
