@@ -17,7 +17,7 @@ import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './storefront-config';
-import { UiModule } from './ui/index';
+import { OrderConfirmationPageModule } from './ui/pages/order-confirmation-page/order-confirmation-page.module';
 
 @NgModule({
   imports: [
@@ -26,7 +26,6 @@ import { UiModule } from './ui/index';
     AuthModule.forRoot(),
     CmsLibModule,
     CmsModule,
-    UiModule,
     CxApiModule,
     ConfigModule.forRoot(),
     RoutingModule,
@@ -39,8 +38,9 @@ import { UiModule } from './ui/index';
     ProductPageModule,
     // as longs as we do not have #2661 in place we need a specific cart page module
     CartPageModule,
+    // temp add here till it gets removed by #2691
+    OrderConfirmationPageModule,
   ],
-  exports: [UiModule],
   providers: [...provideConfigFromMetaTags()],
   declarations: [],
 })
