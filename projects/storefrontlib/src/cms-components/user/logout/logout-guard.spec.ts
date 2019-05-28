@@ -4,7 +4,12 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { AuthService, CmsService, RoutingService } from '@spartacus/core';
+import {
+  AuthService,
+  CmsService,
+  RoutingService,
+  SemanticPathService,
+} from '@spartacus/core';
 import { LogoutGuard } from './logout-guard';
 
 class MockAuthService {
@@ -26,6 +31,10 @@ class MockCmsService {
 
 class MockRoutingService {
   go() {}
+}
+
+class MockSemanticPathService {
+  get() {}
 }
 
 describe('LogoutGuard', () => {
@@ -51,6 +60,7 @@ describe('LogoutGuard', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
     authService = TestBed.get(AuthService);

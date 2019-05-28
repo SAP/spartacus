@@ -8,7 +8,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { AutoFocusDirectiveModule } from '../../../shared/directives/auto-focus/auto-focus.directive.module';
-import { SpinnerModule } from '../../../shared/index';
+import { FormComponentsModule, SpinnerModule } from '../../../shared/index';
 import { IconModule } from '../../misc/icon/index';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
@@ -28,6 +28,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     UrlModule,
     IconModule,
     I18nModule,
+    FormComponentsModule,
     AutoFocusDirectiveModule,
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],

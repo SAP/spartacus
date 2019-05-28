@@ -21,7 +21,6 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '../../../../shared';
-import { AddToCartComponent } from '../../../cart';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -88,6 +87,15 @@ export class MockCxIconComponent {
   @Input() type;
 }
 
+@Component({
+  selector: 'cx-add-to-cart',
+  template: '<button>add to cart</button>',
+})
+export class MockAddToCartComponent {
+  @Input() productCode;
+  @Input() showQuantity;
+}
+
 describe('ProductListComponent in product-list', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -122,7 +130,7 @@ describe('ProductListComponent in product-list', () => {
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
         MockStarRatingComponent,
-        AddToCartComponent,
+        MockAddToCartComponent,
         MediaComponent,
         ProductViewComponent,
         MockProductListItemComponent,

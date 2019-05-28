@@ -15,6 +15,15 @@ class MockStarRatingComponent {
   @Input() disabled;
 }
 
+@Component({
+  selector: 'cx-page-slot',
+  template: '',
+})
+class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
+
 describe('ProductSummaryComponent in product ', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
@@ -26,6 +35,7 @@ describe('ProductSummaryComponent in product ', () => {
         ProductSummaryComponent,
         OutletDirective,
         MockStarRatingComponent,
+        MockDynamicSlotComponent,
       ],
     }).compileComponents();
   }));
