@@ -4,8 +4,8 @@ import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import {
   AuthService,
   I18nTestingModule,
-  RoutingService,
   UserToken,
+  AuthRedirectService,
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
@@ -32,14 +32,9 @@ class MockAuthService {
   }
 }
 
-class MockRoutingService {
-  goByUrl = createSpy();
-  clearRedirectUrl = createSpy();
-  getRedirectUrl() {
-    return of('/test');
-  }
+class MockRedirectAfterAuthService {
+  redirect = createSpy('AuthRedirectService.redirect');
 }
-
 class MockGlobalMessageService {
   remove = createSpy();
 }
@@ -49,7 +44,7 @@ describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: MockAuthService;
-  let routingService: MockRoutingService;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -57,7 +52,10 @@ describe('LoginFormComponent', () => {
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
@@ -67,7 +65,7 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService);
-    routingService = TestBed.get(RoutingService);
+    authRedirectService = TestBed.get(AuthRedirectService);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -82,7 +80,7 @@ describe('LoginFormComponent', () => {
     expect(component.form.controls['password'].value).toBe('');
   });
 
-  it('should login', () => {
+  it('should login and redirect to return url after auth', () => {
     component.form.controls['userId'].setValue('test@email.com');
     component.form.controls['password'].setValue('secret');
     component.login();
@@ -91,10 +89,8 @@ describe('LoginFormComponent', () => {
       'test@email.com',
       'secret'
     );
-  });
 
-  it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+    expect(authRedirectService.redirect).toHaveBeenCalled();
   });
 
   describe('userId form field', () => {

@@ -602,10 +602,14 @@ describe('UserService', () => {
     const newPassword = 'newPass456';
 
     it('should updatePassword() dispatch UpdatePassword action', () => {
-      service.updatePassword(userId, oldPassword, newPassword);
+      service.updatePassword(oldPassword, newPassword);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+        new fromStore.UpdatePassword({
+          userId: USERID_CURRENT,
+          oldPassword,
+          newPassword,
+        })
       );
     });
 
