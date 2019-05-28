@@ -1,30 +1,33 @@
 import { TestBed } from '@angular/core/testing';
-import { CartPaymentConnector } from './cart-payment.connector';
+import { CheckoutPaymentConnector } from './checkout-payment.connector';
 import { of } from 'rxjs';
-import { CartPaymentAdapter } from './cart-payment.adapter';
+import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 import createSpy = jasmine.createSpy;
 
-describe('CartPaymentConnector', () => {
+describe('CheckoutPaymentConnector', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  class MockCartPaymentAdapter implements CartPaymentAdapter {
+  class MockCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     create = createSpy().and.returnValue(of({}));
     set = createSpy().and.returnValue(of({}));
     loadCardTypes = createSpy().and.returnValue(of([]));
   }
 
-  let service: CartPaymentConnector;
-  let adapter: CartPaymentAdapter;
+  let service: CheckoutPaymentConnector;
+  let adapter: CheckoutPaymentAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: CartPaymentAdapter, useClass: MockCartPaymentAdapter },
+        {
+          provide: CheckoutPaymentAdapter,
+          useClass: MockCheckoutPaymentAdapter,
+        },
       ],
     });
 
-    service = TestBed.get(CartPaymentConnector);
-    adapter = TestBed.get(CartPaymentAdapter);
+    service = TestBed.get(CheckoutPaymentConnector);
+    adapter = TestBed.get(CheckoutPaymentAdapter);
   });
 
   it('should be created', () => {

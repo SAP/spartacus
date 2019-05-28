@@ -3,10 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   I18nTestingModule,
-  RoutingService,
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -29,14 +29,9 @@ class MockAuthService {
   authorizeOpenId(_username: string, _password: string): void {}
 }
 
-class MockRoutingService {
-  goByUrl = createSpy();
-  clearRedirectUrl = createSpy();
-  getRedirectUrl() {
-    return of('/test');
-  }
+class MockRedirectAfterAuthService {
+  redirect = createSpy('AuthRedirectService.redirect');
 }
-
 class MockGlobalMessageService {
   remove = createSpy();
 }
@@ -46,7 +41,7 @@ describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: MockAuthService;
-  let routingService: MockRoutingService;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -54,7 +49,10 @@ describe('LoginFormComponent', () => {
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
@@ -64,7 +62,7 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService);
-    routingService = TestBed.get(RoutingService);
+    authRedirectService = TestBed.get(AuthRedirectService);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -79,7 +77,7 @@ describe('LoginFormComponent', () => {
     expect(component.form.controls['password'].value).toBe('');
   });
 
-  it('should login', () => {
+  it('should login and redirect to return url after auth', () => {
     spyOn(authService, 'authorizeOpenId').and.stub();
     const username = 'test@email.com';
     const password = 'secret';
@@ -93,10 +91,8 @@ describe('LoginFormComponent', () => {
       username,
       password
     );
-  });
 
-  it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+    expect(authRedirectService.redirect).toHaveBeenCalled();
   });
 
   describe('userId form field', () => {

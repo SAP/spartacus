@@ -105,13 +105,12 @@ export class UserService {
   /**
    * Retrieves order's details
    *
-   * @param userId a user's ID
    * @param orderCode an order code
    */
-  loadOrderDetails(userId: string, orderCode: string): void {
+  loadOrderDetails(orderCode: string): void {
     this.store.dispatch(
       new fromStore.LoadOrderDetails({
-        userId: userId,
+        userId: USERID_CURRENT,
         orderCode: orderCode,
       })
     );
@@ -127,10 +126,7 @@ export class UserService {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(
-    userId: string,
-    pageSize: number
-  ): Observable<OrderHistoryList> {
+  getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
       select(fromStore.getOrdersState),
       tap(orderListState => {
@@ -138,8 +134,8 @@ export class UserService {
           orderListState.loading ||
           orderListState.success ||
           orderListState.error;
-        if (!attemptedLoad && !!userId) {
-          this.loadOrderList(userId, pageSize);
+        if (!attemptedLoad) {
+          this.loadOrderList(pageSize);
         }
       }),
       map(orderListState => orderListState.value)
@@ -206,20 +202,14 @@ export class UserService {
 
   /**
    * Retrieves an order list
-   * @param userId a user ID
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
    */
-  loadOrderList(
-    userId: string,
-    pageSize: number,
-    currentPage?: number,
-    sort?: string
-  ): void {
+  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
       new fromStore.LoadUserOrders({
-        userId: userId,
+        userId: USERID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
@@ -229,21 +219,19 @@ export class UserService {
 
   /**
    * Retrieves user's addresses
-   * @param userId a user ID
    */
-  loadAddresses(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserAddresses(userId));
+  loadAddresses(): void {
+    this.store.dispatch(new fromStore.LoadUserAddresses(USERID_CURRENT));
   }
 
   /**
    * Adds user address
-   * @param userId a user ID
    * @param address a user address
    */
-  addUserAddress(userId: string, address: Address): void {
+  addUserAddress(address: Address): void {
     this.store.dispatch(
       new fromStore.AddUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         address: address,
       })
     );
@@ -251,13 +239,12 @@ export class UserService {
 
   /**
    * Sets user address as default
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  setAddressAsDefault(userId: string, addressId: string): void {
+  setAddressAsDefault(addressId: string): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: { defaultAddress: true },
       })
@@ -266,14 +253,13 @@ export class UserService {
 
   /**
    * Updates existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    * @param address a user address
    */
-  updateUserAddress(userId: string, addressId: string, address: Address): void {
+  updateUserAddress(addressId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: address,
       })
@@ -282,13 +268,12 @@ export class UserService {
 
   /**
    * Deletes existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  deleteUserAddress(userId: string, addressId: string): void {
+  deleteUserAddress(addressId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
       })
     );
@@ -451,11 +436,10 @@ export class UserService {
 
   /**
    * Updates the user's email
-   * @param uid to be updated
    */
-  updateEmail(uid: string, password: string, newUid: string): void {
+  updateEmail(password: string, newUid: string): void {
     this.store.dispatch(
-      new fromStore.UpdateEmailAction({ uid, password, newUid })
+      new fromStore.UpdateEmailAction({ uid: USERID_CURRENT, password, newUid })
     );
   }
 
