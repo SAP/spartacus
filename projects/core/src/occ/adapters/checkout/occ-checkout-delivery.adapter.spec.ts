@@ -5,11 +5,11 @@ import {
 } from '@angular/common/http/testing';
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 import { ConverterService } from '../../../util/converter.service';
+import { DELIVERY_MODE_NORMALIZER, OccConfig } from '@spartacus/core';
 import {
-  DELIVERY_MODE_NORMALIZER,
-  OccConfig,
-} from '@spartacus/core';
-import { ADDRESS_NORMALIZER, ADDRESS_SERIALIZER } from '../../../user/connectors/address/converters';
+  ADDRESS_NORMALIZER,
+  ADDRESS_SERIALIZER,
+} from '../../../user/connectors/address/converters';
 import { Cart } from '../../../model/cart.model';
 import { Address } from '../../../model/address.model';
 import { Occ } from '../../occ-models/occ.models';
@@ -92,9 +92,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockAddress);
       expect(result).toEqual(mockAddress);
-      expect(converter.pipeable).toHaveBeenCalledWith(
-        ADDRESS_NORMALIZER
-      );
+      expect(converter.pipeable).toHaveBeenCalledWith(ADDRESS_NORMALIZER);
       expect(converter.convert).toHaveBeenCalledWith(
         mockAddress,
         ADDRESS_SERIALIZER

@@ -7,12 +7,13 @@ import { catchError, pluck } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/checkout-delivery.adapter';
 import { ConverterService } from '../../../util/converter.service';
-import {
-  DELIVERY_MODE_NORMALIZER,
-} from '../../../checkout/connectors/delivery/converters';
+import { DELIVERY_MODE_NORMALIZER } from '../../../checkout/connectors/delivery/converters';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
-import { ADDRESS_NORMALIZER, ADDRESS_SERIALIZER } from '../../../user/connectors/address/converters';
+import {
+  ADDRESS_NORMALIZER,
+  ADDRESS_SERIALIZER,
+} from '../../../user/connectors/address/converters';
 
 @Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {

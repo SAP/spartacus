@@ -19,7 +19,10 @@ describe('CheckoutDeliveryDeliveryConnector', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
-          { provide: CheckoutDeliveryAdapter, useClass: MockCheckoutDeliveryAdapter },
+          {
+            provide: CheckoutDeliveryAdapter,
+            useClass: MockCheckoutDeliveryAdapter,
+          },
         ],
       });
 
