@@ -9,6 +9,7 @@ import { Occ } from '../../occ-models/occ.models';
 import {
   ConverterService,
   COUNTRY_NORMALIZER,
+  CountryType,
   OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
@@ -135,6 +136,19 @@ describe('OccSiteAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(countryList);
+    });
+
+    it('should take type into account', () => {
+      service.loadCountries(CountryType.BILLING).subscribe();
+      httpMock
+        .expectOne(req => {
+          return (
+            req.method === 'GET' &&
+            req.url === '/countries' &&
+            req.params.get('type') === CountryType.BILLING
+          );
+        })
+        .flush({});
     });
 
     it('should use converter', () => {
