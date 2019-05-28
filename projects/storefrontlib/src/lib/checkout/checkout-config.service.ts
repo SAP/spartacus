@@ -18,18 +18,7 @@ export class CheckoutConfigService {
   }
 
   getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
-    const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
-      activatedRoute
-    );
-
-    let stepIndex: number;
-    this.steps.forEach((step, index) => {
-      if (
-        currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
-      ) {
-        stepIndex = index;
-      }
-    });
+    const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
     return stepIndex >= 0 && this.steps[stepIndex + 1]
       ? this.getStepUrlFromStepRoute(this.steps[stepIndex + 1].routeName)
@@ -37,22 +26,31 @@ export class CheckoutConfigService {
   }
 
   getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
+    const stepIndex = this.getCurrentStepIndex(activatedRoute);
+
+    return stepIndex >= 0 && this.steps[stepIndex - 1]
+      ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].routeName)
+      : null;
+  }
+
+  getCurrentStepIndex(activatedRoute: ActivatedRoute) {
     const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
       activatedRoute
     );
 
     let stepIndex: number;
-    this.steps.forEach((step, index) => {
+    let index = 0;
+    for (const step of this.steps) {
       if (
         currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
       ) {
         stepIndex = index;
+      } else {
+        index++;
       }
-    });
+    }
 
-    return stepIndex >= 1 && this.steps[stepIndex - 1]
-      ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].routeName)
-      : null;
+    return stepIndex >= 0 ? stepIndex : null;
   }
 
   private getStepUrlFromActivatedRoute(activatedRoute: ActivatedRoute) {

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
 
-export abstract class CartDeliveryAdapter {
+export abstract class CheckoutDeliveryAdapter {
   /**
    * Abstract method used to create address in cart
    *
