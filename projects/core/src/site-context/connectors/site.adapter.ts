@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Currency, Language } from '../../model/misc.model';
-import { Country, Region } from '../../model/address.model';
+import { Country, CountryType, Region } from '../../model/address.model';
 
 export abstract class SiteAdapter {
   /**
@@ -13,10 +13,7 @@ export abstract class SiteAdapter {
    */
   abstract loadCurrencies(): Observable<Currency[]>;
 
-  abstract loadBillingCountries(): Observable<Country[]>;
-
-  abstract loadDeliveryCountries(): Observable<Country[]>;
+  abstract loadCountries(type?: CountryType): Observable<Country[]>;
 
   abstract loadRegions(countryIsoCode: string): Observable<Region[]>;
-
 }

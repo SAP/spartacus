@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SiteAdapter } from './site.adapter';
 import { Observable } from 'rxjs';
 import { Currency, Language } from '../../model/misc.model';
-import { Country, Region } from '../../model/address.model';
+import { Country, CountryType, Region } from '../../model/address.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +18,8 @@ export class SiteConnector {
     return this.adapter.loadCurrencies();
   }
 
-  getBillingCountries(): Observable<Country[]> {
-    return this.adapter.loadBillingCountries();
-  }
-
-  getDeliveryCountries(): Observable<Country[]> {
-    return this.adapter.loadDeliveryCountries();
+  getCountries(type?: CountryType): Observable<Country[]> {
+    return this.adapter.loadCountries(type);
   }
 
   getRegions(countryIsoCode: string): Observable<Region[]> {

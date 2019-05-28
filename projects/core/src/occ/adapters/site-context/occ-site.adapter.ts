@@ -7,11 +7,11 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { catchError, map } from 'rxjs/operators';
 import { Occ } from '../../occ-models/occ.models';
 import { ConverterService } from '../../../util/converter.service';
-import { Country, Region } from '../../../model/address.model';
+import { Country, CountryType, Region } from '../../../model/address.model';
 import {
   COUNTRY_NORMALIZER,
   REGION_NORMALIZER,
-} from '../../../user/connectors/payment/converters';
+} from '../../../site-context/connectors/converters';
 import {
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
@@ -19,8 +19,6 @@ import {
 
 const COUNTRIES_ENDPOINT = 'countries';
 const REGIONS_ENDPOINT = 'regions';
-const COUNTRIES_TYPE_BILLING = 'BILLING';
-const COUNTRIES_TYPE_SHIPPING = 'SHIPPING';
 
 @Injectable()
 export class OccSiteAdapter implements SiteAdapter {
@@ -50,22 +48,16 @@ export class OccSiteAdapter implements SiteAdapter {
       );
   }
 
-  loadBillingCountries(): Observable<Country[]> {
-    return this.http
-      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(COUNTRIES_ENDPOINT), {
-        params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING),
-      })
-      .pipe(
-        catchError((error: any) => throwError(error.json())),
-        map(countryList => countryList.countries),
-        this.converter.pipeableMany(COUNTRY_NORMALIZER)
-      );
-  }
+  loadCountries(type?: CountryType): Observable<Country[]> {
+    let params;
 
-  loadDeliveryCountries(): Observable<Country[]> {
+    if (type) {
+      params = new HttpParams().set('type', type);
+    }
+
     return this.http
       .get<Occ.CountryList>(this.occEndpoints.getEndpoint(COUNTRIES_ENDPOINT), {
-        params: new HttpParams().set('type', COUNTRIES_TYPE_SHIPPING),
+        params,
       })
       .pipe(
         catchError((error: any) => throwError(error.json())),
