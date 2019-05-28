@@ -6,6 +6,4 @@ export * from './current-product.service';
 export * from './product-details/index';
 export * from './product-list/index';
 export * from './product-outlets.model';
-export * from './product-page/product-page.component';
-export * from './product-page/product-page.module';
 export * from './product-tabs/index';
