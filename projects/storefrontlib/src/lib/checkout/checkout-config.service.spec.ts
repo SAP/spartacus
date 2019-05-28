@@ -1,29 +1,50 @@
+import { ActivatedRoute } from '@angular/router';
 import { CheckoutConfig } from './config/checkout-config';
 import { CheckoutConfigService } from './checkout-config.service';
-import { CheckoutStepType, CheckoutStep } from './model/checkout-step.model';
+import { TestBed } from '@angular/core/testing';
+import { RoutingConfigService, RoutesConfig } from '@spartacus/core';
+import { defaultCheckoutConfig } from './config/default-checkout-config';
+import { CheckoutStep } from './model';
+import { defaultStorefrontRoutesConfig } from './../ui/pages/default-routing-config';
+import { of } from 'rxjs';
 
-const mockCheckoutStepType = CheckoutStepType.SHIPPING_ADDRESS;
+const mockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 
-const mockCheckoutSteps: CheckoutStep[] = [
-  {
-    id: 'shippingAddress',
-    name: 'checkoutProgress.label.shippingAddress',
-    routeName: 'checkoutShippingAddress',
-    type: [CheckoutStepType.SHIPPING_ADDRESS],
-  },
-];
+const mockCheckoutSteps: Array<CheckoutStep> =
+  defaultCheckoutConfig.checkout.steps;
 
-const mockCheckoutConfig: CheckoutConfig = {
-  checkout: {
-    steps: mockCheckoutSteps,
-  },
-};
+const mockRoutingConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+
+class MockActivatedRoute {
+  snapshot = of();
+}
+
+class MockRoutingConfigService {
+  getRouteConfig(routeName: string) {
+    return mockCheckoutConfig[routeName].paths[0];
+  }
+}
 
 describe('CheckoutConfigService', () => {
   let service: CheckoutConfigService;
+  let activatedRoute: ActivatedRoute;
+  let routingConfigService: RoutingConfigService;
 
   beforeEach(() => {
-    service = new CheckoutConfigService(mockCheckoutConfig, null);
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+      ],
+    });
+
+    activatedRoute = TestBed.get(ActivatedRoute);
+    routingConfigService = TestBed.get(RoutingConfigService);
+
+    service = new CheckoutConfigService(
+      mockCheckoutConfig,
+      routingConfigService
+    );
   });
 
   it('should be created', () => {
@@ -31,10 +52,59 @@ describe('CheckoutConfigService', () => {
   });
 
   it('should get checkout step by type', () => {
-    const type = mockCheckoutStepType;
+    const type = mockCheckoutSteps[0].type[0];
 
     expect(service.getCheckoutStep(type)).toEqual(mockCheckoutSteps[0]);
   });
 
-  // @todo: figure out a way to test next and previous steps
+  it('should get next checkout step url', () => {
+    const activeStepIndex = 1;
+
+    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
+      '/' +
+        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
+    );
+
+    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
+      return mockRoutingConfig[route].paths[0];
+    });
+
+    expect(service.getNextCheckoutStepUrl(activatedRoute)).toBe(
+      mockRoutingConfig[mockCheckoutSteps[activeStepIndex + 1].routeName]
+        .paths[0]
+    );
+  });
+
+  it('should get prev checkout step url', () => {
+    const activeStepIndex = 1;
+
+    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
+      '/' +
+        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
+    );
+
+    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
+      return mockRoutingConfig[route].paths[0];
+    });
+
+    expect(service.getPreviousCheckoutStepUrl(activatedRoute)).toBe(
+      mockRoutingConfig[mockCheckoutSteps[activeStepIndex - 1].routeName]
+        .paths[0]
+    );
+  });
+
+  it('should return current step index', () => {
+    const activeStepIndex = 1;
+
+    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
+      '/' +
+        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
+    );
+
+    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
+      return mockRoutingConfig[route].paths[0];
+    });
+
+    expect(service.getCurrentStepIndex(activatedRoute)).toBe(1);
+  });
 });

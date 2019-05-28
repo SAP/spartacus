@@ -115,7 +115,9 @@ export function verifyReviewForm() {
 }
 
 export function verifyQuantityInCart() {
-  cy.get(addToCartButton).click();
+  cy.get(addToCartButton)
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get(atcModal).should('be.visible');
   cy.get(atcModalTitle).should('contain', 'Item(s) added to your cart');
   cy.get(`${atcModalItem} .cx-name`).should('contain', PRODUCT_NAME);
@@ -126,7 +128,9 @@ export function verifyQuantityInCart() {
       .getByText('+')
       .click();
   }
-  cy.get(addToCartButton).click();
+  cy.get(addToCartButton)
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
 }

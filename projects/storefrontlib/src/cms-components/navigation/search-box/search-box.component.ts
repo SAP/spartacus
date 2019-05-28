@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { CmsSearchBoxComponent } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -18,7 +18,7 @@ const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
   displaySuggestions: true,
   maxProducts: 5,
   maxSuggestions: 5,
-  displayProductImages: false,
+  displayProductImages: true,
 };
 
 @Component({
@@ -61,9 +61,28 @@ export class SearchBoxComponent {
     switchMap(config => this.searchBoxComponentService.getResults(config))
   );
 
-  get config$(): Observable<SearchBoxConfig> {
+  /**
+   * Returns the backend configuration or default configuration for the searchbox.
+   */
+  private get config$(): Observable<SearchBoxConfig> {
     if (this.componentData) {
-      return <Observable<SearchBoxConfig>>this.componentData.data$;
+      return <Observable<SearchBoxConfig>>this.componentData.data$.pipe(
+        // Since the backend returns string values (i.e. displayProducts: "true") for
+        // boolean values, we replace them with boolean values.
+        map(c => {
+          return {
+            ...c,
+            displayProducts:
+              <any>c.displayProducts === 'true' || c.displayProducts === true,
+            displayProductImages:
+              <any>c.displayProductImages === 'true' ||
+              c.displayProductImages === true,
+            displaySuggestions:
+              <any>c.displaySuggestions === 'true' ||
+              c.displaySuggestions === true,
+          };
+        })
+      );
     } else {
       return of(DEFAULT_SEARCHBOX_CONFIG);
     }
