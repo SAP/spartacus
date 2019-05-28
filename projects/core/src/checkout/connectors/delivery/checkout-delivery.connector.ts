@@ -1,14 +1,14 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { CartDeliveryAdapter } from './cart-delivery.adapter';
+import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartDeliveryConnector {
-  constructor(protected adapter: CartDeliveryAdapter) {}
+export class CheckoutDeliveryConnector {
+  constructor(protected adapter: CheckoutDeliveryAdapter) {}
 
   public createAddress(
     userId: string,

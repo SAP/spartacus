@@ -10,7 +10,10 @@ import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
 import * as fromCartActions from './../../../cart/store/actions/index';
-import { CartDeliveryConnector, CartPaymentConnector } from '../../../cart';
+import {
+  CheckoutDeliveryConnector,
+  CheckoutPaymentConnector,
+} from '../../../checkout/connectors';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 
@@ -48,14 +51,14 @@ const paymentDetails: PaymentDetails = {
   },
 };
 
-class MockCartDeliveryConnector {
+class MockCheckoutDeliveryConnector {
   createAddress = createSpy().and.returnValue(of(address));
   setAddress = createSpy().and.returnValue(of({}));
   getSupportedModes = createSpy().and.returnValue(of(modes));
   setMode = createSpy().and.returnValue(of({}));
 }
 
-class MockCartPaymentConnector {
+class MockCheckoutPaymentConnector {
   set = createSpy().and.returnValue(of({}));
   create = createSpy().and.returnValue(of(paymentDetails));
 }
@@ -74,9 +77,15 @@ describe('Checkout effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        CartPaymentConnector,
-        { provide: CartDeliveryConnector, useClass: MockCartDeliveryConnector },
-        { provide: CartPaymentConnector, useClass: MockCartPaymentConnector },
+        CheckoutPaymentConnector,
+        {
+          provide: CheckoutDeliveryConnector,
+          useClass: MockCheckoutDeliveryConnector,
+        },
+        {
+          provide: CheckoutPaymentConnector,
+          useClass: MockCheckoutPaymentConnector,
+        },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
         provideMockActions(() => actions$),
