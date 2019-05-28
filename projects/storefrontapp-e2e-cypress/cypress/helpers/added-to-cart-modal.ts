@@ -1,5 +1,5 @@
 export const productId = '3595723';
-export const productId2 = '3325048';
+export const productId2 = '2054947';
 
 export function verifyItemCounterOnPDP() {
   // Type 1000 in the input to see if the value will change to maximum 'max stock'
@@ -79,11 +79,11 @@ export function addDifferentProducts() {
   // cy.visit('/');
 
   // search for new product and select it, and add to cart
-  cy.get('cx-searchbox [aria-label="search"]').type(productId2);
+  cy.get('cx-searchbox input').type(productId2);
   cy.get('cx-searchbox')
-    .contains('.cx-product', 'DSC-W180')
+    .contains('.products', 'EOS 500D + 18-200mm IS')
     .click();
-  cy.get('cx-breadcrumb h1').contains('DSC-W180');
+  cy.get('cx-breadcrumb h1').contains('EOS 500D + 18-200mm IS');
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -102,7 +102,7 @@ export function addDifferentProducts() {
   cy.get('cx-added-to-cart-dialog .cx-total .cx-value').then(
     $cartTotalItemPrice => {
       const totalPrice = $cartTotalItemPrice.text().trim();
-      expect(totalPrice).equal('$121.88');
+      expect(totalPrice).equal('$1,066.18');
     }
   );
 
@@ -119,36 +119,36 @@ export function addDifferentProducts() {
 
   // check for the other product still exist
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', 'EOS 500D + 18-200mm IS')
     .should('be.visible');
 
   // check the item quantity of the product
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', 'EOS 500D + 18-200mm IS')
     .find('.cx-counter-value')
     .should('have.value', '1');
 
   // check the item price of the product
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', 'EOS 500D + 18-200mm IS')
     .find('.cx-price .cx-value')
     .then($cartItemPrice => {
       const price = $cartItemPrice.text().trim();
-      expect(price).equal('$121.88');
+      expect(price).equal('$1,066.18');
     });
 
   // check the item price total of the product
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', 'EOS 500D + 18-200mm IS')
     .find('.cx-total .cx-value')
     .then($cartTotalItemPrice => {
       const totalPrice = $cartTotalItemPrice.text().trim();
-      expect(totalPrice).equal('$121.88');
+      expect(totalPrice).equal('$1,066.18');
     });
 
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', 'EOS 500D + 18-200mm IS')
     .find('.cx-actions .link')
     .click();
 
