@@ -1,13 +1,8 @@
 import { Observable } from 'rxjs';
-import { Title, User } from '../../../model/misc.model';
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../../occ/occ-models/additional-occ.models';
-import { UserRegisterFormData } from '../../../user/model/user.model';
+import { Title, User, UserSignUp } from '../../../model/misc.model';
 
 export abstract class UserAccountAdapter {
-  abstract register(user: UserRegisterFormData): Observable<User>;
+  abstract register(user: UserSignUp): Observable<User>;
 
   abstract requestForgotPasswordEmail(userEmailAddress: string): Observable<{}>;
 
@@ -28,14 +23,4 @@ export abstract class UserAccountAdapter {
   abstract remove(userId: string): Observable<{}>;
 
   abstract loadTitles(): Observable<Title[]>;
-
-  abstract loadConsents(userId: string): Observable<ConsentTemplateList>;
-
-  abstract giveConsent(
-    userId: string,
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): Observable<ConsentTemplate>;
-
-  abstract withdrawConsent(userId: string, consentCode: string): Observable<{}>;
 }

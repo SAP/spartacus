@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
-import { Title, User } from '../../model/misc.model';
+import { ConsentTemplate } from '../../model/consent.model';
+import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
@@ -14,7 +14,6 @@ import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
-import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import {
   GIVE_CONSENT_PROCESS_ID,
@@ -50,17 +49,15 @@ export class UserService {
    *
    * @param submitFormData as UserRegisterFormData
    */
-  register(userRegisterFormData: UserRegisterFormData): void {
+  register(userRegisterFormData: UserSignUp): void {
     this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
   /**
    * Remove user account, that's also called close user's account
-   *
-   * @param userId
    */
-  remove(userId: string): void {
-    this.store.dispatch(new fromStore.RemoveUser(userId));
+  remove(): void {
+    this.store.dispatch(new fromStore.RemoveUser(USERID_CURRENT));
   }
 
   /**
@@ -108,13 +105,12 @@ export class UserService {
   /**
    * Retrieves order's details
    *
-   * @param userId a user's ID
    * @param orderCode an order code
    */
-  loadOrderDetails(userId: string, orderCode: string): void {
+  loadOrderDetails(orderCode: string): void {
     this.store.dispatch(
       new fromStore.LoadOrderDetails({
-        userId: userId,
+        userId: USERID_CURRENT,
         orderCode: orderCode,
       })
     );
@@ -130,10 +126,7 @@ export class UserService {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(
-    userId: string,
-    pageSize: number
-  ): Observable<OrderHistoryList> {
+  getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
       select(fromStore.getOrdersState),
       tap(orderListState => {
@@ -141,8 +134,8 @@ export class UserService {
           orderListState.loading ||
           orderListState.success ||
           orderListState.error;
-        if (!attemptedLoad && !!userId) {
-          this.loadOrderList(userId, pageSize);
+        if (!attemptedLoad) {
+          this.loadOrderList(pageSize);
         }
       }),
       map(orderListState => orderListState.value)
@@ -209,20 +202,14 @@ export class UserService {
 
   /**
    * Retrieves an order list
-   * @param userId a user ID
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
    */
-  loadOrderList(
-    userId: string,
-    pageSize: number,
-    currentPage?: number,
-    sort?: string
-  ): void {
+  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
       new fromStore.LoadUserOrders({
-        userId: userId,
+        userId: USERID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
@@ -232,21 +219,19 @@ export class UserService {
 
   /**
    * Retrieves user's addresses
-   * @param userId a user ID
    */
-  loadAddresses(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserAddresses(userId));
+  loadAddresses(): void {
+    this.store.dispatch(new fromStore.LoadUserAddresses(USERID_CURRENT));
   }
 
   /**
    * Adds user address
-   * @param userId a user ID
    * @param address a user address
    */
-  addUserAddress(userId: string, address: Address): void {
+  addUserAddress(address: Address): void {
     this.store.dispatch(
       new fromStore.AddUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         address: address,
       })
     );
@@ -254,13 +239,12 @@ export class UserService {
 
   /**
    * Sets user address as default
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  setAddressAsDefault(userId: string, addressId: string): void {
+  setAddressAsDefault(addressId: string): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: { defaultAddress: true },
       })
@@ -269,14 +253,13 @@ export class UserService {
 
   /**
    * Updates existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    * @param address a user address
    */
-  updateUserAddress(userId: string, addressId: string, address: Address): void {
+  updateUserAddress(addressId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: address,
       })
@@ -285,13 +268,12 @@ export class UserService {
 
   /**
    * Deletes existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  deleteUserAddress(userId: string, addressId: string): void {
+  deleteUserAddress(addressId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
       })
     );
@@ -394,9 +376,9 @@ export class UserService {
    * Updates the user's details
    * @param userDetails to be updated
    */
-  updatePersonalDetails(username: string, userDetails: User): void {
+  updatePersonalDetails(userDetails: User): void {
     this.store.dispatch(
-      new fromStore.UpdateUserDetails({ username, userDetails })
+      new fromStore.UpdateUserDetails({ username: USERID_CURRENT, userDetails })
     );
   }
 
@@ -454,11 +436,10 @@ export class UserService {
 
   /**
    * Updates the user's email
-   * @param uid to be updated
    */
-  updateEmail(uid: string, password: string, newUid: string): void {
+  updateEmail(password: string, newUid: string): void {
     this.store.dispatch(
-      new fromStore.UpdateEmailAction({ uid, password, newUid })
+      new fromStore.UpdateEmailAction({ uid: USERID_CURRENT, password, newUid })
     );
   }
 
@@ -502,13 +483,13 @@ export class UserService {
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
    */
-  updatePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string
-  ): void {
+  updatePassword(oldPassword: string, newPassword: string): void {
     this.store.dispatch(
-      new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+      new fromStore.UpdatePassword({
+        userId: USERID_CURRENT,
+        oldPassword,
+        newPassword,
+      })
     );
   }
 
@@ -557,7 +538,7 @@ export class UserService {
   /**
    * Returns all consents
    */
-  getConsents(): Observable<ConsentTemplateList> {
+  getConsents(): Observable<ConsentTemplate[]> {
     return this.store.pipe(select(fromStore.getConsentsValue));
   }
 

@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
-
+import { Observable, of } from 'rxjs';
+import { GlobalMessageService } from '../../../global-message/index';
+import { Address } from '../../../model/address.model';
+import { User } from '../../../model/misc.model';
+import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
+import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
+import { UserAddressConnector } from '../../connectors/address/user-address.connector';
+import { UserService } from '../../facade/user.service';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
-import { UserService } from '../../facade/user.service';
-import { GlobalMessageService } from '../../../global-message/index';
-import { User } from '../../../model/misc.model';
-import { Address } from '../../../model/address.model';
-import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 
 class MockUserService {
   loadAddresses = jasmine.createSpy();
@@ -86,7 +86,7 @@ describe('User Addresses effect', () => {
   describe('addUserAddress$', () => {
     it('should add user address', () => {
       const action = new fromUserAddressesAction.AddUserAddress({
-        userId: '123',
+        userId: USERID_CURRENT,
         address: mockUserAddress,
       });
       const completion = new fromUserAddressesAction.AddUserAddressSuccess({});
@@ -100,7 +100,7 @@ describe('User Addresses effect', () => {
   describe('updateUserAddress$', () => {
     it('should update user address', () => {
       const action = new fromUserAddressesAction.UpdateUserAddress({
-        userId: '123',
+        userId: USERID_CURRENT,
         addressId: '123',
         address: {
           firstName: 'test',
@@ -119,7 +119,7 @@ describe('User Addresses effect', () => {
   describe('deleteUserAddress$', () => {
     it('should delete user address', () => {
       const action = new fromUserAddressesAction.DeleteUserAddress({
-        userId: '123',
+        userId: USERID_CURRENT,
         addressId: 'address123',
       });
       const completion = new fromUserAddressesAction.DeleteUserAddressSuccess(
