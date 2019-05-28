@@ -14,7 +14,7 @@ import {
   USER_SIGN_UP_SERIALIZER,
 } from '../../../user/connectors/user/converters';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
-import { USER_NORMALIZER } from '../../../user/connectors/details/converters';
+import { USER_NORMALIZER } from '../../../user/connectors/user/converters';
 import { Occ } from '../../occ-models';
 
 const USER_ENDPOINT = 'users/';
