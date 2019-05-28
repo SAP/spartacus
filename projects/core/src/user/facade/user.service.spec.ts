@@ -4,8 +4,9 @@ import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Occ } from '../../occ/occ-models/occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import * as fromStore from '../store/index';
@@ -79,9 +80,9 @@ describe('UserService', () => {
 
   describe('Remove User Account', () => {
     it('should be able to remove user account', () => {
-      service.remove('testUserId');
+      service.remove();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RemoveUser('testUserId')
+        new fromStore.RemoveUser(USERID_CURRENT)
       );
     });
 
@@ -456,9 +457,12 @@ describe('UserService', () => {
     };
 
     it('should dispatch UpdateUserDetails action', () => {
-      service.updatePersonalDetails(username, userDetails);
+      service.updatePersonalDetails(userDetails);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateUserDetails({ username, userDetails })
+        new fromStore.UpdateUserDetails({
+          username: USERID_CURRENT,
+          userDetails,
+        })
       );
     });
 
@@ -598,10 +602,14 @@ describe('UserService', () => {
     const newPassword = 'newPass456';
 
     it('should updatePassword() dispatch UpdatePassword action', () => {
-      service.updatePassword(userId, oldPassword, newPassword);
+      service.updatePassword(oldPassword, newPassword);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+        new fromStore.UpdatePassword({
+          userId: USERID_CURRENT,
+          oldPassword,
+          newPassword,
+        })
       );
     });
 
@@ -653,9 +661,7 @@ describe('UserService', () => {
 
   describe('consent management', () => {
     const userId = 'xxx@xxx.xxx';
-    const consentTemplateListMock: ConsentTemplateList = {
-      consentTemplates: [{ id: 'xxx' }],
-    };
+    const consentTemplateListMock: ConsentTemplate[] = [{ id: 'xxx' }];
 
     describe('load consents', () => {
       describe('loadConsents', () => {
@@ -672,7 +678,7 @@ describe('UserService', () => {
             new fromStore.LoadUserConsentsSuccess(consentTemplateListMock)
           );
 
-          let result: ConsentTemplateList;
+          let result: ConsentTemplate[];
           service
             .getConsents()
             .subscribe(consents => (result = consents))

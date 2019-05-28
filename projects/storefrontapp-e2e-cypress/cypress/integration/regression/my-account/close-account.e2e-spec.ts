@@ -1,7 +1,7 @@
-import { randomString, generateMail } from '../../../helpers/user';
-import { standardUser } from '../../../sample-data/shared-users';
 import { login } from '../../../helpers/auth-forms';
 import { checkBanner } from '../../../helpers/homepage';
+import { generateMail, randomString } from '../../../helpers/user';
+import { standardUser } from '../../../sample-data/shared-users';
 
 const CLOSE_ACCOUNT = '/my-account/close-account';
 
@@ -25,7 +25,12 @@ describe('Close Account', () => {
     });
 
     beforeEach(() => {
+      cy.restoreLocalStorage();
       cy.visit(CLOSE_ACCOUNT);
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
     });
 
     it('should be able to cancel and go back to home', () => {

@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -54,11 +55,9 @@ export class UserService {
 
   /**
    * Remove user account, that's also called close user's account
-   *
-   * @param userId
    */
-  remove(userId: string): void {
-    this.store.dispatch(new fromStore.RemoveUser(userId));
+  remove(): void {
+    this.store.dispatch(new fromStore.RemoveUser(USERID_CURRENT));
   }
 
   /**
@@ -392,9 +391,9 @@ export class UserService {
    * Updates the user's details
    * @param userDetails to be updated
    */
-  updatePersonalDetails(username: string, userDetails: User): void {
+  updatePersonalDetails(userDetails: User): void {
     this.store.dispatch(
-      new fromStore.UpdateUserDetails({ username, userDetails })
+      new fromStore.UpdateUserDetails({ username: USERID_CURRENT, userDetails })
     );
   }
 
@@ -500,13 +499,13 @@ export class UserService {
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
    */
-  updatePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string
-  ): void {
+  updatePassword(oldPassword: string, newPassword: string): void {
     this.store.dispatch(
-      new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+      new fromStore.UpdatePassword({
+        userId: USERID_CURRENT,
+        oldPassword,
+        newPassword,
+      })
     );
   }
 
@@ -556,7 +555,7 @@ export class UserService {
   /**
    * Returns all consents
    */
-  getConsents(): Observable<ConsentTemplateList> {
+  getConsents(): Observable<ConsentTemplate[]> {
     return this.store.pipe(select(fromStore.getConsentsValue));
   }
 
