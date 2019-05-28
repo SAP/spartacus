@@ -44,7 +44,7 @@ const context: PageContext = {
 
 const ids = ['comp_uid1', 'comp_uid2'];
 
-describe('OccCmsComponentAdapter', () => {
+fdescribe('OccCmsComponentAdapter', () => {
   let service: OccCmsComponentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
@@ -120,286 +120,27 @@ describe('OccCmsComponentAdapter', () => {
 
   describe('Load list of cms component data', () => {
     it('should get a list of cms component data without pagination parameters', () => {
-      spyOn(endpointsService, 'getUrl').and.returnValue(
-        endpoint +
-          `/components?componentIds=${ids.toString()}&productCode=${context.id}`
-      );
-      service.findComponentsByIds(ids, context).subscribe(result => {
-        expect(result).toEqual(componentList.component);
-      });
-
-      const testRequest = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            endpoint +
-              `/components?componentIds=${ids.toString()}&productCode=${
-                context.id
-              }`
-        );
-      });
-
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
-        'components',
-        { fields: 'DEFAULT' },
-        {
-          componentIds: ids.toString(),
-          productCode: '123',
-          currentPage: '0',
-          pageSize: '2',
-        }
-      );
-
-      expect(testRequest.cancelled).toBeFalsy();
-      expect(testRequest.request.responseType).toEqual('json');
-      testRequest.flush(componentList);
+      mockRequest('DEFAULT', 0, 2);
     });
 
     it('should use a post request when get fails to get a list of cms component data without pagination parameters - 400', () => {
-      spyOn(endpointsService, 'getUrl').and.returnValues(
-        endpoint +
-          `/components?componentIds=${ids.toString()}&productCode=${
-            context.id
-          }`,
-        endpoint + `/components?productCode=${context.id}`
-      );
-
-      service.findComponentsByIds(ids, context).subscribe(result => {
-        expect(result).toEqual(componentList.component);
-      });
-
-      const testRequest = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            endpoint +
-              `/components?componentIds=${ids.toString()}&productCode=${
-                context.id
-              }`
-        );
-      });
-
-      testRequest.flush(
-        { error: 'Bad Request' },
-        { status: 400, statusText: 'Bad Request' }
-      );
-
-      const testRequestPOST = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === endpoint + `/components?productCode=${context.id}`
-        );
-      });
-
-      expect(testRequestPOST.request.body).toEqual({ idList: ids });
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
-        'components',
-        { fields: 'DEFAULT' },
-        {
-          productCode: '123',
-          currentPage: '0',
-          pageSize: '2',
-        }
-      );
-
-      expect(testRequestPOST.cancelled).toBeFalsy();
-      expect(testRequestPOST.request.responseType).toEqual('json');
-      testRequestPOST.flush(componentList);
+      mockFailedRequest('Bad Request', 400, 'DEFAULT', 0, 2);
     });
 
     it('should use a post request when get fails to get a list of cms component data without pagination parameters - 405', () => {
-      spyOn(endpointsService, 'getUrl').and.returnValues(
-        endpoint +
-          `/components?componentIds=${ids.toString()}&productCode=${
-            context.id
-          }`,
-        endpoint + `/components?productCode=${context.id}`
-      );
-
-      service.findComponentsByIds(ids, context).subscribe(result => {
-        expect(result).toEqual(componentList.component);
-      });
-
-      const testRequest = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            endpoint +
-              `/components?componentIds=${ids.toString()}&productCode=${
-                context.id
-              }`
-        );
-      });
-
-      testRequest.flush(
-        { error: 'Method Not Allowed' },
-        { status: 405, statusText: 'Method Not Allowed' }
-      );
-
-      const testRequestPOST = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === endpoint + `/components?productCode=${context.id}`
-        );
-      });
-
-      expect(testRequestPOST.request.body).toEqual({ idList: ids });
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
-        'components',
-        { fields: 'DEFAULT' },
-        {
-          productCode: '123',
-          currentPage: '0',
-          pageSize: '2',
-        }
-      );
-
-      expect(testRequestPOST.cancelled).toBeFalsy();
-      expect(testRequestPOST.request.responseType).toEqual('json');
-      testRequestPOST.flush(componentList);
+      mockFailedRequest('Method Not Allowed', 405, 'DEFAULT', 0, 2);
     });
 
     it('should get a list of cms component data with pagination parameters', () => {
-      spyOn(endpointsService, 'getUrl').and.returnValue(
-        endpoint +
-          `/components?componentIds=${ids.toString()}&productCode=${context.id}`
-      );
-
-      service
-        .findComponentsByIds(ids, context, 'FULL', 0, 5)
-        .subscribe(result => {
-          expect(result).toEqual(componentList.component);
-        });
-
-      const testRequest = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            endpoint +
-              `/components?componentIds=${ids.toString()}&productCode=${
-                context.id
-              }`
-        );
-      });
-
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
-        'components',
-        { fields: 'FULL' },
-        {
-          componentIds: ids.toString(),
-          productCode: '123',
-          currentPage: '0',
-          pageSize: '5',
-        }
-      );
-
-      expect(testRequest.request.responseType).toEqual('json');
-      expect(testRequest.cancelled).toBeFalsy();
-      testRequest.flush(componentList);
+      mockRequest('FULL', 0, 5);
     });
 
     it('should use a post request when get fails to get a list of cms component data with pagination parameters - 400', () => {
-      spyOn(endpointsService, 'getUrl').and.returnValues(
-        endpoint +
-          `/components?componentIds=${ids.toString()}&productCode=${
-            context.id
-          }`,
-        endpoint + `/components?productCode=${context.id}`
-      );
-
-      service.findComponentsByIds(ids, context).subscribe(result => {
-        expect(result).toEqual(componentList.component);
-      });
-
-      const testRequest = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            endpoint +
-              `/components?componentIds=${ids.toString()}&productCode=${
-                context.id
-              }`
-        );
-      });
-
-      testRequest.flush(
-        { error: 'Bad Request' },
-        { status: 400, statusText: 'Bad Request' }
-      );
-
-      const testRequestPOST = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === endpoint + `/components?productCode=${context.id}`
-        );
-      });
-
-      expect(testRequestPOST.request.body).toEqual({ idList: ids });
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
-        'components',
-        { fields: 'DEFAULT' },
-        {
-          productCode: '123',
-          currentPage: '0',
-          pageSize: '2',
-        }
-      );
-
-      expect(testRequestPOST.cancelled).toBeFalsy();
-      expect(testRequestPOST.request.responseType).toEqual('json');
-      testRequestPOST.flush(componentList);
+      mockFailedRequest('Bad Request', 400, 'FULL', 0, 5);
     });
 
     it('should use a post request when get fails to get a list of cms component data with pagination parameters - 405', () => {
-      spyOn(endpointsService, 'getUrl').and.returnValues(
-        endpoint +
-          `/components?componentIds=${ids.toString()}&productCode=${
-            context.id
-          }`,
-        endpoint + `/components?productCode=${context.id}`
-      );
-
-      service.findComponentsByIds(ids, context).subscribe(result => {
-        expect(result).toEqual(componentList.component);
-      });
-
-      const testRequest = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            endpoint +
-              `/components?componentIds=${ids.toString()}&productCode=${
-                context.id
-              }`
-        );
-      });
-
-      testRequest.flush(
-        { error: 'Method Not Allowed' },
-        { status: 405, statusText: 'Method Not Allowed' }
-      );
-
-      const testRequestPOST = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === endpoint + `/components?productCode=${context.id}`
-        );
-      });
-
-      expect(testRequestPOST.request.body).toEqual({ idList: ids });
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
-        'components',
-        { fields: 'DEFAULT' },
-        {
-          productCode: '123',
-          currentPage: '0',
-          pageSize: '2',
-        }
-      );
-
-      expect(testRequestPOST.cancelled).toBeFalsy();
-      expect(testRequestPOST.request.responseType).toEqual('json');
-      testRequestPOST.flush(componentList);
+      mockFailedRequest('Method Not Allowed', 405, 'FULL', 0, 5);
     });
 
     it('should use normalizer', () => {
@@ -418,4 +159,105 @@ describe('OccCmsComponentAdapter', () => {
       );
     });
   });
+
+  function mockRequest(
+    fields?: string,
+    currentPage?: number,
+    pageSize?: number
+  ) {
+    spyOn(endpointsService, 'getUrl').and.returnValue(
+      endpoint +
+        `/components?componentIds=${ids.toString()}&productCode=${context.id}`
+    );
+
+    service
+      .findComponentsByIds(ids, context, fields, currentPage, pageSize)
+      .subscribe(result => {
+        expect(result).toEqual(componentList.component);
+      });
+
+    const testRequest = httpMock.expectOne(req => {
+      return (
+        req.method === 'GET' &&
+        req.url ===
+          endpoint +
+            `/components?componentIds=${ids.toString()}&productCode=${
+              context.id
+            }`
+      );
+    });
+
+    expect(endpointsService.getUrl).toHaveBeenCalledWith(
+      'components',
+      { fields },
+      {
+        componentIds: ids.toString(),
+        productCode: '123',
+        currentPage: currentPage.toString(),
+        pageSize: pageSize.toString(),
+      }
+    );
+
+    expect(testRequest.request.responseType).toEqual('json');
+    expect(testRequest.cancelled).toBeFalsy();
+    testRequest.flush(componentList);
+  }
+
+  function mockFailedRequest(
+    statusText: string,
+    statusCode: number,
+    fields?: string,
+    currentPage?: number,
+    pageSize?: number
+  ) {
+    spyOn(endpointsService, 'getUrl').and.returnValues(
+      endpoint +
+        `/components?componentIds=${ids.toString()}&productCode=${context.id}`,
+      endpoint + `/components?productCode=${context.id}`
+    );
+
+    service
+      .findComponentsByIds(ids, context, fields, currentPage, pageSize)
+      .subscribe(result => {
+        expect(result).toEqual(componentList.component);
+      });
+
+    const testRequest = httpMock.expectOne(req => {
+      return (
+        req.method === 'GET' &&
+        req.url ===
+          endpoint +
+            `/components?componentIds=${ids.toString()}&productCode=${
+              context.id
+            }`
+      );
+    });
+
+    testRequest.flush(
+      { error: statusText },
+      { status: statusCode, statusText: statusText }
+    );
+
+    const testRequestPOST = httpMock.expectOne(req => {
+      return (
+        req.method === 'POST' &&
+        req.url === endpoint + `/components?productCode=${context.id}`
+      );
+    });
+
+    expect(testRequestPOST.request.body).toEqual({ idList: ids });
+    expect(endpointsService.getUrl).toHaveBeenCalledWith(
+      'components',
+      { fields },
+      {
+        productCode: '123',
+        currentPage: currentPage.toString(),
+        pageSize: pageSize.toString(),
+      }
+    );
+
+    expect(testRequestPOST.cancelled).toBeFalsy();
+    expect(testRequestPOST.request.responseType).toEqual('json');
+    testRequestPOST.flush(componentList);
+  }
 });
