@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '@spartacus/core';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
-import { missingProductImgSrc } from '../../../lib/ui/images/missingProduct';
 import { Media, MediaFormats } from './media.model';
 
 /** the default format is used for browsers that do not support   */
@@ -37,26 +36,13 @@ export class MediaService {
     };
   }
 
-  getMissingImage(alt?: string): Media {
-    return {
-      src: this.getMissingImageSrc(),
-      alt: alt || undefined,
-    };
-  }
-
-  private getMissingImageSrc() {
-    return missingProductImgSrc;
-  }
-
   private getMainImage(media, format?: string): string {
-    if (!media) {
-      return this.getMissingImageSrc();
-    } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
+    if (media && media[format || DEFAULT_MEDIA_FORMAT]) {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
-    } else if (media.url) {
+    } else if (media && media.url) {
       return this.getImageUrl(media.url);
     } else {
-      return this.getMissingImageSrc();
+      return null;
     }
   }
 

@@ -1,11 +1,11 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OutletDirective } from '../../../cms-structure/outlet/index';
-import { ProductImagesComponent } from './product-images.component';
-import { of, Observable } from 'rxjs';
 import { Product } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { CurrentProductService } from '../current-product.service';
+import { ProductImagesComponent } from './product-images.component';
 
 const firstImage = {
   zoom: {
@@ -69,31 +69,38 @@ describe('ProductImagesComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProductImagesComponent);
-    component = fixture.componentInstance;
-    element = fixture.debugElement;
-    currentProductService = TestBed.get(CurrentProductService);
-    spyOn(component, 'isMainImageContainer').and.callThrough();
-  });
-
   describe('ProductImagesComponent with multiple pictures', () => {
     beforeEach(() => {
+      currentProductService = TestBed.get(CurrentProductService);
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockDataWithMultiplePictures)
       );
+
+      fixture = TestBed.createComponent(ProductImagesComponent);
+      component = fixture.componentInstance;
+      element = fixture.debugElement;
+
+      spyOn(component, 'isMainImageContainer').and.callThrough();
+      fixture.detectChanges();
     });
 
     it('should be created', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should have product$', () => {
+      let result;
+      component.product$.subscribe(value => (result = value)).unsubscribe();
+
+      expect(result).toEqual(mockDataWithMultiplePictures);
+    });
+
     it('should set imageContainer$', () => {
-      expect(component.imageContainer$.value).toBe(null);
-      fixture.detectChanges();
-      expect(component.imageContainer$.value).toEqual(
-        mockDataWithMultiplePictures.images.PRIMARY
-      );
+      let result;
+      component.imageContainer$
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toBe(mockDataWithMultiplePictures.images.PRIMARY);
     });
 
     it('should have <cx-media>', () => {
@@ -125,15 +132,29 @@ describe('ProductImagesComponent', () => {
         element.query(By.css('.thumbs cx-media:nth-child(2)')).nativeElement
       );
       pictureEl.dispatchEvent(new Event('focus'));
-      expect(component.imageContainer$.value).toBe(secondImage);
+
+      let result;
+      component.imageContainer$
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toBe(secondImage);
     });
   });
 
   describe('ProductImagesComponent with one pictures', () => {
     beforeEach(() => {
+      currentProductService = TestBed.get(CurrentProductService);
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockDataWithOnePicture)
       );
+
+      fixture = TestBed.createComponent(ProductImagesComponent);
+      component = fixture.componentInstance;
+      element = fixture.debugElement;
+
+      spyOn(component, 'isMainImageContainer').and.callThrough();
+      fixture.detectChanges();
     });
 
     it('should hide thumbs element', () => {
