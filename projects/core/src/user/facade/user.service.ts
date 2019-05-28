@@ -529,11 +529,10 @@ export class UserService {
   }
 
   /**
-   * Retrieves all consents
-   * @param userId user ID for which to retrieve consents
+   * Retrieves all consents.
    */
-  loadConsents(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserConsents(userId));
+  loadConsents(): void {
+    this.store.dispatch(new fromStore.LoadUserConsents(USERID_CURRENT));
   }
 
   /**
@@ -573,18 +572,13 @@ export class UserService {
 
   /**
    * Give consent for specified consent template ID and version.
-   * @param userId and ID of a user giving the consent
    * @param consentTemplateId a template ID for which to give a consent
    * @param consentTemplateVersion a template version for which to give a consent
    */
-  giveConsent(
-    userId: string,
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): void {
+  giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
     this.store.dispatch(
       new fromStore.GiveUserConsent({
-        userId,
+        userId: USERID_CURRENT,
         consentTemplateId,
         consentTemplateVersion,
       })
@@ -627,12 +621,11 @@ export class UserService {
 
   /**
    * Withdraw consent for the given `consentCode`
-   * @param userId a user ID for which to withdraw the consent
    * @param consentCode for which to withdraw the consent
    */
-  withdrawConsent(userId: string, consentCode: string): void {
+  withdrawConsent(consentCode: string): void {
     this.store.dispatch(
-      new fromStore.WithdrawUserConsent({ userId, consentCode })
+      new fromStore.WithdrawUserConsent({ userId: USERID_CURRENT, consentCode })
     );
   }
 
