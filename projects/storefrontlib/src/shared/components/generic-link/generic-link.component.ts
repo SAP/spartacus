@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'cx-generic-link',
   templateUrl: './generic-link.component.html',
-  styleUrls: ['./generic-link.component.scss'],
 })
 export class GenericLinkComponent {
   private readonly protocolRegex: RegExp = /^https?:\/\//i;
@@ -17,6 +16,10 @@ export class GenericLinkComponent {
   @Input() id: string;
   @Input() style: string;
   @Input() title: string;
+
+  get rel() {
+    return this.target === '_blank' ? 'noopener' : null;
+  }
 
   get routerUrl(): any[] {
     if (typeof this.url === 'string') {

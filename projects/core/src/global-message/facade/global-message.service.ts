@@ -16,7 +16,7 @@ import { Translatable } from '../../i18n/translatable';
 
 @Injectable()
 export class GlobalMessageService {
-  constructor(private store: Store<StateWithGlobalMessage>) {}
+  constructor(protected store: Store<StateWithGlobalMessage>) {}
 
   /**
    * Get all global messages

@@ -159,16 +159,12 @@ describe('UpdateProfileComponent', () => {
   it('should call updatePersonalDetails on submit', () => {
     spyOn(userService, 'updatePersonalDetails').and.stub();
 
-    const uid = 'xxx@xxx.xxx';
     const userUpdates: User = {
       firstName: 'X',
     };
 
-    component.onSubmit({ uid, userUpdates });
-    expect(userService.updatePersonalDetails).toHaveBeenCalledWith(
-      uid,
-      userUpdates
-    );
+    component.onSubmit({ userUpdates });
+    expect(userService.updatePersonalDetails).toHaveBeenCalledWith(userUpdates);
   });
 
   it('should call the internal onSuccess() method when the user was successfully updated', () => {

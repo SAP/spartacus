@@ -7,20 +7,18 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
+
 import { PageType } from '../../../model/cms.model';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 import { PageContext } from '../../models/page-context.model';
-import { ROUTING_FEATURE } from '../../state';
-import * as fromActions from '../actions';
+import { ROUTING_FEATURE } from '../state';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
-  redirectUrl: string;
   nextState?: ActivatedRouterStateSnapshot;
 }
 
 export const initialState: RouterState = {
-  redirectUrl: '',
   navigationId: 0,
   state: {
     url: '',
@@ -57,18 +55,6 @@ export function reducer(
   action: any
 ): RouterState {
   switch (action.type) {
-    case fromActions.SAVE_REDIRECT_URL: {
-      return {
-        ...state,
-        redirectUrl: action.payload,
-      };
-    }
-    case fromActions.CLEAR_REDIRECT_URL: {
-      return {
-        ...state,
-        redirectUrl: '',
-      };
-    }
     case fromNgrxRouter.ROUTER_NAVIGATION: {
       return {
         ...state,
@@ -77,34 +63,22 @@ export function reducer(
       };
     }
 
-    case fromNgrxRouter.ROUTER_NAVIGATED:
     case fromNgrxRouter.ROUTER_ERROR:
     case fromNgrxRouter.ROUTER_CANCEL: {
-      const currentUrl = action.payload.routerState
-        ? action.payload.routerState.url
-        : '';
-      const contextId = action.payload.routerState
-        ? action.payload.routerState.context.id
-        : '';
-      let redirectUrl;
-      if (
-        // TODO: Should be rafactored, utilizimg semantic pages configuration
-        contextId === '/login' ||
-        contextId === '/login/register' ||
-        currentUrl === state.redirectUrl
-      ) {
-        redirectUrl = state.redirectUrl;
-      } else {
-        redirectUrl = '';
-      }
-
       return {
-        redirectUrl: redirectUrl,
+        ...state,
+        nextState: undefined,
+      };
+    }
+
+    case fromNgrxRouter.ROUTER_NAVIGATED: {
+      return {
         state: action.payload.routerState,
         navigationId: action.payload.event.id,
         nextState: undefined,
       };
     }
+
     default: {
       return state;
     }
@@ -154,11 +128,6 @@ export const getNextPageContext: MemoizedSelector<
 export const isNavigating: MemoizedSelector<any, boolean> = createSelector(
   getNextPageContext,
   context => !!context
-);
-
-export const getRedirectUrl: MemoizedSelector<any, string> = createSelector(
-  getRouterState,
-  state => state.redirectUrl
 );
 
 /* The serializer is there to parse the RouterStateSnapshot,

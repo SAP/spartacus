@@ -9,7 +9,7 @@ import * as fromStore from '../store';
 import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
 import { UrlCommands } from '../configurable-routes/url-translation/url-command';
-import { UrlService } from '../configurable-routes/url-translation/url.service';
+import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { RouterState } from '../store/reducers/router.reducer';
 
 @Injectable({
@@ -17,9 +17,9 @@ import { RouterState } from '../store/reducers/router.reducer';
 })
 export class RoutingService {
   constructor(
-    private store: Store<fromStore.RouterState>,
-    private winRef: WindowRef,
-    private urlService: UrlService
+    protected store: Store<fromStore.RouterState>,
+    protected winRef: WindowRef,
+    protected semanticPathService: SemanticPathService
   ) {}
 
   /**
@@ -57,7 +57,7 @@ export class RoutingService {
    * @param extras: Represents the extra options used during navigation.
    */
   go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
-    const path = this.urlService.generateUrl(commands);
+    const path = this.semanticPathService.transform(commands);
 
     return this.navigate(path, query, extras);
   }
@@ -93,34 +93,12 @@ export class RoutingService {
   }
 
   /**
-   * Get the redirect url from store
-   */
-  getRedirectUrl(): Observable<string> {
-    return this.store.pipe(select(fromStore.getRedirectUrl));
-  }
-
-  /**
-   * Remove the redirect url from store
-   */
-  clearRedirectUrl(): void {
-    this.store.dispatch(new fromStore.ClearRedirectUrl());
-  }
-
-  /**
-   * Put redirct url into store
-   * @param url: redirect url
-   */
-  saveRedirectUrl(url: string): void {
-    this.store.dispatch(new fromStore.SaveRedirectUrl(url));
-  }
-
-  /**
    * Navigation with a new state into history
    * @param path
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  private navigate(
+  protected navigate(
     path: any[],
     query?: object,
     extras?: NavigationExtras

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   ConsentTemplate,
-  ConsentTemplateList,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -11,6 +10,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   filter,
   map,
+  pluck,
   skipWhile,
   take,
   tap,
@@ -24,7 +24,7 @@ import {
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
-  templateList$: Observable<ConsentTemplateList>;
+  templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
 
   constructor(
@@ -60,7 +60,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           this.userService.loadConsents(user.uid);
         }
       }),
-      map(([_, templateList]) => templateList)
+      pluck(1)
     );
   }
 
@@ -84,9 +84,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
             this.userService.getWithdrawConsentResultSuccess(),
             this.userService.get()
           ),
-          map(([_loading, withdrawalSuccess, user]) => {
-            return { withdrawalSuccess, user };
-          }),
+          map(([, withdrawalSuccess, user]) => ({ withdrawalSuccess, user })),
           tap(data => {
             if (data.withdrawalSuccess) {
               this.userService.loadConsents(data.user.uid);
@@ -99,12 +97,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  private consentsExists(templateList: ConsentTemplateList): boolean {
-    return (
-      Boolean(templateList) &&
-      Boolean(templateList.consentTemplates) &&
-      templateList.consentTemplates.length > 0
-    );
+  private consentsExists(templateList: ConsentTemplate[]): boolean {
+    return Boolean(templateList) && templateList.length > 0;
   }
 
   onConsentChange({
@@ -117,7 +111,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.userService
       .get()
       .pipe(
-        map(user => user.uid),
+        pluck('uid'),
         tap(userId => {
           if (given) {
             this.userService.giveConsent(userId, template.id, template.version);

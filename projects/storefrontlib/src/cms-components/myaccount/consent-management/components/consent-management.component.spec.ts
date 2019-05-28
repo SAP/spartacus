@@ -10,7 +10,6 @@ import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
   ConsentTemplate,
-  ConsentTemplateList,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -67,7 +66,7 @@ class UserServiceMock {
   get(): Observable<User> {
     return of();
   }
-  getConsents(): Observable<ConsentTemplateList> {
+  getConsents(): Observable<ConsentTemplate[]> {
     return of();
   }
   giveConsent(
@@ -193,7 +192,7 @@ describe('ConsentManagementComponent', () => {
 
     describe(consentListInitMethod, () => {
       describe('when there are no consents loaded', () => {
-        const mockTemplateList = {} as ConsentTemplateList;
+        const mockTemplateList = [] as ConsentTemplate[];
         it('should trigger the loadConsents method', () => {
           spyOn(userService, 'getConsents').and.returnValue(
             of(mockTemplateList)
@@ -203,7 +202,7 @@ describe('ConsentManagementComponent', () => {
 
           component[consentListInitMethod]();
 
-          let result: ConsentTemplateList;
+          let result: ConsentTemplate[];
           component.templateList$
             .subscribe(templates => (result = templates))
             .unsubscribe();
@@ -215,9 +214,7 @@ describe('ConsentManagementComponent', () => {
         });
       });
       describe('when the consents are already present', () => {
-        const mockTemplateList: ConsentTemplateList = {
-          consentTemplates: [mockConsentTemplate],
-        };
+        const mockTemplateList: ConsentTemplate[] = [mockConsentTemplate];
         it('should not trigger loading of consents and should return consent template list', () => {
           spyOn(userService, 'getConsents').and.returnValue(
             of(mockTemplateList)
@@ -227,7 +224,7 @@ describe('ConsentManagementComponent', () => {
 
           component[consentListInitMethod]();
 
-          let result: ConsentTemplateList;
+          let result: ConsentTemplate[];
           component.templateList$
             .subscribe(templates => (result = templates))
             .unsubscribe();
@@ -307,7 +304,7 @@ describe('ConsentManagementComponent', () => {
       });
       describe('when consentTemplates do not exist', () => {
         it('should return false', () => {
-          const consentTemplateList = {} as ConsentTemplateList;
+          const consentTemplateList = {} as ConsentTemplate[];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
             false
           );
@@ -315,9 +312,7 @@ describe('ConsentManagementComponent', () => {
       });
       describe('when consentTemplates are an empty array', () => {
         it('should return false', () => {
-          const consentTemplateList: ConsentTemplateList = {
-            consentTemplates: [],
-          };
+          const consentTemplateList: ConsentTemplate[] = [];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
             false
           );
@@ -325,9 +320,7 @@ describe('ConsentManagementComponent', () => {
       });
       describe('when consentTemplates are present', () => {
         it('should return true', () => {
-          const consentTemplateList: ConsentTemplateList = {
-            consentTemplates: [mockConsentTemplate],
-          };
+          const consentTemplateList: ConsentTemplate[] = [mockConsentTemplate];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
             true
           );
@@ -536,13 +529,11 @@ describe('ConsentManagementComponent', () => {
             of(false)
           );
           spyOn(userService, 'getConsents').and.returnValue(
-            of({
-              consentTemplates: [
-                mockConsentTemplate,
-                mockConsentTemplate,
-                mockConsentTemplate,
-              ],
-            } as ConsentTemplateList)
+            of([
+              mockConsentTemplate,
+              mockConsentTemplate,
+              mockConsentTemplate,
+            ] as ConsentTemplate[])
           );
 
           component.ngOnInit();

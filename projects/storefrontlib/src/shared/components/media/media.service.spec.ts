@@ -80,14 +80,6 @@ describe('MediaService', () => {
     ).toBe('other alt');
   });
 
-  it('should return missing image if media cannot be found', () => {
-    expect(
-      mediaService
-        .getMedia(mockMediaContainer, 'xyz')
-        .src.indexOf('data:image/jpg;base64')
-    ).toBe(0);
-  });
-
   it('should return srcset', () => {
     expect(mediaService.getMedia(mockMediaContainer).srcset).toBe(
       'http://mobileUrl 576w, base:tabletUrl 768w, base:desktopUrl 992w'

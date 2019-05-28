@@ -13,6 +13,9 @@ export function i18nextInit(
       ns: [], // don't preload any namespaces
       fallbackLng: config.i18n.fallbackLang,
       debug: config.i18n.debug,
+      interpolation: {
+        escapeValue: false,
+      },
     };
     if (config.i18n.backend) {
       i18next.use(i18nextXhrBackend);
