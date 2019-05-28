@@ -1,28 +1,28 @@
 import { TestBed } from '@angular/core/testing';
-import { UrlService } from './url.service';
+import { SemanticPathService } from './semantic-path.service';
 import { UrlPipe } from './url.pipe';
 
 describe('UrlPipe', () => {
   let pipe: UrlPipe;
-  let service: UrlService;
+  let service: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         UrlPipe,
-        { provide: UrlService, useValue: { generateUrl: () => {} } },
+        { provide: SemanticPathService, useValue: { transform: () => {} } },
       ],
     });
     pipe = TestBed.get(UrlPipe);
-    service = TestBed.get(UrlService);
+    service = TestBed.get(SemanticPathService);
   });
 
   describe('transform', () => {
     it('should return result from service', () => {
       const serviceResult = 'test-sevice-result';
-      spyOn(service, 'generateUrl').and.returnValue(serviceResult);
+      spyOn(service, 'transform').and.returnValue(serviceResult);
       expect(pipe.transform({ cxRoute: 'testRoute' })).toBe(serviceResult);
-      expect(service.generateUrl).toHaveBeenCalled();
+      expect(service.transform).toHaveBeenCalled();
     });
   });
 });
