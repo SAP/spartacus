@@ -40,8 +40,8 @@ export class UserService {
   /**
    * Loads the user's details
    */
-  load(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserDetails(userId));
+  load(): void {
+    this.store.dispatch(new fromStore.LoadUserDetails(USERID_CURRENT));
   }
 
   /**
