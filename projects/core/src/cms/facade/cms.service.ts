@@ -101,7 +101,8 @@ export class CmsService {
       .pipe(
         switchMap(pageContext =>
           this.store.pipe(
-            select(fromStore.currentSlotSelectorFactory(pageContext, position))
+            select(fromStore.currentSlotSelectorFactory(pageContext, position)),
+            filter(Boolean)
           )
         )
       );
