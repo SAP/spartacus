@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
 
 @Component({
@@ -7,6 +8,8 @@ import { NavigationNode } from './navigation-node.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationUIComponent {
-  @Input() dropdownMode = 'list';
+  iconTypes = ICON_TYPE;
+
   @Input() node: NavigationNode;
+  @Input() dropdownMode = 'list';
 }

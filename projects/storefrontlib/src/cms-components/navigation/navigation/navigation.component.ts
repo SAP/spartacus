@@ -12,9 +12,7 @@ export class NavigationComponent {
   @Input() dropdownMode = 'list';
   @Input() node: NavigationNode;
 
-  node$: Observable<NavigationNode>;
+  node$: Observable<NavigationNode> = this.service.getNodes();
 
-  constructor(public service: NavigationComponentService) {
-    this.node$ = this.service.getNodes();
-  }
+  constructor(public service: NavigationComponentService) {}
 }

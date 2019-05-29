@@ -7,8 +7,10 @@ import {
   ConfigModule,
   I18nModule,
 } from '@spartacus/core';
+import { GenericLinkModule } from 'projects/storefrontlib/src/shared';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BootstrapModule } from '../../../lib/bootstrap.module';
+import { IconModule } from '../../misc';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationComponent } from './navigation.component';
 import { NavigationComponentService } from './navigation.component.service';
@@ -18,6 +20,8 @@ import { NavigationComponentService } from './navigation.component.service';
     CommonModule,
     RouterModule,
     BootstrapModule,
+    IconModule,
+    GenericLinkModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         NavigationComponent: {
