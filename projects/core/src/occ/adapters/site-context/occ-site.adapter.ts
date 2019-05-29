@@ -1,8 +1,8 @@
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { Observable, throwError } from 'rxjs';
-import { Currency, Language } from '../../../model/misc.model';
+import { Currency, Language, BaseSite } from '../../../model/misc.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { catchError, map } from 'rxjs/operators';
 import { Occ } from '../../occ-models/occ.models';
@@ -37,6 +37,26 @@ export class OccSiteAdapter implements SiteAdapter {
         catchError((error: any) => throwError(error.json())),
         map(currencyList => currencyList.currencies),
         this.converter.pipeableMany(CURRENCY_NORMALIZER)
+      );
+  }
+
+  loadBaseSite(): Observable<BaseSite> {
+    const baseUrl = this.occEndpoints.getBaseEndpoint();
+    const urlSplits = baseUrl.split('/');
+    const activeSite = urlSplits.pop();
+    const url = urlSplits.join('/') + '/basesites';
+
+    const params = new HttpParams({
+      fromString: 'fields=FULL',
+    });
+
+    return this.http
+      .get<{ baseSites: BaseSite[] }>(url, { params: params })
+      .pipe(
+        catchError((error: any) => throwError(error)),
+        map(siteList => {
+          return siteList.baseSites.find(site => site.uid === activeSite);
+        })
       );
   }
 }

@@ -26,8 +26,7 @@
       }
 
       .cx-delivery-details {
-        flex: var(--cx-flex, 100%);
-        flex-basis: var(--cx-flex-basis, 100%);
+        width: var(--cx-width, 100%);
         color: var(--cx-color, var(--cx-g-color-success));
       }
     }
