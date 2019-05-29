@@ -9,6 +9,10 @@
     outline: none;
   }
 
+  h5 {
+    margin: 0;
+  }
+
   &.flyout {
     h5 {
       white-space: nowrap;
@@ -17,8 +21,13 @@
       cursor: pointer;
     }
 
-    .childs nav {
-      padding-right: 20px;
+    .childs {
+      nav {
+        padding-right: 20px;
+      }
+      h5 {
+        cursor: default;
+      }
     }
 
     // the last level of navigations is tyically displayed in a column
@@ -53,12 +62,14 @@
       }
       > .wrapper {
         position: absolute;
-        opacity: 0;
-        visibility: hidden;
+
         display: flex;
         margin-left: -10px;
-        transition: opacity 0.6s;
         z-index: 15;
+
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.6s;
 
         > .childs {
           padding: 6px 0;
