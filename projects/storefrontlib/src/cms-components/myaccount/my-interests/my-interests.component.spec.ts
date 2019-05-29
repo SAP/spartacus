@@ -7,22 +7,36 @@ import {
   UserToken,
   I18nTestingModule,
   AuthService,
-  UserService,
+  ProductInterestService,
   ProductInterestList,
   ProductInterestRelation,
-  ImageType,
+  OccConfig,
 } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { By } from '@angular/platform-browser';
-
+import { defaultLayoutConfig, LayoutConfig } from '../../../layout';
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
+
+const MockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
+
+  site: {
+    baseSite: '',
+  },
+};
+
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
     return of({ userId: 'test' } as UserToken);
@@ -62,14 +76,7 @@ const mockedInterests: ProductInterestList = {
         code: '553637',
         name: 'NV10',
         images: {
-          PRIMARY: {
-            thumbnail: {
-              altText: 'NV10',
-              format: 'thumbnail',
-              imageType: ImageType.PRIMARY,
-              url: 'image-url',
-            },
-          },
+          PRIMARY: {},
         },
         price: {
           formattedValue: '$264.69',
@@ -92,7 +99,7 @@ const mockedInterests: ProductInterestList = {
 describe('MyInterestsComponent', () => {
   let component: MyInterestsComponent;
   let fixture: ComponentFixture<MyInterestsComponent>;
-  let userService: UserService;
+  let productInterestService: ProductInterestService;
   let el: DebugElement;
 
   beforeEach(async(() => {
@@ -104,13 +111,15 @@ describe('MyInterestsComponent', () => {
         MediaModule,
       ],
       providers: [
-        { provide: UserService, useClass: MockUserService },
+        { provide: ProductInterestService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LayoutConfig, useValue: defaultLayoutConfig },
       ],
       declarations: [MyInterestsComponent, MockTranslateUrlPipe],
     }).compileComponents();
 
-    userService = TestBed.get(UserService);
+    productInterestService = TestBed.get(ProductInterestService);
   }));
 
   beforeEach(() => {
@@ -129,7 +138,7 @@ describe('MyInterestsComponent', () => {
       sorts: [{ code: 'name', asc: true }],
       pagination: {},
     };
-    spyOn(userService, 'getProdutInterests').and.returnValue(
+    spyOn(productInterestService, 'getProdutInterests').and.returnValue(
       of(emptyInterests)
     );
 
@@ -145,7 +154,7 @@ describe('MyInterestsComponent', () => {
       pagination: {},
       results: [],
     };
-    spyOn(userService, 'getProdutInterests').and.returnValue(
+    spyOn(productInterestService, 'getProdutInterests').and.returnValue(
       of(emptyInterests)
     );
 
@@ -166,7 +175,9 @@ describe('MyInterestsComponent', () => {
       },
       results: [],
     };
-    spyOn(userService, 'getProdutInterests').and.returnValue(of(interests));
+    spyOn(productInterestService, 'getProdutInterests').and.returnValue(
+      of(interests)
+    );
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -175,7 +186,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should display interests list correctly', () => {
-    spyOn(userService, 'getProdutInterests').and.returnValue(
+    spyOn(productInterestService, 'getProdutInterests').and.returnValue(
       of(mockedInterests)
     );
     component.ngOnInit();
@@ -184,7 +195,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should be able to click image and product hyperlink', () => {
-    spyOn(userService, 'getProdutInterests').and.returnValue(
+    spyOn(productInterestService, 'getProdutInterests').and.returnValue(
       of(mockedInterests)
     );
     component.ngOnInit();
@@ -201,11 +212,15 @@ describe('MyInterestsComponent', () => {
 
   it('should be able to delete an interest item', () => {
     const interests: ProductInterestList = { ...mockedInterests };
-    spyOn(userService, 'getProdutInterests').and.returnValue(of(interests));
-    spyOn(userService, 'deleteProdutInterest').and.callFake((_item: any) => {
-      interests.results = null;
-      interests.pagination.totalCount = 0;
-    });
+    spyOn(productInterestService, 'getProdutInterests').and.returnValue(
+      of(interests)
+    );
+    spyOn(productInterestService, 'deleteProdutInterest').and.callFake(
+      (_item: any) => {
+        interests.results = null;
+        interests.pagination.totalCount = 0;
+      }
+    );
     component.ngOnInit();
     fixture.detectChanges();
     el.query(By.css('.close')).nativeElement.click();
@@ -218,7 +233,9 @@ describe('MyInterestsComponent', () => {
     const interests: ProductInterestList = { ...mockedInterests };
     interests.results[0].product.stock.stockLevel = 10;
     interests.results[0].product.stock.stockLevelStatus = 'inStock';
-    spyOn(userService, 'getProdutInterests').and.returnValue(of(interests));
+    spyOn(productInterestService, 'getProdutInterests').and.returnValue(
+      of(interests)
+    );
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -227,16 +244,16 @@ describe('MyInterestsComponent', () => {
 
   describe('pagination and sort', () => {
     it('should be able to change sort', () => {
-      spyOn(userService, 'getProdutInterests').and.returnValue(
+      spyOn(productInterestService, 'getProdutInterests').and.returnValue(
         of(mockedInterests)
       );
-      spyOn(userService, 'loadProductInterests').and.stub();
+      spyOn(productInterestService, 'loadProductInterests').and.stub();
 
       component.ngOnInit();
       fixture.detectChanges();
       component.sortChange('byNameDesc');
 
-      expect(userService.loadProductInterests).toHaveBeenCalledWith(
+      expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
         'test',
         1,
         0,
@@ -245,16 +262,16 @@ describe('MyInterestsComponent', () => {
     });
 
     it('should be able to change page', () => {
-      spyOn(userService, 'getProdutInterests').and.returnValue(
+      spyOn(productInterestService, 'getProdutInterests').and.returnValue(
         of(mockedInterests)
       );
-      spyOn(userService, 'loadProductInterests').and.stub();
+      spyOn(productInterestService, 'loadProductInterests').and.stub();
 
       component.ngOnInit();
       fixture.detectChanges();
       component.pageChange(2);
 
-      expect(userService.loadProductInterests).toHaveBeenCalledWith(
+      expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
         'test',
         1,
         2,

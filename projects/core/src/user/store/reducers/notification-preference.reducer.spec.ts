@@ -1,6 +1,6 @@
 import * as fromNotificationPreferenceAction from '../actions/notification-preference.action';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
-import { BasicNotificationPreferenceList } from '../../model/user.model';
+import { BasicNotificationPreferenceList } from '../../../model/notification-preference.model';
 describe('Notification Preference Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {

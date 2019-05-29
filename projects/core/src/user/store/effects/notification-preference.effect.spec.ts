@@ -1,29 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
-import { Actions } from '@ngrx/effects';
-import * as fromNotificationPreferenceEffect from './notification-preference.effect';
-import * as fromNotificationPreferenceAction from '../actions/notification-preference.action';
+import * as fromAction from '../actions/notification-preference.action';
+import * as fromEffect from './notification-preference.effect';
 import { Observable, of, throwError } from 'rxjs';
+import { Action } from '@ngrx/store';
 import { hot, cold } from 'jasmine-marbles';
 import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { BasicNotificationPreferenceList } from 'projects/core/src/model/notification-preference.model';
+import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
+import { BasicNotificationPreferenceList } from '../../../model/notification-preference.model';
 
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  site: {
-    baseSite: '',
-  },
-};
-
-const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
+const notificationPreferenceList: BasicNotificationPreferenceList = {
   preferences: [
     {
       channel: 'EMAIL',
@@ -44,28 +30,25 @@ const userId = 'test@sap.com';
 
 const toBeUpdate: any = {
   userId: userId,
-  basicNotificationPreferenceList: basicNotificationPreferenceList,
+  basicNotificationPreferenceList: notificationPreferenceList,
 };
 
 describe('Notification Preference Effect', () => {
-  let notificationPreferenceEffects: fromNotificationPreferenceEffect.NotificationPreferenceEffects;
+  let notificationPreferenceEffects: fromEffect.NotificationPreferenceEffects;
   let userAccountConnector: UserAccountConnector;
-  let actions$: Observable<BasicNotificationPreferenceList>;
+  let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
-        userAccountConnector,
-        fromNotificationPreferenceEffect.NotificationPreferenceEffects,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        fromEffect.NotificationPreferenceEffects,
+        { provide: UserAccountAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    actions$ = TestBed.get(Actions);
     notificationPreferenceEffects = TestBed.get(
-      fromNotificationPreferenceEffect.NotificationPreferenceEffects
+      fromEffect.NotificationPreferenceEffects
     );
     userAccountConnector = TestBed.get(UserAccountConnector);
   });
@@ -73,14 +56,12 @@ describe('Notification Preference Effect', () => {
   describe('loadNotificationPreferences$', () => {
     it('should load notification preferences', () => {
       spyOn(userAccountConnector, 'getNotificationPreference').and.returnValue(
-        of(basicNotificationPreferenceList)
+        of(notificationPreferenceList)
       );
-      const action = new fromNotificationPreferenceAction.LoadNotificationPreferences(
-        userId
-      );
+      const action = new fromAction.LoadNotificationPreferences(userId);
 
-      const completion = new fromNotificationPreferenceAction.LoadNotificationPreferencesSuccess(
-        basicNotificationPreferenceList
+      const completion = new fromAction.LoadNotificationPreferencesSuccess(
+        notificationPreferenceList
       );
 
       actions$ = hot('-a', { a: action });
@@ -96,11 +77,9 @@ describe('Notification Preference Effect', () => {
         throwError('Error')
       );
 
-      const action = new fromNotificationPreferenceAction.LoadNotificationPreferences(
-        userId
-      );
+      const action = new fromAction.LoadNotificationPreferences(userId);
 
-      const completion = new fromNotificationPreferenceAction.LoadNotificationPreferencesFail(
+      const completion = new fromAction.LoadNotificationPreferencesFail(
         'Error'
       );
 
@@ -119,12 +98,10 @@ describe('Notification Preference Effect', () => {
         userAccountConnector,
         'updateNotificationPreference'
       ).and.returnValue(of(''));
-      const action = new fromNotificationPreferenceAction.UpdateNotificationPreferences(
-        toBeUpdate
-      );
+      const action = new fromAction.UpdateNotificationPreferences(toBeUpdate);
 
-      const completion = new fromNotificationPreferenceAction.UpdateNotificationPreferencesSuccess(
-        basicNotificationPreferenceList
+      const completion = new fromAction.UpdateNotificationPreferencesSuccess(
+        notificationPreferenceList
       );
 
       actions$ = hot('-a', { a: action });
@@ -141,11 +118,9 @@ describe('Notification Preference Effect', () => {
         'updateNotificationPreference'
       ).and.returnValue(throwError('Error'));
 
-      const action = new fromNotificationPreferenceAction.UpdateNotificationPreferences(
-        toBeUpdate
-      );
+      const action = new fromAction.UpdateNotificationPreferences(toBeUpdate);
 
-      const completion = new fromNotificationPreferenceAction.UpdateNotificationPreferencesFail(
+      const completion = new fromAction.UpdateNotificationPreferencesFail(
         'Error'
       );
 

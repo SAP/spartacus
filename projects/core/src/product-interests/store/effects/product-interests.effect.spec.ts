@@ -11,7 +11,7 @@ import { Action } from '@ngrx/store';
 import { LoaderResetAction } from '../../../state';
 import { OccProductInterestsService } from '../../occ/product-interest.service';
 import { PRODUCT_INTERESTS } from '../product-interests-state';
-
+import { OccConfig } from '../../../occ/config/occ-config';
 const loadParams = {
   userId: 'jack.ma@hybris.com',
   pageSize: 5,
@@ -21,6 +21,19 @@ const loadParams = {
 const delParams = {
   userId: 'jack.ma@hybris.com',
   item: {},
+};
+
+const MockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
+
+  site: {
+    baseSite: '',
+  },
 };
 
 describe('Product Interests Effect', () => {
@@ -34,6 +47,7 @@ describe('Product Interests Effect', () => {
       providers: [
         OccProductInterestsService,
         fromInterestsEffect.ProductInterestsEffect,
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
       ],
     });

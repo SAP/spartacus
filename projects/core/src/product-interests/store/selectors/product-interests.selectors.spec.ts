@@ -89,7 +89,7 @@ describe('Product Interests Selectors', () => {
       store
         .pipe(select(fromSelectors.getInterests))
         .subscribe(value => (result = value));
-      expect(result).toEqual(mockedInterestList);
+      expect(result).toEqual(emptyInterestList);
 
       store.dispatch(
         new fromActions.LoadProductInterestsSuccess(mockedInterestList)

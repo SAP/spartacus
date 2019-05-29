@@ -141,7 +141,7 @@ describe('NotificationPreferenceComponent', () => {
     const spans = fixture.debugElement.queryAll(
       By.css('.cx-notification-preference-span')
     );
-    const inputs = fixture.debugElement.queryAll(By.css('.form-toggle-input'));
+    const inputs = fixture.debugElement.queryAll(By.css('.form-check-input'));
     component.basicNotificationPreferenceList$
       .subscribe(value => (notificationPreferences = value))
       .unsubscribe();
@@ -194,14 +194,6 @@ describe('NotificationPreferenceComponent', () => {
       .subscribe(value => (notificationPreferences = value))
       .unsubscribe();
     expect(notificationPreferences).toEqual(initialNotificationPreferenceList);
-    expect(spans.length).toBe(2);
-
-    const labels = fixture.debugElement.queryAll(
-      By.css('.form-toggle__switch')
-    );
-    labels[0].nativeElement.click();
-    labels[1].nativeElement.click();
-
     fixture.detectChanges();
     expect(spans.length).toBe(2);
     expect(spans[0].nativeElement.textContent).toContain(
@@ -241,32 +233,30 @@ describe('NotificationPreferenceComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const labels = fixture.debugElement.queryAll(
-      By.css('.form-toggle__switch')
-    );
-    expect(labels.length).toBe(1);
+    const inputs = fixture.debugElement.queryAll(By.css('.form-check-input'));
+    expect(inputs.length).toBe(1);
 
-    labels[0].nativeElement.click();
+    inputs[0].nativeElement.click();
     fixture.detectChanges();
     expect(
       component.basicNotificationPreferenceList.preferences[0].enabled
     ).toEqual(false);
-    labels[0].nativeElement.click();
+    inputs[0].nativeElement.click();
     fixture.detectChanges();
     expect(
       component.basicNotificationPreferenceList.preferences[0].enabled
     ).toEqual(true);
-    labels[0].nativeElement.click();
+    inputs[0].nativeElement.click();
     fixture.detectChanges();
     expect(
       component.basicNotificationPreferenceList.preferences[0].enabled
     ).toEqual(false);
-    labels[0].nativeElement.click();
+    inputs[0].nativeElement.click();
     fixture.detectChanges();
     expect(
       component.basicNotificationPreferenceList.preferences[0].enabled
     ).toEqual(true);
-    labels[0].nativeElement.click();
+    inputs[0].nativeElement.click();
     fixture.detectChanges();
     expect(
       component.basicNotificationPreferenceList.preferences[0].enabled

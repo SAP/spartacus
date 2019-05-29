@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UserSignUp } from '@spartacus/core';
+import { UserSignUp, NotificationPreferenceList } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { UserAccountAdapter } from './user-account.adapter';
 import { UserAccountConnector } from './user-account.connector';
@@ -15,6 +15,12 @@ class MockUserAccountAdapter implements UserAccountAdapter {
   updateEmail = createSpy('updateEmail').and.returnValue(of({}));
   updatePassword = createSpy('updatePassword').and.returnValue(of({}));
   loadTitles = createSpy('loadTitles').and.returnValue(of([]));
+  getNotificationPreference = createSpy(
+    'getNotificationPreference'
+  ).and.returnValue(of([]));
+  updateNotificationPreference = createSpy(
+    'updateNotificationPreference'
+  ).and.returnValue(of([]));
 }
 
 describe('UserAccountConnector', () => {
@@ -106,5 +112,27 @@ describe('UserAccountConnector', () => {
     service.getTitles().subscribe(res => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadTitles).toHaveBeenCalledWith();
+  });
+
+  it('getNotificationPreference should call adapter', () => {
+    let result;
+    service
+      .getNotificationPreference('user-id')
+      .subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.getNotificationPreference).toHaveBeenCalledWith('user-id');
+  });
+
+  it('updateNotificationPreference should call adapter', () => {
+    let result;
+    const notificationPreferenceList: NotificationPreferenceList = undefined;
+    service
+      .updateNotificationPreference('user-id', notificationPreferenceList)
+      .subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.updateNotificationPreference).toHaveBeenCalledWith(
+      'user-id',
+      notificationPreferenceList
+    );
   });
 });

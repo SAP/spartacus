@@ -21,19 +21,13 @@
       >
         <ng-container *ngIf="preference.visible" class="cx-name">
           <li class="cx-notification-preference-li">
-            <div class="form-toggle">
+            <div class="form-check">
               <input
-                class="form-toggle-input"
+                class="form-check-input"
                 role="switch"
                 type="checkbox"
-                [checked]="preference.enabled"
+                (change)="updateNotificationPreferences(preference)"
               />
-
-              <label
-                class="form-toggle__switch"
-                (click)="updateNotificationPreferences(preference)"
-              >
-              </label>
             </div>
             <span class="cx-notification-preference-span"
               >{{

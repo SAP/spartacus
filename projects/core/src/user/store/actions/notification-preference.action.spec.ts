@@ -1,5 +1,5 @@
 import * as fromAction from './notification-preference.action';
-import { BasicNotificationPreferenceList } from '../../model/user.model';
+import { BasicNotificationPreferenceList } from '../../../model/notification-preference.model';
 describe('Notification Preference Actions', () => {
   describe('LoadNotificationPreferences', () => {
     it('should create the action', () => {

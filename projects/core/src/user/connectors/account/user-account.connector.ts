@@ -5,7 +5,7 @@ import { UserAccountAdapter } from './user-account.adapter';
 import {
   BasicNotificationPreferenceList,
   NotificationPreferenceList,
-} from 'projects/core/src/model/notification-preference.model';
+} from '../../../model/notification-preference.model';
 
 @Injectable({
   providedIn: 'root',

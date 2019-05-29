@@ -1,10 +1,10 @@
-import { PRODUCT_INTERESTS } from '../../../user/store/user-state';
 import * as fromInterestsAction from './product-interests.actions';
 import {
   loadMeta,
   failMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
+import { PRODUCT_INTERESTS } from '../product-interests-state';
 
 const userId = 'jack.ma@hybris.com';
 
@@ -32,7 +32,7 @@ describe('Product Interests Actions', () => {
       expect({ ...action }).toEqual({
         type: fromInterestsAction.LOAD_PRODUCT_INTERESTS_FAIL,
         payload: error,
-        meta: failMeta(error, PRODUCT_INTERESTS),
+        meta: failMeta(PRODUCT_INTERESTS, error),
       });
     });
   });

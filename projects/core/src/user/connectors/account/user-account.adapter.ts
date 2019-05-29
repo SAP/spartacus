@@ -3,7 +3,7 @@ import { Title, User, UserSignUp } from '../../../model/misc.model';
 import {
   BasicNotificationPreferenceList,
   NotificationPreferenceList,
-} from 'projects/core/src/model/notification-preference.model';
+} from '../../../model/notification-preference.model';
 
 export abstract class UserAccountAdapter {
   abstract register(user: UserSignUp): Observable<User>;

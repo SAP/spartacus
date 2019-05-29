@@ -34,7 +34,7 @@ describe('ProductInterestServiceService', () => {
   });
 
   it('should be able to load product interests', () => {
-    service.loadProductInterests('userId', 5, 0, 'name:asc');
+    service.loadProductInterests('userId', 5, 1, 'name:asc');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadProductInterests({
         userId: 'userId',
@@ -57,7 +57,7 @@ describe('ProductInterestServiceService', () => {
       .getProdutInterests('', 1)
       .subscribe(data =>
         expect(data).toEqual({
-          orders: [],
+          results: [],
           pagination: {},
           sorts: [],
         })
