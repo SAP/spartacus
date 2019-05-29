@@ -129,9 +129,11 @@ describe('OccSiteAdapter', () => {
         expect(result).toEqual(countryList.countries);
       });
 
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === '/countries';
-      });
+      const mockReq = httpMock.expectOne(
+        req =>
+          req.method === 'GET' &&
+          req.url === 'base-url/rest/v2/test-site/countries'
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -141,23 +143,18 @@ describe('OccSiteAdapter', () => {
     it('should take type into account', () => {
       service.loadCountries(CountryType.BILLING).subscribe();
       httpMock
-        .expectOne(req => {
-          return (
+        .expectOne(
+          req =>
             req.method === 'GET' &&
-            req.url === '/countries' &&
+            req.url === 'base-url/rest/v2/test-site/countries' &&
             req.params.get('type') === CountryType.BILLING
-          );
-        })
+        )
         .flush({});
     });
 
     it('should use converter', () => {
       service.loadCountries().subscribe();
-      httpMock
-        .expectOne(req => {
-          return req.method === 'GET' && req.url === '/countries';
-        })
-        .flush({});
+      httpMock.expectOne('base-url/rest/v2/test-site/countries').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(COUNTRY_NORMALIZER);
     });
   });
@@ -185,9 +182,11 @@ describe('OccSiteAdapter', () => {
         expect(result).toEqual(regions.regions);
       });
 
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === '/countries/CA/regions';
-      });
+      const mockReq = httpMock.expectOne(
+        req =>
+          req.method === 'GET' &&
+          req.url === 'base-url/rest/v2/test-site/countries/CA/regions'
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -197,9 +196,7 @@ describe('OccSiteAdapter', () => {
     it('should use converter', () => {
       service.loadRegions('CA').subscribe();
       httpMock
-        .expectOne(req => {
-          return req.method === 'GET' && req.url === '/countries/CA/regions';
-        })
+        .expectOne('base-url/rest/v2/test-site/countries/CA/regions')
         .flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(REGION_NORMALIZER);
     });

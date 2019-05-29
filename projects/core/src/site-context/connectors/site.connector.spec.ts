@@ -19,7 +19,9 @@ class MockSiteAdapter implements SiteAdapter {
     of(mockLanguages)
   );
 
-  loadCountries = createSpy('SiteAdapter.loadCountries').and.returnValue(of([]));
+  loadCountries = createSpy('SiteAdapter.loadCountries').and.returnValue(
+    of([])
+  );
 
   loadRegions = createSpy('SiteAdapter.loadRegions').and.callFake(countryCode =>
     of(`loadRegions-${countryCode}`)
