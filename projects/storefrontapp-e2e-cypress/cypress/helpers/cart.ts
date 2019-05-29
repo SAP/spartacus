@@ -14,7 +14,7 @@ function getCartItem(name: string) {
 
 export function addProductToCartViaAutoComplete() {
   cy.get('cx-searchbox input').type(PRODUCT_CODE_1);
-  cy.get('.dropdown-item.active').click();
+  cy.get('.suggestions a').click();
 
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
@@ -86,7 +86,7 @@ export function loginRegisteredUser() {
 
 export function addProductWhenLoggedIn() {
   cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
-  cy.get('.dropdown-item.active').click();
+  cy.get('.suggestions a').click();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
