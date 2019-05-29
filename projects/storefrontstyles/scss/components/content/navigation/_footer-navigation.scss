@@ -1,11 +1,15 @@
 %cx-footer-navigation {
-  $space: 20px;
+  a {
+    text-decoration: underline;
+    font-size: var(--cx-g-font-small, 0.8rem);
+  }
+
   cx-navigation-ui {
     // first level heading / links
     h5 {
       text-transform: uppercase;
       @include type('5');
-      margin-bottom: $space;
+      margin-bottom: 20px;
     }
   }
 
@@ -16,7 +20,7 @@
     }
 
     > nav {
-      margin: $space 3vw;
+      margin: 3vw;
     }
   }
 

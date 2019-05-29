@@ -5,6 +5,10 @@
     color: currentColor;
   }
 
+  nav {
+    outline: none;
+  }
+
   &.flyout {
     h5 {
       white-space: nowrap;
@@ -13,9 +17,6 @@
       cursor: pointer;
     }
 
-    nav {
-      outline: none;
-    }
     .childs nav {
       padding-right: 20px;
     }
