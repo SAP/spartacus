@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
-  AuthRedirectService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -33,6 +33,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   login(): void {
     this.auth.authorize(
+      this.form.controls.userId.value,
+      this.form.controls.password.value
+    );
+    this.auth.authorizeOpenId(
       this.form.controls.userId.value,
       this.form.controls.password.value
     );
