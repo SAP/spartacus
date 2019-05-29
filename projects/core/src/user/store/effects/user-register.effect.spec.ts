@@ -1,15 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
-
+import { Observable, of } from 'rxjs';
+import { LoadOpenIdToken, LoadUserToken, Logout } from '../../../auth/index';
+import { UserSignUp } from '../../../model/misc.model';
+import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
+import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
-import { UserSignUp } from '../../../model/misc.model';
-import { LoadUserToken, Logout } from '../../../auth/index';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 
 const user: UserSignUp = {
   firstName: '',
@@ -50,15 +49,20 @@ describe('UserRegister effect', () => {
     it('should register user', () => {
       const action = new fromStore.RegisterUser(user);
       const loadUser = new LoadUserToken({
-        userId: '',
-        password: '',
+        userId: user.uid,
+        password: user.password,
+      });
+      const loadOpenIdToken = new LoadOpenIdToken({
+        username: user.uid,
+        password: user.password,
       });
       const completion = new fromStore.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: loadUser,
-        c: completion,
+        c: loadOpenIdToken,
+        d: completion,
       });
 
       expect(effect.registerUser$).toBeObservable(expected);

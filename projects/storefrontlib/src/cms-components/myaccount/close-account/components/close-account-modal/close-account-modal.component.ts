@@ -71,8 +71,8 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
     this.modalService.dismissActiveModal(reason);
   }
 
-  closeAccount(userId: string) {
-    this.userService.remove(userId);
+  closeAccount() {
+    this.userService.remove();
   }
 
   ngOnDestroy() {

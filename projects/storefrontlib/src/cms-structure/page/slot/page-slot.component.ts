@@ -67,7 +67,7 @@ export class PageSlotComponent {
   }
 
   private addSmartEditSlotClass(slot): void {
-    if (this.cmsService.isLaunchInSmartEdit()) {
+    if (slot && this.cmsService.isLaunchInSmartEdit()) {
       this.addSmartEditContract(slot);
     }
   }
