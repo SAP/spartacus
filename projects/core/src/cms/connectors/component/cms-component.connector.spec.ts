@@ -47,7 +47,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('CmsComponentConnector', () => {
+describe('CmsComponentConnector for 1905+ backend', () => {
   let service: CmsComponentConnector;
   let adapter: CmsComponentAdapter;
 
@@ -88,10 +88,67 @@ describe('CmsComponentConnector', () => {
     });
   });
 
-  describe('getList', () => {
+  describe('getList using GET request', () => {
     it('should call adapter', () => {
       service.getList(ids, context).subscribe();
       expect(adapter.findComponentsByIds).toHaveBeenCalledWith(ids, context);
+    });
+    it('should use CmsStructureConfigService', () => {
+      const structureConfigService = TestBed.get(CmsStructureConfigService);
+      service.getList(ids, context).subscribe();
+      expect(
+        structureConfigService.getComponentsFromConfig
+      ).toHaveBeenCalledWith(ids);
+    });
+    it('should merge config data with components', () => {
+      let components;
+      service.getList(ids, context).subscribe(res => (components = res));
+      expect(components).toEqual([
+        'config-component',
+        'componentcomp_uid1',
+        'componentcomp_uid2',
+      ]);
+    });
+  });
+});
+
+describe('CmsComponentConnector for 1811 backend', () => {
+  let service: CmsComponentConnector;
+  let adapter: CmsComponentAdapter;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: CmsComponentAdapter, useClass: MockCmsComponentAdapter },
+        {
+          provide: CmsStructureConfigService,
+          useClass: MockCmsStructureConfigService,
+        },
+        {
+          provide: OccConfig,
+          useValue: {
+            backend: {
+              occ: {
+                legacy: true,
+              },
+            },
+          },
+        },
+      ],
+    });
+
+    service = TestBed.get(CmsComponentConnector);
+    adapter = TestBed.get(CmsComponentAdapter);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  describe('getList using POST request', () => {
+    it('should call adapter', () => {
+      service.getList(ids, context).subscribe();
+      expect(adapter.searchComponentsByIds).toHaveBeenCalledWith(ids, context);
     });
     it('should use CmsStructureConfigService', () => {
       const structureConfigService = TestBed.get(CmsStructureConfigService);
