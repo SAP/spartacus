@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { ObservableInput, of } from 'rxjs';
-import { delay, filter, map, switchMap } from 'rxjs/operators';
+import { delay, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as GlobalMessageActions from '../actions/global-message.actions';
 import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
@@ -34,22 +34,19 @@ export class GlobalMessageEffects {
     map((action: GlobalMessageActions.AddMessage) => action.payload),
     switchMap((value: GlobalMessage) => {
       return this.store.select(getGlobalMessageCountByType(value.type)).pipe(
-        filter(count => count && count > 0),
-        switchMap((count: number) => {
-          return this.getConfigForType(value.type).pipe(
-            filter(
-              (config: GlobalMessageConfig) =>
-                config && config.timeout !== undefined
-            ),
-            switchMap(config => {
-              return of(
-                new GlobalMessageActions.RemoveMessage({
-                  type: value.type,
-                  index: count - 1,
-                })
-              ).pipe(delay(config.timeout));
+        withLatestFrom(this.getConfigForType(value.type)),
+        filter(
+          ([count, config]: [number, GlobalMessageConfig]) =>
+            config && config.timeout !== undefined && count && count > 0
+        ),
+        switchMap(([count, config]: [number, GlobalMessageConfig]) => {
+          console.log('yo', value.type, count - 1, config.timeout);
+          return of(
+            new GlobalMessageActions.RemoveMessage({
+              type: value.type,
+              index: count - 1,
             })
-          );
+          ).pipe(delay(config.timeout));
         })
       );
     })
