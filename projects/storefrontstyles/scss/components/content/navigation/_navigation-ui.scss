@@ -1,6 +1,10 @@
 %cx-navigation-ui {
   display: flex;
 
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+  }
+
   a {
     color: currentColor;
   }
@@ -14,17 +18,34 @@
   }
 
   &.flyout {
+    h5,
+    cx-generic-link {
+      padding: 5px 15px 5px 0;
+      height: 35px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      // background-color: var(--cx-g-color-background);
+      color: #000;
+
+      // on mobile, the heading looks different
+      h5,
+      cx-generic-link {
+        padding: 25px 15px;
+        border-bottom: 1px solid var(--cx-g-color-light);
+        display: block;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
     h5 {
       white-space: nowrap;
       color: currentColor;
-      padding: 5px 15px 5px 0;
       cursor: pointer;
     }
 
     .childs {
-      nav {
-        padding-right: 20px;
-      }
       h5 {
         cursor: default;
       }
@@ -40,53 +61,96 @@
     }
 
     a {
-      padding: 5px 15px 5px 0;
       display: block;
       text-decoration: none;
       white-space: nowrap;
     }
 
     cx-icon {
-      padding: 0 5px;
-    }
-
-    .childs a,
-    .childs h5 {
-      padding-left: 10px;
-    }
-
-    > nav {
-      > cx-generic-link a,
-      > cx-generic-link h5 {
-        color: #fff;
+      padding: 0 0 0 10px;
+      @include media-breakpoint-up(md) {
+        &:before {
+          font-size: 1rem;
+        }
       }
-      > .wrapper {
-        position: absolute;
+    }
 
-        display: flex;
-        margin-left: -10px;
-        z-index: 15;
+    cx-generic-link,
+    h5 {
+      display: flex;
+      align-items: center;
+    }
+    .childs cx-generic-link,
+    .childs h5 {
+      @include media-breakpoint-up(md) {
+        padding-left: 10px;
+      }
+    }
 
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.6s;
+    @include media-breakpoint-down(sm) {
+      .wrapper {
+        height: 0;
+        overflow: hidden;
+      }
 
-        > .childs {
-          padding: 6px 0;
-          > nav.has-childs > cx-generic-link {
-            font-weight: bold;
+      > nav {
+        > .wrapper {
+          // height: 0;
+        }
+        /* we only threat the first wrapper as a collapsible container */
+        &:focus {
+          > .wrapper {
+            height: auto;
           }
         }
       }
     }
-    /* we only threat the first wrapper as a collapseble container */
-    > nav:hover,
-    > nav:focus {
-      > .wrapper {
-        opacity: 1;
-        visibility: visible;
+
+    @include media-breakpoint-up(md) {
+      > nav {
+        > .wrapper {
+          display: flex;
+          position: absolute;
+          visibility: hidden;
+          opacity: 0;
+          margin-left: -10px;
+          z-index: 15;
+
+          > .childs {
+            padding: 6px 0;
+          }
+        }
+
+        /* we only threat the first wrapper as a collapsible container */
+        &:hover,
+        &:focus {
+          > .wrapper {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
+      }
+
+      .childs {
+        display: flex;
+        background: white;
+
+        nav {
+          padding-right: 20px;
+        }
       }
     }
+
+    > nav {
+      > .wrapper {
+        transition: all 0.6s;
+
+        > .childs > nav.has-childs > cx-generic-link {
+          font-weight: bold;
+        }
+      }
+    }
+
     .wrapper cx-icon {
       display: none;
     }
@@ -101,10 +165,6 @@
     // child navigations without children take full width
     nav:not(.has-childs) {
       flex: 100%;
-    }
-    .childs {
-      display: flex;
-      background: white;
     }
   }
 }

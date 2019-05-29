@@ -17,6 +17,7 @@ $caretSize: 7px;
   }
   label {
     display: flex;
+    margin: 0;
     span {
       @include sr-only();
     }

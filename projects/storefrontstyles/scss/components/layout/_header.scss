@@ -66,6 +66,10 @@ $space: 0.5rem;
 
   .SiteLinks {
     --cx-display: block;
+    cx-link {
+      display: block;
+      padding: 0 10px 0 0;
+    }
   }
 
   .SiteLogo {
@@ -83,6 +87,10 @@ $space: 0.5rem;
   .NavigationBar {
     flex: 100%;
     overflow: hidden;
+
+    @include media-breakpoint-down(sm) {
+      background-color: var(--cx-g-color-background);
+    }
   }
 
   .cx-hamburger {
@@ -100,12 +108,8 @@ $space: 0.5rem;
     .SiteContext,
     .SiteLinks,
     .SiteLogin {
-      background-color: var(
-        --cx-background-color,
-        var(--cx-g-color-background)
-      );
+      background-color: var(--cx-g-color-light);
       color: var(--cx-color, var(--cx-g-color-text));
-      padding: var(--cx-padding, #{$space / 2} 0);
     }
 
     .SiteContext {
@@ -147,7 +151,6 @@ $space: 0.5rem;
 
     .SiteLinks {
       justify-content: flex-end;
-      --cx-padding: 0 #{$space};
     }
 
     .SiteLogin {
