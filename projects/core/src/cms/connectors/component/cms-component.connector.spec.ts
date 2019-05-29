@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { PageType } from '../../../model/cms.model';
+import { OccConfig } from '../../../occ/config/occ-config';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsComponentConnector } from './cms-component.connector';
 import createSpy = jasmine.createSpy;
@@ -13,6 +14,10 @@ class MockCmsComponentAdapter implements CmsComponentAdapter {
 
   findComponentsByIds = createSpy(
     'CmsComponentAdapter.findComponentsByIds'
+  ).and.callFake(idList => of(idList.map(id => 'component' + id)));
+
+  searchComponentsByIds = createSpy(
+    'CmsComponentAdapter.searchComponentsByIds'
   ).and.callFake(idList => of(idList.map(id => 'component' + id)));
 }
 
@@ -29,7 +34,20 @@ class MockCmsStructureConfigService {
   );
 }
 
-describe('CmsComponentConnector', () => {
+const MockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+      legacy: false,
+    },
+  },
+  site: {
+    baseSite: '',
+  },
+};
+
+fdescribe('CmsComponentConnector', () => {
   let service: CmsComponentConnector;
   let adapter: CmsComponentAdapter;
 
@@ -41,6 +59,7 @@ describe('CmsComponentConnector', () => {
           provide: CmsStructureConfigService,
           useClass: MockCmsStructureConfigService,
         },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
