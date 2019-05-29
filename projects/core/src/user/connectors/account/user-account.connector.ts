@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Title, User, UserSignUp } from '../../../model/misc.model';
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../../occ/occ-models/additional-occ.models';
 import { UserAccountAdapter } from './user-account.adapter';
 
 @Injectable({
@@ -47,25 +43,5 @@ export class UserAccountConnector {
 
   getTitles(): Observable<Title[]> {
     return this.adapter.loadTitles();
-  }
-
-  loadConsents(userId: string): Observable<ConsentTemplateList> {
-    return this.adapter.loadConsents(userId);
-  }
-
-  giveConsent(
-    userId: string,
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): Observable<ConsentTemplate> {
-    return this.adapter.giveConsent(
-      userId,
-      consentTemplateId,
-      consentTemplateVersion
-    );
-  }
-
-  withdrawConsent(userId: string, consentCode: string): Observable<{}> {
-    return this.adapter.withdrawConsent(userId, consentCode);
   }
 }

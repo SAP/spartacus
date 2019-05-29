@@ -42,23 +42,4 @@ describe('Router Actions', () => {
       });
     });
   });
-
-  describe('SaveRedirectUrl Action', () => {
-    it('should create an action', () => {
-      const action = new fromRouter.SaveRedirectUrl('/test');
-      expect({ ...action }).toEqual({
-        type: fromRouter.SAVE_REDIRECT_URL,
-        payload: '/test',
-      });
-    });
-  });
-
-  describe('ClearRedirectAction Action', () => {
-    it('should create an action', () => {
-      const action = new fromRouter.ClearRedirectUrl();
-      expect({ ...action }).toEqual({
-        type: fromRouter.CLEAR_REDIRECT_URL,
-      });
-    });
-  });
 });

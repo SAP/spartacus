@@ -3,10 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Title, User, UserSignUp } from '../../../model/misc.model';
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../occ-models/additional-occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import {
   InterceptorUtil,
@@ -26,8 +22,6 @@ const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
-const CONSENTS_TEMPLATES_ENDPOINT = '/consenttemplates';
-const CONSENTS_ENDPOINT = '/consents';
 const TITLES_ENDPOINT = 'titles';
 
 @Injectable()
@@ -132,40 +126,5 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
         map(titleList => titleList.titles),
         this.converter.pipeableMany(TITLE_NORMALIZER)
       );
-  }
-
-  loadConsents(userId: string): Observable<ConsentTemplateList> {
-    const url = this.getUserEndpoint() + userId + CONSENTS_TEMPLATES_ENDPOINT;
-    const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
-    return this.http
-      .get<ConsentTemplateList>(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  giveConsent(
-    userId: string,
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): Observable<ConsentTemplate> {
-    const url = this.getUserEndpoint() + userId + CONSENTS_ENDPOINT;
-    const httpParams = new HttpParams()
-      .set('consentTemplateId', consentTemplateId)
-      .set('consentTemplateVersion', consentTemplateVersion.toString());
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Cache-Control': 'no-cache',
-    });
-    return this.http
-      .post<ConsentTemplate>(url, httpParams, { headers })
-      .pipe(catchError(error => throwError(error)));
-  }
-
-  withdrawConsent(userId: string, consentCode: string): Observable<{}> {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-cache',
-    });
-    const url =
-      this.getUserEndpoint() + userId + CONSENTS_ENDPOINT + '/' + consentCode;
-    return this.http.delete(url, { headers });
   }
 }
