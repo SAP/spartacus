@@ -1,146 +1,98 @@
 %cx-navigation-ui {
-  //this hack here for now, until we decide how we go about keyboard navigation
-  // .dropdown:hover>.dropdown-menu,
-  // .dropdown:focus>.dropdown-menu {
-  //   display: block;
-  // }
+  display: flex;
 
-  .cx-nav {
-    &-item {
-      @include media-breakpoint-down(md) {
-        border-style: var(--cx-border-style, solid);
-        border-width: var(--cx-border-width, 0 0 1px);
-        border-color: var(--cx-border-color, var(--cx-g-color-background));
-        padding: var(--cx-padding, 0.5rem 0);
-      }
+  a {
+    color: currentColor;
+  }
+
+  &.flyout {
+    h5 {
+      white-space: nowrap;
+      color: currentColor;
+      padding: 5px 15px 5px 0;
+      cursor: pointer;
     }
-    &-link {
-      color: var(--cx-color, var(--cx-g-color-inverse));
-      text-transform: var(--cx-text-transform, capitalize);
-      padding: var(--cx-padding, 0.2rem 0);
-      &:focus {
-        color: var(--cx-color, var(--cx-g-color-primary));
-      }
-      &:hover {
-        color: var(--cx-color, var(--cx-g-color-primary));
-        cursor: var(--cx-cursor, pointer);
-      }
 
-      @include media-breakpoint-down(md) {
-        &::after {
-          margin-right: 20px;
-          border-style: var(--cx-border-style, solid);
-          border-width: var(--cx-border-width, 3px);
-          border-color: var(
-            --cx-border-color,
-            currentColor currentColor var(--cx-g-color-transparent)
-              var(--cx-g-color-transparent)
-          );
-          display: var(--cx-display, block);
-          width: var(--cx-width, 1rem);
-          height: var(--cx-height, 1rem);
-        }
-        &[aria-expanded='false'] {
-          &::after {
-            transform: var(--cx-transform, rotate(45deg));
+    nav {
+      outline: none;
+    }
+    .childs nav {
+      padding-right: 20px;
+    }
+
+    // the last level of navigations is tyically displayed in a column
+    .childs[depth='1'] {
+      flex-direction: column;
+    }
+
+    .childs {
+      color: #000;
+    }
+
+    a {
+      padding: 5px 15px 5px 0;
+      display: block;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    cx-icon {
+      padding: 0 5px;
+    }
+
+    .childs a,
+    .childs h5 {
+      padding-left: 10px;
+    }
+
+    > nav {
+      > cx-generic-link a,
+      > cx-generic-link h5 {
+        color: #fff;
+      }
+      > .wrapper {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+        display: flex;
+        margin-left: -10px;
+        transition: opacity 0.6s;
+        z-index: 15;
+
+        > .childs {
+          padding: 6px 0;
+          > nav.has-childs > cx-generic-link {
+            font-weight: bold;
           }
         }
-        &[aria-expanded='true'] {
-          &::after {
-            transform: var(--cx-transform, rotate(-45deg));
-          }
-        }
+      }
+    }
+    /* we only threat the first wrapper as a collapseble container */
+    > nav:hover,
+    > nav:focus {
+      > .wrapper {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    .wrapper cx-icon {
+      display: none;
+    }
 
-        color: var(--cx-color, var(--cx-g-color-text));
-        display: var(--cx-display, flex);
-        justify-content: var(--cx-justify-content, space-between);
-        padding: var(--cx-padding, 0.5rem 1rem);
-      }
+    // create width of wrapper
+    .wrapper[attr='1'] {
+      width: 200px;
     }
-    &-child-list {
-      border-radius: var(--cx-border-radius, 0);
-      text-transform: var(--cx-text-transform, capitalize);
-      padding: var(--cx-padding, 0);
-      @include media-breakpoint-down(md) {
-        position: var(--cx-position, relative);
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-background)
-        );
-        border-style: var(--cx-border-style, none);
-        border-width: var(--cx-border-width, 0);
-        width: var(--cx-width, 100%);
-        top: var(--cx-top, 0) !important;
-      }
+    .wrapper[attr='2'] {
+      width: 400px;
     }
-    &-child-item {
-      border-style: var(--cx-border-style, solid);
-      border-width: var(--cx-border-width, 0 0 1px);
-      border-color: var(--cx-border-color, var(--cx-g-color-background));
-      padding: var(--cx-padding, 0.45rem 1rem);
-      &:hover {
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-transparent)
-        );
-      }
-      &:last-child {
-        border-style: var(--cx-border-style, none);
-        border-width: var(--cx-border-width, 0);
-      }
-      @include media-breakpoint-down(md) {
-        border-style: var(--cx-border-style, none);
-        border-width: var(--cx-border-width, 0);
-      }
+    // child navigations without children take full width
+    nav:not(.has-childs) {
+      flex: 100%;
     }
-    &-child-link {
-      @include type('7');
-      color: var(--cx-color, var(--cx-g-color-text));
-      &:hover {
-        color: var(--cx-color, var(--cx-g-color-primary));
-        text-decoration: var(--cx-text-decoration, none);
-      }
-    }
-    &-child-list-columns {
-      border-radius: var(--cx-border-radius, 0);
-      padding: var(--cx-padding, 0.75rem);
-      margin: var(--cx-margin, 0);
-      &.show {
-        display: var(--cx-display, flex);
-      }
-      @include media-breakpoint-down(md) {
-        flex-direction: var(--cx-flex-direction, column);
-        position: var(--cx-position, static);
-        width: var(--cx-width, 100%);
-        border-style: var(--cx-border-style, none);
-        border-width: var(--cx-border-width, 0);
-        margin: var(--cx-margin, 0);
-      }
-    }
-    //column option
-    &-column-title {
-      @include type('7');
-      text-transform: var(--cx-text-transform, capitalize);
-      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold));
-      display: var(--cx-display, block);
-      width: var(--cx-width, 100%);
-      padding: var(--cx-padding, 0.25rem 1.5rem);
-    }
-    &-child-column {
-      margin: var(--cx-margin, 0);
-      @include media-breakpoint-down(md) {
-        margin: var(--cx-margin, 1rem unset 0 0);
-      }
-    }
-    &-child-column-item {
-      @include type('7');
-      padding: var(--cx-padding, 0.25rem 1.5rem);
-      &:hover {
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-transparent)
-        );
-      }
+    .childs {
+      display: flex;
+      background: white;
     }
   }
 }

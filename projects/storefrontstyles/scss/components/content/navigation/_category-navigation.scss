@@ -1,96 +1,17 @@
-$height: 25px;
-
 %cx-category-navigation {
-  .cx-navigation {
-    display: flex;
-
-    .childs nav {
-      padding-right: 20px;
-    }
-
-    a {
-      padding: 5px 10px;
-      display: block;
-      white-space: nowrap;
-      cx-icon {
-        padding: 0 10px;
-      }
-      text-decoration: none;
-      color: #000;
-    }
+  cx-navigation-ui {
+    // first level heading / links
     > nav {
-      > cx-generic-link a {
-        color: #fff;
+      > h5,
+      > cx-generic-link {
+        cursor: pointer;
+        text-transform: uppercase;
       }
-      > .wrapper {
-        position: absolute;
-        opacity: 0;
-        visibility: hidden;
-        display: flex;
-        transition: opacity 0.6s;
-        z-index: 100;
 
-        > .childs {
-          padding: 6px 0;
-          > nav.has-childs > cx-generic-link {
-            font-weight: bold;
-            cx-icon {
-              display: none;
-            }
-          }
-        }
+      // deeper nested headings
+      nav > h5 {
+        @include type('5');
       }
-    }
-
-    /* we threat the first wrapper as a collapseble container */
-    > nav:hover > .wrapper {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    // create width of wrapper
-    .wrapper[attr='1'] {
-      width: 200px;
-    }
-    .wrapper[attr='2'] {
-      width: 400px;
-    }
-    // child navigations without children take full width
-    nav:not(.has-childs) {
-      flex: 100%;
-    }
-    .childs {
-      display: flex;
-      background: white;
-      flex-wrap: wrap;
-    }
-
-    .childs .childs {
-      flex-direction: column;
     }
   }
 }
-
-// @import '~bootstrap/scss/variables';
-// @import '~bootstrap/scss/nav';
-// @import '~bootstrap/scss/dropdown';
-
-// %cx-category-navigation {
-//   nav {
-//     display: flex;
-//     justify-content: space-between;
-//     flex-wrap: wrap;
-//     padding: var(--cx-padding, 0.5rem 0);
-
-//     cx-navigation {
-//       &:not(:first-child) {
-//         margin-left: 10px;
-//       }
-//     }
-//     @include media-breakpoint-down(md) {
-//       padding: var(--cx-padding, 0);
-//       flex-direction: column;
-//       background-color: var(--cx-background-color, var(--cx-g-color-inverse));
-//     }
-//   }
-// }

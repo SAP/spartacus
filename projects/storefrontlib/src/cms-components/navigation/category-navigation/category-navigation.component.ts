@@ -9,6 +9,6 @@ import { NavigationComponentService } from '../navigation/navigation.component.s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryNavigationComponent {
-  node$: Observable<NavigationNode> = this.service.getNodes();
+  node$: Observable<NavigationNode> = this.service.getNavigationNode();
   constructor(public service: NavigationComponentService) {}
 }

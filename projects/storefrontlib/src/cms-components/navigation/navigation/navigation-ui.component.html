@@ -1,27 +1,34 @@
-<div class="cx-navigation">
-  <ng-container *ngFor="let child of node?.children">
-    <ng-container *ngTemplateOutlet="nav; context: { node: child }">
-    </ng-container>
+<ng-container *ngFor="let child of node?.children">
+  <ng-container *ngTemplateOutlet="nav; context: { node: child }">
   </ng-container>
-</div>
+</ng-container>
 
+<!-- we generate links in a recursive manner -->
 <ng-template #nav let-node="node">
-  <nav [class.has-childs]="node.children?.length > 0">
-    <cx-generic-link [url]="node.url">
+  <nav [class.has-childs]="node.children?.length > 0" tabindex="0">
+    <cx-generic-link *ngIf="node.url; else heading" [url]="node.url">
       {{ node.title }}
       <cx-icon
-        *ngIf="node.children?.length > 0"
+        *ngIf="flyout && node.children?.length > 0"
         [type]="iconTypes.CARET_DOWN"
         class="small"
       ></cx-icon>
     </cx-generic-link>
 
-    <div
-      class="wrapper"
-      *ngIf="node.children?.length > 0"
-      [attr.childs]="node.children?.length"
-    >
-      <div class="childs">
+    <ng-template #heading>
+      <h5>
+        {{ node.title }}
+        <cx-icon
+          *ngIf="flyout && node.children?.length > 0"
+          [type]="iconTypes.CARET_DOWN"
+          class="small"
+        ></cx-icon>
+      </h5>
+    </ng-template>
+
+    <!-- we add a wrapper to allow for better layout handling in CSS -->
+    <div class="wrapper" *ngIf="node.children?.length > 0">
+      <div class="childs" [attr.depth]="getDepth(node) | json">
         <ng-container *ngFor="let child of node.children">
           <ng-container *ngTemplateOutlet="nav; context: { node: child }">
           </ng-container>

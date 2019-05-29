@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 import { CmsNavigationComponent, CmsService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
@@ -15,6 +15,20 @@ export class NavigationComponentService {
 
   public getComponentData(): Observable<CmsNavigationComponent> {
     return this.componentData.data$;
+  }
+
+  public createNavigation(): Observable<NavigationNode> {
+    return combineLatest(
+      this.getComponentData(),
+      this.getNavigationNode()
+    ).pipe(
+      map(([data, nav]) => {
+        return {
+          title: data.name,
+          children: [nav],
+        };
+      })
+    );
   }
 
   public getNavigationNode(): Observable<NavigationNode> {
@@ -42,7 +56,11 @@ export class NavigationComponentService {
    * @param root
    * @param itemsList
    */
-  public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
+  private getNavigationEntryItems(
+    nodeData: any,
+    root: boolean,
+    itemsList = []
+  ) {
     if (nodeData.children && nodeData.children.length > 0) {
       this.processChildren(nodeData, itemsList);
     } else if (nodeData.entries && nodeData.entries.length > 0) {

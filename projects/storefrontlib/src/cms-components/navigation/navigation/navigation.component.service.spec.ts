@@ -1,10 +1,9 @@
-import { TestBed, inject } from '@angular/core/testing';
-import createSpy = jasmine.createSpy;
-
-import { CmsService, CmsNavigationComponent } from '@spartacus/core';
-import { NavigationComponentService } from './navigation.component.service';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { inject, TestBed } from '@angular/core/testing';
+import { CmsNavigationComponent, CmsService } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { NavigationComponentService } from './navigation.component.service';
+import createSpy = jasmine.createSpy;
 
 const itemsData: any = {
   MockLink001_AbstractCMSComponent: {
@@ -136,7 +135,7 @@ describe('NavigationComponentService', () => {
       undefined
     );
     spyOn(navigationService, 'createNode').and.callThrough();
-    navigationService.getNodes().subscribe();
+    navigationService.getNavigationNode().subscribe();
 
     expect(navigationService.getComponentData).toHaveBeenCalled();
     expect(mockCmsService.getNavigationEntryItems).toHaveBeenCalledWith(
@@ -157,7 +156,7 @@ describe('NavigationComponentService', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
     spyOn(navigationService, 'getNavigationEntryItems').and.callThrough();
     spyOn(navigationService, 'createNode').and.callThrough();
-    navigationService.getNodes().subscribe();
+    navigationService.getNavigationNode().subscribe();
 
     expect(navigationService.getComponentData).toHaveBeenCalled();
     expect(mockCmsService.getNavigationEntryItems).toHaveBeenCalledWith(
