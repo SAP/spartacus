@@ -1,13 +1,13 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { CartPaymentAdapter } from './cart-payment.adapter';
+import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 import { CardType, PaymentDetails } from '../../../model/cart.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartPaymentConnector {
-  constructor(protected adapter: CartPaymentAdapter) {}
+export class CheckoutPaymentConnector {
+  constructor(protected adapter: CheckoutPaymentAdapter) {}
 
   public create(
     userId: string,

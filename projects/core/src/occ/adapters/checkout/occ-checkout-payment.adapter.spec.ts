@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { Occ, OccConfig } from '../../index';
-import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
+import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
 import {
   CARD_TYPE_NORMALIZER,
   ConverterService,
@@ -163,8 +163,8 @@ const html =
   '</div>' +
   '</form>';
 
-describe('OccCartPaymentAdapter', () => {
-  let service: OccCartPaymentAdapter;
+describe('OccCheckoutPaymentAdapter', () => {
+  let service: OccCheckoutPaymentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -172,12 +172,12 @@ describe('OccCartPaymentAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCartPaymentAdapter,
+        OccCheckoutPaymentAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(OccCartPaymentAdapter);
+    service = TestBed.get(OccCheckoutPaymentAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
 
