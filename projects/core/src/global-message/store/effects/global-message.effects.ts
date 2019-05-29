@@ -28,7 +28,7 @@ export class GlobalMessageEffects {
 
   @Effect()
   timeout$: ObservableInput<
-    GlobalMessageActions.RemoveMessagesByType
+    GlobalMessageActions.RemoveMessage
   > | void = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     map((action: GlobalMessageActions.AddMessage) => action.payload),
