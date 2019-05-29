@@ -1,15 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ConsentTemplateList } from '../../../occ';
+import { ConsentTemplate } from '@spartacus/core';
 import { LoaderState } from '../../../state';
 import * as fromActions from '../actions/user-consents.action';
 import * as fromReducers from '../reducers/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromSelectors from './user-consents.selectors';
 
-const consents: ConsentTemplateList = {
-  consentTemplates: [{ id: 'xxx' }],
-};
+const consents: ConsentTemplate[] = [{ id: 'xxx' }];
 
 describe('User consents selectors', () => {
   let store: Store<StateWithUser>;
@@ -30,7 +28,7 @@ describe('User consents selectors', () => {
     it('should return consents', () => {
       store.dispatch(new fromActions.LoadUserConsentsSuccess(consents));
 
-      let result: LoaderState<ConsentTemplateList>;
+      let result: LoaderState<ConsentTemplate[]>;
       store
         .pipe(select(fromSelectors.getConsentsState))
         .subscribe(value => (result = value))
@@ -48,7 +46,7 @@ describe('User consents selectors', () => {
     it('should return the value', () => {
       store.dispatch(new fromActions.LoadUserConsentsSuccess(consents));
 
-      let result: ConsentTemplateList;
+      let result: ConsentTemplate[];
       store
         .pipe(select(fromSelectors.getConsentsValue))
         .subscribe(value => (result = value))
@@ -58,7 +56,7 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsLoading', () => {
-    it('should return the value', () => {
+    it('should return the loading flag', () => {
       store.dispatch(new fromActions.LoadUserConsents('xxx@xxx.xxx'));
 
       let result = false;
@@ -71,8 +69,8 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsSuccess', () => {
-    it('should return the value', () => {
-      store.dispatch(new fromActions.LoadUserConsentsSuccess({}));
+    it('should return the success value', () => {
+      store.dispatch(new fromActions.LoadUserConsentsSuccess([]));
 
       let result = false;
       store
@@ -84,7 +82,7 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsError', () => {
-    it('should return the value', () => {
+    it('should return the error flag', () => {
       store.dispatch(new fromActions.LoadUserConsentsFail('error'));
 
       let result = false;

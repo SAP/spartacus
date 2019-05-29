@@ -6,7 +6,7 @@ import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',

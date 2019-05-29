@@ -17,6 +17,9 @@ describe('BaseSiteService', () => {
   const mockBaseSiteSelect = createSpy('select').and.returnValue(() =>
     of(mockBaseSite)
   );
+  const mockBaseSiteDetailsSelect = createSpy('select').and.returnValue(() =>
+    of({ uid: 'test-basesite' })
+  );
   let store: Store<StateWithSiteContext>;
 
   beforeEach(() => {
@@ -43,7 +46,7 @@ describe('BaseSiteService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getActive should return active baseSite', () => {
+  it('getActive should return active baseSite uid', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
 
     let result;
@@ -74,5 +77,15 @@ describe('BaseSiteService', () => {
       service.setActive(mockBaseSite);
       expect(store.dispatch).not.toHaveBeenCalled();
     });
+  });
+
+  it('getActive should return active baseSite details', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(
+      mockBaseSiteDetailsSelect
+    );
+
+    let result;
+    service.getBaseSiteData().subscribe(res => (result = res));
+    expect(result).toEqual({ uid: 'test-basesite' });
   });
 });

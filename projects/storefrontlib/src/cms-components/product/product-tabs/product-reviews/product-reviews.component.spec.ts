@@ -1,10 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, ProductReviewService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductReviewService,
+  Product,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { FormComponentsModule } from '../../../../shared';
 import { ProductReviewsComponent } from './product-reviews.component';
+import { CurrentProductService } from '../../current-product.service';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -28,6 +33,15 @@ class MockStarRatingComponent {
   @Input() rating;
   @Input() disabled;
 }
+
+const mockProduct: Product = { name: 'mockProduct' };
+
+class MockCurrentProductService {
+  getProduct(): Observable<Product> {
+    return of(mockProduct);
+  }
+}
+
 describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
@@ -40,6 +54,10 @@ describe('ProductReviewsComponent in product', () => {
           provide: ProductReviewService,
           useClass: MockProductReviewService,
         },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
       ],
       declarations: [MockStarRatingComponent, ProductReviewsComponent],
     }).compileComponents();
@@ -48,7 +66,6 @@ describe('ProductReviewsComponent in product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);
     productReviewsComponent = fixture.componentInstance;
-    productReviewsComponent.product = product;
 
     fixture.detectChanges();
   });
@@ -58,8 +75,6 @@ describe('ProductReviewsComponent in product', () => {
   });
 
   it('from get reviews by product code', () => {
-    productReviewsComponent.ngOnChanges();
-
     expect(productReviewsComponent.reviews$).toBeTruthy();
     productReviewsComponent.reviews$.subscribe(result => {
       expect(result).toEqual(reviews);
@@ -67,7 +82,6 @@ describe('ProductReviewsComponent in product', () => {
   });
 
   it('should contain a form object for the review submission form, after init()', () => {
-    productReviewsComponent.ngOnInit();
     const props = ['comment', 'title', 'rating', 'reviewerName'];
 
     props.forEach(prop => {
@@ -91,7 +105,7 @@ describe('ProductReviewsComponent in product', () => {
     });
 
     it('should hide form on submitReview()', () => {
-      productReviewsComponent.submitReview();
+      productReviewsComponent.submitReview(product);
       expect(productReviewsComponent.isWritingReview).toBe(false);
     });
   });

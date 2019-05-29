@@ -14,7 +14,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
 import { Product } from '../../model/product.model';
 import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',

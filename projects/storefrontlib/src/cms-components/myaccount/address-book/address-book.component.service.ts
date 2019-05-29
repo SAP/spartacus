@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Address, UserService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { UserService, Address, User } from '@spartacus/core';
 
 @Injectable()
 export class AddressBookComponentService {
@@ -16,19 +14,15 @@ export class AddressBookComponentService {
     return this.userService.getAddressesLoading();
   }
 
-  getUserId(): Observable<string> {
-    return this.userService.get().pipe(map(({ uid }: User) => uid));
+  loadAddresses() {
+    this.userService.loadAddresses();
   }
 
-  loadAddresses(userId: string) {
-    this.userService.loadAddresses(userId);
+  addUserAddress(address: Address) {
+    this.userService.addUserAddress(address);
   }
 
-  addUserAddress(userId: string, address: Address) {
-    this.userService.addUserAddress(userId, address);
-  }
-
-  updateUserAddress(userId: string, addressId: string, address: Address) {
-    this.userService.updateUserAddress(userId, addressId, address);
+  updateUserAddress(addressId: string, address: Address) {
+    this.userService.updateUserAddress(addressId, address);
   }
 }

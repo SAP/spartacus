@@ -2,11 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Title, User } from '../../../model/misc.model';
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../occ-models/additional-occ.models';
+import { Title, User, UserSignUp } from '../../../model/misc.model';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import {
   InterceptorUtil,
@@ -15,11 +11,10 @@ import {
 import { ConverterService } from '../../../util/converter.service';
 import {
   TITLE_NORMALIZER,
-  USER_REGISTER_FORM_SERIALIZER,
+  USER_SIGN_UP_SERIALIZER,
 } from '../../../user/connectors/account/converters';
 import { UserAccountAdapter } from '../../../user/connectors/account/user-account.adapter';
 import { USER_NORMALIZER } from '../../../user/connectors/details/converters';
-import { UserRegisterFormData } from '../../../user/model/user.model';
 import { Occ } from '../../occ-models';
 
 const USER_ENDPOINT = 'users/';
@@ -27,8 +22,6 @@ const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
-const CONSENTS_TEMPLATES_ENDPOINT = '/consenttemplates';
-const CONSENTS_ENDPOINT = '/consents';
 const TITLES_ENDPOINT = 'titles';
 
 @Injectable()
@@ -43,13 +36,13 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     const endpoint = userId ? `${USER_ENDPOINT}${userId}` : USER_ENDPOINT;
     return this.occEndpoints.getEndpoint(endpoint);
   }
-  register(user: UserRegisterFormData): Observable<User> {
+  register(user: UserSignUp): Observable<User> {
     const url: string = this.getUserEndpoint();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    user = this.converter.convert(user, USER_REGISTER_FORM_SERIALIZER);
+    user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
     return this.http.post<User>(url, user, { headers }).pipe(
       catchError((error: any) => throwError(error)),
@@ -133,40 +126,5 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
         map(titleList => titleList.titles),
         this.converter.pipeableMany(TITLE_NORMALIZER)
       );
-  }
-
-  loadConsents(userId: string): Observable<ConsentTemplateList> {
-    const url = this.getUserEndpoint() + userId + CONSENTS_TEMPLATES_ENDPOINT;
-    const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
-    return this.http
-      .get<ConsentTemplateList>(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  giveConsent(
-    userId: string,
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): Observable<ConsentTemplate> {
-    const url = this.getUserEndpoint() + userId + CONSENTS_ENDPOINT;
-    const httpParams = new HttpParams()
-      .set('consentTemplateId', consentTemplateId)
-      .set('consentTemplateVersion', consentTemplateVersion.toString());
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Cache-Control': 'no-cache',
-    });
-    return this.http
-      .post<ConsentTemplate>(url, httpParams, { headers })
-      .pipe(catchError(error => throwError(error)));
-  }
-
-  withdrawConsent(userId: string, consentCode: string): Observable<{}> {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-cache',
-    });
-    const url =
-      this.getUserEndpoint() + userId + CONSENTS_ENDPOINT + '/' + consentCode;
-    return this.http.delete(url, { headers });
   }
 }
