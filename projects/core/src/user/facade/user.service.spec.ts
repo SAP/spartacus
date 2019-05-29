@@ -199,9 +199,9 @@ describe('UserService', () => {
   });
 
   it('should be able to load user payment methods', () => {
-    service.loadPaymentMethods('testUserId');
+    service.loadPaymentMethods();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserPaymentMethods('testUserId')
+      new fromStore.LoadUserPaymentMethods(USERID_CURRENT)
     );
   });
 
@@ -237,20 +237,20 @@ describe('UserService', () => {
   });
 
   it('should dispatch proper action for setPaymentMethodAsDefault', () => {
-    service.setPaymentMethodAsDefault('userId', 'paymentMethodId');
+    service.setPaymentMethodAsDefault('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.SetDefaultUserPaymentMethod({
-        userId: 'userId',
+        userId: USERID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
     );
   });
 
   it('should dispatch proper action for deleteUserPaymentMethod', () => {
-    service.deletePaymentMethod('userId', 'paymentMethodId');
+    service.deletePaymentMethod('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.DeleteUserPaymentMethod({
-        userId: 'userId',
+        userId: USERID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
     );
@@ -663,13 +663,13 @@ describe('UserService', () => {
   });
 
   describe('consent management', () => {
-    const userId = 'xxx@xxx.xxx';
+    const userId = USERID_CURRENT;
     const consentTemplateListMock: ConsentTemplate[] = [{ id: 'xxx' }];
 
     describe('load consents', () => {
       describe('loadConsents', () => {
         it('should dispatch an action', () => {
-          service.loadConsents(userId);
+          service.loadConsents();
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromStore.LoadUserConsents(userId)
           );
@@ -746,11 +746,7 @@ describe('UserService', () => {
 
       describe('giveConsent', () => {
         it('should dispatch an action', () => {
-          service.giveConsent(
-            userId,
-            consentTemplateId,
-            consentTemplateVersion
-          );
+          service.giveConsent(consentTemplateId, consentTemplateVersion);
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromStore.GiveUserConsent({
               userId,
@@ -819,7 +815,7 @@ describe('UserService', () => {
       describe('withdrawConsent', () => {
         it('should dispatch an action', () => {
           const consentCode = 'xxx';
-          service.withdrawConsent(userId, consentCode);
+          service.withdrawConsent(consentCode);
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromStore.WithdrawUserConsent({
               userId,
