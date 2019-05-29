@@ -1,20 +1,18 @@
-import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-
+import { Pipe, PipeTransform } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AuthRedirectService,
   AuthService,
+  GlobalMessageService,
   I18nTestingModule,
-  RoutingService,
   UserToken,
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { LoginFormComponent } from './login-form.component';
 
 import createSpy = jasmine.createSpy;
-
-import { GlobalMessageService } from '@spartacus/core';
-import { PipeTransform, Pipe } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
   name: 'cxUrl',
@@ -23,23 +21,17 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-import { LoginFormComponent } from './login-form.component';
-
 class MockAuthService {
   authorize = createSpy();
   getUserToken(): Observable<UserToken> {
     return of({ access_token: 'test' } as UserToken);
   }
+  authorizeOpenId(_username: string, _password: string): void {}
 }
 
-class MockRoutingService {
-  goByUrl = createSpy();
-  clearRedirectUrl = createSpy();
-  getRedirectUrl() {
-    return of('/test');
-  }
+class MockRedirectAfterAuthService {
+  redirect = createSpy('AuthRedirectService.redirect');
 }
-
 class MockGlobalMessageService {
   remove = createSpy();
 }
@@ -49,7 +41,7 @@ describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: MockAuthService;
-  let routingService: MockRoutingService;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -57,7 +49,10 @@ describe('LoginFormComponent', () => {
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
@@ -67,7 +62,7 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService);
-    routingService = TestBed.get(RoutingService);
+    authRedirectService = TestBed.get(AuthRedirectService);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -82,19 +77,22 @@ describe('LoginFormComponent', () => {
     expect(component.form.controls['password'].value).toBe('');
   });
 
-  it('should login', () => {
-    component.form.controls['userId'].setValue('test@email.com');
-    component.form.controls['password'].setValue('secret');
+  it('should login and redirect to return url after auth', () => {
+    spyOn(authService, 'authorizeOpenId').and.stub();
+    const username = 'test@email.com';
+    const password = 'secret';
+
+    component.form.controls['userId'].setValue(username);
+    component.form.controls['password'].setValue(password);
     component.login();
 
-    expect(authService.authorize).toHaveBeenCalledWith(
-      'test@email.com',
-      'secret'
+    expect(authService.authorize).toHaveBeenCalledWith(username, password);
+    expect(authService.authorizeOpenId).toHaveBeenCalledWith(
+      username,
+      password
     );
-  });
 
-  it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
+    expect(authRedirectService.redirect).toHaveBeenCalled();
   });
 
   describe('userId form field', () => {

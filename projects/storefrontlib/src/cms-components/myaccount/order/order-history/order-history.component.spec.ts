@@ -175,7 +175,6 @@ describe('OrderHistoryComponent', () => {
 
     expect(component.sortType).toBe('byOrderNumber');
     expect(userService.loadOrderList).toHaveBeenCalledWith(
-      'test',
       5,
       0,
       'byOrderNumber'
@@ -190,11 +189,6 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
     component.pageChange(1);
 
-    expect(userService.loadOrderList).toHaveBeenCalledWith(
-      'test',
-      5,
-      1,
-      'byDate'
-    );
+    expect(userService.loadOrderList).toHaveBeenCalledWith(5, 1, 'byDate');
   });
 });

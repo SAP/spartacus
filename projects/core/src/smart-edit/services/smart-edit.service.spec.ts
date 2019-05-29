@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 
 import { CmsService, Page } from '../../cms/index';
 import { RoutingService } from '../../routing';
+import { BaseSiteService } from '../../site-context';
+import { BaseSite } from '../../model/misc.model';
 
 import { SmartEditService } from './smart-edit.service';
 
@@ -21,10 +23,16 @@ class MockRoutingService {
   }
   go() {}
 }
+class MockBaseSiteService {
+  getBaseSiteData(): Observable<BaseSite> {
+    return of();
+  }
+}
 describe('SmartEditService', () => {
   let service: SmartEditService;
   let cmsService: CmsService;
   let routingService: RoutingService;
+  let baseSiteService: BaseSiteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,12 +40,14 @@ describe('SmartEditService', () => {
         SmartEditService,
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
       ],
     });
 
     service = TestBed.get(SmartEditService);
     cmsService = TestBed.get(CmsService);
     routingService = TestBed.get(RoutingService);
+    baseSiteService = TestBed.get(BaseSiteService);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -167,11 +177,16 @@ describe('SmartEditService', () => {
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewProductCode: 'test product code',
+        })
+      );
       service['getCmsTicket']();
       service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
-        params: { code: 2053367 },
+        params: { code: 'test product code' },
       });
     });
 
@@ -191,11 +206,16 @@ describe('SmartEditService', () => {
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewCategoryCode: 'test category code',
+        })
+      );
       service['getCmsTicket']();
       service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'category',
-        params: { code: 575 },
+        params: { code: 'test category code' },
       });
     });
   });

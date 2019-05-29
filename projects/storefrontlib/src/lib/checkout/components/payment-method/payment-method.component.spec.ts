@@ -1,31 +1,29 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Observable, of } from 'rxjs';
-
+import { ActivatedRoute } from '@angular/router';
 import {
   Address,
-  CartDataService,
   CheckoutService,
   GlobalMessageService,
   I18nTestingModule,
-  RoutingService,
   PaymentDetails,
-  UserService,
   RoutesConfig,
   RoutingConfigService,
+  RoutingService,
+  UserService,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
-import { PaymentMethodComponent } from './payment-method.component';
-
-import createSpy = jasmine.createSpy;
-import { ActivatedRoute } from '@angular/router';
+import { defaultStorefrontRoutesConfig } from '../../../ui/pages/default-routing-config';
+import { CheckoutConfigService } from '../../checkout-config.service';
 import {
   CheckoutStep,
   CheckoutStepType,
 } from '../../model/checkout-step.model';
-import { CheckoutConfigService } from '../../checkout-config.service';
-import { defaultStorefrontRoutesConfig } from '../../../ui/pages/default-routing-config';
+import { PaymentMethodComponent } from './payment-method.component';
+
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-icon',
@@ -58,7 +56,7 @@ const mockCheckoutStep: CheckoutStep = {
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 class MockUserService {
-  loadPaymentMethods(_userId: string): void {}
+  loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of();
   }
@@ -122,10 +120,6 @@ const mockPaymentMethods: PaymentDetails[] = [
   mockPaymentDetails,
 ];
 
-const mockCartDataService = {
-  userId: 'testUser',
-};
-
 const mockActivatedRoute = {
   snapshot: {
     url: ['checkout', 'payment-method'],
@@ -179,7 +173,6 @@ describe('PaymentMethodComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: CartDataService, useValue: mockCartDataService },
         { provide: UserService, useClass: MockUserService },
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
