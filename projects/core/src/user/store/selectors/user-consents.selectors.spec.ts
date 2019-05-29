@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { ConsentTemplate } from '@spartacus/core';
 import { LoaderState } from '../../../state';
 import * as fromActions from '../actions/user-consents.action';
 import * as fromReducers from '../reducers/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromSelectors from './user-consents.selectors';
-import { ConsentTemplate } from '@spartacus/core';
 
 const consents: ConsentTemplate[] = [{ id: 'xxx' }];
 
@@ -56,7 +56,7 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsLoading', () => {
-    it('should return the value', () => {
+    it('should return the loading flag', () => {
       store.dispatch(new fromActions.LoadUserConsents('xxx@xxx.xxx'));
 
       let result = false;
@@ -69,7 +69,7 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsSuccess', () => {
-    it('should return the value', () => {
+    it('should return the success value', () => {
       store.dispatch(new fromActions.LoadUserConsentsSuccess([]));
 
       let result = false;
@@ -82,7 +82,7 @@ describe('User consents selectors', () => {
     });
   });
   describe('getConsentsError', () => {
-    it('should return the value', () => {
+    it('should return the error flag', () => {
       store.dispatch(new fromActions.LoadUserConsentsFail('error'));
 
       let result = false;
