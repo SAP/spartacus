@@ -1,10 +1,9 @@
 import { Injectable, Optional } from '@angular/core';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
-
 import { CmsNavigationComponent, CmsService } from '@spartacus/core';
-import { NavigationNode } from './navigation-node.model';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { NavigationNode } from './navigation-node.model';
 
 @Injectable()
 export class NavigationComponentService {
@@ -13,6 +12,29 @@ export class NavigationComponentService {
     @Optional()
     protected componentData: CmsComponentData<CmsNavigationComponent>
   ) {}
+
+  public getComponentData(): Observable<CmsNavigationComponent> {
+    return this.componentData.data$;
+  }
+
+  public getNavigationNode(): Observable<NavigationNode> {
+    return this.getComponentData().pipe(
+      switchMap(data => {
+        if (data) {
+          const navigation = data.navigationNode ? data.navigationNode : data;
+          return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
+            tap(items => {
+              if (items === undefined) {
+                this.getNavigationEntryItems(navigation, true, []);
+              }
+            }),
+            filter(items => items !== undefined),
+            map(items => this.createNode(navigation, items))
+          );
+        }
+      })
+    );
+  }
 
   /**
    * Get all navigation entry items' type and id. Dispatch action to load all these items
@@ -49,7 +71,7 @@ export class NavigationComponentService {
    * @param nodeData
    * @param items
    */
-  public createNode(nodeData: any, items: any): NavigationNode {
+  private createNode(nodeData: any, items: any): NavigationNode {
     const node = {};
 
     node['title'] = nodeData.title;
@@ -83,28 +105,5 @@ export class NavigationComponentService {
       children.push(childNode);
     }
     return children;
-  }
-
-  public getComponentData(): Observable<CmsNavigationComponent> {
-    return this.componentData.data$;
-  }
-
-  public getNodes(): Observable<NavigationNode> {
-    return this.getComponentData().pipe(
-      switchMap(data => {
-        if (data) {
-          const navigation = data.navigationNode ? data.navigationNode : data;
-          return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
-            tap(items => {
-              if (items === undefined) {
-                this.getNavigationEntryItems(navigation, true, []);
-              }
-            }),
-            filter(items => items !== undefined),
-            map(items => this.createNode(navigation, items))
-          );
-        }
-      })
-    );
   }
 }
