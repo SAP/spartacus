@@ -47,7 +47,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-fdescribe('CmsComponentConnector', () => {
+describe('CmsComponentConnector', () => {
   let service: CmsComponentConnector;
   let adapter: CmsComponentAdapter;
 
