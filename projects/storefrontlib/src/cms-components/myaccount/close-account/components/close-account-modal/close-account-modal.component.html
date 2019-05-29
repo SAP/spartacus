@@ -7,7 +7,7 @@
       type="button"
       class="close"
       aria-label="Close"
-      (click)="closeModal()"
+      (click)="dismissModal()"
     >
       <span aria-hidden="true">
         <cx-icon [type]="iconTypes.TIMES"></cx-icon>
@@ -36,7 +36,7 @@
           >
             {{ 'closeAccount.closeMyAccount' | cxTranslate }}
           </button>
-          <button (click)="closeModal()" class="btn btn-block btn-secondary">
+          <button (click)="dismissModal()" class="btn btn-block btn-secondary">
             {{ 'common.cancel' | cxTranslate }}
           </button>
         </div>

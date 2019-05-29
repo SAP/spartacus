@@ -6,7 +6,7 @@
     type="button"
     class="close"
     aria-label="Close"
-    (click)="activeModal.close()"
+    (click)="closeModal()"
   >
     <span aria-hidden="true">
       <cx-icon [type]="iconTypes.TIMES"></cx-icon>
@@ -87,14 +87,14 @@
       <div class="cx-dialog-actions col-sm-12 col-md-6 offset-md-6">
         <button
           class="btn btn-secondary btn-block cx-dialog-buttons"
-          (click)="activeModal.close()"
+          (click)="closeModal()"
         >
           {{ 'checkoutAddress.editAddress' | cxTranslate }}
         </button>
         <button
           cxAutoFocus
           class="btn btn-primary btn-block cx-dialog-buttons"
-          (click)="activeModal.close(selectedAddress)"
+          (click)="closeModal(selectedAddress)"
         >
           {{ 'checkoutAddress.saveAddress' | cxTranslate }}
         </button>
