@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 // import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { ObservableInput, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { delay, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as GlobalMessageActions from '../actions/global-message.actions';
+import * as RouterActions from '../../../routing/store/actions/router.action';
 import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
 import {
   GlobalMessage,
@@ -17,21 +18,11 @@ import { GlobalMessageConfig } from '../../config/globalMessageConfigs';
 
 @Injectable()
 export class GlobalMessageEffects {
-  // @Effect({ dispatch: false })
-  // navigate$: Observable<any> = this.actions$.pipe(
-  //   ofType(RouterActions.GO),
-  //   map((action: RouterActions.Go) => action.payload),
-  //   tap(({ path, query: queryParams, extras }) => {
-  //     this.router.navigate(path, { queryParams, ...extras });
-  //   })
-  // );
-
   @Effect()
-  timeout$: ObservableInput<
+  hideAfterDelay$: Observable<
     GlobalMessageActions.RemoveMessage
   > | void = this.actions$.pipe(
-    ofType(GlobalMessageActions.ADD_MESSAGE),
-    map((action: GlobalMessageActions.AddMessage) => action.payload),
+    ofType(RouterActions.GO),
     switchMap((value: GlobalMessage) => {
       return this.store.select(getGlobalMessageCountByType(value.type)).pipe(
         withLatestFrom(this.getConfigForType(value.type)),
@@ -40,7 +31,6 @@ export class GlobalMessageEffects {
             config && config.timeout !== undefined && count && count > 0
         ),
         switchMap(([count, config]: [number, GlobalMessageConfig]) => {
-          console.log('yo', value.type, count - 1, config.timeout);
           return of(
             new GlobalMessageActions.RemoveMessage({
               type: value.type,
@@ -50,6 +40,48 @@ export class GlobalMessageEffects {
         })
       );
     })
+  );
+
+  @Effect()
+  hideAfterNavigate$: Observable<
+    Observable<GlobalMessageActions.RemoveMessagesByType>
+  > = this.actions$.pipe(
+    ofType(GlobalMessageActions.ADD_MESSAGE),
+    switchMap(() => [
+      this.getConfigForType(GlobalMessageType.MSG_TYPE_CONFIRMATION).pipe(
+        filter(
+          (config: GlobalMessageConfig) => config && config.hideOnRouteChange
+        ),
+        map(
+          () =>
+            new GlobalMessageActions.RemoveMessagesByType(
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            )
+        )
+      ),
+      this.getConfigForType(GlobalMessageType.MSG_TYPE_INFO).pipe(
+        filter(
+          (config: GlobalMessageConfig) => config && config.hideOnRouteChange
+        ),
+        map(
+          () =>
+            new GlobalMessageActions.RemoveMessagesByType(
+              GlobalMessageType.MSG_TYPE_INFO
+            )
+        )
+      ),
+      this.getConfigForType(GlobalMessageType.MSG_TYPE_ERROR).pipe(
+        filter(
+          (config: GlobalMessageConfig) => config && config.hideOnRouteChange
+        ),
+        map(
+          () =>
+            new GlobalMessageActions.RemoveMessagesByType(
+              GlobalMessageType.MSG_TYPE_ERROR
+            )
+        )
+      ),
+    ])
   );
 
   private getConfigForType(type: GlobalMessageType) {

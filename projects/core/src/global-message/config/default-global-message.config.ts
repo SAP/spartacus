@@ -3,7 +3,7 @@ import { GlobalMessageConfigs } from './globalMessageConfigs';
 export const defaultGlobalMessageConfig: GlobalMessageConfigs = {
   confirmation: {
     hideOnRouteChange: true,
-    timeout: 3000,
+    // timeout: 3000,
   },
   information: {
     hideOnRouteChange: true,
