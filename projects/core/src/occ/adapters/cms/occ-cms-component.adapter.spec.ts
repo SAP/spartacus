@@ -221,7 +221,6 @@ describe('OccCmsComponentAdapter', () => {
       });
 
       const testRequest = httpMock.expectOne(req => {
-        console.log(req);
         return (
           req.method === 'POST' &&
           req.url === endpoint + `/components?productCode=${context.id}`
