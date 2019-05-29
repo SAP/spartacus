@@ -1,9 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { takeWhile, take, filter } from 'rxjs/operators';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { Page } from '../../cms/model/page.model';
 import { WindowRef } from '../../window/window-ref';
 import { PageType } from '../../model/cms.model';
@@ -13,12 +14,16 @@ import { PageType } from '../../model/cms.model';
 })
 export class SmartEditService {
   private _cmsTicketId: string;
-  private getPreviewPage = false;
+  private isPreviewPage = false;
   private _currentPageId: string;
+
+  private defaultPreviewProductCode: string;
+  private defaultPreviewCategoryCode: string;
 
   constructor(
     protected cmsService: CmsService,
     protected routingService: RoutingService,
+    protected baseSiteService: BaseSiteService,
     protected zone: NgZone,
     winRef: WindowRef
   ) {
@@ -57,8 +62,22 @@ export class SmartEditService {
           this._cmsTicketId = routerState.nextState.queryParams['cmsTicketId'];
           if (this._cmsTicketId) {
             this.cmsService.launchInSmartEdit = true;
+            this.getDefaultPreviewCode();
           }
         }
+      });
+  }
+
+  protected getDefaultPreviewCode() {
+    this.baseSiteService
+      .getBaseSiteData()
+      .pipe(
+        filter(site => Object.keys(site).length !== 0),
+        take(1)
+      )
+      .subscribe(site => {
+        this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
+        this.defaultPreviewProductCode = site.defaultPreviewProductCode;
       });
   }
 
@@ -67,7 +86,7 @@ export class SmartEditService {
       if (cmsPage && this._cmsTicketId) {
         this._currentPageId = cmsPage.pageId;
 
-        // before adding contract, we need redirect to preview page
+        // before adding contract to page, we need redirect to that page
         this.goToPreviewPage(cmsPage);
 
         // remove old page contract
@@ -89,19 +108,24 @@ export class SmartEditService {
   }
 
   protected goToPreviewPage(cmsPage: Page) {
-    // the first page is the smartedit preview page
-    if (!this.getPreviewPage) {
-      this.getPreviewPage = true;
-
-      if (cmsPage.type === PageType.PRODUCT_PAGE) {
+    // only the first page is the smartedit preview page
+    if (!this.isPreviewPage) {
+      this.isPreviewPage = true;
+      if (
+        cmsPage.type === PageType.PRODUCT_PAGE &&
+        this.defaultPreviewProductCode
+      ) {
         this.routingService.go({
           cxRoute: 'product',
-          params: { code: 2053367 },
+          params: { code: this.defaultPreviewProductCode },
         });
-      } else if (cmsPage.type === PageType.CATEGORY_PAGE) {
+      } else if (
+        cmsPage.type === PageType.CATEGORY_PAGE &&
+        this.defaultPreviewCategoryCode
+      ) {
         this.routingService.go({
           cxRoute: 'category',
-          params: { code: 575 },
+          params: { code: this.defaultPreviewCategoryCode },
         });
       }
     }

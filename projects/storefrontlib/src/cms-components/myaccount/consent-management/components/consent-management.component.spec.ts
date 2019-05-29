@@ -10,14 +10,12 @@ import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
   ConsentTemplate,
-  ConsentTemplateList,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   RoutingService,
   Translatable,
   UrlCommands,
-  User,
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -48,7 +46,7 @@ class MockConsentManagementFormComponent {
 }
 
 class UserServiceMock {
-  loadConsents(_userId: string): void {}
+  loadConsents(): void {}
   getConsentsResultLoading(): Observable<boolean> {
     return of();
   }
@@ -64,19 +62,15 @@ class UserServiceMock {
   getWithdrawConsentResultSuccess(): Observable<boolean> {
     return of();
   }
-  get(): Observable<User> {
-    return of();
-  }
-  getConsents(): Observable<ConsentTemplateList> {
+  getConsents(): Observable<ConsentTemplate[]> {
     return of();
   }
   giveConsent(
-    _userId: string,
     _consentTemplateId: string,
     _consentTemplateVersion: number
   ): void {}
   resetGiveConsentProcessState(): void {}
-  withdrawConsent(_userId: string, _consentCode: string): void {}
+  withdrawConsent(_consentCode: string): void {}
   resetWithdrawConsentProcessState(): void {}
 }
 
@@ -91,10 +85,6 @@ class RoutingServiceMock {
 class GlobalMessageServiceMock {
   add(_text: string | Translatable, _type: GlobalMessageType): void {}
 }
-
-const mockUser: User = {
-  uid: 'xxx@xxx.xxx',
-};
 
 const mockConsentTemplate: ConsentTemplate = {
   id: 'mock ID',
@@ -139,8 +129,6 @@ describe('ConsentManagementComponent', () => {
     globalMessageService = TestBed.get(GlobalMessageService);
 
     fixture.detectChanges();
-
-    spyOn(userService, 'get').and.returnValue(of(mockUser));
   });
 
   it('should create', () => {
@@ -193,7 +181,7 @@ describe('ConsentManagementComponent', () => {
 
     describe(consentListInitMethod, () => {
       describe('when there are no consents loaded', () => {
-        const mockTemplateList = {} as ConsentTemplateList;
+        const mockTemplateList = [] as ConsentTemplate[];
         it('should trigger the loadConsents method', () => {
           spyOn(userService, 'getConsents').and.returnValue(
             of(mockTemplateList)
@@ -203,7 +191,7 @@ describe('ConsentManagementComponent', () => {
 
           component[consentListInitMethod]();
 
-          let result: ConsentTemplateList;
+          let result: ConsentTemplate[];
           component.templateList$
             .subscribe(templates => (result = templates))
             .unsubscribe();
@@ -211,13 +199,11 @@ describe('ConsentManagementComponent', () => {
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
             mockTemplateList
           );
-          expect(userService.loadConsents).toHaveBeenCalledWith(mockUser.uid);
+          expect(userService.loadConsents).toHaveBeenCalled();
         });
       });
       describe('when the consents are already present', () => {
-        const mockTemplateList: ConsentTemplateList = {
-          consentTemplates: [mockConsentTemplate],
-        };
+        const mockTemplateList: ConsentTemplate[] = [mockConsentTemplate];
         it('should not trigger loading of consents and should return consent template list', () => {
           spyOn(userService, 'getConsents').and.returnValue(
             of(mockTemplateList)
@@ -227,7 +213,7 @@ describe('ConsentManagementComponent', () => {
 
           component[consentListInitMethod]();
 
-          let result: ConsentTemplateList;
+          let result: ConsentTemplate[];
           component.templateList$
             .subscribe(templates => (result = templates))
             .unsubscribe();
@@ -279,7 +265,7 @@ describe('ConsentManagementComponent', () => {
 
         component[withdrawConsentInitMethod]();
 
-        expect(userService.loadConsents).toHaveBeenCalledWith(mockUser.uid);
+        expect(userService.loadConsents).toHaveBeenCalled();
         expect(component[onConsentWithdrawnSuccessMethod]).toHaveBeenCalledWith(
           withdrawalSuccess
         );
@@ -307,7 +293,7 @@ describe('ConsentManagementComponent', () => {
       });
       describe('when consentTemplates do not exist', () => {
         it('should return false', () => {
-          const consentTemplateList = {} as ConsentTemplateList;
+          const consentTemplateList = {} as ConsentTemplate[];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
             false
           );
@@ -315,9 +301,7 @@ describe('ConsentManagementComponent', () => {
       });
       describe('when consentTemplates are an empty array', () => {
         it('should return false', () => {
-          const consentTemplateList: ConsentTemplateList = {
-            consentTemplates: [],
-          };
+          const consentTemplateList: ConsentTemplate[] = [];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
             false
           );
@@ -325,9 +309,7 @@ describe('ConsentManagementComponent', () => {
       });
       describe('when consentTemplates are present', () => {
         it('should return true', () => {
-          const consentTemplateList: ConsentTemplateList = {
-            consentTemplates: [mockConsentTemplate],
-          };
+          const consentTemplateList: ConsentTemplate[] = [mockConsentTemplate];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
             true
           );
@@ -347,7 +329,6 @@ describe('ConsentManagementComponent', () => {
           });
 
           expect(userService.giveConsent).toHaveBeenCalledWith(
-            mockUser.uid,
             mockConsentTemplate.id,
             mockConsentTemplate.version
           );
@@ -365,7 +346,6 @@ describe('ConsentManagementComponent', () => {
           });
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
-            mockUser.uid,
             mockConsentTemplate.currentConsent.code
           );
           expect(userService.giveConsent).not.toHaveBeenCalled();
@@ -536,13 +516,11 @@ describe('ConsentManagementComponent', () => {
             of(false)
           );
           spyOn(userService, 'getConsents').and.returnValue(
-            of({
-              consentTemplates: [
-                mockConsentTemplate,
-                mockConsentTemplate,
-                mockConsentTemplate,
-              ],
-            } as ConsentTemplateList)
+            of([
+              mockConsentTemplate,
+              mockConsentTemplate,
+              mockConsentTemplate,
+            ] as ConsentTemplate[])
           );
 
           component.ngOnInit();

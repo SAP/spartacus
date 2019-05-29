@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
-
-import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
-import { UserService } from '../../facade/index';
-import { User } from '../../../model/misc.model';
-import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { Address } from '../../../model/address.model';
+import { UserAddressConnector } from '../../connectors/address/user-address.connector';
+import { UserService } from '../../facade/index';
+import * as fromUserAddressesAction from '../actions/user-addresses.action';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -155,11 +153,6 @@ export class UserAddressesEffects {
   }
 
   private loadAddresses() {
-    this.userService
-      .get()
-      .pipe(take(1))
-      .subscribe(({ uid }: User) => {
-        this.userService.loadAddresses(uid);
-      });
+    this.userService.loadAddresses();
   }
 }

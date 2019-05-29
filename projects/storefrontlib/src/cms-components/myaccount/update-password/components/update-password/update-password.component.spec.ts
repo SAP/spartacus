@@ -125,11 +125,8 @@ describe('UpdatePasswordComponent', () => {
 
     const oldPassword = 'oldPassword';
     const newPassword = 'newPassword';
-    const userId = 'userId';
-    component['userId'] = userId;
     component.onSubmit({ oldPassword, newPassword });
     expect(userService.updatePassword).toHaveBeenCalledWith(
-      userId,
       oldPassword,
       newPassword
     );

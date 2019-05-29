@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Occ } from '../../occ-models/occ.models';
 import { PaymentDetails } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
-import { PAYMENT_DETAILS_NORMALIZER } from '../../../cart/connectors/payment/converters';
+import { PAYMENT_DETAILS_NORMALIZER } from '../../../checkout/connectors/payment/converters';
 import { Country, Region } from '../../../model/address.model';
 import {
   COUNTRY_NORMALIZER,
