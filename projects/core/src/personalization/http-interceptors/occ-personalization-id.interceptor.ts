@@ -35,7 +35,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
       this.personalizationId =
         this.winRef.localStorage &&
         this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY);
-    } else if (this.winRef.localStorage[PERSONALIZATION_ID_KEY]) {
+    } else if (this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY)) {
       this.winRef.localStorage.removeItem(PERSONALIZATION_ID_KEY);
     }
   }

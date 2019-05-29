@@ -35,7 +35,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
       this.timestamp =
         this.winRef.localStorage &&
         this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY);
-    } else if (this.winRef.localStorage[PERSONALIZATION_TIME_KEY]) {
+    } else if (this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY)) {
       this.winRef.localStorage.removeItem(PERSONALIZATION_TIME_KEY);
     }
   }
