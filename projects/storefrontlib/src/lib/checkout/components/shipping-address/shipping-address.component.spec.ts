@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Observable, of } from 'rxjs';
-
+import { ActivatedRoute } from '@angular/router';
 import {
   Address,
   CartDataService,
@@ -12,12 +11,12 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
+import { CheckoutConfigService } from '../../checkout-config.service';
 import { ShippingAddressComponent } from './shipping-address.component';
-import { ActivatedRoute } from '@angular/router';
 
 import createSpy = jasmine.createSpy;
-import { CheckoutConfigService } from '../../checkout-config.service';
 
 class MockUserService {
   getAddresses(): Observable<Address[]> {
@@ -26,7 +25,7 @@ class MockUserService {
   getAddressesLoading(): Observable<boolean> {
     return of();
   }
-  loadAddresses(_userId: string): void {}
+  loadAddresses(): void {}
 }
 
 class MockCartService {

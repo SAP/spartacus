@@ -21,13 +21,13 @@ import {
 const MockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
-      baseUrl: '',
-      prefix: '',
+      baseUrl: 'base-url',
+      prefix: '/rest/v2/',
     },
   },
 
   site: {
-    baseSite: '',
+    baseSite: 'test-site',
     language: '',
     currency: '',
   },
@@ -69,7 +69,7 @@ describe('OccSiteAdapter', () => {
 
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: '/languages',
+        url: 'base-url/rest/v2/test-site/languages',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -79,7 +79,7 @@ describe('OccSiteAdapter', () => {
 
     it('should use converter', () => {
       service.loadLanguages().subscribe();
-      httpMock.expectOne('/languages').flush([]);
+      httpMock.expectOne('base-url/rest/v2/test-site/languages').flush([]);
       expect(converter.pipeableMany).toHaveBeenCalledWith(LANGUAGE_NORMALIZER);
     });
   });
@@ -95,7 +95,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: '/currencies',
+        url: 'base-url/rest/v2/test-site/currencies',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -105,7 +105,7 @@ describe('OccSiteAdapter', () => {
 
     it('should use converter', () => {
       service.loadCurrencies().subscribe();
-      httpMock.expectOne('/currencies').flush([]);
+      httpMock.expectOne('base-url/rest/v2/test-site/currencies').flush([]);
       expect(converter.pipeableMany).toHaveBeenCalledWith(CURRENCY_NORMALIZER);
     });
   });
@@ -202,6 +202,28 @@ describe('OccSiteAdapter', () => {
         })
         .flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(REGION_NORMALIZER);
+    });
+  });
+
+  describe('load the active base site data', () => {
+    it('should retrieve the active base site', () => {
+      const baseSite = {
+        uid: 'test-site',
+        defaultPreviewCategoryCode: 'test category code',
+        defaultPreviewProductCode: 'test product code',
+      };
+
+      service.loadBaseSite().subscribe(result => {
+        expect(result).toEqual(baseSite);
+      });
+      const mockReq: TestRequest = httpMock.expectOne({
+        method: 'GET',
+        url: 'base-url/rest/v2/basesites?fields=FULL',
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush({ baseSites: [baseSite] });
     });
   });
 });

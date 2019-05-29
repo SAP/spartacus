@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SiteAdapter } from './site.adapter';
 import { Observable } from 'rxjs';
-import { Currency, Language } from '../../model/misc.model';
+import { Currency, Language, BaseSite } from '../../model/misc.model';
 import { Country, CountryType, Region } from '../../model/address.model';
 
 @Injectable({
@@ -24,5 +24,9 @@ export class SiteConnector {
 
   getRegions(countryIsoCode: string): Observable<Region[]> {
     return this.adapter.loadRegions(countryIsoCode);
+  }
+
+  getBaseSite(): Observable<BaseSite> {
+    return this.adapter.loadBaseSite();
   }
 }
