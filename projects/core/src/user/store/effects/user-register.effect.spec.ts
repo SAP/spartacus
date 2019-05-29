@@ -5,12 +5,8 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { LoadOpenIdToken, LoadUserToken, Logout } from '../../../auth/index';
 import { UserSignUp } from '../../../model/misc.model';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
-import { UserSignUp } from '../../../model/misc.model';
-import { LoadUserToken, Logout } from '../../../auth/index';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 

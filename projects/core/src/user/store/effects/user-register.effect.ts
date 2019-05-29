@@ -5,11 +5,8 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoadOpenIdToken, LoadUserToken, Logout } from '../../../auth/index';
 
 import * as fromActions from '../actions/user-register.action';
-import { LoadUserToken, Logout } from '../../../auth/index';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserSignUp } from '../../../model/misc.model';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import * as fromActions from '../actions/user-register.action';
 
 @Injectable()
 export class UserRegisterEffects {
@@ -20,7 +17,7 @@ export class UserRegisterEffects {
     ofType(fromActions.REGISTER_USER),
     map((action: fromActions.RegisterUser) => action.payload),
     mergeMap((user: UserSignUp) => {
-      return this.userAccountConnector.register(user).pipe(
+      return this.userConnector.register(user).pipe(
         switchMap(_result => [
           new LoadUserToken({
             userId: user.uid,
@@ -44,7 +41,7 @@ export class UserRegisterEffects {
     ofType(fromActions.REMOVE_USER),
     map((action: fromActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
-      return this.userAccountConnector.remove(userId).pipe(
+      return this.userConnector.remove(userId).pipe(
         switchMap(_result => [
           new fromActions.RemoveUserSuccess(),
           new Logout(),
@@ -56,6 +53,6 @@ export class UserRegisterEffects {
 
   constructor(
     private actions$: Actions,
-    private userAccountConnector: UserConnector
+    private userConnector: UserConnector
   ) {}
 }
