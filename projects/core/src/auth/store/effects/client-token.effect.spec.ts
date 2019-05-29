@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
-import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
-import { ClientToken } from './../../models/token-types.model';
-import * as fromStore from './../';
-
-import { Observable, of } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import * as fromStore from '../';
 import { ClientTokenAction } from '../actions';
+import { ClientToken } from './../../models/token-types.model';
+import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
 
 const testToken: ClientToken = {
   access_token: 'xxx',

@@ -3,9 +3,14 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { ClientToken, UserToken } from '../models/token-types.model';
+import {
+  ClientToken,
+  OpenIdToken,
+  UserToken,
+} from '../models/token-types.model';
 import { LoadClientToken } from '../store/actions/client-token.action';
 import { Logout } from '../store/actions/login-logout.action';
+import { LoadOpenIdToken } from '../store/actions/open-id-token.action';
 import {
   LoadUserToken,
   LoadUserTokenSuccess,
@@ -13,6 +18,7 @@ import {
 } from '../store/actions/user-token.action';
 import { StateWithAuth } from '../store/auth-state';
 import { getClientTokenState } from '../store/selectors/client-token.selectors';
+import { getOpenIdTokenValue } from '../store/selectors/open-id-token.selectors';
 import { getUserToken } from '../store/selectors/user-token.selectors';
 
 @Injectable({
@@ -103,6 +109,23 @@ export class AuthService {
       ),
       map((state: LoaderState<ClientToken>) => state.value)
     );
+  }
+
+  /**
+   * Authorizes using the Kyma OAuth client with scope `openid`.
+   *
+   * @param username a username
+   * @param password a password
+   */
+  authorizeOpenId(username: string, password: string): void {
+    this.store.dispatch(new LoadOpenIdToken({ username, password }));
+  }
+
+  /**
+   * Returns the `OpenIdToken`, which was previously retrieved using `authorizeOpenId` method.
+   */
+  getOpenIdToken(): Observable<OpenIdToken> {
+    return this.store.pipe(select(getOpenIdTokenValue));
   }
 
   protected isClientTokenLoaded(state: LoaderState<ClientToken>): boolean {

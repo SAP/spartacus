@@ -9,7 +9,7 @@
         *ngIf="(supportedDeliveryModes$ | async)?.length; else loading"
       >
         <div
-          class="col-md-12 form-check"
+          class="form-check"
           *ngFor="let mode of (supportedDeliveryModes$ | async)"
         >
           <input
