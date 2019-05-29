@@ -27,6 +27,7 @@
       @include list-unstyled();
     }
     a {
+      color: var(--cx-color, var(--cx-g-color-inverse));
       padding: var(--cx-padding, 0);
       @include type();
       &:hover {
