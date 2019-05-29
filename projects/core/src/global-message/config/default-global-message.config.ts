@@ -1,15 +1,12 @@
-import { DefaultGlobalMessageConfig } from './global.message.config';
+import { GlobalMessageConfigs } from './globalMessageConfigs';
 
-export const defaultGlobalMessageConfig: DefaultGlobalMessageConfig = {
+export const defaultGlobalMessageConfig: GlobalMessageConfigs = {
   confirmation: {
     hideOnRouteChange: true,
-    timeout: 2000,
+    timeout: 3000,
   },
   information: {
     hideOnRouteChange: true,
     timeout: 10000,
-  },
-  error: {
-    hideOnRouteChange: false,
   },
 };

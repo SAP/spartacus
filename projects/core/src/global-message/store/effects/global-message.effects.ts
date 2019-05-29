@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
-
+// import { Router } from '@angular/router';
+// import { Location } from '@angular/common';
+import { Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { ObservableInput, of } from 'rxjs';
+import { delay, filter, map, switchMap } from 'rxjs/operators';
+
 import * as GlobalMessageActions from '../actions/global-message.actions';
-import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
+import {
+  GlobalMessage,
+  GlobalMessageType,
+} from '../../models/global-message.model';
+import { defaultGlobalMessageConfig } from '../../config/default-global-message.config';
+import { GlobalMessageConfig } from '../../config/globalMessageConfigs';
 
 @Injectable()
 export class GlobalMessageEffects {
-
   // @Effect({ dispatch: false })
   // navigate$: Observable<any> = this.actions$.pipe(
   //   ofType(RouterActions.GO),
@@ -20,18 +26,44 @@ export class GlobalMessageEffects {
   //   })
   // );
 
-  // @Effect({ dispatch: false })
-  timeout$: Observable<any> = this.actions$.pipe(
+  @Effect()
+  timeout$: ObservableInput<
+    GlobalMessageActions.RemoveMessagesByType
+  > | void = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     map((action: GlobalMessageActions.AddMessage) => action.payload),
-    tap(({ path, query: queryParams, extras }) => {
-      this.router.navigate(path, { queryParams, ...extras });
+    switchMap((value: GlobalMessage) => {
+      return this.store.select(getGlobalMessageCountByType(value.type)).pipe(
+        filter(count => count && count > 0),
+        switchMap((count: number) => {
+          return this.getConfigForType(value.type).pipe(
+            filter(
+              (config: GlobalMessageConfig) =>
+                config && config.timeout !== undefined
+            ),
+            switchMap(config => {
+              return of(
+                new GlobalMessageActions.RemoveMessage({
+                  type: value.type,
+                  index: count - 1,
+                })
+              ).pipe(delay(config.timeout));
+            })
+          );
+        })
+      );
     })
   );
 
-  constructor(
-    private actions$: Actions,
-    private router: Router,
-    private location: Location
-  ) {}
+  private getConfigForType(type: GlobalMessageType) {
+    const config = defaultGlobalMessageConfig;
+    const configForType = {
+      [GlobalMessageType.MSG_TYPE_CONFIRMATION]: config.confirmation,
+      [GlobalMessageType.MSG_TYPE_INFO]: config.information,
+      [GlobalMessageType.MSG_TYPE_ERROR]: config.error,
+    };
+    return of(configForType[type]);
+  }
+
+  constructor(private actions$: Actions, private store: Store<GlobalMessage>) {}
 }

@@ -66,5 +66,6 @@ export const common = {
     forbidden: 'You are not authorized to perform this action.',
     gatewayTimeout: 'The server did not responded, please try again later.',
     unknownError: 'An unknown error occured',
+    cartNotFound: 'Cart not found.',
   },
 };
