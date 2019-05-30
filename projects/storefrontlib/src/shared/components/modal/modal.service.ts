@@ -10,7 +10,7 @@ import { ModalOptions } from './modal-options';
   providedIn: 'root',
 })
 export class ModalService {
-  private modals: ModalRef[];
+  private modals: ModalRef[] = [];
   constructor(private ngbModalService: NgbModal) {}
 
   open(content: any, options?: ModalOptions): ModalRef {
