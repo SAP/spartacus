@@ -139,6 +139,20 @@ describe('Cms PageData Selectors', () => {
     });
   });
 
+  describe('getIndexValue', () => {
+    it('should return index value', () => {
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+
+      let result: string;
+      store
+        .pipe(select(fromSelectors.getIndexValue(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual('homepage');
+    });
+  });
+
   describe('getPageEntities', () => {
     it('should return the entities', () => {
       store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
