@@ -18,8 +18,14 @@ export class NavigationUIComponent {
 
     // Column for each subcategory
     for (let i = 0; i < children.length; i++) {
+      const columnHeader = {
+        isHeader: true,
+        title: children[i].title,
+        url: children[i].url,
+      };
+
       const clonedChildren = children[i].children.slice(0);
-      console.log(clonedChildren);
+      clonedChildren.unshift(columnHeader);
       while (clonedChildren.length > 0) {
         columns.push(clonedChildren.splice(0, 10));
       }
@@ -28,10 +34,5 @@ export class NavigationUIComponent {
     console.log('Columns');
     console.log(columns);
     return columns;
-  }
-
-  getColumnSize(children) {
-    return children.length;
-    // return children.length / 10;
   }
 }

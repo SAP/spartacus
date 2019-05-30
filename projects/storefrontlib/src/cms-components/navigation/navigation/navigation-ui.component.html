@@ -84,6 +84,7 @@
               role="link"
               [routerLink]="subCategoryChild.url"
               class="cx-nav-child-link"
+              [ngClass]="{ 'cx-nav-column-title': subCategoryChild.isHeader }"
               >{{ subCategoryChild.title }}
             </a>
           </div>
