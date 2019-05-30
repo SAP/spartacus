@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserConnector } from '../../connectors/user/user.connector';
 import * as fromAction from '../actions/notification-preference.action';
 import {
   BasicNotificationPreferenceList,
@@ -18,7 +18,7 @@ export class NotificationPreferenceEffects {
     ofType(fromAction.LOAD_NOTIFICATION_PREFERENCES),
     map((action: fromAction.LoadNotificationPreferences) => action.payload),
     switchMap(payload => {
-      return this.userAccountConnector.getNotificationPreference(payload).pipe(
+      return this.userConnector.getNotificationPreference(payload).pipe(
         map(
           (preferences: BasicNotificationPreferenceList) =>
             new fromAction.LoadNotificationPreferencesSuccess(preferences)
@@ -47,7 +47,7 @@ export class NotificationPreferenceEffects {
         });
       });
 
-      return this.userAccountConnector
+      return this.userConnector
         .updateNotificationPreference(
           payload.userId,
           notificationPreferenceList
@@ -67,6 +67,6 @@ export class NotificationPreferenceEffects {
 
   constructor(
     private actions$: Actions,
-    private userAccountConnector: UserAccountConnector
+    private userConnector: UserConnector
   ) {}
 }

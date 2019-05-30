@@ -5,8 +5,8 @@ import * as fromEffect from './notification-preference.effect';
 import { Observable, of, throwError } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { hot, cold } from 'jasmine-marbles';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 import { BasicNotificationPreferenceList } from '../../../model/notification-preference.model';
 
 const notificationPreferenceList: BasicNotificationPreferenceList = {
@@ -35,14 +35,14 @@ const toBeUpdate: any = {
 
 describe('Notification Preference Effect', () => {
   let notificationPreferenceEffects: fromEffect.NotificationPreferenceEffects;
-  let userAccountConnector: UserAccountConnector;
+  let userConnector: UserConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromEffect.NotificationPreferenceEffects,
-        { provide: UserAccountAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
@@ -50,12 +50,12 @@ describe('Notification Preference Effect', () => {
     notificationPreferenceEffects = TestBed.get(
       fromEffect.NotificationPreferenceEffects
     );
-    userAccountConnector = TestBed.get(UserAccountConnector);
+    userConnector = TestBed.get(UserConnector);
   });
 
   describe('loadNotificationPreferences$', () => {
     it('should load notification preferences', () => {
-      spyOn(userAccountConnector, 'getNotificationPreference').and.returnValue(
+      spyOn(userConnector, 'getNotificationPreference').and.returnValue(
         of(notificationPreferenceList)
       );
       const action = new fromAction.LoadNotificationPreferences(userId);
@@ -73,7 +73,7 @@ describe('Notification Preference Effect', () => {
     });
 
     it('should handle failures for load notification preferences', () => {
-      spyOn(userAccountConnector, 'getNotificationPreference').and.returnValue(
+      spyOn(userConnector, 'getNotificationPreference').and.returnValue(
         throwError('Error')
       );
 
@@ -94,10 +94,9 @@ describe('Notification Preference Effect', () => {
 
   describe('updateNotificationPreferences$', () => {
     it('should update notification preferences', () => {
-      spyOn(
-        userAccountConnector,
-        'updateNotificationPreference'
-      ).and.returnValue(of(''));
+      spyOn(userConnector, 'updateNotificationPreference').and.returnValue(
+        of('')
+      );
       const action = new fromAction.UpdateNotificationPreferences(toBeUpdate);
 
       const completion = new fromAction.UpdateNotificationPreferencesSuccess(
@@ -113,10 +112,9 @@ describe('Notification Preference Effect', () => {
     });
 
     it('should handle failures for update notification preferences', () => {
-      spyOn(
-        userAccountConnector,
-        'updateNotificationPreference'
-      ).and.returnValue(throwError('Error'));
+      spyOn(userConnector, 'updateNotificationPreference').and.returnValue(
+        throwError('Error')
+      );
 
       const action = new fromAction.UpdateNotificationPreferences(toBeUpdate);
 

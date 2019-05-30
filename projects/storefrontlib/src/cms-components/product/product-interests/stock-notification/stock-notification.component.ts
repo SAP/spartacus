@@ -7,10 +7,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
+  UserService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap, first } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
 
@@ -36,12 +36,12 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
 
   constructor(
     private auth: AuthService,
-    private http: HttpClient,
     private ngbModal: NgbModal,
     private occEndpoints: OccEndpointsService,
     private productInterestService: ProductInterestService,
     private globalMessageService: GlobalMessageService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -56,8 +56,8 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
             NotificationType.BACK_IN_STOCK
           );
         }
-        this.channelEnabled$ = this.http
-          .get<any>(this.notificationPrefUrl)
+        this.channelEnabled$ = this.userService
+          .getNotificationPreferences()
           .pipe(
             map((r: any) => {
               this.enabledChannels.splice(0, this.enabledChannels.length);
