@@ -5,7 +5,8 @@ import {
   GlobalMessageState,
   GlobalMessageEntities,
 } from '../global-message-state';
-import { GlobalMessageType, Translatable } from '@spartacus/core';
+import { Translatable } from '../../../i18n/translatable';
+import { GlobalMessageType } from '../../models/global-message.model';
 
 export const getGlobalMessageEntities: MemoizedSelector<
   StateWithGlobalMessage,
