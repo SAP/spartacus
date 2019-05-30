@@ -3,6 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import * as fromStore from '../';
+import { AuthConfig } from '../../config/auth-config';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import { OpenIdTokenActions } from '../actions';
 import { OpenIdToken, UserToken } from './../../models/token-types.model';
@@ -24,10 +25,17 @@ class MockOpenIdAuthenticationTokenService {
   }
 }
 
+const mockConfigValue: AuthConfig = {
+  authentication: {
+    kyma_enabled: true,
+  },
+};
+
 describe('Open ID Token Effect', () => {
   let openIdTokenEffect: fromStore.OpenIdTokenEffect;
   let openIdService: OpenIdAuthenticationTokenService;
   let actions$: Observable<OpenIdTokenActions>;
+  let mockConfig: AuthConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,12 +45,17 @@ describe('Open ID Token Effect', () => {
           provide: OpenIdAuthenticationTokenService,
           useClass: MockOpenIdAuthenticationTokenService,
         },
+        {
+          provide: AuthConfig,
+          useValue: mockConfigValue,
+        },
         provideMockActions(() => actions$),
       ],
     });
 
     openIdTokenEffect = TestBed.get(fromStore.OpenIdTokenEffect);
     openIdService = TestBed.get(OpenIdAuthenticationTokenService);
+    mockConfig = TestBed.get(AuthConfig);
 
     spyOn(openIdService, 'loadOpenIdAuthenticationToken').and.returnValue(
       of(testToken)
@@ -50,25 +63,50 @@ describe('Open ID Token Effect', () => {
   });
 
   describe('triggerOpenIdTokenLoading$', () => {
-    it('should trigger the retrieval of an open ID token', () => {
-      const loadUserTokenSuccess = new fromStore.LoadUserTokenSuccess(
-        mockUserToken
-      );
-      const loadUserToken = new fromStore.LoadUserToken({
-        userId: 'xxx@xxx.xxx',
-        password: 'pwd',
-      });
-      const completition = new fromStore.LoadOpenIdToken({
-        username: 'xxx@xxx.xxx',
-        password: 'pwd',
-      });
+    describe('when kyma integration is enabled', () => {
+      it('should trigger the retrieval of an open ID token', () => {
+        mockConfig.authentication.kyma_enabled = true;
 
-      actions$ = hot('-(ab)', { a: loadUserToken, b: loadUserTokenSuccess });
-      const expected = cold('-c', { c: completition });
+        const loadUserTokenSuccess = new fromStore.LoadUserTokenSuccess(
+          mockUserToken
+        );
+        const loadUserToken = new fromStore.LoadUserToken({
+          userId: 'xxx@xxx.xxx',
+          password: 'pwd',
+        });
+        const completition = new fromStore.LoadOpenIdToken({
+          username: 'xxx@xxx.xxx',
+          password: 'pwd',
+        });
 
-      expect(openIdTokenEffect.triggerOpenIdTokenLoading$).toBeObservable(
-        expected
-      );
+        actions$ = hot('-(ab)', { a: loadUserToken, b: loadUserTokenSuccess });
+        const expected = cold('-c', { c: completition });
+
+        expect(openIdTokenEffect.triggerOpenIdTokenLoading$).toBeObservable(
+          expected
+        );
+      });
+    });
+
+    describe('when kyma integration is NOT enabled', () => {
+      it('should NOT trigger the retrieval of an open ID token', () => {
+        mockConfig.authentication.kyma_enabled = false;
+
+        const loadUserTokenSuccess = new fromStore.LoadUserTokenSuccess(
+          mockUserToken
+        );
+        const loadUserToken = new fromStore.LoadUserToken({
+          userId: 'xxx@xxx.xxx',
+          password: 'pwd',
+        });
+
+        actions$ = hot('-(ab)', { a: loadUserToken, b: loadUserTokenSuccess });
+        const expected = cold('-');
+
+        expect(openIdTokenEffect.triggerOpenIdTokenLoading$).toBeObservable(
+          expected
+        );
+      });
     });
   });
 

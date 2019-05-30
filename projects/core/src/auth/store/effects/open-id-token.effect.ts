@@ -21,7 +21,7 @@ import {
 export class OpenIdTokenEffect {
   @Effect()
   triggerOpenIdTokenLoading$: Observable<
-    fromActions.LoadOpenIdToken | {}
+    fromActions.LoadOpenIdToken
   > = this.actions$.pipe(
     filter(
       _ => this.config.authentication && this.config.authentication.kyma_enabled
