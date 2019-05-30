@@ -1,12 +1,11 @@
 import { GlobalMessageConfigs } from './globalMessageConfigs';
+import { GlobalMessageType } from '@spartacus/core';
 
 export const defaultGlobalMessageConfig: GlobalMessageConfigs = {
-  confirmation: {
-    hideOnRouteChange: true,
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: {
     timeout: 3000,
   },
-  information: {
-    hideOnRouteChange: true,
+  [GlobalMessageType.MSG_TYPE_INFO]: {
     timeout: 10000,
   },
 };

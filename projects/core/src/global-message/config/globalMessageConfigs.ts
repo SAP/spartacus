@@ -1,10 +1,11 @@
+import { GlobalMessageType } from '@spartacus/core';
+
 export type GlobalMessageConfig = {
-  hideOnRouteChange?: boolean;
   timeout?: number;
 };
 
 export abstract class GlobalMessageConfigs {
-  confirmation?: GlobalMessageConfig;
-  information?: GlobalMessageConfig;
-  error?: GlobalMessageConfig;
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageConfig;
+  [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageConfig;
+  [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageConfig;
 }

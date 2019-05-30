@@ -40,13 +40,7 @@ export class GlobalMessageEffects {
   );
 
   private getConfigForType(type: GlobalMessageType) {
-    const config = defaultGlobalMessageConfig;
-    const configForType = {
-      [GlobalMessageType.MSG_TYPE_CONFIRMATION]: config.confirmation,
-      [GlobalMessageType.MSG_TYPE_INFO]: config.information,
-      [GlobalMessageType.MSG_TYPE_ERROR]: config.error,
-    };
-    return of(configForType[type]);
+    return of(defaultGlobalMessageConfig[type]);
   }
 
   constructor(private actions$: Actions, private store: Store<GlobalMessage>) {}
