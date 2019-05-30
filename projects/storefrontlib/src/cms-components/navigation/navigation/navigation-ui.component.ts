@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NavigationNode } from './navigation-node.model';
 
+const COLUMN_SIZE = 10;
+
 @Component({
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
@@ -13,26 +15,23 @@ export class NavigationUIComponent {
   getColumns(children) {
     const columns = new Array();
 
-    console.log('Children');
-    console.log(children);
-
-    // Column for each subcategory
+    // Iterate subcategories
     for (let i = 0; i < children.length; i++) {
+      // Column header for each subcategory
       const columnHeader = {
         isHeader: true,
         title: children[i].title,
         url: children[i].url,
       };
 
+      // Split subcategory items and header into columns
       const clonedChildren = children[i].children.slice(0);
       clonedChildren.unshift(columnHeader);
       while (clonedChildren.length > 0) {
-        columns.push(clonedChildren.splice(0, 10));
+        columns.push(clonedChildren.splice(0, COLUMN_SIZE));
       }
     }
 
-    console.log('Columns');
-    console.log(columns);
     return columns;
   }
 }
