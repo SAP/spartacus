@@ -49,11 +49,11 @@ describe('PaginationComponent', () => {
     });
 
     it('should return bottom of page window', () => {
-      expect(component.getPageWindowBottom()).toEqual(0);
+      expect(component.getPageWindowMinIndex()).toEqual(0);
     });
 
     it('should return top of page window', () => {
-      expect(component.getPageWindowTop()).toEqual(2);
+      expect(component.getPageWindowMaxIndex()).toEqual(2);
     });
   });
 

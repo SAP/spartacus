@@ -19,26 +19,34 @@ export class PaginationComponent {
   @Input() pagination: PaginationModel;
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
+  // Because pagination model uses indexes starting from 0,
+  // add 1 to get current page number
+  private getCurrentPageNumber() {
+    return this.pagination.currentPage + 1;
+  }
+
   getPagePrevious(): number {
-    return this.pagination.currentPage;
+    return this.getCurrentPageNumber() - 1;
   }
 
   getPageNext(): number {
-    return this.pagination.currentPage + 2;
+    return this.getCurrentPageNumber() + 1;
   }
 
   getPageIndicies(): Array<number> {
     return Array(this.pagination.totalPages);
   }
 
-  getPageWindowBottom(): number {
+  // Gets the minimum index of page numbers that can be shown by being within the page window range
+  getPageWindowMinIndex(): number {
     return (
       Math.floor(this.pagination.currentPage / PAGE_WINDOW_SIZE) *
       PAGE_WINDOW_SIZE
     );
   }
 
-  getPageWindowTop(): number {
+  // Gets the maximum index of page numbers that can be shown by being within the page window range
+  getPageWindowMaxIndex(): number {
     return (
       Math.floor(this.pagination.currentPage / PAGE_WINDOW_SIZE) *
         PAGE_WINDOW_SIZE +
@@ -64,7 +72,8 @@ export class PaginationComponent {
 
   hidePageIndex(index: number): boolean {
     return (
-      (this.getPageWindowBottom() > index || this.getPageWindowTop() < index) &&
+      (this.getPageWindowMinIndex() > index ||
+        this.getPageWindowMaxIndex() < index) &&
       (index > 0 && index < this.pagination.totalPages - 1)
     );
   }
@@ -72,8 +81,8 @@ export class PaginationComponent {
   showDots(index: number): boolean {
     return (
       this.hidePageIndex(index) &&
-      (index === this.getPageWindowTop() + 1 ||
-        index === this.getPageWindowBottom() - 1)
+      (index === this.getPageWindowMaxIndex() + 1 ||
+        index === this.getPageWindowMinIndex() - 1)
     );
   }
 
@@ -82,7 +91,7 @@ export class PaginationComponent {
     if (
       page >= PAGE_FIRST &&
       page <= this.pagination.totalPages &&
-      page !== this.pagination.currentPage + 1
+      page !== this.getCurrentPageNumber()
     ) {
       this.pageChange(page);
       return page;
