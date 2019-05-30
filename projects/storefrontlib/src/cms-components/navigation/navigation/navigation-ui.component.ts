@@ -25,10 +25,17 @@ export class NavigationUIComponent {
       };
 
       // Split subcategory items and header into columns
-      const clonedChildren = children[i].children.slice(0);
-      clonedChildren.unshift(columnHeader);
-      while (clonedChildren.length > 0) {
-        columns.push(clonedChildren.splice(0, COLUMN_SIZE));
+      if (children[i].children) {
+        const clonedChildren = children[i].children.slice(0);
+        clonedChildren.unshift(columnHeader);
+        while (clonedChildren.length > 0) {
+          columns.push(clonedChildren.splice(0, COLUMN_SIZE));
+        }
+      } else {
+        // Push header only in case of no subcategory items
+        const headerArray = new Array();
+        headerArray.push(columnHeader);
+        columns.push(headerArray);
       }
     }
 
