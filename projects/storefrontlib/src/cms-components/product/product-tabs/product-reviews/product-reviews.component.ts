@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductReviewService, Review, Product } from '@spartacus/core';
+import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
 
 @Component({
@@ -21,6 +21,7 @@ export class ProductReviewsComponent {
   product$: Observable<Product> = this.currentProductService.getProduct();
 
   reviews$: Observable<Review[]> = this.product$.pipe(
+    filter(Boolean),
     switchMap(product => this.reviewService.getByProductCode(product.code)),
     tap(() => {
       this.resetReviewForm();

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HamburgerMenuModule, SkipLinkModule } from '../layout/index';
+import { HamburgerMenuModule } from '../layout/index';
 import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
 import { CartComponentModule } from './checkout/cart/cart.module';
 import {
@@ -42,7 +42,6 @@ import { StoreFinderModule } from './storefinder/index';
 
 @NgModule({
   imports: [
-    SkipLinkModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,

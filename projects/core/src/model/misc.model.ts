@@ -67,6 +67,18 @@ export interface ErrorModel {
   type?: string;
 }
 
+export interface BaseSite {
+  channel?: string;
+  defaultLanguage?: Language;
+  defaultPreviewCatalogId?: string;
+  defaultPreviewCategoryCode?: string;
+  defaultPreviewProductCode?: string;
+  locale?: string;
+  name?: string;
+  theme?: string;
+  uid?: string;
+}
+
 export interface UserSignUp {
   firstName?: string;
   lastName?: string;

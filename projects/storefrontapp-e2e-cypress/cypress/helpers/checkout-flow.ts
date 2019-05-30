@@ -49,11 +49,6 @@ export function addProductToCart() {
 }
 
 export function fillAddressForm() {
-  // TODO: Remove this behavior when redirect will work correctly
-  cy.get('cx-product-page');
-  cy.get('cx-mini-cart a').click();
-  cy.get('cx-cart-details');
-  cy.get('.btn.btn-primary').click();
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()

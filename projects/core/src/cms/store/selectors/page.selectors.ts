@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { CmsState, PageState, StateWithCms, IndexType } from '../cms-state';
+import { CmsState, IndexType, PageState, StateWithCms } from '../cms-state';
 import { PageContext } from '../../../routing';
 import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
@@ -112,7 +112,7 @@ export const currentSlotSelectorFactory = (
     getPageData(pageContext),
     entity => {
       if (entity) {
-        return entity.slots[position];
+        return entity.slots[position] || { components: [] };
       }
     }
   );
