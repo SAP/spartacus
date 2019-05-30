@@ -62,30 +62,16 @@
           class="cx-nav-child-column"
           *ngFor="let column of getColumns(node.children)"
         >
-          <!-- <ng-container *ngIf="subCategory.url">
-            <a
-              role="link"
-              [routerLink]="subCategory.url"
-              class="cx-nav-child-link cx-nav-column-title"
-              >{{ subCategory.title }}
-            </a>
-          </ng-container>
-          <ng-container *ngIf="!subCategory.url">
-            <a class="cx-nav-child-link cx-nav-column-title"
-              >{{ subCategory.title }}
-            </a>
-          </ng-container> -->
-
           <div
-            *ngFor="let subCategoryChild of column"
+            *ngFor="let item of column"
             class="dropdown-item cx-nav-child-column-item"
           >
             <a
               role="link"
-              [routerLink]="subCategoryChild.url"
+              [routerLink]="item.url"
               class="cx-nav-child-link"
-              [ngClass]="{ 'cx-nav-column-title': subCategoryChild.isHeader }"
-              >{{ subCategoryChild.title }}
+              [ngClass]="{ 'cx-nav-column-title': item.isHeader }"
+              >{{ item.title }}
             </a>
           </div>
         </div>
