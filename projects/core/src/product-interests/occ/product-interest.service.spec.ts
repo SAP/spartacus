@@ -71,7 +71,7 @@ describe('ProductInterestsService', () => {
       const productCode = '9789';
       const notificationType = 'BAKC_INS_TOCK';
 
-      service.deleteInterest(userId, productCode, notificationType ).subscribe();
+      service.deleteInterest(userId, productCode, notificationType).subscribe();
       const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url === '/users' + `/${userId}` + '/productinterests' &&
@@ -79,7 +79,44 @@ describe('ProductInterestsService', () => {
         );
       }, `DELETE method and url`);
       expect(mockReq.request.params.get('productCode')).toEqual(productCode);
-      expect(mockReq.request.params.get('notificationType')).toEqual(notificationType);
+      expect(mockReq.request.params.get('notificationType')).toEqual(
+        notificationType
+      );
+    }));
+  });
+
+  describe('deleteInterests', () => {
+    it('should be able to delete interests with parameters', async(() => {
+      const userId = 'jack.ma@hybris.com';
+      const productCode = '9789';
+      const productInteretEntry = {
+        interestType: 'BACK_IN_STOCK',
+        dateAdded: new Date(),
+      };
+      const item = {
+        product: {
+          code: '9789',
+          name: '',
+          url: '',
+          stock: {},
+          futureStocks: [],
+          manufacturer: '',
+          price: {},
+          images: {},
+        },
+        productInterestEntry: [productInteretEntry],
+      };
+      service.deleteInterests(userId, item).subscribe();
+      const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
+        return (
+          req.url === '/users' + `/${userId}` + '/productinterests' &&
+          req.method === 'DELETE'
+        );
+      }, `DELETE method and url`);
+      expect(mockReq.request.params.get('productCode')).toEqual(productCode);
+      expect(mockReq.request.params.get('notificationType')).toEqual(
+        'BACK_IN_STOCK'
+      );
     }));
   });
 
@@ -89,7 +126,7 @@ describe('ProductInterestsService', () => {
       const productCode = '9789';
       const notificationType = 'BAKC_INS_TOCK';
 
-      service.hasInterest(userId, productCode, notificationType ).subscribe();
+      service.hasInterest(userId, productCode, notificationType).subscribe();
       const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url === '/users' + `/${userId}` + '/productinterests' &&
@@ -98,7 +135,9 @@ describe('ProductInterestsService', () => {
       }, `GET method and url`);
 
       expect(mockReq.request.params.get('productCode')).toEqual(productCode);
-      expect(mockReq.request.params.get('notificationType')).toEqual(notificationType);
+      expect(mockReq.request.params.get('notificationType')).toEqual(
+        notificationType
+      );
     }));
   });
 
@@ -108,7 +147,7 @@ describe('ProductInterestsService', () => {
       const productCode = '9789';
       const notificationType = 'BAKC_INS_TOCK';
 
-      service.createInterest(userId, productCode, notificationType ).subscribe();
+      service.createInterest(userId, productCode, notificationType).subscribe();
       const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url === '/users' + `/${userId}` + '/productinterests' &&
@@ -117,8 +156,9 @@ describe('ProductInterestsService', () => {
       }, `GET method and url`);
 
       expect(mockReq.request.params.get('productCode')).toEqual(productCode);
-      expect(mockReq.request.params.get('notificationType')).toEqual(notificationType);
+      expect(mockReq.request.params.get('notificationType')).toEqual(
+        notificationType
+      );
     }));
   });
-
 });
