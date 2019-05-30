@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { delay, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { delay, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as GlobalMessageActions from '../actions/global-message.actions';
-import * as RouterActions from '../../../routing/store/actions/router.action';
 import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
 import {
   GlobalMessage,
@@ -22,7 +19,7 @@ export class GlobalMessageEffects {
   hideAfterDelay$: Observable<
     GlobalMessageActions.RemoveMessage
   > | void = this.actions$.pipe(
-    ofType(RouterActions.GO),
+    ofType(GlobalMessageActions.ADD_MESSAGE),
     switchMap((value: GlobalMessage) => {
       return this.store.select(getGlobalMessageCountByType(value.type)).pipe(
         withLatestFrom(this.getConfigForType(value.type)),
@@ -40,48 +37,6 @@ export class GlobalMessageEffects {
         })
       );
     })
-  );
-
-  @Effect()
-  hideAfterNavigate$: Observable<
-    Observable<GlobalMessageActions.RemoveMessagesByType>
-  > = this.actions$.pipe(
-    ofType(GlobalMessageActions.ADD_MESSAGE),
-    switchMap(() => [
-      this.getConfigForType(GlobalMessageType.MSG_TYPE_CONFIRMATION).pipe(
-        filter(
-          (config: GlobalMessageConfig) => config && config.hideOnRouteChange
-        ),
-        map(
-          () =>
-            new GlobalMessageActions.RemoveMessagesByType(
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            )
-        )
-      ),
-      this.getConfigForType(GlobalMessageType.MSG_TYPE_INFO).pipe(
-        filter(
-          (config: GlobalMessageConfig) => config && config.hideOnRouteChange
-        ),
-        map(
-          () =>
-            new GlobalMessageActions.RemoveMessagesByType(
-              GlobalMessageType.MSG_TYPE_INFO
-            )
-        )
-      ),
-      this.getConfigForType(GlobalMessageType.MSG_TYPE_ERROR).pipe(
-        filter(
-          (config: GlobalMessageConfig) => config && config.hideOnRouteChange
-        ),
-        map(
-          () =>
-            new GlobalMessageActions.RemoveMessagesByType(
-              GlobalMessageType.MSG_TYPE_ERROR
-            )
-        )
-      ),
-    ])
   );
 
   private getConfigForType(type: GlobalMessageType) {
