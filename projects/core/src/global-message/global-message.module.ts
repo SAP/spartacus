@@ -9,13 +9,20 @@ import {
 import { GlobalMessageStoreModule } from './store/global-message-store.module';
 import { GlobalMessageEffects } from './store/effects/global-message.effects';
 
+import { Config, ConfigModule } from '../config/config.module';
+import { defaultGlobalMessageConfig } from './config/default-global-message-config';
+import { GlobalMessageConfig } from './config/global-message-config';
+
 @NgModule({
   imports: [
     GlobalMessageStoreModule,
     EffectsModule.forFeature([GlobalMessageEffects]),
+    ConfigModule.withConfig(defaultGlobalMessageConfig),
   ],
-
-  providers: [GlobalMessageService],
+  providers: [
+    GlobalMessageService,
+    { provide: GlobalMessageConfig, useExisting: Config },
+  ],
 })
 export class GlobalMessageModule {
   static forRoot(): ModuleWithProviders {

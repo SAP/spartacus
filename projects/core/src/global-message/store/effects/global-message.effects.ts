@@ -2,16 +2,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { delay, filter, switchMap, withLatestFrom } from 'rxjs/operators';
+import { delay, filter, pluck, switchMap } from 'rxjs/operators';
 
 import * as GlobalMessageActions from '../actions/global-message.actions';
 import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
-import {
-  GlobalMessage,
-  GlobalMessageType,
-} from '../../models/global-message.model';
-import { defaultGlobalMessageConfig } from '../../config/default-global-message.config';
-import { GlobalMessageConfig } from '../../config/globalMessageConfigs';
+import { GlobalMessage } from '../../models/global-message.model';
+import { GlobalMessageConfig } from '../../config/global-message-config';
 
 @Injectable()
 export class GlobalMessageEffects {
@@ -20,14 +16,15 @@ export class GlobalMessageEffects {
     GlobalMessageActions.RemoveMessage
   > | void = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
+    pluck('payload'),
     switchMap((value: GlobalMessage) => {
+      const config = this.globalMessageConfig.globalMessages[value.type];
       return this.store.select(getGlobalMessageCountByType(value.type)).pipe(
-        withLatestFrom(this.getConfigForType(value.type)),
         filter(
-          ([count, config]: [number, GlobalMessageConfig]) =>
+          (count: number) =>
             config && config.timeout !== undefined && count && count > 0
         ),
-        switchMap(([count, config]: [number, GlobalMessageConfig]) => {
+        switchMap((count: number) => {
           return of(
             new GlobalMessageActions.RemoveMessage({
               type: value.type,
@@ -39,9 +36,9 @@ export class GlobalMessageEffects {
     })
   );
 
-  private getConfigForType(type: GlobalMessageType) {
-    return of(defaultGlobalMessageConfig[type]);
-  }
-
-  constructor(private actions$: Actions, private store: Store<GlobalMessage>) {}
+  constructor(
+    private actions$: Actions,
+    private store: Store<GlobalMessage>,
+    private globalMessageConfig: GlobalMessageConfig
+  ) {}
 }

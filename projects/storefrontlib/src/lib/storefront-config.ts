@@ -12,6 +12,7 @@ import { IconConfig } from '../cms-components/misc/icon/index';
 import { PWAModuleConfig } from '../cms-structure/pwa/index';
 import { LayoutConfig } from '../layout/config/layout-config';
 import { CheckoutConfig } from './checkout/config/checkout-config';
+import { GlobalMessageConfig } from '../../../core/src/global-message/config/global-message-config';
 
 export type StorefrontModuleConfig =
   | AuthConfig
@@ -25,4 +26,5 @@ export type StorefrontModuleConfig =
   | I18nConfig
   | PersonalizationConfig
   | IconConfig
-  | CheckoutConfig;
+  | CheckoutConfig
+  | GlobalMessageConfig;
