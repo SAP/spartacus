@@ -6,7 +6,13 @@ import {
 } from '@angular/common/http/testing';
 import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
-import { ConverterService, OccSiteAdapter } from '@spartacus/core';
+import {
+  ConverterService,
+  COUNTRY_NORMALIZER,
+  CountryType,
+  OccSiteAdapter,
+  REGION_NORMALIZER,
+} from '@spartacus/core';
 import {
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
@@ -101,6 +107,98 @@ describe('OccSiteAdapter', () => {
       service.loadCurrencies().subscribe();
       httpMock.expectOne('base-url/rest/v2/test-site/currencies').flush([]);
       expect(converter.pipeableMany).toHaveBeenCalledWith(CURRENCY_NORMALIZER);
+    });
+  });
+
+  describe('loadCountries', () => {
+    it('should return delivery countries list', () => {
+      const countryList: Occ.CountryList = {
+        countries: [
+          {
+            isocode: 'AL',
+            name: 'Albania',
+          },
+          {
+            isocode: 'AD',
+            name: 'Andorra',
+          },
+        ],
+      };
+
+      service.loadCountries().subscribe(result => {
+        expect(result).toEqual(countryList.countries);
+      });
+
+      const mockReq = httpMock.expectOne(
+        req =>
+          req.method === 'GET' &&
+          req.url === 'base-url/rest/v2/test-site/countries'
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(countryList);
+    });
+
+    it('should take type into account', () => {
+      service.loadCountries(CountryType.BILLING).subscribe();
+      httpMock
+        .expectOne(
+          req =>
+            req.method === 'GET' &&
+            req.url === 'base-url/rest/v2/test-site/countries' &&
+            req.params.get('type') === CountryType.BILLING
+        )
+        .flush({});
+    });
+
+    it('should use converter', () => {
+      service.loadCountries().subscribe();
+      httpMock.expectOne('base-url/rest/v2/test-site/countries').flush({});
+      expect(converter.pipeableMany).toHaveBeenCalledWith(COUNTRY_NORMALIZER);
+    });
+  });
+
+  describe('loadRegions', () => {
+    it('should return regions', () => {
+      const regions: Occ.RegionList = {
+        regions: [
+          {
+            isocode: 'CA-AB',
+            name: 'Alberta',
+          },
+          {
+            isocode: 'CA-BC',
+            name: 'British Columbia',
+          },
+          {
+            isocode: 'CA-MB',
+            name: 'Manitoba',
+          },
+        ],
+      };
+
+      service.loadRegions('CA').subscribe(result => {
+        expect(result).toEqual(regions.regions);
+      });
+
+      const mockReq = httpMock.expectOne(
+        req =>
+          req.method === 'GET' &&
+          req.url === 'base-url/rest/v2/test-site/countries/CA/regions'
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(regions);
+    });
+
+    it('should use converter', () => {
+      service.loadRegions('CA').subscribe();
+      httpMock
+        .expectOne('base-url/rest/v2/test-site/countries/CA/regions')
+        .flush({});
+      expect(converter.pipeableMany).toHaveBeenCalledWith(REGION_NORMALIZER);
     });
   });
 
