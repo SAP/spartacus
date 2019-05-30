@@ -2,7 +2,11 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartService, I18nTestingModule } from '@spartacus/core';
+import {
+  CartService,
+  I18nTestingModule,
+  SaveForLaterService,
+} from '@spartacus/core';
 import { PromotionsModule } from '../../../../../lib/checkout/components/promotions/promotions.module';
 import { CartItemListComponent } from './cart-item-list.component';
 
@@ -10,6 +14,10 @@ class MockCartService {
   removeEntry() {}
   loadDetails() {}
   updateEntry() {}
+}
+
+class MockSaveForLaterService {
+  addEntry() {}
 }
 
 const mockItems = [
@@ -52,13 +60,14 @@ class MockCartItemComponent {
   @Input() potentialProductPromotions;
   @Input() isReadOnly;
   @Input() cartIsLoading;
+  @Input() enableSaveForLater;
 }
 
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
   let cartService: CartService;
-
+  let saveForLaterService: SaveForLaterService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -68,18 +77,23 @@ describe('CartItemListComponent', () => {
         I18nTestingModule,
       ],
       declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        { provide: CartService, useClass: MockCartService },
+        { provide: SaveForLaterService, useClass: MockSaveForLaterService },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
     cartService = TestBed.get(CartService);
+    saveForLaterService = TestBed.get(SaveForLaterService);
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
+    spyOn(saveForLaterService, 'addEntry').and.callThrough();
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -107,5 +121,15 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     const promotions = component.getPotentialProductPromotionsForItem(item);
     expect(promotions).toEqual(mockPotentialProductPromotions);
+  });
+
+  it('should be able to save item for later', () => {
+    const item = mockItems[0];
+    component.saveItemForLater(item);
+    expect(saveForLaterService.addEntry).toHaveBeenCalledWith(
+      item.product.code,
+      item.quantity
+    );
+    expect(cartService.removeEntry).toHaveBeenCalledWith(item);
   });
 });

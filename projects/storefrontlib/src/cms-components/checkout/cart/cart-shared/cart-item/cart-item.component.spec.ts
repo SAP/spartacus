@@ -1,9 +1,32 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, UserToken } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
+import { Router } from '@angular/router';
+import { AuthService, RoutingService } from '@spartacus/core';
+import { of, Observable } from 'rxjs';
+
+const userToken = {
+  access_token: 'xxx',
+  token_type: 'bearer',
+  refresh_token: 'xxx',
+  expires_in: 1000,
+  scope: ['xxx'],
+  userId: 'xxx',
+} as UserToken;
+
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({} as UserToken);
+  }
+}
+
+class MockRoutingService {
+  go() {}
+  saveRedirectUrl() {}
+}
 
 @Pipe({
   name: 'cxUrl',
@@ -44,6 +67,11 @@ describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
 
+  let router: Router;
+  let authService: AuthService;
+  let routingService: RoutingService;
+  // let routerStateSnapshot: RouterStateSnapshot;
+  // routerStateSnapshot.url='/test';
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
@@ -56,19 +84,31 @@ describe('CartItemComponent', () => {
       ],
       providers: [
         {
-          provide: ControlContainer,
+          provide: AuthService,
+          useClass: MockAuthService,
         },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    authService = TestBed.get(AuthService);
+    router = TestBed.get(Router);
+    routingService = TestBed.get(RoutingService);
+
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
     cartItemComponent.item = {};
 
     spyOn(cartItemComponent.remove, 'emit').and.callThrough();
     spyOn(cartItemComponent.update, 'emit').and.callThrough();
+
+    spyOn(cartItemComponent.saveForLater, 'emit').and.callThrough();
+    spyOn(routingService, 'go').and.callThrough();
+    spyOn(routingService, 'saveRedirectUrl').and.callThrough();
+    // spyOn(router.routerState, 'snapshot').and.returnValue(routerStateSnapshot);
+    router.routerState.snapshot.url = '/testUrl';
   });
 
   it('should create cart details component', () => {
@@ -90,5 +130,20 @@ describe('CartItemComponent', () => {
       item: cartItemComponent.item,
       updatedQuantity: 2,
     });
+  });
+
+  it('should be able to handle anonymous users', () => {
+    console.log('1++++' + router.routerState.snapshot.url);
+    cartItemComponent.saveItemForLater();
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+    expect(routingService.saveRedirectUrl).toHaveBeenCalledWith('/testUrl');
+  });
+
+  it('should be able to save item for later', () => {
+    spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+    cartItemComponent.saveItemForLater();
+    expect(cartItemComponent.saveForLater.emit).toHaveBeenCalledWith(
+      cartItemComponent.item
+    );
   });
 });

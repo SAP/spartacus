@@ -7,6 +7,7 @@ import {
   I18nTestingModule,
   PromotionResult,
   Cart,
+  OrderEntry,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';
@@ -30,6 +31,17 @@ class MockCartItemListComponent {
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading: Observable<boolean>;
+  @Input()
+  enableSaveForLater;
+}
+
+@Component({
+  template: '',
+  selector: 'cx-save-for-later',
+})
+class MockSaveForLaterComponent {
+  @Input()
+  cartEntries$: Observable<OrderEntry[]>;
 }
 
 describe('CartDetailsComponent', () => {
@@ -39,7 +51,11 @@ describe('CartDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
-      declarations: [CartDetailsComponent, MockCartItemListComponent],
+      declarations: [
+        CartDetailsComponent,
+        MockCartItemListComponent,
+        MockSaveForLaterComponent,
+      ],
       providers: [
         CartDataService,
         { provide: CartService, useClass: MockCartService },
@@ -233,6 +249,15 @@ describe('CartDetailsComponent', () => {
 
       const promotions = component.getAllPromotionsForCart(mockedCart);
       expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('test save for later', () => {
+    it('should be able to show save for later list ', () => {
+      const slfComponent = fixture.debugElement.nativeElement.querySelector(
+        'cx-save-for-later'
+      );
+      expect(slfComponent).toBeTruthy();
     });
   });
 });
