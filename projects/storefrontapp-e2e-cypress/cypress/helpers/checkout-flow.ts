@@ -37,7 +37,9 @@ export function addProductToCart() {
   cy.get('cx-item-counter')
     .getByText('+')
     .click();
-  cy.get('cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.getByText(/proceed to checkout/i).click();
@@ -47,11 +49,6 @@ export function addProductToCart() {
 }
 
 export function fillAddressForm() {
-  // TODO: Remove this behavior when redirect will work correctly
-  cy.get('cx-product-page');
-  cy.get('cx-mini-cart a').click();
-  cy.get('cx-cart-details');
-  cy.get('.btn.btn-primary').click();
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()

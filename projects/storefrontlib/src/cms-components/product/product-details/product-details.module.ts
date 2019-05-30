@@ -12,6 +12,7 @@ import {
 import { AddToCartModule, CartSharedModule } from '../../checkout/index';
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
+import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     MediaModule,
     StarRatingModule,
     UrlModule,
+    PageSlotModule,
   ],
   declarations: [ProductDetailsComponent, ProductSummaryComponent],
   exports: [ProductDetailsComponent, ProductSummaryComponent],
