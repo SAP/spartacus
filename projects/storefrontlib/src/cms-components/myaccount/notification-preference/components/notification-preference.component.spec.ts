@@ -202,7 +202,9 @@ describe('NotificationPreferenceComponent', () => {
     expect(spans[1].nativeElement.textContent).toContain(
       'notificationProference.SMS 13800000831 '
     );
-
+    const inputs = fixture.debugElement.queryAll(By.css('.form-check-input'));
+    inputs[0].nativeElement.click();
+    inputs[1].nativeElement.click();
     expect(
       component.basicNotificationPreferenceList.preferences[0].enabled
     ).toEqual(false);

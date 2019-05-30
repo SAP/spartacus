@@ -26,6 +26,7 @@
                 class="form-check-input"
                 role="switch"
                 type="checkbox"
+                [checked]="preference.enabled"
                 (change)="updateNotificationPreferences(preference)"
               />
             </div>

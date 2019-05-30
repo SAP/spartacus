@@ -24,6 +24,15 @@ class MockDynamicSlotComponent {
   position: string;
 }
 
+@Component({
+  selector: 'cx-stock-notification',
+  template: '',
+})
+class MockSotckNotificationComponent {
+  @Input()
+  productCode: string;
+}
+
 describe('ProductSummaryComponent in product ', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
@@ -36,6 +45,7 @@ describe('ProductSummaryComponent in product ', () => {
         OutletDirective,
         MockStarRatingComponent,
         MockDynamicSlotComponent,
+        MockSotckNotificationComponent,
       ],
     }).compileComponents();
   }));
