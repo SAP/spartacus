@@ -60,9 +60,9 @@
       >
         <div
           class="cx-nav-child-column"
-          *ngFor="let subCategory of node.children"
+          *ngFor="let column of getColumns(node.children)"
         >
-          <ng-container *ngIf="subCategory.url">
+          <!-- <ng-container *ngIf="subCategory.url">
             <a
               role="link"
               [routerLink]="subCategory.url"
@@ -74,10 +74,10 @@
             <a class="cx-nav-child-link cx-nav-column-title"
               >{{ subCategory.title }}
             </a>
-          </ng-container>
+          </ng-container> -->
 
           <div
-            *ngFor="let subCategoryChild of subCategory.children"
+            *ngFor="let subCategoryChild of column"
             class="dropdown-item cx-nav-child-column-item"
           >
             <a
