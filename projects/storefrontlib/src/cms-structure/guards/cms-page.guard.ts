@@ -4,6 +4,8 @@ import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
+  PageContext,
+  PageType,
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
@@ -21,8 +23,6 @@ import {
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
-import { PageType } from '../../../../core/src/model';
-import { PageContext } from '../../../../core/src/routing';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +58,11 @@ export class CmsPageGuard implements CanActivate {
     );
   }
 
-  private resolveCmsPageLogic(pageContext, route, state) {
+  private resolveCmsPageLogic(
+    pageContext,
+    route,
+    state
+  ): Observable<boolean | UrlTree> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
       switchMap(componentTypes =>
         this.cmsGuards
@@ -87,7 +91,11 @@ export class CmsPageGuard implements CanActivate {
     );
   }
 
-  private handleNotFoundPage(pageContext, route, state) {
+  private handleNotFoundPage(
+    pageContext,
+    route,
+    state
+  ): Observable<boolean | UrlTree> {
     const notFoundCmsPageContext: PageContext = {
       type: PageType.CONTENT_PAGE,
       id: this.semanticPathService.get('notFound'),
