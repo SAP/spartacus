@@ -11,10 +11,11 @@ import {
 import { ConverterService } from '../../../util/converter.service';
 import {
   TITLE_NORMALIZER,
+  USER_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
-} from '../../../user/connectors/account/converters';
-import { UserAccountAdapter } from '../../../user/connectors/account/user-account.adapter';
-import { USER_NORMALIZER } from '../../../user/connectors/details/converters';
+} from '../../../user/connectors/user/converters';
+import { UserAdapter } from '../../../user/connectors/user/user.adapter';
+import { USER_NORMALIZER } from '../../../user/connectors/user/converters';
 import { Occ } from '../../occ-models';
 
 const USER_ENDPOINT = 'users/';
@@ -25,7 +26,7 @@ const UPDATE_PASSWORD_ENDPOINT = '/password';
 const TITLES_ENDPOINT = 'titles';
 
 @Injectable()
-export class OccUserAccountAdapter implements UserAccountAdapter {
+export class OccUserAdapter implements UserAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -36,6 +37,23 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     const endpoint = userId ? `${USER_ENDPOINT}${userId}` : USER_ENDPOINT;
     return this.occEndpoints.getEndpoint(endpoint);
   }
+
+  load(userId: string): Observable<User> {
+    const url = this.getUserEndpoint(userId);
+    return this.http.get<Occ.User>(url).pipe(
+      catchError((error: any) => throwError(error)),
+      this.converter.pipeable(USER_NORMALIZER)
+    );
+  }
+
+  update(userId: string, user: User): Observable<{}> {
+    const url = this.getUserEndpoint(userId);
+    user = this.converter.convert(user, USER_SERIALIZER);
+    return this.http
+      .patch(url, user)
+      .pipe(catchError(error => throwError(error)));
+  }
+
   register(user: UserSignUp): Observable<User> {
     const url: string = this.getUserEndpoint();
     let headers = new HttpHeaders({

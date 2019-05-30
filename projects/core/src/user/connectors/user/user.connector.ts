@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Title, User, UserSignUp } from '../../../model/misc.model';
-import { UserAccountAdapter } from './user-account.adapter';
+import { UserAdapter } from './user.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserAccountConnector {
-  constructor(protected adapter: UserAccountAdapter) {}
+export class UserConnector {
+  constructor(protected adapter: UserAdapter) {}
+
+  get(userId: string): Observable<User> {
+    return this.adapter.load(userId);
+  }
+
+  update(username: string, user: User): Observable<{}> {
+    return this.adapter.update(username, user);
+  }
 
   register(user: UserSignUp): Observable<User> {
     return this.adapter.register(user);

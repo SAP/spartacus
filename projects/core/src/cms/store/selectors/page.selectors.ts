@@ -125,7 +125,7 @@ export const currentSlotSelectorFactory = (
     getPageData(pageContext),
     entity => {
       if (entity) {
-        return entity.slots[position];
+        return entity.slots[position] || { components: [] };
       }
     }
   );
