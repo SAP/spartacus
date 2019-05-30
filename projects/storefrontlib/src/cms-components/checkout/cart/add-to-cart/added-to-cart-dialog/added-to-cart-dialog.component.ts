@@ -27,9 +27,9 @@ export class AddedToCartDialogComponent implements OnInit {
   form: FormGroup = this.fb.group({});
 
   constructor(
-    private modalService: ModalService,
-    private cartService: CartService,
-    private fb: FormBuilder
+    protected modalService: ModalService,
+    protected cartService: CartService,
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit() {

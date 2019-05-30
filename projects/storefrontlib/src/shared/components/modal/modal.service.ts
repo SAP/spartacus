@@ -4,7 +4,7 @@ import { ModalRef } from './modal-ref';
 import { ModalOptions } from './modal-options';
 
 /**
- * A service to open modal
+ * A service to handle modal
  */
 @Injectable({
   providedIn: 'root',
@@ -23,16 +23,25 @@ export class ModalService {
   }
 
   getActiveModal(): ModalRef {
-    return this.modals[this.modals.length - 1];
+    const modal = this.modals[this.modals.length - 1];
+    return modal ? modal : null;
   }
 
   dismissActiveModal(reason?: any): void {
-    this.getActiveModal().dismiss(reason);
-    this.modals.pop();
+    const modal: ModalRef = this.getActiveModal();
+
+    if (modal) {
+      modal.dismiss(reason);
+      this.modals.pop();
+    }
   }
 
   closeActiveModal(reason?: any): void {
-    this.getActiveModal().close(reason);
-    this.modals.pop();
+    const modal: ModalRef = this.getActiveModal();
+
+    if (modal) {
+      modal.close(reason);
+      this.modals.pop();
+    }
   }
 }

@@ -37,7 +37,7 @@ export class AddToCartComponent implements OnInit {
 
   constructor(
     protected cartService: CartService,
-    private modalService: ModalService,
+    protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     private cd: ChangeDetectorRef
   ) {}

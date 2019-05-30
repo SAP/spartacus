@@ -32,7 +32,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
 
   constructor(
-    private modalService: ModalService,
+    protected modalService: ModalService,
     private userService: UserService,
     private authService: AuthService,
     private globalMessageService: GlobalMessageService,
