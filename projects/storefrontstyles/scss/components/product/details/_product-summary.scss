@@ -20,7 +20,7 @@
   .code {
     @include type('7');
     color: var(--cx-color, var(--cx-g-color-secondary));
-    margin: var(--cx-margin, 0 0 10px 0);
+    margin: var(--cx-margin, 0 0 20px 0);
   }
 
   .rating {
@@ -40,6 +40,6 @@
   .price {
     display: inline-block;
     @include type('3');
-    font-weight: $font-weight-normal;
+    margin: var(--cx-margin, 0 0 11px 0);
   }
 }
