@@ -1,7 +1,7 @@
 import {
-  EntitySuccessAction,
-  EntityLoadAction,
   EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
 } from '../../../state';
 import { Page } from '../../model/page.model';
 import { PageContext } from '../../../routing/index';
@@ -27,8 +27,8 @@ export class LoadPageDataFail extends EntityFailAction {
 
 export class SetPageFailIndex extends EntityFailAction {
   readonly type = SET_PAGE_FAIL_INDEX;
-  constructor(pageContext: PageContext, error: any) {
-    super(pageContext.type, pageContext.id, error);
+  constructor(pageContext: PageContext, newIndex: any) {
+    super(pageContext.type, pageContext.id, newIndex);
   }
 }
 

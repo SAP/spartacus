@@ -39,6 +39,18 @@ describe('Cms Page Actions', () => {
       });
     });
 
+    describe('SetPageFailIndex', () => {
+      it('should create the action', () => {
+        const newIndex = 'index';
+        const action = new fromPage.SetPageFailIndex(pageContext, newIndex);
+
+        expect({ ...action }).toEqual({
+          type: fromPage.SET_PAGE_FAIL_INDEX,
+          meta: entityFailMeta(pageContext.type, pageContext.id, newIndex),
+        });
+      });
+    });
+
     describe('LoadPageDataSuccess', () => {
       it('should create the action', () => {
         const page: Page = <Page>{

@@ -24,6 +24,10 @@ export function reducer(
           return action.payload.pageId;
         }
 
+        case fromAction.LOAD_PAGE_DATA_FAIL: {
+          return initialState;
+        }
+
         case fromAction.SET_PAGE_FAIL_INDEX: {
           return action.meta.loader.error;
         }
