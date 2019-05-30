@@ -20,12 +20,12 @@ export function reducer(
   ): string => {
     if (action.meta && action.meta.entityType === entityType) {
       switch (action.type) {
-        case fromAction.SET_PAGE_FAIL_INDEX: {
-          return action.meta.loader.error;
-        }
-
         case fromAction.LOAD_PAGE_DATA_SUCCESS: {
           return action.payload.pageId;
+        }
+
+        case fromAction.SET_PAGE_FAIL_INDEX: {
+          return action.meta.loader.error;
         }
       }
     }
