@@ -215,18 +215,18 @@ describe('OccCmsComponentAdapter', () => {
     testRequest.flush(componentObj);
   }
 
-  function assertPostRequestGetUrl(fieldType: string, pageSize: string) {
+  function assertPostRequestGetUrl(fields: string, pageSize: string) {
     expect(endpointsService.getUrl).toHaveBeenCalledWith(
       'components',
-      { fields: fieldType },
+      { fields },
       { productCode: '123', currentPage: '0', pageSize }
     );
   }
 
-  function assertGetRequestGetUrl(fieldType: string, pageSize) {
+  function assertGetRequestGetUrl(fields: string, pageSize: string) {
     expect(endpointsService.getUrl).toHaveBeenCalledWith(
       'components',
-      { fields: fieldType },
+      { fields },
       {
         componentIds: ids.toString(),
         productCode: '123',

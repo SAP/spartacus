@@ -1,6 +1,7 @@
-import { TestBed } from '@angular/core/testing';
-import { CmsStructureConfigService, PageContext } from '@spartacus/core';
+import { TestBed, TestBedStatic } from '@angular/core/testing';
+import { PageContext } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
+import { CmsStructureConfigService } from '../../../cms/services/cms-structure-config.service';
 import { PageType } from '../../../model/cms.model';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { CmsComponentAdapter } from './cms-component.adapter';
@@ -47,12 +48,92 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('CmsComponentConnector for 1905+ backend', () => {
+describe('CmsComponentConnector', () => {
   let service: CmsComponentConnector;
   let adapter: CmsComponentAdapter;
+  let structureConfigService: CmsStructureConfigService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  describe('CmsComponentConnector for 1905+ backend', () => {
+    beforeEach(() => {
+      configureTestingModule();
+
+      testBedConnector();
+    });
+
+    it('should be created', () => {
+      serviceToBeTruthy();
+    });
+
+    describe('get', () => {
+      it('should call adapter', () => {
+        let result;
+        service.get('333', context).subscribe(res => (result = res));
+        expect(result).toBe('component333');
+        expect(adapter.load).toHaveBeenCalledWith('333', context);
+      });
+
+      it('should use CmsStructureConfigService', () => {
+        service.get('333', context).subscribe();
+        expect(
+          structureConfigService.getComponentFromConfig
+        ).toHaveBeenCalledWith('333');
+      });
+    });
+
+    describe('getList using GET request', () => {
+      it('should call adapter', () => {
+        subscribeGetList();
+        expect(adapter.findComponentsByIds).toHaveBeenCalledWith(ids, context);
+      });
+      it('should use CmsStructureConfigService', () => {
+        subscribeGetList();
+        cmsStructureConfigService();
+      });
+      it('should merge config data with components', () => {
+        mergeConflictData();
+      });
+    });
+  });
+
+  describe('CmsComponentConnector for 1811 backend', () => {
+    beforeEach(() => {
+      configureTestingModule().overrideProvider(OccConfig, {
+        useValue: {
+          backend: {
+            occ: {
+              legacy: true,
+            },
+          },
+        },
+      });
+
+      testBedConnector();
+    });
+
+    it('should be created', () => {
+      serviceToBeTruthy();
+    });
+
+    describe('getList using POST request', () => {
+      it('should call adapter', () => {
+        subscribeGetList();
+        expect(adapter.findComponentsByIdsLegacy).toHaveBeenCalledWith(
+          ids,
+          context
+        );
+      });
+      it('should use CmsStructureConfigService', () => {
+        subscribeGetList();
+        cmsStructureConfigService();
+      });
+      it('should merge config data with components', () => {
+        mergeConflictData();
+      });
+    });
+  });
+
+  function configureTestingModule(): TestBedStatic {
+    return TestBed.configureTestingModule({
       providers: [
         { provide: CmsComponentAdapter, useClass: MockCmsComponentAdapter },
         {
@@ -62,134 +143,35 @@ describe('CmsComponentConnector for 1905+ backend', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
+  }
 
+  function testBedConnector() {
     service = TestBed.get(CmsComponentConnector);
     adapter = TestBed.get(CmsComponentAdapter);
-  });
+    structureConfigService = TestBed.get(CmsStructureConfigService);
+  }
 
-  it('should be created', () => {
+  function serviceToBeTruthy() {
     expect(service).toBeTruthy();
-  });
+  }
 
-  describe('get', () => {
-    it('should call adapter', () => {
-      let result;
-      service.get('333', context).subscribe(res => (result = res));
-      expect(result).toBe('component333');
-      expect(adapter.load).toHaveBeenCalledWith('333', context);
-    });
+  function subscribeGetList() {
+    service.getList(ids, context).subscribe();
+  }
 
-    it('should use CmsStructureConfigService', () => {
-      const structureConfigService = TestBed.get(CmsStructureConfigService);
-      service.get('333', context).subscribe();
-      expect(
-        structureConfigService.getComponentFromConfig
-      ).toHaveBeenCalledWith('333');
-    });
-  });
+  function cmsStructureConfigService() {
+    expect(structureConfigService.getComponentsFromConfig).toHaveBeenCalledWith(
+      ids
+    );
+  }
 
-  describe('getList using GET request', () => {
-    it('should call adapter', () => {
-      service.getList(ids, context).subscribe();
-      expect(adapter.findComponentsByIds).toHaveBeenCalledWith(ids, context);
-    });
-    it('should use CmsStructureConfigService', () => {
-      const structureConfigService = TestBed.get(CmsStructureConfigService);
-      service.getList(ids, context).subscribe();
-      expect(
-        structureConfigService.getComponentsFromConfig
-      ).toHaveBeenCalledWith(ids);
-    });
-    it('should merge config data with components', () => {
-      let components;
-      service.getList(ids, context).subscribe(res => (components = res));
-      expect(components).toEqual([
-        'config-component',
-        'componentcomp_uid1',
-        'componentcomp_uid2',
-      ]);
-    });
-  });
-});
-
-describe('CmsComponentConnector for 1811 backend', () => {
-  let service: CmsComponentConnector;
-  let adapter: CmsComponentAdapter;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: CmsComponentAdapter, useClass: MockCmsComponentAdapter },
-        {
-          provide: CmsStructureConfigService,
-          useClass: MockCmsStructureConfigService,
-        },
-        {
-          provide: OccConfig,
-          useValue: {
-            backend: {
-              occ: {
-                legacy: true,
-              },
-            },
-          },
-        },
-      ],
-    });
-
-    service = TestBed.get(CmsComponentConnector);
-    adapter = TestBed.get(CmsComponentAdapter);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  describe('getList using POST request', () => {
-    it('should call adapter', () => {
-      service.getList(ids, context).subscribe();
-      expect(adapter.findComponentsByIdsLegacy).toHaveBeenCalledWith(
-        ids,
-        context
-      );
-    });
-    it('should use CmsStructureConfigService', () => {
-      const structureConfigService = TestBed.get(CmsStructureConfigService);
-      service.getList(ids, context).subscribe();
-      expect(
-        structureConfigService.getComponentsFromConfig
-      ).toHaveBeenCalledWith(ids);
-    });
-    it('should merge config data with components', () => {
-      let components;
-      service.getList(ids, context).subscribe(res => (components = res));
-      expect(components).toEqual([
-        'config-component',
-        'componentcomp_uid1',
-        'componentcomp_uid2',
-      ]);
-    });
-  });
-
-  // function subscribeGetList() {
-  //   service.getList(ids, context).subscribe();
-  // }
-
-  // function cmsStructureConfigService(id, pageContext) {
-  //   const structureConfigService = TestBed.get(CmsStructureConfigService);
-  //   service.getList(id, pageContext).subscribe();
-  //   expect(structureConfigService.getComponentsFromConfig).toHaveBeenCalledWith(
-  //     id
-  //   );
-  // }
-
-  // function mergeConfigData() {
-  //   let components;
-  //   service.getList(ids, context).subscribe(res => (components = res));
-  //   expect(components).toEqual([
-  //     'config-component',
-  //     'componentcomp_uid1',
-  //     'componentcomp_uid2',
-  //   ]);
-  // }
+  function mergeConflictData() {
+    let components;
+    service.getList(ids, context).subscribe(res => (components = res));
+    expect(components).toEqual([
+      'config-component',
+      'componentcomp_uid1',
+      'componentcomp_uid2',
+    ]);
+  }
 });
