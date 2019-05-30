@@ -16,8 +16,8 @@ class MockCmsComponentAdapter implements CmsComponentAdapter {
     'CmsComponentAdapter.findComponentsByIds'
   ).and.callFake(idList => of(idList.map(id => 'component' + id)));
 
-  searchComponentsByIds = createSpy(
-    'CmsComponentAdapter.searchComponentsByIds'
+  findComponentsByIdsLegacy = createSpy(
+    'CmsComponentAdapter.findComponentsByIdsLegacy'
   ).and.callFake(idList => of(idList.map(id => 'component' + id)));
 }
 
@@ -148,7 +148,10 @@ describe('CmsComponentConnector for 1811 backend', () => {
   describe('getList using POST request', () => {
     it('should call adapter', () => {
       service.getList(ids, context).subscribe();
-      expect(adapter.searchComponentsByIds).toHaveBeenCalledWith(ids, context);
+      expect(adapter.findComponentsByIdsLegacy).toHaveBeenCalledWith(
+        ids,
+        context
+      );
     });
     it('should use CmsStructureConfigService', () => {
       const structureConfigService = TestBed.get(CmsStructureConfigService);
@@ -167,4 +170,26 @@ describe('CmsComponentConnector for 1811 backend', () => {
       ]);
     });
   });
+
+  // function subscribeGetList() {
+  //   service.getList(ids, context).subscribe();
+  // }
+
+  // function cmsStructureConfigService(id, pageContext) {
+  //   const structureConfigService = TestBed.get(CmsStructureConfigService);
+  //   service.getList(id, pageContext).subscribe();
+  //   expect(structureConfigService.getComponentsFromConfig).toHaveBeenCalledWith(
+  //     id
+  //   );
+  // }
+
+  // function mergeConfigData() {
+  //   let components;
+  //   service.getList(ids, context).subscribe(res => (components = res));
+  //   expect(components).toEqual([
+  //     'config-component',
+  //     'componentcomp_uid1',
+  //     'componentcomp_uid2',
+  //   ]);
+  // }
 });

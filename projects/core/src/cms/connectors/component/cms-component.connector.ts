@@ -48,7 +48,7 @@ export class CmsComponentConnector {
 
         if (missingIds.length > 0) {
           return (this.config.backend.occ.legacy
-            ? this.adapter.searchComponentsByIds(missingIds, pageContext)
+            ? this.adapter.findComponentsByIdsLegacy(missingIds, pageContext)
             : this.adapter.findComponentsByIds(missingIds, pageContext)
           ).pipe(
             map(loadedComponents => [

@@ -59,7 +59,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
       );
   }
 
-  searchComponentsByIds(
+  findComponentsByIdsLegacy(
     ids: string[],
     pageContext: PageContext,
     fields = 'DEFAULT',
