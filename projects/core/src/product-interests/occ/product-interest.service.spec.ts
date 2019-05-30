@@ -64,4 +64,61 @@ describe('ProductInterestsService', () => {
       expect(mockReq.request.params.get('sort')).toEqual(sort);
     }));
   });
+
+  describe('deleteInterest', () => {
+    it('should be able to delete interest with parameters', async(() => {
+      const userId = 'jack.ma@hybris.com';
+      const productCode = '9789';
+      const notificationType = 'BAKC_INS_TOCK';
+
+      service.deleteInterest(userId, productCode, notificationType ).subscribe();
+      const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
+        return (
+          req.url === '/users' + `/${userId}` + '/productinterests' &&
+          req.method === 'DELETE'
+        );
+      }, `DELETE method and url`);
+      expect(mockReq.request.params.get('productCode')).toEqual(productCode);
+      expect(mockReq.request.params.get('notificationType')).toEqual(notificationType);
+    }));
+  });
+
+  describe('hasInterest', () => {
+    it('should be able to check interest with parameters', async(() => {
+      const userId = 'jack.ma@hybris.com';
+      const productCode = '9789';
+      const notificationType = 'BAKC_INS_TOCK';
+
+      service.hasInterest(userId, productCode, notificationType ).subscribe();
+      const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
+        return (
+          req.url === '/users' + `/${userId}` + '/productinterests' &&
+          req.method === 'GET'
+        );
+      }, `GET method and url`);
+
+      expect(mockReq.request.params.get('productCode')).toEqual(productCode);
+      expect(mockReq.request.params.get('notificationType')).toEqual(notificationType);
+    }));
+  });
+
+  describe('createInterest', () => {
+    it('should be able to create interest with parameters', async(() => {
+      const userId = 'jack.ma@hybris.com';
+      const productCode = '9789';
+      const notificationType = 'BAKC_INS_TOCK';
+
+      service.createInterest(userId, productCode, notificationType ).subscribe();
+      const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
+        return (
+          req.url === '/users' + `/${userId}` + '/productinterests' &&
+          req.method === 'POST'
+        );
+      }, `GET method and url`);
+
+      expect(mockReq.request.params.get('productCode')).toEqual(productCode);
+      expect(mockReq.request.params.get('notificationType')).toEqual(notificationType);
+    }));
+  });
+
 });
