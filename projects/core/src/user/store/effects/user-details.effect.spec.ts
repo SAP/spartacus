@@ -6,8 +6,8 @@ import { Observable, of, throwError } from 'rxjs';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsEffect from './user-details.effect';
 import { User } from '../../../model/misc.model';
-import { UserDetailsConnector } from '../../connectors/details/user-details.connector';
-import { UserDetailsAdapter } from '../../connectors/details/user-details.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -18,20 +18,20 @@ const mockUserDetails: User = {
 
 describe('User Details effect', () => {
   let userDetailsEffect: fromUserDetailsEffect.UserDetailsEffects;
-  let userService: UserDetailsConnector;
+  let userService: UserConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromUserDetailsEffect.UserDetailsEffects,
-        { provide: UserDetailsAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     userDetailsEffect = TestBed.get(fromUserDetailsEffect.UserDetailsEffects);
-    userService = TestBed.get(UserDetailsConnector);
+    userService = TestBed.get(UserConnector);
   });
 
   describe('loadUserDetails$', () => {

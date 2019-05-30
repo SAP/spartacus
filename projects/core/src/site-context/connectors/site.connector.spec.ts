@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { SiteConnector } from './site.connector';
 import { of } from 'rxjs/internal/observable/of';
 import { SiteAdapter } from './site.adapter';
+import { CountryType } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockLanguages = ['l', 'a', 'n', 'g'];
@@ -16,6 +17,14 @@ class MockSiteAdapter implements SiteAdapter {
 
   loadLanguages = createSpy('SiteAdapter.loadLanguages').and.callFake(() =>
     of(mockLanguages)
+  );
+
+  loadCountries = createSpy('SiteAdapter.loadCountries').and.returnValue(
+    of([])
+  );
+
+  loadRegions = createSpy('SiteAdapter.loadRegions').and.callFake(countryCode =>
+    of(`loadRegions-${countryCode}`)
   );
 
   loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
@@ -52,6 +61,20 @@ describe('SiteConnector', () => {
     service.getCurrencies().subscribe(res => (result = res));
     expect(result).toBe(mockCurrencies);
     expect(adapter.loadCurrencies).toHaveBeenCalled();
+  });
+
+  it('getCountries should call adapter', () => {
+    let result;
+    service.getCountries(CountryType.SHIPPING).subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.loadCountries).toHaveBeenCalledWith(CountryType.SHIPPING);
+  });
+
+  it('getRegions should call adapter', () => {
+    let result;
+    service.getRegions('CA').subscribe(res => (result = res));
+    expect(result).toEqual('loadRegions-CA');
+    expect(adapter.loadRegions).toHaveBeenCalledWith('CA');
   });
 
   it('getBaseSite should call adapter', () => {
