@@ -6,7 +6,10 @@ import { delay, filter, pluck, switchMap } from 'rxjs/operators';
 
 import * as GlobalMessageActions from '../actions/global-message.actions';
 import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
-import { GlobalMessage } from '../../models/global-message.model';
+import {
+  GlobalMessage,
+  GlobalMessageType,
+} from '../../models/global-message.model';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 
 @Injectable()
@@ -16,10 +19,10 @@ export class GlobalMessageEffects {
     GlobalMessageActions.RemoveMessage
   > | void = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
-    pluck('payload'),
-    switchMap((value: GlobalMessage) => {
-      const config = this.globalMessageConfig.globalMessages[value.type];
-      return this.store.select(getGlobalMessageCountByType(value.type)).pipe(
+    pluck('payload', 'type'),
+    switchMap((type: GlobalMessageType) => {
+      const config = this.globalMessageConfig.globalMessages[type];
+      return this.store.select(getGlobalMessageCountByType(type)).pipe(
         filter(
           (count: number) =>
             config && config.timeout !== undefined && count && count > 0
@@ -27,7 +30,7 @@ export class GlobalMessageEffects {
         switchMap((count: number) => {
           return of(
             new GlobalMessageActions.RemoveMessage({
-              type: value.type,
+              type,
               index: count - 1,
             })
           ).pipe(delay(config.timeout));
