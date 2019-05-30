@@ -20,6 +20,7 @@
   .code {
     @include type('7');
     color: var(--cx-color, var(--cx-g-color-secondary));
+    margin: var(--cx-margin, 0 0 10px 0);
   }
 
   .rating {
@@ -29,6 +30,10 @@
 
     .count {
       margin: var(--cx-margin, 0 20px 0 5px);
+    }
+
+    cx-star-rating {
+      padding: var(--cx-padding, 0 0 15px 0);
     }
   }
 
