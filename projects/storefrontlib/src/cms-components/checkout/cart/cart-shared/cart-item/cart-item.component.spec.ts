@@ -133,7 +133,6 @@ describe('CartItemComponent', () => {
   });
 
   it('should be able to handle anonymous users', () => {
-    console.log('1++++' + router.routerState.snapshot.url);
     cartItemComponent.saveItemForLater();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     expect(routingService.saveRedirectUrl).toHaveBeenCalledWith('/testUrl');
