@@ -59,9 +59,9 @@ export class CmsPageGuard implements CanActivate {
   }
 
   private resolveCmsPageLogic(
-    pageContext,
-    route,
-    state
+    pageContext: PageContext,
+    route: CmsActivatedRouteSnapshot,
+    state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
       switchMap(componentTypes =>
@@ -92,9 +92,9 @@ export class CmsPageGuard implements CanActivate {
   }
 
   private handleNotFoundPage(
-    pageContext,
-    route,
-    state
+    pageContext: PageContext,
+    route: CmsActivatedRouteSnapshot,
+    state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     const notFoundCmsPageContext: PageContext = {
       type: PageType.CONTENT_PAGE,
