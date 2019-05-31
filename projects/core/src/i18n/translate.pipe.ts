@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from './translation.service';
-import { shallowEqualObjects } from './utils/shallow-equal-objects';
+import { shallowEqualObjects } from '../util/shallow-equal-objects';
 import { Translatable, TranslatableParams } from './translatable';
 
 @Pipe({ name: 'cxTranslate', pure: false })

@@ -3,7 +3,8 @@ import { shallowEqualObjects } from './shallow-equal-objects';
 describe('shallowEqualObjects utility', () => {
   it('should return true for the same references', () => {
     const a = { x: 1, y: 2 };
-    expect(shallowEqualObjects(a, a)).toEqual(true);
+    const b = { x: 1, y: 2 };
+    expect(shallowEqualObjects(a, b)).toEqual(true);
   });
 
   it('should return false if one of arguments is null', () => {
