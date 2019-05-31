@@ -33,7 +33,7 @@ describe('SaveForLaterConnector', () => {
     expect(adapter.create).toHaveBeenCalledWith('1', undefined);
   });
 
-  fit('load should call adapter', () => {
+  it('load should call adapter', () => {
     const adapter = TestBed.get(SaveForLaterAdapter);
 
     let result;
