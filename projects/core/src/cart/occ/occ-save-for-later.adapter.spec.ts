@@ -7,8 +7,7 @@ import {
 import { OccConfig } from '../../occ';
 import { OccSaveForLaterAdapter } from './occ-save-for-later.adapter';
 import { ConverterService } from '../../util/converter.service';
-import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
-import { Cart, CartModification } from '../../model/cart.model';
+import { Cart } from '../../model/cart.model';
 import { CART_NORMALIZER } from '../connectors/cart/converters';
 
 const userId = '123';
@@ -17,10 +16,6 @@ const cartData: Cart = {
   store: 'electronics',
   guid: '1212121',
 };
-const cartModified: CartModification = {
-  deliveryModeChanged: true,
-};
-
 const usersEndpoint = '/users';
 const cartsEndpoint = '/carts/';
 const BASIC_PARAMS =
@@ -41,7 +36,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccCartEntryAdapter', () => {
+describe('OccSaveForLaterAdapter', () => {
   let service: OccSaveForLaterAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
@@ -66,8 +61,8 @@ describe('OccCartEntryAdapter', () => {
     httpMock.verify();
   });
 
-  describe('load cart data', () => {
-    it('should load selective cart basic data for given userId and cartId', () => {
+  describe('load save for later data', () => {
+    it('should load save for later data for given userId and cartId', () => {
       let result;
       service.load(userId, cartId).subscribe(res => (result = res));
       const mockReq = httpMock.expectOne(req => {
@@ -85,8 +80,8 @@ describe('OccCartEntryAdapter', () => {
     });
   });
 
-  describe('load cart data exception', () => {
-    fit('should load selective cart with exception', () => {
+  describe('load save for later data exception', () => {
+    it('should load save for later with exception', () => {
       let result;
       service.load(userId, cartId).subscribe(res => (result = res));
       const mockReq = httpMock.expectOne(req => {
@@ -105,11 +100,12 @@ describe('OccCartEntryAdapter', () => {
         }
       );
       expect(mockReq.cancelled).toBeTruthy();
+      expect(result).toEqual(undefined);
     });
   });
 
-  describe('create cart data', () => {
-    it('should load selective cart basic data for given userId and cartId', () => {
+  describe('create save for later data', () => {
+    it('should load save for later for given userId and cartId', () => {
       let result;
       service.load(userId, cartId).subscribe(res => (result = res));
       const mockReq = httpMock.expectOne(req => {
@@ -127,8 +123,8 @@ describe('OccCartEntryAdapter', () => {
     });
   });
 
-  describe('create cart data exception', () => {
-    fit('should load selective cart with exception', () => {
+  describe('create save for later data exception', () => {
+    it('should load save for later with exception', () => {
       let result;
       service.load(userId, cartId).subscribe(res => (result = res));
       const mockReq = httpMock.expectOne(req => {
@@ -147,6 +143,7 @@ describe('OccCartEntryAdapter', () => {
         }
       );
       expect(mockReq.cancelled).toBeTruthy();
+      expect(result).toEqual(undefined);
     });
   });
 });
