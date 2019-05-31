@@ -8,7 +8,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -24,6 +23,10 @@ import {
   UserService,
 } from '@spartacus/core';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import {
+  ModalRef,
+  ModalService,
+} from '../../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-address-form',
@@ -60,7 +63,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   backToAddress = new EventEmitter<any>();
 
   addressVerifySub: Subscription;
-  suggestedAddressModalRef: NgbModalRef;
+  suggestedAddressModalRef: ModalRef;
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
@@ -85,7 +88,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected checkoutService: CheckoutService,
     protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: NgbModal
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
