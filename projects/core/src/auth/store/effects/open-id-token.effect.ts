@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import {
-  catchError,
-  exhaustMap,
-  filter,
-  map,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { iif, Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map, withLatestFrom } from 'rxjs/operators';
 import { AuthConfig } from '../../config/auth-config';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import * as fromActions from '../actions/open-id-token.action';
@@ -20,20 +14,23 @@ import {
 @Injectable()
 export class OpenIdTokenEffect {
   @Effect()
-  triggerOpenIdTokenLoading$: Observable<
+  triggerOpenIdTokenLoading$: Observable<fromActions.LoadOpenIdToken> = iif<
+    fromActions.LoadOpenIdToken,
     fromActions.LoadOpenIdToken
-  > = this.actions$.pipe(
-    filter(
-      _ => this.config.authentication && this.config.authentication.kyma_enabled
-    ),
-    ofType<fromActions.LoadOpenIdTokenSuccess>(LOAD_USER_TOKEN_SUCCESS),
-    withLatestFrom(this.actions$.pipe(ofType<LoadUserToken>(LOAD_USER_TOKEN))),
-    map(
-      ([, loginAction]) =>
-        new fromActions.LoadOpenIdToken({
-          username: loginAction.payload.userId,
-          password: loginAction.payload.password,
-        })
+  >(
+    () => this.config.authentication && this.config.authentication.kyma_enabled,
+    this.actions$.pipe(
+      ofType<fromActions.LoadOpenIdTokenSuccess>(LOAD_USER_TOKEN_SUCCESS),
+      withLatestFrom(
+        this.actions$.pipe(ofType<LoadUserToken>(LOAD_USER_TOKEN))
+      ),
+      map(
+        ([, loginAction]) =>
+          new fromActions.LoadOpenIdToken({
+            username: loginAction.payload.userId,
+            password: loginAction.payload.password,
+          })
+      )
     )
   );
 

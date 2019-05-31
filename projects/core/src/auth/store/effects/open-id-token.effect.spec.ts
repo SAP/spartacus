@@ -101,7 +101,7 @@ describe('Open ID Token Effect', () => {
         });
 
         actions$ = hot('-(ab)', { a: loadUserToken, b: loadUserTokenSuccess });
-        const expected = cold('-');
+        const expected = cold('|');
 
         expect(openIdTokenEffect.triggerOpenIdTokenLoading$).toBeObservable(
           expected
