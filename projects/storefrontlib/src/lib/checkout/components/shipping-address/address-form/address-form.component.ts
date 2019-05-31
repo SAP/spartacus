@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import {
@@ -34,6 +34,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
+  selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  selectedCountrySub: Subscription;
 
   @Input()
   addressData: Address;
@@ -112,21 +114,18 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.regions$ = this.userService.getRegions().pipe(
-      tap(regions => {
-        const regionControl = this.address.get('region.isocode');
-
-        if (Object.keys(regions).length === 0) {
-          regionControl.disable();
-          const countryIsoCode = this.address.get('country.isocode').value;
-          if (countryIsoCode) {
-            this.userService.loadRegions(countryIsoCode);
+    this.selectedCountrySub = this.selectedCountry$.subscribe(country => {
+      this.regions$ = this.userService.getRegions(country).pipe(
+        tap(regions => {
+          const regionControl = this.address.get('region.isocode');
+          if (regions.length > 0) {
+            regionControl.enable();
+          } else {
+            regionControl.disable();
           }
-        } else {
-          regionControl.enable();
-        }
-      })
-    );
+        })
+      );
+    });
 
     // verify the new added address
     this.addressVerifySub = this.checkoutService
@@ -175,7 +174,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.address['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
-    this.userService.loadRegions(country.isocode);
+    this.selectedCountry$.next(country.isocode);
   }
 
   regionSelected(region: Region): void {
@@ -243,6 +242,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();
+    }
+    if (this.selectedCountrySub) {
+      this.selectedCountrySub.unsubscribe();
     }
   }
 }

@@ -7,6 +7,10 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
+import { Action } from '@ngrx/store';
+import { CLEAR_MISCS_DATA } from '../actions/index';
+import { REGIONS } from '../user-state';
+import { LoaderResetAction } from '../../../state';
 
 @Injectable()
 export class RegionsEffects {
@@ -18,9 +22,23 @@ export class RegionsEffects {
     }),
     switchMap((countryCode: string) => {
       return this.userPaymentConnector.getRegions(countryCode).pipe(
-        map(regions => new fromActions.LoadRegionsSuccess(regions)),
+        map(
+          regions =>
+            new fromActions.LoadRegionsSuccess({
+              entities: regions,
+              country: countryCode,
+            })
+        ),
         catchError(error => of(new fromActions.LoadRegionsFail(error)))
       );
+    })
+  );
+
+  @Effect()
+  resetRegions$: Observable<Action> = this.actions$.pipe(
+    ofType(CLEAR_MISCS_DATA, fromActions.CLEAR_REGIONS),
+    map(() => {
+      return new LoaderResetAction(REGIONS);
     })
   );
 
