@@ -88,8 +88,12 @@ $space: 0.5rem;
     flex: 100%;
     overflow: hidden;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       background-color: var(--cx-g-color-background);
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 5px;
     }
   }
 

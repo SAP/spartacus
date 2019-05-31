@@ -1,3 +1,14 @@
+<div
+  *ngIf="flyout && node?.children.length > 1"
+  class="back is-open"
+  (click)="back()"
+>
+  <h5>
+    <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+    {{ 'common.back' | cxTranslate }}
+  </h5>
+</div>
+
 <ng-container *ngFor="let child of node?.children">
   <ng-container *ngTemplateOutlet="nav; context: { node: child }">
   </ng-container>
@@ -5,7 +16,11 @@
 
 <!-- we generate links in a recursive manner -->
 <ng-template #nav let-node="node">
-  <nav [class.has-childs]="node.children?.length > 0" tabindex="0">
+  <nav
+    [class.has-childs]="node.children?.length > 0"
+    tabindex="0"
+    (click)="toggleOpen($event)"
+  >
     <cx-generic-link *ngIf="node.url; else heading" [url]="node.url">
       {{ node.title }}
       <cx-icon
