@@ -51,5 +51,17 @@ describe('compare equal objects utilities', () => {
         deepEqualObjects({ x: 1, y: { z: 3 } }, { x: 1, y: { z: 3 } })
       ).toEqual(true);
     });
+
+    it('should return false if objects have different nested properties', () => {
+      expect(
+        deepEqualObjects({ x: 1, y: { z: 3 } }, { x: 1, y: { z: 4 } })
+      ).toEqual(false);
+    });
+
+    it('should return false if objects have more nested properties', () => {
+      expect(
+        deepEqualObjects({ x: 1, y: { z: 3 } }, { x: 1, y: { z: 3, h: 2 } })
+      ).toEqual(false);
+    });
   });
 });
