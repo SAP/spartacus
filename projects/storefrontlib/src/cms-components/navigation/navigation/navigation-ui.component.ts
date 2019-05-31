@@ -17,8 +17,8 @@ export class NavigationUIComponent {
 
     // Iterate subcategories
     for (let i = 0; i < children.length; i++) {
-      // Column header for each subcategory
-      const columnHeader = {
+      // Column header node for each subcategory
+      const columnHeader: NavigationNode = {
         isHeader: true,
         title: children[i].title,
         url: children[i].url,
