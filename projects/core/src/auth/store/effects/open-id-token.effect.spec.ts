@@ -5,11 +5,15 @@ import { Observable, of } from 'rxjs';
 import * as fromStore from '../';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import { OpenIdTokenActions } from '../actions';
-import { OpenIdToken } from './../../models/token-types.model';
+import { OpenIdToken, UserToken } from './../../models/token-types.model';
 
 const testToken = {
   access_token: 'xxx',
 } as OpenIdToken;
+
+const mockUserToken = {
+  access_token: 'yyy',
+} as UserToken;
 
 class MockOpenIdAuthenticationTokenService {
   loadOpenIdAuthenticationToken(
@@ -43,6 +47,29 @@ describe('Open ID Token Effect', () => {
     spyOn(openIdService, 'loadOpenIdAuthenticationToken').and.returnValue(
       of(testToken)
     );
+  });
+
+  describe('triggerOpenIdTokenLoading$', () => {
+    it('should trigger the retrieval of an open ID token', () => {
+      const loadUserTokenSuccess = new fromStore.LoadUserTokenSuccess(
+        mockUserToken
+      );
+      const loadUserToken = new fromStore.LoadUserToken({
+        userId: 'xxx@xxx.xxx',
+        password: 'pwd',
+      });
+      const completition = new fromStore.LoadOpenIdToken({
+        username: 'xxx@xxx.xxx',
+        password: 'pwd',
+      });
+
+      actions$ = hot('-(ab)', { a: loadUserToken, b: loadUserTokenSuccess });
+      const expected = cold('-c', { c: completition });
+
+      expect(openIdTokenEffect.triggerOpenIdTokenLoading$).toBeObservable(
+        expected
+      );
+    });
   });
 
   describe('loadClientToken$', () => {

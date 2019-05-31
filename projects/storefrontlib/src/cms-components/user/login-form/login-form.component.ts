@@ -36,10 +36,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       this.form.controls.userId.value,
       this.form.controls.password.value
     );
-    this.auth.authorizeOpenId(
-      this.form.controls.userId.value,
-      this.form.controls.password.value
-    );
 
     if (!this.sub) {
       this.sub = this.auth.getUserToken().subscribe(data => {
