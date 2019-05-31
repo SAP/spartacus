@@ -4,13 +4,14 @@ import { CardComponent, Card, CardLinkAction } from './card.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { ICON_TYPE } from '../../../cms-components/misc/index';
 
 @Component({
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 describe('CardComponent', () => {

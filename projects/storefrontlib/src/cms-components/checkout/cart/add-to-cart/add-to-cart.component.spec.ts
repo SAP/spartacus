@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   CartDataService,
   CartService,
@@ -15,6 +14,7 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
 import { AddToCartComponent } from './add-to-cart.component';
 import { Input, Component } from '@angular/core';
 import { CurrentProductService } from '../../../product';
+import { ModalService } from '../../../../shared/components/modal/index';
 
 const productCode = '1234';
 const mockProduct: Product = {
@@ -64,7 +64,7 @@ describe('AddToCartComponent', () => {
   let fixture: ComponentFixture<AddToCartComponent>;
   let service: CartService;
   let currentProductService: CurrentProductService;
-  let modalInstance;
+  let modalInstance: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -72,14 +72,13 @@ describe('AddToCartComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
-        NgbModule,
         I18nTestingModule,
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
         CartDataService,
+        { provide: ModalService, useValue: { open: () => {} } },
         { provide: CartService, useClass: MockCartService },
-        { provide: NgbModal, useValue: { open: () => {} } },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
       ],
     }).compileComponents();
@@ -89,7 +88,7 @@ describe('AddToCartComponent', () => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
     service = TestBed.get(CartService);
-    modalInstance = TestBed.get(NgbModal);
+    modalInstance = TestBed.get(ModalService);
     currentProductService = TestBed.get(CurrentProductService);
 
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });

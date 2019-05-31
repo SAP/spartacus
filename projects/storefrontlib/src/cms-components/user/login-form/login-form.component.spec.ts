@@ -26,7 +26,6 @@ class MockAuthService {
   getUserToken(): Observable<UserToken> {
     return of({ access_token: 'test' } as UserToken);
   }
-  authorizeOpenId(_username: string, _password: string): void {}
 }
 
 class MockRedirectAfterAuthService {
@@ -78,7 +77,6 @@ describe('LoginFormComponent', () => {
   });
 
   it('should login and redirect to return url after auth', () => {
-    spyOn(authService, 'authorizeOpenId').and.stub();
     const username = 'test@email.com';
     const password = 'secret';
 
@@ -87,11 +85,6 @@ describe('LoginFormComponent', () => {
     component.login();
 
     expect(authService.authorize).toHaveBeenCalledWith(username, password);
-    expect(authService.authorizeOpenId).toHaveBeenCalledWith(
-      username,
-      password
-    );
-
     expect(authRedirectService.redirect).toHaveBeenCalled();
   });
 
