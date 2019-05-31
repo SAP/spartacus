@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponent } from '../../../model/cms.model';
+import { OccConfig } from '../../../occ/config/occ-config';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { CmsComponentAdapter } from './cms-component.adapter';
@@ -12,7 +13,8 @@ import { CmsComponentAdapter } from './cms-component.adapter';
 export class CmsComponentConnector {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsComponentAdapter
+    protected adapter: CmsComponentAdapter,
+    protected config: OccConfig
   ) {}
 
   get<T extends CmsComponent>(
@@ -45,14 +47,15 @@ export class CmsComponentConnector {
         );
 
         if (missingIds.length > 0) {
-          return this.adapter
-            .findComponentsByIds(missingIds, pageContext)
-            .pipe(
-              map(loadedComponents => [
-                ...configuredComponents.filter(Boolean),
-                ...loadedComponents,
-              ])
-            );
+          return (this.config.backend.occ.legacy
+            ? this.adapter.findComponentsByIdsLegacy(missingIds, pageContext)
+            : this.adapter.findComponentsByIds(missingIds, pageContext)
+          ).pipe(
+            map(loadedComponents => [
+              ...configuredComponents.filter(Boolean),
+              ...loadedComponents,
+            ])
+          );
         } else {
           return of(configuredComponents);
         }

@@ -1,7 +1,7 @@
 import {
-  EntitySuccessAction,
-  EntityLoadAction,
   EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
 } from '../../../state';
 import { Page } from '../../model/page.model';
 import { PageContext } from '../../../routing/index';
@@ -9,6 +9,7 @@ import { PageContext } from '../../../routing/index';
 export const LOAD_PAGE_DATA = '[Cms] Load Page Data';
 export const LOAD_PAGE_DATA_FAIL = '[Cms] Load Page Data Fail';
 export const LOAD_PAGE_DATA_SUCCESS = '[Cms] Load Page Data Success';
+export const SET_PAGE_FAIL_INDEX = '[Cms] Set Page Fail Index';
 
 export class LoadPageData extends EntityLoadAction {
   readonly type = LOAD_PAGE_DATA;
@@ -24,6 +25,13 @@ export class LoadPageDataFail extends EntityFailAction {
   }
 }
 
+export class SetPageFailIndex extends EntityFailAction {
+  readonly type = SET_PAGE_FAIL_INDEX;
+  constructor(pageContext: PageContext, public payload: string) {
+    super(pageContext.type, pageContext.id);
+  }
+}
+
 export class LoadPageDataSuccess extends EntitySuccessAction {
   readonly type = LOAD_PAGE_DATA_SUCCESS;
   constructor(pageContext: PageContext, payload: Page) {
@@ -32,4 +40,8 @@ export class LoadPageDataSuccess extends EntitySuccessAction {
 }
 
 // action types
-export type PageAction = LoadPageData | LoadPageDataFail | LoadPageDataSuccess;
+export type PageAction =
+  | LoadPageData
+  | LoadPageDataFail
+  | LoadPageDataSuccess
+  | SetPageFailIndex;
