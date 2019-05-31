@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
-import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
 
 @Injectable()
 export class RegionsEffects {
@@ -17,7 +17,7 @@ export class RegionsEffects {
       return action.payload;
     }),
     switchMap((countryCode: string) => {
-      return this.userPaymentConnector.getRegions(countryCode).pipe(
+      return this.siteConnector.getRegions(countryCode).pipe(
         map(regions => new fromActions.LoadRegionsSuccess(regions)),
         catchError(error => of(new fromActions.LoadRegionsFail(error)))
       );
@@ -26,6 +26,6 @@ export class RegionsEffects {
 
   constructor(
     private actions$: Actions,
-    private userPaymentConnector: UserPaymentConnector
+    private siteConnector: SiteConnector
   ) {}
 }
