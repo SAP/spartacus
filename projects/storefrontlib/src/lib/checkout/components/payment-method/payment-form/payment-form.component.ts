@@ -8,7 +8,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -25,6 +24,10 @@ import {
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { Card } from '../../../../../shared/components/card/card.component'; // tslint:disable-line
 import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
+import {
+  ModalRef,
+  ModalService,
+} from '../../../../../shared/components/modal/index';
 
 type monthType = { id: number; name: string };
 type yearType = { id: number; name: number };
@@ -39,7 +42,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   private checkboxSub: Subscription;
   private addressVerifySub: Subscription;
-  suggestedAddressModalRef: NgbModalRef;
+  suggestedAddressModalRef: ModalRef;
   months: monthType[] = [];
   years: yearType[] = [];
 
@@ -89,7 +92,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
