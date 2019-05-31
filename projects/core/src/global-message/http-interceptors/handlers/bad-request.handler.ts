@@ -38,18 +38,13 @@ export class BadRequestHandler extends HttpErrorHandler {
       );
       // text: customError.customError.passwordMismatch,
     } else {
-      if (!request.url.includes('/cms/components')) {
-        // this is currently showing up in case we have a page not found. It should be a 404.
-        // see https://jira.hybris.com/browse/CMSX-8516
-        const errorMessage = this.getErrorMessage(response);
-        const textObj = errorMessage
-          ? { raw: errorMessage }
-          : { key: 'httpHandlers.unknownError' };
-        this.globalMessageService.add(
-          textObj,
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      }
+      // this is currently showing up in case we have a page not found. It should be a 404.
+      // see https://jira.hybris.com/browse/CMSX-8516
+      const errorMessage = this.getErrorMessage(response);
+      const textObj = errorMessage
+        ? { raw: errorMessage }
+        : { key: 'httpHandlers.unknownError' };
+      this.globalMessageService.add(textObj, GlobalMessageType.MSG_TYPE_ERROR);
     }
   }
 
