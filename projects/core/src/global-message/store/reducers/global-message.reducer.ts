@@ -28,14 +28,13 @@ export function reducer(
           },
         };
       } else {
-        const messages: Translatable[] = state.entities[message.type];
-        const contents = messages.map(msg => msg.key || msg.raw);
-        if (!contents.includes(<string>message.text.key || message.text.raw)) {
+        const msgs = state.entities[message.type];
+        if (!msgs.includes(message.text)) {
           return {
             ...state,
             entities: {
               ...state.entities,
-              [message.type]: [...messages, message.text],
+              [message.type]: [...msgs, message.text],
             },
           };
         }
