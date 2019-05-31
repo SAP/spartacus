@@ -5,10 +5,10 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { LoadOpenIdToken, LoadUserToken, Logout } from '../../../auth/index';
 import { UserSignUp } from '../../../model/misc.model';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
 import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 const user: UserSignUp = {
   firstName: '',
@@ -21,7 +21,7 @@ const user: UserSignUp = {
 describe('UserRegister effect', () => {
   let effect: UserRegisterEffects;
   let actions$: Observable<any>;
-  let userService: UserAccountConnector;
+  let userService: UserConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,13 +33,13 @@ describe('UserRegister effect', () => {
       ],
       providers: [
         UserRegisterEffects,
-        { provide: UserAccountAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(UserRegisterEffects);
-    userService = TestBed.get(UserAccountConnector);
+    userService = TestBed.get(UserConnector);
 
     spyOn(userService, 'register').and.returnValue(of({}));
     spyOn(userService, 'remove').and.returnValue(of({}));

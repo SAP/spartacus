@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
-import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
-import { Action } from '@ngrx/store';
 import { CLEAR_MISCS_DATA } from '../actions/index';
 import { REGIONS } from '../user-state';
 import { LoaderResetAction } from '../../../state';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
 
 @Injectable()
 export class RegionsEffects {
@@ -21,7 +21,7 @@ export class RegionsEffects {
       return action.payload;
     }),
     switchMap((countryCode: string) => {
-      return this.userPaymentConnector.getRegions(countryCode).pipe(
+      return this.siteConnector.getRegions(countryCode).pipe(
         map(
           regions =>
             new fromActions.LoadRegionsSuccess({
@@ -44,6 +44,6 @@ export class RegionsEffects {
 
   constructor(
     private actions$: Actions,
-    private userPaymentConnector: UserPaymentConnector
+    private siteConnector: SiteConnector
   ) {}
 }

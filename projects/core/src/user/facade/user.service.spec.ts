@@ -58,9 +58,9 @@ describe('UserService', () => {
   });
 
   it('should be able to load user details', () => {
-    service.load('testUserId');
+    service.load();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserDetails('testUserId')
+      new fromStore.LoadUserDetails(USERID_CURRENT)
     );
   });
 

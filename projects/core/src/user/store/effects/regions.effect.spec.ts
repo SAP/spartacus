@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
@@ -9,11 +10,11 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 
 import { RegionsEffects } from './regions.effect';
-import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
-import { Region, UserPaymentAdapter, LoaderResetAction } from '@spartacus/core';
 import { CLEAR_MISCS_DATA } from '../actions';
-import { Action } from '@ngrx/store';
 import { REGIONS } from '../user-state';
+import { Region, LoaderResetAction } from '@spartacus/core';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 
 const mockRegions: Region[] = [
   {
@@ -29,7 +30,7 @@ const mockRegions: Region[] = [
 const country = 'CA';
 
 describe('', () => {
-  let service: UserPaymentConnector;
+  let service: SiteConnector;
   let effect: RegionsEffects;
   let actions$: Observable<any>;
 
@@ -37,13 +38,13 @@ describe('', () => {
     TestBed.configureTestingModule({
       providers: [
         RegionsEffects,
-        { provide: UserPaymentAdapter, useValue: {} },
+        { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(RegionsEffects);
-    service = TestBed.get(UserPaymentConnector);
+    service = TestBed.get(SiteConnector);
 
     spyOn(service, 'getRegions').and.returnValue(of(mockRegions));
   });
