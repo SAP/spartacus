@@ -14,12 +14,20 @@ import { NavigationNode } from './navigation-node.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationUIComponent {
-  iconTypes = ICON_TYPE;
-
+  /**
+   * The navigation node to render.
+   */
   @Input() node: NavigationNode;
 
   /**
-   * drives the UI behaviour, if flyout is set to true, the
+   * the icon type that will be used for navigation nodes
+   * with children.
+   */
+  iconType = ICON_TYPE;
+
+  /**
+   * Indicates whether the navigation should support flyout.
+   * If flyout is set to true, the
    * nested child navitation nodes will only appear on hover or focus.
    */
   @Input() @HostBinding('class.flyout') flyout = true;

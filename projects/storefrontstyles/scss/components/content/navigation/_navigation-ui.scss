@@ -135,14 +135,29 @@
     }
   }
 }
+
+%nav-links {
+  a {
+    color: currentColor;
+  }
+  &.flyout {
+    a {
+      display: block;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+  }
+}
+
 %cx-navigation-ui {
   display: flex;
 
-  @extend %nav-heading !optional;
-  @extend %nav-icon !optional;
+  @extend %nav-heading;
+  @extend %nav-icon;
   @extend %nav-wrapper;
   @extend %nav-childs;
-  @extend %nav-back-button !optional;
+  @extend %nav-links;
+  @extend %nav-back-button;
 
   nav {
     outline: none;
@@ -154,13 +169,6 @@
       color: #000;
     }
 
-    a {
-      display: block;
-      text-decoration: none;
-      white-space: nowrap;
-      color: currentColor;
-    }
-
     @include media-breakpoint-down(md) {
       &.is-open {
         > nav {
@@ -168,9 +176,6 @@
         }
         nav.is-open {
           display: initial;
-          > h5 {
-            // display: none;
-          }
           > .wrapper {
             height: auto;
           }
@@ -203,6 +208,7 @@
           opacity: 0;
           margin-left: -10px;
           z-index: 15;
+          box-shadow: 2px 2px 8px -2px rgba(0, 0, 0, 0.5);
         }
 
         /* we only threat the first wrapper as a collapsible container */

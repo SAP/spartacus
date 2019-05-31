@@ -4,7 +4,7 @@
   (click)="back()"
 >
   <h5>
-    <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+    <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
     {{ 'common.back' | cxTranslate }}
   </h5>
 </div>
@@ -25,7 +25,7 @@
       {{ node.title }}
       <cx-icon
         *ngIf="flyout && node.children?.length > 0"
-        [type]="iconTypes.CARET_DOWN"
+        [type]="iconType.CARET_DOWN"
       ></cx-icon>
     </cx-generic-link>
 
@@ -34,7 +34,7 @@
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"
-          [type]="iconTypes.CARET_DOWN"
+          [type]="iconType.CARET_DOWN"
         ></cx-icon>
       </h5>
     </ng-template>
