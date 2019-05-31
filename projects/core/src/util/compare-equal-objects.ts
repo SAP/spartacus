@@ -24,33 +24,33 @@ export function shallowEqualObjects(objA: object, objB: object): boolean {
 
 export function deepEqualObjects(objA: object, objB: object): boolean {
   if (objA === objB) {
-    return true; // if both objA and y are null or undefined and eobjAactly the same
+    return true; // if both objA and objB are null or undefined and exactly the same
   } else if (!(objA instanceof Object) || !(objB instanceof Object)) {
     return false; // if they are not strictly equal, they both need to be Objects
   } else if (objA.constructor !== objB.constructor) {
-    // they must have the eobjAact same prototype chain, the closest we can do is
+    // they must have the exact same prototype chain, the closest we can do is
     // test their constructor.
     return false;
   } else {
-    for (const p in objA) {
-      if (!objA.hasOwnProperty(p)) {
+    for (const key in objA) {
+      if (!objA.hasOwnProperty(key)) {
         continue; // other properties were tested using objA.constructor === y.constructor
       }
-      if (!objB.hasOwnProperty(p)) {
-        return false; // allows to compare objA[ p ] and y[ p ] when set to undefined
+      if (!objB.hasOwnProperty(key)) {
+        return false; // allows to compare objA[ key ] and objB[ key ] when set to undefined
       }
-      if (objA[p] === objB[p]) {
+      if (objA[key] === objB[key]) {
         continue; // if they have the same strict value or identity then they are equal
       }
-      if (typeof objA[p] !== 'object') {
+      if (typeof objA[key] !== 'object') {
         return false; // Numbers, Strings, Functions, Booleans must be strictly equal
       }
-      if (!deepEqualObjects(objA[p], objB[p])) {
+      if (!deepEqualObjects(objA[key], objB[key])) {
         return false;
       }
     }
-    for (const p in objB) {
-      if (objB.hasOwnProperty(p) && !objA.hasOwnProperty(p)) {
+    for (const key in objB) {
+      if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
         return false;
       }
     }
