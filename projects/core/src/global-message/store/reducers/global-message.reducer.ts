@@ -30,7 +30,7 @@ export function reducer(
         };
       } else {
         const messages: Translatable[] = state.entities[message.type];
-        if (!messages.some(msg => shallowEqualObjects(msg, message))) {
+        if (!messages.some(msg => shallowEqualObjects(msg, message.text))) {
           return {
             ...state,
             entities: {
