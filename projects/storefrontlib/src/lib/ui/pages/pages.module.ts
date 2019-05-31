@@ -78,15 +78,8 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuard],
         data: {
           pageLabel: 'my-interests',
-          cxPath: 'myInterests',
+          cxRoute: 'myInterests',
         },
-      },
-      // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
-      {
-        path: '**',
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'close-account', cxPath: 'closeAccount' },
       },
     ]),
   ],
