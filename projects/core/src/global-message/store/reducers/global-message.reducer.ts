@@ -29,8 +29,8 @@ export function reducer(
         };
       } else {
         const messages: Translatable[] = state.entities[message.type];
-        const contents = messages.map(msg => msg.key);
-        if (!contents.includes(<string>message.text.key)) {
+        const contents = messages.map(msg => msg.key || msg.raw);
+        if (!contents.includes(<string>message.text.key || message.text.raw)) {
           return {
             ...state,
             entities: {
