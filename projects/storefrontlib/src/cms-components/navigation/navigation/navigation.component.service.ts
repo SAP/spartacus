@@ -39,7 +39,7 @@ export class NavigationComponentService {
           return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
             tap(items => {
               if (items === undefined) {
-                this.getNavigationEntryItems(navigation, true, []);
+                this.getNavigationEntryItems(navigation, true);
               }
             }),
             filter(items => items !== undefined),

@@ -1,14 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of, BehaviorSubject } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import { NavigationComponent } from './navigation.component';
-import { NavigationComponentService } from './navigation.component.service';
-import { CmsNavigationComponent, CmsComponent } from '@spartacus/core';
+import { CmsComponent, CmsNavigationComponent } from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
+import { NavigationComponent } from './navigation.component';
+import { NavigationComponentService } from './navigation.component.service';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -21,7 +20,7 @@ class MockNavigationUIComponent {
   node: NavigationNode;
 }
 
-describe('CmsNavigationComponent in CmsLib', () => {
+describe('CmsNavigationComponent', () => {
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
 
@@ -62,8 +61,8 @@ describe('CmsNavigationComponent in CmsLib', () => {
   };
 
   const mockNavigationService = {
-    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
     getComponentData: createSpy().and.returnValue(of(null)),
+    createNavigation: createSpy().and.returnValue(of(mockCmsComponentData)),
   };
 
   beforeEach(async(() => {
@@ -89,8 +88,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
 
   it('should render navigation-ui component', () => {
     const getNav = () => fixture.debugElement.query(By.css('cx-navigation-ui'));
-    navigationComponent.node = {};
-    navigationComponent.dropdownMode = 'column';
+    navigationComponent.node$ = of({});
     fixture.detectChanges();
     const nav = getNav().nativeElement;
     expect(nav).toBeTruthy();

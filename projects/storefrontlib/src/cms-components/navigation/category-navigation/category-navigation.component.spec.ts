@@ -1,30 +1,25 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement, Component, Input } from '@angular/core';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
 import { CmsComponent } from '@spartacus/core';
-import { NavigationComponentService } from '../navigation/navigation.component.service';
-import { CategoryNavigationComponent } from './category-navigation.component';
+import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
+import { CategoryNavigationComponent } from './category-navigation.component';
+import createSpy = jasmine.createSpy;
 
 @Component({
   template: '',
   selector: 'cx-navigation-ui',
 })
 class MockNavigationComponent {
-  @Input()
-  node: NavigationNode;
-  @Input()
-  dropdownMode: string;
+  @Input() node: NavigationNode;
 }
 
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
   let fixture: ComponentFixture<CategoryNavigationComponent>;
-  let nav: DebugElement;
 
   const componentData: NavigationNode = {
     title: 'test',
@@ -47,7 +42,7 @@ describe('CategoryNavigationComponent', () => {
   };
 
   const mockNavigationService = {
-    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getNavigationNode: createSpy().and.returnValue(of(mockCmsComponentData)),
     getComponentData: createSpy().and.returnValue(of(null)),
   };
 
@@ -71,23 +66,13 @@ describe('CategoryNavigationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create category navigation component in CmsLib', () => {
+  it('should create CategoryNavigationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('UI tests', () => {
-    beforeAll(() => {
-      nav = fixture.debugElement;
-    });
-
-    it('should use semantic nav element', () => {
-      const navElem: HTMLElement = nav.nativeElement;
-      expect(navElem.firstElementChild.tagName).toBe('NAV');
-    });
-
-    it('should display correct number of submenus', () => {
-      const navElem: HTMLElement = nav.nativeElement;
-      expect(navElem.firstElementChild.childElementCount).toBe(2);
-    });
+  it('should create CategoryNavigationComponent', () => {
+    let result: NavigationNode;
+    component.node$.subscribe(node => (result = node));
+    expect(result).toEqual(componentData);
   });
 });

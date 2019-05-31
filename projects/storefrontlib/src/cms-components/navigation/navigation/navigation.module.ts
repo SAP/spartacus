@@ -7,8 +7,8 @@ import {
   ConfigModule,
   I18nModule,
 } from '@spartacus/core';
-import { GenericLinkModule } from 'projects/storefrontlib/src/shared';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { GenericLinkModule } from '../../../shared/index';
 import { IconModule } from '../../misc';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationComponent } from './navigation.component';

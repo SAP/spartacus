@@ -240,10 +240,5 @@
         }
       }
     }
-
-    // child navigations without children take full width
-    nav:not(.has-childs) {
-      flex: 100%;
-    }
   }
 }

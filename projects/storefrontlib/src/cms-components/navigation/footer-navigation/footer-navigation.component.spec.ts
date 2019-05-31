@@ -1,6 +1,5 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CmsComponent } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -16,10 +15,8 @@ import createSpy = jasmine.createSpy;
   template: '',
 })
 class MockNavigationUIComponent {
-  @Input()
-  dropdownMode = 'list';
-  @Input()
-  node: NavigationNode;
+  @Input() flyout = true;
+  @Input() node: NavigationNode;
 }
 
 @Component({
@@ -27,17 +24,13 @@ class MockNavigationUIComponent {
   template: '<ng-content></ng-content>',
 })
 class MockGenericLinkComponent {
-  @Input()
-  url: string | any[];
-  @Input()
-  target: string;
+  @Input() url: string | any[];
+  @Input() target: string;
 }
 
 describe('FooterNavigationComponent', () => {
   let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
-  let footer: DebugElement;
-  let column: DebugElement;
 
   const mockLinks: NavigationNode[] = [
     {
@@ -57,7 +50,7 @@ describe('FooterNavigationComponent', () => {
   };
 
   const mockNavigationService = {
-    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getNavigationNode: createSpy().and.returnValue(of(mockCmsComponentData)),
     getComponentData: createSpy().and.returnValue(of(null)),
   };
 
@@ -82,6 +75,7 @@ describe('FooterNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
+
     component.node$ = of({
       children: [
         {
@@ -95,41 +89,7 @@ describe('FooterNavigationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create FooterNavigationComponent in CmsLib', () => {
+  it('should create FooterNavigationComponent', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('UI tests', () => {
-    beforeAll(() => {
-      footer = fixture.debugElement;
-      column = footer.query(By.css('.container'));
-    });
-
-    it('should display the column title', () => {
-      const titleElement: HTMLElement = column.query(By.css('h5'))
-        .nativeElement;
-
-      expect(titleElement.textContent).toEqual('Test 1');
-    });
-
-    it('should display the correct number of links', () => {
-      const list: HTMLElement = column.query(By.css('ul')).nativeElement;
-
-      expect(list.childElementCount).toBe(2);
-    });
-
-    it('should display link title with correct url', () => {
-      const link = column.query(By.css('cx-generic-link'));
-
-      expect(link.nativeElement.innerHTML).toContain(mockLinks[0].title);
-      expect(link.componentInstance.url).toEqual(mockLinks[0].url);
-    });
-
-    it('should have the correct target', () => {
-      const links = column.queryAll(By.css('cx-generic-link'));
-
-      expect(links[0].componentInstance.target).toEqual('blank');
-      expect(links[1].componentInstance.target).toEqual('self');
-    });
   });
 });
