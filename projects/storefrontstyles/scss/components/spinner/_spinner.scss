@@ -4,17 +4,24 @@
 */
 
 %cx-spinner {
+  .loader-container {
+    position: var(--cx-position, relative);
+    margin: var(--cx-margin, 30px auto);
+    width: var(--cx-width, 10em);
+    height: var(--cx-height, 10em);
+  }
+  .loader-container:after {
+    margin: var(--cx-margin, 0 auto);
+  }
   .loader,
   .loader:after {
-    margin: var(--cx-margin, 0 auto);
     border-radius: var(--cx-border-radius, 50%);
     width: var(--cx-width, 10em);
     height: var(--cx-height, 10em);
   }
   .loader {
-    margin: var(--cx-margin, 30px auto);
     font-size: var(--cx-font-size, 0.65em);
-    position: var(--cx-position, relative);
+    position: var(--cx-position, fixed);
     text-indent: var(--cx-text-indent, -9999em);
     border-width: var(--cx-border-width, 1.1em);
     border-style: var(--cx-border-style, solid);
