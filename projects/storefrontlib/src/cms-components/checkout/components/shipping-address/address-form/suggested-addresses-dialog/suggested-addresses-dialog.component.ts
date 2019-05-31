@@ -4,8 +4,8 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Address } from '@spartacus/core';
+import { ModalService } from '../../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../../misc/icon/index';
 
 @Component({
@@ -16,7 +16,7 @@ import { ICON_TYPE } from '../../../../../misc/icon/index';
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(protected modalService: ModalService) {}
 
   @Input()
   suggestedAddresses: Address[];
@@ -29,5 +29,9 @@ export class SuggestedAddressDialogComponent implements OnInit {
     this.selectedAddress = this.suggestedAddresses.length
       ? this.suggestedAddresses[0]
       : this.enteredAddress;
+  }
+
+  closeModal(reason?: any): void {
+    this.modalService.closeActiveModal(reason);
   }
 }

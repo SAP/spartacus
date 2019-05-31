@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
-  CartDataService,
   CheckoutService,
   GlobalMessageService,
   I18nTestingModule,
@@ -57,7 +56,7 @@ const mockCheckoutStep: CheckoutStep = {
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
 class MockUserService {
-  loadPaymentMethods(_userId: string): void {}
+  loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of();
   }
@@ -121,10 +120,6 @@ const mockPaymentMethods: PaymentDetails[] = [
   mockPaymentDetails,
 ];
 
-const mockCartDataService = {
-  userId: 'testUser',
-};
-
 const mockActivatedRoute = {
   snapshot: {
     url: ['checkout', 'payment-method'],
@@ -178,7 +173,6 @@ describe('PaymentMethodComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: CartDataService, useValue: mockCartDataService },
         { provide: UserService, useClass: MockUserService },
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },

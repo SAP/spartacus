@@ -13,9 +13,9 @@ import {
   UserService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
-
 import createSpy = jasmine.createSpy;
 
 const mockBillingCountries: Country[] = [
@@ -137,6 +137,7 @@ describe('PaymentFormComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
+        { provide: ModalService, useValue: { open: () => {} } },
         { provide: CheckoutService, useValue: mockCheckoutService },
         { provide: UserService, useValue: mockUserService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },

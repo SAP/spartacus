@@ -12,14 +12,18 @@ import {
   CheckoutService,
   I18nTestingModule,
 } from '@spartacus/core';
-import { UserService, GlobalMessageService } from '@spartacus/core';
-import { AddressValidation } from '@spartacus/core';
+import {
+  UserService,
+  GlobalMessageService,
+  AddressValidation,
+} from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
 import { AddressFormComponent } from './address-form.component';
+import { ModalService } from '../../../../../shared/components/modal/index';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -99,6 +103,7 @@ describe('AddressFormComponent', () => {
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       declarations: [AddressFormComponent],
       providers: [
+        { provide: ModalService, useValue: { open: () => {} } },
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },

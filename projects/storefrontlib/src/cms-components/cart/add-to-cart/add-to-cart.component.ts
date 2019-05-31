@@ -11,6 +11,17 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
+import { CartService, OrderEntry } from '@spartacus/core';
+
+import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+import { CurrentProductService } from '../../../product/current-product.service';
+import {
+  ModalService,
+  ModalRef,
+} from '../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -23,7 +34,7 @@ export class AddToCartComponent implements OnInit {
   @Input() showQuantity = true;
 
   maxQuantity: number;
-  modalInstance: any;
+  modalRef: ModalRef;
 
   hasStock = false;
   quantity = 1;
@@ -32,7 +43,7 @@ export class AddToCartComponent implements OnInit {
 
   constructor(
     protected cartService: CartService,
-    private modalService: NgbModal,
+    protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     private cd: ChangeDetectorRef
   ) {}
@@ -66,7 +77,7 @@ export class AddToCartComponent implements OnInit {
     }
   }
 
-  updateCount(value): void {
+  updateCount(value: number): void {
     this.quantity = value;
   }
 
@@ -79,13 +90,16 @@ export class AddToCartComponent implements OnInit {
   }
 
   private openModal() {
-    this.modalInstance = this.modalService.open(AddedToCartDialogComponent, {
+    let modalInstance: any;
+    this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,
       size: 'lg',
-    }).componentInstance;
-    this.modalInstance.entry$ = this.cartEntry$;
-    this.modalInstance.cart$ = this.cartService.getActive();
-    this.modalInstance.loaded$ = this.cartService.getLoaded();
-    this.modalInstance.quantity = this.quantity;
+    });
+
+    modalInstance = this.modalRef.componentInstance;
+    modalInstance.entry$ = this.cartEntry$;
+    modalInstance.cart$ = this.cartService.getActive();
+    modalInstance.loaded$ = this.cartService.getLoaded();
+    modalInstance.quantity = this.quantity;
   }
 }

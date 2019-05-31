@@ -29,8 +29,8 @@ export class LoadComponentSuccess<
   T extends CmsComponent
 > extends EntitySuccessAction {
   readonly type = LOAD_COMPONENT_SUCCESS;
-  constructor(public payload: T) {
-    super(COMPONENT_ENTITY, payload.uid);
+  constructor(public payload: T, uid?: string) {
+    super(COMPONENT_ENTITY, uid || payload.uid || '');
   }
 }
 

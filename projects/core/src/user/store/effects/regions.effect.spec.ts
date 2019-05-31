@@ -9,8 +9,9 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 
 import { RegionsEffects } from './regions.effect';
-import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
-import { Region, UserPaymentAdapter } from '@spartacus/core';
+import { Region } from '@spartacus/core';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 
 const mockRegions: Region[] = [
   {
@@ -24,7 +25,7 @@ const mockRegions: Region[] = [
 ];
 
 describe('', () => {
-  let service: UserPaymentConnector;
+  let service: SiteConnector;
   let effect: RegionsEffects;
   let actions$: Observable<any>;
 
@@ -32,13 +33,13 @@ describe('', () => {
     TestBed.configureTestingModule({
       providers: [
         RegionsEffects,
-        { provide: UserPaymentAdapter, useValue: {} },
+        { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(RegionsEffects);
-    service = TestBed.get(UserPaymentConnector);
+    service = TestBed.get(SiteConnector);
 
     spyOn(service, 'getRegions').and.returnValue(of(mockRegions));
   });
