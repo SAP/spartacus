@@ -21,7 +21,7 @@ export class GlobalMessageEffects {
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload', 'type'),
     mergeMap((type: GlobalMessageType) => {
-      const config = this.globalMessageConfig.globalMessages[type];
+      const config = this.config.globalMessages[type];
       return this.store.select(getGlobalMessageCountByType(type)).pipe(
         filter(
           (count: number) =>
@@ -42,6 +42,6 @@ export class GlobalMessageEffects {
   constructor(
     private actions$: Actions,
     private store: Store<GlobalMessage>,
-    private globalMessageConfig: GlobalMessageConfig
+    private config: GlobalMessageConfig
   ) {}
 }
