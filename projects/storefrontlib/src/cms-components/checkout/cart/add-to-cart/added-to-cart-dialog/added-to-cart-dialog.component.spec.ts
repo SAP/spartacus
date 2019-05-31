@@ -9,7 +9,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   CartService,
   I18nTestingModule,
@@ -17,15 +16,12 @@ import {
   PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 import { AutoFocusDirectiveModule } from '../../../../../shared/directives/auto-focus/auto-focus.directive.module';
-
-class MockNgbActiveModal {
-  dismiss(): void {}
-
-  close(): void {}
-}
+import { ModalService } from '../../../../../shared/components/modal/index';
+import { ICON_TYPE } from '../../../../../cms-components';
 
 class MockCartService {
   getLoaded(): Observable<boolean> {
@@ -58,9 +54,14 @@ const mockOrderEntry: OrderEntry[] = [
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
+
+class MockModalService {
+  dismissActiveModal(): void {}
+}
+
 @Component({
   selector: 'cx-cart-item',
   template: '',
@@ -92,6 +93,7 @@ describe('AddedToCartDialogComponent', () => {
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
   let cartService: CartService;
+  let mockModalService: MockModalService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -99,7 +101,6 @@ describe('AddedToCartDialogComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        NgbModule,
         SpinnerModule,
         I18nTestingModule,
         AutoFocusDirectiveModule,
@@ -112,8 +113,8 @@ describe('AddedToCartDialogComponent', () => {
       ],
       providers: [
         {
-          provide: NgbActiveModal,
-          useClass: MockNgbActiveModal,
+          provide: ModalService,
+          useClass: MockModalService,
         },
         {
           provide: CartService,
@@ -129,9 +130,11 @@ describe('AddedToCartDialogComponent', () => {
     el = fixture.debugElement;
     component.entry$ = of(mockOrderEntry[0]);
     cartService = TestBed.get(CartService);
+    mockModalService = TestBed.get(ModalService);
+
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
-    spyOn(component.activeModal, 'dismiss').and.callThrough();
+    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
     component.loaded$ = of(true);
   });
 
@@ -190,7 +193,7 @@ describe('AddedToCartDialogComponent', () => {
     component.removeEntry(item);
     expect(cartService.removeEntry).toHaveBeenCalledWith(item);
     expect(component.form.controls[item.product.code]).toBeUndefined();
-    expect(component.activeModal.dismiss).toHaveBeenCalledWith('Removed');
+    expect(mockModalService.dismissActiveModal).toHaveBeenCalledWith('Removed');
   });
 
   it('should update entry', () => {
