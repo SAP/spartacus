@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Cart, CartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
+import { ModalService } from '../../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
@@ -27,7 +27,7 @@ export class AddedToCartDialogComponent implements OnInit {
   form: FormGroup = this.fb.group({});
 
   constructor(
-    public activeModal: NgbActiveModal,
+    protected modalService: ModalService,
     protected cartService: CartService,
     protected fb: FormBuilder
   ) {}
@@ -54,17 +54,21 @@ export class AddedToCartDialogComponent implements OnInit {
     );
   }
 
-  removeEntry(item): void {
+  dismissModal(reason?: any): void {
+    this.modalService.dismissActiveModal(reason);
+  }
+
+  removeEntry(item: OrderEntry): void {
     this.cartService.removeEntry(item);
     delete this.form.controls[item.product.code];
-    this.activeModal.dismiss('Removed');
+    this.dismissModal('Removed');
   }
 
   updateEntry({ item, updatedQuantity }): void {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  private createEntryFormGroup(entry): FormGroup {
+  private createEntryFormGroup(entry: OrderEntry): FormGroup {
     return this.fb.group({
       entryNumber: entry.entryNumber,
       quantity: entry.quantity,
