@@ -29,7 +29,7 @@ export function reducer(
         }
 
         case fromAction.SET_PAGE_FAIL_INDEX: {
-          return action.meta.loader.error;
+          return action.payload;
         }
       }
     }

@@ -45,8 +45,9 @@ describe('Cms Page Actions', () => {
         const action = new fromPage.SetPageFailIndex(pageContext, newIndex);
 
         expect({ ...action }).toEqual({
+          payload: newIndex,
           type: fromPage.SET_PAGE_FAIL_INDEX,
-          meta: entityFailMeta(pageContext.type, pageContext.id, newIndex),
+          meta: entityFailMeta(pageContext.type, pageContext.id),
         });
       });
     });

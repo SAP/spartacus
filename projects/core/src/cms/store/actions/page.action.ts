@@ -27,8 +27,8 @@ export class LoadPageDataFail extends EntityFailAction {
 
 export class SetPageFailIndex extends EntityFailAction {
   readonly type = SET_PAGE_FAIL_INDEX;
-  constructor(pageContext: PageContext, newIndex: any) {
-    super(pageContext.type, pageContext.id, newIndex);
+  constructor(pageContext: PageContext, public payload: string) {
+    super(pageContext.type, pageContext.id);
   }
 }
 
