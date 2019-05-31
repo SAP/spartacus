@@ -9,6 +9,12 @@ import {
   imports: [
     RouterModule.forChild([
       {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'category' },
+      },
+      {
         matcher: suffixUrlMatcher,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
