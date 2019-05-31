@@ -104,7 +104,7 @@
   }
 
   .cx-facet-filter-header {
-    @include type(3);
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
     color: var(--cx-color, var(--cx-g-color-text));
     padding: var(--cx-padding, 0 0 10px 0);
     margin: var(--cx-margin, 0 0 20px 0);
@@ -117,19 +117,33 @@
 
   .cx-facet-filter-pill {
     background: var(--cx-background, var(--cx-g-color-light));
-    padding: var(--cx-padding, 10px 10px 10px 13px);
+    padding: var(--cx-padding, 7px 15px 7px 13px);
     margin: var(--cx-margin, 10px 10px 5px 0);
-    display: var(--cx-display, flex);
+    display: var(--cx-display, inline-flex);
     align-items: var(--cx-align-items, flex-start);
     border-radius: var(--cx-border-radius, 4px);
 
+    cx-icon:before {
+      font-size: var(--cx-font-size, 16px);
+    }
+
+    .cx-facet-pill-value {
+      line-height: 1.7;
+    }
+
     span {
       flex: var(--cx-flex, 1 1 auto);
+      font-size: var(--cx-font-size, 14px);
+      vertical-align: var(--cx-vertical-align, middle);
     }
 
     button {
       margin: var(--cx-margin, 0 0 0 10px);
       flex: var(--cx-flex, 0 0 1rem);
+
+      span {
+        vertical-align: var(--cx-vertical-align, middle);
+      }
     }
   }
 
