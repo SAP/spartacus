@@ -1,14 +1,28 @@
 import * as fromBaseSite from '../actions/base-site.action';
+import { BaseSiteState } from '../state';
 
-export const initialState = '';
+export const initialState: BaseSiteState = {
+  details: {},
+  activeSite: '',
+};
 
 export function reducer(
   state = initialState,
   action: fromBaseSite.BaseSiteAction
-): string {
+): BaseSiteState {
   switch (action.type) {
+    case fromBaseSite.LOAD_BASE_SITE_SUCCESS: {
+      return {
+        ...state,
+        details: action.payload,
+      };
+    }
+
     case fromBaseSite.SET_ACTIVE_BASE_SITE: {
-      return action.payload;
+      return {
+        ...state,
+        activeSite: action.payload,
+      };
     }
   }
 

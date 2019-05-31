@@ -3,13 +3,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import * as fromActions from '../actions/update-password.action';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserConnector } from '../../connectors/user/user.connector';
 
 @Injectable()
 export class UpdatePasswordEffects {
   constructor(
     private actions$: Actions,
-    private userAccountConnector: UserAccountConnector
+    private userAccountConnector: UserConnector
   ) {}
 
   @Effect()
