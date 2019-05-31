@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { NavigationNode } from './navigation-node.model';
 
 const COLUMN_SIZE = 10;
@@ -8,9 +13,10 @@ const COLUMN_SIZE = 10;
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationUIComponent {
+export class NavigationUIComponent implements OnInit {
   @Input() dropdownMode = 'list';
   @Input() node: NavigationNode;
+  columns;
 
   getColumns(children) {
     const columns = new Array();
@@ -40,5 +46,9 @@ export class NavigationUIComponent {
     }
 
     return columns;
+  }
+
+  ngOnInit() {
+    this.columns = this.getColumns(this.node.children);
   }
 }

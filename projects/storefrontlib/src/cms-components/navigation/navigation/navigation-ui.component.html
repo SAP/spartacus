@@ -58,10 +58,7 @@
         class="cx-nav-child-list-columns"
         [attr.aria-label]="node.title"
       >
-        <div
-          class="cx-nav-child-column"
-          *ngFor="let column of getColumns(node.children)"
-        >
+        <div class="cx-nav-child-column" *ngFor="let column of columns">
           <div
             *ngFor="let item of column"
             class="dropdown-item cx-nav-child-column-item"
