@@ -55,7 +55,7 @@ describe('Cms Page Index Reducer', () => {
   });
 
   describe('SET_PAGE_FAIL_INDEX action', () => {
-    it('should return loader error state', () => {
+    it('should return index', () => {
       const newIndex = 'index';
       const { initialState } = fromPage;
       const action = new fromActions.SetPageFailIndex(pageContext, newIndex);
