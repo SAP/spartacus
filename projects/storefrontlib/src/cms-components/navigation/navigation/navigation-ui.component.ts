@@ -49,6 +49,8 @@ export class NavigationUIComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.columns = this.getColumns(this.node.children);
+    if (this.node.children) {
+      this.columns = this.getColumns(this.node.children);
+    }
   }
 }
