@@ -6,7 +6,7 @@ import {
 import * as fromAction from '../actions/index';
 import { GlobalMessageState } from '../global-message-state';
 import { Translatable } from '../../../i18n/translatable';
-import { shallowEqualObjects } from '../../../util/shallow-equal-objects';
+import { deepEqualObjects } from '../../../util/compare-equal-objects';
 
 export const initialState: GlobalMessageState = {
   entities: {},
@@ -30,7 +30,7 @@ export function reducer(
         };
       } else {
         const messages: Translatable[] = state.entities[message.type];
-        if (!messages.some(msg => shallowEqualObjects(msg, message.text))) {
+        if (!messages.some(msg => deepEqualObjects(msg, message.text))) {
           return {
             ...state,
             entities: {
