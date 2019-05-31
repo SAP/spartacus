@@ -1,6 +1,29 @@
 <div [formGroup]="address">
   <div class="row">
     <div class="col-md-12 col-lg-9">
+      <div class="form-group" formGroupName="country">
+        <ng-container *ngIf="(countries$ | async) as countries">
+          <div *ngIf="countries.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'addressForm.country' | cxTranslate
+              }}</span>
+              <ng-select
+                class="country-select"
+                formControlName="isocode"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="countries"
+                bindLabel="name"
+                bindValue="isocode"
+                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                (change)="countrySelected($event)"
+              >
+              </ng-select>
+            </label>
+          </div>
+        </ng-container>
+      </div>
       <div class="form-group" *ngIf="showTitleCode">
         <ng-container *ngIf="(titles$ | async) as titles">
           <div *ngIf="titles.length !== 0">
@@ -78,29 +101,6 @@
             formControlName="line2"
           />
         </label>
-      </div>
-      <div class="form-group" formGroupName="country">
-        <ng-container *ngIf="(countries$ | async) as countries">
-          <div *ngIf="countries.length !== 0">
-            <label aria-required="true">
-              <span class="label-content required">{{
-                'addressForm.country' | cxTranslate
-              }}</span>
-              <ng-select
-                class="country-select"
-                formControlName="isocode"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="countries"
-                bindLabel="name"
-                bindValue="isocode"
-                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-                (change)="countrySelected($event)"
-              >
-              </ng-select>
-            </label>
-          </div>
-        </ng-container>
       </div>
       <div class="row">
         <div class="form-group col-md-6">

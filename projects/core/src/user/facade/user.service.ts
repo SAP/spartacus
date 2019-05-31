@@ -40,8 +40,8 @@ export class UserService {
   /**
    * Loads the user's details
    */
-  load(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserDetails(userId));
+  load(): void {
+    this.store.dispatch(new fromStore.LoadUserDetails(USERID_CURRENT));
   }
 
   /**
@@ -475,8 +475,7 @@ export class UserService {
   }
 
   /**
-   * Updates the password for an authenticated user
-   * @param userId the user id for which the password will be updated
+   * Updates the password for the user
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
    */

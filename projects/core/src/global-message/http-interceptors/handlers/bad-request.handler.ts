@@ -40,7 +40,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     ) {
       const textObj = { key: 'httpHandlers.cartNotFound' };
       this.globalMessageService.add(textObj, GlobalMessageType.MSG_TYPE_ERROR);
-    } else if (!request.url.includes('/cms/components')) {
+    } else {
       // this is currently showing up in case we have a page not found. It should be a 404.
       // see https://jira.hybris.com/browse/CMSX-8516
       const errorMessage = this.getErrorMessage(response);
