@@ -59,8 +59,3 @@ export class GlobalMessageService {
     );
   }
 }
-
-export default interface Conditions {
-  hideOn?: string;
-  timeout?: number;
-}

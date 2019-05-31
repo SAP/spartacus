@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { delay, filter, pluck, switchMap } from 'rxjs/operators';
+import { delay, filter, mergeMap, pluck, switchMap } from 'rxjs/operators';
 
 import * as GlobalMessageActions from '../actions/global-message.actions';
 import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
@@ -20,7 +20,7 @@ export class GlobalMessageEffects {
   > | void = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload', 'type'),
-    switchMap((type: GlobalMessageType) => {
+    mergeMap((type: GlobalMessageType) => {
       const config = this.globalMessageConfig.globalMessages[type];
       return this.store.select(getGlobalMessageCountByType(type)).pipe(
         filter(
