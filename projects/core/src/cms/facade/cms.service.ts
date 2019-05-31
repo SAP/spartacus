@@ -199,4 +199,12 @@ export class CmsService {
       catchError(() => of(false))
     );
   }
+
+  getPageIndex(pageContext: PageContext): Observable<string> {
+    return this.store.pipe(select(fromStore.getIndexValue(pageContext)));
+  }
+
+  setPageFailIndex(pageContext: PageContext, value: string): void {
+    this.store.dispatch(new fromStore.SetPageFailIndex(pageContext, value));
+  }
 }
