@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@spartacus/core';
-import { OrderConfirmationPageGuard } from '../../../../cms-components/checkout/guards/order-confirmation-page.guard';
-import { OrderConfirmationModule } from '../../../../cms-components/checkout/index';
-import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-import { OutletRefModule } from '../../../../cms-structure/outlet/index';
-import { PageLayoutModule } from '../../../../cms-structure/page/page-layout/page-layout.module';
+import { OrderConfirmationPageGuard } from '../../cms-components/checkout/guards/order-confirmation-page.guard';
+import { OrderConfirmationModule } from '../../cms-components/checkout/index';
+import { CmsPageGuard } from '../../cms-structure/guards/cms-page.guard';
+import { OutletRefModule } from '../../cms-structure/outlet/index';
+import { PageLayoutModule } from '../../cms-structure/page/page-layout/page-layout.module';
 import { OrderConfirmationPageComponent } from './order-confirmation-page.component';
 
 const routes: Routes = [
