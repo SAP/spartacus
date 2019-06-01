@@ -22,13 +22,6 @@ const pageModules = [CartPageModule, OrderConfirmationPageModule];
     PageLayoutModule,
     RouterModule.forChild([
       {
-        // This route can be dropped only when we have a mapping path to page label for content pages
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'homepage', cxRoute: 'home' },
-      },
-      {
         path: null,
         canActivate: [LogoutGuard],
         component: PageLayoutComponent,
