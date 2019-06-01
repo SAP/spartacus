@@ -14,7 +14,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../../lib/ui/pages/default-routing-config';
+import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
 import {

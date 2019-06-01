@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CartService } from '../../../../../../../core/src/cart/facade/cart.service';
-import { defaultStorefrontRoutesConfig } from '../../../../../lib/ui/pages/default-routing-config';
+import { defaultStorefrontRoutesConfig } from '../../../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../../config/default-checkout-config';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';

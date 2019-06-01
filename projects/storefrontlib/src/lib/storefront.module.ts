@@ -7,7 +7,6 @@ import {
   OccModule,
   PersonalizationModule,
   provideConfig,
-  RoutingModule,
   SmartEditModule,
   StateModule,
 } from '@spartacus/core';
@@ -17,6 +16,7 @@ import { ProductDetailsPageModule } from '../cms-pages/product-details-page/prod
 import { ProductListingPageModule } from '../cms-pages/product-listing-page/product-listing-page.module';
 import { CmsModule } from '../cms-structure/cms.module';
 import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
+import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './storefront-config';
@@ -26,7 +26,6 @@ import { UiModule } from './ui/index';
   imports: [
     OccModule,
     StateModule,
-    RoutingModule,
     AuthModule.forRoot(),
     CmsLibModule,
     CmsModule,
@@ -34,6 +33,7 @@ import { UiModule } from './ui/index';
     SuffixRoutesModule,
     CmsRouteModule,
     ConfigModule.forRoot(),
+    RoutingModule,
     CxApiModule,
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
