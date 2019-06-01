@@ -3,7 +3,7 @@ import {
   ConfigModule,
   RoutingModule as CoreRoutingModule,
 } from '@spartacus/core';
-import { CmsRouteModule } from './cms-route';
+import { CmsRouteModule } from './cms-route/cms-route.module';
 import { defaultRoutingConfig } from './default-routing-config';
 import { SuffixRoutesModule } from './suffix-routes';
 

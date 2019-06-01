@@ -10,18 +10,18 @@ import {
   SmartEditModule,
   StateModule,
 } from '@spartacus/core';
-import { CmsLibModule } from '../cms-components/index';
-import { CartPageModule } from '../cms-pages/cart-page/cart-page.module';
-import { OrderConfirmationPageModule } from '../cms-pages/order-confirmation-page/order-confirmation-page.module';
-import { ProductDetailsPageModule } from '../cms-pages/product-details-page/product-details-page.module';
-import { ProductListingPageModule } from '../cms-pages/product-listing-page/product-listing-page.module';
-import { CmsModule } from '../cms-structure/cms.module';
-import { PageLayoutModule } from '../cms-structure/page/page-layout/page-layout.module';
-import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
-import { RoutingModule } from '../cms-structure/routing/routing.module';
-import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
-import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
-import { StorefrontModuleConfig } from './storefront-config';
+import { CmsLibModule } from './cms-components/index';
+import { CartPageModule } from './cms-pages/cart-page/cart-page.module';
+import { OrderConfirmationPageModule } from './cms-pages/order-confirmation-page/order-confirmation-page.module';
+import { ProductDetailsPageModule } from './cms-pages/product-details-page/product-details-page.module';
+import { ProductListingPageModule } from './cms-pages/product-listing-page/product-listing-page.module';
+import { CmsModule } from './cms-structure/cms.module';
+import { CmsRouteModule } from './cms-structure/routing/cms-route/cms-route.module';
+import { RoutingModule } from './cms-structure/routing/routing.module';
+import { SuffixRoutesModule } from './cms-structure/routing/suffix-routes/suffix-routes.module';
+import { provideConfigFromMetaTags } from './config/provide-config-from-meta-tags';
+import { StorefrontModuleConfig } from './config/storefront-config';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   imports: [
@@ -38,7 +38,7 @@ import { StorefrontModuleConfig } from './storefront-config';
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
     I18nModule.forRoot(),
-    PageLayoutModule,
+    LayoutModule,
     // pages
     ProductDetailsPageModule,
     ProductListingPageModule,
