@@ -13,6 +13,7 @@ import {
 } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/index';
 import { ProductDetailsPageModule } from '../cms-pages/product-details-page/product-details-page.module';
+import { ProductListingPageModule } from '../cms-pages/product-listing-page/product-listing-page.module';
 import { CmsModule } from '../cms-structure/cms.module';
 import { CmsRouteModule } from '../cms-structure/routing/cms-route/cms-route.module';
 import { SuffixRoutesModule } from '../cms-structure/routing/suffix-routes/suffix-routes.module';
@@ -38,6 +39,7 @@ import { UiModule } from './ui/index';
     I18nModule.forRoot(),
     // pages
     ProductDetailsPageModule,
+    ProductListingPageModule,
   ],
   exports: [UiModule],
   providers: [...provideConfigFromMetaTags()],
