@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { BaseSiteService } from './base-site.service';
-import { StateWithSiteContext } from '@spartacus/core';
+import { SiteConnector, StateWithSiteContext } from '@spartacus/core';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -66,6 +66,8 @@ describe('BaseSiteService', () => {
   describe('setActive', () => {
     it('should dispatch SetActiveBaseSite action', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
+      const connector = TestBed.get(SiteConnector);
+      spyOn(connector, 'getBaseSite').and.returnValue(of({}));
       service.setActive('my-base-site');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SetActiveBaseSite('my-base-site')

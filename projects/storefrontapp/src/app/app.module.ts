@@ -36,6 +36,7 @@ if (!environment.production) {
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
+          legacy: false,
         },
       },
       pwa: {
