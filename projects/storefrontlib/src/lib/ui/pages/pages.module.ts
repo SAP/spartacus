@@ -9,15 +9,10 @@ import {
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
 import { CartPageModule } from './cart-page/cart-page.module';
-import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
-import { ProductPageModule } from './product-page/product-page.module';
 import { defaultRoutingConfig } from './default-routing-config';
+import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 
-const pageModules = [
-  CartPageModule,
-  OrderConfirmationPageModule,
-  ProductPageModule,
-];
+const pageModules = [CartPageModule, OrderConfirmationPageModule];
 
 @NgModule({
   imports: [
