@@ -7,7 +7,6 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { BootstrapModule } from '../../../lib/bootstrap.module';
 import {
   FormComponentsModule,
   ListNavigationModule,
@@ -34,7 +33,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
     }),
     RouterModule,
     MediaModule,
-    BootstrapModule,
     AddToCartModule,
     FormComponentsModule,
     ListNavigationModule,
