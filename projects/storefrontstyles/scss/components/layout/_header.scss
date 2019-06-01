@@ -91,10 +91,6 @@ $space: 0.5rem;
     @include media-breakpoint-down(md) {
       background-color: var(--cx-g-color-background);
     }
-
-    @include media-breakpoint-up(lg) {
-      margin-bottom: 5px;
-    }
   }
 
   .cx-hamburger {

@@ -108,6 +108,11 @@
 }
 
 %nav-icon {
+  cx-icon {
+    &:before {
+      font-size: 1.5rem;
+    }
+  }
   @include media-breakpoint-up(lg) {
     cx-icon {
       padding: 0 0 0 10px;
@@ -208,7 +213,7 @@
           opacity: 0;
           margin-left: -10px;
           z-index: 15;
-          box-shadow: 2px 2px 8px -2px rgba(0, 0, 0, 0.5);
+          border: 1px solid #ccc;
         }
 
         /* we only threat the first wrapper as a collapsible container */
