@@ -3,8 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthConfig } from '../../config/auth-config';
-import { OpenIdToken } from '../../models/token-types.model';
+import { KymaConfig } from '../../config/kyma-config';
+import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { OpenIdAuthenticationTokenService } from './open-id-token.service';
 
 const username = 'xxx@xxx.xxx';
@@ -19,7 +19,7 @@ const token = {
 
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-const MockAuthConfig: AuthConfig = {
+const MockKymaConfig: KymaConfig = {
   backend: {
     occ: {
       baseUrl: '',
@@ -40,7 +40,7 @@ describe('loadOpenIdAuthenticationToken', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OpenIdAuthenticationTokenService,
-        { provide: AuthConfig, useValue: MockAuthConfig },
+        { provide: KymaConfig, useValue: MockKymaConfig },
       ],
     });
 

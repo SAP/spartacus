@@ -3,10 +3,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import * as fromStore from '../';
-import { AuthConfig } from '../../config/auth-config';
+import { UserToken } from '../../../auth';
+import * as fromAuthStore from '../../../auth/store';
+import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import { OpenIdTokenActions } from '../actions';
-import { OpenIdToken, UserToken } from './../../models/token-types.model';
+import { OpenIdToken } from './../../models/kyma-token-types.model';
 
 const testToken = {
   access_token: 'xxx',
@@ -25,7 +27,7 @@ class MockOpenIdAuthenticationTokenService {
   }
 }
 
-const mockConfigValue: AuthConfig = {
+const mockConfigValue: KymaConfig = {
   authentication: {
     kyma_enabled: true,
   },
@@ -35,7 +37,7 @@ describe('Open ID Token Effect', () => {
   let openIdTokenEffect: fromStore.OpenIdTokenEffect;
   let openIdService: OpenIdAuthenticationTokenService;
   let actions$: Observable<OpenIdTokenActions>;
-  let mockConfig: AuthConfig;
+  let mockConfig: KymaConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,7 +48,7 @@ describe('Open ID Token Effect', () => {
           useClass: MockOpenIdAuthenticationTokenService,
         },
         {
-          provide: AuthConfig,
+          provide: KymaConfig,
           useValue: mockConfigValue,
         },
         provideMockActions(() => actions$),
@@ -55,7 +57,7 @@ describe('Open ID Token Effect', () => {
 
     openIdTokenEffect = TestBed.get(fromStore.OpenIdTokenEffect);
     openIdService = TestBed.get(OpenIdAuthenticationTokenService);
-    mockConfig = TestBed.get(AuthConfig);
+    mockConfig = TestBed.get(KymaConfig);
 
     spyOn(openIdService, 'loadOpenIdAuthenticationToken').and.returnValue(
       of(testToken)
@@ -67,10 +69,10 @@ describe('Open ID Token Effect', () => {
       it('should trigger the retrieval of an open ID token', () => {
         mockConfig.authentication.kyma_enabled = true;
 
-        const loadUserTokenSuccess = new fromStore.LoadUserTokenSuccess(
+        const loadUserTokenSuccess = new fromAuthStore.LoadUserTokenSuccess(
           mockUserToken
         );
-        const loadUserToken = new fromStore.LoadUserToken({
+        const loadUserToken = new fromAuthStore.LoadUserToken({
           userId: 'xxx@xxx.xxx',
           password: 'pwd',
         });
@@ -92,10 +94,10 @@ describe('Open ID Token Effect', () => {
       it('should NOT trigger the retrieval of an open ID token', () => {
         mockConfig.authentication.kyma_enabled = false;
 
-        const loadUserTokenSuccess = new fromStore.LoadUserTokenSuccess(
+        const loadUserTokenSuccess = new fromAuthStore.LoadUserTokenSuccess(
           mockUserToken
         );
-        const loadUserToken = new fromStore.LoadUserToken({
+        const loadUserToken = new fromAuthStore.LoadUserToken({
           userId: 'xxx@xxx.xxx',
           password: 'pwd',
         });

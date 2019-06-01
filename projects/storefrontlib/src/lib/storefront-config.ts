@@ -2,9 +2,10 @@ import {
   AuthConfig,
   CmsConfig,
   I18nConfig,
+  KymaConfig,
   OccConfig,
-  RoutingConfig,
   PersonalizationConfig,
+  RoutingConfig,
   SiteContextConfig,
   StateConfig,
 } from '@spartacus/core';
@@ -25,4 +26,5 @@ export type StorefrontModuleConfig =
   | I18nConfig
   | PersonalizationConfig
   | IconConfig
-  | CheckoutConfig;
+  | CheckoutConfig
+  | KymaConfig;

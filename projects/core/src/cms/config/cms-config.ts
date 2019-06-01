@@ -1,6 +1,7 @@
 import { StaticProvider } from '@angular/core';
 import { Routes } from '@angular/router';
 import { AuthConfig } from '../../auth/config/auth-config';
+import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';
 
 export interface StandardCmsComponentConfig {
@@ -50,7 +51,8 @@ export interface CMSComponentConfig
   [_: string]: CmsComponentMapping;
 }
 
-export abstract class CmsConfig extends OccConfig implements AuthConfig {
+export abstract class CmsConfig extends OccConfig
+  implements AuthConfig, KymaConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;

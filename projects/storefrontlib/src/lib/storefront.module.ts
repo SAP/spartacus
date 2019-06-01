@@ -1,11 +1,11 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-
 import {
-  OccModule,
   AuthModule,
   ConfigModule,
   CxApiModule,
   I18nModule,
+  KymaModule,
+  OccModule,
   PersonalizationModule,
   provideConfig,
   RoutingModule,
@@ -36,6 +36,7 @@ import { UiModule } from './ui/index';
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
     I18nModule.forRoot(),
+    KymaModule,
   ],
   exports: [UiModule],
   providers: [...provideConfigFromMetaTags()],

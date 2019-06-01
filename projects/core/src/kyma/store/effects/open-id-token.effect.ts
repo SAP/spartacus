@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { iif, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, withLatestFrom } from 'rxjs/operators';
-import { AuthConfig } from '../../config/auth-config';
-import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
-import * as fromActions from '../actions/open-id-token.action';
 import {
   LoadUserToken,
   LOAD_USER_TOKEN,
   LOAD_USER_TOKEN_SUCCESS,
-} from '../actions/user-token.action';
+} from '../../../auth/store/actions/index';
+import { KymaConfig } from '../../config/kyma-config';
+import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
+import * as fromActions from '../actions/open-id-token.action';
 
 @Injectable()
 export class OpenIdTokenEffect {
@@ -53,6 +53,6 @@ export class OpenIdTokenEffect {
   constructor(
     private actions$: Actions,
     private openIdTokenService: OpenIdAuthenticationTokenService,
-    private config: AuthConfig
+    private config: KymaConfig
   ) {}
 }
