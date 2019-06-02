@@ -5,7 +5,7 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
-import { TranslationService } from '../../i18n';
+import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { RoutingService } from '../../routing/facade/routing.service';

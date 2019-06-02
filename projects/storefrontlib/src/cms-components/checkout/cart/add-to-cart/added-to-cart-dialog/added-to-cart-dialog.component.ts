@@ -21,7 +21,7 @@ export class AddedToCartDialogComponent implements OnInit {
   firstUpdate = true;
   showItemIncrLabel: boolean;
 
-  @ViewChild('dialog', { read: ElementRef })
+  @ViewChild('dialog', { static: false, read: ElementRef })
   dialog: ElementRef;
 
   form: FormGroup = this.fb.group({});
