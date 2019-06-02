@@ -418,25 +418,25 @@
   dependencies:
     tslib "^1.9.0"
 
-"@ngrx/effects@~7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-7.4.0.tgz#7d1977538cf85e42ab48fd648acdfbc8b52f93d3"
-  integrity sha512-YjgB17WnLCBDPjAkHduKWsLFSGLZryPaTjY3EIvMF+WTRPDlgC5SAv2n7p3YIei6g6IYcEvOwLWBqZHFUXTgBw==
+"@ngrx/effects@~8.0.0-rc.0":
+  version "8.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-8.0.0-rc.0.tgz#046d1ff3658bd1a6172dfd40389db76c31986daa"
+  integrity sha512-gYwb8YOT4onKt1DpIAgDAbh4ByNXpG55EDhl5JuOp6PU2puu57drwZOv4JjI0tzbCIQunE7sBEFaPa1vjzWdjQ==
 
-"@ngrx/router-store@~7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-7.4.0.tgz#69c085bda3022117169f87ed5753b951de7d376d"
-  integrity sha512-ZpwTO1/ha3pxO7NV3jIfnwipBN1A719IjAOgrcmI8Ut06VH3HY/7JVFTkwLN/FyuHvl4EOlAVYmMAblmrymUWA==
+"@ngrx/router-store@~8.0.0-rc.0":
+  version "8.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-8.0.0-rc.0.tgz#002f8d389cd36fdea5ebcef0ec5cf4773aae1ecc"
+  integrity sha512-9lG97lD0ueCHVt63UsZygapfSD6oo/gXm0qQRUq/yYn0LIaMeF1MCP9TaOqZOkaFSV1c83kZEqu0Fj2PBlC4LQ==
 
-"@ngrx/store-devtools@~7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-7.4.0.tgz#5a73469c70322351c4224f4529c5123f587a5997"
-  integrity sha512-ZmPpquprBYUozbLuLMLZzUhI+LnMNGMNg8x1ij9yDxXWQADcJm1Zu7kouYE1r5SoCYxKfwJ3Ia1VQfS3A5S8dw==
+"@ngrx/store-devtools@~8.0.0-rc.0":
+  version "8.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-8.0.0-rc.0.tgz#394a0226298be8d5979af7366446fb32966450fc"
+  integrity sha512-KMpwy8kumheM0A9oZYFgfr31k13flPHMWrOYhuHe8saHg+h8KavkGWfaAJ0i74SNqKmrA9ByD09eLjdlCn4ZYw==
 
-"@ngrx/store@~7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-7.4.0.tgz#525a343aa45d7f6ca60f3301a23a27669c14bbce"
-  integrity sha512-kwTUHgfgBeAL4RQBjZO46z9v4Xzg8PXAgY4WwXdt3zUk1tF4ZvijMleFvFRUoiJJfxF/UM6jgIZ/yGrX2dXQuA==
+"@ngrx/store@~8.0.0-rc.0":
+  version "8.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-8.0.0-rc.0.tgz#3ec0ca8986fb3cb2b246cab0c851833a21f9a134"
+  integrity sha512-TL+2BERGH4DET8sIW1D02wkmKxlnVXWezm1OkQJd2Q/6h6MwZBd8SeDpuiEIUHr2/1BPUyPNe1bj+vemeiwWrw==
 
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"

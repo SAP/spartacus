@@ -25,14 +25,14 @@
     "@angular/service-worker": "~8.0.0",
     "@ng-bootstrap/ng-bootstrap": "4.1.0",
     "@ng-select/ng-select": "^2.13.2",
-    "@ngrx/effects": "~7.4.0",
-    "@ngrx/router-store": "~7.4.0",
-    "@ngrx/store": "~7.4.0",
+    "@ngrx/effects": "~8.0.0-rc.0",
+    "@ngrx/router-store": "~8.0.0-rc.0",
+    "@ngrx/store": "~8.0.0-rc.0",
     "@spartacus/core": "0.1.0-alpha.6",
     "@spartacus/styles": "0.1.0-alpha.8",
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.7",
-    "rxjs": "^6.4.0",
+    "rxjs": "^6.5.2",
     "zone.js": "^0.9.1"
   }
 }

@@ -49,7 +49,7 @@ describe('Router Reducer', () => {
           },
           { path: '**', component: TestComponent },
         ]),
-        StoreRouterConnectingModule,
+        StoreRouterConnectingModule.forRoot(),
       ],
       providers: [
         fromReducer.reducerProvider,
