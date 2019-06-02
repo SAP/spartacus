@@ -58,8 +58,7 @@
       }
 
       @include media-breakpoint-up(lg) {
-        padding: 5px 25px 5px 0;
-        height: 35px;
+        padding: 5px 0;
       }
     }
 
@@ -94,10 +93,17 @@
     @include media-breakpoint-up(lg) {
       > nav {
         cursor: pointer;
+        // top level headings
+        > h5,
+        > cx-generic-link {
+          padding: 5px 25px 5px 0;
+          height: 35px;
+        }
         // first level headings will be bold in desktop
         nav > h5 {
           @include type('5');
           cursor: default;
+
           &:hover {
             color: currentColor;
           }
@@ -230,7 +236,7 @@
         display: flex;
         background: white;
 
-        nav {
+        nav:not(:last-child) {
           padding-right: 20px;
         }
       }
