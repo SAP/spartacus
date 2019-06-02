@@ -87,6 +87,7 @@ $space: 0.5rem;
   .NavigationBar {
     flex: 100%;
     overflow: hidden;
+    min-height: 35px;
 
     @include media-breakpoint-down(md) {
       background-color: var(--cx-g-color-background);
