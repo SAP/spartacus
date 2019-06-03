@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   PaymentDetails,
-  UserService,
   TranslationService,
+  UserService,
 } from '@spartacus/core';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { Card } from '../../../shared/components/card/card.component';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { Card } from '../../../shared/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-methods',
@@ -16,7 +16,6 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
   loading$: Observable<boolean>;
-  userId: string;
 
   userServiceSub: Subscription;
 
@@ -93,9 +92,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
-    if (this.userId) {
-      this.userService.deletePaymentMethod(this.userId, paymentMethod.id);
-    }
+    this.userService.deletePaymentMethod(paymentMethod.id);
     this.editCard = null;
   }
 
@@ -108,9 +105,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    if (this.userId) {
-      this.userService.setPaymentMethodAsDefault(this.userId, paymentMethod.id);
-    }
+    this.userService.setPaymentMethodAsDefault(paymentMethod.id);
   }
 
   ngOnDestroy(): void {

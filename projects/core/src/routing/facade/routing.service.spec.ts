@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 
 import * as fromStore from '../store';
 import { PageContext } from '../models/page-context.model';
-import { UrlService } from '../configurable-routes/url-translation/url.service';
+import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { RouterState } from '../store/reducers/router.reducer';
 
 import { RoutingService } from './routing.service';
@@ -17,20 +17,20 @@ import { PageType } from '../../model/cms.model';
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
-  let urlService: UrlService;
+  let urlService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: UrlService, useValue: { generateUrl: () => {} } },
+        { provide: SemanticPathService, useValue: { transform: () => {} } },
       ],
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(RoutingService);
-    urlService = TestBed.get(UrlService);
+    urlService = TestBed.get(SemanticPathService);
     spyOn(store, 'dispatch');
   });
 
@@ -40,7 +40,7 @@ describe('RoutingService', () => {
 
   describe('go', () => {
     it('should dispatch navigation action with generated path', () => {
-      spyOn(urlService, 'generateUrl').and.returnValue(['generated', 'path']);
+      spyOn(urlService, 'transform').and.returnValue(['generated', 'path']);
       service.go([]);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
@@ -52,10 +52,10 @@ describe('RoutingService', () => {
     });
 
     it('should call url service service with given array of commands', () => {
-      spyOn(urlService, 'generateUrl');
+      spyOn(urlService, 'transform');
       const commands = ['testString', { cxRoute: 'testRoute' }];
       service.go(commands);
-      expect(urlService.generateUrl).toHaveBeenCalledWith(commands);
+      expect(urlService.transform).toHaveBeenCalledWith(commands);
     });
   });
 
@@ -78,7 +78,7 @@ describe('RoutingService', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
-      spyOn(urlService, 'generateUrl').and.callFake(x => x);
+      spyOn(urlService, 'transform').and.callFake(x => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
@@ -95,35 +95,6 @@ describe('RoutingService', () => {
       service.forward();
       expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Forward());
     });
-  });
-
-  describe('clearRedirectUrl', () => {
-    it('should dispatch clear redirect url action', () => {
-      service.clearRedirectUrl();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.ClearRedirectUrl()
-      );
-    });
-  });
-
-  describe('saveRedirectUrl', () => {
-    it('should dispatch save redirect url action', () => {
-      service.saveRedirectUrl('testUrl');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SaveRedirectUrl('testUrl')
-      );
-    });
-  });
-
-  it('should expose the redirectUrl', () => {
-    const mockRedirectUrl = createSpy().and.returnValue(() =>
-      of('redirect_url')
-    );
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRedirectUrl);
-
-    let redirectUrl: string;
-    service.getRedirectUrl().subscribe(url => (redirectUrl = url));
-    expect(redirectUrl).toEqual('redirect_url');
   });
 
   it('should expose whole router state', () => {
