@@ -2,12 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+
+import * as fromActions from '../actions/global-message.actions';
+import * as fromEffects from '../effects/global-message.effects';
+import { Observable } from 'rxjs';
 
 
 describe('GlobalMessage Effects', () => {
-  let actions$: Observable<fromActions.ProductAction>;
-  let effects: fromEffects.ProductEffects;
+  let actions$: Observable<fromActions.GlobalMessageAction>;
+  let effects: fromEffects.GlobalMessageEffects;
 
   const mockProductState = {
     details: {
@@ -25,11 +28,9 @@ describe('GlobalMessage Effects', () => {
         StoreModule.forRoot({ product: () => mockProductState }),
       ],
       providers: [
-        { provide: ProductConnector, useClass: MockProductConnector },
-        { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useClass: MockRoutingService },
+
       ],
     });
     effects = TestBed.get(fromEffects.ProductEffects);
