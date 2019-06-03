@@ -19,12 +19,12 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
   imports: [
     StorefrontFoundationModule,
 
-    CmsLibModule, // optionated
-
     CxApiModule, // will be dropped initially
 
     SmartEditModule.forRoot(), // should be custom
     PersonalizationModule.forRoot(), // should be custom
+
+    CmsLibModule, // optionated
 
     // opt-in explicitely
     OccModule,

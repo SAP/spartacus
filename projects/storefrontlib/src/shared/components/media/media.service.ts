@@ -6,6 +6,13 @@ import { Media, MediaFormats } from './media.model';
 /** the default format is used for browsers that do not support   */
 const DEFAULT_MEDIA_FORMAT = 'tablet';
 
+const DEFAULT_BREAKPOINTS = {
+  [BREAKPOINT.xs]: 576,
+  [BREAKPOINT.sm]: 768,
+  [BREAKPOINT.md]: 992,
+  [BREAKPOINT.lg]: 1200,
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -15,18 +22,29 @@ export class MediaService {
     protected layoutConfig: LayoutConfig
   ) {}
 
-  private mediaFormats: MediaFormats[] = [
-    { code: 'mobile', threshold: this.layoutConfig.breakpoints[BREAKPOINT.xs] },
-    { code: 'tablet', threshold: this.layoutConfig.breakpoints[BREAKPOINT.sm] },
-    {
-      code: 'desktop',
-      threshold: this.layoutConfig.breakpoints[BREAKPOINT.md],
-    },
-    {
-      code: 'widescreen',
-      threshold: this.layoutConfig.breakpoints[BREAKPOINT.lg],
-    },
-  ];
+  private get mediaFormats(): MediaFormats[] {
+    const breakpoints = this.layoutConfig.breakpoints
+      ? this.layoutConfig.breakpoints
+      : DEFAULT_BREAKPOINTS;
+    return [
+      {
+        code: 'mobile',
+        threshold: breakpoints[BREAKPOINT.xs],
+      },
+      {
+        code: 'tablet',
+        threshold: breakpoints[BREAKPOINT.sm],
+      },
+      {
+        code: 'desktop',
+        threshold: breakpoints[BREAKPOINT.md],
+      },
+      {
+        code: 'widescreen',
+        threshold: breakpoints[BREAKPOINT.lg],
+      },
+    ];
+  }
 
   getMedia(container, format?: string, alt?: string): Media {
     return {
