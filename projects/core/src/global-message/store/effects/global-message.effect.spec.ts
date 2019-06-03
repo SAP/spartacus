@@ -14,6 +14,19 @@ import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
+import * as operators from 'rxjs/operators';
+
+function spyOnOperator(obj: any, prop: string): any {
+  const oldProp: Function = obj[prop];
+  Object.defineProperty(obj, prop, {
+    configurable: true,
+    enumerable: true,
+    value: oldProp,
+    writable: true,
+  });
+
+  return spyOn(obj, prop);
+}
 
 describe('GlobalMessage Effects', () => {
   let actions$: Observable<fromActions.GlobalMessageAction>;
@@ -54,12 +67,12 @@ describe('GlobalMessage Effects', () => {
   describe('hideAfterDelay$', () => {
     it('should hide message after delay', () => {
       spyOn(store, 'select').and.returnValue(of(1));
+      spyOnOperator(operators, 'delay').and.returnValue(data => data);
 
       const message: GlobalMessage = {
         text: { raw: 'Test message' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       };
-      // const timeout = config.globalMessages[message.type].timeout;
       const action = new fromActions.AddMessage(message);
       const completion = new fromActions.RemoveMessage({
         type: message.type,
@@ -67,7 +80,7 @@ describe('GlobalMessage Effects', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('--b', { b: completion });
+      const expected = cold('-b', { b: completion });
       expect(effects.hideAfterDelay$).toBeObservable(expected);
     });
   });
