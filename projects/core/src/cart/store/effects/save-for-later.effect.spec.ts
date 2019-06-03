@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 
 import { cold, hot } from 'jasmine-marbles';
 
-import { SaveForLaterConnector } from '../../connectors/cart/save-for-later.connector';
+import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromSaveForLaterActions from '../actions/save-for-later.action';
 import { ProductImageNormalizer } from '../../../product';
 import { SaveForLaterDataService } from '../../facade/save-for-later-data.service';
@@ -69,7 +69,7 @@ describe('Save for later cart effect', () => {
 
       providers: [
         {
-          provide: SaveForLaterConnector,
+          provide: CartConnector,
           useClass: MockCartConnector,
         },
         ProductImageNormalizer,
@@ -102,7 +102,7 @@ describe('Save for later cart effect', () => {
   });
 
   describe('createSaveForLaterCart$', () => {
-    fit('should create a save for later cart', () => {
+    it('should create a save for later cart', () => {
       const action = new fromSaveForLaterActions.CreateSaveForLater(userId);
       const completion = new fromSaveForLaterActions.CreateSaveForLaterSuccess(
         testCart

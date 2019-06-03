@@ -39,7 +39,6 @@ describe('SaveForLaterService', () => {
   let saveForLaterData: SaveForLaterDataServiceStub;
   let authService: AuthServiceStub;
   let store: Store<StateWithCart>;
-  let userService: UserServiceStub;
 
   const productCode = '1234';
   const userId = 'testUserId';
@@ -78,7 +77,6 @@ describe('SaveForLaterService', () => {
     authService = TestBed.get(AuthService);
     saveForLaterData = TestBed.get(SaveForLaterDataService);
     store = TestBed.get(Store);
-    userService = TestBed.get(UserService);
   });
 
   it('should is injected', () => {
@@ -344,7 +342,7 @@ describe('SaveForLaterService', () => {
   });
 
   describe('getLoaded', () => {
-    fit('should return a loaded state', () => {
+    it('should return a loaded state', () => {
       store.dispatch(new fromSaveForLaterCart.CreateSaveForLaterSuccess(cart));
       let result: boolean;
       service
