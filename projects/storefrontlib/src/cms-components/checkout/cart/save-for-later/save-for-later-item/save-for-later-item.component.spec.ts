@@ -105,8 +105,16 @@ describe('SaveForLaterItemComponent', () => {
     const media = fixture.debugElement.nativeElement.querySelector('cx-media');
     expect(media).toBeTruthy();
 
+    const imageLink = fixture.debugElement.queryAll(
+      By.css('.cx-image-container a')
+    );
+    expect(imageLink.length).toBe(1);
+
     const productName = fixture.debugElement.queryAll(By.css('.cx-name'));
     expect(productName.length).toBe(1);
+
+    const productLink = fixture.debugElement.queryAll(By.css('.cx-name a'));
+    expect(productLink.length).toBe(1);
 
     const productCode = fixture.debugElement.queryAll(By.css('.cx-code'));
     expect(productCode.length).toBe(1);
