@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
 import { PageComponentModule } from '../../../cms-structure/page/index';
-import { CartSharedModule } from '../../checkout/index';
+import { CartSharedModule } from '../../cart/index';
 // guards
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductDetailsTabModule } from './product-details-tab/product-details-tab.module';
