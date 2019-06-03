@@ -7,6 +7,12 @@ import { NavigationComponentService } from './navigation.component.service';
 import createSpy = jasmine.createSpy;
 
 const itemsData: any = {
+  MainLink001_AbstractCMSComponent: {
+    uid: 'MainLink001',
+    url: '/main',
+    linkName: 'test link main',
+    target: false,
+  },
   MockLink001_AbstractCMSComponent: {
     uid: 'MockLink001',
     url: '/testLink1',
@@ -19,6 +25,12 @@ const itemsData: any = {
     linkName: 'test link 2',
     target: true,
   },
+  MockSubLink001_AbstractCMSComponent: {
+    uid: 'MockSubLink001',
+    url: '/testsubLink1',
+    linkName: 'test sub link 1',
+    target: true,
+  },
 };
 
 const componentData: CmsNavigationComponent = {
@@ -27,6 +39,13 @@ const componentData: CmsNavigationComponent = {
   name: 'NavigationComponent name',
   navigationNode: {
     uid: 'MockNavigationNode001',
+    entries: [
+      {
+        itemId: 'MainLink001',
+        itemSuperType: 'AbstractCMSComponent',
+        itemType: 'CMSLinkComponent',
+      },
+    ],
     children: [
       {
         uid: 'MockChildNode001',
@@ -45,6 +64,18 @@ const componentData: CmsNavigationComponent = {
             itemId: 'MockLink002',
             itemSuperType: 'AbstractCMSComponent',
             itemType: 'CMSLinkComponent',
+          },
+        ],
+        children: [
+          {
+            uid: 'MockSubChildNode001',
+            entries: [
+              {
+                itemId: 'MockSubLink001',
+                itemSuperType: 'AbstractCMSComponent',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
           },
         ],
       },
@@ -86,6 +117,15 @@ describe('NavigationComponentService', () => {
     return expect(navigationService.getComponentData()).toBe(
       componentDataMock.data$
     );
+  });
+
+  it('should get main link for root entry based on CMS data', () => {
+    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+
+    let result: NavigationNode;
+    navigationService.getNavigationNode().subscribe(node => (result = node));
+
+    expect(result.url).toEqual('/main');
   });
 
   it('should get navigation node based on CMS data', () => {

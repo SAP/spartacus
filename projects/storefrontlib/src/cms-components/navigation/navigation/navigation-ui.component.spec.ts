@@ -29,6 +29,7 @@ const mockNode: NavigationNode = {
   children: [
     {
       title: 'Root 1',
+      url: '/root-1',
       children: [
         {
           title: 'Child 1',
@@ -107,6 +108,12 @@ describe('Navigation UI Component', () => {
       const icon: ElementRef = element.query(By.css('h5 > cx-icon'));
 
       expect(icon).toBeFalsy();
+    });
+
+    it('should render all link for root 1', () => {
+      fixture.detectChanges();
+      const allLink: ElementRef[] = element.queryAll(By.css('.wrapper > .all'));
+      expect(allLink.length).toEqual(1);
     });
 
     it('should render 4 nav elements', () => {
