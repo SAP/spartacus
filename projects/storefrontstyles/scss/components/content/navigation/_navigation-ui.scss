@@ -6,19 +6,23 @@
   .wrapper[attr='2'] {
     width: 400px;
   }
-  .wrapper {
-    color: #000;
 
+  .wrapper {
     @include media-breakpoint-down(md) {
       height: 0;
       overflow: hidden;
     }
   }
 
-  @include media-breakpoint-up(lg) {
-    > nav > .wrapper {
-      padding: 15px 20px;
-      background: #fff;
+  &.flyout {
+    .wrapper {
+      color: #000;
+    }
+    @include media-breakpoint-up(lg) {
+      > nav > .wrapper {
+        padding: 15px 20px;
+        background: #fff;
+      }
     }
   }
 }
