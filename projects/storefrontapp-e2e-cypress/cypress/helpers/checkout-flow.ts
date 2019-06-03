@@ -28,8 +28,10 @@ export function goToProductDetailsPage() {
   // click small banner number 6 (would be good if label or alt text would be available)
   cy.get('.Section2 cx-banner:nth-of-type(6) img').click({ force: true });
   cy.get('cx-product-summary').within(() => {
-    cy.get('.name').should('contain', product.name);
     cy.get('.code').should('contain', product.code);
+  });
+  cy.get('cx-breadcrumb').within(() => {
+    cy.get('h1').should('contain', product.name);
   });
 }
 
