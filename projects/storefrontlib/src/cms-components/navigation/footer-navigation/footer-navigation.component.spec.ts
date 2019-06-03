@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsComponent } from '@spartacus/core';
+import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
@@ -31,6 +31,7 @@ class MockGenericLinkComponent {
 describe('FooterNavigationComponent', () => {
   let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
+  let element: DebugElement;
 
   const mockLinks: NavigationNode[] = [
     {
@@ -45,13 +46,13 @@ describe('FooterNavigationComponent', () => {
     },
   ];
 
-  const mockCmsComponentData = <CmsComponentData<CmsComponent>>{
-    data$: of(),
+  const mockCmsComponentData = <CmsNavigationComponent>{
+    styleClass: 'footer-styling',
   };
 
   const mockNavigationService = {
-    getNavigationNode: createSpy().and.returnValue(of(mockCmsComponentData)),
-    getComponentData: createSpy().and.returnValue(of(null)),
+    getNavigationNode: createSpy().and.returnValue(of(null)),
+    getComponentData: createSpy().and.returnValue(of(mockCmsComponentData)),
   };
 
   beforeEach(async(() => {
@@ -75,6 +76,7 @@ describe('FooterNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
+    element = fixture.debugElement;
 
     component.node$ = of({
       children: [
@@ -91,5 +93,10 @@ describe('FooterNavigationComponent', () => {
 
   it('should create FooterNavigationComponent', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should add the component styleClass', () => {
+    const navigationUI = element.query(By.css('cx-navigation-ui'));
+    expect(navigationUI.nativeElement.classList).toContain('footer-styling');
   });
 });

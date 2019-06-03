@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsComponent } from '@spartacus/core';
+import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
@@ -20,6 +20,7 @@ class MockNavigationComponent {
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
   let fixture: ComponentFixture<CategoryNavigationComponent>;
+  let element: DebugElement;
 
   const componentData: NavigationNode = {
     title: 'test',
@@ -37,13 +38,13 @@ describe('CategoryNavigationComponent', () => {
     ],
   };
 
-  const mockCmsComponentData = <CmsComponentData<CmsComponent>>{
-    data$: of(componentData),
+  const mockCmsComponentData = <CmsNavigationComponent>{
+    styleClass: 'footer-styling',
   };
 
   const mockNavigationService = {
-    getNavigationNode: createSpy().and.returnValue(of(mockCmsComponentData)),
-    getComponentData: createSpy().and.returnValue(of(null)),
+    getNavigationNode: createSpy().and.returnValue(of(null)),
+    getComponentData: createSpy().and.returnValue(of(mockCmsComponentData)),
   };
 
   beforeEach(async(() => {
@@ -62,6 +63,7 @@ describe('CategoryNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryNavigationComponent);
     component = fixture.componentInstance;
+    element = fixture.debugElement;
     component.node$ = of(componentData);
     fixture.detectChanges();
   });
@@ -74,5 +76,10 @@ describe('CategoryNavigationComponent', () => {
     let result: NavigationNode;
     component.node$.subscribe(node => (result = node));
     expect(result).toEqual(componentData);
+  });
+
+  it('should add the component styleClass', () => {
+    const navigationUI = element.query(By.css('cx-navigation-ui'));
+    expect(navigationUI.nativeElement.classList).toContain('footer-styling');
   });
 });

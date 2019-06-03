@@ -1,4 +1,8 @@
-<cx-navigation-ui [node]="node$ | async" [flyout]="false"></cx-navigation-ui>
+<cx-navigation-ui
+  [node]="node$ | async"
+  [flyout]="false"
+  [ngClass]="styleClass$ | async"
+></cx-navigation-ui>
 
 <div class="notice" *ngIf="(service.getComponentData() | async) as data">
   {{ data.notice }}

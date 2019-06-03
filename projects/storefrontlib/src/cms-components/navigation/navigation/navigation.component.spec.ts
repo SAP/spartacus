@@ -1,9 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CmsComponent, CmsNavigationComponent } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { CmsNavigationComponent } from '@spartacus/core';
+import { of } from 'rxjs';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationComponent } from './navigation.component';
 import { NavigationComponentService } from './navigation.component.service';
@@ -23,46 +22,15 @@ class MockNavigationUIComponent {
 describe('CmsNavigationComponent', () => {
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
+  let element: DebugElement;
 
-  const componentData: CmsNavigationComponent = {
-    uid: 'MockNavigationComponent',
-    typeCode: 'NavigationComponent',
-    navigationNode: {
-      uid: 'MockNavigationNode001',
-      children: [
-        {
-          uid: 'MockChildNode001',
-          entries: [
-            {
-              itemId: 'MockLink001',
-              itemSuperType: 'AbstractCMSComponent',
-              itemType: 'CMSLinkComponent',
-            },
-          ],
-        },
-        {
-          uid: 'MockChildNode002',
-          entries: [
-            {
-              itemId: 'MockLink002',
-              itemSuperType: 'AbstractCMSComponent',
-              itemType: 'CMSLinkComponent',
-            },
-          ],
-        },
-      ],
-    },
-  };
-
-  const componentData$ = new BehaviorSubject(componentData);
-
-  const mockCmsComponentData = <CmsComponentData<CmsComponent>>{
-    data$: componentData$.asObservable(),
+  const mockCmsComponentData = <CmsNavigationComponent>{
+    styleClass: 'footer-styling',
   };
 
   const mockNavigationService = {
-    getComponentData: createSpy().and.returnValue(of(null)),
-    createNavigation: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getComponentData: createSpy().and.returnValue(of(mockCmsComponentData)),
+    createNavigation: createSpy().and.returnValue(of(null)),
   };
 
   beforeEach(async(() => {
@@ -80,17 +48,17 @@ describe('CmsNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationComponent);
     navigationComponent = fixture.componentInstance;
+    element = fixture.debugElement;
+
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
     expect(navigationComponent).toBeTruthy();
   });
 
-  it('should render navigation-ui component', () => {
-    const getNav = () => fixture.debugElement.query(By.css('cx-navigation-ui'));
-    navigationComponent.node$ = of({});
-    fixture.detectChanges();
-    const nav = getNav().nativeElement;
-    expect(nav).toBeTruthy();
+  it('should add the component styleClass', () => {
+    const navigationUI = element.query(By.css('cx-navigation-ui'));
+    expect(navigationUI.nativeElement.classList).toContain('footer-styling');
   });
 });
