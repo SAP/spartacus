@@ -8,7 +8,7 @@ import {
 } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { UserService } from '../../facade/index';
+import { UserAddressService } from '../../facade/user-address.service';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 
 @Injectable()
@@ -132,7 +132,7 @@ export class UserAddressesEffects {
   constructor(
     private actions$: Actions,
     private userAddressConnector: UserAddressConnector,
-    private userService: UserService,
+    private userAddressService: UserAddressService,
     private messageService: GlobalMessageService
   ) {}
 
@@ -153,6 +153,6 @@ export class UserAddressesEffects {
   }
 
   private loadAddresses() {
-    this.userService.loadAddresses();
+    this.userAddressService.loadAddresses();
   }
 }
