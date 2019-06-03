@@ -2,36 +2,31 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { LoadOpenIdToken, LoadUserToken, Logout } from '../../../auth/index';
-
-import * as fromActions from '../actions/user-register.action';
-import { UserConnector } from '../../connectors/user/user.connector';
+import { LoadUserToken, Logout } from '../../../auth/index';
 import { UserSignUp } from '../../../model/misc.model';
+import { UserConnector } from '../../connectors/user/user.connector';
+import * as fromActions from '../actions/user-register.action';
 
 @Injectable()
 export class UserRegisterEffects {
   @Effect()
   registerUser$: Observable<
-    fromActions.UserRegisterOrRemoveAction | LoadUserToken | LoadOpenIdToken
+    fromActions.UserRegisterOrRemoveAction | LoadUserToken
   > = this.actions$.pipe(
     ofType(fromActions.REGISTER_USER),
     map((action: fromActions.RegisterUser) => action.payload),
-    mergeMap((user: UserSignUp) => {
-      return this.userConnector.register(user).pipe(
+    mergeMap((user: UserSignUp) =>
+      this.userConnector.register(user).pipe(
         switchMap(_result => [
           new LoadUserToken({
             userId: user.uid,
             password: user.password,
           }),
-          new LoadOpenIdToken({
-            username: user.uid,
-            password: user.password,
-          }),
           new fromActions.RegisterUserSuccess(),
         ]),
         catchError(error => of(new fromActions.RegisterUserFail(error)))
-      );
-    })
+      )
+    )
   );
 
   @Effect()
