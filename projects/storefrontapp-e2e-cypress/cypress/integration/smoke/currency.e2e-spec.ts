@@ -18,9 +18,8 @@ context('Currency change', () => {
   beforeEach(() => {
     cy.server();
     cy.route(
-      `${Cypress.env(
-        'API_URL'
-      )}/rest/v2/electronics-spa/currencies?lang=en&curr=USD`
+      'GET',
+      '**/rest/v2/electronics-spa/currencies?lang=en&curr=USD'
     ).as('currencies');
   });
 
