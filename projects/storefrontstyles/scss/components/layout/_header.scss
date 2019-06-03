@@ -1,12 +1,12 @@
 $space: 0.5rem;
 
 %header {
-  background-color: var(--cx-background-color, var(--cx-g-color-dark));
-  color: var(--cx-color, var(--cx-g-color-inverse));
+  background-color: var(--cx-g-color-dark);
+  color: var(--cx-g-color-inverse);
   display: block;
 
   .header {
-    max-width: var(--cx-max-width, 1140px);
+    max-width: 1140px;
     margin: auto;
 
     @include media-breakpoint-up(lg) {
@@ -56,8 +56,8 @@ $space: 0.5rem;
 
   .SiteContext,
   .SiteLinks {
-    font-size: var(--cx-g-font-small, 0.75rem);
-    color: var(--cx-color, var(--cx-g-color-light));
+    font-size: 0.75rem;
+    color: var(--cx-g-color-light);
     > * {
       flex: none;
     }
@@ -99,12 +99,9 @@ $space: 0.5rem;
     .SiteContext,
     .SiteLinks,
     .SiteLogin {
-      background-color: var(
-        --cx-background-color,
-        var(--cx-g-color-background)
-      );
-      color: var(--cx-color, var(--cx-g-color-text));
-      padding: var(--cx-padding, #{$space / 2} 0);
+      background-color: var(--cx-g-color-background);
+      color: var(--cx-g-color-text);
+      padding: #{$space / 2} 0;
     }
 
     .SiteContext {
@@ -135,7 +132,7 @@ $space: 0.5rem;
     .SiteContext {
       justify-content: flex-start;
       &:after {
-        border-top: var(--cx-border-top, 1px solid currentColor);
+        border-top: 1px solid currentColor;
         content: '';
         width: 100%;
         position: absolute;

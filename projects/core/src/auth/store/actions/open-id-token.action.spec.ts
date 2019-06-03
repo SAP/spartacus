@@ -1,7 +1,7 @@
 import { failMeta, loadMeta, successMeta } from '../../../state';
 import { OpenIdToken } from '../../models/token-types.model';
 import { OPEN_ID_TOKEN_DATA } from '../auth-state';
-import * as fromUserToken from './../actions/open-id-token.action';
+import * as fromUserToken from './open-id-token.action';
 
 const token = {
   access_token: 'xxx',

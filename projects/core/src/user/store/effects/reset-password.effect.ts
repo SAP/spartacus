@@ -7,7 +7,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserConnector } from '../../connectors/user/user.connector';
 
 @Injectable()
 export class ResetPasswordEffects {
@@ -37,6 +37,6 @@ export class ResetPasswordEffects {
 
   constructor(
     private actions$: Actions,
-    private userAccountConnector: UserAccountConnector
+    private userAccountConnector: UserConnector
   ) {}
 }
