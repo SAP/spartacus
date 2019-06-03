@@ -1,5 +1,6 @@
 export const productId = '3595723';
-export const productId2 = '3325048';
+export const productId2 = '4812254';
+export const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
 
 export function verifyItemCounterOnPDP() {
   // Type 1000 in the input to see if the value will change to maximum 'max stock'
@@ -74,16 +75,28 @@ export function addSameProductTwice() {
   cy.get('cx-added-to-cart-dialog').should('not.exist');
 }
 
-export function addDifferentProducts() {
+export function addDifferentProducts(isMobile: Boolean = false) {
   // uncomment this section after fixing cart resetting on each full page load (issue 787)
   // cy.visit('/');
 
   // search for new product and select it, and add to cart
-  cy.get('cx-searchbox [aria-label="search"]').type(productId2);
-  cy.get('cx-searchbox')
-    .contains('.cx-product', 'DSC-W180')
-    .click();
-  cy.get('cx-breadcrumb h1').contains('DSC-W180');
+  cy.get('cx-searchbox input[aria-label="search"]').type(productId2, {
+    force: true,
+  });
+  if (!isMobile) {
+    cy.get('cx-searchbox')
+      .contains('.results .products .name', productName2.substr(0, 12))
+      .click();
+  } else {
+    // we don't show product in search suggestions on mobile
+    // instead search and click first result
+    cy.get('cx-searchbox input[aria-label="search"]').type('{enter}');
+    cy.get('cx-product-list-item')
+      .first()
+      .get('.cx-product-name')
+      .click();
+  }
+  cy.get('cx-breadcrumb h1').contains(productName2);
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -102,7 +115,7 @@ export function addDifferentProducts() {
   cy.get('cx-added-to-cart-dialog .cx-total .cx-value').then(
     $cartTotalItemPrice => {
       const totalPrice = $cartTotalItemPrice.text().trim();
-      expect(totalPrice).equal('$121.88');
+      expect(totalPrice).equal('$927.89');
     }
   );
 
@@ -119,36 +132,36 @@ export function addDifferentProducts() {
 
   // check for the other product still exist
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', productName2)
     .should('be.visible');
 
   // check the item quantity of the product
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', productName2)
     .find('.cx-counter-value')
     .should('have.value', '1');
 
   // check the item price of the product
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', productName2)
     .find('.cx-price .cx-value')
     .then($cartItemPrice => {
       const price = $cartItemPrice.text().trim();
-      expect(price).equal('$121.88');
+      expect(price).equal('$927.89');
     });
 
   // check the item price total of the product
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', productName2)
     .find('.cx-total .cx-value')
     .then($cartTotalItemPrice => {
       const totalPrice = $cartTotalItemPrice.text().trim();
-      expect(totalPrice).equal('$121.88');
+      expect(totalPrice).equal('$927.89');
     });
 
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
-    .contains('.cx-info', 'DSC-W180')
+    .contains('.cx-info', productName2)
     .find('.cx-actions .link')
     .click();
 
