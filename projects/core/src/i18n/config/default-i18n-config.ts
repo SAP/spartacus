@@ -8,7 +8,6 @@ export const defaultI18nConfig: I18nConfig = {
       common: [
         'common',
         'spinner',
-        'header',
         'searchBox',
         'sorting',
         'httpHandlers',
