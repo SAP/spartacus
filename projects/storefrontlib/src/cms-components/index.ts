@@ -1,3 +1,4 @@
+export * from './cart/index';
 export * from './checkout/index';
 export * from './cms-lib.module';
 export * from './content/index';
