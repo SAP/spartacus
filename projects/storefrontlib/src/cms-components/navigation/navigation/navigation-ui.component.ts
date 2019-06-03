@@ -5,7 +5,8 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
 
@@ -38,7 +39,9 @@ export class NavigationUIComponent {
   private openNodes: HTMLElement[] = [];
 
   constructor(private router: Router, private renderer: Renderer2) {
-    this.router.events.subscribe(() => this.clear());
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => this.clear());
   }
 
   toggleOpen(event: UIEvent): void {
