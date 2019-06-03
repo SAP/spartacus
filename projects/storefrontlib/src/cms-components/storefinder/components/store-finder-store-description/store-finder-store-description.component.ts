@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { StoreDataService, StoreFinderService } from '@spartacus/core';
+import {
+  StoreDataService,
+  StoreFinderService,
+  PointOfService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 
@@ -13,6 +17,8 @@ export class StoreFinderStoreDescriptionComponent
   implements OnInit {
   location$: Observable<any>;
   isLoading$: Observable<any>;
+  @Input() location: PointOfService;
+  @Input() disableMap: boolean;
 
   constructor(
     protected storeDataService: StoreDataService,
@@ -23,9 +29,11 @@ export class StoreFinderStoreDescriptionComponent
   }
 
   ngOnInit() {
-    this.requestStoresData();
-    this.location$ = this.storeFinderService.getFindStoresEntities();
-    this.isLoading$ = this.storeFinderService.getStoresLoading();
+    if (!this.location) {
+      this.requestStoresData();
+      this.location$ = this.storeFinderService.getFindStoresEntities();
+      this.isLoading$ = this.storeFinderService.getStoresLoading();
+    }
   }
 
   requestStoresData() {

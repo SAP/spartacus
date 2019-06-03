@@ -6,6 +6,7 @@ export enum ICON_TYPE {
   GRID = 'GRID',
   LIST = 'LIST',
   CARET_DOWN = 'CARET_DOWN',
+  CARET_LEFT = 'CARET_LEFT',
   TIMES = 'TIMES',
   ERROR = 'ERROR',
   WARNING = 'WARNING',
