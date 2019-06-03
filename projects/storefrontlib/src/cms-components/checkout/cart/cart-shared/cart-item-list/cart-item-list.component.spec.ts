@@ -1,4 +1,10 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Input,
+  Pipe,
+  PipeTransform,
+  SimpleChange,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -94,7 +100,6 @@ describe('CartItemListComponent', () => {
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
     spyOn(saveForLaterService, 'addEntry').and.callThrough();
-
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -124,6 +129,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('should be able to save item for later', () => {
+    spyOn(component, 'ngOnChanges').and.callThrough();
     const item = mockItems[0];
     component.saveItemForLater(item);
     expect(saveForLaterService.addEntry).toHaveBeenCalledWith(
@@ -131,5 +137,47 @@ describe('CartItemListComponent', () => {
       item.quantity
     );
     expect(cartService.removeEntry).toHaveBeenCalledWith(item);
+  });
+
+  it('should be able to add form controls when component items changed', () => {
+    const previousValue = [
+      {
+        id: 1,
+        quantity: 5,
+        entryNumber: 1,
+        product: {
+          id: 1,
+          code: 'PR0000',
+        },
+      },
+    ];
+
+    const currentValue = [
+      {
+        id: 1,
+        quantity: 5,
+        entryNumber: 1,
+        product: {
+          id: 1,
+          code: 'PR0000',
+        },
+      },
+      {
+        id: 2,
+        quantity: 3,
+        entryNumber: 2,
+        product: {
+          id: 2,
+          code: 'PR0001',
+        },
+      },
+    ];
+    component.items = currentValue;
+
+    expect(component.form.controls['PR0001']).toBeUndefined();
+    component.ngOnChanges({
+      items: new SimpleChange(previousValue, currentValue, false),
+    });
+    expect(component.form.controls['PR0001']).toBeDefined();
   });
 });
