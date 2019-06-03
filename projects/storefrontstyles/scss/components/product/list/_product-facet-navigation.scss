@@ -1,48 +1,48 @@
 %cx-product-facet-navigation {
   .cx-search-facet {
     @include media-breakpoint-down(md) {
-      display: var(--cx-display, none);
+      display: none;
     }
   }
 
   .cx-facet-checkbox {
-    position: var(--cx-position, relative);
-    margin: var(--cx-margin, 0 10px 0 0);
-    min-width: var(--cx-min-width, 22px);
-    transition: var(--cx-transition, 0.3s);
+    position: relative;
+    margin: 0 10px 0 0;
+    min-width: 22px;
+    transition: 0.3s;
 
     &:checked + .cx-facet-text {
-      color: var(--cx-color, var(--cx-g-color-primary));
+      color: var(--cx-g-color-primary);
     }
   }
 
   .cx-facet-list {
-    padding: var(--cx-padding, 0);
-    list-style: var(--cx-list-style, none);
-    margin: var(--cx-margin, 0 0 32px 0);
+    padding: 0;
+    list-style: none;
+    margin: 0 0 32px 0;
 
     .form-check {
-      padding: var(--cx-padding, 0);
-      margin: var(--cx-margin, 0 0 20px 0);
+      padding: 0;
+      margin: 0 0 20px 0;
     }
 
     .cx-facet-label {
-      color: var(--cx-color, var(--cx-g-color-secondary));
+      color: var(--cx-g-color-secondary);
       @include type(6);
-      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal, 400));
-      position: var(--cx-position, relative);
-      margin: var(--cx-margin, 0);
-      display: var(--cx-display, flex);
-      align-items: var(--cx-align-items, flex-start);
-      justify-content: var(--cx-justify-content, flex-start);
-      cursor: var(--cx-cursor, pointer);
+      font-weight: var(--cx-g-font-weight-normal);
+      position: relative;
+      margin: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      cursor: pointer;
 
       &:hover .cx-facet-checkbox:not(:checked) {
-        background-color: var(--cx-background-color, var(--cx-g-color-light));
+        background-color: var(--cx-g-color-light);
       }
 
       .cx-facet-text {
-        line-height: var(--cx-light-height, 22px);
+        line-height: 22px;
       }
     }
 
@@ -52,79 +52,79 @@
   }
 
   .cx-facet-header {
-    border-width: var(--cx-border-width, 0 0 1px 0);
-    border-style: var(--cx-border-style, solid);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-g-color-light);
     @include type(4);
-    color: var(--cx-color, var(--cx-g-color-text));
-    margin: var(--cx-margin, 0 0 17px 0);
-    display: var(--cx-display, block);
-    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi, 600));
+    color: var(--cx-g-color-text);
+    margin: 0 0 17px 0;
+    display: block;
+    font-weight: var(--cx-g-font-weight-semi);
 
     &-link {
-      padding: var(--cx-padding, 5px);
+      padding: 5px;
       display: block;
       cursor: pointer;
-      transition: var(--cx-transition, 0.3s);
+      transition: 0.3s;
 
       &:hover {
-        background-color: var(--cx-background-color, var(--cx-g-color-light));
+        background-color: var(--cx-g-color-light);
       }
     }
 
     .fa-minus {
-      float: var(--cx-float, right);
+      float: right;
 
       &::before {
-        font-size: var(--cx-font-size, 12px);
-        top: var(--cx-top, 5px);
-        position: var(--cx-position, relative);
-        color: var(--cx-color, var(--cx-g-color-secondary));
+        font-size: 12px;
+        top: 5px;
+        position: relative;
+        color: var(--cx-g-color-secondary);
       }
     }
 
     .fa-plus {
-      float: var(--cx-float, right);
+      float: right;
 
       &::before {
-        font-size: var(--cx-font-size, 14px);
-        top: var(--cx-top, 5px);
-        position: var(--cx-position, relative);
-        color: var(--cx-color, var(--cx-g-color-secondary));
+        font-size: 14px;
+        top: 5px;
+        position: relative;
+        color: var(--cx-g-color-secondary);
       }
     }
   }
 
   .cx-facet-filter-container {
-    margin: var(--cx-margin, 0 0 40px 0);
+    margin: 0 0 40px 0;
 
     @include media-breakpoint-down(md) {
-      margin: var(--cx-margin, 0);
+      margin: 0;
     }
   }
 
   .cx-facet-filter-header {
-    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
-    color: var(--cx-color, var(--cx-g-color-text));
-    padding: var(--cx-padding, 0 0 10px 0);
-    margin: var(--cx-margin, 0 0 20px 0);
+    @include type(3);
+    color: var(--cx-g-color-text);
+    padding: 0 0 10px 0;
+    margin: 0 0 20px 0;
 
     @include media-breakpoint-down(md) {
-      display: var(--cx-display, inline-block);
-      margin: var(--cx-margin, 0 20px 0px 0);
+      display: inline-block;
+      margin: 0 20px 0px 0;
     }
   }
 
   .cx-facet-filter-pill {
-    background: var(--cx-background, var(--cx-g-color-light));
-    padding: var(--cx-padding, 7px 15px 7px 13px);
-    margin: var(--cx-margin, 10px 10px 5px 0);
-    display: var(--cx-display, inline-flex);
-    align-items: var(--cx-align-items, flex-start);
-    border-radius: var(--cx-border-radius, 4px);
+    background: var(--cx-g-color-light);
+    padding: 7px 15px 7px 13px;
+    margin: 10px 10px 5px 0;
+    display: inline-flex;
+    align-items: flex-start;
+    border-radius: 4px;
 
     cx-icon:before {
-      font-size: var(--cx-font-size, 16px);
+      font-size: 16px;
     }
 
     .cx-facet-pill-value {
@@ -132,17 +132,17 @@
     }
 
     span {
-      flex: var(--cx-flex, 1 1 auto);
-      font-size: var(--cx-font-size, 14px);
-      vertical-align: var(--cx-vertical-align, middle);
+      flex: 1 1 auto;
+      font-size: 14px;
+      vertical-align: middle;
     }
 
     button {
-      margin: var(--cx-margin, 0 0 0 10px);
-      flex: var(--cx-flex, 0 0 1rem);
+      margin: 0 0 0 10px;
+      flex: 0 0 1rem;
 
       span {
-        vertical-align: var(--cx-vertical-align, middle);
+        vertical-align: middle;
       }
     }
   }
@@ -153,26 +153,26 @@
 
   .cx-facet-mobile {
     @include media-breakpoint-up(lg) {
-      display: var(--cx-display, none);
+      display: none;
     }
 
     @include media-breakpoint-down(md) {
       .cx-facet-mobile-btn {
-        margin: var(--cx-margin, 0 0 20px 0);
+        margin: 0 0 20px 0;
       }
     }
   }
 
   @include media-breakpoint-down(md) {
     .cx-facet-modal-body {
-      overflow-y: var(--cx-overflow-y, scroll);
-      height: var(--cx-height, 100vh);
+      overflow-y: scroll;
+      height: 100vh;
     }
 
     .cx-facet-modal-label {
       @include type(4);
-      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi, 600));
-      margin: var(--cx-margin, 0 0 27px 0);
+      font-weight: var(--cx-g-font-weight-semi);
+      margin: 0 0 27px 0;
     }
   }
 }
