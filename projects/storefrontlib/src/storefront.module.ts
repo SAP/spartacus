@@ -18,7 +18,6 @@ import { ProductListingPageModule } from './cms-pages/product-listing-page/produ
 import { CmsModule } from './cms-structure/cms.module';
 import { CmsRouteModule } from './cms-structure/routing/cms-route/cms-route.module';
 import { RoutingModule } from './cms-structure/routing/routing.module';
-import { SuffixRoutesModule } from './cms-structure/routing/suffix-routes/suffix-routes.module';
 import { provideConfigFromMetaTags } from './config/provide-config-from-meta-tags';
 import { StorefrontModuleConfig } from './config/storefront-config';
 import { LayoutModule } from './layout/layout.module';
@@ -30,7 +29,6 @@ import { LayoutModule } from './layout/layout.module';
     AuthModule.forRoot(),
     CmsLibModule,
     CmsModule,
-    SuffixRoutesModule,
     CmsRouteModule,
     ConfigModule.forRoot(),
     RoutingModule,
