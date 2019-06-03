@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageService } from '@spartacus/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpResponseStatus } from '../models/response-status.model';
@@ -122,24 +122,5 @@ describe('HttpErrorInterceptor', () => {
     testHandlers(ForbiddenHandler, HttpResponseStatus.FORBIDDEN);
     testHandlers(GatewayTimeoutHandler, HttpResponseStatus.GATEWAY_TIMEOUT);
     testHandlers(NotFoundHandler, HttpResponseStatus.NOT_FOUND);
-  });
-
-  describe('GlobalMessageServices', () => {
-    it(`should display "An unknown error occured" in global message service`, () => {
-      http
-        .get('/unknown')
-        .pipe(catchError((error: any) => throwError(error)))
-        .subscribe(_result => {}, error => (this.error = error));
-
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET';
-      });
-
-      mockReq.flush({}, { status: 123, statusText: 'unknown' });
-      expect(mockMessageService.add).toHaveBeenCalledWith(
-        { key: 'httpHandlers.unknownError' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
   });
 });
