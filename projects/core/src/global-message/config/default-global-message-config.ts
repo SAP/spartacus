@@ -1,12 +1,11 @@
-import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageConfig } from './global-message-config';
 
 export const defaultGlobalMessageConfig: GlobalMessageConfig = {
   globalMessages: {
-    [GlobalMessageType.MSG_TYPE_CONFIRMATION]: {
+    '[GlobalMessage] Confirmation': {
       timeout: 3000,
     },
-    [GlobalMessageType.MSG_TYPE_INFO]: {
+    '[GlobalMessage] Information': {
       timeout: 10000,
     },
   },
