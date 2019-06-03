@@ -28,7 +28,7 @@ export class CheckoutDetailsService {
   ) {
     this.cartId$ = this.cartService.getActive().pipe(
       map(cartData => cartData.code),
-      filter(Boolean)
+      filter(cartId => !!cartId)
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
