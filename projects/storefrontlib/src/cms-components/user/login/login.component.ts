@@ -17,8 +17,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.userService.get().subscribe(userDet => {
-        this.userDetails = userDet;
+      this.userService.get().subscribe(user => {
+        this.userDetails = user;
         this.cd.markForCheck();
       })
     );
