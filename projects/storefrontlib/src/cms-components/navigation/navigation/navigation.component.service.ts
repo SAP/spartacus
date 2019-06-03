@@ -33,19 +33,18 @@ export class NavigationComponentService {
 
   public getNavigationNode(): Observable<NavigationNode> {
     return this.getComponentData().pipe(
+      filter(Boolean),
       switchMap(data => {
-        if (data) {
-          const navigation = data.navigationNode ? data.navigationNode : data;
-          return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
-            tap(items => {
-              if (items === undefined) {
-                this.getNavigationEntryItems(navigation, true);
-              }
-            }),
-            filter(Boolean),
-            map(items => this.createNode(navigation, items))
-          );
-        }
+        const navigation = data.navigationNode ? data.navigationNode : data;
+        return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
+          tap(items => {
+            if (items === undefined) {
+              this.getNavigationEntryItems(navigation, true);
+            }
+          }),
+          filter(Boolean),
+          map(items => this.createNode(navigation, items))
+        );
       })
     );
   }
