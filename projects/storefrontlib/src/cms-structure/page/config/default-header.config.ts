@@ -26,12 +26,13 @@ export const headerComponents: {
     typeCode: 'LanguageCurrencyComponent',
     flexType: 'LanguageCurrencyComponent',
   },
-  StoreFinder: {
-    typeCode: 'CMSLinkComponent',
-    flexType: 'CMSLinkComponent',
-    linkName: 'Find a Store',
-    url: '/store-finder',
-  },
+  // TODO:#2811 - uncomment to enable
+  // StoreFinder: {
+  //   typeCode: 'CMSLinkComponent',
+  //   flexType: 'CMSLinkComponent',
+  //   linkName: 'Find a Store',
+  //   url: '/store-finder',
+  // },
   BreadcrumbComponent: {
     typeCode: 'BreadcrumbComponent',
     flexType: 'BreadcrumbComponent',
