@@ -17,7 +17,7 @@ export class GlobalMessageEffects {
   @Effect()
   hideAfterDelay$: Observable<
     GlobalMessageActions.RemoveMessage
-  > | void = this.actions$.pipe(
+  > = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload', 'type'),
     mergeMap((type: GlobalMessageType) => {
