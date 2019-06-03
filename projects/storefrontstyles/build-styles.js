@@ -12,7 +12,9 @@ sass.render(
     importer,
   },
   function(error, result) {
-    if (!error) {
+    if (error) {
+      throw error;
+    } else {
       fs.writeFile(outFile, result.css, function() {});
     }
   }
