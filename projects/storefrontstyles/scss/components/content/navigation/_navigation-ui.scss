@@ -6,11 +6,19 @@
   .wrapper[attr='2'] {
     width: 400px;
   }
+  .wrapper {
+    color: #000;
 
-  @include media-breakpoint-down(md) {
-    .wrapper {
+    @include media-breakpoint-down(md) {
       height: 0;
       overflow: hidden;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    > nav > .wrapper {
+      padding: 15px 20px;
+      background: #fff;
     }
   }
 }
@@ -111,6 +119,9 @@
       }
     }
   }
+  cx-generic-link.all {
+    text-decoration: underline;
+  }
 }
 
 %nav-icon {
@@ -136,9 +147,7 @@
       flex-direction: column;
     }
     .childs {
-      color: #000;
       @include media-breakpoint-up(lg) {
-        padding: 20px;
         .childs {
           padding: 0;
         }
@@ -184,9 +193,15 @@
       &.is-open {
         > nav {
           display: none;
+          cx-generic-link.all {
+            display: none;
+          }
         }
         nav.is-open {
           display: initial;
+          cx-generic-link.all {
+            display: initial;
+          }
           > .wrapper {
             height: auto;
           }
@@ -213,7 +228,7 @@
     @include media-breakpoint-up(lg) {
       > nav {
         > .wrapper {
-          display: flex;
+          // display: flex;
           position: absolute;
           visibility: hidden;
           opacity: 0;
@@ -234,7 +249,7 @@
 
       .childs {
         display: flex;
-        background: white;
+        // background: white;
 
         nav:not(:last-child) {
           padding-right: 20px;

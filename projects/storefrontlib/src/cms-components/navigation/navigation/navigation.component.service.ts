@@ -42,8 +42,9 @@ export class NavigationComponentService {
                 this.getNavigationEntryItems(navigation, true);
               }
             }),
-            filter(items => items !== undefined),
-            map(items => this.createNode(navigation, items))
+            filter(Boolean),
+            map(items => this.createNode(navigation, items)),
+            tap(n => console.log('n', n))
           );
         }
       })
@@ -61,15 +62,17 @@ export class NavigationComponentService {
     root: boolean,
     itemsList = []
   ) {
-    if (nodeData.children && nodeData.children.length > 0) {
-      this.processChildren(nodeData, itemsList);
-    } else if (nodeData.entries && nodeData.entries.length > 0) {
+    if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach(entry => {
         itemsList.push({
           superType: entry.itemSuperType,
           id: entry.itemId,
         });
       });
+    }
+
+    if (nodeData.children && nodeData.children.length > 0) {
+      this.processChildren(nodeData, itemsList);
     }
 
     if (root) {
@@ -93,27 +96,31 @@ export class NavigationComponentService {
     const node = {};
 
     node['title'] = nodeData.title;
-    node['url'] = '';
+
+    if (nodeData.entries && nodeData.entries.length > 0) {
+      this.addLinkToNode(node, nodeData.entries[0], items);
+    }
 
     if (nodeData.children && nodeData.children.length > 0) {
       const children = this.createChildren(nodeData, items);
       node['children'] = children;
-    } else if (nodeData.entries && nodeData.entries.length > 0) {
-      const entry = nodeData.entries[0];
-      const item = items[`${entry.itemId}_${entry.itemSuperType}`];
-
-      // now we only consider CMSLinkComponent
-      if (entry.itemType === 'CMSLinkComponent' && item !== undefined) {
-        if (!node['title']) {
-          node['title'] = item.linkName;
-        }
-        node['url'] = item.url;
-        // if "NEWWINDOW", target is true
-        node['target'] = item.target;
-      }
     }
 
     return node;
+  }
+
+  private addLinkToNode(node, entry, items) {
+    const item = items[`${entry.itemId}_${entry.itemSuperType}`];
+
+    // now we only consider CMSLinkComponent
+    if (entry.itemType === 'CMSLinkComponent' && item !== undefined) {
+      if (!node['title']) {
+        node['title'] = item.linkName;
+      }
+      node['url'] = item.url;
+      // if "NEWWINDOW", target is true
+      node['target'] = item.target;
+    }
   }
 
   private createChildren(node, items) {
