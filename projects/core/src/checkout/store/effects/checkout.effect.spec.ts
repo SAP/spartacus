@@ -11,10 +11,9 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from '../actions/checkout.action';
 import * as fromCartActions from './../../../cart/store/actions/index';
 import {
-  CartConnector,
-  CartDeliveryConnector,
-  CartPaymentConnector,
-} from '../../../cart';
+  CheckoutDeliveryConnector,
+  CheckoutPaymentConnector,
+} from '../../../checkout/connectors';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 
@@ -23,8 +22,7 @@ import { CheckoutDetails } from '../../models/checkout.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
-import { OrderConnector } from '../../../user/connectors/order/order.connector';
-import { OrderAdapter } from '../../../user/connectors/order/order.adapter';
+import { CheckoutConnector } from '../../connectors/checkout';
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
@@ -53,24 +51,25 @@ const paymentDetails: PaymentDetails = {
   },
 };
 
-class MockCartDeliveryConnector {
+class MockCheckoutDeliveryConnector {
   createAddress = createSpy().and.returnValue(of(address));
   setAddress = createSpy().and.returnValue(of({}));
   getSupportedModes = createSpy().and.returnValue(of(modes));
   setMode = createSpy().and.returnValue(of({}));
 }
 
-class MockCartPaymentConnector {
+class MockCheckoutPaymentConnector {
   set = createSpy().and.returnValue(of({}));
   create = createSpy().and.returnValue(of(paymentDetails));
 }
 
-class MockCartConnector {
+class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
+  placeOrder = () => of({});
 }
 
 describe('Checkout effect', () => {
-  let orderConnector: OrderConnector;
+  let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
 
@@ -78,20 +77,25 @@ describe('Checkout effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        CartPaymentConnector,
-        { provide: CartDeliveryConnector, useClass: MockCartDeliveryConnector },
-        { provide: CartPaymentConnector, useClass: MockCartPaymentConnector },
-        { provide: CartConnector, useClass: MockCartConnector },
+        CheckoutPaymentConnector,
+        {
+          provide: CheckoutDeliveryConnector,
+          useClass: MockCheckoutDeliveryConnector,
+        },
+        {
+          provide: CheckoutPaymentConnector,
+          useClass: MockCheckoutPaymentConnector,
+        },
+        { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
-        { provide: OrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
-    orderConnector = TestBed.get(OrderConnector);
+    checkoutConnector = TestBed.get(CheckoutConnector);
 
-    spyOn(orderConnector, 'place').and.returnValue(of(orderDetails));
+    spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
 
   describe('addDeliveryAddress$', () => {

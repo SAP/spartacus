@@ -4,26 +4,23 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
+import { ActivatedRoute } from '@angular/router';
 import {
   Address,
-  CartDataService,
   CheckoutService,
   GlobalMessageService,
   GlobalMessageType,
-  RoutingService,
   PaymentDetails,
-  UserService,
-  TranslationService,
   RoutingConfigService,
+  RoutingService,
+  TranslationService,
+  UserService,
 } from '@spartacus/core';
-
-import { ActivatedRoute } from '@angular/router';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon';
 
 @Component({
   selector: 'cx-payment-method',
@@ -43,7 +40,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   checkoutStepUrlPrevious: string;
 
   constructor(
-    protected cartData: CartDataService,
     protected userService: UserService,
     protected checkoutService: CheckoutService,
     protected globalMessageService: GlobalMessageService,
@@ -56,7 +52,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading$ = this.userService.getPaymentMethodsLoading();
-    this.userService.loadPaymentMethods(this.cartData.userId);
+    this.userService.loadPaymentMethods();
 
     this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
       this.activatedRoute

@@ -1,22 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   ConsentTemplate,
-  ConsentTemplateList,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   UserService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  filter,
-  map,
-  pluck,
-  skipWhile,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -25,7 +16,7 @@ import {
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
-  templateList$: Observable<ConsentTemplateList>;
+  templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
 
   constructor(
@@ -51,17 +42,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private consentListInit(): void {
-    this.templateList$ = combineLatest(
-      this.userService.get(),
-      this.userService.getConsents()
-    ).pipe(
-      filter(([user]) => Boolean(user) && Boolean(user.uid)),
-      tap(([user, templateList]) => {
+    this.templateList$ = this.userService.getConsents().pipe(
+      tap(templateList => {
         if (!this.consentsExists(templateList)) {
-          this.userService.loadConsents(user.uid);
+          this.userService.loadConsents();
         }
-      }),
-      pluck(1)
+      })
     );
   }
 
@@ -81,29 +67,22 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         .getWithdrawConsentResultLoading()
         .pipe(
           skipWhile(Boolean),
-          withLatestFrom(
-            this.userService.getWithdrawConsentResultSuccess(),
-            this.userService.get()
-          ),
-          map(([, withdrawalSuccess, user]) => ({ withdrawalSuccess, user })),
-          tap(data => {
-            if (data.withdrawalSuccess) {
-              this.userService.loadConsents(data.user.uid);
+          withLatestFrom(this.userService.getWithdrawConsentResultSuccess()),
+          map(([, withdrawalSuccess]) => withdrawalSuccess),
+          tap(withdrawalSuccess => {
+            if (withdrawalSuccess) {
+              this.userService.loadConsents();
             }
           })
         )
-        .subscribe(data =>
-          this.onConsentWithdrawnSuccess(data.withdrawalSuccess)
+        .subscribe(withdrawalSuccess =>
+          this.onConsentWithdrawnSuccess(withdrawalSuccess)
         )
     );
   }
 
-  private consentsExists(templateList: ConsentTemplateList): boolean {
-    return (
-      Boolean(templateList) &&
-      Boolean(templateList.consentTemplates) &&
-      templateList.consentTemplates.length > 0
-    );
+  private consentsExists(templateList: ConsentTemplate[]): boolean {
+    return Boolean(templateList) && templateList.length > 0;
   }
 
   onConsentChange({
@@ -113,23 +92,11 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     given: boolean;
     template: ConsentTemplate;
   }): void {
-    this.userService
-      .get()
-      .pipe(
-        pluck('uid'),
-        tap(userId => {
-          if (given) {
-            this.userService.giveConsent(userId, template.id, template.version);
-          } else {
-            this.userService.withdrawConsent(
-              userId,
-              template.currentConsent.code
-            );
-          }
-        }),
-        take(1)
-      )
-      .subscribe();
+    if (given) {
+      this.userService.giveConsent(template.id, template.version);
+    } else {
+      this.userService.withdrawConsent(template.currentConsent.code);
+    }
   }
 
   onDone(): void {

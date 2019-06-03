@@ -13,7 +13,7 @@
         type="button"
         class="close"
         aria-label="Close"
-        (click)="activeModal.dismiss('Cross click')"
+        (click)="dismissModal('Cross click')"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.TIMES"></cx-icon>
@@ -32,7 +32,7 @@
             [cartIsLoading]="!loaded"
             (remove)="removeEntry($event)"
             (update)="updateEntry($event)"
-            (view)="activeModal.dismiss('Product selected')"
+            (view)="dismissModal('Product selected')"
           ></cx-cart-item>
         </div>
         <!-- Separator -->
@@ -57,16 +57,14 @@
               [routerLink]="{ cxRoute: 'cart' } | cxUrl"
               class="btn btn-primary"
               cxAutoFocus
-              (click)="!form.dirty && activeModal.dismiss('View Cart click')"
+              (click)="!form.dirty && dismissModal('View Cart click')"
               >{{ 'addToCart.viewCart' | cxTranslate }}</a
             >
             <a
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
               class="btn btn-secondary"
-              (click)="
-                !form.dirty && activeModal.dismiss('Proceed To Checkout click')
-              "
+              (click)="!form.dirty && dismissModal('Proceed To Checkout click')"
               >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
             >
           </div>
@@ -84,7 +82,7 @@
         type="button"
         class="close"
         aria-label="Close"
-        (click)="activeModal.dismiss('Cross click')"
+        (click)="dismissModal('Cross click')"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.TIMES"></cx-icon>
