@@ -48,7 +48,7 @@ class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
