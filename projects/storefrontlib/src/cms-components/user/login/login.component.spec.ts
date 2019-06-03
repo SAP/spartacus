@@ -4,26 +4,15 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AuthService,
   I18nTestingModule,
   RoutingService,
   User,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
 
 import createSpy = jasmine.createSpy;
-
-const mockUserToken: UserToken = {
-  access_token: 'xxx',
-  token_type: 'bearer',
-  refresh_token: 'xxx',
-  expires_in: 1000,
-  scope: ['xxx'],
-  userId: 'xxx',
-};
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -33,12 +22,6 @@ const mockUserDetails: User = {
   uid: 'UID',
 };
 
-class MockAuthService {
-  login = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of(mockUserToken);
-  }
-}
 class MockRoutingService {
   go = createSpy('go');
 }
@@ -65,11 +48,10 @@ class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
 
-describe('LoginComponent', () => {
+fdescribe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  let authService: MockAuthService;
   let userService: MockUserService;
 
   beforeEach(async(() => {
@@ -91,11 +73,9 @@ describe('LoginComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
 
-    authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
   }));
 
@@ -107,19 +87,6 @@ describe('LoginComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should have user details when token exists', () => {
-    let user;
-    component.user$.subscribe(result => (user = result));
-    expect(user).toEqual(mockUserDetails);
-  });
-
-  it('should not have user details when token is lacking', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
-    let user;
-    component.user$.subscribe(result => (user = result));
-    expect(user).toBeFalsy();
   });
 
   describe('UI tests', () => {
@@ -143,14 +110,9 @@ describe('LoginComponent', () => {
     });
 
     it('should display the register message when the user is not logged in', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+      spyOn(userService, 'get').and.returnValue(of({} as User));
+      component.ngOnInit();
       fixture.detectChanges();
-
-      // expect(
-      //   fixture.debugElement.query(By.css('a[role="link"]')).nativeElement
-      //     .innerText
-      // ).toContain('common.action.signInRegister');
-
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'login.signInRegister'
       );
