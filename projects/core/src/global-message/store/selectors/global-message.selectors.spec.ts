@@ -15,13 +15,24 @@ import {
   GlobalMessageState,
   GlobalMessageEntities,
 } from '../global-message-state';
+import { Translatable } from '@spartacus/core';
 
 describe('Global Messages selectors', () => {
   let store: Store<StateWithGlobalMessage>;
 
-  const testMessage: GlobalMessage = {
-    text: { raw: 'test' },
+  const testMessageConfirmation: GlobalMessage = {
+    text: { raw: 'testConf' },
     type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+  };
+
+  const testMessageConfirmation2: GlobalMessage = {
+    text: { raw: 'testConf2' },
+    type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+  };
+
+  const testMessageError: GlobalMessage = {
+    text: { raw: 'testError' },
+    type: GlobalMessageType.MSG_TYPE_ERROR,
   };
 
   beforeEach(() => {
@@ -61,11 +72,61 @@ describe('Global Messages selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.AddMessage(testMessage));
+      store.dispatch(new fromActions.AddMessage(testMessageConfirmation));
 
       expect(result).toEqual({
-        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'test' }],
+        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'testConf' }],
       });
+    });
+  });
+
+  describe('getGlobalMessageEntitiesByType', () => {
+    it('Should return the list of global messages by type', () => {
+      let result: Translatable[];
+
+      store
+        .pipe(
+          select(
+            fromSelectors.getGlobalMessageEntitiesByType(
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            )
+          )
+        )
+        .subscribe(value => {
+          result = value;
+        });
+
+      store.dispatch(new fromActions.AddMessage(testMessageError));
+      expect(result).toEqual(undefined);
+      store.dispatch(new fromActions.AddMessage(testMessageConfirmation));
+      expect(result).toEqual([{ raw: 'testConf' }]);
+      store.dispatch(new fromActions.AddMessage(testMessageConfirmation2));
+      expect(result).toEqual([{ raw: 'testConf' }, { raw: 'testConf2' }]);
+    });
+  });
+
+  describe('getGlobalMessageCountByType', () => {
+    it('Should return count of global messages by type', () => {
+      let result: number;
+
+      store
+        .pipe(
+          select(
+            fromSelectors.getGlobalMessageCountByType(
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            )
+          )
+        )
+        .subscribe(value => {
+          result = value;
+        });
+
+      store.dispatch(new fromActions.AddMessage(testMessageError));
+      expect(result).toBe(undefined);
+      store.dispatch(new fromActions.AddMessage(testMessageConfirmation));
+      expect(result).toBe(1);
+      store.dispatch(new fromActions.AddMessage(testMessageConfirmation2));
+      expect(result).toBe(2);
     });
   });
 });
