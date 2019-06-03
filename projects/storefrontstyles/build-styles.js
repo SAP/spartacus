@@ -4,13 +4,11 @@ const importer = require('./importer');
 
 const file = './_index.scss';
 const outFile = './output.css';
-const includePaths = ['./'];
 
 sass.render(
   {
     file,
     outFile,
-    includePaths,
     importer,
   },
   function(error, result) {
