@@ -2,7 +2,7 @@ $caretSize: 7px;
 
 %cx-site-context-selector {
   position: relative;
-  margin: var(--cx-margin, 8px);
+  margin: 8px;
 
   @include media-breakpoint-down(md) {
     display: inline-block;
@@ -12,7 +12,7 @@ $caretSize: 7px;
     }
     &:not(:first-child) {
       padding-left: 16px;
-      border-left: 1px solid var(--cx-border-color, var(--cx-g-color-secondary));
+      border-left: 1px solid var(--cx-g-color-secondary);
     }
   }
   label {
