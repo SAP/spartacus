@@ -1,4 +1,3 @@
-export * from './cms.module';
 export * from './guards/index';
 export * from './outlet/index';
 export * from './page/index';

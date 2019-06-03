@@ -10,7 +10,6 @@ import {
   UrlModule,
   UserModule,
 } from '@spartacus/core';
-import { CmsModule } from '../../../cms-structure/cms.module';
 import { LoginFormComponent } from './login-form.component';
 
 @NgModule({
@@ -19,7 +18,6 @@ import { LoginFormComponent } from './login-form.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    CmsModule,
     UserModule,
     UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
