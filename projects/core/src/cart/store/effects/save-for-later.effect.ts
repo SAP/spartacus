@@ -5,7 +5,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/save-for-later.action';
 import { SaveForLaterDataService } from '../../facade/save-for-later-data.service';
-import { SaveForLaterConnector } from '../../connectors/cart/save-for-later.connector';
+import { CartConnector } from '../../connectors/cart/cart.connector';
 import { Cart } from '../../../model/cart.model';
 
 @Injectable()
@@ -31,8 +31,12 @@ export class SaveForLaterEffects {
         return of(new fromActions.LoadSaveForLaterFail({}));
       }
 
-      return this.saveForLaterConnector
-        .load(loadSaveForLaterParams.userId, loadSaveForLaterParams.cartId)
+      return this.cartConnector
+        .load(
+          loadSaveForLaterParams.userId,
+          loadSaveForLaterParams.cartId,
+          true
+        )
         .pipe(
           map((cart: Cart) => {
             return new fromActions.LoadSaveForLaterSuccess(cart);
@@ -49,20 +53,18 @@ export class SaveForLaterEffects {
     ofType(fromActions.CREATE_SAVE_FOR_LATER),
     map((action: fromActions.CreateSaveForLater) => action.payload),
     mergeMap(payload => {
-      return this.saveForLaterConnector
-        .create(payload.userId, payload.cartId)
-        .pipe(
-          switchMap((cart: Cart) => {
-            return [new fromActions.CreateSaveForLaterSuccess(cart)];
-          }),
-          catchError(error => of(new fromActions.CreateSaveForLaterFail(error)))
-        );
+      return this.cartConnector.load(payload.userId, payload.cartId, true).pipe(
+        switchMap((cart: Cart) => {
+          return [new fromActions.CreateSaveForLaterSuccess(cart)];
+        }),
+        catchError(error => of(new fromActions.CreateSaveForLaterFail(error)))
+      );
     })
   );
 
   constructor(
     private actions$: Actions,
-    private saveForLaterConnector: SaveForLaterConnector,
+    private cartConnector: CartConnector,
     private saveForLaterData: SaveForLaterDataService
   ) {}
 

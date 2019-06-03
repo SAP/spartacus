@@ -12,8 +12,6 @@ import { CartPaymentAdapter } from '../connectors/payment/cart-payment.adapter';
 import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
 import { CART_NORMALIZER } from '../connectors/cart/converters';
 import { OccCartNormalizer } from './converters/occ-cart-normalizer';
-import { SaveForLaterAdapter } from '../connectors/cart/save-for-later.adapter';
-import { OccSaveForLaterAdapter } from './occ-save-for-later.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
@@ -38,10 +36,6 @@ import { OccSaveForLaterAdapter } from './occ-save-for-later.adapter';
     {
       provide: CartPaymentAdapter,
       useClass: OccCartPaymentAdapter,
-    },
-    {
-      provide: SaveForLaterAdapter,
-      useClass: OccSaveForLaterAdapter,
     },
   ],
 })
