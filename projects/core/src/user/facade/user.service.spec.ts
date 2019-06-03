@@ -1,5 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { UserToken } from '../../auth/models/token-types.model';
+import * as fromAuthStore from '../../auth/store/index';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
@@ -15,13 +17,17 @@ import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromStore.UserState | fromAuthStore.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(
+          fromAuthStore.AUTH_FEATURE,
+          fromAuthStore.getReducers()
+        ),
         StoreModule.forFeature(
           PROCESS_FEATURE,
           fromProcessReducers.getReducers()
@@ -41,20 +47,54 @@ describe('UserService', () => {
       expect(userService).toBeTruthy();
     }
   ));
+  describe('get() ', () => {
+    it('should be able to get user details when user details are present in the store', () => {
+      store.dispatch(
+        new fromStore.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
+      );
 
-  it('should be able to get user details', () => {
-    store.dispatch(
-      new fromStore.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
-    );
+      let userDetails: User;
+      service
+        .get()
+        .subscribe(data => {
+          userDetails = data;
+        })
+        .unsubscribe();
+      expect(userDetails).toEqual({ uid: 'testUser' });
+    });
 
-    let userDetails: User;
-    service
-      .get()
-      .subscribe(data => {
-        userDetails = data;
-      })
-      .unsubscribe();
-    expect(userDetails).toEqual({ uid: 'testUser' });
+    it('should not load user details when user details are not present in the store and no user token is present in the store.', () => {
+      let userDetails: User;
+      service
+        .get()
+        .subscribe(data => {
+          userDetails = data;
+        })
+        .unsubscribe();
+      expect(userDetails).toEqual({});
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        new fromStore.LoadUserDetails(USERID_CURRENT)
+      );
+    });
+
+    it('should load user details when user details are not present in the store and a user token is present in the store.', () => {
+      store.dispatch(
+        new fromAuthStore.LoadUserTokenSuccess({
+          access_token: '',
+        } as UserToken)
+      );
+      let userDetails: User;
+      service
+        .get()
+        .subscribe(data => {
+          userDetails = data;
+        })
+        .unsubscribe();
+      expect(userDetails).toEqual({});
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.LoadUserDetails(USERID_CURRENT)
+      );
+    });
   });
 
   it('should be able to load user details', () => {

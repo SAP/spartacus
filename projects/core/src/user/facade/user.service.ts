@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
+import * as fromAuthStore from '../../auth/store/index';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
@@ -27,14 +28,28 @@ export class UserService {
   constructor(
     protected store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
+    >,
+    protected authStore: Store<fromAuthStore.StateWithAuth>
   ) {}
 
   /**
    * Returns a user
    */
   get(): Observable<User> {
-    return this.store.pipe(select(fromStore.getDetails));
+    return this.store.pipe(select(fromAuthStore.getUserToken)).pipe(
+      switchMap(userToken =>
+        this.store.pipe(select(fromStore.getDetails)).pipe(
+          tap(userDetails => {
+            if (
+              Object.keys(userDetails).length === 0 &&
+              Object.keys(userToken).length !== 0
+            ) {
+              this.load();
+            }
+          })
+        )
+      )
+    );
   }
 
   /**
