@@ -3,6 +3,7 @@ import {
   Component,
   HostBinding,
   Input,
+  Renderer2,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ICON_TYPE } from '../../misc/icon/index';
@@ -36,14 +37,14 @@ export class NavigationUIComponent {
 
   private openNodes: HTMLElement[] = [];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private renderer: Renderer2) {
     this.router.events.subscribe(() => this.clear());
   }
 
   toggleOpen(event: UIEvent): void {
     if (this.openNodes.includes(<HTMLElement>event.currentTarget)) {
       this.openNodes = this.openNodes.filter(n => n !== event.currentTarget);
-      (<HTMLElement>event.currentTarget).classList.remove('is-open');
+      this.renderer.removeClass(<HTMLElement>event.currentTarget, 'is-open');
     } else {
       this.openNodes.push(<HTMLElement>event.currentTarget);
     }
@@ -55,7 +56,10 @@ export class NavigationUIComponent {
   }
 
   back(): void {
-    this.openNodes[this.openNodes.length - 1].classList.remove('is-open');
+    this.renderer.removeClass(
+      this.openNodes[this.openNodes.length - 1],
+      'is-open'
+    );
     this.openNodes.pop();
     this.updateClasses();
   }
@@ -68,11 +72,11 @@ export class NavigationUIComponent {
   private updateClasses(): void {
     this.openNodes.forEach((node, i) => {
       if (i + 1 < this.openNodes.length) {
-        node.classList.add('is-opened');
-        node.classList.remove('is-open');
+        this.renderer.addClass(node, 'is-opened');
+        this.renderer.removeClass(node, 'is-open');
       } else {
-        node.classList.remove('is-opened');
-        node.classList.add('is-open');
+        this.renderer.removeClass(node, 'is-opened');
+        this.renderer.addClass(node, 'is-open');
       }
     });
 
