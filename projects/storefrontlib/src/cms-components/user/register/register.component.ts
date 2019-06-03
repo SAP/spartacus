@@ -6,17 +6,17 @@ import {
   Validators,
 } from '@angular/forms';
 import {
+  AuthRedirectService,
   AuthService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-  RoutingService,
   Title,
   UserSignUp,
   UserService,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
 @Component({
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     private auth: AuthService,
-    private routing: RoutingService,
+    private authRedirectService: AuthRedirectService,
     private userService: UserService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder
@@ -59,27 +59,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
-    this.subscription = this.auth
-      .getUserToken()
-      .pipe(
-        switchMap(data => {
-          if (data && data.access_token) {
-            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-            return this.routing.getRedirectUrl().pipe(take(1));
-          }
-          return of<string>();
-        })
-      )
-      .subscribe(url => {
-        if (url) {
-          // If forced to login due to AuthGuard, then redirect to intended destination
-          this.routing.goByUrl(url);
-          this.routing.clearRedirectUrl();
-        } else {
-          // User manual login
-          this.routing.go(['/']);
-        }
-      });
   }
 
   submit(): void {
@@ -98,6 +77,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
       titleCode,
     };
     this.userService.register(userRegisterFormData);
+
+    if (!this.subscription) {
+      this.subscription = this.auth.getUserToken().subscribe(data => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
+      });
+    }
+
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.globalMessageService
       .get()

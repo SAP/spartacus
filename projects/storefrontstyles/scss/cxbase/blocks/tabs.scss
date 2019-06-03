@@ -2,16 +2,16 @@
 
 ul[role='tablist'] {
   .nav-link {
-    border: var(--cx-border, none);
+    border: none;
     &.active {
-      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
-      color: var(--cx-color, var(--cx-g-color-primary));
-      border-width: var(--cx-border-width, 0 0 5px 0);
-      border-style: var(--cx-border-style, solid);
+      background-color: var(--cx-g-color-inverse);
+      color: var(--cx-g-color-primary);
+      border-width: 0 0 5px 0;
+      border-style: solid;
 
       div {
-        color: var(--cx-color, var(--cx-g-color-primary));
-        font-weight: var(--cx-g-font-weight-semi, 600);
+        color: var(--cx-g-color-primary);
+        font-weight: 600;
       }
     }
   }

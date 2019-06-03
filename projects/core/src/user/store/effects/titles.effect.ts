@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromAction from '../actions/titles.action';
 import { Title } from '../../../model/misc.model';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
+import { UserConnector } from '../../connectors/user/user.connector';
 
 @Injectable()
 export class TitlesEffects {
@@ -35,6 +35,6 @@ export class TitlesEffects {
 
   constructor(
     private actions$: Actions,
-    private userAccountConnector: UserAccountConnector
+    private userAccountConnector: UserConnector
   ) {}
 }

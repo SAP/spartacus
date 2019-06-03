@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   PaymentDetails,
-  User,
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -41,12 +40,9 @@ class MockUserService {
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of([mockPayment]);
   }
-  loadPaymentMethods(_userId: string): void {}
-  deletePaymentMethod(_userId: string, _paymentMethodId: string): void {}
-  setPaymentMethodAsDefault(_userId: string, _paymentMethodId: string): void {}
-  get(): Observable<User> {
-    return of({ uid: 'userId' } as User);
-  }
+  loadPaymentMethods(): void {}
+  deletePaymentMethod(_paymentMethodId: string): void {}
+  setPaymentMethodAsDefault(_paymentMethodId: string): void {}
 }
 
 describe('PaymentMethodsComponent', () => {
@@ -203,7 +199,6 @@ describe('PaymentMethodsComponent', () => {
     getConfirmButton(el).nativeElement.click();
     fixture.detectChanges();
     expect(userService.deletePaymentMethod).toHaveBeenCalledWith(
-      'userId',
       mockPayment.id
     );
   });
@@ -222,7 +217,6 @@ describe('PaymentMethodsComponent', () => {
     fixture.detectChanges();
     getSetDefaultButton(el).click();
     expect(userService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
-      'userId',
       mockPayment.id
     );
   });
