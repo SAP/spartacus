@@ -47,7 +47,7 @@
         {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}
       </cx-generic-link>
 
-      <div class="childs" [attr.depth]="getDepth(node) | json">
+      <div class="childs" [attr.depth]="getDepth(node)">
         <ng-container *ngFor="let child of node.children">
           <ng-container *ngTemplateOutlet="nav; context: { node: child }">
           </ng-container>

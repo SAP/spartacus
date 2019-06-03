@@ -86,15 +86,11 @@ export class NavigationUIComponent {
     this.isOpen = this.openNodes.length > 0;
   }
 
-  getDepth(node: NavigationNode): number {
-    let _depth = 0;
-    const traverse = (_node: NavigationNode, depth: number) => {
-      if (_node.children && _node.children.length > 0) {
-        _depth = depth;
-        _node.children.forEach(n => traverse(n, depth + 1));
-      }
-    };
-    traverse(node, _depth + 1);
-    return _depth;
+  getDepth(node: NavigationNode, depth = 0): number {
+    if (node.children && node.children.length > 0) {
+      return Math.max(...node.children.map(n => this.getDepth(n, depth + 1)));
+    } else {
+      return depth;
+    }
   }
 }

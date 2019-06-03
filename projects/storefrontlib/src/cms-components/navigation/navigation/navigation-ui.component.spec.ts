@@ -24,6 +24,8 @@ class MockGenericLinkComponent {
   @Input() title: string;
 }
 
+const childLength = 7;
+
 const mockNode: NavigationNode = {
   title: 'test',
   children: [
@@ -37,6 +39,10 @@ const mockNode: NavigationNode = {
             {
               title: 'Sub child 1',
               children: [
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
                 {
                   title: 'Sub sub child 1',
                   url: '/sub-sub-child-1',
@@ -58,7 +64,7 @@ const mockNode: NavigationNode = {
   ],
 };
 
-describe('Navigation UI Component', () => {
+fdescribe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
@@ -126,10 +132,10 @@ describe('Navigation UI Component', () => {
       expect(allLink.length).toEqual(1);
     });
 
-    it('should render 6 nav elements', () => {
+    it('should render ' + childLength + ' nav elements', () => {
       fixture.detectChanges();
       const nav: ElementRef[] = element.queryAll(By.css('nav'));
-      expect(nav.length).toEqual(6);
+      expect(nav.length).toEqual(childLength);
     });
 
     it('should render 2 root nav elements', () => {
@@ -186,11 +192,11 @@ describe('Navigation UI Component', () => {
       expect(third.attributes.getNamedItem('depth').value).toEqual('1');
     });
 
-    it('should render two child element in the childs container for nav nodes with childs', () => {
+    it('should render child element in the childs container for nav nodes with childs', () => {
       fixture.detectChanges();
 
       const child: ElementRef[] = element.queryAll(By.css('nav .childs nav'));
-      expect(child.length).toEqual(4);
+      expect(child.length).toEqual(5);
     });
   });
 });
