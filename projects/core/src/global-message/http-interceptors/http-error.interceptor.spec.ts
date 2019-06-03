@@ -125,7 +125,7 @@ describe('HttpErrorInterceptor', () => {
   });
 
   describe('GlobalMessageServices', () => {
-    it(`should display "An unknown error occured" in global message service`, () => {
+    it(`should display "An unknown error occurred" in global message service`, () => {
       http
         .get('/unknown')
         .pipe(catchError((error: any) => throwError(error)))
