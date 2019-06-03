@@ -7,14 +7,14 @@
   }
 
   &:not(:disabled):hover {
-    color: var(--cx-color, var(--cx-g-color-primary));
+    color: var(--cx-g-color-primary);
   }
 
   &:after {
     content: '';
     border-style: solid;
     border-color: currentColor;
-    border-width: var(--cx-border-width, 4px);
+    border-width: 4px;
     width: 15px;
     height: 15px;
     display: block;
@@ -63,7 +63,7 @@
       position: relative;
 
       .group {
-        transition: var(--cx-transition-duration, 0.6s) all;
+        transition: 0.6s all;
         width: 100%;
         display: flex;
         flex-wrap: nowrap;
@@ -81,9 +81,9 @@
           text-align: center;
           justify-content: space-between;
           padding-bottom: 10px;
-          color: var(--cx-color, var(--cx-g-color-text));
+          color: var(--cx-g-color-text);
           cx-media {
-            height: var(--cx-height, 20vmin);
+            height: 20vmin;
           }
           opacity: 0;
           z-index: -1;
@@ -92,7 +92,7 @@
             z-index: 1;
           }
 
-          transition: var(--cx-transition-duration, 0.6s) all;
+          transition: 0.6s all;
           // we add a transition delay so that items are nicely animated in a sequence
           @for $i from 1 through 4 {
             &:nth-child(#{$i}) {
@@ -109,7 +109,7 @@
           &:hover {
             text-decoration: none;
             h4 {
-              color: var(--cx-color, var(--cx-g-color-primary));
+              color: var(--cx-g-color-primary);
             }
           }
         }
@@ -139,9 +139,9 @@
       padding: 0;
       margin: 10px;
       background-color: currentColor;
-      transition: var(--cx-transition-duration, 0.6s) all;
+      transition: 0.6s all;
       &[disabled] {
-        color: var(--cx-background-color, var(--cx-g-color-primary));
+        color: var(--cx-g-color-primary);
       }
       &:not(:disabled):hover {
         color: var(--cx-g-color-secondary);
