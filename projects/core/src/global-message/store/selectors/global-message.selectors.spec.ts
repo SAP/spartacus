@@ -55,7 +55,8 @@ describe('Global Messages selectors', () => {
       let result: GlobalMessageState;
       store
         .pipe(select(fromSelectors.getGlobalMessageState))
-        .subscribe(value => (result = value));
+        .subscribe(value => (result = value))
+        .unsubscribe();
       expect(result).toEqual({ entities: {} });
     });
   });
@@ -68,7 +69,8 @@ describe('Global Messages selectors', () => {
         .pipe(select(fromSelectors.getGlobalMessageEntities))
         .subscribe(value => {
           result = value;
-        });
+        })
+        .unsubscribe();
 
       expect(result).toEqual({});
 
@@ -94,7 +96,8 @@ describe('Global Messages selectors', () => {
         )
         .subscribe(value => {
           result = value;
-        });
+        })
+        .unsubscribe();
 
       store.dispatch(new fromActions.AddMessage(testMessageError));
       expect(result).toEqual(undefined);
@@ -119,7 +122,8 @@ describe('Global Messages selectors', () => {
         )
         .subscribe(value => {
           result = value;
-        });
+        })
+        .unsubscribe();
 
       store.dispatch(new fromActions.AddMessage(testMessageError));
       expect(result).toBe(undefined);
