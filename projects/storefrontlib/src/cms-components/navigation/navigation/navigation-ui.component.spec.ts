@@ -33,7 +33,17 @@ const mockNode: NavigationNode = {
       children: [
         {
           title: 'Child 1',
-          url: '/child-1',
+          children: [
+            {
+              title: 'Sub child 1',
+              children: [
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
+              ],
+            },
+          ],
         },
         {
           title: 'Child 2',
@@ -48,7 +58,7 @@ const mockNode: NavigationNode = {
   ],
 };
 
-describe('Navigation UI Component', () => {
+fdescribe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
@@ -116,10 +126,10 @@ describe('Navigation UI Component', () => {
       expect(allLink.length).toEqual(1);
     });
 
-    it('should render 4 nav elements', () => {
+    it('should render 6 nav elements', () => {
       fixture.detectChanges();
       const nav: ElementRef[] = element.queryAll(By.css('nav'));
-      expect(nav.length).toEqual(4);
+      expect(nav.length).toEqual(6);
     });
 
     it('should render 2 root nav elements', () => {
@@ -154,29 +164,33 @@ describe('Navigation UI Component', () => {
       fixture.detectChanges();
 
       const wrapper: ElementRef[] = element.queryAll(By.css('nav .wrapper'));
-      expect(wrapper.length).toEqual(1);
+      expect(wrapper.length).toEqual(3);
     });
 
     it('should render a childs container for nav nodes with childs', () => {
       fixture.detectChanges();
 
       const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
-      expect(child.length).toEqual(1);
+      expect(child.length).toEqual(3);
     });
 
     it('should render a depth attribute on child containers indicating the depth of the navigation ', () => {
       fixture.detectChanges();
 
       const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
-      const el: HTMLElement = child[0].nativeElement;
-      expect(el.attributes.getNamedItem('depth').value).toEqual('1');
+      const first: HTMLElement = child[0].nativeElement;
+      const second: HTMLElement = child[1].nativeElement;
+      const third: HTMLElement = child[2].nativeElement;
+      expect(first.attributes.getNamedItem('depth').value).toEqual('3');
+      expect(second.attributes.getNamedItem('depth').value).toEqual('2');
+      expect(third.attributes.getNamedItem('depth').value).toEqual('1');
     });
 
     it('should render two child element in the childs container for nav nodes with childs', () => {
       fixture.detectChanges();
 
       const child: ElementRef[] = element.queryAll(By.css('nav .childs nav'));
-      expect(child.length).toEqual(2);
+      expect(child.length).toEqual(4);
     });
   });
 });
