@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import * as operators from 'rxjs/operators';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/global-message.actions';
 import * as fromReducer from '../reducers/index';
 import * as fromEffects from '../effects/global-message.effect';
-import { Observable, of } from 'rxjs';
-import { cold, hot } from 'jasmine-marbles';
-
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import { GLOBAL_MESSAGE_FEATURE } from '../global-message-state';
 import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
-import * as operators from 'rxjs/operators';
+import { defaultGlobalMessageConfig } from '../../config/default-global-message-config';
 
 function spyOnOperator(obj: any, prop: string): any {
   const oldProp: Function = obj[prop];
@@ -24,7 +24,6 @@ function spyOnOperator(obj: any, prop: string): any {
     value: oldProp,
     writable: true,
   });
-
   return spyOn(obj, prop);
 }
 
@@ -32,14 +31,7 @@ describe('GlobalMessage Effects', () => {
   let actions$: Observable<fromActions.GlobalMessageAction>;
   let effects: fromEffects.GlobalMessageEffect;
   let store: Store<GlobalMessage>;
-
-  const fakeConfig: GlobalMessageConfig = {
-    globalMessages: {
-      [GlobalMessageType.MSG_TYPE_CONFIRMATION]: {
-        timeout: 0,
-      },
-    },
-  };
+  let config: GlobalMessageConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,12 +48,13 @@ describe('GlobalMessage Effects', () => {
         Store,
         {
           provide: GlobalMessageConfig,
-          useValue: fakeConfig,
+          useValue: defaultGlobalMessageConfig,
         },
       ],
     });
     effects = TestBed.get(fromEffects.GlobalMessageEffect);
     store = TestBed.get(Store);
+    config = TestBed.get(GlobalMessageConfig);
   });
 
   describe('hideAfterDelay$', () => {
@@ -73,6 +66,7 @@ describe('GlobalMessage Effects', () => {
         text: { raw: 'Test message' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       };
+
       const action = new fromActions.AddMessage(message);
       const completion = new fromActions.RemoveMessage({
         type: message.type,
@@ -82,6 +76,10 @@ describe('GlobalMessage Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.hideAfterDelay$).toBeObservable(expected);
+      expect(store.select).toHaveBeenCalled();
+      expect(operators.delay).toHaveBeenCalledWith(
+        config.globalMessages[message.type].timeout
+      );
     });
   });
 });

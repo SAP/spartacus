@@ -5,12 +5,12 @@ import { Observable, of } from 'rxjs';
 import { delay, filter, mergeMap, pluck, switchMap } from 'rxjs/operators';
 
 import * as GlobalMessageActions from '../actions/global-message.actions';
+import { GlobalMessageConfig } from '../../config/global-message-config';
 import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
 import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
-import { GlobalMessageConfig } from '../../config/global-message-config';
 
 @Injectable()
 export class GlobalMessageEffect {
