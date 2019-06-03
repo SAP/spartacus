@@ -7,7 +7,7 @@ import {
   errorHandlers,
 } from './http-interceptors/index';
 import { GlobalMessageStoreModule } from './store/global-message-store.module';
-import { GlobalMessageEffects } from './store/effects/global-message.effects';
+import { GlobalMessageEffect } from './store/effects/global-message.effect';
 
 import { Config, ConfigModule } from '../config/config.module';
 import { defaultGlobalMessageConfig } from './config/default-global-message-config';
@@ -16,7 +16,7 @@ import { GlobalMessageConfig } from './config/global-message-config';
 @NgModule({
   imports: [
     GlobalMessageStoreModule,
-    EffectsModule.forFeature([GlobalMessageEffects]),
+    EffectsModule.forFeature([GlobalMessageEffect]),
     ConfigModule.withConfig(defaultGlobalMessageConfig),
   ],
   providers: [

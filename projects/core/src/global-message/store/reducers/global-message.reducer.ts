@@ -5,6 +5,8 @@ import {
 } from '../../models/global-message.model';
 import * as fromAction from '../actions/index';
 import { GlobalMessageState } from '../global-message-state';
+import { Translatable } from '../../../i18n/translatable';
+import { deepEqualObjects } from '../../../util/compare-equal-objects';
 
 export const initialState: GlobalMessageState = {
   entities: {},
@@ -27,18 +29,17 @@ export function reducer(
           },
         };
       } else {
-        const msgs = state.entities[message.type];
-        if (!msgs.includes(message.text)) {
+        const messages: Translatable[] = state.entities[message.type];
+        if (!messages.some(msg => deepEqualObjects(msg, message.text))) {
           return {
             ...state,
             entities: {
               ...state.entities,
-              [message.type]: [...msgs, message.text],
+              [message.type]: [...messages, message.text],
             },
           };
         }
       }
-
       return state;
     }
 

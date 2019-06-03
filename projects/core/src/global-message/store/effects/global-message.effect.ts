@@ -13,7 +13,7 @@ import {
 import { GlobalMessageConfig } from '../../config/global-message-config';
 
 @Injectable()
-export class GlobalMessageEffects {
+export class GlobalMessageEffect {
   @Effect()
   hideAfterDelay$: Observable<
     GlobalMessageActions.RemoveMessage
@@ -27,14 +27,14 @@ export class GlobalMessageEffects {
           (count: number) =>
             config && config.timeout !== undefined && count && count > 0
         ),
-        switchMap((count: number) => {
-          return of(
+        switchMap((count: number) =>
+          of(
             new GlobalMessageActions.RemoveMessage({
               type,
               index: count - 1,
             })
-          ).pipe(delay(config.timeout));
-        })
+          ).pipe(delay(config.timeout))
+        )
       );
     })
   );
