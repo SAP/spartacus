@@ -7,7 +7,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: var(--cx-padding, 0.5rem 0);
+    padding: 0.5rem 0;
 
     cx-navigation {
       &:not(:first-child) {
@@ -15,9 +15,9 @@
       }
     }
     @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 0);
+      padding: 0;
       flex-direction: column;
-      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+      background-color: var(--cx-g-color-inverse);
     }
   }
 }
