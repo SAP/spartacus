@@ -43,8 +43,7 @@ export class NavigationComponentService {
               }
             }),
             filter(Boolean),
-            map(items => this.createNode(navigation, items)),
-            tap(n => console.log('n', n))
+            map(items => this.createNode(navigation, items))
           );
         }
       })
