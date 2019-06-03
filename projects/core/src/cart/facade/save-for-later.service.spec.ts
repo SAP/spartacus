@@ -354,25 +354,4 @@ describe('SaveForLaterService', () => {
       expect(result).toBeTruthy();
     });
   });
-
-  describe('getEntry', () => {
-    fit('should return an entry', () => {
-      const testCart: Cart = <Cart>{
-        entries: [
-          { product: { code: 'code1' } },
-          { product: { code: 'code2' } },
-        ],
-      };
-      store.dispatch(
-        new fromSaveForLaterCart.LoadSaveForLaterSuccess(testCart)
-      );
-
-      let result: OrderEntry;
-      service
-        .getEntry('code1')
-        .subscribe(value => (result = value))
-        .unsubscribe();
-      expect(result).toEqual(testCart.entries[0]);
-    });
-  });
 });
