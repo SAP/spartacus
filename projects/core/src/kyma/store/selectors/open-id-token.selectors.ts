@@ -6,20 +6,20 @@ import {
   loaderSuccessSelector,
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
-import { OpenIdToken } from '../../models/token-types.model';
-import { StateWithAuth } from '../auth-state';
-import { getAuthState } from './feature.selector';
+import { OpenIdToken } from '../../models/kyma-token-types.model';
+import { StateWithKyma } from '../kyma-state';
+import { getKymaState } from './feature.selector';
 
 export const getOpenIdTokenState: MemoizedSelector<
-  StateWithAuth,
+  StateWithKyma,
   LoaderState<OpenIdToken>
 > = createSelector(
-  getAuthState,
+  getKymaState,
   state => state.openIdToken
 );
 
 export const getOpenIdTokenValue: MemoizedSelector<
-  StateWithAuth,
+  StateWithKyma,
   OpenIdToken
 > = createSelector(
   getOpenIdTokenState,
@@ -27,7 +27,7 @@ export const getOpenIdTokenValue: MemoizedSelector<
 );
 
 export const getOpenIdTokenLoading: MemoizedSelector<
-  StateWithAuth,
+  StateWithKyma,
   boolean
 > = createSelector(
   getOpenIdTokenState,
@@ -35,7 +35,7 @@ export const getOpenIdTokenLoading: MemoizedSelector<
 );
 
 export const getOpenIdTokenSuccess: MemoizedSelector<
-  StateWithAuth,
+  StateWithKyma,
   boolean
 > = createSelector(
   getOpenIdTokenState,
@@ -43,7 +43,7 @@ export const getOpenIdTokenSuccess: MemoizedSelector<
 );
 
 export const getOpenIdTokenError: MemoizedSelector<
-  StateWithAuth,
+  StateWithKyma,
   boolean
 > = createSelector(
   getOpenIdTokenState,
