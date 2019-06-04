@@ -17,6 +17,7 @@ export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
+export const REGIONS = '[User] Regions';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -32,7 +33,7 @@ export interface UserState {
   orders: LoaderState<OrderHistoryList>;
   order: OrderDetailsState;
   titles: TitlesState;
-  regions: RegionsState;
+  regions: LoaderState<RegionsState>;
   resetPassword: boolean;
 }
 
@@ -42,6 +43,7 @@ export interface OrderDetailsState {
 
 export interface RegionsState {
   entities: Region[];
+  country: string;
 }
 
 export interface BillingCountryEntities {
