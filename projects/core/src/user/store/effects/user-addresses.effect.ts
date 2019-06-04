@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
-
-import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
-import { UserService } from '../../facade/index';
-import { User } from '../../../model/misc.model';
-import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { Address } from '../../../model/address.model';
+import { UserAddressConnector } from '../../connectors/address/user-address.connector';
+import { UserService } from '../../facade/index';
+import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -66,7 +65,18 @@ export class UserAddressesEffects {
         .update(payload.userId, payload.addressId, payload.address)
         .pipe(
           map((data: any) => {
-            return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
+            // don't show the message if just setting address as default
+            if (
+              payload.address &&
+              Object.keys(payload.address).length === 1 &&
+              payload.address.defaultAddress
+            ) {
+              return new fromUserAddressesAction.LoadUserAddresses(
+                USERID_CURRENT
+              );
+            } else {
+              return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
+            }
           }),
           catchError(error =>
             of(new fromUserAddressesAction.UpdateUserAddressFail(error))
@@ -155,11 +165,6 @@ export class UserAddressesEffects {
   }
 
   private loadAddresses() {
-    this.userService
-      .get()
-      .pipe(take(1))
-      .subscribe(({ uid }: User) => {
-        this.userService.loadAddresses(uid);
-      });
+    this.userService.loadAddresses();
   }
 }

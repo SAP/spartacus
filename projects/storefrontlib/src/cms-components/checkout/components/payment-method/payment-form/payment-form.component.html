@@ -1,0 +1,203 @@
+<!-- FORM -->
+<div [formGroup]="payment">
+  <div class="row">
+    <div class="col-md-12 col-lg-9">
+      <div class="form-group">
+        <ng-container *ngIf="(cardTypes$ | async) as cardTypes">
+          <div *ngIf="cardTypes.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'paymentForm.paymentType' | cxTranslate
+              }}</span>
+              <ng-select
+                [searchable]="false"
+                [clearable]="false"
+                [items]="cardTypes"
+                bindLabel="name"
+                bindValue="code"
+                placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
+                (change)="paymentSelected($event)"
+              >
+              </ng-select>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'paymentForm.accountHolderName.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            type="text"
+            required
+            placeholder="{{
+              'paymentForm.accountHolderName.placeholder' | cxTranslate
+            }}"
+            formControlName="accountHolderName"
+          />
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'paymentForm.cardNumber' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            required
+            formControlName="cardNumber"
+          />
+        </label>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label>
+            <span class="label-content">{{
+              'paymentForm.expirationDate' | cxTranslate
+            }}</span>
+            <div class="cx-payment-form-exp-date row">
+              <div class="col-sm-6 col-md-5">
+                <ng-select
+                  [searchable]="false"
+                  [clearable]="false"
+                  [items]="months"
+                  bindLabel="name"
+                  bindValue="expiryMonth"
+                  placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
+                  (change)="monthSelected($event)"
+                >
+                </ng-select>
+              </div>
+              <div class="col-sm-6 col-md-7">
+                <ng-select
+                  [searchable]="false"
+                  [clearable]="false"
+                  [items]="years"
+                  bindLabel="name"
+                  bindValue="expiryYear"
+                  placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
+                  (change)="yearSelected($event)"
+                >
+                </ng-select>
+              </div>
+            </div>
+          </label>
+        </div>
+        <div class="form-group col-md-6">
+          <label>
+            <span class="label-content">
+              {{ 'paymentForm.securityCode' | cxTranslate }}
+              <cx-icon
+                [type]="iconTypes.INFO"
+                class="cx-payment-form-tooltip"
+                placement="right"
+                title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}"
+                alt=""
+              ></cx-icon>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              id="cVVNumber"
+              required
+              formControlName="cvn"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-check">
+          <label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              (change)="toggleDefaultPaymentMethod()"
+            />
+            <span class="form-check-label">{{
+              'paymentForm.setAsDefault' | cxTranslate
+            }}</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- BILLING -->
+      <div class="cx-payment-form-billing">
+        <div class="cx-payment-form-billing-address">
+          {{ 'paymentForm.billingAddress' | cxTranslate }}
+        </div>
+
+        <!-- SAME AS SHIPPING CHECKBOX -->
+        <ng-container *ngIf="(showSameAsShippingAddressCheckbox() | async)">
+          <div class="form-group">
+            <div class="form-check">
+              <label>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [checked]="sameAsShippingAddress"
+                  (change)="toggleSameAsShippingAddress()"
+                />
+                <span class="form-check-label">{{
+                  'paymentForm.sameAsShippingAddress' | cxTranslate
+                }}</span>
+              </label>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- BILLING INFO COMPONENT -->
+        <ng-container
+          *ngIf="
+            (sameAsShippingAddress && shippingAddress$
+              | async) as shippingAddress;
+            else billingAddressForm
+          "
+        >
+          <cx-card [content]="getAddressCardContent(shippingAddress)"></cx-card>
+        </ng-container>
+
+        <ng-template #billingAddressForm>
+          <cx-billing-address-form
+            [billingAddress]="billingAddress"
+            [countries$]="countries$"
+          >
+          </cx-billing-address-form>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUTTON SECTION -->
+  <div class="cx-checkout-btns row">
+    <div class="col-md-12 col-lg-6">
+      <button
+        *ngIf="paymentMethodsCount === 0"
+        class="btn btn-block btn-action"
+        (click)="back()"
+      >
+        {{ 'common.back' | cxTranslate }}
+      </button>
+      <button
+        *ngIf="paymentMethodsCount > 0"
+        class="btn btn-block btn-action"
+        (click)="close()"
+      >
+        {{ 'paymentForm.changePayment' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="isContinueButtonDisabled()"
+        (click)="next()"
+      >
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -9,8 +9,6 @@ export class AddressCardComponent {
   editMode: boolean;
   isDefault: boolean;
 
-  @Input() userId: string;
-
   @Input() address: Address;
 
   @Output() editEvent = new EventEmitter<any>();
@@ -30,14 +28,10 @@ export class AddressCardComponent {
   }
 
   setAddressAsDefault(addressId: string): void {
-    if (this.userId) {
-      this.userService.setAddressAsDefault(this.userId, addressId);
-    }
+    this.userService.setAddressAsDefault(addressId);
   }
 
   deleteAddress(addressId: string): void {
-    if (this.userId) {
-      this.userService.deleteUserAddress(this.userId, addressId);
-    }
+    this.userService.deleteUserAddress(addressId);
   }
 }

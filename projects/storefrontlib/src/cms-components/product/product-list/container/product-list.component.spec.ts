@@ -3,11 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  NgbCollapseModule,
-  NgbPaginationModule,
-  NgbRatingModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   I18nTestingModule,
   ProductSearchPage,
@@ -103,9 +99,7 @@ describe('ProductListComponent in product-list', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPaginationModule,
         NgbCollapseModule,
-        NgbRatingModule,
         ListNavigationModule,
         FormsModule,
         RouterTestingModule,

@@ -3,11 +3,6 @@ import { CmsPageSlotsConfig, ContentSlotComponentData } from '@spartacus/core';
 export const headerComponents: {
   [key: string]: ContentSlotComponentData | any;
 } = {
-  SkipLinkComponent: {
-    typeCode: 'SkipLinkComponent',
-    flexType: 'SkipLinkComponent',
-    uid: 'SkipLinkComponent',
-  },
   HamburgerMenuComponent: {
     typeCode: 'HamburgerMenuComponent',
     flexType: 'HamburgerMenuComponent',
@@ -26,12 +21,13 @@ export const headerComponents: {
     typeCode: 'LanguageCurrencyComponent',
     flexType: 'LanguageCurrencyComponent',
   },
-  StoreFinder: {
-    typeCode: 'CMSLinkComponent',
-    flexType: 'CMSLinkComponent',
-    linkName: 'Find a Store',
-    url: '/store-finder',
-  },
+  // TODO:#2811 - uncomment to enable
+  // StoreFinder: {
+  //   typeCode: 'CMSLinkComponent',
+  //   flexType: 'CMSLinkComponent',
+  //   linkName: 'Find a Store',
+  //   url: '/store-finder',
+  // },
   BreadcrumbComponent: {
     typeCode: 'BreadcrumbComponent',
     flexType: 'BreadcrumbComponent',
