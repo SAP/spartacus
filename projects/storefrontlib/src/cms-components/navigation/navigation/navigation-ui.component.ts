@@ -19,7 +19,7 @@ export class NavigationUIComponent implements OnInit {
   columns;
 
   getColumns(children) {
-    const columns = new Array();
+    const columns = [];
 
     // Iterate subcategories
     for (let i = 0; i < children.length; i++) {
@@ -32,16 +32,13 @@ export class NavigationUIComponent implements OnInit {
 
       // Split subcategory items and header into columns
       if (children[i].children) {
-        const clonedChildren = children[i].children.slice(0);
-        clonedChildren.unshift(columnHeader);
+        const clonedChildren = [columnHeader, ...children[i].children];
         while (clonedChildren.length > 0) {
           columns.push(clonedChildren.splice(0, COLUMN_SIZE));
         }
       } else {
         // Push header only in case of no subcategory items
-        const headerArray = new Array();
-        headerArray.push(columnHeader);
-        columns.push(headerArray);
+        columns.push([columnHeader]);
       }
     }
 
