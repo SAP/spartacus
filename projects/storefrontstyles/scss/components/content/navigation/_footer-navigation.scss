@@ -1,39 +1,29 @@
 %cx-footer-navigation {
-  nav {
-    padding: 34px 0 0;
+  a {
+    text-decoration: underline;
+    font-size: var(--cx-g-font-small, 0.8rem);
+  }
 
-    @include media-breakpoint-up(md) {
-      margin: 0 0 47px;
-    }
-
+  cx-navigation-ui {
+    // first level heading / links
     h5 {
+      text-transform: uppercase;
       @include type('5');
-      margin: 0 0 12px;
-      text-transform: capitalize;
-
-      @include media-breakpoint-down(xs) {
-        text-align: center;
-      }
-    }
-    ul {
-      padding: 0;
-
-      @include media-breakpoint-down(xs) {
-        text-align: center;
-        padding: 0 0 24px;
-      }
-    }
-    li {
-      @include list-unstyled();
-    }
-    a {
-      padding: 0;
-      @include type();
-      &:hover {
-        text-decoration: none;
-      }
+      margin-bottom: 20px;
     }
   }
+
+  cx-navigation-ui {
+    justify-content: center;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    > nav {
+      margin: 3vw;
+    }
+  }
+
   .notice {
     padding: 32px 0;
     text-align: center;

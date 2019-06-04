@@ -1,56 +1,35 @@
-<div *ngIf="node" class="cx-nav-item nav-item" ngbDropdown>
-  <a
-    *ngIf="node.children && !node.title; else nodeWithChildren"
-    ngbDropdownToggle
-    >&nbsp;
-  </a>
-  <ng-template #nodeWithChildren>
-    <span
-      *ngIf="node.children; else noChildren"
-      ngbDropdownToggle
-      class="cx-nav-link nav-link"
-      role="link"
-      id="{{ node.title }}"
-      >{{ node.title }}</span
+<div
+  *ngIf="flyout && node?.children.length > 1"
+  class="back is-open"
+  (click)="back()"
+>
+  <h5>
+    <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+    {{ 'common.back' | cxTranslate }}
+  </h5>
+</div>
+
+<ng-container *ngFor="let child of node?.children">
+  <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+  </ng-container>
+</ng-container>
+
+<!-- we generate links in a recursive manner -->
+<ng-template #nav let-node="node">
+  <nav tabindex="0" (click)="toggleOpen($event)">
+    <cx-generic-link
+      *ngIf="
+        node.url && (!node.children || node.children?.length === 0);
+        else heading
+      "
+      [url]="node.url"
     >
-  </ng-template>
-  <ng-template #noChildren>
-    <a
-      [routerLink]="node.url"
-      class="cx-nav-link nav-link"
-      id="{{ node.title }}"
-      >{{ node.title }}
-    </a>
-  </ng-template>
-  <ng-container [ngSwitch]="dropdownMode">
-    <ng-container *ngSwitchCase="'list'">
-      <div
-        ngbDropdownMenu
-        class="cx-nav-child-list"
-        [attr.aria-label]="node.title"
-        role="list"
-      >
-        <div
-          role="listitem"
-          *ngFor="let subCategory of node.children"
-          class="dropdown-item cx-nav-child-item"
-        >
-          <ng-container *ngIf="subCategory.url">
-            <a [routerLink]="subCategory.url" class="cx-nav-child-link"
-              >{{ subCategory.title }}
-            </a>
-          </ng-container>
-          <ng-container *ngIf="!subCategory.url">
-            <a class="cx-nav-child-link">{{ subCategory.title }} </a>
-          </ng-container>
-          <a
-            [routerLink]="subCategoryChild.url"
-            *ngFor="let subCategoryChild of subCategory.children"
-            >{{ subCategoryChild.title }}
-          </a>
-        </div>
-      </div>
-    </ng-container>
+      {{ node.title }}
+      <cx-icon
+        *ngIf="flyout && node.children?.length > 0"
+        [type]="iconType.CARET_DOWN"
+      ></cx-icon>
+    </cx-generic-link>
 
     <ng-container *ngSwitchCase="'column'">
       <div
@@ -72,7 +51,28 @@
             </a>
           </div>
         </div>
+    <ng-template #heading>
+      <h5 [attr.aria-label]="node.title">
+        {{ node.title }}
+        <cx-icon
+          *ngIf="flyout && node.children?.length > 0"
+          [type]="iconType.CARET_DOWN"
+        ></cx-icon>
+      </h5>
+    </ng-template>
+
+    <!-- we add a wrapper to allow for better layout handling in CSS -->
+    <div class="wrapper" *ngIf="node.children?.length > 0">
+      <cx-generic-link *ngIf="node.url" [url]="node.url" class="all">
+        {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}
+      </cx-generic-link>
+
+      <div class="childs" [attr.depth]="getDepth(node)">
+        <ng-container *ngFor="let child of node.children">
+          <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+          </ng-container>
+        </ng-container>
       </div>
-    </ng-container>
-  </ng-container>
-</div>
+    </div>
+  </nav>
+</ng-template>

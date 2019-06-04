@@ -1,8 +1,8 @@
-function isObject(item) {
+function isObject(item: any): boolean {
   return item && typeof item === 'object' && !Array.isArray(item);
 }
 
-export function deepMerge(target = {}, ...sources) {
+export function deepMerge(target = {}, ...sources: any[]): any {
   if (!sources.length) {
     return target;
   }
@@ -10,7 +10,9 @@ export function deepMerge(target = {}, ...sources) {
 
   if (isObject(target) && isObject(source)) {
     for (const key in source) {
-      if (isObject(source[key])) {
+      if (source[key] instanceof Date) {
+        Object.assign(target, { [key]: source[key] });
+      } else if (isObject(source[key])) {
         if (!target[key]) {
           Object.assign(target, { [key]: {} });
         }
