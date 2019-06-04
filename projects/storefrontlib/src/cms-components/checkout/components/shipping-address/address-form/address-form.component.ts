@@ -117,7 +117,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap(country => this.userService.getRegions(country).pipe()),
+      switchMap(country => this.userService.getRegions(country)),
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
         if (regions.length > 0) {
