@@ -1,0 +1,36 @@
+@import 'theme';
+
+.cx-dialog-header {
+  padding: var(--cx-padding, 2rem 1.75rem 0.85rem);
+  border-width: var(--cx-border-width, 0);
+}
+
+.cx-dialog-title {
+  @include type('3');
+}
+
+.cx-dialog-body {
+  padding: var(--cx-padding, 1rem 1rem 0 1rem);
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 0);
+  }
+}
+
+.cx-dialog-row {
+  margin: var(--cx-margin, 0);
+  display: var(--cx-display, flex);
+  padding: var(--cx-padding, 0 0.875rem 2.875rem);
+  max-width: var(--cx-max-width, 100%);
+  flex-wrap: var(--cx-flex-wrap, wrap);
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: var(--cx-flex-direction, column);
+    padding: var(--cx-padding, 0);
+  }
+}
+
+.cx-dialog-item {
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 2rem);
+  }
+}
