@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { LoaderState } from '../../../state';
-import { OpenIdToken } from '../../models/token-types.model';
+import { OpenIdToken } from '../../models/kyma-token-types.model';
 import * as fromActions from '../actions/open-id-token.action';
-import { AUTH_FEATURE, StateWithAuth } from '../auth-state';
+import { KYMA_FEATURE, StateWithKyma } from '../kyma-state';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/open-id-token.selectors';
 
@@ -12,13 +12,13 @@ const testToken = {
 } as OpenIdToken;
 
 describe('Open ID Token Selectors', () => {
-  let store: Store<StateWithAuth>;
+  let store: Store<StateWithKyma>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(AUTH_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(KYMA_FEATURE, fromReducers.getReducers()),
       ],
     });
 

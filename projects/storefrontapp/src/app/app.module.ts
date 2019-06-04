@@ -33,6 +33,9 @@ if (!environment.production) {
     BrowserTransferStateModule,
     StorefrontModule.withConfig({
       production: environment.production,
+      authentication: {
+        kyma_enabled: true,
+      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
