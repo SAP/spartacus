@@ -6,7 +6,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import * as fromActions from '../actions/index';
 import * as fromUserActions from '../../../user/store/actions/index';
 import * as fromCartActions from './../../../cart/store/actions/index';
-import { AddMessage, GlobalMessageType } from '../../../global-message/index';
+import { AddMessage } from '../../../global-message/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
@@ -169,15 +169,7 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
-          switchMap(data => [
-            new fromActions.PlaceOrderSuccess(data),
-            new AddMessage({
-              text: {
-                key: 'checkoutOrderConfirmation.orderPlacedSuccessfully',
-              },
-              type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-            }),
-          ]),
+          switchMap(data => [new fromActions.PlaceOrderSuccess(data)]),
           catchError(error => of(new fromActions.PlaceOrderFail(error)))
         );
     })
