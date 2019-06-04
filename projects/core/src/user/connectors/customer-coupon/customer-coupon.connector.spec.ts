@@ -5,15 +5,15 @@ import { CustomerCouponConnector } from './customer-coupon.connector';
 import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements CustomerCouponAdapter {
-  loadCustomerCoupons = createSpy('loadCustomerCoupons').and.callFake(userId =>
+  getMyCoupons = createSpy('getMyCoupons').and.callFake(userId =>
     of(`loadList-${userId}`)
   );
-  subscribeCustomerCoupon = createSpy(
-    'subscribeCustomerCoupon'
-  ).and.returnValue(of({}));
-  unSubscribeCustomerCoupon = createSpy(
-    'unSubscribeCustomerCoupon'
-  ).and.returnValue(of({}));
+  turnOnNotification = createSpy('turnOnNotification').and.callFake(userId =>
+    of(`subscribe-${userId}`)
+  );
+  turnOffNotification = createSpy('turnOffNotification').and.returnValue(
+    of({})
+  );
 }
 
 describe('CustomerCouponConnector', () => {
@@ -35,28 +35,34 @@ describe('CustomerCouponConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('loadCustomerCoupons should call adapter', () => {
+  it('getMyCoupons should call adapter', () => {
     let result;
-    service.loadCustomerCoupons('user-id').subscribe(res => (result = res));
-    expect(result).toEqual('load-user-id');
-    expect(adapter.loadAll).toHaveBeenCalledWith('user-id');
+    service.getMyCoupons('user-id').subscribe(res => (result = res));
+    expect(result).toEqual('loadList-user-id');
+    expect(adapter.getMyCoupons).toHaveBeenCalledWith('user-id');
   });
 
-  it('subscribeCustomerCoupon should call adapter', () => {
+  it('turnOnNotification should call adapter', () => {
     let result;
     service
-      .subscribeCustomerCoupon('userId', 'couponCode')
+      .turnOnNotification('userId', 'couponCode')
       .subscribe(res => (result = res));
-    expect(result).toEqual({});
-    expect(adapter.subscribe).toHaveBeenCalledWith('userId', 'templateId');
+    expect(result).toEqual('subscribe-userId');
+    expect(adapter.turnOnNotification).toHaveBeenCalledWith(
+      'userId',
+      'couponCode'
+    );
   });
 
-  it('unSubscribeCustomerCoupon should call adapter', () => {
+  it('turnOffNotification should call adapter', () => {
     let result;
     service
-      .unSubscribeCustomerCoupon('userId', 'consentCode')
+      .turnOffNotification('userId', 'couponCode')
       .subscribe(res => (result = res));
     expect(result).toEqual({});
-    expect(adapter.unsubscribe).toHaveBeenCalledWith('userId', 'templateId');
+    expect(adapter.turnOffNotification).toHaveBeenCalledWith(
+      'userId',
+      'couponCode'
+    );
   });
 });
