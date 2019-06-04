@@ -5,12 +5,32 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { componentFactoryName } from '@angular/compiler';
 
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
+
+  // Generate mock navigation nodes
+  const getMockData = (
+    children?: Number,
+    subChildren?: Number
+  ): NavigationNode => {
+    const mockData = {
+      title: 'header',
+      children: [],
+    };
+
+    for (let i = 0; i < children; i++) {
+      const mockChild = { title: `child${i}`, children: [] };
+      for (let j = 0; j < subChildren; j++) {
+        mockChild.children.push({ title: `subChild${j}` });
+      }
+      mockData.children.push(mockChild.children);
+    }
+
+    return mockData;
+  };
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -173,71 +193,7 @@ describe('Navigation UI Component', () => {
     it('should render multiple columns for many children', () => {
       const getColumnList = (): DebugElement =>
         element.query(By.css('.cx-nav-child-list-columns'));
-      const mockData: NavigationNode = {
-        title: 'Test title',
-        children: [
-          {
-            url: '/subtest',
-            title: 'Sublink',
-            children: [
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-            ],
-          },
-          {
-            url: '/subtest',
-            title: 'Sublink',
-            children: [
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-            ],
-          },
-        ],
-      };
+      const mockData = getMockData(2, 6);
       navigationComponent.node = mockData;
       navigationComponent.dropdownMode = 'column';
       fixture.detectChanges();
@@ -256,72 +212,7 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render multiple columns for many children', () => {
-      const mockData: NavigationNode = {
-        title: 'Test title',
-        children: [
-          {
-            url: '/subtest',
-            title: 'Sublink',
-            children: [
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-            ],
-          },
-          {
-            url: '/subtest',
-            title: 'Sublink',
-            children: [
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-              {
-                url: '/subtest',
-                title: 'Sublink',
-              },
-            ],
-          },
-        ],
-      };
-
+      const mockData = getMockData(2, 6);
       const columns = navigationComponent.getColumns(mockData.children);
       expect(columns.length).toEqual(2);
     });
