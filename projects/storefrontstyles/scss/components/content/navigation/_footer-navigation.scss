@@ -21,6 +21,11 @@
 
     > nav {
       margin: 3vw;
+      > .wrapper {
+        @include media-breakpoint-down(md) {
+          height: auto;
+        }
+      }
     }
   }
 
