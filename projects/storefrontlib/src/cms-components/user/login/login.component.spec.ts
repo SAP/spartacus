@@ -102,6 +102,7 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
     fixture.detectChanges();
   });
 
@@ -111,16 +112,12 @@ describe('LoginComponent', () => {
 
   it('should have user details when token exists', () => {
     let user;
-    component.ngOnInit();
     component.user$.subscribe(result => (user = result));
     expect(user).toEqual(mockUserDetails);
   });
 
   it('should not get user details when token is lacking', () => {
     spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
-    authService
-      .getUserToken()
-      .subscribe(token => console.log('user token ', token));
     let user;
     component.ngOnInit();
     component.user$.subscribe(result => (user = result));
@@ -141,8 +138,6 @@ describe('LoginComponent', () => {
     });
 
     it('should display greeting message when the user is logged in', () => {
-      component.ngOnInit();
-      fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'login.userGreeting name:First Last'
       );

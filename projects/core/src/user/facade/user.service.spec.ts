@@ -42,7 +42,7 @@ describe('UserService', () => {
     }
   ));
 
-  it('get ) should be able to get user details when they are present in the store', () => {
+  it('get() should be able to get user details when they are present in the store', () => {
     store.dispatch(
       new fromStore.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
     );
