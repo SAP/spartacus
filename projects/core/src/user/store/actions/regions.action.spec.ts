@@ -6,13 +6,15 @@ import {
 } from '../../../state/utils/loader/loader.action';
 import { REGIONS } from '../user-state';
 
+const country = 'CA';
+
 describe('Regions Actions', () => {
   describe('LoadRegions', () => {
     it('should create the action', () => {
-      const action = new fromAction.LoadRegions('CA');
+      const action = new fromAction.LoadRegions(country);
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS,
-        payload: 'CA',
+        payload: country,
         meta: loadMeta(REGIONS),
       });
     });
@@ -33,7 +35,6 @@ describe('Regions Actions', () => {
 
   describe('LoadRegionsSuccess', () => {
     it('should create the action', () => {
-      const country = 'CA';
       const regions = [
         {
           isocode: 'CA-ON',

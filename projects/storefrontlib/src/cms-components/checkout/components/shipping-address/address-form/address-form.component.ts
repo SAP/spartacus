@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
 
 import {
   Address,
@@ -38,7 +38,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  selectedCountrySub: Subscription;
 
   @Input()
   addressData: Address;
@@ -117,18 +116,20 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.selectedCountrySub = this.selectedCountry$.subscribe(country => {
-      this.regions$ = this.userService.getRegions(country).pipe(
-        tap(regions => {
-          const regionControl = this.address.get('region.isocode');
-          if (regions.length > 0) {
-            regionControl.enable();
-          } else {
-            regionControl.disable();
-          }
-        })
-      );
-    });
+    this.regions$ = this.selectedCountry$.pipe(
+      switchMap(country => {
+        return this.userService.getRegions(country).pipe(
+          tap(regions => {
+            const regionControl = this.address.get('region.isocode');
+            if (regions.length > 0) {
+              regionControl.enable();
+            } else {
+              regionControl.disable();
+            }
+          })
+        );
+      })
+    );
 
     // verify the new added address
     this.addressVerifySub = this.checkoutService
@@ -245,9 +246,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();
-    }
-    if (this.selectedCountrySub) {
-      this.selectedCountrySub.unsubscribe();
     }
   }
 }

@@ -10,7 +10,7 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 
 import { RegionsEffects } from './regions.effect';
-import { CLEAR_MISCS_DATA } from '../actions';
+import { CLEAR_MISCS_DATA } from '../actions/index';
 import { REGIONS } from '../user-state';
 import { Region, LoaderResetAction } from '@spartacus/core';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';

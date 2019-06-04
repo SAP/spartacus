@@ -9,6 +9,18 @@ import { Region } from '../../../model/address.model';
 
 describe('Regions Selectors', () => {
   let store: Store<StateWithUser>;
+  const country = 'CA';
+  const mockRegions: Region[] = [
+    {
+      isocode: 'CA-ON',
+      name: 'Ontario',
+    },
+    {
+      isocode: 'CA-QC',
+      name: 'Quebec',
+    },
+  ];
+  const mockEmptyRegions: Region[] = [];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,18 +36,6 @@ describe('Regions Selectors', () => {
 
   describe('getAllRegions', () => {
     it('should return all regions', () => {
-      const mockRegions: Region[] = [
-        {
-          isocode: 'CA-ON',
-          name: 'Ontario',
-        },
-        {
-          isocode: 'CA-QC',
-          name: 'Quebec',
-        },
-      ];
-      const country = 'CA';
-
       let result: Region[];
       store
         .pipe(select(fromSelectors.getAllRegions))
@@ -53,9 +53,6 @@ describe('Regions Selectors', () => {
 
   describe('getRegionsCountry', () => {
     it('should return regions country', () => {
-      const mockRegions: Region[] = [];
-      const country = 'CA';
-
       let result: string;
       store
         .pipe(select(fromSelectors.getRegionsCountry))
@@ -63,7 +60,10 @@ describe('Regions Selectors', () => {
 
       expect(result).toBeNull();
       store.dispatch(
-        new fromActions.LoadRegionsSuccess({ entities: mockRegions, country })
+        new fromActions.LoadRegionsSuccess({
+          entities: mockEmptyRegions,
+          country,
+        })
       );
       expect(result).toEqual(country);
     });
@@ -71,8 +71,6 @@ describe('Regions Selectors', () => {
 
   describe('getRegionsLoading', () => {
     it('should return loading state', () => {
-      const country = 'CA';
-
       let result: boolean;
       store
         .pipe(select(fromSelectors.getRegionsLoading))
@@ -86,9 +84,6 @@ describe('Regions Selectors', () => {
 
   describe('getRegionsLoaded', () => {
     it('should return success state', () => {
-      const mockRegions: Region[] = [];
-      const country = 'CA';
-
       let result: boolean;
       store
         .pipe(select(fromSelectors.getRegionsLoaded))
@@ -96,7 +91,10 @@ describe('Regions Selectors', () => {
 
       expect(result).toEqual(false);
       store.dispatch(
-        new fromActions.LoadRegionsSuccess({ entities: mockRegions, country })
+        new fromActions.LoadRegionsSuccess({
+          entities: mockEmptyRegions,
+          country,
+        })
       );
       expect(result).toEqual(true);
     });

@@ -9,7 +9,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromActions from '../actions/index';
 import { CLEAR_MISCS_DATA } from '../actions/index';
 import { REGIONS } from '../user-state';
-import { LoaderResetAction } from '../../../state';
+import { LoaderResetAction } from '../../../state/index';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
 
 @Injectable()

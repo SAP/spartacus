@@ -288,21 +288,15 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call countrySelected()', () => {
-    const spy = spyOn(userService, 'getRegions').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    let selectedCountry;
-    component.selectedCountry$
-      .subscribe(country => {
-        selectedCountry = country;
-      })
-      .unsubscribe();
+    component.regions$.subscribe(_ => _);
     expect(
       component.address['controls'].country['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
-    expect(selectedCountry).toEqual(mockCountryIsocode);
-    expect(spy).toHaveBeenCalledWith(mockCountryIsocode);
+    expect(userService.getRegions).toHaveBeenCalledWith(mockCountryIsocode);
   });
 
   it('should call regionSelected()', () => {
