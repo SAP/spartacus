@@ -5,10 +5,6 @@
   display: flex;
   flex-wrap: wrap;
 
-  .EmptyCartMiddleContent {
-    display: none;
-  }
-
   .TopContent {
     --cx-flex-basis: 75%;
 
@@ -35,17 +31,6 @@
       cx-cart-totals {
         max-width: none;
       }
-    }
-  }
-
-  &.empty {
-    .EmptyCartMiddleContent {
-      display: block;
-    }
-
-    .TopContent,
-    .CenterRightContentSlot {
-      display: none;
     }
   }
 }
