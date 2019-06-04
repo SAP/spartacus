@@ -39,51 +39,45 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
 
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
-      map(textTitle => {
-        return {
-          title: textTitle,
-          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-          text: [
-            deliveryAddress.line1,
-            deliveryAddress.line2,
-            `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${
-              deliveryAddress.postalCode
-            }`,
-            deliveryAddress.phone,
-          ],
-        };
-      })
+      map(textTitle => ({
+        title: textTitle,
+        textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+        text: [
+          deliveryAddress.line1,
+          deliveryAddress.line2,
+          `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${
+            deliveryAddress.postalCode
+          }`,
+          deliveryAddress.phone,
+        ],
+      }))
     );
   }
 
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
     return this.translation.translate('checkoutShipping.shippingMethod').pipe(
-      map(textTitle => {
-        return {
-          title: textTitle,
-          textBold: deliveryMode.name,
-          text: [deliveryMode.description],
-        };
-      })
+      map(textTitle => ({
+        title: textTitle,
+        textBold: deliveryMode.name,
+        text: [deliveryMode.description],
+      }))
     );
   }
 
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.billTo').pipe(
-      map(textTitle => {
-        return {
-          title: textTitle,
-          textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-          text: [
-            billingAddress.line1,
-            billingAddress.line2,
-            `${billingAddress.town}, ${billingAddress.country.isocode}, ${
-              billingAddress.postalCode
-            }`,
-            billingAddress.phone,
-          ],
-        };
-      })
+      map(textTitle => ({
+        title: textTitle,
+        textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
+        text: [
+          billingAddress.line1,
+          billingAddress.line2,
+          `${billingAddress.town}, ${billingAddress.country.isocode}, ${
+            billingAddress.postalCode
+          }`,
+          billingAddress.phone,
+        ],
+      }))
     );
   }
 
@@ -95,13 +89,11 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
         year: payment.expiryYear,
       }),
     ]).pipe(
-      map(([textTitle, textExpires]) => {
-        return {
-          title: textTitle,
-          textBold: payment.accountHolderName,
-          text: [payment.cardNumber, textExpires],
-        };
-      })
+      map(([textTitle, textExpires]) => ({
+        title: textTitle,
+        textBold: payment.accountHolderName,
+        text: [payment.cardNumber, textExpires],
+      }))
     );
   }
 }

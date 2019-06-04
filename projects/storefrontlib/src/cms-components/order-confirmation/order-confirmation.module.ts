@@ -17,6 +17,13 @@ import { OrderConfirmationOverviewComponent } from './components/order-confirmat
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/index';
 
+const orderConfirmationComponents = [
+  OrderConfirmationItemsComponent,
+  OrderConfirmationOverviewComponent,
+  OrderConfirmationThankYouMessageComponent,
+  OrderConfirmationTotalsComponent,
+];
+
 @NgModule({
   imports: [
     CommonModule,
@@ -46,23 +53,8 @@ import { OrderConfirmationGuard } from './guards/index';
       },
     }),
   ],
-  declarations: [
-    OrderConfirmationItemsComponent,
-    OrderConfirmationOverviewComponent,
-    OrderConfirmationThankYouMessageComponent,
-    OrderConfirmationTotalsComponent,
-  ],
-  exports: [
-    OrderConfirmationItemsComponent,
-    OrderConfirmationOverviewComponent,
-    OrderConfirmationThankYouMessageComponent,
-    OrderConfirmationTotalsComponent,
-  ],
-  entryComponents: [
-    OrderConfirmationItemsComponent,
-    OrderConfirmationOverviewComponent,
-    OrderConfirmationThankYouMessageComponent,
-    OrderConfirmationTotalsComponent,
-  ],
+  declarations: [...orderConfirmationComponents],
+  exports: [...orderConfirmationComponents],
+  entryComponents: [...orderConfirmationComponents],
 })
 export class OrderConfirmationModule {}
