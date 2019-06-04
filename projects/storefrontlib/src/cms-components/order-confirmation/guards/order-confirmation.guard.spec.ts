@@ -2,8 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { OrderConfirmationPageGuard } from './order-confirmation-page.guard';
-import { Order, RoutingService, CheckoutService } from '@spartacus/core';
+import { OrderConfirmationGuard } from './order-confirmation.guard';
+import {
+  Order,
+  RoutingService,
+  CheckoutService,
+  SemanticPathService,
+} from '@spartacus/core';
 
 class MockCheckoutService {
   getOrderDetails(): Observable<Order> {
@@ -11,9 +16,17 @@ class MockCheckoutService {
   }
 }
 
-describe(`OrderConfirmationPageGuard`, () => {
-  let routingService: RoutingService;
-  let guard: OrderConfirmationPageGuard;
+class MockSemanticPageService {
+  get(route: string): string {
+    if (route === 'orders') {
+      return '/my-account/orders';
+    }
+    return undefined;
+  }
+}
+
+describe(`OrderConfirmationGuard`, () => {
+  let guard: OrderConfirmationGuard;
   let mockCheckoutService: MockCheckoutService;
 
   beforeEach(() => {
@@ -24,24 +37,21 @@ describe(`OrderConfirmationPageGuard`, () => {
           useValue: { go: jasmine.createSpy() },
         },
         { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: SemanticPathService, useClass: MockSemanticPageService },
       ],
       imports: [RouterTestingModule],
     });
 
-    routingService = TestBed.get(RoutingService);
-    guard = TestBed.get(OrderConfirmationPageGuard);
+    guard = TestBed.get(OrderConfirmationGuard);
     mockCheckoutService = TestBed.get(CheckoutService);
   });
 
   describe(`when there is NO order details present`, () => {
-    it(`should return false and navigate to order history page`, done => {
+    it(`should return UrlTree to order history page`, done => {
       spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(of({}));
 
       guard.canActivate().subscribe(result => {
-        expect(result).toEqual(false);
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'orders',
-        });
+        expect(result.toString()).toEqual('/my-account/orders');
         done();
       });
     });
@@ -55,7 +65,6 @@ describe(`OrderConfirmationPageGuard`, () => {
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(true);
-        expect(routingService.go).not.toHaveBeenCalled();
         done();
       });
     });
