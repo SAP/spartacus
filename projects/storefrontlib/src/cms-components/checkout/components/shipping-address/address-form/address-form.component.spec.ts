@@ -41,8 +41,6 @@ class MockUserService {
   getRegions(): Observable<Region[]> {
     return of();
   }
-
-  loadRegions(_countryIsoCode: string): void {}
 }
 
 const mockTitles: Title[] = [
@@ -290,14 +288,15 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call countrySelected()', () => {
-    spyOn(userService, 'loadRegions').and.stub();
-
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
+    component.ngOnInit();
+    component.regions$.subscribe(_ => _);
     expect(
       component.address['controls'].country['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
-    expect(userService.loadRegions).toHaveBeenCalled();
+    expect(userService.getRegions).toHaveBeenCalledWith(mockCountryIsocode);
   });
 
   it('should call regionSelected()', () => {
