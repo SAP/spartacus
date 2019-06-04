@@ -14,7 +14,7 @@ import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
-import { defaultGlobalMessageConfig } from '../../config/default-global-message-config';
+import { defaultGlobalMessageConfigFactory } from '../../config/default-global-message-config';
 
 function spyOnOperator(obj: any, prop: string): any {
   const oldProp: Function = obj[prop];
@@ -48,7 +48,7 @@ describe('GlobalMessage Effects', () => {
         Store,
         {
           provide: GlobalMessageConfig,
-          useValue: defaultGlobalMessageConfig,
+          useValue: defaultGlobalMessageConfigFactory(),
         },
       ],
     });

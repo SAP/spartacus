@@ -10,14 +10,14 @@ import { GlobalMessageStoreModule } from './store/global-message-store.module';
 import { GlobalMessageEffect } from './store/effects/global-message.effect';
 
 import { Config, ConfigModule } from '../config/config.module';
-import { defaultGlobalMessageConfig } from './config/default-global-message-config';
+import { defaultGlobalMessageConfigFactory } from './config/default-global-message-config';
 import { GlobalMessageConfig } from './config/global-message-config';
 
 @NgModule({
   imports: [
     GlobalMessageStoreModule,
     EffectsModule.forFeature([GlobalMessageEffect]),
-    ConfigModule.withConfig(defaultGlobalMessageConfig),
+    ConfigModule.withConfigFactory(defaultGlobalMessageConfigFactory),
   ],
   providers: [
     GlobalMessageService,

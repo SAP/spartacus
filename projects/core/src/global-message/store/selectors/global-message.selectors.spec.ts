@@ -16,9 +16,11 @@ import {
   GlobalMessageEntities,
 } from '../global-message-state';
 import { Translatable } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 
 describe('Global Messages selectors', () => {
   let store: Store<StateWithGlobalMessage>;
+  let sub: Subscription;
 
   const testMessageConfirmation: GlobalMessage = {
     text: { raw: 'testConf' },
@@ -46,6 +48,9 @@ describe('Global Messages selectors', () => {
       ],
     });
 
+    if (sub) {
+      sub.unsubscribe();
+    }
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -53,10 +58,9 @@ describe('Global Messages selectors', () => {
   describe('getGlobalMessagesActiveState', () => {
     it('Should return the global Message active state', () => {
       let result: GlobalMessageState;
-      store
+      sub = store
         .pipe(select(fromSelectors.getGlobalMessageState))
-        .subscribe(value => (result = value))
-        .unsubscribe();
+        .subscribe(value => (result = value));
       expect(result).toEqual({ entities: {} });
     });
   });
@@ -65,12 +69,11 @@ describe('Global Messages selectors', () => {
     it('Should return the list of global messages', () => {
       let result: GlobalMessageEntities;
 
-      store
+      sub = store
         .pipe(select(fromSelectors.getGlobalMessageEntities))
         .subscribe(value => {
           result = value;
-        })
-        .unsubscribe();
+        });
 
       expect(result).toEqual({});
 
@@ -86,7 +89,7 @@ describe('Global Messages selectors', () => {
     it('Should return the list of global messages by type', () => {
       let result: Translatable[];
 
-      store
+      sub = store
         .pipe(
           select(
             fromSelectors.getGlobalMessageEntitiesByType(
@@ -96,8 +99,7 @@ describe('Global Messages selectors', () => {
         )
         .subscribe(value => {
           result = value;
-        })
-        .unsubscribe();
+        });
 
       store.dispatch(new fromActions.AddMessage(testMessageError));
       expect(result).toEqual(undefined);
@@ -112,7 +114,7 @@ describe('Global Messages selectors', () => {
     it('Should return count of global messages by type', () => {
       let result: number;
 
-      store
+      sub = store
         .pipe(
           select(
             fromSelectors.getGlobalMessageCountByType(
@@ -122,8 +124,7 @@ describe('Global Messages selectors', () => {
         )
         .subscribe(value => {
           result = value;
-        })
-        .unsubscribe();
+        });
 
       store.dispatch(new fromActions.AddMessage(testMessageError));
       expect(result).toBe(undefined);
