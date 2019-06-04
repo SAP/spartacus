@@ -9,12 +9,8 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translations } from '@spartacus/assets';
-import { ConfigModule } from '@spartacus/core';
-import {
-  defaultCmsContentConfig,
-  StorefrontComponent,
-  StorefrontModule,
-} from '@spartacus/storefront';
+import { StorefrontComponent } from '@spartacus/storefront';
+import { B2cStorefrontModule } from 'projects/storefrontlib/src/config/b2c-storefront.module';
 import { environment } from '../environments/environment';
 
 registerLocaleData(localeDe);
@@ -31,7 +27,7 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-    StorefrontModule.withConfig({
+    B2cStorefrontModule.withConfig({
       production: environment.production,
       backend: {
         occ: {
@@ -39,38 +35,26 @@ if (!environment.production) {
           legacy: false,
         },
       },
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
-      },
       siteContext: {
-        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
+        // urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
         parameters: {
           BASE_SITE: {
             values: [
               'electronics-spa',
-              'electronics',
-              'apparel-de',
-              'apparel-uk',
+              //   'electronics',
+              //   'apparel-de',
+              //   'apparel-uk',
             ],
             defaultValue: 'electronics-spa',
-            persistence: 'route',
+            // persistence: 'route',
           },
         },
       },
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:name/:productCode', 'product/:productCode'],
-          },
-        },
-      },
+
       i18n: {
         resources: translations,
       },
     }),
-
-    ConfigModule.withConfigFactory(defaultCmsContentConfig),
 
     ...devImports,
   ],
