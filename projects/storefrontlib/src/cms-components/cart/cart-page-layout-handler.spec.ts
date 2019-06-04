@@ -1,7 +1,7 @@
 import { CartPageLayoutHandler } from './cart-page-layout-handler';
 import { of } from 'rxjs';
 
-fdescribe('CartPageLayoutHandler', () => {
+describe('CartPageLayoutHandler', () => {
   const mockCartService: any = {
     getActive() {
       return of({ totalItems: 0 });
