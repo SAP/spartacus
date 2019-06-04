@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
-import { map, tap, debounceTime } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { debounceTime, map, tap } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
@@ -34,7 +34,13 @@ export class UserService {
    * Returns a user
    */
   get(): Observable<User> {
-    return this.store.pipe(select(fromStore.getDetails));
+    return this.store.pipe(select(fromStore.getDetails)).pipe(
+      tap(details => {
+        if (Object.keys(details).length === 0) {
+          this.load();
+        }
+      })
+    );
   }
 
   /**
