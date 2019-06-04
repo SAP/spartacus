@@ -3,11 +3,6 @@ import { CmsPageSlotsConfig, ContentSlotComponentData } from '@spartacus/core';
 export const headerComponents: {
   [key: string]: ContentSlotComponentData | any;
 } = {
-  SkipLinkComponent: {
-    typeCode: 'SkipLinkComponent',
-    flexType: 'SkipLinkComponent',
-    uid: 'SkipLinkComponent',
-  },
   HamburgerMenuComponent: {
     typeCode: 'HamburgerMenuComponent',
     flexType: 'HamburgerMenuComponent',

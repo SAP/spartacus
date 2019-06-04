@@ -29,6 +29,9 @@ if (!environment.production) {
     BrowserTransferStateModule,
     B2cStorefrontModule.withConfig({
       production: environment.production,
+      authentication: {
+        kyma_enabled: false,
+      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
