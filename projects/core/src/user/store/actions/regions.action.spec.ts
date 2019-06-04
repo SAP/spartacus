@@ -1,12 +1,21 @@
 import * as fromAction from './regions.action';
+import {
+  loadMeta,
+  failMeta,
+  successMeta,
+} from '../../../state/utils/loader/loader.action';
+import { REGIONS } from '../user-state';
+
+const country = 'CA';
 
 describe('Regions Actions', () => {
   describe('LoadRegions', () => {
     it('should create the action', () => {
-      const action = new fromAction.LoadRegions('CA');
+      const action = new fromAction.LoadRegions(country);
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS,
-        payload: 'CA',
+        payload: country,
+        meta: loadMeta(REGIONS),
       });
     });
   });
@@ -19,6 +28,7 @@ describe('Regions Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS_FAIL,
         payload: error,
+        meta: failMeta(REGIONS, error),
       });
     });
   });
@@ -35,10 +45,26 @@ describe('Regions Actions', () => {
           name: 'Quebec',
         },
       ];
-      const action = new fromAction.LoadRegionsSuccess(regions);
+      const action = new fromAction.LoadRegionsSuccess({
+        country,
+        entities: regions,
+      });
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS_SUCCESS,
-        payload: regions,
+        payload: {
+          entities: regions,
+          country,
+        },
+        meta: successMeta(REGIONS),
+      });
+    });
+  });
+
+  describe('ClearRegions', () => {
+    it('should create the action', () => {
+      const action = new fromAction.ClearRegions();
+      expect({ ...action }).toEqual({
+        type: fromAction.CLEAR_REGIONS,
       });
     });
   });
