@@ -110,10 +110,10 @@ export function sortByTopRated() {
   cy.get(firstProductNameSelector).should('not.be.empty');
 }
 
-export function checkFirstItem(title: string): void {
+export function checkFirstItem(productName: string): void {
   cy.get('cx-product-list-item .cx-product-name')
     .first()
-    .should('contain', title);
+    .should('contain', productName);
 }
 
 export function createGenericQuery(alias: string): void {
