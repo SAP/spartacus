@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
-import * as navigationItemActions from '../actions/navigation-entry-item.action';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import * as navigationItemActions from '../actions/navigation-entry-item.action';
 
 @Injectable()
 export class NavigationEntryItemEffects {

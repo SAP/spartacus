@@ -46,9 +46,7 @@ class MockUserService {
   get(): Observable<User> {
     return of(mockUserDetails);
   }
-  load(_userId: string): Observable<any> {
-    return of();
-  }
+  load(): void {}
 }
 
 @Component({

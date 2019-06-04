@@ -45,6 +45,9 @@ export const common = {
     skipToMainContent: 'Skip to main content',
     skipToFooter: 'Skip to Footer',
   },
+  navigation: {
+    shopAll: 'Shop all {{ navNode}} >',
+  },
   searchBox: {
     placeholder: 'Search here...',
     help: {
