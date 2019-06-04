@@ -10,6 +10,7 @@ import { Address } from '../../../model/address.model';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserService } from '../../facade/index';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -64,7 +65,18 @@ export class UserAddressesEffects {
         .update(payload.userId, payload.addressId, payload.address)
         .pipe(
           map((data: any) => {
-            return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
+            // don't show the message if just setting address as default
+            if (
+              payload.address &&
+              Object.keys(payload.address).length === 1 &&
+              payload.address.defaultAddress
+            ) {
+              return new fromUserAddressesAction.LoadUserAddresses(
+                USERID_CURRENT
+              );
+            } else {
+              return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
+            }
           }),
           catchError(error =>
             of(new fromUserAddressesAction.UpdateUserAddressFail(error))
