@@ -5,7 +5,7 @@ import {
   CheckoutService,
   PaymentDetails,
   CheckoutDeliveryService,
-  CheckoutPaymentService
+  CheckoutPaymentService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -51,7 +51,9 @@ export class CheckoutDetailsService {
 
   getSelectedDeliveryModeCode(): Observable<string> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.getSelectedDeliveryModeCode())
+      switchMap(() =>
+        this.checkoutDeliveryService.getSelectedDeliveryModeCode()
+      )
     );
   }
 

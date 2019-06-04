@@ -6,7 +6,11 @@ import {
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { DeliveryMode, CheckoutDeliveryService, RoutingService } from '@spartacus/core';
+import {
+  DeliveryMode,
+  CheckoutDeliveryService,
+  RoutingService,
+} from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
