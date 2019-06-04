@@ -4,9 +4,9 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { GlobalMessageService } from '@spartacus/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { GlobalMessageService, ServerConfig } from '@spartacus/core';
 import { HttpResponseStatus } from '../models/response-status.model';
 import {
   BadGatewayHandler,
@@ -25,6 +25,7 @@ describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
   let http: HttpClient;
+  const MockServerConfig: ServerConfig = { production: false };
 
   beforeEach(() => {
     mockMessageService = {
@@ -88,6 +89,7 @@ describe('HttpErrorInterceptor', () => {
           multi: true,
         },
         { provide: GlobalMessageService, useValue: mockMessageService },
+        { provide: ServerConfig, useValue: MockServerConfig },
       ],
     });
 
@@ -122,5 +124,23 @@ describe('HttpErrorInterceptor', () => {
     testHandlers(ForbiddenHandler, HttpResponseStatus.FORBIDDEN);
     testHandlers(GatewayTimeoutHandler, HttpResponseStatus.GATEWAY_TIMEOUT);
     testHandlers(NotFoundHandler, HttpResponseStatus.NOT_FOUND);
+
+    describe('Unknown response warning for non production env', () => {
+      it(`should display proper warning message in the console`, () => {
+        spyOn(console, 'warn');
+        http
+          .get('/unknown')
+          .pipe(catchError((error: any) => throwError(error)))
+          .subscribe(_result => {}, error => (this.error = error));
+
+        const mockReq = httpMock.expectOne(req => {
+          return req.method === 'GET';
+        });
+        mockReq.flush({}, { status: 123, statusText: 'unknown' });
+        expect(console.warn).toHaveBeenCalledWith(
+          `Unknown http response error: ${HttpResponseStatus.UNKNOWN}`
+        );
+      });
+    });
   });
 });
