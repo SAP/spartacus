@@ -4,7 +4,7 @@ import {
   OrderHistoryList,
   RoutingService,
   TranslationService,
-  UserService,
+  UserOrderService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { map, tap } from 'rxjs/operators';
 export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private routing: RoutingService,
-    private userService: UserService,
+    private userOrderService: UserOrderService,
     private translation: TranslationService
   ) {}
 
@@ -28,7 +28,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   sortType: string;
 
   ngOnInit(): void {
-    this.orders$ = this.userService.getOrderHistoryList(this.PAGE_SIZE).pipe(
+    this.orders$ = this.userOrderService.getOrderHistoryList(this.PAGE_SIZE).pipe(
       tap((orders: OrderHistoryList) => {
         if (orders.pagination) {
           this.sortType = orders.pagination.sort;
@@ -36,11 +36,11 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.isLoaded$ = this.userService.getOrderHistoryListLoaded();
+    this.isLoaded$ = this.userOrderService.getOrderHistoryListLoaded();
   }
 
   ngOnDestroy(): void {
-    this.userService.clearOrderList();
+    this.userOrderService.clearOrderList();
   }
 
   changeSortCode(sortCode: string): void {
@@ -82,7 +82,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.userService.loadOrderList(
+    this.userOrderService.loadOrderList(
       this.PAGE_SIZE,
       event.currentPage,
       event.sortCode

@@ -10,7 +10,7 @@ import {
   PaymentDetails,
   Cart,
   OrderEntry,
-  UserService,
+  UserAddressService,
   TranslationService,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
@@ -30,7 +30,7 @@ export class ReviewSubmitComponent implements OnInit {
 
   constructor(
     protected checkoutService: CheckoutService,
-    protected userService: UserService,
+    protected userAddressService: UserAddressService,
     protected cartService: CartService,
     private translation: TranslationService
   ) {}
@@ -51,11 +51,11 @@ export class ReviewSubmitComponent implements OnInit {
 
     this.countryName$ = this.deliveryAddress$.pipe(
       switchMap((address: Address) =>
-        this.userService.getCountry(address.country.isocode)
+        this.userAddressService.getCountry(address.country.isocode)
       ),
       tap((country: Country) => {
         if (country === null) {
-          this.userService.loadDeliveryCountries();
+          this.userAddressService.loadDeliveryCountries();
         }
       }),
       map((country: Country) => country && country.name)

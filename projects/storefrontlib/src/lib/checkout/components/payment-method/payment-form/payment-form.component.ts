@@ -19,7 +19,7 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { Card } from '../../../../../shared/components/card/card.component'; // tslint:disable-line
@@ -89,7 +89,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   constructor(
     protected checkoutService: CheckoutService,
-    protected userService: UserService,
+    protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private modalService: ModalService
@@ -97,11 +97,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expMonthAndYear();
-    this.countries$ = this.userService.getAllBillingCountries().pipe(
+    this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap(countries => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
-          this.userService.loadBillingCountries();
+          this.userPaymentService.loadBillingCountries();
         }
       })
     );

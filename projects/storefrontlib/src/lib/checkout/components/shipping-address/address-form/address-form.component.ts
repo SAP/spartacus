@@ -20,7 +20,8 @@ import {
   GlobalMessageType,
   Region,
   Title,
-  UserService,
+  UserAddressService,
+  UserService
 } from '@spartacus/core';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import {
@@ -87,16 +88,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     protected checkoutService: CheckoutService,
     protected userService: UserService,
+    protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     private modalService: ModalService
   ) {}
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.userService.getDeliveryCountries().pipe(
+    this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
       tap(countries => {
         if (Object.keys(countries).length === 0) {
-          this.userService.loadDeliveryCountries();
+          this.userAddressService.loadDeliveryCountries();
         }
       })
     );
@@ -115,7 +117,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.regions$ = this.userService.getRegions().pipe(
+    this.regions$ = this.userAddressService.getRegions().pipe(
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
 
@@ -123,7 +125,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           regionControl.disable();
           const countryIsoCode = this.address.get('country.isocode').value;
           if (countryIsoCode) {
-            this.userService.loadRegions(countryIsoCode);
+            this.userAddressService.loadRegions(countryIsoCode);
           }
         } else {
           regionControl.enable();
@@ -178,7 +180,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.address['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
-    this.userService.loadRegions(country.isocode);
+    this.userAddressService.loadRegions(country.isocode);
   }
 
   regionSelected(region: Region): void {
