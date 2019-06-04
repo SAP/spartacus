@@ -21,3 +21,4 @@ export * from './user-consents.action';
 export * from './user-details.action';
 export * from './user-orders.action';
 export * from './user-register.action';
+export * from './customer-coupon.action';
