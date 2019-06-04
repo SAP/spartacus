@@ -27,7 +27,7 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-store-finder-list, cx-store-finder-search, cx-store-finder-schedule,
   cx-store-finder-map, cx-add-to-home-screen-banner, cx-item-counter,
   cx-star-rating, cx-spinner, cx-icon, cx-media, cx-tab-paragraph-container,
-  cx-add-to-cart !default;
+  cx-add-to-cart, cx-global-message !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut

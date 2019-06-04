@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { map, tap, debounceTime } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
@@ -335,10 +335,39 @@ export class UserService {
   }
 
   /**
+   * Clear regions in store - useful when changing country
+   */
+  clearRegions(): void {
+    this.store.dispatch(new fromStore.ClearRegions());
+  }
+
+  /**
    * Returns all regions
    */
-  getRegions(): Observable<Region[]> {
-    return this.store.pipe(select(fromStore.getAllRegions));
+  getRegions(countryIsoCode: string): Observable<Region[]> {
+    return combineLatest(
+      this.store.pipe(select(fromStore.getAllRegions)),
+      this.store.pipe(select(fromStore.getRegionsCountry)),
+      this.store.pipe(select(fromStore.getRegionsLoading)),
+      this.store.pipe(select(fromStore.getRegionsLoaded))
+    ).pipe(
+      debounceTime(1), // fix for inconsistent result on store mutations
+      map(([regions, country, loading, loaded]) => {
+        if (!countryIsoCode) {
+          this.clearRegions();
+          return [];
+        } else if (loading && !loaded) {
+          // don't interrupt loading
+          return [];
+        } else if (!loading && countryIsoCode !== country) {
+          // country changed - clear store and load new regions
+          this.clearRegions();
+          this.loadRegions(countryIsoCode);
+          return [];
+        }
+        return regions;
+      })
+    );
   }
 
   /**
