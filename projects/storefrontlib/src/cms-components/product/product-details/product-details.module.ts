@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CmsModule, I18nModule } from '@spartacus/core';
+import { CmsModule, I18nModule, UrlModule } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
+import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import {
   FormComponentsModule,
   MediaModule,
   StarRatingModule,
 } from '../../../shared/index';
-import { AddToCartModule, CartSharedModule } from '../../checkout/index';
+import { AddToCartModule, CartSharedModule } from '../../cart/index';
 import { ProductDetailsComponent } from './container/product-details.component';
-import { ProductImagesComponent } from './product-images/product-images.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
 
 @NgModule({
@@ -28,16 +28,10 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     FormComponentsModule,
     MediaModule,
     StarRatingModule,
+    UrlModule,
+    PageSlotModule,
   ],
-  declarations: [
-    ProductDetailsComponent,
-    ProductSummaryComponent,
-    ProductImagesComponent,
-  ],
-  exports: [
-    ProductDetailsComponent,
-    ProductSummaryComponent,
-    ProductImagesComponent,
-  ],
+  declarations: [ProductDetailsComponent, ProductSummaryComponent],
+  exports: [ProductDetailsComponent, ProductSummaryComponent],
 })
 export class ProductDetailsModule {}

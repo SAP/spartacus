@@ -9,9 +9,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+  CmsComponent,
   CmsService,
   CmsSiteContextSelectorComponent,
-  Component as SpaComponent,
   contextServiceMapProvider,
   CurrencyService,
   Language,
@@ -20,7 +20,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BootstrapModule } from '../../../lib/bootstrap.module';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
@@ -75,13 +74,13 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     getComponentData: () => of(mockComponentData),
   };
 
-  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
+  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: of(mockComponentData),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BootstrapModule, BrowserAnimationsModule],
+      imports: [BrowserAnimationsModule],
       declarations: [
         SiteContextSelectorComponent,
         MockUrlPipe,

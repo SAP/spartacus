@@ -2,12 +2,9 @@
   align-self: center;
   line-height: normal;
 
-  &:before {
-    font-size: 25px;
-  }
   &.small {
     &:before {
-      font-size: 15px;
+      font-size: 1.2rem;
     }
   }
 

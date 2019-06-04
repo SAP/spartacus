@@ -6,13 +6,20 @@ export enum ICON_TYPE {
   GRID = 'GRID',
   LIST = 'LIST',
   CARET_DOWN = 'CARET_DOWN',
+  CARET_LEFT = 'CARET_LEFT',
+  CARET_RIGHT = 'CARET_RIGHT',
   TIMES = 'TIMES',
   ERROR = 'ERROR',
   WARNING = 'WARNING',
   SUCCESS = 'SUCCESS',
   VISA = 'VISA',
+  MASTER_CARD = 'MASTER_CARD',
+  AMEX = 'AMEX',
+  DINERS_CLUB = 'DINERS_CLUB',
+  CREDIT_CARD = 'CREDIT_CARD',
   PLUS = 'PLUS',
   MINUS = 'MINUS',
+  RESET = 'RESET',
 }
 
 export abstract class IconConfig {

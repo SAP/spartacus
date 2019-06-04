@@ -1,30 +1,28 @@
-import { ActivatedRoute } from '@angular/router';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  DebugElement,
   ChangeDetectionStrategy,
   Component,
+  DebugElement,
   Input,
 } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+import { ActivatedRoute } from '@angular/router';
 import {
-  ProductSearchService,
-  ProductSearchPage,
   I18nTestingModule,
+  ProductSearchPage,
+  ProductSearchService,
 } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-import { ICON_TYPE } from '../../../misc/index';
+import { Observable, of } from 'rxjs';
+import { ICON_TYPES } from '../../../misc/icon/icon.config';
+import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+import { ModalService } from '../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-icon',
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  @Input() type: ICON_TYPES;
 }
 
 describe('ProductFacetNavigationComponent in product-list', () => {
@@ -35,7 +33,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   class MockProductSearchService {
     search = jasmine.createSpy('search');
-    getSearchResults(): Observable<ProductSearchPage> {
+    getResults(): Observable<ProductSearchPage> {
       return of();
     }
 
@@ -82,7 +80,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModalModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [ProductFacetNavigationComponent, MockCxIconComponent],
       providers: [
         {
@@ -93,6 +91,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute,
         },
+        { provide: ModalService, useValue: { open: () => {} } },
       ],
     })
       .overrideComponent(ProductFacetNavigationComponent, {
@@ -125,7 +124,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
   describe('ProductFacetNavigationComponent UI tests', () => {
     beforeEach(() => {
       component.ngOnInit();
-      spyOn(service, 'getSearchResults').and.returnValue(
+      spyOn(service, 'getResults').and.returnValue(
         of({
           facets: mockFacets,
         })

@@ -25,7 +25,7 @@ export interface Converter<S, T> {
   providedIn: 'root',
 })
 export class ConverterService {
-  constructor(private injector: Injector) {}
+  constructor(protected injector: Injector) {}
 
   private converters: Map<
     InjectionToken<Converter<any, any>>,

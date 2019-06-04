@@ -26,10 +26,12 @@ export function goToProductDetailsPage() {
     .find('img')
     .click({ force: true });
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) img').click();
+  cy.get('.Section2 cx-banner:nth-of-type(6) img').click({ force: true });
   cy.get('cx-product-summary').within(() => {
-    cy.get('.name').should('contain', product.name);
     cy.get('.code').should('contain', product.code);
+  });
+  cy.get('cx-breadcrumb').within(() => {
+    cy.get('h1').should('contain', product.name);
   });
 }
 
@@ -37,7 +39,9 @@ export function addProductToCart() {
   cy.get('cx-item-counter')
     .getByText('+')
     .click();
-  cy.get('cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.getByText(/proceed to checkout/i).click();
@@ -47,11 +51,6 @@ export function addProductToCart() {
 }
 
 export function fillAddressForm() {
-  // TODO: Remove this behavior when redirect will work correctly
-  cy.get('cx-product-page');
-  cy.get('cx-mini-cart a').click();
-  cy.get('cx-cart-details');
-  cy.get('.btn.btn-primary').click();
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()

@@ -1,30 +1,26 @@
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement, Component, Input } from '@angular/core';
+import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import { Component as SpaComponent } from '@spartacus/core';
+import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { NavigationNode } from '../navigation/navigation-node.model';
+import createSpy = jasmine.createSpy;
 
 @Component({
   template: '',
   selector: 'cx-navigation-ui',
 })
 class MockNavigationComponent {
-  @Input()
-  node: NavigationNode;
-  @Input()
-  dropdownMode: string;
+  @Input() node: NavigationNode;
 }
 
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
   let fixture: ComponentFixture<CategoryNavigationComponent>;
-  let nav: DebugElement;
+  let element: DebugElement;
 
   const componentData: NavigationNode = {
     title: 'test',
@@ -42,13 +38,13 @@ describe('CategoryNavigationComponent', () => {
     ],
   };
 
-  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
-    data$: of(componentData),
+  const mockCmsComponentData = <CmsNavigationComponent>{
+    styleClass: 'footer-styling',
   };
 
   const mockNavigationService = {
-    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
-    getComponentData: createSpy().and.returnValue(of(null)),
+    getNavigationNode: createSpy().and.returnValue(of(null)),
+    getComponentData: createSpy().and.returnValue(of(mockCmsComponentData)),
   };
 
   beforeEach(async(() => {
@@ -67,27 +63,23 @@ describe('CategoryNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryNavigationComponent);
     component = fixture.componentInstance;
+    element = fixture.debugElement;
     component.node$ = of(componentData);
     fixture.detectChanges();
   });
 
-  it('should create category navigation component in CmsLib', () => {
+  it('should create CategoryNavigationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('UI tests', () => {
-    beforeAll(() => {
-      nav = fixture.debugElement;
-    });
+  it('should create CategoryNavigationComponent', () => {
+    let result: NavigationNode;
+    component.node$.subscribe(node => (result = node));
+    expect(result).toEqual(componentData);
+  });
 
-    it('should use semantic nav element', () => {
-      const navElem: HTMLElement = nav.nativeElement;
-      expect(navElem.firstElementChild.tagName).toBe('NAV');
-    });
-
-    it('should display correct number of submenus', () => {
-      const navElem: HTMLElement = nav.nativeElement;
-      expect(navElem.firstElementChild.childElementCount).toBe(2);
-    });
+  it('should add the component styleClass', () => {
+    const navigationUI = element.query(By.css('cx-navigation-ui'));
+    expect(navigationUI.nativeElement.classList).toContain('footer-styling');
   });
 });

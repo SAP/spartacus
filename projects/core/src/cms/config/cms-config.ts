@@ -1,8 +1,7 @@
 import { StaticProvider } from '@angular/core';
-
+import { Routes } from '@angular/router';
 import { AuthConfig } from '../../auth/config/auth-config';
 import { OccConfig } from '../../occ/config/occ-config';
-import { Routes } from '@angular/router';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -28,6 +27,9 @@ export interface JspIncludeCmsComponentConfig {
   AccountAddressBookComponent?: CmsComponentMapping;
   ForgotPasswordComponent?: CmsComponentMapping;
   ResetPasswordComponent?: CmsComponentMapping;
+  ProductDetailsTabComponent?: CmsComponentMapping;
+  ProductSpecsTabComponent?: CmsComponentMapping;
+  ProductReviewsTabComponent?: CmsComponentMapping;
 }
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
@@ -52,6 +54,8 @@ export abstract class CmsConfig extends OccConfig implements AuthConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;
+    kyma_client_id?: string;
+    kyma_client_secret?: string;
   };
 
   cmsComponents?: CMSComponentConfig;

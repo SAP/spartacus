@@ -1,12 +1,3 @@
-<ng-container *cxOutlet="outlets.TITLE">
-  <div class="name">{{ product?.name }}</div>
-  <div class="code">
-    {{ 'productSummary.id' | cxTranslate }} {{ product?.code }}
-  </div>
-</ng-container>
-
-<div class="images"><ng-content></ng-content></div>
-
 <ng-container *cxOutlet="outlets.RATING">
   <div class="rating">
     <cx-star-rating
@@ -19,6 +10,12 @@
     }}</a>
   </div>
 </ng-container>
+<ng-container *cxOutlet="outlets.TITLE">
+  <!-- <div class="name">{{ product?.name }}</div> -->
+  <div class="code">
+    {{ 'productSummary.id' | cxTranslate }} {{ product?.code }}
+  </div>
+</ng-container>
 
 <ng-container *cxOutlet="outlets.PRICE">
   <div class="price" aria-label="new item price">
@@ -28,32 +25,7 @@
 
 <div class="description"><p [innerHTML]="product?.summary"></p></div>
 
-<ng-container *cxOutlet="outlets.ADDTOCART">
-  <div class="quantity">
-    <label>{{ 'productSummary.quantity' | cxTranslate }}</label>
-    <cx-item-counter
-      isValueChangeable="true"
-      [min]="1"
-      [max]="product.stock?.stockLevel || 1000"
-      *ngIf="
-        product?.stock?.stockLevel > 0 ||
-        product?.stock?.stockLevelStatus === 'inStock'
-      "
-      (update)="updateCount($event)"
-    ></cx-item-counter>
-    <span class="info">{{
-      hasStock
-        ? ('productSummary.inStock' | cxTranslate)
-        : ('productSummary.outOfStock' | cxTranslate)
-    }}</span>
-  </div>
-  <cx-add-to-cart
-    *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
-    [quantity]="itemCount"
-    [productCode]="product?.code"
-    [maxQuantity]="product.stock.stockLevel"
-  ></cx-add-to-cart>
-</ng-container>
+<cx-page-slot position="AddToCart"></cx-page-slot>
 
 <!-- @TODO: Temp. Comment out share link while not in use by CMS -->
 <!-- <ng-container *cxOutlet="outlets.SHARE">

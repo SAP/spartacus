@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { HamburgerMenuModule, SkipLinkModule } from '../layout/index';
-import { CartComponentModule } from './checkout/cart/cart.module';
+import { HamburgerMenuModule } from '../layout/index';
+import { CartComponentModule } from './cart/cart.module';
+import { CheckoutComponentModule } from './checkout/checkout.module';
 import {
   BannerModule,
   CmsParagraphModule,
@@ -12,14 +13,14 @@ import {
   AddressBookModule,
   CloseAccountModule,
   ConsentManagementModule,
+  ForgotPasswordModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
+  ResetPasswordModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-  ForgotPasswordModule,
-  ResetPasswordModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -34,12 +35,10 @@ import {
   ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
-import { StoreFinderModule } from './storefinder/index';
-import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
+import { ProductImagesModule } from './product/product-images/product-images.module';
 
 @NgModule({
   imports: [
-    SkipLinkModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
@@ -65,7 +64,9 @@ import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
     CloseAccountModule,
     CartComponentModule,
     TabParagraphContainerModule,
-    StoreFinderModule,
+    // TODO:#2811 - uncomment to enable
+    // StoreFinderModule,
+    ProductImagesModule,
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,

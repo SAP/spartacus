@@ -1,10 +1,9 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   PaymentDetails,
-  User,
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -26,6 +25,14 @@ const mockPayment: PaymentDetails = {
   id: '2',
 };
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
 class MockUserService {
   getPaymentMethodsLoading(): Observable<boolean> {
     return of();
@@ -33,12 +40,9 @@ class MockUserService {
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of([mockPayment]);
   }
-  loadPaymentMethods(_userId: string): void {}
-  deletePaymentMethod(_userId: string, _paymentMethodId: string): void {}
-  setPaymentMethodAsDefault(_userId: string, _paymentMethodId: string): void {}
-  get(): Observable<User> {
-    return of({ uid: 'userId' } as User);
-  }
+  loadPaymentMethods(): void {}
+  deletePaymentMethod(_paymentMethodId: string): void {}
+  setPaymentMethodAsDefault(_paymentMethodId: string): void {}
 }
 
 describe('PaymentMethodsComponent', () => {
@@ -54,6 +58,7 @@ describe('PaymentMethodsComponent', () => {
         PaymentMethodsComponent,
         MockCxSpinnerComponent,
         CardComponent,
+        MockCxIconComponent,
       ],
       providers: [{ provide: UserService, useClass: MockUserService }],
     }).compileComponents();
@@ -194,7 +199,6 @@ describe('PaymentMethodsComponent', () => {
     getConfirmButton(el).nativeElement.click();
     fixture.detectChanges();
     expect(userService.deletePaymentMethod).toHaveBeenCalledWith(
-      'userId',
       mockPayment.id
     );
   });
@@ -213,7 +217,6 @@ describe('PaymentMethodsComponent', () => {
     fixture.detectChanges();
     getSetDefaultButton(el).click();
     expect(userService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
-      'userId',
       mockPayment.id
     );
   });

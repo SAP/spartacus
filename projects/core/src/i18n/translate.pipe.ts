@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from './translation.service';
-import { shallowEqualObjects } from './utils/shallow-equal-objects';
+import { shallowEqualObjects } from '../util/compare-equal-objects';
 import { Translatable, TranslatableParams } from './translatable';
 
 @Pipe({ name: 'cxTranslate', pure: false })
@@ -17,8 +17,8 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private sub: Subscription;
 
   constructor(
-    private service: TranslationService,
-    private cd: ChangeDetectorRef
+    protected service: TranslationService,
+    protected cd: ChangeDetectorRef
   ) {}
 
   transform(

@@ -1,73 +1,159 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   Input,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
+  Optional,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { merge, Observable, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { CmsSearchBoxComponent } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
+import { SearchBoxConfig, SearchResults } from './search-box.model';
+
+const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
+  minCharactersBeforeRequest: 1,
+  displayProducts: true,
+  displaySuggestions: true,
+  maxProducts: 5,
+  maxSuggestions: 5,
+  displayProductImages: true,
+};
+
 @Component({
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchBoxComponent implements OnInit {
-  @ViewChild('searchInput')
-  public input: ElementRef;
-
-  iconTypes = ICON_TYPE;
-  searchBoxControl: FormControl = new FormControl();
-  isMobileSearchVisible: boolean;
-
-  queryText$: Subject<string> = new Subject();
-
+export class SearchBoxComponent {
+  config: SearchBoxConfig;
+  /**
+   * Sets the search box input field
+   */
   @Input('queryText')
   set queryText(value: string) {
-    this.queryText$.next(value);
-    this.searchBoxControl.setValue(value);
+    if (value) {
+      this.search(value);
+    }
   }
 
-  constructor(protected service: SearchBoxComponentService) {}
+  iconTypes = ICON_TYPE;
 
-  ngOnInit() {
-    this.service.queryParam$.pipe(take(1)).subscribe(query => {
-      if (query) {
-        this.searchBoxControl.setValue(query);
-      }
-    });
-  }
+  /**
+   * In some occasions we need to ignore the close event,
+   * for example when we click inside the search result section.
+   */
+  private ignoreCloseEvent = false;
 
-  typeahead = (text$: Observable<string>): Observable<string[]> =>
-    this.service.typeahead(merge(text$, this.queryText$));
+  /**
+   * The component data is optional, so that this component
+   * can be reused without CMS integration.
+   */
+  constructor(
+    protected searchBoxComponentService: SearchBoxComponentService,
+    @Optional()
+    protected componentData: CmsComponentData<CmsSearchBoxComponent>
+  ) {}
 
-  public submitSearch(): void {
-    this.service.launchSearchPage(this.searchBoxControl.value);
-  }
+  results$: Observable<SearchResults> = this.config$.pipe(
+    tap(c => (this.config = c)),
+    switchMap(config => this.searchBoxComponentService.getResults(config))
+  );
 
-  selectSuggestion(item): void {
-    if (typeof item.item === 'string') {
-      this.searchBoxControl.setValue(item.item);
-      this.submitSearch();
+  /**
+   * Returns the backend configuration or default configuration for the searchbox.
+   */
+  private get config$(): Observable<SearchBoxConfig> {
+    if (this.componentData) {
+      return <Observable<SearchBoxConfig>>this.componentData.data$.pipe(
+        // Since the backend returns string values (i.e. displayProducts: "true") for
+        // boolean values, we replace them with boolean values.
+        map(c => {
+          return {
+            ...c,
+            displayProducts:
+              <any>c.displayProducts === 'true' || c.displayProducts === true,
+            displayProductImages:
+              <any>c.displayProductImages === 'true' ||
+              c.displayProductImages === true,
+            displaySuggestions:
+              <any>c.displaySuggestions === 'true' ||
+              c.displaySuggestions === true,
+          };
+        })
+      );
     } else {
-      item.preventDefault();
+      return of(DEFAULT_SEARCHBOX_CONFIG);
     }
   }
 
-  public onKey(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      this.input.nativeElement.blur();
-      this.service.launchSearchPage(this.searchBoxControl.value);
+  /**
+   * Closes the searchbox and opens the search result page.
+   */
+  search(query: string): void {
+    this.searchBoxComponentService.search(query, this.config);
+    // force the searchbox to open
+    this.open();
+  }
+
+  /**
+   * Opens the typeahead searchbox
+   */
+  open(): void {
+    this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
+  }
+
+  /**
+   * Closes the typehead searchbox.
+   */
+  close(event: UIEvent): void {
+    if (!this.ignoreCloseEvent) {
+      this.searchBoxComponentService.toggleBodyClass(
+        'searchbox-is-active',
+        false
+      );
+      if (event && event.target) {
+        (<HTMLElement>event.target).blur();
+      }
+    }
+    this.ignoreCloseEvent = false;
+  }
+
+  /**
+   * Especially in mobile we do not want the search icon
+   * to focus the input again when it's already open.
+   * */
+  avoidReopen(event: UIEvent): void {
+    if (this.searchBoxComponentService.hasBodyClass('searchbox-is-active')) {
+      this.close(event);
+      event.preventDefault();
     }
   }
 
-  public toggleMobileSearchInput(): void {
-    this.isMobileSearchVisible = !this.isMobileSearchVisible;
+  /**
+   * Opens the PLP with the given query.
+   *
+   * TODO: if there's a singe product match, we could open the PDP.
+   */
+  launchSearchResult(event: UIEvent, query: string): void {
+    this.close(event);
+    this.searchBoxComponentService.launchSearchPage(query);
+  }
+
+  /**
+   * Disables closing the search result list.
+   */
+  disableClose(): void {
+    this.ignoreCloseEvent = true;
+  }
+
+  /**
+   * Clears the search box input field
+   */
+  public clear(el: HTMLInputElement): void {
+    this.disableClose();
+    el.value = '';
+    this.searchBoxComponentService.clearResults();
   }
 }

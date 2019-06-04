@@ -9,7 +9,7 @@ import {
   RouterEvent,
 } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { SiteContextParamsService } from '../facade/site-context-params.service';
+import { SiteContextParamsService } from './site-context-params.service';
 import { Subscription } from 'rxjs';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 

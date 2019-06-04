@@ -12,11 +12,37 @@ function getCartItem(name: string) {
   return cy.get('cx-cart-item-list').contains('cx-cart-item', name);
 }
 
-export function addProductToCartViaAutoComplete() {
-  cy.get('cx-searchbox input').type(PRODUCT_CODE_1);
-  cy.get('.dropdown-item.active').click();
+function goToProductFromSearch(id: string, mobile: boolean) {
+  cy.get('cx-storefront.stop-navigating');
+  if (mobile) {
+    cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+    cy.get('cx-searchbox input')
+      .clear({ force: true })
+      .type(id, { force: true })
+      .type('{enter}', { force: true });
+    cy.get('cx-product-list-item')
+      .first()
+      .get('.cx-product-name')
+      .first()
+      .click();
+  } else {
+    cy.get('cx-searchbox input')
+      .clear({ force: true })
+      .type(id, { force: true });
+    cy.get('cx-searchbox')
+      .get('.results .products .name')
+      .first()
+      .click();
+  }
+}
 
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+export function addProductToCartViaAutoComplete(mobile) {
+  goToProductFromSearch(PRODUCT_CODE_1, mobile);
+
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .first()
+    .click({ force: true });
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
   const miniCart = cy.get('cx-mini-cart');
@@ -32,15 +58,11 @@ export function addProductToCartViaAutoComplete() {
   });
 }
 
-export function addProductToCartViaSearchPage() {
-  cy.get('cx-searchbox input')
-    .clear()
-    .type(`${PRODUCT_TYPE}{enter}`);
-  cy.get('cx-product-list')
-    .contains('cx-product-list-item', 'Photosmart E317 Digital')
-    .within(() => {
-      cy.get('cx-add-to-cart button').click();
-    });
+export function addProductToCartViaSearchPage(mobile) {
+  goToProductFromSearch(PRODUCT_TYPE, mobile);
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click({ force: true });
 
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
@@ -80,10 +102,11 @@ export function loginRegisteredUser() {
   cy.reload();
 }
 
-export function addProductWhenLoggedIn() {
-  cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
-  cy.get('.dropdown-item.active').click();
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+export function addProductWhenLoggedIn(mobile) {
+  goToProductFromSearch(PRODUCT_CODE_2, mobile);
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click({ force: true });
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
     'Cart total (1 item)'
@@ -104,11 +127,15 @@ export function logOutAndNavigateToEmptyCart() {
 }
 
 export function addProductAsAnonymous() {
-  cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
+  cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`, {
+    force: true,
+  });
   cy.get('cx-product-list')
     .contains('cx-product-list-item', 'EASYSHARE M381')
     .within(() => {
-      cy.get('cx-add-to-cart button').click();
+      cy.get('cx-add-to-cart')
+        .getByText(/Add To Cart/i)
+        .click({ force: true });
     });
 
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
@@ -126,7 +153,7 @@ export function verifyMergedCartWhenLoggedIn() {
     standardUser.registrationData.password
   );
 
-  cy.get('cx-breadcrumb h1').should('contain', '1 results');
+  cy.get('cx-breadcrumb h1').should('contain', '1 result');
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
@@ -159,7 +186,9 @@ export function logOutAndEmptyCart() {
 
 export function manipulateCartQuantity() {
   cy.visit(`/product/${PRODUCT_CODE_2}`);
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
     'Cart total (1 item)'

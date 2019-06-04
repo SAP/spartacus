@@ -10,8 +10,10 @@ export const defaultI18nConfig: I18nConfig = {
         'spinner',
         'header',
         'searchBox',
+        'navigation',
         'sorting',
         'httpHandlers',
+        'pageMetaResolver',
       ],
       cart: ['cartDetails', 'cartItems', 'orderCost', 'miniCart'],
       address: ['addressForm', 'addressBook', 'addressCard'],
@@ -34,6 +36,7 @@ export const defaultI18nConfig: I18nConfig = {
         'productSummary',
         'productReview',
         'addToCart',
+        'CMSTabParagraphContainer',
       ],
       user: [
         'forgottenPassword',

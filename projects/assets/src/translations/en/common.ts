@@ -11,6 +11,31 @@ export const common = {
     done: 'Done',
     home: 'Home',
   },
+  pageMetaResolver: {
+    category: {
+      title: '{{count}} result for {{query}}',
+      title_plural: '{{count}} results for {{query}}',
+    },
+    content: {
+      title: '{{content}}',
+    },
+    checkout: {
+      title: 'Checkout {{count}} item',
+      title_plural: 'Checkout {{count}} items',
+    },
+    cart: {
+      title: '{{title}} ({{code}})',
+    },
+    search: {
+      title: '{{count}} result for "{{query}}"',
+      title_plural: '{{count}} results for "{{query}}"',
+    },
+    product: {
+      description: '{{description}}',
+      heading: '{{heading}}',
+      title: '{{title}}',
+    },
+  },
   spinner: {
     loading: 'Loading...',
   },
@@ -20,8 +45,17 @@ export const common = {
     skipToMainContent: 'Skip to main content',
     skipToFooter: 'Skip to Footer',
   },
+  navigation: {
+    shopAll: 'Shop all {{ navNode}} >',
+  },
   searchBox: {
-    searchHere: 'Search here...',
+    placeholder: 'Search here...',
+    help: {
+      insufficientChars: 'Please type more characters',
+      noMatch: 'We could not find any results',
+      exactMatch: '{{ term }}',
+      empty: 'Ask us anything',
+    },
   },
   sorting: {
     date: 'Date',

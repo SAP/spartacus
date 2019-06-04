@@ -8,13 +8,13 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { translations } from '@spartacus/assets';
 import { ConfigModule } from '@spartacus/core';
 import {
   defaultCmsContentConfig,
   StorefrontComponent,
   StorefrontModule,
 } from '@spartacus/storefront';
-import { translations } from '@spartacus/assets';
 import { environment } from '../environments/environment';
 
 registerLocaleData(localeDe);
@@ -36,6 +36,7 @@ if (!environment.production) {
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
+          legacy: false,
         },
       },
       pwa: {
@@ -73,7 +74,6 @@ if (!environment.production) {
 
     ...devImports,
   ],
-
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

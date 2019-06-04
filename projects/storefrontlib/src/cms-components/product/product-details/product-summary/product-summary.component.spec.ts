@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { AddToCartModule } from '../../../../cms-components/checkout/index';
+import { AddToCartModule } from '../../../../cms-components/cart/index';
 import { OutletDirective } from '../../../../cms-structure/outlet/index';
 import { FormComponentsModule } from '../../../../shared/components/form-components/form-components.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
@@ -15,7 +15,16 @@ class MockStarRatingComponent {
   @Input() disabled;
 }
 
-describe('ProductSummaryComponent in product ', () => {
+@Component({
+  selector: 'cx-page-slot',
+  template: '',
+})
+class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
+
+describe('ProductSummaryComponent in product', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
 
@@ -26,6 +35,7 @@ describe('ProductSummaryComponent in product ', () => {
         ProductSummaryComponent,
         OutletDirective,
         MockStarRatingComponent,
+        MockDynamicSlotComponent,
       ],
     }).compileComponents();
   }));

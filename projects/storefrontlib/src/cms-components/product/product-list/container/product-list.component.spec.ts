@@ -3,11 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  NgbCollapseModule,
-  NgbPaginationModule,
-  NgbRatingModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   I18nTestingModule,
   ProductSearchPage,
@@ -21,7 +17,6 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '../../../../shared';
-import { AddToCartComponent } from '../../../checkout';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -88,6 +83,15 @@ export class MockCxIconComponent {
   @Input() type;
 }
 
+@Component({
+  selector: 'cx-add-to-cart',
+  template: '<button>add to cart</button>',
+})
+export class MockAddToCartComponent {
+  @Input() productCode;
+  @Input() showQuantity;
+}
+
 describe('ProductListComponent in product-list', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -95,9 +99,7 @@ describe('ProductListComponent in product-list', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPaginationModule,
         NgbCollapseModule,
-        NgbRatingModule,
         ListNavigationModule,
         FormsModule,
         RouterTestingModule,
@@ -122,7 +124,7 @@ describe('ProductListComponent in product-list', () => {
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
         MockStarRatingComponent,
-        AddToCartComponent,
+        MockAddToCartComponent,
         MediaComponent,
         ProductViewComponent,
         MockProductListItemComponent,
