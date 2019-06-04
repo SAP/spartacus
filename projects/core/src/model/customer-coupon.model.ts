@@ -1,5 +1,5 @@
 import { PaginationModel, SortModel } from './misc.model';
-import { Principal } from './cart.model';
+
 export interface CustomerCoupon {
   couponId?: string;
   name?: string;
@@ -11,14 +11,8 @@ export interface CustomerCoupon {
   solrFacets?: string;
 }
 
-export interface CustomerCouponNotification {
-  coupon?: CustomerCoupon;
-  customer?: Principal;
-  status?: String;
-}
-
 export interface CustomerCouponSearchResult {
-  coupons?: CustomerCoupon;
+  coupons?: CustomerCoupon[];
   sorts?: SortModel;
   pagination?: PaginationModel;
 }
