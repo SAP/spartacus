@@ -17,7 +17,7 @@ context('Language Switcher', () => {
     cy.route(
       `${Cypress.env(
         'API_URL'
-      )}/rest/v2/electronics-spa/currencies?lang=en&curr=USD`
+      )}/rest/v2/electronics-spa/languages?lang=en&curr=USD`
     ).as('languages');
   });
 
