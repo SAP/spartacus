@@ -8,7 +8,11 @@ import { Injectable } from '@angular/core';
 export class CartPageLayoutHandler implements PageLayoutHandler {
   constructor(private cartService: CartService) {}
 
-  handle(slots$: Observable<string[]>, pageTemplate, section) {
+  handle(
+    slots$: Observable<string[]>,
+    pageTemplate?: string,
+    section?: string
+  ) {
     if (pageTemplate === 'CartPageTemplate' && !section) {
       return combineLatest(slots$, this.cartService.getActive()).pipe(
         map(([slots, cart]) => {
