@@ -4,6 +4,7 @@ export enum ICON_TYPES {
   GRID_MODE = 'th-large',
   LIST_MODE = 'bars',
   CARET_DOWN = 'angle-down',
+  CARET_LEFT = 'angle-left',
   INFO = 'info-circle',
   STAR = 'star',
   RESET = 'times',
