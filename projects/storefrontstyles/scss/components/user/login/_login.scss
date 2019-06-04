@@ -1,10 +1,15 @@
 %cx-login {
+  @include media-breakpoint-down(md) {
+    > a {
+      padding: 1rem;
+      display: block;
+    }
+  }
+
   .cx-login-greet {
-    margin: 0;
     color: var(--cx-g-color-inverse);
     @include type('7');
     font-weight: var(--cx-g-font-weight-semi);
-    padding: 0;
 
     @include media-breakpoint-down(md) {
       color: var(--cx-g-color-text);
