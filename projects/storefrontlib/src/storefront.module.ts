@@ -4,6 +4,7 @@ import {
   ConfigModule,
   CxApiModule,
   I18nModule,
+  KymaModule,
   OccModule,
   PersonalizationModule,
   provideConfig,
@@ -35,12 +36,14 @@ import { LayoutModule } from './layout/layout.module';
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
     I18nModule.forRoot(),
+    KymaModule,
     LayoutModule,
     // pages
     ProductDetailsPageModule,
     ProductListingPageModule,
     CartPageModule, // as longs as we do not have #2661 in place we need a specific cart page module
   ],
+  exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],
   declarations: [],
 })
