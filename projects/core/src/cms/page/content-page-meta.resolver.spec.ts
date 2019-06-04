@@ -77,6 +77,6 @@ describe('ContentPageMetaResolver', () => {
         result = meta;
       })
       .unsubscribe();
-    expect(result.breadcrumbs[0].label).toEqual('Home');
+    expect(result.breadcrumbs[0].label).toEqual('common.home');
   });
 });
