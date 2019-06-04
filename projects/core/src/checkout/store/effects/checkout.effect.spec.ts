@@ -14,7 +14,6 @@ import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../../checkout/connectors';
-import { AddMessage, GlobalMessageType } from '../../../global-message';
 import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 
 import * as fromEffects from './checkout.effect';
