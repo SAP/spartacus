@@ -1,12 +1,8 @@
 import * as productSearchFlow from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
 
-function clickSearchIcon() {
-  cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
-}
-
 function enterProduct() {
-  clickSearchIcon();
+  productSearchFlow.clickSearchIcon();
   cy.get('cx-searchbox input[aria-label="search"]').type('camera{enter}');
 }
 

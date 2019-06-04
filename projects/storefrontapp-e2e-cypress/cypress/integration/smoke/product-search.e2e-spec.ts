@@ -52,6 +52,10 @@ context('Product search', () => {
       enterProduct();
     });
 
+    beforeEach(() => {
+      cy.server();
+    });
+
     it('should be able to sort by lowest price', () => {
       productSearchFlow.sortByLowestPrice();
     });

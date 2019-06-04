@@ -1,4 +1,6 @@
 import { PRODUCT_LISTING } from './data-configuration';
+import { clickSearchIcon } from './product-search';
+
 import {
   checkFirstItem,
   createGenericQuery,
@@ -12,7 +14,9 @@ export function productTypeFlow(mobile?: string) {
 
   createGenericQuery('query');
 
-  cy.get('cx-searchbox input').type('sony{enter}');
+  clickSearchIcon();
+
+  cy.get('cx-searchbox input[aria-label="search"]').type('sony{enter}');
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 

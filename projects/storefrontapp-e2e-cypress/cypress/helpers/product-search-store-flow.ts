@@ -16,9 +16,10 @@ enum queries {
 export function productStoreFlow(mobile?: string) {
   cy.server();
 
-  // Search for a product
   createGenericQuery(queries.q1);
+
   cy.get('cx-searchbox input').type('canon{enter}');
+
   waitAndGetFirstProductFromXHR(queries.q1)
     .then(firstItem => {
       cy.get(resultsTitle).should('contain', '77 results for "canon"');

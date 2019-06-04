@@ -9,6 +9,10 @@ export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
 
+export function clickSearchIcon() {
+  cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+}
+
 export function searchResult() {
   cy.get(resultsTitleSelector).should('contain', '144 results for "camera"');
   cy.get(productItemSelector).should(

@@ -1,20 +1,24 @@
+import { clickSearchIcon } from './product-search';
 import { PRODUCT_LISTING } from './data-configuration';
 
 export const resultsTitle = 'cx-breadcrumb h1';
-export const tabsHeaderList = 'cx-product-tabs .details > h3';
+export const tabsHeaderList = 'cx-tab-paragraph-container > h3';
+
+const productSelector = 'cx-product-list-item';
 
 export function productRatingFlow(mobile?: string) {
-  // Search for a product
-  cy.get('cx-searchbox input').type('DSC-N1{enter}');
+  clickSearchIcon();
+  const productName = 'DSC-N1';
+  cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-  cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
+  cy.get(resultsTitle).should('contain', `21 results for "${productName}"`);
 
-  cy.get('cx-product-list-item').should(
+  cy.get(productSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  cy.get('cx-product-list-item')
+  cy.get(productSelector)
     .first()
     .should('contain', 'Li-Ion f Series G');
 

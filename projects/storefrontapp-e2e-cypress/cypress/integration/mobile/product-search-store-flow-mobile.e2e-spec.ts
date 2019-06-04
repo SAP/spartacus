@@ -1,9 +1,6 @@
 import * as productSearchStoreFlow from '../../helpers/product-search-store-flow';
+import { clickSearchIcon } from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
-
-function clickSearchIcon() {
-  cy.get('cx-searchbox [aria-label="Search"]').click();
-}
 
 context(
   `${formats.mobile.width + 1}p resolution - Product search store flow`,
