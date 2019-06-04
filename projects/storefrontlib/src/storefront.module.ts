@@ -39,6 +39,7 @@ import { LayoutModule } from './layout/layout.module';
     ProductDetailsPageModule,
     ProductListingPageModule,
   ],
+  exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],
   declarations: [],
 })
