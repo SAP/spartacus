@@ -15,14 +15,6 @@ import { StorefrontModuleConfig } from './storefront-config';
           persistence: 'route',
         },
       },
-      routing: {
-        // consider moving routes to lower level
-        routes: {
-          product: {
-            paths: ['product/:name/:productCode', 'product/:productCode'],
-          },
-        },
-      },
       pwa: {
         enabled: true,
         addToHomeScreen: true,

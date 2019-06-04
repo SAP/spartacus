@@ -51,6 +51,17 @@ if (!environment.production) {
         },
       },
 
+      // special routing confiuration for e2e testing
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:productCode/:name', 'product/:productCode'],
+          },
+        },
+      },
+
+      // we like to bring in static translations to be up and running soon right away
+      // but adding
       i18n: {
         resources: translations,
       },
