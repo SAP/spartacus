@@ -1,10 +1,18 @@
 @import './progress-bar';
 
 %cx-storefront {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
   &.start-navigating {
     @extend %progress-bar, %progress-bar-loading !optional;
   }
   &.stop-navigating {
     @extend %progress-bar, %progress-bar-loaded !optional;
+  }
+
+  > footer {
+    margin-top: auto;
   }
 }

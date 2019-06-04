@@ -1,5 +1,5 @@
-import * as fromNavigationItem from '../actions/navigation-entry-item.action';
 import { NodeItem } from '../../model/node-item.model';
+import * as fromNavigationItem from '../actions/navigation-entry-item.action';
 
 export const initialState: NodeItem = undefined;
 
@@ -11,7 +11,6 @@ export function reducer(
     case fromNavigationItem.LOAD_NAVIGATION_ITEMS_SUCCESS: {
       if (action.payload.components) {
         const components = action.payload.components;
-
         const newItem: NodeItem = components.reduce(
           (compItems: { [uid_type: string]: any }, component: any) => {
             return {

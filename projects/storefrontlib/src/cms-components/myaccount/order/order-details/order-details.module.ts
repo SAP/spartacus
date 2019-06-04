@@ -35,7 +35,7 @@ const moduleComponents = [
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'order', cxRoute: 'orderDetails' },
+        data: { cxRoute: 'orderDetails' },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
