@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { Address, Country, Region } from '../../model/address.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import * as fromStore from '../store/index';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -92,8 +93,9 @@ export class UserAddressService {
     return this.store.pipe(select(fromStore.getAddressesLoading));
   }
 
-  // MOVE TO CHECKOUT / SITE / COUNTIRES FACADE ???????
-
+  /**
+   * Retrieves delivery countries
+   */
   /**
    * Retrieves delivery countries
    */
@@ -125,10 +127,52 @@ export class UserAddressService {
   }
 
   /**
-   * Returns all regions
+   * Clear regions in store - useful when changing country
    */
-  getRegions(): Observable<Region[]> {
-    return this.store.pipe(select(fromStore.getAllRegions));
+  clearRegions(): void {
+    this.store.dispatch(new fromStore.ClearRegions());
   }
 
+  /**
+   * Returns all regions
+   */
+  getRegions(countryIsoCode: string): Observable<Region[]> {
+    return combineLatest(
+      this.store.pipe(select(fromStore.getAllRegions)),
+      this.store.pipe(select(fromStore.getRegionsCountry)),
+      this.store.pipe(select(fromStore.getRegionsLoading)),
+      this.store.pipe(select(fromStore.getRegionsLoaded))
+    ).pipe(
+      debounceTime(1), // fix for inconsistent result on store mutations
+      map(([regions, country, loading, loaded]) => {
+        if (!countryIsoCode) {
+          this.clearRegions();
+          return [];
+        } else if (loading && !loaded) {
+          // don't interrupt loading
+          return [];
+        } else if (!loading && countryIsoCode !== country) {
+          // country changed - clear store and load new regions
+          this.clearRegions();
+          this.loadRegions(countryIsoCode);
+          return [];
+        }
+        return regions;
+      })
+    );
+  }
+
+  /**
+   * Returns all billing countries
+   */
+  getAllBillingCountries(): Observable<Country[]> {
+    return this.store.pipe(select(fromStore.getAllBillingCountries));
+  }
+
+  /**
+   * Retrieves billing countries
+   */
+  loadBillingCountries(): void {
+    this.store.dispatch(new fromStore.LoadBillingCountries());
+  }
 }
