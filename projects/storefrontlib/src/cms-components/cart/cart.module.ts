@@ -6,7 +6,7 @@ import { CartDetailsModule } from './cart-details/cart-details.module';
 import { CartSharedModule } from './cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
-import { PAGE_LAYOUT_HANDLER } from '../../../cms-structure/page/page-layout/page-layout-handler';
+import { PAGE_LAYOUT_HANDLER } from '../../cms-structure/page/page-layout/page-layout-handler';
 import { CartPageLayoutHandler } from './cart-page-layout-handler';
 
 @NgModule({

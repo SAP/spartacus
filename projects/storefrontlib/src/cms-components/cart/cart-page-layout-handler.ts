@@ -1,4 +1,4 @@
-import { PageLayoutHandler } from '../../../cms-structure/page/page-layout/page-layout-handler';
+import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-layout-handler';
 import { CartService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
