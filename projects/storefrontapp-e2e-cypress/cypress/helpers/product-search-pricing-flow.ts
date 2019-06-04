@@ -12,12 +12,12 @@ export function productPricingFlow() {
 
   // Click on a Category
   cy.get('header').within(() => {
-    cy.get('.nav-link')
+    cy.get('nav')
       .contains('Digital Cameras')
-      .click();
-    cy.get('.cx-nav-child-link')
+      .click({ force: true });
+    cy.get('nav')
       .contains('Compact Cameras')
-      .click();
+      .click({ force: true });
   });
 
   cy.get('cx-breadcrumb h1').should(
@@ -30,7 +30,7 @@ export function productPricingFlow() {
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  checkFirstItem('DSC-S930');
+  checkFirstItem('DSC-HX1');
 
   // Navigate to next page
   cy.get('.page-item:last-of-type .page-link:first').click();
@@ -40,7 +40,7 @@ export function productPricingFlow() {
 
   cy.get('cx-product-list-item:nth-child(1)').should(
     'contain',
-    'EASYSHARE Z730 Zoom Digital Camera'
+    'Cyber-shot DSC-W55'
   );
 
   // Sort by price low to high
