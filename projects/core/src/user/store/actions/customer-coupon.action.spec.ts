@@ -5,7 +5,7 @@ import {
   successMeta,
 } from '../../../state/utils/loader/loader.action';
 
-import * as fromUserCouponsAction from './user-addresses.action';
+import * as fromCustomerCouponsAction from './user-addresses.action';
 import { CustomerCoupon } from '../../../model/customer-coupon.model';
 
 const userId = '123';
@@ -32,42 +32,44 @@ const coupon2: CustomerCoupon = {
 };
 
 describe('User Coupon Actions', () => {
-  describe('LoadUserCoupons Actions', () => {
+  describe('LoadCustomerCoupons Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserCouponsAction.LoadUserCoupons(userId);
+      const action = new fromCustomerCouponsAction.LoadCustomerCoupons(userId);
 
       expect({ ...action }).toEqual({
-        type: fromUserCouponsAction.LOAD_USER_COUPONS,
+        type: fromCustomerCouponsAction.LOAD_USER_COUPONS,
         payload: userId,
         meta: loadMeta(USER_COUPONS),
       });
     });
   });
 
-  describe('LoadUserCouponsFail Action', () => {
+  describe('LoadCustomerCouponsFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserCouponsAction.LoadUserCouponsFail(error);
+      const action = new fromCustomerCouponsAction.LoadCustomerCouponsFail(
+        error
+      );
 
       expect({ ...action }).toEqual({
-        type: fromUserCouponsAction.LOAD_USER_COUPONS_FAIL,
+        type: fromCustomerCouponsAction.LOAD_USER_COUPONS_FAIL,
         payload: error,
         meta: failMeta(USER_COUPONS, error),
       });
     });
   });
 
-  describe('LoadUserCouponsSuccess Action', () => {
-    const mockUserCoupons: CustomerCoupon[] = [{ coupon1 }, { coupon2 }];
+  describe('LoadCustomerCouponsSuccess Action', () => {
+    const mockCustomerCoupons: CustomerCoupon[] = [{ coupon1 }, { coupon2 }];
 
     it('should create the action', () => {
-      const action = new fromUserCouponsAction.LoadUserCouponsSuccess(
-        mockUserCoupons
+      const action = new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
+        mockCustomerCoupons
       );
 
       expect({ ...action }).toEqual({
-        type: fromUserCouponsAction.LOAD_USER_COUPONS_SUCCESS,
-        payload: mockUserCoupons,
+        type: fromCustomerCouponsAction.LOAD_USER_COUPONS_SUCCESS,
+        payload: mockCustomerCoupons,
         meta: successMeta(USER_COUPONS),
       });
     });
@@ -75,13 +77,13 @@ describe('User Coupon Actions', () => {
 
   describe('SubscribeCustomerCoupon Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserCouponsAction.SubscribeCustomerCoupon({
+      const action = new fromCustomerCouponsAction.SubscribeCustomerCoupon({
         userId,
         couponCode,
       });
 
       expect({ ...action }).toEqual({
-        type: fromUserCouponsAction.SUBSCRIBE_CUSTOMER_COUPON,
+        type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON,
         payload: { userId, couponCode },
         meta: loadMeta(USER_COUPONS),
       });
@@ -91,12 +93,12 @@ describe('User Coupon Actions', () => {
   describe('SubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserCouponsAction.SubscribeCustomerCouponFail(
+      const action = new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
         error
       );
 
       expect({ ...action }).toEqual({
-        type: fromUserCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
+        type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
         meta: failMeta(USER_COUPONS, error),
       });
@@ -107,12 +109,12 @@ describe('User Coupon Actions', () => {
     const payload = 'success';
 
     it('should create the action', () => {
-      const action = new fromUserCouponsAction.SubscribeCustomerCouponSuccess(
+      const action = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
         payload
       );
 
       expect({ ...action }).toEqual({
-        type: fromUserCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
+        type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: payload,
         meta: successMeta(USER_COUPONS),
       });
@@ -121,13 +123,13 @@ describe('User Coupon Actions', () => {
 
   describe('UnsubscribeCustomerCoupon Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserCouponsAction.UnsubscribeCustomerCoupon({
+      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCoupon({
         userId,
         couponCode,
       });
 
       expect({ ...action }).toEqual({
-        type: fromUserCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON,
+        type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON,
         payload: { userId, couponCode },
         meta: loadMeta(USER_COUPONS),
       });
@@ -137,7 +139,7 @@ describe('User Coupon Actions', () => {
   describe('UnsubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserCouponsAction.UnsubscribeCustomerCouponFailressFail(
+      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCouponFailressFail(
         error
       );
 
@@ -153,12 +155,12 @@ describe('User Coupon Actions', () => {
     const payload = 'success';
 
     it('should create the action', () => {
-      const action = new fromUserCouponsAction.UnsubscribeCustomerCouponSuccess(
+      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
         payload
       );
 
       expect({ ...action }).toEqual({
-        type: fromUserCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
+        type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: payload,
         meta: successMeta(USER_COUPONS),
       });

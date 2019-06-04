@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
-import { UserCouponAdapter } from './user-coupon.adapter';
-import { UserCouponConnector } from './user-coupon.connector';
+import { CustomerCouponAdapter } from './customer-coupon.adapter';
+import { CustomerCouponConnector } from './customer-coupon.connector';
 import createSpy = jasmine.createSpy;
 
-class MockUserAdapter implements UserCouponAdapter {
+class MockUserAdapter implements CustomerCouponAdapter {
   loadCustomerCoupons = createSpy('loadCustomerCoupons').and.callFake(userId =>
     of(`loadList-${userId}`)
   );
@@ -16,17 +16,19 @@ class MockUserAdapter implements UserCouponAdapter {
   ).and.returnValue(of({}));
 }
 
-describe('UserCouponConnector', () => {
-  let service: UserCouponConnector;
-  let adapter: UserCouponAdapter;
+describe('CustomerCouponConnector', () => {
+  let service: CustomerCouponConnector;
+  let adapter: CustomerCouponAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: UserCouponAdapter, useClass: MockUserAdapter }],
+      providers: [
+        { provide: CustomerCouponAdapter, useClass: MockUserAdapter },
+      ],
     });
 
-    service = TestBed.get(UserCouponConnector);
-    adapter = TestBed.get(UserCouponAdapter);
+    service = TestBed.get(CustomerCouponConnector);
+    adapter = TestBed.get(CustomerCouponAdapter);
   });
 
   it('should be created', () => {
