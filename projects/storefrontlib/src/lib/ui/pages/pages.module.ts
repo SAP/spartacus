@@ -8,16 +8,11 @@ import {
   PageLayoutComponent,
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
-import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { ProductPageModule } from './product-page/product-page.module';
 import { defaultRoutingConfig } from './default-routing-config';
 
-const pageModules = [
-  CartPageModule,
-  OrderConfirmationPageModule,
-  ProductPageModule,
-];
+const pageModules = [OrderConfirmationPageModule, ProductPageModule];
 
 @NgModule({
   imports: [
