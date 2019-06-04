@@ -10,15 +10,15 @@ import {CustomerCouponAdapter} from './customer-coupon.adapter';
 export class CustomerCouponConnector {
   constructor(protected adapter: CustomerCouponAdapter) {}
 
-  getAll(userId: string): Observable<CustomerCouponSearchResult> {
-    return this.adapter.loadAll(userId);
+  getMyCoupons(userId: string): Observable<CustomerCouponSearchResult> {
+    return this.adapter.getMyCoupons(userId);
   }
 
-  subscribe(userId: string, couponCode: string): Observable<CustomerCoupon> {
-    return this.adapter.subscribe(userId, couponCode);
+  turnOnNotification(userId: string, couponCode: string): Observable<CustomerCoupon> {
+    return this.adapter.turnOnNotification(userId, couponCode);
   }
 
-  unsubscribe(userId: string, couponCode: string): Observable<{}> {
-    return this.adapter.unsubscribe(userId, couponCode);
+  turnOffNotification(userId: string, couponCode: string): Observable<{}> {
+    return this.adapter.turnOffNotification(userId, couponCode);
   }
 }
