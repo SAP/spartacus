@@ -1,5 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 export const PAGE_LAYOUT_HANDLER = new InjectionToken<PageLayoutHandler[]>(
   'PageLayoutHandler'
@@ -10,6 +11,6 @@ export interface PageLayoutHandler {
     slots: Observable<string[]>,
     pageTemplate?: string,
     section?: string,
-    breakpoint?: string
+    breakpoint?: BREAKPOINT
   ): Observable<string[]>;
 }
