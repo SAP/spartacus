@@ -36,6 +36,7 @@ import {
   ProductTabsModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
+import { MyCouponsComponent } from './myaccount/my-coupons/my-coupons.component';
 
 @NgModule({
   imports: [
@@ -71,5 +72,6 @@ import { ProductImagesModule } from './product/product-images/product-images.mod
     ForgotPasswordModule,
     ResetPasswordModule,
   ],
+  declarations: [MyCouponsComponent],
 })
 export class CmsLibModule {}

@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: '',
+  occBaseUrl: 'https://10.27.165.170:9002',
 };

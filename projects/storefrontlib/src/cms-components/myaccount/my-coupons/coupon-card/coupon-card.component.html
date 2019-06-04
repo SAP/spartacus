@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-body cx-card-body">
+    <div class="cx-address-data">
+      <div class="cx-address-card-label-name">
+        {{ coupon?.name }}
+      </div>
+      <div class="cx-address-card-label">{{ coupon?.status }}</div>
+      <div class="cx-address-card-label">Effective:</div>
+      <div class="cx-address-card-label">
+        {{ coupon?.startDate }} - {{ coupon?.endDate }}
+      </div>
+
+      <a (click)="readMore()" class="card-link btn-link">Read more</a>
+
+      <label>
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [checked]="true"
+          (change)="onNotificationChange()"
+        />
+        <span class="form-check-label">
+          Notification
+        </span>
+      </label>
+
+      <div class="col-md-6">
+        <button class="btn btn-block btn-action" (click)="findProduct()">
+          {{ 'find product' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
