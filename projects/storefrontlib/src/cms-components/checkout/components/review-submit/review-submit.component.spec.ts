@@ -12,7 +12,7 @@ import {
   OrderEntry,
   PaymentDetails,
   PromotionResult,
-  UserService,
+  UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/cart/index';
@@ -97,7 +97,7 @@ class MockCheckoutService {
   }
 }
 
-class MockUserService {
+class MockUserAddressService {
   loadDeliveryCountries = createSpy();
   getCountry(): Observable<Country> {
     return addressBS.asObservable();
@@ -128,7 +128,7 @@ describe('ReviewSubmitComponent', () => {
       ],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: CartService, useClass: MockCartService },
       ],
     }).compileComponents();

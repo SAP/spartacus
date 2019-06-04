@@ -11,7 +11,7 @@ import {
   RoutesConfig,
   RoutingConfigService,
   RoutingService,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
@@ -55,7 +55,7 @@ const mockCheckoutStep: CheckoutStep = {
 
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
-class MockUserService {
+class MockUserPaymentService {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of();
@@ -157,7 +157,7 @@ class MockCardComponent {
 describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
-  let mockUserService: UserService;
+  let mockUserPaymentService: UserPaymentService;
   let mockCheckoutService: CheckoutService;
   let mockRoutingService: MockRoutingService;
   let mockRoutingConfigService: RoutingConfigService;
@@ -173,7 +173,7 @@ describe('PaymentMethodComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserPaymentService, useClass: MockUserPaymentService },
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -183,7 +183,7 @@ describe('PaymentMethodComponent', () => {
       ],
     }).compileComponents();
 
-    mockUserService = TestBed.get(UserService);
+    mockUserPaymentService = TestBed.get(UserPaymentService);
     mockCheckoutService = TestBed.get(CheckoutService);
     mockRoutingService = TestBed.get(RoutingService);
     mockRoutingConfigService = TestBed.get(RoutingConfigService);
@@ -211,18 +211,18 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', done => {
-    spyOn(mockUserService, 'loadPaymentMethods').and.stub();
-    spyOn(mockUserService, 'getPaymentMethods').and.returnValue(of([]));
+    spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
+    spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
     component.ngOnInit();
 
     component.existingPaymentMethods$.subscribe(() => {
-      expect(mockUserService.loadPaymentMethods).toHaveBeenCalled();
+      expect(mockUserPaymentService.loadPaymentMethods).toHaveBeenCalled();
       done();
     });
   });
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
-    spyOn(mockUserService, 'getPaymentMethods').and.returnValue(
+    spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
       of(mockPaymentMethods)
     );
     component.ngOnInit();
@@ -307,10 +307,10 @@ describe('PaymentMethodComponent', () => {
         .find(el => el.nativeElement.innerText === 'common.continue');
 
     it('should be enabled when payment method is selected', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPaymentMethods)
       );
 
@@ -320,10 +320,10 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should call "next" function after being clicked', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPaymentMethods)
       );
 
@@ -342,10 +342,10 @@ describe('PaymentMethodComponent', () => {
         .find(el => el.nativeElement.innerText === 'common.back');
 
     it('should call "back" function after being clicked', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPaymentMethods)
       );
 
@@ -360,10 +360,10 @@ describe('PaymentMethodComponent', () => {
     const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
 
     it('should represent all existng payment methods', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPaymentMethods)
       );
 
@@ -372,20 +372,24 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should not display if there are no existng payment methods', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(of([]));
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+        of([])
+      );
 
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
 
     it('should not display if existng payment methods are loading', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(of([]));
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+        of([])
+      );
 
       fixture.detectChanges();
       fixture.detectChanges();
@@ -402,10 +406,10 @@ describe('PaymentMethodComponent', () => {
       fixture.debugElement.query(By.css('cx-payment-form'));
 
     it('should render after user clicks "add new payment method" button', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPaymentMethods)
       );
 
@@ -417,10 +421,12 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should render on init if there are no existing payment methods', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(of([]));
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+        of([])
+      );
 
       fixture.detectChanges();
 
@@ -428,10 +434,10 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should not render on init if there are some existing payment methods', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPaymentMethods)
       );
 
@@ -441,10 +447,12 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should not render when existing payment methods are loading', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(true)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(of([]));
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+        of([])
+      );
 
       fixture.detectChanges();
 
@@ -456,20 +464,22 @@ describe('PaymentMethodComponent', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing payment methods are loading', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(true)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(of([]));
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+        of([])
+      );
 
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
     });
 
     it('should NOT render when the payment method is loaded', () => {
-      spyOn(mockUserService, 'getPaymentMethodsLoading').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
-      spyOn(mockUserService, 'getPaymentMethods').and.returnValue(
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPaymentMethods)
       );
 

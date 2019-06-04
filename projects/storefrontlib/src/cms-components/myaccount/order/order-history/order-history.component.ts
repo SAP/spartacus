@@ -28,13 +28,15 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   sortType: string;
 
   ngOnInit(): void {
-    this.orders$ = this.userOrderService.getOrderHistoryList(this.PAGE_SIZE).pipe(
-      tap((orders: OrderHistoryList) => {
-        if (orders.pagination) {
-          this.sortType = orders.pagination.sort;
-        }
-      })
-    );
+    this.orders$ = this.userOrderService
+      .getOrderHistoryList(this.PAGE_SIZE)
+      .pipe(
+        tap((orders: OrderHistoryList) => {
+          if (orders.pagination) {
+            this.sortType = orders.pagination.sort;
+          }
+        })
+      );
 
     this.isLoaded$ = this.userOrderService.getOrderHistoryListLoaded();
   }

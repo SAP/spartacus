@@ -21,7 +21,7 @@ import {
   Region,
   Title,
   UserAddressService,
-  UserService
+  UserService,
 } from '@spartacus/core';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import {

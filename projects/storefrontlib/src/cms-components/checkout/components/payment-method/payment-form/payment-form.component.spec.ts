@@ -10,7 +10,7 @@ import {
   Country,
   GlobalMessageService,
   I18nTestingModule,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
@@ -99,7 +99,7 @@ class MockCheckoutService {
   }
 }
 
-class MockUserService {
+class MockUserPaymentService {
   loadBillingCountries = createSpy();
   getAllBillingCountries(): Observable<Country[]> {
     return new BehaviorSubject(mockBillingCountries);
@@ -114,7 +114,7 @@ describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
   let mockCheckoutService: MockCheckoutService;
-  let mockUserService: MockUserService;
+  let mockUserPaymentService: MockUserPaymentService;
   let mockGlobalMessageService: MockGlobalMessageService;
   let showSameAsShippingAddressCheckboxSpy: jasmine.Spy;
 
@@ -125,7 +125,7 @@ describe('PaymentFormComponent', () => {
 
   beforeEach(async(() => {
     mockCheckoutService = new MockCheckoutService();
-    mockUserService = new MockUserService();
+    mockUserPaymentService = new MockUserPaymentService();
     mockGlobalMessageService = new MockGlobalMessageService();
 
     TestBed.configureTestingModule({
@@ -139,7 +139,7 @@ describe('PaymentFormComponent', () => {
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
         { provide: CheckoutService, useValue: mockCheckoutService },
-        { provide: UserService, useValue: mockUserService },
+        { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
       ],
     })
@@ -171,7 +171,7 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get billing countries', () => {
-    spyOn(mockUserService, 'getAllBillingCountries').and.returnValue(
+    spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
       of(mockBillingCountries)
     );
     component.ngOnInit();
@@ -280,7 +280,7 @@ describe('PaymentFormComponent', () => {
       spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
         of(mockAddress)
       );
-      spyOn(mockUserService, 'getAllBillingCountries').and.returnValue(
+      spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
         of(mockBillingCountries)
       );
       spyOn(component, 'next');
@@ -331,7 +331,7 @@ describe('PaymentFormComponent', () => {
       spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
         of(mockAddress)
       );
-      spyOn(mockUserService, 'getAllBillingCountries').and.returnValue(
+      spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
         of(mockBillingCountries)
       );
       spyOn(component, 'next');

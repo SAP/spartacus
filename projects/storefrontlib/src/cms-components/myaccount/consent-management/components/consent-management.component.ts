@@ -67,7 +67,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         .getWithdrawConsentResultLoading()
         .pipe(
           skipWhile(Boolean),
-          withLatestFrom(this.userConsentService.getWithdrawConsentResultSuccess()),
+          withLatestFrom(
+            this.userConsentService.getWithdrawConsentResultSuccess()
+          ),
           map(([, withdrawalSuccess]) => withdrawalSuccess),
           tap(withdrawalSuccess => {
             if (withdrawalSuccess) {
