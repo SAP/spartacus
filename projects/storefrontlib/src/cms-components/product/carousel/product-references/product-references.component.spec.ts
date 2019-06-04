@@ -49,7 +49,7 @@ const list: ProductReference[] = [
 const mockComponentData: CmsProductReferencesComponent = {
   uid: '001',
   typeCode: 'ProductReferencesComponent',
-  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
+  modifiedTime: new Date('2017-12-21T18:15:15+0000'),
   productReferenceTypes: 'SIMILAR',
   title: 'Mock Title',
   name: 'Mock UIProduct References',
