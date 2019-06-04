@@ -1,8 +1,8 @@
 import { PRODUCT_LISTING } from './data-configuration';
 import {
   checkFirstItem,
-  createDefaultQueryRoute,
-  createQueryRoute,
+  createGenericQuery,
+  createFacetQuery,
 } from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
@@ -10,7 +10,7 @@ export const resultsTitle = 'cx-breadcrumb h1';
 export function productTypeFlow(mobile?: string) {
   cy.server();
 
-  createDefaultQueryRoute('query');
+  createGenericQuery('query');
 
   cy.get('cx-searchbox input').type('sony{enter}');
 
@@ -24,7 +24,7 @@ export function productTypeFlow(mobile?: string) {
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
   // Filter by brand
-  createQueryRoute('brand', 'sony', 'brand_query');
+  createFacetQuery('brand', 'sony', 'brand_query');
 
   clickFacet('Brand');
 
@@ -32,7 +32,7 @@ export function productTypeFlow(mobile?: string) {
 
   cy.get(resultsTitle).should('contain', '86 results for "sony"');
 
-  createDefaultQueryRoute('query1');
+  createGenericQuery('query1');
 
   clearSelectedFacet(mobile);
 
@@ -41,7 +41,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by price
-  createQueryRoute('price', 'sony', 'price_query');
+  createFacetQuery('price', 'sony', 'price_query');
 
   clickFacet('Price');
 
@@ -53,7 +53,7 @@ export function productTypeFlow(mobile?: string) {
 
   checkFirstItem('MSHX8A');
 
-  createDefaultQueryRoute('query2');
+  createGenericQuery('query2');
 
   clearSelectedFacet(mobile);
 
@@ -62,7 +62,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by category
-  createQueryRoute('category', 'sony', 'category_query');
+  createFacetQuery('category', 'sony', 'category_query');
 
   clickFacet('Category');
 
@@ -74,7 +74,7 @@ export function productTypeFlow(mobile?: string) {
 
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
-  createDefaultQueryRoute('query3');
+  createGenericQuery('query3');
 
   clearSelectedFacet(mobile);
 
@@ -83,7 +83,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by color
-  createQueryRoute('Colour', 'sony', 'color_query');
+  createFacetQuery('Colour', 'sony', 'color_query');
 
   clickFacet('Color');
 
@@ -95,7 +95,7 @@ export function productTypeFlow(mobile?: string) {
 
   checkFirstItem('NP-FV 70');
 
-  createDefaultQueryRoute('query4');
+  createGenericQuery('query4');
 
   clearSelectedFacet(mobile);
 

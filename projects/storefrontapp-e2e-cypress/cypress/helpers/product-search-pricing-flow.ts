@@ -1,10 +1,10 @@
 import { PRODUCT_LISTING } from './data-configuration';
-import { checkFirstItem, createDefaultQueryRoute } from './product-search';
+import { checkFirstItem, createGenericQuery } from './product-search';
 import { apiUrl } from '../support/utils/login';
 
 export function productPricingFlow() {
   cy.server();
-  createDefaultQueryRoute('query');
+  createGenericQuery('query');
   cy.route(
     'GET',
     `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&sort=price-asc*`

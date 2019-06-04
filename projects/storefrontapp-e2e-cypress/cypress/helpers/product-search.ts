@@ -71,27 +71,37 @@ export function clearActiveFacet(mobile?: string) {
 }
 
 export function sortByLowestPrice() {
+  createQuery('price-asc', 'query_price_asc');
   cy.get(sortingOptionSelector).ngSelect('Price (lowest first)');
+  cy.wait('@query_price_asc');
   cy.get(firstProductPriceSelector).should('contain', '$1.58');
 }
 
 export function sortByHighestPrice() {
+  createQuery('price-desc', 'query_price_desc');
   cy.get(sortingOptionSelector).ngSelect('Price (highest first)');
+  cy.wait('@query_price_desc');
   cy.get(firstProductPriceSelector).should('contain', '$6,030.71');
 }
 
 export function sortByNameAscending() {
+  createQuery('name-asc', 'query_name_asc');
   cy.get(sortingOptionSelector).ngSelect('Name (ascending)');
+  cy.wait('@query_name_asc');
   cy.get(firstProductNameSelector).should('contain', '10.2 Megapixel D-SLR');
 }
 
 export function sortByNameDescending() {
+  createQuery('name-desc', 'query_name_desc');
   cy.get(sortingOptionSelector).ngSelect('Name (descending)');
+  cy.wait('@query_name_desc');
   cy.get(firstProductNameSelector).should('contain', 'Wide Strap for EOS 450D');
 }
 
 export function sortByRelevance() {
+  createQuery('relevance', 'query_relevance');
   cy.get(sortingOptionSelector).ngSelect('Relevance');
+  cy.wait('@query_relevance');
   cy.get(firstProductNameSelector).should('not.be.empty');
 }
 
@@ -105,13 +115,21 @@ export function checkFirstItem(title: string): void {
     .first()
     .should('contain', title);
 }
-export function createDefaultQueryRoute(alias: string): void {
+
+export function createGenericQuery(alias: string): void {
   cy.route('GET', `${apiUrl}/rest/v2/electronics-spa/products/search*`).as(
     alias
   );
 }
 
-export function createQueryRoute(
+export function createQuery(sort: string, alias: string): void {
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&sort=${sort}*`
+  ).as(alias);
+}
+
+export function createFacetQuery(
   param: string,
   search: string,
   alias: string

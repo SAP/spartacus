@@ -2,12 +2,12 @@ import * as productSearchFlow from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
 
 function clickSearchIcon() {
-  cy.get('cx-searchbox [aria-label="Search"]').click();
+  cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
 }
 
 function enterProduct() {
   clickSearchIcon();
-  cy.get('cx-searchbox input').type('camera{enter}');
+  cy.get('cx-searchbox input[aria-label="search"]').type('camera{enter}');
 }
 
 context(`${formats.mobile.width + 1}p resolution - Product search`, () => {
@@ -61,7 +61,10 @@ context(`${formats.mobile.width + 1}p resolution - Product search`, () => {
       cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.visit('/');
       enterProduct();
-      clickSearchIcon();
+    });
+
+    beforeEach(() => {
+      cy.server();
     });
 
     it('should be able to sort by lowest price', () => {
