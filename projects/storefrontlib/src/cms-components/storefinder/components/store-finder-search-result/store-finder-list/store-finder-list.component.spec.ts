@@ -7,13 +7,16 @@ import {
   GoogleMapRendererService,
   I18nTestingModule,
   StoreDataService,
+  PointOfService,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 
-const location = {};
-const stores = [location];
+const location: PointOfService = {
+  displayName: 'Test Store',
+};
+const stores: Array<PointOfService> = [location];
 const locations = { stores: stores };
 
 class StoreDataServiceMock {
@@ -76,7 +79,6 @@ describe('StoreFinderDisplayListComponent', () => {
   });
 
   it('should center store on map', () => {
-    // given
     component.locations = locations;
     fixture.detectChanges();
     storeMapComponent = fixture.debugElement.query(
@@ -84,27 +86,45 @@ describe('StoreFinderDisplayListComponent', () => {
     ).componentInstance;
     spyOn(storeMapComponent, 'centerMap').and.callThrough();
 
-    // when
-    component.centerStoreOnMapByIndex(0);
+    component.centerStoreOnMapByIndex(0, location);
 
-    // then
     expect(storeMapComponent.centerMap).toHaveBeenCalled();
     expect(storeDataService.getStoreLatitude).toHaveBeenCalled();
     expect(storeDataService.getStoreLongitude).toHaveBeenCalled();
   });
 
   it('should select store from list', () => {
-    // given
     const itemNumber = 4;
     const storeListItemMock = { scrollIntoView: function() {} };
     spyOn(document, 'getElementById').and.returnValue(storeListItemMock);
     spyOn(storeListItemMock, 'scrollIntoView');
 
-    // when
     component.selectStoreItemList(itemNumber);
 
-    // then
     expect(document.getElementById).toHaveBeenCalledWith('item-' + itemNumber);
     expect(storeListItemMock.scrollIntoView).toHaveBeenCalled();
+  });
+
+  it('should show store details', () => {
+    component.locations = locations;
+    fixture.detectChanges();
+    expect(component.isDetailsModeVisible).toBe(false);
+
+    component.centerStoreOnMapByIndex(0, location);
+    fixture.detectChanges();
+    expect(component.isDetailsModeVisible).toBe(true);
+    expect(component.storeDetails).not.toBe(null);
+  });
+
+  it('should close store details', () => {
+    component.locations = locations;
+    fixture.detectChanges();
+
+    component.centerStoreOnMapByIndex(0, location);
+    fixture.detectChanges();
+    expect(component.isDetailsModeVisible).toBe(true);
+
+    component.hideStoreDetails();
+    expect(component.isDetailsModeVisible).toBe(false);
   });
 });
