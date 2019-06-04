@@ -42,7 +42,7 @@ describe('UserService', () => {
     }
   ));
 
-  it('should be able to get user details', () => {
+  it('get() should be able to get user details when they are present in the store', () => {
     store.dispatch(
       new fromStore.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
     );
@@ -55,6 +55,20 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(userDetails).toEqual({ uid: 'testUser' });
+  });
+
+  it('get() should trigger load user details when they are not present in the store', () => {
+    let userDetails: User;
+    service
+      .get()
+      .subscribe(data => {
+        userDetails = data;
+      })
+      .unsubscribe();
+    expect(userDetails).toEqual({});
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserDetails(USERID_CURRENT)
+    );
   });
 
   it('should be able to load user details', () => {
@@ -429,18 +443,88 @@ describe('UserService', () => {
     );
   });
 
-  it('should be able to get all regions', () => {
+  describe('getRegions', () => {
     const regionsList: Region[] = [{ name: 'r1' }, { name: 'r2' }];
-    store.dispatch(new fromStore.LoadRegionsSuccess(regionsList));
+    const country = 'CA';
 
-    let regions: Region[];
-    service
-      .getRegions()
-      .subscribe(data => {
+    it('should be able to get all regions', done => {
+      let regions: Region[];
+      service.getRegions(country).subscribe(data => {
         regions = data;
-      })
-      .unsubscribe();
-    expect(regions).toEqual([{ name: 'r1' }, { name: 'r2' }]);
+        expect(regions).toEqual(regionsList);
+        done();
+      });
+      store.dispatch(
+        new fromStore.LoadRegionsSuccess({ entities: regionsList, country })
+      );
+    });
+
+    it('should clear regions on empty country', done => {
+      let regions: Region[];
+      store.dispatch(
+        new fromStore.LoadRegionsSuccess({
+          entities: regionsList,
+          country,
+        })
+      );
+      spyOn(service, 'clearRegions').and.stub();
+      service.getRegions(null).subscribe(data => {
+        regions = data;
+        expect(regions).toEqual([]);
+        expect(service.clearRegions).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should return empty array while loading', done => {
+      let regions: Region[];
+      store.dispatch(new fromStore.LoadRegions(country));
+      spyOn(service, 'clearRegions').and.stub();
+      spyOn(service, 'loadRegions').and.stub();
+      service.getRegions(country).subscribe(data => {
+        regions = data;
+        expect(regions).toEqual([]);
+        expect(service.clearRegions).not.toHaveBeenCalled();
+        expect(service.loadRegions).not.toHaveBeenCalled();
+
+        done();
+      });
+    });
+
+    it('should return empty array and invoke clear and load when changing country', done => {
+      let regions: Region[];
+      spyOn(service, 'clearRegions').and.stub();
+      spyOn(service, 'loadRegions').and.stub();
+      const country2 = 'AB';
+
+      service.getRegions(country);
+      service.getRegions(country2).subscribe(data => {
+        regions = data;
+        expect(regions).toEqual([]);
+        expect(service.clearRegions).toHaveBeenCalled();
+        expect(service.loadRegions).toHaveBeenCalledWith(country2);
+        done();
+      });
+    });
+
+    it('should return already loaded results on another request', done => {
+      let regions: Region[];
+      store.dispatch(
+        new fromStore.LoadRegionsSuccess({
+          entities: regionsList,
+          country,
+        })
+      );
+      spyOn(service, 'clearRegions').and.stub();
+      spyOn(service, 'loadRegions').and.stub();
+      service.getRegions(country).subscribe(data => {
+        regions = data;
+        expect(regions).toEqual(regionsList);
+        expect(service.clearRegions).not.toHaveBeenCalled();
+        expect(service.loadRegions).not.toHaveBeenCalled();
+        done();
+      });
+    });
   });
 
   it('should be able to clear order list', () => {

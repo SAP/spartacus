@@ -15,20 +15,24 @@ describe('Regions Reducer', () => {
   });
 
   describe('LOAD_REGIONS_SUCCESS action', () => {
-    it('should populate the regions entities', () => {
-      const mockRegions: Region[] = [
-        {
-          isocode: 'CA-ON',
-          name: 'Ontario',
-        },
-        {
-          isocode: 'CA-QC',
-          name: 'Quebec',
-        },
-      ];
+    const country = 'CA';
+    const mockRegions: Region[] = [
+      {
+        isocode: 'CA-ON',
+        name: 'Ontario',
+      },
+      {
+        isocode: 'CA-QC',
+        name: 'Quebec',
+      },
+    ];
 
+    it('should populate the regions entities', () => {
       const { initialState } = fromReducer;
-      const action = new fromActions.LoadRegionsSuccess(mockRegions);
+      const action = new fromActions.LoadRegionsSuccess({
+        entities: mockRegions,
+        country,
+      });
       const state = fromReducer.reducer(initialState, action);
       expect(state.entities).toEqual(mockRegions);
     });
