@@ -111,13 +111,18 @@ describe('LoginComponent', () => {
 
   it('should have user details when token exists', () => {
     let user;
+    component.ngOnInit();
     component.user$.subscribe(result => (user = result));
     expect(user).toEqual(mockUserDetails);
   });
 
-  it('should not have user details when token is lacking', () => {
+  it('should not get user details when token is lacking', () => {
     spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+    authService
+      .getUserToken()
+      .subscribe(token => console.log('user token ', token));
     let user;
+    component.ngOnInit();
     component.user$.subscribe(result => (user = result));
     expect(user).toBeFalsy();
   });
@@ -125,7 +130,7 @@ describe('LoginComponent', () => {
   describe('UI tests', () => {
     it('should contain the dynamic slot: HeaderLinks', () => {
       spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
-
+      component.ngOnInit();
       fixture.detectChanges();
 
       expect(
@@ -136,6 +141,7 @@ describe('LoginComponent', () => {
     });
 
     it('should display greeting message when the user is logged in', () => {
+      component.ngOnInit();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'login.userGreeting name:First Last'
@@ -144,12 +150,8 @@ describe('LoginComponent', () => {
 
     it('should display the register message when the user is not logged in', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+      component.ngOnInit();
       fixture.detectChanges();
-
-      // expect(
-      //   fixture.debugElement.query(By.css('a[role="link"]')).nativeElement
-      //     .innerText
-      // ).toContain('common.action.signInRegister');
 
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'login.signInRegister'

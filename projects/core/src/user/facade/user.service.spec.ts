@@ -42,7 +42,7 @@ describe('UserService', () => {
     }
   ));
 
-  it('should be able to get user details', () => {
+  it('get ) should be able to get user details when they are present in the store', () => {
     store.dispatch(
       new fromStore.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
     );
@@ -55,6 +55,20 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(userDetails).toEqual({ uid: 'testUser' });
+  });
+
+  it('get() should trigger load user details when they are not present in the store', () => {
+    let userDetails: User;
+    service
+      .get()
+      .subscribe(data => {
+        userDetails = data;
+      })
+      .unsubscribe();
+    expect(userDetails).toEqual({});
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserDetails(USERID_CURRENT)
+    );
   });
 
   it('should be able to load user details', () => {
