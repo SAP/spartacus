@@ -13,7 +13,7 @@ import {
   ADDRESS_VALIDATION_NORMALIZER,
 } from '../../../user/connectors/address/converters';
 import {CustomerCouponAdapter} from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
-import {CustomerCoupon, CustomerCouponSearchResult} from '../../../model/customer-coupon.model';
+import {CustomerCoupon, CustomerCouponNotification, CustomerCouponSearchResult} from '../../../model/customer-coupon.model';
 
 const USER_ENDPOINT = 'users/';
 const CUSTOMER_COUPON_ENDPOINT = '/customercoupons';
@@ -65,6 +65,17 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   }
 
   turnOnNotification(userId: string, couponCode: string): Observable<CustomerCoupon> {
-    return undefined;
+    const url =
+      this.getUserEndpoint(userId) + CUSTOMER_COUPON_ENDPOINT + '/' + couponCode + '/notification';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .post<CustomerCoupon>(url, { headers })
+      .pipe(
+        map((customerCouponNotification: CustomerCouponNotification) => customerCouponNotification.coupon),
+        catchError((error: any) => throwError(error))
+       );
   }
 }

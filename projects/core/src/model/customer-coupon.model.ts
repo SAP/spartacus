@@ -1,4 +1,4 @@
-import { PaginationModel, SortModel } from './misc.model';
+import {PaginationModel, SortModel, User} from './misc.model';
 
 export interface CustomerCoupon {
   couponId?: string;
@@ -9,6 +9,12 @@ export interface CustomerCoupon {
   description?: string;
   notificationOn?: string;
   solrFacets?: string;
+}
+
+export interface CustomerCouponNotification {
+  coupon?: CustomerCoupon;
+  customer?: User;
+  status?: String;
 }
 
 export interface CustomerCouponSearchResult {
