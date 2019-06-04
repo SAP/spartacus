@@ -225,7 +225,6 @@ describe('Navigation UI Component', () => {
         element.query(By.css('.cx-nav-child-list-columns'));
       const mockData = getMockData(2, 6);
       navigationComponent.node = mockData;
-      navigationComponent.dropdownMode = 'column';
       fixture.detectChanges();
 
       const columnList: HTMLElement = getColumnList().nativeElement;

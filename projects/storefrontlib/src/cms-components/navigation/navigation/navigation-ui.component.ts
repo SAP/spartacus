@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
   HostBinding,
   Renderer2,
 } from '@angular/core';
@@ -18,12 +17,12 @@ const COLUMN_SIZE = 10;
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationUIComponent implements OnInit {
+export class NavigationUIComponent {
   /**
    * The navigation node to render.
    */
   @Input() node: NavigationNode;
-  
+
   // Columns to be rendered
   columns;
 
@@ -99,8 +98,6 @@ export class NavigationUIComponent implements OnInit {
       return depth;
     }
   }
-  
-  
 
   getColumns(children) {
     const columns = [];
@@ -125,14 +122,6 @@ export class NavigationUIComponent implements OnInit {
         columns.push([columnHeader]);
       }
     }
-
     return columns;
   }
-
-  ngOnInit() {
-    if (this.node.children) {
-      this.columns = this.getColumns(this.node.children);
-    }
-  };
-  
 }

@@ -162,13 +162,6 @@
         }
       }
     }
-    //column option
-    &-column-title {
-      @include type('7');
-      text-transform: var(--cx-text-transform, capitalize);
-      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold));
-      display: var(--cx-display, block);
-      width: var(--cx-width, 100%);
   }
 }
 

@@ -31,26 +31,6 @@
       ></cx-icon>
     </cx-generic-link>
 
-    <ng-container *ngSwitchCase="'column'">
-      <div
-        ngbDropdownMenu
-        class="cx-nav-child-list-columns"
-        [attr.aria-label]="node.title"
-      >
-        <div class="cx-nav-child-column" *ngFor="let column of columns">
-          <div
-            *ngFor="let item of column"
-            class="dropdown-item cx-nav-child-column-item"
-          >
-            <a
-              role="link"
-              [routerLink]="item.url"
-              class="cx-nav-child-link"
-              [ngClass]="{ 'cx-nav-column-title': item.isHeader }"
-              >{{ item.title }}
-            </a>
-          </div>
-        </div>
     <ng-template #heading>
       <h5 [attr.aria-label]="node.title">
         {{ node.title }}
@@ -68,10 +48,12 @@
       </cx-generic-link>
 
       <div class="childs" [attr.depth]="getDepth(node)">
-        <ng-container *ngFor="let child of node.children">
-          <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+        <div *ngFor="let column of getColumns(node.children)">
+          <ng-container *ngFor="let child of column">
+            <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+            </ng-container>
           </ng-container>
-        </ng-container>
+        </div>
       </div>
     </div>
   </nav>
