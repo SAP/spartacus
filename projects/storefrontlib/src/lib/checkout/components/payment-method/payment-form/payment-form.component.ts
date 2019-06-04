@@ -15,7 +15,8 @@ import {
   Address,
   AddressValidation,
   CardType,
-  CheckoutService,
+  CheckoutPaymentService,
+  CheckoutDeliveryService,
   Country,
   GlobalMessageService,
   GlobalMessageType,
@@ -88,7 +89,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    protected checkoutService: CheckoutService,
+    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
@@ -106,15 +108,15 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.cardTypes$ = this.checkoutService.getCardTypes().pipe(
+    this.cardTypes$ = this.checkoutPaymentService.getCardTypes().pipe(
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
-          this.checkoutService.loadSupportedCardTypes();
+          this.checkoutPaymentService.loadSupportedCardTypes();
         }
       })
     );
 
-    this.shippingAddress$ = this.checkoutService.getDeliveryAddress();
+    this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
 
     this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
@@ -124,11 +126,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.checkoutService
+    this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
         if (results === 'FAIL') {
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.next();
         } else if (results.decision === 'REJECT') {
@@ -136,7 +138,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
             { key: 'addressForm.invalidAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
         }
@@ -229,12 +231,12 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
         .then(() => {
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
           this.suggestedAddressModalRef = null;
         })
         .catch(() => {
           // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
           this.suggestedAddressModalRef = null;
         });
     }
@@ -252,7 +254,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     if (this.sameAsShippingAddress) {
       this.next();
     } else {
-      this.checkoutService.verifyAddress(this.billingAddress.value);
+      this.checkoutDeliveryService.verifyAddress(this.billingAddress.value);
     }
   }
 

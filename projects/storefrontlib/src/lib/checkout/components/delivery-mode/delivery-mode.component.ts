@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { DeliveryMode, CheckoutService, RoutingService } from '@spartacus/core';
+import { DeliveryMode, CheckoutDeliveryService, RoutingService } from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -34,7 +34,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private checkoutService: CheckoutService,
+    private checkoutDeliveryService: CheckoutDeliveryService,
     private routingService: RoutingService,
     private checkoutConfigService: CheckoutConfigService,
     private activatedRoute: ActivatedRoute
@@ -49,10 +49,10 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     );
     this.changedOption = false;
 
-    this.supportedDeliveryModes$ = this.checkoutService.getSupportedDeliveryModes();
-    this.selectedDeliveryMode$ = this.checkoutService.getSelectedDeliveryMode();
+    this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
+    this.selectedDeliveryMode$ = this.checkoutDeliveryService.getSelectedDeliveryMode();
 
-    this.checkoutService.loadSupportedDeliveryModes();
+    this.checkoutDeliveryService.loadSupportedDeliveryModes();
 
     this.selectedDeliveryMode$
       .pipe(
@@ -77,10 +77,10 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   next(): void {
     if (this.changedOption) {
-      this.checkoutService.setDeliveryMode(this.currentDeliveryModeId);
+      this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
     }
 
-    this.deliveryModeSub = this.checkoutService
+    this.deliveryModeSub = this.checkoutDeliveryService
       .getSelectedDeliveryMode()
       .subscribe(data => {
         if (data && data.code === this.currentDeliveryModeId) {
