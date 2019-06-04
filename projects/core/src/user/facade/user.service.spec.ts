@@ -12,6 +12,7 @@ import * as fromProcessReducers from '../../process/store/reducers';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
+import { CustomerCoupon } from '../../model/customer-coupon.model';
 
 describe('UserService', () => {
   let service: UserService;
@@ -290,6 +291,85 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(addresses).toEqual([{ id: 'address1' }, { id: 'address2' }]);
+  });
+
+  it('should be able to load user coupon', () => {
+    service.loadCustomerCoupon();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadCustomerCoupon(USERID_CURRENT)
+    );
+  });
+
+  it('should be able to load user coupon', () => {
+    const mockCustomerCoupons: CustomerCoupon[] = [
+      {
+        couponId: 'coupon1',
+        name: 'coupon 1',
+        startDate: new Date(),
+        endDate: new Date(),
+        status: 'Effective',
+        description: '',
+        notificationOn: true,
+        solrFacets: '',
+      },
+      {
+        couponId: 'coupon2',
+        name: 'coupon 2',
+        startDate: new Date(),
+        endDate: new Date(),
+        status: 'Effective',
+        description: '',
+        notificationOn: true,
+        solrFacets: '',
+      },
+    ];
+    store.dispatch(
+      new fromStore.LoadCustomerCouponSuccess(mockCustomerCoupons)
+    );
+
+    let coupons: CustomerCoupon[];
+    service
+      .getCoupons()
+      .subscribe(data => {
+        coupons = data;
+      })
+      .unsubscribe();
+    expect(addresses).toEqual([
+      {
+        couponId: 'coupon1',
+        name: 'coupon 1',
+        startDate: new Date(),
+        endDate: new Date(),
+        status: 'Effective',
+        description: '',
+        notificationOn: true,
+        solrFacets: '',
+      },
+      {
+        couponId: 'coupon2',
+        name: 'coupon 2',
+        startDate: new Date(),
+        endDate: new Date(),
+        status: 'Effective',
+        description: '',
+        notificationOn: true,
+        solrFacets: '',
+      },
+    ]);
+  });
+
+  it('should be able to subcribe a coupon notification', () => {
+    service.subcribeCustomerCoupon();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserAddresses(USERID_CURRENT)
+    );
+  });
+
+  it('should be able to unsubcribe a coupon notification', () => {
+    service.unsubcribeCustomerCoupon();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserAddresses(USERID_CURRENT)
+    );
   });
 
   it('should be able to get titles data', () => {

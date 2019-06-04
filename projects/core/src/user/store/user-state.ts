@@ -17,6 +17,7 @@ export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
+export const USER_COUPONS = '[User] User Coupons';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
