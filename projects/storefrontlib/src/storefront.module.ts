@@ -43,6 +43,7 @@ import { LayoutModule } from './layout/layout.module';
     ProductListingPageModule,
     CartPageModule, // as longs as we do not have #2661 in place we need a specific cart page module
   ],
+  exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],
   declarations: [],
 })
