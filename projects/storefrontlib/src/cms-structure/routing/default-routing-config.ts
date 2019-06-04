@@ -29,8 +29,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   brand: { paths: ['Brands/:brandName/c/:brandCode'] },
   termsAndConditions: { paths: ['termsAndConditions'] },
   orderDetails: {
-    paths: ['my-account/orders/:orderCode'],
+    paths: ['my-account/order/:orderCode'],
     paramsMapping: { orderCode: 'code' },
+  },
+  orders: {
+    paths: ['my-account/orders'],
   },
 };
 

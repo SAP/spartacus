@@ -8,8 +8,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { map, tap, switchMap } from 'rxjs/operators';
 
 import {
   Address,
@@ -37,6 +37,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
+  selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   @Input()
   addressData: Address;
@@ -115,18 +116,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.regions$ = this.userService.getRegions().pipe(
+    this.regions$ = this.selectedCountry$.pipe(
+      switchMap(country => this.userService.getRegions(country)),
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
-
-        if (Object.keys(regions).length === 0) {
-          regionControl.disable();
-          const countryIsoCode = this.address.get('country.isocode').value;
-          if (countryIsoCode) {
-            this.userService.loadRegions(countryIsoCode);
-          }
-        } else {
+        if (regions.length > 0) {
           regionControl.enable();
+        } else {
+          regionControl.disable();
         }
       })
     );
@@ -178,7 +175,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.address['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
-    this.userService.loadRegions(country.isocode);
+    this.selectedCountry$.next(country.isocode);
   }
 
   regionSelected(region: Region): void {
