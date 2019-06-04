@@ -10,26 +10,6 @@ import { CustomerCoupon } from '../../../model/customer-coupon.model';
 
 const userId = '123';
 const couponCode = 'testcoupon';
-const coupon1: CustomerCoupon = {
-  couponId: 'coupon1',
-  name: 'coupon 1',
-  startDate: new Date(),
-  endDate: new Date(),
-  status: 'Effective',
-  description: '',
-  notificationOn: true,
-  solrFacets: '',
-};
-const coupon2: CustomerCoupon = {
-  couponId: 'coupon2',
-  name: 'coupon 2',
-  startDate: new Date(),
-  endDate: new Date(),
-  status: 'Effective',
-  description: '',
-  notificationOn: true,
-  solrFacets: '',
-};
 
 describe('User Coupon Actions', () => {
   describe('LoadCustomerCoupons Actions', () => {
@@ -60,8 +40,6 @@ describe('User Coupon Actions', () => {
   });
 
   describe('LoadCustomerCouponsSuccess Action', () => {
-    const mockCustomerCoupons: CustomerCoupon[] = [{ coupon1 }, { coupon2 }];
-
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
         mockCustomerCoupons
@@ -69,7 +47,7 @@ describe('User Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.LOAD_USER_COUPONS_SUCCESS,
-        payload: mockCustomerCoupons,
+        payload: userId,
         meta: successMeta(USER_COUPONS),
       });
     });
@@ -115,7 +93,7 @@ describe('User Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
-        payload: payload,
+        payload: { userId, couponCode },
         meta: successMeta(USER_COUPONS),
       });
     });
@@ -161,7 +139,7 @@ describe('User Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
-        payload: payload,
+        payload: { userId, couponCode },
         meta: successMeta(USER_COUPONS),
       });
     });
