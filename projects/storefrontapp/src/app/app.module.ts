@@ -27,29 +27,26 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
+
     B2cStorefrontModule.withConfig({
       production: environment.production,
-      authentication: {
-        kyma_enabled: false,
-      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
           legacy: false,
         },
       },
+
       siteContext: {
-        // urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
         parameters: {
           BASE_SITE: {
             values: [
               'electronics-spa',
-              //   'electronics',
-              //   'apparel-de',
-              //   'apparel-uk',
+              'electronics',
+              'apparel-de',
+              'apparel-uk',
             ],
             defaultValue: 'electronics-spa',
-            // persistence: 'route',
           },
         },
       },
@@ -63,7 +60,7 @@ if (!environment.production) {
         },
       },
 
-      // we like to bring in static translations to be up and running soon right away
+      // we  bring in static translations to be up and running soon right away
       // but adding
       i18n: {
         resources: translations,
