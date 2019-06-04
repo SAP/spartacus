@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
+import { componentFactoryName } from '@angular/compiler';
 
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
@@ -167,6 +168,162 @@ describe('Navigation UI Component', () => {
       const firstDropdownItem: HTMLElement = getFirstDropdownItem()
         .nativeElement;
       expect(firstDropdownItem).toBeTruthy();
+    });
+
+    it('should render multiple columns for many children', () => {
+      const getColumnList = (): DebugElement =>
+        element.query(By.css('.cx-nav-child-list-columns'));
+      const mockData: NavigationNode = {
+        title: 'Test title',
+        children: [
+          {
+            url: '/subtest',
+            title: 'Sublink',
+            children: [
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+            ],
+          },
+          {
+            url: '/subtest',
+            title: 'Sublink',
+            children: [
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+            ],
+          },
+        ],
+      };
+      navigationComponent.node = mockData;
+      navigationComponent.dropdownMode = 'column';
+      fixture.detectChanges();
+
+      const columnList: HTMLElement = getColumnList().nativeElement;
+      expect(columnList).toBeTruthy();
+      expect(columnList.children.length).toEqual(2);
+    });
+  });
+
+  describe('getColumns()', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(NavigationUIComponent);
+      navigationComponent = fixture.debugElement.componentInstance;
+      element = fixture.debugElement;
+    });
+
+    it('should render multiple columns for many children', () => {
+      const mockData: NavigationNode = {
+        title: 'Test title',
+        children: [
+          {
+            url: '/subtest',
+            title: 'Sublink',
+            children: [
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+            ],
+          },
+          {
+            url: '/subtest',
+            title: 'Sublink',
+            children: [
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+              {
+                url: '/subtest',
+                title: 'Sublink',
+              },
+            ],
+          },
+        ],
+      };
+
+      const columns = navigationComponent.getColumns(mockData.children);
+      expect(columns.length).toEqual(2);
     });
   });
 });
