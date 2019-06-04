@@ -3,7 +3,7 @@
 %cx-promotions {
   .cx-promotions {
     @include type('7');
-    color: var(--cx-color, var(--cx-g-color-success));
-    padding: var(--cx-padding, 0.5rem 0);
+    color: var(--cx-g-color-success);
+    padding: 0.5rem 0;
   }
 }

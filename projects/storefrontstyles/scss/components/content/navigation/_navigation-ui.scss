@@ -1,145 +1,272 @@
+%nav-wrapper {
+  // create width of wrapper
+  .wrapper[attr='1'] {
+    width: 200px;
+  }
+  .wrapper[attr='2'] {
+    width: 400px;
+  }
+
+  .wrapper {
+    @include media-breakpoint-down(md) {
+      height: 0;
+      overflow: hidden;
+    }
+  }
+
+  &.flyout {
+    .wrapper {
+      color: #000;
+    }
+    @include media-breakpoint-up(lg) {
+      > nav > .wrapper {
+        padding: 15px 20px;
+        background: #fff;
+      }
+    }
+  }
+}
+
+%nav-back-button {
+  &.flyout {
+    .back {
+      display: none;
+    }
+    @include media-breakpoint-down(md) {
+      .back {
+        display: initial;
+        h5 {
+          text-transform: capitalize;
+          justify-content: flex-start;
+          cx-icon {
+            padding-right: 10px;
+          }
+        }
+      }
+      &:not(.is-open) {
+        .back {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+%nav-heading {
+  h5 {
+    margin: 0;
+  }
+  &.flyout {
+    h5,
+    cx-generic-link {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+
+      color: currentColor;
+
+      &:hover {
+        color: var(--cx-g-color-primary);
+      }
+
+      @include media-breakpoint-up(lg) {
+        padding: 5px 0;
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      // make all first level hedings uppercase in mobile view
+      > nav {
+        > h5,
+        > cx-generic-link {
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+      }
+      h5,
+      cx-generic-link {
+        border-bottom: 1px solid var(--cx-g-color-light);
+        display: flex;
+        justify-content: space-between;
+
+        cursor: pointer;
+        a {
+          display: block;
+          width: 100%;
+        }
+      }
+
+      h5,
+      cx-generic-link a {
+        padding: 1rem;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      > nav {
+        cursor: pointer;
+        // top level headings
+        > h5,
+        > cx-generic-link {
+          padding: 5px 25px 5px 0;
+          height: 35px;
+        }
+        // first level headings will be bold in desktop
+        nav > h5 {
+          @include type('5');
+          cursor: default;
+
+          &:hover {
+            color: currentColor;
+          }
+        }
+      }
+    }
+  }
+  cx-generic-link.all {
+    text-decoration: underline;
+  }
+}
+
+%nav-icon {
+  cx-icon {
+    &:before {
+      font-size: 1.5rem;
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    cx-icon {
+      padding: 0 0 0 10px;
+      &:before {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+%nav-childs {
+  &.flyout {
+    // the last level of navigations is tyically displayed in a column
+    .childs[depth='1'] {
+      flex-direction: column;
+    }
+    .childs {
+      @include media-breakpoint-up(lg) {
+        .childs {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+%nav-links {
+  a {
+    color: currentColor;
+  }
+  &.flyout {
+    a {
+      display: block;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+  }
+}
+
 %cx-navigation-ui {
-  //this hack here for now, until we decide how we go about keyboard navigation
-  // .dropdown:hover>.dropdown-menu,
-  // .dropdown:focus>.dropdown-menu {
-  //   display: block;
-  // }
+  display: flex;
 
-  .cx-nav {
-    &-item {
-      @include media-breakpoint-down(md) {
-        border-style: var(--cx-border-style, solid);
-        border-width: var(--cx-border-width, 0 0 1px);
-        border-color: var(--cx-border-color, var(--cx-g-color-background));
-        padding: var(--cx-padding, 0.5rem 0);
-      }
+  @extend %nav-heading;
+  @extend %nav-icon;
+  @extend %nav-wrapper;
+  @extend %nav-childs;
+  @extend %nav-links;
+  @extend %nav-back-button;
+
+  nav {
+    outline: none;
+  }
+
+  &.flyout {
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      color: #000;
     }
-    &-link {
-      color: var(--cx-color, var(--cx-g-color-inverse));
-      text-transform: var(--cx-text-transform, capitalize);
-      padding: var(--cx-padding, 0.2rem 0);
-      &:focus {
-        color: var(--cx-color, var(--cx-g-color-primary));
-      }
-      &:hover {
-        color: var(--cx-color, var(--cx-g-color-primary));
-        cursor: var(--cx-cursor, pointer);
-      }
 
-      @include media-breakpoint-down(md) {
-        &::after {
-          margin-right: 20px;
-          border-style: var(--cx-border-style, solid);
-          border-width: var(--cx-border-width, 3px);
-          border-color: var(
-            --cx-border-color,
-            currentColor currentColor var(--cx-g-color-transparent)
-              var(--cx-g-color-transparent)
-          );
-          display: var(--cx-display, block);
-          width: var(--cx-width, 1rem);
-          height: var(--cx-height, 1rem);
-        }
-        &[aria-expanded='false'] {
-          &::after {
-            transform: var(--cx-transform, rotate(45deg));
+    @include media-breakpoint-down(md) {
+      &.is-open {
+        > nav {
+          display: none;
+          cx-generic-link.all {
+            display: none;
           }
         }
-        &[aria-expanded='true'] {
-          &::after {
-            transform: var(--cx-transform, rotate(-45deg));
+        nav.is-open {
+          display: initial;
+          cx-generic-link.all {
+            display: initial;
+          }
+          > .wrapper {
+            height: auto;
           }
         }
 
-        color: var(--cx-color, var(--cx-g-color-text));
-        display: var(--cx-display, flex);
-        justify-content: var(--cx-justify-content, space-between);
-        padding: var(--cx-padding, 0.5rem 1rem);
+        nav.is-opened {
+          display: initial;
+          > .wrapper > .childs > nav {
+            display: none;
+            &.is-open {
+              display: initial;
+            }
+          }
+          > h5 {
+            display: none;
+          }
+          > .wrapper {
+            height: auto;
+          }
+        }
       }
     }
-    &-child-list {
-      border-radius: var(--cx-border-radius, 0);
-      text-transform: var(--cx-text-transform, capitalize);
-      padding: var(--cx-padding, 0);
-      @include media-breakpoint-down(md) {
-        position: var(--cx-position, relative);
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-background)
-        );
-        border-style: var(--cx-border-style, none);
-        border-width: var(--cx-border-width, 0);
-        width: var(--cx-width, 100%);
-        top: var(--cx-top, 0) !important;
+
+    @include media-breakpoint-up(lg) {
+      > nav {
+        > .wrapper {
+          // display: flex;
+          position: absolute;
+          visibility: hidden;
+          opacity: 0;
+          margin-left: -10px;
+          border: 1px solid #ccc;
+        }
+
+        /* we only threat the first wrapper as a collapsible container */
+        &:hover,
+        &:focus {
+          > .wrapper {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
       }
-    }
-    &-child-item {
-      border-style: var(--cx-border-style, solid);
-      border-width: var(--cx-border-width, 0 0 1px);
-      border-color: var(--cx-border-color, var(--cx-g-color-background));
-      padding: var(--cx-padding, 0.45rem 1rem);
-      &:hover {
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-transparent)
-        );
+
+      .childs {
+        display: flex;
+        // background: white;
+
+        nav:not(:last-child) {
+          padding-right: 20px;
+        }
       }
-      &:last-child {
-        border-style: var(--cx-border-style, none);
-        border-width: var(--cx-border-width, 0);
+
+      .wrapper cx-icon {
+        display: none;
       }
-      @include media-breakpoint-down(md) {
-        border-style: var(--cx-border-style, none);
-        border-width: var(--cx-border-width, 0);
-      }
-    }
-    &-child-link {
-      @include type('7');
-      color: var(--cx-color, var(--cx-g-color-text));
-      &:hover {
-        color: var(--cx-color, var(--cx-g-color-primary));
-        text-decoration: var(--cx-text-decoration, none);
-      }
-    }
-    &-child-list-columns {
-      border-radius: var(--cx-border-radius, 0);
-      padding: var(--cx-padding, 0.75rem);
-      margin: var(--cx-margin, 0);
-      &.show {
-        display: var(--cx-display, flex);
-      }
-      @include media-breakpoint-down(md) {
-        flex-direction: var(--cx-flex-direction, column);
-        position: var(--cx-position, static);
-        width: var(--cx-width, 100%);
-        border-style: var(--cx-border-style, none);
-        border-width: var(--cx-border-width, 0);
-        margin: var(--cx-margin, 0);
-      }
-    }
-    //column option
-    &-column-title {
-      @include type('7');
-      text-transform: var(--cx-text-transform, capitalize);
-      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold));
-      display: var(--cx-display, block);
-      width: var(--cx-width, 100%);
-      padding: var(--cx-padding, 0.25rem 1.5rem);
-    }
-    &-child-column {
-      margin: var(--cx-margin, 0);
-      @include media-breakpoint-down(md) {
-        margin: var(--cx-margin, 1rem unset 0 0);
-      }
-    }
-    &-child-column-item {
-      @include type('7');
-      padding: var(--cx-padding, 0.25rem 1.5rem);
-      &:hover {
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-transparent)
-        );
+
+      > nav {
+        > .wrapper {
+          transition: all 0.4s;
+        }
       }
     }
   }

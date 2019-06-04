@@ -1,10 +1,68 @@
-import { DebugElement, ElementRef } from '@angular/core';
+import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockIconComponent {
+  @Input() type: string;
+}
+
+@Component({
+  selector: 'cx-generic-link',
+  template: '',
+})
+class MockGenericLinkComponent {
+  @Input() url: string | any[];
+  @Input() target: string;
+  @Input() title: string;
+}
+
+const childLength = 7;
+
+const mockNode: NavigationNode = {
+  title: 'test',
+  children: [
+    {
+      title: 'Root 1',
+      url: '/root-1',
+      children: [
+        {
+          title: 'Child 1',
+          children: [
+            {
+              title: 'Sub child 1',
+              children: [
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: 'Child 2',
+          url: '/child-2',
+        },
+      ],
+    },
+    {
+      title: 'Root 2',
+      url: '/root-2',
+    },
+  ],
+};
 
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
@@ -14,7 +72,11 @@ describe('Navigation UI Component', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [NavigationUIComponent],
+      declarations: [
+        NavigationUIComponent,
+        MockIconComponent,
+        MockGenericLinkComponent,
+      ],
       providers: [],
     }).compileComponents();
   });
@@ -24,149 +86,117 @@ describe('Navigation UI Component', () => {
       fixture = TestBed.createComponent(NavigationUIComponent);
       navigationComponent = fixture.debugElement.componentInstance;
       element = fixture.debugElement;
+
+      navigationComponent.node = mockNode;
     });
 
-    it('should render "Reorder" if title is missing', () => {
-      const getLink = (): ElementRef => element.query(By.css('a'));
-      const mockData: any = {
-        children: [],
-      };
-      navigationComponent.node = mockData;
-      fixture.detectChanges();
-      const link = getLink().nativeElement;
-      expect(link.textContent).toContain('  ');
+    it('should be created', () => {
+      expect(navigationComponent).toBeTruthy();
     });
 
-    it('should render correct title if provided', () => {
-      const getLink = (): ElementRef => element.query(By.css('.cx-nav-link'));
-      const mockData: any = {
-        title: 'Test 1',
-        url: '/test-url',
-        children: [],
-      };
-      navigationComponent.node = mockData;
+    it('should render back button for flyout navigation', () => {
       fixture.detectChanges();
-      const link: HTMLLinkElement = getLink().nativeElement;
-      expect(link.textContent).toContain(mockData.title);
-      expect(link.getAttribute('role')).toEqual('link');
+      const backButton: ElementRef = element.query(By.css('.back'));
+      const link: HTMLLinkElement = backButton.nativeElement;
+
+      expect(link).toBeDefined();
     });
 
-    it('should render correct title as a link if children are missing', () => {
-      const getLink = (): ElementRef => element.query(By.css('a.cx-nav-link'));
-      const mockData = {
-        title: 'Test 1',
-        url: '/test-url',
-      };
-      navigationComponent.node = mockData;
+    it('should not render back button for non-flyout navigation', () => {
+      navigationComponent.flyout = false;
       fixture.detectChanges();
-      const link: HTMLLinkElement = getLink().nativeElement;
-      expect(link.textContent).toContain(mockData.title);
-      expect(link.getAttribute('href')).toEqual(mockData.url);
+      const backButton: ElementRef = element.query(By.css('.back'));
+
+      expect(backButton).toBeFalsy();
     });
 
-    it('should render children as sublinks', () => {
-      const getDropdown = () => element.query(By.css('.cx-nav-child-list'));
-      const getFirstDropdownItem = () =>
-        element.query(By.css('.cx-nav-child-list')).children[0];
-      const getFirstDropdownLink = () =>
-        element.query(By.css('.cx-nav-child-list a'));
-      const mockData: NavigationNode = {
-        title: 'Test title',
-        children: [
-          {
-            url: '/subtest',
-            title: 'Sublink',
-          },
-          {
-            url: '/subtest2',
-            title: 'Sublink2',
-          },
-        ],
-      };
-      navigationComponent.node = mockData;
+    it('should render cx-icon element for a nav node with children in flyout mode', () => {
       fixture.detectChanges();
+      const icon: ElementRef = element.query(By.css('h5 > cx-icon'));
+      const link: HTMLLinkElement = icon.nativeElement;
 
-      const dropdown: HTMLElement = getDropdown().nativeElement;
-      expect(dropdown.getAttribute('aria-label')).toEqual(mockData.title);
-      expect(dropdown.getAttribute('role')).toEqual('list');
-      expect(dropdown.childElementCount).toBe(2);
-
-      const firstDropdownItem = getFirstDropdownItem().nativeElement;
-      expect(firstDropdownItem.getAttribute('role')).toEqual('listitem');
-
-      const firstDropdownLink = getFirstDropdownLink().nativeElement;
-      expect(firstDropdownLink.textContent).toContain(
-        mockData.children[0].title
-      );
-      expect(firstDropdownLink.getAttribute('href')).toEqual(
-        mockData.children[0].url
-      );
+      expect(link).toBeDefined();
     });
 
-    it('should render children of children', () => {
-      const getFirstDropdownItem = (): DebugElement =>
-        element.query(By.css('.cx-nav-child-list')).children[0];
-      const getSublinks = (): DebugElement[] =>
-        element.queryAll(By.css('a:not(.cx-nav-child-link)'));
-      const mockData: NavigationNode = {
-        title: 'Test title',
-        children: [
-          {
-            url: '/subtest',
-            title: 'Sublink',
-            children: [
-              {
-                url: '/subsubtest',
-                title: 'Subsubtest',
-              },
-              {
-                url: '/subsubtest2',
-                title: 'Subsubtest2',
-              },
-            ],
-          },
-        ],
-      };
-      navigationComponent.node = mockData;
+    it('should not render cx-icon element for a nav node with children not in flyout mode', () => {
+      navigationComponent.flyout = false;
       fixture.detectChanges();
+      const icon: ElementRef = element.query(By.css('h5 > cx-icon'));
 
-      const firstDropdownItem: HTMLElement = getFirstDropdownItem()
-        .nativeElement;
-      expect(firstDropdownItem.getAttribute('role')).toEqual('listitem');
-      const sublinks = getSublinks();
-      expect(sublinks[0].nativeElement.getAttribute('href')).toEqual(
-        mockData.children[0].children[0].url
-      );
-      expect(sublinks[0].nativeElement.textContent).toContain(
-        mockData.children[0].children[0].title
-      );
-      expect(sublinks[1].nativeElement.getAttribute('href')).toEqual(
-        mockData.children[0].children[1].url
-      );
-      expect(sublinks[1].nativeElement.textContent).toContain(
-        mockData.children[0].children[1].title
-      );
+      expect(icon).toBeFalsy();
     });
 
-    it('should render in column layout if dropdownMode equals column', () => {
-      const getFirstDropdownItem = (): DebugElement =>
-        element.query(By.css('.cx-nav-child-column'));
-      const mockData: NavigationNode = {
-        title: 'Test title',
-        children: [
-          {
-            url: '/subtest',
-            title: 'Sublink',
-          },
-        ],
-      };
-      navigationComponent.node = mockData;
-      navigationComponent.dropdownMode = 'column';
+    it('should render all link for root 1', () => {
+      fixture.detectChanges();
+      const allLink: ElementRef[] = element.queryAll(By.css('.wrapper > .all'));
+      expect(allLink.length).toEqual(1);
+    });
+
+    it('should render ' + childLength + ' nav elements', () => {
+      fixture.detectChanges();
+      const nav: ElementRef[] = element.queryAll(By.css('nav'));
+      expect(nav.length).toEqual(childLength);
+    });
+
+    it('should render 2 root nav elements', () => {
+      fixture.detectChanges();
+      // mmm... no `> nav` available in By.css
+      let rootNavElementCount = 0;
+      (<HTMLElement>element.nativeElement).childNodes.forEach(el => {
+        if (el.nodeName === 'NAV') {
+          rootNavElementCount++;
+        }
+      });
+      expect(rootNavElementCount).toEqual(2);
+    });
+
+    it('should render heading for nav nodes without a URL', () => {
       fixture.detectChanges();
 
-      const firstDropdownItem: HTMLElement = getFirstDropdownItem()
-        .nativeElement;
-      expect(firstDropdownItem).toBeTruthy();
+      const nav: ElementRef = element.query(By.css('nav > h5'));
+      const el: HTMLElement = nav.nativeElement;
+      expect(el.innerText).toEqual('Root 1');
+    });
+
+    it('should render link for nav nodes with a URL', () => {
+      fixture.detectChanges();
+
+      const nav: ElementRef = element.query(By.css('nav > cx-generic-link'));
+      const el: HTMLElement = nav.nativeElement;
+      expect(el).toBeTruthy();
+    });
+
+    it('should render a wrapper container for nav nodes with childs', () => {
+      fixture.detectChanges();
+
+      const wrapper: ElementRef[] = element.queryAll(By.css('nav .wrapper'));
+      expect(wrapper.length).toEqual(3);
+    });
+
+    it('should render a childs container for nav nodes with childs', () => {
+      fixture.detectChanges();
+
+      const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
+      expect(child.length).toEqual(3);
+    });
+
+    it('should render a depth attribute on child containers indicating the depth of the navigation ', () => {
+      fixture.detectChanges();
+
+      const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
+      const first: HTMLElement = child[0].nativeElement;
+      const second: HTMLElement = child[1].nativeElement;
+      const third: HTMLElement = child[2].nativeElement;
+      expect(first.attributes.getNamedItem('depth').value).toEqual('3');
+      expect(second.attributes.getNamedItem('depth').value).toEqual('2');
+      expect(third.attributes.getNamedItem('depth').value).toEqual('1');
+    });
+
+    it('should render child element in the childs container for nav nodes with childs', () => {
+      fixture.detectChanges();
+
+      const child: ElementRef[] = element.queryAll(By.css('nav .childs nav'));
+      expect(child.length).toEqual(5);
     });
   });
 });

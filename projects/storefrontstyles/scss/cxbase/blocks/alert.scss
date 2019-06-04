@@ -7,8 +7,13 @@
   text-align: var(--cx-text-align, center);
   color: var(--cx-color, var(--cx-g-color-text));
   @include type('6', 'semi');
-  padding: var(--cx-padding, 22px 4rem 22px 20px);
+  padding: var(--cx-padding, 0 4rem 0 20px);
   line-height: var(--cx-line-height, 1.5);
+  min-height: 70px;
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 
   &-icon {
     height: var(--cx-height, 25px);
@@ -69,7 +74,8 @@
 
   .close {
     font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal));
-    position: var(--cx-position, relative);
-    top: var(--cx-top, 1px);
+    position: var(--cx-position, absolute);
+    top: var(--cx-top, 32%);
+    right: 3rem;
   }
 }

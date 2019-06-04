@@ -8,6 +8,28 @@ describe('deepMerge utility', () => {
     expect(merged).toEqual(jasmine.objectContaining({ a: 1, b: 0, c: 3 }));
   });
 
+  it('should merge two objects where one of them has a Date property', () => {
+    const olderDate = new Date('2015-05-03T12:00:00.000Z');
+    const newerDate = new Date('2019-06-01T12:00:00.000Z');
+
+    const a = {
+      a: 1,
+      b: newerDate,
+    };
+    const b = {
+      c: 3,
+      b: olderDate,
+    };
+    const merged = deepMerge(a, b);
+    expect(merged).toEqual(
+      jasmine.objectContaining({
+        a: 1,
+        b: olderDate,
+        c: 3,
+      })
+    );
+  });
+
   it('should merge two objects deep', () => {
     const a = {
       a: 'val a',
@@ -25,11 +47,40 @@ describe('deepMerge utility', () => {
     );
   });
 
+  it('should merge two objects deep when one of them has a Date property', () => {
+    const olderDate = new Date('2015-05-03T12:00:00.000Z');
+    const newerDate = new Date('2019-06-01T12:00:00.000Z');
+
+    const a = {
+      a: 'val a',
+      b: 'val b',
+      c: { d: { f: 'val f', h: olderDate }, e: 'val e' },
+    };
+    const b = { c: { d: { f: 'override', h: newerDate } } };
+    const merged = deepMerge(a, b);
+    expect(merged).toEqual(
+      jasmine.objectContaining({
+        a: 'val a',
+        b: 'val b',
+        c: { d: { f: 'override', h: newerDate }, e: 'val e' },
+      })
+    );
+  });
+
   it('should add properties from target', () => {
     const a = { a: 1 };
     const b = { b: 2 };
     const merged = deepMerge(a, b);
     expect(merged).toEqual(jasmine.objectContaining({ a: 1, b: 2 }));
+  });
+
+  it('should add properties from target when one of them has a Date property', () => {
+    const date = new Date('2015-05-03T12:00:00.000Z');
+
+    const a = { a: 1 };
+    const b = { b: date };
+    const merged = deepMerge(a, b);
+    expect(merged).toEqual(jasmine.objectContaining({ a: 1, b: date }));
   });
 
   it('should overrite arrays', () => {
