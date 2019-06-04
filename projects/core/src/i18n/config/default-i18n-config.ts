@@ -9,6 +9,7 @@ export const defaultI18nConfig: I18nConfig = {
         'common',
         'spinner',
         'searchBox',
+        'navigation',
         'sorting',
         'httpHandlers',
         'pageMetaResolver',

@@ -39,6 +39,9 @@ export const common = {
   spinner: {
     loading: 'Loading...',
   },
+  navigation: {
+    shopAll: 'Shop all {{ navNode}} >',
+  },
   searchBox: {
     placeholder: 'Search here...',
     help: {
