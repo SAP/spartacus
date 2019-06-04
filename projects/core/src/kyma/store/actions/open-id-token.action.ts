@@ -3,13 +3,12 @@ import {
   LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import { OpenIdToken } from '../../models/token-types.model';
-import { OPEN_ID_TOKEN_DATA } from '../auth-state';
+import { OpenIdToken } from '../../models/kyma-token-types.model';
+import { OPEN_ID_TOKEN_DATA } from '../kyma-state';
 
-export const LOAD_OPEN_ID_TOKEN = '[Token] Create Open ID Token';
-export const LOAD_OPEN_ID_TOKEN_FAIL = '[Token] Create Open ID Token Fail';
-export const LOAD_OPEN_ID_TOKEN_SUCCESS =
-  '[Token] Create Open ID Token Success';
+export const LOAD_OPEN_ID_TOKEN = '[Kyma] Load Open ID Token';
+export const LOAD_OPEN_ID_TOKEN_FAIL = '[Kyma] Load Open ID Token Fail';
+export const LOAD_OPEN_ID_TOKEN_SUCCESS = '[Kyma] Load Open ID Token Success';
 
 export class LoadOpenIdToken extends LoaderLoadAction {
   readonly type = LOAD_OPEN_ID_TOKEN;

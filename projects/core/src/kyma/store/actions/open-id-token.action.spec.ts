@@ -1,6 +1,6 @@
 import { failMeta, loadMeta, successMeta } from '../../../state';
-import { OpenIdToken } from '../../models/token-types.model';
-import { OPEN_ID_TOKEN_DATA } from '../auth-state';
+import { OpenIdToken } from '../../models/kyma-token-types.model';
+import { OPEN_ID_TOKEN_DATA } from '../kyma-state';
 import * as fromUserToken from './open-id-token.action';
 
 const token = {

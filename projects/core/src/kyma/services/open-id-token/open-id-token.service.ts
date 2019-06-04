@@ -2,14 +2,14 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthConfig } from '../../config/auth-config';
-import { OpenIdToken } from '../../models/token-types.model';
+import { KymaConfig } from '../../config/kyma-config';
+import { OpenIdToken } from '../../models/kyma-token-types.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class OpenIdAuthenticationTokenService {
-  constructor(private config: AuthConfig, private http: HttpClient) {}
+  constructor(private config: KymaConfig, private http: HttpClient) {}
 
   loadOpenIdAuthenticationToken(
     username: string,

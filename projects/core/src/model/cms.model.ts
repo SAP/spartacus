@@ -1,5 +1,5 @@
 export interface CmsComponent {
-  modifiedtime?: Date;
+  modifiedTime?: Date;
   name?: string;
   otherProperties?: any;
   typeCode?: string;
@@ -41,7 +41,6 @@ export interface CmsSearchBoxComponent extends CmsComponent {
 export interface CmsParagraphComponent extends CmsComponent {
   content?: string;
   container?: string;
-  modifiedTime?: string;
   title?: string;
 }
 

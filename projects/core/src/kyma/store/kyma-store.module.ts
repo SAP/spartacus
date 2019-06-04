@@ -6,17 +6,17 @@ import { StoreModule } from '@ngrx/store';
 import { ConfigModule } from '../../config/config.module';
 import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
-import { AUTH_FEATURE } from './auth-state';
 import { effects } from './effects/index';
+import { KYMA_FEATURE } from './kyma-state';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 
-export function authStoreConfigFactory(): StateConfig {
-  // if we want to reuse AUTH_FEATURE const in config, we have to use factory instead of plain object
+export function kymaStoreConfigFactory(): StateConfig {
+  // if we want to reuse KYMA_FEATURE const in config, we have to use factory instead of plain object
   const config: StateConfig = {
     state: {
       storageSync: {
         keys: {
-          'auth.userToken.token': StorageSyncType.LOCAL_STORAGE,
+          'kyma.openIdToken.value': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
@@ -29,10 +29,10 @@ export function authStoreConfigFactory(): StateConfig {
     CommonModule,
     HttpClientModule,
     StateModule,
-    StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
+    StoreModule.forFeature(KYMA_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(authStoreConfigFactory),
+    ConfigModule.withConfigFactory(kymaStoreConfigFactory),
   ],
   providers: [reducerProvider],
 })
-export class AuthStoreModule {}
+export class KymaStoreModule {}
