@@ -40,8 +40,8 @@ export class UserService {
   /**
    * Loads the user's details
    */
-  load(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserDetails(userId));
+  load(): void {
+    this.store.dispatch(new fromStore.LoadUserDetails(USERID_CURRENT));
   }
 
   /**
@@ -105,13 +105,12 @@ export class UserService {
   /**
    * Retrieves order's details
    *
-   * @param userId a user's ID
    * @param orderCode an order code
    */
-  loadOrderDetails(userId: string, orderCode: string): void {
+  loadOrderDetails(orderCode: string): void {
     this.store.dispatch(
       new fromStore.LoadOrderDetails({
-        userId: userId,
+        userId: USERID_CURRENT,
         orderCode: orderCode,
       })
     );
@@ -127,10 +126,7 @@ export class UserService {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(
-    userId: string,
-    pageSize: number
-  ): Observable<OrderHistoryList> {
+  getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
       select(fromStore.getOrdersState),
       tap(orderListState => {
@@ -138,8 +134,8 @@ export class UserService {
           orderListState.loading ||
           orderListState.success ||
           orderListState.error;
-        if (!attemptedLoad && !!userId) {
-          this.loadOrderList(userId, pageSize);
+        if (!attemptedLoad) {
+          this.loadOrderList(pageSize);
         }
       }),
       map(orderListState => orderListState.value)
@@ -155,10 +151,9 @@ export class UserService {
 
   /**
    * Loads all user's payment methods.
-   * @param userId a user ID
    */
-  loadPaymentMethods(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
+  loadPaymentMethods(): void {
+    this.store.dispatch(new fromStore.LoadUserPaymentMethods(USERID_CURRENT));
   }
 
   /**
@@ -177,13 +172,12 @@ export class UserService {
 
   /**
    * Sets the payment as a default one
-   * @param userId a user ID
    * @param paymentMethodId a payment method ID
    */
-  setPaymentMethodAsDefault(userId: string, paymentMethodId: string): void {
+  setPaymentMethodAsDefault(paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.SetDefaultUserPaymentMethod({
-        userId: userId,
+        userId: USERID_CURRENT,
         paymentMethodId,
       })
     );
@@ -192,13 +186,12 @@ export class UserService {
   /**
    * Deletes the payment method
    *
-   * @param userId a user ID
    * @param paymentMethodId a payment method ID
    */
-  deletePaymentMethod(userId: string, paymentMethodId: string): void {
+  deletePaymentMethod(paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserPaymentMethod({
-        userId: userId,
+        userId: USERID_CURRENT,
         paymentMethodId,
       })
     );
@@ -206,20 +199,14 @@ export class UserService {
 
   /**
    * Retrieves an order list
-   * @param userId a user ID
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
    */
-  loadOrderList(
-    userId: string,
-    pageSize: number,
-    currentPage?: number,
-    sort?: string
-  ): void {
+  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
       new fromStore.LoadUserOrders({
-        userId: userId,
+        userId: USERID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
@@ -229,21 +216,19 @@ export class UserService {
 
   /**
    * Retrieves user's addresses
-   * @param userId a user ID
    */
-  loadAddresses(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserAddresses(userId));
+  loadAddresses(): void {
+    this.store.dispatch(new fromStore.LoadUserAddresses(USERID_CURRENT));
   }
 
   /**
    * Adds user address
-   * @param userId a user ID
    * @param address a user address
    */
-  addUserAddress(userId: string, address: Address): void {
+  addUserAddress(address: Address): void {
     this.store.dispatch(
       new fromStore.AddUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         address: address,
       })
     );
@@ -251,13 +236,12 @@ export class UserService {
 
   /**
    * Sets user address as default
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  setAddressAsDefault(userId: string, addressId: string): void {
+  setAddressAsDefault(addressId: string): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: { defaultAddress: true },
       })
@@ -266,14 +250,13 @@ export class UserService {
 
   /**
    * Updates existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    * @param address a user address
    */
-  updateUserAddress(userId: string, addressId: string, address: Address): void {
+  updateUserAddress(addressId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
         address: address,
       })
@@ -282,13 +265,12 @@ export class UserService {
 
   /**
    * Deletes existing user address
-   * @param userId a user ID
    * @param addressId a user address ID
    */
-  deleteUserAddress(userId: string, addressId: string): void {
+  deleteUserAddress(addressId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
-        userId: userId,
+        userId: USERID_CURRENT,
         addressId: addressId,
       })
     );
@@ -451,11 +433,10 @@ export class UserService {
 
   /**
    * Updates the user's email
-   * @param uid to be updated
    */
-  updateEmail(uid: string, password: string, newUid: string): void {
+  updateEmail(password: string, newUid: string): void {
     this.store.dispatch(
-      new fromStore.UpdateEmailAction({ uid, password, newUid })
+      new fromStore.UpdateEmailAction({ uid: USERID_CURRENT, password, newUid })
     );
   }
 
@@ -494,8 +475,7 @@ export class UserService {
   }
 
   /**
-   * Updates the password for an authenticated user
-   * @param userId the user id for which the password will be updated
+   * Updates the password for the user
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
    */
@@ -545,11 +525,10 @@ export class UserService {
   }
 
   /**
-   * Retrieves all consents
-   * @param userId user ID for which to retrieve consents
+   * Retrieves all consents.
    */
-  loadConsents(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserConsents(userId));
+  loadConsents(): void {
+    this.store.dispatch(new fromStore.LoadUserConsents(USERID_CURRENT));
   }
 
   /**
@@ -589,18 +568,13 @@ export class UserService {
 
   /**
    * Give consent for specified consent template ID and version.
-   * @param userId and ID of a user giving the consent
    * @param consentTemplateId a template ID for which to give a consent
    * @param consentTemplateVersion a template version for which to give a consent
    */
-  giveConsent(
-    userId: string,
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): void {
+  giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
     this.store.dispatch(
       new fromStore.GiveUserConsent({
-        userId,
+        userId: USERID_CURRENT,
         consentTemplateId,
         consentTemplateVersion,
       })
@@ -643,12 +617,11 @@ export class UserService {
 
   /**
    * Withdraw consent for the given `consentCode`
-   * @param userId a user ID for which to withdraw the consent
    * @param consentCode for which to withdraw the consent
    */
-  withdrawConsent(userId: string, consentCode: string): void {
+  withdrawConsent(consentCode: string): void {
     this.store.dispatch(
-      new fromStore.WithdrawUserConsent({ userId, consentCode })
+      new fromStore.WithdrawUserConsent({ userId: USERID_CURRENT, consentCode })
     );
   }
 

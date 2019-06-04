@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { HamburgerMenuModule, SkipLinkModule } from '../layout/index';
-import { CheckoutComponentModule } from '../lib/checkout/checkout.module';
-import { CartComponentModule } from './checkout/cart/cart.module';
+import { HamburgerMenuModule } from '../layout/index';
+import { CartComponentModule } from './cart/cart.module';
+import { CheckoutComponentModule } from './checkout/checkout.module';
 import {
   BannerModule,
   CmsParagraphModule,
@@ -36,11 +36,9 @@ import {
   ProductTabsModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
-import { StoreFinderModule } from './storefinder/index';
 
 @NgModule({
   imports: [
-    SkipLinkModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
@@ -66,7 +64,8 @@ import { StoreFinderModule } from './storefinder/index';
     CloseAccountModule,
     CartComponentModule,
     TabParagraphContainerModule,
-    StoreFinderModule,
+    // TODO:#2811 - uncomment to enable
+    // StoreFinderModule,
     ProductImagesModule,
     CheckoutComponentModule,
     ForgotPasswordModule,

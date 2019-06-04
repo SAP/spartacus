@@ -8,7 +8,8 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BootstrapModule } from '../../../lib/bootstrap.module';
+import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
+import { IconModule } from '../../misc/icon/icon.module';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationComponent } from './navigation.component';
 import { NavigationComponentService } from './navigation.component.service';
@@ -17,7 +18,8 @@ import { NavigationComponentService } from './navigation.component.service';
   imports: [
     CommonModule,
     RouterModule,
-    BootstrapModule,
+    IconModule,
+    GenericLinkModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         NavigationComponent: {

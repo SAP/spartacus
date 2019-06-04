@@ -4,15 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CmsModule, I18nModule, UrlModule } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
+import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import {
   FormComponentsModule,
   MediaModule,
   StarRatingModule,
 } from '../../../shared/index';
-import { AddToCartModule, CartSharedModule } from '../../checkout/index';
+import { AddToCartModule, CartSharedModule } from '../../cart/index';
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
-import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 
 @NgModule({
   imports: [

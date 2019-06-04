@@ -154,7 +154,7 @@
     left: 0;
     width: 100%;
     color: #000;
-    background-color: var(--cx-g-color-background);
+    background-color: #fff;
     font-size: var(--cx-g-font-small, 1rem);
 
     @include media-breakpoint-down(sm) {
@@ -205,6 +205,11 @@
 
         cx-media {
           grid-row: 1 / 3;
+
+          &.is-missing {
+            min-height: 48px;
+            background-size: 48px;
+          }
         }
         h4.name {
           text-overflow: ellipsis;
