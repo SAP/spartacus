@@ -1,7 +1,10 @@
 %cx-footer-navigation {
   a {
-    text-decoration: underline;
     font-size: var(--cx-g-font-small, 0.8rem);
+    &:hover {
+      color: var(--cx-g-color-inverse);
+      text-decoration: underline;
+    }
   }
 
   cx-navigation-ui {
