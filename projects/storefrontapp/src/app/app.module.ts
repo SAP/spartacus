@@ -34,7 +34,7 @@ if (!environment.production) {
     StorefrontModule.withConfig({
       production: environment.production,
       authentication: {
-        kyma_enabled: true,
+        kyma_enabled: false,
       },
       backend: {
         occ: {
