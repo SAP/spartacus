@@ -96,9 +96,6 @@ export class UserAddressService {
   /**
    * Retrieves delivery countries
    */
-  /**
-   * Retrieves delivery countries
-   */
   loadDeliveryCountries(): void {
     this.store.dispatch(new fromStore.LoadDeliveryCountries());
   }
@@ -160,19 +157,5 @@ export class UserAddressService {
         return regions;
       })
     );
-  }
-
-  /**
-   * Returns all billing countries
-   */
-  getAllBillingCountries(): Observable<Country[]> {
-    return this.store.pipe(select(fromStore.getAllBillingCountries));
-  }
-
-  /**
-   * Retrieves billing countries
-   */
-  loadBillingCountries(): void {
-    this.store.dispatch(new fromStore.LoadBillingCountries());
   }
 }
