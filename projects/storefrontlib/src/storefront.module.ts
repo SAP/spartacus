@@ -4,6 +4,7 @@ import {
   ConfigModule,
   CxApiModule,
   I18nModule,
+  KymaModule,
   OccModule,
   PersonalizationModule,
   provideConfig,
@@ -34,6 +35,7 @@ import { LayoutModule } from './layout/layout.module';
     SmartEditModule.forRoot(),
     PersonalizationModule.forRoot(),
     I18nModule.forRoot(),
+    KymaModule,
     LayoutModule,
     // pages
     ProductDetailsPageModule,
