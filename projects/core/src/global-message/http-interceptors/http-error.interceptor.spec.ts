@@ -6,7 +6,12 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { GlobalMessageService, ServerConfig } from '@spartacus/core';
+import {
+  ErrorModel,
+  GlobalMessageService,
+  GlobalMessageType,
+  ServerConfig,
+} from '@spartacus/core';
 import { HttpResponseStatus } from '../models/response-status.model';
 import {
   BadGatewayHandler,
@@ -124,6 +129,39 @@ describe('HttpErrorInterceptor', () => {
     testHandlers(ForbiddenHandler, HttpResponseStatus.FORBIDDEN);
     testHandlers(GatewayTimeoutHandler, HttpResponseStatus.GATEWAY_TIMEOUT);
     testHandlers(NotFoundHandler, HttpResponseStatus.NOT_FOUND);
+
+    describe('Bad Request for ValidationError', () => {
+      it('Adds correct translation key when error type is ValidationError', () => {
+        const globalMessageService = TestBed.get(GlobalMessageService);
+        const mockErrors = [
+          { type: 'ValidationError', subject: 'subject', reason: 'reason' },
+        ];
+        const mockResponseBody: { errors: ErrorModel[] } = {
+          errors: mockErrors,
+        };
+        const mockResponseOptions = {
+          status: HttpResponseStatus.BAD_REQUEST,
+          statusText: '',
+        };
+        const expectedKey = `httpHandlers.validationErrors.${
+          mockErrors[0].reason
+        }.${mockErrors[0].subject}`;
+
+        http
+          .get('/validation-error')
+          .pipe(catchError((error: any) => throwError(error)))
+          .subscribe(_result => {}, error => (this.error = error));
+
+        httpMock
+          .expectOne('/validation-error')
+          .flush(mockResponseBody, mockResponseOptions);
+
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: expectedKey },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+    });
 
     describe('Unknown response warning for non production env', () => {
       it(`should display proper warning message in the console`, () => {
