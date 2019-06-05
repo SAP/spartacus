@@ -3,5 +3,4 @@ export interface NavigationNode {
   url?: string;
   target?: string | boolean;
   children?: Array<NavigationNode>;
-  isHeader?: boolean;
 }
