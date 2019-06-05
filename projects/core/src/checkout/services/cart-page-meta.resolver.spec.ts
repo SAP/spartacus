@@ -62,7 +62,7 @@ describe('CartPageMetaResolver', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should resolve content page title with cart code', () => {
+  it('should resolve content page title', () => {
     let result: PageMeta;
 
     service
@@ -72,9 +72,7 @@ describe('CartPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual(
-      'pageMetaResolver.cart.title code:1234 title:Shopping Cart'
-    );
+    expect(result.title).toEqual('Shopping Cart');
   });
 
   it('should resolve robots with nofollow,noindex', () => {

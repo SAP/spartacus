@@ -7,16 +7,27 @@ import {
   CartService,
   I18nTestingModule,
   PromotionResult,
+  OrderEntry,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
+import { By } from '@angular/platform-browser';
 
 class MockCartService {
   removeEntry(): void {}
   loadDetails(): void {}
   updateEntry(): void {}
+  getActive(): Observable<Cart> {
+    return of<Cart>({ code: '123' });
+  }
+  getEntries(): Observable<OrderEntry[]> {
+    return of([{}]);
+  }
+  getLoaded(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 @Component({
@@ -234,5 +245,12 @@ describe('CartDetailsComponent', () => {
       const promotions = component.getAllPromotionsForCart(mockedCart);
       expect(promotions).toEqual(expectedResult);
     });
+  });
+
+  it('should display cart text with cart number', () => {
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('.cx-total'));
+    const cartName = el.nativeElement.innerText;
+    expect(cartName).toEqual('cartDetails.cartName code:123');
   });
 });

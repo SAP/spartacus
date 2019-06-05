@@ -2,6 +2,7 @@ export const cart = {
   cartDetails: {
     id: 'ID',
     proceedToCheckout: 'Proceed to Checkout',
+    cartName: 'Cart #{{code}}',
   },
   cartItems: {
     id: 'ID',
