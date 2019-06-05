@@ -63,4 +63,29 @@
     text-align: center;
     padding: 3rem 0;
   }
+
+  .cx-store,
+  .cx-feature-item {
+    @include media-breakpoint-up(md) {
+      max-width: 100%;
+      flex: 100%;
+    }
+
+    &.cx-feature-item {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .cx-feature {
+    margin-bottom: 0.5rem;
+  }
+
+  .cx-back {
+    cursor: pointer;
+    font-weight: 600;
+
+    &:hover {
+      color: var(--cx-g-color-primary);
+    }
+  }
 }

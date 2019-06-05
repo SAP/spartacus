@@ -1,7 +1,9 @@
 import {
   AuthConfig,
   CmsConfig,
+  GlobalMessageConfig,
   I18nConfig,
+  KymaConfig,
   OccConfig,
   PersonalizationConfig,
   RoutingConfig,
@@ -25,4 +27,6 @@ export type StorefrontModuleConfig =
   | I18nConfig
   | PersonalizationConfig
   | IconConfig
-  | CheckoutConfig;
+  | CheckoutConfig
+  | KymaConfig
+  | GlobalMessageConfig;
