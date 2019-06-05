@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 import { HttpErrorHandler } from './http-error.handler';
+import { Translatable } from '../../../i18n/translatable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -21,14 +22,16 @@ export class BadRequestHandler extends HttpErrorHandler {
       this.globalMessageService.add(
         {
           key: 'httpHandlers.badRequestPleaseLoginAgain',
-          params: { errorMessage: this.getErrorMessage(response, 0) },
+          params: {
+            errorMessage: this.getErrorMessage(response, 0),
+          },
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     } else {
       response.error.errors.forEach((error, index) => {
-        let errorMessage;
+        let errorMessage: Translatable;
         if (error.type === 'PasswordMismatchError') {
           // uses en translation error message instead of backend exception error
           // @todo: this condition could be removed if backend gives better message
