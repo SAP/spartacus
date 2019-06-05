@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Address, User, UserService } from '@spartacus/core';
+import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
@@ -21,7 +21,7 @@ const mockUser: User = {
   uid: '1234',
 };
 
-class MockUserService {
+class MockUserAddressService {
   loadAddresses = jasmine.createSpy();
   addUserAddress = jasmine.createSpy();
   updateUserAddress = jasmine.createSpy();
@@ -45,8 +45,8 @@ describe('AddressBookComponentService', () => {
       providers: [
         AddressBookComponentService,
         {
-          provide: UserService,
-          useClass: MockUserService,
+          provide: UserAddressService,
+          useClass: MockUserAddressService,
         },
       ],
     });

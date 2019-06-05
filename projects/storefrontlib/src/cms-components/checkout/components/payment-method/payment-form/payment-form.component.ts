@@ -17,7 +17,7 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -90,7 +90,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   constructor(
     protected checkoutPaymentService: CheckoutPaymentService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
-    protected userService: UserService,
+    protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private modalService: ModalService
@@ -98,11 +98,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expMonthAndYear();
-    this.countries$ = this.userService.getAllBillingCountries().pipe(
+    this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap(countries => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
-          this.userService.loadBillingCountries();
+          this.userPaymentService.loadBillingCountries();
         }
       })
     );

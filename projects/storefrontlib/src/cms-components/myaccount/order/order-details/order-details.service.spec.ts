@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService, UserService } from '@spartacus/core';
+import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
@@ -67,7 +67,7 @@ const mockRouter = {
 
 const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
 
-class MockUserService {
+class MockUserOrderService {
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
   }
@@ -91,8 +91,8 @@ describe('OrderDetailsService', () => {
       providers: [
         OrderDetailsService,
         {
-          provide: UserService,
-          useClass: MockUserService,
+          provide: UserOrderService,
+          useClass: MockUserOrderService,
         },
         {
           provide: RoutingService,
@@ -102,7 +102,7 @@ describe('OrderDetailsService', () => {
     });
 
     service = TestBed.get(OrderDetailsService);
-    userService = TestBed.get(UserService);
+    userService = TestBed.get(UserOrderService);
     routingService = TestBed.get(RoutingService);
   });
 
