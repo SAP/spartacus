@@ -1,4 +1,4 @@
-import { USER_COUPONS } from '../user-state';
+import { CUSTOMER_COUPONS } from '../user-state';
 import {
   LoaderLoadAction,
   LoaderFailAction,
@@ -31,21 +31,21 @@ export class LoadCustomerCoupons extends LoaderLoadAction {
     currentPage?: number;
     sort?: string;
   }) {
-    super(USER_COUPONS);
+    super(CUSTOMER_COUPONS);
   }
 }
 
 export class LoadCustomerCouponsFail extends LoaderFailAction {
   readonly type = LOAD_CUSTOMER_COUPONS_FAIL;
   constructor(public payload: any) {
-    super(USER_COUPONS, payload);
+    super(CUSTOMER_COUPONS, payload);
   }
 }
 
 export class LoadCustomerCouponsSuccess extends LoaderSuccessAction {
   readonly type = LOAD_CUSTOMER_COUPONS_SUCCESS;
   constructor(public payload: CustomerCouponSearchResult) {
-    super(USER_COUPONS);
+    super(CUSTOMER_COUPONS);
   }
 }
 
@@ -53,21 +53,21 @@ export class LoadCustomerCouponsSuccess extends LoaderSuccessAction {
 export class SubscribeCustomerCoupon extends LoaderLoadAction {
   readonly type = SUBSCRIBE_CUSTOMER_COUPON;
   constructor(public payload: { userId: string; couponCode: string }) {
-    super(USER_COUPONS);
+    super(CUSTOMER_COUPONS);
   }
 }
 
 export class SubscribeCustomerCouponFail extends LoaderFailAction {
   readonly type = SUBSCRIBE_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
-    super(USER_COUPONS, payload);
+    super(CUSTOMER_COUPONS, payload);
   }
 }
 
 export class SubscribeCustomerCouponSuccess extends LoaderSuccessAction {
   readonly type = SUBSCRIBE_CUSTOMER_COUPON_SUCCESS;
   constructor(public payload: CustomerCoupon) {
-    super(USER_COUPONS);
+    super(CUSTOMER_COUPONS);
   }
 }
 
@@ -77,21 +77,21 @@ export class UnsubscribeCustomerCoupon extends LoaderLoadAction {
   constructor(
     public payload: { userId: string; couponCode: string }
   ) {
-    super(USER_COUPONS);
+    super(CUSTOMER_COUPONS);
   }
 }
 
 export class UnsubscribeCustomerCouponFail extends LoaderFailAction {
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
-    super(USER_COUPONS, payload);
+    super(CUSTOMER_COUPONS, payload);
   }
 }
 
 export class UnsubscribeCustomerCouponSuccess extends LoaderSuccessAction {
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS;
   constructor(public payload: any) {
-    super(USER_COUPONS);
+    super(CUSTOMER_COUPONS);
   }
 }
 

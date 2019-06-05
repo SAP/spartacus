@@ -1,4 +1,4 @@
-import { USER_COUPONS } from '../user-state';
+import { CUSTOMER_COUPONS } from '../user-state';
 import {
   loadMeta,
   failMeta,
@@ -59,7 +59,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS,
         payload: { userId, pageSize, currentPage, sort },
-        meta: loadMeta(USER_COUPONS),
+        meta: loadMeta(CUSTOMER_COUPONS),
       });
     });
   });
@@ -74,7 +74,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS_FAIL,
         payload: error,
-        meta: failMeta(USER_COUPONS, error),
+        meta: failMeta(CUSTOMER_COUPONS, error),
       });
     });
   });
@@ -88,7 +88,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS_SUCCESS,
         payload: customerSearcherResult,
-        meta: successMeta(USER_COUPONS),
+        meta: successMeta(CUSTOMER_COUPONS),
       });
     });
   });
@@ -103,7 +103,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: loadMeta(USER_COUPONS),
+        meta: loadMeta(CUSTOMER_COUPONS),
       });
     });
   });
@@ -118,7 +118,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
-        meta: failMeta(USER_COUPONS, error),
+        meta: failMeta(CUSTOMER_COUPONS, error),
       });
     });
   });
@@ -132,7 +132,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: coupon1,
-        meta: successMeta(USER_COUPONS),
+        meta: successMeta(CUSTOMER_COUPONS),
       });
     });
   });
@@ -147,7 +147,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: loadMeta(USER_COUPONS),
+        meta: loadMeta(CUSTOMER_COUPONS),
       });
     });
   });
@@ -162,7 +162,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
-        meta: failMeta(USER_COUPONS, error),
+        meta: failMeta(CUSTOMER_COUPONS, error),
       });
     });
   });
@@ -178,7 +178,7 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: 'success',
-        meta: successMeta(USER_COUPONS),
+        meta: successMeta(CUSTOMER_COUPONS),
       });
     });
   });

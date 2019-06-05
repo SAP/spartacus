@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule, select } from '@ngrx/store';
 
-import { StateWithUser, USER_COUPONS } from '../user-state';
+import { StateWithUser, CUSTOMER_COUPONS } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
@@ -55,7 +55,7 @@ describe('Customer Coupon Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_COUPONS, fromReducers.getReducers()),
+        StoreModule.forFeature(CUSTOMER_COUPONS, fromReducers.getReducers()),
       ],
     });
 
