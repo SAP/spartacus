@@ -63,5 +63,38 @@ export const common = {
     forbidden: 'You are not authorized to perform this action.',
     gatewayTimeout: 'The server did not responded, please try again later.',
     unknownError: 'An unknown error occured',
+    validationErrors: {
+      card_cardType: {
+        missing:
+          'The credit card selected is not supported. Please select another.',
+      },
+      card_accountNumber: {
+        missing: 'The credit card number entered is not valid.',
+      },
+      card_cvNumber: { missing: 'The security code entered is not valid.' },
+      card_expirationMonth: {
+        missing: 'The credit card expiration date entered is not valid.',
+      },
+      card_expirationYear: {
+        missing: 'The credit card expiration date entered is not valid.',
+      },
+      billTo_firstName: { missing: 'The first name entered is not valid.' },
+      billTo_lastName: { missing: 'The last name entered is not valid.' },
+      billTo_street1: { missing: 'The address entered is not valid.' },
+      billTo_street2: { missing: 'The address entered is not valid.' },
+      billTo_city: {
+        missing: 'The city entered is not valid for this credit card.',
+      },
+      billTo_state: {
+        missing:
+          'The state/province entered is not valid for this credit card.',
+      },
+      billTo_country: {
+        missing: 'The country entered is not valid for this credit card.',
+      },
+      billTo_postalCode: {
+        missing: 'The zip/postal code is not valid for this credit card.',
+      },
+    },
   },
 };
