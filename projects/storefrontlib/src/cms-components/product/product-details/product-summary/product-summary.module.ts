@@ -9,16 +9,15 @@ import {
   ConfigModule,
   CmsConfig,
 } from '@spartacus/core';
-import { OutletModule } from '../../../cms-structure/outlet/index';
-import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
+import { OutletModule } from '../../../../cms-structure/outlet/index';
+import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.module';
 import {
   FormComponentsModule,
   MediaModule,
   StarRatingModule,
-} from '../../../shared/index';
-import { AddToCartModule, CartSharedModule } from '../../cart/index';
-import { ProductDetailsComponent } from './container/product-details.component';
-import { ProductSummaryComponent } from './product-summary/product-summary.component';
+} from '../../../../shared/index';
+import { AddToCartModule, CartSharedModule } from '../../../cart/index';
+import { ProductSummaryComponent } from './product-summary.component';
 
 @NgModule({
   imports: [
@@ -44,8 +43,8 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
       },
     }),
   ],
-  declarations: [ProductDetailsComponent, ProductSummaryComponent],
+  declarations: [ProductSummaryComponent],
   entryComponents: [ProductSummaryComponent],
-  exports: [ProductDetailsComponent, ProductSummaryComponent],
+  exports: [ProductSummaryComponent],
 })
-export class ProductDetailsModule {}
+export class ProductSummaryModule {}
