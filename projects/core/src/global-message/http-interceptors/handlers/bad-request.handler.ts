@@ -33,7 +33,6 @@ export class BadRequestHandler extends HttpErrorHandler {
           // uses en translation error message instead of backend exception error
           // @todo: this condition could be removed if backend gives better message
           errorMessage = { key: 'httpHandlers.badRequestOldPasswordIncorrect' };
-          // text: customError.customError.passwordMismatch,
         } else if (
           error.subjectType === 'cart' &&
           error.reason === 'notFound'
