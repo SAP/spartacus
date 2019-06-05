@@ -73,11 +73,11 @@ $space: 0.5rem;
   }
 
   .SiteLogo {
-    width: 95px;
+    width: 90px;
   }
 
   .SearchBox {
-    margin: 4px auto;
+    margin: 14px auto;
 
     @include media-breakpoint-down(sm) {
       margin: 4px 0 4px auto;
@@ -87,7 +87,7 @@ $space: 0.5rem;
   .NavigationBar {
     flex: 100%;
     overflow: hidden;
-    min-height: 35px;
+    min-height: 67px;
 
     @include media-breakpoint-down(md) {
       background-color: var(--cx-g-color-background);
@@ -146,7 +146,7 @@ $space: 0.5rem;
         width: 100%;
         position: absolute;
         left: 0;
-        top: 32px;
+        top: 44px;
       }
     }
 

@@ -407,9 +407,9 @@ export namespace Occ {
    */
   export interface Component {
     /**
-     * @member {Date} [modifiedtime]
+     * @member {Date} [modifiedTime]
      */
-    modifiedtime?: Date;
+    modifiedTime?: Date;
     /**
      * @member {string} [name]
      */

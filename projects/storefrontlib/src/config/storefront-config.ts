@@ -1,13 +1,14 @@
 import {
   AuthConfig,
   CmsConfig,
+  GlobalMessageConfig,
   I18nConfig,
+  KymaConfig,
   OccConfig,
   PersonalizationConfig,
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
-  GlobalMessageConfig,
 } from '@spartacus/core';
 import { CheckoutConfig } from '../cms-components/checkout/config/checkout-config';
 import { IconConfig } from '../cms-components/misc/icon/index';
@@ -27,4 +28,5 @@ export type StorefrontModuleConfig =
   | PersonalizationConfig
   | IconConfig
   | CheckoutConfig
+  | KymaConfig
   | GlobalMessageConfig;

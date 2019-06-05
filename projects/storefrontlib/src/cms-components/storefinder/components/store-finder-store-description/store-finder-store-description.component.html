@@ -1,9 +1,12 @@
 <div
   class="container"
-  *ngIf="!(isLoading$ | async) && (location$ | async) as location; else loading"
+  *ngIf="
+    location || (!(isLoading$ | async) && (location$ | async)) as location;
+    else loading
+  "
 >
   <div class="row">
-    <article class="cx-store col-lg-4">
+    <article class="cx-store col-md-4">
       <h2>{{ location.displayName }}</h2>
 
       <p *ngIf="location.address" class="storeAddress">
@@ -40,7 +43,7 @@
         </cx-schedule>
       </div>
     </article>
-    <article class="cx-storeMap col-lg-8">
+    <article class="cx-storeMap col-lg-8" *ngIf="!disableMap">
       <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
     </article>
   </div>
@@ -54,8 +57,11 @@
   </div>
 
   <article class="row">
-    <div class="col-lg-3" *ngFor="let feature of location.features?.entry">
-      <div class="cx-features">{{ feature.value }}</div>
+    <div
+      class="col-lg-3 cx-feature-item"
+      *ngFor="let feature of location.features?.entry"
+    >
+      <div class="cx-feature-value">{{ feature.value }}</div>
     </div>
   </article>
 </div>
