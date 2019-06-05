@@ -4,6 +4,7 @@ import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 import { HttpErrorHandler } from './http-error.handler';
 import { ErrorModel } from '../../../model/misc.model';
+import { Translatable } from '../../../i18n/translatable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -22,55 +23,50 @@ export class BadRequestHandler extends HttpErrorHandler {
       this.globalMessageService.add(
         {
           key: 'httpHandlers.badRequestPleaseLoginAgain',
-          params: { errorMessage: this.getErrorMessage(response) },
+          params: {
+            errorMessage: this.getErrorMessage(response, 0),
+          },
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
-    } else if (response.error.errors[0].type === 'ValidationError') {
-      // build translation key in case of backend field validation error
-
-      const [error]: [ErrorModel] = response.error.errors;
-      const translationKey = `httpHandlers.validationErrors.${error.reason}.${
-        error.subject
-      }`;
-
-      this.globalMessageService.add(
-        { key: translationKey },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    } else if (response.error.errors[0].type === 'PasswordMismatchError') {
-      // uses en translation error message instead of backend exception error
-      // @todo: this condition could be removed if backend gives better message
-      this.globalMessageService.add(
-        { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      // text: customError.customError.passwordMismatch,
-    } else if (
-      response.error.errors[0].subjectType === 'cart' &&
-      response.error.errors[0].reason === 'notFound'
-    ) {
-      const textObj = { key: 'httpHandlers.cartNotFound' };
-      this.globalMessageService.add(textObj, GlobalMessageType.MSG_TYPE_ERROR);
     } else {
-      // this is currently showing up in case we have a page not found. It should be a 404.
-      // see https://jira.hybris.com/browse/CMSX-8516
-      const errorMessage = this.getErrorMessage(response);
-      if (errorMessage) {
+      response.error.errors.forEach((error: ErrorModel, index: number) => {
+        let errorMessage: Translatable;
+        if (error.type === 'PasswordMismatchError') {
+          // uses en translation error message instead of backend exception error
+          // @todo: this condition could be removed if backend gives better message
+          errorMessage = { key: 'httpHandlers.badRequestOldPasswordIncorrect' };
+        } else if (
+          error.subjectType === 'cart' &&
+          error.reason === 'notFound'
+        ) {
+          errorMessage = { key: 'httpHandlers.cartNotFound' };
+        } else if (response.error.errors[0].type === 'ValidationError') {
+          // build translation key in case of backend field validation error
+          errorMessage = {
+            key: `httpHandlers.validationErrors.${error.reason}.${
+              error.subject
+            }`,
+          };
+        } else {
+          // this is currently showing up in case we have a page not found. It should be a 404.
+          // see https://jira.hybris.com/browse/CMSX-8516
+          errorMessage = { raw: this.getErrorMessage(response, index) };
+        }
         this.globalMessageService.add(
-          { raw: errorMessage },
+          errorMessage,
           GlobalMessageType.MSG_TYPE_ERROR
         );
-      }
+      });
     }
   }
 
-  protected getErrorMessage(resp: HttpErrorResponse): string {
+  protected getErrorMessage(resp: HttpErrorResponse, index: number): string {
     let errMsg = resp.message;
     if (resp.error) {
       if (resp.error.errors && resp.error.errors instanceof Array) {
-        errMsg = resp.error.errors[0].message;
+        errMsg = resp.error.errors[index].message;
       } else if (resp.error.error_description) {
         errMsg = resp.error.error_description;
       }
