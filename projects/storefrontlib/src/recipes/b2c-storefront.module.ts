@@ -1,7 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ConfigModule, provideConfig } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
-import { provideConfigFromMetaTags } from '../config/provide-config-from-meta-tags';
 import { LayoutModule } from '../layout';
 import { StorefrontConfig } from '../storefront-config';
 import { StorefrontModule } from '../storefront.module';
@@ -17,9 +16,11 @@ import { defaultCmsContentConfig } from './config/static-cms-structure/default-c
       },
     }),
 
-    CmsLibModule,
     ConfigModule.withConfig(b2cLayoutConfig),
     ConfigModule.withConfigFactory(defaultCmsContentConfig),
+
+    // the cms lib module contains all components that added in the bundle
+    CmsLibModule,
   ],
   exports: [LayoutModule],
 })
@@ -27,7 +28,7 @@ export class B2cStorefrontModule {
   static withConfig(config?: StorefrontConfig): ModuleWithProviders {
     return {
       ngModule: B2cStorefrontModule,
-      providers: [provideConfig(config), ...provideConfigFromMetaTags()],
+      providers: [provideConfig(config)],
     };
   }
 }
