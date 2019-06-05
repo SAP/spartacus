@@ -6,7 +6,7 @@ import {
   Address,
   CartDataService,
   CartService,
-  CheckoutService,
+  CheckoutDeliveryService,
   I18nTestingModule,
   RoutingService,
   UserService,
@@ -32,7 +32,7 @@ class MockCartService {
   loadDetails(): void {}
 }
 
-class MockCheckoutService {
+class MockCheckoutDeliveryService {
   createAndSetAddress = createSpy();
   setDeliveryAddress = createSpy();
   getDeliveryAddress(): Observable<Address> {
@@ -121,7 +121,7 @@ class MockCardComponent {
 describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
-  let mockCheckoutService: MockCheckoutService;
+  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
   let mockUserService: UserService;
   let mockRoutingService: MockRoutingService;
 
@@ -138,7 +138,10 @@ describe('ShippingAddressComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: CartDataService, useValue: mockCartDataService },
         { provide: CartService, useClass: MockCartService },
-        { provide: CheckoutService, useClass: MockCheckoutService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
@@ -149,7 +152,7 @@ describe('ShippingAddressComponent', () => {
       })
       .compileComponents();
 
-    mockCheckoutService = TestBed.get(CheckoutService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
     mockRoutingService = TestBed.get(RoutingService);
   }));
 
@@ -216,17 +219,17 @@ describe('ShippingAddressComponent', () => {
 
   it('should set newly created address', () => {
     component.addAddress({ address: mockAddress1, newAddress: true });
-    expect(mockCheckoutService.createAndSetAddress).toHaveBeenCalledWith(
-      mockAddress1
-    );
+    expect(
+      mockCheckoutDeliveryService.createAndSetAddress
+    ).toHaveBeenCalledWith(mockAddress1);
   });
 
   it('should call addAddress() with address selected from existing addresses', () => {
     component.addAddress({ address: mockAddress1, newAddress: false });
-    expect(mockCheckoutService.createAndSetAddress).not.toHaveBeenCalledWith(
-      mockAddress1
-    );
-    expect(mockCheckoutService.setDeliveryAddress).toHaveBeenCalledWith(
+    expect(
+      mockCheckoutDeliveryService.createAndSetAddress
+    ).not.toHaveBeenCalledWith(mockAddress1);
+    expect(mockCheckoutDeliveryService.setDeliveryAddress).toHaveBeenCalledWith(
       mockAddress1
     );
   });

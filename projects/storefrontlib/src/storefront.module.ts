@@ -6,6 +6,7 @@ import {
   SmartEditModule,
 } from '@spartacus/core';
 import { CartPageModule } from './cms-pages/cart-page/cart-page.module';
+import { CmsLibModule } from './cms-components/index';
 import { ProductDetailsPageModule } from './cms-pages/product-details-page/product-details-page.module';
 import { ProductListingPageModule } from './cms-pages/product-listing-page/product-listing-page.module';
 import { provideConfigFromMetaTags } from './config/provide-config-from-meta-tags';
@@ -23,7 +24,6 @@ import { StorefrontConfig } from './storefront-config';
     OccModule,
     ProductDetailsPageModule,
     ProductListingPageModule,
-    CartPageModule, // as longs as we do not have #2661 in place we need a specific cart page module
   ],
   // move this to foundation
   providers: [...provideConfigFromMetaTags()],

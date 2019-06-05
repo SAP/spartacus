@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import {
@@ -9,13 +9,17 @@ import {
   LayoutSlotConfig,
   SlotConfig,
 } from '../../../layout/config/layout-config';
+import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
 
 @Injectable()
 export class PageLayoutService {
   constructor(
     private cms: CmsService,
     private config: LayoutConfig,
-    private breakpointService: BreakpointService
+    private breakpointService: BreakpointService,
+    @Optional()
+    @Inject(PAGE_LAYOUT_HANDLER)
+    private handlers: PageLayoutHandler[]
   ) {}
 
   // we print warn messages on missing layout configs
@@ -24,30 +28,39 @@ export class PageLayoutService {
   private logSlots = {};
 
   getSlots(section?: string): Observable<string[]> {
-    return this.breakpointService.breakpoint$.pipe(
-      switchMap(breakpoint =>
-        this.page$.pipe(
-          map(page => {
-            const config = this.getSlotConfig(
-              page.template,
-              'slots',
-              section,
-              breakpoint
-            );
-            if (config && config.slots) {
-              return config.slots;
-            } else if (!section) {
-              this.logMissingLayoutConfig(page);
-              return Object.keys(page.slots);
-            } else {
-              this.logMissingLayoutConfig(page, section);
-              return [];
-            }
-          })
-        )
-      ),
+    return combineLatest(this.page$, this.breakpointService.breakpoint$).pipe(
+      map(([page, breakpoint]) => {
+        const pageTemplate = page.template;
+        const slots = this.resolveSlots(page, section, breakpoint);
+        return { slots, pageTemplate, breakpoint };
+      }),
+      switchMap(({ slots, pageTemplate, breakpoint }) => {
+        let result = of(slots);
+        for (const handler of this.handlers || []) {
+          result = handler.handle(result, pageTemplate, section, breakpoint);
+        }
+        return result;
+      }),
       distinctUntilChanged()
     );
+  }
+
+  private resolveSlots(page, section, breakpoint): string[] {
+    const config = this.getSlotConfig(
+      page.template,
+      'slots',
+      section,
+      breakpoint
+    );
+    if (config && config.slots) {
+      return config.slots;
+    } else if (!section) {
+      this.logMissingLayoutConfig(page);
+      return Object.keys(page.slots);
+    } else {
+      this.logMissingLayoutConfig(page, section);
+      return [];
+    }
   }
 
   get page$(): Observable<Page> {
