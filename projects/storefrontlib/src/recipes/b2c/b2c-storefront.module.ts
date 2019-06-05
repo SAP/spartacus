@@ -1,11 +1,11 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ConfigModule, provideConfig } from '@spartacus/core';
-import { defaultCmsContentConfig } from '../cms-structure';
-import { LayoutModule } from '../layout';
-import { StorefrontModule } from '../storefront.module';
-import { b2cLayoutConfig } from './layout/b2c-layout-config';
-import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
-import { StorefrontModuleConfig } from './storefront-config';
+import { defaultCmsContentConfig } from '../../cms-structure';
+import { provideConfigFromMetaTags } from '../../config/provide-config-from-meta-tags';
+import { StorefrontModuleConfig } from '../../config/storefront-config';
+import { LayoutModule } from '../../layout';
+import { StorefrontModule } from '../../storefront.module';
+import { b2cLayoutConfig } from './b2c-layout-config';
 
 @NgModule({
   imports: [
