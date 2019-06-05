@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SiteContext } from './site-context.interface';
 import { select, Store } from '@ngrx/store';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import {
   getActiveBaseSite,
   getBaseSiteData,
@@ -44,7 +44,6 @@ export class BaseSiteService implements SiteContext<string> {
       .subscribe(activeBaseSite => {
         if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(new SetActiveBaseSite(baseSite));
-          this.store.dispatch(new LoadBaseSite());
         }
       });
   }
@@ -60,9 +59,12 @@ export class BaseSiteService implements SiteContext<string> {
    * Get the base site details data
    */
   getBaseSiteData(): Observable<BaseSite> {
-    return this.store.pipe(
-      select(getBaseSiteData),
-      filter(Boolean)
+    return this.store.pipe(select(getBaseSiteData)).pipe(
+      tap(baseSite => {
+        if (Object.keys(baseSite).length === 0) {
+          this.store.dispatch(new LoadBaseSite());
+        }
+      })
     );
   }
 }
