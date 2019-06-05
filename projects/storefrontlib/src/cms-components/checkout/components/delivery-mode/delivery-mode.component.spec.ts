@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import {
   DeliveryMode,
-  CheckoutService,
+  CheckoutDeliveryService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -24,7 +24,7 @@ import { CheckoutConfigService } from '../../checkout-config.service';
 })
 class MockSpinnerComponent {}
 
-class MockCheckoutService {
+class MockCheckoutDeliveryService {
   loadSupportedDeliveryModes = createSpy();
   setDeliveryMode = createSpy();
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
@@ -76,7 +76,7 @@ const mockStepUrl = 'test url';
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
-  let mockCheckoutService: MockCheckoutService;
+  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
   let mockRoutingService: MockRoutingService;
 
   beforeEach(async(() => {
@@ -84,14 +84,17 @@ describe('DeliveryModeComponent', () => {
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [DeliveryModeComponent, MockSpinnerComponent],
       providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
-    mockCheckoutService = TestBed.get(CheckoutService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
     mockRoutingService = TestBed.get(RoutingService);
   }));
 
@@ -107,13 +110,16 @@ describe('DeliveryModeComponent', () => {
   it('should load supported delivery modes', () => {
     component.ngOnInit();
 
-    expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryService.loadSupportedDeliveryModes
+    ).toHaveBeenCalled();
   });
 
   it('should get supported delivery modes', () => {
-    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
-      of(mockSupportedDeliveryModes)
-    );
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getSupportedDeliveryModes'
+    ).and.returnValue(of(mockSupportedDeliveryModes));
     component.ngOnInit();
 
     component.supportedDeliveryModes$.subscribe(modes => {
@@ -125,9 +131,10 @@ describe('DeliveryModeComponent', () => {
     component.changedOption = true;
     component.checkoutStepUrlNext = mockStepUrl;
     component.currentDeliveryModeId = mockDeliveryMode1.code;
-    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
-      of(mockDeliveryMode1)
-    );
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getSelectedDeliveryMode'
+    ).and.returnValue(of(mockDeliveryMode1));
 
     component.next();
 
