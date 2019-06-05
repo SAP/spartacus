@@ -19,18 +19,14 @@ export class BadRequestHandler extends HttpErrorHandler {
       response.error.error === 'invalid_grant' &&
       request.body.get('grant_type') === 'password'
     ) {
-      if (request.body.get('grant_type') === 'password') {
-        this.globalMessageService.add(
-          {
-            key: 'httpHandlers.badRequestPleaseLoginAgain',
-            params: { errorMessage: this.getErrorMessage(response) },
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-        this.globalMessageService.remove(
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      }
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          params: { errorMessage: this.getErrorMessage(response) },
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     } else if (response.error.errors[0].type === 'ValidationError') {
       // build translation key in case of backend field validation error
 
@@ -43,14 +39,6 @@ export class BadRequestHandler extends HttpErrorHandler {
         { key: translationKey },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      this.globalMessageService.add(
-        {
-          key: 'httpHandlers.badRequestPleaseLoginAgain',
-          params: { errorMessage: this.getErrorMessage(response) },
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     } else if (response.error.errors[0].type === 'PasswordMismatchError') {
       // uses en translation error message instead of backend exception error
       // @todo: this condition could be removed if backend gives better message
