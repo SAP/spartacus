@@ -4,6 +4,8 @@ import {
   CartService,
   CheckoutService,
   PaymentDetails,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -24,6 +26,8 @@ export class CheckoutDetailsService {
 
   constructor(
     private checkoutService: CheckoutService,
+    private checkoutDeliveryService: CheckoutDeliveryService,
+    private checkoutPaymentService: CheckoutPaymentService,
     private cartService: CartService
   ) {
     this.cartId$ = this.cartService.getActive().pipe(
@@ -41,19 +45,21 @@ export class CheckoutDetailsService {
 
   getDeliveryAddress(): Observable<Address> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutService.getDeliveryAddress())
+      switchMap(() => this.checkoutDeliveryService.getDeliveryAddress())
     );
   }
 
   getSelectedDeliveryModeCode(): Observable<string> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutService.getSelectedDeliveryModeCode())
+      switchMap(() =>
+        this.checkoutDeliveryService.getSelectedDeliveryModeCode()
+      )
     );
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutService.getPaymentDetails())
+      switchMap(() => this.checkoutPaymentService.getPaymentDetails())
     );
   }
 }
