@@ -7,6 +7,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
   CheckoutService,
   GlobalMessageService,
   GlobalMessageType,
@@ -42,6 +44,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   constructor(
     protected userService: UserService,
     protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected routingConfigService: RoutingConfigService,
     private routingService: RoutingService,
@@ -62,7 +66,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     );
 
     this.existingPaymentMethods$ = this.userService.getPaymentMethods();
-    this.getPaymentDetailsSub = this.checkoutService
+    this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .pipe(
         filter(
@@ -152,7 +156,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     paymentDetails: PaymentDetails;
     billingAddress: Address;
   }): void {
-    this.getDeliveryAddressSub = this.checkoutService
+    this.getDeliveryAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()
       .subscribe(address => {
         billingAddress = address;
@@ -178,17 +182,17 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       : this.deliveryAddress;
 
     if (newPayment) {
-      this.checkoutService.createPaymentDetails(payment);
+      this.checkoutPaymentService.createPaymentDetails(payment);
       this.checkoutService.clearCheckoutStep(3);
     }
 
     // if the selected payment is the same as the cart's one
     if (this.selectedPayment && this.selectedPayment.id === payment.id) {
-      this.checkoutService.setPaymentDetails(payment);
+      this.checkoutPaymentService.setPaymentDetails(payment);
       this.checkoutService.clearCheckoutStep(3);
     }
 
-    this.getPaymentDetailsSub = this.checkoutService
+    this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .subscribe(data => {
         if (data.accountHolderName && data.cardNumber) {
