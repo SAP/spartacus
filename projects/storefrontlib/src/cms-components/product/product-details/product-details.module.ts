@@ -2,7 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CmsModule, I18nModule, UrlModule } from '@spartacus/core';
+import {
+  CmsModule,
+  I18nModule,
+  UrlModule,
+  ConfigModule,
+  CmsConfig,
+} from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import {
@@ -30,8 +36,16 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     StarRatingModule,
     UrlModule,
     PageSlotModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        CMSProductSummary: {
+          selector: 'cx-product-summary',
+        },
+      },
+    }),
   ],
   declarations: [ProductDetailsComponent, ProductSummaryComponent],
+  entryComponents: [ProductSummaryComponent],
   exports: [ProductDetailsComponent, ProductSummaryComponent],
 })
 export class ProductDetailsModule {}

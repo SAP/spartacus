@@ -8,10 +8,15 @@ export const defaultPdpComponents: {
     flexType: 'CMSProductImages',
     uid: 'CMSProductImages',
   },
+  CMSProductSummary: {
+    typeCode: 'CMSProductSummary',
+    flexType: 'CMSProductSummary',
+    uid: 'CMSProductSummary',
+  },
 };
 
 export const defaultPdpSlots: CmsPageSlotsConfig = {
   ProductDetails: {
-    componentIds: ['CMSProductImages'],
+    componentIds: ['CMSProductImages', 'CMSProductSummary'],
   },
 };

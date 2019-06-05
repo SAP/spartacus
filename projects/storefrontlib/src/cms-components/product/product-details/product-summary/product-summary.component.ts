@@ -1,11 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { TranslatePipe, TranslationService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { TranslatePipe, TranslationService, Product } from '@spartacus/core';
 import { ProductDetailOutlets } from '../../product-outlets.model';
+import { Observable } from 'rxjs';
+import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-summary',
@@ -19,7 +16,7 @@ export class ProductSummaryComponent implements OnInit {
   itemCount = 1;
   reviewsTabAvailable: boolean;
 
-  @Input() product: any;
+  product$: Observable<Product>;
 
   get outlets() {
     return ProductSummaryComponent.outlets;
@@ -87,11 +84,13 @@ export class ProductSummaryComponent implements OnInit {
   }
 
   constructor(
+    protected currentPageService: CurrentProductService,
     protected translatePipe: TranslatePipe,
     private translationService: TranslationService
   ) {}
 
   ngOnInit() {
+    this.product$ = this.currentPageService.getProduct();
     this.reviewsTabAvailable = !!this.getReviewsComponent();
   }
 }
