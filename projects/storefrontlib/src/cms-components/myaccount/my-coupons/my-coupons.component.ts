@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   ConverterService,
@@ -68,7 +68,39 @@ export class MyCouponsComponent implements OnInit {
         this.userId = userData.userId;
       }
     });
-    this.coupons$ = this.getCoupons(this.userId);
+    //this.coupons$ = this.getCoupons(this.userId);
+    this.coupons$ = this.getMockCoupons();
+  }
+
+  getMockCoupons(): Observable<any[]> {
+    const mockCoupons = [
+      {
+        name: 'coupon1',
+        description: 'coupon1 description',
+        status: 'EFFECTIVE',
+        notificationOn: true,
+        startDate: '2019-1-1',
+        EndDate: '2020-1-1',
+      },
+      {
+        name: 'coupon2',
+        description: 'coupon2 description',
+        status: 'EFFECTIVE SOON',
+        notificationOn: true,
+        startDate: '2019-1-2',
+        EndDate: '2020-1-2',
+      },
+      {
+        name: 'coupon3',
+        description: 'coupon3 description',
+        status: 'EFFECTIVE',
+        notificationOn: false,
+        startDate: '2019-1-3',
+        EndDate: '2020-1-3',
+      },
+    ];
+
+    return of(mockCoupons);
   }
 
   getCoupons(userId: string): Observable<any[]> {

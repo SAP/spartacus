@@ -1,9 +1,9 @@
 <div class="cx-section">
   <ng-container *ngIf="(coupons$ | async).length">
-    <!-- <div
+     <div
       class="row cx-address-deck"
       *ngIf="!(addressesStateLoading$ | async); else loading"
-    > -->
+    > 
 
     <div class="cx-my-coupons-sort top row">
       <div
@@ -24,7 +24,7 @@
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination>
       </div>
-    </div>
+    </div> 
 
     <div
       *ngFor="let coupon of (coupons$ | async)"
@@ -37,7 +37,7 @@
   <ng-container *ngIf="!(coupons$ | async).length">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.addNewShippingAddress' | cxTranslate }}
+        there's no coupon
       </p>
     </section>
   </ng-container>

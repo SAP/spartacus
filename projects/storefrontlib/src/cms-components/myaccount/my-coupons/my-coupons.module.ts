@@ -17,11 +17,6 @@ import { CouponDialogComponent } from './coupon-card/coupon-dialog/coupon-dialog
 import { IconModule } from '../../../cms-components/misc/icon/index';
 
 @NgModule({
-  declarations: [
-    MyCouponsComponent,
-    CouponCardComponent,
-    CouponDialogComponent,
-  ],
   imports: [
     CommonModule,
     CardModule,
@@ -38,8 +33,12 @@ import { IconModule } from '../../../cms-components/misc/icon/index';
       },
     }),
   ],
+  declarations: [
+    MyCouponsComponent,
+    CouponCardComponent,
+    CouponDialogComponent,
+  ],
   exports: [MyCouponsComponent, CouponCardComponent],
   entryComponents: [CouponDialogComponent],
-  providers: [UserService],
 })
 export class MyCouponsModule {}
