@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { I18nModule, ConfigModule, CmsConfig } from '@spartacus/core';
+import {
+  I18nModule,
+  ConfigModule,
+  CmsConfig,
+  AuthGuard,
+} from '@spartacus/core';
 import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { MyCouponsComponent } from './my-coupons.component';
@@ -24,6 +29,7 @@ import { IconModule } from '../../../cms-components/misc/icon/index';
       cmsComponents: {
         MyCouponsComponent: {
           selector: 'cx-my-coupons',
+          guards: [AuthGuard],
         },
       },
     }),

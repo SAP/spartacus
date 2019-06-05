@@ -1,47 +1,39 @@
-<div class="cx-section">
-  <ng-container *ngIf="(coupons$ | async).length">
-     <div
-      class="row cx-address-deck"
-      *ngIf="!(addressesStateLoading$ | async); else loading"
-    > 
-
+<ng-container *ngIf="coupons !== null; else loading">
+  <div *ngIf="coupons.length" class="row cx-address-deck">
     <div class="cx-my-coupons-sort top row">
       <div
         class="cx-my-coupons-form-group form-group col-sm-12 col-md-4 col-lg-4"
       >
-        <cx-sorting
+        <!-- <cx-sorting
           [sortOptions]="sortOptions"
           [sortLabels]="sortLabels"
           (sortListEvent)="sortChange($event)"
           [selectedOption]="sort"
           placeholder="{{ 'coupons.sortByMostRecent' | cxTranslate }}"
         >
-        </cx-sorting>
+        </cx-sorting> -->
       </div>
       <div class="cx-my-coupons-pagination">
-        <cx-pagination
+        <!-- <cx-pagination
           [pagination]="pagination"
           (viewPageEvent)="pageChange($event)"
-        ></cx-pagination>
+        ></cx-pagination> -->
       </div>
-    </div> 
+    </div>
 
-    <div
-      *ngFor="let coupon of (coupons$ | async)"
-      class="col-md-6 cx-address-card"
-    >
+    <div *ngFor="let coupon of coupons" class="col-md-6 cx-address-card">
       <cx-coupon-card [coupon]="coupon"></cx-coupon-card>
     </div>
-  </ng-container>
+  </div>
 
-  <ng-container *ngIf="!(coupons$ | async).length">
+  <ng-container *ngIf="!coupons.length">
     <section>
       <p class="cx-section-msg">
         there's no coupon
       </p>
     </section>
   </ng-container>
-</div>
+</ng-container>
 
 <ng-template #loading>
   <div class="col-md-12 cx-address-spinner">

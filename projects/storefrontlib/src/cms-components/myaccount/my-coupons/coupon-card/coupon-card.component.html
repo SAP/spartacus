@@ -4,8 +4,8 @@
       <div class="cx-address-card-label-name">
         {{ coupon?.name }}
       </div>
-      <div class="cx-address-card-label">{{ coupon?.status }}</div>
-      <div class="cx-address-card-label">Effective:</div>
+      <div class="cx-address-card-label">Status: {{ coupon?.status }}</div>
+      <div class="cx-address-card-label">Effective Date:</div>
       <div class="cx-address-card-label">
         {{ coupon?.startDate }} - {{ coupon?.endDate }}
       </div>
@@ -26,7 +26,8 @@
 
       <div class="col-md-6">
         <button class="btn btn-block btn-action" (click)="findProduct()">
-          {{ 'find product' | cxTranslate }}
+          <!-- {{ 'find product' | cxTranslate }} -->
+          Find Product
         </button>
       </div>
     </div>

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   ConverterService,
   OccEndpointsService,
   AuthService,
   PaginationModel,
+  SortModel,
 } from '@spartacus/core';
 import { catchError } from 'rxjs/operators';
 
@@ -14,7 +15,8 @@ import { catchError } from 'rxjs/operators';
   templateUrl: './my-coupons.component.html',
 })
 export class MyCouponsComponent implements OnInit {
-  coupons$: Observable<any[]>;
+  // coupons$: Observable<CustomerCoupon[]>;
+  coupons: CustomerCoupon[];
 
   // private PAGE_SIZE = 1;
   // private sortMapping = {
@@ -68,42 +70,12 @@ export class MyCouponsComponent implements OnInit {
         this.userId = userData.userId;
       }
     });
-    //this.coupons$ = this.getCoupons(this.userId);
-    this.coupons$ = this.getMockCoupons();
+    this.getCoupons(this.userId).subscribe(result => {
+      this.coupons = result.coupons;
+    });
   }
 
-  getMockCoupons(): Observable<any[]> {
-    const mockCoupons = [
-      {
-        name: 'coupon1',
-        description: 'coupon1 description',
-        status: 'EFFECTIVE',
-        notificationOn: true,
-        startDate: '2019-1-1',
-        EndDate: '2020-1-1',
-      },
-      {
-        name: 'coupon2',
-        description: 'coupon2 description',
-        status: 'EFFECTIVE SOON',
-        notificationOn: true,
-        startDate: '2019-1-2',
-        EndDate: '2020-1-2',
-      },
-      {
-        name: 'coupon3',
-        description: 'coupon3 description',
-        status: 'EFFECTIVE',
-        notificationOn: false,
-        startDate: '2019-1-3',
-        EndDate: '2020-1-3',
-      },
-    ];
-
-    return of(mockCoupons);
-  }
-
-  getCoupons(userId: string): Observable<any[]> {
+  getCoupons(userId: string): Observable<CustomerCouponSearchResult> {
     const url = this.getUserEndpoint(userId) + this.COUPONS_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -139,4 +111,27 @@ export class MyCouponsComponent implements OnInit {
     //   this.sortMapping[this.sort]
     // );
   }
+}
+
+export interface CustomerCoupon {
+  couponId?: string;
+  name?: string;
+  startDate?: Date;
+  endDate?: Date;
+  status?: string;
+  description?: string;
+  notificationOn?: string;
+  solrFacets?: string;
+}
+
+//  export interface CustomerCouponNotification {
+//   coupon?: CustomerCoupon;
+//   customer?: User;
+//   status?: String;
+//  }
+
+export interface CustomerCouponSearchResult {
+  coupons?: CustomerCoupon[];
+  sorts?: SortModel;
+  pagination?: PaginationModel;
 }
