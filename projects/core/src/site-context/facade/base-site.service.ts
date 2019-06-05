@@ -59,7 +59,8 @@ export class BaseSiteService implements SiteContext<string> {
    * Get the base site details data
    */
   getBaseSiteData(): Observable<BaseSite> {
-    return this.store.pipe(select(getBaseSiteData)).pipe(
+    return this.store.pipe(
+      select(getBaseSiteData),
       tap(baseSite => {
         if (Object.keys(baseSite).length === 0) {
           this.store.dispatch(new LoadBaseSite());
