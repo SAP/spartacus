@@ -48,12 +48,10 @@
       </cx-generic-link>
 
       <div class="childs" [attr.depth]="getDepth(node)">
-        <div *ngFor="let column of getColumns(node.children)">
-          <ng-container *ngFor="let child of column">
-            <ng-container *ngTemplateOutlet="nav; context: { node: child }">
-            </ng-container>
+        <ng-container *ngFor="let child of node.children">
+          <ng-container *ngTemplateOutlet="nav; context: { node: child }">
           </ng-container>
-        </div>
+        </ng-container>
       </div>
     </div>
   </nav>

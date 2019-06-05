@@ -4,6 +4,8 @@ import {
   Input,
   HostBinding,
   Renderer2,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -17,14 +19,11 @@ const COLUMN_SIZE = 10;
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationUIComponent {
+export class NavigationUIComponent implements OnChanges {
   /**
    * The navigation node to render.
    */
   @Input() node: NavigationNode;
-
-  // Columns to be rendered
-  columns;
 
   /**
    * the icon type that will be used for navigation nodes
@@ -99,29 +98,39 @@ export class NavigationUIComponent {
     }
   }
 
-  getColumns(children) {
-    const columns = [];
-
-    // Iterate subcategories
-    for (let i = 0; i < children.length; i++) {
-      // Column header node for each subcategory
-      const columnHeader: NavigationNode = {
-        isHeader: true,
-        title: children[i].title,
-        url: children[i].url,
-      };
-
-      // Split subcategory items and header into columns
-      if (children[i].children) {
-        const clonedChildren = [columnHeader, ...children[i].children];
-        while (clonedChildren.length > 0) {
-          columns.push(clonedChildren.splice(0, COLUMN_SIZE));
+  // Recursively break nodes with more than COLUMN_SIZE into sub nodes to create columns
+  breakNodesIntoColumns(
+    node: NavigationNode,
+    columnSize: number
+  ): NavigationNode {
+    if (node.hasOwnProperty('children')) {
+      // Check if too many children for column
+      if (node.children.length > columnSize) {
+        const clonedNode: NavigationNode = { ...node };
+        node.children = [];
+        // Break node into subnodes with children length of columnSize
+        while (clonedNode.children.length > 0) {
+          const newSubNode: NavigationNode = { title: null, children: [] };
+          newSubNode.children.push(
+            ...clonedNode.children.splice(0, columnSize)
+          );
+          node.children.push(newSubNode);
         }
-      } else {
-        // Push header only in case of no subcategory items
-        columns.push([columnHeader]);
       }
+
+      // Recursively do the same with child nodes
+      node.children.forEach(child => {
+        child = this.breakNodesIntoColumns(child, columnSize);
+      });
     }
-    return columns;
+
+    return node;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Recursively break into columns once node exists on component
+    if (changes.node.currentValue) {
+      this.node = this.breakNodesIntoColumns(this.node, COLUMN_SIZE);
+    }
   }
 }
