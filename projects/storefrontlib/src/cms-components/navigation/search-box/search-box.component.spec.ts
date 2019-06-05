@@ -17,7 +17,7 @@ import { SearchResults } from './search-box.model';
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
   uid: '001',
   typeCode: 'SearchBoxComponent ',
-  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
+  modifiedTime: new Date('2017-12-21T18:15:15+0000'),
   name: 'Mock SearchBox',
   displayProductImages: true,
   displayProducts: true,
