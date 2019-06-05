@@ -21,6 +21,10 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
+import {
+  CustomerCoupon,
+  CustomerCouponSearchResult,
+} from '../model/customer-coupon.model';
 
 @Injectable()
 export class UserService {
@@ -50,7 +54,6 @@ export class UserService {
    * @param submitFormData as UserRegisterFormData
    */
   register(userRegisterFormData: UserSignUp): void {
-
     this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
@@ -658,5 +661,87 @@ export class UserService {
    */
   resetWithdrawConsentProcessState(): void {
     return this.store.dispatch(new fromStore.ResetWithdrawUserConsentProcess());
+  }
+
+  /**
+   * Retrieves customer's coupons
+   * @param userId a user ID
+   * @param pageSize page size
+   * @param currentPage current page
+   * @param sort sort
+   */
+  loadCustomerCoupons(
+    userId: string,
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): void {
+    this.store.dispatch(
+      new fromStore.LoadCustomerCoupons({
+        userId: userId,
+        pageSize: pageSize,
+        currentPage: currentPage,
+        sort: sort,
+      })
+    );
+  }
+
+  /**
+   * Returns customer coupon search result
+   * @param userId a user ID
+   * @param pageSize page size
+   */
+  getCustomerCoupons(
+    userId: string,
+    pageSize: number
+  ): Observable<CustomerCouponSearchResult> {
+    return this.store.pipe(
+      select(fromStore.getCustomerCouponsState),
+      tap(customerCouponsState => {
+        const attemptedLoad =
+          customerCouponsState.loading ||
+          customerCouponsState.success ||
+          customerCouponsState.error;
+        if (!attemptedLoad && !!userId) {
+          this.loadCustomerCoupons(userId, pageSize);
+        }
+      }),
+      map(customerCouponsState => customerCouponsState.value)
+    );
+  }
+
+  /**
+   * Returns a loaded flag for customer coupons
+   */
+  getCustomerCouponsLoaded(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getCustomerCouponsLoaded));
+  }
+
+  /**
+   * Subscribe a CustomerCoupon Notification
+   * @param userId a user ID
+   * @param couponCode a customer coupon code
+   */
+  subscribeCustomerCoupon(userId: string, couponCode: string): void {
+    this.store.dispatch(
+      new fromStore.SubscribeCustomerCoupon({
+        userId: userId,
+        couponCode: couponCode,
+      })
+    );
+  }
+
+  /**
+   * Unsubscribe a CustomerCoupon Notification
+   * @param userId a user ID
+   * @param couponCode a customer coupon code
+   */
+  unsubscribeCustomerCoupon(userId: string, couponCode: string): void {
+    this.store.dispatch(
+      new fromStore.SubscribeCustomerCoupon({
+        userId: userId,
+        couponCode: couponCode,
+      })
+    );
   }
 }
