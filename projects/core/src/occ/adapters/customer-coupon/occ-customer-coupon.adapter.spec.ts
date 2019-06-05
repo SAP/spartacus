@@ -135,10 +135,9 @@ describe('OccCustomerCouponAdapter', () => {
 
   describe('turn off notification', () => {
     it('should unsubscribes from a coupon notification for a given user id and coupon code', () => {
-      let result;
       service
         .turnOffNotification(userId, couponCode)
-        .subscribe(res => (result = res));
+        .subscribe(result => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne(req => {
         return (
