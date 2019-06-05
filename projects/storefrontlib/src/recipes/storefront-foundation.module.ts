@@ -3,10 +3,11 @@ import {
   AuthModule,
   ConfigModule,
   I18nModule,
+  SiteContextModule,
   StateModule,
 } from '@spartacus/core';
-import { RoutingModule } from './cms-structure/routing/routing.module';
-import { LayoutModule } from './layout/layout.module';
+import { RoutingModule } from '../cms-structure/routing/routing.module';
+import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,8 @@ import { LayoutModule } from './layout/layout.module';
     ConfigModule.forRoot(),
     RoutingModule,
     I18nModule.forRoot(),
+
+    SiteContextModule.forRoot(),
 
     LayoutModule,
   ],

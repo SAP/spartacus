@@ -9,5 +9,5 @@ export * from './config/index';
 export * from './layout/index';
 export * from './recipes/index';
 export * from './shared/index';
-export * from './storefront-foundation.module';
+export * from './storefront-config';
 export * from './storefront.module';

@@ -1,29 +1,23 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
-  CxApiModule,
   OccModule,
   PersonalizationModule,
   provideConfig,
   SmartEditModule,
 } from '@spartacus/core';
-import { CmsLibModule } from './cms-components/index';
 import { CartPageModule } from './cms-pages/cart-page/cart-page.module';
 import { ProductDetailsPageModule } from './cms-pages/product-details-page/product-details-page.module';
 import { ProductListingPageModule } from './cms-pages/product-listing-page/product-listing-page.module';
 import { provideConfigFromMetaTags } from './config/provide-config-from-meta-tags';
-import { StorefrontModuleConfig } from './config/storefront-config';
-import { StorefrontFoundationModule } from './storefront-foundation.module';
+import { StorefrontFoundationModule } from './recipes/storefront-foundation.module';
+import { StorefrontConfig } from './storefront-config';
 
 @NgModule({
   imports: [
     StorefrontFoundationModule,
 
-    CxApiModule, // will be dropped initially
-
     SmartEditModule.forRoot(), // should be custom
     PersonalizationModule.forRoot(), // should be custom
-
-    CmsLibModule, // optionated
 
     // opt-in explicitely
     OccModule,
@@ -31,10 +25,11 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     ProductListingPageModule,
     CartPageModule, // as longs as we do not have #2661 in place we need a specific cart page module
   ],
+  // move this to foundation
   providers: [...provideConfigFromMetaTags()],
 })
 export class StorefrontModule {
-  static withConfig(config?: StorefrontModuleConfig): ModuleWithProviders {
+  static withConfig(config?: StorefrontConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
       providers: [provideConfig(config), ...provideConfigFromMetaTags()],

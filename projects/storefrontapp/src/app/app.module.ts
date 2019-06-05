@@ -38,8 +38,8 @@ if (!environment.production) {
           legacy: false,
         },
       },
-
       siteContext: {
+        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
         parameters: {
           BASE_SITE: {
             values: [
@@ -49,6 +49,7 @@ if (!environment.production) {
               'apparel-uk',
             ],
             defaultValue: 'electronics-spa',
+            persistence: 'route',
           },
         },
       },
