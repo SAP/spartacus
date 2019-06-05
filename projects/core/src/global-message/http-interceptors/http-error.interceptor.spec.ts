@@ -147,7 +147,10 @@ describe('HttpErrorInterceptor', () => {
           mockErrors[0].reason
         }.${mockErrors[0].subject}`;
 
-        http.get('/validation-error').subscribe();
+        http
+          .get('/validation-error')
+          .pipe(catchError((error: any) => throwError(error)))
+          .subscribe(_result => {}, error => (this.error = error));
 
         httpMock
           .expectOne('/validation-error')
