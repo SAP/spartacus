@@ -50,6 +50,7 @@ export class UserService {
    * @param submitFormData as UserRegisterFormData
    */
   register(userRegisterFormData: UserSignUp): void {
+
     this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
