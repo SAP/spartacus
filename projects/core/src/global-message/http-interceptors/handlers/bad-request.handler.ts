@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 import { HttpErrorHandler } from './http-error.handler';
+import { ErrorModel } from '../../../model/misc.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -29,6 +30,18 @@ export class BadRequestHandler extends HttpErrorHandler {
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
       }
+    } else if (response.error.errors[0].type === 'ValidationError') {
+      // build tranlsation key in case of backend field validation error
+
+      const [error]: [ErrorModel] = response.error.errors;
+      const translationKey = `httpHandlers.validationErrors.${error.subject}.${
+        error.reason
+      }`;
+
+      this.globalMessageService.add(
+        { key: translationKey },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     } else if (response.error.errors[0].type === 'PasswordMismatchError') {
       // uses en translation error message instead of backend exception error
       // @todo: this condition could be removed if backend gives better message
