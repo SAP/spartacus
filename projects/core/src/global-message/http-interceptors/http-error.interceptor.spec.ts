@@ -144,8 +144,8 @@ describe('HttpErrorInterceptor', () => {
           statusText: '',
         };
         const expectedKey = `httpHandlers.validationErrors.${
-          mockErrors[0].subject
-        }.${mockErrors[0].reason}`;
+          mockErrors[0].reason
+        }.${mockErrors[0].subject}`;
 
         http.get('/validation-error').subscribe();
 

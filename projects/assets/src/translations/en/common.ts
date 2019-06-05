@@ -64,36 +64,20 @@ export const common = {
     gatewayTimeout: 'The server did not responded, please try again later.',
     unknownError: 'An unknown error occured',
     validationErrors: {
-      card_cardType: {
-        missing:
-          'The credit card selected is not supported. Please select another.',
-      },
-      card_accountNumber: {
-        missing: 'The credit card number entered is not valid.',
-      },
-      card_cvNumber: { missing: 'The security code entered is not valid.' },
-      card_expirationMonth: {
-        missing: 'The credit card expiration date entered is not valid.',
-      },
-      card_expirationYear: {
-        missing: 'The credit card expiration date entered is not valid.',
-      },
-      billTo_firstName: { missing: 'The first name entered is not valid.' },
-      billTo_lastName: { missing: 'The last name entered is not valid.' },
-      billTo_street1: { missing: 'The address entered is not valid.' },
-      billTo_street2: { missing: 'The address entered is not valid.' },
-      billTo_city: {
-        missing: 'The city entered is not valid for this credit card.',
-      },
-      billTo_state: {
-        missing:
-          'The state/province entered is not valid for this credit card.',
-      },
-      billTo_country: {
-        missing: 'The country entered is not valid for this credit card.',
-      },
-      billTo_postalCode: {
-        missing: 'The zip/postal code is not valid for this credit card.',
+      missing: {
+        card_cardType: 'The credit card selected is not supported. Please select another.',
+        card_accountNumber: 'The credit card number entered is not valid.',
+        card_cvNumber: 'The security code entered is not valid.' ,
+        card_expirationMonth: 'The credit card expiration date entered is not valid.',
+        card_expirationYear: 'The credit card expiration date entered is not valid.',
+        billTo_firstName: 'The first name entered is not valid.',
+        billTo_lastName: 'The last name entered is not valid.',
+        billTo_street1: 'The address entered is not valid.',
+        billTo_street2: 'The address entered is not valid.',
+        billTo_city: 'The city entered is not valid for this credit card.',
+        billTo_state: 'The state/province entered is not valid for this credit card.',
+        billTo_country: 'The country entered is not valid for this credit card.',
+        billTo_postalCode: 'The zip/postal code is not valid for this credit card.',
       },
     },
   },

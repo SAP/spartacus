@@ -31,12 +31,10 @@ export class BadRequestHandler extends HttpErrorHandler {
         );
       }
     } else if (response.error.errors[0].type === 'ValidationError') {
-      // build tranlsation key in case of backend field validation error
+      // build translation key in case of backend field validation error
 
       const [error]: [ErrorModel] = response.error.errors;
-      const translationKey = `httpHandlers.validationErrors.${error.subject}.${
-        error.reason
-      }`;
+      const translationKey = `httpHandlers.validationErrors.${error.reason}.${error.subject}`;
 
       this.globalMessageService.add(
         { key: translationKey },
