@@ -113,8 +113,8 @@
         // top level headings
         > h5,
         > cx-generic-link {
-          padding: 5px 25px 5px 0;
-          height: 35px;
+          padding: 5px 15px 5px 0;
+          height: 67px;
         }
         // first level headings will be bold in desktop
         nav > h5 {
@@ -141,7 +141,7 @@
   }
   @include media-breakpoint-up(lg) {
     cx-icon {
-      padding: 0 0 0 10px;
+      padding: 0 0 0 7px;
       &:before {
         font-size: 1rem;
       }

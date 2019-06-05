@@ -49,7 +49,7 @@ const testCart: Cart = {
 const mockComponentData: CmsMiniCartComponent = {
   uid: '001',
   typeCode: 'MiniCartComponent',
-  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
+  modifiedTime: new Date('2017-12-21T18:15:15+0000'),
   shownProductCount: '3',
   lightboxBannerComponent: {
     uid: 'banner',

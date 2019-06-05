@@ -80,5 +80,6 @@ export const common = {
         billTo_postalCode: 'The zip/postal code is not valid for this credit card.',
       },
     },
+    cartNotFound: 'Cart not found.',
   },
 };

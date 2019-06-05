@@ -17,7 +17,6 @@ export function authStoreConfigFactory(): StateConfig {
       storageSync: {
         keys: {
           'auth.userToken.token': StorageSyncType.LOCAL_STORAGE,
-          'auth.openIdToken.value': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
