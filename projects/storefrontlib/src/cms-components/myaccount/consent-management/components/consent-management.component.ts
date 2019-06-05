@@ -3,7 +3,6 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
-  RoutingService,
   UserConsentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -21,7 +20,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   constructor(
     private userConsentService: UserConsentService,
-    private routingService: RoutingService,
     private globalMessageService: GlobalMessageService
   ) {}
 
@@ -99,10 +97,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     } else {
       this.userConsentService.withdrawConsent(template.currentConsent.code);
     }
-  }
-
-  onDone(): void {
-    this.routingService.go({ cxRoute: 'home' });
   }
 
   private onConsentGivenSuccess(success: boolean): void {
