@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '@spartacus/core';
-import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
+import { BreakpointService } from 'projects/storefrontlib/src/layout';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Media, MediaFormats } from './media.model';
 
 /** the default format is used for browsers that do not support   */
 const DEFAULT_MEDIA_FORMAT = 'tablet';
-
-const DEFAULT_BREAKPOINTS = {
-  [BREAKPOINT.xs]: 576,
-  [BREAKPOINT.sm]: 768,
-  [BREAKPOINT.md]: 992,
-  [BREAKPOINT.lg]: 1200,
-};
 
 @Injectable({
   providedIn: 'root',
@@ -19,29 +13,26 @@ const DEFAULT_BREAKPOINTS = {
 export class MediaService {
   constructor(
     protected config: OccConfig,
-    protected layoutConfig: LayoutConfig
+    protected breakpointService: BreakpointService
   ) {}
 
   private get mediaFormats(): MediaFormats[] {
-    const breakpoints = this.layoutConfig.breakpoints
-      ? this.layoutConfig.breakpoints
-      : DEFAULT_BREAKPOINTS;
     return [
       {
         code: 'mobile',
-        threshold: breakpoints[BREAKPOINT.xs],
+        threshold: this.breakpointService.getSize(BREAKPOINT.xs),
       },
       {
         code: 'tablet',
-        threshold: breakpoints[BREAKPOINT.sm],
+        threshold: this.breakpointService.getSize(BREAKPOINT.sm),
       },
       {
         code: 'desktop',
-        threshold: breakpoints[BREAKPOINT.md],
+        threshold: this.breakpointService.getSize(BREAKPOINT.md),
       },
       {
         code: 'widescreen',
-        threshold: breakpoints[BREAKPOINT.lg],
+        threshold: this.breakpointService.getSize(BREAKPOINT.lg),
       },
     ];
   }
