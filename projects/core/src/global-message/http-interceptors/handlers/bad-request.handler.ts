@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 import { HttpErrorHandler } from './http-error.handler';
+import { ErrorModel } from '../../../model/misc.model';
 import { Translatable } from '../../../i18n/translatable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
@@ -30,7 +31,7 @@ export class BadRequestHandler extends HttpErrorHandler {
       );
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     } else {
-      response.error.errors.forEach((error, index) => {
+      response.error.errors.forEach((error: ErrorModel, index: number) => {
         let errorMessage: Translatable;
         if (error.type === 'PasswordMismatchError') {
           // uses en translation error message instead of backend exception error
