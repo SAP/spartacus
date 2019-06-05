@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import {
   Address,
+  Cart,
   CartService,
-  CheckoutService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
   Country,
   DeliveryMode,
-  PaymentDetails,
-  Cart,
   OrderEntry,
   UserAddressService,
+  TranslationService,
+  PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
@@ -29,7 +31,8 @@ export class ReviewSubmitComponent implements OnInit {
   paymentDetails$: Observable<PaymentDetails>;
 
   constructor(
-    protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
     private translation: TranslationService
@@ -38,16 +41,18 @@ export class ReviewSubmitComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
     this.entries$ = this.cartService.getEntries();
-    this.deliveryAddress$ = this.checkoutService.getDeliveryAddress();
-    this.paymentDetails$ = this.checkoutService.getPaymentDetails();
+    this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+    this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
 
-    this.deliveryMode$ = this.checkoutService.getSelectedDeliveryMode().pipe(
-      tap((selected: DeliveryMode) => {
-        if (selected === null) {
-          this.checkoutService.loadSupportedDeliveryModes();
-        }
-      })
-    );
+    this.deliveryMode$ = this.checkoutDeliveryService
+      .getSelectedDeliveryMode()
+      .pipe(
+        tap((selected: DeliveryMode) => {
+          if (selected === null) {
+            this.checkoutDeliveryService.loadSupportedDeliveryModes();
+          }
+        })
+      );
 
     this.countryName$ = this.deliveryAddress$.pipe(
       switchMap((address: Address) =>

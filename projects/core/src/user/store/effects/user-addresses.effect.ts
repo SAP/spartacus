@@ -152,12 +152,6 @@ export class UserAddressesEffects {
    * Show global confirmation message with provided text
    */
   private showGlobalMessage(text: string) {
-    // ----------
-    // todo: handle automatic removal of outdated messages
-    this.messageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-    this.messageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
-    // ----------
-
     this.messageService.add(
       { key: text },
       GlobalMessageType.MSG_TYPE_CONFIRMATION

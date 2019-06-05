@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
   CheckoutService,
   GlobalMessageService,
   I18nTestingModule,
@@ -22,7 +24,6 @@ import {
   CheckoutStepType,
 } from '../../model/checkout-step.model';
 import { PaymentMethodComponent } from './payment-method.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -65,12 +66,17 @@ class MockUserPaymentService {
   }
 }
 class MockCheckoutService {
-  setPaymentDetails = createSpy();
   clearCheckoutStep = createSpy();
+}
+
+class MockCheckoutPaymentService {
+  setPaymentDetails = createSpy();
   createPaymentDetails = createSpy();
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
+}
+class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<PaymentDetails> {
     return of(null);
   }
@@ -158,7 +164,7 @@ describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
-  let mockCheckoutService: CheckoutService;
+  let mockCheckoutPaymentService: CheckoutPaymentService;
   let mockRoutingService: MockRoutingService;
   let mockRoutingConfigService: RoutingConfigService;
 
@@ -175,6 +181,14 @@ describe('PaymentMethodComponent', () => {
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         { provide: CheckoutService, useClass: MockCheckoutService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
+        {
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
+        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
@@ -184,7 +198,7 @@ describe('PaymentMethodComponent', () => {
     }).compileComponents();
 
     mockUserPaymentService = TestBed.get(UserPaymentService);
-    mockCheckoutService = TestBed.get(CheckoutService);
+    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService);
     mockRoutingService = TestBed.get(RoutingService);
     mockRoutingConfigService = TestBed.get(RoutingConfigService);
   }));
@@ -205,9 +219,9 @@ describe('PaymentMethodComponent', () => {
       newPayment: true,
       billingAddress: null,
     });
-    expect(mockCheckoutService.createPaymentDetails).toHaveBeenCalledWith(
-      mockPaymentDetails
-    );
+    expect(
+      mockCheckoutPaymentService.createPaymentDetails
+    ).toHaveBeenCalledWith(mockPaymentDetails);
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', done => {

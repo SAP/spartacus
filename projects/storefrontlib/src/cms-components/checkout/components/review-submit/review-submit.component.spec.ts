@@ -5,7 +5,8 @@ import {
   Address,
   Cart,
   CartService,
-  CheckoutService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
   Country,
   DeliveryMode,
   I18nTestingModule,
@@ -84,7 +85,7 @@ class MockCardComponent {
   content: Card;
 }
 
-class MockCheckoutService {
+class MockCheckoutDeliveryService {
   loadSupportedDeliveryModes = createSpy();
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return deliveryModeBS.asObservable();
@@ -92,6 +93,9 @@ class MockCheckoutService {
   getDeliveryAddress(): Observable<Address> {
     return of(mockAddress);
   }
+}
+
+class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
@@ -116,7 +120,7 @@ class MockCartService {
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
-  let mockCheckoutService: MockCheckoutService;
+  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -127,7 +131,14 @@ describe('ReviewSubmitComponent', () => {
         MockCardComponent,
       ],
       providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
+        {
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
+        },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: CartService, useClass: MockCartService },
       ],
@@ -138,7 +149,7 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
 
-    mockCheckoutService = TestBed.get(CheckoutService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
 
     addressBS.next(mockAddress.country);
     deliveryModeBS.next(mockDeliveryMode);
@@ -213,7 +224,9 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryService.loadSupportedDeliveryModes
+    ).toHaveBeenCalled();
   });
 
   it('should get country in ngOnInit', () => {

@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   Address,
   CartService,
-  CheckoutService,
+  CheckoutDeliveryService,
   RoutingService,
   TranslationService,
   UserAddressService,
@@ -50,7 +50,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
     protected routingService: RoutingService,
-    protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
     private checkoutConfigService: CheckoutConfigService,
     private activatedRoute: ActivatedRoute,
     private translation: TranslationService
@@ -100,7 +100,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.cartService.loadDetails();
     this.userAddressService.loadAddresses();
 
-    this.setAddressSub = this.checkoutService
+    this.setAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()
       .subscribe(address => {
         this.setAddress = address;
@@ -161,7 +161,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     address: Address;
   }): void {
     if (newAddress) {
-      this.checkoutService.createAndSetAddress(address);
+      this.checkoutDeliveryService.createAndSetAddress(address);
       this.goTo = CheckoutStepType.DELIVERY_MODE;
       return;
     }
@@ -173,7 +173,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.goNext();
     } else {
       this.goTo = CheckoutStepType.DELIVERY_MODE;
-      this.checkoutService.setDeliveryAddress(address);
+      this.checkoutDeliveryService.setDeliveryAddress(address);
     }
   }
 
