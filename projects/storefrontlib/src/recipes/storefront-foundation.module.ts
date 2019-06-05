@@ -22,7 +22,6 @@ import { LayoutModule } from '../layout/layout.module';
 
     LayoutModule,
   ],
-  // move this to foundation
   providers: [...provideConfigFromMetaTags()],
 })
 export class StorefrontFoundationModule {}
