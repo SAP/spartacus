@@ -9,8 +9,10 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translations } from '@spartacus/assets';
-import { StorefrontComponent } from '@spartacus/storefront';
-import { B2cStorefrontModule } from 'projects/storefrontlib/src/recipes/b2c/b2c-storefront.module';
+import {
+  B2cStorefrontModule,
+  StorefrontComponent,
+} from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 
 registerLocaleData(localeDe);
