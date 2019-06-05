@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/index';
 import {
   CustomerCoupon,
-  CustomerCouponNotification,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
 import { User } from '../../../model/misc.model';
@@ -62,21 +61,15 @@ const customerSearcherResult: CustomerCouponSearchResult = {
   pagination: {},
 };
 
-const couponNotification: CustomerCouponNotification = {
-  coupon: {},
-  customer: {},
-  status: '',
-};
-
 describe('Customer Coupon effect', () => {
-  let customerCouponsEffect: fromCustomerCouponsEffect.CustomerCouponsEffects;
+  let customerCouponsEffect: fromCustomerCouponsEffect.CustomerCouponEffects;
   let customerCouponConnector: CustomerCouponConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        fromCustomerCouponsEffect.CustomerCouponsEffects,
+        fromCustomerCouponsEffect.CustomerCouponEffects,
         { provide: CustomerCouponAdapter, useValue: {} },
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -85,15 +78,15 @@ describe('Customer Coupon effect', () => {
     });
 
     customerCouponsEffect = TestBed.get(
-      fromCustomerCouponsEffect.CustomerCouponsEffects
+      fromCustomerCouponsEffect.CustomerCouponEffects
     );
     customerCouponConnector = TestBed.get(CustomerCouponConnector);
 
     spyOn(customerCouponConnector, 'getMyCoupons').and.returnValue(
-      of(mockCustomerCoupons)
+      of(customerSearcherResult)
     );
     spyOn(customerCouponConnector, 'turnOnNotification').and.returnValue(
-      of(couponNotification)
+      of(coupon1)
     );
 
     spyOn(customerCouponConnector, 'turnOffNotification').and.returnValue(
@@ -123,13 +116,13 @@ describe('Customer Coupon effect', () => {
   });
 
   describe('subscribeCustomerCoupon$', () => {
-    it('should add user address', () => {
+    it('should subscribe customer coupon', () => {
       const action = new fromCustomerCouponsAction.SubscribeCustomerCoupon({
         userId: USERID_CURRENT,
         couponCode: 'testCoupon',
       });
       const completion = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-        {}
+        coupon1
       );
 
       actions$ = hot('-a', { a: action });

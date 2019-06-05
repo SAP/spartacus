@@ -1,31 +1,19 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Store, StoreModule, select } from '@ngrx/store';
 
-import { StateWithUser, CUSTOMER_COUPONS } from '../user-state';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
-  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
-
-const coupon1: CustomerCoupon = {
-  couponId: 'coupon1',
-  name: 'coupon 1',
-  startDate: new Date(),
-  endDate: new Date(),
-  status: 'Effective',
-  description: '',
-  notificationOn: '',
-  solrFacets: '',
-};
-const coupon2: CustomerCoupon = {
-  couponId: 'coupon2',
-  name: 'coupon 2',
+const coupon: CustomerCoupon = {
+  couponId: 'coupon',
+  name: 'coupon',
   startDate: new Date(),
   endDate: new Date(),
   status: 'Effective',
@@ -34,28 +22,29 @@ const coupon2: CustomerCoupon = {
   solrFacets: '',
 };
 
-const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
+const customerSearcherResult: CustomerCouponSearchResult = {
+  coupons: [coupon],
+  pagination: {
+    currentPage: 1,
+    pageSize: 5,
+  },
+  sorts: { code: 'byPage' },
+};
 
-const customerCouponSearchResult: CustomerCouponSearchResult = {
-  coupons: mockCustomerCoupons,
-  sorts: {},
+const emptyCustomerSearcherResult: CustomerCouponSearchResult = {
+  coupons: [],
   pagination: {},
+  sorts: {},
 };
 
-const customerCouponNotification: CustomerCouponNotification = {
-  coupon: {},
-  customer: {},
-  status: '',
-};
-
-describe('Customer Coupon Selectors', () => {
+describe('User Orders Selectors', () => {
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CUSTOMER_COUPONS, fromReducers.getReducers()),
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
       ],
     });
 
@@ -63,38 +52,52 @@ describe('Customer Coupon Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getCustomerCouponsLoaderState', () => {
-    it('should return customerCoupons state', () => {
-      let result: LoaderState<CustomerCoupon[]>;
-      store.pipe(
-        select(fromSelectors.getCustomerCouponsLoaderState)
-          .subscribe(value => (result = value))
-          .unsubscribe()
-      );
+  describe('getOrdersLoaderState', () => {
+    it('should return orders state', () => {
+      let result: LoaderState<CustomerCouponSearchResult>;
+      store
+        .pipe(select(fromSelectors.getCustomerCouponsState))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual({
         loading: false,
         error: false,
         success: false,
-        value: [],
+        value: emptyCustomerSearcherResult,
       });
     });
   });
 
   describe('getCustomerCoupons', () => {
-    it('should return customerCoupons', () => {
+    it('should return a user Orders', () => {
       let result: CustomerCouponSearchResult;
       store
         .pipe(select(fromSelectors.getCustomerCoupons))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(emptyCustomerSearcherResult);
 
       store.dispatch(
-        new fromActions.LoadCustomerCouponsSuccess(customerCouponSearchResult)
+        new fromActions.LoadCustomerCouponsSuccess(customerSearcherResult)
       );
+      expect(result).toEqual(customerSearcherResult);
+    });
+  });
 
-      expect(result).toEqual(customerCouponSearchResult);
+  describe('getCustomerCouponsLoaded', () => {
+    it('should return success flag of orders state', () => {
+      let result: boolean;
+      store
+        .pipe(select(fromSelectors.getCustomerCouponsLoaded))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(
+        new fromActions.LoadCustomerCouponsSuccess(customerSearcherResult)
+      );
+      expect(result).toEqual(true);
     });
   });
 });

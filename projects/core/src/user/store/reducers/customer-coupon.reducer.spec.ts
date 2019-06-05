@@ -4,7 +4,6 @@ import * as fromCustomerCouponsReducer from './customer-coupon.reducer';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
-  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 
 const coupon1: CustomerCoupon = {
@@ -36,12 +35,6 @@ const customerSearcherResult: CustomerCouponSearchResult = {
   pagination: {},
 };
 
-const couponNotification: CustomerCouponNotification = {
-  coupon: coupon1,
-  customer: {},
-  status: '',
-};
-
 describe('CustomerCoupon Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
@@ -62,32 +55,6 @@ describe('CustomerCoupon Reducer', () => {
       const state = fromCustomerCouponsReducer.reducer(initialState, action);
 
       expect(state).toEqual(customerSearcherResult);
-    });
-  });
-
-  describe('SUBSCRIBE_CUSTOMER_COUPON action', () => {
-    it('should populate the customerCoupon notification state', () => {
-      const { initialState } = fromCustomerCouponsReducer;
-      const action = new fromCustomerCouponsAction.SubscribeCustomerCoupon({
-        userId: 'user_id',
-        couponCode: 'coupon_code',
-      });
-      const state = fromCustomerCouponsReducer.reducer(initialState, action);
-
-      expect(state).toEqual('on');
-    });
-  });
-
-  describe('UNSUBSCRIBE_CUSTOMER_COUPON action', () => {
-    it('should populate the customer coupons state', () => {
-      const { initialState } = fromCustomerCouponsReducer;
-      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCoupon({
-        userId: 'user_id',
-        couponCode: 'coupon_code',
-      });
-      const state = fromCustomerCouponsReducer.reducer(initialState, action);
-
-      expect(state).toEqual('off');
     });
   });
 });

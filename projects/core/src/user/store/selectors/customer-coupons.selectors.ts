@@ -23,7 +23,8 @@ export const getCustomerCouponsLoaded: MemoizedSelector<
   boolean
 > = createSelector(
   getCustomerCouponsState,
-  (state: LoaderState<CustomerCouponSearchResult>) => loaderSuccessSelector(state)
+  (state: LoaderState<CustomerCouponSearchResult>) =>
+    loaderSuccessSelector(state)
 );
 
 export const getCustomerCoupons: MemoizedSelector<

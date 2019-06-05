@@ -93,7 +93,7 @@ describe('OccCustomerCouponAdapter', () => {
   });
 
   describe('turn on notification', () => {
-    it('should subscribes to a coupon notification for a given user id and coupon code', () => {
+    it('should subscribe to a coupon notification for a given user id and coupon code', () => {
       const customerCoupon: CustomerCoupon = {
         couponId: 'coupon1',
         name: 'coupon 1',
@@ -104,15 +104,15 @@ describe('OccCustomerCouponAdapter', () => {
         notificationOn: '',
         solrFacets: '',
       };
-      let result;
       const customerCouponNotification: CustomerCouponNotification = {
         coupon: customerCoupon,
         customer: {},
         status: '',
       };
-      service
-        .turnOnNotification(userId, couponCode)
-        .subscribe(res => (result = res));
+
+      service.turnOnNotification(userId, couponCode).subscribe(result => {
+        expect(result).toEqual(customerCouponNotification.coupon);
+      });
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -128,8 +128,7 @@ describe('OccCustomerCouponAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(customerCouponNotification);
-      expect(result).toEqual(customerCouponNotification);
+      mockReq.flush(customerCoupon);
     });
   });
 
