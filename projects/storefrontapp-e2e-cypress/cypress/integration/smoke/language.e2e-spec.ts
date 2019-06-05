@@ -1,41 +1,23 @@
-// Use language switcher to change language
-function switchLanguage(lang: string) {
-  cy.get('.SiteContext label')
-    .contains('Language')
-    .parent()
-    .children('select')
-    .select(lang);
-}
+import * as siteContextSelector from '../../sample-data/site-context-selector';
+import { switchSiteContext } from '../../support/utils/switch-site-context';
 
 context('Language Switcher', () => {
-  const BASE_URL = Cypress.config().baseUrl;
-  const CONTENT_CATALOG = 'electronics-spa';
-  const CURRENCY = 'USD';
-
   beforeEach(() => {
     cy.server();
-    cy.route(
-      `${Cypress.env(
-        'API_URL'
-      )}/rest/v2/electronics-spa/languages?lang=en&curr=USD`
-    ).as('languages');
+    cy.route(siteContextSelector.LANGUAGE_REQUEST).as('languages');
   });
 
   describe('Product Page', () => {
-    const PRODUCT_URL_EN = `/${CONTENT_CATALOG}/en/${CURRENCY}/product/`;
-    const PRODUCT_URL_DE = `/${CONTENT_CATALOG}/de/${CURRENCY}/product/`;
-    const PRODUCT_ID = '3595723';
-
     it('switch language should work and language should be persistent in url', () => {
       // Load Product Page in English
-      cy.visit(`${PRODUCT_URL_EN}${PRODUCT_ID}`);
+      cy.visit(siteContextSelector.PRODUCT_URL_EN);
       cy.wait('@languages');
 
-      // URL should change to contain 'de' as language after language switch
-      switchLanguage('de');
-      cy.url().should('eq', `${BASE_URL}${PRODUCT_URL_DE}${PRODUCT_ID}`);
+      // URL should change to contain 'ja' as language after language switch
+      switchSiteContext(siteContextSelector.LANGUAGE_JA, 'Language');
+      cy.url().should('eq', siteContextSelector.PRODUCT_URL_JA);
       // clean after test, go back to default english language
-      switchLanguage('en');
+      switchSiteContext(siteContextSelector.LANGUAGE_EN, 'Language');
     });
   });
 });

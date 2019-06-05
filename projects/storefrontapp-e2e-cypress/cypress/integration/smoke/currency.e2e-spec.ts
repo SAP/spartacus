@@ -1,20 +1,7 @@
-const changeCurrency = (currency: string) => {
-  cy.get('.SiteContext label')
-    .contains('Currency')
-    .parent()
-    .children('select')
-    .select(currency);
-};
+import * as siteContextSelector from '../../sample-data/site-context-selector';
+import { switchSiteContext } from '../../support/utils/switch-site-context';
 
 context('Currency change', () => {
-  const JPY_CURR = 'JPY';
-  const USD_CURR = 'USD';
-  const BASE_URL = Cypress.config().baseUrl;
-  const CONTENT_CATALOG = 'electronics-spa';
-  const PRODUCT_URL_USD = `/${CONTENT_CATALOG}/en/${USD_CURR}/product/`;
-  const PRODUCT_URL_JPY = `/${CONTENT_CATALOG}/en/${JPY_CURR}/product/`;
-  const PRODUCT_ID = '280916';
-
   beforeEach(() => {
     cy.server();
     cy.route(
@@ -26,29 +13,31 @@ context('Currency change', () => {
 
   describe('on the product page', () => {
     it('should change the currency and be persistent in the url ', () => {
-      cy.visit(`${PRODUCT_URL_USD}${PRODUCT_ID}`);
+      cy.visit(siteContextSelector.PRODUCT_URL_USD);
       cy.wait('@currencies');
 
-      changeCurrency(JPY_CURR);
+      switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
 
-      cy.url().should('eq', `${BASE_URL}${PRODUCT_URL_JPY}${PRODUCT_ID}`);
-      changeCurrency(USD_CURR);
+      cy.url().should('eq', siteContextSelector.PRODUCT_URL_JPY);
+      switchSiteContext(siteContextSelector.CURRENCY_USD, 'Currency');
     });
 
     it('should display the chosen currency', () => {
-      cy.visit(`${PRODUCT_URL_USD}${PRODUCT_ID}`);
+      cy.visit(siteContextSelector.PRODUCT_URL_USD);
       cy.wait('@currencies');
 
-      changeCurrency(JPY_CURR);
+      switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
 
       cy.get('.price').should('contain', '¥690');
-      changeCurrency(USD_CURR);
+      switchSiteContext(siteContextSelector.CURRENCY_USD, 'Currency');
       cy.get('.price').should('contain', '$8.20');
     });
   });
 
   describe('on the login page', () => {
-    const LOGIN_URL_USD = `/${CONTENT_CATALOG}/en/USD/login`;
+    const LOGIN_URL_USD = `/${
+      siteContextSelector.CONTENT_CATALOG
+    }/en/USD/login`;
     const TEST_EMAIL = 'my@email.com';
 
     it('user input should not be removed on currency change', () => {
@@ -56,7 +45,7 @@ context('Currency change', () => {
       cy.get('input[type="email"]').type(TEST_EMAIL);
       cy.wait('@currencies');
 
-      changeCurrency(JPY_CURR);
+      switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
 
       cy.get('input[type="email"]').should('have.value', TEST_EMAIL);
     });
