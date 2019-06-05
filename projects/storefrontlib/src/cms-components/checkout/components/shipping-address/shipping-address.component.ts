@@ -11,7 +11,7 @@ import {
   CheckoutDeliveryService,
   RoutingService,
   TranslationService,
-  UserService,
+  UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   checkoutStepUrlPrevious: string;
 
   constructor(
-    protected userService: UserService,
+    protected userAddressService: UserAddressService,
     protected cartService: CartService,
     protected routingService: RoutingService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
@@ -63,8 +63,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     );
     this.checkoutStepUrlPrevious = 'cart';
 
-    this.isLoading$ = this.userService.getAddressesLoading();
-    this.existingAddresses$ = this.userService.getAddresses();
+    this.isLoading$ = this.userAddressService.getAddressesLoading();
+    this.existingAddresses$ = this.userAddressService.getAddresses();
     this.cards$ = combineLatest(
       this.existingAddresses$,
       this.selectedAddress$.asObservable(),
@@ -98,7 +98,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     );
 
     this.cartService.loadDetails();
-    this.userService.loadAddresses();
+    this.userAddressService.loadAddresses();
 
     this.setAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()

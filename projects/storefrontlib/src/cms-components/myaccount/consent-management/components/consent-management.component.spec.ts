@@ -16,7 +16,7 @@ import {
   RoutingService,
   Translatable,
   UrlCommands,
-  UserService,
+  UserConsentService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConsentManagementComponent } from './consent-management.component';
@@ -45,7 +45,7 @@ class MockConsentManagementFormComponent {
   }>();
 }
 
-class UserServiceMock {
+class UserConsentServiceMock {
   loadConsents(): void {}
   getConsentsResultLoading(): Observable<boolean> {
     return of();
@@ -99,7 +99,7 @@ describe('ConsentManagementComponent', () => {
   let fixture: ComponentFixture<ConsentManagementComponent>;
   let el: DebugElement;
 
-  let userService: UserService;
+  let userService: UserConsentService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
 
@@ -112,7 +112,7 @@ describe('ConsentManagementComponent', () => {
         ConsentManagementComponent,
       ],
       providers: [
-        { provide: UserService, useClass: UserServiceMock },
+        { provide: UserConsentService, useClass: UserConsentServiceMock },
         { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
         { provide: RoutingService, useClass: RoutingServiceMock },
       ],
@@ -124,7 +124,7 @@ describe('ConsentManagementComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserService);
+    userService = TestBed.get(UserConsentService);
     routingService = TestBed.get(RoutingService);
     globalMessageService = TestBed.get(GlobalMessageService);
 

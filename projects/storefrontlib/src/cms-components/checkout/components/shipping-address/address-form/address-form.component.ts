@@ -20,6 +20,7 @@ import {
   GlobalMessageType,
   Region,
   Title,
+  UserAddressService,
   UserService,
 } from '@spartacus/core';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
@@ -88,16 +89,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userService: UserService,
+    protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     private modalService: ModalService
   ) {}
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.userService.getDeliveryCountries().pipe(
+    this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
       tap(countries => {
         if (Object.keys(countries).length === 0) {
-          this.userService.loadDeliveryCountries();
+          this.userAddressService.loadDeliveryCountries();
         }
       })
     );
@@ -117,7 +119,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap(country => this.userService.getRegions(country)),
+      switchMap(country => this.userAddressService.getRegions(country)),
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
         if (regions.length > 0) {
