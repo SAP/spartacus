@@ -10,10 +10,9 @@ import {
   Country,
   DeliveryMode,
   OrderEntry,
-  UserAddressService,
-  TranslationService,
   PaymentDetails,
   TranslationService,
+  UserAddressService,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
 

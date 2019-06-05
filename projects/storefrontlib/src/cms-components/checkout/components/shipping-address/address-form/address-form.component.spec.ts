@@ -7,10 +7,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import {
   AddressValidation,
-  CheckoutService,
+  CheckoutDeliveryService,
   Country,
   GlobalMessageService,
-  CheckoutDeliveryService,
   I18nTestingModule,
   Region,
   Title,

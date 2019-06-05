@@ -19,7 +19,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
-
 import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
