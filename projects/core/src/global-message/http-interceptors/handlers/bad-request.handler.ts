@@ -35,7 +35,9 @@ export class BadRequestHandler extends HttpErrorHandler {
       // build translation key in case of backend field validation error
 
       const [error]: [ErrorModel] = response.error.errors;
-      const translationKey = `httpHandlers.validationErrors.${error.reason}.${error.subject}`;
+      const translationKey = `httpHandlers.validationErrors.${error.reason}.${
+        error.subject
+      }`;
 
       this.globalMessageService.add(
         { key: translationKey },
