@@ -22,9 +22,9 @@ import {
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
 import {
-  CustomerCoupon,
   CustomerCouponSearchResult,
-} from '../model/customer-coupon.model';
+} from '../../model/customer-coupon.model';
+import {SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID} from '../store/index';
 
 @Injectable()
 export class UserService {
@@ -732,6 +732,33 @@ export class UserService {
   }
 
   /**
+   * Returns the subscribe customer coupon notification process loading flag
+   */
+  getSubscribeCustomerCouponResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the subscribe customer coupon notification process success flag
+   */
+  getSubscribeCustomerCouponResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the subscribe customer coupon notification process error flag
+   */
+  getSubscribeCustomerCouponResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
    * Unsubscribe a CustomerCoupon Notification
    * @param userId a user ID
    * @param couponCode a customer coupon code
@@ -744,4 +771,33 @@ export class UserService {
       })
     );
   }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process loading flag
+   */
+  getUnsubscribeCustomerCouponResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process success flag
+   */
+  getUnsubscribeCustomerCouponResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process error flag
+   */
+  getUnsubscribeCustomerCouponResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
 }
+
+
