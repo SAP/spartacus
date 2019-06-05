@@ -20,11 +20,11 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
+  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../store/user-state';
 import {
   CustomerCouponSearchResult,
 } from '../../model/customer-coupon.model';
-import {SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID} from '../store/index';
 
 @Injectable()
 export class UserService {
