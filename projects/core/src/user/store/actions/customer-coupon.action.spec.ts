@@ -4,21 +4,61 @@ import {
   failMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
+import {
+  CustomerCoupon,
+  CustomerCouponSearchResult,
+} from '../../../model/customer-coupon.model';
 
-import * as fromCustomerCouponsAction from './user-addresses.action';
-import { CustomerCoupon } from '../../../model/customer-coupon.model';
+import * as fromCustomerCouponsAction from './customer-coupon.action';
 
 const userId = '123';
+const pageSize = 5;
+const currentPage = 1;
+const sort = '';
 const couponCode = 'testcoupon';
+
+const coupon1: CustomerCoupon = {
+  couponId: 'coupon1',
+  name: 'coupon 1',
+  startDate: new Date(),
+  endDate: new Date(),
+  status: 'Effective',
+  description: '',
+  notificationOn: '',
+  solrFacets: '',
+};
+const coupon2: CustomerCoupon = {
+  couponId: 'coupon2',
+  name: 'coupon 2',
+  startDate: new Date(),
+  endDate: new Date(),
+  status: 'Effective',
+  description: '',
+  notificationOn: '',
+  solrFacets: '',
+};
+
+const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
+
+const customerSearcherResult: CustomerCouponSearchResult = {
+  coupons: mockCustomerCoupons,
+  sorts: {},
+  pagination: {},
+};
 
 describe('User Coupon Actions', () => {
   describe('LoadCustomerCoupons Actions', () => {
     it('should create the action', () => {
-      const action = new fromCustomerCouponsAction.LoadCustomerCoupons(userId);
+      const action = new fromCustomerCouponsAction.LoadCustomerCoupons({
+        userId,
+        pageSize,
+        currentPage,
+        sort,
+      });
 
       expect({ ...action }).toEqual({
-        type: fromCustomerCouponsAction.LOAD_USER_COUPONS,
-        payload: userId,
+        type: fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS,
+        payload: { userId, pageSize, currentPage, sort },
         meta: loadMeta(USER_COUPONS),
       });
     });
@@ -32,7 +72,7 @@ describe('User Coupon Actions', () => {
       );
 
       expect({ ...action }).toEqual({
-        type: fromCustomerCouponsAction.LOAD_USER_COUPONS_FAIL,
+        type: fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS_FAIL,
         payload: error,
         meta: failMeta(USER_COUPONS, error),
       });
@@ -42,12 +82,12 @@ describe('User Coupon Actions', () => {
   describe('LoadCustomerCouponsSuccess Action', () => {
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
-        mockCustomerCoupons
+        customerSearcherResult
       );
 
       expect({ ...action }).toEqual({
-        type: fromCustomerCouponsAction.LOAD_USER_COUPONS_SUCCESS,
-        payload: userId,
+        type: fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS_SUCCESS,
+        payload: customerSearcherResult,
         meta: successMeta(USER_COUPONS),
       });
     });
@@ -84,16 +124,14 @@ describe('User Coupon Actions', () => {
   });
 
   describe('SubscribeCustomerCouponSuccess Action', () => {
-    const payload = 'success';
-
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-        payload
+        coupon1
       );
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
-        payload: { userId, couponCode },
+        payload: coupon1,
         meta: successMeta(USER_COUPONS),
       });
     });
@@ -117,12 +155,12 @@ describe('User Coupon Actions', () => {
   describe('UnsubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCouponFailressFail(
+      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
         error
       );
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
+        type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
         meta: failMeta(USER_COUPONS, error),
       });
@@ -139,7 +177,7 @@ describe('User Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
-        payload: { userId, couponCode },
+        payload: 'success',
         meta: successMeta(USER_COUPONS),
       });
     });

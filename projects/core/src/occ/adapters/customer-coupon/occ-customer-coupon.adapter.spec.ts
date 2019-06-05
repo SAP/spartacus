@@ -94,11 +94,21 @@ describe('OccCustomerCouponAdapter', () => {
 
   describe('turn on notification', () => {
     it('should subscribes to a coupon notification for a given user id and coupon code', () => {
+      const customerCoupon: CustomerCoupon = {
+        couponId: 'coupon1',
+        name: 'coupon 1',
+        startDate: new Date(),
+        endDate: new Date(),
+        status: 'Effective',
+        description: '',
+        notificationOn: '',
+        solrFacets: '',
+      };
       let result;
       const customerCouponNotification: CustomerCouponNotification = {
-        coupon: [],
-        sorts: {},
-        pagination: {},
+        coupon: customerCoupon,
+        customer: {},
+        status: '',
       };
       service
         .turnOnNotification(userId, couponCode)
