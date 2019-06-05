@@ -1,5 +1,5 @@
-<ng-container *ngIf="coupons !== null; else loading">
-  <div *ngIf="coupons.length" class="row cx-address-deck">
+<ng-container *ngIf="(coupons$ | async).length">
+  <div class="row cx-address-deck">
     <div class="cx-my-coupons-sort top row">
       <div
         class="cx-my-coupons-form-group form-group col-sm-12 col-md-4 col-lg-4"
@@ -21,22 +21,25 @@
       </div>
     </div>
 
-    <div *ngFor="let coupon of coupons" class="col-md-6 cx-address-card">
+    <div
+      *ngFor="let coupon of (coupons$ | async)"
+      class="col-md-6 cx-address-card"
+    >
       <cx-coupon-card [coupon]="coupon"></cx-coupon-card>
     </div>
   </div>
-
-  <ng-container *ngIf="!coupons.length">
-    <section>
-      <p class="cx-section-msg">
-        there's no coupon
-      </p>
-    </section>
-  </ng-container>
 </ng-container>
 
-<ng-template #loading>
+<ng-container *ngIf="!(coupons$ | async).length">
+  <section>
+    <p class="cx-section-msg">
+      there's no coupon
+    </p>
+  </section>
+</ng-container>
+
+<!-- <ng-template #loading>
   <div class="col-md-12 cx-address-spinner">
     <cx-spinner></cx-spinner>
   </div>
-</ng-template>
+</ng-template> -->

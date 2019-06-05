@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   ConverterService,
@@ -15,8 +15,8 @@ import { catchError } from 'rxjs/operators';
   templateUrl: './my-coupons.component.html',
 })
 export class MyCouponsComponent implements OnInit {
-  // coupons$: Observable<CustomerCoupon[]>;
-  coupons: CustomerCoupon[];
+  coupons$: Observable<CustomerCoupon[]>;
+  // coupons: CustomerCoupon[];
 
   // private PAGE_SIZE = 1;
   // private sortMapping = {
@@ -71,7 +71,7 @@ export class MyCouponsComponent implements OnInit {
       }
     });
     this.getCoupons(this.userId).subscribe(result => {
-      this.coupons = result.coupons;
+      this.coupons$ = of(result.coupons);
     });
   }
 
