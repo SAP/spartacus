@@ -2,11 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { Address, I18nTestingModule, UserService } from '@spartacus/core';
+import {
+  Address,
+  I18nTestingModule,
+  UserAddressService,
+} from '@spartacus/core';
 
 import { AddressCardComponent } from './address-card.component';
 
-class MockUserService {}
+class MockUserAddressService {}
 
 const mockAddress: Address = {
   id: '123',
@@ -31,7 +35,9 @@ describe('AddressCardComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [AddressCardComponent],
-      providers: [{ provide: UserService, useClass: MockUserService }],
+      providers: [
+        { provide: UserAddressService, useClass: MockUserAddressService },
+      ],
     }).compileComponents();
   }));
 

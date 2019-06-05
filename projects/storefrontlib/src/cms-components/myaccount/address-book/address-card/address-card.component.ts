@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Address, UserService } from '@spartacus/core';
+import { Address, UserAddressService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-card',
@@ -13,7 +13,7 @@ export class AddressCardComponent {
 
   @Output() editEvent = new EventEmitter<any>();
 
-  constructor(private userService: UserService) {}
+  constructor(private userAddressService: UserAddressService) {}
 
   openEditFormEvent(): void {
     this.editEvent.emit();
@@ -28,10 +28,10 @@ export class AddressCardComponent {
   }
 
   setAddressAsDefault(addressId: string): void {
-    this.userService.setAddressAsDefault(addressId);
+    this.userAddressService.setAddressAsDefault(addressId);
   }
 
   deleteAddress(addressId: string): void {
-    this.userService.deleteUserAddress(addressId);
+    this.userAddressService.deleteUserAddress(addressId);
   }
 }
