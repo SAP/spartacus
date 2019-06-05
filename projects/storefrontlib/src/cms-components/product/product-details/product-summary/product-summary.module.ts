@@ -10,7 +10,6 @@ import {
   CmsConfig,
 } from '@spartacus/core';
 import { OutletModule } from '../../../../cms-structure/outlet/index';
-import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.module';
 import {
   FormComponentsModule,
   MediaModule,
@@ -34,7 +33,6 @@ import { ProductSummaryComponent } from './product-summary.component';
     MediaModule,
     StarRatingModule,
     UrlModule,
-    PageSlotModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductSummary: {

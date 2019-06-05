@@ -61,7 +61,7 @@ export const b2cLayoutConfig: LayoutConfig = {
         'TopHeaderSlot',
         'ProductDetails',
         'VariantSelectorSlot',
-        // 'AddToCart', // the add to cart is currently hard coded in the PDP component
+        'AddToCart',
         'UpSelling',
         'CrossSelling',
         'Tabs',

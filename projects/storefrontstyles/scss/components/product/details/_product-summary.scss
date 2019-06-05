@@ -1,16 +1,15 @@
 %cx-product-summary {
-  display: grid;
-  grid-column-gap: 30px;
-
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
   margin-bottom: 40px;
 
   @include media-breakpoint-down(md) {
     padding-top: 1.5em;
   }
 
-  @include media-breakpoint-down(lg) {
+  @include media-breakpoint-up(lg) {
     padding: 20px;
-    grid-template-rows: repeat(7, auto) 1fr;
   }
 
   .name {
