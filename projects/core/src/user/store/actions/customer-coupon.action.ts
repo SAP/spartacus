@@ -18,7 +18,7 @@ import {
   EntityLoadAction,
   EntityResetAction,
   EntitySuccessAction,
-  } from '@spartacus/core';
+  } from '../../../state/utils/entity-loader/entity-loader.action';
 import { PROCESS_FEATURE } from '../../../process/store';
 
 export const LOAD_CUSTOMER_COUPONS = '[User] Load Customer Coupons';
