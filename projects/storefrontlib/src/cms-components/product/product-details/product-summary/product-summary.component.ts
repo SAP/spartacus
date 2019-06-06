@@ -1,23 +1,23 @@
 import {
+  AfterContentChecked,
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
 } from '@angular/core';
-import { TranslatePipe, TranslationService } from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import { ProductDetailOutlets } from '../../product-outlets.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TranslatePipe],
 })
-export class ProductSummaryComponent implements OnInit {
+export class ProductSummaryComponent implements AfterContentChecked {
   static outlets = ProductDetailOutlets;
 
   itemCount = 1;
-  reviewsTabAvailable: boolean;
+  reviewsTabAvailable = new BehaviorSubject<boolean>(false);
 
   @Input() product: any;
 
@@ -76,9 +76,7 @@ export class ProductSummaryComponent implements OnInit {
       .subscribe(reviewsTabLabel => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
-
         const reviewsComponent = this.getReviewsComponent();
-
         if (reviewsTab && reviewsComponent) {
           this.clickTabIfInactive(reviewsTab);
           reviewsComponent.scrollIntoView();
@@ -86,12 +84,9 @@ export class ProductSummaryComponent implements OnInit {
       });
   }
 
-  constructor(
-    protected translatePipe: TranslatePipe,
-    private translationService: TranslationService
-  ) {}
+  constructor(private translationService: TranslationService) {}
 
-  ngOnInit() {
-    this.reviewsTabAvailable = !!this.getReviewsComponent();
+  ngAfterContentChecked() {
+    this.reviewsTabAvailable.next(!!this.getReviewsComponent());
   }
 }
