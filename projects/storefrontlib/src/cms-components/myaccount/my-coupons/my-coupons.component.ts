@@ -75,7 +75,7 @@ export class MyCouponsComponent implements OnInit {
 
     this.userService.loadCustomerCoupons(
       this.PAGE_SIZE,
-      0,
+      this.pagination.currentPage,
       this.sortMapping[sort]
     );
   }
