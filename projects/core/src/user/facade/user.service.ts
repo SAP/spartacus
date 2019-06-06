@@ -756,7 +756,7 @@ export class UserService {
    */
   unsubscribeCustomerCoupon(couponCode: string): void {
     this.store.dispatch(
-      new fromStore.SubscribeCustomerCoupon({
+      new fromStore.UnsubscribeCustomerCoupon({
         userId: USERID_CURRENT,
         couponCode: couponCode,
       })
