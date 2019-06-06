@@ -50,10 +50,10 @@ export class OutletDirective implements OnInit {
     if (this._context) {
       return this._context;
     }
-    const ctx = (<any>this.vcr.injector).view.context;
+    // const ctx = (<any>this.vcr.injector).view.context;
 
-    // the context might already be given $implicit
-    // by a parent *ngIf or *ngFor
-    return ctx.$implicit || ctx;
+    // // the context might already be given $implicit
+    // // by a parent *ngIf or *ngFor
+    // return ctx.$implicit || ctx;
   }
 }
