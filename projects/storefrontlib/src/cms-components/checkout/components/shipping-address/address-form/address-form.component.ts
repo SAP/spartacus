@@ -14,12 +14,13 @@ import { map, tap, switchMap } from 'rxjs/operators';
 import {
   Address,
   AddressValidation,
-  CheckoutService,
+  CheckoutDeliveryService,
   Country,
   GlobalMessageService,
   GlobalMessageType,
   Region,
   Title,
+  UserAddressService,
   UserService,
 } from '@spartacus/core';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
@@ -86,18 +87,19 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userService: UserService,
+    protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     private modalService: ModalService
   ) {}
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.userService.getDeliveryCountries().pipe(
+    this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
       tap(countries => {
         if (Object.keys(countries).length === 0) {
-          this.userService.loadDeliveryCountries();
+          this.userAddressService.loadDeliveryCountries();
         }
       })
     );
@@ -117,7 +119,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap(country => this.userService.getRegions(country)),
+      switchMap(country => this.userAddressService.getRegions(country)),
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
         if (regions.length > 0) {
@@ -129,11 +131,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.checkoutService
+    this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
         if (results === 'FAIL') {
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.submitAddress.emit(this.address.value);
         } else if (results.decision === 'REJECT') {
@@ -151,7 +153,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               GlobalMessageType.MSG_TYPE_ERROR
             );
           }
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
         }
@@ -195,7 +197,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
-    this.checkoutService.verifyAddress(this.address.value);
+    this.checkoutDeliveryService.verifyAddress(this.address.value);
   }
 
   openSuggestedAddress(results: AddressValidation): void {
@@ -209,7 +211,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
         .then(address => {
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
           if (address) {
             address = Object.assign(
               {
@@ -225,7 +227,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         })
         .catch(() => {
           // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
           const address = Object.assign(
             {
               selected: true,
@@ -239,7 +241,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.checkoutService.clearAddressVerificationResults();
+    this.checkoutDeliveryService.clearAddressVerificationResults();
 
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();

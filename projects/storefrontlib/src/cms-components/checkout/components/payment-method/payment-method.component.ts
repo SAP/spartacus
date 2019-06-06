@@ -7,14 +7,15 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
   CheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
-  RoutingConfigService,
   RoutingService,
   TranslationService,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -32,27 +33,30 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
-  getPaymentDetailsSub: Subscription;
-  getDeliveryAddressSub: Subscription;
   selectedPayment: PaymentDetails;
-  deliveryAddress: Address;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
+
+  private getPaymentDetailsSub: Subscription;
+  private getDeliveryAddressSub: Subscription;
+
+  private deliveryAddress: Address;
+  private checkoutStepUrlNext: string;
+  private checkoutStepUrlPrevious: string;
 
   constructor(
-    protected userService: UserService,
+    protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
-    protected routingConfigService: RoutingConfigService,
-    private routingService: RoutingService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
-    private translation: TranslationService
+    protected routingService: RoutingService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
+    protected translation: TranslationService
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.userService.getPaymentMethodsLoading();
-    this.userService.loadPaymentMethods();
+    this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
+    this.userPaymentService.loadPaymentMethods();
 
     this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
       this.activatedRoute
@@ -61,8 +65,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
 
-    this.existingPaymentMethods$ = this.userService.getPaymentMethods();
-    this.getPaymentDetailsSub = this.checkoutService
+    this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
+    this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .pipe(
         filter(
@@ -152,7 +156,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     paymentDetails: PaymentDetails;
     billingAddress: Address;
   }): void {
-    this.getDeliveryAddressSub = this.checkoutService
+    this.getDeliveryAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()
       .subscribe(address => {
         billingAddress = address;
@@ -178,17 +182,17 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       : this.deliveryAddress;
 
     if (newPayment) {
-      this.checkoutService.createPaymentDetails(payment);
+      this.checkoutPaymentService.createPaymentDetails(payment);
       this.checkoutService.clearCheckoutStep(3);
     }
 
     // if the selected payment is the same as the cart's one
     if (this.selectedPayment && this.selectedPayment.id === payment.id) {
-      this.checkoutService.setPaymentDetails(payment);
+      this.checkoutPaymentService.setPaymentDetails(payment);
       this.checkoutService.clearCheckoutStep(3);
     }
 
-    this.getPaymentDetailsSub = this.checkoutService
+    this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .subscribe(data => {
         if (data.accountHolderName && data.cardNumber) {
