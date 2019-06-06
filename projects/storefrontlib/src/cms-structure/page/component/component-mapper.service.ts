@@ -42,7 +42,6 @@ export class ComponentMapperService {
    * @param typeCode the component type
    */
   protected getComponent(typeCode: string): any {
-    // spike-new: string {
     const componentConfig = this.config.cmsComponents[typeCode];
     if (!componentConfig) {
       if (!this.missingComponents.includes(typeCode)) {
