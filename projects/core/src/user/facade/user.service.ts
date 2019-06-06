@@ -663,20 +663,18 @@ export class UserService {
 
   /**
    * Retrieves customer's coupons
-   * @param userId a user ID
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
    */
   loadCustomerCoupons(
-    userId: string,
     pageSize: number,
     currentPage?: number,
     sort?: string
   ): void {
     this.store.dispatch(
       new fromStore.LoadCustomerCoupons({
-        userId: userId,
+        userId: USERID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
@@ -697,7 +695,7 @@ export class UserService {
           customerCouponsState.success ||
           customerCouponsState.error;
         if (!attemptedLoad) {
-          this.loadCustomerCoupons(USERID_CURRENT, pageSize);
+          this.loadCustomerCoupons(pageSize);
         }
       }),
       map(customerCouponsState => customerCouponsState.value)
@@ -713,7 +711,6 @@ export class UserService {
 
   /**
    * Subscribe a CustomerCoupon Notification
-   * @param userId a user ID
    * @param couponCode a customer coupon code
    */
   subscribeCustomerCoupon(couponCode: string): void {
@@ -754,7 +751,6 @@ export class UserService {
 
   /**
    * Unsubscribe a CustomerCoupon Notification
-   * @param userId a user ID
    * @param couponCode a customer coupon code
    */
   unsubscribeCustomerCoupon(couponCode: string): void {
