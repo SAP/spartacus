@@ -17,7 +17,6 @@ import { CmsComponentData } from '../model/cms-component-data';
 import {
   CmsComponent,
   CmsService,
-  ComponentMapperService,
   CmsConfig,
   CxApiService,
   ContentSlotComponentData,
@@ -49,7 +48,7 @@ export class TestModule {}
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSTestComponent: {
-      selector: 'cx-test',
+      component: TestComponent,
       providers: [
         {
           provide: 'testService',
@@ -101,7 +100,6 @@ describe('ComponentWrapperDirective', () => {
       imports: [TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
-        ComponentMapperService,
         Renderer2,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: CmsService, useClass: MockCmsService },
@@ -241,7 +239,7 @@ describe('ComponentWrapperDirective', () => {
 
       beforeEach(() => {
         const cmsMapping = TestBed.get(CmsConfig) as CmsConfig;
-        cmsMapping.cmsComponents.CMSTestComponent.selector =
+        cmsMapping.cmsComponents.CMSTestComponent.component =
           'path/to/file.js#cms-component';
         fixture = TestBed.createComponent(TestWrapperComponent);
         fixture.detectChanges();
