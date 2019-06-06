@@ -4,33 +4,40 @@ import {
   LoaderFailAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import {CustomerCoupon, CustomerCouponSearchResult} from '../../../model/customer-coupon.model';
+import {
+  CustomerCoupon,
+  CustomerCouponSearchResult,
+} from '../../../model/customer-coupon.model';
 
 export const LOAD_CUSTOMER_COUPONS = '[User] Load Customer Coupons';
 export const LOAD_CUSTOMER_COUPONS_FAIL = '[User] Load Customer Coupons Fail';
 export const LOAD_CUSTOMER_COUPONS_SUCCESS =
   '[User] Load Customer Coupons Success';
 
-export const SUBSCRIBE_CUSTOMER_COUPON = '[User] Subscribe Customer Coupon';
+export const SUBSCRIBE_CUSTOMER_COUPON =
+  '[User] Subscribe Customer Notification Coupon';
 export const SUBSCRIBE_CUSTOMER_COUPON_FAIL =
-  '[User] Subscribe Customer Coupon Fail';
+  '[User] Subscribe Customer Coupon Notification Fail';
 export const SUBSCRIBE_CUSTOMER_COUPON_SUCCESS =
-  '[User] Subscribe Customer Coupon Success';
+  '[User] Subscribe Customer Coupon Notification Success';
 
-export const UNSUBSCRIBE_CUSTOMER_COUPON = '[User] Unsubscribe Customer Coupon';
+export const UNSUBSCRIBE_CUSTOMER_COUPON =
+  '[User] Unsubscribe Customer Notification Coupon';
 export const UNSUBSCRIBE_CUSTOMER_COUPON_FAIL =
-  '[User] Unsubscribe Customer Coupon Fail';
+  '[User] Unsubscribe Customer Coupon Notification Fail';
 export const UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS =
-  '[User] Unsubscribe Customer Coupon Success';
+  '[User] Unsubscribe Customer Coupon Notification Success';
 
 export class LoadCustomerCoupons extends LoaderLoadAction {
   readonly type = LOAD_CUSTOMER_COUPONS;
-  constructor(public payload: {
-    userId: string;
-    pageSize: number;
-    currentPage?: number;
-    sort?: string;
-  }) {
+  constructor(
+    public payload: {
+      userId: string;
+      pageSize: number;
+      currentPage?: number;
+      sort?: string;
+    }
+  ) {
     super(CUSTOMER_COUPONS);
   }
 }
@@ -74,9 +81,7 @@ export class SubscribeCustomerCouponSuccess extends LoaderSuccessAction {
 // Unsubscribe address actions
 export class UnsubscribeCustomerCoupon extends LoaderLoadAction {
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON;
-  constructor(
-    public payload: { userId: string; couponCode: string }
-  ) {
+  constructor(public payload: { userId: string; couponCode: string }) {
     super(CUSTOMER_COUPONS);
   }
 }
