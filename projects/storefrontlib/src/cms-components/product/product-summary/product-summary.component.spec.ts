@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
-import { AddToCartModule } from '../../../../cms-components/cart/index';
-import { OutletDirective } from '../../../../cms-structure/outlet/index';
-import { FormComponentsModule } from '../../../../shared/components/form-components/form-components.module';
+import { AddToCartModule } from '../../../cms-components/cart/index';
+import { OutletDirective } from '../../../cms-structure/outlet/index';
+import { FormComponentsModule } from '../../../shared/components/form-components/form-components.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { Observable, of } from 'rxjs';
-import { CurrentProductService } from '../../current-product.service';
+import { CurrentProductService } from '../current-product.service';
 
 @Component({
   selector: 'cx-star-rating',

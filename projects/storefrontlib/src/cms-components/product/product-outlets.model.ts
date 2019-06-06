@@ -1,7 +1,6 @@
 export enum ProductDetailOutlets {
-  TITLE = 'PDP.TITLE',
-  RATING = 'PDP.RATING',
+  INTRO = 'PDP.INTRO',
   PRICE = 'PDP.PRICE',
   SHARE = 'PDP.SHARE',
-  DESCRIPTION = 'PDP.DESCRIPTION',
+  SUMMARY = 'PDP.SUMMARY',
 }

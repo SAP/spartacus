@@ -9,13 +9,13 @@ import {
   ConfigModule,
   CmsConfig,
 } from '@spartacus/core';
-import { OutletModule } from '../../../../cms-structure/outlet/index';
+import { OutletModule } from '../../../cms-structure/outlet/index';
 import {
   FormComponentsModule,
   MediaModule,
   StarRatingModule,
-} from '../../../../shared/index';
-import { AddToCartModule, CartSharedModule } from '../../../cart/index';
+} from '../../../shared/index';
+import { AddToCartModule, CartSharedModule } from '../../cart/index';
 import { ProductSummaryComponent } from './product-summary.component';
 
 @NgModule({

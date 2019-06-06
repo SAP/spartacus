@@ -37,7 +37,7 @@ import {
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { OrderConfirmationModule } from './order-confirmation/index';
-import { ProductSummaryModule } from './product/product-details/product-summary/product-summary.module';
+import { ProductSummaryModule } from './product/product-summary/product-summary.module';
 
 @NgModule({
   imports: [

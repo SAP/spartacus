@@ -1,6 +1,6 @@
 <ng-container *ngIf="(product$ | async) as product">
   <ng-template
-    [cxOutlet]="outlets.RATING"
+    [cxOutlet]="outlets.INTRO"
     [cxOutletContext]="{ product: product }"
   >
     <div class="rating">
@@ -13,12 +13,6 @@
         'productSummary.showReviews' | cxTranslate
       }}</a>
     </div>
-  </ng-template>
-  <ng-template
-    [cxOutlet]="outlets.TITLE"
-    [cxOutletContext]="{ product: product }"
-  >
-    <!-- <div class="name">{{ product?.name }}</div> -->
     <div class="code">
       {{ 'productSummary.id' | cxTranslate }} {{ product?.code }}
     </div>
@@ -34,15 +28,11 @@
   </ng-template>
 
   <ng-template
-    [cxOutlet]="outlets.DESCRIPTION"
+    [cxOutlet]="outlets.SUMMARY"
     [cxOutletContext]="{ product: product }"
   >
     <div class="description"><p [innerHTML]="product?.summary"></p></div>
   </ng-template>
-
-  <ng-container *cxOutlet="outlets.DESCRIPTION">
-    <div class="description"><p [innerHTML]="product?.summary"></p></div>
-  </ng-container>
 
   <!-- @TODO: Temp. Comment out share link while not in use by CMS -->
   <!-- <ng-container *cxOutlet="outlets.SHARE">
