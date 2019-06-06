@@ -1,13 +1,24 @@
-import { CUSTOMER_COUPONS } from '../user-state';
+import {
+  CUSTOMER_COUPONS,
+  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+} from '../user-state';
 import {
   loadMeta,
   failMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
 import {
+  entityFailMeta,
+  entityLoadMeta,
+  entitySuccessMeta,
+} from '../../../state';
+import {
   CustomerCoupon,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
+
+import { PROCESS_FEATURE } from '../../../process/store';
 
 import * as fromCustomerCouponsAction from './customer-coupon.action';
 
@@ -103,7 +114,10 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: loadMeta(CUSTOMER_COUPONS),
+        meta: entityLoadMeta(
+          PROCESS_FEATURE,
+          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+        ),
       });
     });
   });
@@ -118,7 +132,11 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
-        meta: failMeta(CUSTOMER_COUPONS, error),
+        meta: entityFailMeta(
+          PROCESS_FEATURE,
+          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -132,7 +150,10 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: coupon1,
-        meta: successMeta(CUSTOMER_COUPONS),
+        meta: entitySuccessMeta(
+          PROCESS_FEATURE,
+          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+        ),
       });
     });
   });
@@ -147,7 +168,10 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: loadMeta(CUSTOMER_COUPONS),
+        meta: entityLoadMeta(
+          PROCESS_FEATURE,
+          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+        ),
       });
     });
   });
@@ -162,23 +186,28 @@ describe('User Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
-        meta: failMeta(CUSTOMER_COUPONS, error),
+        meta: entityFailMeta(
+          PROCESS_FEATURE,
+          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+          error
+        ),
       });
     });
   });
 
   describe('UnsubscribeCustomerCouponSuccess Action', () => {
-    const payload = 'success';
-
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
-        payload
+        coupon1
       );
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
-        payload: 'success',
-        meta: successMeta(CUSTOMER_COUPONS),
+        payload: coupon1,
+        meta: entitySuccessMeta(
+          PROCESS_FEATURE,
+          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+        ),
       });
     });
   });
