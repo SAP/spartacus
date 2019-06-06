@@ -175,52 +175,52 @@ button {
 // See: https://github.com/sass/dart-sass#behavioral-differences-from-ruby-sass
 // Commented out the styles below, because they use the forbidden syntax:
 
-// .btn[aria-pressed='true'] {
-//   @extend .btn.active;
+.btn[aria-pressed='true'] {
+  @extend .btn, .active;
 
-//   &.btn-primary {
-//     @extend .btn-primary;
-//   }
+  &.btn-primary {
+    @extend .btn-primary;
+  }
 
-//   &.btn-secondary {
-//     @extend .btn-secondary;
-//   }
+  &.btn-secondary {
+    @extend .btn-secondary;
+  }
 
-//   &.btn-action {
-//     @extend .btn-action;
-//   }
-// }
+  &.btn-action {
+    @extend .btn-action;
+  }
+}
 
-// .btn[aria-disabled='true'] {
-//   @extend .btn.disabled;
-//   cursor: auto;
-//   opacity: 0.6;
+.btn[aria-disabled='true'] {
+  @extend .btn, .disabled;
+  cursor: auto;
+  opacity: 0.6;
 
-//   &.btn-primary {
-//     @extend .btn-primary.disabled;
-//   }
+  &.btn-primary {
+    @extend .btn-primary, .disabled;
+  }
 
-//   &.btn-secondary {
-//     @extend .btn-secondary.disabled;
-//   }
+  &.btn-secondary {
+    @extend .btn-secondary, .disabled;
+  }
 
-//   &.btn-action {
-//     @extend .btn-action.disabled;
-//   }
-// }
+  &.btn-action {
+    @extend .btn-action, .disabled;
+  }
+}
 
-// .btn[disabled] {
-//   &.btn-primary {
-//     @extend .btn-primary.disabled;
-//   }
+.btn[disabled] {
+  &.btn-primary {
+    @extend .btn-primary, .disabled;
+  }
 
-//   &.btn-secondary {
-//     @extend .btn-secondary.disabled;
-//   }
+  &.btn-secondary {
+    @extend .btn-secondary, .disabled;
+  }
 
-//   &.btn-action {
-//     @extend .btn-action.disabled;
-//   }
-// }
+  &.btn-action {
+    @extend .btn-action, .disabled;
+  }
+}
 
 // ============ end of commented out styles =============
