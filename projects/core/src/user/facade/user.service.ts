@@ -663,7 +663,6 @@ export class UserService {
 
   /**
    * Retrieves customer's coupons
-   * @param userId a user ID
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
