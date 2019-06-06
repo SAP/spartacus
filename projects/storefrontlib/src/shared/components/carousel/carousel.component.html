@@ -1,0 +1,53 @@
+{{ size$ | async | json }}
+<h3 *ngIf="title">
+  {{ title }}
+</h3>
+
+<div
+  *ngIf="(size$ | async) as size"
+  class="cx-carousel"
+  [ngClass]="'size-' + size"
+>
+  <button
+    class="previous"
+    (click)="previous()"
+    [disabled]="activeSlide === 0"
+  ></button>
+
+  <div class="groups">
+    <ng-container *ngFor="let _ of items; let i = index">
+      <div class="group" *ngIf="i % size === 0">
+        <ng-container *ngFor="let item of (items | slice: i:i + size)">
+          <a
+            *ngIf="item"
+            class="product"
+            [class.active]="i === activeSlide"
+            [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
+          >
+            <cx-media [container]="item?.images?.PRIMARY" format="product">
+            </cx-media>
+
+            <h4>{{ item.name }}</h4>
+            <div class="price">{{ item.price?.formattedValue }}</div>
+          </a>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
+  <button
+    class="next"
+    (click)="next()"
+    [disabled]="activeSlide > items.length - size"
+  ></button>
+</div>
+
+<div class="indicators">
+  <ng-container *ngFor="let _ of items; let i = index">
+    <button
+      *ngIf="i % size === 0"
+      (click)="select(i)"
+      [disabled]="i === activeSlide"
+    ></button>
+  </ng-container>
+</div>
