@@ -1,11 +1,4 @@
-// Use language switcher to change language
-function switchLanguage(lang: string) {
-  cy.get('.SiteContext label')
-    .contains('Language')
-    .parent()
-    .children('select')
-    .select(lang);
-}
+import { switchLanguage } from '../../helpers/language';
 
 context('Language Switcher', () => {
   const BASE_URL = Cypress.config().baseUrl;

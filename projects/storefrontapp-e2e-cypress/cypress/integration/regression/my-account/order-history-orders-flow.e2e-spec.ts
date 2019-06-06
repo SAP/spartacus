@@ -35,6 +35,38 @@ describe('Order History with orders', () => {
     cy.saveLocalStorage();
   });
 
+  // @todo: uncomment below test after cxDate pipe is fixed
+
+  // it('should show correct date format', () => {
+  //   let dateEN: string[];
+  //   cy.visit('/my-account/orders');
+  //   switchLanguage('en');
+
+  //   cy.get('.cx-order-history-placed > .cx-order-history-value')
+  //     .first()
+  //     .then(element => {
+  //       dateEN = element
+  //         .text()
+  //         .replace(',', '')
+  //         .split(' ');
+  //     });
+
+  //   switchLanguage('de');
+
+  //   cy.get('.cx-order-history-placed > .cx-order-history-value')
+  //     .first()
+  //     .then(element => {
+  //       expect(
+  //         element
+  //           .text()
+  //           .replace(',', '')
+  //           .split(' ')
+  //       ).to.eq([dateEN[1], dateEN[0], dateEN[2]]);
+  //     });
+
+  //   switchLanguage('en'); // switch language back
+  // });
+
   it('should display in Order History after placing orders', () => {
     cy.visit('/my-account/orders');
     cy.get('cx-order-history h3').should('contain', 'Order history');
