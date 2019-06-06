@@ -21,7 +21,7 @@ import { DeliveryModeComponent } from './delivery-mode.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutDeliveryMode: {
-          selector: 'cx-delivery-mode',
+          component: DeliveryModeComponent,
           guards: [AuthGuard, CartNotEmptyGuard, ShippingAddressSetGuard],
         },
       },

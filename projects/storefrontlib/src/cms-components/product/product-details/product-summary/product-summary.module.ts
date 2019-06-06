@@ -36,7 +36,7 @@ import { ProductSummaryComponent } from './product-summary.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductSummaryComponent: {
-          selector: 'cx-product-summary',
+          component: ProductSummaryComponent,
         },
       },
     }),

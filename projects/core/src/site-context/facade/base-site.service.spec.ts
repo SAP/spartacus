@@ -81,7 +81,7 @@ describe('BaseSiteService', () => {
     });
   });
 
-  it('getActive should return active baseSite details', () => {
+  it('getBaseSiteData should return active baseSite details', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(
       mockBaseSiteDetailsSelect
     );
@@ -89,5 +89,14 @@ describe('BaseSiteService', () => {
     let result;
     service.getBaseSiteData().subscribe(res => (result = res));
     expect(result).toEqual({ uid: 'test-basesite' });
+  });
+
+  it('getBaseSiteData should load base site data if it does not exist', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(
+      createSpy('select').and.returnValue(() => of({}))
+    );
+
+    service.getBaseSiteData().subscribe();
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadBaseSite());
   });
 });

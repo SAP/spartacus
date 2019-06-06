@@ -19,6 +19,7 @@ import { ProductAttributesComponent } from './product-attributes/product-attribu
 import { ProductDetailsTabModule } from './product-details-tab/product-details-tab.module';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 import { ProductReviewsModule } from './product-reviews/product-reviews.module';
+import { ProductDetailsTabComponent } from './product-details-tab/product-details-tab.component';
 
 @NgModule({
   imports: [
@@ -35,13 +36,13 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductDetailsTabComponent: {
-          selector: 'cx-product-details-tab',
+          component: ProductDetailsTabComponent,
         },
         ProductSpecsTabComponent: {
-          selector: 'cx-product-attributes',
+          component: ProductAttributesComponent,
         },
         ProductReviewsTabComponent: {
-          selector: 'cx-product-reviews',
+          component: ProductReviewsComponent,
         },
       },
     }),
