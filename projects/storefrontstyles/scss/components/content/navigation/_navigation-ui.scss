@@ -245,12 +245,34 @@
           border: 1px solid #ccc;
         }
 
-        /* we only threat the first wrapper as a collapsible container */
-        &:hover,
-        &:focus {
+        /* we only treat the first wrapper as a collapsible container */
+        // &:hover,
+        &:hover {
           > .wrapper {
             opacity: 1;
             visibility: visible;
+          }
+        }
+      }
+
+      &:focus-within {
+        > nav {
+          > .wrapper {
+            // display: flex;
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            margin-left: -10px;
+            border: 1px solid #ccc;
+          }
+
+          /* we only treat the first wrapper as a collapsible container */
+          // &:hover,
+          &:focus {
+            > .wrapper {
+              opacity: 1;
+              visibility: visible;
+            }
           }
         }
       }
