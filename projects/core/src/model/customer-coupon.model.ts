@@ -1,4 +1,5 @@
-import {PaginationModel, SortModel, User} from './misc.model';
+import {User} from './misc.model';
+import {Pagination, Sort} from './unused.model';
 
 export interface CustomerCoupon {
   couponId?: string;
@@ -19,6 +20,6 @@ export interface CustomerCouponNotification {
 
 export interface CustomerCouponSearchResult {
   coupons?: CustomerCoupon[];
-  sorts?: SortModel;
-  pagination?: PaginationModel;
+  sorts?: Sort;
+  pagination?: Pagination;
 }
