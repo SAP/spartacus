@@ -1,0 +1,9 @@
+<div class="cx-order-items container" *ngIf="(order$ | async) as order">
+  <h4 class="cx-order-items-header">
+    {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
+  </h4>
+  <cx-cart-item-list
+    [items]="order.entries"
+    [isReadOnly]="true"
+  ></cx-cart-item-list>
+</div>

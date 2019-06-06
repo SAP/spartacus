@@ -1,0 +1,6 @@
+%cx-global-message {
+  position: var(--cx-position, sticky);
+  display: var(--cx-display, block);
+  top: var(--cx-top, 0);
+  z-index: var(--cx-z-index, 2);
+}

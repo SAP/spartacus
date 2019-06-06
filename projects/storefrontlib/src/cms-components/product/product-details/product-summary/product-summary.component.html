@@ -23,7 +23,9 @@
   </div>
 </ng-container>
 
-<div class="description"><p [innerHTML]="product?.summary"></p></div>
+<ng-container *cxOutlet="outlets.DESCRIPTION">
+  <div class="description"><p [innerHTML]="product?.summary"></p></div>
+</ng-container>
 
 <cx-page-slot position="AddToCart"></cx-page-slot>
 

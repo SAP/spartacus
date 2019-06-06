@@ -9,3 +9,4 @@ export * from './product/index';
 // TODO:#2811 - uncomment to enable
 // export * from './storefinder/index';
 export * from './user/index';
+export * from './order-confirmation/index';

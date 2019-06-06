@@ -1,5 +1,3 @@
-import { checkBanner } from '../../../helpers/homepage';
-
 const CONSENT_MANAGEMENT_URL = '/my-account/consents';
 
 describe('Consent management', () => {
@@ -44,14 +42,6 @@ describe('Consent management', () => {
       cy.get('input[type="checkbox"]')
         .first()
         .should('not.be.checked');
-    });
-
-    describe('when Done button is clicked', () => {
-      it('should go back to a home page', () => {
-        cy.get('.btn-primary').click();
-        cy.location('pathname').should('contain', '/');
-        checkBanner();
-      });
     });
   });
 });

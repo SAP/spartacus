@@ -27,6 +27,7 @@ import {
   StoreFinderStoreDescriptionComponent,
   StoreFinderStoresCountComponent,
 } from './components/index';
+import { IconModule } from './../misc/icon/icon.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import {
     UrlModule,
     StoreFinderCoreModule,
     I18nModule,
+    IconModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
         StoreFinderComponent: {

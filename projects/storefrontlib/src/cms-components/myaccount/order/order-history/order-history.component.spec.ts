@@ -7,7 +7,7 @@ import {
   I18nTestingModule,
   OrderHistoryList,
   RoutingService,
-  UserService,
+  UserOrderService,
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -44,7 +44,7 @@ class MockAuthService {
     return of({ userId: 'test' } as UserToken);
   }
 }
-class MockUserService {
+class MockUserOrderService {
   go = jasmine.createSpy('go');
   getOrderHistoryList(): Observable<OrderHistoryList> {
     return of();
@@ -66,7 +66,7 @@ class MockRoutingService {}
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let userService: MockUserService;
+  let userService: MockUserOrderService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -75,12 +75,12 @@ describe('OrderHistoryComponent', () => {
       declarations: [OrderHistoryComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserOrderService, useClass: MockUserOrderService },
         { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
 
-    userService = TestBed.get(UserService);
+    userService = TestBed.get(UserOrderService);
     routingService = TestBed.get(RoutingService);
   }));
 
