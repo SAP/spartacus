@@ -7,6 +7,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
@@ -21,8 +22,8 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../store/user-state';
-import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 
 @Injectable()
 export class UserService {
@@ -767,7 +768,7 @@ export class UserService {
    */
   getUnsubscribeCustomerCouponResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessLoadingFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
 
@@ -776,7 +777,7 @@ export class UserService {
    */
   getUnsubscribeCustomerCouponResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessSuccessFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
 
@@ -785,7 +786,7 @@ export class UserService {
    */
   getUnsubscribeCustomerCouponResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessErrorFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
 }
