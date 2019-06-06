@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyCouponsComponent } from './my-coupons.component';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   I18nTestingModule,
   CustomerCouponSearchResult,
@@ -10,6 +10,17 @@ import {
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { ListNavigationModule } from '@spartacus/storefront';
+
+const emptyCouponResult: CustomerCouponSearchResult = {
+  coupons: [],
+  sorts: [{ code: 'startDate', asc: true }],
+  pagination: {
+    count: 0,
+    page: 0,
+    totalCount: 0,
+    totalPages: 0,
+  },
+};
 
 const couponResult: CustomerCouponSearchResult = {
   coupons: [
@@ -34,7 +45,7 @@ const couponResult: CustomerCouponSearchResult = {
       status: 'Effective',
     },
   ],
-  sorts: [{ code: 'name', asc: true }],
+  sorts: [{ code: 'startDate', asc: true }],
   pagination: {
     count: 5,
     page: 0,
@@ -49,50 +60,41 @@ const couponResult: CustomerCouponSearchResult = {
 })
 class MockSpinnerComponent {}
 
-// @Component({
-//   template: '',
-//   selector: 'cx-sorting',
-// })
-// class MockSortingComponent {
-//   @Input()
-//   items: Item[] = [];
-//   @Input()
-//   saveForLaterLoading = false;
-//   @Input()
-//   potentialProductPromotions: PromotionResult[] = [];
-// }
-
 @Component({
   selector: 'cx-coupon-card',
   template: '',
 })
-class MockCouponCardComponent {}
+class MockCouponCardComponent {
+  @Input() coupon: any;
+}
 
-describe('MyCouponsComponent', () => {
+fdescribe('MyCouponsComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
   const userService = jasmine.createSpyObj('UserService', [
     'getCustomerCoupons',
     'getCustomerCouponsLoaded',
+    'loadCustomerCoupons',
   ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ListNavigationModule,
+      imports: [I18nTestingModule, ListNavigationModule],
+      providers: [{ provide: UserService, useValue: userService }],
+      declarations: [
+        MyCouponsComponent,
+        MockSpinnerComponent,
         MockCouponCardComponent,
       ],
-      providers: [{ provide: UserService, useValue: userService }],
-      declarations: [MyCouponsComponent, MockSpinnerComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);
     component = fixture.componentInstance;
-    userService.getCustomerCoupons.and.returnValue(of({}));
+    userService.getCustomerCoupons.and.returnValue(of(emptyCouponResult));
     userService.getCustomerCouponsLoaded.and.returnValue(of(true));
+    userService.loadCustomerCoupons.and.stub();
     fixture.detectChanges();
   });
 
@@ -101,12 +103,15 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to show message when there is no coupon', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
     const message = fixture.debugElement.queryAll(By.css('.cx-section-msg'));
     expect(message.length).toBe(1);
   });
 
   it('should be able to show coupons', () => {
     userService.getCustomerCoupons.and.returnValue(of(couponResult));
+    component.ngOnInit();
     fixture.detectChanges();
 
     const message = fixture.debugElement.queryAll(By.css('.cx-section-msg'));
@@ -115,15 +120,37 @@ describe('MyCouponsComponent', () => {
     const sortComponent = fixture.debugElement.nativeElement.querySelectorAll(
       'cx-sorting'
     );
-    expect(sortComponent).toBe(2);
+    expect(sortComponent.length).toBe(2);
 
     const paginationComponent = fixture.debugElement.nativeElement.querySelectorAll(
       'cx-pagination'
     );
-    expect(paginationComponent).toBe(2);
+    expect(paginationComponent.length).toBe(2);
     const couponCardComponent = fixture.debugElement.nativeElement.querySelectorAll(
       'cx-coupon-card'
     );
-    expect(couponCardComponent).toBe(2);
+    expect(couponCardComponent.length).toBe(2);
+  });
+  it('should be able to change sort', () => {
+    userService.getCustomerCoupons.and.returnValue(of(couponResult));
+    component.ngOnInit();
+    component.sortChange('byStartDateAsc');
+    fixture.detectChanges();
+    expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
+      5,
+      0,
+      'startDate:asc'
+    );
+  });
+  it('should be able to change page', () => {
+    userService.getCustomerCoupons.and.returnValue(of(couponResult));
+    component.ngOnInit();
+    component.pageChange(1);
+    fixture.detectChanges();
+    expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
+      5,
+      1,
+      'startDate:asc'
+    );
   });
 });
