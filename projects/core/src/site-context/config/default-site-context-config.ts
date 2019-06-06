@@ -33,7 +33,7 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
         },
         [CURRENCY_CONTEXT_ID]: {
           persistence: 'route',
-          defaultValue: 'USD',
+          defaultValue: 'GBP',
           values: [
             'USD',
             'EUR',

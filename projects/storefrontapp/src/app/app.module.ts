@@ -39,7 +39,7 @@ if (!environment.production) {
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
-          legacy: false,
+          legacy: true,
         },
       },
       pwa: {
@@ -56,7 +56,7 @@ if (!environment.production) {
               'apparel-de',
               'apparel-uk',
             ],
-            defaultValue: 'electronics-spa',
+            defaultValue: 'apparel-uk',
             persistence: 'route',
           },
         },

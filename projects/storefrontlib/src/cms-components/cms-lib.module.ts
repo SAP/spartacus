@@ -6,7 +6,7 @@ import {
   BannerModule,
   CmsParagraphModule,
   LinkModule,
-  TabParagraphContainerModule,
+  // TabParagraphContainerModule,
 } from './content/index';
 import { SiteContextSelectorModule } from './misc/index';
 import {
@@ -32,7 +32,7 @@ import {
 import {
   ProductCarouselModule,
   ProductListModule,
-  ProductReferencesModule,
+  // ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
@@ -55,7 +55,7 @@ import { OrderConfirmationModule } from './order-confirmation/index';
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
-    ProductReferencesModule,
+    // ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,
@@ -64,7 +64,7 @@ import { OrderConfirmationModule } from './order-confirmation/index';
     ConsentManagementModule,
     CloseAccountModule,
     CartComponentModule,
-    TabParagraphContainerModule,
+    // TabParagraphContainerModule,
     OrderConfirmationModule,
     // TODO:#2811 - uncomment to enable
     // StoreFinderModule,
