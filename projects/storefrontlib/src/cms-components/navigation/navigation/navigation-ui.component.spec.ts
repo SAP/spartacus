@@ -24,7 +24,7 @@ class MockGenericLinkComponent {
   @Input() title: string;
 }
 
-const childLength = 7;
+const childLength = 9;
 
 const mockNode: NavigationNode = {
   title: 'test',
@@ -39,6 +39,14 @@ const mockNode: NavigationNode = {
             {
               title: 'Sub child 1',
               children: [
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
                 {
                   title: 'Sub sub child 1',
                   url: '/sub-sub-child-1',
@@ -195,8 +203,34 @@ describe('Navigation UI Component', () => {
     it('should render child element in the childs container for nav nodes with childs', () => {
       fixture.detectChanges();
 
-      const child: ElementRef[] = element.queryAll(By.css('nav .childs nav'));
-      expect(child.length).toEqual(5);
+      const child: ElementRef[] = element.queryAll(
+        By.css('nav div .childs nav')
+      );
+      expect(child.length).toEqual(7);
+    });
+  });
+
+  describe('breakNodesIntoColumns()', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(NavigationUIComponent);
+      navigationComponent = fixture.debugElement.componentInstance;
+      element = fixture.debugElement;
+    });
+
+    it('should break node into subnotes for too many children', () => {
+      const brokenNode = navigationComponent.breakNodesIntoColumns(mockNode, 2);
+      expect(brokenNode.children.length).toEqual(2);
+      expect(brokenNode.children[0].children.length).toEqual(2);
+      expect(brokenNode.children[0].children[0].children.length).toEqual(1);
+      // Broken columns
+      expect(
+        brokenNode.children[0].children[0].children[0].children[0].children
+          .length
+      ).toEqual(2);
+      expect(
+        brokenNode.children[0].children[0].children[0].children[1].children
+          .length
+      ).toEqual(2);
     });
   });
 });
