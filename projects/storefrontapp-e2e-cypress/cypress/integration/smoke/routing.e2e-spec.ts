@@ -9,7 +9,7 @@ context('Configurable routing', () => {
   });
 
   it('should show product page by product name alias', () => {
-    cy.visit(`/product/${PRODUCT_NAME}/${PRODUCT_ID}`);
+    cy.visit(`/product/${PRODUCT_ID}/${PRODUCT_NAME}`);
     cy.get('cx-breadcrumb').within(() => {
       cy.get('h1').should('contain', PRODUCT_NAME);
     });
