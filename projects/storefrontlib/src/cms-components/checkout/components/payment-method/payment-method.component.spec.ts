@@ -199,7 +199,7 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call addPaymentInfo() with new created payment info', () => {
-    component.deliveryAddress = mockAddress;
+    component['deliveryAddress'] = mockAddress;
     component.addPaymentInfo({
       payment: mockPaymentDetails,
       newPayment: true,
@@ -289,14 +289,14 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call back()', () => {
-    component.checkoutStepUrlPrevious = `/${
+    component['checkoutStepUrlPrevious'] = `/${
       mockRoutingConfigService.getRouteConfig(mockCheckoutStep.routeName)
         .paths[0]
     }`;
     component.back();
 
     expect(mockRoutingService.go).toHaveBeenCalledWith(
-      component.checkoutStepUrlPrevious
+      component['checkoutStepUrlPrevious']
     );
   });
 
