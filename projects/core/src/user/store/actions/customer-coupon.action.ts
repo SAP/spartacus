@@ -2,7 +2,7 @@ import {
   CUSTOMER_COUPONS,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  } from '../user-state';
+} from '../user-state';
 import {
   LoaderLoadAction,
   LoaderFailAction,
@@ -18,7 +18,7 @@ import {
   EntityLoadAction,
   EntityResetAction,
   EntitySuccessAction,
-  } from '@spartacus/core';
+} from '../../../state';
 import { PROCESS_FEATURE } from '../../../process/store';
 
 export const LOAD_CUSTOMER_COUPONS = '[User] Load Customer Coupons';
