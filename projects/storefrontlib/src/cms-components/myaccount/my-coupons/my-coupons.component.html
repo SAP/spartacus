@@ -1,10 +1,13 @@
-<ng-container *ngIf="(coupons$ | async).length">
-  <div class="row cx-address-deck">
-    <div class="cx-my-coupons-sort top row">
-      <div
-        class="cx-my-coupons-form-group form-group col-sm-12 col-md-4 col-lg-4"
-      >
-        <!-- <cx-sorting
+<ng-container *ngIf="(couponResult$ | async) as couponResult">
+  <ng-container
+    *ngIf="(couponsStateLoading$ | async) && couponResult.coupons; else loading"
+  >
+    <div class="row cx-address-deck">
+      <div class="cx-my-coupons-sort top row">
+        <div
+          class="cx-my-coupons-form-group form-group col-sm-12 col-md-4 col-lg-4"
+        >
+          <!-- <cx-sorting
           [sortOptions]="sortOptions"
           [sortLabels]="sortLabels"
           (sortListEvent)="sortChange($event)"
@@ -12,34 +15,35 @@
           placeholder="{{ 'coupons.sortByMostRecent' | cxTranslate }}"
         >
         </cx-sorting> -->
-      </div>
-      <div class="cx-my-coupons-pagination">
-        <!-- <cx-pagination
+        </div>
+        <div class="cx-my-coupons-pagination">
+          <!-- <cx-pagination
           [pagination]="pagination"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination> -->
+        </div>
+      </div>
+
+      <div
+        *ngFor="let coupon of couponResult.coupons"
+        class="col-md-6 cx-address-card"
+      >
+        <cx-coupon-card [coupon]="coupon"></cx-coupon-card>
       </div>
     </div>
+  </ng-container>
 
-    <div
-      *ngFor="let coupon of (coupons$ | async)"
-      class="col-md-6 cx-address-card"
-    >
-      <cx-coupon-card [coupon]="coupon"></cx-coupon-card>
+  <ng-container *ngIf="!couponResult.coupons">
+    <section>
+      <p class="cx-section-msg">
+        there's no coupon
+      </p>
+    </section>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="col-md-12 cx-address-spinner">
+      <cx-spinner></cx-spinner>
     </div>
-  </div>
+  </ng-template>
 </ng-container>
-
-<ng-container *ngIf="!(coupons$ | async).length">
-  <section>
-    <p class="cx-section-msg">
-      there's no coupon
-    </p>
-  </section>
-</ng-container>
-
-<!-- <ng-template #loading>
-  <div class="col-md-12 cx-address-spinner">
-    <cx-spinner></cx-spinner>
-  </div>
-</ng-template> -->
