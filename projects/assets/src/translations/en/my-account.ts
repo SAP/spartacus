@@ -35,4 +35,15 @@ export const myAccount = {
     closeMyAccount: 'CLOSE MY ACCOUNT',
     accountClosedSuccessfully: 'Account closed with success',
   },
+  myCoupons: {
+    sortByMostRecent: 'Sort by Most recent',
+    noCouponsMessage: 'You have no coupons available',
+    couponEffectiveTitle: 'Effective',
+    couponEffective: 'EFFECTIVE',
+    couponEffectiveSoon: 'EFFECTIVE SOON',
+    couponExpireSoon: 'EXPIRING SOON',
+    readMore: 'Read more',
+    notification: 'Notification',
+    findProducts: 'Find Products',
+  },
 };

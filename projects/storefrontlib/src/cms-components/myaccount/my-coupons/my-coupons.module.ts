@@ -40,6 +40,6 @@ import { IconModule } from '../../../cms-components/misc/icon/index';
     CouponDialogComponent,
   ],
   exports: [MyCouponsComponent],
-  entryComponents: [MyCouponsComponent],
+  entryComponents: [MyCouponsComponent, CouponDialogComponent],
 })
 export class MyCouponsModule {}

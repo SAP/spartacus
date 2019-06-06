@@ -13,7 +13,7 @@
               [sortLabels]="sortLabels"
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
-              placeholder="{{ 'coupons.sortByMostRecent' | cxTranslate }}"
+              placeholder="{{ 'myCoupons.sortByMostRecent' | cxTranslate }}"
             >
             </cx-sorting>
           </div>
@@ -43,7 +43,7 @@
               [sortLabels]="sortLabels"
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
-              placeholder="{{ 'myInterests.sortByMostRecent' | cxTranslate }}"
+              placeholder="{{ 'myCoupons.sortByMostRecent' | cxTranslate }}"
             >
             </cx-sorting>
           </div>
@@ -60,7 +60,7 @@
     <ng-template #noCoupons>
       <section>
         <p class="cx-section-msg">
-          You have no coupons available
+          {{ 'myCoupons.noCouponsMessage' | cxTranslate }}
         </p>
       </section>
     </ng-template>

@@ -1,33 +1,37 @@
 <div class="card">
   <div class="card-body cx-card-body">
-    <div class="cx-address-data">
-      <div class="cx-address-card-label-name">
-        {{ coupon?.name }}
-      </div>
-      <div class="cx-address-card-label">Status: {{ coupon?.status }}</div>
-      <div class="cx-address-card-label">Effective Date:</div>
-      <div class="cx-address-card-label">
-        {{ coupon?.startDate }} - {{ coupon?.endDate }}
+    <div class="cx-coupon-data">
+      <div class="cx-coupon-card-name">{{ coupon?.name }}</div>
+      <div class="cx-coupon-card-status">{{ coupon?.status }}</div>
+
+      <div class="cx-coupon-card-dates">
+        <p>Effective:</p>
+        <div class="cx-coupon-date">
+          {{ coupon?.startDate }} - {{ coupon?.endDate }}
+        </div>
       </div>
 
-      <a (click)="readMore()" class="card-link btn-link">Read more</a>
+      <a (click)="readMore()" class="card-link btn-link">{{
+        'myCoupons.readMore' | cxTranslate
+      }}</a>
 
-      <label>
-        <input
-          type="checkbox"
-          class="form-check-input"
-          [checked]="coupon?.notificationOn"
-          (change)="onNotificationChange()"
-        />
-        <span class="form-check-label">
-          Notification
-        </span>
-      </label>
+      <div class="form-check">
+        <label>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            [checked]="true"
+            (change)="onNotificationChange()"
+          />
+          <span class="form-check-label">
+            {{ 'myCoupons.notification' | cxTranslate }}
+          </span>
+        </label>
+      </div>
 
       <div class="col-md-6">
         <button class="btn btn-block btn-action" (click)="findProduct()">
-          <!-- {{ 'find product' | cxTranslate }} -->
-          Find Product
+          {{ 'myCoupons.findProducts' | cxTranslate }}
         </button>
       </div>
     </div>
