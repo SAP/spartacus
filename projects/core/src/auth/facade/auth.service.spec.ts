@@ -1,10 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  ClientToken,
-  OpenIdToken,
-  UserToken,
-} from '../models/token-types.model';
+import { ClientToken, UserToken } from '../models/token-types.model';
 import * as fromAuthStore from '../store';
 import { AuthState, AUTH_FEATURE } from '../store/auth-state';
 import { AuthService } from './auth.service';
@@ -17,10 +13,6 @@ const mockToken = {
 const mockClientToken = {
   access_token: 'testToken',
 } as ClientToken;
-
-const mockOpenIdToken = {
-  access_token: 'testOpenIdToken',
-} as OpenIdToken;
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -151,31 +143,5 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromAuthStore.LoadClientToken()
     );
-  });
-
-  describe('authorizeOpenId', () => {
-    it('should dispatch an action', () => {
-      spyOn(store, 'dispatch').and.stub();
-
-      const username = 'xxx@xxx.xxx';
-      const password = 'pwd';
-      service.authorizeOpenId(username, password);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromAuthStore.LoadOpenIdToken({ username, password })
-      );
-    });
-  });
-
-  describe('getOpenIdToken', () => {
-    it('should select the open ID token from the store', () => {
-      store.dispatch(new fromAuthStore.LoadOpenIdTokenSuccess(mockOpenIdToken));
-
-      let result: OpenIdToken;
-      service
-        .getOpenIdToken()
-        .subscribe(token => (result = token))
-        .unsubscribe();
-      expect(result).toEqual(mockOpenIdToken);
-    });
   });
 });

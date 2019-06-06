@@ -14,10 +14,10 @@
   },
   "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront/tree/develop/projects/storefrontstyles",
   "scripts": {
-    "sass": "node-sass ./scss/ -o ./temp-scss --include-path ./ --importer=./importer.js"
+    "sass": "node ./build-styles.js"
   },
   "devDependencies": {
-    "node-sass": "^4.9.0"
+    "sass": "^1.20.1"
   },
   "peerDependencies": {
     "bootstrap": "^4.1.3"

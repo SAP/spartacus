@@ -4,20 +4,15 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
-import { User } from '../../../model/misc.model';
 import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { UserService } from '../../facade/user.service';
+import { UserAddressService } from '../../facade/user-address.service';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
 
-class MockUserService {
+class MockUserAddressService {
   loadAddresses = jasmine.createSpy();
-
-  get(): Observable<User> {
-    return of({});
-  }
 }
 
 class MockGlobalMessageService {
@@ -47,7 +42,7 @@ describe('User Addresses effect', () => {
       providers: [
         fromUserAddressesEffect.UserAddressesEffects,
         { provide: UserAddressAdapter, useValue: {} },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         provideMockActions(() => actions$),
       ],

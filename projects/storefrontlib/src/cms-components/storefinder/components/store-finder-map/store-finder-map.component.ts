@@ -15,7 +15,7 @@ import { GoogleMapRendererService } from '@spartacus/core';
   templateUrl: './store-finder-map.component.html',
 })
 export class StoreFinderMapComponent implements OnChanges {
-  @ViewChild('mapElement')
+  @ViewChild('mapElement', { static: true })
   mapElement: ElementRef;
   @Input()
   locations: any[];

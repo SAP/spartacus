@@ -4,5 +4,3 @@ export * from './outlet.directive';
 export * from './outlet.model';
 export * from './outlet.module';
 export * from './outlet.service';
-export * from './style-ref/style-ref.directive';
-export * from './style-ref/style-ref.module';
