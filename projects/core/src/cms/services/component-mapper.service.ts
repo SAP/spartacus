@@ -1,6 +1,5 @@
 import {
   Injectable,
-  Type,
   ComponentFactoryResolver,
   Inject,
   Renderer2,
@@ -42,7 +41,8 @@ export class ComponentMapperService {
    *
    * @param typeCode the component type
    */
-  protected getType(typeCode: string): string {
+  protected getType(typeCode: string): any {
+    // spike-new: string {
     const componentConfig = this.config.cmsComponents[typeCode];
     if (!componentConfig) {
       if (!this.missingComponents.includes(typeCode)) {
@@ -56,35 +56,34 @@ export class ComponentMapperService {
     return componentConfig ? componentConfig.selector : null;
   }
 
-  getFactoryEntryByCode(typeCode: string): any {
-    const alias = this.getType(typeCode);
-    if (!alias) {
-      return;
-    }
-    const factoryEntries = Array.from(
-      this.componentFactoryResolver['_factories'].entries()
+  getComponentFactoryByCode(typeCode: string): any {
+    // spike old:
+
+    // const alias = this.getType(typeCode);
+    // if (!alias) {
+    //   return;
+    // }
+    // const factoryEntries = Array.from(
+    //   this.componentFactoryResolver['_factories'].entries()
+    // );
+
+    // const factory = factoryEntries.find(
+    //   ([, value]: any) => value.selector === alias
+    // );
+
+    // spike new:
+    const componentRef = (this.config.cmsComponents[typeCode] || {}).component;
+    const factory = this.componentFactoryResolver.resolveComponentFactory(
+      componentRef
     );
 
-    const factory = factoryEntries.find(
-      ([, value]: any) => value.selector === alias
-    );
     if (!factory) {
       console.warn(
         `No component factory found for the CMS component type '${typeCode}'.\n`,
         `Make sure you add a component to the 'entryComponents' array in the NgModule.`
       );
     }
-    return factory;
-  }
-
-  getComponentTypeByCode(typeCode: string): Type<any> {
-    const factoryEntry = this.getFactoryEntryByCode(typeCode);
-    return factoryEntry ? factoryEntry[0] : null;
-  }
-
-  getComponentFactoryByCode(typeCode: string): any {
-    const factoryEntry = this.getFactoryEntryByCode(typeCode);
-    return factoryEntry ? factoryEntry[1] : null;
+    return factory || null;
   }
 
   isWebComponent(typeCode: string): boolean {
