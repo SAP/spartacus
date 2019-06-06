@@ -4,9 +4,10 @@ import {
   Component,
   Input,
 } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
 import { TranslationService } from '@spartacus/core';
 import { ProductDetailOutlets } from '../../product-outlets.model';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-product-summary',
@@ -79,9 +80,13 @@ export class ProductSummaryComponent implements AfterContentChecked {
         const reviewsComponent = this.getReviewsComponent();
         if (reviewsTab && reviewsComponent) {
           this.clickTabIfInactive(reviewsTab);
-          reviewsComponent.scrollIntoView();
+          setTimeout(
+            () => reviewsComponent.scrollIntoView({ behavior: 'smooth' }),
+            0
+          );
         }
-      });
+      })
+      .unsubscribe();
   }
 
   constructor(private translationService: TranslationService) {}
