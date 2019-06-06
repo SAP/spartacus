@@ -1,6 +1,7 @@
 import {
   AuthConfig,
   CmsConfig,
+  GlobalMessageConfig,
   I18nConfig,
   KymaConfig,
   OccConfig,
@@ -9,12 +10,12 @@ import {
   SiteContextConfig,
   StateConfig,
 } from '@spartacus/core';
-import { CheckoutConfig } from '../cms-components/checkout/config/checkout-config';
-import { IconConfig } from '../cms-components/misc/icon/index';
-import { PWAModuleConfig } from '../cms-structure/pwa/index';
-import { LayoutConfig } from '../layout/config/layout-config';
+import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
+import { IconConfig } from './cms-components/misc/icon/index';
+import { PWAModuleConfig } from './cms-structure/pwa/index';
+import { LayoutConfig } from './layout/config/layout-config';
 
-export type StorefrontModuleConfig =
+export type StorefrontConfig =
   | AuthConfig
   | CmsConfig
   | OccConfig
@@ -27,4 +28,5 @@ export type StorefrontModuleConfig =
   | PersonalizationConfig
   | IconConfig
   | CheckoutConfig
-  | KymaConfig;
+  | KymaConfig
+  | GlobalMessageConfig;
