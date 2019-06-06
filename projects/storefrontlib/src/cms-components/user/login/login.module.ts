@@ -21,7 +21,7 @@ import { LoginComponent } from './login.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         LoginComponent: {
-          selector: 'cx-login',
+          component: LoginComponent,
         },
       },
     }),

@@ -20,7 +20,7 @@ import { OrderHistoryComponent } from './order-history.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderHistoryComponent: {
-          selector: 'cx-order-history',
+          component: OrderHistoryComponent,
           guards: [AuthGuard],
         },
       },

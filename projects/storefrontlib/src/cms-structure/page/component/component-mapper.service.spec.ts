@@ -1,7 +1,7 @@
 import { Component, NgModule, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { ComponentMapperService } from './component-mapper.service';
-import { CmsConfig } from '../config/cms-config';
+import { CmsConfig } from '@spartacus/core';
 
 const createSpy = jasmine.createSpy;
 
@@ -20,8 +20,8 @@ export class TestModule {}
 
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
-    CMSTestComponent: { selector: 'cx-test' },
-    CMSWebComponent: { selector: 'path/to/file.js#cms-component' },
+    CMSTestComponent: { component: TestComponent },
+    CMSWebComponent: { component: 'path/to/file.js#cms-component' },
   },
 };
 
@@ -48,19 +48,6 @@ describe('ComponentMapperService', () => {
       expect(service).toBeTruthy();
     }
   ));
-
-  describe('getComponentTypeByCode', () => {
-    it('should get existing angular component', () => {
-      const type = mapperService.getComponentTypeByCode('CMSTestComponent');
-      expect(type.name).toEqual('TestComponent');
-    });
-
-    it('should get warning for non-existing angular component', () => {
-      const type = mapperService.getComponentTypeByCode('OtherCmsComponent');
-      expect(type).toEqual(null);
-      expect(mapperService.missingComponents).toContain('OtherCmsComponent');
-    });
-  });
 
   describe('isWebComponent', () => {
     it('should return false to angular component', inject(
