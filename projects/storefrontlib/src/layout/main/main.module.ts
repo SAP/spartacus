@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { GlobalMessageComponentModule } from '../../cms-components/misc/global-message/global-message.module';
 import { UserComponentModule } from '../../cms-components/user/index';
-import { CmsModule } from '../../cms-structure/cms.module';
 import { SeoModule } from '../../cms-structure/index';
 import { OutletRefModule } from '../../cms-structure/outlet/outlet-ref/outlet-ref.module';
 import { PageLayoutModule } from '../../cms-structure/page/index';
@@ -17,7 +16,6 @@ import { StorefrontComponent } from './storefront.component';
     RouterModule,
     GlobalMessageComponentModule,
     UserComponentModule,
-    CmsModule,
     OutletRefModule,
     PwaModule,
     PageLayoutModule,

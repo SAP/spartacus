@@ -5,7 +5,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UserService,
+  UserAddressService,
 } from '@spartacus/core';
 import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
@@ -25,7 +25,7 @@ import { AddressCardComponent } from './address-card/address-card.component';
             {
               provide: AddressBookComponentService,
               useClass: AddressBookComponentService,
-              deps: [UserService],
+              deps: [UserAddressService],
             },
           ],
           guards: [AuthGuard],
@@ -40,7 +40,7 @@ import { AddressCardComponent } from './address-card/address-card.component';
   ],
   declarations: [AddressBookComponent, AddressCardComponent],
   exports: [AddressBookComponent, AddressCardComponent],
-  providers: [UserService, AddressBookComponentService],
+  providers: [UserAddressService, AddressBookComponentService],
   entryComponents: [AddressBookComponent],
 })
 export class AddressBookModule {}

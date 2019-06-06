@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   PaymentDetails,
   TranslationService,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -20,12 +20,12 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   userServiceSub: Subscription;
 
   constructor(
-    private userService: UserService,
+    private userPaymentService: UserPaymentService,
     private translation: TranslationService
   ) {}
 
   ngOnInit(): void {
-    this.paymentMethods$ = this.userService.getPaymentMethods().pipe(
+    this.paymentMethods$ = this.userPaymentService.getPaymentMethods().pipe(
       tap(paymentDetails => {
         // Set first payment method to DEFAULT if none is set
         if (
@@ -38,8 +38,8 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     );
 
     this.editCard = null;
-    this.loading$ = this.userService.getPaymentMethodsLoading();
-    this.userService.loadPaymentMethods();
+    this.loading$ = this.userPaymentService.getPaymentMethodsLoading();
+    this.userPaymentService.loadPaymentMethods();
   }
 
   getCardContent({
@@ -87,7 +87,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userService.deletePaymentMethod(paymentMethod.id);
+    this.userPaymentService.deletePaymentMethod(paymentMethod.id);
     this.editCard = null;
   }
 
@@ -100,7 +100,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userService.setPaymentMethodAsDefault(paymentMethod.id);
+    this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
   }
 
   ngOnDestroy(): void {

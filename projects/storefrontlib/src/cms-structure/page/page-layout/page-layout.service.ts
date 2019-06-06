@@ -86,6 +86,9 @@ export class PageLayoutService {
     section?: string,
     breakpoint?: BREAKPOINT
   ): SlotConfig {
+    if (!this.config.layoutSlots) {
+      return null;
+    }
     const pageTemplateConfig = this.config.layoutSlots[templateUid];
 
     if (section) {

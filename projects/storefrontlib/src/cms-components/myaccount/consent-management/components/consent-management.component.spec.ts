@@ -7,16 +7,13 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NavigationExtras } from '@angular/router';
 import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  RoutingService,
   Translatable,
-  UrlCommands,
-  UserService,
+  UserConsentService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConsentManagementComponent } from './consent-management.component';
@@ -45,7 +42,7 @@ class MockConsentManagementFormComponent {
   }>();
 }
 
-class UserServiceMock {
+class UserConsentServiceMock {
   loadConsents(): void {}
   getConsentsResultLoading(): Observable<boolean> {
     return of();
@@ -74,14 +71,6 @@ class UserServiceMock {
   resetWithdrawConsentProcessState(): void {}
 }
 
-class RoutingServiceMock {
-  go(
-    _commands: any[] | UrlCommands,
-    _query?: object,
-    _extras?: NavigationExtras
-  ): void {}
-}
-
 class GlobalMessageServiceMock {
   add(_text: string | Translatable, _type: GlobalMessageType): void {}
 }
@@ -99,8 +88,7 @@ describe('ConsentManagementComponent', () => {
   let fixture: ComponentFixture<ConsentManagementComponent>;
   let el: DebugElement;
 
-  let userService: UserService;
-  let routingService: RoutingService;
+  let userService: UserConsentService;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(async(() => {
@@ -112,9 +100,8 @@ describe('ConsentManagementComponent', () => {
         ConsentManagementComponent,
       ],
       providers: [
-        { provide: UserService, useClass: UserServiceMock },
+        { provide: UserConsentService, useClass: UserConsentServiceMock },
         { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
-        { provide: RoutingService, useClass: RoutingServiceMock },
       ],
     }).compileComponents();
   }));
@@ -124,8 +111,7 @@ describe('ConsentManagementComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserService);
-    routingService = TestBed.get(RoutingService);
+    userService = TestBed.get(UserConsentService);
     globalMessageService = TestBed.get(GlobalMessageService);
 
     fixture.detectChanges();
@@ -353,14 +339,6 @@ describe('ConsentManagementComponent', () => {
       });
     });
 
-    describe('onDone', () => {
-      it('should go to home page', () => {
-        spyOn(routingService, 'go').and.stub();
-        component.onDone();
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-      });
-    });
-
     describe(onConsentGivenSuccessMethod, () => {
       describe('when the consent was NOT successfully given', () => {
         it('should NOT reset the processing state and display a success message', () => {
@@ -533,20 +511,6 @@ describe('ConsentManagementComponent', () => {
             ).length
           ).toEqual(3);
         });
-      });
-    });
-
-    describe('when Done button is clicked', () => {
-      it('should call onDone method', () => {
-        spyOn(component, 'onDone').and.stub();
-
-        component.ngOnInit();
-        fixture.detectChanges();
-
-        const doneBtn = el.query(By.css('button')).nativeElement as HTMLElement;
-        doneBtn.dispatchEvent(new MouseEvent('click'));
-
-        expect(component.onDone).toHaveBeenCalled();
       });
     });
   });
