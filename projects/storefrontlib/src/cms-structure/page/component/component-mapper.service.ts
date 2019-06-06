@@ -5,10 +5,10 @@ import {
   Renderer2,
   PLATFORM_ID,
 } from '@angular/core';
-import { CmsConfig } from '../config/cms-config';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { CmsConfig } from '@spartacus/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ComponentMapperService {
   missingComponents: string[] = [];
 
@@ -41,7 +41,7 @@ export class ComponentMapperService {
    *
    * @param typeCode the component type
    */
-  protected getType(typeCode: string): any {
+  protected getComponent(typeCode: string): any {
     // spike-new: string {
     const componentConfig = this.config.cmsComponents[typeCode];
     if (!componentConfig) {
@@ -53,28 +53,16 @@ export class ComponentMapperService {
         );
       }
     }
-    return componentConfig ? componentConfig.selector : null;
+    return componentConfig ? componentConfig.component : null;
   }
 
   getComponentFactoryByCode(typeCode: string): any {
-    // spike old:
-
-    // const alias = this.getType(typeCode);
-    // if (!alias) {
-    //   return;
-    // }
-    // const factoryEntries = Array.from(
-    //   this.componentFactoryResolver['_factories'].entries()
-    // );
-
-    // const factory = factoryEntries.find(
-    //   ([, value]: any) => value.selector === alias
-    // );
-
-    // spike new:
-    const componentRef = (this.config.cmsComponents[typeCode] || {}).component;
+    const component = this.getComponent(typeCode);
+    if (!component) {
+      return null;
+    }
     const factory = this.componentFactoryResolver.resolveComponentFactory(
-      componentRef
+      component
     );
 
     if (!factory) {
@@ -82,12 +70,14 @@ export class ComponentMapperService {
         `No component factory found for the CMS component type '${typeCode}'.\n`,
         `Make sure you add a component to the 'entryComponents' array in the NgModule.`
       );
+      return null;
     }
-    return factory || null;
+    return factory;
   }
 
   isWebComponent(typeCode: string): boolean {
-    return (this.getType(typeCode) || '').includes('#');
+    const component = this.getComponent(typeCode);
+    return typeof component === 'string' && (component || '').includes('#');
   }
 
   initWebComponent(
@@ -95,7 +85,7 @@ export class ComponentMapperService {
     renderer: Renderer2
   ): Promise<string> {
     return new Promise(resolve => {
-      const [path, selector] = this.getType(componentType).split('#');
+      const [path, selector] = this.getComponent(componentType).split('#');
 
       let script = this.loadedWebComponents[path];
 
