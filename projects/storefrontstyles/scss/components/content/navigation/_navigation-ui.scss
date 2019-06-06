@@ -1,3 +1,16 @@
+@mixin hideWrapperDesktop {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  margin-left: -10px;
+  border: 1px solid #ccc;
+}
+
+@mixin showWrapperDesktop {
+  opacity: 1;
+  visibility: visible;
+}
+
 %nav-wrapper {
   // create width of wrapper
   .wrapper[attr='1'] {
@@ -235,43 +248,30 @@
     }
 
     @include media-breakpoint-up(lg) {
+      // Show dropdowns via hover when no nav is focused
       > nav {
         > .wrapper {
-          // display: flex;
-          position: absolute;
-          visibility: hidden;
-          opacity: 0;
-          margin-left: -10px;
-          border: 1px solid #ccc;
+          @include hideWrapperDesktop();
         }
 
         /* we only treat the first wrapper as a collapsible container */
-        // &:hover,
         &:hover {
           > .wrapper {
-            opacity: 1;
-            visibility: visible;
+            @include showWrapperDesktop();
           }
         }
       }
 
+      // Show dropdowns via focus only once a nav is clicked
       &:focus-within {
         > nav {
           > .wrapper {
-            // display: flex;
-            position: absolute;
-            visibility: hidden;
-            opacity: 0;
-            margin-left: -10px;
-            border: 1px solid #ccc;
+            @include hideWrapperDesktop();
           }
 
-          /* we only treat the first wrapper as a collapsible container */
-          // &:hover,
           &:focus {
             > .wrapper {
-              opacity: 1;
-              visibility: visible;
+              @include showWrapperDesktop();
             }
           }
         }
