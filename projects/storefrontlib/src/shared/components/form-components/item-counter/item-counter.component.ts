@@ -31,11 +31,11 @@ const COUNTER_CONTROL_ACCESSOR = {
 })
 export class ItemCounterComponent
   implements OnInit, ControlValueAccessor, OnChanges {
-  @ViewChild('itemCounterInput')
+  @ViewChild('itemCounterInput', { static: false })
   public input: ElementRef;
-  @ViewChild('incrementBtn')
+  @ViewChild('incrementBtn', { static: false })
   public incrementBtn: ElementRef;
-  @ViewChild('decrementBtn')
+  @ViewChild('decrementBtn', { static: false })
   public decrementBtn: ElementRef;
 
   value = 0;

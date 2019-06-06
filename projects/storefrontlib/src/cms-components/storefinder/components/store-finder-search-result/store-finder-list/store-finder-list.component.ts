@@ -11,7 +11,7 @@ import { ICON_TYPE } from './../../../../misc/icon/icon.model';
 export class StoreFinderListComponent {
   @Input()
   locations: any;
-  @ViewChild('storeMap')
+  @ViewChild('storeMap', { static: false })
   storeMap: StoreFinderMapComponent;
 
   selectedStore = 0;

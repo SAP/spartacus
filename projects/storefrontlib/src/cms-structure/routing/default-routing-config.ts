@@ -4,7 +4,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
   notFound: { paths: ['not-found'] },
   cart: { paths: ['cart'] },
-  search: { paths: ['search/:query'] },
 
   // semantic links for login related pages
   login: { paths: ['login'] },
@@ -18,15 +17,21 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
   checkoutReviewOrder: { paths: ['checkout/review-order'] },
   orderConfirmation: { paths: ['order-confirmation'] },
-  product: {
-    paths: ['product/:productCode'],
-    paramsMapping: { productCode: 'code' },
-  },
+
+  // plp routes
+  search: { paths: ['search/:query'] },
   category: {
     paths: ['category/:categoryCode'],
     paramsMapping: { categoryCode: 'code' },
   },
   brand: { paths: ['Brands/:brandName/c/:brandCode'] },
+
+  // pdp routes
+  product: {
+    paths: ['product/:productCode/:name'],
+    paramsMapping: { productCode: 'code' },
+  },
+
   termsAndConditions: { paths: ['termsAndConditions'] },
   orderDetails: {
     paths: ['my-account/order/:orderCode'],

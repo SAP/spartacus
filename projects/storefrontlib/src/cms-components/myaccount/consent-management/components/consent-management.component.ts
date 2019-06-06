@@ -3,8 +3,7 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
-  RoutingService,
-  UserService,
+  UserConsentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
@@ -20,16 +19,15 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
 
   constructor(
-    private userService: UserService,
-    private routingService: RoutingService,
+    private userConsentService: UserConsentService,
     private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
     this.loading$ = combineLatest(
-      this.userService.getConsentsResultLoading(),
-      this.userService.getGiveConsentResultLoading(),
-      this.userService.getWithdrawConsentResultLoading()
+      this.userConsentService.getConsentsResultLoading(),
+      this.userConsentService.getGiveConsentResultLoading(),
+      this.userConsentService.getWithdrawConsentResultLoading()
     ).pipe(
       map(
         ([consentLoading, giveConsentLoading, withdrawConsentLoading]) =>
@@ -42,36 +40,38 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private consentListInit(): void {
-    this.templateList$ = this.userService.getConsents().pipe(
+    this.templateList$ = this.userConsentService.getConsents().pipe(
       tap(templateList => {
         if (!this.consentsExists(templateList)) {
-          this.userService.loadConsents();
+          this.userConsentService.loadConsents();
         }
       })
     );
   }
 
   private giveConsentInit(): void {
-    this.userService.resetGiveConsentProcessState();
+    this.userConsentService.resetGiveConsentProcessState();
     this.subscriptions.add(
-      this.userService
+      this.userConsentService
         .getGiveConsentResultSuccess()
         .subscribe(success => this.onConsentGivenSuccess(success))
     );
   }
 
   private withdrawConsentInit(): void {
-    this.userService.resetWithdrawConsentProcessState();
+    this.userConsentService.resetWithdrawConsentProcessState();
     this.subscriptions.add(
-      this.userService
+      this.userConsentService
         .getWithdrawConsentResultLoading()
         .pipe(
           skipWhile(Boolean),
-          withLatestFrom(this.userService.getWithdrawConsentResultSuccess()),
+          withLatestFrom(
+            this.userConsentService.getWithdrawConsentResultSuccess()
+          ),
           map(([, withdrawalSuccess]) => withdrawalSuccess),
           tap(withdrawalSuccess => {
             if (withdrawalSuccess) {
-              this.userService.loadConsents();
+              this.userConsentService.loadConsents();
             }
           })
         )
@@ -93,19 +93,15 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     template: ConsentTemplate;
   }): void {
     if (given) {
-      this.userService.giveConsent(template.id, template.version);
+      this.userConsentService.giveConsent(template.id, template.version);
     } else {
-      this.userService.withdrawConsent(template.currentConsent.code);
+      this.userConsentService.withdrawConsent(template.currentConsent.code);
     }
-  }
-
-  onDone(): void {
-    this.routingService.go({ cxRoute: 'home' });
   }
 
   private onConsentGivenSuccess(success: boolean): void {
     if (success) {
-      this.userService.resetGiveConsentProcessState();
+      this.userConsentService.resetGiveConsentProcessState();
       this.globalMessageService.add(
         { key: 'consentManagementForm.message.success.given' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -114,7 +110,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
   private onConsentWithdrawnSuccess(success: boolean): void {
     if (success) {
-      this.userService.resetWithdrawConsentProcessState();
+      this.userConsentService.resetWithdrawConsentProcessState();
       this.globalMessageService.add(
         { key: 'consentManagementForm.message.success.withdrawn' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -124,7 +120,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    this.userService.resetGiveConsentProcessState();
-    this.userService.resetWithdrawConsentProcessState();
+    this.userConsentService.resetGiveConsentProcessState();
+    this.userConsentService.resetWithdrawConsentProcessState();
   }
 }
