@@ -21,6 +21,7 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
         UpdatePasswordComponent: {
           selector: 'cx-update-password',
           guards: [AuthGuard],
+          component: UpdatePasswordComponent,
         },
       },
     }),

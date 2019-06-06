@@ -31,6 +31,7 @@ import { ReviewSubmitComponent } from './review-submit.component';
             DeliveryModeSetGuard,
             PaymentDetailsSetGuard,
           ],
+          component: ReviewSubmitComponent,
         },
       },
     }),

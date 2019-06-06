@@ -22,6 +22,7 @@ import { LoginComponent } from './login.component';
       cmsComponents: {
         LoginComponent: {
           selector: 'cx-login',
+          component: LoginComponent,
         },
       },
     }),

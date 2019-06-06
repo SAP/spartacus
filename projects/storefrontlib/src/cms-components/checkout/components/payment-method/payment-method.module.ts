@@ -34,6 +34,7 @@ import { PaymentMethodComponent } from './payment-method.component';
             ShippingAddressSetGuard,
             DeliveryModeSetGuard,
           ],
+          component: PaymentMethodComponent,
         },
       },
     }),

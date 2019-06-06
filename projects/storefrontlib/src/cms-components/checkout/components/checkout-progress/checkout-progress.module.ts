@@ -26,6 +26,7 @@ import { CheckoutProgressComponent } from './checkout-progress.component';
         CheckoutProgress: {
           selector: 'cx-checkout-progress',
           guards: [AuthGuard, CartNotEmptyGuard],
+          component: CheckoutProgressComponent,
         },
       },
     }),

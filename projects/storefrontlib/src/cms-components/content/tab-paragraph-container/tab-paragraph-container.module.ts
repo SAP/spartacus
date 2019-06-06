@@ -10,7 +10,10 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSTabParagraphContainer: { selector: 'cx-tab-paragraph-container' },
+        CMSTabParagraphContainer: {
+          selector: 'cx-tab-paragraph-container',
+          component: TabParagraphContainerComponent,
+        },
       },
     }),
     PageComponentModule,

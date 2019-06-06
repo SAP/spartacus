@@ -20,6 +20,7 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
       cmsComponents: {
         CartTotalsComponent: {
           selector: 'cx-cart-totals',
+          component: CartTotalsComponent,
         },
       },
     }),

@@ -22,6 +22,7 @@ import { SearchBoxComponent } from './search-box.component';
       cmsComponents: {
         SearchBoxComponent: {
           selector: 'cx-searchbox',
+          component: SearchBoxComponent,
         },
       },
     }),

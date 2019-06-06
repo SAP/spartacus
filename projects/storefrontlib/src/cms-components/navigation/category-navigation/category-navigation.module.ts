@@ -21,6 +21,7 @@ import { CategoryNavigationComponent } from './category-navigation.component';
               deps: [CmsService, CmsComponentData],
             },
           ],
+          component: CategoryNavigationComponent,
         },
       },
     }),

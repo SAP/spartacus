@@ -36,6 +36,7 @@ import { ProductReferencesService } from './product-references.component.service
               deps: [],
             },
           ],
+          component: ProductReferencesComponent,
         },
       },
     }),

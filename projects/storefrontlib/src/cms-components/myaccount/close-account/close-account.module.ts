@@ -26,6 +26,7 @@ import { CloseAccountComponent } from './components/close-account/close-account.
         CloseAccountComponent: {
           selector: 'cx-close-account',
           guards: [AuthGuard],
+          component: CloseAccountComponent,
         },
       },
     }),

@@ -18,6 +18,7 @@ import { ResetPasswordFormComponent } from './reset-password-form.component';
         ResetPasswordComponent: {
           selector: 'cx-reset-password-form',
           guards: [NotAuthGuard],
+          component: ResetPasswordFormComponent,
         },
       },
     }),

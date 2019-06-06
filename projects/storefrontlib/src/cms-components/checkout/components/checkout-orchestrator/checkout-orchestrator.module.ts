@@ -16,6 +16,7 @@ import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component
         CheckoutOrchestrator: {
           selector: 'cx-checkout-orchestrator',
           guards: [AuthGuard, CartNotEmptyGuard, CheckoutGuard],
+          component: CheckoutOrchestratorComponent,
         },
       },
     }),

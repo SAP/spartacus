@@ -23,6 +23,7 @@ import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-t
         CheckoutProgressMobileTop: {
           selector: 'cx-checkout-progress-mobile-top',
           guards: [AuthGuard, CartNotEmptyGuard],
+          component: CheckoutProgressMobileTopComponent,
         },
       },
     }),

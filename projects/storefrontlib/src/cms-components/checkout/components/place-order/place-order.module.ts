@@ -24,6 +24,7 @@ import { PlaceOrderComponent } from './place-order.component';
         CheckoutPlaceOrder: {
           selector: 'cx-place-order',
           guards: [AuthGuard, CartNotEmptyGuard],
+          component: PlaceOrderComponent,
         },
       },
     }),

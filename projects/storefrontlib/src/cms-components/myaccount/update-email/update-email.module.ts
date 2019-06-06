@@ -19,6 +19,7 @@ import { UpdateEmailComponent } from './update-email.component';
         UpdateEmailComponent: {
           selector: 'cx-update-email',
           guards: [AuthGuard],
+          component: UpdateEmailComponent,
         },
       },
     }),

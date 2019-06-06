@@ -31,6 +31,7 @@ import { ShippingAddressComponent } from './shipping-address.component';
         CheckoutShippingAddress: {
           selector: 'cx-shipping-address',
           guards: [AuthGuard, CartNotEmptyGuard],
+          component: ShippingAddressComponent,
         },
       },
     }),

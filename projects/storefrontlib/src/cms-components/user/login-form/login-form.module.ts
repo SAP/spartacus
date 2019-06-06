@@ -27,6 +27,7 @@ import { LoginFormComponent } from './login-form.component';
         ReturningCustomerLoginComponent: {
           selector: 'cx-login-form',
           guards: [NotAuthGuard],
+          component: LoginFormComponent,
         },
       },
     }),

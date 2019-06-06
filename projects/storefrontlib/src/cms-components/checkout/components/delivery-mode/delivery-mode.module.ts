@@ -23,6 +23,7 @@ import { DeliveryModeComponent } from './delivery-mode.component';
         CheckoutDeliveryMode: {
           selector: 'cx-delivery-mode',
           guards: [AuthGuard, CartNotEmptyGuard, ShippingAddressSetGuard],
+          component: DeliveryModeComponent,
         },
       },
     }),

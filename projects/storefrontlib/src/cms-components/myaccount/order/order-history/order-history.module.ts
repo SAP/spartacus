@@ -22,6 +22,7 @@ import { OrderHistoryComponent } from './order-history.component';
         AccountOrderHistoryComponent: {
           selector: 'cx-order-history',
           guards: [AuthGuard],
+          component: OrderHistoryComponent,
         },
       },
     }),

@@ -28,9 +28,11 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
               deps: [CmsComponentData, ContextServiceMap, Injector],
             },
           ],
+          component: SiteContextSelectorComponent,
         },
         LanguageCurrencyComponent: {
           selector: 'cx-language-currency-selector',
+          component: LanguageCurrencyComponent,
         },
       },
     }),

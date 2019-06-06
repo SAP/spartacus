@@ -10,7 +10,10 @@ import { BreadcrumbComponent } from './breadcrumb.component';
     RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        BreadcrumbComponent: { selector: 'cx-breadcrumb' },
+        BreadcrumbComponent: {
+          selector: 'cx-breadcrumb',
+          component: BreadcrumbComponent,
+        },
       },
     }),
     CmsPageTitleModule,

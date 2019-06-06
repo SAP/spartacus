@@ -24,6 +24,7 @@ import { FooterNavigationComponent } from './footer-navigation.component';
               deps: [CmsService, CmsComponentData],
             },
           ],
+          component: FooterNavigationComponent,
         },
       },
     }),

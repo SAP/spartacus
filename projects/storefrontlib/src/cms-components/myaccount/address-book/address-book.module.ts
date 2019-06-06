@@ -29,6 +29,7 @@ import { AddressCardComponent } from './address-card/address-card.component';
             },
           ],
           guards: [AuthGuard],
+          component: AddressBookComponent,
         },
       },
     }),

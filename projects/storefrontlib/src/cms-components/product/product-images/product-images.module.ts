@@ -16,6 +16,7 @@ import { ProductImagesComponent } from './product-images.component';
       cmsComponents: {
         CMSProductImages: {
           selector: 'cx-product-images',
+          component: ProductImagesComponent,
         },
       },
     }),

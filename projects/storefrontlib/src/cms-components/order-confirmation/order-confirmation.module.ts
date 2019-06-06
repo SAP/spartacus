@@ -37,18 +37,22 @@ const orderConfirmationComponents = [
         OrderConfirmationThankMessageComponent: {
           selector: 'cx-order-confirmation-thank-you-message',
           guards: [AuthGuard, OrderConfirmationGuard],
+          component: OrderConfirmationThankYouMessageComponent,
         },
         OrderConfirmationItemsComponent: {
           selector: 'cx-order-confirmation-items',
           guards: [AuthGuard, OrderConfirmationGuard],
+          component: OrderConfirmationItemsComponent,
         },
         OrderConfirmationTotalsComponent: {
           selector: 'cx-order-confirmation-totals',
           guards: [AuthGuard, OrderConfirmationGuard],
+          component: OrderConfirmationTotalsComponent,
         },
         OrderConfirmationOverviewComponent: {
           selector: 'cx-order-confirmation-overview',
           guards: [AuthGuard, OrderConfirmationGuard],
+          component: OrderConfirmationOverviewComponent,
         },
       },
     }),

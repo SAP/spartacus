@@ -21,6 +21,7 @@ import { PaymentMethodsComponent } from './payment-methods.component';
         AccountPaymentDetailsComponent: {
           selector: 'cx-payment-methods',
           guards: [AuthGuard],
+          component: PaymentMethodsComponent,
         },
       },
     }),

@@ -22,6 +22,7 @@ import { CartDetailsComponent } from './cart-details.component';
       cmsComponents: {
         CartComponent: {
           selector: 'cx-cart-details',
+          component: CartDetailsComponent,
         },
       },
     }),

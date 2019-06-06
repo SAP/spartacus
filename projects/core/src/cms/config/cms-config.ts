@@ -38,6 +38,7 @@ export const CMS_FLEX_COMPONENT_TYPE = 'CMSFlexComponent';
 
 export interface CmsComponentMapping {
   selector?: string;
+  component?: any;
   providers?: StaticProvider[];
   childRoutes?: Routes;
   disableSSR?: boolean;

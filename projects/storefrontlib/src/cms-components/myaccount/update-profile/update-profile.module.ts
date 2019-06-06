@@ -19,6 +19,7 @@ import { UpdateProfileComponent } from './update-profile.component';
         UpdateProfileComponent: {
           selector: 'cx-update-profile',
           guards: [AuthGuard],
+          component: UpdateProfileComponent,
         },
       },
     }),

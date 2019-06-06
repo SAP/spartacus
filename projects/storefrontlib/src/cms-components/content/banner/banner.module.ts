@@ -16,12 +16,15 @@ import { BannerComponent } from './banner.component';
       cmsComponents: {
         SimpleResponsiveBannerComponent: {
           selector: 'cx-banner',
+          component: BannerComponent,
         },
         BannerComponent: {
           selector: 'cx-banner',
+          component: BannerComponent,
         },
         SimpleBannerComponent: {
           selector: 'cx-banner',
+          component: BannerComponent,
         },
       },
     }),

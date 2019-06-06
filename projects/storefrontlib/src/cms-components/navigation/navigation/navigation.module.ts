@@ -31,6 +31,7 @@ import { NavigationComponentService } from './navigation.component.service';
               deps: [CmsService, CmsComponentData],
             },
           ],
+          component: NavigationComponent,
         },
       },
     }),

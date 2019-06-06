@@ -22,7 +22,10 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ProductAddToCartComponent: { selector: 'cx-add-to-cart' },
+        ProductAddToCartComponent: {
+          selector: 'cx-add-to-cart',
+          component: AddToCartComponent,
+        },
       },
     }),
     UrlModule,

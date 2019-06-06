@@ -28,6 +28,7 @@ import {
         RegisterCustomerComponent: {
           selector: 'cx-register',
           guards: [NotAuthGuard],
+          component: RegisterComponent,
         },
       },
     }),

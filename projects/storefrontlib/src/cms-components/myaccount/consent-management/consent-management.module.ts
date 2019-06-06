@@ -19,6 +19,7 @@ import { ConsentManagementComponent } from './components/consent-management.comp
         ConsentManagementComponent: {
           selector: 'cx-consent-management',
           guards: [AuthGuard],
+          component: ConsentManagementComponent,
         },
       },
     }),

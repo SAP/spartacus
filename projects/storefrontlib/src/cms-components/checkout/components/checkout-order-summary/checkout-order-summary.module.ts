@@ -12,6 +12,7 @@ import { CheckoutOrderSummaryComponent } from './checkout-order-summary.componen
       cmsComponents: {
         CheckoutOrderSummary: {
           selector: 'cx-checkout-order-summary',
+          component: CheckoutOrderSummaryComponent,
         },
       },
     }),

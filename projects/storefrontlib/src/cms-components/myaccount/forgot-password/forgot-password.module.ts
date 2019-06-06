@@ -22,6 +22,7 @@ import { ForgotPasswordComponent } from './forgot-password.component';
         ForgotPasswordComponent: {
           selector: 'cx-forgot-password',
           guards: [NotAuthGuard],
+          component: ForgotPasswordComponent,
         },
       },
     }),

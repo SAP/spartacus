@@ -34,6 +34,7 @@ import { ProductCarouselService } from './product-carousel.component.service';
               deps: [],
             },
           ],
+          component: ProductCarouselComponent,
         },
       },
     }),
