@@ -16,7 +16,7 @@ import {
   RoutingConfigService,
   RoutingService,
   TranslationService,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -42,7 +42,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   checkoutStepUrlPrevious: string;
 
   constructor(
-    protected userService: UserService,
+    protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
@@ -55,8 +55,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.userService.getPaymentMethodsLoading();
-    this.userService.loadPaymentMethods();
+    this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
+    this.userPaymentService.loadPaymentMethods();
 
     this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
       this.activatedRoute
@@ -65,7 +65,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
 
-    this.existingPaymentMethods$ = this.userService.getPaymentMethods();
+    this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
     this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .pipe(

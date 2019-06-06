@@ -13,13 +13,6 @@
           [consentTemplate]="consentTemplate"
           (consentChanged)="onConsentChange($event)"
         ></cx-consent-management-form>
-        <div class="cx-checkout-btns row">
-          <div class="col-lg-12">
-            <button class="btn btn-block btn-primary" (click)="onDone()">
-              {{ 'common.done' | cxTranslate }}
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   </ng-template>
