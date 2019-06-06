@@ -22,9 +22,7 @@ import {
   WITHDRAW_CONSENT_PROCESS_ID,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../store/user-state';
-import {
-  CustomerCouponSearchResult,
-} from '../../model/customer-coupon.model';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 
 @Injectable()
 export class UserService {
@@ -688,13 +686,9 @@ export class UserService {
 
   /**
    * Returns customer coupon search result
-   * @param userId a user ID
    * @param pageSize page size
    */
-  getCustomerCoupons(
-    userId: string,
-    pageSize: number
-  ): Observable<CustomerCouponSearchResult> {
+  getCustomerCoupons(pageSize: number): Observable<CustomerCouponSearchResult> {
     return this.store.pipe(
       select(fromStore.getCustomerCouponsState),
       tap(customerCouponsState => {
@@ -702,8 +696,8 @@ export class UserService {
           customerCouponsState.loading ||
           customerCouponsState.success ||
           customerCouponsState.error;
-        if (!attemptedLoad && !!userId) {
-          this.loadCustomerCoupons(userId, pageSize);
+        if (!attemptedLoad) {
+          this.loadCustomerCoupons(USERID_CURRENT, pageSize);
         }
       }),
       map(customerCouponsState => customerCouponsState.value)
@@ -722,10 +716,10 @@ export class UserService {
    * @param userId a user ID
    * @param couponCode a customer coupon code
    */
-  subscribeCustomerCoupon(userId: string, couponCode: string): void {
+  subscribeCustomerCoupon(couponCode: string): void {
     this.store.dispatch(
       new fromStore.SubscribeCustomerCoupon({
-        userId: userId,
+        userId: USERID_CURRENT,
         couponCode: couponCode,
       })
     );
@@ -763,10 +757,10 @@ export class UserService {
    * @param userId a user ID
    * @param couponCode a customer coupon code
    */
-  unsubscribeCustomerCoupon(userId: string, couponCode: string): void {
+  unsubscribeCustomerCoupon(couponCode: string): void {
     this.store.dispatch(
       new fromStore.SubscribeCustomerCoupon({
-        userId: userId,
+        userId: USERID_CURRENT,
         couponCode: couponCode,
       })
     );
@@ -799,5 +793,3 @@ export class UserService {
     );
   }
 }
-
-
