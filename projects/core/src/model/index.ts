@@ -10,3 +10,4 @@ export * from './product-search.model';
 export * from './shared.model';
 export * from './point-of-service.model';
 export * from './store-finder.model';
+export * from './customer-coupon.model';
