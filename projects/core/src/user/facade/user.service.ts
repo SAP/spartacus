@@ -20,7 +20,9 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
+  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../store/user-state';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 
 @Injectable()
 export class UserService {
@@ -657,5 +659,137 @@ export class UserService {
    */
   resetWithdrawConsentProcessState(): void {
     return this.store.dispatch(new fromStore.ResetWithdrawUserConsentProcess());
+  }
+
+  /**
+   * Retrieves customer's coupons
+   * @param userId a user ID
+   * @param pageSize page size
+   * @param currentPage current page
+   * @param sort sort
+   */
+  loadCustomerCoupons(
+    userId: string,
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): void {
+    this.store.dispatch(
+      new fromStore.LoadCustomerCoupons({
+        userId: userId,
+        pageSize: pageSize,
+        currentPage: currentPage,
+        sort: sort,
+      })
+    );
+  }
+
+  /**
+   * Returns customer coupon search result
+   * @param pageSize page size
+   */
+  getCustomerCoupons(pageSize: number): Observable<CustomerCouponSearchResult> {
+    return this.store.pipe(
+      select(fromStore.getCustomerCouponsState),
+      tap(customerCouponsState => {
+        const attemptedLoad =
+          customerCouponsState.loading ||
+          customerCouponsState.success ||
+          customerCouponsState.error;
+        if (!attemptedLoad) {
+          this.loadCustomerCoupons(USERID_CURRENT, pageSize);
+        }
+      }),
+      map(customerCouponsState => customerCouponsState.value)
+    );
+  }
+
+  /**
+   * Returns a loaded flag for customer coupons
+   */
+  getCustomerCouponsLoaded(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getCustomerCouponsLoaded));
+  }
+
+  /**
+   * Subscribe a CustomerCoupon Notification
+   * @param userId a user ID
+   * @param couponCode a customer coupon code
+   */
+  subscribeCustomerCoupon(couponCode: string): void {
+    this.store.dispatch(
+      new fromStore.SubscribeCustomerCoupon({
+        userId: USERID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
+  }
+
+  /**
+   * Returns the subscribe customer coupon notification process loading flag
+   */
+  getSubscribeCustomerCouponResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the subscribe customer coupon notification process success flag
+   */
+  getSubscribeCustomerCouponResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the subscribe customer coupon notification process error flag
+   */
+  getSubscribeCustomerCouponResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Unsubscribe a CustomerCoupon Notification
+   * @param userId a user ID
+   * @param couponCode a customer coupon code
+   */
+  unsubscribeCustomerCoupon(couponCode: string): void {
+    this.store.dispatch(
+      new fromStore.SubscribeCustomerCoupon({
+        userId: USERID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
+  }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process loading flag
+   */
+  getUnsubscribeCustomerCouponResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process success flag
+   */
+  getUnsubscribeCustomerCouponResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process error flag
+   */
+  getUnsubscribeCustomerCouponResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
   }
 }
