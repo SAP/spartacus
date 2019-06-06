@@ -21,9 +21,8 @@ import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobil
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutProgressMobileBottom: {
-          selector: 'cx-checkout-progress-mobile-bottom',
-          guards: [AuthGuard, CartNotEmptyGuard],
           component: CheckoutProgressMobileBottomComponent,
+          guards: [AuthGuard, CartNotEmptyGuard],
         },
       },
     }),

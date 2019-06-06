@@ -27,15 +27,12 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductListComponent: {
-          selector: 'cx-product-list',
           component: ProductListComponent,
         },
         SearchResultsListComponent: {
-          selector: 'cx-product-list',
           component: ProductListComponent,
         },
         ProductRefinementComponent: {
-          selector: 'cx-product-facet-navigation',
           component: ProductFacetNavigationComponent,
         },
       },

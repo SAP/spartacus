@@ -11,7 +11,6 @@ import { BreadcrumbComponent } from './breadcrumb.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         BreadcrumbComponent: {
-          selector: 'cx-breadcrumb',
           component: BreadcrumbComponent,
         },
       },

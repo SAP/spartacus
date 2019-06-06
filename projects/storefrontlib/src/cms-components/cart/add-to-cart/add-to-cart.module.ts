@@ -23,7 +23,6 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductAddToCartComponent: {
-          selector: 'cx-add-to-cart',
           component: AddToCartComponent,
         },
       },

@@ -19,9 +19,8 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         UpdatePasswordComponent: {
-          selector: 'cx-update-password',
-          guards: [AuthGuard],
           component: UpdatePasswordComponent,
+          guards: [AuthGuard],
         },
       },
     }),

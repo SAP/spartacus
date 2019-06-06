@@ -20,7 +20,7 @@ import { AddressCardComponent } from './address-card/address-card.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountAddressBookComponent: {
-          selector: 'cx-address-book',
+          component: AddressBookComponent,
           providers: [
             {
               provide: AddressBookComponentService,
@@ -29,7 +29,6 @@ import { AddressCardComponent } from './address-card/address-card.component';
             },
           ],
           guards: [AuthGuard],
-          component: AddressBookComponent,
         },
       },
     }),

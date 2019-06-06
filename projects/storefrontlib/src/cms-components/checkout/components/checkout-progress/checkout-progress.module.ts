@@ -24,9 +24,8 @@ import { CheckoutProgressComponent } from './checkout-progress.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutProgress: {
-          selector: 'cx-checkout-progress',
-          guards: [AuthGuard, CartNotEmptyGuard],
           component: CheckoutProgressComponent,
+          guards: [AuthGuard, CartNotEmptyGuard],
         },
       },
     }),

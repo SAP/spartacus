@@ -23,9 +23,8 @@ import { LoginFormComponent } from './login-form.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ReturningCustomerLoginComponent: {
-          selector: 'cx-login-form',
-          guards: [NotAuthGuard],
           component: LoginFormComponent,
+          guards: [NotAuthGuard],
         },
       },
     }),

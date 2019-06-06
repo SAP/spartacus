@@ -11,7 +11,6 @@ import { CheckoutOrderSummaryComponent } from './checkout-order-summary.componen
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutOrderSummary: {
-          selector: 'cx-checkout-order-summary',
           component: CheckoutOrderSummaryComponent,
         },
       },

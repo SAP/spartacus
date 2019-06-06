@@ -11,7 +11,6 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSTabParagraphContainer: {
-          selector: 'cx-tab-paragraph-container',
           component: TabParagraphContainerComponent,
         },
       },

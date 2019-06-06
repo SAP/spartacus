@@ -27,14 +27,13 @@ import { PaymentMethodComponent } from './payment-method.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPaymentDetails: {
-          selector: 'cx-payment-method',
+          component: PaymentMethodComponent,
           guards: [
             AuthGuard,
             CartNotEmptyGuard,
             ShippingAddressSetGuard,
             DeliveryModeSetGuard,
           ],
-          component: PaymentMethodComponent,
         },
       },
     }),

@@ -16,7 +16,7 @@ import { FooterNavigationComponent } from './footer-navigation.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         FooterNavigationComponent: {
-          selector: 'cx-footer-navigation',
+          component: FooterNavigationComponent,
           providers: [
             {
               provide: NavigationComponentService,
@@ -24,7 +24,6 @@ import { FooterNavigationComponent } from './footer-navigation.component';
               deps: [CmsService, CmsComponentData],
             },
           ],
-          component: FooterNavigationComponent,
         },
       },
     }),

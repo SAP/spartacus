@@ -23,7 +23,7 @@ import { NavigationComponentService } from './navigation.component.service';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         NavigationComponent: {
-          selector: 'cx-navigation',
+          component: NavigationComponent,
           providers: [
             {
               provide: NavigationComponentService,
@@ -31,7 +31,6 @@ import { NavigationComponentService } from './navigation.component.service';
               deps: [CmsService, CmsComponentData],
             },
           ],
-          component: NavigationComponent,
         },
       },
     }),

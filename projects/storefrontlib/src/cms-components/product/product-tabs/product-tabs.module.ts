@@ -36,15 +36,12 @@ import { ProductDetailsTabComponent } from './product-details-tab/product-detail
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductDetailsTabComponent: {
-          selector: 'cx-product-details-tab',
           component: ProductDetailsTabComponent,
         },
         ProductSpecsTabComponent: {
-          selector: 'cx-product-attributes',
           component: ProductAttributesComponent,
         },
         ProductReviewsTabComponent: {
-          selector: 'cx-product-reviews',
           component: ProductReviewsComponent,
         },
       },

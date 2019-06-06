@@ -16,9 +16,8 @@ import { ResetPasswordFormComponent } from './reset-password-form.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ResetPasswordComponent: {
-          selector: 'cx-reset-password-form',
-          guards: [NotAuthGuard],
           component: ResetPasswordFormComponent,
+          guards: [NotAuthGuard],
         },
       },
     }),

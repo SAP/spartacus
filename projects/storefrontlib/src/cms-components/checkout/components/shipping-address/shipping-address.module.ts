@@ -29,9 +29,8 @@ import { ShippingAddressComponent } from './shipping-address.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutShippingAddress: {
-          selector: 'cx-shipping-address',
-          guards: [AuthGuard, CartNotEmptyGuard],
           component: ShippingAddressComponent,
+          guards: [AuthGuard, CartNotEmptyGuard],
         },
       },
     }),

@@ -17,9 +17,8 @@ import { UpdateProfileComponent } from './update-profile.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         UpdateProfileComponent: {
-          selector: 'cx-update-profile',
-          guards: [AuthGuard],
           component: UpdateProfileComponent,
+          guards: [AuthGuard],
         },
       },
     }),

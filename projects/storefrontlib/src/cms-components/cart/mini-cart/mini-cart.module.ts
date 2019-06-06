@@ -19,7 +19,6 @@ import { MiniCartComponent } from './mini-cart.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MiniCartComponent: {
-          selector: 'cx-mini-cart',
           component: MiniCartComponent,
         },
       },

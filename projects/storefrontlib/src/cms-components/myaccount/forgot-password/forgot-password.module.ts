@@ -20,9 +20,8 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ForgotPasswordComponent: {
-          selector: 'cx-forgot-password',
-          guards: [NotAuthGuard],
           component: ForgotPasswordComponent,
+          guards: [NotAuthGuard],
         },
       },
     }),

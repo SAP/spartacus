@@ -19,7 +19,6 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartTotalsComponent: {
-          selector: 'cx-cart-totals',
           component: CartTotalsComponent,
         },
       },

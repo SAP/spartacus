@@ -10,11 +10,9 @@ import { CmsConfig } from '@spartacus/core';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSParagraphComponent: {
-          selector: 'cx-paragraph',
           component: ParagraphComponent,
         },
         CMSTabParagraphComponent: {
-          selector: 'cx-paragraph',
           component: ParagraphComponent,
         },
       },

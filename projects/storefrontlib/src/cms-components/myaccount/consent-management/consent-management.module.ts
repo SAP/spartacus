@@ -17,9 +17,8 @@ import { ConsentManagementComponent } from './components/consent-management.comp
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ConsentManagementComponent: {
-          selector: 'cx-consent-management',
-          guards: [AuthGuard],
           component: ConsentManagementComponent,
+          guards: [AuthGuard],
         },
       },
     }),

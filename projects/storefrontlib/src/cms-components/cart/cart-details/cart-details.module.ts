@@ -21,7 +21,6 @@ import { CartDetailsComponent } from './cart-details.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartComponent: {
-          selector: 'cx-cart-details',
           component: CartDetailsComponent,
         },
       },

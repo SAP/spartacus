@@ -23,7 +23,7 @@ import { ReviewSubmitComponent } from './review-submit.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutReviewOrder: {
-          selector: 'cx-review-submit',
+          component: ReviewSubmitComponent,
           guards: [
             AuthGuard,
             CartNotEmptyGuard,
@@ -31,7 +31,6 @@ import { ReviewSubmitComponent } from './review-submit.component';
             DeliveryModeSetGuard,
             PaymentDetailsSetGuard,
           ],
-          component: ReviewSubmitComponent,
         },
       },
     }),

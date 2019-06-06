@@ -22,9 +22,8 @@ import { PlaceOrderComponent } from './place-order.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPlaceOrder: {
-          selector: 'cx-place-order',
-          guards: [AuthGuard, CartNotEmptyGuard],
           component: PlaceOrderComponent,
+          guards: [AuthGuard, CartNotEmptyGuard],
         },
       },
     }),

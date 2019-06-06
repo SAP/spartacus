@@ -21,7 +21,6 @@ import { SearchBoxComponent } from './search-box.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SearchBoxComponent: {
-          selector: 'cx-searchbox',
           component: SearchBoxComponent,
         },
       },

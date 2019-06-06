@@ -20,7 +20,7 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSSiteContextComponent: {
-          selector: 'cx-site-context-selector',
+          component: SiteContextSelectorComponent,
           providers: [
             {
               provide: SiteContextComponentService,
@@ -28,10 +28,8 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
               deps: [CmsComponentData, ContextServiceMap, Injector],
             },
           ],
-          component: SiteContextSelectorComponent,
         },
         LanguageCurrencyComponent: {
-          selector: 'cx-language-currency-selector',
           component: LanguageCurrencyComponent,
         },
       },

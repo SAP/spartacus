@@ -24,9 +24,8 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CloseAccountComponent: {
-          selector: 'cx-close-account',
-          guards: [AuthGuard],
           component: CloseAccountComponent,
+          guards: [AuthGuard],
         },
       },
     }),
