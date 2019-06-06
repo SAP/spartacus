@@ -3,7 +3,7 @@ import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model
 
 export const initialState: CustomerCouponSearchResult = {
   coupons: [],
-  sorts: {},
+  sorts: [],
   pagination: {},
 };
 export function reducer(

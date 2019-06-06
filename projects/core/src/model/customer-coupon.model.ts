@@ -20,6 +20,6 @@ export interface CustomerCouponNotification {
 
 export interface CustomerCouponSearchResult {
   coupons?: CustomerCoupon[];
-  sorts?: Sort;
+  sorts?: Sort[];
   pagination?: Pagination;
 }
