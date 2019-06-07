@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsProductCarouselComponent } from '@spartacus/core';
-import { CarouselItem } from 'projects/storefrontlib/src/shared/components/carousel/carousel.model';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { CarouselItem } from '../../../../shared/components/carousel/carousel.model';
 import { ProductCarouselService } from '../product-carousel.service';
 
 @Component({

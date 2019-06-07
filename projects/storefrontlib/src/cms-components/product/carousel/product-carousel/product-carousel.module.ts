@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
-import { CarouselModule } from 'projects/storefrontlib/src/shared/components/carousel/carousel.module';
+import { CarouselModule } from '../../../../shared/components/carousel/carousel.module';
 import { ProductCarouselComponent } from './product-carousel.component';
 
 @NgModule({

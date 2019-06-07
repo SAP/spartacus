@@ -1,8 +1,8 @@
-<h3 *ngIf="title">
-  {{ title }}
-</h3>
+<ng-container *ngIf="items && items.length > 0 && (size$ | async) as size">
+  <h3 *ngIf="title">
+    {{ title }}
+  </h3>
 
-<ng-container *ngIf="items && (size$ | async) as size">
   <div class="cx-carousel" [ngClass]="'size-' + size">
     <button
       *ngIf="size < items.length"
@@ -29,8 +29,8 @@
               >
               </cx-media>
 
-              <h4>{{ item.title }}</h4>
-              <div class="price">{{ item.price }}</div>
+              <h4 *ngIf="item.title">{{ item.title }}</h4>
+              <div *ngIf="item.price" class="price">{{ item.price }}</div>
             </a>
           </ng-container>
         </div>

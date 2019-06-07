@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsProductReferencesComponent } from '@spartacus/core';
-import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductCarouselService } from '../product-carousel.service';
 
@@ -39,9 +39,6 @@ export class ProductReferencesComponent {
   }
 
   get referenceType$(): Observable<string> {
-    return this.component.data$.pipe(
-      tap(c => console.log(c)),
-      map(d => d.productReferenceTypes)
-    );
+    return this.component.data$.pipe(map(d => d.productReferenceTypes));
   }
 }

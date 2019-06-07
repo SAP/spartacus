@@ -31,12 +31,11 @@ export class ProductCarouselService {
 
   getProductReferences(
     code: string,
-    _referenceType: string,
+    referenceType: string,
     displayTitle: boolean,
     displayProductPrices: boolean
   ): Observable<CarouselItem[]> {
-    // TODO: use _referenceType
-    return this.referenceService.get(code, 'ACCESSORIES').pipe(
+    return this.referenceService.get(code, referenceType).pipe(
       filter(Boolean),
       map(refs =>
         refs.map(ref =>
