@@ -6,6 +6,8 @@ export enum ICON_TYPE {
   GRID = 'GRID',
   LIST = 'LIST',
   CARET_DOWN = 'CARET_DOWN',
+  CARET_LEFT = 'CARET_LEFT',
+  CARET_RIGHT = 'CARET_RIGHT',
   TIMES = 'TIMES',
   ERROR = 'ERROR',
   WARNING = 'WARNING',
@@ -18,6 +20,7 @@ export enum ICON_TYPE {
   PLUS = 'PLUS',
   MINUS = 'MINUS',
   RESET = 'RESET',
+  CIRCLE = 'CIRCLE',
 }
 
 export abstract class IconConfig {

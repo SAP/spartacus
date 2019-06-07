@@ -36,7 +36,7 @@ import {
   ProductTabsModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
-import { StoreFinderModule } from './storefinder/index';
+import { OrderConfirmationModule } from './order-confirmation/index';
 
 @NgModule({
   imports: [
@@ -65,7 +65,9 @@ import { StoreFinderModule } from './storefinder/index';
     CloseAccountModule,
     CartComponentModule,
     TabParagraphContainerModule,
-    StoreFinderModule,
+    OrderConfirmationModule,
+    // TODO:#2811 - uncomment to enable
+    // StoreFinderModule,
     ProductImagesModule,
     CheckoutComponentModule,
     ForgotPasswordModule,

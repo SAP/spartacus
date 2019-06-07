@@ -9,6 +9,18 @@ import { Region } from '../../../model/address.model';
 
 describe('Regions Selectors', () => {
   let store: Store<StateWithUser>;
+  const country = 'CA';
+  const mockRegions: Region[] = [
+    {
+      isocode: 'CA-ON',
+      name: 'Ontario',
+    },
+    {
+      isocode: 'CA-QC',
+      name: 'Quebec',
+    },
+  ];
+  const mockEmptyRegions: Region[] = [];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,17 +36,6 @@ describe('Regions Selectors', () => {
 
   describe('getAllRegions', () => {
     it('should return all regions', () => {
-      const mockRegions: Region[] = [
-        {
-          isocode: 'CA-ON',
-          name: 'Ontario',
-        },
-        {
-          isocode: 'CA-QC',
-          name: 'Quebec',
-        },
-      ];
-
       let result: Region[];
       store
         .pipe(select(fromSelectors.getAllRegions))
@@ -42,9 +43,60 @@ describe('Regions Selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadRegionsSuccess(mockRegions));
+      store.dispatch(
+        new fromActions.LoadRegionsSuccess({ entities: mockRegions, country })
+      );
 
       expect(result).toEqual(mockRegions);
+    });
+  });
+
+  describe('getRegionsCountry', () => {
+    it('should return regions country', () => {
+      let result: string;
+      store
+        .pipe(select(fromSelectors.getRegionsCountry))
+        .subscribe(value => (result = value));
+
+      expect(result).toBeNull();
+      store.dispatch(
+        new fromActions.LoadRegionsSuccess({
+          entities: mockEmptyRegions,
+          country,
+        })
+      );
+      expect(result).toEqual(country);
+    });
+  });
+
+  describe('getRegionsLoading', () => {
+    it('should return loading state', () => {
+      let result: boolean;
+      store
+        .pipe(select(fromSelectors.getRegionsLoading))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+      store.dispatch(new fromActions.LoadRegions(country));
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getRegionsLoaded', () => {
+    it('should return success state', () => {
+      let result: boolean;
+      store
+        .pipe(select(fromSelectors.getRegionsLoaded))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+      store.dispatch(
+        new fromActions.LoadRegionsSuccess({
+          entities: mockEmptyRegions,
+          country,
+        })
+      );
+      expect(result).toEqual(true);
     });
   });
 });

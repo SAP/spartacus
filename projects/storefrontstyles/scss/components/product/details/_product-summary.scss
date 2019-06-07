@@ -20,6 +20,7 @@
   .code {
     @include type('7');
     color: var(--cx-g-color-secondary);
+    margin: 0 0 20px 0;
   }
 
   .rating {
@@ -30,12 +31,16 @@
     .count {
       margin: 0 20px 0 5px;
     }
+
+    cx-star-rating {
+      padding: 0 0 15px 0;
+    }
   }
 
   .price {
     display: inline-block;
     @include type('3');
-    font-weight: $font-weight-normal;
+    margin: 0 0 11px 0;
   }
 
   .quantity {

@@ -14,7 +14,6 @@ import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../../checkout/connectors';
-import { AddMessage, GlobalMessageType } from '../../../global-message';
 import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 
 import * as fromEffects from './checkout.effect';
@@ -249,13 +248,9 @@ describe('Checkout effect', () => {
         cartId: cartId,
       });
       const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
-      const completion2 = new AddMessage({
-        text: { key: 'checkoutOrderConfirmation.orderPlacedSuccessfully' },
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+      const expected = cold('-(b)', { b: completion1 });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
     });

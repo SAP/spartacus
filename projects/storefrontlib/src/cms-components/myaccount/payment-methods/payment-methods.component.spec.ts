@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   PaymentDetails,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CardComponent } from '../../../shared/components/card/card.component';
@@ -33,7 +33,7 @@ export class MockCxIconComponent {
   @Input() type;
 }
 
-class MockUserService {
+class MockUserPaymentService {
   getPaymentMethodsLoading(): Observable<boolean> {
     return of();
   }
@@ -48,7 +48,7 @@ class MockUserService {
 describe('PaymentMethodsComponent', () => {
   let component: PaymentMethodsComponent;
   let fixture: ComponentFixture<PaymentMethodsComponent>;
-  let userService: UserService;
+  let userService: UserPaymentService;
   let el: DebugElement;
 
   beforeEach(async(() => {
@@ -60,7 +60,9 @@ describe('PaymentMethodsComponent', () => {
         CardComponent,
         MockCxIconComponent,
       ],
-      providers: [{ provide: UserService, useClass: MockUserService }],
+      providers: [
+        { provide: UserPaymentService, useClass: MockUserPaymentService },
+      ],
     }).compileComponents();
   }));
 
@@ -68,7 +70,7 @@ describe('PaymentMethodsComponent', () => {
     fixture = TestBed.createComponent(PaymentMethodsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    userService = TestBed.get(UserService);
+    userService = TestBed.get(UserPaymentService);
   });
 
   it('should create', () => {

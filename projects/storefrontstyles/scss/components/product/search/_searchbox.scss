@@ -154,7 +154,7 @@
     left: 0;
     width: 100%;
     color: #000;
-    background-color: var(--cx-g-color-background);
+    background-color: #fff;
     font-size: var(--cx-g-font-small, 1rem);
 
     @include media-breakpoint-down(sm) {
