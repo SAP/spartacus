@@ -52,10 +52,10 @@ export class SmartEditService {
   }
 
   protected getCmsTicket() {
-    combineLatest(
+    combineLatest([
       this.cmsService.getCurrentPage(),
-      this.routingService.getRouterState()
-    )
+      this.routingService.getRouterState(),
+    ])
       .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
       .subscribe(([, routerState]) => {
         if (routerState.nextState && !this._cmsTicketId) {

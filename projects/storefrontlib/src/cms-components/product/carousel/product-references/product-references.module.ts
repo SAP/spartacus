@@ -11,7 +11,7 @@ import { ProductReferencesComponent } from './product-references.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductReferencesComponent: {
-          selector: 'cx-product-references',
+          component: ProductReferencesComponent,
         },
       },
     }),
