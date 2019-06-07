@@ -41,6 +41,7 @@
   <p>
     <a
       [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
+      queryParamsHandling="preserve"
       aria-controls="reset-password"
       class="btn-link"
       >{{ 'loginForm.forgotPassword' | cxTranslate }}</a
@@ -62,6 +63,7 @@
   </h3>
   <a
     [routerLink]="{ cxRoute: 'register' } | cxUrl"
+    queryParamsHandling="preserve"
     class="btn btn-block btn-secondary"
     >{{ 'loginForm.register' | cxTranslate }}</a
   >

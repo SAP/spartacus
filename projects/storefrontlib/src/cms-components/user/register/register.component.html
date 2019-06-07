@@ -192,6 +192,7 @@
           <a
             class="cx-login-link btn-link"
             [routerLink]="{ cxRoute: 'login' } | cxUrl"
+            queryParamsHandling="preserve"
             >{{ 'register.signIn' | cxTranslate }}</a
           >
         </form>
