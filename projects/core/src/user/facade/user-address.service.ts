@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Address, Country, Region } from '../../model/address.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import * as fromStore from '../store/index';
-import { debounceTime, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -134,23 +134,19 @@ export class UserAddressService {
    * Returns all regions
    */
   getRegions(countryIsoCode: string): Observable<Region[]> {
-    return combineLatest(
-      this.store.pipe(select(fromStore.getAllRegions)),
-      this.store.pipe(select(fromStore.getRegionsCountry)),
-      this.store.pipe(select(fromStore.getRegionsLoading)),
-      this.store.pipe(select(fromStore.getRegionsLoaded))
-    ).pipe(
-      debounceTime(1), // fix for inconsistent result on store mutations
-      map(([regions, country, loading, loaded]) => {
-        if (!countryIsoCode) {
+    return this.store.select(fromStore.getRegionsDataAndLoading).pipe(
+      map(({ regions, country, loading, loaded }) => {
+        if (!countryIsoCode && (loading || loaded)) {
           this.clearRegions();
           return [];
         } else if (loading && !loaded) {
           // don't interrupt loading
           return [];
-        } else if (!loading && countryIsoCode !== country) {
+        } else if (!loading && countryIsoCode !== country && countryIsoCode) {
           // country changed - clear store and load new regions
-          this.clearRegions();
+          if (country) {
+            this.clearRegions();
+          }
           this.loadRegions(countryIsoCode);
           return [];
         }
