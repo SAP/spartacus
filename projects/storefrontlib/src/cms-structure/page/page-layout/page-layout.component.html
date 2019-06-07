@@ -1,5 +1,12 @@
 <!-- ???? {{ layoutName$ | async }} -->
-<ng-template [cxOutlet]="layoutName$ | async" [cxOutletContext]="{}">
+<ng-template
+  [cxOutlet]="layoutName$ | async"
+  [cxOutletContext]="{
+    templateName$: templateName$,
+    slots$: slots$,
+    section$: section$
+  }"
+>
   <ng-content></ng-content>
 
   <!-- {{ slots$ | async }} -->

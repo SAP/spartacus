@@ -1,23 +1,24 @@
 import {
+  AfterContentChecked,
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
 } from '@angular/core';
-import { TranslatePipe, TranslationService } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
+
+import { TranslationService } from '@spartacus/core';
 import { ProductDetailOutlets } from '../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TranslatePipe],
 })
-export class ProductSummaryComponent implements OnInit {
+export class ProductSummaryComponent implements AfterContentChecked {
   static outlets = ProductDetailOutlets;
 
   itemCount = 1;
-  reviewsTabAvailable: boolean;
+  reviewsTabAvailable = new BehaviorSubject<boolean>(false);
 
   @Input() product: any;
 
@@ -72,26 +73,25 @@ export class ProductSummaryComponent implements OnInit {
   showReviews() {
     // Use translated label for Reviews tab reference
     this.translationService
-      .translate('productDetails.reviews')
+      .translate('CMSTabParagraphContainer.tabs.ProductReviewsTabComponent')
       .subscribe(reviewsTabLabel => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
-
         const reviewsComponent = this.getReviewsComponent();
-
         if (reviewsTab && reviewsComponent) {
           this.clickTabIfInactive(reviewsTab);
-          reviewsComponent.scrollIntoView();
+          setTimeout(
+            () => reviewsComponent.scrollIntoView({ behavior: 'smooth' }),
+            0
+          );
         }
-      });
+      })
+      .unsubscribe();
   }
 
-  constructor(
-    protected translatePipe: TranslatePipe,
-    private translationService: TranslationService
-  ) {}
+  constructor(private translationService: TranslationService) {}
 
-  ngOnInit() {
-    this.reviewsTabAvailable = !!this.getReviewsComponent();
+  ngAfterContentChecked() {
+    this.reviewsTabAvailable.next(!!this.getReviewsComponent());
   }
 }
