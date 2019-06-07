@@ -37,8 +37,4 @@ export class ProductReferencesComponent {
       map(p => p.code)
     );
   }
-
-  get referenceType$(): Observable<string> {
-    return this.component.data$.pipe(map(d => d.productReferenceTypes));
-  }
 }
