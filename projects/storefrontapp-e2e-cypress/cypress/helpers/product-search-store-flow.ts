@@ -1,5 +1,5 @@
 import { PRODUCT_LISTING } from './data-configuration';
-import { checkFirstItem, createGenericQuery } from './product-search';
+import { checkFirstItem, createProductQuery } from './product-search';
 import Chainable = Cypress.Chainable;
 import WaitXHR = Cypress.WaitXHR;
 import ObjectLike = Cypress.ObjectLike;
@@ -16,7 +16,7 @@ enum queries {
 export function productStoreFlow(mobile?: string) {
   cy.server();
 
-  createGenericQuery(queries.q1);
+  createProductQuery(queries.q1);
 
   cy.get('cx-searchbox input').type('canon{enter}');
 
@@ -31,7 +31,7 @@ export function productStoreFlow(mobile?: string) {
       // checkFirstItem('ACK-E5 AC Adapter Kit');
       checkFirstItem(firstItem);
       // Navigate to next page
-      createGenericQuery(queries.q2);
+      createProductQuery(queries.q2);
       cy.get('.page-item:last-of-type .page-link:first').click();
     })
     .then(() => waitAndGetFirstProductFromXHR(queries.q2))
@@ -40,7 +40,7 @@ export function productStoreFlow(mobile?: string) {
 
       checkFirstItem(firstItem);
       // Sort by name descending
-      createGenericQuery(queries.q3);
+      createProductQuery(queries.q3);
       cy.get('cx-sorting .ng-select:first').ngSelect(
         PRODUCT_LISTING.SORTING_TYPES.BY_NAME_DESC
       );
@@ -50,7 +50,7 @@ export function productStoreFlow(mobile?: string) {
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
       checkFirstItem(firstItem);
-      createGenericQuery(queries.q4);
+      createProductQuery(queries.q4);
       // Filter by stores
       cy.get('.cx-facet-header')
         .contains('Stores')
@@ -67,7 +67,7 @@ export function productStoreFlow(mobile?: string) {
       cy.get(resultsTitle).should('contain', '45 results for "canon"');
 
       checkFirstItem(firstItem);
-      createGenericQuery(queries.q5);
+      createProductQuery(queries.q5);
       if (mobile) {
         cy.get(
           `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`

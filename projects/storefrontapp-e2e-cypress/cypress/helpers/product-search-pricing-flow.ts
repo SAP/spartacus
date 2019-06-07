@@ -1,10 +1,15 @@
 import { PRODUCT_LISTING } from './data-configuration';
-import { createGenericQuery, createQuery } from './product-search';
+import {
+  createProductQuery,
+  productNameSelector,
+  createProductSortQuery,
+  productItemSelector,
+} from './product-search';
 
 export function productPricingFlow() {
   cy.server();
-  createGenericQuery('query');
-  createQuery('price-asc', 'query_price_asc');
+  createProductQuery('productQuery');
+  createProductSortQuery('price-asc', 'query_price_asc');
 
   // Click on a Category
   cy.get('header').within(() => {
@@ -21,12 +26,12 @@ export function productPricingFlow() {
     '47 results for Digital Compacts'
   );
 
-  cy.get('cx-product-list-item').should(
+  cy.get(productItemSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  cy.get('cx-product-list-item .cx-product-name')
+  cy.get(productNameSelector)
     .first()
     .invoke('text')
     .should('match', /\w+/)
@@ -35,9 +40,9 @@ export function productPricingFlow() {
       cy.get('.page-item:last-of-type .page-link:first').click();
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
-      cy.wait('@query');
+      cy.wait('@productQuery');
 
-      cy.get('cx-product-list-item .cx-product-name')
+      cy.get(productNameSelector)
         .first()
         .invoke('text')
         .should('match', /\w+/)
@@ -52,7 +57,7 @@ export function productPricingFlow() {
 
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
-      cy.get('cx-product-list-item .cx-product-name')
+      cy.get(productNameSelector)
         .first()
         .invoke('text')
         .should('match', /\w+/)
