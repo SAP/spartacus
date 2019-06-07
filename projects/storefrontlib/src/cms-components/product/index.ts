@@ -4,6 +4,7 @@ export * from './carousel/product-references/product-references.component';
 export * from './carousel/product-references/product-references.module';
 export * from './product-summary/product-summary.component';
 export * from './product-summary/product-summary.module';
+export * from './carousel/index';
 export * from './current-product.service';
 export * from './product-list/index';
 export * from './product-outlets.model';
