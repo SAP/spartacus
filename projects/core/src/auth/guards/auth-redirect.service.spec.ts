@@ -60,6 +60,23 @@ describe('AuthRedirectService', () => {
       });
     });
 
+    describe(', when just opened url with NotAuthGuard with custom redirectUrl,', () => {
+      beforeEach(() => {
+        router['url' as any] = '/test';
+        spyOn(router, 'getCurrentNavigation').and.returnValue({
+          id: 1,
+          finalUrl: { queryParams: { redirectUrl: '/home' } },
+        });
+
+        service.reportNotAuthGuard();
+        service.redirect();
+      });
+
+      it('should redirect to the custom url', () => {
+        expect(routingService.goByUrl).toHaveBeenCalledWith('/home');
+      });
+    });
+
     describe(', when just opened sequentially two urls with NotAuthGuard,', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
