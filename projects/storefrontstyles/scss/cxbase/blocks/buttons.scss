@@ -170,50 +170,57 @@ button {
   }
 }
 
-.btn[aria-pressed='true'] {
-  @extend .btn.active;
+// When switched to Angular 8, we switched also the compiler from `node-sass` to `sass` (dart-sass).
+// Then extending compound selector become illegal (i.e. `@extend .btn.active`)
+// See: https://github.com/sass/dart-sass#behavioral-differences-from-ruby-sass
+// Commented out the styles below, because they use the forbidden syntax:
 
-  &.btn-primary {
-    @extend .btn-primary;
-  }
+// .btn[aria-pressed='true'] {
+//   @extend .btn.active;
 
-  &.btn-secondary {
-    @extend .btn-secondary;
-  }
+//   &.btn-primary {
+//     @extend .btn-primary;
+//   }
 
-  &.btn-action {
-    @extend .btn-action;
-  }
-}
+//   &.btn-secondary {
+//     @extend .btn-secondary;
+//   }
 
-.btn[aria-disabled='true'] {
-  @extend .btn.disabled;
-  cursor: auto;
-  opacity: 0.6;
+//   &.btn-action {
+//     @extend .btn-action;
+//   }
+// }
 
-  &.btn-primary {
-    @extend .btn-primary.disabled;
-  }
+// .btn[aria-disabled='true'] {
+//   @extend .btn.disabled;
+//   cursor: auto;
+//   opacity: 0.6;
 
-  &.btn-secondary {
-    @extend .btn-secondary.disabled;
-  }
+//   &.btn-primary {
+//     @extend .btn-primary.disabled;
+//   }
 
-  &.btn-action {
-    @extend .btn-action.disabled;
-  }
-}
+//   &.btn-secondary {
+//     @extend .btn-secondary.disabled;
+//   }
 
-.btn[disabled] {
-  &.btn-primary {
-    @extend .btn-primary.disabled;
-  }
+//   &.btn-action {
+//     @extend .btn-action.disabled;
+//   }
+// }
 
-  &.btn-secondary {
-    @extend .btn-secondary.disabled;
-  }
+// .btn[disabled] {
+//   &.btn-primary {
+//     @extend .btn-primary.disabled;
+//   }
 
-  &.btn-action {
-    @extend .btn-action.disabled;
-  }
-}
+//   &.btn-secondary {
+//     @extend .btn-secondary.disabled;
+//   }
+
+//   &.btn-action {
+//     @extend .btn-action.disabled;
+//   }
+// }
+
+// ============ end of commented out styles =============

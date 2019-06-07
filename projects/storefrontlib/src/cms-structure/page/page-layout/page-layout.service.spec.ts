@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { PageLayoutService } from './page-layout.service';
+import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 
 const PAGE_TITLE = 'The page title will be returned if `showTitle` enabled';
 
@@ -71,6 +72,12 @@ export class MockCmsService {
   }
 }
 
+export class SimplePageLayoutHandler {
+  handle(slots$) {
+    return slots$;
+  }
+}
+
 describe('PageLayoutService', () => {
   let pageLayoutService: PageLayoutService;
   let cmsService: CmsService;
@@ -83,6 +90,11 @@ describe('PageLayoutService', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: BreakpointService, useClass: MockBreakpointService },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
+        {
+          provide: PAGE_LAYOUT_HANDLER,
+          useClass: SimplePageLayoutHandler,
+          multi: true,
+        },
       ],
     });
 
@@ -123,6 +135,13 @@ describe('PageLayoutService', () => {
           .subscribe(slots => (results = slots))
           .unsubscribe();
         expect(results).toEqual(DEFAULT_FOOTER_SLOT_CONFIG);
+      });
+
+      it('should use Page Layout Handlers', () => {
+        const pageLayoutHandler = TestBed.get(PAGE_LAYOUT_HANDLER)[0];
+        spyOn(pageLayoutHandler, 'handle').and.callThrough();
+        pageLayoutService.getSlots('footer').subscribe();
+        expect(pageLayoutHandler.handle).toHaveBeenCalled();
       });
     });
 

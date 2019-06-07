@@ -8,10 +8,10 @@ import { ActivatedRoute } from '@angular/router';
 import {
   Address,
   CartService,
-  CheckoutService,
+  CheckoutDeliveryService,
   RoutingService,
   TranslationService,
-  UserService,
+  UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -47,10 +47,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   checkoutStepUrlPrevious: string;
 
   constructor(
-    protected userService: UserService,
+    protected userAddressService: UserAddressService,
     protected cartService: CartService,
     protected routingService: RoutingService,
-    protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
     private checkoutConfigService: CheckoutConfigService,
     private activatedRoute: ActivatedRoute,
     private translation: TranslationService
@@ -63,8 +63,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     );
     this.checkoutStepUrlPrevious = 'cart';
 
-    this.isLoading$ = this.userService.getAddressesLoading();
-    this.existingAddresses$ = this.userService.getAddresses();
+    this.isLoading$ = this.userAddressService.getAddressesLoading();
+    this.existingAddresses$ = this.userAddressService.getAddresses();
     this.cards$ = combineLatest(
       this.existingAddresses$,
       this.selectedAddress$.asObservable(),
@@ -98,9 +98,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     );
 
     this.cartService.loadDetails();
-    this.userService.loadAddresses();
+    this.userAddressService.loadAddresses();
 
-    this.setAddressSub = this.checkoutService
+    this.setAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()
       .subscribe(address => {
         this.setAddress = address;
@@ -161,7 +161,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     address: Address;
   }): void {
     if (newAddress) {
-      this.checkoutService.createAndSetAddress(address);
+      this.checkoutDeliveryService.createAndSetAddress(address);
       this.goTo = CheckoutStepType.DELIVERY_MODE;
       return;
     }
@@ -173,7 +173,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.goNext();
     } else {
       this.goTo = CheckoutStepType.DELIVERY_MODE;
-      this.checkoutService.setDeliveryAddress(address);
+      this.checkoutDeliveryService.setDeliveryAddress(address);
     }
   }
 

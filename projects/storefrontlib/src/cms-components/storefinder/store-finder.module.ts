@@ -45,7 +45,7 @@ import { IconModule } from './../misc/icon/icon.module';
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
         StoreFinderComponent: {
-          selector: 'cx-store-finder',
+          component: StoreFinderComponent,
           childRoutes: [
             {
               path: 'find',

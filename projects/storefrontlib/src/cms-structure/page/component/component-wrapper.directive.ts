@@ -16,12 +16,12 @@ import {
   CmsComponent,
   CmsConfig,
   CmsService,
-  ComponentMapperService,
   ContentSlotComponentData,
   CxApiService,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
+import { ComponentMapperService } from './component-mapper.service';
 
 @Directive({
   selector: '[cxComponentWrapper]',

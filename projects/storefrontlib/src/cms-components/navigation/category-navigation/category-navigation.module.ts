@@ -13,7 +13,7 @@ import { CategoryNavigationComponent } from './category-navigation.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CategoryNavigationComponent: {
-          selector: 'cx-category-navigation',
+          component: CategoryNavigationComponent,
           providers: [
             {
               provide: NavigationComponentService,

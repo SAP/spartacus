@@ -8,7 +8,7 @@ import {
 } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { UserService } from '../../facade/index';
+import { UserAddressService } from '../../facade/user-address.service';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 
@@ -144,7 +144,7 @@ export class UserAddressesEffects {
   constructor(
     private actions$: Actions,
     private userAddressConnector: UserAddressConnector,
-    private userService: UserService,
+    private userAddressService: UserAddressService,
     private messageService: GlobalMessageService
   ) {}
 
@@ -152,12 +152,6 @@ export class UserAddressesEffects {
    * Show global confirmation message with provided text
    */
   private showGlobalMessage(text: string) {
-    // ----------
-    // todo: handle automatic removal of outdated messages
-    this.messageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-    this.messageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
-    // ----------
-
     this.messageService.add(
       { key: text },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -165,6 +159,6 @@ export class UserAddressesEffects {
   }
 
   private loadAddresses() {
-    this.userService.loadAddresses();
+    this.userAddressService.loadAddresses();
   }
 }

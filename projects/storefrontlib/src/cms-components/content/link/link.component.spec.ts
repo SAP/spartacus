@@ -5,14 +5,8 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsLinkComponent, CmsComponent, CmsConfig } from '@spartacus/core';
+import { CmsLinkComponent, CmsComponent } from '@spartacus/core';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
-
-const UseCmsModuleConfig: CmsConfig = {
-  cmsComponents: {
-    CMSLinkComponent: { selector: 'LinkComponent' },
-  },
-};
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
@@ -36,7 +30,6 @@ describe('LinkComponent', () => {
       imports: [RouterTestingModule, GenericLinkModule],
       declarations: [LinkComponent],
       providers: [
-        { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
