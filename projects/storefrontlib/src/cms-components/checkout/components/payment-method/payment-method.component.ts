@@ -13,7 +13,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
-  RoutingConfigService,
   RoutingService,
   TranslationService,
   UserPaymentService,
@@ -34,12 +33,14 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
-  getPaymentDetailsSub: Subscription;
-  getDeliveryAddressSub: Subscription;
   selectedPayment: PaymentDetails;
-  deliveryAddress: Address;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
+
+  private getPaymentDetailsSub: Subscription;
+  private getDeliveryAddressSub: Subscription;
+
+  private deliveryAddress: Address;
+  private checkoutStepUrlNext: string;
+  private checkoutStepUrlPrevious: string;
 
   constructor(
     protected userPaymentService: UserPaymentService,
@@ -47,11 +48,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
-    protected routingConfigService: RoutingConfigService,
-    private routingService: RoutingService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
-    private translation: TranslationService
+    protected routingService: RoutingService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
+    protected translation: TranslationService
   ) {}
 
   ngOnInit() {
