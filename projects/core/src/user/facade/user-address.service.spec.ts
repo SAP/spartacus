@@ -179,14 +179,15 @@ describe('UserAddressService', () => {
 
     it('should be able to get all regions', done => {
       let regions: Region[];
-      service.getRegions(country).subscribe(data => {
-        regions = data;
-        expect(regions).toEqual(regionsList);
-        done();
-      });
       store.dispatch(
         new fromStore.LoadRegionsSuccess({ entities: regionsList, country })
       );
+      service.getRegions(country).subscribe(data => {
+        regions = data;
+        console.log(data);
+        expect(regions).toEqual(regionsList);
+        done();
+      });
     });
 
     it('should clear regions on empty country', done => {
@@ -226,8 +227,12 @@ describe('UserAddressService', () => {
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
       const country2 = 'AB';
-
-      service.getRegions(country);
+      store.dispatch(
+        new fromStore.LoadRegionsSuccess({
+          entities: regionsList,
+          country,
+        })
+      );
       service.getRegions(country2).subscribe(data => {
         regions = data;
         expect(regions).toEqual([]);
