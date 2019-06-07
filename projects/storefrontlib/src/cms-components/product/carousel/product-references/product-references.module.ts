@@ -23,7 +23,7 @@ import { ProductReferencesService } from './product-references.component.service
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductReferencesComponent: {
-          selector: 'cx-product-references',
+          component: ProductReferencesComponent,
           providers: [
             {
               provide: ProductReferencesService,
