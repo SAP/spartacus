@@ -37,7 +37,7 @@ export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
 export const CMS_FLEX_COMPONENT_TYPE = 'CMSFlexComponent';
 
 export interface CmsComponentMapping {
-  selector?: string;
+  component?: any;
   providers?: StaticProvider[];
   childRoutes?: Routes;
   disableSSR?: boolean;
