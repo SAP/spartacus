@@ -5,6 +5,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
 import { AuthService, UserToken } from '../../auth';
+import { BaseSiteService } from '../../site-context';
 
 import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
@@ -26,11 +27,18 @@ class AuthServiceStub {
   }
 }
 
+class BaseSiteServiceSub {
+  getActive(): Observable<string> {
+    return of();
+  }
+}
+
 describe('CartService', () => {
   let service: CartService;
   let cartData: CartDataServiceStub;
   let authService: AuthServiceStub;
   let store: Store<StateWithCart>;
+  let baseSiteService: BaseSiteServiceSub;
 
   const productCode = '1234';
   const userId = 'testUserId';
@@ -58,11 +66,13 @@ describe('CartService', () => {
         CartService,
         { provide: CartDataService, useClass: CartDataServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
+        { provide: BaseSiteService, useClass: BaseSiteServiceSub },
       ],
     });
 
     service = TestBed.get(CartService);
     authService = TestBed.get(AuthService);
+    baseSiteService = TestBed.get(BaseSiteService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
   });
@@ -150,6 +160,7 @@ describe('CartService', () => {
     describe(`when user's token and cart's user id are not equal`, () => {
       it(`should call '${setUserIdMethod}' and '${loadOrMergeMethod}' methods`, () => {
         spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+        spyOn(baseSiteService, 'getActive').and.returnValue(of('test'));
         store.dispatch(new fromCart.LoadCartSuccess(cart));
         store.dispatch(new fromCart.AddEntrySuccess('foo'));
         spyOn<any>(service, setUserIdMethod).and.stub();
