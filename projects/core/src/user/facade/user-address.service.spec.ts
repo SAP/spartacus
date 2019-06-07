@@ -184,7 +184,6 @@ describe('UserAddressService', () => {
       );
       service.getRegions(country).subscribe(data => {
         regions = data;
-        console.log(data);
         expect(regions).toEqual(regionsList);
         done();
       });
