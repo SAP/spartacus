@@ -26,7 +26,7 @@ import {
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {
-          selector: 'cx-register',
+          component: RegisterComponent,
           guards: [NotAuthGuard],
         },
       },

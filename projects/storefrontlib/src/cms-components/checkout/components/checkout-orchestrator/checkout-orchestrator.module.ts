@@ -14,7 +14,7 @@ import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutOrchestrator: {
-          selector: 'cx-checkout-orchestrator',
+          component: CheckoutOrchestratorComponent,
           guards: [AuthGuard, CartNotEmptyGuard, CheckoutGuard],
         },
       },

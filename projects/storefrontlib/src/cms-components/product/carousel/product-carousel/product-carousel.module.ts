@@ -21,7 +21,7 @@ import { ProductCarouselService } from './product-carousel.component.service';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductCarouselComponent: {
-          selector: 'cx-product-carousel',
+          component: ProductCarouselComponent,
           providers: [
             {
               provide: ProductCarouselService,

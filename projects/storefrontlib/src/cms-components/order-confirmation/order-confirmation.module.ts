@@ -35,19 +35,19 @@ const orderConfirmationComponents = [
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrderConfirmationThankMessageComponent: {
-          selector: 'cx-order-confirmation-thank-you-message',
+          component: OrderConfirmationThankYouMessageComponent,
           guards: [AuthGuard, OrderConfirmationGuard],
         },
         OrderConfirmationItemsComponent: {
-          selector: 'cx-order-confirmation-items',
+          component: OrderConfirmationItemsComponent,
           guards: [AuthGuard, OrderConfirmationGuard],
         },
         OrderConfirmationTotalsComponent: {
-          selector: 'cx-order-confirmation-totals',
+          component: OrderConfirmationTotalsComponent,
           guards: [AuthGuard, OrderConfirmationGuard],
         },
         OrderConfirmationOverviewComponent: {
-          selector: 'cx-order-confirmation-overview',
+          component: OrderConfirmationOverviewComponent,
           guards: [AuthGuard, OrderConfirmationGuard],
         },
       },
