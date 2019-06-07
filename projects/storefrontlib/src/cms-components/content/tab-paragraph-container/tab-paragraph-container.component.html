@@ -3,10 +3,11 @@
     {{ component.title | cxTranslate }}
   </h3>
   <div [class.active]="i === activeTabNum">
-    <ng-container
-      *cxOutlet="component.flexType"
+    <ng-template
+      [cxOutlet]="component.flexType"
+      [cxOutletContext]="{}"
       [cxComponentWrapper]="component"
     >
-    </ng-container>
+    </ng-template>
   </div>
 </ng-container>
