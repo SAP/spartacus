@@ -28,6 +28,24 @@ export const getAllRegions: MemoizedSelector<
   }
 );
 
+export const getRegionsDataAndLoading: MemoizedSelector<
+  StateWithUser,
+  {
+    loaded: boolean;
+    loading: boolean;
+    regions: Region[];
+    country: string;
+  }
+> = createSelector(
+  getRegionsLoaderState,
+  (state: LoaderState<RegionsState>) => ({
+    loaded: loaderSuccessSelector(state),
+    loading: loaderLoadingSelector(state),
+    regions: loaderValueSelector(state).entities,
+    country: loaderValueSelector(state).country,
+  })
+);
+
 export const getRegionsCountry: MemoizedSelector<
   StateWithUser,
   string

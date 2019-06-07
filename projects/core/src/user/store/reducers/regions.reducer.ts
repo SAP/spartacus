@@ -24,12 +24,6 @@ export function reducer(
       }
       return initialState;
     }
-
-    case fromAction.LOAD_REGIONS: {
-      return {
-        ...state,
-      };
-    }
   }
 
   return state;
