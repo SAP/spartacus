@@ -6,7 +6,6 @@ import {
   distinctUntilChanged,
   map,
   startWith,
-  tap,
 } from 'rxjs/operators';
 
 @Injectable({
@@ -16,23 +15,17 @@ export class CarouselService {
   constructor(private winRef: WindowRef) {}
 
   /**
-   * The number of items shown in the carousel can be calculated
-   * the standard implemenattions uses the element size to calculate
-   * the items that fit in the carousel.
+   * The number of items shown in the carousel is calculated dividing
+   * the host element width with the minimum item width.
    */
-  getSize(nativeElement: HTMLElement, width: number) {
+  getSize(nativeElement: HTMLElement, itemWidth: number) {
     return fromEvent(this.winRef.nativeWindow, 'resize').pipe(
-      tap(x => console.log('iiii', x)),
       map(_ => (nativeElement as HTMLElement).clientWidth),
       startWith((nativeElement as HTMLElement).clientWidth),
-      // avoid to much calls
       debounceTime(100),
-      map((innerWidth: any) => {
-        console.log('i', innerWidth);
-        return Math.round(innerWidth / width);
-        // return itemsPerPage > 2 ? 4 : itemsPerPage;
+      map((totalWidth: any) => {
+        return Math.round(totalWidth / itemWidth);
       }),
-      // only emit new size when the size changed
       distinctUntilChanged()
     );
   }

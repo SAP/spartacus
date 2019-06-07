@@ -1,6 +1,6 @@
-import { Product } from '@spartacus/core';
-
-export interface CarouselData {
+export interface CarouselItem {
   title?: string;
-  items?: Product[];
+  media?: { container: any; format?: string };
+  price?: any;
+  route?: any[];
 }

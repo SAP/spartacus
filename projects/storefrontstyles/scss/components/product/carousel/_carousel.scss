@@ -1,31 +1,7 @@
-%buttonCaret {
-  background-color: transparent;
-  border: none;
-
-  &:disabled {
-    opacity: 0.5;
-  }
-
-  &:not(:disabled):hover {
-    color: var(--cx-g-color-primary);
-  }
-
-  &:after {
-    content: '';
-    border-style: solid;
-    border-color: currentColor;
-    border-width: 4px;
-    width: 15px;
-    height: 15px;
-    display: block;
-    border-top: 0;
-  }
-}
-
 %cx-carousel {
+  display: flex;
   flex: 100%;
   --cx-speed: 0.5;
-  display: flex;
   flex-direction: column;
 
   @include media-breakpoint-down(md) {
@@ -53,6 +29,9 @@
     }
     &.size-2 .product {
       flex: 0 0 50%;
+    }
+    &.size-3 .product {
+      flex: 0 0 33%;
     }
     &.size-4 .product {
       flex: 0 0 25%;
@@ -132,13 +111,9 @@
     justify-content: center;
 
     button {
-      border-radius: 15px;
-      width: 15px;
-      height: 15px;
       border: none;
-      padding: 0;
-      margin: 10px;
-      background-color: currentColor;
+      padding: 10px;
+      margin: 0;
       transition: 0.6s all;
       &[disabled] {
         color: var(--cx-g-color-primary);
@@ -153,19 +128,18 @@
     }
   }
 
-  .previous {
-    @extend %buttonCaret;
-    &:after {
-      border-right: 0;
-      transform: rotate(45deg);
-    }
-  }
-
+  .previous,
   .next {
-    @extend %buttonCaret;
-    &:after {
-      border-left: 0;
-      transform: rotate(-45deg);
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &:not(:disabled):hover {
+      color: var(--cx-g-color-primary);
     }
   }
 }

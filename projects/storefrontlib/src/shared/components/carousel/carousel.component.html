@@ -1,53 +1,61 @@
-{{ size$ | async | json }}
 <h3 *ngIf="title">
   {{ title }}
 </h3>
 
-<div
-  *ngIf="(size$ | async) as size"
-  class="cx-carousel"
-  [ngClass]="'size-' + size"
->
-  <button
-    class="previous"
-    (click)="previous()"
-    [disabled]="activeSlide === 0"
-  ></button>
+<ng-container *ngIf="items && (size$ | async) as size">
+  <div class="cx-carousel" [ngClass]="'size-' + size">
+    <button
+      *ngIf="size < items.length"
+      class="previous"
+      (click)="select(activeSlide - size)"
+      [disabled]="activeSlide === 0"
+    >
+      <cx-icon [type]="previousIcon"></cx-icon>
+    </button>
 
-  <div class="groups">
-    <ng-container *ngFor="let _ of items; let i = index">
-      <div class="group" *ngIf="i % size === 0">
-        <ng-container *ngFor="let item of (items | slice: i:i + size)">
-          <a
-            *ngIf="item"
-            class="product"
-            [class.active]="i === activeSlide"
-            [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
-          >
-            <cx-media [container]="item?.images?.PRIMARY" format="product">
-            </cx-media>
+    <div class="groups">
+      <ng-container *ngFor="let _ of items; let i = index">
+        <div class="group" *ngIf="i % size === 0">
+          <ng-container *ngFor="let item of (items | slice: i:i + size)">
+            <a
+              *ngIf="item"
+              class="product"
+              [class.active]="i === activeSlide"
+              [routerLink]="item.route"
+            >
+              <cx-media
+                [container]="item.media?.container"
+                [format]="item.media?.format"
+              >
+              </cx-media>
 
-            <h4>{{ item.name }}</h4>
-            <div class="price">{{ item.price?.formattedValue }}</div>
-          </a>
-        </ng-container>
-      </div>
-    </ng-container>
+              <h4>{{ item.title }}</h4>
+              <div class="price">{{ item.price }}</div>
+            </a>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+
+    <button
+      *ngIf="size < items.length"
+      class="next"
+      (click)="select(activeSlide + size)"
+      [disabled]="activeSlide > items.length - size - 1"
+    >
+      <cx-icon [type]="nextIcon"></cx-icon>
+    </button>
   </div>
 
-  <button
-    class="next"
-    (click)="next()"
-    [disabled]="activeSlide > items.length - size"
-  ></button>
-</div>
-
-<div class="indicators">
-  <ng-container *ngFor="let _ of items; let i = index">
-    <button
-      *ngIf="i % size === 0"
-      (click)="select(i)"
-      [disabled]="i === activeSlide"
-    ></button>
-  </ng-container>
-</div>
+  <div class="indicators" *ngIf="size < items.length">
+    <ng-container *ngFor="let _ of items; let i = index">
+      <button
+        *ngIf="i % size === 0"
+        (click)="select(i)"
+        [disabled]="i === activeSlide"
+      >
+        <cx-icon [type]="indicatorIcon"></cx-icon>
+      </button>
+    </ng-container>
+  </div>
+</ng-container>
