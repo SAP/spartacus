@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { RoutingService } from '../../routing/facade/routing.service';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +45,13 @@ export class AuthRedirectService {
   }
 
   reportNotAuthGuard() {
-    const { url, initialUrl, navigationId } = this.getCurrentNavigation();
+    const {
+      url,
+      initialUrl,
+      navigationId,
+      queryParams = {},
+    } = this.getCurrentNavigation();
+    const { redirectUrl } = queryParams;
 
     this.ignoredUrls.add(url);
 
@@ -57,7 +63,7 @@ export class AuthRedirectService {
         !this.lastAuthGuardNavigation ||
         this.lastAuthGuardNavigation.navigationId < navigationId - 1
       ) {
-        this.redirectUrl = initialUrl;
+        this.redirectUrl = redirectUrl || initialUrl;
         this.lastAuthGuardNavigation = undefined;
       }
     }
@@ -67,14 +73,18 @@ export class AuthRedirectService {
     navigationId: number;
     url: string;
     initialUrl: string;
+    queryParams: Params;
   } {
     const initialUrl = this.router.url;
     const navigation = this.router.getCurrentNavigation();
     const url = this.router.serializeUrl(navigation.finalUrl);
+    const { queryParams } = navigation.finalUrl;
+
     return {
       navigationId: navigation.id,
       url,
       initialUrl,
+      queryParams,
     };
   }
 }
