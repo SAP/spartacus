@@ -9,11 +9,24 @@ import {
 } from 'rxjs/operators';
 import { BREAKPOINT, LayoutConfig } from '../config/layout-config';
 
+const DEFAULT_BREAKPOINTS = {
+  [BREAKPOINT.xs]: 576,
+  [BREAKPOINT.sm]: 768,
+  [BREAKPOINT.md]: 992,
+  [BREAKPOINT.lg]: 1200,
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class BreakpointService {
   constructor(private winRef: WindowRef, private config: LayoutConfig) {}
+
+  getSize(breakpoint: BREAKPOINT): number {
+    return this.config.breakpoints
+      ? this.config.breakpoints[breakpoint]
+      : DEFAULT_BREAKPOINTS[breakpoint];
+  }
 
   get breakpoint$(): Observable<BREAKPOINT> {
     if (!this.window) {
@@ -50,10 +63,6 @@ export class BreakpointService {
     return windowWidth < this.getSize(BREAKPOINT.xs)
       ? BREAKPOINT.xs
       : this.breakpoints.reverse().find(br => windowWidth >= this.getSize(br));
-  }
-
-  protected getSize(breakpoint: BREAKPOINT): number {
-    return this.config.breakpoints ? this.config.breakpoints[breakpoint] : 576;
   }
 
   get window(): Window {

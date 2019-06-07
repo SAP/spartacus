@@ -1,5 +1,8 @@
 <ng-container *ngIf="(product$ | async) as product">
-  <ng-container *cxOutlet="outlets.SUMMARY">
+  <ng-template
+    [cxOutlet]="outlets.SUMMARY"
+    [cxOutletContext]="{ product: product }"
+  >
     <cx-product-summary [product]="product"> </cx-product-summary>
-  </ng-container>
+  </ng-template>
 </ng-container>
