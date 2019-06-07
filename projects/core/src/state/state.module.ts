@@ -14,7 +14,6 @@ import { stateMetaReducers } from './reducers/index';
           strictStateImmutability: true,
           strictActionImmutability: true,
           strictStateSerializability: true,
-          strictActionSerializability: true,
         },
       }
     ),
