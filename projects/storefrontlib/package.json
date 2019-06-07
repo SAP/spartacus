@@ -20,7 +20,7 @@
     "@angular/forms": "~8.0.0",
     "@angular/platform-browser": "~8.0.0",
     "@angular/platform-browser-dynamic": "~8.0.0",
-    "@angular/pwa": "^0.800.0",
+    "@angular/pwa": "^0.800.2",
     "@angular/router": "~8.0.0",
     "@angular/service-worker": "~8.0.0",
     "@ng-bootstrap/ng-bootstrap": "4.1.0",
