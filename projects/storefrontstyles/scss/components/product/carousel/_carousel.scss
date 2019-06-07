@@ -63,6 +63,11 @@
           color: var(--cx-g-color-text);
           cx-media {
             height: 20vmin;
+
+            &.is-missing {
+              min-height: 20vmin;
+              background-size: 20vmin;
+            }
           }
           opacity: 0;
           z-index: -1;
@@ -115,6 +120,7 @@
       padding: 10px;
       margin: 0;
       transition: 0.6s all;
+      background-color: transparent;
       &[disabled] {
         color: var(--cx-g-color-primary);
       }
