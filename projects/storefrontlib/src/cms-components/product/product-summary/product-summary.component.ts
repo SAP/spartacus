@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { TranslatePipe, TranslationService, Product } from '@spartacus/core';
-import { ProductDetailOutlets } from '../product-outlets.model';
+import { Product, TranslatePipe, TranslationService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
+import { ProductDetailOutlets } from '../product-outlets.model';
 
 @Component({
   selector: 'cx-product-summary',

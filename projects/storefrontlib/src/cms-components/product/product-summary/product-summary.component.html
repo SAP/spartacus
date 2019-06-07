@@ -31,7 +31,7 @@
     [cxOutlet]="outlets.SUMMARY"
     [cxOutletContext]="{ product: product }"
   >
-    <div class="description"><p [innerHTML]="product?.summary"></p></div>
+    <p [innerHTML]="product?.summary" class="summary"></p>
   </ng-template>
 
   <!-- @TODO: Temp. Comment out share link while not in use by CMS -->
