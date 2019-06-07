@@ -7,7 +7,17 @@ import { stateMetaReducers } from './reducers/index';
 
 @NgModule({
   imports: [
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(
+      {},
+      {
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictActionImmutability: true,
+          strictStateSerializability: true,
+          strictActionSerializability: true,
+        },
+      }
+    ),
     EffectsModule.forRoot([]),
     ConfigModule.withConfig(defaultStateConfig),
   ],
