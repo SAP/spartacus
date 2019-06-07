@@ -1,40 +1,30 @@
-import {
-  Component,
-  DebugElement,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CmsProductCarouselComponent,
-  Product,
-  ProductService,
-} from '@spartacus/core';
+import { CmsProductCarouselComponent, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { SharedCarouselService } from '../shared-carousel.service';
+import { ProductCarouselService } from '../product-carousel.service';
 import { ProductCarouselComponent } from './product-carousel.component';
-import { ProductCarouselService } from './product-carousel.component.service';
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 @Component({
-  selector: 'cx-media',
+  selector: 'cx-carousel',
   template: '',
 })
-class MockMediaComponent {
-  @Input() container;
+class MockCarouselComponent {
+  @Input() title;
+  @Input() items;
 }
 
 const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
+
+const mockProduct: Product = {
+  code: '111111',
+  name: 'Camera',
+  price: {
+    formattedValue: '$100.00',
+  },
+};
 
 const mockComponentData: CmsProductCarouselComponent = {
   uid: '001',
@@ -48,119 +38,46 @@ const mockComponentData: CmsProductCarouselComponent = {
   container: 'false',
 };
 
-const mockProduct: Product = {
-  code: '111111',
-  name: 'Camera',
-  price: {
-    formattedValue: '$100.00',
-  },
-};
-
-const MockCmsComponentData = <CmsComponentData<any>>{
+const MockCmsProductCarouselComponent = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
-class MockProductService {
-  get(): Observable<Product> {
+class MockProductCarouselService {
+  loadProduct(): Observable<Product> {
     return of(mockProduct);
   }
-
-  isProductLoaded(): Observable<boolean> {
-    return of(true);
-  }
-}
-
-class MockProductCarouselService {
-  getTitle = jasmine.createSpy('getTitle').and.callFake(() => of('Mock Title'));
-  fetchTitle = jasmine
-    .createSpy('fetchTitle')
-    .and.callFake(() => of('Mock Title'));
-  getItems = jasmine
-    .createSpy('getItems')
-    .and.callFake(() =>
-      of([of(mockProduct), of(mockProduct), of(mockProduct), of(mockProduct)])
-    );
-  fetchItems = jasmine
-    .createSpy('setItems')
-    .and.callFake(() =>
-      of([of(mockProduct), of(mockProduct), of(mockProduct), of(mockProduct)])
-    );
-}
-
-class MockSharedCarouselService {
-  getItemSize = jasmine.createSpy('getItemSize').and.callFake(() => of(4));
-  setItemSize = jasmine.createSpy('setItemSize');
-  getItemAsActive = jasmine
-    .createSpy('getItemAsActive')
-    .and.callFake(() => of(0));
-  setItemAsActive = jasmine
-    .createSpy('setItemAsActive')
-    .and.callFake(() => of(1));
-  setPreviousItemAsActive = jasmine.createSpy('setPreviousItemAsActive');
-  getActiveItemWithDelay = jasmine.createSpy('getActiveItemWithDelay');
-  setNextItemAsActive = jasmine.createSpy('setNextItemAsActive');
-  getDelayValue = jasmine.createSpy('getDelayValue').and.callThrough();
-  getActiveItem = jasmine.createSpy('getActiveItem').and.callFake(() => of(1));
 }
 
 describe('ProductCarouselComponent', () => {
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
-  let el: DebugElement;
+  //   // let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ProductCarouselComponent, MockMediaComponent, MockUrlPipe],
+      declarations: [ProductCarouselComponent, MockCarouselComponent],
       providers: [
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: ProductService, useClass: MockProductService },
-      ],
-    })
-      .overrideComponent(ProductCarouselComponent, {
-        set: {
-          providers: [
-            {
-              provide: ProductCarouselService,
-              useClass: MockProductCarouselService,
-            },
-            {
-              provide: SharedCarouselService,
-              useClass: MockSharedCarouselService,
-            },
-          ],
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsProductCarouselComponent,
         },
-      })
-      .compileComponents();
+        {
+          provide: ProductCarouselService,
+          useClass: MockProductCarouselService,
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
     productCarouselComponent = fixture.componentInstance;
     fixture.detectChanges();
-    el = fixture.debugElement;
+    // el = fixture.debugElement;
   });
 
   it('should be created', async(() => {
-    productCarouselComponent.ngOnInit();
     expect(productCarouselComponent).toBeTruthy();
   }));
-
-  it('should have products', async(() => {
-    let products$: Observable<Product>[];
-    productCarouselComponent.productCarouselService.fetchItems();
-    productCarouselComponent.productCarouselService
-      .getItems()
-      .subscribe(productData$ => {
-        products$ = productData$;
-      })
-      .unsubscribe();
-    expect(products$.length).toBe(productCodeArray.length);
-  }));
-
-  it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(el.query(By.css('h3')).nativeElement.textContent).toContain(
-      mockComponentData.title
-    );
-  });
 });

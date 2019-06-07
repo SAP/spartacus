@@ -1,6 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Product, TranslatePipe, TranslationService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import {
+  AfterContentChecked,
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
+import { Product, TranslationService } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
 
@@ -8,13 +12,12 @@ import { ProductDetailOutlets } from '../product-outlets.model';
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TranslatePipe],
 })
-export class ProductSummaryComponent implements OnInit {
+export class ProductSummaryComponent implements AfterContentChecked {
   static outlets = ProductDetailOutlets;
 
   itemCount = 1;
-  reviewsTabAvailable: boolean;
+  reviewsTabAvailable = new BehaviorSubject<boolean>(false);
 
   product$: Observable<Product>;
 
@@ -69,28 +72,29 @@ export class ProductSummaryComponent implements OnInit {
   showReviews() {
     // Use translated label for Reviews tab reference
     this.translationService
-      .translate('productDetails.reviews')
+      .translate('CMSTabParagraphContainer.tabs.ProductReviewsTabComponent')
       .subscribe(reviewsTabLabel => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
-
         const reviewsComponent = this.getReviewsComponent();
-
         if (reviewsTab && reviewsComponent) {
           this.clickTabIfInactive(reviewsTab);
-          reviewsComponent.scrollIntoView();
+          setTimeout(
+            () => reviewsComponent.scrollIntoView({ behavior: 'smooth' }),
+            0
+          );
         }
-      });
+      })
+      .unsubscribe();
   }
 
   constructor(
     protected currentPageService: CurrentProductService,
-    protected translatePipe: TranslatePipe,
     private translationService: TranslationService
   ) {}
 
-  ngOnInit() {
+  ngAfterContentChecked() {
     this.product$ = this.currentPageService.getProduct();
-    this.reviewsTabAvailable = !!this.getReviewsComponent();
+    this.reviewsTabAvailable.next(!!this.getReviewsComponent());
   }
 }
