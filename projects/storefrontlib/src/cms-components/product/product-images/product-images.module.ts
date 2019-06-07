@@ -15,7 +15,7 @@ import { ProductImagesComponent } from './product-images.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductImages: {
-          selector: 'cx-product-images',
+          component: ProductImagesComponent,
         },
       },
     }),

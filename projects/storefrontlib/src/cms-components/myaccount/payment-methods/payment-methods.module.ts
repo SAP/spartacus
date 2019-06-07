@@ -19,7 +19,7 @@ import { PaymentMethodsComponent } from './payment-methods.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountPaymentDetailsComponent: {
-          selector: 'cx-payment-methods',
+          component: PaymentMethodsComponent,
           guards: [AuthGuard],
         },
       },

@@ -1,4 +1,7 @@
-<ng-container *cxOutlet="outlets.RATING">
+<ng-template
+  [cxOutlet]="outlets.RATING"
+  [cxOutletContext]="{ product: product }"
+>
   <div class="rating">
     <cx-star-rating
       [rating]="product?.averageRating"
@@ -9,31 +12,40 @@
       'productSummary.showReviews' | cxTranslate
     }}</a>
   </div>
-</ng-container>
-<ng-container *cxOutlet="outlets.TITLE">
+</ng-template>
+<ng-template
+  [cxOutlet]="outlets.TITLE"
+  [cxOutletContext]="{ product: product }"
+>
   <!-- <div class="name">{{ product?.name }}</div> -->
   <div class="code">
     {{ 'productSummary.id' | cxTranslate }} {{ product?.code }}
   </div>
-</ng-container>
+</ng-template>
 
-<ng-container *cxOutlet="outlets.PRICE">
+<ng-template
+  [cxOutlet]="outlets.PRICE"
+  [cxOutletContext]="{ product: product }"
+>
   <div class="price" aria-label="new item price">
     {{ product?.price?.formattedValue }}
   </div>
-</ng-container>
+</ng-template>
 
-<ng-container *cxOutlet="outlets.DESCRIPTION">
+<ng-template
+  [cxOutlet]="outlets.DESCRIPTION"
+  [cxOutletContext]="{ product: product }"
+>
   <div class="description"><p [innerHTML]="product?.summary"></p></div>
-</ng-container>
+</ng-template>
 
 <cx-page-slot position="AddToCart"></cx-page-slot>
 
 <!-- @TODO: Temp. Comment out share link while not in use by CMS -->
-<!-- <ng-container *cxOutlet="outlets.SHARE">
+<!-- <ng-template [cxOutlet]="outlets.SHARE" [cxOutletContext]="{ product: product }">
   <div>
     <a href="#" class="share btn-link">
       {{ 'productSummary.share' | cxTranslate }}
     </a>
   </div>
-</ng-container> -->
+</ng-template> -->
