@@ -31,10 +31,10 @@ export const getAllRegions: MemoizedSelector<
 export const getRegionsDataAndLoading: MemoizedSelector<
   StateWithUser,
   {
-    loaded: boolean,
-    loading: boolean,
-    regions: Region[],
-    country: string
+    loaded: boolean;
+    loading: boolean;
+    regions: Region[];
+    country: string;
   }
 > = createSelector(
   getRegionsLoaderState,
