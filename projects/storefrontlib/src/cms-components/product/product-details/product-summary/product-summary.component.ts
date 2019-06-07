@@ -73,7 +73,7 @@ export class ProductSummaryComponent implements AfterContentChecked {
   showReviews() {
     // Use translated label for Reviews tab reference
     this.translationService
-      .translate('productDetails.reviews')
+      .translate('CMSTabParagraphContainer.tabs.ProductReviewsTabComponent')
       .subscribe(reviewsTabLabel => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
