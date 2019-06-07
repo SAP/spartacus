@@ -7,7 +7,8 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
-import { ProductSummaryComponent } from './product-summary.component';
+import { StarRatingModule } from '../../../shared/components/star-rating/star-rating.module';
+import { ProductIntroComponent } from './product-intro.component';
 
 @NgModule({
   imports: [
@@ -15,16 +16,16 @@ import { ProductSummaryComponent } from './product-summary.component';
     CmsModule,
     OutletModule,
     I18nModule,
+    StarRatingModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ProductSummaryComponent: {
-          component: ProductSummaryComponent,
+        ProductIntroComponent: {
+          component: ProductIntroComponent,
         },
       },
     }),
   ],
-  declarations: [ProductSummaryComponent],
-  entryComponents: [ProductSummaryComponent],
-  exports: [ProductSummaryComponent],
+  declarations: [ProductIntroComponent],
+  entryComponents: [ProductIntroComponent],
 })
-export class ProductSummaryModule {}
+export class ProductIntroModule {}
