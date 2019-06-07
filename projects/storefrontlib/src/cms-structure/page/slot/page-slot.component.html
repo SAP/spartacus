@@ -3,11 +3,10 @@
   [cxOutletContext]="{ components$: components$ }"
 >
   <ng-container *ngFor="let component of (components$ | async)">
-    <ng-template
-      [cxOutlet]="component.flexType"
-      [cxOutletContext]="{}"
+    <ng-container
+      *cxOutlet="component.flexType"
       [cxComponentWrapper]="component"
     >
-    </ng-template>
+    </ng-container>
   </ng-container>
 </ng-template>
