@@ -4,9 +4,12 @@
   "description": "Spartacus - the cds",
   "keywords": [
     "spartacus",
+    "framework",
     "storefront",
-    "angular",
-    "framework"
+    "merchandising",
+    "segmentation",
+    "context-driven services",
+    "cds"
   ],
   "license": "Apache-2.0",
   "publishConfig": {
@@ -15,6 +18,7 @@
   "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "peerDependencies": {
     "@angular/common": "~8.0.0",
-    "@angular/core": "~8.0.0"
+    "@angular/core": "~8.0.0",
+    "@spartacus/core": "0.1.0-alpha.6"
   }
 }
