@@ -56,7 +56,7 @@ if (!environment.production) {
               'apparel-de',
               'apparel-uk',
             ],
-            defaultValue: 'apparel-uk',
+            defaultValue: 'electronics-spa',
             persistence: 'route',
           },
         },

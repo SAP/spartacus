@@ -1,3 +1,112 @@
-<div>
-  product-variant-selector works!
+<div class="variant-section">
+  <div
+    class="variant-selector"
+    *ngFor="let variant of product.baseOptions; let i = index"
+  >
+    <ng-container
+      [ngTemplateOutlet]="
+        variant.variantType.toLowerCase().includes('style')
+          ? styleSelector
+          : sizeSelector
+      "
+      [ngTemplateOutletContext]="{ variant: variant }"
+    ></ng-container>
+  </div>
+
+  <ng-template #styleSelector let-variant="variant">
+    <style>
+      ul.variant-list {
+        padding: 0;
+      }
+      ul.variant-list li {
+        display: inline;
+      }
+      ul.variant-list li img {
+        margin: 3px;
+        border: 1px solid #ddd;
+      }
+    </style>
+    <div class="variant-name">
+      {{ getVariantName(variant)
+      }}<span class="variant-selected styleName"
+        >: {{ getSelectedVariantValue(variant.selected) }}</span
+      >
+    </div>
+    <ul class="variant-list">
+      <li *ngFor="let option of variant.options">
+        <a
+          [routerLink]="
+            {
+              cxRoute: 'product',
+              params: { code: option.code }
+            } | cxUrl
+          "
+          class="colorVariant"
+        >
+          <img
+            src="{{ config.backend.occ.baseUrl }}{{
+              option.variantOptionQualifiers[0].image.url
+            }}"
+            title="{{ option.variantOptionQualifiers[0].value }}"
+            alt="{{ option.variantOptionQualifiers[0].value }}"
+          />
+        </a>
+      </li>
+    </ul>
+  </ng-template>
+
+  <ng-template #sizeSelector let-variant="variant">
+    <div class="variant-name">
+      {{ getVariantName(variant)
+      }}<span class="variant-selected styleName"
+        >: {{ getSelectedVariantValue(variant.selected) }}</span
+      >
+    </div>
+    <select
+      id="{{ getVariantName(variant) }}"
+      class="form-control variant-select"
+    >
+      <option value="" selected="selected"> Select a size</option>
+      <option *ngFor="let option of variant.options" value="{{ option.url }}">{{
+        option.variantOptionQualifiers[0].value
+      }}</option>
+    </select>
+    <a href="#" class="size-guide" title="Size guide">&nbsp;</a>
+  </ng-template>
+
+  <!-- <div class="variant-selector">
+    <div class="variant-name">
+      Colour<span class="variant-selected styleName">: fire red</span>
+    </div>
+    <ul class="variant-list">
+      <li>
+        <a
+          href="/yacceleratorstorefront/en/Categories/Streetwear-men/T-Shirts-men/System-Tee-SS/p/122312_white"
+          class="colorVariant"
+          name="/Categories/Streetwear-men/T-Shirts-men/System-Tee-SS/p/122312_white"
+        >
+          <img
+            src="/yacceleratorstorefront/medias/?context=bWFzdGVyfGltYWdlc3wxMTI5fGltYWdlL2pwZWd8aW1hZ2VzL2hiMC9oYzcvODc5NjM4NDc1NTc0Mi5qcGd8MzYxYjlhZjJhNzY5MGUxMTNlZThiNGFmNjdlY2FiZDM0YTM5NTQxM2VjM2ZiZTRmMjRiYWQ5N2JiNDlhZTQ0Zg"
+            title="white"
+            alt="white"
+          />
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="variant-selector">
+    <div class="variant-name">
+      <label for="Size">Size<span class="variant-selected sizeName">: L</span></label>
+    </div>
+    <select id="Size" class="form-control variant-select">
+      <option
+        value="/yacceleratorstorefront/en/Categories/Streetwear-men/T-Shirts-men/System-Tee-SS/p/122312_fire_red"
+        selected="selected"
+      >
+        Select a size</option
+      >
+    </select>
+    <div id="currentSizeValue" data-size-value="L"></div>
+    <a href="#" class="size-guide" title="Size guide">&nbsp;</a>
+  </div> -->
 </div>

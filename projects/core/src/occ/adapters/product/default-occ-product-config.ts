@@ -5,7 +5,7 @@ export const defaultOccProductConfig: OccConfig = {
     occ: {
       endpoints: {
         product:
-          'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews',
+          'products/${productCode}?fields=FULL,averageRating,images(FULL),classifications,numberOfReviews',
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
         // productReferences:
