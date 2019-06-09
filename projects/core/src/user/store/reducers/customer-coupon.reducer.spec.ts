@@ -31,7 +31,7 @@ const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
 
 const customerSearcherResult: CustomerCouponSearchResult = {
   coupons: mockCustomerCoupons,
-  sorts: {},
+  sorts: [],
   pagination: {},
 };
 

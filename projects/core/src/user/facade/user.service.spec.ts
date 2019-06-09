@@ -909,7 +909,7 @@ describe('UserService', () => {
         new fromStore.LoadCustomerCouponsSuccess({
           coupons: [],
           pagination: {},
-          sorts: {},
+          sorts: [],
         })
       );
 
@@ -923,7 +923,7 @@ describe('UserService', () => {
       expect(customerCouponSearchResult).toEqual({
         coupons: [],
         pagination: {},
-        sorts: {},
+        sorts: [],
       });
     });
 

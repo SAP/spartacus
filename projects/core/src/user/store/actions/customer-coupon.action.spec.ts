@@ -12,6 +12,7 @@ import {
   entityFailMeta,
   entityLoadMeta,
   entitySuccessMeta,
+  entityResetMeta,
 } from '../../../state';
 import {
   CustomerCoupon,
@@ -53,7 +54,7 @@ const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
 
 const customerSearcherResult: CustomerCouponSearchResult = {
   coupons: mockCustomerCoupons,
-  sorts: {},
+  sorts: [],
   pagination: {},
 };
 
@@ -158,6 +159,20 @@ describe('User Coupon Actions', () => {
     });
   });
 
+  describe('ResetSubscribeCustomerCouponProcess Action', () => {
+    it('should create the action', () => {
+      const action = new fromCustomerCouponsAction.ResetSubscribeCustomerCouponProcess();
+
+      expect({ ...action }).toEqual({
+        type: fromCustomerCouponsAction.RESET_SUBSCRIBE_CUSTOMER_COUPON_PROCESS,
+        meta: entityResetMeta(
+          PROCESS_FEATURE,
+          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+        ),
+      });
+    });
+  });
+
   describe('UnsubscribeCustomerCoupon Actions', () => {
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.UnsubscribeCustomerCoupon({
@@ -205,6 +220,21 @@ describe('User Coupon Actions', () => {
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: coupon1,
         meta: entitySuccessMeta(
+          PROCESS_FEATURE,
+          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('ResetUnsubscribeCustomerCouponProcess Action', () => {
+    it('should create the action', () => {
+      const action = new fromCustomerCouponsAction.ResetUnsubscribeCustomerCouponProcess();
+
+      expect({ ...action }).toEqual({
+        type:
+          fromCustomerCouponsAction.RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS,
+        meta: entityResetMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),

@@ -25,16 +25,18 @@ const coupon: CustomerCoupon = {
 const customerSearcherResult: CustomerCouponSearchResult = {
   coupons: [coupon],
   pagination: {
-    currentPage: 1,
-    pageSize: 5,
+    count: 1,
+    page: 4,
+    totalCount: 11,
+    totalPages: 5,
   },
-  sorts: { code: 'byPage' },
+  sorts: [],
 };
 
 const emptyCustomerSearcherResult: CustomerCouponSearchResult = {
   coupons: [],
   pagination: {},
-  sorts: {},
+  sorts: [],
 };
 
 describe('User Orders Selectors', () => {

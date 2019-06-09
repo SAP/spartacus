@@ -69,7 +69,7 @@ describe('OccCustomerCouponAdapter', () => {
       };
       const couponSearchResult: CustomerCouponSearchResult = {
         coupons: [customerCoupon],
-        sorts: {},
+        sorts: [],
         pagination: {},
       };
 
