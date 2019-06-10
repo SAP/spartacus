@@ -20,6 +20,7 @@ export enum ICON_TYPE {
   PLUS = 'PLUS',
   MINUS = 'MINUS',
   RESET = 'RESET',
+  CIRCLE = 'CIRCLE',
 }
 
 export abstract class IconConfig {

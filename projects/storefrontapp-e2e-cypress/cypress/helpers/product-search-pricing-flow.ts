@@ -11,26 +11,16 @@ export function productPricingFlow() {
   ).as('query_price_asc');
 
   // Click on a Category
-  cy.get('header').within(() => {
-    cy.get('.nav-link')
-      .contains('Digital Cameras')
-      .click();
-    cy.get('.cx-nav-child-link')
-      .contains('Compact Cameras')
-      .click();
-  });
+  cy.get('cx-searchbox input').type('camcorders{enter}');
 
-  cy.get('cx-breadcrumb h1').should(
-    'contain',
-    '47 results for Digital Compacts'
-  );
+  cy.get('cx-breadcrumb h1').should('contain', '29 results for "camcorders"');
 
   cy.get('cx-product-list-item').should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  checkFirstItem('DSC-S930');
+  checkFirstItem('Light HVL-20DW2');
 
   // Navigate to next page
   cy.get('.page-item:last-of-type .page-link:first').click();
@@ -40,7 +30,7 @@ export function productPricingFlow() {
 
   cy.get('cx-product-list-item:nth-child(1)').should(
     'contain',
-    'EASYSHARE Z730 Zoom Digital Camera'
+    'Secure Digital Card 2GB'
   );
 
   // Sort by price low to high
@@ -54,6 +44,6 @@ export function productPricingFlow() {
 
   cy.get('cx-product-list-item:first .cx-product-name').should(
     'contain',
-    'DSC-W180'
+    'Light HVL-20DW2'
   );
 }
