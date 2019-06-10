@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: 'https://dev-com-22.accdemo.b2c.ydev.hybris.com:9002',
+  occBaseUrl: 'https://dev-com-19.accdemo.b2c.ydev.hybris.com:9002',
 };

@@ -1,4 +1,4 @@
-import * as siteContextSelector from '../../../../helpers/site-context-selector';
+import * as siteContextSelector from '../../../helpers/site-context-selector';
 
 describe('Language switch - product-details page', () => {
   const productDetailsPath = siteContextSelector.PRODUCT_PATH_2;
@@ -17,10 +17,7 @@ describe('Language switch - product-details page', () => {
     it('should change language in the page', () => {
       siteContextSelector.languageChange(productDetailsPath);
 
-      cy.get('cx-product-summary .description p').should(
-        'have.text',
-        deutschName
-      );
+      cy.get('cx-product-summary .summary').should('have.text', deutschName);
     });
 
     it('should change language in the modal', () => {
