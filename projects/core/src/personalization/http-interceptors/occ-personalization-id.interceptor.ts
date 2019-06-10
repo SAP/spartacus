@@ -29,7 +29,9 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     @Inject(PLATFORM_ID) private platform: any
   ) {
     if (isPlatformBrowser(this.platform)) {
-      this.enabled = this.config.personalization.enabled || false;
+      this.enabled =
+        (this.winRef.localStorage && this.config.personalization.enabled) ||
+        false;
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
