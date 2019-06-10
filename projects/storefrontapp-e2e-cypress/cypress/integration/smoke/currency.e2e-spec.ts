@@ -1,4 +1,4 @@
-import * as siteContextSelector from '../../sample-data/site-context-selector';
+import * as siteContextSelector from '../../helpers/site-context-selector';
 import { switchSiteContext } from '../../support/utils/switch-site-context';
 
 context('Currency change', () => {

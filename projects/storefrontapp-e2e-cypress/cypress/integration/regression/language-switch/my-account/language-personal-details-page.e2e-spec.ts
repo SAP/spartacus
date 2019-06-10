@@ -1,8 +1,7 @@
-import * as siteContextSelector from '../../../../sample-data/site-context-selector';
-import { switchSiteContext } from '../../../../support/utils/switch-site-context';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - personal details page', () => {
-  const personalDetails = '/USD/my-account/update-profile';
+  const personalDetailsPath = '/my-account/update-profile';
   const deutschName = 'Herr';
 
   before(() => {
@@ -10,34 +9,15 @@ describe('Language switch - personal details page', () => {
     cy.requireLoggedIn();
   });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-    cy.server();
-    cy.route(siteContextSelector.LANGUAGE_REQUEST).as('languages');
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+  siteContextSelector.stub();
 
   describe('personal details page', () => {
     it('should change language in the url', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + personalDetails);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
-
-      cy.url().should(
-        'eq',
-        siteContextSelector.FULL_BASE_URL_DE + personalDetails
-      );
+      siteContextSelector.verifyLanguageChange(personalDetailsPath);
     });
 
     it('should change language in the page', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + personalDetails);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
+      siteContextSelector.languageChange(personalDetailsPath);
 
       cy.get('cx-update-profile-form select')
         .select(deutschName)

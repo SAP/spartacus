@@ -1,8 +1,7 @@
-import * as siteContextSelector from '../../../../sample-data/site-context-selector';
-import { switchSiteContext } from '../../../../support/utils/switch-site-context';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - address book page', () => {
-  const addressBookPath = '/USD/my-account/address-book';
+  const addressBookPath = '/my-account/address-book';
   const deutschName = 'Herr';
 
   before(() => {
@@ -10,34 +9,15 @@ describe('Language switch - address book page', () => {
     cy.requireLoggedIn();
   });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-    cy.server();
-    cy.route(siteContextSelector.LANGUAGE_REQUEST).as('languages');
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+  siteContextSelector.stub();
 
   describe('address book page', () => {
     it('should change language in the url', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + addressBookPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
-
-      cy.url().should(
-        'eq',
-        siteContextSelector.FULL_BASE_URL_DE + addressBookPath
-      );
+      siteContextSelector.verifyLanguageChange(addressBookPath);
     });
 
     it('should change language in the page', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + addressBookPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
+      siteContextSelector.languageChange(addressBookPath);
 
       cy.get(
         'cx-address-form .ng-select[formcontrolname="titleCode"]'

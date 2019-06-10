@@ -1,42 +1,22 @@
-import * as siteContextSelector from '../../../../sample-data/site-context-selector';
-import { switchSiteContext } from '../../../../support/utils/switch-site-context';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - consent management page', () => {
-  const consentManagementPath = '/USD/my-account/consents';
+  const consentManagementPath = '/my-account/consents';
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
   });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-    cy.server();
-    cy.route(siteContextSelector.LANGUAGE_REQUEST).as('languages');
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+  siteContextSelector.stub();
 
   describe('consent management page', () => {
     it('should change language in the url', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + consentManagementPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
-
-      cy.url().should(
-        'eq',
-        siteContextSelector.FULL_BASE_URL_DE + consentManagementPath
-      );
+      siteContextSelector.verifyLanguageChange(consentManagementPath);
     });
 
     xit('should change language in the page', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + consentManagementPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
+      siteContextSelector.languageChange(consentManagementPath);
       // TODO: need to add test when there's translations on that page (not the header)
     });
   });

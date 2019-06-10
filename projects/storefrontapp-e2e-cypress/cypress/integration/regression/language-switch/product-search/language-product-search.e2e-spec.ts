@@ -1,39 +1,19 @@
-import * as siteContextSelector from '../../../../sample-data/site-context-selector';
-import { switchSiteContext } from '../../../../support/utils/switch-site-context';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - product-search page', () => {
   const productSearchPath =
-    '/USD/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
+    '/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
   const deutschName = 'FUN Einwegkamera mit Blitz, 27+12 Bilder';
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-    cy.server();
-    cy.route(siteContextSelector.LANGUAGE_REQUEST).as('languages');
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+  siteContextSelector.stub();
 
   describe('product-search page', () => {
     it('should change language in the url', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + productSearchPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
-
-      cy.url().should(
-        'eq',
-        siteContextSelector.FULL_BASE_URL_DE + productSearchPath
-      );
+      siteContextSelector.verifyLanguageChange(productSearchPath);
     });
 
     it('should change language in the page', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + productSearchPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
+      siteContextSelector.languageChange(productSearchPath);
 
       cy.get('cx-product-list-item .cx-product-name:first').should(
         'have.text',
@@ -42,10 +22,7 @@ describe('Language switch - product-search page', () => {
     });
 
     it('should change language in the search result', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + productSearchPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
+      siteContextSelector.languageChange(productSearchPath);
 
       cy.get('cx-searchbox input').type('fun');
       cy.get('cx-searchbox .products .name:first').should(

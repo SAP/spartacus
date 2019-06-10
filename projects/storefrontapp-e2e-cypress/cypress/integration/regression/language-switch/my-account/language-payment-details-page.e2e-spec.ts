@@ -1,44 +1,22 @@
-import { paymentDetailCard } from '../../../../helpers/payment-methods';
-import * as siteContextSelector from '../../../../sample-data/site-context-selector';
-import { switchSiteContext } from '../../../../support/utils/switch-site-context';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - payment-details page', () => {
-  const paymentDetailsPath = '/USD/my-account/payment-details';
+  const paymentDetailsPath = '/my-account/payment-details';
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
   });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-    cy.server();
-    cy.route(siteContextSelector.LANGUAGE_REQUEST).as('languages');
-    paymentDetailCard();
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+  siteContextSelector.stub();
 
   describe('payment-details page', () => {
     it('should change language in the url', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + paymentDetailsPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
-
-      cy.url().should(
-        'eq',
-        siteContextSelector.FULL_BASE_URL_DE + paymentDetailsPath
-      );
+      siteContextSelector.verifyLanguageChange(paymentDetailsPath);
     });
 
     xit('should change language in the page', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + paymentDetailsPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
+      siteContextSelector.languageChange(paymentDetailsPath);
       // TODO: need to add test when there's translations on that page (not the header)
     });
   });

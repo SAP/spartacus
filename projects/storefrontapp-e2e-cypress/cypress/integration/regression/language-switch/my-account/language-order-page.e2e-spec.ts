@@ -1,9 +1,8 @@
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 import { user } from '../../../../sample-data/checkout-flow';
-import * as siteContextSelector from '../../../../sample-data/site-context-selector';
-import { switchSiteContext } from '../../../../support/utils/switch-site-context';
 
 describe('Language switch - order page', () => {
-  const orderPath = '/USD/my-account/orders';
+  const orderPath = '/my-account/orders';
   const deutschName = 'Juni';
 
   function doPlaceOrder() {
@@ -26,31 +25,15 @@ describe('Language switch - order page', () => {
     doPlaceOrder();
   });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-    cy.server();
-    cy.route(siteContextSelector.LANGUAGE_REQUEST).as('languages');
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+  siteContextSelector.stub();
 
   describe('order page', () => {
     it('should change language in the url', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + orderPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
-
-      cy.url().should('eq', siteContextSelector.FULL_BASE_URL_DE + orderPath);
+      siteContextSelector.verifyLanguageChange(orderPath);
     });
 
     it('should change language in the page', () => {
-      cy.visit(siteContextSelector.FULL_BASE_URL_EN + orderPath);
-      cy.wait('@languages');
-
-      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
+      siteContextSelector.languageChange(orderPath);
 
       cy.get(
         'cx-order-history .cx-order-history-placed .cx-order-history-value'
