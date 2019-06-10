@@ -106,10 +106,6 @@ export function assertSiteContextChange(sitePath: string): void {
   cy.url().should('eq', sitePath);
 }
 
-export function assertCurrencyChange(sitePath: string): void {
-  cy.url().should('eq', FULL_BASE_URL_EN_JPY + sitePath);
-}
-
 export function languageChange(sitePath: string): void {
   cy.visit(FULL_BASE_URL_EN_USD + sitePath);
   cy.wait(`@${LANGUAGES}`);
@@ -125,11 +121,11 @@ export function currencyChange(sitePath: string): void {
 export function verifyLanguageChangeUrl(sitePath: string): void {
   languageChange(sitePath);
 
-  assertLanguageChange(sitePath);
+  assertSiteContextChange(sitePath);
 }
 
 export function verifyCurrencyChangeUrl(sitePath: string): void {
   currencyChange(sitePath);
 
-  assertCurrencyChange(sitePath);
+  assertSiteContextChange(sitePath);
 }
