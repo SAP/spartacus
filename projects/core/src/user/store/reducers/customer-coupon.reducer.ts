@@ -22,7 +22,7 @@ export function reducer(
           ? customerCoupon.notificationOn = true
           : customerCoupon
       );
-      return state;
+      return {...state};
     }
 
     case fromActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
@@ -32,7 +32,7 @@ export function reducer(
           ? customerCoupon.notificationOn = false
           : customerCoupon
       );
-      return state;
+      return {...state};
     }
   }
   return state;
