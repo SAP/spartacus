@@ -1,5 +1,4 @@
 import * as register from '../../helpers/register';
-import { checkBanner } from '../../helpers/homepage';
 import { user } from '../../sample-data/checkout-flow';
 
 describe('Register', () => {
