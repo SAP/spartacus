@@ -18,7 +18,7 @@ const coupon: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: '',
+  notificationOn: true,
   solrFacets: '',
 };
 

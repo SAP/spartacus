@@ -64,7 +64,7 @@ describe('OccCustomerCouponAdapter', () => {
         endDate: new Date(),
         status: 'Effective',
         description: '',
-        notificationOn: '',
+        notificationOn: true,
         solrFacets: '',
       };
       const couponSearchResult: CustomerCouponSearchResult = {
