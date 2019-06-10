@@ -4,6 +4,7 @@ import {
   productNameSelector,
   createProductSortQuery,
   productItemSelector,
+  checkDistinctProductName,
 } from './product-search';
 
 export function productPricingFlow() {
@@ -42,11 +43,7 @@ export function productPricingFlow() {
 
       cy.wait('@productQuery');
 
-      cy.get(productNameSelector)
-        .first()
-        .invoke('text')
-        .should('match', /\w+/)
-        .should('not.be.eq', firstProduct);
+      checkDistinctProductName(firstProduct);
 
       // Sort by price low to high
       cy.get('cx-sorting .ng-select:first').ngSelect(
@@ -57,10 +54,6 @@ export function productPricingFlow() {
 
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
-      cy.get(productNameSelector)
-        .first()
-        .invoke('text')
-        .should('match', /\w+/)
-        .should('not.be.eq', firstProduct);
+      checkDistinctProductName(firstProduct);
     });
 }

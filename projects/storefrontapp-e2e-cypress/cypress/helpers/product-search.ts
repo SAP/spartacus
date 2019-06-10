@@ -14,6 +14,14 @@ export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
 }
 
+export function checkDistinctProductName(firstProduct: string) {
+  cy.get(productNameSelector)
+    .first()
+    .invoke('text')
+    .should('match', /\w+/)
+    .should('not.be.eq', firstProduct);
+}
+
 export function searchResult() {
   cy.get(resultsTitleSelector).should('contain', '144 results for "camera"');
   cy.get(productItemSelector).should(
