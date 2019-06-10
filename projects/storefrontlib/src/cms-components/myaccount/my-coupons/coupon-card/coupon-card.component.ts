@@ -30,6 +30,7 @@ export class CouponCardComponent implements OnInit {
   }
 
   onNotificationChange(): void {
+    console.log('cart coupon:' + this.coupon.notificationOn);
     this.notification = this.coupon.notificationOn;
     this.notificationChanged.emit({
       notification: !this.notification,

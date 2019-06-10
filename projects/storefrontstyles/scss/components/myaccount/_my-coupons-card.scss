@@ -13,10 +13,10 @@
       &.effective {
         color: var(--cx-g-color-success);
       }
-      &.expiringsoon {
+      &.expiresoon {
         color: var(--cx-g-color-danger);
       }
-      &.effectivesoon {
+      &.presession {
         color: var(--cx-g-color-warning);
       }
     }

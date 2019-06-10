@@ -3,13 +3,14 @@
     <div class="cx-coupon-data">
       <div class="cx-coupon-card-row top">
         <div class="cx-coupon-card-name">{{ coupon?.name }}</div>
+
         <div class="cx-coupon-card-status {{ coupon?.status | lowercase }}">
-          {{ coupon?.status }}
+          {{ 'myCoupons.' + coupon?.status | cxTranslate }}
         </div>
       </div>
 
-      <div class="cx-coupon-card-dates">
-        <p>Effective:</p>
+      <div class="cx-coupon-card-date">
+        <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
         <div class="cx-coupon-date">
           {{ coupon?.startDate | cxDate: 'longDate' }} -
           {{ coupon?.endDate | cxDate: 'longDate' }}

@@ -20,17 +20,22 @@
   <div class="cx-dialog-body modal-body">
     <div class="cx-dialog-row">
       <div class="cx-dialog-item col-sm-12 col-md-6">
-        <div class="cx-coupon-name">{{ coupon.name }}</div>
-        <div class="cx-coupon-description">{{ coupon.description }}</div>
+        <div class="cx-coupon-name">{{ coupon?.name }}</div>
+        <div class="cx-coupon-description">{{ coupon?.description }}</div>
 
-        <div class="cx-coupon-dates">
-          <p>Effective:</p>
-          <div>{{ coupon.startDate }} - {{ coupon.endDate }}</div>
+        <div class="cx-coupon-dialog-date">
+          <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
+          <div class="cx-coupon-date">
+            {{ coupon?.startDate | cxDate: 'longDate' }} -
+            {{ coupon.endDate | cxDate: 'longDate' }}
+          </div>
         </div>
 
-        <div class="cx-coupon-status">
-          <p>Status:</p>
-          <div class="status">{{ coupon.status }}</div>
+        <div class="cx-coupon-dialog-status">
+          <p>{{ 'myCoupons.status' | cxTranslate }}</p>
+          <div class="cx-coupon-status {{ coupon?.status | lowercase }}">
+            {{ 'myCoupons.' + coupon?.status | cxTranslate }}
+          </div>
         </div>
       </div>
     </div>

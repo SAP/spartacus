@@ -95,7 +95,6 @@ export class MyCouponsComponent implements OnInit {
     notification: boolean;
     couponId: string;
   }): void {
-    console.log('component:' + notification);
     if (notification) {
       this.userService.subscribeCustomerCoupon(couponId);
     } else {

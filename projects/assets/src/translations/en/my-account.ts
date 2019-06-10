@@ -38,12 +38,13 @@ export const myAccount = {
   myCoupons: {
     sortByMostRecent: 'Sort by Most recent',
     noCouponsMessage: 'You have no coupons available.',
-    couponEffectiveTitle: 'Effective',
-    couponEffective: 'EFFECTIVE',
-    couponEffectiveSoon: 'EFFECTIVE SOON',
-    couponExpireSoon: 'EXPIRING SOON',
+    effectiveTitle: 'Effective:',
+    Effective: 'EFFECTIVE',
+    PreSession: 'EFFECTIVE SOON',
+    ExpireSoon: 'EXPIRING SOON',
     readMore: 'Read more',
     notification: 'Notification',
     findProducts: 'Find Products',
+    status: 'Status:',
   },
 };
