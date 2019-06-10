@@ -6,6 +6,7 @@ import {
   I18nTestingModule,
   CustomerCouponSearchResult,
   UserService,
+  CustomerCoupon,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
@@ -65,7 +66,8 @@ class MockSpinnerComponent {}
   template: '',
 })
 class MockCouponCardComponent {
-  @Input() coupon: any;
+  @Input() coupon: CustomerCoupon;
+  @Input() couponLoading = true;
 }
 
 fdescribe('MyCouponsComponent', () => {
@@ -77,6 +79,8 @@ fdescribe('MyCouponsComponent', () => {
     'loadCustomerCoupons',
     'subscribeCustomerCoupon',
     'unsubscribeCustomerCoupon',
+    'getSubscribeCustomerCouponResultLoading',
+    'getUnsubscribeCustomerCouponResultLoading',
   ]);
 
   beforeEach(async(() => {
@@ -97,6 +101,12 @@ fdescribe('MyCouponsComponent', () => {
     userService.getCustomerCoupons.and.returnValue(of(emptyCouponResult));
     userService.getCustomerCouponsLoaded.and.returnValue(of(true));
     userService.loadCustomerCoupons.and.stub();
+    userService.getSubscribeCustomerCouponResultLoading.and.returnValue(
+      of(true)
+    );
+    userService.getUnsubscribeCustomerCouponResultLoading.and.returnValue(
+      of(true)
+    );
     fixture.detectChanges();
   });
 
