@@ -10,7 +10,6 @@ import {
   LoaderResetAction,
 } from '../../../state/utils/loader/loader.action';
 import {
-  CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
@@ -137,7 +136,7 @@ export class UnsubscribeCustomerCouponFail extends EntityFailAction {
 
 export class UnsubscribeCustomerCouponSuccess extends EntitySuccessAction {
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS;
-  constructor(public payload: CustomerCoupon) {
+  constructor(public payload: any) {
     super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, payload);
   }
 }

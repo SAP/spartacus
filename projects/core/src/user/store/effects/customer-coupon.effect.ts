@@ -75,9 +75,9 @@ export class CustomerCouponEffects {
       return this.customerCouponConnector
         .turnOffNotification(payload.userId, payload.couponCode)
         .pipe(
-          map((data: any) => {
+          map(() => {
             return new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
-              data
+              payload.couponCode
             );
           }),
           catchError(error =>
