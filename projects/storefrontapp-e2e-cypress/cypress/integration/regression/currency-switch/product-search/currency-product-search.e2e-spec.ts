@@ -5,7 +5,10 @@ describe('Currency switch - product-search page', () => {
     '/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
   const deutschName = 'FUN Einwegkamera mit Blitz, 27+12 Bilder';
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.CURRENCY_REQUEST,
+    siteContextSelector.CURRENCIES
+  );
 
   describe('product-search page', () => {
     it('should change language in the url', () => {

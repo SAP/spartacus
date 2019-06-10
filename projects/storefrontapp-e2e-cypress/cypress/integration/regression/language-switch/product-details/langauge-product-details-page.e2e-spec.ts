@@ -5,7 +5,10 @@ describe('Language switch - product-details page', () => {
     '/product/1687508/Stativ%20mit%20Fernbedienung%20VCT-80AV';
   const deutschName = 'Stativ mit Fernbedienung';
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('product-details page', () => {
     it('should change language in the url', () => {

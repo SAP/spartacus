@@ -4,29 +4,21 @@ import { switchSiteContext } from '../../support/utils/switch-site-context';
 context('Currency change', () => {
   beforeEach(() => {
     cy.server();
-    cy.route(
-      `${Cypress.env(
-        'API_URL'
-      )}/rest/v2/electronics-spa/currencies?lang=en&curr=USD`
-    ).as('currencies');
+    siteContextSelector.createGerericQuery(
+      siteContextSelector.CURRENCY_REQUEST,
+      siteContextSelector.CURRENCIES
+    );
   });
 
   describe('on the product page', () => {
     it('should change the currency and be persistent in the url ', () => {
-      cy.visit(siteContextSelector.PRODUCT_URL_USD);
-      cy.wait('@currencies');
-
-      switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
-
-      cy.url().should('eq', siteContextSelector.PRODUCT_URL_JPY);
-      switchSiteContext(siteContextSelector.CURRENCY_USD, 'Currency');
+      siteContextSelector.verifyCurrencyChange(
+        siteContextSelector.PRODUCT_PATH
+      );
     });
 
     it('should display the chosen currency', () => {
-      cy.visit(siteContextSelector.PRODUCT_URL_USD);
-      cy.wait('@currencies');
-
-      switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
+      siteContextSelector.currencyChange(siteContextSelector.PRODUCT_PATH);
 
       cy.get('.price').should('contain', '¥690');
       switchSiteContext(siteContextSelector.CURRENCY_USD, 'Currency');

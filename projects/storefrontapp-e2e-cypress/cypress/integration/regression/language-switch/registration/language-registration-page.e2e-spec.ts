@@ -4,7 +4,10 @@ describe('Language switch - registration page', () => {
   const registerPath = '/login/register';
   const deutschName = 'Herr';
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('registration page', () => {
     it('should change language in the url', () => {

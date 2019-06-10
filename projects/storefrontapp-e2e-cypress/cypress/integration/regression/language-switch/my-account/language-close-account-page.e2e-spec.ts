@@ -8,7 +8,10 @@ describe('Language switch - close account page', () => {
     cy.requireLoggedIn();
   });
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('close account page', () => {
     it('should change language in the url', () => {

@@ -8,7 +8,10 @@ describe('Language switch - consent management page', () => {
     cy.requireLoggedIn();
   });
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('consent management page', () => {
     it('should change language in the url', () => {

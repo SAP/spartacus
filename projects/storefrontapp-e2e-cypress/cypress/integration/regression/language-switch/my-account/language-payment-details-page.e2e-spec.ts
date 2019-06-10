@@ -8,7 +8,10 @@ describe('Language switch - payment-details page', () => {
     cy.requireLoggedIn();
   });
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('payment-details page', () => {
     it('should change language in the url', () => {

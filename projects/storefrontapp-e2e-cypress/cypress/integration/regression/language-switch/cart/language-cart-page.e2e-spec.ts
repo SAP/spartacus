@@ -12,7 +12,10 @@ describe('Language switch - cart page', () => {
     cart.addProductWhenLoggedIn(false);
   });
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('cart page', () => {
     it('should change language in the url', () => {

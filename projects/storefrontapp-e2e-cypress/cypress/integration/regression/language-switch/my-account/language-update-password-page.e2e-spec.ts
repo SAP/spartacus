@@ -8,7 +8,10 @@ describe('Language switch - update-password page', () => {
     cy.requireLoggedIn();
   });
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('update-password page', () => {
     it('should change language in the url', () => {

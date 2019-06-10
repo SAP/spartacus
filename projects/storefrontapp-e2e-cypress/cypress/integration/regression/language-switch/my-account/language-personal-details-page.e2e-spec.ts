@@ -9,7 +9,10 @@ describe('Language switch - personal details page', () => {
     cy.requireLoggedIn();
   });
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('personal details page', () => {
     it('should change language in the url', () => {

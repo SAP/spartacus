@@ -23,19 +23,17 @@ export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_E
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
 export const FULL_BASE_URL_DE_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_DE}/${CURRENCY_USD}`;
 
-export function createLanguageQuery(alias: string): void {
-  cy.route(LANGUAGE_REQUEST).as(alias);
+export const PRODUCT_PATH = '/product/280916';
+
+export function createGerericQuery(request: string, alias: string): void {
+  cy.route(request).as(alias);
 }
 
-export function createCurrencyQuery(alias: string): void {
-  cy.route(CURRENCY_REQUEST).as(alias);
-}
-
-export function stub(): void {
+export function stub(request: string, alias: string): void {
   beforeEach(() => {
     cy.restoreLocalStorage();
     cy.server();
-    createLanguageQuery(LANGUAGES);
+    createGerericQuery(request, alias);
   });
 
   afterEach(() => {
@@ -51,8 +49,8 @@ export function languageChange(sitePath: string): void {
 
 export function currencyChange(sitePath: string): void {
   cy.visit(FULL_BASE_URL_EN_USD + sitePath);
-  cy.wait(`@${LANGUAGES}`);
-  switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
+  cy.wait(`@${CURRENCIES}`);
+  switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
 }
 
 export function verifyLanguageChange(sitePath: string): void {
@@ -62,9 +60,7 @@ export function verifyLanguageChange(sitePath: string): void {
 }
 
 export function verifyCurrencyChange(sitePath: string): void {
-  cy.visit(FULL_BASE_URL_EN_USD + sitePath);
-  cy.wait(`@${CURRENCIES}`);
-  switchSiteContext(LANGUAGE_DE, CURRENCY_LABEL);
+  currencyChange(sitePath);
 
   cy.url().should('eq', FULL_BASE_URL_EN_JPY + sitePath);
 }

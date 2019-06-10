@@ -6,7 +6,10 @@ context('Language Switcher', () => {
 
   beforeEach(() => {
     cy.server();
-    siteContextSelector.createLanguageQuery(siteContextSelector.LANGUAGES);
+    siteContextSelector.createGerericQuery(
+      siteContextSelector.LANGUAGE_REQUEST,
+      siteContextSelector.LANGUAGES
+    );
   });
 
   describe('Product Page', () => {

@@ -25,7 +25,10 @@ describe('Language switch - order page', () => {
     doPlaceOrder();
   });
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('order page', () => {
     it('should change language in the url', () => {

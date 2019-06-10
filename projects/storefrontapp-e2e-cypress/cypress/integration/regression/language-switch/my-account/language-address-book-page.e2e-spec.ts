@@ -9,7 +9,10 @@ describe('Language switch - address book page', () => {
     cy.requireLoggedIn();
   });
 
-  siteContextSelector.stub();
+  siteContextSelector.stub(
+    siteContextSelector.LANGUAGE_REQUEST,
+    siteContextSelector.LANGUAGES
+  );
 
   describe('address book page', () => {
     it('should change language in the url', () => {
