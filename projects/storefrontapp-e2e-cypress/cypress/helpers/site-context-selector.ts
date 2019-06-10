@@ -49,6 +49,12 @@ export function languageChange(sitePath: string): void {
   switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
 }
 
+export function currencyChange(sitePath: string): void {
+  cy.visit(FULL_BASE_URL_EN_USD + sitePath);
+  cy.wait(`@${LANGUAGES}`);
+  switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
+}
+
 export function verifyLanguageChange(sitePath: string): void {
   languageChange(sitePath);
 
