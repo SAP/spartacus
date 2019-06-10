@@ -2,7 +2,6 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'cx-storefront',
@@ -17,11 +16,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService,
-    private _router: Router
-  ) {
-    (window as any).router = this._router;
-  }
+    private routingService: RoutingService
+  ) {}
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
