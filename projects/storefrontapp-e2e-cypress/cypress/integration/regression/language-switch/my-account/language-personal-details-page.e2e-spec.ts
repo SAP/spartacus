@@ -16,7 +16,7 @@ describe('Language switch - personal details page', () => {
 
   describe('personal details page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(personalDetailsPath);
+      siteContextSelector.verifyLanguageChangeUrl(personalDetailsPath);
     });
 
     it('should change language in the page', () => {

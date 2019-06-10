@@ -76,13 +76,13 @@ export function currencyChange(sitePath: string): void {
   switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
 }
 
-export function verifyLanguageChange(sitePath: string): void {
+export function verifyLanguageChangeUrl(sitePath: string): void {
   languageChange(sitePath);
 
   cy.url().should('eq', FULL_BASE_URL_DE_USD + sitePath);
 }
 
-export function verifyCurrencyChange(sitePath: string): void {
+export function verifyCurrencyChangeUrl(sitePath: string): void {
   currencyChange(sitePath);
 
   cy.url().should('eq', FULL_BASE_URL_EN_JPY + sitePath);

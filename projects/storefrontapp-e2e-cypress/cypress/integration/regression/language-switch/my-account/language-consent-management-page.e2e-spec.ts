@@ -15,7 +15,7 @@ describe('Language switch - consent management page', () => {
 
   describe('consent management page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(consentManagementPath);
+      siteContextSelector.verifyLanguageChangeUrl(consentManagementPath);
     });
 
     xit('should change language in the page', () => {

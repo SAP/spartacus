@@ -11,7 +11,7 @@ describe('Language switch - product-details page', () => {
 
   describe('product-details page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(productDetailsPath);
+      siteContextSelector.verifyLanguageChangeUrl(productDetailsPath);
     });
 
     it('should change language in the page', () => {

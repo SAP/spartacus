@@ -15,7 +15,7 @@ describe('Language switch - close account page', () => {
 
   describe('close account page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(closeAccountPath);
+      siteContextSelector.verifyLanguageChangeUrl(closeAccountPath);
     });
 
     xit('should change language in the page', () => {

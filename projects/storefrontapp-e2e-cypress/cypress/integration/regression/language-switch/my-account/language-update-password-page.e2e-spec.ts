@@ -15,7 +15,7 @@ describe('Language switch - update-password page', () => {
 
   describe('update-password page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(updatePasswordPath);
+      siteContextSelector.verifyLanguageChangeUrl(updatePasswordPath);
     });
 
     xit('should change language in the page', () => {

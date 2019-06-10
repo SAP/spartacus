@@ -16,7 +16,7 @@ describe('Language switch - address book page', () => {
 
   describe('address book page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(addressBookPath);
+      siteContextSelector.verifyLanguageChangeUrl(addressBookPath);
     });
 
     it('should change language in the page', () => {

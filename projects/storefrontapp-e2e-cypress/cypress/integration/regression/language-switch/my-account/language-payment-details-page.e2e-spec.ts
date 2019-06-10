@@ -15,7 +15,7 @@ describe('Language switch - payment-details page', () => {
 
   describe('payment-details page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(paymentDetailsPath);
+      siteContextSelector.verifyLanguageChangeUrl(paymentDetailsPath);
     });
 
     xit('should change language in the page', () => {

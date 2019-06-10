@@ -14,7 +14,7 @@ context('Currency change', () => {
 
   describe('on the product page', () => {
     it('should change the currency and be persistent in the url ', () => {
-      siteContextSelector.verifyCurrencyChange(productPath);
+      siteContextSelector.verifyCurrencyChangeUrl(productPath);
     });
 
     it('should display the chosen currency', () => {

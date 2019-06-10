@@ -13,7 +13,7 @@ context('Language Switcher', () => {
 
   describe('Product Page', () => {
     it('switch language should work and language should be persistent in url', () => {
-      siteContextSelector.verifyLanguageChange(productPath);
+      siteContextSelector.verifyLanguageChangeUrl(productPath);
     });
   });
 });

@@ -11,7 +11,7 @@ describe('Language switch - registration page', () => {
 
   describe('registration page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(registerPath);
+      siteContextSelector.verifyLanguageChangeUrl(registerPath);
     });
 
     it('should change language in the page', () => {

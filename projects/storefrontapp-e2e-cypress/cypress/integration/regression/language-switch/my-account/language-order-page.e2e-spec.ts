@@ -32,7 +32,7 @@ describe('Language switch - order page', () => {
 
   describe('order page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(orderPath);
+      siteContextSelector.verifyLanguageChangeUrl(orderPath);
     });
 
     it('should change language in the page', () => {

@@ -15,7 +15,7 @@ describe('Language switch - update-email page', () => {
 
   describe('update-email page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(updateEmailPath);
+      siteContextSelector.verifyLanguageChangeUrl(updateEmailPath);
     });
 
     xit('should change language in the page', () => {

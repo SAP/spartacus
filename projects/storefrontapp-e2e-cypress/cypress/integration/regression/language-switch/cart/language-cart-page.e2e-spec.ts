@@ -19,7 +19,7 @@ describe('Language switch - cart page', () => {
 
   describe('cart page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChange(cartPath);
+      siteContextSelector.verifyLanguageChangeUrl(cartPath);
     });
 
     it('should change language in the page', () => {
