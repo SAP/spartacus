@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 import { CustomerCouponAdapter } from './customer-coupon.adapter';
 
@@ -24,7 +24,7 @@ export class CustomerCouponConnector {
   turnOnNotification(
     userId: string,
     couponCode: string
-  ): Observable<CustomerCoupon> {
+  ): Observable<CustomerCouponNotification> {
     return this.adapter.turnOnNotification(userId, couponCode);
   }
 

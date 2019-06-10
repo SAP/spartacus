@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
 import {
   CustomerCoupon,
-  CustomerCouponNotification,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
 
@@ -79,14 +78,11 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       '/notification';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
     });
 
-    return this.http.post<CustomerCoupon>(url, { headers }).pipe(
-      map(
-        (customerCouponNotification: CustomerCouponNotification) =>
-          customerCouponNotification.coupon
-      ),
-      catchError((error: any) => throwError(error))
-    );
+    return this.http
+      .post(url, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
   }
 }
