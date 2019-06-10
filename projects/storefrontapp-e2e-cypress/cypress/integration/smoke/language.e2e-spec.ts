@@ -1,8 +1,7 @@
 import * as siteContextSelector from '../../helpers/site-context-selector';
 
 context('Language Switcher', () => {
-  const PRODUCT_ID = '280916';
-  const productPath = `/product/${PRODUCT_ID}`;
+  const productPath = siteContextSelector.PRODUCT_PATH_1;
 
   beforeEach(() => {
     cy.server();

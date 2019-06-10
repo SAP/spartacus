@@ -23,7 +23,30 @@ export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_E
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
 export const FULL_BASE_URL_DE_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_DE}/${CURRENCY_USD}`;
 
-export const PRODUCT_PATH = '/product/280916';
+const PRODUCT_ID_1 = '280916';
+const PRODUCT_ID_2 = '1687508';
+export const PRODUCT_NAME_CART_DE = 'Digitalkamera';
+export const PRODUCT_NAME_DETAILS_DE = 'Stativ mit Fernbedienung';
+export const PRODUCT_NAME_SEARCH_DE =
+  'FUN Einwegkamera mit Blitz, 27+12 Bilder';
+export const TITLE_DE = 'Herr';
+export const MONTH_DE = 'Juni';
+
+export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
+export const PRODUCT_PATH_2 = `/product/${PRODUCT_ID_2}`;
+export const CART_PATH = '/cart';
+const myAccount = 'my-account';
+export const ADDRESS_BOOK_PATH = `/${myAccount}/address-book`;
+export const CLOSE_ACCOUNT_PATH = `/${myAccount}/close-account`;
+export const CONSENT_MANAGEMENT_PATH = `/${myAccount}/consents`;
+export const ORDER_PATH = `/${myAccount}/orders`;
+export const PAYMENT_DETAILS_PATH = `/${myAccount}/payment-details`;
+export const PERSONAL_DETAILS_PATH = `/${myAccount}/update-profile`;
+export const UPDATE_EMAIL_PATH = `/${myAccount}/update-email`;
+export const UPDATE_PASSWORD_PATH = `/${myAccount}/update-password`;
+export const PRODUCT_SEARCH_PATH =
+  '/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
+export const REGISTRATION_PATH = '/login/register';
 
 export function createGerericQuery(request: string, alias: string): void {
   cy.route(request).as(alias);

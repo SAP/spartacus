@@ -1,9 +1,8 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - product-search page', () => {
-  const productSearchPath =
-    '/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
-  const deutschName = 'FUN Einwegkamera mit Blitz, 27+12 Bilder';
+  const productSearchPath = siteContextSelector.PRODUCT_SEARCH_PATH;
+  const deutschName = siteContextSelector.PRODUCT_NAME_SEARCH_DE;
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,

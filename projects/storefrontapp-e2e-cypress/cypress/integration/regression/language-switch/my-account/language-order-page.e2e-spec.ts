@@ -2,8 +2,8 @@ import * as siteContextSelector from '../../../../helpers/site-context-selector'
 import { user } from '../../../../sample-data/checkout-flow';
 
 describe('Language switch - order page', () => {
-  const orderPath = '/my-account/orders';
-  const deutschName = 'Juni';
+  const orderPath = siteContextSelector.ORDER_PATH;
+  const deutschName = siteContextSelector.MONTH_DE;
 
   function doPlaceOrder() {
     cy.window().then(win => {

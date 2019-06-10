@@ -1,7 +1,7 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - close account page', () => {
-  const closeAccountPath = '/my-account/close-account';
+  const closeAccountPath = siteContextSelector.CLOSE_ACCOUNT_PATH;
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());

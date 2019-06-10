@@ -1,8 +1,8 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - personal details page', () => {
-  const personalDetailsPath = '/my-account/update-profile';
-  const deutschName = 'Herr';
+  const personalDetailsPath = siteContextSelector.PERSONAL_DETAILS_PATH;
+  const deutschName = siteContextSelector.TITLE_DE;
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());

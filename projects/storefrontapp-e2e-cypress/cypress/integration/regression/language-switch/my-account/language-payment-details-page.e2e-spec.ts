@@ -1,7 +1,7 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - payment-details page', () => {
-  const paymentDetailsPath = '/my-account/payment-details';
+  const paymentDetailsPath = siteContextSelector.PAYMENT_DETAILS_PATH;
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());

@@ -2,6 +2,8 @@ import * as siteContextSelector from '../../helpers/site-context-selector';
 import { switchSiteContext } from '../../support/utils/switch-site-context';
 
 context('Currency change', () => {
+  const productPath = siteContextSelector.PRODUCT_PATH_1;
+
   beforeEach(() => {
     cy.server();
     siteContextSelector.createGerericQuery(
@@ -12,13 +14,11 @@ context('Currency change', () => {
 
   describe('on the product page', () => {
     it('should change the currency and be persistent in the url ', () => {
-      siteContextSelector.verifyCurrencyChange(
-        siteContextSelector.PRODUCT_PATH
-      );
+      siteContextSelector.verifyCurrencyChange(productPath);
     });
 
     it('should display the chosen currency', () => {
-      siteContextSelector.currencyChange(siteContextSelector.PRODUCT_PATH);
+      siteContextSelector.currencyChange(productPath);
 
       cy.get('.price').should('contain', '¥690');
       switchSiteContext(siteContextSelector.CURRENCY_USD, 'Currency');

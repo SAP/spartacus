@@ -1,9 +1,8 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - product-details page', () => {
-  const productDetailsPath =
-    '/product/1687508/Stativ%20mit%20Fernbedienung%20VCT-80AV';
-  const deutschName = 'Stativ mit Fernbedienung';
+  const productDetailsPath = siteContextSelector.PRODUCT_PATH_2;
+  const deutschName = siteContextSelector.PRODUCT_NAME_DETAILS_DE;
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,

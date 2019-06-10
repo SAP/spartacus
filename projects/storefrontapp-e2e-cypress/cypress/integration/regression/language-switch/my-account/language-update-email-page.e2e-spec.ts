@@ -1,7 +1,7 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - update-email page', () => {
-  const updateEmailPath = '/my-account/update-email';
+  const updateEmailPath = siteContextSelector.UPDATE_EMAIL_PATH;
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());

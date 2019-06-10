@@ -1,7 +1,7 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - consent management page', () => {
-  const consentManagementPath = '/my-account/consents';
+  const consentManagementPath = siteContextSelector.CONSENT_MANAGEMENT_PATH;
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());

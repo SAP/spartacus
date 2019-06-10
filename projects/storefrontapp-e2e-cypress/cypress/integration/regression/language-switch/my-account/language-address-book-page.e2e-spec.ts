@@ -1,8 +1,8 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - address book page', () => {
-  const addressBookPath = '/my-account/address-book';
-  const deutschName = 'Herr';
+  const addressBookPath = siteContextSelector.ADDRESS_BOOK_PATH;
+  const deutschName = siteContextSelector.TITLE_DE;
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());

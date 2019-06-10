@@ -1,7 +1,7 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - update-password page', () => {
-  const updatePasswordPath = '/my-account/update-password';
+  const updatePasswordPath = siteContextSelector.UPDATE_PASSWORD_PATH;
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());

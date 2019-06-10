@@ -1,8 +1,8 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - registration page', () => {
-  const registerPath = '/login/register';
-  const deutschName = 'Herr';
+  const registerPath = siteContextSelector.REGISTRATION_PATH;
+  const deutschName = siteContextSelector.TITLE_DE;
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
