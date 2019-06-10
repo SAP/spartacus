@@ -14,6 +14,8 @@ import { stateMetaReducers } from './reducers/index';
           strictStateImmutability: true,
           strictActionImmutability: true,
           strictStateSerializability: true,
+          // TODO:#3010 - see ticket https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/3010
+          // strictActionSerializability: true,
         },
       }
     ),
