@@ -10,17 +10,17 @@ describe('Language switch - product-details page', () => {
   );
 
   describe('product-details page', () => {
-    it('should change language in the url', () => {
+    it('should change currency in the url', () => {
       siteContextSelector.verifyCurrencyChangeUrl(productDetailsPath);
     });
 
-    it('should change language in the page', () => {
+    it('should change currency in the page', () => {
       siteContextSelector.currencyChange(productDetailsPath);
 
       cy.get('cx-product-summary .price').should('have.text', jpCurrency);
     });
 
-    it('should change language in the modal', () => {
+    it('should change currency in the modal', () => {
       siteContextSelector.currencyChange(productDetailsPath);
 
       cy.get('cx-add-to-cart button.btn-primary').click();

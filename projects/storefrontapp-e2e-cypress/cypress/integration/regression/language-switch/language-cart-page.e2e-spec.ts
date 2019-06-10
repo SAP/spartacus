@@ -9,7 +9,7 @@ describe('Language switch - cart page', () => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
-    cart.addProductWhenLoggedIn(false);
+    cart.manipulateCartQuantity();
   });
 
   siteContextSelector.stub(

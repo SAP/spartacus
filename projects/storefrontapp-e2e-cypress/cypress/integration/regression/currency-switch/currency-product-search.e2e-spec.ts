@@ -10,11 +10,11 @@ describe('Currency switch - product-search page', () => {
   );
 
   describe('product-search page', () => {
-    it('should change language in the url', () => {
+    it('should change currency in the url', () => {
       siteContextSelector.verifyCurrencyChangeUrl(productSearchPath);
     });
 
-    it('should change language in the page', () => {
+    it('should change currency in the page', () => {
       siteContextSelector.currencyChange(productSearchPath);
 
       cy.get('cx-product-list-item .cx-product-price:first')
@@ -22,7 +22,7 @@ describe('Currency switch - product-search page', () => {
         .should('contains', jpCurrency);
     });
 
-    it('should change language in the search result', () => {
+    it('should change currency in the search result', () => {
       siteContextSelector.currencyChange(productSearchPath);
 
       cy.get('cx-searchbox input').type('fun');
