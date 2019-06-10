@@ -12,7 +12,7 @@ function addressBookTest() {
     before(() => {
       cy.requireLoggedIn();
       cy.visit('/');
-      cy.get('cx-page-layout')
+      cy.get('cx-page-layout cx-login')
         .getByText('My Account')
         .click({ force: true });
       cy.get('nav')
