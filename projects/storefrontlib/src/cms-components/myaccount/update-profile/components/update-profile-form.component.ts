@@ -16,7 +16,7 @@ export class UpdateProfileFormComponent implements OnInit {
   titles: Title[];
 
   @Output()
-  submited = new EventEmitter<{ uid: string; userUpdates: User }>();
+  submited = new EventEmitter<{ userUpdates: User }>();
 
   @Output()
   cancelled = new EventEmitter<void>();
@@ -52,7 +52,6 @@ export class UpdateProfileFormComponent implements OnInit {
     }
 
     this.submited.emit({
-      uid: this.user.uid,
       userUpdates: { ...this.form.value },
     });
   }

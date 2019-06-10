@@ -32,6 +32,32 @@ describe('Cart reducer', () => {
 
       expect(state.entities[mockMessage.type]).toEqual([mockMessage.text]);
     });
+
+    it('Should not add duplicated message to the list of messages', () => {
+      const { initialState } = fromGlobalMessage;
+
+      const mockMessageConfirmation: GlobalMessage = {
+        text: { raw: 'Test message confirmation' },
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      };
+      const mockMessageConfirmation2: GlobalMessage = {
+        text: { raw: 'Test message confirmation2' },
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      };
+
+      const action1 = new fromActions.AddMessage(mockMessageConfirmation);
+      const action2 = new fromActions.AddMessage(mockMessageConfirmation);
+      const action3 = new fromActions.AddMessage(mockMessageConfirmation2);
+
+      const state1 = fromGlobalMessage.reducer(initialState, action1);
+      const state2 = fromGlobalMessage.reducer(state1, action2);
+      const state3 = fromGlobalMessage.reducer(state2, action3);
+
+      expect(state3.entities[GlobalMessageType.MSG_TYPE_CONFIRMATION]).toEqual([
+        mockMessageConfirmation.text,
+        mockMessageConfirmation2.text,
+      ]);
+    });
   });
 
   describe('REMOVE_MESSAGE action', () => {

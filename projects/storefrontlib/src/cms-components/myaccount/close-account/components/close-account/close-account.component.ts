@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
+import { ModalService } from '../../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-close-account',
@@ -9,7 +10,7 @@ import { CloseAccountModalComponent } from '../close-account-modal/close-account
 })
 export class CloseAccountComponent {
   modal: any;
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: ModalService) {}
 
   openModal(): void {
     this.modal = this.modalService.open(CloseAccountModalComponent, {

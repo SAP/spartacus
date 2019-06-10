@@ -1,7 +1,6 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   Facet,
   ProductSearchPage,
@@ -9,7 +8,9 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
+import { ModalService } from '../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -36,7 +37,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   constructor(
-    private modalService: NgbModal,
+    private modalService: ModalService,
     private activatedRoute: ActivatedRoute,
     private productSearchService: ProductSearchService
   ) {

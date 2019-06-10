@@ -5,25 +5,25 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import * as fromActions from '../actions/update-password.action';
 import * as fromEffects from './update-password.effect';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 describe('Update Password Effect', () => {
   let updatePasswordEffect: fromEffects.UpdatePasswordEffects;
-  let userService: UserAccountConnector;
+  let userService: UserConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromEffects.UpdatePasswordEffects,
-        { provide: UserAccountAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     updatePasswordEffect = TestBed.get(fromEffects.UpdatePasswordEffects);
-    userService = TestBed.get(UserAccountConnector);
+    userService = TestBed.get(UserConnector);
   });
 
   describe('updatePassword$', () => {

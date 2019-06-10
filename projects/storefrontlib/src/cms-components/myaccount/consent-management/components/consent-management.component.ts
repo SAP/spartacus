@@ -1,22 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   ConsentTemplate,
-  ConsentTemplateList,
   GlobalMessageService,
   GlobalMessageType,
-  RoutingService,
-  UserService,
+  UserConsentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  filter,
-  map,
-  pluck,
-  skipWhile,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -25,20 +15,19 @@ import {
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
-  templateList$: Observable<ConsentTemplateList>;
+  templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
 
   constructor(
-    private userService: UserService,
-    private routingService: RoutingService,
+    private userConsentService: UserConsentService,
     private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
     this.loading$ = combineLatest(
-      this.userService.getConsentsResultLoading(),
-      this.userService.getGiveConsentResultLoading(),
-      this.userService.getWithdrawConsentResultLoading()
+      this.userConsentService.getConsentsResultLoading(),
+      this.userConsentService.getGiveConsentResultLoading(),
+      this.userConsentService.getWithdrawConsentResultLoading()
     ).pipe(
       map(
         ([consentLoading, giveConsentLoading, withdrawConsentLoading]) =>
@@ -51,59 +40,49 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private consentListInit(): void {
-    this.templateList$ = combineLatest(
-      this.userService.get(),
-      this.userService.getConsents()
-    ).pipe(
-      filter(([user]) => Boolean(user) && Boolean(user.uid)),
-      tap(([user, templateList]) => {
+    this.templateList$ = this.userConsentService.getConsents().pipe(
+      tap(templateList => {
         if (!this.consentsExists(templateList)) {
-          this.userService.loadConsents(user.uid);
+          this.userConsentService.loadConsents();
         }
-      }),
-      pluck(1)
+      })
     );
   }
 
   private giveConsentInit(): void {
-    this.userService.resetGiveConsentProcessState();
+    this.userConsentService.resetGiveConsentProcessState();
     this.subscriptions.add(
-      this.userService
+      this.userConsentService
         .getGiveConsentResultSuccess()
         .subscribe(success => this.onConsentGivenSuccess(success))
     );
   }
 
   private withdrawConsentInit(): void {
-    this.userService.resetWithdrawConsentProcessState();
+    this.userConsentService.resetWithdrawConsentProcessState();
     this.subscriptions.add(
-      this.userService
+      this.userConsentService
         .getWithdrawConsentResultLoading()
         .pipe(
           skipWhile(Boolean),
           withLatestFrom(
-            this.userService.getWithdrawConsentResultSuccess(),
-            this.userService.get()
+            this.userConsentService.getWithdrawConsentResultSuccess()
           ),
-          map(([, withdrawalSuccess, user]) => ({ withdrawalSuccess, user })),
-          tap(data => {
-            if (data.withdrawalSuccess) {
-              this.userService.loadConsents(data.user.uid);
+          map(([, withdrawalSuccess]) => withdrawalSuccess),
+          tap(withdrawalSuccess => {
+            if (withdrawalSuccess) {
+              this.userConsentService.loadConsents();
             }
           })
         )
-        .subscribe(data =>
-          this.onConsentWithdrawnSuccess(data.withdrawalSuccess)
+        .subscribe(withdrawalSuccess =>
+          this.onConsentWithdrawnSuccess(withdrawalSuccess)
         )
     );
   }
 
-  private consentsExists(templateList: ConsentTemplateList): boolean {
-    return (
-      Boolean(templateList) &&
-      Boolean(templateList.consentTemplates) &&
-      templateList.consentTemplates.length > 0
-    );
+  private consentsExists(templateList: ConsentTemplate[]): boolean {
+    return Boolean(templateList) && templateList.length > 0;
   }
 
   onConsentChange({
@@ -113,32 +92,16 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     given: boolean;
     template: ConsentTemplate;
   }): void {
-    this.userService
-      .get()
-      .pipe(
-        pluck('uid'),
-        tap(userId => {
-          if (given) {
-            this.userService.giveConsent(userId, template.id, template.version);
-          } else {
-            this.userService.withdrawConsent(
-              userId,
-              template.currentConsent.code
-            );
-          }
-        }),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  onDone(): void {
-    this.routingService.go({ cxRoute: 'home' });
+    if (given) {
+      this.userConsentService.giveConsent(template.id, template.version);
+    } else {
+      this.userConsentService.withdrawConsent(template.currentConsent.code);
+    }
   }
 
   private onConsentGivenSuccess(success: boolean): void {
     if (success) {
-      this.userService.resetGiveConsentProcessState();
+      this.userConsentService.resetGiveConsentProcessState();
       this.globalMessageService.add(
         { key: 'consentManagementForm.message.success.given' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -147,7 +110,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
   private onConsentWithdrawnSuccess(success: boolean): void {
     if (success) {
-      this.userService.resetWithdrawConsentProcessState();
+      this.userConsentService.resetWithdrawConsentProcessState();
       this.globalMessageService.add(
         { key: 'consentManagementForm.message.success.withdrawn' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -157,7 +120,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    this.userService.resetGiveConsentProcessState();
-    this.userService.resetWithdrawConsentProcessState();
+    this.userConsentService.resetGiveConsentProcessState();
+    this.userConsentService.resetWithdrawConsentProcessState();
   }
 }

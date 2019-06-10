@@ -6,7 +6,6 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-update-password',
@@ -14,7 +13,6 @@ import { take } from 'rxjs/operators';
 })
 export class UpdatePasswordComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
-  private userId: string;
   loading$: Observable<boolean>;
 
   constructor(
@@ -26,12 +24,6 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userService.resetUpdatePasswordProcessState();
     this.loading$ = this.userService.getUpdatePasswordResultLoading();
-    this.userService
-      .get()
-      .pipe(take(1))
-      .subscribe(user => {
-        this.userId = user.uid;
-      });
     this.subscription.add(
       this.userService
         .getUpdatePasswordResultSuccess()
@@ -60,7 +52,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
     oldPassword: string;
     newPassword: string;
   }): void {
-    this.userService.updatePassword(this.userId, oldPassword, newPassword);
+    this.userService.updatePassword(oldPassword, newPassword);
   }
 
   ngOnDestroy(): void {

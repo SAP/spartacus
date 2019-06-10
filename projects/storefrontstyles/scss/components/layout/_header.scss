@@ -1,12 +1,12 @@
 $space: 0.5rem;
 
 %header {
-  background-color: var(--cx-background-color, var(--cx-g-color-dark));
-  color: var(--cx-color, var(--cx-g-color-inverse));
+  background-color: var(--cx-g-color-dark);
+  color: var(--cx-g-color-inverse);
   display: block;
 
   .header {
-    max-width: var(--cx-max-width, 1140px);
+    max-width: 1140px;
     margin: auto;
 
     @include media-breakpoint-up(lg) {
@@ -56,8 +56,8 @@ $space: 0.5rem;
 
   .SiteContext,
   .SiteLinks {
-    font-size: var(--cx-g-font-small, 0.75rem);
-    color: var(--cx-color, var(--cx-g-color-light));
+    font-size: 0.75rem;
+    color: var(--cx-g-color-light);
     > * {
       flex: none;
     }
@@ -66,14 +66,18 @@ $space: 0.5rem;
 
   .SiteLinks {
     --cx-display: block;
+    cx-link {
+      display: block;
+      padding: 0 10px 0 0;
+    }
   }
 
   .SiteLogo {
-    width: 95px;
+    width: 90px;
   }
 
   .SearchBox {
-    margin: 4px auto;
+    margin: 14px auto;
 
     @include media-breakpoint-down(sm) {
       margin: 4px 0 4px auto;
@@ -82,6 +86,12 @@ $space: 0.5rem;
 
   .NavigationBar {
     flex: 100%;
+    overflow: hidden;
+    min-height: 67px;
+
+    @include media-breakpoint-down(md) {
+      background-color: var(--cx-g-color-background);
+    }
   }
 
   .cx-hamburger {
@@ -99,12 +109,8 @@ $space: 0.5rem;
     .SiteContext,
     .SiteLinks,
     .SiteLogin {
-      background-color: var(
-        --cx-background-color,
-        var(--cx-g-color-background)
-      );
+      background-color: var(--cx-g-color-light);
       color: var(--cx-color, var(--cx-g-color-text));
-      padding: var(--cx-padding, #{$space / 2} 0);
     }
 
     .SiteContext {
@@ -135,18 +141,17 @@ $space: 0.5rem;
     .SiteContext {
       justify-content: flex-start;
       &:after {
-        border-top: var(--cx-border-top, 1px solid currentColor);
+        border-top: 1px solid currentColor;
         content: '';
         width: 100%;
         position: absolute;
         left: 0;
-        top: 32px;
+        top: 44px;
       }
     }
 
     .SiteLinks {
       justify-content: flex-end;
-      --cx-padding: 0 #{$space};
     }
 
     .SiteLogin {

@@ -1,7 +1,17 @@
-<ng-container *cxOutlet="(layoutName$ | async)">
+<!-- ???? {{ layoutName$ | async }} -->
+<ng-template
+  [cxOutlet]="layoutName$ | async"
+  [cxOutletContext]="{
+    templateName$: templateName$,
+    slots$: slots$,
+    section$: section$
+  }"
+>
   <ng-content></ng-content>
+
+  <!-- {{ slots$ | async }} -->
   <cx-page-slot
     *ngFor="let slot of (slots$ | async)"
     [position]="slot"
   ></cx-page-slot>
-</ng-container>
+</ng-template>

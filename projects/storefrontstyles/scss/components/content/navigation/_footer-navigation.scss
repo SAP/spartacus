@@ -1,44 +1,34 @@
 %cx-footer-navigation {
-  nav {
-    padding: var(--cx-padding, 34px 0 0);
+  a {
+    text-decoration: underline;
+    font-size: var(--cx-g-font-small, 0.8rem);
+  }
 
-    @include media-breakpoint-up(md) {
-      margin: var(--cx-margin, 0 0 47px);
-    }
-
+  cx-navigation-ui {
+    // first level heading / links
     h5 {
+      text-transform: uppercase;
       @include type('5');
-      margin: var(--cx-margin, 0 0 12px);
-      text-transform: var(--cx-text-transform, capitalize);
-
-      @include media-breakpoint-down(xs) {
-        text-align: var(--cx-text-align, center);
-      }
-    }
-    ul {
-      padding: var(--cx-padding, 0);
-
-      @include media-breakpoint-down(xs) {
-        text-align: var(--cx-text-align, center);
-        padding: var(--cx-padding, 0 0 24px);
-      }
-    }
-    li {
-      @include list-unstyled();
-    }
-    a {
-      padding: var(--cx-padding, 0);
-      @include type();
-      &:hover {
-        text-decoration: var(--cx-text-decoration, none);
-      }
+      margin-bottom: 20px;
     }
   }
+
+  cx-navigation-ui {
+    justify-content: center;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    > nav {
+      margin: 3vw;
+    }
+  }
+
   .notice {
-    padding: var(--cx-padding, 32px 0);
-    text-align: var(--cx-text-align, center);
+    padding: 32px 0;
+    text-align: center;
     @include type();
-    color: var(--cx-color, var(--cx-g-color-dark));
-    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+    color: var(--cx-g-color-dark);
+    background-color: var(--cx-g-color-inverse);
   }
 }

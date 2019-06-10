@@ -106,14 +106,19 @@ describe('Cms PageData Selectors', () => {
   });
 
   describe('getIndexEntity', () => {
-    it('should retrn an empty object when there is no entity', () => {
+    it('should return an initial entity state when there is no entity', () => {
       let result: LoaderState<string>;
       store
         .pipe(select(fromSelectors.getIndexEntity(pageContext)))
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual({});
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: undefined,
+      });
     });
 
     it('should return an entity from an index', () => {
@@ -131,6 +136,20 @@ describe('Cms PageData Selectors', () => {
         success: true,
         value: page.pageId,
       });
+    });
+  });
+
+  describe('getIndexValue', () => {
+    it('should return index value', () => {
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+
+      let result: string;
+      store
+        .pipe(select(fromSelectors.getIndexValue(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual('homepage');
     });
   });
 

@@ -36,7 +36,9 @@ export class ComponentEffects {
             take(1),
             mergeMap(pageContext =>
               this.cmsComponentLoader.get(uid, pageContext).pipe(
-                map(data => new componentActions.LoadComponentSuccess(data)),
+                map(
+                  data => new componentActions.LoadComponentSuccess(data, uid)
+                ),
                 catchError(error =>
                   of(new componentActions.LoadComponentFail(uid, error))
                 )

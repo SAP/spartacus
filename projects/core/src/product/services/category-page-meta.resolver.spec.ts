@@ -58,7 +58,14 @@ class MockProductSearchService {
     return of({
       breadcrumbs: [
         {
+          facetCode: 'category',
+          facetValueCode: '1234',
           facetValueName: 'Hand-held Camcorders',
+        },
+        {
+          facetCode: 'notBreadcrumbFacet',
+          facetValueCode: '567',
+          facetValueName: 'any',
         },
       ],
       pagination: {
@@ -148,6 +155,17 @@ describe('CategoryPageMetaResolver', () => {
         })
         .unsubscribe();
       expect(result.breadcrumbs[1].label).toEqual('Hand-held Camcorders');
+    });
+
+    it('should not resolve 3rd breadcrumbs for non-category facet', () => {
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+      expect(result.breadcrumbs.length).toEqual(2);
     });
   });
 

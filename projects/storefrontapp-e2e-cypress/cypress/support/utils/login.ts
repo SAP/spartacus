@@ -1,4 +1,5 @@
 export const apiUrl = Cypress.env('API_URL');
+export const USERID_CURRENT = 'current';
 export const config = {
   tokenUrl: `${apiUrl}/authorizationserver/oauth/token`,
   newUserUrl: `${apiUrl}/rest/v2/electronics-spa/users/?lang=en&curr=USD`,
@@ -30,7 +31,7 @@ export function login(
 export function setSessionData(data) {
   const authData = {
     userToken: {
-      token: data,
+      token: { ...data, userId: USERID_CURRENT },
     },
   };
   cy.window().then(win => {
@@ -46,6 +47,8 @@ export function setSessionData(data) {
     }
     state.auth = authData;
     win.localStorage.setItem(storageKey, JSON.stringify(state));
+    cy.log('storing session state key: ', storageKey);
+    cy.log('storing session state value:', JSON.stringify(state));
   });
   return data;
 }

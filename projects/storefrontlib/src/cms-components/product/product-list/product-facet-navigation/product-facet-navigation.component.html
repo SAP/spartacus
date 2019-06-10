@@ -10,7 +10,7 @@
         class="cx-facet-filter-pill"
         role="filter"
       >
-        <span>{{ breadcrumb.facetValueName }}</span>
+        <span class="cx-facet-pill-value">{{ breadcrumb.facetValueName }}</span>
         <button
           type="button"
           class="close"
@@ -90,37 +90,41 @@
 </div>
 
 <div class="cx-facet-mobile">
-  <button
-    class="btn btn-action btn-block cx-facet-mobile-btn"
-    (click)="openFilterModal(content)"
-  >
-    {{ 'productList.filterBy.action' | cxTranslate }}
-  </button>
+  <div class="container">
+    <button
+      class="btn btn-action btn-block cx-facet-mobile-btn"
+      (click)="openFilterModal(content)"
+    >
+      {{ 'productList.filterBy.action' | cxTranslate }}
+    </button>
+  </div>
 </div>
 
 <!-- START ONLY SHOW FILTER SECTION IN MOBILE WHEN THEY ARE SELECTED -->
 <ng-container *ngIf="(updateParams$ | async) as params">
-  <div class="cx-facet-mobile" *ngIf="searchResult.breadcrumbs?.length">
-    <div class="cx-facet-filter-container">
-      <h4 class="cx-facet-filter-header">
-        {{ 'productList.appliedFilter' | cxTranslate }}
-      </h4>
-      <div
-        class="cx-facet-filter-pill"
-        role="filter"
-        *ngFor="let breadcrumb of searchResult.breadcrumbs"
-      >
-        {{ breadcrumb.facetValueName }}
-        <button
-          type="button"
-          class="close"
-          aria-label="Close"
-          (click)="toggleValue(breadcrumb.removeQuery.query.value)"
+  <div class="container">
+    <div class="cx-facet-mobile" *ngIf="searchResult.breadcrumbs?.length">
+      <div class="cx-facet-filter-container">
+        <h4 class="cx-facet-filter-header">
+          {{ 'productList.appliedFilter' | cxTranslate }}
+        </h4>
+        <div
+          class="cx-facet-filter-pill"
+          role="filter"
+          *ngFor="let breadcrumb of searchResult.breadcrumbs"
         >
-          <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.TIMES"></cx-icon>
-          </span>
-        </button>
+          {{ breadcrumb.facetValueName }}
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="toggleValue(breadcrumb.removeQuery.query.value)"
+          >
+            <span aria-hidden="true">
+              <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

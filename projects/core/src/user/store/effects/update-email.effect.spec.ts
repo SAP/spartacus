@@ -5,25 +5,25 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import * as fromAction from '../actions/update-email.action';
 import * as fromEffect from './update-email.effect';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 describe('Update Email Effect', () => {
   let updateEmailEffect: fromEffect.UpdateEmailEffects;
-  let userService: UserAccountConnector;
+  let userService: UserConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromEffect.UpdateEmailEffects,
-        { provide: UserAccountAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     updateEmailEffect = TestBed.get(fromEffect.UpdateEmailEffects);
-    userService = TestBed.get(UserAccountConnector);
+    userService = TestBed.get(UserConnector);
   });
 
   describe('updateEmail$', () => {

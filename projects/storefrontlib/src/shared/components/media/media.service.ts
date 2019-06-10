@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '@spartacus/core';
-import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
-import { missingProductImgSrc } from '../../../lib/ui/images/missingProduct';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Media, MediaFormats } from './media.model';
 
 /** the default format is used for browsers that do not support   */
@@ -13,21 +13,29 @@ const DEFAULT_MEDIA_FORMAT = 'tablet';
 export class MediaService {
   constructor(
     protected config: OccConfig,
-    protected layoutConfig: LayoutConfig
+    protected breakpointService: BreakpointService
   ) {}
 
-  private mediaFormats: MediaFormats[] = [
-    { code: 'mobile', threshold: this.layoutConfig.breakpoints[BREAKPOINT.xs] },
-    { code: 'tablet', threshold: this.layoutConfig.breakpoints[BREAKPOINT.sm] },
-    {
-      code: 'desktop',
-      threshold: this.layoutConfig.breakpoints[BREAKPOINT.md],
-    },
-    {
-      code: 'widescreen',
-      threshold: this.layoutConfig.breakpoints[BREAKPOINT.lg],
-    },
-  ];
+  private get mediaFormats(): MediaFormats[] {
+    return [
+      {
+        code: 'mobile',
+        threshold: this.breakpointService.getSize(BREAKPOINT.xs),
+      },
+      {
+        code: 'tablet',
+        threshold: this.breakpointService.getSize(BREAKPOINT.sm),
+      },
+      {
+        code: 'desktop',
+        threshold: this.breakpointService.getSize(BREAKPOINT.md),
+      },
+      {
+        code: 'widescreen',
+        threshold: this.breakpointService.getSize(BREAKPOINT.lg),
+      },
+    ];
+  }
 
   getMedia(container, format?: string, alt?: string): Media {
     return {
@@ -37,26 +45,13 @@ export class MediaService {
     };
   }
 
-  getMissingImage(alt?: string): Media {
-    return {
-      src: this.getMissingImageSrc(),
-      alt: alt || undefined,
-    };
-  }
-
-  private getMissingImageSrc() {
-    return missingProductImgSrc;
-  }
-
   private getMainImage(media, format?: string): string {
-    if (!media) {
-      return this.getMissingImageSrc();
-    } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
+    if (media && media[format || DEFAULT_MEDIA_FORMAT]) {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
-    } else if (media.url) {
+    } else if (media && media.url) {
       return this.getImageUrl(media.url);
     } else {
-      return this.getMissingImageSrc();
+      return null;
     }
   }
 

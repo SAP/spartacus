@@ -1,10 +1,9 @@
 import { Injectable, Optional } from '@angular/core';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
-
 import { CmsNavigationComponent, CmsService } from '@spartacus/core';
-import { NavigationNode } from './navigation-node.model';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { Observable } from 'rxjs';
+import { NavigationNode } from './navigation-node.model';
 
 @Injectable()
 export class NavigationComponentService {
@@ -14,22 +13,64 @@ export class NavigationComponentService {
     protected componentData: CmsComponentData<CmsNavigationComponent>
   ) {}
 
+  public getComponentData(): Observable<CmsNavigationComponent> {
+    return this.componentData.data$;
+  }
+
+  public createNavigation(): Observable<NavigationNode> {
+    return combineLatest(
+      this.getComponentData(),
+      this.getNavigationNode()
+    ).pipe(
+      map(([data, nav]) => {
+        return {
+          title: data.name,
+          children: [nav],
+        };
+      })
+    );
+  }
+
+  public getNavigationNode(): Observable<NavigationNode> {
+    return this.getComponentData().pipe(
+      filter(Boolean),
+      switchMap(data => {
+        const navigation = data.navigationNode ? data.navigationNode : data;
+        return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
+          tap(items => {
+            if (items === undefined) {
+              this.getNavigationEntryItems(navigation, true);
+            }
+          }),
+          filter(Boolean),
+          map(items => this.createNode(navigation, items))
+        );
+      })
+    );
+  }
+
   /**
    * Get all navigation entry items' type and id. Dispatch action to load all these items
    * @param nodeData
    * @param root
    * @param itemsList
    */
-  public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
-    if (nodeData.children && nodeData.children.length > 0) {
-      this.processChildren(nodeData, itemsList);
-    } else if (nodeData.entries && nodeData.entries.length > 0) {
+  private getNavigationEntryItems(
+    nodeData: any,
+    root: boolean,
+    itemsList = []
+  ) {
+    if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach(entry => {
         itemsList.push({
           superType: entry.itemSuperType,
           id: entry.itemId,
         });
       });
+    }
+
+    if (nodeData.children && nodeData.children.length > 0) {
+      this.processChildren(nodeData, itemsList);
     }
 
     if (root) {
@@ -49,31 +90,35 @@ export class NavigationComponentService {
    * @param nodeData
    * @param items
    */
-  public createNode(nodeData: any, items: any): NavigationNode {
+  private createNode(nodeData: any, items: any): NavigationNode {
     const node = {};
 
     node['title'] = nodeData.title;
-    node['url'] = '';
+
+    if (nodeData.entries && nodeData.entries.length > 0) {
+      this.addLinkToNode(node, nodeData.entries[0], items);
+    }
 
     if (nodeData.children && nodeData.children.length > 0) {
       const children = this.createChildren(nodeData, items);
       node['children'] = children;
-    } else if (nodeData.entries && nodeData.entries.length > 0) {
-      const entry = nodeData.entries[0];
-      const item = items[`${entry.itemId}_${entry.itemSuperType}`];
-
-      // now we only consider CMSLinkComponent
-      if (entry.itemType === 'CMSLinkComponent' && item !== undefined) {
-        if (!node['title']) {
-          node['title'] = item.linkName;
-        }
-        node['url'] = item.url;
-        // if "NEWWINDOW", target is true
-        node['target'] = item.target;
-      }
     }
 
     return node;
+  }
+
+  private addLinkToNode(node, entry, items) {
+    const item = items[`${entry.itemId}_${entry.itemSuperType}`];
+
+    // now we only consider CMSLinkComponent
+    if (entry.itemType === 'CMSLinkComponent' && item !== undefined) {
+      if (!node['title']) {
+        node['title'] = item.linkName;
+      }
+      node['url'] = item.url;
+      // if "NEWWINDOW", target is true
+      node['target'] = item.target;
+    }
   }
 
   private createChildren(node, items) {
@@ -83,28 +128,5 @@ export class NavigationComponentService {
       children.push(childNode);
     }
     return children;
-  }
-
-  public getComponentData(): Observable<CmsNavigationComponent> {
-    return this.componentData.data$;
-  }
-
-  public getNodes(): Observable<NavigationNode> {
-    return this.getComponentData().pipe(
-      switchMap(data => {
-        if (data) {
-          const navigation = data.navigationNode ? data.navigationNode : data;
-          return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
-            tap(items => {
-              if (items === undefined) {
-                this.getNavigationEntryItems(navigation, true, []);
-              }
-            }),
-            filter(items => items !== undefined),
-            map(items => this.createNode(navigation, items))
-          );
-        }
-      })
-    );
   }
 }

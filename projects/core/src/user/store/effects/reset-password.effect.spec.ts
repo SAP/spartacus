@@ -10,11 +10,11 @@ import * as fromActions from './../actions';
 
 import { ResetPasswordEffects } from './reset-password.effect';
 import { GlobalMessageType, AddMessage } from '../../../global-message/index';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserAdapter } from '../../connectors/user/user.adapter';
 
 describe('', () => {
-  let service: UserAccountConnector;
+  let service: UserConnector;
   let effect: ResetPasswordEffects;
   let actions$: Observable<any>;
 
@@ -22,13 +22,13 @@ describe('', () => {
     TestBed.configureTestingModule({
       providers: [
         ResetPasswordEffects,
-        { provide: UserAccountAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(ResetPasswordEffects);
-    service = TestBed.get(UserAccountConnector);
+    service = TestBed.get(UserConnector);
 
     spyOn(service, 'resetPassword').and.returnValue(of({}));
   });

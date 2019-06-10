@@ -15,8 +15,11 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('selectUserMenuOption', (option: string) => {
-  cy.get('cx-login [ngbdropdown]').click();
-  cy.get('cx-login [aria-label="My Account"]').within(() => {
+  cy.get('[position="HeaderLinks"] cx-navigation-ui > nav > h5').click({
+    force: true,
+  });
+
+  cy.get('[position="HeaderLinks"] cx-navigation-ui > nav').within(() => {
     cy.getByText(new RegExp(option, 'i')).click({ force: true });
   });
 });

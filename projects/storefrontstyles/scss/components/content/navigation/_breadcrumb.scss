@@ -5,11 +5,11 @@
   padding: 20px 0;
   text-align: center;
 
-  color: var(--cx-g-color-text, currentcolor);
+  color: currentcolor;
   background-color: var(--cx-g-color-background);
 
   nav {
-    font-size: var(--cx-font-size-small, 0.85rem);
+    font-size: 0.85rem;
     padding: 5px 0;
     span {
       color: var(--cx-g-color-secondary);

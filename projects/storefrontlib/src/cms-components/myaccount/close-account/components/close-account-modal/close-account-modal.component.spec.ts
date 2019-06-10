@@ -1,29 +1,26 @@
 import { Component, Input } from '@angular/core';
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-import { CloseAccountModalComponent } from './close-account-modal.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  I18nTestingModule,
-  UserService,
-  GlobalMessageService,
-  RoutingService,
-  UserToken,
   AuthService,
+  GlobalMessageService,
+  I18nTestingModule,
+  RoutingService,
+  UserService,
+  UserToken,
 } from '@spartacus/core';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
+import { CloseAccountModalComponent } from './close-account-modal.component';
 
 import createSpy = jasmine.createSpy;
-
-const mockUserId = 'userId1';
-
-class MockNgbActiveModal {
-  dismiss(): void {}
-
-  close(): void {}
-}
+import { ICON_TYPE } from '../../../../../cms-components/misc/index';
+import { ModalService } from '../../../../../shared/components/modal/index';
 
 class MockGlobalMessageService {
   add = createSpy();
+}
+
+class MockModalService {
+  dismissActiveModal(): void {}
 }
 
 class MockUserService {
@@ -53,9 +50,10 @@ class MockRoutingService {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
+
 @Component({
   selector: 'cx-spinner',
   template: '',
@@ -68,21 +66,17 @@ describe('CloseAccountModalComponent', () => {
   let userService: UserService;
   let routingService: RoutingService;
   let globalMessageService: any;
-  let activeModal: NgbActiveModal;
+  let mockModalService: MockModalService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, NgbModule],
+      imports: [I18nTestingModule],
       declarations: [
         CloseAccountModalComponent,
         MockCxSpinnerComponent,
         MockCxIconComponent,
       ],
       providers: [
-        {
-          provide: NgbActiveModal,
-          useClass: MockNgbActiveModal,
-        },
         {
           provide: UserService,
           useClass: MockUserService,
@@ -99,6 +93,10 @@ describe('CloseAccountModalComponent', () => {
           provide: AuthService,
           useClass: MockAuthService,
         },
+        {
+          provide: ModalService,
+          useClass: MockModalService,
+        },
       ],
     }).compileComponents();
   }));
@@ -110,7 +108,7 @@ describe('CloseAccountModalComponent', () => {
     userService = TestBed.get(UserService);
     routingService = TestBed.get(RoutingService);
     globalMessageService = TestBed.get(GlobalMessageService);
-    activeModal = TestBed.get(NgbActiveModal);
+    mockModalService = TestBed.get(ModalService);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -122,21 +120,21 @@ describe('CloseAccountModalComponent', () => {
   it('should close account', () => {
     spyOn(userService, 'remove');
 
-    component.closeAccount(mockUserId);
+    component.closeAccount();
 
-    expect(userService.remove).toHaveBeenCalledWith(mockUserId);
+    expect(userService.remove).toHaveBeenCalled();
   });
 
   it('should navigate away and dismiss modal when account is closed', () => {
     spyOn(userService, 'getRemoveUserResultSuccess').and.returnValue(of(true));
     spyOn(component, 'onSuccess').and.callThrough();
-    spyOn(activeModal, 'dismiss');
+    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
 
     component.ngOnInit();
 
     expect(component.onSuccess).toHaveBeenCalledWith(true);
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-    expect(activeModal.dismiss).toHaveBeenCalled();
+    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
 });

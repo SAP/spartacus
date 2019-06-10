@@ -8,8 +8,8 @@ export const defaultI18nConfig: I18nConfig = {
       common: [
         'common',
         'spinner',
-        'header',
         'searchBox',
+        'navigation',
         'sorting',
         'httpHandlers',
         'pageMetaResolver',
@@ -35,6 +35,7 @@ export const defaultI18nConfig: I18nConfig = {
         'productSummary',
         'productReview',
         'addToCart',
+        'CMSTabParagraphContainer',
       ],
       user: [
         'forgottenPassword',

@@ -9,9 +9,9 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
-import { Country } from '../../../model/address.model';
-import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
-import { UserPaymentAdapter } from '@spartacus/core';
+import { Country, CountryType } from '../../../model/address.model';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 
 const mockCountries: Country[] = [
   {
@@ -25,7 +25,7 @@ const mockCountries: Country[] = [
 ];
 
 describe('Delivery Countries effect', () => {
-  let service: UserPaymentConnector;
+  let service: SiteConnector;
   let effect: DeliveryCountriesEffects;
   let actions$: Observable<any>;
 
@@ -33,15 +33,15 @@ describe('Delivery Countries effect', () => {
     TestBed.configureTestingModule({
       providers: [
         DeliveryCountriesEffects,
-        { provide: UserPaymentAdapter, useValue: {} },
+        { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(DeliveryCountriesEffects);
-    service = TestBed.get(UserPaymentConnector);
+    service = TestBed.get(SiteConnector);
 
-    spyOn(service, 'getDeliveryCountries').and.returnValue(of(mockCountries));
+    spyOn(service, 'getCountries').and.returnValue(of(mockCountries));
   });
 
   describe('loadDeliveryCountries$', () => {
@@ -55,6 +55,7 @@ describe('Delivery Countries effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effect.loadDeliveryCountries$).toBeObservable(expected);
+      expect(service.getCountries).toHaveBeenCalledWith(CountryType.SHIPPING);
     });
   });
 });

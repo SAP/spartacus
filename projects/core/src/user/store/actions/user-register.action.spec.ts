@@ -7,12 +7,12 @@ import {
 } from '../../../state';
 import { REMOVE_USER_PROCESS_ID } from '../user-state';
 import * as fromUserRegister from './user-register.action';
-import { UserRegisterFormData } from '../../model/user.model';
+import { UserSignUp } from '@spartacus/core';
 
 describe('User Register Actions', () => {
   describe('RegisterUser Action', () => {
     it('should create the action', () => {
-      const user: UserRegisterFormData = {
+      const user: UserSignUp = {
         titleCode: '',
         firstName: '',
         lastName: '',

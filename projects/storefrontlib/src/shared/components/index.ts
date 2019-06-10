@@ -8,3 +8,4 @@ export * from './spinner/spinner.component';
 export * from './spinner/spinner.module';
 export * from './star-rating/star-rating.component';
 export * from './star-rating/star-rating.module';
+export * from './modal/index';

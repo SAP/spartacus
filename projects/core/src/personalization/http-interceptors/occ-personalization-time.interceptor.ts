@@ -20,6 +20,7 @@ const PERSONALIZATION_TIME_KEY = 'personalization-time';
 export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
   private timestamp: string;
   private requestHeader: string;
+  private enabled: boolean;
 
   constructor(
     private config: PersonalizationConfig,
@@ -27,17 +28,23 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     private winRef: WindowRef,
     @Inject(PLATFORM_ID) private platform: any
   ) {
-    this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
-    this.timestamp =
-      this.winRef.localStorage &&
-      this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY);
+    this.enabled = this.config.personalization.enabled || false;
+
+    if (this.enabled) {
+      this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
+      this.timestamp =
+        this.winRef.localStorage &&
+        this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY);
+    } else if (this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY)) {
+      this.winRef.localStorage.removeItem(PERSONALIZATION_TIME_KEY);
+    }
   }
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (isPlatformServer(this.platform)) {
+    if (isPlatformServer(this.platform) || !this.enabled) {
       return next.handle(request);
     }
 

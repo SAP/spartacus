@@ -53,4 +53,18 @@ describe('Cms Page Index Reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
+  describe('SET_PAGE_FAIL_INDEX action', () => {
+    it('should return index', () => {
+      const newIndex = 'index';
+      const { initialState } = fromPage;
+      const action = new fromActions.SetPageFailIndex(pageContext, newIndex);
+      const state = fromPage.reducer(PageType.CONTENT_PAGE)(
+        initialState,
+        action
+      );
+
+      expect(state).toEqual('index');
+    });
+  });
 });

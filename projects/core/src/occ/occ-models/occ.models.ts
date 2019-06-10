@@ -407,9 +407,9 @@ export namespace Occ {
    */
   export interface Component {
     /**
-     * @member {Date} [modifiedtime]
+     * @member {Date} [modifiedTime]
      */
-    modifiedtime?: Date;
+    modifiedTime?: Date;
     /**
      * @member {string} [name]
      */
@@ -3936,5 +3936,23 @@ export namespace Occ {
     All = 'all',
     Product = 'product',
     Order = 'order',
+  }
+
+  export interface ConsentTemplate {
+    id?: string;
+    name?: string;
+    description?: string;
+    version?: number;
+    currentConsent?: Consent;
+  }
+
+  export interface Consent {
+    code?: string;
+    consentGivenDate?: Date;
+    consentWithdrawnDate?: Date;
+  }
+
+  export interface ConsentTemplateList {
+    consentTemplates?: ConsentTemplate[];
   }
 }

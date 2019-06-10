@@ -8,7 +8,6 @@ import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
-import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { Cart } from '../../../model/cart.model';
 
 // for mini cart
@@ -23,8 +22,6 @@ const DETAILS_PARAMS =
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
   'appliedVouchers,productDiscounts(formattedValue)';
-
-const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 
 @Injectable()
 export class OccCartAdapter implements CartAdapter {
@@ -88,19 +85,6 @@ export class OccCartAdapter implements CartAdapter {
         this.converter.pipeable(CART_NORMALIZER)
       );
     }
-  }
-
-  loadCheckoutDetails(
-    userId: string,
-    cartId: string
-  ): Observable<CheckoutDetails> {
-    const url = this.getCartEndpoint(userId) + cartId;
-    const params = new HttpParams({
-      fromString: `fields=${CHECKOUT_PARAMS}`,
-    });
-    return this.http
-      .get<CheckoutDetails>(url, { params })
-      .pipe(catchError((error: any) => throwError(error)));
   }
 
   create(

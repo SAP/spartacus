@@ -9,8 +9,8 @@ import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 
 import { TitlesEffects } from '.';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { Title, UserAccountAdapter } from '@spartacus/core';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { Title, UserAdapter } from '@spartacus/core';
 
 const mockTitles: Title[] = [
   {
@@ -32,7 +32,7 @@ const mockTitles: Title[] = [
 ];
 
 describe('Titles effect', () => {
-  let service: UserAccountConnector;
+  let service: UserConnector;
   let effect: TitlesEffects;
   let actions$: Observable<any>;
 
@@ -40,13 +40,13 @@ describe('Titles effect', () => {
     TestBed.configureTestingModule({
       providers: [
         TitlesEffects,
-        { provide: UserAccountAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(TitlesEffects);
-    service = TestBed.get(UserAccountConnector);
+    service = TestBed.get(UserConnector);
 
     spyOn(service, 'getTitles').and.returnValue(of(mockTitles));
   });

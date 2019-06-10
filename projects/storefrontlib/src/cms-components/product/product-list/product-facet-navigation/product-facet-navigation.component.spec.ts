@@ -7,7 +7,6 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   I18nTestingModule,
   ProductSearchPage,
@@ -16,6 +15,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { ICON_TYPES } from '../../../misc/icon/icon.config';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+import { ModalService } from '../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-icon',
@@ -80,7 +80,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModalModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [ProductFacetNavigationComponent, MockCxIconComponent],
       providers: [
         {
@@ -91,6 +91,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute,
         },
+        { provide: ModalService, useValue: { open: () => {} } },
       ],
     })
       .overrideComponent(ProductFacetNavigationComponent, {

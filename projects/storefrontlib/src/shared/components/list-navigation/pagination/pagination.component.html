@@ -1,8 +1,26 @@
-<ngb-pagination
-  [collectionSize]="pagination.totalResults"
-  [page]="pagination.currentPage + 1"
-  (pageChange)="pageChange($event)"
-  [maxSize]="3"
-  [pageSize]="pagination.pageSize"
->
-</ngb-pagination>
+<ul class="pagination">
+  <!-- Previous -->
+  <li class="page-item" [ngClass]="{ disabled: onFirstPage() || !hasPages() }">
+    <a class="page-link" (click)="clickPageNo(getPagePrevious())">«</a>
+  </li>
+
+  <!-- Page Index -->
+  <li
+    class="page-item"
+    *ngFor="let page of getPageIndicies(); let i = index"
+    [ngClass]="{ active: onPageIndex(i), disabled: showDots(i) }"
+  >
+    <a class="page-link" *ngIf="showDots(i)">...</a>
+    <a
+      class="page-link"
+      *ngIf="!hidePageIndex(i)"
+      (click)="clickPageNo(i + 1)"
+      >{{ i + 1 }}</a
+    >
+  </li>
+
+  <!-- Next -->
+  <li class="page-item" [ngClass]="{ disabled: onLastPage() || !hasPages() }">
+    <a class="page-link" (click)="clickPageNo(getPageNext())">»</a>
+  </li>
+</ul>

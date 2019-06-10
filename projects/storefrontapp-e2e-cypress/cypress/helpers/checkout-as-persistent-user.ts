@@ -40,13 +40,15 @@ export function goToProductPageFromCategory() {
   // click big banner
   cy.get('.Section1 cx-banner')
     .first()
-    .find('img')
+    .find('cx-generic-link')
     .click();
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) img').click();
-  cy.get('cx-product-summary').within(() => {
-    cy.get('.name').should('contain', product.name);
+  cy.get('.Section2 cx-banner:nth-of-type(6) a').click();
+  cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', product.code);
+  });
+  cy.get('cx-breadcrumb').within(() => {
+    cy.get('h1').should('contain', product.name);
   });
 }
 
@@ -54,7 +56,9 @@ export function addProductToCart() {
   cy.get('cx-item-counter')
     .getByText('+')
     .click();
-  cy.get('cx-add-to-cart button').click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.getByText(/view cart/i).click();
@@ -148,7 +152,7 @@ export function verifyAndPlaceOrder() {
   );
 
   cy.get('.form-check-input').check();
-  cy.get('.cx-place-order button.btn-primary').click();
+  cy.get('button.btn-primary').click();
 }
 
 export function displaySummaryPage() {

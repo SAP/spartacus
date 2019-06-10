@@ -7,11 +7,11 @@ describe('Cart', () => {
   });
 
   it('should add products to cart via search autocomplete', () => {
-    cart.addProductToCartViaAutoComplete();
+    cart.addProductToCartViaAutoComplete(false);
   });
 
   it('should add products to cart through search result page', () => {
-    cart.addProductToCartViaSearchPage();
+    cart.addProductToCartViaSearchPage(false);
   });
 
   it('should display empty cart if no items added and when items are removed', () => {
@@ -21,7 +21,7 @@ describe('Cart', () => {
   it('should add product to cart as anonymous and merge when logged in', () => {
     cart.loginRegisteredUser();
 
-    cart.addProductWhenLoggedIn();
+    cart.addProductWhenLoggedIn(false);
 
     cart.logOutAndNavigateToEmptyCart();
 

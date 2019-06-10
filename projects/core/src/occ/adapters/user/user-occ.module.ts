@@ -2,31 +2,28 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { OrderAdapter } from '../../../user/connectors/order/order.adapter';
-import { OccOrderAdapter } from './occ-order.adapter';
-import { ORDER_NORMALIZER } from '../../../user/connectors/order/converters';
-import { OccOrderNormalizer } from './converters/occ-order-normalizer';
-import { UserDetailsAdapter } from '../../../user/connectors/details/user-details.adapter';
-import { OccUserDetailsAdapter } from './occ-user-details.adapter';
+import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
+import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
-import { UserAccountAdapter } from '../../../user/connectors/account/user-account.adapter';
-import { OccUserAccountAdapter } from './occ-user-account.adapter';
+import { UserAdapter } from '../../../user/connectors/user/user.adapter';
+import { OccUserAdapter } from './occ-user.adapter';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
+import { OccUserConsentAdapter } from './occ-user-consent.adapter';
+import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-    { provide: UserDetailsAdapter, useClass: OccUserDetailsAdapter },
+    { provide: UserAdapter, useClass: OccUserAdapter },
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },
-    { provide: UserAccountAdapter, useClass: OccUserAccountAdapter },
+    { provide: UserConsentAdapter, useClass: OccUserConsentAdapter },
     {
       provide: UserPaymentAdapter,
       useClass: OccUserPaymentAdapter,
     },
-    { provide: OrderAdapter, useClass: OccOrderAdapter },
-    { provide: ORDER_NORMALIZER, useClass: OccOrderNormalizer, multi: true },
+    { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
   ],
 })
 export class UserOccModule {}

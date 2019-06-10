@@ -62,8 +62,8 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
     this.routingService.go({ cxRoute: 'home' });
   }
 
-  onSubmit({ uid, userUpdates }: { uid: string; userUpdates: User }): void {
-    this.userService.updatePersonalDetails(uid, userUpdates);
+  onSubmit({ userUpdates }: { userUpdates: User }): void {
+    this.userService.updatePersonalDetails(userUpdates);
   }
 
   ngOnDestroy(): void {

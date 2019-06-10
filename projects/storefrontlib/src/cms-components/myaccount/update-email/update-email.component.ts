@@ -22,15 +22,11 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   ) {}
 
   private subscription = new Subscription();
-  private uid: string;
   private newUid: string;
   isLoading$: Observable<boolean>;
 
   ngOnInit() {
     this.userService.resetUpdateEmailResultState();
-    this.subscription.add(
-      this.userService.get().subscribe(result => (this.uid = result.uid))
-    );
     this.subscription.add(
       this.userService
         .getUpdateEmailResultSuccess()
@@ -45,7 +41,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
 
   onSubmit({ newUid, password }: { newUid: string; password: string }): void {
     this.newUid = newUid;
-    this.userService.updateEmail(this.uid, password, newUid);
+    this.userService.updateEmail(password, newUid);
   }
 
   onSuccess(success: boolean): void {

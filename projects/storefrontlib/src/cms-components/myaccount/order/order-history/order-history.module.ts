@@ -11,7 +11,6 @@ import {
   UrlModule,
   UserService,
 } from '@spartacus/core';
-import { BootstrapModule } from '../../../../lib/bootstrap.module';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderHistoryComponent } from './order-history.component';
 
@@ -21,7 +20,7 @@ import { OrderHistoryComponent } from './order-history.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderHistoryComponent: {
-          selector: 'cx-order-history',
+          component: OrderHistoryComponent,
           guards: [AuthGuard],
         },
       },
@@ -29,7 +28,6 @@ import { OrderHistoryComponent } from './order-history.component';
     RouterModule,
     FormsModule,
     NgSelectModule,
-    BootstrapModule,
     ListNavigationModule,
     UrlModule,
     I18nModule,

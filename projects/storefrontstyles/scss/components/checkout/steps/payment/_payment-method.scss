@@ -5,21 +5,21 @@
 
   .cx-payment {
     &.container {
-      padding: var(--cx-padding, 0);
+      padding: 0;
     }
   }
 
   .cx-payment-card {
-    padding-bottom: var(--cx-padding, 30px);
+    padding-bottom: 30px;
   }
 
   .cx-payment-card-inner {
-    height: var(--cx-height, 100%);
-    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+    height: 100%;
+    background-color: var(--cx-g-color-inverse);
     cursor: pointer;
 
     @include media-breakpoint-down(md) {
-      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+      background-color: var(--cx-g-color-inverse);
     }
   }
 
@@ -33,41 +33,41 @@
   }
 
   .cx-checkout-title {
-    text-transform: var(--cx-text-transform, uppercase);
-    margin: var(--cx-margin, 0 auto);
-    padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
+    text-transform: uppercase;
+    margin: 0 auto;
+    padding: 2.375rem 0 1.75rem 0;
   }
 
   .cx-checkout-text {
     @include media-breakpoint-down(md) {
-      padding-left: var(--cx-padding, 3.5rem);
+      padding-left: 3.5rem;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: var(--cx-padding, 1.5rem);
+      padding-left: 1.5rem;
     }
   }
 
   .cx-checkout-btns {
-    padding-bottom: var(--cx-padding, 1rem);
+    padding-bottom: 1rem;
 
     @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 1.25rem 0);
+      padding: 1.25rem 0;
     }
 
     .btn-action {
       @include media-breakpoint-down(sm) {
-        margin-bottom: var(--cx-margin, 1rem);
+        margin-bottom: 1rem;
       }
     }
   }
 
   .cx-checkout-body {
-    display: var(--cx-display, flex);
-    align-items: var(--cx-align-items, stretch);
+    display: flex;
+    align-items: stretch;
 
     &.row {
       @include media-breakpoint-down(md) {
-        padding: var(--cx-padding, 0);
+        padding: 0;
       }
     }
   }

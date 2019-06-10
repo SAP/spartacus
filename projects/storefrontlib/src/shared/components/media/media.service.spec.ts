@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
-import { defaultLayoutConfig, LayoutConfig } from '../../../layout';
+import { LayoutConfig } from '../../../layout';
 import { MediaService } from './media.service';
 
 const MockConfig: OccConfig = {
@@ -36,7 +36,8 @@ describe('MediaService', () => {
       providers: [
         MediaService,
         { provide: OccConfig, useValue: MockConfig },
-        { provide: LayoutConfig, useValue: defaultLayoutConfig },
+
+        { provide: LayoutConfig, useValue: {} },
       ],
     });
     mediaService = TestBed.get(MediaService);
@@ -78,14 +79,6 @@ describe('MediaService', () => {
     expect(
       mediaService.getMedia(mockMediaContainer, 'desktop', 'other alt').alt
     ).toBe('other alt');
-  });
-
-  it('should return missing image if media cannot be found', () => {
-    expect(
-      mediaService
-        .getMedia(mockMediaContainer, 'xyz')
-        .src.indexOf('data:image/jpg;base64')
-    ).toBe(0);
   });
 
   it('should return srcset', () => {

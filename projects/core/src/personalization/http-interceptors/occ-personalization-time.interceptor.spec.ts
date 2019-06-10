@@ -11,6 +11,7 @@ import { WindowRef } from '../../window/window-ref';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
+    enabled: true,
     httpHeaderName: {
       id: 'test-personalization-id',
       timestamp: 'test-personalization-time',
@@ -26,6 +27,11 @@ const MockWindowRef = {
     setItem: (key: string, value: string) => {
       store[key] = `${value}`;
     },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        store[key] = undefined;
+      }
+    },
   },
 };
 const endpoint = '/test';
@@ -34,7 +40,7 @@ class OccEndpointsServiceMock {
     return endpoint;
   }
 }
-describe('OccPersonalizationTimeInterceptor', () => {
+describe('OccPersonalizationTimeInterceptor with personalization enabled', () => {
   let httpMock: HttpTestingController;
   let winRef: WindowRef;
 
@@ -102,6 +108,64 @@ describe('OccPersonalizationTimeInterceptor', () => {
       expect(winRef.localStorage.getItem('personalization-time')).toEqual(
         'new timestamp'
       );
+    }
+  ));
+});
+
+describe('OccPersonalizationIdInterceptor with personalization disabled', () => {
+  let httpMock: HttpTestingController;
+  let winRef: WindowRef;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: PersonalizationConfig,
+          useValue: {
+            personalization: {
+              enabled: false,
+            },
+          },
+        },
+        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: OccPersonalizationTimeInterceptor,
+          multi: true,
+        },
+      ],
+    });
+
+    httpMock = TestBed.get(HttpTestingController);
+    winRef = TestBed.get(WindowRef);
+
+    winRef.localStorage.setItem('personalization-id', 'test id');
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should clear client-side personalization-id, and not send it in request header', inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      http.get('https://localhost:9002/test').subscribe(result => {
+        expect(result).toBeTruthy();
+      });
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+      const perHeader: string = mockReq.request.headers.get(
+        'test-personalization-time'
+      );
+      expect(perHeader).toBeNull();
+      mockReq.flush('someData');
+
+      expect(
+        winRef.localStorage.getItem('personalization-time')
+      ).toBeUndefined();
     }
   ));
 });

@@ -375,4 +375,31 @@ describe('CmsService', () => {
       }
     ));
   });
+
+  it('getPageIndex should select correct page state', inject(
+    [CmsService],
+    (service: CmsService) => {
+      const pageContext = { id: '/test', type: PageType.CONTENT_PAGE };
+      const pageData: Page = {
+        pageId: 'testUid',
+        slots: {},
+      };
+      store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
+
+      let result;
+      service.getPageIndex(pageContext).subscribe(res => (result = res));
+      expect(result).toEqual('testUid');
+    }
+  ));
+
+  it('setPageFailIndex should dispatch proper action', inject(
+    [CmsService],
+    (service: CmsService) => {
+      const pageContext = { id: '/test', type: PageType.CONTENT_PAGE };
+      service.setPageFailIndex(pageContext, 'test_uid');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromActions.SetPageFailIndex(pageContext, 'test_uid')
+      );
+    }
+  ));
 });

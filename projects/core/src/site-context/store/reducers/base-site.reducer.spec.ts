@@ -1,5 +1,7 @@
 import * as fromBaseSite from './base-site.reducer';
 import { BaseSiteAction, SetActiveBaseSite } from '@spartacus/core';
+import { LoadBaseSiteSuccess } from '../actions';
+import { BaseSite } from '../../../model/misc.model';
 
 describe('BaseSite Reducer', () => {
   describe('undefined action', () => {
@@ -18,7 +20,22 @@ describe('BaseSite Reducer', () => {
       const action = new SetActiveBaseSite('base-site');
       const state = fromBaseSite.reducer(initialState, action);
 
-      expect(state).toEqual('base-site');
+      expect(state.activeSite).toEqual('base-site');
+    });
+  });
+
+  describe('LOAD_BASE_SITE_SUCCESS action', () => {
+    it('should populate the active baseSite data', () => {
+      const payload: BaseSite = {
+        uid: 'test',
+        defaultPreviewCategoryCode: 'test category code',
+        defaultPreviewProductCode: 'test product code',
+      };
+      const { initialState } = fromBaseSite;
+      const action = new LoadBaseSiteSuccess(payload);
+      const state = fromBaseSite.reducer(initialState, action);
+
+      expect(state.details).toEqual(payload);
     });
   });
 });

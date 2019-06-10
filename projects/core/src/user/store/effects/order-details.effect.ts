@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { Order } from '../../../model/order.model';
-import { OrderConnector } from '../../connectors/order/order.connector';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 
 @Injectable()
 export class OrderDetailsEffect {
@@ -28,6 +28,6 @@ export class OrderDetailsEffect {
 
   constructor(
     private actions$: Actions,
-    private orderConnector: OrderConnector
+    private orderConnector: UserOrderConnector
   ) {}
 }

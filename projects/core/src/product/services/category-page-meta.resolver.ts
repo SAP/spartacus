@@ -1,15 +1,15 @@
+import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
-import { TranslationService } from '../../i18n';
+import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
-import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
             switchMap(data =>
               combineLatest([
                 this.resolveTitle(data),
-                this.resolveBreadcrumbs(data),
+                this.resolveBreadcrumbLabel().pipe(
+                  switchMap(label => this.resolveBreadcrumbs(data, label))
+                ),
               ])
             ),
             map(([title, breadcrumbs]) => ({ title, breadcrumbs }))
@@ -59,14 +61,29 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     });
   }
 
-  resolveBreadcrumbs(data: ProductSearchPage): Observable<any[]> {
+  resolveBreadcrumbLabel(): Observable<string> {
+    return this.translation.translate('common.home');
+  }
+
+  resolveBreadcrumbs(
+    data: ProductSearchPage,
+    breadcrumbLabel: string
+  ): Observable<any[]> {
     const breadcrumbs = [];
-    breadcrumbs.push({ label: 'Home', link: '/' });
+    breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
     for (const br of data.breadcrumbs) {
-      breadcrumbs.push({
-        label: br.facetValueName,
-        link: '/c/' + br.facetValueCode,
-      });
+      if (br.facetCode === 'category') {
+        breadcrumbs.push({
+          label: br.facetValueName,
+          link: `/c/${br.facetValueCode}`,
+        });
+      }
+      if (br.facetCode === 'brand') {
+        breadcrumbs.push({
+          label: br.facetValueName,
+          link: `/Brands/${br.facetValueName}/c/${br.facetValueCode}`,
+        });
+      }
     }
     return of(breadcrumbs);
   }

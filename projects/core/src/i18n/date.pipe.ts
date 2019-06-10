@@ -7,7 +7,10 @@ import { I18nConfig } from './config/i18n-config';
 // type CxDatePipe, not DatePipe, due to conflict with Angular's DatePipe - problem occurs for the backward compatibility compiler of Ivy
 @Pipe({ name: 'cxDate' })
 export class CxDatePipe extends DatePipe implements PipeTransform {
-  constructor(private language: LanguageService, private config: I18nConfig) {
+  constructor(
+    protected language: LanguageService,
+    protected config: I18nConfig
+  ) {
     super(null);
   }
 

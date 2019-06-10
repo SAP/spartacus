@@ -1,13 +1,9 @@
 %CartPageTemplate {
-  max-width: var(--cx-max-width, 1140px);
-  padding: var(--cx-padding, 0 1.5rem);
+  max-width: 1140px;
+  padding: 0 1.5rem;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
-
-  .EmptyCartMiddleContent {
-    display: none;
-  }
 
   .TopContent {
     --cx-flex-basis: 75%;
@@ -35,17 +31,6 @@
       cx-cart-totals {
         max-width: none;
       }
-    }
-  }
-
-  &.empty {
-    .EmptyCartMiddleContent {
-      display: block;
-    }
-
-    .TopContent,
-    .CenterRightContentSlot {
-      display: none;
     }
   }
 }

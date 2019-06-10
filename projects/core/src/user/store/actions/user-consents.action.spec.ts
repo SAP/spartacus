@@ -1,4 +1,4 @@
-import { ConsentTemplate, ConsentTemplateList } from '../../../occ';
+import { ConsentTemplate } from '../../../model/consent.model';
 import { PROCESS_FEATURE } from '../../../process';
 import {
   entityFailMeta,
@@ -40,9 +40,7 @@ describe('user consent actions', () => {
     });
     describe('LoadUserConsentsSuccess', () => {
       it('should create the action', () => {
-        const payload: ConsentTemplateList = {
-          consentTemplates: [{ id: 'xxx' }],
-        };
+        const payload: ConsentTemplate[] = [{ id: 'xxx' }];
         const action = new fromActions.LoadUserConsentsSuccess(payload);
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_USER_CONSENTS_SUCCESS,
