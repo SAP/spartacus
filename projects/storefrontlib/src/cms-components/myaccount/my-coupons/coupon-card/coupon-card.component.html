@@ -11,7 +11,8 @@
       <div class="cx-coupon-card-dates">
         <p>Effective:</p>
         <div class="cx-coupon-date">
-          {{ coupon?.startDate }} - {{ coupon?.endDate }}
+          {{ coupon?.startDate | cxDate: 'longDate' }} -
+          {{ coupon?.endDate | cxDate: 'longDate' }}
         </div>
       </div>
 

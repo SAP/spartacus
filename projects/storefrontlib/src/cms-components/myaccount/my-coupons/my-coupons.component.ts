@@ -13,7 +13,7 @@ import { tap } from 'rxjs/operators';
 })
 export class MyCouponsComponent implements OnInit {
   couponResult$: Observable<CustomerCouponSearchResult>;
-  couponsStateLoading$: Observable<boolean>;
+  couponsStateLoaded$: Observable<boolean>;
 
   private PAGE_SIZE = 5;
   private sortMapping = {
@@ -67,7 +67,7 @@ export class MyCouponsComponent implements OnInit {
             })
         )
       );
-    this.couponsStateLoading$ = this.userService.getCustomerCouponsLoaded();
+    this.couponsStateLoaded$ = this.userService.getCustomerCouponsLoaded();
   }
 
   sortChange(sort: string): void {
@@ -86,5 +86,20 @@ export class MyCouponsComponent implements OnInit {
       page,
       this.sortMapping[this.sort]
     );
+  }
+
+  onNotificationChange({
+    notification,
+    couponId,
+  }: {
+    notification: boolean;
+    couponId: string;
+  }): void {
+    console.log('component:' + notification);
+    if (notification) {
+      this.userService.subscribeCustomerCoupon(couponId);
+    } else {
+      this.userService.unsubscribeCustomerCoupon(couponId);
+    }
   }
 }

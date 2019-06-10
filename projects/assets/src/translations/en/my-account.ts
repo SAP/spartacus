@@ -37,7 +37,7 @@ export const myAccount = {
   },
   myCoupons: {
     sortByMostRecent: 'Sort by Most recent',
-    noCouponsMessage: 'You have no coupons available',
+    noCouponsMessage: 'You have no coupons available.',
     couponEffectiveTitle: 'Effective',
     couponEffective: 'EFFECTIVE',
     couponEffectiveSoon: 'EFFECTIVE SOON',
