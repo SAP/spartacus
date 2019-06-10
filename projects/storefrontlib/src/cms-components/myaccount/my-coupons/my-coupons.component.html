@@ -1,6 +1,6 @@
 <div class="cx-section">
   <ng-container *ngIf="(couponResult$ | async) as couponResult">
-    <ng-container *ngIf="(couponsStateLoading$ | async); else loading">
+    <ng-container *ngIf="(couponsStateLoaded$ | async); else loading">
       <ng-container
         *ngIf="couponResult.pagination.totalCount > 0; else noCoupons"
       >
@@ -30,7 +30,10 @@
             *ngFor="let coupon of couponResult.coupons"
             class="col-md-6 cx-coupon-card"
           >
-            <cx-coupon-card [coupon]="coupon"></cx-coupon-card>
+            <cx-coupon-card
+              [coupon]="coupon"
+              (notificationChanged)="onNotificationChange($event)"
+            ></cx-coupon-card>
           </div>
         </div>
 
