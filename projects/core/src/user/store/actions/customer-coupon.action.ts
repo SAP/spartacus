@@ -2,7 +2,7 @@ import {
   CUSTOMER_COUPONS,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  } from '../user-state';
+} from '../user-state';
 import {
   LoaderLoadAction,
   LoaderFailAction,
@@ -12,13 +12,14 @@ import {
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntityResetAction,
   EntitySuccessAction,
-  } from '../../../state/utils/entity-loader/entity-loader.action';
+} from '../../../state/utils/entity-loader/entity-loader.action';
 import { PROCESS_FEATURE } from '../../../process/store';
 
 export const LOAD_CUSTOMER_COUPONS = '[User] Load Customer Coupons';
@@ -102,7 +103,7 @@ export class SubscribeCustomerCouponFail extends EntityFailAction {
 
 export class SubscribeCustomerCouponSuccess extends EntitySuccessAction {
   readonly type = SUBSCRIBE_CUSTOMER_COUPON_SUCCESS;
-  constructor(public payload: CustomerCoupon) {
+  constructor(public payload: CustomerCouponNotification) {
     super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, payload);
   }
 }

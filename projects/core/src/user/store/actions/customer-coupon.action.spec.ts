@@ -17,6 +17,7 @@ import {
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 
 import { PROCESS_FEATURE } from '../../../process/store';
@@ -48,6 +49,12 @@ const coupon2: CustomerCoupon = {
   description: '',
   notificationOn: true,
   solrFacets: '',
+};
+
+const customerCouponNotification: CustomerCouponNotification = {
+  coupon: coupon1,
+  customer: {},
+  status: '',
 };
 
 const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
@@ -145,12 +152,12 @@ describe('Customer Coupon Actions', () => {
   describe('SubscribeCustomerCouponSuccess Action', () => {
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-        coupon1
+        customerCouponNotification
       );
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
-        payload: coupon1,
+        payload: customerCouponNotification,
         meta: entitySuccessMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID

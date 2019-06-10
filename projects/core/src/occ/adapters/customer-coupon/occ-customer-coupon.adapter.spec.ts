@@ -101,7 +101,7 @@ describe('OccCustomerCouponAdapter', () => {
         endDate: new Date(),
         status: 'Effective',
         description: '',
-        notificationOn: '',
+        notificationOn: true,
         solrFacets: '',
       };
       const customerCouponNotification: CustomerCouponNotification = {
@@ -128,7 +128,7 @@ describe('OccCustomerCouponAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(customerCoupon);
+      mockReq.flush(customerCouponNotification);
     });
   });
 

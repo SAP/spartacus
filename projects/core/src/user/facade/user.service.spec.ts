@@ -888,7 +888,7 @@ describe('UserService', () => {
       endDate: new Date(),
       status: 'Effective',
       description: '',
-      notificationOn: '',
+      notificationOn: true,
       solrFacets: '',
     };
 

@@ -129,7 +129,7 @@ describe('Customer Coupon effect', () => {
         couponCode: 'testCoupon',
       });
       const completion = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-        coupon1
+        customerCouponNotification
       );
 
       actions$ = hot('-a', { a: action });
