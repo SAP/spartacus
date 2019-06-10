@@ -18,26 +18,28 @@ const coupon: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: '',
+  notificationOn: true,
   solrFacets: '',
 };
 
 const customerSearcherResult: CustomerCouponSearchResult = {
   coupons: [coupon],
   pagination: {
-    currentPage: 1,
-    pageSize: 5,
+    count: 1,
+    page: 4,
+    totalCount: 11,
+    totalPages: 5,
   },
-  sorts: { code: 'byPage' },
+  sorts: [],
 };
 
 const emptyCustomerSearcherResult: CustomerCouponSearchResult = {
   coupons: [],
   pagination: {},
-  sorts: {},
+  sorts: [],
 };
 
-describe('User Orders Selectors', () => {
+describe('Customer Coupon Selectors', () => {
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -52,8 +54,8 @@ describe('User Orders Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getOrdersLoaderState', () => {
-    it('should return orders state', () => {
+  describe('getCustomerCouponsState', () => {
+    it('should return customer coupon state', () => {
       let result: LoaderState<CustomerCouponSearchResult>;
       store
         .pipe(select(fromSelectors.getCustomerCouponsState))
@@ -70,7 +72,7 @@ describe('User Orders Selectors', () => {
   });
 
   describe('getCustomerCoupons', () => {
-    it('should return a user Orders', () => {
+    it('should return customer coupons', () => {
       let result: CustomerCouponSearchResult;
       store
         .pipe(select(fromSelectors.getCustomerCoupons))

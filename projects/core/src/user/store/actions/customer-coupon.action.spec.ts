@@ -12,10 +12,12 @@ import {
   entityFailMeta,
   entityLoadMeta,
   entitySuccessMeta,
+  entityResetMeta,
 } from '../../../state';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 
 import { PROCESS_FEATURE } from '../../../process/store';
@@ -35,7 +37,7 @@ const coupon1: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: '',
+  notificationOn: true,
   solrFacets: '',
 };
 const coupon2: CustomerCoupon = {
@@ -45,19 +47,25 @@ const coupon2: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: '',
+  notificationOn: true,
   solrFacets: '',
+};
+
+const customerCouponNotification: CustomerCouponNotification = {
+  coupon: coupon1,
+  customer: {},
+  status: '',
 };
 
 const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
 
 const customerSearcherResult: CustomerCouponSearchResult = {
   coupons: mockCustomerCoupons,
-  sorts: {},
+  sorts: [],
   pagination: {},
 };
 
-describe('User Coupon Actions', () => {
+describe('Customer Coupon Actions', () => {
   describe('LoadCustomerCoupons Actions', () => {
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.LoadCustomerCoupons({
@@ -144,13 +152,27 @@ describe('User Coupon Actions', () => {
   describe('SubscribeCustomerCouponSuccess Action', () => {
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-        coupon1
+        customerCouponNotification
       );
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
-        payload: coupon1,
+        payload: customerCouponNotification,
         meta: entitySuccessMeta(
+          PROCESS_FEATURE,
+          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('ResetSubscribeCustomerCouponProcess Action', () => {
+    it('should create the action', () => {
+      const action = new fromCustomerCouponsAction.ResetSubscribeCustomerCouponProcess();
+
+      expect({ ...action }).toEqual({
+        type: fromCustomerCouponsAction.RESET_SUBSCRIBE_CUSTOMER_COUPON_PROCESS,
+        meta: entityResetMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),
@@ -205,6 +227,21 @@ describe('User Coupon Actions', () => {
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: coupon1,
         meta: entitySuccessMeta(
+          PROCESS_FEATURE,
+          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('ResetUnsubscribeCustomerCouponProcess Action', () => {
+    it('should create the action', () => {
+      const action = new fromCustomerCouponsAction.ResetUnsubscribeCustomerCouponProcess();
+
+      expect({ ...action }).toEqual({
+        type:
+          fromCustomerCouponsAction.RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS,
+        meta: entityResetMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),

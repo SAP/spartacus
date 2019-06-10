@@ -6,6 +6,7 @@ import { GlobalMessageService } from '../../../global-message/index';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 import { User } from '../../../model/misc.model';
 import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
@@ -39,7 +40,7 @@ const coupon1: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: '',
+  notificationOn: true,
   solrFacets: '',
 };
 const coupon2: CustomerCoupon = {
@@ -49,7 +50,7 @@ const coupon2: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: '',
+  notificationOn: true,
   solrFacets: '',
 };
 
@@ -57,8 +58,14 @@ const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
 
 const customerSearcherResult: CustomerCouponSearchResult = {
   coupons: mockCustomerCoupons,
-  sorts: {},
+  sorts: [],
   pagination: {},
+};
+
+const customerCouponNotification: CustomerCouponNotification = {
+  coupon: coupon1,
+  customer: {},
+  status: '',
 };
 
 describe('Customer Coupon effect', () => {
@@ -86,7 +93,7 @@ describe('Customer Coupon effect', () => {
       of(customerSearcherResult)
     );
     spyOn(customerCouponConnector, 'turnOnNotification').and.returnValue(
-      of(coupon1)
+      of(customerCouponNotification)
     );
 
     spyOn(customerCouponConnector, 'turnOffNotification').and.returnValue(
@@ -122,7 +129,7 @@ describe('Customer Coupon effect', () => {
         couponCode: 'testCoupon',
       });
       const completion = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-        coupon1
+        customerCouponNotification
       );
 
       actions$ = hot('-a', { a: action });
@@ -134,7 +141,7 @@ describe('Customer Coupon effect', () => {
   });
 
   describe('unsubscribeCustomerCoupon$', () => {
-    it('should add user address', () => {
+    it('should unsubscribe customer coupon', () => {
       const action = new fromCustomerCouponsAction.UnsubscribeCustomerCoupon({
         userId: USERID_CURRENT,
         couponCode: 'testCoupon',

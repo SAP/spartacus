@@ -64,12 +64,12 @@ describe('OccCustomerCouponAdapter', () => {
         endDate: new Date(),
         status: 'Effective',
         description: '',
-        notificationOn: '',
+        notificationOn: true,
         solrFacets: '',
       };
       const couponSearchResult: CustomerCouponSearchResult = {
         coupons: [customerCoupon],
-        sorts: {},
+        sorts: [],
         pagination: {},
       };
 
@@ -101,7 +101,7 @@ describe('OccCustomerCouponAdapter', () => {
         endDate: new Date(),
         status: 'Effective',
         description: '',
-        notificationOn: '',
+        notificationOn: true,
         solrFacets: '',
       };
       const customerCouponNotification: CustomerCouponNotification = {
@@ -111,7 +111,7 @@ describe('OccCustomerCouponAdapter', () => {
       };
 
       service.turnOnNotification(userId, couponCode).subscribe(result => {
-        expect(result).toEqual(customerCouponNotification.coupon);
+        expect(result).toEqual(customerCouponNotification);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -128,7 +128,7 @@ describe('OccCustomerCouponAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(customerCoupon);
+      mockReq.flush(customerCouponNotification);
     });
   });
 

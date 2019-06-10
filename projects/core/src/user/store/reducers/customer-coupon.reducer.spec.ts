@@ -13,7 +13,7 @@ const coupon1: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: '',
+  notificationOn: true,
   solrFacets: '',
 };
 const coupon2: CustomerCoupon = {
@@ -23,7 +23,7 @@ const coupon2: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: '',
+  notificationOn: true,
   solrFacets: '',
 };
 
@@ -31,7 +31,7 @@ const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
 
 const customerSearcherResult: CustomerCouponSearchResult = {
   coupons: mockCustomerCoupons,
-  sorts: {},
+  sorts: [],
   pagination: {},
 };
 
@@ -47,7 +47,7 @@ describe('CustomerCoupon Reducer', () => {
   });
 
   describe('LOAD_CUSTOMER_COUPON_SUCCESS action', () => {
-    it('should populate the customer coupons state', () => {
+    it('should populate the customer coupon state', () => {
       const { initialState } = fromCustomerCouponsReducer;
       const action = new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
         customerSearcherResult

@@ -1,5 +1,5 @@
-import {User} from './misc.model';
-import {Pagination, Sort} from './unused.model';
+import { User } from './misc.model';
+import { Pagination, Sort } from './unused.model';
 
 export interface CustomerCoupon {
   couponId?: string;
@@ -8,7 +8,7 @@ export interface CustomerCoupon {
   endDate?: Date;
   status?: string;
   description?: string;
-  notificationOn?: string;
+  notificationOn?: boolean;
   solrFacets?: string;
 }
 
