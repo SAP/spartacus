@@ -20,22 +20,19 @@
     width: 400px;
   }
 
-  .wrapper {
-    @include media-breakpoint-down(md) {
-      height: 0;
-      overflow: hidden;
-    }
-  }
-
   &.flyout {
     .wrapper {
+      @include media-breakpoint-down(md) {
+        height: 0;
+        overflow: hidden;
+      }
       color: #000;
     }
     @include media-breakpoint-up(lg) {
       .wrapper {
         // we add a z-index since some of the elements on the page have (surprisingly) a z-index rule
         // we cannot make the z-index too high as it would conflict with the searchbox flyout.
-        z-index: 2;
+        z-index: 3;
       }
       > nav > .wrapper {
         padding: 15px 20px;
