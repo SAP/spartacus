@@ -1019,7 +1019,7 @@ describe('UserService', () => {
     });
 
     it('should getUnsubscribeCustomerCouponResultSuccess() return the success flag', () => {
-      store.dispatch(new fromStore.UnsubscribeCustomerCouponSuccess(coupon));
+      store.dispatch(new fromStore.UnsubscribeCustomerCouponSuccess('coupon'));
 
       let result = false;
       service

@@ -147,7 +147,7 @@ describe('Customer Coupon effect', () => {
         couponCode: 'testCoupon',
       });
       const completion = new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
-        {}
+        'testCoupon'
       );
 
       actions$ = hot('-a', { a: action });

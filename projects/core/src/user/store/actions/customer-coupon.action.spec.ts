@@ -219,13 +219,14 @@ describe('Customer Coupon Actions', () => {
 
   describe('UnsubscribeCustomerCouponSuccess Action', () => {
     it('should create the action', () => {
+      const success = 'mockSuccess';
       const action = new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
-        coupon1
+        success
       );
 
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
-        payload: coupon1,
+        payload: success,
         meta: entitySuccessMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
