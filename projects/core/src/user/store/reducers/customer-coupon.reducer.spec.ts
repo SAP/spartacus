@@ -47,7 +47,7 @@ describe('CustomerCoupon Reducer', () => {
   });
 
   describe('LOAD_CUSTOMER_COUPON_SUCCESS action', () => {
-    it('should populate the customer coupons state', () => {
+    it('should populate the customer coupon state', () => {
       const { initialState } = fromCustomerCouponsReducer;
       const action = new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
         customerSearcherResult

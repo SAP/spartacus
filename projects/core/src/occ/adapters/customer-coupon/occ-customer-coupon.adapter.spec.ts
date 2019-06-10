@@ -111,7 +111,7 @@ describe('OccCustomerCouponAdapter', () => {
       };
 
       service.turnOnNotification(userId, couponCode).subscribe(result => {
-        expect(result).toEqual(customerCouponNotification.coupon);
+        expect(result).toEqual(customerCouponNotification);
       });
 
       const mockReq = httpMock.expectOne(req => {

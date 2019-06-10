@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import {
-  CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 
 export abstract class CustomerCouponAdapter {
@@ -15,7 +15,7 @@ export abstract class CustomerCouponAdapter {
   abstract turnOnNotification(
     userId: string,
     couponCode: string
-  ): Observable<CustomerCoupon>;
+  ): Observable<CustomerCouponNotification>;
 
   abstract turnOffNotification(
     userId: string,

@@ -39,7 +39,7 @@ const emptyCustomerSearcherResult: CustomerCouponSearchResult = {
   sorts: [],
 };
 
-describe('User Orders Selectors', () => {
+describe('Customer Coupon Selectors', () => {
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -54,8 +54,8 @@ describe('User Orders Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getOrdersLoaderState', () => {
-    it('should return orders state', () => {
+  describe('getCustomerCouponsState', () => {
+    it('should return customer coupon state', () => {
       let result: LoaderState<CustomerCouponSearchResult>;
       store
         .pipe(select(fromSelectors.getCustomerCouponsState))
@@ -72,7 +72,7 @@ describe('User Orders Selectors', () => {
   });
 
   describe('getCustomerCoupons', () => {
-    it('should return a user Orders', () => {
+    it('should return customer coupons', () => {
       let result: CustomerCouponSearchResult;
       store
         .pipe(select(fromSelectors.getCustomerCoupons))

@@ -58,7 +58,7 @@ const customerSearcherResult: CustomerCouponSearchResult = {
   pagination: {},
 };
 
-describe('User Coupon Actions', () => {
+describe('Customer Coupon Actions', () => {
   describe('LoadCustomerCoupons Actions', () => {
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.LoadCustomerCoupons({

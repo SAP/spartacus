@@ -6,6 +6,7 @@ import { GlobalMessageService } from '../../../global-message/index';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 import { User } from '../../../model/misc.model';
 import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
@@ -61,6 +62,12 @@ const customerSearcherResult: CustomerCouponSearchResult = {
   pagination: {},
 };
 
+const customerCouponNotification: CustomerCouponNotification = {
+  coupon: coupon1,
+  customer: {},
+  status: '',
+};
+
 describe('Customer Coupon effect', () => {
   let customerCouponsEffect: fromCustomerCouponsEffect.CustomerCouponEffects;
   let customerCouponConnector: CustomerCouponConnector;
@@ -86,7 +93,7 @@ describe('Customer Coupon effect', () => {
       of(customerSearcherResult)
     );
     spyOn(customerCouponConnector, 'turnOnNotification').and.returnValue(
-      of(coupon1)
+      of(customerCouponNotification)
     );
 
     spyOn(customerCouponConnector, 'turnOffNotification').and.returnValue(
@@ -134,7 +141,7 @@ describe('Customer Coupon effect', () => {
   });
 
   describe('unsubscribeCustomerCoupon$', () => {
-    it('should add user address', () => {
+    it('should unsubscribe customer coupon', () => {
       const action = new fromCustomerCouponsAction.UnsubscribeCustomerCoupon({
         userId: USERID_CURRENT,
         couponCode: 'testCoupon',

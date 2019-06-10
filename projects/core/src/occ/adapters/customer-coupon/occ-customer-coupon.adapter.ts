@@ -5,8 +5,8 @@ import { catchError } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
 import {
-  CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 
 const USER_ENDPOINT = 'users/';
@@ -69,7 +69,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   turnOnNotification(
     userId: string,
     couponCode: string
-  ): Observable<CustomerCoupon> {
+  ): Observable<CustomerCouponNotification> {
     const url =
       this.getUserEndpoint(userId) +
       CUSTOMER_COUPON_ENDPOINT +
