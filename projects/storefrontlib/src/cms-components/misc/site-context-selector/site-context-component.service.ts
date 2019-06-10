@@ -31,13 +31,14 @@ export class SiteContextComponentService {
       switchMap(items =>
         this.getContext(context).pipe(
           switchMap(ctx => {
-            items.forEach(item => {
-              return {
+            const itemsCopy = [];
+            for (const item of items) {
+              itemsCopy.push({
                 ...item,
                 label: this.getOptionLabel(item, ctx),
-              };
-            });
-            return of(items);
+              });
+            }
+            return of(itemsCopy);
           })
         )
       )
