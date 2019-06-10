@@ -1,40 +1,14 @@
 %cx-product-summary {
-  display: grid;
-  grid-column-gap: 30px;
-
-  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
 
   @include media-breakpoint-down(md) {
     padding-top: 1.5em;
   }
 
-  @include media-breakpoint-down(lg) {
-    padding: 20px;
-    grid-template-rows: repeat(7, auto) 1fr;
-  }
-
-  .name {
-    @include type('1');
-  }
-
-  .code {
-    @include type('7');
-    color: var(--cx-g-color-secondary);
-    margin: 0 0 20px 0;
-  }
-
-  .rating {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-
-    .count {
-      margin: 0 20px 0 5px;
-    }
-
-    cx-star-rating {
-      padding: 0 0 15px 0;
-    }
+  @include media-breakpoint-up(lg) {
+    padding: 20px 20px 0 20px;
   }
 
   .price {

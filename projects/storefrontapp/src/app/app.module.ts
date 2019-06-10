@@ -9,11 +9,9 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translations } from '@spartacus/assets';
-import { ConfigModule } from '@spartacus/core';
 import {
-  defaultCmsContentConfig,
+  B2cStorefrontModule,
   StorefrontComponent,
-  StorefrontModule,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 
@@ -31,20 +29,14 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-    StorefrontModule.withConfig({
+
+    B2cStorefrontModule.withConfig({
       production: environment.production,
-      authentication: {
-        kyma_enabled: false,
-      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
           legacy: false,
         },
-      },
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
       },
       siteContext: {
         urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
@@ -61,19 +53,22 @@ if (!environment.production) {
           },
         },
       },
+
+      // special routing confiuration for e2e testing
       routing: {
         routes: {
           product: {
-            paths: ['product/:name/:productCode', 'product/:productCode'],
+            paths: ['product/:productCode/:name', 'product/:productCode'],
           },
         },
       },
+
+      // we  bring in static translations to be up and running soon right away
+      // but adding
       i18n: {
         resources: translations,
       },
     }),
-
-    ConfigModule.withConfigFactory(defaultCmsContentConfig),
 
     ...devImports,
   ],

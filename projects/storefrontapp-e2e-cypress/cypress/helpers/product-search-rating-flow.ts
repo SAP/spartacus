@@ -1,7 +1,7 @@
 import { PRODUCT_LISTING } from './data-configuration';
 
 export const resultsTitle = 'cx-breadcrumb h1';
-export const tabsHeaderList = 'cx-product-tabs .details > h3';
+export const tabsHeaderList = 'cx-tab-paragraph-container > h3';
 
 export function productRatingFlow(mobile?: string) {
   // Search for a product

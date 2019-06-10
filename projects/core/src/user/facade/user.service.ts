@@ -28,7 +28,8 @@ export class UserService {
    * Returns a user
    */
   get(): Observable<User> {
-    return this.store.pipe(select(fromStore.getDetails)).pipe(
+    return this.store.pipe(
+      select(fromStore.getDetails),
       tap(details => {
         if (Object.keys(details).length === 0) {
           this.load();
