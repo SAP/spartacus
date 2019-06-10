@@ -6,10 +6,10 @@ import { By } from '@angular/platform-browser';
 import { ModalService } from '@spartacus/storefront';
 
 const mockCoupon: CustomerCoupon = {
-  couponId: 'CustomerCoupon1',
-  description: 'CustomerCoupon1',
+  couponId: 'CustomerCoupon',
+  description: 'CustomerCouponDescription',
   endDate: new Date('2019-12-30T23:59:59+0000'),
-  name: 'CustomerCoupon1:name',
+  name: 'CustomerCoupon:name',
   notificationOn: false,
   solrFacets: '%3Arelevance%3Acategory%3A1',
   startDate: new Date('1970-01-01T00:00:00+0000'),
@@ -40,16 +40,16 @@ fdescribe('CouponCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display coupon data', () => {
+  it('should display coupon information', () => {
     const couponName = fixture.debugElement.query(
       By.css('.cx-coupon-card-name')
     ).nativeElement.textContent;
-    expect(couponName).toContain('CustomerCoupon1:name');
+    expect(couponName).toContain('CustomerCoupon:name');
 
     const couponStatus = fixture.debugElement.query(
       By.css('.cx-coupon-card-status')
     ).nativeElement.textContent;
-    expect(couponStatus).toContain('Effective');
+    expect(couponStatus).toContain('myCoupons:Effective');
 
     const couponEffectiveDate = fixture.debugElement.queryAll(
       By.css('.cx-coupon-date')
