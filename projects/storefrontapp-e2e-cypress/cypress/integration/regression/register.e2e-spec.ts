@@ -12,7 +12,7 @@ describe('Register', () => {
   it('should login when trying to register with the same email and correct password', () => {
     register.registerUser(user);
     register.signOut();
-    register.checkTermsAndConditions();
+    register.navigateToTermsAndConditions();
     register.registerUser(user);
     register.checkTermsAndConditions();
   });
