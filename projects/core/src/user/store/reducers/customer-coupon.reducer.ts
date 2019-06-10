@@ -19,7 +19,7 @@ export function reducer(
       const updatedCustomerCoupon = action.payload.coupon;
       state.coupons.map((customerCoupon:CustomerCoupon) =>
         customerCoupon.couponId === updatedCustomerCoupon.couponId
-          ? updatedCustomerCoupon
+          ? customerCoupon.notificationOn = true
           : customerCoupon
       );
       return state;
