@@ -33,13 +33,10 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
-        this.timestamp =
-          this.winRef.localStorage &&
-          this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY);
-      } else if (
-        isPlatformBrowser(this.platform) &&
-        this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY)
-      ) {
+        this.timestamp = this.winRef.localStorage.getItem(
+          PERSONALIZATION_TIME_KEY
+        );
+      } else if (this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY)) {
         this.winRef.localStorage.removeItem(PERSONALIZATION_TIME_KEY);
       }
     }

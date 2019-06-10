@@ -33,13 +33,10 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
-        this.personalizationId =
-          this.winRef.localStorage &&
-          this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY);
-      } else if (
-        isPlatformBrowser(this.platform) &&
-        this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY)
-      ) {
+        this.personalizationId = this.winRef.localStorage.getItem(
+          PERSONALIZATION_ID_KEY
+        );
+      } else if (this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY)) {
         this.winRef.localStorage.removeItem(PERSONALIZATION_ID_KEY);
       }
     }
