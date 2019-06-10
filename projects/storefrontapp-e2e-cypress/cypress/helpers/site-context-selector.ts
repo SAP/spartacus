@@ -1,3 +1,4 @@
+import { user } from '../sample-data/checkout-flow';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 
 export const LANGUAGES = 'languages';
@@ -47,6 +48,24 @@ export const UPDATE_PASSWORD_PATH = `/${myAccount}/update-password`;
 export const PRODUCT_SEARCH_PATH =
   '/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
 export const REGISTRATION_PATH = '/login/register';
+export const CHECKOUT_SHIPPING_ADDRESS_PATH = '/checkout/shipping-address';
+export const CHECKOUT_DELIVERY_MODE_PATH = '/checkout/delivery-mode';
+export const CHECKOUT_PAYMENT_DETAILS_PATH = '/checkout/payment-details';
+export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
+
+export function doPlaceOrder() {
+  cy.window().then(win => {
+    const savedState = JSON.parse(
+      win.localStorage.getItem('spartacus-local-data')
+    );
+    cy.requireProductAddedToCart(savedState.auth).then(resp => {
+      cy.requireShippingAddressAdded(user.address, savedState.auth);
+      cy.requireShippingMethodSelected(savedState.auth);
+      cy.requirePaymentDone(savedState.auth);
+      cy.requirePlacedOrder(savedState.auth, resp.cartId);
+    });
+  });
+}
 
 export function createGerericQuery(request: string, alias: string): void {
   cy.route(request).as(alias);

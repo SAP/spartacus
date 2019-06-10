@@ -1,5 +1,4 @@
 import * as siteContextSelector from '../../../helpers/site-context-selector';
-import { user } from '../../../sample-data/checkout-flow';
 
 describe('Language switch - my-account pages', () => {
   before(() => {
@@ -16,22 +15,8 @@ describe('Language switch - my-account pages', () => {
     const orderPath = siteContextSelector.ORDER_PATH;
     const deutschName = siteContextSelector.MONTH_DE;
 
-    function doPlaceOrder() {
-      cy.window().then(win => {
-        const savedState = JSON.parse(
-          win.localStorage.getItem('spartacus-local-data')
-        );
-        cy.requireProductAddedToCart(savedState.auth).then(resp => {
-          cy.requireShippingAddressAdded(user.address, savedState.auth);
-          cy.requireShippingMethodSelected(savedState.auth);
-          cy.requirePaymentDone(savedState.auth);
-          cy.requirePlacedOrder(savedState.auth, resp.cartId);
-        });
-      });
-    }
-
     before(() => {
-      doPlaceOrder();
+      siteContextSelector.doPlaceOrder();
     });
 
     it('should change language in the url', () => {
