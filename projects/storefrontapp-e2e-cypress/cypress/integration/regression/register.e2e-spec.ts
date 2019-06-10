@@ -15,7 +15,7 @@ describe('Register', () => {
     register.signOut();
     register.checkTermsAndConditions();
     register.registerUser(user);
-    checkBanner();
+    register.checkTermsAndConditions();
   });
 
   it('should contain error when trying to register with the same email and different password', () => {
