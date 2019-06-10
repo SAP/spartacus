@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { AddToCartModule } from '../../../../cms-components/cart/index';
-import { OutletDirective } from '../../../../cms-structure/outlet/index';
-import { FormComponentsModule } from '../../../../shared/components/form-components/form-components.module';
-import { ProductSummaryComponent } from '../product-summary/product-summary.component';
+import { I18nTestingModule, Product } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { CurrentProductService } from '../current-product.service';
+import { ProductIntroComponent } from './product-intro.component';
 
 @Component({
   selector: 'cx-star-rating',
@@ -15,45 +14,40 @@ class MockStarRatingComponent {
   @Input() disabled;
 }
 
-@Component({
-  selector: 'cx-page-slot',
-  template: '',
-})
-class MockDynamicSlotComponent {
-  @Input()
-  position: string;
+class MockCurrentProductService {
+  getProduct(): Observable<Product> {
+    return of();
+  }
 }
 
-describe('ProductSummaryComponent in product', () => {
-  let productSummaryComponent: ProductSummaryComponent;
-  let fixture: ComponentFixture<ProductSummaryComponent>;
+describe('ProductIntroComponent in product', () => {
+  let productIntroComponent: ProductIntroComponent;
+  let fixture: ComponentFixture<ProductIntroComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AddToCartModule, FormComponentsModule, I18nTestingModule],
-      declarations: [
-        ProductSummaryComponent,
-        OutletDirective,
-        MockStarRatingComponent,
-        MockDynamicSlotComponent,
+      imports: [I18nTestingModule],
+      declarations: [ProductIntroComponent, MockStarRatingComponent],
+      providers: [
+        { provide: CurrentProductService, useClass: MockCurrentProductService },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductSummaryComponent);
-    productSummaryComponent = fixture.componentInstance;
+    fixture = TestBed.createComponent(ProductIntroComponent);
+    productIntroComponent = fixture.componentInstance;
   });
 
   it('should be created', () => {
-    expect(productSummaryComponent).toBeTruthy();
+    expect(productIntroComponent).toBeTruthy();
   });
 
   describe('clickTabIfInactive to click tabs indicated as inactive', () => {
     it('should click tab with no classes', () => {
       const tabElement: HTMLElement = document.createElement('div');
       spyOn(tabElement, 'click');
-      productSummaryComponent.clickTabIfInactive(tabElement);
+      (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).toHaveBeenCalled();
     });
 
@@ -61,7 +55,7 @@ describe('ProductSummaryComponent in product', () => {
       const tabElement: HTMLElement = document.createElement('div');
       tabElement.classList.add('active');
       spyOn(tabElement, 'click');
-      productSummaryComponent.clickTabIfInactive(tabElement);
+      (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).not.toHaveBeenCalled();
     });
 
@@ -69,7 +63,7 @@ describe('ProductSummaryComponent in product', () => {
       const tabElement: HTMLElement = document.createElement('div');
       tabElement.classList.add('toggled');
       spyOn(tabElement, 'click');
-      productSummaryComponent.clickTabIfInactive(tabElement);
+      (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).toHaveBeenCalled();
     });
 
@@ -78,7 +72,7 @@ describe('ProductSummaryComponent in product', () => {
       tab.classList.add('active');
       tab.classList.add('toggled');
       spyOn(tab, 'click');
-      productSummaryComponent.clickTabIfInactive(tab);
+      (productIntroComponent as any).clickTabIfInactive(tab);
       expect(tab.click).toHaveBeenCalled();
     });
   });
@@ -98,7 +92,7 @@ describe('ProductSummaryComponent in product', () => {
       tabsComponent.appendChild(tab2);
       tabsComponent.appendChild(tab3);
 
-      const result = productSummaryComponent.getTabByLabel(
+      const result = (productIntroComponent as any).getTabByLabel(
         'Tab 2',
         tabsComponent
       );
