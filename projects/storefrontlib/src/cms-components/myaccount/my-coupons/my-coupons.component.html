@@ -32,6 +32,10 @@
           >
             <cx-coupon-card
               [coupon]="coupon"
+              [couponLoading]="
+                (couponsSubscribeLoading$ | async) ||
+                (couponsUnsubscribeLoading$ | async)
+              "
               (notificationChanged)="onNotificationChange($event)"
             ></cx-coupon-card>
           </div>

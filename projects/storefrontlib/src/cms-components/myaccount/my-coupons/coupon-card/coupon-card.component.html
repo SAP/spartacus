@@ -4,7 +4,7 @@
       <div class="cx-coupon-card-row top">
         <div class="cx-coupon-card-name">{{ coupon?.name }}</div>
 
-        <div class="cx-coupon-card-status {{ coupon?.status | lowercase }}">
+        <div class="cx-coupon-status {{ coupon?.status | lowercase }}">
           {{ 'myCoupons.' + coupon?.status | cxTranslate }}
         </div>
       </div>
@@ -12,12 +12,12 @@
       <div class="cx-coupon-card-date">
         <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
         <div class="cx-coupon-date">
-          {{ coupon?.startDate | cxDate: 'longDate' }} -
-          {{ coupon?.endDate | cxDate: 'longDate' }}
+          {{ coupon?.startDate | cxDate }} -
+          {{ coupon?.endDate | cxDate }}
         </div>
       </div>
 
-      <a (click)="readMore()" class="card-link btn-link">{{
+      <a (click)="readMore()" class="cx-card-read-more">{{
         'myCoupons.readMore' | cxTranslate
       }}</a>
 
@@ -28,6 +28,8 @@
               type="checkbox"
               class="form-check-input"
               [checked]="coupon?.notificationOn"
+              [class.disabled]="couponLoading"
+              [disabled]="couponLoading"
               (change)="onNotificationChange()"
             />
             <span class="form-check-label">

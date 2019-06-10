@@ -1,61 +1,39 @@
 %cx-coupon-dialog {
-  .cx-coupon-deck {
-    padding: 1.25rem 0 0 0;
-    border-width: 1px 0 1px 0;
-    border-style: solid;
-    border-color: var(--cx-g-color-light);
+  .cx-dialog-item {
+    padding: 0 1rem 0 0;
+  }
+  .cx-coupon-name {
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
   }
 
-  .cx-coupon-spinner {
-    padding: 5rem 0 5rem 0;
+  .cx-coupon-description {
+    padding: 1rem 0 1rem 0;
   }
 
-  .cx-coupon-card {
-    padding-bottom: 30px;
-  }
-
-  .cx-my-coupons-form-group {
-    padding: var(--cx-padding, 0);
-    margin-bottom: var(--cx-margin, 0);
-
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 1.25rem);
+  .cx-coupon-dialog-date {
+    p {
+      margin: 0rem;
     }
+    padding: 0 0 1rem 0;
   }
+  .cx-coupon-dialog-status {
+    padding: 1rem 0 1rem 0;
+    p {
+      margin: 0rem;
+    }
+    .cx-coupon-status {
+      text-transform: uppercase;
+      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 750));
 
-  .cx-my-coupons-sort {
-    &.top {
-      display: var(--cx-display, flex);
-      justify-content: var(--cx-justify-content, space-between);
-      padding: var(--cx-padding, 1rem 0);
-      margin: var(--cx-margin, 0);
-
-      @include media-breakpoint-down(sm) {
-        flex-direction: var(--cx-flex-direction, column);
-        padding-top: var(--cx-padding, 0);
+      &.effective {
+        color: var(--cx-g-color-success);
+      }
+      &.expiresoon {
+        color: var(--cx-g-color-danger);
+      }
+      &.presession {
+        color: var(--cx-g-color-warning);
       }
     }
-
-    &.bottom {
-      display: var(--cx-display, flex);
-      justify-content: var(--cx-justify-content, space-between);
-      padding: var(--cx-padding, 2rem 0 1rem 0);
-      margin: var(--cx-margin, 0);
-
-      @include media-breakpoint-down(sm) {
-        flex-direction: var(--cx-flex-direction, column);
-        padding-top: var(--cx-padding, 0);
-      }
-    }
-  }
-
-  .cx-my-coupons-pagination {
-    @include media-breakpoint-down(sm) {
-      margin: var(--cx-margin, 0 auto);
-    }
-  }
-
-  .cx-section-msg {
-    text-align: center;
   }
 }

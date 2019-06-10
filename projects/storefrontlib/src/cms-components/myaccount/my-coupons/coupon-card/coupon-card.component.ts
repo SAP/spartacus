@@ -13,6 +13,7 @@ import { CustomerCoupon } from '@spartacus/core';
 })
 export class CouponCardComponent implements OnInit {
   @Input() coupon: CustomerCoupon;
+  @Input() couponLoading = true;
   modalRef: ModalRef;
 
   @Output()

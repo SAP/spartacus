@@ -15,6 +15,9 @@ export class MyCouponsComponent implements OnInit {
   couponResult$: Observable<CustomerCouponSearchResult>;
   couponsStateLoaded$: Observable<boolean>;
 
+  couponsSubscribeLoading$: Observable<boolean>;
+  couponsUnsubscribeLoading$: Observable<boolean>;
+
   private PAGE_SIZE = 5;
   private sortMapping = {
     byStartDateAsc: 'startDate:asc',
@@ -68,6 +71,9 @@ export class MyCouponsComponent implements OnInit {
         )
       );
     this.couponsStateLoaded$ = this.userService.getCustomerCouponsLoaded();
+
+    this.couponsSubscribeLoading$ = this.userService.getSubscribeCustomerCouponResultLoading();
+    this.couponsUnsubscribeLoading$ = this.userService.getUnsubscribeCustomerCouponResultLoading();
   }
 
   sortChange(sort: string): void {

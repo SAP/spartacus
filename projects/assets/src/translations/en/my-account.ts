@@ -46,5 +46,6 @@ export const myAccount = {
     notification: 'Notification',
     findProducts: 'Find Products',
     status: 'Status:',
+    dialogTitle: 'Coupon',
   },
 };

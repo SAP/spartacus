@@ -3,7 +3,7 @@
 
   <div class="cx-dialog-header modal-header">
     <div class="cx-dialog-title modal-title">
-      Coupon
+      {{ 'myCoupons.dialogTitle' | cxTranslate }}
     </div>
     <button
       type="button"
@@ -19,15 +19,15 @@
   <!-- Modal Body -->
   <div class="cx-dialog-body modal-body">
     <div class="cx-dialog-row">
-      <div class="cx-dialog-item col-sm-12 col-md-6">
+      <div class="cx-dialog-item col-sm-12 col-md-12">
         <div class="cx-coupon-name">{{ coupon?.name }}</div>
         <div class="cx-coupon-description">{{ coupon?.description }}</div>
 
         <div class="cx-coupon-dialog-date">
           <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
           <div class="cx-coupon-date">
-            {{ coupon?.startDate | cxDate: 'longDate' }} -
-            {{ coupon.endDate | cxDate: 'longDate' }}
+            {{ coupon?.startDate | cxDate }} -
+            {{ coupon.endDate | cxDate }}
           </div>
         </div>
 
