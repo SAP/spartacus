@@ -108,7 +108,7 @@ export class ConfigModule {
    *
    * @param config
    */
-  static forRoot(config: any = {}): ModuleWithProviders {
+  static forRoot(config: any = {}): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
       providers: [
