@@ -25,16 +25,13 @@ describe('Language switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change language in the shipping address url', () => {
       // page being already tested in language-address-book
-
       siteContextSelector.verifyLanguageChangeUrl(checkoutShippingPath);
 
-      cy.get('cx-shipping-address .cx-card-link').click({ force: true });
-      cy.get('cx-shipping-address .btn-primary').click({ force: true });
+      siteContextSelector.addressBookNextStep();
     });
 
     it('should change language in the checkoutDelvieryPath url', () => {
-      cy.url().should(
-        'eq',
+      siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath
       );
     });
@@ -45,29 +42,21 @@ describe('Language switch - checkout page', () => {
         'Standard-Lieferung'
       );
 
-      cy.get('cx-delivery-mode #deliveryMode-standard-gross').click({
-        force: true,
-      });
-      cy.get('cx-delivery-mode .btn-primary').click({ force: true });
+      siteContextSelector.deliveryModeNextStep();
     });
 
     it('should change language in the checkoutPaymentPath url', () => {
       // page being already tested in language-payment-details
 
-      cy.url().should(
-        'eq',
+      siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_USD + checkoutPaymentPath
       );
 
-      cy.get('cx-payment-method .cx-card-link').click({
-        force: true,
-      });
-      cy.get('cx-payment-method .btn-primary').click({ force: true });
+      siteContextSelector.paymentDetailsNextStep();
     });
 
     it('should change language in the checkoutReviewPath url', () => {
-      cy.url().should(
-        'eq',
+      siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_USD + checkoutReviewPath
       );
     });

@@ -67,6 +67,25 @@ export function doPlaceOrder() {
   });
 }
 
+export function addressBookNextStep() {
+  cy.get('cx-shipping-address .cx-card-link').click({ force: true });
+  cy.get('cx-shipping-address .btn-primary').click({ force: true });
+}
+
+export function deliveryModeNextStep() {
+  cy.get('cx-delivery-mode #deliveryMode-standard-gross').click({
+    force: true,
+  });
+  cy.get('cx-delivery-mode .btn-primary').click({ force: true });
+}
+
+export function paymentDetailsNextStep() {
+  cy.get('cx-payment-method .cx-card-link').click({
+    force: true,
+  });
+  cy.get('cx-payment-method .btn-primary').click({ force: true });
+}
+
 export function createGerericQuery(request: string, alias: string): void {
   cy.route(request).as(alias);
 }
@@ -81,6 +100,14 @@ export function stub(request: string, alias: string): void {
   afterEach(() => {
     cy.saveLocalStorage();
   });
+}
+
+export function assertSiteContextChange(sitePath: string): void {
+  cy.url().should('eq', sitePath);
+}
+
+export function assertCurrencyChange(sitePath: string): void {
+  cy.url().should('eq', FULL_BASE_URL_EN_JPY + sitePath);
 }
 
 export function languageChange(sitePath: string): void {
@@ -98,11 +125,11 @@ export function currencyChange(sitePath: string): void {
 export function verifyLanguageChangeUrl(sitePath: string): void {
   languageChange(sitePath);
 
-  cy.url().should('eq', FULL_BASE_URL_DE_USD + sitePath);
+  assertLanguageChange(sitePath);
 }
 
 export function verifyCurrencyChangeUrl(sitePath: string): void {
   currencyChange(sitePath);
 
-  cy.url().should('eq', FULL_BASE_URL_EN_JPY + sitePath);
+  assertCurrencyChange(sitePath);
 }

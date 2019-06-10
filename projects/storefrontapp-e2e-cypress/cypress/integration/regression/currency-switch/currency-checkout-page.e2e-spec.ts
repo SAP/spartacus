@@ -7,7 +7,6 @@ describe('Currency switch - checkout page', () => {
   const checkoutDeliveryPath = siteContextSelector.CHECKOUT_DELIVERY_MODE_PATH;
   const checkoutPaymentPath = siteContextSelector.CHECKOUT_PAYMENT_DETAILS_PATH;
   const checkoutReviewPath = siteContextSelector.CHECKOUT_REVIEW_ORDER_PATH;
-  const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
@@ -25,16 +24,13 @@ describe('Currency switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change currency in the shipping address url', () => {
       // page being already tested in currency-address-book
-
       siteContextSelector.verifyCurrencyChangeUrl(checkoutShippingPath);
 
-      cy.get('cx-shipping-address .cx-card-link').click({ force: true });
-      cy.get('cx-shipping-address .btn-primary').click({ force: true });
+      siteContextSelector.addressBookNextStep();
     });
 
     it('should change currency in the checkoutDelvieryPath url', () => {
-      cy.url().should(
-        'eq',
+      siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath
       );
     });
@@ -45,29 +41,20 @@ describe('Currency switch - checkout page', () => {
         ' ¥80 '
       );
 
-      cy.get('cx-delivery-mode #deliveryMode-standard-gross').click({
-        force: true,
-      });
-      cy.get('cx-delivery-mode .btn-primary').click({ force: true });
+      siteContextSelector.deliveryModeNextStep();
     });
 
     it('should change currency in the checkoutPaymentPath url', () => {
       // page being already tested in currency-payment-details
-
-      cy.url().should(
-        'eq',
+      siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutPaymentPath
       );
 
-      cy.get('cx-payment-method .cx-card-link').click({
-        force: true,
-      });
-      cy.get('cx-payment-method .btn-primary').click({ force: true });
+      siteContextSelector.paymentDetailsNextStep();
     });
 
     it('should change currency in the checkoutReviewPath url', () => {
-      cy.url().should(
-        'eq',
+      siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutReviewPath
       );
     });
