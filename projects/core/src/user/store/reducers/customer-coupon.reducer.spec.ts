@@ -4,6 +4,7 @@ import * as fromCustomerCouponsReducer from './customer-coupon.reducer';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponNotification,
 } from '../../../model/customer-coupon.model';
 
 const coupon1: CustomerCoupon = {
@@ -13,11 +14,12 @@ const coupon1: CustomerCoupon = {
   endDate: new Date(),
   status: 'Effective',
   description: '',
-  notificationOn: true,
+  notificationOn: false,
   solrFacets: '',
 };
+
 const coupon2: CustomerCoupon = {
-  couponId: 'coupon2',
+  couponId: 'coupon1',
   name: 'coupon 2',
   startDate: new Date(),
   endDate: new Date(),
@@ -27,12 +29,25 @@ const coupon2: CustomerCoupon = {
   solrFacets: '',
 };
 
-const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
+const mockCustomerCoupons1: CustomerCoupon[] = [coupon1];
+const mockCustomerCoupons2: CustomerCoupon[] = [coupon2];
 
-const customerSearcherResult: CustomerCouponSearchResult = {
-  coupons: mockCustomerCoupons,
+const customerSearcherResult1: CustomerCouponSearchResult = {
+  coupons: mockCustomerCoupons1,
   sorts: [],
   pagination: {},
+};
+
+const customerSearcherResult2: CustomerCouponSearchResult = {
+  coupons: mockCustomerCoupons2,
+  sorts: [],
+  pagination: {},
+};
+
+const customerCouponNotification: CustomerCouponNotification = {
+  coupon: coupon1,
+  customer: {},
+  status: '',
 };
 
 describe('CustomerCoupon Reducer', () => {
@@ -50,11 +65,39 @@ describe('CustomerCoupon Reducer', () => {
     it('should populate the customer coupon state', () => {
       const { initialState } = fromCustomerCouponsReducer;
       const action = new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
-        customerSearcherResult
+        customerSearcherResult1
       );
       const state = fromCustomerCouponsReducer.reducer(initialState, action);
 
-      expect(state).toEqual(customerSearcherResult);
+      expect(state).toEqual(customerSearcherResult1);
+    });
+  });
+
+  describe('SUBSCRIBE_CUSTOMER_COUPON_SUCCESS action', () => {
+    it('should populate the customer coupon state', () => {
+      const action = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
+        customerCouponNotification
+      );
+      const state = fromCustomerCouponsReducer.reducer(
+        customerSearcherResult1,
+        action
+      );
+
+      expect(state.coupons[0].notificationOn).toEqual(true);
+    });
+  });
+
+  describe('UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS action', () => {
+    it('should populate the customer coupon state', () => {
+      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
+        'coupon1'
+      );
+      const state = fromCustomerCouponsReducer.reducer(
+        customerSearcherResult2,
+        action
+      );
+
+      expect(state.coupons[0].notificationOn).toEqual(false);
     });
   });
 });

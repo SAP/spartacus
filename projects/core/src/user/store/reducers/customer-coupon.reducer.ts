@@ -19,10 +19,10 @@ export function reducer(
       const updatedCustomerCoupon = action.payload.coupon;
       state.coupons.map((customerCoupon:CustomerCoupon) =>
         customerCoupon.couponId === updatedCustomerCoupon.couponId
-          ? updatedCustomerCoupon
+          ? customerCoupon.notificationOn = true
           : customerCoupon
       );
-      return state;
+      return {...state};
     }
 
     case fromActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
@@ -32,7 +32,7 @@ export function reducer(
           ? customerCoupon.notificationOn = false
           : customerCoupon
       );
-      return state;
+      return {...state};
     }
   }
   return state;
