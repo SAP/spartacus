@@ -46,6 +46,9 @@ export function addProductToCart() {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.getByText(/proceed to checkout/i).click();
   });
+}
+
+export function loginUser() {
   // Verify the user is prompted to login
   login(user.email, user.password);
 }

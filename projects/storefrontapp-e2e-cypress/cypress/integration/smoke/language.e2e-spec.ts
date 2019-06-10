@@ -14,7 +14,7 @@ context('Language Switcher', () => {
       cy.wait('@languages');
 
       // URL should change to contain 'ja' as language after language switch
-      switchSiteContext(siteContextSelector.LANGUAGE_JA, 'Language');
+      switchSiteContext(siteContextSelector.LANGUAGE_DE, 'Language');
       cy.url().should('eq', siteContextSelector.PRODUCT_URL_JA);
       // clean after test, go back to default english language
       switchSiteContext(siteContextSelector.LANGUAGE_EN, 'Language');
