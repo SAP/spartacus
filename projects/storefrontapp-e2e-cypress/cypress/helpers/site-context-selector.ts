@@ -62,17 +62,3 @@ export function verifyCurrencyChange(sitePath: string): void {
 
   cy.url().should('eq', FULL_BASE_URL_EN_JPY + sitePath);
 }
-
-export function verifySiteContextChange(
-  path,
-  alias,
-  option,
-  label,
-  newPath
-): void {
-  cy.visit(path);
-  cy.wait(`@${alias}`);
-  switchSiteContext(option, label);
-
-  cy.url().should('eq', newPath);
-}
