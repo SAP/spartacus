@@ -1,5 +1,5 @@
 import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
-import { PaymentDetails } from '../../../occ/occ-models/index';
+import { PaymentDetails } from '../../../model/cart.model';
 
 export const initialState: PaymentDetails[] = [];
 
@@ -9,7 +9,7 @@ export function reducer(
 ): PaymentDetails[] {
   switch (action.type) {
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS: {
-      return action.payload ? action.payload : state;
+      return action.payload ? action.payload : initialState;
     }
 
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_FAIL: {

@@ -1,163 +1,17 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
+import { ANONYMOUS_USERID, CartDataService } from '../../cart/index';
+import * as fromSelector from '../../checkout/store/selectors/index';
+import { Order } from '../../model/order.model';
 import * as fromCheckoutStore from '../store/index';
-import { CartDataService, ANONYMOUS_USERID } from '../../cart/index';
-import {
-  PaymentDetails,
-  CardType,
-  Order,
-  DeliveryMode,
-  AddressValidation,
-  Address
-} from '../../occ/occ-models/index';
 
 @Injectable()
 export class CheckoutService {
   constructor(
-    private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
-    private cartData: CartDataService
+    protected checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
+    protected cartData: CartDataService
   ) {}
-
-  /**
-   * Get supported delivery modes
-   */
-  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getSupportedDeliveryModes)
-    );
-  }
-
-  /**
-   * Get selected delivery mode
-   */
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
-    return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getSelectedDeliveryMode)
-    );
-  }
-
-  /**
-   * Get selected delivery mode code
-   */
-  getSelectedDeliveryModeCode(): Observable<string> {
-    return this.checkoutStore.pipe(select(fromCheckoutStore.getSelectedCode));
-  }
-
-  /**
-   * Get card types
-   */
-  getCardTypes(): Observable<CardType[]> {
-    return this.checkoutStore.pipe(select(fromCheckoutStore.getAllCardTypes));
-  }
-
-  /**
-   * Get delivery address
-   */
-  getDeliveryAddress(): Observable<Address> {
-    return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getDeliveryAddress)
-    );
-  }
-
-  /**
-   * Get address verification results
-   */
-  getAddressVerificationResults(): Observable<AddressValidation | string> {
-    return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getAddressVerificationResults),
-      filter(results => Object.keys(results).length !== 0)
-    );
-  }
-
-  /**
-   * Get payment details
-   */
-  getPaymentDetails(): Observable<PaymentDetails> {
-    return this.checkoutStore.pipe(select(fromCheckoutStore.getPaymentDetails));
-  }
-
-  /**
-   * Get order details
-   */
-  getOrderDetails(): Observable<Order> {
-    return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getCheckoutOrderDetails)
-    );
-  }
-
-  /**
-   * Create and set a delivery address using the address param
-   * @param address : the Address to be created and set
-   */
-  createAndSetAddress(address: Address): void {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new fromCheckoutStore.AddDeliveryAddress({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          address: address
-        })
-      );
-    }
-  }
-
-  /**
-   * Load supported delivery modes
-   */
-  loadSupportedDeliveryModes(): void {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new fromCheckoutStore.LoadSupportedDeliveryModes({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId
-        })
-      );
-    }
-  }
-
-  /**
-   * Set delivery mode
-   * @param mode : The delivery mode to be set
-   */
-  setDeliveryMode(mode: string): void {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new fromCheckoutStore.SetDeliveryMode({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          selectedModeId: mode
-        })
-      );
-    }
-  }
-
-  /**
-   * Load the supported card types
-   */
-  loadSupportedCardTypes(): void {
-    this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
-  }
-
-  /**
-   * Create payment details using the given paymentDetails param
-   * @param paymentDetails: the PaymentDetails to be created
-   */
-  createPaymentDetails(paymentDetails: PaymentDetails): void {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new fromCheckoutStore.CreatePaymentDetails({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          paymentDetails
-        })
-      );
-    }
-  }
 
   /**
    * Places an order
@@ -167,66 +21,10 @@ export class CheckoutService {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.PlaceOrder({
           userId: this.cartData.userId,
-          cartId: this.cartData.cartId
+          cartId: this.cartData.cartId,
         })
       );
     }
-  }
-
-  /**
-   * Verifies the address
-   * @param address : the address to be verified
-   */
-  verifyAddress(address: Address): void {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new fromCheckoutStore.VerifyAddress({
-          userId: this.cartData.userId,
-          address
-        })
-      );
-    }
-  }
-
-  /**
-   * Set delivery address
-   * @param address : The address to be set
-   */
-  setDeliveryAddress(address: Address): void {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new fromCheckoutStore.SetDeliveryAddress({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cart.code,
-          address: address
-        })
-      );
-    }
-  }
-
-  /**
-   * Set payment details
-   * @param paymentDetails : the PaymentDetails to be set
-   */
-  setPaymentDetails(paymentDetails: PaymentDetails): void {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new fromCheckoutStore.SetPaymentDetails({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cart.code,
-          paymentDetails: paymentDetails
-        })
-      );
-    }
-  }
-
-  /**
-   * Clear address verification results
-   */
-  clearAddressVerificationResults(): void {
-    this.checkoutStore.dispatch(
-      new fromCheckoutStore.ClearAddressVerificationResults()
-    );
   }
 
   /**
@@ -246,7 +44,31 @@ export class CheckoutService {
     );
   }
 
-  private actionAllowed(): boolean {
+  loadCheckoutDetails(cartId: string) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.LoadCheckoutDetails({
+        userId: this.cartData.userId,
+        cartId,
+      })
+    );
+  }
+
+  getCheckoutDetailsLoaded(): Observable<boolean> {
+    return this.checkoutStore.pipe(
+      select(fromSelector.getCheckoutDetailsLoaded)
+    );
+  }
+
+  /**
+   * Get order details
+   */
+  getOrderDetails(): Observable<Order> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getCheckoutOrderDetails)
+    );
+  }
+
+  protected actionAllowed(): boolean {
     return this.cartData.userId !== ANONYMOUS_USERID;
   }
 }

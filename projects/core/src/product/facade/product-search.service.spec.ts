@@ -1,16 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-
-import { StoreModule, Store, MemoizedSelector } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
-
+import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
-
-import * as fromStore from '../store';
+import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
+import * as fromStore from '../store';
 import { StateWithProduct } from '../store/product-state';
-import { ProductSearchPage } from '../../occ/occ-models/occ.models';
-
 import { ProductSearchService } from './product-search.service';
 
 describe('ProductSearchService', () => {
@@ -26,11 +22,7 @@ describe('ProductSearchService', () => {
     }
   }
   const mockSearchResults: ProductSearchPage = {
-    products: [{ code: '1' }, { code: '2' }, { code: '3' }]
-  };
-
-  const mockAuxSearchResults: ProductSearchPage = {
-    products: [{ code: 'aux1' }, { code: 'aux2' }]
+    products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
 
   const mockSelect = (
@@ -39,8 +31,6 @@ describe('ProductSearchService', () => {
     switch (selector) {
       case fromStore.getSearchResults:
         return () => of(mockSearchResults);
-      case fromStore.getAuxSearchResults:
-        return () => of(mockAuxSearchResults);
       default:
         return () => EMPTY;
     }
@@ -52,15 +42,15 @@ describe('ProductSearchService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers())
+        StoreModule.forFeature('product', fromStore.getReducers()),
       ],
       providers: [
         ProductSearchService,
         {
           provide: Router,
-          useClass: MockRouter
-        }
-      ]
+          useClass: MockRouter,
+        },
+      ],
     });
 
     store = TestBed.get(Store);
@@ -81,26 +71,19 @@ describe('ProductSearchService', () => {
   it('should be able to get search results', () => {
     let tempSearchResult: ProductSearchPage;
     service
-      .getSearchResults()
+      .getResults()
       .subscribe(result => (tempSearchResult = result))
       .unsubscribe();
     expect(tempSearchResult).toEqual(mockSearchResults);
   });
 
   it('should be able to clear search results', () => {
-    service.clearSearchResults();
+    service.clearResults();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.CleanProductSearchState()
+      new fromStore.ClearProductSearchResult({
+        clearPageResults: true,
+      })
     );
-  });
-
-  it('should be able to get auxiliary search results', () => {
-    let tempAuxSearchResult: ProductSearchPage;
-    service
-      .getAuxSearchResults()
-      .subscribe(result => (tempAuxSearchResult = result))
-      .unsubscribe();
-    expect(tempAuxSearchResult).toEqual(mockAuxSearchResults);
   });
 
   describe('search(query, searchConfig)', () => {
@@ -112,36 +95,7 @@ describe('ProductSearchService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts({
           queryText: 'test query',
-          searchConfig: searchConfig
-        })
-      );
-    });
-  });
-
-  describe('searchAuxiliary(query, searchConfig)', () => {
-    it('should be able to search auxiliary products', () => {
-      const searchConfig: SearchConfig = {};
-      service.searchAuxiliary('test query', searchConfig);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SearchProducts(
-          {
-            queryText: 'test query',
-            searchConfig: searchConfig
-          },
-          true
-        )
-      );
-    });
-  });
-
-  describe('getSuggestions(query, searchConfig)', () => {
-    it('should be able to get suggestion for the given product', () => {
-      const searchConfig: SearchConfig = {};
-      service.getSuggestions('test term', searchConfig);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.GetProductSuggestions({
-          term: 'test term',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         })
       );
     });

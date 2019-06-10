@@ -1,30 +1,30 @@
-import { TestBed, inject } from '@angular/core/testing';
-
 import { Injectable } from '@angular/core';
-import { PageType } from '../../occ/occ-models/occ.models';
+import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
-  Page,
-  PageMetaResolver,
   CmsService,
+  Page,
+  PageMeta,
+  PageMetaResolver,
   PageMetaService,
-  PageMeta
 } from '../../cms';
-import { ProductSearchService } from '../facade';
+import { I18nTestingModule } from '../../i18n';
+import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
+import { ProductSearchService } from '../facade';
 import { SearchPageMetaResolver } from './search-page-meta.resolver';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
   template: 'SearchResultsListPageTemplate',
-  slots: {}
+  slots: {},
 };
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
   template: 'AnyOrdinaryPage',
   title: 'content page title',
-  slots: {}
+  slots: {},
 };
 
 class MockCmsService {
@@ -42,17 +42,17 @@ class FakeContentPageTitleResolver extends PageMetaResolver {
 
   resolve(): Observable<PageMeta> {
     return of({
-      title: 'content page title'
+      title: 'content page title',
     });
   }
 }
 
 class MockProductSearchService {
-  getSearchResults() {
+  getResults() {
     return of({
       pagination: {
-        totalResults: 3
-      }
+        totalResults: 3,
+      },
     });
   }
 }
@@ -62,20 +62,20 @@ class MockRoutingService {
     return of({
       state: {
         params: {
-          query: 'Canon'
-        }
-      }
+          query: 'Canon',
+        },
+      },
     });
   }
 }
 
-describe('SearchPageTitleResolver', () => {
+describe('SearchPageMetaResolver', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         FakeContentPageTitleResolver,
@@ -86,14 +86,14 @@ describe('SearchPageTitleResolver', () => {
         {
           provide: PageMetaResolver,
           useExisting: FakeContentPageTitleResolver,
-          multi: true
+          multi: true,
         },
         {
           provide: PageMetaResolver,
           useExisting: SearchPageMetaResolver,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     service = TestBed.get(PageMetaService);
@@ -121,7 +121,9 @@ describe('SearchPageTitleResolver', () => {
         })
         .unsubscribe();
 
-      expect(result.title).toEqual('3 results for "Canon"');
+      expect(result.title).toEqual(
+        'pageMetaResolver.search.title count:3 query:Canon'
+      );
     });
   });
 

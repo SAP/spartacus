@@ -1,6 +1,6 @@
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import * as fromOrderDetailsReducer from './order-details.reducer';
-import { Order } from '../../../occ/occ-models/index';
+import { Order } from '../../../model/order.model';
 
 describe('Order Details Reducer', () => {
   describe('undefined action', () => {

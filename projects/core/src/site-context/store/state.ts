@@ -1,4 +1,4 @@
-import { Currency, Language } from '../../occ/occ-models/occ.models';
+import { Currency, Language, BaseSite } from '../../model/misc.model';
 export const SITE_CONTEXT_FEATURE = 'siteContext';
 
 export interface StateWithSiteContext {
@@ -8,6 +8,7 @@ export interface StateWithSiteContext {
 export interface SiteContextState {
   languages: LanguagesState;
   currencies: CurrenciesState;
+  baseSite: BaseSiteState;
 }
 
 export interface CurrencyEntities {
@@ -25,4 +26,9 @@ export interface LanguagesEntities {
 export interface LanguagesState {
   entities: LanguagesEntities;
   activeLanguage: string;
+}
+
+export interface BaseSiteState {
+  activeSite: string;
+  details: BaseSite;
 }

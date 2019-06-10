@@ -1,27 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-
-import { Store } from '@ngrx/store';
-
-import * as fromAuthStore from '../store';
+import { Store, StoreModule } from '@ngrx/store';
 import { ClientToken, UserToken } from '../models/token-types.model';
-import { AuthState } from '../store/auth-state';
-import { AuthStoreModule } from '../store/auth-store.module';
-import { ClientAuthenticationTokenService } from '../services/client-authentication/client-authentication-token.service';
-import { UserAuthenticationTokenService } from '../services/user-authentication/user-authentication-token.service';
-
+import * as fromAuthStore from '../store';
+import { AuthState, AUTH_FEATURE } from '../store/auth-state';
 import { AuthService } from './auth.service';
-
-class MockUserAuthenticationTokenService {}
-
-class MockClientAuthenticationTokenService {}
 
 const mockToken = {
   userId: 'user@sap.com',
-  refresh_token: 'foo'
+  refresh_token: 'foo',
 } as UserToken;
 
 const mockClientToken = {
-  access_token: 'testToken'
+  access_token: 'testToken',
 } as ClientToken;
 
 describe('AuthService', () => {
@@ -30,18 +20,11 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AuthStoreModule],
-      providers: [
-        AuthService,
-        {
-          provide: UserAuthenticationTokenService,
-          useClass: MockUserAuthenticationTokenService
-        },
-        {
-          provide: ClientAuthenticationTokenService,
-          useClass: MockClientAuthenticationTokenService
-        }
-      ]
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(AUTH_FEATURE, fromAuthStore.getReducers()),
+      ],
+      providers: [AuthService],
     });
 
     service = TestBed.get(AuthService);
@@ -105,7 +88,7 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromAuthStore.LoadUserToken({
         userId: 'user',
-        password: 'password'
+        password: 'password',
       })
     );
   });
@@ -128,8 +111,7 @@ describe('AuthService', () => {
     service.refreshUserToken(mockToken);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromAuthStore.RefreshUserToken({
-        userId: mockToken.userId,
-        refreshToken: mockToken.refresh_token
+        refreshToken: mockToken.refresh_token,
       })
     );
   });
@@ -141,13 +123,6 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromAuthStore.LoadUserTokenSuccess(mockToken)
     );
-  });
-
-  it('should dispatch proper action for login', () => {
-    spyOn(store, 'dispatch').and.stub();
-
-    service.login();
-    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
   });
 
   it('should dispatch proper action for logout', () => {

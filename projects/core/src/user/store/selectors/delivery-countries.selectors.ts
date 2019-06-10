@@ -3,10 +3,10 @@ import {
   UserState,
   DeliveryCountriesState,
   StateWithUser,
-  DeliveryCountryEntities
+  DeliveryCountryEntities,
 } from '../user-state';
-import { Country } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
+import { Country } from '../../../model/address.model';
 
 export const getDeliveryCountriesState: MemoizedSelector<
   StateWithUser,

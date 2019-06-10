@@ -1,5 +1,6 @@
 import * as fromActions from './product-reviews.action';
-import { ErrorModel, ReviewList } from '../../../occ/occ-models';
+import { ErrorModel } from '../../../model/misc.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 describe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {
@@ -9,7 +10,7 @@ describe('Product Review Actions', () => {
         const action = new fromActions.LoadProductReviews(productCode);
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REVIEWS,
-          payload: productCode
+          payload: productCode,
         });
       });
     });
@@ -20,7 +21,7 @@ describe('Product Review Actions', () => {
         const action = new fromActions.LoadProductReviewsFail(payload);
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REVIEWS_FAIL,
-          payload
+          payload,
         });
       });
     });
@@ -28,26 +29,26 @@ describe('Product Review Actions', () => {
     describe('LOAD_PRODUCT_REVIEWS_SUCCESS', () => {
       it('should create the action', () => {
         const productCode = '123';
-        const list: ReviewList = {
+        const list: Occ.ReviewList = {
           reviews: [
             {
               id: '1',
-              rating: 3
+              rating: 3,
             },
             {
               id: '2',
-              rating: 5
-            }
-          ]
+              rating: 5,
+            },
+          ],
         };
 
         const action = new fromActions.LoadProductReviewsSuccess({
           productCode,
-          list: list.reviews
+          list: list.reviews,
         });
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REVIEWS_SUCCESS,
-          payload: { productCode, list: list.reviews }
+          payload: { productCode, list: list.reviews },
         });
       });
     });

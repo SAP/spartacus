@@ -18,13 +18,13 @@ export class ComponentGenerator extends ClientGenerator {
             site,
             {
               pageLabelOrId: CONTENT_PAGES[page],
-              pageType: CommerceWebservicesV2Models.PageType.ContentPage
+              pageType: CommerceWebservicesV2Models.PageType.ContentPage,
             },
             (error, service, resource, response) => {
               if (!error) {
                 const pageData = JSON.parse(response.bodyAsText);
                 this.getChildComponents(pageData).forEach(uid => {
-                  if (componentList.indexOf(uid) === -1) {
+                  if (!componentList.includes(uid)) {
                     componentList.push(uid);
                   }
                 });
@@ -53,7 +53,7 @@ export class ComponentGenerator extends ClientGenerator {
           if (!error) {
             const responseBody = JSON.parse(response.bodyAsText);
             components[`${site}-components`] = {
-              component: responseBody.component
+              component: responseBody.component,
             };
             resolve(components);
           } else reject();
@@ -76,14 +76,14 @@ export class ComponentGenerator extends ClientGenerator {
         site,
         {
           pageLabelOrId: CONTENT_PAGES[page],
-          pageType: CommerceWebservicesV2Models.PageType.ContentPage
+          pageType: CommerceWebservicesV2Models.PageType.ContentPage,
         },
         (error, service, resource, response) => {
           if (!error) {
             const idList = JSON.parse(response.bodyAsText);
 
             // this.getChildComponents(pageData).forEach(uid => {
-            //     if (componentList.indexOf(uid) === -1) {
+            //     if (!componentList.includes(uid)) {
             //         componentList.push(uid);
             //     }
             // });
@@ -108,13 +108,13 @@ export class ComponentGenerator extends ClientGenerator {
             site,
             {
               pageLabelOrId: CONTENT_PAGES[page],
-              pageType: CommerceWebservicesV2Models.PageType.ContentPage
+              pageType: CommerceWebservicesV2Models.PageType.ContentPage,
             },
             (error, service, resource, response) => {
               if (!error) {
                 const pageData = JSON.parse(response.bodyAsText);
                 this.getChildComponents(pageData).forEach(uid => {
-                  if (componentList.indexOf(uid) === -1) {
+                  if (!componentList.includes(uid)) {
                     componentList.push(uid);
                   }
                 });

@@ -7,6 +7,6 @@ export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: CmsTicketInterceptor,
-    multi: true
-  }
+    multi: true,
+  },
 ];

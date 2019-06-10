@@ -15,8 +15,8 @@ describe('FindStores Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('stores', fromReducers.getReducers()),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();

@@ -4,37 +4,28 @@ import { provideMockActions } from '@ngrx/effects/testing';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { Country, CountryList } from '../../../occ/occ-models/index';
 
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
-
-class MockMiscsService {
-  loadDeliveryCountries(): Observable<CountryList> {
-    return of();
-  }
-}
+import { Country, CountryType } from '../../../model/address.model';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 
 const mockCountries: Country[] = [
   {
     isocode: 'AL',
-    name: 'Albania'
+    name: 'Albania',
   },
   {
     isocode: 'AD',
-    name: 'Andorra'
-  }
+    name: 'Andorra',
+  },
 ];
 
-const mockCountriesList: CountryList = {
-  countries: mockCountries
-};
-
 describe('Delivery Countries effect', () => {
-  let service: OccMiscsService;
+  let service: SiteConnector;
   let effect: DeliveryCountriesEffects;
   let actions$: Observable<any>;
 
@@ -42,30 +33,29 @@ describe('Delivery Countries effect', () => {
     TestBed.configureTestingModule({
       providers: [
         DeliveryCountriesEffects,
-        { provide: OccMiscsService, useClass: MockMiscsService },
-        provideMockActions(() => actions$)
-      ]
+        { provide: SiteAdapter, useValue: {} },
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(DeliveryCountriesEffects);
-    service = TestBed.get(OccMiscsService);
+    service = TestBed.get(SiteConnector);
 
-    spyOn(service, 'loadDeliveryCountries').and.returnValue(
-      of(mockCountriesList)
-    );
+    spyOn(service, 'getCountries').and.returnValue(of(mockCountries));
   });
 
   describe('loadDeliveryCountries$', () => {
     it('should load the delivery countries', () => {
       const action = new fromActions.LoadDeliveryCountries();
       const completion = new fromActions.LoadDeliveryCountriesSuccess(
-        mockCountriesList.countries
+        mockCountries
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effect.loadDeliveryCountries$).toBeObservable(expected);
+      expect(service.getCountries).toHaveBeenCalledWith(CountryType.SHIPPING);
     });
   });
 });

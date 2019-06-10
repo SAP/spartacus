@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/index';
-import { CardType } from '../../../occ';
 
 import * as fromReducer from './card-types.reducer';
+import { CardType } from '../../../model/cart.model';
 
 describe('Card Types Reducer', () => {
   describe('undefined action', () => {
@@ -19,17 +19,17 @@ describe('Card Types Reducer', () => {
       const cardTypes: CardType[] = [
         {
           code: 'amex',
-          name: 'American Express'
+          name: 'American Express',
         },
         {
           code: 'maestro',
-          name: 'Maestro'
-        }
+          name: 'Maestro',
+        },
       ];
 
       const mockCardTypesList = {
         amex: cardTypes[0],
-        maestro: cardTypes[1]
+        maestro: cardTypes[1],
       };
 
       const { initialState } = fromReducer;

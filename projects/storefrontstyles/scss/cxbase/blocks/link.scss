@@ -1,13 +1,13 @@
 a {
-  color: var(--cx-color, var(--cx-g-color-primary));
+  color: var(--cx-g-color-primary);
 
   &:hover {
-    color: var(--cx-color, var(--cx-g-color-primary));
+    color: var(--cx-g-color-primary);
   }
 
   &.disabled {
     pointer-events: var(--cx-pointer-event, none !important);
     cursor: var(--cx-cursor, not-allowed !important);
-    opacity: var(--cx-opacity, 0.8);
+    opacity: 0.8;
   }
 }

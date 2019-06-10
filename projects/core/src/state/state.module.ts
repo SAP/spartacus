@@ -10,15 +10,15 @@ import { META_REDUCER, metaReducersFactory } from './meta-reducer';
   imports: [
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
-    ConfigModule.withConfig(defaultStateConfig)
+    ConfigModule.withConfig(defaultStateConfig),
   ],
   providers: [
     ...stateMetaReducers,
     {
       provide: META_REDUCERS,
       useFactory: metaReducersFactory,
-      deps: [[new Optional(), META_REDUCER]]
-    }
-  ]
+      deps: [[new Optional(), META_REDUCER]],
+    },
+  ],
 })
 export class StateModule {}

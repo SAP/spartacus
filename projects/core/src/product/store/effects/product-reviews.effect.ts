@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-
+import { catchError, map, mergeMap } from 'rxjs/operators';
+import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
 import * as productReviewsActions from './../actions/product-reviews.action';
-import { OccProductService } from './../../occ/product.service';
-import { ErrorModel } from '../../../occ/occ-models/occ.models';
+import { ErrorModel } from '../../../model/misc.model';
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -19,17 +16,17 @@ export class ProductReviewsEffects {
     ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS),
     map((action: productReviewsActions.LoadProductReviews) => action.payload),
     mergeMap(productCode => {
-      return this.occProductService.loadProductReviews(productCode).pipe(
+      return this.productReviewsConnector.get(productCode).pipe(
         map(data => {
           return new productReviewsActions.LoadProductReviewsSuccess({
             productCode,
-            list: data.reviews
+            list: data,
           });
         }),
         catchError(_error =>
           of(
             new productReviewsActions.LoadProductReviewsFail({
-              message: productCode
+              message: productCode,
             } as ErrorModel)
           )
         )
@@ -45,8 +42,8 @@ export class ProductReviewsEffects {
     ofType(productReviewsActions.POST_PRODUCT_REVIEW),
     map((action: productReviewsActions.PostProductReview) => action.payload),
     mergeMap(payload => {
-      return this.occProductService
-        .postProductReview(payload.productCode, payload.review)
+      return this.productReviewsConnector
+        .add(payload.productCode, payload.review)
         .pipe(
           map(reviewResponse => {
             return new productReviewsActions.PostProductReviewSuccess(
@@ -66,6 +63,6 @@ export class ProductReviewsEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductService: OccProductService
+    private productReviewsConnector: ProductReviewsConnector
   ) {}
 }

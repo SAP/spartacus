@@ -27,7 +27,7 @@ Analyzing reports is a bit of work, so please ask yourself these questions befor
 
 * Does the bug really apply to Spartacus? 
 
-    There may be reasons the problem is occuring that have nothing to do with the Spartacus storefront code. Consider the following:
+    There may be reasons the problem is occurring that have nothing to do with the Spartacus storefront code. Consider the following:
 
   * The problem may be caused by code that is not part of Spartacus.
   * The problem may be caused by data being sent to Spartacus through REST API calls.
@@ -51,7 +51,7 @@ If the bug does indeed apply to Spartacus code, please create an issue.
   * Precisely state what you expected as compared to the actual behavior you're seeing.
   * Include only those details that apply to the issue.
   * Be concise, but include details important for helping us in understanding the problem and finding the root cause.
-  * State the version you are testing, which browser you are using, and on which device. 
+  * State the version you are testing, which browser you are using, and on which device.
   
     If it is possible to indicate what you've seen in other browser and device combinations, that is even better! For example, does the issue occur in all browsers, or just one browser on one particular operating system? (For example, "only in Firefox on Windows 10.)
   * If possible, include the last version where the bug was not present.
@@ -61,7 +61,7 @@ If the bug does indeed apply to Spartacus code, please create an issue.
 * Provide detailed, step-by-step instructions for reproducing the issue with an example, including, if possible:
 
   * A URL to your example
-  * Any rquired username or password (but don't give us credentials that can be mis-used)
+  * Any required username or password (but don't give us credentials that can be mis-used)
   * Screenshots if it helps us understand better.
 
 * Use our [issue template](ISSUE_TEMPLATE.md).
@@ -80,7 +80,7 @@ If you find a security issue, we'd rather you tell us directly instead of creati
 
 ### How We Process Issues
 
-New issues are reviewed regularly for validty and prioritization. Confirmed issues are given the "Approved" label, and the rest are either sent back to the reporter with a request for more details, or closed with an explanation.
+New issues are reviewed regularly for validity and prioritization. Confirmed issues are given the "Approved" label, and the rest are either sent back to the reporter with a request for more details, or closed with an explanation.
 
 Validated issues are then moved into one of these buckets:
 
@@ -107,7 +107,7 @@ Note: labels can only be changed by maintainers.
 
 Feedback, especially bug reports, are always welcome. However, our capacity as a team is limited -- we cannot answer specific project or consultation requests, nor can we invest time in fleshing out what might be a bug. Because of this, we reserve the right to close or not process issue reports that do not contain enough information. We also do not guarantee that every well-documented issue will be fixed.
 
-That being said, we will try our very best to ensure the Spartacus code base is of high quality.
+That being said, we will try our very best to ensure the Spartacus codebase is of high quality.
 
 ----
 
@@ -168,12 +168,7 @@ A contribution will be considered for inclusion in Spartacus if it meets the fol
 * The contribution truly improves the storefront
 * The contribution follows the applicable guidelines and standards.
 
-The "guidelines and standards" requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the following documentation:
-
-* [Definition of Done](docs/contributing/definition-of-done.md)
-* [Coding Guidelines](docs/contributing/coding-guidelines.md)
-* [Commit Guidelines](docs/contributing/commit-guidelines.md)
-* [Development Tools for Spartacus](docs/contributing/dev-tools.md)
+The "guidelines and standards" requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the [Spartacus Guidelines and Best Practices](https://github.com/SAP/cloud-commerce-spartacus-storefront/wiki/Spartacus-Guidelines-and-Best-Practices).
 
 ### Contribution Process
 
@@ -183,7 +178,7 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
 1. Build and run the storefront from the library development workspace. 
 
-    For more information, see [Contributor Setup](docs/contributorsetup.md).
+    For more information, see [Contributor Setup](https://github.com/SAP/cloud-commerce-spartacus-storefront/wiki/Contributor-Setup).
 
 1. Work on the change in your fork (either on the `develop` branch or on a feature branch).
 
@@ -191,7 +186,7 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
     That you should also use the squash and merge feature when additional changes are required after code review.
 
-1. In the commit message, please follow the conventions described in the [commit guidelines](docs/contributing/commit-guidelines.md).
+1. In the commit message, please follow the conventions described in the [Commit Message Guidelines](https://github.com/SAP/cloud-commerce-spartacus-storefront/wiki/Commit-Message-Guidelines).
 
     By following the guidelines, your work will be accurately captured in the release changelog.
 

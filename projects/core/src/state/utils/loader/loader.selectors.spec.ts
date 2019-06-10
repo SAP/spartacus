@@ -3,7 +3,7 @@ import {
   loaderErrorSelector,
   loaderLoadingSelector,
   loaderSuccessSelector,
-  loaderValueSelector
+  loaderValueSelector,
 } from './loader.selectors';
 
 describe('Loader selectors', () => {
@@ -11,7 +11,7 @@ describe('Loader selectors', () => {
     loading: true,
     error: false,
     success: false,
-    value: 'test value'
+    value: 'test value',
   };
 
   it('loaderValueSelector should return value', () => {

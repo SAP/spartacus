@@ -2,7 +2,7 @@ import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntitySuccessAction
+  EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 
 export const LOAD_NAVIGATION_ITEMS = '[Cms] Load NavigationEntry items';

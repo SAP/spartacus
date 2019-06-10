@@ -3,7 +3,7 @@ import { GlobalMessageService } from '../../facade/global-message.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class HttpErrorHandler {
   constructor(protected globalMessageService: GlobalMessageService) {}

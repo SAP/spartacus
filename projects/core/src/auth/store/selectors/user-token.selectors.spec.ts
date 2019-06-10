@@ -15,8 +15,8 @@ describe('UserToken Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('auth', fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -38,7 +38,7 @@ describe('UserToken Selectors', () => {
         refresh_token: 'xxx',
         expires_in: 1000,
         scope: ['xxx'],
-        userId: 'xxx'
+        userId: 'xxx',
       };
       store.dispatch(new fromActions.LoadUserTokenSuccess(testToken));
 

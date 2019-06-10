@@ -3,7 +3,7 @@ import { ClientToken } from '../../models/token-types.model';
 import {
   LoaderLoadAction,
   LoaderFailAction,
-  LoaderSuccessAction
+  LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 
 export const LOAD_CLIENT_TOKEN = '[Token] Create Client Token';

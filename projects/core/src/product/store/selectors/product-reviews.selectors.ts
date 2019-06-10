@@ -3,11 +3,11 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   ProductReviewsState,
   ProductsState,
-  StateWithProduct
+  StateWithProduct,
 } from '../product-state';
-import { Review } from '../../../occ/occ-models/occ.models';
 
 import { getProductsState } from './feature.selector';
+import { Review } from '../../../model/product.model';
 
 export const getProductReviewsState: MemoizedSelector<
   StateWithProduct,

@@ -1,23 +1,23 @@
 import * as fromAction from '../actions/address-verification.action';
-import { AddressValidation, Address } from '../../../occ';
+import { Address, AddressValidation } from '../../../model/address.model';
 
 describe('Address Verification Actions', () => {
   describe('VerifyAddress', () => {
     it('should create the action', () => {
       const address: Address = {
-        id: 'testAddress1'
+        id: 'testAddress1',
       };
 
       const payload = {
         userId: 'userId',
-        address
+        address,
       };
 
       const action = new fromAction.VerifyAddress(payload);
 
       expect({ ...action }).toEqual({
         type: fromAction.VERIFY_ADDRESS,
-        payload: payload
+        payload: payload,
       });
     });
   });
@@ -29,7 +29,7 @@ describe('Address Verification Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.VERIFY_ADDRESS_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -38,12 +38,12 @@ describe('Address Verification Actions', () => {
     it('should create the action', () => {
       const addressValidation: AddressValidation = {
         decision: 'test address validation',
-        suggestedAddresses: [{ id: 'address1' }]
+        suggestedAddresses: [{ id: 'address1' }],
       };
       const action = new fromAction.VerifyAddressSuccess(addressValidation);
       expect({ ...action }).toEqual({
         type: fromAction.VERIFY_ADDRESS_SUCCESS,
-        payload: addressValidation
+        payload: addressValidation,
       });
     });
   });
@@ -52,7 +52,7 @@ describe('Address Verification Actions', () => {
     it('should create the action', () => {
       const action = new fromAction.ClearAddressVerificationResults();
       expect({ ...action }).toEqual({
-        type: fromAction.CLEAR_ADDRESS_VERIFICATION_RESULTS
+        type: fromAction.CLEAR_ADDRESS_VERIFICATION_RESULTS,
       });
     });
   });

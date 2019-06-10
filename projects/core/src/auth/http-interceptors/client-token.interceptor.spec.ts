@@ -2,11 +2,9 @@ import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
-  TestRequest
+  TestRequest,
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
-import { AuthConfig } from '../config/auth-config';
 
 import { of, Observable } from 'rxjs';
 
@@ -15,12 +13,13 @@ import { ClientToken } from './../models/token-types.model';
 import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
+import { OccConfig } from '@spartacus/core';
 
 const testToken = {
   access_token: 'abc-123',
   token_type: 'bearer',
   expires_in: 1000,
-  scope: ''
+  scope: '',
 } as ClientToken;
 
 class MockAuthService {
@@ -29,14 +28,16 @@ class MockAuthService {
   }
 }
 
-const MockAuthModuleConfig: AuthConfig = {
-  server: {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
+const MockAuthModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: 'https://localhost:9002',
+      prefix: '/rest/v2/',
+    },
   },
   site: {
-    baseSite: 'electronics'
-  }
+    baseSite: 'electronics',
+  },
 };
 
 describe('ClientTokenInterceptor', () => {
@@ -47,14 +48,14 @@ describe('ClientTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthConfig, useValue: MockAuthModuleConfig },
+        { provide: OccConfig, useValue: MockAuthModuleConfig },
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
     httpMock = TestBed.get(HttpTestingController);
     authService = TestBed.get(AuthService);

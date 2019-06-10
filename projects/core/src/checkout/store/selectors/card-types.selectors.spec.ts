@@ -2,21 +2,21 @@ import { TestBed } from '@angular/core/testing';
 
 import { Store, StoreModule, select } from '@ngrx/store';
 
-import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { CardType } from '../../../occ/occ-models/occ.models';
+import { CardType } from '../../../model/cart.model';
 
 describe('Card Types Selectors', () => {
-  let store: Store<CheckoutState>;
+  let store: Store<StateWithCheckout>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -28,12 +28,12 @@ describe('Card Types Selectors', () => {
       const cardTypes: CardType[] = [
         {
           code: 'amex',
-          name: 'American Express'
+          name: 'American Express',
         },
         {
           code: 'maestro',
-          name: 'Maestro'
-        }
+          name: 'Maestro',
+        },
       ];
 
       let result: CardType[];

@@ -8,7 +8,7 @@ describe('UrlParsingService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      providers: [UrlParsingService]
+      providers: [UrlParsingService],
     });
     service = TestBed.get(UrlParsingService);
   });
@@ -22,7 +22,7 @@ describe('UrlParsingService', () => {
       expect(service.getPrimarySegments('some/test/path')).toEqual([
         'some',
         'test',
-        'path'
+        'path',
       ]);
     });
 
@@ -30,7 +30,7 @@ describe('UrlParsingService', () => {
       expect(service.getPrimarySegments('test/:param/path')).toEqual([
         'test',
         ':param',
-        'path'
+        'path',
       ]);
     });
 
@@ -38,21 +38,21 @@ describe('UrlParsingService', () => {
       expect(service.getPrimarySegments('/some/test/path')).toEqual([
         'some',
         'test',
-        'path'
+        'path',
       ]);
     });
 
     it('should return segments of url and ignore its query params', () => {
       expect(service.getPrimarySegments('test/path?query1=value1')).toEqual([
         'test',
-        'path'
+        'path',
       ]);
     });
 
     it('should return segments of url and ignore its hash fragment', () => {
       expect(service.getPrimarySegments('test/path?#hash-fragment')).toEqual([
         'test',
-        'path'
+        'path',
       ]);
     });
 

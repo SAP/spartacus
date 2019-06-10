@@ -2,7 +2,7 @@ import * as fromStoreFinder from '../actions/view-all-stores.action';
 import { ViewAllStoresState } from '../store-finder-state';
 
 export const initialState: ViewAllStoresState = {
-  viewAllStoresEntities: {}
+  viewAllStoresEntities: {},
 };
 
 export function reducer(
@@ -15,7 +15,7 @@ export function reducer(
 
       return {
         ...state,
-        viewAllStoresEntities
+        viewAllStoresEntities,
       };
     }
   }

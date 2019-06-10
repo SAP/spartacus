@@ -21,13 +21,16 @@ describe('Router Effects', () => {
 
   const mockRoutes = [
     { path: 'test', component: true, data: { cxCmsRouteContext: true } },
-    { path: 'test2', component: true }
+    { path: 'test2', component: true },
   ] as any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes(mockRoutes)],
-      providers: [fromEffects.RouterEffects, provideMockActions(() => actions$)]
+      providers: [
+        fromEffects.RouterEffects,
+        provideMockActions(() => actions$),
+      ],
     });
 
     effects = TestBed.get(fromEffects.RouterEffects);
@@ -38,7 +41,7 @@ describe('Router Effects', () => {
   describe('navigate$', () => {
     it('should navigate to path', () => {
       const action = new fromActions.Go({
-        path: ['/test']
+        path: ['/test'],
       });
 
       actions$ = hot('-a', { a: action });
@@ -47,7 +50,7 @@ describe('Router Effects', () => {
       spyOn(router, 'navigateByUrl');
       effects.navigate$.subscribe(() => {
         expect(router.navigate).toHaveBeenCalledWith(['/test'], {
-          queryParams: undefined
+          queryParams: undefined,
         });
       });
     });
@@ -75,7 +78,7 @@ describe('Router Effects', () => {
       spyOn(router, 'resetConfig');
       effects.clearCmsRoutes$.subscribe(() => {
         expect(router.resetConfig).toHaveBeenCalledWith([
-          { path: 'test2', component: true }
+          { path: 'test2', component: true },
         ]);
       });
     });

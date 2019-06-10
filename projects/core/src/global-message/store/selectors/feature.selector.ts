@@ -2,7 +2,7 @@ import { MemoizedSelector, createFeatureSelector } from '@ngrx/store';
 import {
   GLOBAL_MESSAGE_FEATURE,
   GlobalMessageState,
-  StateWithGlobalMessage
+  StateWithGlobalMessage,
 } from '../global-message-state';
 
 export const getGlobalMessageState: MemoizedSelector<

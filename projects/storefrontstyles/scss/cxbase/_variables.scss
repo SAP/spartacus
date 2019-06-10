@@ -26,7 +26,7 @@ $theme-colors: map-merge(
     'background': $background,
     'text': $text,
     'inverse': $inverse,
-    'transparent': $transparent
+    'transparent': $transparent,
   ),
   $theme-colors
 );
@@ -45,7 +45,7 @@ $type: map-merge(
     '4': $h4-font-size $headings-font-weight,
     '5': $h5-font-size $headings-font-weight,
     '6': $h6-font-size $headings-font-weight,
-    '7': $small-font-size $font-weight-normal
+    '7': $small-font-size $font-weight-normal,
   ),
   $type
 );

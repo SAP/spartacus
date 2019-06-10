@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule, Store, select } from '@ngrx/store';
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../model/cms.model';
 import * as fromReducers from '../reducers/index';
 import * as fromActions from '../actions/index';
 import * as fromSelectors from '../selectors/component.selectors';
@@ -11,18 +11,18 @@ describe('Cms Component Selectors', () => {
 
   const component: CmsComponent = {
     uid: 'comp1',
-    typeCode: 'SimpleBannerComponent'
+    typeCode: 'SimpleBannerComponent',
   };
   const entities = {
-    comp1: component
+    comp1: component,
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cms', fromReducers.getReducers()),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();

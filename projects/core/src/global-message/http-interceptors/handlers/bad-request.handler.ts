@@ -1,51 +1,77 @@
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorHandler } from './http-error.handler';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
+import { HttpErrorHandler } from './http-error.handler';
+import { ErrorModel } from '../../../model/misc.model';
+import { Translatable } from '../../../i18n/translatable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
-  handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
+  handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     if (
-      response.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
-      response.error.error === 'invalid_grant'
+      response.url.includes(OAUTH_ENDPOINT) &&
+      response.error.error === 'invalid_grant' &&
+      request.body.get('grant_type') === 'password'
     ) {
-      if (request.body.get('grant_type') === 'password') {
-        this.globalMessageService.add({
-          type: GlobalMessageType.MSG_TYPE_ERROR,
-          text: this.getErrorMessage(response) + '. Please login again.'
-        });
-        this.globalMessageService.remove(
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      }
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          params: {
+            errorMessage: this.getErrorMessage(response, 0),
+          },
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     } else {
-      // this is currently showing up in case we have a page not found. It should be a 404.
-      // see https://jira.hybris.com/browse/CMSX-8516
-      this.globalMessageService.add({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: this.getErrorMessage(response)
+      response.error.errors.forEach((error: ErrorModel, index: number) => {
+        let errorMessage: Translatable;
+        if (error.type === 'PasswordMismatchError') {
+          // uses en translation error message instead of backend exception error
+          // @todo: this condition could be removed if backend gives better message
+          errorMessage = { key: 'httpHandlers.badRequestOldPasswordIncorrect' };
+        } else if (
+          error.subjectType === 'cart' &&
+          error.reason === 'notFound'
+        ) {
+          errorMessage = { key: 'httpHandlers.cartNotFound' };
+        } else if (error.type === 'ValidationError') {
+          // build translation key in case of backend field validation error
+          errorMessage = {
+            key: `httpHandlers.validationErrors.${error.reason}.${
+              error.subject
+            }`,
+          };
+        } else {
+          // this is currently showing up in case we have a page not found. It should be a 404.
+          // see https://jira.hybris.com/browse/CMSX-8516
+          errorMessage = { raw: this.getErrorMessage(response, index) };
+        }
+        this.globalMessageService.add(
+          errorMessage,
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
       });
     }
   }
 
-  protected getErrorMessage(resp: HttpErrorResponse) {
+  protected getErrorMessage(resp: HttpErrorResponse, index: number): string {
     let errMsg = resp.message;
     if (resp.error) {
       if (resp.error.errors && resp.error.errors instanceof Array) {
-        errMsg = resp.error.errors[0].message;
+        errMsg = resp.error.errors[index].message;
       } else if (resp.error.error_description) {
         errMsg = resp.error.error_description;
       }
     }
 
-    return errMsg || 'An unknown error occured';
+    return errMsg || '';
   }
 }

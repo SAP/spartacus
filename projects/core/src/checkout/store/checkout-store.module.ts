@@ -14,8 +14,8 @@ import { CHECKOUT_FEATURE } from './checkout-state';
     CommonModule,
     HttpClientModule,
     StoreModule.forFeature(CHECKOUT_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class CheckoutStoreModule {}

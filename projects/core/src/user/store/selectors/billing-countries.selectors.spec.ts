@@ -4,8 +4,9 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions/billing-countries.action';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/billing-countries.selectors';
-import { Country } from '../../../occ/occ-models/index';
+
 import { USER_FEATURE, StateWithUser } from '../user-state';
+import { Country } from '../../../model/address.model';
 
 describe('Billing Countries Selectors', () => {
   let store: Store<StateWithUser>;
@@ -14,8 +15,8 @@ describe('Billing Countries Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -27,12 +28,12 @@ describe('Billing Countries Selectors', () => {
       const mockCountries: Country[] = [
         {
           isocode: 'AL',
-          name: 'Albania'
+          name: 'Albania',
         },
         {
           isocode: 'AD',
-          name: 'Andorra'
-        }
+          name: 'Andorra',
+        },
       ];
 
       let result: Country[];

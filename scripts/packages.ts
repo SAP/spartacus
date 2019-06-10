@@ -51,7 +51,8 @@ function loadPackageJson(p: string) {
 const packageJsonPaths = [
   path.join(__dirname, '..', 'projects', 'core', 'package.json'),
   path.join(__dirname, '..', 'projects', 'storefrontlib', 'package.json'),
-  path.join(__dirname, '..', 'projects', 'storefrontstyles', 'package.json')
+  path.join(__dirname, '..', 'projects', 'storefrontstyles', 'package.json'),
+  path.join(__dirname, '..', 'projects', 'assets', 'package.json'),
 ];
 
 // All the supported packages. Go through the packages directory and create a map of
@@ -70,7 +71,7 @@ export const packages: PackageMap = packageJsonPaths.reduce(
       private: packageJson.private,
       name,
       packageJson,
-      version: packageJson.version || '0.0.0'
+      version: packageJson.version || '0.0.0',
     };
 
     return projectPackages;

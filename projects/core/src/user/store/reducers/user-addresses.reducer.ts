@@ -1,5 +1,5 @@
 import * as fromActions from '../actions/user-addresses.action';
-import { Address } from '../../../occ';
+import { Address } from '../../../model/address.model';
 
 export const initialState: Address[] = [];
 
@@ -13,7 +13,7 @@ export function reducer(
     }
 
     case fromActions.LOAD_USER_ADDRESSES_SUCCESS: {
-      return action.payload ? action.payload : state;
+      return action.payload ? action.payload : initialState;
     }
   }
   return state;

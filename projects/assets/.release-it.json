@@ -1,0 +1,12 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "assets-${version}",
+    "commitMessage": "Bumping assets version to ${version}",
+    "tagAnnotation": "Bumping assets version to ${version}"
+  },
+  "npm": {
+    "tag": "latest"
+  }
+}

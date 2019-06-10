@@ -12,7 +12,7 @@ export function register({
   firstName,
   lastName,
   email,
-  password
+  password,
 }: RegisterUser) {
   cy.get('cx-register form').within(() => {
     cy.get('[formcontrolname="titleCode"]').select('mr');

@@ -48,9 +48,9 @@ Cypress.Commands.add(
         url: config.tokenUrl,
         body: {
           ...config.client,
-          grant_type: 'client_credentials'
+          grant_type: 'client_credentials',
         },
-        form: true
+        form: true,
       });
     }
 
@@ -67,11 +67,11 @@ Cypress.Commands.add(
           lastName: registrationData.lastName,
           password: registrationData.password,
           titleCode: registrationData.titleCode,
-          uid
+          uid,
         },
         headers: {
-          Authorization: `bearer ${access_token}`
-        }
+          Authorization: `bearer ${access_token}`,
+        },
       });
     }
 
@@ -81,8 +81,8 @@ Cypress.Commands.add(
         firstName: 'Winston',
         lastName: 'Rumfoord',
         password: 'Password123.',
-        titleCode: 'mr'
-      }
+        titleCode: 'mr',
+      },
     };
     const account = accountData || defaultAccount;
     const username =
@@ -93,7 +93,7 @@ Cypress.Commands.add(
     login(username, account.registrationData.password, false).then(res => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
-        setSessionData({ ...res.body, userId: username });
+        setSessionData(res.body);
       } else {
         /* User needs to be registered
            1. Login as guest for access token
@@ -110,7 +110,7 @@ Cypress.Commands.add(
           )
           .then(() => login(username, account.registrationData.password))
           .then(response => {
-            setSessionData({ ...response.body, userId: username });
+            setSessionData(response.body);
           });
       }
     });

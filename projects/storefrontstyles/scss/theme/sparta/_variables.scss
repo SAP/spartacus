@@ -43,13 +43,13 @@ $theme-colors: (
   'background': $background,
   'inverse': $inverse,
   'text': $text,
-  'transparent': $transparent
+  'transparent': $transparent,
 );
 
 //type — https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L225
 $font-size-base: 1rem; //16px
 // $h1-font-size: $font-size-base * 2.375; //38px
-$h1-font-size: $font-size-base * 2.25; //36px
+$h1-font-size: $font-size-base * 1.85; //36px
 $h2-font-size: $font-size-base * 1.75; //28px
 $h3-font-size: $font-size-base * 1.375; //22px
 $h4-font-size: $font-size-base * 1.125; //18px
@@ -70,7 +70,7 @@ $type: (
   '5': $h5-font-size $font-weight-bold,
   '6': $h5-font-size $font-weight-semi,
   '7': $small-font-size $font-weight-normal,
-  '8': $small-font-size $font-weight-bold
+  '8': $small-font-size $font-weight-bold,
 );
 
 //bring in variable defaults

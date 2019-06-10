@@ -18,7 +18,7 @@ describe('ClearMiscsDataEffect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ClearMiscsDataEffect, provideMockActions(() => actions$)]
+      providers: [ClearMiscsDataEffect, provideMockActions(() => actions$)],
     });
 
     effect = TestBed.get(ClearMiscsDataEffect);
@@ -27,7 +27,7 @@ describe('ClearMiscsDataEffect', () => {
   describe('clearMiscsData$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: LANGUAGE_CHANGE
+        type: LANGUAGE_CHANGE,
       };
 
       const completion = new ClearMiscsData();

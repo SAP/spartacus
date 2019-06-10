@@ -1,4 +1,4 @@
-import { PageType } from '../../occ/occ-models';
+import { PageType } from '../../model/cms.model';
 
 export class PageContext {
   id: string;
@@ -7,9 +7,5 @@ export class PageContext {
   constructor(id: string, type?: PageType) {
     this.id = id;
     this.type = type;
-
-    if (this.type == null) {
-      this.type = PageType.CONTENT_PAGE;
-    }
   }
 }

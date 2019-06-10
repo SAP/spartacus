@@ -1,15 +1,23 @@
+import { CmsComponent } from '../../model/cms.model';
 import { ContentSlotData } from './content-slot-data.model';
 
 export interface Page {
-  uuid?: string;
   pageId?: string;
-  catalogUuid?: string;
   name?: string;
   type?: string;
   title?: string;
   template?: string;
   loadTime?: number;
   slots: { [key: string]: ContentSlotData };
+  properties?: any;
+}
+
+/**
+ * Represents the cms structure for pages, slots and components.
+ */
+export interface CmsStructureModel {
+  page?: Page;
+  components?: CmsComponent[];
 }
 
 /**
@@ -44,11 +52,16 @@ export interface PageMeta {
    * image that can be added to the og:image metatag
    */
   image?: string;
+
+  /**
+   * the list of breadcrumbs that can be rendered in the page UI.
+   */
+  breadcrumbs?: any[];
 }
 
 export enum PageRobotsMeta {
   INDEX = 'INDEX',
   NOINDEX = 'NOINDEX',
   FOLLOW = 'FOLLOW',
-  NOFOLLOW = 'NOFOLLOW'
+  NOFOLLOW = 'NOFOLLOW',
 }

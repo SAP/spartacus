@@ -1,6 +1,6 @@
 import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { SiteContextParamsService } from '../facade/site-context-params.service';
+import { SiteContextParamsService } from './site-context-params.service';
 import { SiteContextConfig } from '../config/site-context-config';
 
 export interface ParamValuesMap {
@@ -57,7 +57,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
       const paramName = this.urlEncodingParameters[paramId];
       const paramValues = this.siteContextParams.getParamValues(paramName);
 
-      if (paramValues.indexOf(segments[segmentId]) > -1) {
+      if (paramValues.includes(segments[segmentId])) {
         params[paramName] = segments[segmentId];
         segmentId++;
       }

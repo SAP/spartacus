@@ -38,7 +38,7 @@ const generators = [
   new CartGenerator(client, sites),
   new DeliveryTabGenerator(client, sites),
   new UsersGenerator(client, sites),
-  new ProductsGenerator(client, sites)
+  new ProductsGenerator(client, sites),
 ];
 
 generateToFile(generators, outputFile).then(() => {

@@ -1,9 +1,8 @@
 import {
-  Product,
   ProductSearchPage,
-  Review,
-  Suggestion
-} from '../../occ/occ-models/occ.models';
+  Suggestion,
+} from '../../model/product-search.model';
+import { Product, ProductReference, Review } from '../../model/product.model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
 export const PRODUCT_FEATURE = 'product';
@@ -17,6 +16,7 @@ export interface ProductsState {
   details: EntityLoaderState<Product>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
+  references: ProductReferencesState;
 }
 
 export interface ProductsSearchState {
@@ -28,4 +28,9 @@ export interface ProductsSearchState {
 export interface ProductReviewsState {
   productCode: string;
   list: Review[];
+}
+
+export interface ProductReferencesState {
+  productCode: string;
+  list: ProductReference[];
 }

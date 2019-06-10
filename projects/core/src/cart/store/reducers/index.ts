@@ -11,7 +11,7 @@ import { reducer as cartReducer } from './cart.reducer';
 
 export function getReducers(): ActionReducerMap<CartsState> {
   return {
-    active: loaderReducer<CartState>(CART_DATA, cartReducer)
+    active: loaderReducer<CartState>(CART_DATA, cartReducer),
   };
 }
 
@@ -21,7 +21,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export function clearCartState(

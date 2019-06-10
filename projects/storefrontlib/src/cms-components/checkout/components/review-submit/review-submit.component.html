@@ -1,0 +1,64 @@
+<div class="cx-review">
+  <!-- TITLE -->
+  <h3 class="cx-review-title d-none d-lg-block d-xl-block">
+    {{ 'checkoutReview.review' | cxTranslate }}
+  </h3>
+  <div class="cx-review-summary row">
+    <!-- SHIPPING ADDRESS SECTION -->
+    <div class="col-md-12 col-lg-6 col-xl-4">
+      <div class="cx-review-summary-card cx-review-card-address">
+        <cx-card
+          [content]="
+            getShippingAddressCard(
+              deliveryAddress$ | async,
+              countryName$ | async
+            ) | async
+          "
+        ></cx-card>
+      </div>
+    </div>
+
+    <!-- DELIVERY MODE SECTION -->
+    <div class="col-md-12 col-lg-6 col-xl-4">
+      <div class="cx-review-summary-card cx-review-card-shipping">
+        <cx-card
+          *ngIf="(deliveryMode$ | async) as deliveryMode"
+          [content]="getDeliveryModeCard(deliveryMode) | async"
+        ></cx-card>
+      </div>
+    </div>
+
+    <!-- PAYMENT METHOD SECTION -->
+    <div class="col-md-12 col-lg-6 col-xl-4">
+      <div class="cx-review-summary-card cx-review-card-payment">
+        <cx-card
+          [content]="getPaymentMethodCard(paymentDetails$ | async) | async"
+        ></cx-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART ITEM SECTION -->
+  <ng-container *ngIf="(cart$ | async) as cart">
+    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
+      {{
+        'cartItems.cartTotal'
+          | cxTranslate: { count: cart.deliveryItemsQuantity }
+      }}:
+      {{ cart.totalPrice?.formattedValue }}
+    </div>
+    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">
+      {{ 'checkoutReview.placeOrder' | cxTranslate }}
+    </h4>
+    <div
+      class="cx-review-cart-item col-md-12"
+      *ngIf="(entries$ | async) as entries"
+    >
+      <cx-cart-item-list
+        [items]="entries"
+        [isReadOnly]="true"
+        [potentialProductPromotions]="cart.potentialProductPromotions"
+      ></cx-cart-item-list>
+    </div>
+  </ng-container>
+</div>

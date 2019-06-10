@@ -15,44 +15,44 @@ export const errorHandlers: Provider[] = [
   {
     provide: HttpErrorHandler,
     useExisting: UnknownErrorHandler,
-    multi: true
+    multi: true,
   },
   {
     provide: HttpErrorHandler,
     useExisting: BadGatewayHandler,
-    multi: true
+    multi: true,
   },
   {
     provide: HttpErrorHandler,
     useExisting: BadRequestHandler,
-    multi: true
+    multi: true,
   },
   {
     provide: HttpErrorHandler,
     useExisting: ConflictHandler,
-    multi: true
+    multi: true,
   },
   {
     provide: HttpErrorHandler,
     useExisting: ForbiddenHandler,
-    multi: true
+    multi: true,
   },
   {
     provide: HttpErrorHandler,
     useExisting: GatewayTimeoutHandler,
-    multi: true
+    multi: true,
   },
   {
     provide: HttpErrorHandler,
     useExisting: NotFoundHandler,
-    multi: true
-  }
+    multi: true,
+  },
 ];
 
 export const httpErrorInterceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpErrorInterceptor,
-    multi: true
-  }
+    multi: true,
+  },
 ];

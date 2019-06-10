@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { SiteContextRoutesHandler } from './site-context-routes-handler';
-import { SiteContextParamsService } from '../facade/site-context-params.service';
+import { SiteContextParamsService } from './site-context-params.service';
 import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -24,28 +24,28 @@ describe('SiteContextRoutesHandlerService', () => {
       events: mockRouterEvents,
       url: 'test',
       parseUrl: createSpy().and.callFake(url => url + '_a'),
-      serializeUrl: createSpy().and.callFake(url => url + '_b')
+      serializeUrl: createSpy().and.callFake(url => url + '_b'),
     };
 
     mockLocation = {
-      replaceState: createSpy()
+      replaceState: createSpy(),
     };
 
     activeLanguage = new BehaviorSubject('en');
 
     mockLanguageService = {
-      getActive: createSpy().and.returnValue(activeLanguage)
+      getActive: createSpy().and.returnValue(activeLanguage),
     };
 
     mockSiteContextParamsService = {
       getContextParameters: () => ['language'],
       getSiteContextService: () => mockLanguageService,
       getParamValues: () => ['en', 'de'],
-      setValue: createSpy('setValue')
+      setValue: createSpy('setValue'),
     };
 
     mockSiteContextUrlSerializer = {
-      urlExtractContextParameters: url => ({ params: { language: url } })
+      urlExtractContextParameters: url => ({ params: { language: url } }),
     };
 
     TestBed.configureTestingModule({
@@ -53,21 +53,21 @@ describe('SiteContextRoutesHandlerService', () => {
         SiteContextRoutesHandler,
         {
           provide: SiteContextParamsService,
-          useValue: mockSiteContextParamsService
+          useValue: mockSiteContextParamsService,
         },
         {
           provide: Router,
-          useValue: mockRouter
+          useValue: mockRouter,
         },
         {
           provide: Location,
-          useValue: mockLocation
+          useValue: mockLocation,
         },
         {
           provide: SiteContextUrlSerializer,
-          useValue: mockSiteContextUrlSerializer
-        }
-      ]
+          useValue: mockSiteContextUrlSerializer,
+        },
+      ],
     });
 
     service = TestBed.get(SiteContextRoutesHandler);
@@ -76,6 +76,14 @@ describe('SiteContextRoutesHandlerService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should set context parameter from route on init', () => {
+    service.init();
+    expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
+      'language',
+      'test'
+    );
   });
 
   it('should set context parameter on route navigation', () => {

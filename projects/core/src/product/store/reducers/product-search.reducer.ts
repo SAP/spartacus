@@ -1,11 +1,14 @@
-import { ProductsSearchState } from '../product-state';
+import {
+  ProductSearchPage,
+  Suggestion,
+} from '../../../model/product-search.model';
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion, ProductSearchPage } from '../../../occ/occ-models';
+import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
-  auxResults: {}
+  auxResults: {},
 };
 
 export function reducer(
@@ -18,7 +21,7 @@ export function reducer(
       const res = action.auxiliary ? { auxResults: results } : { results };
       return {
         ...state,
-        ...res
+        ...res,
       };
     }
 
@@ -27,12 +30,21 @@ export function reducer(
 
       return {
         ...state,
-        suggestions
+        suggestions,
       };
     }
 
-    case fromProductsSearch.CLEAN_PRODUCT_SEARCH: {
-      return initialState;
+    case fromProductsSearch.CLEAR_PRODUCT_SEARCH_RESULT: {
+      return {
+        ...state,
+        results: action.payload.clearPageResults ? {} : state.results,
+        suggestions: action.payload.clearSearchboxResults
+          ? []
+          : state.suggestions,
+        auxResults: action.payload.clearSearchboxResults
+          ? {}
+          : state.auxResults,
+      };
     }
   }
   return state;

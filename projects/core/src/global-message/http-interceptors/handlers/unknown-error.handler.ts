@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorHandler } from './http-error.handler';
-import { GlobalMessageType } from '../../models/global-message.model';
+import { GlobalMessageService } from '../../facade/global-message.service';
+import { ServerConfig } from '../../../config/server-config/server-config';
 import { HttpResponseStatus } from '../../models/response-status.model';
+import { HttpErrorHandler } from './http-error.handler';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UnknownErrorHandler extends HttpErrorHandler {
+  constructor(
+    private config: ServerConfig,
+    protected globalMessageService: GlobalMessageService
+  ) {
+    super(globalMessageService);
+  }
   responseStatus = HttpResponseStatus.UNKNOWN;
 
   handleError() {
-    this.globalMessageService.add({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'An unknown error occured'
-    });
+    if (!this.config.production) {
+      console.warn(`Unknown http response error: ${this.responseStatus}`);
+    }
   }
 }

@@ -1,10 +1,10 @@
 import { USER_ADDRESSES } from '../user-state';
-import { Address } from '../../../occ/occ-models/index';
 import {
   LoaderLoadAction,
   LoaderFailAction,
-  LoaderSuccessAction
+  LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
+import { Address } from '../../../model/address.model';
 
 export const LOAD_USER_ADDRESSES = '[User] Load User Addresses';
 export const LOAD_USER_ADDRESSES_FAIL = '[User] Load User Addresses Fail';

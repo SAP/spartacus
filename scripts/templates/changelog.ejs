@@ -36,6 +36,7 @@
     '@spartacus/core',
     '@spartacus/storefront',
     '@spartacus/styles',
+    '@spartacus/assets',
   ];
 %>
 # Commits
@@ -84,5 +85,11 @@
   <% } %>
 </tbody>
 </table>
-----
-
+<% if(breakingChanges.length) { %>
+  # Breaking changes
+  <ul>
+  <% for (const change of breakingChanges) {
+    %><%- include('./breaking-change', change) %><%
+  } %>
+  </ul>
+<% } %>

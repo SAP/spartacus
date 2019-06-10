@@ -1,7 +1,7 @@
 import * as fromActions from './../actions';
-import { Cart } from '../../../occ';
 
 import * as fromCart from './cart.reducer';
+import { Cart } from '../../../model/cart.model';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
@@ -22,12 +22,12 @@ describe('Cart reducer', () => {
         totalItems: 0,
         totalPrice: {
           currencyIso: 'USD',
-          value: 0
+          value: 0,
         },
         totalPriceWithTax: {
           currencyIso: 'USD',
-          value: 0
-        }
+          value: 0,
+        },
       };
       const { initialState } = fromCart;
 
@@ -47,12 +47,12 @@ describe('Cart reducer', () => {
         entries: [{ entryNumber: 0, product: { code: '1234' } }],
         totalPrice: {
           currencyIso: 'USD',
-          value: 0
+          value: 0,
         },
         totalPriceWithTax: {
           currencyIso: 'USD',
-          value: 0
-        }
+          value: 0,
+        },
       };
 
       const { initialState } = fromCart;
@@ -64,7 +64,7 @@ describe('Cart reducer', () => {
 
       expect(state.content).toEqual(testCart);
       expect(state.entries).toEqual({
-        '1234': { entryNumber: 0, product: { code: '1234' } }
+        '1234': { entryNumber: 0, product: { code: '1234' } },
       });
       expect(state.refresh).toEqual(false);
     });

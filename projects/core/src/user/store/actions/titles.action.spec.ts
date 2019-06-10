@@ -5,7 +5,7 @@ describe('Titles Actions', () => {
     it('should create the action', () => {
       const action = new fromAction.LoadTitles();
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_TITLES
+        type: fromAction.LOAD_TITLES,
       });
     });
   });
@@ -17,7 +17,7 @@ describe('Titles Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_TITLES_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -27,17 +27,17 @@ describe('Titles Actions', () => {
       const titles = [
         {
           code: 'mr',
-          name: 'Mr.'
+          name: 'Mr.',
         },
         {
           isocode: 'mrs',
-          name: 'Mrs.'
-        }
+          name: 'Mrs.',
+        },
       ];
       const action = new fromAction.LoadTitlesSuccess(titles);
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_TITLES_SUCCESS,
-        payload: titles
+        payload: titles,
       });
     });
   });

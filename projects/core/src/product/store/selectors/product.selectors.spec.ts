@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
-import { StoreModule, Store, select } from '@ngrx/store';
-
+import { select, Store, StoreModule } from '@ngrx/store';
 import * as fromActions from '../actions';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 import * as fromReducers from '../reducers';
-import { Product } from '../../../occ/occ-models/occ.models';
-
 import * as fromSelectors from './product.selectors';
+import { Product } from '../../../model/product.model';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithProduct>;
@@ -15,23 +12,23 @@ describe('Cms Component Selectors', () => {
   const code = 'testCode';
   const product: Product = {
     code,
-    name: 'testProduct'
+    name: 'testProduct',
   };
   const entities = {
     testCode: {
       loading: false,
       error: false,
       success: true,
-      value: product
-    }
+      value: product,
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(PRODUCT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(PRODUCT_FEATURE, fromReducers.getReducers()),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();

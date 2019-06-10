@@ -5,7 +5,7 @@ import { AddressVerificationEffect } from './address-verification.effect';
 export const effects: any[] = [
   CheckoutEffects,
   AddressVerificationEffect,
-  CardTypesEffects
+  CardTypesEffects,
 ];
 
 export * from './checkout.effect';

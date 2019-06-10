@@ -6,12 +6,12 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { PaymentDetailsList } from '../../../occ/occ-models/index';
-import { PaymentDetails } from '../../../occ/occ-models/occ.models';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { PaymentDetails } from '../../../model/cart.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
-const mockUserPaymentMethods: PaymentDetailsList = {
-  payments: [{ id: 'payment1' }, { id: 'payment2' }]
+const mockUserPaymentMethods: Occ.PaymentDetailsList = {
+  payments: [{ id: 'payment1' }, { id: 'payment2' }],
 };
 
 describe('User Payment Methods Selectors', () => {
@@ -21,8 +21,8 @@ describe('User Payment Methods Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -41,7 +41,7 @@ describe('User Payment Methods Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: []
+        value: [],
       });
     });
   });

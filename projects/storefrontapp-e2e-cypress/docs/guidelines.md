@@ -1,8 +1,8 @@
-# E2E test guidelines
+# E2E testing guidelines
 
 ## About
 
-This document describes practices we use for our cypress tests. As a baseline we use [Cypress good practices](https://docs.cypress.io/guides/references/best-practices.html). Below you will find rules we developed that help us keep tests maintainable and fast.
+This document describes practices we use for our cypress tests. As a baseline we use [Cypress best practices](https://docs.cypress.io/guides/references/best-practices.html). Below you will find a series of recommendations we developed that help us keep tests maintainable and fast.
 
 ## Using different API server
 
@@ -10,31 +10,28 @@ For situations when you use different API server please update url in cypress en
 
 ## Assertions
 
-- you don't need to use `should('exist')` assertion, because query command will fail if this element doesn't exist
-- for multiple assertions use `within` command - it makes it much more cleaner
+- We encourage you to use `cy.get` instead of `should('exist')` assertion, because `get` will fail if the element doesn't exist. In cases where you only want to check for existence of an element only (and not do anything with it), it is ok.
+- For multiple assertions within an element, use the `within` command. It creates a scope for the assertions and makes test cleaner.
 
 ## Helpers
 
-- for repeatable, simple tasks create function in `helpers` directory
-- if you use helper very often create global command instead (examples: `ngSelect`, `selectUserMenuOption`)
+- for repeatable, simple tasks, create a function in `helpers` directory
+- if you use a helper function very often, create a global command instead (examples: `ngSelect`, `selectUserMenuOption`)
 
 ### generateMail helper
 
-To create user account you need to have unique email address. There is a helper `generateMail` available in `helpers/user.ts` created for this use case.
-As a first argument you pass your unique string to differentiate between users. Second argument is `newTimestamp` and setting it to `true` will generate unique mail on every test refresh.
+To create a user account that has a unique email address, you can use the `generateMail` helper available in `helpers/user.ts`.
+As a first argument you pass your unique string to differentiate between users. Second argument is `newTimestamp`. Setting it to `true` will generate a unique email on every test refresh.
 
 ## Tests that require user login
 
-Registering and logging in with user interface takes some time. Instead we recommend to use our command `requireLoggedIn`.
-It will create new user or login as existing one (if you want to share the same user between multiple tests).
+Registering and logging in with user interface takes some time. Instead we recommend to use the command `requireLoggedIn` command. It will create new user or login as existing one (if you want to share the same user between multiple tests).
 
 Command `requireLoggedIn` accepts 2 arguments. First one is user object. You only pass it for tests that intend to share the same user. As a second argument you pass options object. There is one option available `freshUserOnTestRefresh` that will force creating new user (might be helpful for development) instead of using already created.
 
 ### Separate user for this test (recommended approach)
 
 ``` ts
-// test1.js
-
 context('Context', () => {
   before(() => {
     cy.requireLoggedIn();
@@ -45,8 +42,6 @@ context('Context', () => {
 ### Access user email
 
 ``` ts
-// test1.js
-
 context('Context', () => {
   before(() => {
     cy.requireLoggedIn().then(email => { /* you can access to email here */ });
@@ -60,21 +55,10 @@ To avoid some issues regarding test order keep shared users in one file and only
 Example user (`standardUser`) available in `sample-data/shared-users.ts`.
 
 ``` ts
-// test1.js
 import { standardUser } from '../sample-data/shared-users.ts';
 
 context('Context', () => {
   before(() => {
-    cy.requireLoggedIn(standardUser);
-  })
-})
-
-// test2.js
-import { standardUser } from '../sample-data/shared-users.ts';
-
-context('Context 2', () => {
-  before(() => {
-    // logged as the user from test1.js
     cy.requireLoggedIn(standardUser);
   })
 })
@@ -87,7 +71,6 @@ It is only useful for shared users. If you rely on unique user for spec (you don
 Never use this feature in production! If you need unique user for test don't pass user reference.
 
 ``` ts
-// test1.js
 import { standardUser } from '../sample-data/shared-users.ts';
 
 context('Context', () => {
@@ -96,4 +79,3 @@ context('Context', () => {
   })
 })
 ```
-

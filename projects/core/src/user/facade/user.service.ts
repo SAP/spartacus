@@ -1,39 +1,48 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
+import { tap } from 'rxjs/operators';
+import { Title, User, UserSignUp } from '../../model/misc.model';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import * as fromProcessStore from '../../process/store/process-state';
+import {
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import * as fromStore from '../store/index';
 import {
-  Order,
-  User,
-  PaymentDetails,
-  Address,
-  Title,
-  Country,
-  Region,
-  OrderHistoryList
-} from '../../occ/occ-models/index';
-import { UserRegisterFormData } from '../model/user.model';
+  UPDATE_EMAIL_PROCESS_ID,
+  UPDATE_USER_DETAILS_PROCESS_ID,
+} from '../store/user-state';
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.StateWithUser>) {}
+  constructor(
+    protected store: Store<
+      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
+    >
+  ) {}
 
   /**
    * Returns a user
    */
   get(): Observable<User> {
-    return this.store.pipe(select(fromStore.getDetails));
+    return this.store.pipe(
+      select(fromStore.getDetails),
+      tap(details => {
+        if (Object.keys(details).length === 0) {
+          this.load();
+        }
+      })
+    );
   }
 
   /**
    * Loads the user's details
    */
-  load(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserDetails(userId));
+  load(): void {
+    this.store.dispatch(new fromStore.LoadUserDetails(USERID_CURRENT));
   }
 
   /**
@@ -41,221 +50,50 @@ export class UserService {
    *
    * @param submitFormData as UserRegisterFormData
    */
-  register(userRegisterFormData: UserRegisterFormData) {
+  register(userRegisterFormData: UserSignUp): void {
     this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
   /**
-   * Returns an order's detail
+   * Remove user account, that's also called close user's account
    */
-  getOrderDetails(): Observable<Order> {
-    return this.store.pipe(select(fromStore.getOrderDetails));
+  remove(): void {
+    this.store.dispatch(new fromStore.RemoveUser(USERID_CURRENT));
   }
 
   /**
-   * Retrieves order's details
-   *
-   * @param userId a user's ID
-   * @param orderCode an order code
+   * Returns the remove user loading flag
    */
-  loadOrderDetails(userId: string, orderCode: string): void {
-    this.store.dispatch(
-      new fromStore.LoadOrderDetails({
-        userId: userId,
-        orderCode: orderCode
-      })
-    );
-  }
-
-  /**
-   * Clears order's details
-   */
-  clearOrderDetails(): void {
-    this.store.dispatch(new fromStore.ClearOrderDetails());
-  }
-
-  /**
-   * Returns order history list
-   */
-  getOrderHistoryList(
-    userId: string,
-    pageSize: number
-  ): Observable<OrderHistoryList> {
+  getRemoveUserResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(fromStore.getOrdersState),
-      tap(orderListState => {
-        const attemptedLoad =
-          orderListState.loading ||
-          orderListState.success ||
-          orderListState.error;
-        if (!attemptedLoad && !!userId) {
-          this.loadOrderList(userId, pageSize);
-        }
-      }),
-      map(orderListState => orderListState.value)
+      select(getProcessLoadingFactory(fromStore.REMOVE_USER_PROCESS_ID))
     );
   }
 
   /**
-   * Returns a loaded flag for order history list
+   * Returns the remove user failure outcome.
    */
-  getOrderHistoryListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getOrdersLoaded));
-  }
-
-  /**
-   * Loads all user's payment methods.
-   * @param userId a user ID
-   */
-  loadPaymentMethods(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
-  }
-
-  /**
-   * Returns all user's payment methods
-   */
-  getPaymentMethods(): Observable<PaymentDetails[]> {
-    return this.store.pipe(select(fromStore.getPaymentMethods));
-  }
-
-  /**
-   * Returns a loading flag for payment methods
-   */
-  getPaymentMethodsLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getPaymentMethodsLoading));
-  }
-
-  /**
-   * Sets the payment as a default one
-   * @param userId a user ID
-   * @param paymentMethodId a payment method ID
-   */
-  setPaymentMethodAsDefault(userId: string, paymentMethodId: string): void {
-    this.store.dispatch(
-      new fromStore.SetDefaultUserPaymentMethod({
-        userId: userId,
-        paymentMethodId
-      })
+  getRemoveUserResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(fromStore.REMOVE_USER_PROCESS_ID))
     );
   }
 
   /**
-   * Deletes the payment method
-   *
-   * @param userId a user ID
-   * @param paymentMethodId a payment method ID
+   * Returns the remove user process success outcome.
    */
-  deletePaymentMethod(userId: string, paymentMethodId: string): void {
-    this.store.dispatch(
-      new fromStore.DeleteUserPaymentMethod({
-        userId: userId,
-        paymentMethodId
-      })
+  getRemoveUserResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(fromStore.REMOVE_USER_PROCESS_ID))
     );
   }
 
   /**
-   * Retrieves an order list
-   * @param userId a user ID
-   * @param pageSize page size
-   * @param currentPage current page
-   * @param sort sort
+   * Resets the remove user process state. The state needs to be reset after the process
+   * concludes, regardless if it's a success or an error
    */
-  loadOrderList(
-    userId: string,
-    pageSize: number,
-    currentPage?: number,
-    sort?: string
-  ): void {
-    this.store.dispatch(
-      new fromStore.LoadUserOrders({
-        userId: userId,
-        pageSize: pageSize,
-        currentPage: currentPage,
-        sort: sort
-      })
-    );
-  }
-
-  /**
-   * Retrieves user's addresses
-   * @param userId a user ID
-   */
-  loadAddresses(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserAddresses(userId));
-  }
-
-  /**
-   * Adds user address
-   * @param userId a user ID
-   * @param address a user address
-   */
-  addUserAddress(userId: string, address: Address): void {
-    this.store.dispatch(
-      new fromStore.AddUserAddress({
-        userId: userId,
-        address: address
-      })
-    );
-  }
-
-  /**
-   * Sets user address as default
-   * @param userId a user ID
-   * @param addressId a user address ID
-   */
-  setAddressAsDefault(userId: string, addressId: string): void {
-    this.store.dispatch(
-      new fromStore.UpdateUserAddress({
-        userId: userId,
-        addressId: addressId,
-        address: { defaultAddress: true }
-      })
-    );
-  }
-
-  /**
-   * Updates existing user address
-   * @param userId a user ID
-   * @param addressId a user address ID
-   * @param address a user address
-   */
-  updateUserAddress(userId: string, addressId: string, address: Address): void {
-    this.store.dispatch(
-      new fromStore.UpdateUserAddress({
-        userId: userId,
-        addressId: addressId,
-        address: address
-      })
-    );
-  }
-
-  /**
-   * Deletes existing user address
-   * @param userId a user ID
-   * @param addressId a user address ID
-   */
-  deleteUserAddress(userId: string, addressId: string): void {
-    this.store.dispatch(
-      new fromStore.DeleteUserAddress({
-        userId: userId,
-        addressId: addressId
-      })
-    );
-  }
-
-  /**
-   * Returns addresses
-   */
-  getAddresses(): Observable<Address[]> {
-    return this.store.pipe(select(fromStore.getAddresses));
-  }
-
-  /**
-   * Returns a loading flag for addresses
-   */
-  getAddressesLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getAddressesLoading));
+  resetRemoveUserProcessState(): void {
+    this.store.dispatch(new fromStore.RemoveUserReset());
   }
 
   /**
@@ -273,60 +111,164 @@ export class UserService {
   }
 
   /**
-   * Retrieves delivery countries
+   * Return whether user's password is successfully reset
    */
-  loadDeliveryCountries(): void {
-    this.store.dispatch(new fromStore.LoadDeliveryCountries());
+  isPasswordReset(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getResetPassword));
   }
 
   /**
-   * Returns all delivery countries
+   * Updates the user's details
+   * @param userDetails to be updated
    */
-  getDeliveryCountries(): Observable<Country[]> {
-    return this.store.pipe(select(fromStore.getAllDeliveryCountries));
+  updatePersonalDetails(userDetails: User): void {
+    this.store.dispatch(
+      new fromStore.UpdateUserDetails({ username: USERID_CURRENT, userDetails })
+    );
   }
 
   /**
-   * Returns a country based on the provided `isocode`
-   * @param isocode an isocode for a country
+   * Returns the update user's personal details loading flag
    */
-  getCountry(isocode: string): Observable<Country> {
-    return this.store.pipe(select(fromStore.countrySelectorFactory(isocode)));
+  getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
   }
 
   /**
-   * Retrieves regions for specified country by `countryIsoCode`
-   * @param countryIsoCode
+   * Returns the update user's personal details error flag
    */
-  loadRegions(countryIsoCode: string): void {
-    this.store.dispatch(new fromStore.LoadRegions(countryIsoCode));
+  getUpdatePersonalDetailsResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
   }
 
   /**
-   * Returns all regions
+   * Returns the update user's personal details success flag
    */
-  getRegions(): Observable<Region[]> {
-    return this.store.pipe(select(fromStore.getAllRegions));
+  getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
   }
 
   /**
-   * Returns all billing countries
+   * Resets the update user details processing state
    */
-  getAllBillingCountries(): Observable<Country[]> {
-    return this.store.pipe(select(fromStore.getAllBillingCountries));
+  resetUpdatePersonalDetailsProcessingState(): void {
+    this.store.dispatch(new fromStore.ResetUpdateUserDetails());
   }
 
   /**
-   * Retrieves billing countries
+   * Reset new password.  Part of the forgot password flow.
+   * @param token
+   * @param password
    */
-  loadBillingCountries() {
-    return this.store.dispatch(new fromStore.LoadBillingCountries());
+  resetPassword(token: string, password: string): void {
+    this.store.dispatch(new fromStore.ResetPassword({ token, password }));
+  }
+
+  /*
+   * Request an email to reset a forgotten password.
+   */
+  requestForgotPasswordEmail(userEmailAddress: string): void {
+    this.store.dispatch(
+      new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
+    );
   }
 
   /**
-   * Cleaning order list
+   * Updates the user's email
    */
-  clearOrderList() {
-    this.store.dispatch(new fromStore.ClearUserOrders());
+  updateEmail(password: string, newUid: string): void {
+    this.store.dispatch(
+      new fromStore.UpdateEmailAction({ uid: USERID_CURRENT, password, newUid })
+    );
+  }
+
+  /**
+   * Returns the update user's email success flag
+   */
+  getUpdateEmailResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's email error flag
+   */
+  getUpdateEmailResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's email loading flag
+   */
+  getUpdateEmailResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update user's email processing state
+   */
+  resetUpdateEmailResultState(): void {
+    this.store.dispatch(new fromStore.ResetUpdateEmailAction());
+  }
+
+  /**
+   * Updates the password for the user
+   * @param oldPassword the current password that will be changed
+   * @param newPassword the new password
+   */
+  updatePassword(oldPassword: string, newPassword: string): void {
+    this.store.dispatch(
+      new fromStore.UpdatePassword({
+        userId: USERID_CURRENT,
+        oldPassword,
+        newPassword,
+      })
+    );
+  }
+
+  /**
+   * Returns the update password loading flag
+   */
+  getUpdatePasswordResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update password failure outcome.
+   */
+  getUpdatePasswordResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update password process success outcome.
+   */
+  getUpdatePasswordResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update password process state. The state needs to be reset after the process
+   * concludes, regardless if it's a success or an error
+   */
+  resetUpdatePasswordProcessState(): void {
+    this.store.dispatch(new fromStore.UpdatePasswordReset());
   }
 }

@@ -52,6 +52,8 @@ $modal-min-width-sm: 100% !important;
 
   .modal-dialog {
     margin: $modal-dialog-margin-sm;
+    min-width: $modal-max-width-sm;
+    max-width: $modal-min-width-sm;
   }
 
   .modal-dialog-centered {

@@ -6,7 +6,7 @@ describe('Login and Logout Actions', () => {
       const action = new fromAction.Logout();
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOGOUT
+        type: fromAction.LOGOUT,
       });
     });
   });
@@ -16,7 +16,7 @@ describe('Login and Logout Actions', () => {
       const action = new fromAction.Login();
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOGIN
+        type: fromAction.LOGIN,
       });
     });
   });

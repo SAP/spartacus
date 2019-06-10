@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import {
-  map,
   catchError,
-  switchMap,
   filter,
+  groupBy,
+  map,
   mergeMap,
+  switchMap,
   take,
-  groupBy
 } from 'rxjs/operators';
-
-import * as componentActions from '../actions/component.action';
-import { OccCmsService } from '../../occ/occ-cms.service';
 import { RoutingService } from '../../../routing/index';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import * as componentActions from '../actions/component.action';
 
 @Injectable()
 export class ComponentEffects {
   constructor(
     private actions$: Actions,
-    private occCmsService: OccCmsService,
+    private cmsComponentLoader: CmsComponentConnector,
     private routingService: RoutingService
   ) {}
 
@@ -37,8 +35,10 @@ export class ComponentEffects {
             map(routerState => routerState.state.context),
             take(1),
             mergeMap(pageContext =>
-              this.occCmsService.loadComponent(uid, pageContext).pipe(
-                map(data => new componentActions.LoadComponentSuccess(data)),
+              this.cmsComponentLoader.get(uid, pageContext).pipe(
+                map(
+                  data => new componentActions.LoadComponentSuccess(data, uid)
+                ),
                 catchError(error =>
                   of(new componentActions.LoadComponentFail(uid, error))
                 )

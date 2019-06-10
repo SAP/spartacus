@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
+import { CLEAR_MISCS_DATA } from '../actions/index';
+import { REGIONS } from '../user-state';
+import { LoaderResetAction } from '../../../state/index';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
 
 @Injectable()
 export class RegionsEffects {
@@ -17,15 +21,29 @@ export class RegionsEffects {
       return action.payload;
     }),
     switchMap((countryCode: string) => {
-      return this.occMiscsService.loadRegions(countryCode).pipe(
-        map(data => new fromActions.LoadRegionsSuccess(data.regions)),
+      return this.siteConnector.getRegions(countryCode).pipe(
+        map(
+          regions =>
+            new fromActions.LoadRegionsSuccess({
+              entities: regions,
+              country: countryCode,
+            })
+        ),
         catchError(error => of(new fromActions.LoadRegionsFail(error)))
       );
     })
   );
 
+  @Effect()
+  resetRegions$: Observable<Action> = this.actions$.pipe(
+    ofType(CLEAR_MISCS_DATA, fromActions.CLEAR_REGIONS),
+    map(() => {
+      return new LoaderResetAction(REGIONS);
+    })
+  );
+
   constructor(
     private actions$: Actions,
-    private occMiscsService: OccMiscsService
+    private siteConnector: SiteConnector
   ) {}
 }

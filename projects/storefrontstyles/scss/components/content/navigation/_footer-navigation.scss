@@ -1,0 +1,34 @@
+%cx-footer-navigation {
+  a {
+    text-decoration: underline;
+    font-size: var(--cx-g-font-small, 0.8rem);
+  }
+
+  cx-navigation-ui {
+    // first level heading / links
+    h5 {
+      text-transform: uppercase;
+      @include type('5');
+      margin-bottom: 20px;
+    }
+  }
+
+  cx-navigation-ui {
+    justify-content: center;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    > nav {
+      margin: 3vw;
+    }
+  }
+
+  .notice {
+    padding: 32px 0;
+    text-align: center;
+    @include type();
+    color: var(--cx-g-color-dark);
+    background-color: var(--cx-g-color-inverse);
+  }
+}

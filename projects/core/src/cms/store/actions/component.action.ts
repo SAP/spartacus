@@ -1,8 +1,8 @@
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../model/cms.model';
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntitySuccessAction
+  EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { COMPONENT_ENTITY } from '../cms-state';
 
@@ -29,8 +29,8 @@ export class LoadComponentSuccess<
   T extends CmsComponent
 > extends EntitySuccessAction {
   readonly type = LOAD_COMPONENT_SUCCESS;
-  constructor(public payload: T) {
-    super(COMPONENT_ENTITY, payload.uid);
+  constructor(public payload: T, uid?: string) {
+    super(COMPONENT_ENTITY, uid || payload.uid || '');
   }
 }
 

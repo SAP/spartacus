@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/index';
-import { AddressValidation } from '../../../occ';
 
 import * as fromReducer from './address-verification.reducer';
+import { AddressValidation } from '../../../model/address.model';
 
 describe('Address Verification Reducer', () => {
   describe('undefined action', () => {
@@ -18,7 +18,7 @@ describe('Address Verification Reducer', () => {
     it('should load the address verification results state entities', () => {
       const addressValidation: AddressValidation = {
         decision: 'test address validation',
-        suggestedAddresses: [{ id: 'address1' }]
+        suggestedAddresses: [{ id: 'address1' }],
       };
 
       const { initialState } = fromReducer;

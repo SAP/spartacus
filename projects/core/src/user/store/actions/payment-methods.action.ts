@@ -1,10 +1,10 @@
 import { USER_PAYMENT_METHODS } from '../user-state';
-import { PaymentDetails } from '../../../occ/occ-models/index';
 import {
   LoaderLoadAction,
   LoaderFailAction,
-  LoaderSuccessAction
+  LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
+import { PaymentDetails } from '../../../model/cart.model';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =

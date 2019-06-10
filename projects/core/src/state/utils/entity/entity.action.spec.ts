@@ -5,7 +5,7 @@ import {
   EntityRemoveAction,
   EntityRemoveAllAction,
   entityRemoveAllMeta,
-  entityRemoveMeta
+  entityRemoveMeta,
 } from './entity.action';
 
 describe('Entity Actions', () => {
@@ -18,7 +18,7 @@ describe('Entity Actions', () => {
         const action = new EntityRemoveAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
         expect({ ...action }).toEqual({
           type: ENTITY_REMOVE_ACTION,
-          meta: entityRemoveMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID)
+          meta: entityRemoveMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID),
         });
       });
     });
@@ -28,7 +28,7 @@ describe('Entity Actions', () => {
         const action = new EntityRemoveAllAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
           type: ENTITY_REMOVE_ALL_ACTION,
-          meta: entityRemoveAllMeta(TEST_ENTITY_TYPE)
+          meta: entityRemoveAllMeta(TEST_ENTITY_TYPE),
         });
       });
     });
@@ -40,7 +40,7 @@ describe('Entity Actions', () => {
         const meta = entityMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
         expect(meta).toEqual({
           entityId: TEST_ENTITY_ID,
-          entityType: TEST_ENTITY_TYPE
+          entityType: TEST_ENTITY_TYPE,
         });
       });
     });
@@ -51,7 +51,7 @@ describe('Entity Actions', () => {
         expect(meta).toEqual({
           entityId: TEST_ENTITY_ID,
           entityType: TEST_ENTITY_TYPE,
-          entityRemove: true
+          entityRemove: true,
         });
       });
     });
@@ -62,7 +62,7 @@ describe('Entity Actions', () => {
         expect(meta).toEqual({
           entityId: null,
           entityType: TEST_ENTITY_TYPE,
-          entityRemove: true
+          entityRemove: true,
         });
       });
     });

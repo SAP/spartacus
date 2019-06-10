@@ -1,8 +1,7 @@
-import { ProductsSearchState } from '../product-state';
-import * as fromActions from '../actions/product-search.action';
+import { Suggestion } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
-import { ProductList, Suggestion } from '../../../occ/occ-models';
-
+import * as fromActions from '../actions/product-search.action';
+import { ProductsSearchState } from '../product-state';
 import * as fromProductSearch from './product-search.reducer';
 
 describe('Product Search Reducer', () => {
@@ -23,11 +22,11 @@ describe('Product Search Reducer', () => {
     it('should populate search results after loading', () => {
       const mockSearchConfig: SearchConfig = { pageSize: 10 };
 
-      const results: ProductList = { products: [{ code: '123' }] };
+      const results = { products: [{ code: '123' }] };
       const { initialState } = fromProductSearch;
       const loadAction = new fromActions.SearchProducts({
         queryText: 'test',
-        searchConfig: mockSearchConfig
+        searchConfig: mockSearchConfig,
       });
       const loadingState = fromProductSearch.reducer(initialState, loadAction);
       const resultAction = new fromActions.SearchProductsSuccess(results);
@@ -42,12 +41,12 @@ describe('Product Search Reducer', () => {
     it('should populate auxiliary search results after loading', () => {
       const mockSearchConfig: SearchConfig = { pageSize: 10 };
 
-      const results: ProductList = { products: [{ code: '123' }] };
+      const results = { products: [{ code: '123' }] };
       const { initialState } = fromProductSearch;
       const loadAction = new fromActions.SearchProducts(
         {
           queryText: 'test',
-          searchConfig: mockSearchConfig
+          searchConfig: mockSearchConfig,
         },
         true
       );
@@ -79,7 +78,7 @@ describe('Product Search Reducer', () => {
 
   describe('CLEAN_PRODUCT_SEARCH action', () => {
     it('should clean the Product Search State', () => {
-      const results: ProductList = { products: [{ code: '123' }] };
+      const results = { products: [{ code: '123' }] };
       const suggestions: Suggestion[] = [];
 
       const { initialState } = fromProductSearch;
@@ -90,7 +89,7 @@ describe('Product Search Reducer', () => {
       fromProductSearch.reducer(initialState, queryAction);
       fromProductSearch.reducer(initialState, querySuggestionAction);
 
-      const cleanAction = new fromActions.CleanProductSearchState();
+      const cleanAction = new fromActions.ClearProductSearchResult();
       const newState: ProductsSearchState = fromProductSearch.reducer(
         initialState,
         cleanAction

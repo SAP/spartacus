@@ -22,7 +22,7 @@ class AuthServiceStub {
       access_token: 'refreshToken',
       token_type: 'mock',
       expires_in: 12342,
-      scope: 'xxx'
+      scope: 'xxx',
     });
   }
 }
@@ -31,14 +31,14 @@ const clientToken: ClientToken = {
   access_token: 'xxx',
   token_type: 'bearer',
   expires_in: 1000,
-  scope: 'xxx'
+  scope: 'xxx',
 };
 
 const newClientToken: ClientToken = {
   access_token: 'xxx yyy zzz',
   token_type: 'bearer',
   expires_in: 1000,
-  scope: 'xxx'
+  scope: 'xxx',
 };
 
 describe('ClientErrorHandlingService', () => {
@@ -53,8 +53,8 @@ describe('ClientErrorHandlingService', () => {
       providers: [
         ClientErrorHandlingService,
         { provide: AuthService, useClass: AuthServiceStub },
-        { provide: HttpHandler, useClass: MockHttpHandler }
-      ]
+        { provide: HttpHandler, useClass: MockHttpHandler },
+      ],
     });
 
     service = TestBed.get(ClientErrorHandlingService);
@@ -80,8 +80,8 @@ describe('ClientErrorHandlingService', () => {
         setHeaders: {
           Authorization: `${newClientToken.token_type} ${
             newClientToken.access_token
-          }`
-        }
+          }`,
+        },
       });
       expect(httpHandler.handle).toHaveBeenCalledWith(httpRequest);
       sub.unsubscribe();

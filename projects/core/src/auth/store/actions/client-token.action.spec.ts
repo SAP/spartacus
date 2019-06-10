@@ -3,7 +3,7 @@ import { ClientToken } from './../../models/token-types.model';
 import {
   loadMeta,
   failMeta,
-  successMeta
+  successMeta,
 } from '../../../state/utils/loader/loader.action';
 
 import * as fromAuthActions from './';
@@ -12,7 +12,7 @@ const clientToken: ClientToken = {
   access_token: 'xxx',
   token_type: 'xxx',
   expires_in: 1,
-  scope: 'xxx'
+  scope: 'xxx',
 };
 
 describe('Client Token Actions', () => {
@@ -21,7 +21,7 @@ describe('Client Token Actions', () => {
       const action = new fromAuthActions.LoadClientToken();
       expect({ ...action }).toEqual({
         type: fromAuthActions.LOAD_CLIENT_TOKEN,
-        meta: loadMeta(CLIENT_TOKEN_DATA)
+        meta: loadMeta(CLIENT_TOKEN_DATA),
       });
     });
   });
@@ -33,7 +33,7 @@ describe('Client Token Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAuthActions.LOAD_CLIENT_TOKEN_FAIL,
         payload: error,
-        meta: failMeta(CLIENT_TOKEN_DATA, error)
+        meta: failMeta(CLIENT_TOKEN_DATA, error),
       });
     });
   });
@@ -45,7 +45,7 @@ describe('Client Token Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAuthActions.LOAD_CLIENT_TOKEN_SUCCESS,
         payload: clientToken,
-        meta: successMeta(CLIENT_TOKEN_DATA)
+        meta: successMeta(CLIENT_TOKEN_DATA),
       });
     });
   });

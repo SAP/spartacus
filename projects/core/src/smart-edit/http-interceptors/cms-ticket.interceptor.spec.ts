@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { SmartEditService } from '../services/smart-edit.service';
@@ -25,15 +25,15 @@ describe('CmsTicketInterceptor', () => {
       providers: [
         {
           provide: SmartEditService,
-          useClass: MockSmartEditService
+          useClass: MockSmartEditService,
         },
 
         {
           provide: HTTP_INTERCEPTORS,
           useClass: CmsTicketInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     httpMock = TestBed.get(HttpTestingController);

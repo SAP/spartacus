@@ -2,7 +2,7 @@ import * as fromAction from '../actions/index';
 import { AddressVerificationState } from '../checkout-state';
 
 export const initialState: AddressVerificationState = {
-  results: {}
+  results: {},
 };
 
 export function reducer(
@@ -15,21 +15,21 @@ export function reducer(
 
       return {
         ...state,
-        results
+        results,
       };
     }
 
     case fromAction.VERIFY_ADDRESS_FAIL: {
       return {
         ...state,
-        results: 'FAIL'
+        results: 'FAIL',
       };
     }
 
     case fromAction.CLEAR_ADDRESS_VERIFICATION_RESULTS: {
       return {
         ...state,
-        results: {}
+        results: {},
       };
     }
   }

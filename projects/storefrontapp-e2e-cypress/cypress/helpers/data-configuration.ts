@@ -6,6 +6,6 @@ export const PRODUCT_LISTING = {
     BY_PRICE_ASC: 'Price (lowest first)',
     BY_PRICE_DESC: 'Price (highest first)',
     BY_NAME_ASC: 'Name (ascending)',
-    BY_NAME_DESC: 'Name (descending)'
-  }
+    BY_NAME_DESC: 'Name (descending)',
+  },
 };

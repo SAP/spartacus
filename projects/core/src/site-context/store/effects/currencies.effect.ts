@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, catchError, exhaustMap, tap } from 'rxjs/operators';
 
-import { OccSiteService } from '../../occ/occ-site.service';
 import * as actions from '../actions/currencies.action';
 import { WindowRef } from '../../../window/window-ref';
+import { SiteConnector } from '../../connectors/site.connector';
 
 @Injectable()
 export class CurrenciesEffects {
@@ -14,8 +14,8 @@ export class CurrenciesEffects {
   loadCurrencies$: Observable<any> = this.actions$.pipe(
     ofType(actions.LOAD_CURRENCIES),
     exhaustMap(() => {
-      return this.occSiteService.loadCurrencies().pipe(
-        map(data => new actions.LoadCurrenciesSuccess(data.currencies)),
+      return this.siteConnector.getCurrencies().pipe(
+        map(currencies => new actions.LoadCurrenciesSuccess(currencies)),
         catchError(error => of(new actions.LoadCurrenciesFail(error)))
       );
     })
@@ -34,7 +34,7 @@ export class CurrenciesEffects {
 
   constructor(
     private actions$: Actions,
-    private occSiteService: OccSiteService,
+    private siteConnector: SiteConnector,
     private winRef: WindowRef
   ) {}
 }

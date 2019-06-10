@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/';
-import { Country } from '../../../occ/occ-models/index';
 
 import * as fromReducer from './delivery-countries.reducer';
+import { Country } from '../../../model/address.model';
 
 describe('Delivery Countries Reducer', () => {
   describe('undefined action', () => {
@@ -19,17 +19,17 @@ describe('Delivery Countries Reducer', () => {
       const mockCountries: Country[] = [
         {
           isocode: 'AL',
-          name: 'Albania'
+          name: 'Albania',
         },
         {
           isocode: 'AD',
-          name: 'Andorra'
-        }
+          name: 'Andorra',
+        },
       ];
 
       const mockCountriesList = {
         AL: mockCountries[0],
-        AD: mockCountries[1]
+        AD: mockCountries[1],
       };
 
       const { initialState } = fromReducer;

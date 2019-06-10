@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
-import { Observable, ReplaySubject } from 'rxjs';
-import { map, multicast, refCount, tap } from 'rxjs/operators';
-
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import * as fromStore from '../store/index';
-import { Product } from '../../occ/occ-models/occ.models';
+import { Product } from '../../model/product.model';
 
 @Injectable()
 export class ProductService {
-  constructor(private store: Store<fromStore.StateWithProduct>) {}
+  constructor(protected store: Store<fromStore.StateWithProduct>) {}
 
   private products: { [code: string]: Observable<Product> } = {};
 
@@ -34,9 +31,7 @@ export class ProductService {
           }
         }),
         map(productState => productState.value),
-        // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
-        multicast(() => new ReplaySubject(1)),
-        refCount()
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     return this.products[productCode];
@@ -74,7 +69,7 @@ export class ProductService {
    * whenever selected by the `get`, but in some cases an
    * explicit reload might be needed.
    */
-  reload(productCode: string) {
+  reload(productCode: string): void {
     this.store.dispatch(new fromStore.LoadProduct(productCode));
   }
 }

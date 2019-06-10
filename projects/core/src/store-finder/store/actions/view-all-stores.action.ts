@@ -1,7 +1,7 @@
 import {
   LoaderLoadAction,
   LoaderFailAction,
-  LoaderSuccessAction
+  LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 

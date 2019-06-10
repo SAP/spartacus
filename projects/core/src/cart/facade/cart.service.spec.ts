@@ -1,16 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import { UserToken, AuthService } from '../../auth';
-import { OrderEntry, Cart } from '../../occ';
+import { AuthService, UserToken } from '../../auth';
+import { BaseSiteService } from '../../site-context';
+
 import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
 
-import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
+import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
+import { OrderEntry } from '../../model/order.model';
+import { Cart } from '../../model/cart.model';
 
 class CartDataServiceStub {
   userId;
@@ -24,11 +27,18 @@ class AuthServiceStub {
   }
 }
 
+class BaseSiteServiceSub {
+  getActive(): Observable<string> {
+    return of();
+  }
+}
+
 describe('CartService', () => {
   let service: CartService;
   let cartData: CartDataServiceStub;
   let authService: AuthServiceStub;
   let store: Store<StateWithCart>;
+  let baseSiteService: BaseSiteServiceSub;
 
   const productCode = '1234';
   const userId = 'testUserId';
@@ -39,28 +49,30 @@ describe('CartService', () => {
     refresh_token: 'xxx',
     expires_in: 1000,
     scope: ['xxx'],
-    userId: 'xxx'
+    userId: 'xxx',
   };
   const mockCartEntry: OrderEntry = {
     entryNumber: 0,
-    product: { code: productCode }
+    product: { code: productCode },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers())
+        StoreModule.forFeature('cart', fromCart.getReducers()),
       ],
       providers: [
         CartService,
         { provide: CartDataService, useClass: CartDataServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub }
-      ]
+        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: BaseSiteService, useClass: BaseSiteServiceSub },
+      ],
     });
 
     service = TestBed.get(CartService);
     authService = TestBed.get(AuthService);
+    baseSiteService = TestBed.get(BaseSiteService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
   });
@@ -100,7 +112,7 @@ describe('CartService', () => {
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromCart.LoadCart({
               userId: cartData.userId,
-              cartId: 'current'
+              cartId: 'current',
             })
           );
         });
@@ -115,7 +127,7 @@ describe('CartService', () => {
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromCart.MergeCart({
               userId: cartData.userId,
-              cartId: cartData.cart.guid
+              cartId: cartData.cart.guid,
             })
           );
         });
@@ -136,7 +148,7 @@ describe('CartService', () => {
           new fromCart.LoadCart({
             userId: cartData.userId,
             cartId: cartData.cartId,
-            details: true
+            details: true,
           })
         );
       });
@@ -148,6 +160,7 @@ describe('CartService', () => {
     describe(`when user's token and cart's user id are not equal`, () => {
       it(`should call '${setUserIdMethod}' and '${loadOrMergeMethod}' methods`, () => {
         spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+        spyOn(baseSiteService, 'getActive').and.returnValue(of('test'));
         store.dispatch(new fromCart.LoadCartSuccess(cart));
         store.dispatch(new fromCart.AddEntrySuccess('foo'));
         spyOn<any>(service, setUserIdMethod).and.stub();
@@ -194,7 +207,7 @@ describe('CartService', () => {
         new fromCart.LoadCart({
           userId: userId,
           cartId: 'current',
-          details: true
+          details: true,
         })
       );
     });
@@ -211,7 +224,7 @@ describe('CartService', () => {
         new fromCart.LoadCart({
           userId: ANONYMOUS_USERID,
           cartId: cart.guid,
-          details: true
+          details: true,
         })
       );
     });
@@ -241,7 +254,7 @@ describe('CartService', () => {
           userId: userId,
           cartId: cart.code,
           productCode: productCode,
-          quantity: 2
+          quantity: 2,
         })
       );
     });
@@ -257,7 +270,7 @@ describe('CartService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.CreateCart({
-          userId: userId
+          userId: userId,
         })
       );
     });
@@ -277,7 +290,7 @@ describe('CartService', () => {
           userId: userId,
           cartId: cart.code,
           entry: '1',
-          qty: 1
+          qty: 1,
         })
       );
     });
@@ -293,7 +306,7 @@ describe('CartService', () => {
         new fromCart.RemoveEntry({
           userId: userId,
           cartId: cart.code,
-          entry: '1'
+          entry: '1',
         })
       );
     });
@@ -312,7 +325,7 @@ describe('CartService', () => {
         new fromCart.RemoveEntry({
           userId: userId,
           cartId: cart.code,
-          entry: mockCartEntry.entryNumber
+          entry: mockCartEntry.entryNumber,
         })
       );
     });
@@ -362,8 +375,8 @@ describe('CartService', () => {
       const testCart: Cart = <Cart>{
         entries: [
           { product: { code: 'code1' } },
-          { product: { code: 'code2' } }
-        ]
+          { product: { code: 'code2' } },
+        ],
       };
       store.dispatch(new fromCart.LoadCartSuccess(testCart));
 
@@ -378,7 +391,9 @@ describe('CartService', () => {
 
   describe('getCartMergeComplete', () => {
     it('should return true when the merge is complete', () => {
-      store.dispatch(new fromCart.MergeCartSuccess());
+      store.dispatch(
+        new fromCart.MergeCartSuccess({ cartId: 'cartId', userId: 'userId' })
+      );
       let result: boolean;
       service
         .getCartMergeComplete()

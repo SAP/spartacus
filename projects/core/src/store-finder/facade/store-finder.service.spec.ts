@@ -5,8 +5,8 @@ import { StoresState } from '../store/store-finder-state';
 import * as fromStore from '../store';
 
 import { StoreFinderService } from './store-finder.service';
-import { LongitudeLatitude } from '../model/longitude-latitude';
 import { WindowRef } from '../../window/window-ref';
+import { GeoPoint } from '../../model/misc.model';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -18,9 +18,9 @@ describe('StoreFinderService', () => {
   const storeId = 'shop_los_angeles_1';
   const geolocationWatchId = 1;
 
-  const longitudeLatitude: LongitudeLatitude = {
+  const longitudeLatitude: GeoPoint = {
     longitude: 10.1,
-    latitude: 20.2
+    latitude: 20.2,
   };
 
   const MockWindowRef = {
@@ -31,23 +31,23 @@ describe('StoreFinderService', () => {
             callback({ coords: longitudeLatitude });
             return geolocationWatchId;
           },
-          clearWatch: () => {}
-        }
-      }
-    }
+          clearWatch: () => {},
+        },
+      },
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          store: combineReducers(fromStore.getReducers)
-        })
+          store: combineReducers(fromStore.getReducers),
+        }),
       ],
       providers: [
         StoreFinderService,
-        { provide: WindowRef, useValue: MockWindowRef }
-      ]
+        { provide: WindowRef, useValue: MockWindowRef },
+      ],
     });
 
     service = TestBed.get(StoreFinderService);
@@ -90,7 +90,7 @@ describe('StoreFinderService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.FindStores({
           queryText,
-          longitudeLatitude
+          longitudeLatitude,
         })
       );
       expect(

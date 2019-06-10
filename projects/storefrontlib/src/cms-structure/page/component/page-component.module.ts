@@ -6,6 +6,6 @@ import { ComponentWrapperDirective } from './component-wrapper.directive';
   imports: [CommonModule],
   providers: [],
   declarations: [ComponentWrapperDirective],
-  exports: [ComponentWrapperDirective]
+  exports: [ComponentWrapperDirective],
 })
 export class PageComponentModule {}

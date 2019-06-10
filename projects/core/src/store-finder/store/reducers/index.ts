@@ -7,7 +7,7 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 export function getReducers(): ActionReducerMap<StoresState> {
   return {
     findStores: loaderReducer(STORE_FINDER_DATA),
-    viewAllStores: loaderReducer(STORE_FINDER_DATA)
+    viewAllStores: loaderReducer(STORE_FINDER_DATA),
   };
 }
 
@@ -17,7 +17,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export const metaReducers: MetaReducer<any>[] = [];

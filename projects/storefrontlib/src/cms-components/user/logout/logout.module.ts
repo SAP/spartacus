@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
-import { LogoutGuard } from './logout-guard';
 import { RouterModule } from '@angular/router';
-import { PageLayoutComponent } from '../../../lib/cms/index';
+import {
+  PageLayoutComponent,
+  PageLayoutModule,
+} from '../../../cms-structure/page/index';
+import { LogoutGuard } from './logout-guard';
 
 @NgModule({
   imports: [
+    PageLayoutModule,
     RouterModule.forChild([
       {
-        path: 'logout',
+        path: null,
         canActivate: [LogoutGuard],
-        component: PageLayoutComponent
-      }
-    ])
-  ]
+        component: PageLayoutComponent,
+        data: { cxRoute: 'logout' },
+      },
+    ]),
+  ],
 })
 export class LogoutModule {}

@@ -13,5 +13,5 @@ export const ENDPOINTS = {
   CARTS: 'carts',
   TITLES: 'titles',
   USERS: 'users',
-  CART_ENTRIES: 'entries'
+  CART_ENTRIES: 'entries',
 };

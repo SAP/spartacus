@@ -18,7 +18,7 @@ export class ContentPageGenerator extends ClientGenerator {
             site,
             {
               pageLabelOrId: CONTENT_PAGES[page],
-              pageType: CommerceWebservicesV2Models.PageType.ContentPage
+              pageType: CommerceWebservicesV2Models.PageType.ContentPage,
             },
             (error, service, resource, response) => {
               if (!error) {

@@ -6,11 +6,11 @@ import { CmsService } from './cms.service';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PageMetaService {
   constructor(
-    @Inject(PageMetaResolver) private resolvers: PageMetaResolver[],
+    @Inject(PageMetaResolver) protected resolvers: PageMetaResolver[],
     protected cms: CmsService
   ) {}
 

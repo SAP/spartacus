@@ -1,34 +1,27 @@
-import { user } from '../../sample-data/big-happy-path';
-import { register } from '../../helpers/auth-forms';
+import * as register from '../../helpers/register';
+import { checkBanner } from '../../helpers/homepage';
+import { user } from '../../sample-data/checkout-flow';
 
 describe('Register', () => {
-  const loginLink = 'cx-login [role="link"]';
-
-  before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
     cy.visit('/');
   });
 
-  it('should contain error when trying to register with the same email', () => {
-    cy.get(loginLink).click();
-    cy.get('cx-page-layout')
-      .getByText('Register')
-      .click();
-    register(user);
+  // Behavior changed to automatic login.
+  it('should login when trying to register with the same email and correct password', () => {
+    register.registerUser(user);
+    register.signOut();
+    register.checkTermsAndConditions();
+    register.registerUser(user);
+    checkBanner();
+  });
 
-    cy.selectUserMenuOption('Sign Out');
-
-    // attempt to register the same user again
-    cy.visit('/');
-    cy.get(loginLink).click();
-    cy.get('cx-page-layout')
-      .getByText('Register')
-      .click();
-    register(user);
-
-    cy.get('cx-global-message .alert-danger').should('contain', user.email);
-
-    // the url should be still the same
-    cy.url().should('match', /\/register/);
+  it('should contain error when trying to register with the same email and different password', () => {
+    register.registerUser(user);
+    register.signOut();
+    register.registerUser({ ...user, password: 'Different123.' });
+    register.verifyFailedRegistration();
   });
 });

@@ -1,24 +1,25 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { reducerToken, reducerProvider } from './reducers/index';
-import { effects } from './effects/index';
-import { metaReducers } from './reducers/index';
-import { AUTH_FEATURE } from './auth-state';
-import { StateModule } from '../../state/state.module';
-import { StateConfig } from '../../state/config/state-config';
+import { StoreModule } from '@ngrx/store';
 import { ConfigModule } from '../../config/config.module';
+import { StateConfig, StorageSyncType } from '../../state/config/state-config';
+import { StateModule } from '../../state/state.module';
+import { AUTH_FEATURE } from './auth-state';
+import { effects } from './effects/index';
+import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 
 export function authStoreConfigFactory(): StateConfig {
   // if we want to reuse AUTH_FEATURE const in config, we have to use factory instead of plain object
-  const config = {
+  const config: StateConfig = {
     state: {
       storageSync: {
-        keys: [{ [AUTH_FEATURE]: ['userToken', 'clientToken'] }]
-      }
-    }
+        keys: {
+          'auth.userToken.token': StorageSyncType.LOCAL_STORAGE,
+        },
+      },
+    },
   };
   return config;
 }
@@ -30,8 +31,8 @@ export function authStoreConfigFactory(): StateConfig {
     StateModule,
     StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(authStoreConfigFactory)
+    ConfigModule.withConfigFactory(authStoreConfigFactory),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class AuthStoreModule {}

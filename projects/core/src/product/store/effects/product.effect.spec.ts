@@ -1,30 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
+import { cold, hot } from 'jasmine-marbles';
 import * as fromActions from '../actions/product.action';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
-import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
-import { OccProductService } from '../../occ/product.service';
-import { Product } from '../../../occ/occ-models';
+import { ProductConnector } from '../../connectors/product/product.connector';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { PageType } from '../../../occ/occ-models/occ.models';
 import { RoutingService } from '../../../routing/facade/routing.service';
-
 import * as fromEffects from './product.effect';
-
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
-};
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
+import createSpy = jasmine.createSpy;
+import { Product } from '../../../model/product.model';
+import { PageType } from '../../../model/cms.model';
 
 const router = {
   state: {
@@ -32,55 +20,52 @@ const router = {
     queryParams: {},
     params: {},
     context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 class MockRoutingService {
   getRouterState() {
     return of(router);
   }
 }
+const productCode = 'testCode';
+const product: Product = {
+  code: 'testCode',
+  name: 'testProduct',
+};
+
+class MockProductConnector {
+  get = createSpy().and.returnValue(of(product));
+}
 
 describe('Product Effects', () => {
   let actions$: Observable<fromActions.ProductAction>;
-  let service: OccProductService;
   let effects: fromEffects.ProductEffects;
-
-  const productCode = 'testCode';
-  const product: Product = {
-    code: 'testCode',
-    name: 'testProduct'
-  };
 
   const mockProductState = {
     details: {
       entities: {
         testLoadedCode: { loading: false, value: product },
-        testLoadingCode: { loading: true, value: null }
-      }
-    }
+        testLoadingCode: { loading: true, value: null },
+      },
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({ product: () => mockProductState })
+        StoreModule.forRoot({ product: () => mockProductState }),
       ],
       providers: [
-        OccProductService,
-        ProductImageConverterService,
-        ProductReferenceConverterService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: ProductConnector, useClass: MockProductConnector },
+        { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
-    service = TestBed.get(OccProductService);
     effects = TestBed.get(fromEffects.ProductEffects);
-
-    spyOn(service, 'loadProduct').and.returnValue(of(product));
   });
 
   describe('loadProduct$', () => {

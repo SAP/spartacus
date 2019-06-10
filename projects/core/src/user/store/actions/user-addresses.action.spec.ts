@@ -1,16 +1,16 @@
 import { USER_ADDRESSES } from '../user-state';
-import { Address } from '../../../occ/occ-models/index';
 import {
   loadMeta,
   failMeta,
-  successMeta
+  successMeta,
 } from '../../../state/utils/loader/loader.action';
 
 import * as fromUserAddressesAction from './user-addresses.action';
+import { Address } from '../../../model/address.model';
 
 const userId = '123';
 const address: Address = {
-  companyName: 'sap'
+  companyName: 'sap',
 };
 
 describe('User Addresses Actions', () => {
@@ -21,7 +21,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES,
         payload: userId,
-        meta: loadMeta(USER_ADDRESSES)
+        meta: loadMeta(USER_ADDRESSES),
       });
     });
   });
@@ -34,7 +34,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL,
         payload: error,
-        meta: failMeta(USER_ADDRESSES, error)
+        meta: failMeta(USER_ADDRESSES, error),
       });
     });
   });
@@ -42,7 +42,7 @@ describe('User Addresses Actions', () => {
   describe('LoadUserAddressesSuccess Action', () => {
     const mockUserAddresses: Address[] = [
       { id: 'address1' },
-      { id: 'address2' }
+      { id: 'address2' },
     ];
 
     it('should create the action', () => {
@@ -53,7 +53,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS,
         payload: mockUserAddresses,
-        meta: successMeta(USER_ADDRESSES)
+        meta: successMeta(USER_ADDRESSES),
       });
     });
   });
@@ -62,13 +62,13 @@ describe('User Addresses Actions', () => {
     it('should create the action', () => {
       const action = new fromUserAddressesAction.AddUserAddress({
         userId,
-        address
+        address,
       });
 
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.ADD_USER_ADDRESS,
         payload: { userId, address },
-        meta: loadMeta(USER_ADDRESSES)
+        meta: loadMeta(USER_ADDRESSES),
       });
     });
   });
@@ -81,7 +81,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.ADD_USER_ADDRESS_FAIL,
         payload: error,
-        meta: failMeta(USER_ADDRESSES, error)
+        meta: failMeta(USER_ADDRESSES, error),
       });
     });
   });
@@ -95,7 +95,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS,
         payload: payload,
-        meta: successMeta(USER_ADDRESSES)
+        meta: successMeta(USER_ADDRESSES),
       });
     });
   });
@@ -105,7 +105,7 @@ describe('User Addresses Actions', () => {
       const action = new fromUserAddressesAction.UpdateUserAddress({
         userId,
         addressId: '1',
-        address
+        address,
       });
 
       expect({ ...action }).toEqual({
@@ -113,9 +113,9 @@ describe('User Addresses Actions', () => {
         payload: {
           userId,
           addressId: '1',
-          address
+          address,
         },
-        meta: loadMeta(USER_ADDRESSES)
+        meta: loadMeta(USER_ADDRESSES),
       });
     });
   });
@@ -128,7 +128,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.UPDATE_USER_ADDRESS_FAIL,
         payload: error,
-        meta: failMeta(USER_ADDRESSES, error)
+        meta: failMeta(USER_ADDRESSES, error),
       });
     });
   });
@@ -144,7 +144,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS,
         payload: payload,
-        meta: successMeta(USER_ADDRESSES)
+        meta: successMeta(USER_ADDRESSES),
       });
     });
   });

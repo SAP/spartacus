@@ -2,7 +2,7 @@ import * as fromStoreFinder from '../actions/find-stores.action';
 import { FindStoresState } from '../store-finder-state';
 
 export const initialState: FindStoresState = {
-  findStoresEntities: {}
+  findStoresEntities: {},
 };
 
 export function reducer(

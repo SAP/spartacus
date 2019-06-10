@@ -2,17 +2,18 @@ const STORES = [
   {
     name: 'Nakano',
     addressLine1: 'Waseda Dori',
-    addressLine2: 'Tokio'
+    addressLine2: 'Tokio',
   },
   {
-    name: 'Yokohama Hotel JAL City Kannai Yokohama'
+    name: 'Yokohama Hotel JAL City Kannai Yokohama',
   },
   {
-    name: 'Kobe Bay Sheraton Hotel and Towers'
-  }
+    name: 'Kobe Bay Sheraton Hotel and Towers',
+  },
 ];
 
-context('Store finder', () => {
+// TODO:#2811 - remove `.skip` to enable the test
+context.skip('Store finder', () => {
   const googleMap = 'cx-store-finder-map .cx-store-map .gm-style';
   const searchResults = 'cx-store-finder-list .cx-columns .cx-list-items';
   const resultListItem = 'cx-store-finder-list-item';
