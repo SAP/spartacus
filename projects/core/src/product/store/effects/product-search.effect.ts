@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { NavigationStart } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import * as fromRouterStore from '@ngrx/router-store';
 
 import { Observable, of } from 'rxjs';
-import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, filter, groupBy, map, mergeMap, skipLast, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
