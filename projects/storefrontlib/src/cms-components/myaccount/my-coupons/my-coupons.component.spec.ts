@@ -75,6 +75,8 @@ fdescribe('MyCouponsComponent', () => {
     'getCustomerCoupons',
     'getCustomerCouponsLoaded',
     'loadCustomerCoupons',
+    'subscribeCustomerCoupon',
+    'unsubscribeCustomerCoupon',
   ]);
 
   beforeEach(async(() => {
@@ -105,8 +107,9 @@ fdescribe('MyCouponsComponent', () => {
   it('should be able to show message when there is no coupon', () => {
     component.ngOnInit();
     fixture.detectChanges();
-    const message = fixture.debugElement.queryAll(By.css('.cx-section-msg'));
-    expect(message.length).toBe(1);
+    const message = fixture.debugElement.query(By.css('.cx-section-msg'))
+      .nativeElement.textContent;
+    expect(message).toContain('myCoupons.noCouponsMessage');
   });
 
   it('should be able to show coupons', () => {
@@ -151,6 +154,23 @@ fdescribe('MyCouponsComponent', () => {
       5,
       1,
       'startDate:asc'
+    );
+  });
+
+  it('should be able to change coupon notification', () => {
+    component.onNotificationChange({
+      notification: true,
+      couponId: 'CustomerCoupon1',
+    });
+    expect(userService.subscribeCustomerCoupon).toHaveBeenCalledWith(
+      'CustomerCoupon1'
+    );
+    component.onNotificationChange({
+      notification: false,
+      couponId: 'CustomerCoupon1',
+    });
+    expect(userService.unsubscribeCustomerCoupon).toHaveBeenCalledWith(
+      'CustomerCoupon1'
     );
   });
 });

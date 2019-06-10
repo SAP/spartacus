@@ -49,12 +49,16 @@ fdescribe('CouponCardComponent', () => {
     const couponStatus = fixture.debugElement.query(
       By.css('.cx-coupon-card-status')
     ).nativeElement.textContent;
-    expect(couponStatus).toContain('myCoupons:Effective');
+    expect(couponStatus).toContain('myCoupons.Effective');
 
-    const couponEffectiveDate = fixture.debugElement.queryAll(
+    const couponEffectiveDateTitle = fixture.debugElement.query(
+      By.css('.cx-coupon-card-date p')
+    ).nativeElement.textContent;
+    expect(couponEffectiveDateTitle).toContain('myCoupons.effectiveTitle');
+    const couponEffective = fixture.debugElement.query(
       By.css('.cx-coupon-date')
-    );
-    expect(couponEffectiveDate.length).toBe(1);
+    ).nativeElement.textContent;
+    expect(couponEffective).toContain('January 1, 1970 - December 31, 2019');
 
     const readMoreLink = fixture.debugElement.query(By.css('a')).nativeElement
       .textContent;
@@ -80,6 +84,19 @@ fdescribe('CouponCardComponent', () => {
     expect(modalService.open).toHaveBeenCalled();
   });
 
+  it('should be able to subscribe/unsubscribe coupon notification', () => {
+    spyOn(component.notificationChanged, 'emit').and.callThrough();
+    const couponNotificationCheckbox = fixture.debugElement.query(
+      By.css('.form-check-input')
+    );
+    couponNotificationCheckbox.nativeElement.click();
+
+    expect(component.notificationChanged.emit).toHaveBeenCalledWith({
+      notification: true,
+      couponId: 'CustomerCoupon',
+    });
+  });
+
   it('should be able to show correct notification status', () => {
     let couponNotificationCheckbox = fixture.debugElement.queryAll(
       By.css('.form-check-input')
@@ -93,14 +110,6 @@ fdescribe('CouponCardComponent', () => {
     );
     expect(couponNotificationCheckbox.length).toBe(1);
     expect(couponNotificationCheckbox[0].nativeElement.checked).toBeTruthy();
-  });
-
-  it('should be able to subscribe/unsubscribe coupon notification', () => {
-    const couponNotificationCheckbox = fixture.debugElement.query(
-      By.css('.form-check-input')
-    );
-    couponNotificationCheckbox.nativeElement.click();
-    expect(component.onNotificationChange).toHaveBeenCalled();
   });
 
   it('should be able to redirct to PLP when clicking find product button', () => {

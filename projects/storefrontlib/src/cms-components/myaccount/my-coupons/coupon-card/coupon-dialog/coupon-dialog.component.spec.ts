@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CouponDialogComponent } from './coupon-dialog.component';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { By } from '@angular/platform-browser';
-import { CustomerCoupon } from '@spartacus/core';
+import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
 import { Input, Component } from '@angular/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 
@@ -34,6 +34,7 @@ fdescribe('CouponDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CouponDialogComponent, MockCxIconComponent],
+      imports: [I18nTestingModule],
       providers: [{ provide: ModalService, useValue: modalService }],
     }).compileComponents();
   }));
@@ -53,7 +54,7 @@ fdescribe('CouponDialogComponent', () => {
   it('should be able to show coupon information', () => {
     const dialogTitle = fixture.debugElement.query(By.css('.cx-dialog-title'))
       .nativeElement.textContent;
-    expect(dialogTitle).toContain('myCoupons:coupon');
+    expect(dialogTitle).toContain('myCoupons.dialogTitle');
 
     const closeBtn = fixture.debugElement.query(By.css('button'));
     expect(closeBtn).toBeTruthy();
@@ -63,15 +64,24 @@ fdescribe('CouponDialogComponent', () => {
     ).nativeElement.textContent;
     expect(couponDescription).toContain('CustomerCouponDescription');
 
-    const couponEffectiveDate = fixture.debugElement.queryAll(
-      By.css('.cx-coupon-date')
-    );
-    expect(couponEffectiveDate.length).toBe(1);
-
-    const couponStatus = fixture.debugElement.query(
-      By.css('.cx-coupon-card-status')
+    const couponEffectiveTitle = fixture.debugElement.query(
+      By.css('.cx-coupon-dialog-date p')
     ).nativeElement.textContent;
-    expect(couponStatus).toContain('myCoupons:Effective');
+    expect(couponEffectiveTitle).toContain('myCoupons.effectiveTitle');
+    const couponEffectiveDate = fixture.debugElement.query(
+      By.css('.cx-coupon-date')
+    ).nativeElement.textContent;
+    expect(couponEffectiveDate).toContain(
+      'January 1, 1970 - December 31, 2019'
+    );
+
+    const couponStatusTitle = fixture.debugElement.query(
+      By.css('.cx-coupon-dialog-status p')
+    ).nativeElement.textContent;
+    expect(couponStatusTitle).toContain('myCoupons.status');
+    const couponStatus = fixture.debugElement.query(By.css('.cx-coupon-status'))
+      .nativeElement.textContent;
+    expect(couponStatus).toContain('myCoupons.Effective');
   });
 
   it('should be able to close dialog', () => {
