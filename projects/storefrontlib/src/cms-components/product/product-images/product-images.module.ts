@@ -14,7 +14,7 @@ import { ProductImagesComponent } from './product-images.component';
     OutletModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSProductImages: {
+        ProductImagesComponent: {
           component: ProductImagesComponent,
         },
       },
