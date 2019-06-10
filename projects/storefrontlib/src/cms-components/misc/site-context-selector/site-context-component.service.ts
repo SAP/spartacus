@@ -32,7 +32,10 @@ export class SiteContextComponentService {
         this.getContext(context).pipe(
           switchMap(ctx => {
             items.forEach(item => {
-              return (item.label = this.getOptionLabel(item, ctx));
+              return {
+                ...item,
+                label: this.getOptionLabel(item, ctx),
+              };
             });
             return of(items);
           })
