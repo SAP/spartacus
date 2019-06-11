@@ -46,7 +46,11 @@ export class MediaService {
   }
 
   private getMainImage(media, format?: string): string {
-    if (media && media[format || DEFAULT_MEDIA_FORMAT]) {
+    if (
+      media &&
+      media[format || DEFAULT_MEDIA_FORMAT] &&
+      media[format || DEFAULT_MEDIA_FORMAT].url
+    ) {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
     } else if (media && media.url) {
       return this.getImageUrl(media.url);
@@ -73,7 +77,7 @@ export class MediaService {
       return undefined;
     }
     const srcset = this.mediaFormats.reduce((set, format) => {
-      if (!!media[format.code]) {
+      if (!!media[format.code] && media[format.code].url) {
         if (set) {
           set += ', ';
         }
