@@ -87,9 +87,12 @@ export class MediaService {
     return srcset === '' ? undefined : srcset;
   }
 
-  private getImageUrl = (url: string) => {
+  private getImageUrl(url: string): string {
+    if (!url) {
+      return null;
+    }
     return url.startsWith('http') ? url : this.getBaseUrl() + url;
-  };
+  }
 
   private getBaseUrl(): string {
     return (
