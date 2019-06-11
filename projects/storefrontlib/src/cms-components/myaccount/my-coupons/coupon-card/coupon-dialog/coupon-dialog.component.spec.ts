@@ -72,7 +72,7 @@ fdescribe('CouponDialogComponent', () => {
       By.css('.cx-coupon-date')
     ).nativeElement.textContent;
     expect(couponEffectiveDate).toContain(
-      'January 1, 1970 - December 31, 2019'
+      'Jan 1, 1970, 8:00:00 AM - Dec 31, 2019, 7:59:59 AM'
     );
 
     const couponStatusTitle = fixture.debugElement.query(

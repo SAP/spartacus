@@ -15,6 +15,7 @@ export class CouponCardComponent implements OnInit {
   @Input() coupon: CustomerCoupon;
   @Input() couponLoading = true;
   modalRef: ModalRef;
+  decodedUrl = '';
 
   @Output()
   notificationChanged = new EventEmitter<{
@@ -28,6 +29,11 @@ export class CouponCardComponent implements OnInit {
 
   ngOnInit() {
     this.notification = this.coupon.notificationOn;
+    this.decodedUrl = decodeURIComponent(this.coupon.solrFacets).replace(
+      /\"/g,
+      ''
+    );
+    // this.decodedUrl = this.decodedUrl;
   }
 
   onNotificationChange(): void {
