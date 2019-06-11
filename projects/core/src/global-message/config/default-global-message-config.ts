@@ -1,5 +1,5 @@
-import { GlobalMessageConfig } from './global-message-config';
 import { GlobalMessageType } from '../models/global-message.model';
+import { GlobalMessageConfig } from './global-message-config';
 
 export function defaultGlobalMessageConfigFactory(): GlobalMessageConfig {
   return {
@@ -8,7 +8,10 @@ export function defaultGlobalMessageConfigFactory(): GlobalMessageConfig {
         timeout: 3000,
       },
       [GlobalMessageType.MSG_TYPE_INFO]: {
-        timeout: 10000,
+        timeout: 3000,
+      },
+      [GlobalMessageType.MSG_TYPE_ERROR]: {
+        timeout: 7000,
       },
     },
   };

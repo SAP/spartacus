@@ -1,20 +1,24 @@
+import { clickSearchIcon } from './product-search';
 import { PRODUCT_LISTING } from './data-configuration';
 
 export const resultsTitle = 'cx-breadcrumb h1';
-export const tabsHeaderList = 'cx-product-tabs .details > h3';
+export const tabsHeaderList = 'cx-tab-paragraph-container > h3';
+
+const productSelector = 'cx-product-list-item';
 
 export function productRatingFlow(mobile?: string) {
-  // Search for a product
-  cy.get('cx-searchbox input').type('DSC-N1{enter}');
+  clickSearchIcon();
+  const productName = 'DSC-N1';
+  cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-  cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
+  cy.get(resultsTitle).should('contain', `21 results for "${productName}"`);
 
-  cy.get('cx-product-list-item').should(
+  cy.get(productSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  cy.get('cx-product-list-item')
+  cy.get(productSelector)
     .first()
     .should('contain', 'Li-Ion f Series G');
 
@@ -22,14 +26,14 @@ export function productRatingFlow(mobile?: string) {
   cy.get('.page-item:last-of-type .page-link:first').click();
   cy.get('.page-item.active > .page-link').should('contain', '2');
 
-  cy.get('cx-product-list-item:nth-child(1)').should('contain', 'DSC-WX1');
+  cy.get('cx-product-list-item:nth-child(1)').should('contain', 'DSC-W180');
 
   // Sort by top rated
   cy.get('cx-sorting .ng-select:first').ngSelect(
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
   cy.get('.page-item.active > .page-link').should('contain', '2');
-  cy.get('cx-product-list-item:first').should('contain', 'DSC-WX1');
+  cy.get('cx-product-list-item:first').should('contain', 'DSC-H20_MD');
 
   // Navigate to previous page
   cy.get('.page-item:first-of-type .page-link:first').click();

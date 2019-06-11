@@ -38,13 +38,13 @@ export function addShippingAddress() {
 
 export function goToProductPageFromCategory() {
   // click big banner
-  cy.get('.Section1 cx-banner')
+  cy.get('.Section1 cx-banner cx-generic-link')
     .first()
-    .find('cx-generic-link')
+    .find('cx-media')
     .click();
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) a').click();
-  cy.get('cx-product-summary').within(() => {
+  cy.get('.Section2 cx-banner:nth-of-type(6) a cx-media').click();
+  cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', product.code);
   });
   cy.get('cx-breadcrumb').within(() => {
