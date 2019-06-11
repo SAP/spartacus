@@ -116,7 +116,8 @@ export class ProductListComponent implements OnInit {
   }
 
   viewPage(pageNumber: number): void {
-    this.search(this.query, { currentPage: pageNumber });
+    const { queryParams } = this.activatedRoute.snapshot;
+    this.search(queryParams.query, { currentPage: pageNumber });
   }
 
   sortList(sortCode: string): void {
