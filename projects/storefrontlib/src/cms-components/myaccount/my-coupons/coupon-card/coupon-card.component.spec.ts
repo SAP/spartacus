@@ -4,6 +4,8 @@ import { CouponCardComponent } from './coupon-card.component';
 import { I18nTestingModule, CustomerCoupon } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { ModalService } from '@spartacus/storefront';
+import { Pipe, PipeTransform } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -16,14 +18,21 @@ const mockCoupon: CustomerCoupon = {
   status: 'Effective',
 };
 
-fdescribe('CouponCardComponent', () => {
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
+
+describe('CouponCardComponent', () => {
   let component: CouponCardComponent;
   let fixture: ComponentFixture<CouponCardComponent>;
   const modalService = jasmine.createSpyObj('ModalService', ['open']);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CouponCardComponent],
-      imports: [I18nTestingModule],
+      declarations: [CouponCardComponent, MockUrlPipe],
+      imports: [I18nTestingModule, RouterTestingModule],
       providers: [{ provide: ModalService, useValue: modalService }],
     }).compileComponents();
   }));
@@ -55,12 +64,14 @@ fdescribe('CouponCardComponent', () => {
       By.css('.cx-coupon-card-date p')
     ).nativeElement.textContent;
     expect(couponEffectiveDateTitle).toContain('myCoupons.effectiveTitle');
-    const couponEffective = fixture.debugElement.query(
-      By.css('.cx-coupon-date')
+    const couponStartDate = fixture.debugElement.query(
+      By.css('.cx-coupon-date-start')
     ).nativeElement.textContent;
-    expect(couponEffective).toContain(
-      'Jan 1, 1970, 8:00:00 AM - Dec 31, 2019, 7:59:59 AM'
-    );
+    expect(couponStartDate).toContain('Jan 1, 1970, 8:00:00 AM');
+    const couponEndDate = fixture.debugElement.query(
+      By.css('.cx-coupon-date-end')
+    ).nativeElement.textContent;
+    expect(couponEndDate).toContain('Dec 31, 2019, 7:59:59 AM');
 
     const readMoreLink = fixture.debugElement.query(By.css('a')).nativeElement
       .textContent;
@@ -112,11 +123,5 @@ fdescribe('CouponCardComponent', () => {
     );
     expect(couponNotificationCheckbox.length).toBe(1);
     expect(couponNotificationCheckbox[0].nativeElement.checked).toBeTruthy();
-  });
-
-  it('should be able to redirct to PLP when clicking find product button', () => {
-    const findProductBtn = fixture.debugElement.query(By.css('button'));
-    findProductBtn.nativeElement.click();
-    expect(component.findProduct).toHaveBeenCalled();
   });
 });

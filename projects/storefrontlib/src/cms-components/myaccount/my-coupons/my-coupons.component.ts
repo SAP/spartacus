@@ -18,7 +18,7 @@ export class MyCouponsComponent implements OnInit {
   couponsSubscribeLoading$: Observable<boolean>;
   couponsUnsubscribeLoading$: Observable<boolean>;
 
-  private PAGE_SIZE = 5;
+  private PAGE_SIZE = 10;
   private sortMapping = {
     byStartDateAsc: 'startDate:asc',
     byStartDateDesc: 'startDate:desc',
@@ -27,10 +27,10 @@ export class MyCouponsComponent implements OnInit {
   };
   sort = 'byStartDateAsc';
   sortLabels = {
-    byStartDateAsc: 'StartDate(ASCENDING)',
-    byStartDateDesc: 'StartDate(DESCENDING)',
-    byEndDateAsc: 'EndDate(ASCENDING)',
-    byEndDateDesc: 'EndDate(DESCENDING)',
+    byStartDateAsc: 'Start Date (ascending)',
+    byStartDateDesc: 'Start Date (descending)',
+    byEndDateAsc: 'End Date (ascending)',
+    byEndDateDesc: 'End Date (descending)',
   };
   sortOptions = [
     {

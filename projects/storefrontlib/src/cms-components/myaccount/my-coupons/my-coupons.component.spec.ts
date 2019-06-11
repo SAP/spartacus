@@ -70,7 +70,7 @@ class MockCouponCardComponent {
   @Input() couponLoading = true;
 }
 
-fdescribe('MyCouponsComponent', () => {
+describe('MyCouponsComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
   const userService = jasmine.createSpyObj('UserService', [
@@ -150,7 +150,7 @@ fdescribe('MyCouponsComponent', () => {
     component.sortChange('byStartDateAsc');
     fixture.detectChanges();
     expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
-      5,
+      10,
       0,
       'startDate:asc'
     );
@@ -161,7 +161,7 @@ fdescribe('MyCouponsComponent', () => {
     component.pageChange(1);
     fixture.detectChanges();
     expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
-      5,
+      10,
       1,
       'startDate:asc'
     );

@@ -25,7 +25,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-fdescribe('CouponDialogComponent', () => {
+describe('CouponDialogComponent', () => {
   let component: CouponDialogComponent;
   let fixture: ComponentFixture<CouponDialogComponent>;
   const modalService = jasmine.createSpyObj('ModalService', [

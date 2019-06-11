@@ -33,7 +33,6 @@ export class CouponCardComponent implements OnInit {
       /\"/g,
       ''
     );
-    // this.decodedUrl = this.decodedUrl;
   }
 
   onNotificationChange(): void {
@@ -43,8 +42,6 @@ export class CouponCardComponent implements OnInit {
       notification: !this.notification,
     });
   }
-
-  findProduct(): void {}
 
   readMore() {
     this.openModal();
