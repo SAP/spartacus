@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefront",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-beta.0",
   "homepage": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "keywords": [
     "spartacus",
@@ -20,7 +20,7 @@
     "@angular/forms": "~8.0.0",
     "@angular/platform-browser": "~8.0.0",
     "@angular/platform-browser-dynamic": "~8.0.0",
-    "@angular/pwa": "^0.800.0",
+    "@angular/pwa": "^0.800.2",
     "@angular/router": "~8.0.0",
     "@angular/service-worker": "~8.0.0",
     "@ng-bootstrap/ng-bootstrap": "4.1.0",
@@ -28,8 +28,8 @@
     "@ngrx/effects": "~7.4.0",
     "@ngrx/router-store": "~7.4.0",
     "@ngrx/store": "~7.4.0",
-    "@spartacus/core": "0.1.0-alpha.6",
-    "@spartacus/styles": "0.1.0-alpha.8",
+    "@spartacus/core": "0.1.0-beta.0",
+    "@spartacus/styles": "0.1.0-beta.0",
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.7",
     "rxjs": "^6.4.0",

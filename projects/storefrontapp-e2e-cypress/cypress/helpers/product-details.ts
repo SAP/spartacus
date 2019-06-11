@@ -1,5 +1,5 @@
-export const productContainer = 'cx-product-details';
-export const summaryContainer = `${productContainer} cx-product-summary`;
+export const summaryContainer = `cx-product-summary`;
+export const infoContainer = `cx-product-intro`;
 export const tabsContainer = 'cx-tab-paragraph-container';
 export const tabsHeaderList = `${tabsContainer} > h3`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
@@ -8,7 +8,7 @@ export const reviewContainer = 'cx-product-reviews';
 export const reviewList = `${reviewContainer} .review`;
 export const writeAReviewButton = `${reviewContainer} .header button`;
 export const writeAReviewForm = `${reviewContainer} form`;
-export const addToCartButton = `${summaryContainer} cx-add-to-cart button`;
+export const addToCartButton = `cx-add-to-cart button`;
 export const atcModal = `cx-added-to-cart-dialog`;
 export const atcModalTitle = `${atcModal} .cx-dialog-title`;
 export const atcModalItem = `${atcModal} cx-cart-item`;
@@ -23,8 +23,8 @@ export const PRODUCT_NAME = 'Battery Video Light';
 
 export function verifyProductDetails() {
   cy.get(`${breadcrumbContainer} h1`).should('contain', PRODUCT_NAME);
-  cy.get(`${summaryContainer} .code`).should('contain', 'ID 266685');
-  cy.get(`${summaryContainer} .description`).should(
+  cy.get(`${infoContainer} .code`).should('contain', 'ID 266685');
+  cy.get(`${summaryContainer} .summary`).should(
     'contain',
     '20-watt video light compatible with InfoLIYHIUM M-series batteries.'
   );
