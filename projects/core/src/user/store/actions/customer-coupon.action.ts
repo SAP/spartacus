@@ -12,6 +12,7 @@ import {
 import {
   CustomerCouponSearchResult,
   CustomerCouponNotification,
+  CustomerCoupon2Customer,
 } from '../../../model/customer-coupon.model';
 import {
   EntityFailAction,
@@ -44,6 +45,10 @@ export const UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS =
   '[User] Unsubscribe Customer Coupon Notification Success';
 export const RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS =
   '[User] Reset Unsubscribe Customer Coupon Process';
+
+export const CLAIM_CUSTOMER_COUPON = '[User] Claim Customer';
+export const CLAIM_CUSTOMER_COUPON_FAIL = '[User] Claim Customer Fail';
+export const CLAIM_CUSTOMER_COUPON_SUCCESS = '[User] Claim Customer Success';
 
 export class LoadCustomerCoupons extends LoaderLoadAction {
   readonly type = LOAD_CUSTOMER_COUPONS;
@@ -148,6 +153,32 @@ export class ResetUnsubscribeCustomerCouponProcess extends EntityResetAction {
   }
 }
 
+export class ClaimCustomerCoupon extends LoaderLoadAction {
+  readonly type = CLAIM_CUSTOMER_COUPON;
+  constructor(
+    public payload: {
+      userId: string;
+      couponCode;
+    }
+  ) {
+    super(CUSTOMER_COUPONS);
+  }
+}
+
+export class ClaimCustomerCouponFail extends LoaderFailAction {
+  readonly type = CLAIM_CUSTOMER_COUPON_FAIL;
+  constructor(public payload: any) {
+    super(CUSTOMER_COUPONS, payload);
+  }
+}
+
+export class ClaimCustomerCouponSuccess extends LoaderSuccessAction {
+  readonly type = CLAIM_CUSTOMER_COUPON_SUCCESS;
+  constructor(public payload: CustomerCoupon2Customer) {
+    super(CUSTOMER_COUPONS);
+  }
+}
+
 // action types
 export type CustomerCouponAction =
   | LoadCustomerCoupons
@@ -161,4 +192,7 @@ export type CustomerCouponAction =
   | UnsubscribeCustomerCoupon
   | UnsubscribeCustomerCouponFail
   | UnsubscribeCustomerCouponSuccess
-  | ResetUnsubscribeCustomerCouponProcess;
+  | ResetUnsubscribeCustomerCouponProcess
+  | ClaimCustomerCoupon
+  | ClaimCustomerCouponFail
+  | ClaimCustomerCouponSuccess;

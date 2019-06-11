@@ -89,6 +89,30 @@ export class CustomerCouponEffects {
     })
   );
 
+  @Effect()
+  claimCustomerCoupon$: Observable<
+    fromCustomerCouponsAction.CustomerCouponAction
+  > = this.actions$.pipe(
+    ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
+    map(
+      (action: fromCustomerCouponsAction.ClaimCustomerCoupon) => action.payload
+    ),
+    mergeMap(payload => {
+      return this.customerCouponConnector
+        .claimCustomerCoupon(payload.userId, payload.couponCode)
+        .pipe(
+          map(data => {
+            return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
+              data
+            );
+          }),
+          catchError(error =>
+            of(new fromCustomerCouponsAction.ClaimCustomerCouponFail(error))
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private customerCouponConnector: CustomerCouponConnector

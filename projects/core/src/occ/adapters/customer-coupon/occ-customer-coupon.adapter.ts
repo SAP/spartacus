@@ -7,6 +7,7 @@ import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/
 import {
   CustomerCouponSearchResult,
   CustomerCouponNotification,
+  CustomerCoupon2Customer,
 } from '../../../model/customer-coupon.model';
 
 const USER_ENDPOINT = 'users/';
@@ -76,6 +77,26 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       '/' +
       couponCode +
       '/notification';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+    });
+
+    return this.http
+      .post(url, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  claimCustomerCoupon(
+    userId: string,
+    couponCode: string
+  ): Observable<CustomerCoupon2Customer> {
+    const url =
+      this.getUserEndpoint(userId) +
+      CUSTOMER_COUPON_ENDPOINT +
+      '/' +
+      couponCode +
+      '/claim';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',

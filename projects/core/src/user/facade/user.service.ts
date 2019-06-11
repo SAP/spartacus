@@ -789,4 +789,17 @@ export class UserService {
       select(getProcessErrorFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
+
+  /**
+   * Claim a CustomerCoupon
+   * @param couponCode a customer coupon code
+   */
+  climCustomerCoupon(couponCode: string): void {
+    this.store.dispatch(
+      new fromStore.ClaimCustomerCoupon({
+        userId: USERID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
+  }
 }

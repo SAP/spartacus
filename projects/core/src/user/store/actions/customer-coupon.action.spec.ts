@@ -18,6 +18,7 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponNotification,
+  CustomerCoupon2Customer,
 } from '../../../model/customer-coupon.model';
 
 import { PROCESS_FEATURE } from '../../../process/store';
@@ -65,8 +66,13 @@ const customerSearcherResult: CustomerCouponSearchResult = {
   pagination: {},
 };
 
+const customerCoupon2Customer: CustomerCoupon2Customer = {
+  coupon: coupon1,
+  customer: {},
+};
+
 describe('Customer Coupon Actions', () => {
-  describe('LoadCustomerCoupons Actions', () => {
+  describe('LoadCustomerCoupons Action', () => {
     it('should create the action', () => {
       const action = new fromCustomerCouponsAction.LoadCustomerCoupons({
         userId,
@@ -246,6 +252,50 @@ describe('Customer Coupon Actions', () => {
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),
+      });
+    });
+  });
+
+  describe('ClaimCustomerCoupon Action', () => {
+    it('should create the action', () => {
+      const action = new fromCustomerCouponsAction.ClaimCustomerCoupon({
+        userId,
+        couponCode,
+      });
+
+      expect({ ...action }).toEqual({
+        type: fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON,
+        payload: { userId, couponCode },
+        meta: loadMeta(CUSTOMER_COUPONS),
+      });
+    });
+  });
+
+  describe('ClaimCustomerCouponFail Action', () => {
+    it('should create the action', () => {
+      const error = 'mockError';
+      const action = new fromCustomerCouponsAction.ClaimCustomerCouponFail(
+        error
+      );
+
+      expect({ ...action }).toEqual({
+        type: fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON_FAIL,
+        payload: error,
+        meta: failMeta(CUSTOMER_COUPONS, error),
+      });
+    });
+  });
+
+  describe('ClaimCustomerCouponSuccess Action', () => {
+    it('should create the action', () => {
+      const action = new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
+        customerCoupon2Customer
+      );
+
+      expect({ ...action }).toEqual({
+        type: fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON_SUCCESS,
+        payload: customerCoupon2Customer,
+        meta: successMeta(CUSTOMER_COUPONS),
       });
     });
   });
