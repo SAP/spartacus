@@ -3,7 +3,6 @@ import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { OccConfig } from '../config/occ-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { HttpParams } from '@angular/common/http';
-import { HttpParamsOptions } from '@angular/common/http/src/params';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +56,7 @@ export class OccEndpointsService {
     }
 
     if (queryParams) {
-      let httpParamsOptions: HttpParamsOptions;
+      let httpParamsOptions;
 
       if (endpoint.includes('?')) {
         let queryParamsFromEndpoint;

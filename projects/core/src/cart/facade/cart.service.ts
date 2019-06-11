@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { AuthService, UserToken } from '../../auth/index';
@@ -12,6 +12,7 @@ import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { StateWithCart } from '../store/cart-state';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { BaseSiteService } from '../../site-context/index';
 
 @Injectable()
 export class CartService {
@@ -20,7 +21,8 @@ export class CartService {
   constructor(
     protected store: Store<StateWithCart>,
     protected cartData: CartDataService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected baseSiteService: BaseSiteService
   ) {
     this.init();
   }
@@ -50,10 +52,14 @@ export class CartService {
       }
     });
 
-    this.authService
-      .getUserToken()
-      .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
-      .subscribe(userToken => {
+    combineLatest([
+      this.baseSiteService.getActive(),
+      this.authService.getUserToken(),
+    ])
+      .pipe(
+        filter(([, userToken]) => this.cartData.userId !== userToken.userId)
+      )
+      .subscribe(([, userToken]) => {
         this.setUserId(userToken);
         this.loadOrMerge();
       });

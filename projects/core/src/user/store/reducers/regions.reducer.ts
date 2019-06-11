@@ -4,6 +4,7 @@ import { Region } from '../../../model/address.model';
 
 export const initialState: RegionsState = {
   entities: [],
+  country: null,
 };
 
 export function reducer(
@@ -12,26 +13,16 @@ export function reducer(
 ): RegionsState {
   switch (action.type) {
     case fromAction.LOAD_REGIONS_SUCCESS: {
-      const entities: Region[] = action.payload;
+      const entities: Region[] = action.payload.entities;
+      const country: string = action.payload.country;
       if (entities) {
         return {
           ...state,
           entities,
+          country,
         };
       }
       return initialState;
-    }
-
-    case fromAction.LOAD_REGIONS: {
-      return {
-        ...state,
-      };
-    }
-
-    case fromAction.CLEAR_MISCS_DATA: {
-      return {
-        ...initialState,
-      };
     }
   }
 

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
   ServiceWorkerModule,
-  ɵangular_packages_service_worker_service_worker_b as RegistrationOptions,
+  SwRegistrationOptions,
 } from '@angular/service-worker';
 import { Config, ConfigModule, I18nModule } from '@spartacus/core';
 import { AddToHomeScreenBannerComponent } from './components/add-to-home-screen-banner/add-to-home-screen-banner.component';
@@ -12,7 +12,7 @@ import { AddToHomeScreenService } from './services/add-to-home-screen.service';
 
 export function pwaConfigurationFactory(
   pwaConfig: PWAModuleConfig
-): RegistrationOptions {
+): SwRegistrationOptions {
   return { enabled: (pwaConfig.production && pwaConfig.pwa.enabled) || false };
 }
 
@@ -31,7 +31,7 @@ export function pwaFactory(addToHomeScreenService): any {
   providers: [
     { provide: PWAModuleConfig, useExisting: Config },
     {
-      provide: RegistrationOptions,
+      provide: SwRegistrationOptions,
       useFactory: pwaConfigurationFactory,
       deps: [Config],
     },

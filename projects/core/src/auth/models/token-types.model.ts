@@ -15,8 +15,4 @@ export interface ClientToken {
   scope: string;
 }
 
-export interface OpenIdToken extends UserToken {
-  id_token: string;
-}
-
-export type AuthenticationToken = UserToken | ClientToken | OpenIdToken;
+export type AuthenticationToken = UserToken | ClientToken;

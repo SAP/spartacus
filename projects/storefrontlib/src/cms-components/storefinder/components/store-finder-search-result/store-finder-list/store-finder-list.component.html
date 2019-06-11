@@ -6,10 +6,26 @@
           [pagination]="locations.pagination"
         ></cx-store-finder-pagination-details>
       </div>
+      <div class="col-md-12 text-left">
+        <span
+          class="cx-back"
+          *ngIf="isDetailsModeVisible"
+          (click)="hideStoreDetails()"
+        >
+          <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+          {{ 'storeFinder.backToList' | cxTranslate }}</span
+        >
+      </div>
     </div>
     <div *ngIf="locations?.stores" class="row cx-columns">
       <div class="col-md-4 cx-address-col">
-        <ol class="cx-list">
+        <div class="cx-store-details" *ngIf="isDetailsModeVisible">
+          <cx-store-finder-store-description
+            [location]="storeDetails"
+            [disableMap]="true"
+          ></cx-store-finder-store-description>
+        </div>
+        <ol class="cx-list" *ngIf="!isDetailsModeVisible">
           <li
             *ngFor="let location of locations?.stores; let i = index"
             id="{{ 'item-' + i }}"
@@ -21,7 +37,7 @@
             <cx-store-finder-list-item
               [location]="location"
               [locationIndex]="i"
-              (storeItemClick)="centerStoreOnMapByIndex($event)"
+              (storeItemClick)="centerStoreOnMapByIndex($event, location)"
             ></cx-store-finder-list-item>
           </li>
         </ol>
@@ -45,7 +61,13 @@
           </ng-template>
           <ng-template ngbTabContent>
             <div class="cx-address-col">
-              <ol class="cx-list">
+              <div class="cx-store-details" *ngIf="isDetailsModeVisible">
+                <cx-store-finder-store-description
+                  [location]="storeDetails"
+                  [disableMap]="true"
+                ></cx-store-finder-store-description>
+              </div>
+              <ol class="cx-list" *ngIf="!isDetailsModeVisible">
                 <li
                   *ngFor="let location of locations?.stores; let i = index"
                   id="{{ 'item-' + i }}"
@@ -57,7 +79,7 @@
                   <cx-store-finder-list-item
                     [location]="location"
                     [locationIndex]="i"
-                    (storeItemClick)="centerStoreOnMapByIndex($event)"
+                    (storeItemClick)="centerStoreOnMapByIndex($event, location)"
                   ></cx-store-finder-list-item>
                 </li>
               </ol>

@@ -5,20 +5,20 @@ import {
   Address,
   Cart,
   CartService,
-  CheckoutService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
   Country,
   DeliveryMode,
   I18nTestingModule,
   OrderEntry,
   PaymentDetails,
   PromotionResult,
-  UserService,
+  UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
-
 import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
@@ -84,7 +84,7 @@ class MockCardComponent {
   content: Card;
 }
 
-class MockCheckoutService {
+class MockCheckoutDeliveryService {
   loadSupportedDeliveryModes = createSpy();
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return deliveryModeBS.asObservable();
@@ -92,12 +92,15 @@ class MockCheckoutService {
   getDeliveryAddress(): Observable<Address> {
     return of(mockAddress);
   }
+}
+
+class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
 }
 
-class MockUserService {
+class MockUserAddressService {
   loadDeliveryCountries = createSpy();
   getCountry(): Observable<Country> {
     return addressBS.asObservable();
@@ -116,7 +119,7 @@ class MockCartService {
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
-  let mockCheckoutService: MockCheckoutService;
+  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -127,8 +130,15 @@ describe('ReviewSubmitComponent', () => {
         MockCardComponent,
       ],
       providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        { provide: UserService, useClass: MockUserService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
+        {
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: CartService, useClass: MockCartService },
       ],
     }).compileComponents();
@@ -138,7 +148,7 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
 
-    mockCheckoutService = TestBed.get(CheckoutService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
 
     addressBS.next(mockAddress.country);
     deliveryModeBS.next(mockDeliveryMode);
@@ -213,7 +223,9 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryService.loadSupportedDeliveryModes
+    ).toHaveBeenCalled();
   });
 
   it('should get country in ngOnInit', () => {

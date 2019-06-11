@@ -3,7 +3,9 @@ import {
   Address,
   Cart,
   CartService,
+  CheckoutDeliveryService,
   CheckoutDetails,
+  CheckoutPaymentService,
   CheckoutService,
   DeliveryMode,
   PaymentDetails,
@@ -20,17 +22,17 @@ const mockDetails: CheckoutDetails = {
   paymentInfo: { accountHolderName: 'name' },
 };
 
-const testedFunctions = [
-  'getDeliveryAddress',
-  'getSelectedDeliveryModeCode',
-  'getPaymentDetails',
-];
-
 class MockCheckoutService {
   loadCheckoutDetails(): Observable<CheckoutDetails> {
     return of(mockDetails);
   }
 
+  getCheckoutDetailsLoaded(): Observable<boolean> {
+    return of(true);
+  }
+}
+
+class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<Address> {
     return of();
   }
@@ -38,13 +40,11 @@ class MockCheckoutService {
   getSelectedDeliveryModeCode(): Observable<DeliveryMode> {
     return of();
   }
+}
 
+class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of();
-  }
-
-  getCheckoutDetailsLoaded(): Observable<boolean> {
-    return of(true);
   }
 }
 
@@ -57,6 +57,8 @@ class MockCartService {
 describe('CheckoutDetailsService', () => {
   let service: CheckoutDetailsService;
   let checkoutService;
+  let checkoutDeliveryService;
+  let checkoutPaymentService;
   let cartService;
 
   beforeEach(() => {
@@ -68,6 +70,14 @@ describe('CheckoutDetailsService', () => {
           useClass: MockCheckoutService,
         },
         {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
+        {
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
+        },
+        {
           provide: CartService,
           useClass: MockCartService,
         },
@@ -76,6 +86,8 @@ describe('CheckoutDetailsService', () => {
 
     service = TestBed.get(CheckoutDetailsService);
     checkoutService = TestBed.get(CheckoutService);
+    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService);
+    checkoutPaymentService = TestBed.get(CheckoutPaymentService);
     cartService = TestBed.get(CartService);
   });
 
@@ -83,19 +95,57 @@ describe('CheckoutDetailsService', () => {
     expect(service).toBeTruthy();
   });
 
-  testedFunctions.forEach(testedFunction => {
-    it(`should load details data and call ${testedFunction}`, () => {
-      spyOn(cartService, 'getActive');
-      spyOn(checkoutService, 'loadCheckoutDetails');
-      spyOn(checkoutService, testedFunction).and.returnValue(of(mockDetails));
+  it(`should load details data and call getDeliveryAddress`, () => {
+    spyOn(cartService, 'getActive');
+    spyOn(checkoutService, 'loadCheckoutDetails');
+    spyOn(checkoutDeliveryService, 'getDeliveryAddress').and.returnValue(
+      of(mockDetails)
+    );
 
-      let checkoutDetails;
-      service[testedFunction]()
-        .subscribe(data => (checkoutDetails = data))
-        .unsubscribe();
-      expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
-      expect(checkoutService[testedFunction]).toHaveBeenCalled();
-      expect(checkoutDetails).toBe(mockDetails);
-    });
+    let checkoutDetails;
+    service
+      .getDeliveryAddress()
+      .subscribe(data => (checkoutDetails = data))
+      .unsubscribe();
+    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
+    expect(checkoutDeliveryService.getDeliveryAddress).toHaveBeenCalled();
+    expect(checkoutDetails).toBe(mockDetails);
+  });
+
+  it(`should load details data and call getSelectedDeliveryModeCode`, () => {
+    spyOn(cartService, 'getActive');
+    spyOn(checkoutService, 'loadCheckoutDetails');
+    spyOn(
+      checkoutDeliveryService,
+      'getSelectedDeliveryModeCode'
+    ).and.returnValue(of(mockDetails));
+
+    let checkoutDetails;
+    service
+      .getSelectedDeliveryModeCode()
+      .subscribe(data => (checkoutDetails = data))
+      .unsubscribe();
+    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
+    expect(
+      checkoutDeliveryService.getSelectedDeliveryModeCode
+    ).toHaveBeenCalled();
+    expect(checkoutDetails).toBe(mockDetails);
+  });
+
+  it(`should load details data and call getPaymentDetails`, () => {
+    spyOn(cartService, 'getActive');
+    spyOn(checkoutService, 'loadCheckoutDetails');
+    spyOn(checkoutPaymentService, 'getPaymentDetails').and.returnValue(
+      of(mockDetails)
+    );
+
+    let checkoutDetails;
+    service
+      .getPaymentDetails()
+      .subscribe(data => (checkoutDetails = data))
+      .unsubscribe();
+    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
+    expect(checkoutPaymentService.getPaymentDetails).toHaveBeenCalled();
+    expect(checkoutDetails).toBe(mockDetails);
   });
 });

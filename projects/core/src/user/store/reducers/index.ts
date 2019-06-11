@@ -16,6 +16,8 @@ import {
   USER_ORDERS,
   USER_PAYMENT_METHODS,
   UserState,
+  REGIONS,
+  RegionsState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
@@ -55,7 +57,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     order: fromOrderDetailsReducer.reducer,
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,
-    regions: fromRegionsReducer.reducer,
+    regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
   };
 }
