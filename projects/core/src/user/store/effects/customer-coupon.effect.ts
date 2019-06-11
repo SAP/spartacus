@@ -18,7 +18,7 @@ export class CustomerCouponEffects {
     ),
     mergeMap(payload => {
       return this.customerCouponConnector
-        .getMyCoupons(
+        .getCustomerCoupons(
           payload.userId,
           payload.pageSize,
           payload.currentPage,
