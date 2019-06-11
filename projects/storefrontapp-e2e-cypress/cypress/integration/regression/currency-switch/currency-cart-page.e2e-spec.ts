@@ -20,11 +20,22 @@ describe('Language switch - cart page', () => {
 
   describe('cart page', () => {
     it('should change currency in the url', () => {
-      siteContextSelector.verifyCurrencyChangeUrl(cartPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        cartPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL,
+        siteContextSelector.FULL_BASE_URL_EN_JPY + cartPath
+      );
     });
 
     it('should change currency for price per item in the page', () => {
-      siteContextSelector.currencyChange(cartPath);
+      siteContextSelector.siteContextChange(
+        cartPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL
+      );
 
       cy.get('cx-cart-item-list .cx-price .cx-value').should(
         'have.text',
@@ -33,7 +44,12 @@ describe('Language switch - cart page', () => {
     });
 
     it('should change currency for total price in the page', () => {
-      siteContextSelector.currencyChange(cartPath);
+      siteContextSelector.siteContextChange(
+        cartPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL
+      );
 
       cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
         'have.text',

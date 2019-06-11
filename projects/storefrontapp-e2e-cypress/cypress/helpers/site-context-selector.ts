@@ -106,26 +106,24 @@ export function assertSiteContextChange(sitePath: string): void {
   cy.url().should('eq', sitePath);
 }
 
-export function languageChange(sitePath: string): void {
+export function siteContextChange(
+  sitePath: string,
+  alias: string,
+  option: string,
+  label: string
+): void {
   cy.visit(FULL_BASE_URL_EN_USD + sitePath);
-  cy.wait(`@${LANGUAGES}`);
-  switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
+  cy.wait(`@${alias}`);
+  switchSiteContext(option, label);
 }
 
-export function currencyChange(sitePath: string): void {
-  cy.visit(FULL_BASE_URL_EN_USD + sitePath);
-  cy.wait(`@${CURRENCIES}`);
-  switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
-}
-
-export function verifyLanguageChangeUrl(sitePath: string): void {
-  languageChange(sitePath);
-
-  assertSiteContextChange(sitePath);
-}
-
-export function verifyCurrencyChangeUrl(sitePath: string): void {
-  currencyChange(sitePath);
-
-  assertSiteContextChange(sitePath);
+export function verifySiteContextChangeUrl(
+  sitePath: string,
+  alias: string,
+  option: string,
+  label: string,
+  testPath: string
+): void {
+  siteContextChange(sitePath, alias, option, label);
+  assertSiteContextChange(testPath);
 }

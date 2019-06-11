@@ -19,11 +19,22 @@ describe('Language switch - cart page', () => {
 
   describe('cart page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(cartPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        cartPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + cartPath
+      );
     });
 
     it('should change language in the page', () => {
-      siteContextSelector.languageChange(cartPath);
+      siteContextSelector.siteContextChange(
+        cartPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
 
       cy.get('cx-cart-item-list .cx-link')
         .invoke('text')

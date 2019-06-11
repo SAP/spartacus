@@ -20,11 +20,22 @@ describe('Language switch - my-account pages', () => {
     });
 
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(orderPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        orderPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + orderPath
+      );
     });
 
     it('should change language in the page', () => {
-      siteContextSelector.languageChange(orderPath);
+      siteContextSelector.siteContextChange(
+        orderPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
 
       cy.get(
         'cx-order-history .cx-order-history-placed .cx-order-history-value'
@@ -39,16 +50,32 @@ describe('Language switch - my-account pages', () => {
     const deutschName = siteContextSelector.TITLE_DE;
 
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(addressBookPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        addressBookPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + addressBookPath
+      );
     });
 
     xit('should change language in the page', () => {
-      siteContextSelector.languageChange(addressBookPath);
+      siteContextSelector.siteContextChange(
+        addressBookPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
       // TODO: need to add test when there's translations on that page (not the header)
     });
 
     it('should change language in the edit page', () => {
-      siteContextSelector.languageChange(addressBookPath);
+      siteContextSelector.siteContextChange(
+        addressBookPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
       cy.get('cx-address-book .edit').click({ force: true });
 
       cy.get(
@@ -66,11 +93,22 @@ describe('Language switch - my-account pages', () => {
     const deutschName = siteContextSelector.TITLE_DE;
 
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(personalDetailsPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        personalDetailsPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + personalDetailsPath
+      );
     });
 
     it('should change language in the page', () => {
-      siteContextSelector.languageChange(personalDetailsPath);
+      siteContextSelector.siteContextChange(
+        personalDetailsPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
 
       cy.get('cx-update-profile-form select')
         .select(deutschName)
@@ -82,11 +120,22 @@ describe('Language switch - my-account pages', () => {
     const closeAccountPath = siteContextSelector.CLOSE_ACCOUNT_PATH;
 
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(closeAccountPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        closeAccountPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + closeAccountPath
+      );
     });
 
     xit('should change language in the page', () => {
-      siteContextSelector.languageChange(closeAccountPath);
+      siteContextSelector.siteContextChange(
+        closeAccountPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
       // TODO: need to add test when there's translations on that page (not the header)
     });
   });
@@ -95,11 +144,22 @@ describe('Language switch - my-account pages', () => {
     const consentManagementPath = siteContextSelector.CONSENT_MANAGEMENT_PATH;
 
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(consentManagementPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        consentManagementPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + consentManagementPath
+      );
     });
 
     xit('should change language in the page', () => {
-      siteContextSelector.languageChange(consentManagementPath);
+      siteContextSelector.siteContextChange(
+        consentManagementPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
       // TODO: need to add test when there's translations on that page (not the header)
     });
   });
@@ -108,11 +168,22 @@ describe('Language switch - my-account pages', () => {
     const paymentDetailsPath = siteContextSelector.PAYMENT_DETAILS_PATH;
 
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(paymentDetailsPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        paymentDetailsPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + paymentDetailsPath
+      );
     });
 
     xit('should change language in the page', () => {
-      siteContextSelector.languageChange(paymentDetailsPath);
+      siteContextSelector.siteContextChange(
+        paymentDetailsPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
       // TODO: need to add test when there's translations on that page (not the header)
     });
   });
@@ -121,11 +192,22 @@ describe('Language switch - my-account pages', () => {
     const updateEmailPath = siteContextSelector.UPDATE_EMAIL_PATH;
 
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(updateEmailPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        updateEmailPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + updateEmailPath
+      );
     });
 
     xit('should change language in the page', () => {
-      siteContextSelector.languageChange(updateEmailPath);
+      siteContextSelector.siteContextChange(
+        updateEmailPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
       // TODO: need to add test when there's translations on that page (not the header)
     });
   });
@@ -134,11 +216,22 @@ describe('Language switch - my-account pages', () => {
     const updatePasswordPath = siteContextSelector.UPDATE_PASSWORD_PATH;
 
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(updatePasswordPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        updatePasswordPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + updatePasswordPath
+      );
     });
 
     xit('should change language in the page', () => {
-      siteContextSelector.languageChange(updatePasswordPath);
+      siteContextSelector.siteContextChange(
+        updatePasswordPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
       // TODO: need to add test when there's translations on that page (not the header)
     });
   });

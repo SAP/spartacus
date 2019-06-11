@@ -11,11 +11,22 @@ describe('Currency switch - product-search page', () => {
 
   describe('product-search page', () => {
     it('should change currency in the url', () => {
-      siteContextSelector.verifyCurrencyChangeUrl(productSearchPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        productSearchPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL,
+        siteContextSelector.FULL_BASE_URL_EN_JPY + productSearchPath
+      );
     });
 
     it('should change currency in the page', () => {
-      siteContextSelector.currencyChange(productSearchPath);
+      siteContextSelector.siteContextChange(
+        productSearchPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL
+      );
 
       cy.get('cx-product-list-item .cx-product-price:first')
         .invoke('text')
@@ -23,7 +34,12 @@ describe('Currency switch - product-search page', () => {
     });
 
     it('should change currency in the search result', () => {
-      siteContextSelector.currencyChange(productSearchPath);
+      siteContextSelector.siteContextChange(
+        productSearchPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL
+      );
 
       cy.get('cx-searchbox input').type('fun');
       cy.get('cx-searchbox .products .price:first').should(

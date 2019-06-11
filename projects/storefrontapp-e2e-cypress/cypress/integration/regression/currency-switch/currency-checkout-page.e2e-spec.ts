@@ -24,7 +24,13 @@ describe('Currency switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change currency in the shipping address url', () => {
       // page being already tested in currency-address-book
-      siteContextSelector.verifyCurrencyChangeUrl(checkoutShippingPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        checkoutShippingPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL,
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutShippingPath
+      );
 
       siteContextSelector.addressBookNextStep();
     });

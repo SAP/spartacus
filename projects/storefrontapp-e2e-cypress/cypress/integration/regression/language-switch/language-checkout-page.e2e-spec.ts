@@ -25,7 +25,13 @@ describe('Language switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change language in the shipping address url', () => {
       // page being already tested in language-address-book
-      siteContextSelector.verifyLanguageChangeUrl(checkoutShippingPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        checkoutShippingPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutShippingPath
+      );
 
       siteContextSelector.addressBookNextStep();
     });

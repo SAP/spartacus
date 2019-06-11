@@ -11,17 +11,33 @@ describe('Language switch - product-details page', () => {
 
   describe('product-details page', () => {
     it('should change currency in the url', () => {
-      siteContextSelector.verifyCurrencyChangeUrl(productDetailsPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        productDetailsPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL,
+        siteContextSelector.FULL_BASE_URL_EN_JPY + productDetailsPath
+      );
     });
 
     it('should change currency in the page', () => {
-      siteContextSelector.currencyChange(productDetailsPath);
+      siteContextSelector.siteContextChange(
+        productDetailsPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL
+      );
 
       cy.get('cx-product-summary .price').should('have.text', jpCurrency);
     });
 
     it('should change currency in the modal', () => {
-      siteContextSelector.currencyChange(productDetailsPath);
+      siteContextSelector.siteContextChange(
+        productDetailsPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL
+      );
 
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .cx-price .cx-value').should(

@@ -11,11 +11,22 @@ describe('Language switch - registration page', () => {
 
   describe('registration page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(registerPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        registerPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + registerPath
+      );
     });
 
     it('should change language in the page', () => {
-      siteContextSelector.languageChange(registerPath);
+      siteContextSelector.siteContextChange(
+        registerPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
 
       cy.get('cx-register select')
         .select(deutschName)

@@ -11,11 +11,22 @@ describe('Language switch - product-search page', () => {
 
   describe('product-search page', () => {
     it('should change language in the url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(productSearchPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        productSearchPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + productSearchPath
+      );
     });
 
     it('should change language in the page', () => {
-      siteContextSelector.languageChange(productSearchPath);
+      siteContextSelector.siteContextChange(
+        productSearchPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
 
       cy.get('cx-product-list-item .cx-product-name:first').should(
         'have.text',
@@ -24,7 +35,12 @@ describe('Language switch - product-search page', () => {
     });
 
     it('should change language in the search result', () => {
-      siteContextSelector.languageChange(productSearchPath);
+      siteContextSelector.siteContextChange(
+        productSearchPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL
+      );
 
       cy.get('cx-searchbox input').type('fun');
       cy.get('cx-searchbox .products .name:first').should(
