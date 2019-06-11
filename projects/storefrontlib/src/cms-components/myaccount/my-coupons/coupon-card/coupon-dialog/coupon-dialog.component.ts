@@ -5,7 +5,6 @@ import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 @Component({
   selector: 'cx-coupon-dialog',
   templateUrl: './coupon-dialog.component.html',
-  styleUrls: ['./coupon-dialog.component.scss'],
 })
 export class CouponDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;

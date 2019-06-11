@@ -4,7 +4,7 @@
     justify-content: var(--cx-justify-content, space-between);
     &.top {
       font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
-      min-height: 48px;
+      height: 48px;
     }
 
     &.bottom {
