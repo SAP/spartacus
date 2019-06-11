@@ -9,7 +9,8 @@
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/vendor": ["dist/vendor"],
-      "@spartacus/assets": ["dist/assets"]
+      "@spartacus/assets": ["dist/assets"],
+      "@spartacus/cds": ["dist/cds"]
     }
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
