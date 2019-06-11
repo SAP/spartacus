@@ -13,7 +13,13 @@ context('Language Switcher', () => {
 
   describe('Product Page', () => {
     it('switch language should work and language should be persistent in url', () => {
-      siteContextSelector.verifyLanguageChangeUrl(productPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        productPath,
+        siteContextSelector.LANGUAGES,
+        siteContextSelector.LANGUAGE_DE,
+        siteContextSelector.LANGUAGE_LABEL,
+        siteContextSelector.FULL_BASE_URL_DE_USD + productPath
+      );
     });
   });
 });

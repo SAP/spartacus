@@ -14,11 +14,22 @@ context('Currency change', () => {
 
   describe('on the product page', () => {
     it('should change the currency and be persistent in the url ', () => {
-      siteContextSelector.verifyCurrencyChangeUrl(productPath);
+      siteContextSelector.verifySiteContextChangeUrl(
+        productPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL,
+        siteContextSelector.FULL_BASE_URL_EN_JPY + productPath
+      );
     });
 
     it('should display the chosen currency', () => {
-      siteContextSelector.currencyChange(productPath);
+      siteContextSelector.siteContextChange(
+        productPath,
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL
+      );
 
       cy.get('.price').should('contain', '¥690');
       switchSiteContext(siteContextSelector.CURRENCY_USD, 'Currency');
