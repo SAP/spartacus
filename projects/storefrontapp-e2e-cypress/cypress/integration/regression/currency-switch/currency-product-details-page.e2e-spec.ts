@@ -4,6 +4,10 @@ describe('Language switch - product-details page', () => {
   const productDetailsPath = siteContextSelector.PRODUCT_PATH_2;
   const jpCurrency = ' ¥12,750 ';
 
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
   siteContextSelector.stub(
     siteContextSelector.CURRENCY_REQUEST,
     siteContextSelector.CURRENCIES

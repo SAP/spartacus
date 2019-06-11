@@ -4,6 +4,10 @@ describe('Language switch - product-search page', () => {
   const productSearchPath = siteContextSelector.PRODUCT_SEARCH_PATH;
   const deutschName = siteContextSelector.PRODUCT_NAME_SEARCH_DE;
 
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES
@@ -20,6 +24,13 @@ describe('Language switch - product-search page', () => {
       );
     });
 
+    beforeEach(() => {
+      siteContextSelector.createGerericQuery(
+        siteContextSelector.PAGE_REQUEST,
+        siteContextSelector.PAGES
+      );
+    });
+
     it('should change language in the page', () => {
       siteContextSelector.siteContextChange(
         productSearchPath,
@@ -28,10 +39,11 @@ describe('Language switch - product-search page', () => {
         siteContextSelector.LANGUAGE_LABEL
       );
 
-      cy.get('cx-product-list-item .cx-product-name:first').should(
-        'have.text',
-        deutschName
-      );
+      cy.wait(`@${siteContextSelector.PAGES}`);
+
+      cy.get('cx-product-list-item .cx-product-name')
+        .invoke('text')
+        .should('contains', deutschName);
     });
 
     it('should change language in the search result', () => {
@@ -42,11 +54,12 @@ describe('Language switch - product-search page', () => {
         siteContextSelector.LANGUAGE_LABEL
       );
 
+      cy.wait(`@${siteContextSelector.PAGES}`);
+
       cy.get('cx-searchbox input').type('fun');
-      cy.get('cx-searchbox .products .name:first').should(
-        'have.text',
-        deutschName
-      );
+      cy.get('cx-searchbox .products .name')
+        .invoke('text')
+        .should('contains', deutschName);
     });
   });
 });

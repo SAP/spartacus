@@ -4,6 +4,10 @@ describe('Language switch - product-details page', () => {
   const productDetailsPath = siteContextSelector.PRODUCT_PATH_2;
   const deutschName = siteContextSelector.PRODUCT_NAME_DETAILS_DE;
 
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES

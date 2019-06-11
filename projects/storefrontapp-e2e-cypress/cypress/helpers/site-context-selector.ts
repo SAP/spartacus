@@ -3,6 +3,9 @@ import { switchSiteContext } from '../support/utils/switch-site-context';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
+export const PAGES = 'pages';
+export const TITLES = 'titles';
+
 export const LANGUAGE_LABEL = 'Language';
 export const CURRENCY_LABEL = 'Currency';
 
@@ -19,6 +22,14 @@ export const LANGUAGE_REQUEST = `${Cypress.env(
 export const CURRENCY_REQUEST = `${Cypress.env(
   'API_URL'
 )}/rest/v2/${CONTENT_CATALOG}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+
+export const PAGE_REQUEST = `${Cypress.env(
+  'API_URL'
+)}/rest/v2/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
+
+export const TITLE_REQUEST = `${Cypress.env(
+  'API_URL'
+)}/rest/v2/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=ContentPage&pageLabelOrId=/my-account/update-profile&lang=de&curr=USD`;
 
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;

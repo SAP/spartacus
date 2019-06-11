@@ -4,6 +4,10 @@ describe('Language switch - registration page', () => {
   const registerPath = siteContextSelector.REGISTRATION_PATH;
   const deutschName = siteContextSelector.TITLE_DE;
 
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES
