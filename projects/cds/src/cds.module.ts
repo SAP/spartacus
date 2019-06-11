@@ -30,7 +30,7 @@ export function mockCms(): CmsStructureConfig {
 @NgModule({
   imports: [
     ConfigModule.withConfig(defaultCdsConfig),
-    ConfigModule.withConfigFactory(mockCms),
+    // ConfigModule.withConfigFactory(mockCms),
     ProfileTagModule,
     MerchandisingCarouselModule,
   ],

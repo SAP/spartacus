@@ -43,7 +43,7 @@ export class CdsConsentReferenceInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     baseSite: string
   ): HttpRequest<any> {
-    const consentRefId = this.getCookie(`${baseSite}-consent-reference`);
+    const consentRefId = this.getCookie(`${baseSite}-consentReference`);
     if (consentRefId) {
       request = request.clone({
         setHeaders: {
@@ -54,15 +54,12 @@ export class CdsConsentReferenceInterceptor implements HttpInterceptor {
     return request;
   }
 
-  private getCookie(cookie: string): string {
-    const value = '; ' + document.cookie;
-    const parts = value.split('; ' + cookie + '=');
-    if (parts.length === 2) {
-      return parts
-        .pop()
-        .split(';')
-        .shift();
-    }
+  private getCookie(cookieName: string): string {
+    const searchRegex = new RegExp(
+      '(?:(?:^|.*;\\s*)' + cookieName + '\\s*\\=\\s*([^;]*).*$)|^.*$'
+    );
+    const cookieValue = decodeURI(document.cookie.replace(searchRegex, '$1'));
+    return cookieValue;
   }
 
   private requiresIntercepting(url): boolean {
