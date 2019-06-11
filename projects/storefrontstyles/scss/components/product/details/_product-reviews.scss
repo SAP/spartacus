@@ -58,4 +58,10 @@ $gutterSize: 15px;
       text-align: left;
     }
   }
+
+  @include media-breakpoint-down(md) {
+    .btn-secondary {
+      margin: 0 0 1rem;
+    }
+  }
 }
