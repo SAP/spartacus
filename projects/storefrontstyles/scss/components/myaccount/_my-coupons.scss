@@ -1,9 +1,6 @@
 %cx-my-coupons {
   .cx-coupon-deck {
     padding: 1.25rem 0 0 0;
-    border-width: 1px 0 1px 0;
-    border-style: solid;
-    border-color: var(--cx-g-color-light);
   }
 
   .cx-coupon-spinner {
@@ -24,28 +21,26 @@
   }
 
   .cx-my-coupons-sort {
-    &.top {
-      display: var(--cx-display, flex);
-      justify-content: var(--cx-justify-content, space-between);
-      padding: var(--cx-padding, 1rem 0);
-      margin: var(--cx-margin, 0);
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, space-between);
+    margin: var(--cx-margin, 0);
 
-      @include media-breakpoint-down(sm) {
-        flex-direction: var(--cx-flex-direction, column);
-        padding-top: var(--cx-padding, 0);
-      }
+    @include media-breakpoint-down(sm) {
+      flex-direction: var(--cx-flex-direction, column);
+      padding-top: var(--cx-padding, 0);
+    }
+    &.top {
+      padding: var(--cx-padding, 1rem 0);
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: var(--cx-g-color-light);
     }
 
     &.bottom {
-      display: var(--cx-display, flex);
-      justify-content: var(--cx-justify-content, space-between);
       padding: var(--cx-padding, 2rem 0 1rem 0);
-      margin: var(--cx-margin, 0);
-
-      @include media-breakpoint-down(sm) {
-        flex-direction: var(--cx-flex-direction, column);
-        padding-top: var(--cx-padding, 0);
-      }
+      border-width: 1px 0 0 0;
+      border-style: solid;
+      border-color: var(--cx-g-color-light);
     }
   }
 
