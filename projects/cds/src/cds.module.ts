@@ -7,6 +7,7 @@ import {
   provideConfigValidator,
 } from '@spartacus/core';
 import { MerchandisingCarouselModule } from './components/merchandising-carousel/merchandising-carousel.module';
+import { ProfileTagModule } from './components/profile-tag/profile-tag.module';
 import { cdsConfigValidator } from './config/cds-config-validator';
 import { CdsConfig } from './config/config.model';
 import { defaultCdsConfig } from './config/default-config';
@@ -30,6 +31,7 @@ export function mockCms(): CmsStructureConfig {
   imports: [
     ConfigModule.withConfig(defaultCdsConfig),
     ConfigModule.withConfigFactory(mockCms),
+    ProfileTagModule,
     MerchandisingCarouselModule,
   ],
   providers: [
@@ -39,7 +41,6 @@ export function mockCms(): CmsStructureConfig {
       useClass: CdsConsentReferenceInterceptor,
       multi: true,
     },
-
     provideConfigValidator(cdsConfigValidator),
   ],
 })

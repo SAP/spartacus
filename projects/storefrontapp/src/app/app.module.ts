@@ -77,6 +77,10 @@ if (!environment.production) {
       cds: {
         baseUrl: 'https://htv730345050.api.us.context.cloud.sap',
         tenantId: 'htv730345050',
+        allowInsecureCookies: true,
+        clientId: 'htv730345050.spartacusseb',
+        profileTagTrackUrl:
+          'https://tag.static.us.context.cloud.sap/config/6665e5b0-810e-11e9-93f1-1dd46bc3fec0',
       },
     }),
 

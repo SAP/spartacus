@@ -16,4 +16,11 @@ export function cdsConfigValidator(config: CdsConfig) {
   if (config.cds === undefined || config.cds.tenantId === undefined) {
     return 'Please configure cds.tenantId before using CDS library!';
   }
+
+  if (
+    config.cds === undefined ||
+    config.cds.profileTagScriptUrl === undefined
+  ) {
+    return 'Please configure cds.profileTagScriptUrl before using CDS library!';
+  }
 }
