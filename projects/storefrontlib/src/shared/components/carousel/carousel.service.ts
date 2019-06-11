@@ -20,7 +20,6 @@ export class CarouselService {
    */
   getSize(nativeElement: HTMLElement, itemWidth: number) {
     return fromEvent(this.winRef.nativeWindow, 'resize').pipe(
-      startWith({ target: this.window }),
       map(_ => (nativeElement as HTMLElement).clientWidth),
       startWith((nativeElement as HTMLElement).clientWidth),
       debounceTime(100),
@@ -29,9 +28,5 @@ export class CarouselService {
       }),
       distinctUntilChanged()
     );
-  }
-
-  get window(): Window {
-    return this.winRef.nativeWindow;
   }
 }

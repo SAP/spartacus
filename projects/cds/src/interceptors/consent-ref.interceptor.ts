@@ -1,4 +1,3 @@
-//import { WindowRef } from '../../window/window-ref';
 import { isPlatformServer } from '@angular/common';
 import {
   HttpEvent,
@@ -20,6 +19,9 @@ export class CdsConsentReferenceInterceptor implements HttpInterceptor {
     private baseSiteService: BaseSiteService,
     @Inject(PLATFORM_ID) private platform: any
   ) {}
+
+  /** maintain cookie values locally to not do a lot of interaction with cookie */
+  cookieValues = {};
 
   intercept(
     request: HttpRequest<any>,
@@ -43,7 +45,7 @@ export class CdsConsentReferenceInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     baseSite: string
   ): HttpRequest<any> {
-    const consentRefId = this.getCookie(`${baseSite}-consentReference`);
+    const consentRefId = this.getCookieForSite(baseSite);
     if (consentRefId) {
       request = request.clone({
         setHeaders: {
@@ -54,12 +56,23 @@ export class CdsConsentReferenceInterceptor implements HttpInterceptor {
     return request;
   }
 
-  private getCookie(cookieName: string): string {
-    const searchRegex = new RegExp(
-      '(?:(?:^|.*;\\s*)' + cookieName + '\\s*\\=\\s*([^;]*).*$)|^.*$'
-    );
-    const cookieValue = decodeURI(document.cookie.replace(searchRegex, '$1'));
-    return cookieValue;
+  /**
+   *
+   * Reads the cookie for the given base site.
+   */
+  private getCookieForSite(baseSite: string): string {
+    if (!this.cookieValues[baseSite]) {
+      const searchRegex = new RegExp(
+        '(?:(?:^|.*;\\s*)' +
+          `${baseSite}-consentReference` +
+          '\\s*\\=\\s*([^;]*).*$)|^.*$'
+      );
+      this.cookieValues[baseSite] = decodeURI(
+        document.cookie.replace(searchRegex, '$1')
+      );
+      console.log('load from cookie', this.cookieValues[baseSite]);
+    }
+    return this.cookieValues[baseSite];
   }
 
   private requiresIntercepting(url): boolean {
