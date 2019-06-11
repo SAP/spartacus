@@ -12,3 +12,4 @@ export * from './update-email/index';
 export * from './update-password/index';
 export * from './update-profile/index';
 export * from './my-coupons/index';
+export * from './customer-coupon-claim/index';

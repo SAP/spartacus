@@ -22,6 +22,7 @@ import {
   UpdatePasswordModule,
   UpdateProfileModule,
   MyCouponsModule,
+  CustomerCouponClaim,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -72,6 +73,7 @@ import { ProductImagesModule } from './product/product-images/product-images.mod
     ForgotPasswordModule,
     ResetPasswordModule,
     MyCouponsModule,
+    CustomerCouponClaim,
   ],
 })
 export class CmsLibModule {}
