@@ -18,8 +18,8 @@ export class CouponCardComponent implements OnInit {
 
   @Output()
   notificationChanged = new EventEmitter<{
-    notification: boolean;
     couponId: string;
+    notification: boolean;
   }>();
 
   notification = false;
@@ -31,11 +31,10 @@ export class CouponCardComponent implements OnInit {
   }
 
   onNotificationChange(): void {
-    console.log('cart coupon:' + this.coupon.notificationOn);
     this.notification = this.coupon.notificationOn;
     this.notificationChanged.emit({
-      notification: !this.notification,
       couponId: this.coupon.couponId,
+      notification: !this.notification,
     });
   }
 

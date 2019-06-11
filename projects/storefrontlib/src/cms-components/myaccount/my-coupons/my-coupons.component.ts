@@ -95,11 +95,11 @@ export class MyCouponsComponent implements OnInit {
   }
 
   onNotificationChange({
-    notification,
     couponId,
+    notification,
   }: {
-    notification: boolean;
     couponId: string;
+    notification: boolean;
   }): void {
     if (notification) {
       this.userService.subscribeCustomerCoupon(couponId);
