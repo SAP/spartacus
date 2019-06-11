@@ -8,6 +8,12 @@
 
     &.bottom {
       padding: 1rem 0 0 0;
+      @include media-breakpoint-down(md) {
+        flex-direction: var(--cx-flex-direction, column);
+        .cx-coupon-find-product {
+          padding: 0;
+        }
+      }
     }
 
     .cx-coupon-card-name {
@@ -37,6 +43,12 @@
     padding: 1rem 0 0 0;
     p {
       margin: 0;
+    }
+    .cx-coupon-date {
+      display: flex;
+      @include media-breakpoint-down(md) {
+        flex-direction: var(--cx-flex-direction, column);
+      }
     }
   }
 

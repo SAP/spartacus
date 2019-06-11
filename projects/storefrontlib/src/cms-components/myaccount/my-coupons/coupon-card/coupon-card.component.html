@@ -12,8 +12,12 @@
       <div class="cx-coupon-card-date">
         <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
         <div class="cx-coupon-date">
-          {{ coupon?.startDate | cxDate: 'medium' }} -
-          {{ coupon?.endDate | cxDate: 'medium' }}
+          <div class="cx-coupon-date-start">
+            {{ coupon?.startDate | cxDate: 'medium' }} -
+          </div>
+          <div class="cx-coupon-date-end">
+            {{ coupon?.endDate | cxDate: 'medium' }}
+          </div>
         </div>
       </div>
 
@@ -22,7 +26,7 @@
       }}</a>
 
       <div class="cx-coupon-card-row bottom">
-        <div class="form-check">
+        <div class="cx-coupon-notification form-check">
           <label>
             <input
               type="checkbox"
@@ -38,7 +42,7 @@
           </label>
         </div>
 
-        <div class="col-md-6">
+        <div class="cx-coupon-find-product col-lg-6 col-md-12 col-sm-6">
           <button class="btn btn-block btn-action" (click)="findProduct()">
             {{ 'myCoupons.findProducts' | cxTranslate }}
           </button>
