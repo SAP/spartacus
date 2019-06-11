@@ -12,8 +12,8 @@
       <div class="cx-coupon-card-date">
         <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
         <div class="cx-coupon-date">
-          {{ coupon?.startDate | cxDate }} -
-          {{ coupon?.endDate | cxDate }}
+          {{ coupon?.startDate | cxDate: 'medium' }} -
+          {{ coupon?.endDate | cxDate: 'medium' }}
         </div>
       </div>
 
