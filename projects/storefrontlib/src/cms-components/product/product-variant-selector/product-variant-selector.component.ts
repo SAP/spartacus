@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { Product, OccConfig } from '@spartacus/core';
-import { CurrentProductService } from '../../current-product.service';
+import { CurrentProductService } from '../current-product.service';
 
 @Component({
   selector: 'cx-product-variant-selector',

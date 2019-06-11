@@ -39,6 +39,7 @@ import {
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
+import { ProductVariantSelectorModule } from './product/product-variant-selector/product-variant-selector.module';
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import { ProductSummaryModule } from './product/product-summary/product-summary.
     // StoreFinderModule,
     ProductImagesModule,
     ProductSummaryModule,
+    ProductVariantSelectorModule,
     ProductIntroModule,
     CheckoutComponentModule,
     ForgotPasswordModule,

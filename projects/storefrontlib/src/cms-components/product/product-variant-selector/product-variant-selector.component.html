@@ -34,23 +34,20 @@
     </div>
     <ul class="variant-list">
       <li *ngFor="let option of variant.options">
-        <a
+        <!-- <a
           [routerLink]="
-            {
-              cxRoute: 'product',
-              params: { code: option.code }
-            } | cxUrl
+            { cxRoute: 'product', params: { code: option.code } } | cxUrl
           "
           class="colorVariant"
-        >
-          <img
-            src="{{ config.backend.occ.baseUrl }}{{
-              option.variantOptionQualifiers[0].image.url
-            }}"
-            title="{{ option.variantOptionQualifiers[0].value }}"
-            alt="{{ option.variantOptionQualifiers[0].value }}"
-          />
-        </a>
+        > -->
+        <img
+          src="{{ config.backend.occ.baseUrl }}{{
+            option.variantOptionQualifiers[0].image.url
+          }}"
+          title="{{ option.variantOptionQualifiers[0].value }}"
+          alt="{{ option.variantOptionQualifiers[0].value }}"
+        />
+        <!-- </a> -->
       </li>
     </ul>
   </ng-template>
