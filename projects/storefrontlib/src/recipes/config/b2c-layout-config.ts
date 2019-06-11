@@ -31,6 +31,7 @@ export const b2cLayoutConfig: LayoutConfig = {
     LandingPage2Template: {
       slots: [
         'Section1',
+        'mock',
         'Section2A',
         'Section2B',
         'Section2C',

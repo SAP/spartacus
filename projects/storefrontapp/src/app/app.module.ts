@@ -9,6 +9,8 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translations } from '@spartacus/assets';
+import { CdsConfig, CdsModule } from '@spartacus/cds';
+import { ConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
@@ -67,6 +69,14 @@ if (!environment.production) {
       // but adding
       i18n: {
         resources: translations,
+      },
+    }),
+
+    CdsModule,
+    ConfigModule.withConfig(<CdsConfig>{
+      cds: {
+        baseUrl: 'https://htv730345050.api.us.context.cloud.sap',
+        tenantId: 'htv730345050',
       },
     }),
 
