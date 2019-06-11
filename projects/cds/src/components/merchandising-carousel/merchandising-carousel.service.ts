@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SemanticPathService } from '@spartacus/core';
 import { CarouselItem } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
 import { CdsConfig } from '../../config/config.model';
@@ -8,7 +9,11 @@ import { CdsConfig } from '../../config/config.model';
   providedIn: 'root',
 })
 export class MerchandisingCarouselService {
-  constructor(protected httpClient: HttpClient, protected config: CdsConfig) {}
+  constructor(
+    protected httpClient: HttpClient,
+    protected config: CdsConfig,
+    protected semanticPathService: SemanticPathService
+  ) {}
 
   load(strategy: string) {
     return this.httpClient
@@ -18,7 +23,7 @@ export class MerchandisingCarouselService {
 
   /**
    *
-   * converts mechanidising product data to the CarouselItem model.
+   * converts merchandising product data to the CarouselItem model.
    */
   protected convert(response: any) {
     return response.products.map(p => {
@@ -33,6 +38,13 @@ export class MerchandisingCarouselService {
             },
           },
         },
+        route: this.semanticPathService.transform({
+          cxRoute: 'product',
+          params: {
+            code: p.id,
+            name: p.name,
+          },
+        }),
       };
     });
   }
