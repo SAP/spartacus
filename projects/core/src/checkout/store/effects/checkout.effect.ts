@@ -117,6 +117,7 @@ export class CheckoutEffects {
   @Effect()
   createPaymentDetails$: Observable<
     | fromUserActions.LoadUserPaymentMethods
+    | fromUserActions.SetDefaultUserPaymentMethod
     | fromActions.CreatePaymentDetailsSuccess
     | fromActions.CreatePaymentDetailsFail
   > = this.actions$.pipe(
@@ -127,12 +128,18 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
-          mergeMap(details => {
-            return [
-              new fromUserActions.LoadUserPaymentMethods(payload.userId),
-              new fromActions.CreatePaymentDetailsSuccess(details),
-            ];
-          }),
+          mergeMap(details => [
+            payload.paymentDetails.defaultPayment
+              ? new fromUserActions.SetDefaultUserPaymentMethod({
+                  userId: payload.userId,
+                  paymentMethodId: details.id,
+                })
+              : new fromUserActions.LoadUserPaymentMethods(payload.userId),
+            new fromActions.CreatePaymentDetailsSuccess({
+              ...details,
+              defaultPayment: payload.paymentDetails.defaultPayment,
+            }),
+          ]),
           catchError(error =>
             of(new fromActions.CreatePaymentDetailsFail(error))
           )
