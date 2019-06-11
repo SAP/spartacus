@@ -32,6 +32,7 @@ fdescribe('CouponCardComponent', () => {
     fixture = TestBed.createComponent(CouponCardComponent);
     component = fixture.componentInstance;
     component.coupon = mockCoupon;
+    component.couponLoading = false;
     modalService.open.and.stub();
     fixture.detectChanges();
   });
@@ -46,9 +47,8 @@ fdescribe('CouponCardComponent', () => {
     ).nativeElement.textContent;
     expect(couponName).toContain('CustomerCoupon:name');
 
-    const couponStatus = fixture.debugElement.query(
-      By.css('.cx-coupon-card-status')
-    ).nativeElement.textContent;
+    const couponStatus = fixture.debugElement.query(By.css('.cx-coupon-status'))
+      .nativeElement.textContent;
     expect(couponStatus).toContain('myCoupons.Effective');
 
     const couponEffectiveDateTitle = fixture.debugElement.query(
@@ -58,7 +58,9 @@ fdescribe('CouponCardComponent', () => {
     const couponEffective = fixture.debugElement.query(
       By.css('.cx-coupon-date')
     ).nativeElement.textContent;
-    expect(couponEffective).toContain('January 1, 1970 - December 31, 2019');
+    expect(couponEffective).toContain(
+      'Jan 1, 1970, 8:00:00 AM - Dec 31, 2019, 7:59:59 AM'
+    );
 
     const readMoreLink = fixture.debugElement.query(By.css('a')).nativeElement
       .textContent;

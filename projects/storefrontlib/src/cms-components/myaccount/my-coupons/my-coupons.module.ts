@@ -6,6 +6,7 @@ import {
   ConfigModule,
   CmsConfig,
   AuthGuard,
+  UrlModule,
 } from '@spartacus/core';
 import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
@@ -23,6 +24,7 @@ import { IconModule } from '../../../cms-components/misc/icon/index';
     SpinnerModule,
     I18nModule,
     RouterModule,
+    UrlModule,
     IconModule,
     ListNavigationModule,
     ConfigModule.withConfig(<CmsConfig>{
