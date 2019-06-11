@@ -10,13 +10,17 @@ export function registerUser(user) {
   register(user);
 }
 
-export function checkTermsAndConditions() {
+export function navigateToTermsAndConditions() {
   const termsLink = '/electronics-spa/en/USD/termsAndConditions';
   cy.visit('/login/register');
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
     .should('have.attr', 'href', termsLink);
   cy.visit(termsLink);
+  checkTermsAndConditions();
+}
+
+export function checkTermsAndConditions() {
   cy.get('.title_holder h2').should('contain', 'Terms and Conditions');
 }
 

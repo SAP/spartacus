@@ -1,22 +1,27 @@
 import { PRODUCT_LISTING } from './data-configuration';
 import {
-  checkFirstItem,
-  createDefaultQueryRoute,
-  createQueryRoute,
+  clickSearchIcon,
+  productItemSelector,
+  createProductQuery,
+  createProductFacetQuery,
 } from './product-search';
+
+import { checkFirstItem } from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
 
 export function productTypeFlow(mobile?: string) {
   cy.server();
 
-  createDefaultQueryRoute('query');
+  createProductQuery('query');
 
-  cy.get('cx-searchbox input').type('sony{enter}');
+  clickSearchIcon();
+
+  cy.get('cx-searchbox input[aria-label="search"]').type('sony{enter}');
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
-  cy.get('cx-product-list-item').should(
+  cy.get(productItemSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
@@ -24,7 +29,7 @@ export function productTypeFlow(mobile?: string) {
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
   // Filter by brand
-  createQueryRoute('brand', 'sony', 'brand_query');
+  createProductFacetQuery('brand', 'sony', 'brand_query');
 
   clickFacet('Brand');
 
@@ -32,7 +37,7 @@ export function productTypeFlow(mobile?: string) {
 
   cy.get(resultsTitle).should('contain', '86 results for "sony"');
 
-  createDefaultQueryRoute('query1');
+  createProductQuery('query1');
 
   clearSelectedFacet(mobile);
 
@@ -41,7 +46,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by price
-  createQueryRoute('price', 'sony', 'price_query');
+  createProductFacetQuery('price', 'sony', 'price_query');
 
   clickFacet('Price');
 
@@ -53,7 +58,7 @@ export function productTypeFlow(mobile?: string) {
 
   checkFirstItem('MSHX8A');
 
-  createDefaultQueryRoute('query2');
+  createProductQuery('query2');
 
   clearSelectedFacet(mobile);
 
@@ -62,7 +67,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by category
-  createQueryRoute('category', 'sony', 'category_query');
+  createProductFacetQuery('category', 'sony', 'category_query');
 
   clickFacet('Category');
 
@@ -74,7 +79,7 @@ export function productTypeFlow(mobile?: string) {
 
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
-  createDefaultQueryRoute('query3');
+  createProductQuery('query3');
 
   clearSelectedFacet(mobile);
 
@@ -83,7 +88,7 @@ export function productTypeFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by color
-  createQueryRoute('Colour', 'sony', 'color_query');
+  createProductFacetQuery('Colour', 'sony', 'color_query');
 
   clickFacet('Color');
 
@@ -95,7 +100,7 @@ export function productTypeFlow(mobile?: string) {
 
   checkFirstItem('NP-FV 70');
 
-  createDefaultQueryRoute('query4');
+  createProductQuery('query4');
 
   clearSelectedFacet(mobile);
 
