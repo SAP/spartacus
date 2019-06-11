@@ -14,9 +14,9 @@ import { OutletService } from './outlet.service';
 export class OutletDirective implements OnInit {
   @Input() cxOutlet: string;
 
-  private _context: string;
+  private _context: any;
   @Input()
-  set cxOutletContext(value: string) {
+  set cxOutletContext(value: any) {
     this._context = value;
   }
 
@@ -38,22 +38,10 @@ export class OutletDirective implements OnInit {
     const template = this.outletService.get(this.cxOutlet, position);
     if (template || replace) {
       const ref = this.vcr.createEmbeddedView(template || this.templateRef, {
-        $implicit: this.context,
+        $implicit: this._context,
       });
       nodes.push(...ref.rootNodes);
     }
     return nodes;
-  }
-
-  private get context() {
-    // return specific context if provided
-    if (this._context) {
-      return this._context;
-    }
-    const ctx = (<any>this.vcr.injector).view.context;
-
-    // the context might already be given $implicit
-    // by a parent *ngIf or *ngFor
-    return ctx.$implicit || ctx;
   }
 }

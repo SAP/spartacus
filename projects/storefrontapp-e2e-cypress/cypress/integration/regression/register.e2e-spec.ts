@@ -1,5 +1,4 @@
 import * as register from '../../helpers/register';
-import { checkBanner } from '../../helpers/homepage';
 import { user } from '../../sample-data/checkout-flow';
 
 describe('Register', () => {
@@ -13,9 +12,9 @@ describe('Register', () => {
   it('should login when trying to register with the same email and correct password', () => {
     register.registerUser(user);
     register.signOut();
-    register.checkTermsAndConditions();
+    register.navigateToTermsAndConditions();
     register.registerUser(user);
-    checkBanner();
+    register.checkTermsAndConditions();
   });
 
   it('should contain error when trying to register with the same email and different password', () => {

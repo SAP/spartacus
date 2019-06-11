@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
-import { ComponentMapperService } from '../../../cms/services/component-mapper.service';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { OccCmsPageNormalizer } from './converters/occ-cms-page-normalizer';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
@@ -12,7 +11,6 @@ import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-compo
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-    ComponentMapperService,
     {
       provide: CmsPageAdapter,
       useClass: OccCmsPageAdapter,
