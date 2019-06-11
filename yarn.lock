@@ -423,25 +423,25 @@
   dependencies:
     tslib "^1.9.0"
 
-"@ngrx/effects@~8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-8.0.0.tgz#56da399423c2d8c690d9f38971f5fd4234ee8bb2"
-  integrity sha512-8ho26Cq1Kh+mrIhoq5fHmXYXdyeng8vabVJ+9GooFJBCNGNuE43nfFWH6x9ksXOpA075iGE5SMPEw6KceTX2eg==
+"@ngrx/effects@~8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-8.0.1.tgz#2420e264d96f9fde7fbe594703827f4e44a0b146"
+  integrity sha512-f15SjzZ670HdHVpu3byOiP5R6MOxh/DMQgP8PynKtmadmkKkM69imGsp+8qDEQNABw5O8oJGAn8aLm76QGPnjQ==
 
-"@ngrx/router-store@~8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-8.0.0.tgz#62467c69a0b2cf77848cd580fa9dbad9b0e5d5e8"
-  integrity sha512-bNyOfsfC2ZsXaMGS9TPO5dyw0tRf+FyrzC9hx6ZJa71usCaQu+UVg2p7tseTNZ7jc6W1Yx+82f/QbLQDwOp5fQ==
+"@ngrx/router-store@~8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-8.0.1.tgz#e943e24497729ac4a21041a35cf983f63a17d4fa"
+  integrity sha512-ItgyqjPtjpUmMRKe48pyBMzrntimJwImttxqRa0uMWooPGIJB6zAmbgjn2AtyUqX63IRl8BGT8V3pJ4FLrxIow==
 
-"@ngrx/store-devtools@~8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-8.0.0.tgz#bb8e736e20183ea4d75acc588b14fb40ccf3e85c"
-  integrity sha512-T2yWwoE7agTjvSGQNMkANrbBUMjTtnNUw2v0TC6Ms3Rp8Gdhrgjh0n3bve401P+FeQ1EBygnk7LTCaQ5H/MP0g==
+"@ngrx/store-devtools@~8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-8.0.1.tgz#4c4e5458994afe3eaa487375e13a9c60edc3a84e"
+  integrity sha512-TxOksSARaQ1hCZM0/qMCun6axbSFuhSEmuW9YLRhuU5m3gvJN4cr5tk960DDVGl8/06YX6Q2CQ7uIgx5qCwbsg==
 
-"@ngrx/store@~8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-8.0.0.tgz#f9b37a133c2cdf96e5f1da850f873ec62b642113"
-  integrity sha512-FpffcUV50Pd3X+xwswEvMDABr+OfbkPCBmD3tU9we6vVqMTIYSW0YyNtQUtblPbzIhb+pH8HV3YuGdFA+zQMYw==
+"@ngrx/store@~8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-8.0.1.tgz#5391498d50978ff1bfdbf4e5b04cb647677a5168"
+  integrity sha512-B6HY8TCFZ4+bUfJAJatF42+F33Qboo7zKc+gxTi6eEioKvNqWkb22K4De5HV2j/l/blXvMOPMSO1Rf/sGqID0w==
 
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
@@ -8040,7 +8040,7 @@ rxjs@6.4.0:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^6.0.0, rxjs@^6.3.3, rxjs@^6.4.0, rxjs@^6.5.2:
+rxjs@^6.0.0, rxjs@^6.3.3, rxjs@^6.4.0:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
   integrity sha512-HUb7j3kvb7p7eCUHE3FqjoDsC1xfZQ4AHFWfTKSpZ+sAhhz5X1WX0ZuUqWbzB2QhSLp3DoLUG+hMdEDKqWo2Zg==
