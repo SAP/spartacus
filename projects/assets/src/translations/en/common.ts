@@ -84,6 +84,9 @@ export const common = {
           'The country entered is not valid for this credit card.',
         billTo_postalCode:
           'The zip/postal code is not valid for this credit card.',
+        country: {
+          isocode: 'Missing country',
+        },
       },
     },
     cartNotFound: 'Cart not found.',
