@@ -44,12 +44,13 @@ export function reducer(
               In the case where the detailed once get resolved first, we merge the existing
               data with the new data from the response (to not delete existing detailed data).
               */
-              [entry.product.code]: state.entries[entry.product.code]
-                ? {
-                    ...state.entries[entry.product.code],
-                    ...entry,
-                  }
-                : entry,
+              [entry.product.code]:
+                state.entries && state.entries[entry.product.code]
+                  ? {
+                      ...state.entries[entry.product.code],
+                      ...entry,
+                    }
+                  : entry,
             };
           },
           {

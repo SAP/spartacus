@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
+import { catchError, map, mergeMap, switchMap, filter } from 'rxjs/operators';
+import {
+  CURRENCY_CHANGE,
+  LANGUAGE_CHANGE,
+  BaseSiteService,
+} from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartConnector } from '../../connectors/cart/cart.connector';
@@ -34,19 +38,23 @@ export class CartEffects {
       if (this.isMissingData(loadCartParams)) {
         return of(new fromActions.LoadCartFail({}));
       }
-
-      return this.cartConnector
-        .load(
-          loadCartParams.userId,
-          loadCartParams.cartId,
-          loadCartParams.details
-        )
-        .pipe(
-          map((cart: Cart) => {
-            return new fromActions.LoadCartSuccess(cart);
-          }),
-          catchError(error => of(new fromActions.LoadCartFail(error)))
-        );
+      return this.baseSiteService.getActive().pipe(
+        filter(active => !!active),
+        switchMap(() => {
+          return this.cartConnector
+            .load(
+              loadCartParams.userId,
+              loadCartParams.cartId,
+              loadCartParams.details
+            )
+            .pipe(
+              map((cart: Cart) => {
+                return new fromActions.LoadCartSuccess(cart);
+              }),
+              catchError(error => of(new fromActions.LoadCartFail(error)))
+            );
+        })
+      );
     })
   );
 
@@ -99,7 +107,8 @@ export class CartEffects {
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
-    private cartData: CartDataService
+    private cartData: CartDataService,
+    private baseSiteService: BaseSiteService
   ) {}
 
   private isMissingData(payload) {
