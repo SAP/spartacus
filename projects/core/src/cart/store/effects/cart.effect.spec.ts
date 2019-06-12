@@ -20,6 +20,7 @@ import * as fromEffects from './cart.effect';
 import { OccConfig } from '@spartacus/core';
 import { Cart } from '../../../model/cart.model';
 import createSpy = jasmine.createSpy;
+import { BaseSiteService } from 'projects/core/src/site-context';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -38,6 +39,12 @@ const testCart: Cart = {
 class MockCartConnector {
   create = createSpy().and.returnValue(of(testCart));
   load = createSpy().and.returnValue(of(testCart));
+}
+
+class MockBaseSiteService {
+  getActive() {
+    return of(true);
+  }
 }
 
 describe('Cart effect', () => {
@@ -75,6 +82,7 @@ describe('Cart effect', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
         CartService,
         CartDataService,
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
         provideMockActions(() => actions$),
       ],
     });
