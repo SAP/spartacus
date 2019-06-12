@@ -168,7 +168,7 @@ A contribution will be considered for inclusion in Spartacus if it meets the fol
 * The contribution truly improves the storefront
 * The contribution follows the applicable guidelines and standards.
 
-The "guidelines and standards" requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the [Spartacus Guidelines and Best Practices](https://github.com/SAP/cloud-commerce-spartacus-storefront/wiki/Spartacus-Guidelines-and-Best-Practices).
+The "guidelines and standards" requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the [Contributor's Guide](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/Contributors-Guide/).
 
 ### Contribution Process
 
@@ -178,7 +178,7 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
 1. Build and run the storefront from the library development workspace. 
 
-    For more information, see [Contributor Setup](https://github.com/SAP/cloud-commerce-spartacus-storefront/wiki/Contributor-Setup).
+    For more information, see [Contributor Setup](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/Contributor-Setup/).
 
 1. Work on the change in your fork (either on the `develop` branch or on a feature branch).
 
@@ -186,7 +186,7 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
     That you should also use the squash and merge feature when additional changes are required after code review.
 
-1. In the commit message, please follow the conventions described in the [Commit Message Guidelines](https://github.com/SAP/cloud-commerce-spartacus-storefront/wiki/Commit-Message-Guidelines).
+1. In the commit message, please follow the conventions described in [Committing Code to Spartacus](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/Commit-Guidelines/).
 
     By following the guidelines, your work will be accurately captured in the release changelog.
 
