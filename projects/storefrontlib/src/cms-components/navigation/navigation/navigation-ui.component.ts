@@ -10,8 +10,6 @@ import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
 
-const COLUMN_SIZE = 10;
-
 @Component({
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',

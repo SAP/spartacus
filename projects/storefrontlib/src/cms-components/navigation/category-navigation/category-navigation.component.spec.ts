@@ -8,7 +8,6 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   template: '',
@@ -16,6 +15,7 @@ import createSpy = jasmine.createSpy;
 })
 class MockNavigationComponent {
   @Input() node: NavigationNode;
+  @Input() wrapAfter: number;
 }
 
 describe('CategoryNavigationComponent', () => {
@@ -41,6 +41,7 @@ describe('CategoryNavigationComponent', () => {
 
   const mockCmsComponentData = <CmsNavigationComponent>{
     styleClass: 'footer-styling',
+    wrapAfter: '10',
   };
 
   const MockCmsNavigationComponent = <CmsComponentData<any>>{
@@ -48,7 +49,9 @@ describe('CategoryNavigationComponent', () => {
   };
 
   const mockNavigationService = {
-    getNavigationNode: createSpy().and.returnValue(of(null)),
+    getNavigationNode() {
+      return of(componentData);
+    },
   };
 
   beforeEach(async(() => {
@@ -72,7 +75,6 @@ describe('CategoryNavigationComponent', () => {
     fixture = TestBed.createComponent(CategoryNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
-    component.node$ = of(componentData);
     fixture.detectChanges();
   });
 
@@ -89,5 +91,11 @@ describe('CategoryNavigationComponent', () => {
   it('should add the component styleClass', () => {
     const navigationUI = element.query(By.css('cx-navigation-ui'));
     expect(navigationUI.nativeElement.classList).toContain('footer-styling');
+  });
+
+  it('should have wrapAfter property', () => {
+    let result: CmsNavigationComponent;
+    component.data$.subscribe(node => (result = node));
+    expect(result.wrapAfter).toEqual('10');
   });
 });
