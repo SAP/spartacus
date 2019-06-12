@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "0.0.1-beta-0",
+  "version": "0.1.0-prealpha.0",
   "description": "Context Driven Service library for Spartacus",
   "keywords": [
     "spartacus",
