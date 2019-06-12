@@ -20,7 +20,7 @@ export class UserTokenEffects {
         map((token: UserToken) => {
           const date = new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
-          token.expiration_time = date;
+          token.expiration_time = date.toJSON();
           token.userId = USERID_CURRENT;
           return new fromActions.LoadUserTokenSuccess(token);
         }),
@@ -44,8 +44,8 @@ export class UserTokenEffects {
         map((token: UserToken) => {
           const date = new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
+          token.expiration_time = date.toJSON();
           token.userId = USERID_CURRENT;
-          token.expiration_time = date;
           return new fromActions.RefreshUserTokenSuccess(token);
         }, catchError(error => of(new fromActions.RefreshUserTokenFail(error))))
       );

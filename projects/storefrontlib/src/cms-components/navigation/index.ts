@@ -10,5 +10,6 @@ export * from './footer-navigation/footer-navigation.module';
 // navigation
 export * from './navigation/navigation.component.service';
 export * from './navigation/navigation.component';
+export * from './navigation/navigation-ui.component';
 export * from './navigation/navigation.module';
 export * from './search-box/index';
