@@ -117,7 +117,6 @@ export class CheckoutEffects {
   @Effect()
   createPaymentDetails$: Observable<
     | fromUserActions.LoadUserPaymentMethods
-    | fromUserActions.SetDefaultUserPaymentMethod
     | fromActions.CreatePaymentDetailsSuccess
     | fromActions.CreatePaymentDetailsFail
   > = this.actions$.pipe(
