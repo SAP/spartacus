@@ -22,18 +22,12 @@ export function getStorageSyncReducer<T>(
 
   return (reducer: ActionReducer<T, Action>): ActionReducer<T, Action> => {
     return (state, action): T => {
-      let newState = { ...state };
-
-      if (action.type === INIT && !exists(newState)) {
-        newState = reducer(state, action);
-      }
+      const newState = { ...state };
 
       if (action.type === INIT || action.type === UPDATE) {
         const rehydratedState = rehydrate(config, winRef);
         return deepMerge(newState, rehydratedState);
       }
-
-      newState = reducer(newState, action);
 
       if (action.type !== INIT) {
         // handle local storage
@@ -64,7 +58,7 @@ export function getStorageSyncReducer<T>(
         );
       }
 
-      return newState;
+      return reducer(newState, action);
     };
   };
 }
