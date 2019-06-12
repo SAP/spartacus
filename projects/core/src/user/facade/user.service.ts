@@ -691,6 +691,7 @@ export class UserService {
     return this.store.pipe(
       select(fromStore.getCustomerCouponsState),
       tap(customerCouponsState => {
+        console.log('state:' + JSON.stringify(customerCouponsState));
         const attemptedLoad =
           customerCouponsState.loading ||
           customerCouponsState.success ||
@@ -708,6 +709,13 @@ export class UserService {
    */
   getCustomerCouponsLoaded(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getCustomerCouponsLoaded));
+  }
+
+  /**
+   * Returns a loading flag for customer coupons
+   */
+  getCustomerCouponsLoading(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getCustomerCouponsLoading));
   }
 
   /**
