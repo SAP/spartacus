@@ -1,27 +1,19 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CmsNavigationComponent, CmsService } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
 
-@Injectable()
-export class NavigationComponentService {
-  constructor(
-    protected cmsService: CmsService,
-    @Optional()
-    protected componentData: CmsComponentData<CmsNavigationComponent>
-  ) {}
+@Injectable({
+  providedIn: 'root',
+})
+export class NavigationService {
+  constructor(protected cmsService: CmsService) {}
 
-  public getComponentData(): Observable<CmsNavigationComponent> {
-    return this.componentData.data$;
-  }
-
-  public createNavigation(): Observable<NavigationNode> {
-    return combineLatest(
-      this.getComponentData(),
-      this.getNavigationNode()
-    ).pipe(
+  public createNavigation(
+    data$: Observable<CmsNavigationComponent>
+  ): Observable<NavigationNode> {
+    return combineLatest([data$, this.getNavigationNode(data$)]).pipe(
       map(([data, nav]) => {
         return {
           title: data.name,
@@ -31,8 +23,13 @@ export class NavigationComponentService {
     );
   }
 
-  public getNavigationNode(): Observable<NavigationNode> {
-    return this.getComponentData().pipe(
+  public getNavigationNode(
+    data$: Observable<CmsNavigationComponent>
+  ): Observable<NavigationNode> {
+    if (!data$) {
+      return of();
+    }
+    return data$.pipe(
       filter(Boolean),
       switchMap(data => {
         const navigation = data.navigationNode ? data.navigationNode : data;

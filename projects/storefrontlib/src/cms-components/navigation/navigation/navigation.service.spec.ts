@@ -1,9 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { CmsNavigationComponent, CmsService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
-import { NavigationComponentService } from './navigation.component.service';
+import { NavigationService } from './navigation.service';
 import createSpy = jasmine.createSpy;
 
 const itemsData: any = {
@@ -83,47 +82,39 @@ const componentData: CmsNavigationComponent = {
   },
 };
 
-const componentDataMock = { data$: of(componentData) };
-
 describe('NavigationComponentService', () => {
-  let navigationService: NavigationComponentService;
+  let navigationService: NavigationService;
   let mockCmsService: any;
 
   beforeEach(() => {
     mockCmsService = {
       loadNavigationItems: createSpy(),
       getNavigationEntryItems: createSpy().and.returnValue(of(undefined)),
-      getComponentData: createSpy().and.returnValue(of(componentData)),
     };
     TestBed.configureTestingModule({
       providers: [
-        NavigationComponentService,
+        NavigationService,
         { provide: CmsService, useValue: mockCmsService },
-        { provide: CmsComponentData, useValue: componentDataMock },
       ],
     });
 
-    navigationService = TestBed.get(NavigationComponentService);
+    navigationService = TestBed.get(NavigationService);
   });
 
   it('should inject NavigationComponentService', inject(
-    [NavigationComponentService],
-    (service: NavigationComponentService) => {
+    [NavigationService],
+    (service: NavigationService) => {
       expect(service).toBeTruthy();
     }
   ));
-
-  it('should return component data stream', () => {
-    return expect(navigationService.getComponentData()).toBe(
-      componentDataMock.data$
-    );
-  });
 
   it('should get main link for root entry based on CMS data', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
 
     let result: NavigationNode;
-    navigationService.getNavigationNode().subscribe(node => (result = node));
+    navigationService
+      .getNavigationNode(of(componentData))
+      .subscribe(node => (result = node));
 
     expect(result.url).toEqual('/main');
   });
@@ -132,7 +123,9 @@ describe('NavigationComponentService', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
 
     let result: NavigationNode;
-    navigationService.getNavigationNode().subscribe(node => (result = node));
+    navigationService
+      .getNavigationNode(of(componentData))
+      .subscribe(node => (result = node));
 
     expect(result.children.length).toEqual(2);
     expect(result.children[0].title).toEqual('test link 1');
@@ -143,7 +136,9 @@ describe('NavigationComponentService', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
 
     let result: NavigationNode;
-    navigationService.createNavigation().subscribe(node => (result = node));
+    navigationService
+      .createNavigation(of(componentData))
+      .subscribe(node => (result = node));
 
     expect(result.title).toEqual('NavigationComponent name');
     expect(result.children.length).toEqual(1);

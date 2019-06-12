@@ -4,8 +4,9 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
-import { NavigationComponentService } from '../navigation/navigation.component.service';
+import { NavigationService } from '../navigation/navigation.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import createSpy = jasmine.createSpy;
 
@@ -42,9 +43,12 @@ describe('CategoryNavigationComponent', () => {
     styleClass: 'footer-styling',
   };
 
+  const MockCmsNavigationComponent = <CmsComponentData<any>>{
+    data$: of(mockCmsComponentData),
+  };
+
   const mockNavigationService = {
     getNavigationNode: createSpy().and.returnValue(of(null)),
-    getComponentData: createSpy().and.returnValue(of(mockCmsComponentData)),
   };
 
   beforeEach(async(() => {
@@ -53,8 +57,12 @@ describe('CategoryNavigationComponent', () => {
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
         {
-          provide: NavigationComponentService,
+          provide: NavigationService,
           useValue: mockNavigationService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsNavigationComponent,
         },
       ],
     }).compileComponents();
