@@ -56,6 +56,7 @@ export class MyCouponsComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
+    this.userService.loadCustomerCoupons(this.PAGE_SIZE);
     this.couponResult$ = this.userService
       .getCustomerCoupons(this.PAGE_SIZE)
       .pipe(
@@ -71,7 +72,6 @@ export class MyCouponsComponent implements OnInit {
         )
       );
     this.couponsStateLoaded$ = this.userService.getCustomerCouponsLoaded();
-
     this.couponsSubscribeLoading$ = this.userService.getSubscribeCustomerCouponResultLoading();
     this.couponsUnsubscribeLoading$ = this.userService.getUnsubscribeCustomerCouponResultLoading();
   }
