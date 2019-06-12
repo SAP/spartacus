@@ -13,6 +13,10 @@
     "releaseNotes": "cd ../.. && npm run --silent release-notes:assets -- --from assets-${latestVersion} --to assets-${version}"
   },
   "npm": {
+    "publishPath": "./../../dist/assets",
     "tag": "latest"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:assets"
   }
 }
