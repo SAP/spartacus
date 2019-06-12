@@ -4,6 +4,9 @@
 %cx-checkout-progress-mobile-top,
 %cx-checkout-progress-mobile-bottom {
   .cx-nav {
+    @include media-breakpoint-only(lg) {
+      @include type('5', 'semi');
+    }
     @include type('4', 'semi');
     margin: 0;
 
@@ -22,6 +25,9 @@
       ::before {
         padding: 0 0.5rem;
         content: '>';
+        @include media-breakpoint-only(lg) {
+          padding: 0 0.3rem;
+        }
       }
 
       &:first-child ::before {
