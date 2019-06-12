@@ -7,18 +7,7 @@ import { stateMetaReducers } from './reducers/index';
 
 @NgModule({
   imports: [
-    StoreModule.forRoot(
-      {},
-      {
-        runtimeChecks: {
-          strictStateImmutability: true,
-          strictActionImmutability: true,
-          strictStateSerializability: true,
-          // TODO:#3010 - see ticket https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/3010
-          // strictActionSerializability: true,
-        },
-      }
-    ),
+    StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     ConfigModule.withConfig(defaultStateConfig),
   ],
