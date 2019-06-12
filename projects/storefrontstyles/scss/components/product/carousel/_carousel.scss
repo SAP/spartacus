@@ -19,22 +19,17 @@
     }
   }
 
-  .cx-carousel {
+  .carousel-panel {
     display: flex;
     justify-content: space-between;
 
-    // the size of carousel items depends on the number of items per slide
-    &.size-1 .product {
-      flex: 0 0 100%;
-    }
-    &.size-2 .product {
-      flex: 0 0 50%;
-    }
-    &.size-3 .product {
-      flex: 0 0 33%;
-    }
-    &.size-4 .product {
-      flex: 0 0 25%;
+    // The size of carousel items depends on the number of items per slide.
+    // We generate 10 sizes in case there are a lot of carousel items displayed
+    // on a single slide.
+    @for $i from 1 through 10 {
+      &.size-#{$i} .product {
+        flex: 0 0 calc((100 / #{$i}) * 1%);
+      }
     }
 
     .groups {
