@@ -61,13 +61,12 @@ export function productRatingFlow(mobile?: string) {
     cy.get(
       `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
     ).click();
-    cy.wait('@productQuery');
   } else {
     cy.get(
       'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
     ).click();
-    cy.wait('@productQuery');
   }
+  cy.wait('@productQuery');
 
   cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
 
