@@ -22,15 +22,21 @@
       color: var(--cx-g-color-text);
       padding: 0 0 1.375rem 0;
 
-      ::before {
-        padding: 0 0.5rem;
+      ::after {
+        padding: 0 0.75rem 0 0;
         content: '>';
+        color: var(--cx-g-color-text);
         @include media-breakpoint-only(lg) {
-          padding: 0 0.3rem;
+          padding: 0 0.5rem 0 0;
         }
       }
 
       &:first-child ::before {
+        padding: 0;
+        content: '';
+      }
+
+      &:last-child ::after {
         padding: 0;
         content: '';
       }
@@ -47,12 +53,15 @@
       color: var(--cx-g-color-light);
       cursor: not-allowed;
       pointer-events: none;
+      &::after {
+        color: var(--cx-g-color-light);
+      }
     }
 
     &.is-active {
       color: var(--cx-g-color-primary);
-      ::before {
-        color: var(--cx-g-color-text);
+      &::after {
+        color: var(--cx-g-color-primary);
       }
     }
   }
