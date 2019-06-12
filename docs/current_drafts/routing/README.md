@@ -14,11 +14,11 @@ This is where configurable routes comes in to play - every route in Spartacus is
 
 The following features are supported:
 
-- [Routes configuration](./docs/routes-configuration.md)
-- [Configurable router links](./docs/configurable-router-links.md)
-- [Disabling standard routes](./docs/disabling-standard-routes.md)
-- [Additional route parameters](./docs/additional-route-parameters.md)
-- [Route aliases](./docs/route-aliases.md)
+- [Routes configuration](./routes-configuration.md)
+- [Configurable router links](./configurable-router-links.md)
+- [Disabling standard routes](./disabling-standard-routes.md)
+- [Additional route parameters](./additional-route-parameters.md)
+- [Route aliases](./route-aliases.md)
 
 ## Future outlook
 
