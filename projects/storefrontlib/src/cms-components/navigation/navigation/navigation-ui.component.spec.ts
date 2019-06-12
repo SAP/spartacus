@@ -209,5 +209,4 @@ describe('Navigation UI Component', () => {
       expect(child.length).toEqual(7);
     });
   });
-
 });
