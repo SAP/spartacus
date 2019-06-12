@@ -23,6 +23,7 @@ import {
   WITHDRAW_CONSENT_PROCESS_ID,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
 } from '../store/user-state';
 
 @Injectable()
@@ -794,12 +795,21 @@ export class UserService {
    * Claim a CustomerCoupon
    * @param couponCode a customer coupon code
    */
-  climCustomerCoupon(couponCode: string): void {
+  claimCustomerCoupon(couponCode: string): void {
     this.store.dispatch(
       new fromStore.ClaimCustomerCoupon({
         userId: USERID_CURRENT,
         couponCode: couponCode,
       })
+    );
+  }
+
+  /**
+   * Returns the claim customer coupon notification process success flag
+   */
+  getClaimCustomerCouponResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
 }

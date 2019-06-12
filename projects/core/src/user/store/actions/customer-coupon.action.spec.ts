@@ -2,6 +2,7 @@ import {
   CUSTOMER_COUPONS,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
 } from '../user-state';
 import {
   loadMeta,
@@ -266,7 +267,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: loadMeta(CUSTOMER_COUPONS),
+        meta: entityLoadMeta(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID),
       });
     });
   });
@@ -281,7 +282,11 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON_FAIL,
         payload: error,
-        meta: failMeta(CUSTOMER_COUPONS, error),
+        meta: entityFailMeta(
+          PROCESS_FEATURE,
+          CLAIM_CUSTOMER_COUPON_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -295,7 +300,10 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON_SUCCESS,
         payload: customerCoupon2Customer,
-        meta: successMeta(CUSTOMER_COUPONS),
+        meta: entitySuccessMeta(
+          PROCESS_FEATURE,
+          CLAIM_CUSTOMER_COUPON_PROCESS_ID
+        ),
       });
     });
   });

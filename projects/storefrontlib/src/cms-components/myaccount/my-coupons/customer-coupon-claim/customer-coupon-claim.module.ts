@@ -8,8 +8,8 @@ import {
   CustomerCouponGuard,
 } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 
 import { CustomerCouponClaimComponent } from './customer-coupon-claim.component';
 @NgModule({

@@ -1043,7 +1043,7 @@ describe('UserService', () => {
     });
 
     it('should be able to claim a customer coupon', () => {
-      service.climCustomerCoupon('couponCode');
+      service.claimCustomerCoupon('couponCode');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.ClaimCustomerCoupon({
           userId: USERID_CURRENT,

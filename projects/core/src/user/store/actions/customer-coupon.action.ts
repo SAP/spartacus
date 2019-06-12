@@ -2,6 +2,7 @@ import {
   CUSTOMER_COUPONS,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
 } from '../user-state';
 import {
   LoaderLoadAction,
@@ -153,7 +154,7 @@ export class ResetUnsubscribeCustomerCouponProcess extends EntityResetAction {
   }
 }
 
-export class ClaimCustomerCoupon extends LoaderLoadAction {
+export class ClaimCustomerCoupon extends EntityLoadAction {
   readonly type = CLAIM_CUSTOMER_COUPON;
   constructor(
     public payload: {
@@ -161,21 +162,21 @@ export class ClaimCustomerCoupon extends LoaderLoadAction {
       couponCode;
     }
   ) {
-    super(CUSTOMER_COUPONS);
+    super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID);
   }
 }
 
-export class ClaimCustomerCouponFail extends LoaderFailAction {
+export class ClaimCustomerCouponFail extends EntityFailAction {
   readonly type = CLAIM_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
-    super(CUSTOMER_COUPONS, payload);
+    super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
   }
 }
 
-export class ClaimCustomerCouponSuccess extends LoaderSuccessAction {
+export class ClaimCustomerCouponSuccess extends EntitySuccessAction {
   readonly type = CLAIM_CUSTOMER_COUPON_SUCCESS;
   constructor(public payload: CustomerCoupon2Customer) {
-    super(CUSTOMER_COUPONS);
+    super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
   }
 }
 
