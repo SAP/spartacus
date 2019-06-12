@@ -1,8 +1,8 @@
 import { Optional, PLATFORM_ID, Provider } from '@angular/core';
 import { TransferState } from '@angular/platform-browser';
+import { META_REDUCERS } from '@ngrx/store';
 import { Config } from '../../config/config.module';
 import { WindowRef } from '../../window/window-ref';
-import { META_REDUCER } from '../meta-reducer';
 import { getStorageSyncReducer } from './storage-sync.reducer';
 import { getTransferStateReducer } from './transfer-state.reducer';
 
@@ -12,7 +12,7 @@ export * from './transfer-state.reducer';
 
 export const stateMetaReducers: Provider[] = [
   {
-    provide: META_REDUCER,
+    provide: META_REDUCERS,
     useFactory: getTransferStateReducer,
     deps: [
       PLATFORM_ID,
@@ -22,7 +22,7 @@ export const stateMetaReducers: Provider[] = [
     multi: true,
   },
   {
-    provide: META_REDUCER,
+    provide: META_REDUCERS,
     useFactory: getStorageSyncReducer,
     deps: [WindowRef, [new Optional(), Config]],
     multi: true,
