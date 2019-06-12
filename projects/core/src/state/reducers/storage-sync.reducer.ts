@@ -26,7 +26,7 @@ export function getStorageSyncReducer<T>(
 
       if (action.type === INIT || action.type === UPDATE) {
         const rehydratedState = rehydrate(config, winRef);
-        return deepMerge(newState, rehydratedState);
+        return deepMerge({}, newState, rehydratedState);
       }
 
       if (action.type !== INIT) {
