@@ -129,16 +129,8 @@ export class CheckoutEffects {
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
           mergeMap(details => [
-            payload.paymentDetails.defaultPayment
-              ? new fromUserActions.SetDefaultUserPaymentMethod({
-                  userId: payload.userId,
-                  paymentMethodId: details.id,
-                })
-              : new fromUserActions.LoadUserPaymentMethods(payload.userId),
-            new fromActions.CreatePaymentDetailsSuccess({
-              ...details,
-              defaultPayment: payload.paymentDetails.defaultPayment,
-            }),
+            new fromUserActions.LoadUserPaymentMethods(payload.userId),
+            new fromActions.CreatePaymentDetailsSuccess(details),
           ]),
           catchError(error =>
             of(new fromActions.CreatePaymentDetailsFail(error))
