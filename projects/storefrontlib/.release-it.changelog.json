@@ -10,8 +10,8 @@
     "publishPath": "./../../dist/storefrontlib",
     "tag": "latest"
   },
-  "scripts": {
-    "afterBump": "cd ../.. && yarn build:core:lib"
+  "hooks": {
+    "after:git:bump": "cd ../.. && yarn build:core:lib"
   },
   "github": {
     "release": true,
