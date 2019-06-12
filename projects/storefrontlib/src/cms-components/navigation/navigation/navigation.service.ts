@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CmsNavigationComponent, CmsService } from '@spartacus/core';
+import {
+  CmsNavigationComponent,
+  CmsService,
+  SemanticPathService,
+} from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { NavigationNode } from './navigation-node.model';
@@ -8,7 +12,10 @@ import { NavigationNode } from './navigation-node.model';
   providedIn: 'root',
 })
 export class NavigationService {
-  constructor(protected cmsService: CmsService) {}
+  constructor(
+    protected cmsService: CmsService,
+    protected semanticPathService: SemanticPathService
+  ) {}
 
   public createNavigation(
     data$: Observable<CmsNavigationComponent>
@@ -88,9 +95,9 @@ export class NavigationService {
    * @param items
    */
   private createNode(nodeData: any, items: any): NavigationNode {
-    const node = {};
+    const node: NavigationNode = {};
 
-    node['title'] = nodeData.title;
+    node.title = nodeData.title;
 
     if (nodeData.entries && nodeData.entries.length > 0) {
       this.addLinkToNode(node, nodeData.entries[0], items);
@@ -98,32 +105,54 @@ export class NavigationService {
 
     if (nodeData.children && nodeData.children.length > 0) {
       const children = this.createChildren(nodeData, items);
-      node['children'] = children;
+      node.children = children;
     }
 
     return node;
   }
 
-  private addLinkToNode(node, entry, items) {
+  private addLinkToNode(node: NavigationNode, entry, items) {
     const item = items[`${entry.itemId}_${entry.itemSuperType}`];
 
     // now we only consider CMSLinkComponent
     if (entry.itemType === 'CMSLinkComponent' && item !== undefined) {
-      if (!node['title']) {
-        node['title'] = item.linkName;
+      if (!node.title) {
+        node.title = item.linkName;
       }
-      node['url'] = item.url;
+
+      node.url = this.getLink(item);
+
       // if "NEWWINDOW", target is true
-      node['target'] = item.target;
+      node.target = item.target;
+    }
+  }
+
+  /**
+   *
+   * Gets the URL or link to a related item (category)
+   */
+  private getLink(item): string | string[] {
+    if (item.url) {
+      return item.url;
+    } else if (item.categoryCode) {
+      return this.semanticPathService.transform({
+        cxRoute: 'category',
+        params: {
+          code: item.categoryCode,
+          name: item.name,
+        },
+      });
     }
   }
 
   private createChildren(node, items) {
     const children = [];
+
     for (const child of node.children) {
       const childNode = this.createNode(child, items);
       children.push(childNode);
     }
+
     return children;
   }
 }
