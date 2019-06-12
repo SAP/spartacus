@@ -185,13 +185,15 @@ export class CmsService {
    * @param pageContext
    */
   hasPage(pageContext: PageContext, forceReload = false): Observable<boolean> {
+    let loaded = false;
     return this.store.pipe(
       select(fromStore.getIndexEntity(pageContext)),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
-        const shouldReload = forceReload && !entity.loading;
+        const shouldReload = forceReload && !entity.loading && !loaded;
         if (!attemptedLoad || shouldReload) {
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
+          loaded = true;
         }
       }),
       filter(entity => entity.success || entity.error),
