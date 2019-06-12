@@ -12,7 +12,7 @@ Before carrying out the procedures below, please ensure the following front end 
 
 Your Angular development environment should include the following:
 
-- Angular cli v7
+- Angular cli v8
 - node.js >= 10 and < 12
 - yarn >= 1.15
 
@@ -43,20 +43,20 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 1. Add the following dependencies to the `dependencies` section of `{mystore}/package.json`:
 
-   ```
+   ```json
    "@angular/pwa": "^0.6.8",
    "@angular/service-worker": "^6.0.0",
    "@ng-bootstrap/ng-bootstrap": "^3.2.2",
    "@ng-select/ng-select": "^2.9.1",
-   "@ngrx/effects": "^6.1.0",
-   "@ngrx/router-store": "^6.1.0",
-   "@ngrx/store": "^6.1.0",
+   "@ngrx/effects": "^8.0.0",
+   "@ngrx/router-store": "^8.0.0",
+   "@ngrx/store": "^8.0.0",
    "bootstrap": "^4.1.3",
    ```
 
 2. Install the dependencies. The following is an example using yarn:
 
-   ```
+   ```shell
    yarn install
    ```
 

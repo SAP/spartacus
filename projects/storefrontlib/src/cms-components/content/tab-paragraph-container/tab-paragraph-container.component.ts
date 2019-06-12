@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsService, CMSTabParagraphContainer } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 
 @Component({
@@ -25,7 +24,10 @@ export class TabParagraphContainerComponent {
           this.cmsService.getComponentData<any>(component).pipe(
             map(tab => {
               if (!tab.flexType) {
-                tab.flexType = tab.typeCode;
+                tab = {
+                  ...tab,
+                  flexType: tab.typeCode,
+                };
               }
               return {
                 ...tab,
