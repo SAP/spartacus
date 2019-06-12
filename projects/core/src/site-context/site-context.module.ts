@@ -17,7 +17,7 @@ import { SiteContextStoreModule } from './store/site-context-store.module';
   ],
 })
 export class SiteContextModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SiteContextModule> {
     return {
       ngModule: SiteContextModule,
       providers: [
