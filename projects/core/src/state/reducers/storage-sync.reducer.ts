@@ -22,7 +22,7 @@ export function getStorageSyncReducer<T>(
 
   return (reducer: ActionReducer<T, Action>): ActionReducer<T, Action> => {
     return (state, action): T => {
-      const newState = { ...state };
+      const newState = reducer(state, action);
 
       if (action.type === INIT || action.type === UPDATE) {
         const rehydratedState = rehydrate(config, winRef);
@@ -58,7 +58,7 @@ export function getStorageSyncReducer<T>(
         );
       }
 
-      return reducer(newState, action);
+      return newState;
     };
   };
 }
