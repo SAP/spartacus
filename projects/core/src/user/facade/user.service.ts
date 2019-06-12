@@ -691,7 +691,6 @@ export class UserService {
     return this.store.pipe(
       select(fromStore.getCustomerCouponsState),
       tap(customerCouponsState => {
-        console.log('state:' + JSON.stringify(customerCouponsState));
         const attemptedLoad =
           customerCouponsState.loading ||
           customerCouponsState.success ||
