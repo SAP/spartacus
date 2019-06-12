@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
@@ -16,9 +15,7 @@ export class CategoryNavigationComponent {
     this.componentData.data$
   );
 
-  styleClass$: Observable<string> = this.componentData.data$.pipe(
-    map(d => d.styleClass)
-  );
+  data$: Observable<CmsNavigationComponent> = this.componentData.data$;
 
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
