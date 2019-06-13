@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Product, ProductService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +15,7 @@ export class CurrentProductService {
   getProduct(): Observable<Product> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
-      filter(productCode => !!productCode),
-      distinctUntilChanged(),
-      tap(code => console.log('router param code', code)),
+      filter(Boolean),
       switchMap((productCode: string) => this.productService.get(productCode))
     );
   }
