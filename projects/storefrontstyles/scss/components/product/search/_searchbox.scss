@@ -174,11 +174,7 @@
         font-style: normal;
       }
 
-      &:hover {
-        background: var(--cx-g-color-light);
-        color: currentColor;
-      }
-
+      &:hover,
       &:focus {
         background: var(--cx-g-color-light);
         color: currentColor;

@@ -63,8 +63,9 @@ export class SearchBoxComponent {
     switchMap(config => this.searchBoxComponentService.getResults(config)),
     tap(results => {
       if (this.searchBoxComponentService.hasResults(results)) {
+        // Use timeout to render html elements for results
         setTimeout(() => {
-          const children = this.getChildren();
+          const children = this.getResultElements();
           if (this.resultItems !== children) {
             this.resultItems = children;
           }
@@ -131,6 +132,7 @@ export class SearchBoxComponent {
    * Closes the typehead searchbox.
    */
   close(event: UIEvent): void {
+    // Use timeout to detect changes
     setTimeout(() => {
       if (!this.ignoreCloseEvent && !this.isSearchboxFocused()) {
         this.searchBoxComponentService.toggleBodyClass(
@@ -146,6 +148,7 @@ export class SearchBoxComponent {
   }
 
   blur(event: UIEvent): void {
+    // Use timeout to act on enter key before blurring
     setTimeout(() => {
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
@@ -164,17 +167,17 @@ export class SearchBoxComponent {
     }
   }
 
-  private getChildren() {
+  private getResultElements(): HTMLElement[] {
     const suggestions = this.winRef.document.querySelectorAll(
       'div.suggestions > a'
     );
     const products = this.winRef.document.querySelectorAll('div.products > a');
-
     const results = [];
+
     suggestions.forEach(suggestion => results.push(suggestion));
     products.forEach(item => results.push(item));
 
-    return results;
+    return <HTMLElement[]>results;
   }
 
   private getFocusedElement(): HTMLElement {
