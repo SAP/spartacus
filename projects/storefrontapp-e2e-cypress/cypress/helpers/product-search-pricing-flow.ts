@@ -16,10 +16,10 @@ export function productPricingFlow() {
   cy.get('header').within(() => {
     cy.get('cx-navigation-ui')
       .contains('Digital Cameras')
-      .click();
+      .click({ force: true });
     cy.get('.childs cx-generic-link')
       .contains('Compact Cameras')
-      .click();
+      .click({ force: true });
   });
 
   cy.get('cx-breadcrumb h1').should(
