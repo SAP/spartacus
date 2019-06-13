@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { AuthService } from '../facade/auth.service';
 
@@ -22,9 +22,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.authService.getUserToken().pipe(
-      tap(x => console.log('xxx', x)),
       take(1),
-      tap(x => console.log('xxx', x)),
       switchMap(token => {
         if (
           token &&
