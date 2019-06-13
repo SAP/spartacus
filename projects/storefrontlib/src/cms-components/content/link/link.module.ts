@@ -12,7 +12,7 @@ import { GenericLinkModule } from '../../../shared/components/generic-link/gener
     GenericLinkModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSLinkComponent: { selector: 'cx-link' },
+        CMSLinkComponent: { component: LinkComponent },
       },
     }),
   ],

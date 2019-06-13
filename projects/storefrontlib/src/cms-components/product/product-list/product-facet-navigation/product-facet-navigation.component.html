@@ -18,7 +18,7 @@
           (click)="toggleValue(breadcrumb.removeQuery.query.value)"
         >
           <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
           </span>
         </button>
       </div>
@@ -37,7 +37,9 @@
           {{ facet.name }}
           <cx-icon
             [type]="
-              isFacetCollapsed(facet.name) ? iconTypes.PLUS : iconTypes.MINUS
+              isFacetCollapsed(facet.name)
+                ? iconTypes.EXPAND
+                : iconTypes.COLLAPSE
             "
           ></cx-icon>
         </a>
@@ -121,7 +123,7 @@
             (click)="toggleValue(breadcrumb.removeQuery.query.value)"
           >
             <span aria-hidden="true">
-              <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+              <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
             </span>
           </button>
         </div>
@@ -143,7 +145,7 @@
       (click)="d('Cross click')"
     >
       <span aria-hidden="true">
-        <cx-icon [type]="iconTypes.TIMES"></cx-icon>
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
       </span>
     </button>
   </div>

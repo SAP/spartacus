@@ -1,5 +1,4 @@
 import * as productSearchFlow from '../../helpers/product-search';
-// import { formats } from '../../sample-data/viewports';
 
 function enterProduct() {
   cy.get('cx-searchbox input').type('camera{enter}');
@@ -51,6 +50,10 @@ context('Product search', () => {
     before(() => {
       cy.visit('/');
       enterProduct();
+    });
+
+    beforeEach(() => {
+      cy.server();
     });
 
     it('should be able to sort by lowest price', () => {

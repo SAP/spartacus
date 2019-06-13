@@ -8,12 +8,12 @@ let service: CmsMappingService;
 const mockConfig: CmsConfig = {
   cmsComponents: {
     exampleMapping1: {
-      selector: 'selector-1',
+      component: 'selector-1',
       i18nKeys: ['key-1'],
       guards: ['guard1', 'guard2'],
     },
     exampleMapping2: {
-      selector: 'selector-2',
+      component: 'selector-2',
       disableSSR: true,
       childRoutes: [{ path: 'route1' }, { path: 'route2' }],
       i18nKeys: ['key-1', 'key-2'],
