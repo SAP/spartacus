@@ -7,7 +7,7 @@ import { CmsComponent, PageType } from '../../../model/cms.model';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
-import { CMS_PAGE_NORMALIZE } from '../../../cms/connectors';
+import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors';
 import { CmsStructureConfigService } from '../../../cms/services';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
 import createSpy = jasmine.createSpy;
@@ -214,7 +214,7 @@ describe('OccCmsPageAdapter', () => {
         .expectOne(req => req.url === endpoint + '/pages')
         .flush(cmsPageData);
 
-      expect(converter.pipeable).toHaveBeenCalledWith(CMS_PAGE_NORMALIZE);
+      expect(converter.pipeable).toHaveBeenCalledWith(CMS_PAGE_NORMALIZER);
     });
   });
 });

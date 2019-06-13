@@ -45,6 +45,7 @@ const details: CheckoutDetails = {
 
 const paymentDetails: PaymentDetails = {
   accountHolderName: 'test',
+  defaultPayment: false,
   billingAddress: {
     line1: '123 Montreal',
   },
@@ -190,6 +191,7 @@ describe('Checkout effect', () => {
         cardType: {
           code: 'visa',
         },
+        defaultPayment: false,
         expiryMonth: '01',
         expiryYear: '2019',
         cvn: '123',
