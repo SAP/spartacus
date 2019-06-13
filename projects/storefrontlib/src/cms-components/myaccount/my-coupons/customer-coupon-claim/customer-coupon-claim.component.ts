@@ -35,8 +35,8 @@ export class CustomerCouponClaimComponent implements OnInit, OnDestroy {
                   { key: 'myCoupons.claimCustomerCoupon' },
                   GlobalMessageType.MSG_TYPE_CONFIRMATION
                 );
-                this.routingService.go('/my-account/coupons');
               }
+              this.routingService.go('/my-account/coupons');
             });
         } else {
           this.routingService.go('/not-found');
