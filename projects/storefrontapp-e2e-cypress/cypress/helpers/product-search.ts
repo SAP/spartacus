@@ -31,7 +31,7 @@ export function checkDistinctProductName(firstProduct: string) {
 
 export function verifyProductSearch(
   productAlias: string,
-  filterAlias: string,
+  sortingAlias: string,
   sortBy: string
 ): void {
   cy.get(productNameSelector)
@@ -49,7 +49,7 @@ export function verifyProductSearch(
 
       cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
 
-      cy.wait(filterAlias);
+      cy.wait(sortingAlias);
 
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
