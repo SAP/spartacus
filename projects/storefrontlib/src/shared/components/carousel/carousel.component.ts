@@ -63,7 +63,8 @@ export class CarouselComponent implements OnInit {
     this.activeSlide = slide;
   }
 
-  onOpen(item: CarouselItem): void {
-    this.open.emit(item);
+  onOpen(groupIndex: number, itemIndex: number): void {
+    this.select(groupIndex);
+    this.open.emit(this.items[groupIndex + itemIndex]);
   }
 }

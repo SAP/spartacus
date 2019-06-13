@@ -23,9 +23,9 @@
               *ngIf="item"
               class="product"
               [class.active]="i === activeSlide"
-              [class.activeItem]="j === activeItem"
+              [class.activeItem]="j === activeItem - i"
               [routerLink]="item.route"
-              (focus)="onOpen(item)"
+              (focus)="onOpen(i, j)"
               tabindex="0"
             >
               <cx-media
