@@ -128,7 +128,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
     .find('.cx-actions .link')
     .click();
-  cy.get('cx-cart-details').should('contain', 'Cart total (1 item)');
+  cy.get('cx-cart-details').should('contain', 'Cart #');
 
   // check for the other product still exist
   cy.get('cx-cart-item-list .cx-item-list-items')
@@ -159,6 +159,11 @@ export function addDifferentProducts(isMobile: Boolean = false) {
       expect(totalPrice).equal('$927.89');
     });
 
+  cy.server();
+  cy.route('GET', '/rest/v2/electronics-spa/users/anonymous/carts/*').as(
+    'getCart'
+  );
+  cy.wait('@getCart');
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
