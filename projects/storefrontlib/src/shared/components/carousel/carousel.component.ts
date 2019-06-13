@@ -32,6 +32,8 @@ export class CarouselComponent implements OnInit {
    */
   @Input() minItemPixelSize = 300;
 
+  @Input() hideIndicators = false;
+
   @Input() indicatorIcon = ICON_TYPE.CIRCLE;
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;

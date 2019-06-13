@@ -7,6 +7,7 @@
     *ngIf="(thumbs$ | async) as thumbs"
     [items]="thumbs"
     [minItemPixelSize]="120"
+    [hideIndicators]="true"
     (open)="openImage($event)"
     [activeItem]="active$ | async"
   ></cx-carousel>

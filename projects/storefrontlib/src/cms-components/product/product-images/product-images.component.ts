@@ -2,10 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { CarouselItem } from 'projects/storefrontlib/src/shared';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
-
-const WAITING_CLASS = 'is-waiting';
 
 @Component({
   selector: 'cx-product-images',
@@ -15,7 +13,12 @@ const WAITING_CLASS = 'is-waiting';
 export class ProductImagesComponent {
   private product$: Observable<
     Product
-  > = this.currentProductService.getProduct().pipe(filter(Boolean));
+  > = this.currentProductService.getProduct().pipe(
+    filter(Boolean),
+    distinctUntilChanged(),
+    tap(p => console.log('product', p)),
+    tap(_ => this._imageContainer$.next(null))
+  );
 
   private _imageContainer$ = new BehaviorSubject(null);
 

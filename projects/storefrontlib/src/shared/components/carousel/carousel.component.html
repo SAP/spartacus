@@ -52,7 +52,7 @@
     </button>
   </div>
 
-  <div class="indicators" *ngIf="size < items.length">
+  <div *ngIf="!hideIndicators && size < items.length" class="indicators">
     <ng-container *ngFor="let _ of items; let i = index">
       <button
         *ngIf="i % size === 0"
