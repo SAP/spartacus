@@ -38,7 +38,7 @@ export function addShippingAddress() {
 
 export function goToProductPageFromCategory() {
   // click big banner
-  cy.get('.Section1 cx-banner')
+  cy.get('.Section1 cx-banner cx-generic-link')
     .first()
     .find('cx-media')
     .click();

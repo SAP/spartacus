@@ -4,10 +4,10 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
-import { NavigationComponentService } from '../navigation/navigation.component.service';
+import { NavigationService } from '../navigation/navigation.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   template: '',
@@ -15,6 +15,7 @@ import createSpy = jasmine.createSpy;
 })
 class MockNavigationComponent {
   @Input() node: NavigationNode;
+  @Input() wrapAfter: number;
 }
 
 describe('CategoryNavigationComponent', () => {
@@ -40,11 +41,17 @@ describe('CategoryNavigationComponent', () => {
 
   const mockCmsComponentData = <CmsNavigationComponent>{
     styleClass: 'footer-styling',
+    wrapAfter: '10',
+  };
+
+  const MockCmsNavigationComponent = <CmsComponentData<any>>{
+    data$: of(mockCmsComponentData),
   };
 
   const mockNavigationService = {
-    getNavigationNode: createSpy().and.returnValue(of(null)),
-    getComponentData: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getNavigationNode() {
+      return of(componentData);
+    },
   };
 
   beforeEach(async(() => {
@@ -53,8 +60,12 @@ describe('CategoryNavigationComponent', () => {
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
         {
-          provide: NavigationComponentService,
+          provide: NavigationService,
           useValue: mockNavigationService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsNavigationComponent,
         },
       ],
     }).compileComponents();
@@ -64,7 +75,6 @@ describe('CategoryNavigationComponent', () => {
     fixture = TestBed.createComponent(CategoryNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
-    component.node$ = of(componentData);
     fixture.detectChanges();
   });
 
@@ -81,5 +91,11 @@ describe('CategoryNavigationComponent', () => {
   it('should add the component styleClass', () => {
     const navigationUI = element.query(By.css('cx-navigation-ui'));
     expect(navigationUI.nativeElement.classList).toContain('footer-styling');
+  });
+
+  it('should have wrapAfter property', () => {
+    let result: CmsNavigationComponent;
+    component.data$.subscribe(node => (result = node));
+    expect(result.wrapAfter).toEqual('10');
   });
 });
