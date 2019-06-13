@@ -87,7 +87,7 @@ cmsComponents: {
 
 *Note 2: children routes of Product and Category Pages are not supported.*
 
-### Advanced: How to configure category name in the Product Page route
+## Advanced: How to configure category name in the Product Page route
 
 Only the first-level properties of the product entity (i.e. `code` or `name`) can be used to build URL. Unfortunately, product categories is not the case (the field `categories` is an array of objects). So you need to map `categories` array's elements to the first-level properties of the product entity. You can perform such a mapping for example in the `PRODUCT_NORMALIZER`. Here is how to do it:
 
