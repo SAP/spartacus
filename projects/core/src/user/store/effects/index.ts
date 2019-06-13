@@ -15,7 +15,6 @@ import { UserOrdersEffect } from './user-orders.effect';
 import { UserRegisterEffects } from './user-register.effect';
 import { CustomerCouponEffects } from './customer-coupon.effect';
 
-
 export const effects: any[] = [
   DeliveryCountriesEffects,
   RegionsEffects,

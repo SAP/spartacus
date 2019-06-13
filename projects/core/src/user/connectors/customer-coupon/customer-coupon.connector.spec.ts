@@ -9,7 +9,7 @@ const currentPage = 1;
 const sort = 'byDate';
 
 class MockUserAdapter implements CustomerCouponAdapter {
-  getMyCoupons = createSpy('getMyCoupons').and.callFake(userId =>
+  getCustomerCoupons = createSpy('getCustomerCoupons').and.callFake(userId =>
     of(`loadList-${userId}`)
   );
   turnOnNotification = createSpy('turnOnNotification').and.callFake(userId =>
@@ -39,13 +39,13 @@ describe('CustomerCouponConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getMyCoupons should call adapter', () => {
+  it('getCustomerCoupons should call adapter', () => {
     let result;
     service
-      .getMyCoupons('user-id', PAGE_SIZE, currentPage, sort)
+      .getCustomerCoupons('user-id', PAGE_SIZE, currentPage, sort)
       .subscribe(res => (result = res));
     expect(result).toEqual('loadList-user-id');
-    expect(adapter.getMyCoupons).toHaveBeenCalledWith(
+    expect(adapter.getCustomerCoupons).toHaveBeenCalledWith(
       'user-id',
       PAGE_SIZE,
       currentPage,

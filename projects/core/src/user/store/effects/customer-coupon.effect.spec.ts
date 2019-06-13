@@ -89,7 +89,7 @@ describe('Customer Coupon effect', () => {
     );
     customerCouponConnector = TestBed.get(CustomerCouponConnector);
 
-    spyOn(customerCouponConnector, 'getMyCoupons').and.returnValue(
+    spyOn(customerCouponConnector, 'getCustomerCoupons').and.returnValue(
       of(customerSearcherResult)
     );
     spyOn(customerCouponConnector, 'turnOnNotification').and.returnValue(

@@ -75,7 +75,7 @@ describe('MyCouponsComponent', () => {
   let fixture: ComponentFixture<MyCouponsComponent>;
   const userService = jasmine.createSpyObj('UserService', [
     'getCustomerCoupons',
-    'getCustomerCouponsLoaded',
+    'getCustomerCouponsLoading',
     'loadCustomerCoupons',
     'subscribeCustomerCoupon',
     'unsubscribeCustomerCoupon',
@@ -99,7 +99,7 @@ describe('MyCouponsComponent', () => {
     fixture = TestBed.createComponent(MyCouponsComponent);
     component = fixture.componentInstance;
     userService.getCustomerCoupons.and.returnValue(of(emptyCouponResult));
-    userService.getCustomerCouponsLoaded.and.returnValue(of(true));
+    userService.getCustomerCouponsLoading.and.returnValue(of(false));
     userService.loadCustomerCoupons.and.stub();
     userService.getSubscribeCustomerCouponResultLoading.and.returnValue(
       of(true)
