@@ -25,7 +25,8 @@ export class BadRequestHandler extends HttpErrorHandler {
         {
           key: 'httpHandlers.badRequestPleaseLoginAgain',
           params: {
-            errorMessage: response.error.error_description || '',
+            errorMessage:
+              response.error.error_description || response.message || '',
           },
         },
         GlobalMessageType.MSG_TYPE_ERROR
