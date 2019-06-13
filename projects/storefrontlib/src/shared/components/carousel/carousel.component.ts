@@ -19,7 +19,15 @@ import { CarouselService } from './carousel.service';
 export class CarouselComponent implements OnInit {
   @Input() title: string;
 
-  @Input() items: CarouselItem[];
+  private _items: CarouselItem[];
+  @Input('items')
+  set items(value: CarouselItem[]) {
+    this._items = value;
+    this.select();
+  }
+  get items(): CarouselItem[] {
+    return this._items;
+  }
 
   /** Indicates the current active item in carousel (if any)  */
   @Input() activeItem: number;
@@ -56,10 +64,10 @@ export class CarouselComponent implements OnInit {
   ngOnInit() {
     this.size$ = this.service
       .getSize(this.el.nativeElement, this.minItemPixelSize)
-      .pipe(tap(() => this.select(0)));
+      .pipe(tap(() => this.select()));
   }
 
-  select(slide: number) {
+  select(slide = 0) {
     this.activeSlide = slide;
   }
 
