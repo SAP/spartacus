@@ -10,6 +10,10 @@ While the Angular router contains a rich set of features and configuration optio
 
 This is where configurable routes comes in to play - every route in Spartacus is configurable.
 
+## How to: routing
+
+[How to - recipes](./how-to-routing.md)
+
 ## Features
 
 The following features are supported:

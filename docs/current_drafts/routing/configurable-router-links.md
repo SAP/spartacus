@@ -219,10 +219,10 @@ result:
 
 When properties of given `params` object do not match exactly to names of route parameters, they can be mapped using `paramsMapping` option in the configuration. For example:
 
-The `params` object below does not contain necessary property `productCode`, but it has `id`:
+The `params` object below does not contain necessary property `productCode`, but it has `code`:
 
 ```html
-<a [routerLink]="{ cxRoute: 'product', params: { id: 1234 } } | cxUrl"></a>
+<a [routerLink]="{ cxRoute: 'product', params: { code: 1234 } } | cxUrl"></a>
 ```
 
 Then `paramsMapping` needs to be configured:
@@ -232,8 +232,8 @@ ConfigModule.withConfig({
     routing: {
         routes: {
             product: {
-                /* 'productCode' route parameter will be filled with value of 'id' property of 'params' object  */
-                paramsMapping: { productCode: 'id' }
+                /* 'productCode' route parameter will be filled with value of 'code' property of 'params' object  */
+                paramsMapping: { productCode: 'code' }
                 paths: [':productCode/custom/product-path']
             }
         }
