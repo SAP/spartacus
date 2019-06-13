@@ -4,17 +4,7 @@ import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsComponentData } from '@spartacus/storefront';
-import {
-  CmsParagraphComponent,
-  CmsComponent,
-  CmsConfig,
-} from '@spartacus/core';
-
-const UseCmsModuleConfig: CmsConfig = {
-  cmsComponents: {
-    CMSLinkComponent: { selector: 'ParagraphComponent' },
-  },
-};
+import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
 
 describe('CmsParagraphComponent in CmsLib', () => {
   let paragraphComponent: ParagraphComponent;
@@ -41,7 +31,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
     TestBed.configureTestingModule({
       declarations: [ParagraphComponent],
       providers: [
-        { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,

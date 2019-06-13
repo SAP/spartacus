@@ -301,6 +301,6 @@ export function outOfStock() {
 
   cy.visit(`/product/${product.code}`);
 
-  cy.get('cx-product-summary .quantity').should('contain', 'Out of stock');
-  cy.get('cx-product-summary cx-add-to-cart button').should('not.exist');
+  cy.get('cx-add-to-cart .quantity').should('contain', 'Out of stock');
+  cy.get('cx-add-to-cart cx-add-to-cart button').should('not.exist');
 }

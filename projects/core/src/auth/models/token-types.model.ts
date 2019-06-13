@@ -5,7 +5,7 @@ export interface UserToken {
   expires_in: number;
   scope: string[];
   userId: string;
-  expiration_time?: Date;
+  expiration_time?: string;
 }
 
 export interface ClientToken {

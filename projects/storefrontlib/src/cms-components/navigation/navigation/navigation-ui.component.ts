@@ -22,6 +22,11 @@ export class NavigationUIComponent {
   @Input() node: NavigationNode;
 
   /**
+   * The number of child nodes that must be wrapped.
+   */
+  @Input() wrapAfter: number;
+
+  /**
    * the icon type that will be used for navigation nodes
    * with children.
    */

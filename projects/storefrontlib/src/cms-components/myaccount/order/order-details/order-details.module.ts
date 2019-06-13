@@ -41,16 +41,16 @@ const moduleComponents = [
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderDetailsHeadlineComponent: {
-          selector: 'cx-order-details-headline',
+          component: OrderDetailHeadlineComponent,
         },
         AccountOrderDetailsItemsComponent: {
-          selector: 'cx-order-details-items',
+          component: OrderDetailItemsComponent,
         },
         AccountOrderDetailsTotalsComponent: {
-          selector: 'cx-order-details-totals',
+          component: OrderDetailTotalsComponent,
         },
         AccountOrderDetailsShippingComponent: {
-          selector: 'cx-order-details-shipping',
+          component: OrderDetailShippingComponent,
         },
       },
     }),
