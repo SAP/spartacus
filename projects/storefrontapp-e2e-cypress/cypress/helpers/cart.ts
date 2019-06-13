@@ -245,6 +245,6 @@ export function manipulateCartQuantity() {
 export function outOfStock() {
   cy.visit(`/product/${PRODUCT_CODE_4}`);
 
-  cy.get('cx-product-summary .quantity').should('contain', 'Out of stock');
-  cy.get('cx-product-summary cx-add-to-cart button').should('not.exist');
+  cy.get('cx-add-to-cart .quantity').should('contain', 'Out of stock');
+  cy.get('cx-add-to-cart cx-add-to-cart button').should('not.exist');
 }

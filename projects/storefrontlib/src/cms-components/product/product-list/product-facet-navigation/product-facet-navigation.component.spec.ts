@@ -13,7 +13,7 @@ import {
   ProductSearchService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ICON_TYPES } from '../../../misc/icon/icon.config';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 import { ModalService } from '../../../../shared/components/modal/index';
 
@@ -22,7 +22,7 @@ import { ModalService } from '../../../../shared/components/modal/index';
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPES;
+  @Input() type: ICON_TYPE;
 }
 
 describe('ProductFacetNavigationComponent in product-list', () => {
