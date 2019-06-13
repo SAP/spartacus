@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { CarouselItem } from 'projects/storefrontlib/src/shared';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { CarouselItem } from '../../../shared/components/carousel/index';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
