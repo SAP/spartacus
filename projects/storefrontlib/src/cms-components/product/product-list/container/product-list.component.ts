@@ -104,7 +104,8 @@ export class ProductListComponent implements OnInit {
   }
 
   sortList(sortCode: string): void {
-    this.search(this.query, { sortCode: sortCode });
+    const { queryParams } = this.activatedRoute.snapshot;
+    this.search(queryParams.query, { sortCode: sortCode });
   }
 
   setGridMode(mode: ViewModes): void {
