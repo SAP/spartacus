@@ -32,7 +32,7 @@ export class UserService {
     protected store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
     >
-  ) {}
+  ) { }
 
   /**
    * Returns a user

@@ -13,9 +13,12 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { MyCouponsComponent } from './my-coupons.component';
 import { CouponCardComponent } from './coupon-card/coupon-card.component';
 
-import { ListNavigationModule } from 'projects/storefrontlib/src/shared/components/list-navigation/list-navigation.module';
+import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { CouponDialogComponent } from './coupon-card/coupon-dialog/coupon-dialog.component';
 import { IconModule } from '../../../cms-components/misc/icon/index';
+import { CustomerCouponClaimComponent } from './customer-coupon-claim/customer-coupon-claim.component';
+import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 
 @NgModule({
   imports: [
@@ -33,15 +36,29 @@ import { IconModule } from '../../../cms-components/misc/icon/index';
           selector: 'cx-my-coupons',
           guards: [AuthGuard],
         },
+        CustomerCouponClaimComponent: {
+          selector: 'cx-customer-coupon-claim',
+          //component: CustomerCouponClaimComponent,
+          guards: [AuthGuard],
+        },
       },
     }),
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'couponClaim' },
+      },
+    ]),
   ],
   declarations: [
     MyCouponsComponent,
     CouponCardComponent,
     CouponDialogComponent,
+    CustomerCouponClaimComponent
   ],
-  exports: [MyCouponsComponent],
-  entryComponents: [MyCouponsComponent, CouponDialogComponent],
+  exports: [MyCouponsComponent, CustomerCouponClaimComponent],
+  entryComponents: [MyCouponsComponent, CouponDialogComponent, CustomerCouponClaimComponent],
 })
-export class MyCouponsModule {}
+export class MyCouponsModule { }
