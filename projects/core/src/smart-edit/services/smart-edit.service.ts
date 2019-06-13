@@ -25,7 +25,7 @@ export class SmartEditService {
     protected routingService: RoutingService,
     protected baseSiteService: BaseSiteService,
     protected zone: NgZone,
-    winRef: WindowRef
+    protected winRef: WindowRef
   ) {
     this.getCmsTicket();
     this.addPageContract();
@@ -91,16 +91,18 @@ export class SmartEditService {
 
         // remove old page contract
         const previousContract = [];
-        Array.from(document.body.classList).forEach(attr =>
+        Array.from(this.winRef.document.body.classList).forEach(attr =>
           previousContract.push(attr)
         );
-        previousContract.forEach(attr => document.body.classList.remove(attr));
+        previousContract.forEach(attr =>
+          this.winRef.document.body.classList.remove(attr)
+        );
 
         // add new page contract
         if (cmsPage.properties && cmsPage.properties.smartedit) {
           const seClasses = cmsPage.properties.smartedit.classes.split(' ');
           seClasses.forEach(classItem => {
-            document.body.classList.add(classItem);
+            this.winRef.document.body.classList.add(classItem);
           });
         }
       }
