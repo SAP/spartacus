@@ -34,7 +34,7 @@ const paymentMethodsTest = () => {
 };
 
 // desktop
-describe.only('Payment Methods', () => {
+describe('Payment Methods', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });
@@ -63,8 +63,7 @@ describe.only('Payment Methods', () => {
 });
 
 // mobile
-describe.only(`${formats.mobile.width +
-  1}p resolution - Payment Methods`, () => {
+describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);

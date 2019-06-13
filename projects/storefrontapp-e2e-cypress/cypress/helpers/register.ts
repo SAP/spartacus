@@ -25,7 +25,9 @@ export function checkTermsAndConditions() {
 }
 
 export function signOut() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
   cy.visit('/');
 }
 
