@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CarouselItem } from './carousel.model';
@@ -13,6 +20,9 @@ export class CarouselComponent implements OnInit {
 
   @Input() items: CarouselItem[];
 
+  /** Indicates the current active item in carousel (if any)  */
+  @Input() activeItem: number;
+
   /**
    * Specifies the min pixel used per product. This value is used
    * to calculate the amount of items we can fit into the available with
@@ -25,6 +35,8 @@ export class CarouselComponent implements OnInit {
   @Input() indicatorIcon = ICON_TYPE.CIRCLE;
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
+
+  @Output() open = new EventEmitter<CarouselItem>();
 
   /**
    * The group with items which is currently active.
@@ -47,5 +59,9 @@ export class CarouselComponent implements OnInit {
 
   select(slide: number) {
     this.activeSlide = slide;
+  }
+
+  onOpen(item: CarouselItem): void {
+    this.open.emit(item);
   }
 }

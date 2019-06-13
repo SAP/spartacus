@@ -16,12 +16,17 @@
     <div class="groups">
       <ng-container *ngFor="let _ of items; let i = index">
         <div class="group" *ngIf="i % size === 0">
-          <ng-container *ngFor="let item of (items | slice: i:i + size)">
+          <ng-container
+            *ngFor="let item of (items | slice: i:i + size); let j = index"
+          >
             <a
               *ngIf="item"
               class="product"
               [class.active]="i === activeSlide"
+              [class.activeItem]="j === activeItem"
               [routerLink]="item.route"
+              (focus)="onOpen(item)"
+              tabindex="0"
             >
               <cx-media
                 [container]="item.media?.container"

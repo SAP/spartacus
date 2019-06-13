@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
+import { CarouselItem } from 'projects/storefrontlib/src/shared';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
@@ -12,15 +13,13 @@ const WAITING_CLASS = 'is-waiting';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImagesComponent {
-  waiting: HTMLElement;
-
-  product$: Observable<Product> = this.currentProductService
-    .getProduct()
-    .pipe(filter(Boolean));
+  private product$: Observable<
+    Product
+  > = this.currentProductService.getProduct().pipe(filter(Boolean));
 
   private _imageContainer$ = new BehaviorSubject(null);
 
-  imageContainer$ = combineLatest(this.product$, this._imageContainer$).pipe(
+  imageContainer$ = combineLatest([this.product$, this._imageContainer$]).pipe(
     map(([product, container]) =>
       container
         ? container
@@ -30,39 +29,48 @@ export class ProductImagesComponent {
     )
   );
 
+  thumbs$: Observable<CarouselItem[]> = this.product$.pipe(
+    map(product => this.createThumbs(product))
+  );
+
   constructor(private currentProductService: CurrentProductService) {}
 
-  showImage(event: MouseEvent, imageContainer): void {
-    this.startWaiting(<HTMLElement>event.target);
-    this._imageContainer$.next(imageContainer);
+  // return null in case there are no thumbs, or there's only 1.
+  private createThumbs(product: Product): CarouselItem[] {
+    if (
+      !product.images ||
+      !product.images.GALLERY ||
+      product.images.GALLERY.length < 2
+    ) {
+      return null;
+    }
+
+    return (<any[]>product.images.GALLERY).map(c => {
+      return {
+        media: {
+          container: c,
+          format: 'thumbnail',
+        },
+      };
+    });
   }
 
-  isMainImageContainer(currentContainer): Observable<boolean> {
-    return this.imageContainer$.pipe(
-      map(
-        (container: any) =>
-          container &&
-          container.zoom &&
-          currentContainer.zoom &&
-          container.zoom.url === currentContainer.zoom.url
-      )
+  openImage(item: CarouselItem): void {
+    this._imageContainer$.next(item.media.container);
+  }
+
+  /** find the index of the main media in the list of media */
+  get active$(): Observable<number> {
+    return combineLatest([this.thumbs$, this.imageContainer$]).pipe(
+      map(([thumbs, main]: [CarouselItem[], any]) => {
+        const current = thumbs.find(
+          (thumb: CarouselItem) =>
+            thumb.media.container.zoom.url === main.zoom.url
+        );
+        return thumbs.indexOf(current);
+      })
     );
   }
 
-  loadHandler(): void {
-    this.clearWaitList();
-  }
-
-  private startWaiting(el: HTMLElement): void {
-    this.clearWaitList();
-    el.classList.add(WAITING_CLASS);
-    this.waiting = el;
-  }
-
-  private clearWaitList(): void {
-    if (this.waiting) {
-      this.waiting.classList.remove(WAITING_CLASS);
-      delete this.waiting;
-    }
-  }
+  loadHandler(): void {}
 }

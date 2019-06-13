@@ -56,8 +56,9 @@
           justify-content: space-between;
           padding-bottom: 10px;
           color: var(--cx-g-color-text);
+
           cx-media {
-            height: 20vmin;
+            // height: 20vmin;
 
             &.is-missing {
               min-height: 20vmin;
