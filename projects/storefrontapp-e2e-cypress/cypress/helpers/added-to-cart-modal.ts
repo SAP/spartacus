@@ -161,9 +161,9 @@ export function addDifferentProducts(isMobile: Boolean = false) {
 
   cy.server();
   cy.route('GET', '/rest/v2/electronics-spa/users/anonymous/carts/*').as(
-    'getCart'
+    'getRefreshedCart'
   );
-  cy.wait('@getCart');
+  cy.wait('@getRefreshedCart');
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
