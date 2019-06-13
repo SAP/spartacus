@@ -5,10 +5,10 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { INIT } from '@ngrx/store';
+import { AUTH_FEATURE, StateWithAuth } from '../../auth/store/auth-state';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { getStateSlice } from '../utils/get-state-slice';
-import { AUTH_FEATURE, StateWithAuth } from '../../auth/store/auth-state';
 
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 
@@ -37,7 +37,7 @@ export function getTransferStateReducer(
     }
   }
 
-  return undefined;
+  return reducer => reducer;
 }
 
 export function getServerTransferStateReducer(
