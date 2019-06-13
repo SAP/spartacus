@@ -20,13 +20,13 @@
             *ngFor="let item of (items | slice: i:i + size); let j = index"
           >
             <a
-              *ngIf="item"
-              class="product"
+              *ngIf="item && item.route; else noLink"
+              class="item"
               [class.active]="i === activeSlide"
               [class.activeItem]="j === activeItem - i"
-              [routerLink]="item.route"
               (focus)="onOpen(i, j)"
               tabindex="0"
+              [routerLink]="item.route"
             >
               <cx-media
                 [container]="item.media?.container"
@@ -37,6 +37,25 @@
               <h4 *ngIf="item.title">{{ item.title }}</h4>
               <div *ngIf="item.price" class="price">{{ item.price }}</div>
             </a>
+            <ng-template #noLink>
+              <a
+                *ngIf="item"
+                class="item"
+                [class.active]="i === activeSlide"
+                [class.activeItem]="j === activeItem - i"
+                (focus)="onOpen(i, j)"
+                tabindex="0"
+              >
+                <cx-media
+                  [container]="item.media?.container"
+                  [format]="item.media?.format"
+                >
+                </cx-media>
+
+                <h4 *ngIf="item.title">{{ item.title }}</h4>
+                <div *ngIf="item.price" class="price">{{ item.price }}</div>
+              </a>
+            </ng-template>
           </ng-container>
         </div>
       </ng-container>
