@@ -22,7 +22,6 @@ import {
   UpdatePasswordModule,
   UpdateProfileModule,
   MyCouponsModule,
-  // CustomerCouponClaim,
 } from './myaccount/index';
 import {
   BreadcrumbModule,

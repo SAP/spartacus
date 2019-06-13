@@ -158,7 +158,7 @@ describe('OccCustomerCouponAdapter', () => {
   });
 
   describe('claim customer coupon', () => {
-    it('should claim a customer coupon notification for a given user id and coupon code', () => {
+    it('should claim a customer coupon for a given user id and coupon code', () => {
       const customerCoupon: CustomerCoupon = {
         couponId: 'coupon1',
         name: 'coupon 1',
