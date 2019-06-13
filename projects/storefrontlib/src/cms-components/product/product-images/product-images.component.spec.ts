@@ -108,14 +108,15 @@ describe('ProductImagesComponent', () => {
 
     it('should have mainMediaContainer', () => {
       let result: any;
-      component.mainMediaContainer
+      component
+        .getMain()
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result.zoom.url).toEqual('123');
     });
 
     it('should have <cx-media>', () => {
-      component.thumbs$.subscribe();
+      component.getThumbs().subscribe();
       fixture.detectChanges();
 
       const picture = element.query(By.css('cx-media'));
@@ -124,27 +125,16 @@ describe('ProductImagesComponent', () => {
 
     it('should have 2 thumbs', () => {
       let result: CarouselItem[];
-      component.thumbs$.subscribe(value => (result = value)).unsubscribe();
+      component
+        .getThumbs()
+        .subscribe(value => (result = value))
+        .unsubscribe();
       expect(result.length).toEqual(2);
     });
 
     it('should have carousel element', () => {
       const carousel = element.query(By.css('cx-carousel'));
       expect(carousel.nativeElement).toBeDefined();
-    });
-
-    it('should change mainMediaContainer', () => {
-      let secondThumb;
-      component.thumbs$
-        .subscribe(value => (secondThumb = value[1]))
-        .unsubscribe();
-      component.openImage(secondThumb);
-
-      let result: any;
-      component.mainMediaContainer
-        .subscribe(value => (result = value))
-        .unsubscribe();
-      expect(result.zoom.url).toEqual('456');
     });
   });
 

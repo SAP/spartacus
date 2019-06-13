@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CarouselItem } from '../../../shared/components/carousel/index';
 import { CurrentProductService } from '../current-product.service';
@@ -11,7 +11,7 @@ import { CurrentProductService } from '../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImagesComponent {
-  mainMediaContainer = new BehaviorSubject(null);
+  private mainMediaContainer = new BehaviorSubject(null);
 
   private product$: Observable<
     Product
@@ -19,15 +19,33 @@ export class ProductImagesComponent {
     filter(Boolean),
     distinctUntilChanged(),
     tap((p: Product) =>
-      this.mainMediaContainer.next(p.images ? p.images.PRIMARY : null)
+      this.mainMediaContainer.next(p.images ? p.images.PRIMARY : {})
     )
   );
 
-  thumbs$: Observable<CarouselItem[]> = this.product$.pipe(
+  private thumbs$: Observable<CarouselItem[]> = this.product$.pipe(
     map(product => this.createCarouselItems(product))
   );
 
+  private mainImage$ = combineLatest([
+    this.product$,
+    this.mainMediaContainer,
+  ]).pipe(
+    map(([_, container]) => {
+      console.log('main?', container);
+      return container;
+    })
+  );
+
   constructor(private currentProductService: CurrentProductService) {}
+
+  getThumbs(): Observable<CarouselItem[]> {
+    return this.thumbs$;
+  }
+
+  getMain(): Observable<any> {
+    return this.mainImage$;
+  }
 
   openImage(item: CarouselItem): void {
     this.mainMediaContainer.next(item.media.container);
@@ -36,7 +54,8 @@ export class ProductImagesComponent {
   /** find the index of the main media in the list of media */
   getActive(thumbs): Observable<number> {
     return this.mainMediaContainer.pipe(
-      map(container => {
+      filter(Boolean),
+      map((container: any) => {
         const current = thumbs.find(
           t =>
             t.media &&
