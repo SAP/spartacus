@@ -47,7 +47,7 @@ export class ProductImagesComponent {
   }
 
   /** find the index of the main media in the list of media */
-  getActive(thumbs): Observable<number> {
+  getActive(thumbs: CarouselItem[]): Observable<number> {
     return this.mainMediaContainer.pipe(
       filter(Boolean),
       map((container: any) => {
