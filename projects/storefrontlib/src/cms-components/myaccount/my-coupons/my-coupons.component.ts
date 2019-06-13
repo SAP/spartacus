@@ -13,7 +13,7 @@ import { tap } from 'rxjs/operators';
 })
 export class MyCouponsComponent implements OnInit {
   couponResult$: Observable<CustomerCouponSearchResult>;
-  couponsStateLoaded$: Observable<boolean>;
+  couponsStateLoading$: Observable<boolean>;
 
   couponsSubscribeLoading$: Observable<boolean>;
   couponsUnsubscribeLoading$: Observable<boolean>;
@@ -71,7 +71,7 @@ export class MyCouponsComponent implements OnInit {
             })
         )
       );
-    this.couponsStateLoaded$ = this.userService.getCustomerCouponsLoaded();
+    this.couponsStateLoading$ = this.userService.getCustomerCouponsLoading();
     this.couponsSubscribeLoading$ = this.userService.getSubscribeCustomerCouponResultLoading();
     this.couponsUnsubscribeLoading$ = this.userService.getUnsubscribeCustomerCouponResultLoading();
   }

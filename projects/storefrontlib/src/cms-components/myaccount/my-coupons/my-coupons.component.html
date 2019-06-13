@@ -1,5 +1,5 @@
 <div class="cx-section">
-  <ng-container *ngIf="(couponsStateLoaded$ | async); else loading">
+  <ng-container *ngIf="!(couponsStateLoading$ | async); else loading">
     <ng-container *ngIf="(couponResult$ | async) as couponResult">
       <ng-container
         *ngIf="couponResult.pagination.totalCount > 0; else noCoupons"

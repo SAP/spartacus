@@ -711,6 +711,13 @@ export class UserService {
   }
 
   /**
+   * Returns a loading flag for customer coupons
+   */
+  getCustomerCouponsLoading(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getCustomerCouponsLoading));
+  }
+
+  /**
    * Subscribe a CustomerCoupon Notification
    * @param couponCode a customer coupon code
    */
