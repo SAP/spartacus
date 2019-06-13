@@ -9,7 +9,7 @@ import { LOGOUT } from '../../../auth/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { OrderHistoryList } from '../../../model/order.model';
-import {CustomerCouponSearchResult} from '../../../model/customer-coupon.model';
+import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   USER_ADDRESSES,
@@ -63,7 +63,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     customerCoupons: loaderReducer<CustomerCouponSearchResult>(
       CUSTOMER_COUPONS,
       fromCustomerCouponReducer.reducer
-    )
+    ),
   };
 }
 

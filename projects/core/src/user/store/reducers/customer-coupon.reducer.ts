@@ -1,5 +1,8 @@
 import * as fromActions from '../actions/customer-coupon.action';
-import {CustomerCoupon, CustomerCouponSearchResult} from '../../../model/customer-coupon.model';
+import {
+  CustomerCoupon,
+  CustomerCouponSearchResult,
+} from '../../../model/customer-coupon.model';
 
 export const initialState: CustomerCouponSearchResult = {
   coupons: [],
@@ -17,22 +20,22 @@ export function reducer(
 
     case fromActions.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCustomerCoupon = action.payload.coupon;
-      state.coupons.map((customerCoupon:CustomerCoupon) =>
+      state.coupons.map((customerCoupon: CustomerCoupon) =>
         customerCoupon.couponId === updatedCustomerCoupon.couponId
-          ? customerCoupon.notificationOn = true
+          ? (customerCoupon.notificationOn = true)
           : customerCoupon
       );
-      return {...state};
+      return { ...state };
     }
 
     case fromActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCouponCode = action.payload;
-      state.coupons.map((customerCoupon:CustomerCoupon) =>
+      state.coupons.map((customerCoupon: CustomerCoupon) =>
         customerCoupon.couponId === updatedCouponCode
-          ? customerCoupon.notificationOn = false
+          ? (customerCoupon.notificationOn = false)
           : customerCoupon
       );
-      return {...state};
+      return { ...state };
     }
   }
   return state;

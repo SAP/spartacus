@@ -24,7 +24,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     return this.occEndpoints.getEndpoint(endpoint);
   }
 
-  getMyCoupons(
+  getCustomerCoupons(
     userId: string,
     pageSize: number,
     currentPage: number,
