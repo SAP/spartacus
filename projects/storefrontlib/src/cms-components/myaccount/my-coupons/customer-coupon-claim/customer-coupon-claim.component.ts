@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   RoutingService,
   UserService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './customer-coupon-claim.component.html',
   selector: 'cx-customer-coupon-claim',
 })
-export class CustomerCouponClaimComponent implements OnInit {
-  couponCode: string;
+export class CustomerCouponClaimComponent implements OnInit, OnDestroy {
+  subscription: Subscription;
 
   constructor(
     private userService: UserService,
@@ -22,24 +23,28 @@ export class CustomerCouponClaimComponent implements OnInit {
   ngOnInit(): void {
     this.routingService
       .getRouterState()
-      .subscribe(k => (this.couponCode = k.state.params.couponCode));
+      .subscribe(k =>
+        this.userService.claimCustomerCoupon(k.state.params.couponCode)
+      )
+      .unsubscribe();
 
-    if (this.couponCode) {
-      this.userService.claimCustomerCoupon(this.couponCode);
-      this.userService
-        .getClaimCustomerCouponResultSuccess()
-        .subscribe(success => {
-          if (success && this.couponCode) {
-            this.messageService.add(
-              { key: 'myCoupons.claimCustomerCoupon' },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
-          }
-        });
+    this.subscription = this.userService
+      .getClaimCustomerCouponResultSuccess()
+      .subscribe(success => {
+        if (success) {
+          this.messageService.add(
+            { key: 'myCoupons.claimCustomerCoupon' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        }
+      });
 
-      this.routingService.go('/my-account/coupons');
-    } else {
-      this.routingService.go('/not-found');
+    this.routingService.go('/my-account/coupons');
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }
