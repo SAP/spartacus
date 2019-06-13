@@ -51,12 +51,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   }
 
   turnOffNotification(userId: string, couponCode: string): Observable<{}> {
-    const url =
-      this.getUserEndpoint(userId) +
-      CUSTOMER_COUPON_ENDPOINT +
-      '/' +
-      couponCode +
-      '/notification';
+    const url = this.getCustomerCouponNotificaitonEndpoint(userId, couponCode);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -70,12 +65,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     userId: string,
     couponCode: string
   ): Observable<CustomerCouponNotification> {
-    const url =
-      this.getUserEndpoint(userId) +
-      CUSTOMER_COUPON_ENDPOINT +
-      '/' +
-      couponCode +
-      '/notification';
+    const url = this.getCustomerCouponNotificaitonEndpoint(userId, couponCode);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
@@ -84,5 +74,18 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     return this.http
       .post(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  private getCustomerCouponNotificaitonEndpoint(
+    userId: string,
+    couponCode: string
+  ) {
+    return (
+      this.getUserEndpoint(userId) +
+      CUSTOMER_COUPON_ENDPOINT +
+      '/' +
+      couponCode +
+      '/notification'
+    );
   }
 }
