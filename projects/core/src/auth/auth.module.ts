@@ -22,7 +22,7 @@ import { AuthStoreModule } from './store/auth-store.module';
   providers: [...AuthServices, { provide: AuthConfig, useExisting: Config }],
 })
 export class AuthModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<AuthModule> {
     return {
       ngModule: AuthModule,
       providers: [...interceptors],

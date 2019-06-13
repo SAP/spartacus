@@ -19,11 +19,11 @@ export class PageLayoutComponent {
     this.section$.next(value);
   }
   readonly section$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+  readonly templateName$: Observable<string> = this.pageLayoutService
+    .templateName$;
 
   readonly layoutName$: Observable<string> = this.section$.pipe(
-    switchMap(section =>
-      section ? of(section) : this.pageLayoutService.templateName$
-    ),
+    switchMap(section => (section ? of(section) : this.templateName$)),
     tap(name => {
       this.styleClass = name;
     })

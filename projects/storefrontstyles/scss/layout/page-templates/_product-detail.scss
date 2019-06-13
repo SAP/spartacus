@@ -1,30 +1,50 @@
 %ProductDetailsPageTemplate {
   padding: var(--cx-padding, 2.5rem 0 0);
 
-  .ProductDetails {
-    @extend .container;
-    margin-bottom: 40px;
+  cx-page-slot {
+    &.Summary {
+      @extend .container;
+      margin-bottom: 40px;
 
-    @include media-breakpoint-up(lg) {
-      cx-product-images {
-        flex: 1 1 50%;
-        max-width: 50%;
-      }
-      cx-product-details {
-        flex: 1 1 50%;
+      @include media-breakpoint-up(lg) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(2, auto) 1fr;
+        grid-column-gap: 20px;
+        grid-row-gap: 0px;
+        cx-product-images {
+          grid-column: 1;
+          grid-row: 1 / span 3;
+        }
+
+        cx-product-intro {
+          grid-column: 2;
+          grid-row: 1 / 2;
+        }
+
+        cx-product-summary {
+          grid-column: 2;
+          grid-row: 2 / 3;
+        }
+
+        cx-add-to-cart {
+          grid-column: 2;
+          grid-row: 3 / 4;
+          padding: 0 20px 20px 20px;
+        }
       }
     }
-  }
-
-  .tab-delivery {
-    @extend .container;
-  }
-
-  cx-page-slot {
+    &.AddToCart {
+      max-width: 50%;
+    }
     &.UpSelling,
     &.CrossSelling {
       max-width: 1140px;
       margin: auto;
     }
+  }
+
+  .tab-delivery {
+    @extend .container;
   }
 }

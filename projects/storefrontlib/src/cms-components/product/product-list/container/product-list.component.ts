@@ -22,7 +22,6 @@ export class ProductListComponent implements OnInit {
 
   model$: Observable<ProductSearchPage>;
   searchConfig: SearchConfig = {};
-  categoryTitle: string;
   options: SearchConfig;
   updateParams$: Observable<Params>;
   gridMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
@@ -93,30 +92,15 @@ export class ProductListComponent implements OnInit {
       tap(searchResult => {
         if (Object.keys(searchResult).length === 0) {
           this.search(this.query, this.options);
-        } else {
-          this.getCategoryTitle(searchResult);
         }
       }),
       filter(searchResult => Object.keys(searchResult).length > 0)
     );
   }
 
-  protected getCategoryTitle(data: ProductSearchPage): string {
-    if (data.breadcrumbs && data.breadcrumbs.length > 0) {
-      this.categoryTitle = data.breadcrumbs[0].facetValueName;
-    } else if (!this.query.includes(':relevance:')) {
-      this.categoryTitle = this.query;
-    }
-    if (this.categoryTitle) {
-      this.categoryTitle =
-        data.pagination.totalResults + ' results for ' + this.categoryTitle;
-    }
-
-    return this.categoryTitle;
-  }
-
   viewPage(pageNumber: number): void {
-    this.search(this.query, { currentPage: pageNumber });
+    const { queryParams } = this.activatedRoute.snapshot;
+    this.search(queryParams.query, { currentPage: pageNumber });
   }
 
   sortList(sortCode: string): void {

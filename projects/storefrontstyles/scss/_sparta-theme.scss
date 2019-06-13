@@ -9,7 +9,7 @@ $skipComponentStyles: () !default;
 $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-banner, cx-login, cx-register, cx-link, cx-navigation-ui,
   cx-footer-navigation, cx-category-navigation, cx-mini-cart, cx-searchbox,
-  cx-product-carousel, cx-product-references, cx-product-images,
+  cx-carousel, cx-product-carousel, cx-product-references, cx-product-images,
   cx-product-summary, cx-product-attributes, cx-product-reviews, cx-product-list,
   cx-product-list-item, cx-product-grid, cx-product-facet-navigation,
   cx-pagination, cx-order-history, cx-address-book, cx-address-card,
@@ -29,7 +29,7 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-store-finder-list, cx-store-finder-search, cx-store-finder-schedule,
   cx-store-finder-map, cx-add-to-home-screen-banner, cx-item-counter,
   cx-star-rating, cx-spinner, cx-icon, cx-media, cx-tab-paragraph-container,
-  cx-add-to-cart, cx-global-message !default;
+  cx-add-to-cart, cx-global-message, cx-product-intro !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
