@@ -10,7 +10,7 @@ import {
 import { CategoryPageMetaResolver } from './services/category-page-meta.resolver';
 import { ProductPageMetaResolver } from './services/product-page-meta.resolver';
 import { ProductStoreModule } from './store/product-store.module';
-import { FindProductsPageMetaResolver } from './services/coupon-search-page-meta.resolver';
+import { SearchPageMetaResolver } from './services/search-page-meta.resolver';
 
 const pageTitleResolvers = [
   {
@@ -25,7 +25,7 @@ const pageTitleResolvers = [
   },
   {
     provide: PageMetaResolver,
-    useExisting: FindProductsPageMetaResolver,
+    useExisting: SearchPageMetaResolver,
     multi: true,
   },
 ];
