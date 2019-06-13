@@ -40,6 +40,7 @@ export class ProductImagesComponent {
         const current = thumbs.find(
           t =>
             t.media &&
+            container.zoom &&
             t.media.container &&
             t.media.container.zoom &&
             t.media.container.zoom.url === container.zoom.url

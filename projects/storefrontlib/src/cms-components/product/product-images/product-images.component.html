@@ -1,6 +1,4 @@
-<ng-container *ngIf="(mainMediaContainer | async) as mediaContainer">
-  <cx-media [container]="mediaContainer" format="zoom"> </cx-media>
-</ng-container>
+<cx-media [container]="mainMediaContainer | async" format="zoom"> </cx-media>
 
 <ng-container *ngIf="(thumbs$ | async) as thumbs">
   <cx-carousel
