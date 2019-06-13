@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, CmsService, ConfigModule } from '@spartacus/core';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { NavigationComponentService } from '../navigation/navigation.component.service';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 
@@ -14,13 +12,6 @@ import { CategoryNavigationComponent } from './category-navigation.component';
       cmsComponents: {
         CategoryNavigationComponent: {
           component: CategoryNavigationComponent,
-          providers: [
-            {
-              provide: NavigationComponentService,
-              useClass: NavigationComponentService,
-              deps: [CmsService, CmsComponentData],
-            },
-          ],
         },
       },
     }),

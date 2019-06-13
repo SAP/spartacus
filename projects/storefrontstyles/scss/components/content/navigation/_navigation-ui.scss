@@ -175,6 +175,24 @@
   }
 }
 
+%nav-wrap {
+  &.flyout .childs {
+    &[wrap-after] {
+      display: grid;
+      grid-column-gap: 10px;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(15, auto);
+    }
+
+    // support wrapAfter from up to 15
+    @for $i from 5 through 15 {
+      &[wrap-after='#{$i}'] {
+        grid-template-rows: repeat(#{$i}, auto);
+      }
+    }
+  }
+}
+
 %cx-navigation-ui {
   display: flex;
 
@@ -184,6 +202,7 @@
   @extend %nav-childs;
   @extend %nav-links;
   @extend %nav-back-button;
+  @extend %nav-wrap;
 
   nav {
     outline: none;
