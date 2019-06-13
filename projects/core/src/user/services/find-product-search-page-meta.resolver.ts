@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { PageMetaResolver } from '../../cms';
+import {
+  PageMetaResolver,
+  PageTitleResolver,
+  PageBreadcrumbResolver,
+} from '../../cms';
 import { PageMeta, Page } from '../../cms/model/page.model';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
@@ -12,7 +16,7 @@ import { ProductSearchService } from '../../product/facade/product-search.servic
   providedIn: 'root',
 })
 export class FindProductSearchPageMetaResolver extends PageMetaResolver
-  implements PageMetaResolver {
+  implements PageTitleResolver, PageBreadcrumbResolver {
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
@@ -24,64 +28,36 @@ export class FindProductSearchPageMetaResolver extends PageMetaResolver
   }
 
   resolve(): Observable<PageMeta> {
-    const total$: Observable<
-      number
-    > = this.productSearchService.getResults().pipe(
+    return this.productSearchService.getResults().pipe(
       filter(data => !!(data && data.pagination)),
-      map(results => results.pagination.totalResults)
-    );
-
-    const query$: Observable<
-      string
-    > = this.routingService.getRouterState().pipe(
-      map(state => state.state.params['query']),
-      filter(Boolean)
-    );
-
-    return combineLatest([total$, query$]).pipe(
-      switchMap(
-        ([total, query]: [number, string]) =>
-        [
-          this.resolveTitle(total, query),
-          this.resolveBreadcrumbs(total, query)
-        ]
-
+      map(results => results.pagination.totalResults),
+      switchMap((total: number) =>
+        combineLatest([
+          this.resolveTitle(total),
+          this.resolveBreadcrumbs(total),
+        ])
       ),
-      map([title, breadcrumbs] => ({ title, breadcrumbs }))
+      map(([title, breadcrumbs]) => ({
+        title,
+        breadcrumbs,
+      }))
     );
-
-    // return of([this.resolveTitle(total, query),
-    //   this.resolveBreadcrumbs(total, query)])
-    // return combineLatest([total$, query$]).pipe(
-    //   switchMap(([total, query]: [number, string]) => {
-    //     this.resolveTitle(total, query);
-    //     this.resolveBreadcrumbs(total, query);
-    //   }),
-    //   map(title, breadcrumbs => ({ title, breadcrumbs }))
-    // );
   }
 
-  resolveBreadcrumbs(_total: number, _query: string): Observable<any[]> {
+  resolveBreadcrumbs(_total: number): Observable<any[]> {
     const breadcrumbs = [];
     breadcrumbs.push({ label: 'Home', link: '/' });
-
+    breadcrumbs.push({ label: 'My Coupons', link: '/my-account/coupons' });
     return of(breadcrumbs);
   }
 
-  resolveTitle(total: number, query: string): Observable<string> {
-    if (!query.match(':relevance:category:1')) {
-      return this.translation.translate('pageMetaResolver.search.title', {
+  resolveTitle(total: number): Observable<string> {
+    return this.translation.translate(
+      'pageMetaResolver.search.findProductTitle',
+      {
         count: total,
-        query: query,
-      });
-    } else {
-      return this.translation.translate(
-        'pageMetaResolver.search.findProductTitle',
-        {
-          count: total,
-        }
-      );
-    }
+      }
+    );
   }
 
   getScore(page: Page): number {
@@ -94,21 +70,18 @@ export class FindProductSearchPageMetaResolver extends PageMetaResolver
       score += page.template === this.pageTemplate ? 1 : -1;
     }
 
-    const query$: Observable<
-      string
-    > = this.routingService.getRouterState().pipe(
-      map(state => state.state.params['query']),
-      filter(Boolean)
-    );
-
-    let couponQuery;
-    query$.subscribe(
-      query => (couponQuery = query.match(':relevance:category:1'))
-    );
-
-    if (couponQuery) {
-      score = score + 1;
-    }
+    this.routingService
+      .getRouterState()
+      .pipe(
+        map(state => state.state.params['query']),
+        filter(Boolean)
+      )
+      .subscribe((query: string) => {
+        if (query.match(':relevance:category:1')) {
+          score = score + 1;
+        }
+      })
+      .unsubscribe();
 
     return score;
   }
