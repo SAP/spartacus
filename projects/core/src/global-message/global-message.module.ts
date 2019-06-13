@@ -25,7 +25,7 @@ import { GlobalMessageConfig } from './config/global-message-config';
   ],
 })
 export class GlobalMessageModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<GlobalMessageModule> {
     return {
       ngModule: GlobalMessageModule,
       providers: [...errorHandlers, ...httpErrorInterceptors],
