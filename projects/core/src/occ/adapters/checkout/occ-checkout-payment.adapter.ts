@@ -62,6 +62,8 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         return this.createSubWithProvider(sub.url, sub.parameters).pipe(
           map(response => this.extractPaymentDetailsFromHtml(response)),
           mergeMap(fromPaymentProvider => {
+            fromPaymentProvider['defaultPayment'] =
+              paymentDetails.defaultPayment;
             fromPaymentProvider['savePaymentInfo'] = true;
             return this.createDetailsWithParameters(
               userId,
