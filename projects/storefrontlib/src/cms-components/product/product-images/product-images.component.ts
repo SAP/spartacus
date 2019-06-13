@@ -30,12 +30,7 @@ export class ProductImagesComponent {
   private mainImage$ = combineLatest([
     this.product$,
     this.mainMediaContainer,
-  ]).pipe(
-    map(([_, container]) => {
-      console.log('main?', container);
-      return container;
-    })
-  );
+  ]).pipe(map(([_, container]) => container));
 
   constructor(private currentProductService: CurrentProductService) {}
 
