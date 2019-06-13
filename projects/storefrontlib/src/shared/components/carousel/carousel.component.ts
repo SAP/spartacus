@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CarouselItem } from './carousel.model';
 import { CarouselService } from './carousel.service';
@@ -53,10 +54,9 @@ export class CarouselComponent implements OnInit {
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
   ngOnInit() {
-    this.size$ = this.service.getSize(
-      this.el.nativeElement,
-      this.minItemPixelSize
-    );
+    this.size$ = this.service
+      .getSize(this.el.nativeElement, this.minItemPixelSize)
+      .pipe(tap(() => this.select(0)));
   }
 
   select(slide: number) {
