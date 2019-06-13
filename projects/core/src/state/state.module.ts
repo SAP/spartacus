@@ -1,10 +1,9 @@
-import { NgModule, Optional } from '@angular/core';
-import { META_REDUCERS, StoreModule } from '@ngrx/store';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { ConfigModule } from '../config/config.module';
-import { stateMetaReducers } from './reducers/index';
 import { defaultStateConfig } from './config/default-state-config';
-import { META_REDUCER, metaReducersFactory } from './meta-reducer';
+import { stateMetaReducers } from './reducers/index';
 
 @NgModule({
   imports: [
@@ -12,13 +11,6 @@ import { META_REDUCER, metaReducersFactory } from './meta-reducer';
     EffectsModule.forRoot([]),
     ConfigModule.withConfig(defaultStateConfig),
   ],
-  providers: [
-    ...stateMetaReducers,
-    {
-      provide: META_REDUCERS,
-      useFactory: metaReducersFactory,
-      deps: [[new Optional(), META_REDUCER]],
-    },
-  ],
+  providers: [...stateMetaReducers],
 })
 export class StateModule {}
