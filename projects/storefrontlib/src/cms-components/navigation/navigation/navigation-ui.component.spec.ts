@@ -209,28 +209,4 @@ describe('Navigation UI Component', () => {
       expect(child.length).toEqual(7);
     });
   });
-
-  describe('breakNodesIntoColumns()', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(NavigationUIComponent);
-      navigationComponent = fixture.debugElement.componentInstance;
-      element = fixture.debugElement;
-    });
-
-    it('should break node into subnotes for too many children', () => {
-      const brokenNode = navigationComponent.breakNodesIntoColumns(mockNode, 2);
-      expect(brokenNode.children.length).toEqual(2);
-      expect(brokenNode.children[0].children.length).toEqual(2);
-      expect(brokenNode.children[0].children[0].children.length).toEqual(1);
-      // Broken columns
-      expect(
-        brokenNode.children[0].children[0].children[0].children[0].children
-          .length
-      ).toEqual(2);
-      expect(
-        brokenNode.children[0].children[0].children[0].children[1].children
-          .length
-      ).toEqual(2);
-    });
-  });
 });
