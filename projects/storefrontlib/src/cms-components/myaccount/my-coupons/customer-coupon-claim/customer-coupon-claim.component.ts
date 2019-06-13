@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RoutingService, UserService } from '@spartacus/core';
+import {
+  RoutingService,
+  UserService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 
 @Component({
   templateUrl: './customer-coupon-claim.component.html',
@@ -10,20 +15,31 @@ export class CustomerCouponClaimComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private messageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
     this.routingService
       .getRouterState()
       .subscribe(k => (this.couponCode = k.state.params.couponCode));
-    this.userService.claimCustomerCoupon(this.couponCode);
-    this.userService
-      .getClaimCustomerCouponResultSuccess()
-      .subscribe(success => {
-        if (success) {
-          this.routingService.go('/my-account/coupons');
-        }
-      });
+
+    if (this.couponCode) {
+      this.userService.claimCustomerCoupon(this.couponCode);
+      this.userService
+        .getClaimCustomerCouponResultSuccess()
+        .subscribe(success => {
+          if (success && this.couponCode) {
+            this.messageService.add(
+              { key: 'myCoupons.claimCustomerCoupon' },
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            );
+          }
+        });
+
+      this.routingService.go('/my-account/coupons');
+    } else {
+      this.routingService.go('/not-found');
+    }
   }
 }
