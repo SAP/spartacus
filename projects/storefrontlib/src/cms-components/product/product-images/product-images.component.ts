@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { CarouselItem } from 'projects/storefrontlib/src/shared';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class ProductImagesComponent {
     Product
   > = this.currentProductService.getProduct().pipe(
     filter(Boolean),
+    distinctUntilChanged(),
     tap((p: Product) =>
       this.mainMediaContainer.next(p.images ? p.images.PRIMARY : null)
     )
