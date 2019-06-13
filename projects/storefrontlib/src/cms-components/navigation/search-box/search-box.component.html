@@ -8,6 +8,8 @@
     (blur)="close($event)"
     (keydown.escape)="close($event)"
     (keydown.enter)="launchSearchResult($event, searchInput.value)"
+    (keydown.arrowup)="focusPreviousChild($event)"
+    (keydown.arrowdown)="focusNextChild($event)"
   />
 
   <cx-icon
@@ -46,6 +48,10 @@
           params: { query: suggestion }
         } | cxUrl
       "
+      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.enter)="blur($event)"
+      (blur)="close($event)"
     >
     </a>
   </div>
@@ -60,6 +66,10 @@
         } | cxUrl
       "
       [class.has-media]="config.displayProductImages"
+      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.enter)="blur($event)"
+      (blur)="close($event)"
     >
       <cx-media
         *ngIf="config.displayProductImages"

@@ -4,7 +4,7 @@ import {
   Input,
   Optional,
 } from '@angular/core';
-import { CmsSearchBoxComponent } from '@spartacus/core';
+import { CmsSearchBoxComponent, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
@@ -28,6 +28,7 @@ const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
 })
 export class SearchBoxComponent {
   config: SearchBoxConfig;
+  resultItems: HTMLElement[];
   /**
    * Sets the search box input field
    */
@@ -53,12 +54,23 @@ export class SearchBoxComponent {
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
-    protected componentData: CmsComponentData<CmsSearchBoxComponent>
+    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
+    protected winRef: WindowRef
   ) {}
 
   results$: Observable<SearchResults> = this.config$.pipe(
     tap(c => (this.config = c)),
-    switchMap(config => this.searchBoxComponentService.getResults(config))
+    switchMap(config => this.searchBoxComponentService.getResults(config)),
+    tap(results => {
+      if (this.searchBoxComponentService.hasResults(results)) {
+        setTimeout(() => {
+          const children = this.getChildren();
+          if (this.resultItems !== children) {
+            this.resultItems = children;
+          }
+        }, 0);
+      }
+    })
   );
 
   /**
@@ -104,20 +116,41 @@ export class SearchBoxComponent {
     this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
   }
 
+  private isSearchboxFocused(): boolean {
+    if (
+      this.resultItems.indexOf(this.getFocusedElement()) === -1 &&
+      this.winRef.document.querySelector('input[aria-label="search"]') !==
+        this.getFocusedElement()
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Closes the typehead searchbox.
    */
   close(event: UIEvent): void {
-    if (!this.ignoreCloseEvent) {
-      this.searchBoxComponentService.toggleBodyClass(
-        'searchbox-is-active',
-        false
-      );
+    setTimeout(() => {
+      if (!this.ignoreCloseEvent && !this.isSearchboxFocused()) {
+        this.searchBoxComponentService.toggleBodyClass(
+          'searchbox-is-active',
+          false
+        );
+        if (event && event.target) {
+          (<HTMLElement>event.target).blur();
+        }
+      }
+      this.ignoreCloseEvent = false;
+    }, 0);
+  }
+
+  blur(event: UIEvent): void {
+    setTimeout(() => {
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
       }
-    }
-    this.ignoreCloseEvent = false;
+    });
   }
 
   /**
@@ -128,6 +161,59 @@ export class SearchBoxComponent {
     if (this.searchBoxComponentService.hasBodyClass('searchbox-is-active')) {
       this.close(event);
       event.preventDefault();
+    }
+  }
+
+  private getChildren() {
+    const suggestions = this.winRef.document.querySelectorAll(
+      'div.suggestions > a'
+    );
+    const products = this.winRef.document.querySelectorAll('div.products > a');
+
+    const results = [];
+    suggestions.forEach(suggestion => results.push(suggestion));
+    products.forEach(item => results.push(item));
+
+    return results;
+  }
+
+  private getFocusedElement(): HTMLElement {
+    return <HTMLElement>this.winRef.document.activeElement;
+  }
+
+  focusPreviousChild(event) {
+    event.preventDefault();
+    if (this.resultItems.length) {
+      let foundElement = false;
+      for (let i = this.resultItems.length; i > 0; i--) {
+        if (this.getFocusedElement() === this.resultItems[i]) {
+          this.resultItems[i - 1].focus();
+          foundElement = true;
+          break;
+        }
+      }
+
+      if (!foundElement) {
+        this.resultItems[this.resultItems.length - 1].focus();
+      }
+    }
+  }
+
+  focusNextChild(event) {
+    event.preventDefault();
+    if (this.resultItems.length) {
+      let foundElement = false;
+      for (let i = 0; i < this.resultItems.length - 1; i++) {
+        if (this.getFocusedElement() === this.resultItems[i]) {
+          this.resultItems[i + 1].focus();
+          foundElement = true;
+          break;
+        }
+      }
+
+      if (!foundElement) {
+        this.resultItems[0].focus();
+      }
     }
   }
 

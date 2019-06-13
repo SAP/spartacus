@@ -178,6 +178,11 @@
         background: var(--cx-g-color-light);
         color: currentColor;
       }
+
+      &:focus {
+        background: var(--cx-g-color-light);
+        color: currentColor;
+      }
     }
     .suggestions {
       display: flex;
