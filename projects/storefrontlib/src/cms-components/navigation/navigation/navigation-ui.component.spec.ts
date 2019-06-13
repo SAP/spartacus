@@ -202,21 +202,25 @@ describe('Navigation UI Component', () => {
     it('should focus hovered element when another is focused', () => {
       fixture.detectChanges();
 
-      // TODO: Commented code gives wireframe of test logic but does not actually work
-
-      // const navEl: ElementRef[] = element.queryAll(By.css('div.flyout > nav'));
-      // const first: HTMLElement = navEl[0].nativeElement;
-      // const second: HTMLElement = navEl[1].nativeElement;
-      // const event = { currentTarget: first };
+      const navEl: ElementRef[] = element.queryAll(By.css('div.flyout > nav'));
+      const first: HTMLElement = navEl[0].nativeElement;
+      const second: HTMLElement = navEl[1].nativeElement;
+      const event = { currentTarget: first };
 
       // First element should not focus when no element is focused
-      // navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
-      // expect(first.classList.contains(':focus')).toBeFalsy();
+      navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
+      setTimeout(
+        () => expect(first).not.toBe(<HTMLElement>document.activeElement),
+        0
+      );
 
       // First element should focus when second element is focused
-      // second.focus();
-      // navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
-      // expect(first.classList.contains(':focus')).toBeTruthy();
+      second.focus();
+      navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
+      setTimeout(
+        () => expect(first).toBe(<HTMLElement>document.activeElement),
+        0
+      );
     });
   });
 });
