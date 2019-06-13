@@ -216,16 +216,20 @@ describe('Navigation UI Component', () => {
       const first: HTMLElement = navEl[0].nativeElement;
       const second: HTMLElement = navEl[1].nativeElement;
       const event = { currentTarget: first };
+      let result: HTMLElement;
 
       // First element should not focus when no element is focused
-      navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
-      expect(first).not.toBe(<HTMLElement>document.activeElement);
+      result = navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
+      expect(result).toBeNull();
+
       // First element should focus when second element is focused
       second.focus();
-      navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
-      new Promise(resolve => setTimeout(() => resolve(), 1000))
-        .then(() => expect(first).toBe(<HTMLElement>document.activeElement))
-        .then(() => expect(true).toBe(false)) // test will be done if only that fail :D
+      new Promise(resolve => setTimeout(() => resolve(), 0))
+        .then(
+          () =>
+            (result = navigationComponent.mouseEnter(<UIEvent>(<unknown>event)))
+        )
+        .then(() => expect(first).toBe(result))
         .then(() => done());
     });
   });

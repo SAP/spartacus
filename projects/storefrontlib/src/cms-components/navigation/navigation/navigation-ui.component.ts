@@ -105,9 +105,11 @@ export class NavigationUIComponent {
   }
 
   // Apply focus on dropdown element when another has already been clicked
-  mouseEnter(event: UIEvent) {
+  mouseEnter(event: UIEvent): HTMLElement {
     if (this.elRef.nativeElement.querySelector('nav[tabindex]:focus')) {
       (<HTMLElement>event.currentTarget).focus();
+      return <HTMLElement>event.currentTarget;
     }
+    return null;
   }
 }
