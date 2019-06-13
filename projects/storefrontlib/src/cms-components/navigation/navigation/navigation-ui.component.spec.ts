@@ -77,7 +77,7 @@ describe('Navigation UI Component', () => {
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
@@ -209,7 +209,7 @@ describe('Navigation UI Component', () => {
       expect(child.length).toEqual(7);
     });
 
-    it('should focus hovered element when another is focused', () => {
+    it('should focus hovered element when another is focused', async done => {
       fixture.detectChanges();
 
       const navEl: ElementRef[] = element.queryAll(By.css('div.flyout > nav'));
@@ -219,18 +219,14 @@ describe('Navigation UI Component', () => {
 
       // First element should not focus when no element is focused
       navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
-      setTimeout(
-        () => expect(first).not.toBe(<HTMLElement>document.activeElement),
-        0
-      );
-
+      expect(first).not.toBe(<HTMLElement>document.activeElement);
       // First element should focus when second element is focused
       second.focus();
       navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
-      setTimeout(
-        () => expect(first).toBe(<HTMLElement>document.activeElement),
-        0
-      );
+      new Promise(resolve => setTimeout(() => resolve(), 1000))
+        .then(() => expect(first).toBe(<HTMLElement>document.activeElement))
+        .then(() => expect(true).toBe(false)) // test will be done if only that fail :D
+        .then(() => done());
     });
   });
 });
