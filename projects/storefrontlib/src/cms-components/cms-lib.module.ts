@@ -73,7 +73,6 @@ import { ProductImagesModule } from './product/product-images/product-images.mod
     ForgotPasswordModule,
     ResetPasswordModule,
     MyCouponsModule,
-    //CustomerCouponClaim,
   ],
 })
-export class CmsLibModule { }
+export class CmsLibModule {}

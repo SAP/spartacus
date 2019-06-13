@@ -53,7 +53,7 @@ export class MyCouponsComponent implements OnInit {
 
   pagination: PaginationModel;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.couponResult$ = this.userService

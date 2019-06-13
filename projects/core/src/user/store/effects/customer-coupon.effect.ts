@@ -98,7 +98,6 @@ export class CustomerCouponEffects {
       (action: fromCustomerCouponsAction.ClaimCustomerCoupon) => action.payload
     ),
     mergeMap(payload => {
-      console.log('claiming...');
       return this.customerCouponConnector
         .claimCustomerCoupon(payload.userId, payload.couponCode)
         .pipe(
@@ -117,5 +116,5 @@ export class CustomerCouponEffects {
   constructor(
     private actions$: Actions,
     private customerCouponConnector: CustomerCouponConnector
-  ) { }
+  ) {}
 }

@@ -38,7 +38,6 @@ import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/pag
         },
         CustomerCouponClaimComponent: {
           selector: 'cx-customer-coupon-claim',
-          //component: CustomerCouponClaimComponent,
           guards: [AuthGuard],
         },
       },
@@ -56,9 +55,13 @@ import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/pag
     MyCouponsComponent,
     CouponCardComponent,
     CouponDialogComponent,
-    CustomerCouponClaimComponent
+    CustomerCouponClaimComponent,
   ],
   exports: [MyCouponsComponent, CustomerCouponClaimComponent],
-  entryComponents: [MyCouponsComponent, CouponDialogComponent, CustomerCouponClaimComponent],
+  entryComponents: [
+    MyCouponsComponent,
+    CouponDialogComponent,
+    CustomerCouponClaimComponent,
+  ],
 })
-export class MyCouponsModule { }
+export class MyCouponsModule {}
