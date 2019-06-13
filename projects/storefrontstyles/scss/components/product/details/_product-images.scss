@@ -56,16 +56,8 @@ $productThumbSize: 75px !default;
       outline: none;
     }
     cx-media {
-      // width: $productThumbSize;
-      // height: $productThumbSize;
-
       margin: 0.5vw;
       padding: 0.5vw;
-
-      // &.is-missing {
-      //   min-height: $productThumbSize;
-      //   background-size: $productThumbSize;
-      // }
 
       border: 2px solid var(--cx-g-color-light);
 

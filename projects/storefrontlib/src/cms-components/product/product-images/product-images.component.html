@@ -1,10 +1,5 @@
 <ng-container *ngIf="(mainMediaContainer | async) as mediaContainer">
-  <cx-media
-    [container]="mediaContainer"
-    format="zoom"
-    (loaded)="mainMediaIsLoaded()"
-  >
-  </cx-media>
+  <cx-media [container]="mediaContainer" format="zoom"> </cx-media>
 </ng-container>
 
 <ng-container *ngIf="(thumbs$ | async) as thumbs">

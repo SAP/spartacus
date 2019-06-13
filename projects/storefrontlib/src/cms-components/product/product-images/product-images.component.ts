@@ -49,8 +49,6 @@ export class ProductImagesComponent {
     );
   }
 
-  mainMediaIsLoaded(): void {}
-
   /**
    * Return an array of CarouselItems for the product thumbnails.
    * In case there are less then 2 thumbs, we return null.
