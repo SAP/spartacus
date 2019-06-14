@@ -5,7 +5,7 @@ import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { OccCmsPageNormalizer } from './converters/occ-cms-page-normalizer';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
-import { CMS_PAGE_NORMALIZE } from '../../../cms/connectors/page/converters';
+import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-compo
       useClass: OccCmsPageAdapter,
     },
     {
-      provide: CMS_PAGE_NORMALIZE,
+      provide: CMS_PAGE_NORMALIZER,
       useClass: OccCmsPageNormalizer,
       multi: true,
     },
