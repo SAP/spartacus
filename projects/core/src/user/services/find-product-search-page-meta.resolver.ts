@@ -69,7 +69,6 @@ export class FindProductSearchPageMetaResolver extends PageMetaResolver
     if (this.pageTemplate) {
       score += page.template === this.pageTemplate ? 1 : -1;
     }
-
     this.routingService
       .getRouterState()
       .pipe(
@@ -77,12 +76,11 @@ export class FindProductSearchPageMetaResolver extends PageMetaResolver
         filter(Boolean)
       )
       .subscribe((query: string) => {
-        if (query.match(':relevance:category:1')) {
-          score += 1;
+        if (query) {
+          score += query.match(':relevance:category:1') ? 1 : -1;
         }
       })
       .unsubscribe();
-
     return score;
   }
 }

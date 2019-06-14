@@ -47,6 +47,7 @@ class FakeSearchPageTitleResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
+    this.pageTemplate = 'SearchResultsListPageTemplate';
   }
 
   resolve(): Observable<PageMeta> {
@@ -56,7 +57,7 @@ class FakeSearchPageTitleResolver extends PageMetaResolver {
   }
 }
 
-fdescribe('FindProductSearchPageMetaResolver', () => {
+describe('FindProductSearchPageMetaResolver', () => {
   let service: PageMetaService;
   let cmsService = jasmine.createSpyObj('CmsService', ['getCurrentPage']);
   const prductSearchService = jasmine.createSpyObj('PrductSearchService', [
@@ -106,9 +107,9 @@ fdescribe('FindProductSearchPageMetaResolver', () => {
     cmsService = TestBed.get(CmsService);
   });
 
-  fdescribe('ContentPage with coupon search results', () => {
+  describe('ContentPage with customer coupon find product results', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockSearchPage));
+      cmsService.getCurrentPage.and.returnValue(of(mockSearchPage));
       routingService.getRouterState.and.returnValue(
         of({
           state: {
@@ -127,7 +128,7 @@ fdescribe('FindProductSearchPageMetaResolver', () => {
       }
     ));
 
-    it('should resolve search results in title ', () => {
+    it('FindProductSearchPageMetaResolver should resolve search results in title', () => {
       let result: PageMeta;
       service
         .getMeta()
@@ -151,23 +152,14 @@ fdescribe('FindProductSearchPageMetaResolver', () => {
         .unsubscribe();
 
       expect(result.breadcrumbs.length).toEqual(2);
-    });
-
-    it('should resolve 2nd breadcrumbs with my coupons', () => {
-      let result: PageMeta;
-      service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
+      expect(result.breadcrumbs[0].label).toEqual('Home');
       expect(result.breadcrumbs[1].label).toEqual('My Coupons');
     });
   });
 
-  fdescribe('ContentPage with search results', () => {
+  describe('ContentPage with search results', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockSearchPage));
+      cmsService.getCurrentPage.and.returnValue(of(mockSearchPage));
       routingService.getRouterState.and.returnValue(
         of({
           state: {
@@ -186,7 +178,7 @@ fdescribe('FindProductSearchPageMetaResolver', () => {
       }
     ));
 
-    it('should resolve search results in title ', () => {
+    it('FakeSearchPageTitleResolver should resolve search results in title ', () => {
       let result: PageMeta;
       service
         .getMeta()
@@ -199,21 +191,12 @@ fdescribe('FindProductSearchPageMetaResolver', () => {
     });
   });
 
-  fdescribe('ContentPage without search results', () => {
+  describe('ContentPage with ordinary page', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockContentPage));
-      routingService.getRouterState.and.returnValue(
-        of({
-          state: {
-            params: {
-              query: 'ordinarySearch',
-            },
-          },
-        })
-      );
+      cmsService.getCurrentPage.and.returnValue(of(mockContentPage));
     });
 
-    it('should resolve content page title', () => {
+    it('FakeContentPageTitleResolver should resolve content page title', () => {
       let result: PageMeta;
       service
         .getMeta()
