@@ -68,7 +68,6 @@ export class SearchBoxComponent {
           const children = this.getResultElements();
           if (this.resultItems !== children) {
             this.resultItems = children;
-            results = results;
           }
         }, 0);
       }

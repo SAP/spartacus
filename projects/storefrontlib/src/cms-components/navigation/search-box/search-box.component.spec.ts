@@ -226,7 +226,15 @@ describe('SearchBoxComponent', () => {
       ).toBeTruthy();
     });
 
-    describe('Arrow tests', () => {});
+    describe('Arrow tests', () => {
+      beforeEach(() => {
+        searchBoxComponent.queryText = 'te';
+        fixture.detectChanges();
+      });
+      it('should navigate to first child', () => {
+        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
+      });
+    });
   });
 
   describe('Searchbox config ', () => {
