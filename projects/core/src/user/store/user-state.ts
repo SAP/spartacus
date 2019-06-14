@@ -4,7 +4,7 @@ import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { LoaderState } from '../../state';
 import { ConsentTemplate } from '../../model/consent.model';
-import {CustomerCouponSearchResult} from '../../model/customer-coupon.model';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';

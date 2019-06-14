@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
+import { CustomerCoupon } from '@spartacus/core';
 
 @Component({
   selector: 'cx-coupon-dialog',
@@ -8,7 +9,7 @@ import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 })
 export class CouponDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
-  coupon: any;
+  coupon: CustomerCoupon;
 
   @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;

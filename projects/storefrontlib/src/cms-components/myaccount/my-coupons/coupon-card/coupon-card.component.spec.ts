@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CouponCardComponent } from './coupon-card.component';
 import { I18nTestingModule, CustomerCoupon } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
-import { ModalService } from '@spartacus/storefront';
+import { ModalService } from '../../../../shared/components/modal/index';
 import { Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 

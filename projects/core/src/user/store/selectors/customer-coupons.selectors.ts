@@ -5,6 +5,7 @@ import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderValueSelector,
   loaderSuccessSelector,
+  loaderLoadingSelector,
 } from '../../../state/utils/loader/loader.selectors';
 
 import { getUserState } from './feature.selector';
@@ -25,6 +26,15 @@ export const getCustomerCouponsLoaded: MemoizedSelector<
   getCustomerCouponsState,
   (state: LoaderState<CustomerCouponSearchResult>) =>
     loaderSuccessSelector(state)
+);
+
+export const getCustomerCouponsLoading: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getCustomerCouponsState,
+  (state: LoaderState<CustomerCouponSearchResult>) =>
+    loaderLoadingSelector(state)
 );
 
 export const getCustomerCoupons: MemoizedSelector<

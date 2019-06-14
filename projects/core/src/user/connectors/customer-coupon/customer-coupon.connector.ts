@@ -13,13 +13,13 @@ import { CustomerCouponAdapter } from './customer-coupon.adapter';
 export class CustomerCouponConnector {
   constructor(protected adapter: CustomerCouponAdapter) {}
 
-  getMyCoupons(
+  getCustomerCoupons(
     userId: string,
     pageSize: number,
     currentPage: number,
     sort: string
   ): Observable<CustomerCouponSearchResult> {
-    return this.adapter.getMyCoupons(userId, pageSize, currentPage, sort);
+    return this.adapter.getCustomerCoupons(userId, pageSize, currentPage, sort);
   }
 
   turnOnNotification(

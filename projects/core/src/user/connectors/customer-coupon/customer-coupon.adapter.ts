@@ -6,7 +6,7 @@ import {
 } from '../../../model/customer-coupon.model';
 
 export abstract class CustomerCouponAdapter {
-  abstract getMyCoupons(
+  abstract getCustomerCoupons(
     userId: string,
     pageSize: number,
     currentPage: number,

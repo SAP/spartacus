@@ -54,7 +54,7 @@ describe('OccCustomerCouponAdapter', () => {
     httpMock.verify();
   });
 
-  describe('get MyCoupons', () => {
+  describe('get CustomerCoupons', () => {
     it('should load customer search results for given user id', () => {
       const PAGE_SIZE = 5;
       const currentPage = 1;
@@ -76,7 +76,7 @@ describe('OccCustomerCouponAdapter', () => {
       };
 
       service
-        .getMyCoupons(userId, PAGE_SIZE, currentPage, sort)
+        .getCustomerCoupons(userId, PAGE_SIZE, currentPage, sort)
         .subscribe(result => {
           expect(result).toEqual(couponSearchResult);
         });
