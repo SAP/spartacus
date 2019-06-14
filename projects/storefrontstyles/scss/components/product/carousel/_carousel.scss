@@ -27,7 +27,7 @@
     // We generate 10 sizes in case there are a lot of carousel items displayed
     // on a single slide.
     @for $i from 1 through 10 {
-      &.size-#{$i} .product {
+      &.size-#{$i} .item {
         flex: 0 0 calc((100 / #{$i}) * 1%);
       }
     }
@@ -49,15 +49,18 @@
           position: absolute;
         }
 
-        .product {
+        .item {
           display: flex;
           flex-direction: column;
           text-align: center;
           justify-content: space-between;
           padding-bottom: 10px;
           color: var(--cx-g-color-text);
+
+          cursor: pointer;
+
           cx-media {
-            height: 20vmin;
+            // height: 20vmin;
 
             &.is-missing {
               min-height: 20vmin;
@@ -71,7 +74,7 @@
             z-index: 1;
           }
 
-          transition: 0.6s all;
+          transition: 0.4s all;
           // we add a transition delay so that items are nicely animated in a sequence
           @for $i from 1 through 4 {
             &:nth-child(#{$i}) {
