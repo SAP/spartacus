@@ -78,7 +78,7 @@ export class FindProductSearchPageMetaResolver extends PageMetaResolver
       )
       .subscribe((query: string) => {
         if (query.match(':relevance:category:1')) {
-          score = score + 1;
+          score += 1;
         }
       })
       .unsubscribe();

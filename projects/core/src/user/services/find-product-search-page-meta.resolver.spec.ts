@@ -28,12 +28,6 @@ const mockContentPage: Page = {
   slots: {},
 };
 
-class MockCmsService {
-  getCurrentPage(): Observable<Page> {
-    return of(mockSearchPage);
-  }
-}
-
 @Injectable()
 class FakeContentPageTitleResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
@@ -48,45 +42,48 @@ class FakeContentPageTitleResolver extends PageMetaResolver {
   }
 }
 
-class MockProductSearchService {
-  getResults() {
-    return of({
-      pagination: {
-        totalResults: 3,
-      },
-    });
+@Injectable()
+class FakeSearchPageTitleResolver extends PageMetaResolver {
+  constructor(protected cms: CmsService) {
+    super();
+    this.pageType = PageType.CONTENT_PAGE;
   }
-}
 
-class MockRoutingService {
-  getRouterState() {
+  resolve(): Observable<PageMeta> {
     return of({
-      state: {
-        params: {
-          query: 'CouponTest',
-        },
-      },
+      title: 'search page title',
     });
   }
 }
 
 describe('FindProductSearchPageMetaResolver', () => {
   let service: PageMetaService;
-  let cmsService: CmsService;
-
+  let cmsService = jasmine.createSpyObj('CmsService', ['getCurrentPage']);
+  let prductSearchService = jasmine.createSpyObj('PrductSearchService', [
+    'getResults',
+  ]);
+  let routingService = jasmine.createSpyObj('RoutingService', [
+    'getRouterState',
+  ]);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         FakeContentPageTitleResolver,
+        FakeSearchPageTitleResolver,
         FindProductSearchPageMetaResolver,
-        { provide: CmsService, useClass: MockCmsService },
-        { provide: ProductSearchService, useClass: MockProductSearchService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CmsService, useValue: cmsService },
+        { provide: ProductSearchService, useValue: prductSearchService },
+        { provide: RoutingService, useValue: routingService },
         {
           provide: PageMetaResolver,
           useExisting: FakeContentPageTitleResolver,
+          multi: true,
+        },
+        {
+          provide: PageMetaResolver,
+          useExisting: FakeSearchPageTitleResolver,
           multi: true,
         },
         {
@@ -96,6 +93,23 @@ describe('FindProductSearchPageMetaResolver', () => {
         },
       ],
     });
+    cmsService.getCurrentPage.and.returnValue(of());
+    prductSearchService.getResults.and.returnValue(
+      of({
+        pagination: {
+          totalResults: 3,
+        },
+      })
+    );
+    routingService.getRouterState.and.returnValue(
+      of({
+        state: {
+          params: {
+            query: 'CouponTest',
+          },
+        },
+      })
+    );
 
     service = TestBed.get(PageMetaService);
     cmsService = TestBed.get(CmsService);
