@@ -113,28 +113,28 @@ export function stub(request: string, alias: string): void {
   });
 }
 
-export function assertSiteContextChange(sitePath: string): void {
-  cy.url().should('eq', sitePath);
+export function assertSiteContextChange(testPath: string): void {
+  cy.url().should('eq', testPath);
 }
 
 export function siteContextChange(
-  sitePath: string,
+  pagePath: string,
   alias: string,
-  option: string,
+  selectedOption: string,
   label: string
 ): void {
-  cy.visit(FULL_BASE_URL_EN_USD + sitePath);
+  cy.visit(FULL_BASE_URL_EN_USD + pagePath);
   cy.wait(`@${alias}`);
-  switchSiteContext(option, label);
+  switchSiteContext(selectedOption, label);
 }
 
 export function verifySiteContextChangeUrl(
-  sitePath: string,
+  pagePath: string,
   alias: string,
-  option: string,
+  selectedOption: string,
   label: string,
   testPath: string
 ): void {
-  siteContextChange(sitePath, alias, option, label);
+  siteContextChange(pagePath, alias, selectedOption, label);
   assertSiteContextChange(testPath);
 }

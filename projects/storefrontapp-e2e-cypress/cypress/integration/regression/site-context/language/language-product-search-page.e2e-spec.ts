@@ -1,4 +1,4 @@
-import * as siteContextSelector from '../../../helpers/site-context-selector';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - product-search page', () => {
   const productSearchPath = siteContextSelector.PRODUCT_SEARCH_PATH;

@@ -1,4 +1,4 @@
-import * as siteContextSelector from '../../../helpers/site-context-selector';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - registration page', () => {
   const registerPath = siteContextSelector.REGISTRATION_PATH;

@@ -1,5 +1,5 @@
-import { manipulateCartQuantity } from '../../../helpers/cart';
-import * as siteContextSelector from '../../../helpers/site-context-selector';
+import { manipulateCartQuantity } from '../../../../helpers/cart';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Currency switch - checkout page', () => {
   const checkoutShippingPath =
