@@ -107,15 +107,11 @@ providers: [
 
 ```typescript
 @Injectable()
-export class MyProductCategoriesNormalizer implements Converter<Occ.Product, Product> {
-  convert(source: Occ.Product, target?: Product): Product {
-    if (target === undefined) {
-      target = { ...(source as any) };
-    }
-
-    // ---------------- MAPPING HERE ---------------------
+export class MyProductCategoriesNormalizer
+  implements Converter<Occ.Product, Product> {
+  convert(source: Occ.Product, target?: any): any {
     if (source.categories && source.categories.length) {
-      target.category = source.categories[0].name; // 
+      target.category = source.categories[0].name; //
     }
     return target;
   }
