@@ -15,7 +15,7 @@ import { ProductSearchService } from '../../product/facade/product-search.servic
 @Injectable({
   providedIn: 'root',
 })
-export class FindProductSearchPageMetaResolver extends PageMetaResolver
+export class FindProductPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   constructor(
     protected routingService: RoutingService,

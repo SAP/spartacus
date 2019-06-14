@@ -1,1 +1,1 @@
-export * from './find-product-search-page-meta.resolver';
+export * from './find-product-page-meta.resolver';

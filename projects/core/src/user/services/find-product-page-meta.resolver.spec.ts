@@ -12,7 +12,7 @@ import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
 
-import { FindProductSearchPageMetaResolver } from './find-product-search-page-meta.resolver';
+import { FindProductPageMetaResolver } from './find-product-page-meta.resolver';
 import { ProductSearchService } from '../../product/facade/product-search.service';
 
 const mockSearchPage: Page = {
@@ -73,7 +73,7 @@ describe('FindProductSearchPageMetaResolver', () => {
         PageMetaService,
         FakeContentPageTitleResolver,
         FakeSearchPageTitleResolver,
-        FindProductSearchPageMetaResolver,
+        FindProductPageMetaResolver,
         { provide: CmsService, useValue: cmsService },
         { provide: ProductSearchService, useValue: prductSearchService },
         { provide: RoutingService, useValue: routingService },
@@ -89,7 +89,7 @@ describe('FindProductSearchPageMetaResolver', () => {
         },
         {
           provide: PageMetaResolver,
-          useExisting: FindProductSearchPageMetaResolver,
+          useExisting: FindProductPageMetaResolver,
           multi: true,
         },
       ],
@@ -128,7 +128,7 @@ describe('FindProductSearchPageMetaResolver', () => {
       }
     ));
 
-    it('FindProductSearchPageMetaResolver should resolve search results in title', () => {
+    it('FindProductPageMetaResolver should resolve search results in title', () => {
       let result: PageMeta;
       service
         .getMeta()

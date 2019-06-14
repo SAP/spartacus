@@ -3,7 +3,7 @@ import { ProcessModule } from '../process/process.module';
 import { UserService } from './facade/index';
 import { UserStoreModule } from './store/user-store.module';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
-import { FindProductSearchPageMetaResolver } from './services/find-product-search-page-meta.resolver';
+import { FindProductPageMetaResolver } from './services/find-product-page-meta.resolver';
 
 @NgModule({
   imports: [UserStoreModule, ProcessModule],
@@ -11,7 +11,7 @@ import { FindProductSearchPageMetaResolver } from './services/find-product-searc
     UserService,
     {
       provide: PageMetaResolver,
-      useExisting: FindProductSearchPageMetaResolver,
+      useExisting: FindProductPageMetaResolver,
       multi: true,
     },
   ],
