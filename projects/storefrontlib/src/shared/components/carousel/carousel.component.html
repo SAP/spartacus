@@ -3,7 +3,7 @@
     {{ title }}
   </h3>
 
-  <div class="cx-carousel" [ngClass]="'size-' + size">
+  <div class="carousel-panel" [ngClass]="'size-' + size">
     <button
       *ngIf="size < items.length"
       class="previous"
@@ -16,11 +16,16 @@
     <div class="groups">
       <ng-container *ngFor="let _ of items; let i = index">
         <div class="group" *ngIf="i % size === 0">
-          <ng-container *ngFor="let item of (items | slice: i:i + size)">
+          <ng-container
+            *ngFor="let item of (items | slice: i:i + size); let j = index"
+          >
             <a
-              *ngIf="item"
-              class="product"
+              *ngIf="item && item.route; else noLink"
+              class="item"
               [class.active]="i === activeSlide"
+              [class.activeItem]="j === activeItem - i"
+              (focus)="onOpen(i, j)"
+              tabindex="0"
               [routerLink]="item.route"
             >
               <cx-media
@@ -32,6 +37,25 @@
               <h4 *ngIf="item.title">{{ item.title }}</h4>
               <div *ngIf="item.price" class="price">{{ item.price }}</div>
             </a>
+            <ng-template #noLink>
+              <a
+                *ngIf="item"
+                class="item"
+                [class.active]="i === activeSlide"
+                [class.activeItem]="j === activeItem - i"
+                (focus)="onOpen(i, j)"
+                tabindex="0"
+              >
+                <cx-media
+                  [container]="item.media?.container"
+                  [format]="item.media?.format"
+                >
+                </cx-media>
+
+                <h4 *ngIf="item.title">{{ item.title }}</h4>
+                <div *ngIf="item.price" class="price">{{ item.price }}</div>
+              </a>
+            </ng-template>
           </ng-container>
         </div>
       </ng-container>
@@ -47,7 +71,7 @@
     </button>
   </div>
 
-  <div class="indicators" *ngIf="size < items.length">
+  <div *ngIf="!hideIndicators && size < items.length" class="indicators">
     <ng-container *ngFor="let _ of items; let i = index">
       <button
         *ngIf="i % size === 0"
