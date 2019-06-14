@@ -163,7 +163,7 @@ describe('StockNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Methods test', () => {
+  fdescribe('Methods test', () => {
     describe('ngOnInit', () => {
       it('should not load stock notificaiton data, when customer is not login', () => {
         authService.getUserToken.and.returnValue(of({}));
@@ -227,7 +227,7 @@ describe('StockNotificationComponent', () => {
     });
   });
 
-  describe('UI test', () => {
+  fdescribe('UI test', () => {
     it('should show notify me, when logged$ is true, subscribed$ is false, channelEnabled$ is true', () => {
       authService.getUserToken.and.returnValue(of(userToken));
       productInterestService.getBackInStockSubscribed.and.returnValue(
