@@ -24,7 +24,9 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
   ],
 })
 export class StorefrontModule {
-  static withConfig(config?: StorefrontConfig): ModuleWithProviders {
+  static withConfig(
+    config?: StorefrontConfig
+  ): ModuleWithProviders<StorefrontModule> {
     return {
       ngModule: StorefrontModule,
       providers: [provideConfig(config)],

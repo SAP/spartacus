@@ -1,4 +1,5 @@
 <cx-navigation-ui
   [node]="node$ | async"
-  [ngClass]="styleClass$ | async"
+  [ngClass]="(data$ | async).styleClass"
+  [wrapAfter]="(data$ | async).wrapAfter"
 ></cx-navigation-ui>
