@@ -44,14 +44,15 @@ describe('CouponDialogComponent', () => {
     component = fixture.componentInstance;
     modalService.dismissActiveModal.and.stub();
     component.coupon = mockCoupon;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should be able to show coupon information', () => {
+    fixture.detectChanges();
     const dialogTitle = fixture.debugElement.query(By.css('.cx-dialog-title'))
       .nativeElement.textContent;
     expect(dialogTitle).toContain('myCoupons.dialogTitle');
@@ -85,6 +86,7 @@ describe('CouponDialogComponent', () => {
   });
 
   it('should be able to close dialog', () => {
+    fixture.detectChanges();
     const closeBtn = fixture.debugElement.query(By.css('button'));
     closeBtn.nativeElement.click();
     expect(modalService.dismissActiveModal).toHaveBeenCalled();

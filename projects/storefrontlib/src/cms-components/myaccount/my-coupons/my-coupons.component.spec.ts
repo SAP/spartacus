@@ -107,15 +107,14 @@ describe('MyCouponsComponent', () => {
     userService.getUnsubscribeCustomerCouponResultLoading.and.returnValue(
       of(true)
     );
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should be able to show message when there is no coupon', () => {
-    component.ngOnInit();
     fixture.detectChanges();
     const message = fixture.debugElement.query(By.css('.cx-section-msg'))
       .nativeElement.textContent;
@@ -124,7 +123,6 @@ describe('MyCouponsComponent', () => {
 
   it('should be able to show coupons', () => {
     userService.getCustomerCoupons.and.returnValue(of(couponResult));
-    component.ngOnInit();
     fixture.detectChanges();
 
     const message = fixture.debugElement.queryAll(By.css('.cx-section-msg'));
@@ -146,9 +144,8 @@ describe('MyCouponsComponent', () => {
   });
   it('should be able to change sort', () => {
     userService.getCustomerCoupons.and.returnValue(of(couponResult));
-    component.ngOnInit();
-    component.sortChange('byStartDateAsc');
     fixture.detectChanges();
+    component.sortChange('byStartDateAsc');
     expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
       10,
       0,
@@ -157,7 +154,6 @@ describe('MyCouponsComponent', () => {
   });
   it('should be able to change page', () => {
     userService.getCustomerCoupons.and.returnValue(of(couponResult));
-    component.ngOnInit();
     component.pageChange(1);
     fixture.detectChanges();
     expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(

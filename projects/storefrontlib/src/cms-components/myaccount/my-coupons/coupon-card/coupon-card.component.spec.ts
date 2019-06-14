@@ -43,14 +43,15 @@ describe('CouponCardComponent', () => {
     component.coupon = mockCoupon;
     component.couponLoading = false;
     modalService.open.and.stub();
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display coupon information', () => {
+    fixture.detectChanges();
     const couponName = fixture.debugElement.query(
       By.css('.cx-coupon-card-name')
     ).nativeElement.textContent;
@@ -92,6 +93,7 @@ describe('CouponCardComponent', () => {
   });
 
   it('should be able to open coupon detail dialog', () => {
+    fixture.detectChanges();
     const readMoreLink = fixture.debugElement.query(By.css('a'));
     readMoreLink.nativeElement.click();
     expect(modalService.open).toHaveBeenCalled();
@@ -99,6 +101,7 @@ describe('CouponCardComponent', () => {
 
   it('should be able to subscribe/unsubscribe coupon notification', () => {
     spyOn(component.notificationChanged, 'emit').and.callThrough();
+    fixture.detectChanges();
     const couponNotificationCheckbox = fixture.debugElement.query(
       By.css('.form-check-input')
     );
@@ -111,6 +114,7 @@ describe('CouponCardComponent', () => {
   });
 
   it('should be able to show correct notification status', () => {
+    fixture.detectChanges();
     let couponNotificationCheckbox = fixture.debugElement.queryAll(
       By.css('.form-check-input')
     );

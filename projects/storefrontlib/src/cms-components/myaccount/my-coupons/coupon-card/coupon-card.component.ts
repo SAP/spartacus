@@ -29,6 +29,7 @@ export class CouponCardComponent implements OnInit {
 
   ngOnInit() {
     this.notification = this.coupon.notificationOn;
+    // Because the response of solarFacates is encoded and contains ' " ', we need to decode it and remove the ' " '
     this.decodedUrl = decodeURIComponent(this.coupon.solrFacets).replace(
       /\"/g,
       ''
