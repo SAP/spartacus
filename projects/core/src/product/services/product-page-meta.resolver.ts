@@ -95,17 +95,17 @@ export class ProductPageMetaResolver extends PageMetaResolver
     const breadcrumbs = [];
     breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
     if (product.categories[0]) {
+      const { name, code } = product.categories[0];
       breadcrumbs.push({
-        label: product.categories[0].name || product.categories[0].code,
-        link: `/c/${product.categories[0].code}`,
+        label: name || code,
+        link: `/c/${code}`,
       });
     }
     if (product.categories[1]) {
+      const { name, code } = product.categories[1];
       breadcrumbs.push({
-        label: product.categories[1].name || product.categories[1].code,
-        link: `/Brands/${product.categories[1].name}/c/${
-          product.categories[1].code
-        }`,
+        label: name || code,
+        link: `/Brands/${name}/c/${code}`,
       });
     }
     return of(breadcrumbs);
