@@ -23,8 +23,8 @@ export class AuthGuard implements CanActivate {
     return this.authService.getUserToken().pipe(
       map((token: UserToken) => {
         if (!token.access_token) {
-          this.routingService.go({ cxRoute: 'login' });
           this.authRedirectService.reportAuthGuard();
+          this.routingService.go({ cxRoute: 'login' });
         }
         return !!token.access_token;
       })
