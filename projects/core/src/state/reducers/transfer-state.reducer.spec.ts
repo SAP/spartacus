@@ -9,9 +9,10 @@ import {
 
 describe('TransferStateReducer', () => {
   describe('getTransferStateReducer', () => {
-    it('should return undefined without proper configuration', () => {
+    it('should return transparent reducer without proper configuration', () => {
       const reducer = getTransferStateReducer('browser', null, null);
-      expect(reducer).toBe(undefined);
+      const subReducer = () => {};
+      expect(reducer(subReducer)).toBe(subReducer);
     });
 
     it('should return reducer for proper configuration', () => {

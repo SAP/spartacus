@@ -9,8 +9,5 @@
   "npm": {
     "publishPath": "./../../dist/core",
     "tag": "latest"
-  },
-  "hooks": {
-    "after:git:bump": "cd ../.. && yarn build:core:lib"
   }
 }
