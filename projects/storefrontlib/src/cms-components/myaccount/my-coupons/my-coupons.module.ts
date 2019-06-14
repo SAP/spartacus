@@ -37,7 +37,7 @@ import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/pag
           guards: [AuthGuard],
         },
         CouponClaimComponent: {
-          selector: 'cx-customer-coupon-claim',
+          selector: 'cx-coupon-claim',
           guards: [AuthGuard],
         },
       },
