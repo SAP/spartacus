@@ -62,17 +62,26 @@ export class SearchBoxComponent {
     tap(c => (this.config = c)),
     switchMap(config => this.searchBoxComponentService.getResults(config)),
     tap(results => {
-      if (this.searchBoxComponentService.hasResults(results)) {
+      if (this.hasResults(results)) {
         // Use timeout to render html elements for results
         setTimeout(() => {
           const children = this.getResultElements();
           if (this.resultItems !== children) {
             this.resultItems = children;
+            results = results;
           }
         }, 0);
       }
     })
   );
+
+  private hasResults(results: SearchResults): boolean {
+    return (
+      (!!results.products && results.products.length > 0) ||
+      (!!results.suggestions && results.suggestions.length > 0) ||
+      !!results.message
+    );
+  }
 
   /**
    * Returns the backend configuration or default configuration for the searchbox.
@@ -119,6 +128,7 @@ export class SearchBoxComponent {
 
   private isSearchboxFocused(): boolean {
     if (
+      this.resultItems &&
       this.resultItems.indexOf(this.getFocusedElement()) === -1 &&
       this.winRef.document.querySelector('input[aria-label="search"]') !==
         this.getFocusedElement()

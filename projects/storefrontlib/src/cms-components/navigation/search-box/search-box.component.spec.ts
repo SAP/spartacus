@@ -225,6 +225,8 @@ describe('SearchBoxComponent', () => {
         fixture.debugElement.query(By.css('.products a:first-child.has-media'))
       ).toBeTruthy();
     });
+
+    describe('Arrow tests', () => {});
   });
 
   describe('Searchbox config ', () => {

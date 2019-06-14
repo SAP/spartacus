@@ -101,7 +101,7 @@ export class SearchBoxComponentService {
     }
   }
 
-  hasResults(results: SearchResults): boolean {
+  private hasResults(results: SearchResults): boolean {
     return (
       (!!results.products && results.products.length > 0) ||
       (!!results.suggestions && results.suggestions.length > 0) ||
