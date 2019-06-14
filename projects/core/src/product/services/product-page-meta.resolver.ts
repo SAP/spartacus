@@ -10,11 +10,11 @@ import {
   PageImageResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
+import { TranslationService } from '../../i18n/translation.service';
+import { PageType } from '../../model/cms.model';
+import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
-import { Product } from '../../model/product.model';
-import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -94,7 +94,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
   ): Observable<any[]> {
     const breadcrumbs = [];
     breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
-
+    debugger;
     for (const c of product.categories) {
       breadcrumbs.push({
         label: c.name || c.code,
