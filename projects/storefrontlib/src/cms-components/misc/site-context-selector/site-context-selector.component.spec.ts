@@ -130,8 +130,18 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   });
 
   it('should get items$', () => {
+    const expected = [
+      {
+        ...mockLanguages[0],
+        label: mockLanguages[0].name,
+      },
+      {
+        ...mockLanguages[1],
+        label: mockLanguages[1].name,
+      },
+    ];
     component.items$.subscribe(value => {
-      expect(value).toEqual(mockLanguages);
+      expect(value).toEqual(expected);
     });
   });
 

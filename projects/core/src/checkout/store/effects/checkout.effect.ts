@@ -127,12 +127,10 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
-          mergeMap(details => {
-            return [
-              new fromUserActions.LoadUserPaymentMethods(payload.userId),
-              new fromActions.CreatePaymentDetailsSuccess(details),
-            ];
-          }),
+          mergeMap(details => [
+            new fromUserActions.LoadUserPaymentMethods(payload.userId),
+            new fromActions.CreatePaymentDetailsSuccess(details),
+          ]),
           catchError(error =>
             of(new fromActions.CreatePaymentDetailsFail(error))
           )
