@@ -43,6 +43,10 @@ cx-category-navigation {
   @extend %ProductListPageTemplate !optional;
 }
 
+.ProductGridPageTemplate {
+  @extend %ProductListPageTemplate !optional;
+}
+
 .SearchResultsListPageTemplate {
   @extend %SearchResultsListPageTemplate !optional;
 }

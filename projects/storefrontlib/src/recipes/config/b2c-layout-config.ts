@@ -48,6 +48,9 @@ export const b2cLayoutConfig: LayoutConfig = {
     ProductListPageTemplate: {
       slots: ['ProductListSlot', 'ProductLeftRefinements'],
     },
+    ProductGridPageTemplate: {
+      slots: ['ProductGridSlot', 'ProductLeftRefinements'],
+    },
     SearchResultsListPageTemplate: {
       slots: [
         'Section2',
