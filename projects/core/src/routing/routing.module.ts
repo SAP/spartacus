@@ -17,7 +17,6 @@ import { ROUTING_FEATURE } from './store/state';
 @NgModule({
   imports: [
     ConfigurableRoutesModule,
-
     StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
     StoreRouterConnectingModule.forRoot({
