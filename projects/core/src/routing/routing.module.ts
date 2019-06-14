@@ -6,7 +6,6 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { ConfigurableRoutesModule } from './configurable-routes/configurable-routes.module';
-import { RoutingService } from './facade/routing.service';
 import { effects } from './store/effects/index';
 import {
   CustomSerializer,
@@ -26,7 +25,6 @@ import { ROUTING_FEATURE } from './store/state';
     }),
   ],
   providers: [
-    RoutingService,
     reducerProvider,
     {
       provide: RouterStateSerializer,
