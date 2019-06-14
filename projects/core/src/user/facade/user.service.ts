@@ -7,6 +7,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
@@ -20,6 +21,9 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
+  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
 } from '../store/user-state';
 
 @Injectable()
@@ -657,5 +661,162 @@ export class UserService {
    */
   resetWithdrawConsentProcessState(): void {
     return this.store.dispatch(new fromStore.ResetWithdrawUserConsentProcess());
+  }
+
+  /**
+   * Retrieves customer's coupons
+   * @param pageSize page size
+   * @param currentPage current page
+   * @param sort sort
+   */
+  loadCustomerCoupons(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): void {
+    this.store.dispatch(
+      new fromStore.LoadCustomerCoupons({
+        userId: USERID_CURRENT,
+        pageSize: pageSize,
+        currentPage: currentPage,
+        sort: sort,
+      })
+    );
+  }
+
+  /**
+   * Returns customer coupon search result
+   * @param pageSize page size
+   */
+  getCustomerCoupons(pageSize: number): Observable<CustomerCouponSearchResult> {
+    return this.store.pipe(
+      select(fromStore.getCustomerCouponsState),
+      tap(customerCouponsState => {
+        const attemptedLoad =
+          customerCouponsState.loading ||
+          customerCouponsState.success ||
+          customerCouponsState.error;
+        if (!attemptedLoad) {
+          this.loadCustomerCoupons(pageSize);
+        }
+      }),
+      map(customerCouponsState => customerCouponsState.value)
+    );
+  }
+
+  /**
+   * Returns a loaded flag for customer coupons
+   */
+  getCustomerCouponsLoaded(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getCustomerCouponsLoaded));
+  }
+
+  /**
+   * Returns a loading flag for customer coupons
+   */
+  getCustomerCouponsLoading(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getCustomerCouponsLoading));
+  }
+
+  /**
+   * Subscribe a CustomerCoupon Notification
+   * @param couponCode a customer coupon code
+   */
+  subscribeCustomerCoupon(couponCode: string): void {
+    this.store.dispatch(
+      new fromStore.SubscribeCustomerCoupon({
+        userId: USERID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
+  }
+
+  /**
+   * Returns the subscribe customer coupon notification process loading flag
+   */
+  getSubscribeCustomerCouponResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the subscribe customer coupon notification process success flag
+   */
+  getSubscribeCustomerCouponResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the subscribe customer coupon notification process error flag
+   */
+  getSubscribeCustomerCouponResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Unsubscribe a CustomerCoupon Notification
+   * @param couponCode a customer coupon code
+   */
+  unsubscribeCustomerCoupon(couponCode: string): void {
+    this.store.dispatch(
+      new fromStore.UnsubscribeCustomerCoupon({
+        userId: USERID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
+  }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process loading flag
+   */
+  getUnsubscribeCustomerCouponResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process success flag
+   */
+  getUnsubscribeCustomerCouponResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the unsubscribe customer coupon notification process error flag
+   */
+  getUnsubscribeCustomerCouponResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Claim a CustomerCoupon
+   * @param couponCode a customer coupon code
+   */
+  claimCustomerCoupon(couponCode: string): void {
+    this.store.dispatch(
+      new fromStore.ClaimCustomerCoupon({
+        userId: USERID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
+  }
+
+  /**
+   * Returns the claim customer coupon notification process success flag
+   */
+  getClaimCustomerCouponResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
   }
 }

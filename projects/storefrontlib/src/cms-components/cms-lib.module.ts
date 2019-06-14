@@ -21,6 +21,7 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  MyCouponsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -70,6 +71,7 @@ import { ProductImagesModule } from './product/product-images/product-images.mod
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
+    MyCouponsModule,
   ],
 })
 export class CmsLibModule {}
