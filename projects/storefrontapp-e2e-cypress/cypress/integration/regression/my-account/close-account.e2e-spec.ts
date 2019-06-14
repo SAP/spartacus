@@ -22,6 +22,7 @@ describe('Close Account', () => {
     before(() => {
       standardUser.registrationData.email = generateMail(randomString(), true);
       cy.requireLoggedIn(standardUser);
+      cy.visit('/');
     });
 
     beforeEach(() => {
