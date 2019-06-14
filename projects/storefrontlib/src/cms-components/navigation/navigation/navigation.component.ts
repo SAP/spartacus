@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
-import { NavigationComponentService } from './navigation.component.service';
+import { NavigationService } from './navigation.service';
 
 @Component({
   selector: 'cx-navigation',
@@ -10,11 +12,16 @@ import { NavigationComponentService } from './navigation.component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationComponent {
-  node$: Observable<NavigationNode> = this.service.createNavigation();
+  node$: Observable<NavigationNode> = this.service.createNavigation(
+    this.componentData.data$
+  );
 
-  styleClass$: Observable<string> = this.service
-    .getComponentData()
-    .pipe(map(d => d.styleClass));
+  styleClass$: Observable<string> = this.componentData.data$.pipe(
+    map(d => d.styleClass)
+  );
 
-  constructor(public service: NavigationComponentService) {}
+  constructor(
+    protected componentData: CmsComponentData<CmsNavigationComponent>,
+    protected service: NavigationService
+  ) {}
 }
