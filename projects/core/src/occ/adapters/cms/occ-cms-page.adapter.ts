@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { PageContext } from '../../../routing';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
-import { CMS_PAGE_NORMALIZE } from '../../../cms/connectors/page/converters';
+import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { ConverterService } from '../../../util/converter.service';
 import { CmsStructureModel } from '../../../cms/model/page.model';
 import { PageType } from '../../../model/cms.model';
@@ -35,7 +35,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
             headers: this.headers,
           }
         )
-        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
+        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
     }
 
     // load page by PageContext
@@ -44,7 +44,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
       .get(this.getPagesEndpoint(httpParams, fields), {
         headers: this.headers,
       })
-      .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
+      .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
   }
 
   private getPagesEndpoint(
