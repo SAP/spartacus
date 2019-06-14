@@ -8,10 +8,10 @@ import {
 import { Subscription } from 'rxjs';
 
 @Component({
-  templateUrl: './customer-coupon-claim.component.html',
-  selector: 'cx-customer-coupon-claim',
+  templateUrl: './coupon-claim.component.html',
+  selector: 'cx-coupon-claim',
 })
-export class CustomerCouponClaimComponent implements OnInit, OnDestroy {
+export class CouponClaimComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(

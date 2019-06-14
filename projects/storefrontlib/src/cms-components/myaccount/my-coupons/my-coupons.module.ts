@@ -16,7 +16,7 @@ import { CouponCardComponent } from './coupon-card/coupon-card.component';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { CouponDialogComponent } from './coupon-card/coupon-dialog/coupon-dialog.component';
 import { IconModule } from '../../../cms-components/misc/icon/index';
-import { CustomerCouponClaimComponent } from './customer-coupon-claim/customer-coupon-claim.component';
+import { CouponClaimComponent } from './coupon-claim/coupon-claim.component';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 
@@ -36,7 +36,7 @@ import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/pag
           selector: 'cx-my-coupons',
           guards: [AuthGuard],
         },
-        CustomerCouponClaimComponent: {
+        CouponClaimComponent: {
           selector: 'cx-customer-coupon-claim',
           guards: [AuthGuard],
         },
@@ -55,13 +55,13 @@ import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/pag
     MyCouponsComponent,
     CouponCardComponent,
     CouponDialogComponent,
-    CustomerCouponClaimComponent,
+    CouponClaimComponent,
   ],
-  exports: [MyCouponsComponent, CustomerCouponClaimComponent],
+  exports: [MyCouponsComponent, CouponClaimComponent],
   entryComponents: [
     MyCouponsComponent,
     CouponDialogComponent,
-    CustomerCouponClaimComponent,
+    CouponClaimComponent,
   ],
 })
 export class MyCouponsModule {}

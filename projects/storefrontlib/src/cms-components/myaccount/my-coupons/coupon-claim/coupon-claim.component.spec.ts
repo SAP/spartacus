@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CustomerCouponClaimComponent } from './customer-coupon-claim.component';
+import { CouponClaimComponent } from './coupon-claim.component'
 import {
   UserService,
   RoutingService,
@@ -27,9 +27,9 @@ const mockRouterState = {
   },
 };
 
-describe('CustomerCouponClaimComponent', () => {
-  let component: CustomerCouponClaimComponent;
-  let fixture: ComponentFixture<CustomerCouponClaimComponent>;
+describe('CouponClaimComponent', () => {
+  let component: CouponClaimComponent;
+  let fixture: ComponentFixture<CouponClaimComponent>;
 
   const userService = jasmine.createSpyObj('UserService', [
     'getClaimCustomerCouponResultSuccess',
@@ -44,7 +44,7 @@ describe('CustomerCouponClaimComponent', () => {
   ]);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CustomerCouponClaimComponent],
+      declarations: [CouponClaimComponent],
       providers: [
         { provide: UserService, useValue: userService },
         { provide: RoutingService, useValue: routingService },
@@ -54,7 +54,7 @@ describe('CustomerCouponClaimComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomerCouponClaimComponent);
+    fixture = TestBed.createComponent(CouponClaimComponent);
     component = fixture.componentInstance;
   });
 
