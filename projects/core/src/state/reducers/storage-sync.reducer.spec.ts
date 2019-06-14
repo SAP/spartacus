@@ -70,9 +70,10 @@ describe('storage-sync-reducer', () => {
       reducer = metaReducer(nextReducer);
     });
 
-    it('should return undefined without proper configuration', () => {
-      const result = getStorageSyncReducer(winRef, undefined);
-      expect(result).toBe(undefined);
+    it('should return transparent reducer without proper configuration', () => {
+      const syncReducer = getStorageSyncReducer(winRef, undefined);
+      const subReducer: any = () => {};
+      expect(syncReducer(subReducer)).toBe(subReducer);
     });
 
     describe('when the action type is UPDATE and the rehydrate config is set to true', () => {

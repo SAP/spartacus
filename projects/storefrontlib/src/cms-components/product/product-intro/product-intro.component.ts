@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
-import { Product, TranslationService } from '@spartacus/core';
+import { Product, TranslationService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 
@@ -19,7 +19,8 @@ export class ProductIntroComponent implements AfterContentChecked {
 
   constructor(
     protected currentProductService: CurrentProductService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    protected winRef: WindowRef
   ) {}
 
   ngAfterContentChecked() {
@@ -49,12 +50,12 @@ export class ProductIntroComponent implements AfterContentChecked {
   // NOTE: Does not currently exists as its own component
   // but part of tabs component. This is likely to change in refactor.
   private getReviewsComponent(): Element {
-    return document.querySelector('cx-product-reviews');
+    return this.winRef.document.querySelector('cx-product-reviews');
   }
 
   // Get Tabs Component if exists on page
   private getTabsComponent(): Element {
-    return document.querySelector('cx-tab-paragraph-container');
+    return this.winRef.document.querySelector('cx-tab-paragraph-container');
   }
 
   // Click to activate tab if not already active
