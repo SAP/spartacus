@@ -21,8 +21,8 @@ export const USER_ADDRESSES = '[User] User Addresses';
 
 export const CUSTOMER_COUPONS = '[User] Customer Coupons';
 export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID = 'subscribeCustomerCoupon';
-export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID =
-  'unsubscribeCustomerCoupon';
+export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID = 'unsubscribeCustomerCoupon';
+export const CLAIM_CUSTOMER_COUPON_PROCESS_ID = 'claimCustomerCoupon';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;

@@ -8,6 +8,7 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponNotification,
+  CustomerCoupon2Customer,
 } from '../../../model/customer-coupon.model';
 import { OccCustomerCouponAdapter } from './occ-customer-coupon.adapter';
 
@@ -17,6 +18,7 @@ const endpoint = '/users';
 const couponCode = 'testcouponcode';
 const customerCouponEndpoint = '/customercoupons';
 const notificationEndpoint = '/notification';
+const claimEndPoint = '/claim';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -152,6 +154,45 @@ describe('OccCustomerCouponAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+    });
+  });
+
+  describe('claim customer coupon', () => {
+    it('should claim a customer coupon for a given user id and coupon code', () => {
+      const customerCoupon: CustomerCoupon = {
+        couponId: 'coupon1',
+        name: 'coupon 1',
+        startDate: new Date(),
+        endDate: new Date(),
+        status: 'Effective',
+        description: '',
+        notificationOn: true,
+        solrFacets: '',
+      };
+      const customerCoupon2Customer: CustomerCoupon2Customer = {
+        coupon: customerCoupon,
+        customer: {},
+      };
+
+      service.claimCustomerCoupon(userId, couponCode).subscribe(result => {
+        expect(result).toEqual(customerCoupon2Customer);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            endpoint +
+              `/${userId}` +
+              customerCouponEndpoint +
+              `/${couponCode}` +
+              claimEndPoint
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(customerCoupon2Customer);
     });
   });
 });

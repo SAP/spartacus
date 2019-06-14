@@ -47,5 +47,6 @@ export const myAccount = {
     findProducts: 'Find Products',
     status: 'Status:',
     dialogTitle: 'Coupon',
+    claimCustomerCoupon: 'You have successfully claimed this coupon.',
   },
 };

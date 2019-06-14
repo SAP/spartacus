@@ -18,6 +18,9 @@ class MockUserAdapter implements CustomerCouponAdapter {
   turnOffNotification = createSpy('turnOffNotification').and.returnValue(
     of({})
   );
+  claimCustomerCoupon = createSpy('claimCustomerCoupon').and.callFake(userId =>
+    of(`claim-${userId}`)
+  );
 }
 
 describe('CustomerCouponConnector', () => {
@@ -72,6 +75,18 @@ describe('CustomerCouponConnector', () => {
       .subscribe(res => (result = res));
     expect(result).toEqual({});
     expect(adapter.turnOffNotification).toHaveBeenCalledWith(
+      'userId',
+      'couponCode'
+    );
+  });
+
+  it('claimCustomerCoupon should call adapter', () => {
+    let result;
+    service
+      .claimCustomerCoupon('userId', 'couponCode')
+      .subscribe(res => (result = res));
+    expect(result).toEqual('claim-userId');
+    expect(adapter.claimCustomerCoupon).toHaveBeenCalledWith(
       'userId',
       'couponCode'
     );

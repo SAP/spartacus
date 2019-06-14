@@ -7,6 +7,7 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponNotification,
+  CustomerCoupon2Customer,
 } from '../../../model/customer-coupon.model';
 import { User } from '../../../model/misc.model';
 import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
@@ -68,6 +69,11 @@ const customerCouponNotification: CustomerCouponNotification = {
   status: '',
 };
 
+const customerCoupon2Customer: CustomerCoupon2Customer = {
+  coupon: coupon1,
+  customer: {},
+};
+
 describe('Customer Coupon effect', () => {
   let customerCouponsEffect: fromCustomerCouponsEffect.CustomerCouponEffects;
   let customerCouponConnector: CustomerCouponConnector;
@@ -98,6 +104,9 @@ describe('Customer Coupon effect', () => {
 
     spyOn(customerCouponConnector, 'turnOffNotification').and.returnValue(
       of({})
+    );
+    spyOn(customerCouponConnector, 'claimCustomerCoupon').and.returnValue(
+      of(customerCoupon2Customer)
     );
   });
 
@@ -153,6 +162,25 @@ describe('Customer Coupon effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(customerCouponsEffect.unsubscribeCustomerCoupon$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('claimCustomerCoupon$', () => {
+    it('should load CustomerCoupons', () => {
+      const action = new fromCustomerCouponsAction.ClaimCustomerCoupon({
+        userId: USERID_CURRENT,
+        couponCode: 'testCoupon',
+      });
+      const completion = new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
+        customerCoupon2Customer
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(customerCouponsEffect.claimCustomerCoupon$).toBeObservable(
         expected
       );
     });

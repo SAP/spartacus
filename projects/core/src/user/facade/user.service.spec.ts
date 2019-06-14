@@ -1041,5 +1041,15 @@ describe('UserService', () => {
 
       expect(result).toEqual(true);
     });
+
+    it('should be able to claim a customer coupon', () => {
+      service.claimCustomerCoupon('couponCode');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ClaimCustomerCoupon({
+          userId: USERID_CURRENT,
+          couponCode: 'couponCode',
+        })
+      );
+    });
   });
 });

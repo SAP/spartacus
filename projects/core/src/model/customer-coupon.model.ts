@@ -23,3 +23,8 @@ export interface CustomerCouponSearchResult {
   sorts?: Sort[];
   pagination?: Pagination;
 }
+
+export interface CustomerCoupon2Customer {
+  coupon?: CustomerCoupon;
+  customer?: User;
+}

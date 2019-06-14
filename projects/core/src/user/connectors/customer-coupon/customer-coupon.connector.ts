@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import {
   CustomerCouponSearchResult,
   CustomerCouponNotification,
+  CustomerCoupon2Customer,
 } from '../../../model/customer-coupon.model';
 import { CustomerCouponAdapter } from './customer-coupon.adapter';
 
@@ -30,5 +31,12 @@ export class CustomerCouponConnector {
 
   turnOffNotification(userId: string, couponCode: string): Observable<{}> {
     return this.adapter.turnOffNotification(userId, couponCode);
+  }
+
+  claimCustomerCoupon(
+    userId: string,
+    couponCode: string
+  ): Observable<CustomerCoupon2Customer> {
+    return this.adapter.claimCustomerCoupon(userId, couponCode);
   }
 }
