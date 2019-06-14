@@ -10,7 +10,7 @@ import { interceptors } from './http-interceptors/index';
   providers: [{ provide: PersonalizationConfig, useExisting: Config }],
 })
 export class PersonalizationModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<PersonalizationModule> {
     return {
       ngModule: PersonalizationModule,
       providers: [...interceptors],

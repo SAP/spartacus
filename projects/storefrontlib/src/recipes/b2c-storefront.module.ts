@@ -25,7 +25,9 @@ import { StorefrontModule } from './storefront.module';
   exports: [LayoutModule],
 })
 export class B2cStorefrontModule {
-  static withConfig(config?: StorefrontConfig): ModuleWithProviders {
+  static withConfig(
+    config?: StorefrontConfig
+  ): ModuleWithProviders<B2cStorefrontModule> {
     return {
       ngModule: B2cStorefrontModule,
       providers: [provideConfig(config)],
