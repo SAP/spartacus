@@ -94,11 +94,18 @@ export class ProductPageMetaResolver extends PageMetaResolver
   ): Observable<any[]> {
     const breadcrumbs = [];
     breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
-
-    for (const c of product.categories) {
+    if (product.categories[0]) {
       breadcrumbs.push({
-        label: c.name || c.code,
-        link: '/c/' + c.code,
+        label: product.categories[0].name || product.categories[0].code,
+        link: `/c/${product.categories[0].code}`,
+      });
+    }
+    if (product.categories[1]) {
+      breadcrumbs.push({
+        label: product.categories[1].name || product.categories[1].code,
+        link: `/Brands/${product.categories[1].name}/c/${
+          product.categories[1].code
+        }`,
       });
     }
     return of(breadcrumbs);
