@@ -92,6 +92,7 @@ export class MediaComponent implements OnChanges {
   loadHandler(): void {
     this.isLoading = false;
     this.isInitialized = true;
+    this.isMissing = false;
     this.loaded.emit(true);
   }
 
