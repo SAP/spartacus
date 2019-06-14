@@ -15,7 +15,6 @@ import { StockNotificationComponent } from './stock-notification.component';
 import { of } from 'rxjs';
 import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 const MockOccModuleConfig: OccConfig = {
@@ -37,11 +36,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockNgbActiveModal {
-  dismiss(): void {}
-  close(): void {}
-}
-
 @Component({
   selector: 'cx-spinner',
   template: '',
@@ -51,6 +45,59 @@ class MockCxSpinnerComponent {}
 describe('StockNotificationComponent', () => {
   let component: StockNotificationComponent;
   let fixture: ComponentFixture<StockNotificationComponent>;
+
+  const MockNgbActiveModal = jasmine.createSpyObj('NgbActiveModal', [
+    'dismiss',
+    'close',
+  ]);
+  const userService = jasmine.createSpyObj('UserService', [
+    'getNotificationPreferences',
+  ]);
+  const translationService = jasmine.createSpyObj('TranslationService', [
+    'translate',
+  ]);
+  translationService.translate.and.returnValue(of('test'));
+  const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
+    'add',
+  ]);
+  const notificationDialogComponent = jasmine.createSpy(
+    'NotificationDialogComponent'
+  );
+  const authService = jasmine.createSpyObj('AuthService', ['getUserToken']);
+  const productInterestService = jasmine.createSpyObj(
+    'ProductInterestService',
+    [
+      'loadProductInterests',
+      'getProdutInterests',
+      'getProdutInterestsLoaded',
+      'getBackInStockSubscribed',
+      'loadBackInStockSubscribed',
+      'deleteBackInStock',
+      'createBackInStock',
+      'resetBackInStock',
+      'getDeleteBackInStockSuccess',
+      'getDeleteBackInStockLoading',
+      'getCreateBackInStockSuccess',
+      'resetDeleteState',
+      'resetCreateState',
+    ]
+  );
+  const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
+    preferences: [
+      {
+        channel: 'EMAIL',
+        enabled: true,
+        value: 'test@sap.com',
+        visible: true,
+      },
+      {
+        channel: 'SITE_MESSAGE',
+        enabled: true,
+        value: '',
+        visible: true,
+      },
+    ],
+  };
 
   const userToken = {
     access_token: 'xxx',
@@ -69,37 +116,6 @@ describe('StockNotificationComponent', () => {
     scope: [''],
     userId: '',
   };
-
-  let userService = jasmine.createSpyObj('UserService', [
-    'getNotificationPreferences',
-  ]);
-  const translationService = jasmine.createSpyObj('TranslationService', [
-    'translate',
-  ]);
-  translationService.translate.and.returnValue(of('test'));
-  const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-    'add',
-  ]);
-  const notificationDialogComponent = jasmine.createSpy(
-    'NotificationDialogComponent'
-  );
-
-  let authService = jasmine.createSpyObj('AuthService', ['getUserToken']);
-  let productInterestService = jasmine.createSpyObj('ProductInterestService', [
-    'loadProductInterests',
-    'getProdutInterests',
-    'getProdutInterestsLoaded',
-    'getBackInStockSubscribed',
-    'loadBackInStockSubscribed',
-    'deleteBackInStock',
-    'createBackInStock',
-    'resetBackInStock',
-    'getDeleteBackInStockSuccess',
-    'getDeleteBackInStockLoading',
-    'getCreateBackInStockSuccess',
-    'resetDeleteState',
-    'resetCreateState',
-  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -129,28 +145,18 @@ describe('StockNotificationComponent', () => {
         },
         {
           provide: NgbActiveModal,
-          useClass: MockNgbActiveModal,
+          useValue: MockNgbActiveModal,
         },
       ],
     }).compileComponents();
 
-    authService = TestBed.get(AuthService);
-    productInterestService = TestBed.get(ProductInterestService);
-    userService = TestBed.get(UserService);
-
     authService.getUserToken.and.returnValue(of(userToken));
-    productInterestService.getBackInStockSubscribed.and.stub();
-    productInterestService.getCreateBackInStockSuccess.and.stub();
-    productInterestService.loadBackInStockSubscribed.and.stub();
     productInterestService.getDeleteBackInStockSuccess.and.returnValue(
       of(true)
     );
-    productInterestService.getDeleteBackInStockLoading.and.stub();
-    productInterestService.createBackInStock.and.stub();
-    productInterestService.resetBackInStock.and.stub();
-    productInterestService.deleteBackInStock.and.stub();
-
-    userService.getNotificationPreferences.and.returnValue(of({}));
+    userService.getNotificationPreferences.and.returnValue(
+      of(basicNotificationPreferenceList)
+    );
   }));
 
   beforeEach(() => {
@@ -160,10 +166,11 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should create', () => {
+    authService.getUserToken.and.returnValue(of(userToken));
     expect(component).toBeTruthy();
   });
 
-  fdescribe('Methods test', () => {
+  describe('Methods test', () => {
     describe('ngOnInit', () => {
       it('should not load stock notificaiton data, when customer is not login', () => {
         authService.getUserToken.and.returnValue(of({}));
@@ -227,7 +234,7 @@ describe('StockNotificationComponent', () => {
     });
   });
 
-  fdescribe('UI test', () => {
+  describe('UI test', () => {
     it('should show notify me, when logged$ is true, subscribed$ is false, channelEnabled$ is true', () => {
       authService.getUserToken.and.returnValue(of(userToken));
       productInterestService.getBackInStockSubscribed.and.returnValue(
@@ -240,22 +247,7 @@ describe('StockNotificationComponent', () => {
         StockNotificationComponent.prototype as any,
         'onUnsubscribeSuccess'
       ).and.stub();
-      const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
-        preferences: [
-          {
-            channel: 'EMAIL',
-            enabled: true,
-            value: 'test@sap.com',
-            visible: true,
-          },
-          {
-            channel: 'SITE_MESSAGE',
-            enabled: true,
-            value: '',
-            visible: true,
-          },
-        ],
-      };
+
       userService.getNotificationPreferences.and.returnValue(
         of(basicNotificationPreferenceList)
       );
@@ -285,6 +277,12 @@ describe('StockNotificationComponent', () => {
         StockNotificationComponent.prototype as any,
         'onUnsubscribeSuccess'
       ).and.stub();
+      const emptyNotificationPreferenceList: BasicNotificationPreferenceList = {
+        preferences: [],
+      };
+      userService.getNotificationPreferences.and.returnValue(
+        of(emptyNotificationPreferenceList)
+      );
       component.ngOnInit();
       fixture.detectChanges();
 
