@@ -56,13 +56,13 @@ class FakeSearchPageTitleResolver extends PageMetaResolver {
   }
 }
 
-describe('FindProductSearchPageMetaResolver', () => {
+fdescribe('FindProductSearchPageMetaResolver', () => {
   let service: PageMetaService;
   let cmsService = jasmine.createSpyObj('CmsService', ['getCurrentPage']);
-  let prductSearchService = jasmine.createSpyObj('PrductSearchService', [
+  const prductSearchService = jasmine.createSpyObj('PrductSearchService', [
     'getResults',
   ]);
-  let routingService = jasmine.createSpyObj('RoutingService', [
+  const routingService = jasmine.createSpyObj('RoutingService', [
     'getRouterState',
   ]);
   beforeEach(() => {
@@ -101,23 +101,23 @@ describe('FindProductSearchPageMetaResolver', () => {
         },
       })
     );
-    routingService.getRouterState.and.returnValue(
-      of({
-        state: {
-          params: {
-            query: 'CouponTest',
-          },
-        },
-      })
-    );
 
     service = TestBed.get(PageMetaService);
     cmsService = TestBed.get(CmsService);
   });
 
-  describe('ContentPage with search results', () => {
+  fdescribe('ContentPage with coupon search results', () => {
     beforeEach(() => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockSearchPage));
+      routingService.getRouterState.and.returnValue(
+        of({
+          state: {
+            params: {
+              query: ':relevance:category:1:couponTest',
+            },
+          },
+        })
+      );
     });
 
     it('PageTitleService should be created', inject(
@@ -139,6 +139,90 @@ describe('FindProductSearchPageMetaResolver', () => {
       expect(result.title).toEqual(
         'pageMetaResolver.search.findProductTitle count:3'
       );
+    });
+
+    it('should resolve 2 breadcrumbs', () => {
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+
+      expect(result.breadcrumbs.length).toEqual(2);
+    });
+
+    it('should resolve 2nd breadcrumbs with my coupons', () => {
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+      expect(result.breadcrumbs[1].label).toEqual('My Coupons');
+    });
+  });
+
+  fdescribe('ContentPage with search results', () => {
+    beforeEach(() => {
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockSearchPage));
+      routingService.getRouterState.and.returnValue(
+        of({
+          state: {
+            params: {
+              query: 'ordinarySearch',
+            },
+          },
+        })
+      );
+    });
+
+    it('PageTitleService should be created', inject(
+      [PageMetaService],
+      (pageTitleService: PageMetaService) => {
+        expect(pageTitleService).toBeTruthy();
+      }
+    ));
+
+    it('should resolve search results in title ', () => {
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+
+      expect(result.title).toEqual('search page title');
+    });
+  });
+
+  fdescribe('ContentPage without search results', () => {
+    beforeEach(() => {
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockContentPage));
+      routingService.getRouterState.and.returnValue(
+        of({
+          state: {
+            params: {
+              query: 'ordinarySearch',
+            },
+          },
+        })
+      );
+    });
+
+    it('should resolve content page title', () => {
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+
+      expect(result.title).toEqual('content page title');
     });
   });
 });
