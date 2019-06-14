@@ -1,4 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { ConfigModule, provideConfig } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { LayoutModule } from '../layout/layout.module';
@@ -15,6 +17,19 @@ import { StorefrontModule } from './storefront.module';
         addToHomeScreen: true,
       },
     }),
+    StoreModule.forRoot(
+      {},
+      {
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictStateSerializability: true,
+          strictActionImmutability: true,
+          // TODO:#3010 - enable
+          // strictActionSerializability: true,
+        },
+      }
+    ),
+    EffectsModule.forRoot([]),
 
     ConfigModule.withConfig(b2cLayoutConfig),
     ConfigModule.withConfigFactory(defaultCmsContentConfig),
