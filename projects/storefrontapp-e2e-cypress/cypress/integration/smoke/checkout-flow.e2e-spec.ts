@@ -17,6 +17,7 @@ context('Checkout flow', () => {
 
   it('should add product to cart and go to checkout', () => {
     bigHappyPath.addProductToCart();
+    bigHappyPath.loginUser();
   });
 
   it('should fill in address form', () => {
