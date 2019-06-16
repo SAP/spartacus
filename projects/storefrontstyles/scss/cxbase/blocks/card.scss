@@ -2,7 +2,7 @@
 @import '~bootstrap/scss/card';
 
 .card {
-  border-radius: var(--cx-border-radius, 0);
+  border-radius: 0;
 }
 
 .card-body {
@@ -15,16 +15,16 @@
 }
 
 .card-header {
-  background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+  background-color: var(--cx-background-color, var(--cx-color-secondary));
   @include type('8');
-  color: var(--cx-color, var(--cx-g-color-inverse));
+  color: var(--cx-color, var(--cx-color-inverse));
   line-height: var(--cx-line-height, 20px);
   padding-top: var(--cx-padding-top, 5px);
   padding-bottom: var(--cx-padding-bottom, 5px);
-  border-radius: var(--cx-border-radius, 0);
+  border-radius: 0;
 
   &:first-child {
-    border-radius: var(--cx-border-radius, 0);
+    border-radius: 0;
   }
 }
 
@@ -35,7 +35,7 @@
 }
 
 .card-label-bold {
-  font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold));
+  font-weight: var(--cx-font-weight, var(--cx-font-weight-bold));
 }
 
 .card-link {
