@@ -4,6 +4,6 @@ import { CartStoreModule } from './store/cart-store.module';
 
 @NgModule({
   imports: [CartStoreModule],
-  providers: [CartDataService, CartDataService, CartService],
+  providers: [CartDataService, CartService],
 })
 export class CartModule {}
