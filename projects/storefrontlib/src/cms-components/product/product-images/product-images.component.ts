@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { CarouselItem } from '../../../shared/components/carousel/index';
 import { CurrentProductService } from '../current-product.service';
-
-const WAITING_CLASS = 'is-waiting';
 
 @Component({
   selector: 'cx-product-images',
@@ -12,57 +11,79 @@ const WAITING_CLASS = 'is-waiting';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImagesComponent {
-  waiting: HTMLElement;
+  private mainMediaContainer = new BehaviorSubject(null);
 
-  product$: Observable<Product> = this.currentProductService
-    .getProduct()
-    .pipe(filter(Boolean));
-
-  private _imageContainer$ = new BehaviorSubject(null);
-
-  imageContainer$ = combineLatest(this.product$, this._imageContainer$).pipe(
-    map(([product, container]) =>
-      container
-        ? container
-        : product.images && product.images.PRIMARY
-        ? product.images.PRIMARY
-        : {}
+  private product$: Observable<
+    Product
+  > = this.currentProductService.getProduct().pipe(
+    filter(Boolean),
+    distinctUntilChanged(),
+    tap((p: Product) =>
+      this.mainMediaContainer.next(p.images ? p.images.PRIMARY : {})
     )
   );
 
+  private thumbs$: Observable<CarouselItem[]> = this.product$.pipe(
+    map(product => this.createCarouselItems(product))
+  );
+
+  private mainImage$ = combineLatest([
+    this.product$,
+    this.mainMediaContainer,
+  ]).pipe(map(([_, container]) => container));
+
   constructor(private currentProductService: CurrentProductService) {}
 
-  showImage(event: MouseEvent, imageContainer): void {
-    this.startWaiting(<HTMLElement>event.target);
-    this._imageContainer$.next(imageContainer);
+  getThumbs(): Observable<CarouselItem[]> {
+    return this.thumbs$;
   }
 
-  isMainImageContainer(currentContainer): Observable<boolean> {
-    return this.imageContainer$.pipe(
-      map(
-        (container: any) =>
-          container &&
-          container.zoom &&
-          currentContainer.zoom &&
-          container.zoom.url === currentContainer.zoom.url
-      )
+  getMain(): Observable<any> {
+    return this.mainImage$;
+  }
+
+  openImage(item: CarouselItem): void {
+    this.mainMediaContainer.next(item.media.container);
+  }
+
+  /** find the index of the main media in the list of media */
+  getActive(thumbs: CarouselItem[]): Observable<number> {
+    return this.mainMediaContainer.pipe(
+      filter(Boolean),
+      map((container: any) => {
+        const current = thumbs.find(
+          t =>
+            t.media &&
+            container.zoom &&
+            t.media.container &&
+            t.media.container.zoom &&
+            t.media.container.zoom.url === container.zoom.url
+        );
+        return thumbs.indexOf(current);
+      })
     );
   }
 
-  loadHandler(): void {
-    this.clearWaitList();
-  }
-
-  private startWaiting(el: HTMLElement): void {
-    this.clearWaitList();
-    el.classList.add(WAITING_CLASS);
-    this.waiting = el;
-  }
-
-  private clearWaitList(): void {
-    if (this.waiting) {
-      this.waiting.classList.remove(WAITING_CLASS);
-      delete this.waiting;
+  /**
+   * Return an array of CarouselItems for the product thumbnails.
+   * In case there are less then 2 thumbs, we return null.
+   */
+  private createCarouselItems(product: Product): CarouselItem[] {
+    if (
+      !product.images ||
+      !product.images.GALLERY ||
+      product.images.GALLERY.length < 2
+    ) {
+      return null;
     }
+
+    return (<any[]>product.images.GALLERY).map(c => {
+      return {
+        media: {
+          container: c,
+          format: 'thumbnail',
+        },
+      };
+    });
   }
 }
