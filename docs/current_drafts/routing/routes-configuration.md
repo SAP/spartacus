@@ -1,4 +1,4 @@
-[^ Configurable routes](../README.md)
+[^ Configurable routes](./README.md)
 
 ---
 
@@ -8,7 +8,7 @@
 
 All routes in Spartacus can be configured by importing `ConfigModule.withConfig()` with an object containing `routing` property: 
 
- ```typescript
+```typescript
 ConfigModule.withConfig({
     routing: { /* ... */ },
     /* ... */
