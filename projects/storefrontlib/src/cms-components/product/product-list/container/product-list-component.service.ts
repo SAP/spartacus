@@ -6,7 +6,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { SearchResults } from '../../../navigation';
 
 interface ProductListRouteParams {
@@ -43,14 +43,9 @@ export class ProductListComponentService {
   ) {}
 
   getSearchResults(): Observable<SearchResults> {
-    return this.productSearchService.getResults().pipe(
-      tap(searchResult => {
-        if (Object.keys(searchResult).length === 0) {
-          this.search();
-        }
-      }),
-      filter(searchResult => Object.keys(searchResult).length > 0)
-    );
+    return this.productSearchService
+      .getResults()
+      .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
   }
 
   private getSearchConfig() {
@@ -67,12 +62,10 @@ export class ProductListComponentService {
   }
 
   setQuery(query: string) {
-    debugger;
     this.mergeQueryParams({ query });
   }
 
   viewPage(pageNumber: number): void {
-    debugger;
     this.mergeQueryParams({ currentPage: pageNumber });
   }
 
@@ -139,12 +132,15 @@ export class ProductListComponentService {
     // // spike todo: avoid changes on routing nextState (maybe use activatedRoute?)
     this.sub = this.routing
       .getRouterState()
-      .pipe(distinctUntilChanged((x, y) => x.state.url === y.state.url))
+      .pipe(
+        distinctUntilChanged((x, y) => {
+          // router emits new value also when the anticipated `nextState` changes
+          // but we want to perform search only when current url changes
+          return x.state.url === y.state.url;
+        })
+      )
       .subscribe(({ state }) => {
         this.getStateFromRouting(state.params, state.queryParams);
-
-        debugger;
-
         this.search();
       });
   }
