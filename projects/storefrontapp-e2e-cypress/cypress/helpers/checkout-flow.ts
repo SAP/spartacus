@@ -46,6 +46,9 @@ export function addProductToCart() {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.getByText(/proceed to checkout/i).click();
   });
+}
+
+export function loginUser() {
   // Verify the user is prompted to login
   login(user.email, user.password);
 }
@@ -67,6 +70,13 @@ export function chooseDeliveryMethod() {
 }
 
 export function fillPaymentForm() {
+  cy.server();
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
+  ).as('getPaymentPage');
+  cy.wait('@getPaymentPage');
+
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
