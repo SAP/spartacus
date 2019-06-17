@@ -15,14 +15,12 @@ interface ProductListRouteParams {
   query?: string;
 }
 
-interface ProductListQueryParams {
+interface SearchCriteria {
   currentPage?: number;
   pageSize?: number;
   sortCode?: string;
   query?: string;
 }
-
-type SearchCriteria = ProductListQueryParams;
 
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
@@ -62,7 +60,7 @@ export class ProductListComponentService {
 
   private getCriteriaFromRouting(
     routeParams: ProductListRouteParams,
-    queryParams: ProductListQueryParams
+    queryParams: SearchCriteria
   ): SearchCriteria {
     return {
       query: queryParams.query || this.getQueryFromRouteParams(routeParams),
@@ -95,7 +93,7 @@ export class ProductListComponentService {
     this.productSearchService.search(query, searchConfig);
   }
 
-  private getSearchConfig(criteria: SearchCriteria) {
+  private getSearchConfig(criteria: SearchCriteria): SearchConfig {
     const result: SearchConfig = {
       currentPage: criteria.currentPage,
       pageSize: criteria.pageSize,
@@ -126,7 +124,7 @@ export class ProductListComponentService {
       .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
   }
 
-  private setQueryParams(queryParams: ProductListQueryParams) {
+  private setQueryParams(queryParams: SearchCriteria) {
     this.router.navigateByUrl(
       this.router.createUrlTree([], {
         queryParams,
