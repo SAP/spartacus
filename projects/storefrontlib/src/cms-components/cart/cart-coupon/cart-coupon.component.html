@@ -1,0 +1,27 @@
+
+<br />
+<div class="row col-md-8">
+  <label>
+    <span class="label-content">
+      coupon
+    </span>
+  </label>
+</div>
+<form (submit)="apply()" [formGroup]="form">
+  <div class="row">
+    <div class="form-group col-md-8">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="couponCode"
+        placeholder="Enter coupon code"
+      />
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-block btn-action" type="submit">
+        Apply
+      </button>
+    </div>
+  </div>
+</form>
+<cx-applied-coupons [cart]="cart"></cx-applied-coupons>

@@ -1,0 +1,34 @@
+<ng-container *ngIf="cart.appliedVouchers as vouchers">
+  <ng-container *ngIf="!readonly">
+    <div *ngFor="let v of vouchers" class="row">
+      <div class="col-lg-8">
+        <p>{{ v.code }}</p>
+      </div>
+      <div class="col-lg-4">
+        <button
+          class="btn btn-block btn-action"
+          (click)="removeVoucher(v.code)"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="readonly">
+    <div class="cx-summary-row cx-summary-savings">
+      <ng-container *ngFor="let v of vouchers">
+        <div class="col-6 cx-summary-label">
+          Coupon Code:
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ v.code }}
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>
+<div
+  class="cx-summary-row cx-summary-savings"
+  *ngIf="readonly && giveAwayCouponCodes.length > 0"
+></div>

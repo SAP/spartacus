@@ -12,7 +12,8 @@
         [potentialProductPromotions]="cart.potentialProductPromotions"
         [cartIsLoading]="!(cartLoaded$ | async)"
       ></cx-cart-item-list>
-      <!-- NOT FOR MVP  <cx-cart-coupon></cx-cart-coupon> -->
+
+      <cx-cart-coupon [cart]="cart" [guid]="cart.guid"></cx-cart-coupon>
     </div>
   </ng-container>
 </ng-container>
