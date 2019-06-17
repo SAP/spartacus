@@ -50,11 +50,12 @@ export class NavigationUIComponent {
   }
 
   toggleOpen(event: UIEvent): void {
-    if (this.openNodes.includes(<HTMLElement>event.currentTarget)) {
-      this.openNodes = this.openNodes.filter(n => n !== event.currentTarget);
-      this.renderer.removeClass(<HTMLElement>event.currentTarget, 'is-open');
+    const node = <HTMLElement>event.currentTarget;
+    if (this.openNodes.includes(node)) {
+      this.openNodes = this.openNodes.filter(n => n !== node);
+      this.renderer.removeClass(node, 'is-open');
     } else {
-      this.openNodes.push(<HTMLElement>event.currentTarget);
+      this.openNodes.push(node);
     }
 
     this.updateClasses();
@@ -75,6 +76,22 @@ export class NavigationUIComponent {
   clear(): void {
     this.openNodes = [];
     this.updateClasses();
+  }
+
+  alignWrapperToRight(event: UIEvent) {
+    const node = <HTMLElement>event.currentTarget;
+    const parent = <HTMLElement>this.renderer.parentNode(node);
+    if (
+      node.offsetLeft + node.offsetWidth >
+      parent.offsetLeft + parent.offsetWidth
+    ) {
+      const wrapper = <HTMLElement>node.getElementsByClassName('wrapper')[0];
+      this.renderer.setStyle(
+        wrapper,
+        'margin-left',
+        `${node.offsetWidth - wrapper.offsetWidth}px`
+      );
+    }
   }
 
   private updateClasses(): void {
