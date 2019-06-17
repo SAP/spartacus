@@ -11,12 +11,6 @@ import { StorefrontModule } from './storefront.module';
 
 @NgModule({
   imports: [
-    StorefrontModule.withConfig(<StorefrontConfig>{
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
-      },
-    }),
     StoreModule.forRoot(
       {},
       {
@@ -30,6 +24,13 @@ import { StorefrontModule } from './storefront.module';
       }
     ),
     EffectsModule.forRoot([]),
+
+    StorefrontModule.withConfig(<StorefrontConfig>{
+      pwa: {
+        enabled: true,
+        addToHomeScreen: true,
+      },
+    }),
 
     ConfigModule.withConfig(b2cLayoutConfig),
     ConfigModule.withConfigFactory(defaultCmsContentConfig),
