@@ -1,6 +1,8 @@
 %LandingPage2Template {
   display: flex;
   flex-wrap: wrap;
+  max-width: 1700px;
+  margin: auto;
 
   cx-page-slot {
     &.Section1 {
