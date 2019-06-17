@@ -65,6 +65,7 @@ describe('AddToCartComponent', () => {
   let service: CartService;
   let currentProductService: CurrentProductService;
   let modalInstance: any;
+  const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -102,7 +103,6 @@ describe('AddToCartComponent', () => {
   describe('Product code provided', () => {
     it('should call ngOnInit()', () => {
       addToCartComponent.productCode = productCode;
-      const mockCartEntry: OrderEntry = { entryNumber: 7 };
       spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
       addToCartComponent.ngOnInit();
       let result: OrderEntry;
@@ -139,6 +139,7 @@ describe('AddToCartComponent', () => {
     addToCartComponent.productCode = productCode;
     addToCartComponent.ngOnInit();
     spyOn(service, 'addEntry').and.callThrough();
+    spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.quantity = 1;
 
     addToCartComponent.addToCart();

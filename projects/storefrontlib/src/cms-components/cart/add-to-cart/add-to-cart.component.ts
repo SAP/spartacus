@@ -27,6 +27,7 @@ export class AddToCartComponent implements OnInit {
 
   hasStock = false;
   quantity = 1;
+  increment = false;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -74,8 +75,18 @@ export class AddToCartComponent implements OnInit {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
-    this.openModal();
-    this.cartService.addEntry(this.productCode, this.quantity);
+    // check item is already present in the cart
+    // so modal will have proper header text displayed
+    this.cartService
+      .getEntry(this.productCode)
+      .subscribe(entry => {
+        if (entry) {
+          this.increment = true;
+        }
+        this.openModal();
+        this.cartService.addEntry(this.productCode, this.quantity);
+      })
+      .unsubscribe();
   }
 
   private openModal() {
@@ -90,5 +101,6 @@ export class AddToCartComponent implements OnInit {
     modalInstance.cart$ = this.cartService.getActive();
     modalInstance.loaded$ = this.cartService.getLoaded();
     modalInstance.quantity = this.quantity;
+    modalInstance.increment = this.increment;
   }
 }
