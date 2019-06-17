@@ -5,7 +5,7 @@ import {
   RoutingService,
   SearchConfig,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { SearchResults } from '../../../navigation';
 
@@ -22,6 +22,8 @@ interface ProductListQueryParams {
   query?: string;
 }
 
+type SearchCriteria = ProductListQueryParams;
+
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
   protected defaultPageSize = 10;
@@ -30,11 +32,6 @@ export class ProductListComponentService {
 
   private readonly RELEVANCE_CATEGORY = ':relevance:category:';
   private readonly RELEVANCE_BRAND = ':relevance:brand:';
-
-  private currentPage$ = new BehaviorSubject<number>(undefined);
-  private pageSize$ = new BehaviorSubject<number>(this.defaultPageSize);
-  private sortCode$ = new BehaviorSubject<string>(undefined);
-  private query$ = new BehaviorSubject<string>(undefined);
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -48,11 +45,11 @@ export class ProductListComponentService {
       .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
   }
 
-  private getSearchConfig() {
+  private getSearchConfig(criteria: SearchCriteria) {
     const result: SearchConfig = {
-      currentPage: this.currentPage$.value,
-      pageSize: this.pageSize$.value,
-      sortCode: this.sortCode$.value,
+      currentPage: criteria.currentPage,
+      pageSize: criteria.pageSize,
+      sortCode: criteria.sortCode,
     };
 
     // drop empty keys
@@ -82,10 +79,9 @@ export class ProductListComponentService {
     );
   }
 
-  private search(): void {
-    const query = this.query$.value;
-    const searchConfig = this.getSearchConfig();
-    debugger;
+  private search(criteria: SearchCriteria): void {
+    const query = criteria.query;
+    const searchConfig = this.getSearchConfig(criteria);
 
     this.productSearchService.search(query, searchConfig);
   }
@@ -106,23 +102,16 @@ export class ProductListComponentService {
     }
   }
 
-  private getStateFromRouting(
+  private getCriteriaFromRouting(
     routeParams: ProductListRouteParams,
     queryParams: ProductListQueryParams
-  ) {
-    this.query$.next(
-      queryParams.query || this.getQueryFromRouteParams(routeParams)
-    );
-    this.pageSize$.next(queryParams.pageSize || this.defaultPageSize);
-    this.currentPage$.next(queryParams.currentPage);
-    this.sortCode$.next(queryParams.sortCode);
-  }
-
-  private resetState() {
-    this.query$.next(undefined);
-    this.pageSize$.next(this.defaultPageSize);
-    this.currentPage$.next(undefined);
-    this.sortCode$.next(undefined);
+  ): SearchCriteria {
+    return {
+      query: queryParams.query || this.getQueryFromRouteParams(routeParams),
+      pageSize: queryParams.pageSize || this.defaultPageSize,
+      currentPage: queryParams.currentPage,
+      sortCode: queryParams.sortCode,
+    };
   }
 
   // should register on PLP component mounted and unregister on component destroy
@@ -140,8 +129,11 @@ export class ProductListComponentService {
         })
       )
       .subscribe(({ state }) => {
-        this.getStateFromRouting(state.params, state.queryParams);
-        this.search();
+        const criteria = this.getCriteriaFromRouting(
+          state.params,
+          state.queryParams
+        );
+        this.search(criteria);
       });
   }
 
@@ -149,7 +141,5 @@ export class ProductListComponentService {
     if (this.sub) {
       this.sub.unsubscribe();
     }
-
-    this.resetState();
   }
 }
