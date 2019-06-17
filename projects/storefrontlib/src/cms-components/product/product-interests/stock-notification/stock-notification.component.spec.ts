@@ -42,7 +42,7 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxSpinnerComponent {}
 
-fdescribe('StockNotificationComponent', () => {
+describe('StockNotificationComponent', () => {
   let component: StockNotificationComponent;
   let fixture: ComponentFixture<StockNotificationComponent>;
 
