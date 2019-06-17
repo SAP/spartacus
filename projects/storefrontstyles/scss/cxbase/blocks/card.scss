@@ -2,40 +2,40 @@
 @import '~bootstrap/scss/card';
 
 .card {
-  border-radius: var(--cx-border-radius, 0);
+  border-radius: 0;
 }
 
 .card-body {
-  padding: var(--cx-padding, 20px);
+  padding: 20px;
 }
 
 .card-body-title {
-  padding-bottom: var(--cx-padding-bottom, 10px);
+  padding-bottom: 10px;
   @include type('4');
 }
 
 .card-header {
-  background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+  background-color: var(--cx-color-secondary);
   @include type('8');
-  color: var(--cx-color, var(--cx-g-color-inverse));
-  line-height: var(--cx-line-height, 20px);
-  padding-top: var(--cx-padding-top, 5px);
-  padding-bottom: var(--cx-padding-bottom, 5px);
-  border-radius: var(--cx-border-radius, 0);
+  color: var(--cx-color-inverse);
+  line-height: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 0;
 
   &:first-child {
-    border-radius: var(--cx-border-radius, 0);
+    border-radius: 0;
   }
 }
 
 .card-actions-container {
-  display: var(--cx-display, flex);
-  justify-content: var(--cx-justify-content, flex-end);
-  padding: var(--cx-padding, 1.25rem 0 0 0);
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem 0 0 0;
 }
 
 .card-label-bold {
-  font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold));
+  font-weight: var(--cx-font-weight-bold);
 }
 
 .card-link {
