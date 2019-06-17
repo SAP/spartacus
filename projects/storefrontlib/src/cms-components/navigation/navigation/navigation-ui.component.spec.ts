@@ -1,4 +1,11 @@
-import { Component, DebugElement, ElementRef, Input } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  ElementRef,
+  Input,
+  Renderer2,
+  Type,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -76,6 +83,7 @@ describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
+  let renderer2: Renderer2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -85,7 +93,7 @@ describe('Navigation UI Component', () => {
         MockIconComponent,
         MockGenericLinkComponent,
       ],
-      providers: [],
+      providers: [Renderer2],
     }).compileComponents();
   });
 
@@ -209,28 +217,41 @@ describe('Navigation UI Component', () => {
       expect(child.length).toEqual(7);
     });
 
-    it('should focus hovered element when another is focused', async done => {
+    it('should focus hovered element when another is focused', () => {
+      renderer2 = fixture.componentRef.injector.get<Renderer2>(
+        Renderer2 as Type<Renderer2>
+      );
       fixture.detectChanges();
 
-      const navEl: ElementRef[] = element.queryAll(By.css('div.flyout > nav'));
-      const first: HTMLElement = navEl[0].nativeElement;
-      const second: HTMLElement = navEl[1].nativeElement;
-      const event = { currentTarget: first };
-      let result: HTMLElement;
+      // Get root nav elements
+      const rootNavElements: DebugElement[] = element.queryAll(
+        By.css('div.flyout > nav')
+      );
+      const first: HTMLElement = rootNavElements[0].nativeElement;
+      const second: HTMLElement = rootNavElements[1].nativeElement;
 
       // First element should not focus when no element is focused
-      result = navigationComponent.mouseEnter(<UIEvent>(<unknown>event));
-      expect(result).toBeNull();
+      expect(first).not.toBe(<HTMLElement>document.activeElement);
 
-      // First element should focus when second element is focused
+      // Listen for second element focus
+      renderer2.listen(second, 'focus', () => {
+        // Second element should be focussed
+        expect(<HTMLElement>document.activeElement).toBe(second);
+
+        // Hover mouse over first element
+        const mouseEvent = new MouseEvent('mouseenter', {
+          relatedTarget: first,
+        });
+        const resultDoc = navigationComponent.onMouseEnter(mouseEvent);
+
+        // First element should now be in focus
+        expect(resultDoc.activeElement).toBe(first);
+      });
+
+      // Focus on second element
+      const focusEvent = new FocusEvent('focus', { relatedTarget: second });
       second.focus();
-      new Promise(resolve => setTimeout(() => resolve(), 0))
-        .then(
-          () =>
-            (result = navigationComponent.mouseEnter(<UIEvent>(<unknown>event)))
-        )
-        .then(() => expect(first).toBe(result))
-        .then(() => done());
+      second.dispatchEvent(focusEvent);
     });
   });
 });

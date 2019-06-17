@@ -4,7 +4,6 @@ import {
   HostBinding,
   Input,
   Renderer2,
-  ElementRef,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -44,11 +43,7 @@ export class NavigationUIComponent {
 
   private openNodes: HTMLElement[] = [];
 
-  constructor(
-    private router: Router,
-    private renderer: Renderer2,
-    private elRef: ElementRef
-  ) {
+  constructor(private router: Router, private renderer: Renderer2) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.clear());
@@ -105,11 +100,14 @@ export class NavigationUIComponent {
   }
 
   // Apply focus on dropdown element when another has already been clicked
-  mouseEnter(event: UIEvent): HTMLElement {
-    if (this.elRef.nativeElement.querySelector('nav[tabindex]:focus')) {
-      (<HTMLElement>event.currentTarget).focus();
-      return <HTMLElement>event.currentTarget;
+  onMouseEnter(event: MouseEvent) {
+    const target: HTMLElement = event.target
+      ? <HTMLElement>event.target
+      : <HTMLElement>event.relatedTarget;
+
+    if (target.ownerDocument.activeElement.matches('nav[tabindex]')) {
+      target.focus();
     }
-    return null;
+    return target.ownerDocument;
   }
 }
