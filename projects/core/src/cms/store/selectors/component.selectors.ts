@@ -1,11 +1,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
-import { CmsState, ComponentState, StateWithCms } from '../cms-state';
-
-import { getCmsState } from './feature.selectors';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
-import { loaderValueSelector } from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { loaderValueSelector } from '../../../state/utils/loader/loader.selectors';
+import { CmsState, ComponentState, StateWithCms } from '../cms-state';
+import { getCmsState } from './feature.selectors';
 
 export const getComponentEntitiesSelector = (state: ComponentState) =>
   Object.keys(state.entities).reduce((acc, cur) => {
@@ -34,7 +32,14 @@ export const componentStateSelectorFactory = (
 ): MemoizedSelector<StateWithCms, LoaderState<any>> => {
   return createSelector(
     getComponentState,
-    entities => entityStateSelector(entities, uid)
+    entities => {
+      // the whole component entities are emtpy
+      if (Object.keys(entities.entities).length === 0) {
+        return undefined;
+      } else {
+        return entityStateSelector(entities, uid);
+      }
+    }
   );
 };
 
@@ -43,6 +48,12 @@ export const componentSelectorFactory = (
 ): MemoizedSelector<StateWithCms, any> => {
   return createSelector(
     componentStateSelectorFactory(uid),
-    state => loaderValueSelector(state)
+    state => {
+      if (state) {
+        return loaderValueSelector(state);
+      } else {
+        return undefined;
+      }
+    }
   );
 };
