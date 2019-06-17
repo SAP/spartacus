@@ -108,29 +108,27 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  clearCheckoutOnSiteContextChanges$: Observable<
-    | fromActions.CheckoutClearMiscsData
-    | fromActions.ClearSupportedDeliveryModes
-    | fromActions.ClearCheckoutData
+  clearCheckoutMiscsDataOnLanguageChange$: Observable<
+    fromActions.CheckoutClearMiscsData
   > = this.actions$.pipe(
-    ofType(
-      fromSiteContextActions.LANGUAGE_CHANGE,
-      fromSiteContextActions.CURRENCY_CHANGE,
-      fromAuthActions.LOGOUT
-    ),
-    map((action: any) => {
-      switch (action.type) {
-        case fromSiteContextActions.LANGUAGE_CHANGE: {
-          return new fromActions.CheckoutClearMiscsData();
-        }
-        case fromSiteContextActions.CURRENCY_CHANGE: {
-          return new fromActions.ClearSupportedDeliveryModes();
-        }
-        case fromAuthActions.LOGOUT: {
-          return new fromActions.ClearCheckoutData();
-        }
-      }
-    })
+    ofType(fromSiteContextActions.LANGUAGE_CHANGE),
+    map(() => new fromActions.CheckoutClearMiscsData())
+  );
+
+  @Effect()
+  clearDeliveryModesOnCurrencyChange$: Observable<
+    fromActions.ClearSupportedDeliveryModes
+  > = this.actions$.pipe(
+    ofType(fromSiteContextActions.CURRENCY_CHANGE),
+    map(() => new fromActions.ClearSupportedDeliveryModes())
+  );
+
+  @Effect()
+  clearCheckoutDataOnLogout$: Observable<
+    fromActions.ClearCheckoutData
+  > = this.actions$.pipe(
+    ofType(fromAuthActions.LOGOUT),
+    map(() => new fromActions.ClearCheckoutData())
   );
 
   @Effect()

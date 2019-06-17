@@ -199,7 +199,7 @@ describe('Checkout effect', () => {
     });
   });
 
-  describe('clearCheckoutOnSiteContextChanges$', () => {
+  describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
       const action = new fromSiteContextActions.LanguageChange();
       const completion = new fromIndexActions.CheckoutClearMiscsData();
@@ -207,11 +207,13 @@ describe('Checkout effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(entryEffects.clearCheckoutOnSiteContextChanges$).toBeObservable(
-        expected
-      );
+      expect(
+        entryEffects.clearCheckoutMiscsDataOnLanguageChange$
+      ).toBeObservable(expected);
     });
+  });
 
+  describe('clearDeliveryModesOnCurrencyChange$', () => {
     it('should dispatch clear supported delivery modes action on currency change', () => {
       const action = new fromSiteContextActions.CurrencyChange();
       const completion = new fromIndexActions.ClearSupportedDeliveryModes();
@@ -219,11 +221,13 @@ describe('Checkout effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(entryEffects.clearCheckoutOnSiteContextChanges$).toBeObservable(
+      expect(entryEffects.clearDeliveryModesOnCurrencyChange$).toBeObservable(
         expected
       );
     });
+  });
 
+  describe('clearCheckoutDataOnLogout$', () => {
     it('should dispatch clear checkout data action on logout', () => {
       const action = new fromAuthActions.Logout();
       const completion = new fromIndexActions.ClearCheckoutData();
@@ -231,9 +235,7 @@ describe('Checkout effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(entryEffects.clearCheckoutOnSiteContextChanges$).toBeObservable(
-        expected
-      );
+      expect(entryEffects.clearCheckoutDataOnLogout$).toBeObservable(expected);
     });
   });
 
