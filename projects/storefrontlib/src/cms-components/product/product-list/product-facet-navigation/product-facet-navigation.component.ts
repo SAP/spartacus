@@ -8,9 +8,9 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../shared/components/modal/index';
+import { ProductListComponentService } from '../container/product-list-component.service';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -39,7 +39,8 @@ export class ProductFacetNavigationComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private activatedRoute: ActivatedRoute,
-    private productSearchService: ProductSearchService
+    private productSearchService: ProductSearchService,
+    private productListService: ProductListComponentService
   ) {
     this.showAllPerFacetMap = new Map<String, boolean>();
     this.queryCodec = new HttpUrlEncodingCodec();
@@ -70,7 +71,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   toggleValue(query: string): void {
-    this.productSearchService.search(this.queryCodec.decodeValue(query));
+    this.productListService.setQuery(this.queryCodec.decodeValue(query));
   }
 
   showLess(facetName: String): void {

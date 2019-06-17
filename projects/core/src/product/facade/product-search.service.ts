@@ -14,12 +14,6 @@ export class ProductSearchService {
   ) {}
 
   search(query: string, searchConfig?: SearchConfig): void {
-    const urlTree = this.router.createUrlTree([], {
-      queryParams: { ...searchConfig, query },
-      preserveFragment: false,
-    });
-
-    this.router.navigateByUrl(urlTree);
     this.store.dispatch(
       new fromStore.SearchProducts({
         queryText: query,
