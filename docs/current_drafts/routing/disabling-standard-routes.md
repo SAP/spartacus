@@ -1,4 +1,4 @@
-[^ Configurable routes](../README.md)
+[^ Configurable routes](./README.md)
 
 ---
 
