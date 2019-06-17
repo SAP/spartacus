@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import {
-  LoaderLoadAction,
   LoaderFailAction,
+  LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { CART_DATA } from '../cart-state';
@@ -16,6 +16,8 @@ export const LOAD_CART_SUCCESS = '[Cart] Load Cart Success';
 
 export const MERGE_CART = '[Cart] Merge Cart';
 export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
+
+export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
 export class CreateCart extends LoaderLoadAction {
   readonly type = CREATE_CART;
@@ -71,6 +73,11 @@ export class MergeCartSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class ResetCartDetails implements Action {
+  readonly type = RESET_CART_DETAILS;
+  constructor() {}
+}
+
 export type CartAction =
   | CreateCart
   | CreateCartFail
@@ -79,4 +86,5 @@ export type CartAction =
   | LoadCartFail
   | LoadCartSuccess
   | MergeCart
-  | MergeCartSuccess;
+  | MergeCartSuccess
+  | ResetCartDetails;

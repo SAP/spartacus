@@ -1,19 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Store, StoreModule } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-
 import { AuthService, UserToken } from '../../auth';
-import { BaseSiteService } from '../../site-context';
-
-import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
-
+import { Cart } from '../../model/cart.model';
+import { OrderEntry } from '../../model/order.model';
+import { BaseSiteService } from '../../site-context';
+import { StateWithCart } from '../store/cart-state';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
-import { OrderEntry } from '../../model/order.model';
-import { Cart } from '../../model/cart.model';
 
 class CartDataServiceStub {
   userId;
@@ -36,21 +31,11 @@ class BaseSiteServiceSub {
 describe('CartService', () => {
   let service: CartService;
   let cartData: CartDataServiceStub;
-  let authService: AuthServiceStub;
   let store: Store<StateWithCart>;
-  let baseSiteService: BaseSiteServiceSub;
 
   const productCode = '1234';
   const userId = 'testUserId';
   const cart = { code: 'testCartId', guid: 'testGuid' };
-  const userToken: UserToken = {
-    access_token: 'xxx',
-    token_type: 'bearer',
-    refresh_token: 'xxx',
-    expires_in: 1000,
-    scope: ['xxx'],
-    userId: 'xxx',
-  };
   const mockCartEntry: OrderEntry = {
     entryNumber: 0,
     product: { code: productCode },
@@ -71,32 +56,12 @@ describe('CartService', () => {
     });
 
     service = TestBed.get(CartService);
-    authService = TestBed.get(AuthService);
-    baseSiteService = TestBed.get(BaseSiteService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
   });
 
   it('should CartService is injected', () => {
     expect(service).toBeTruthy();
-  });
-
-  const setUserIdMethod = 'setUserId';
-  describe(setUserIdMethod, () => {
-    describe('when the userToken is empty', () => {
-      it('should set an anonymous user', () => {
-        const testUserToken: UserToken = <UserToken>{};
-        service[setUserIdMethod](testUserToken);
-        expect(cartData.userId).toEqual(ANONYMOUS_USERID);
-      });
-    });
-    describe('when the userToken is not empty', () => {
-      it('should set the user', () => {
-        const testUserToken: UserToken = <UserToken>{ userId: 'testUser' };
-        service[setUserIdMethod](testUserToken);
-        expect(cartData.userId).toEqual('testUser');
-      });
-    });
   });
 
   const loadOrMergeMethod = 'loadOrMerge';
@@ -113,6 +78,7 @@ describe('CartService', () => {
             new fromCart.LoadCart({
               userId: cartData.userId,
               cartId: 'current',
+              details: true,
             })
           );
         });
@@ -128,69 +94,10 @@ describe('CartService', () => {
             new fromCart.MergeCart({
               userId: cartData.userId,
               cartId: cartData.cart.guid,
+              details: true,
             })
           );
         });
-      });
-    });
-  });
-
-  const refreshMethod = 'refresh';
-  describe(refreshMethod, () => {
-    describe('when refresh is true', () => {
-      it('should load the cart', () => {
-        store.dispatch(new fromCart.AddEntrySuccess('test'));
-        cartData.cart = cart;
-        spyOn(store, 'dispatch').and.stub();
-
-        service[refreshMethod]();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new fromCart.LoadCart({
-            userId: cartData.userId,
-            cartId: cartData.cartId,
-            details: true,
-          })
-        );
-      });
-    });
-  });
-
-  const initCartMethod = 'init';
-  describe(initCartMethod, () => {
-    describe(`when user's token and cart's user id are not equal`, () => {
-      it(`should call '${setUserIdMethod}' and '${loadOrMergeMethod}' methods`, () => {
-        spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
-        spyOn(baseSiteService, 'getActive').and.returnValue(of('test'));
-        store.dispatch(new fromCart.LoadCartSuccess(cart));
-        store.dispatch(new fromCart.AddEntrySuccess('foo'));
-        spyOn<any>(service, setUserIdMethod).and.stub();
-        spyOn<any>(service, loadOrMergeMethod).and.stub();
-        spyOn<any>(service, refreshMethod).and.stub();
-
-        service[initCartMethod]();
-        expect(cartData.cart).toEqual(cart);
-        expect(service[setUserIdMethod]).toHaveBeenCalledWith(userToken);
-        expect(service[loadOrMergeMethod]).toHaveBeenCalled();
-        expect(service[refreshMethod]).toHaveBeenCalled();
-      });
-    });
-
-    describe(`when user's token and cart's user id are equal`, () => {
-      it(`should not call '${setUserIdMethod}' and '${loadOrMergeMethod}' methods`, () => {
-        spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
-        cartData.userId = userToken.userId;
-        store.dispatch(new fromCart.LoadCartSuccess(cart));
-        store.dispatch(new fromCart.AddEntrySuccess('foo'));
-
-        spyOn<any>(service, setUserIdMethod).and.stub();
-        spyOn<any>(service, loadOrMergeMethod).and.stub();
-        spyOn<any>(service, refreshMethod).and.stub();
-
-        service[initCartMethod]();
-        expect(cartData.cart).toEqual(cart);
-        expect(service[setUserIdMethod]).not.toHaveBeenCalled();
-        expect(service[loadOrMergeMethod]).not.toHaveBeenCalled();
-        expect(service[refreshMethod]).toHaveBeenCalled();
       });
     });
   });
@@ -201,12 +108,12 @@ describe('CartService', () => {
       cartData.userId = userId;
       cartData.cart = cart;
 
-      service.loadDetails();
+      service.loadDetails(cart);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
           userId: userId,
-          cartId: 'current',
+          cartId: cart.code,
           details: true,
         })
       );
@@ -218,7 +125,7 @@ describe('CartService', () => {
       cartData.userId = ANONYMOUS_USERID;
       cartData.cartId = cart.guid;
 
-      service.loadDetails();
+      service.loadDetails(cart);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
@@ -229,11 +136,11 @@ describe('CartService', () => {
       );
     });
 
-    it('should not load more details for anonymous user if cartid is null', () => {
+    it('should not load more details for anonymous user if cartid and guid is null', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = ANONYMOUS_USERID;
 
-      service.loadDetails();
+      service.loadDetails({ ...cart, guid: null });
 
       expect(store.dispatch).not.toHaveBeenCalled();
     });
@@ -338,8 +245,11 @@ describe('CartService', () => {
 
     it('should return true, when argument is an non-empty object', () => {
       expect(service.isCreated({ guid: 'hash' })).toBe(true);
-      expect(service.isCreated({ totalItems: 0 })).toBe(true);
-      expect(service.isCreated({ totalItems: 99 })).toBe(true);
+    });
+
+    it('should return false, when guid is not set', () => {
+      expect(service.isCreated({ totalItems: 0 })).toBe(false);
+      expect(service.isCreated({ totalItems: 99 })).toBe(false);
     });
   });
 
@@ -404,14 +314,6 @@ describe('CartService', () => {
   });
 
   describe('getActive', () => {
-    it('should return a loaded state', () => {
-      store.dispatch(new fromCart.CreateCartSuccess(cart));
-      let result: Cart;
-      service
-        .getActive()
-        .subscribe(value => (result = value))
-        .unsubscribe();
-      expect(result).toEqual(cart);
-    });
+    // test new behavior
   });
 });

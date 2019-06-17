@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-
-import { Observable } from 'rxjs';
-import { skipWhile, map, switchMap } from 'rxjs/operators';
-
 import { CartService, RoutingService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +14,7 @@ export class CartNotEmptyGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.cartService.getLoaded().pipe(
-      skipWhile(loaded => !loaded),
-      switchMap(() => this.cartService.getActive()),
+    return this.cartService.getActive().pipe(
       map(cart => {
         if (this.cartService.isEmpty(cart)) {
           this.routingService.go({ cxRoute: 'home' });

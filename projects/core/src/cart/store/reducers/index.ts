@@ -1,12 +1,14 @@
 import { InjectionToken, Provider } from '@angular/core';
-
-import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
-
-import { CartsState, CartState, CART_DATA } from './../cart-state';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { PLACE_ORDER_SUCCESS } from '../../../checkout/store/actions/checkout.action';
+import {
+  CURRENCY_CHANGE,
+  LANGUAGE_CHANGE,
+} from '../../../site-context/store/actions/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-
+import * as fromActions from '../actions/index';
+import { CartsState, CartState, CART_DATA } from './../cart-state';
 import { reducer as cartReducer } from './cart.reducer';
 
 export function getReducers(): ActionReducerMap<CartsState> {
@@ -28,10 +30,17 @@ export function clearCartState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
+    let newAction = action;
     if (action.type === LOGOUT || action.type === PLACE_ORDER_SUCCESS) {
+      console.log('yaba');
       state = undefined;
+    } else if (
+      action.type === LANGUAGE_CHANGE ||
+      action.type === CURRENCY_CHANGE
+    ) {
+      newAction = new fromActions.ResetCartDetails();
     }
-    return reducer(state, action);
+    return reducer(state, newAction);
   };
 }
 

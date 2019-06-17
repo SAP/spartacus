@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
-import * as fromActions from './../actions';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import * as fromActions from './../actions';
 
 @Injectable()
 export class CartEntryEffects {
@@ -21,7 +20,14 @@ export class CartEntryEffects {
           payload.quantity
         )
         .pipe(
-          map((entry: any) => new fromActions.AddEntrySuccess(entry)),
+          map(
+            (entry: any) =>
+              new fromActions.AddEntrySuccess({
+                ...entry,
+                userId: payload.userId,
+                cartId: payload.cartId,
+              })
+          ),
           catchError(error => of(new fromActions.AddEntryFail(error)))
         )
     )
@@ -36,7 +42,10 @@ export class CartEntryEffects {
         .remove(payload.userId, payload.cartId, payload.entry)
         .pipe(
           map(() => {
-            return new fromActions.RemoveEntrySuccess();
+            return new fromActions.RemoveEntrySuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
           catchError(error => of(new fromActions.RemoveEntryFail(error)))
         )
@@ -52,7 +61,10 @@ export class CartEntryEffects {
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
           map(() => {
-            return new fromActions.UpdateEntrySuccess();
+            return new fromActions.UpdateEntrySuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
           catchError(error => of(new fromActions.UpdateEntryFail(error)))
         )

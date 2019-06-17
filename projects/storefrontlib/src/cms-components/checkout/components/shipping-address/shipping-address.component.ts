@@ -97,7 +97,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.cartService.loadDetails();
     this.userAddressService.loadAddresses();
 
     this.setAddressSub = this.checkoutDeliveryService

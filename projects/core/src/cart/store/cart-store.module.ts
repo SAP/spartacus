@@ -1,14 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { reducerToken, reducerProvider } from './reducers/index';
-import { metaReducers } from './reducers/index';
-import { effects } from './effects/index';
-import { CART_FEATURE } from './cart-state';
-import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { ConfigModule } from '../../config';
+import { StateConfig, StorageSyncType } from '../../state/config/state-config';
+import { CART_FEATURE } from './cart-state';
+import { effects } from './effects/index';
+import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 
 export function cartStoreConfigFactory(): StateConfig {
   const config: StateConfig = {
@@ -16,6 +15,7 @@ export function cartStoreConfigFactory(): StateConfig {
       storageSync: {
         keys: {
           [`${CART_FEATURE}.active.value.content.guid`]: StorageSyncType.LOCAL_STORAGE,
+          [`${CART_FEATURE}.active.value.content.code`]: StorageSyncType.LOCAL_STORAGE,
         },
       },
     },

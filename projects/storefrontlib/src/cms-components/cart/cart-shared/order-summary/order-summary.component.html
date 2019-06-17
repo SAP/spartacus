@@ -47,4 +47,7 @@
   </div>
 </div>
 
-<cx-promotions [promotions]="cart.appliedOrderPromotions"></cx-promotions>
+<cx-promotions
+  *ngIf="cart"
+  [promotions]="cart.appliedOrderPromotions"
+></cx-promotions>

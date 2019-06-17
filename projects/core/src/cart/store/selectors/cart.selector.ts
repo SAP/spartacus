@@ -3,20 +3,20 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import {
-  CART_FEATURE,
-  CartsState,
-  CartState,
-  StateWithCart,
-} from '../cart-state';
+import { Cart } from '../../../model/cart.model';
+import { OrderEntry } from '../../../model/order.model';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderLoadingSelector,
   loaderSuccessSelector,
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { Cart } from '../../../model/cart.model';
-import { OrderEntry } from '../../../model/order.model';
+import {
+  CartsState,
+  CartState,
+  CART_FEATURE,
+  StateWithCart,
+} from '../cart-state';
 
 export const getCartContentSelector = (state: CartState) => state.content;
 export const getRefreshSelector = (state: CartState) => state.refresh;
@@ -67,6 +67,11 @@ export const getLoaded: MemoizedSelector<any, boolean> = createSelector(
     loaderSuccessSelector(state) &&
     !loaderLoadingSelector(state) &&
     !loaderValueSelector(state).refresh
+);
+
+export const getLoading: MemoizedSelector<any, boolean> = createSelector(
+  getActiveCartState,
+  state => loaderLoadingSelector(state)
 );
 
 export const getCartMergeComplete: MemoizedSelector<

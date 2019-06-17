@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, filter } from 'rxjs/operators';
-import {
-  CURRENCY_CHANGE,
-  LANGUAGE_CHANGE,
-  BaseSiteService,
-} from '../../../site-context/index';
-import * as fromActions from './../actions/cart.action';
-import { CartDataService } from '../../facade/cart-data.service';
-import { CartConnector } from '../../connectors/cart/cart.connector';
+import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
+import { BaseSiteService } from '../../../site-context/index';
+import { CartConnector } from '../../connectors/cart/cart.connector';
+import { CartDataService } from '../../facade/cart-data.service';
+import * as fromEntryActions from '../actions/cart-entry.action';
+import * as fromActions from './../actions/cart.action';
 
 @Injectable()
 export class CartEffects {
@@ -18,7 +15,7 @@ export class CartEffects {
   loadCart$: Observable<
     fromActions.LoadCartFail | fromActions.LoadCartSuccess
   > = this.actions$.pipe(
-    ofType(fromActions.LOAD_CART, LANGUAGE_CHANGE, CURRENCY_CHANGE),
+    ofType(fromActions.LOAD_CART),
     map(
       (action: {
         type: string;
@@ -101,6 +98,36 @@ export class CartEffects {
           });
         })
       );
+    })
+  );
+
+  @Effect()
+  refresh$: Observable<fromActions.LoadCart> = this.actions$.pipe(
+    ofType(
+      fromActions.MERGE_CART_SUCCESS,
+      fromEntryActions.ADD_ENTRY_SUCCESS,
+      fromEntryActions.UPDATE_ENTRY_SUCCESS,
+      fromEntryActions.REMOVE_ENTRY_SUCCESS
+    ),
+    map(
+      (
+        action:
+          | fromActions.MergeCartSuccess
+          | fromEntryActions.AddEntrySuccess
+          | fromEntryActions.UpdateEntrySuccess
+          | fromEntryActions.RemoveEntrySuccess
+      ) => {
+        console.log(action);
+        return action.payload;
+      }
+    ),
+    map(payload => {
+      console.log('tea', payload);
+      return new fromActions.LoadCart({
+        userId: payload.userId,
+        cartId: payload.cartId,
+        details: true,
+      });
     })
   );
 

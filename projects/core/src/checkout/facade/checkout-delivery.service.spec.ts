@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartDataService } from '@spartacus/core';
+import { ANONYMOUS_USERID } from '../../cart';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
 import { DeliveryMode } from '../../model/order.model';
@@ -13,6 +14,14 @@ describe('CheckoutDeliveryService', () => {
   let store: Store<fromCheckout.CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
+
+  class CartDataServiceStub {
+    userId;
+    cart;
+    get cartId() {
+      return this.userId === ANONYMOUS_USERID ? cart.guid : cart.code;
+    }
+  }
 
   const address: Address = {
     firstName: 'John',
@@ -30,7 +39,10 @@ describe('CheckoutDeliveryService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckout.getReducers()),
       ],
-      providers: [CheckoutDeliveryService, CartDataService],
+      providers: [
+        CheckoutDeliveryService,
+        { provide: CartDataService, useClass: CartDataServiceStub },
+      ],
     });
 
     service = TestBed.get(CheckoutDeliveryService);

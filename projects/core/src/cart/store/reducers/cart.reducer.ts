@@ -1,6 +1,6 @@
-import * as fromAction from './../actions';
-import { CartState } from '../cart-state';
 import { OrderEntry } from '../../../model/order.model';
+import * as fromAction from '../actions/index';
+import { CartState } from '../cart-state';
 
 export const initialState: CartState = {
   content: {},
@@ -73,6 +73,18 @@ export function reducer(
       return {
         ...state,
         refresh: true,
+      };
+    }
+
+    case fromAction.RESET_CART_DETAILS: {
+      return {
+        content: {
+          guid: state.content.guid,
+          code: state.content.code,
+        },
+        entries: {},
+        refresh: false,
+        cartMergeComplete: false,
       };
     }
   }

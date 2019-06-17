@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '@spartacus/core';
+import { ANONYMOUS_USERID, CartDataService } from '@spartacus/core';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
 import * as fromCheckout from '../store/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -16,13 +16,24 @@ describe('CheckoutPaymentService', () => {
     id: 'mockPaymentDetails',
   };
 
+  class CartDataServiceStub {
+    userId;
+    cart;
+    get cartId() {
+      return this.userId === ANONYMOUS_USERID ? cart.guid : cart.code;
+    }
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckout.getReducers()),
       ],
-      providers: [CheckoutPaymentService, CartDataService],
+      providers: [
+        CheckoutPaymentService,
+        { provide: CartDataService, useClass: CartDataServiceStub },
+      ],
     });
 
     service = TestBed.get(CheckoutPaymentService);
