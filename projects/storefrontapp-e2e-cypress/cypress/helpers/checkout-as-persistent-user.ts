@@ -67,10 +67,10 @@ export function addProductToCart() {
 }
 
 export function addPaymentMethod() {
-  cy.get('cx-breadcrumb')
-    .find('h1')
+  cy.get('.cx-total')
+    .first()
     .then($cart => {
-      const cartid = $cart.text().slice(20, 28);
+      const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
         url: `${Cypress.env(
