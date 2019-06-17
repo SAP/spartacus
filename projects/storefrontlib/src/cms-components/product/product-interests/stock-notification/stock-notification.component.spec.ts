@@ -42,7 +42,7 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxSpinnerComponent {}
 
-describe('StockNotificationComponent', () => {
+fdescribe('StockNotificationComponent', () => {
   let component: StockNotificationComponent;
   let fixture: ComponentFixture<StockNotificationComponent>;
 
@@ -149,24 +149,37 @@ describe('StockNotificationComponent', () => {
         },
       ],
     }).compileComponents();
-
-    authService.getUserToken.and.returnValue(of(userToken));
-    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
-      of(true)
-    );
-    userService.getNotificationPreferences.and.returnValue(
-      of(basicNotificationPreferenceList)
-    );
   }));
 
   beforeEach(() => {
+    authService.getUserToken.and.returnValue(of({ userToken }));
+    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
+      of(true)
+    );
+    productInterestService.loadBackInStockSubscribed.and.stub();
+    userService.getNotificationPreferences.and.returnValue(
+      of(basicNotificationPreferenceList)
+    );
+    productInterestService.getBackInStockSubscribed.and.returnValue(of(false));
+    productInterestService.getCreateBackInStockSuccess.and.returnValue(
+      of(false)
+    );
+    productInterestService.getDeleteBackInStockLoading.and.returnValue(
+      of(false)
+    );
+    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
+      of(true)
+    );
+    spyOn(
+      StockNotificationComponent.prototype as any,
+      'onUnsubscribeSuccess'
+    ).and.stub();
     fixture = TestBed.createComponent(StockNotificationComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
-    authService.getUserToken.and.returnValue(of(userToken));
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -174,12 +187,13 @@ describe('StockNotificationComponent', () => {
     describe('ngOnInit', () => {
       it('should not load stock notificaiton data, when customer is not login', () => {
         authService.getUserToken.and.returnValue(of({}));
-        component.ngOnInit();
+        fixture.detectChanges();
         component.logged$.subscribe(x => expect(x).toBeFalsy());
       });
 
       it('should load stock notification data , when customer is login', () => {
-        authService.getUserToken.and.returnValue(of({ userToken }));
+        authService.getUserToken.and.returnValue(of(userToken));
+        fixture.detectChanges();
         component.logged$.subscribe(x => expect(x).toBeTruthy());
       });
     });
@@ -243,16 +257,10 @@ describe('StockNotificationComponent', () => {
       productInterestService.getDeleteBackInStockSuccess.and.returnValue(
         of(true)
       );
-      spyOn(
-        StockNotificationComponent.prototype as any,
-        'onUnsubscribeSuccess'
-      ).and.stub();
 
       userService.getNotificationPreferences.and.returnValue(
         of(basicNotificationPreferenceList)
       );
-
-      component.ngOnInit();
       fixture.detectChanges();
 
       component.logged$.subscribe(x => expect(x).toEqual(true));
@@ -273,17 +281,12 @@ describe('StockNotificationComponent', () => {
       productInterestService.getDeleteBackInStockSuccess.and.returnValue(
         of(true)
       );
-      spyOn(
-        StockNotificationComponent.prototype as any,
-        'onUnsubscribeSuccess'
-      ).and.stub();
       const emptyNotificationPreferenceList: BasicNotificationPreferenceList = {
         preferences: [],
       };
       userService.getNotificationPreferences.and.returnValue(
         of(emptyNotificationPreferenceList)
       );
-      component.ngOnInit();
       fixture.detectChanges();
 
       component.logged$.subscribe(x => expect(x).toEqual(true));
@@ -301,7 +304,6 @@ describe('StockNotificationComponent', () => {
       productInterestService.getDeleteBackInStockLoading.and.returnValue(
         of(false)
       );
-      component.ngOnInit();
       fixture.detectChanges();
 
       component.logged$.subscribe(x => expect(x).toEqual(true));
@@ -315,7 +317,6 @@ describe('StockNotificationComponent', () => {
 
     it('should show active channel link, when logged$ is false', () => {
       authService.getUserToken.and.returnValue(of({ userNotExist }));
-      component.ngOnInit();
       fixture.detectChanges();
 
       component.logged$.subscribe(x => {
