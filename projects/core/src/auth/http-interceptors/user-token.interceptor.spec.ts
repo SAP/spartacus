@@ -1,18 +1,15 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpTestingController,
   HttpClientTestingModule,
+  HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
-import { of, Observable, Subscription } from 'rxjs';
-
+import { inject, TestBed } from '@angular/core/testing';
+import { OccConfig } from '@spartacus/core';
+import { Observable, of, Subscription } from 'rxjs';
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from './../../auth/models/token-types.model';
-
 import { UserTokenInterceptor } from './user-token.interceptor';
-import { OccConfig } from '@spartacus/core';
 
 const userToken = {
   access_token: 'xxx',
@@ -68,6 +65,8 @@ describe('UserTokenInterceptor', () => {
   it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(
     [HttpClient],
     (http: HttpClient) => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+
       const sub: Subscription = http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
@@ -113,6 +112,8 @@ describe('UserTokenInterceptor', () => {
   it(`Should not add 'Authorization' token to header if there is already one`, inject(
     [HttpClient],
     (http: HttpClient) => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+
       const headers = { Authorization: 'bearer 123' };
       const sub: Subscription = http
         .get('https://localhost:9002/rest/v2/electronics', { headers })

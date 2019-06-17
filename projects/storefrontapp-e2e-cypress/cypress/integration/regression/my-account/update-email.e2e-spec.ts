@@ -25,7 +25,12 @@ describe('Update email', () => {
     });
 
     beforeEach(() => {
+      cy.restoreLocalStorage();
       cy.visit(UPDATE_EMAIL);
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
     });
 
     it('should be able to cancel and go back to home', () => {

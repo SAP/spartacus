@@ -1,5 +1,5 @@
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
+import { login } from './auth-forms';
 import { generateMail, randomString } from './user';
 
 export const PRODUCT_CODE_1 = '1934793';
@@ -215,7 +215,7 @@ export function manipulateCartQuantity() {
       .click();
   });
 
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (2 items)');
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
   cy.get('cx-order-summary')
     .contains('.cx-summary-row', 'Subtotal:')
@@ -232,7 +232,7 @@ export function manipulateCartQuantity() {
       .click();
   });
 
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (3 items)');
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
   cy.get('cx-order-summary')
     .contains('.cx-summary-row', 'Subtotal:')
