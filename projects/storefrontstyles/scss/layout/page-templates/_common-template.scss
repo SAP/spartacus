@@ -2,7 +2,7 @@
   display: block;
 
   > header {
-    background-color: var(--cx-g-color-background);
+    background-color: var(--cx-color-background);
     text-align: center;
     padding-bottom: 25px;
     padding-top: 25px;
@@ -19,8 +19,8 @@
   }
 
   &.footer {
-    background-color: var(--cx-background-color, var(--cx-g-color-dark));
-    color: var(--cx-color, var(--cx-g-color-inverse));
+    background-color: var(--cx-background-color, var(--cx-color-dark));
+    color: var(--cx-color, var(--cx-color-inverse));
   }
 }
 %cx-page-slot {
