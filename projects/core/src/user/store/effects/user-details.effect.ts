@@ -1,10 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { User } from '../../../model/misc.model';
 import { UserConnector } from '../../connectors/user/user.connector';
+import * as fromUserDetailsAction from '../actions/user-details.action';
 
 @Injectable()
 export class UserDetailsEffects {
@@ -19,7 +20,7 @@ export class UserDetailsEffects {
         map((user: User) => {
           return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
         }),
-        catchError(error =>
+        catchError((error: HttpErrorResponse) =>
           of(new fromUserDetailsAction.LoadUserDetailsFail(error))
         )
       );

@@ -1,3 +1,4 @@
+import { HttpEventType } from '@angular/common/http';
 import { Address } from './address.model';
 
 export interface Currency {
@@ -65,6 +66,20 @@ export interface ErrorModel {
   subject?: string;
   subjectType?: string;
   type?: string;
+}
+
+export interface HttpErrorModel {
+  readonly name: 'HttpErrorResponse';
+  message: string;
+  error: any | null;
+  readonly ok: false;
+  status: number;
+  statusText: string;
+  url: string | null;
+  type: HttpEventType.Response | HttpEventType.ResponseHeader;
+  headers: {
+    [key: string]: string | string[];
+  };
 }
 
 export interface BaseSite {

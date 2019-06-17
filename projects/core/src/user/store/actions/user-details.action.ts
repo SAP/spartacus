@@ -1,4 +1,6 @@
 import { Action } from '@ngrx/store';
+import { ErrorAction } from 'projects/core/src/state/utils/errors/error.action';
+import { User } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -7,7 +9,6 @@ import {
   EntitySuccessAction,
 } from '../../../state';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
-import { User } from '../../../model/misc.model';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
 export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';
@@ -23,9 +24,11 @@ export class LoadUserDetails implements Action {
   constructor(public payload: string) {}
 }
 
-export class LoadUserDetailsFail implements Action {
+export class LoadUserDetailsFail extends ErrorAction {
   readonly type = LOAD_USER_DETAILS_FAIL;
-  constructor(public payload: any) {}
+  constructor(payload: any) {
+    super(payload);
+  }
 }
 
 export class LoadUserDetailsSuccess implements Action {
