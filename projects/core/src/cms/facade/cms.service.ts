@@ -68,21 +68,25 @@ export class CmsService {
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
-      this.components[uid] = combineLatest(
+      this.components[uid] = combineLatest([
         this.routingService.isNavigating(),
-        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
-      ).pipe(
+        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid))),
+      ]).pipe(
         tap(([isNavigating, componentState]) => {
-          const attemptedLoad =
-            componentState.loading ||
-            componentState.success ||
-            componentState.error;
-          if (!attemptedLoad && !isNavigating) {
-            this.store.dispatch(new fromStore.LoadComponent(uid));
+          // componentState is undefined when the whole components entities are empty.
+          // In this case, we don't load component one by one, but extract component data from cms page
+          if (componentState !== undefined) {
+            const attemptedLoad =
+              componentState.loading ||
+              componentState.success ||
+              componentState.error;
+            if (!attemptedLoad && !isNavigating) {
+              this.store.dispatch(new fromStore.LoadComponent(uid));
+            }
           }
         }),
         pluck(1),
-        filter(componentState => componentState.success),
+        filter(componentState => componentState && componentState.success),
         pluck('value'),
         shareReplay({ bufferSize: 1, refCount: true })
       );
