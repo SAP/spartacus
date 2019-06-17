@@ -7,7 +7,7 @@
     margin-bottom: 1.875rem;
     border-width: 1px;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
 
     @include media-breakpoint-down(sm) {
       border: 0 none;
@@ -18,7 +18,7 @@
   .cx-detail {
     border-width: 0 1px 0 0;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     padding-left: 1.875rem;
 
     &:last-child {
