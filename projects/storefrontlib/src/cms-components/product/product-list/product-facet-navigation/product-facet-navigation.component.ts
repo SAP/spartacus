@@ -40,7 +40,7 @@ export class ProductFacetNavigationComponent implements OnInit {
     private modalService: ModalService,
     private activatedRoute: ActivatedRoute,
     private productSearchService: ProductSearchService,
-    private productListService: ProductListComponentService
+    private productListComponentService: ProductListComponentService
   ) {
     this.showAllPerFacetMap = new Map<String, boolean>();
     this.queryCodec = new HttpUrlEncodingCodec();
@@ -71,7 +71,9 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   toggleValue(query: string): void {
-    this.productListService.setQuery(this.queryCodec.decodeValue(query));
+    this.productListComponentService.setQuery(
+      this.queryCodec.decodeValue(query)
+    );
   }
 
   showLess(facetName: String): void {

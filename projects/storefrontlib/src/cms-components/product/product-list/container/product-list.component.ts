@@ -23,12 +23,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   constructor(
     private pageLayoutService: PageLayoutService,
-    private productListService: ProductListComponentService
+    private productListComponentService: ProductListComponentService
   ) {}
 
   ngOnInit(): void {
-    this.productListService.onInit();
-    this.model$ = this.productListService.getSearchResults();
+    this.productListComponentService.onInit();
+    this.model$ = this.productListComponentService.getSearchResults();
 
     this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
       this.gridMode$.next(
@@ -38,11 +38,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   viewPage(pageNumber: number): void {
-    this.productListService.viewPage(pageNumber);
+    this.productListComponentService.viewPage(pageNumber);
   }
 
   sortList(sortCode: string): void {
-    this.productListService.sort(sortCode);
+    this.productListComponentService.sort(sortCode);
   }
 
   setGridMode(mode: ViewModes): void {
@@ -50,6 +50,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.productListService.onDestroy();
+    this.productListComponentService.onDestroy();
   }
 }
