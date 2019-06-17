@@ -32,7 +32,7 @@ cx-product-images {
     position: absolute;
 
     cx-media {
-      transition: all var(--cx-g-transition-duration);
+      transition: all var(--cx-transition-duration);
 
       background: #fff;
 
@@ -48,7 +48,7 @@ cx-product-images {
         }
       }
       &.active {
-        --cx-border-color: var(--cx-g-color-light);
+        --cx-border-color: var(--cx-color-light);
       }
     }
 
@@ -61,7 +61,7 @@ cx-product-images {
         }
 
         &.active {
-          --cx-border-color: var(--cx-g-color-primary);
+          --cx-border-color: var(--cx-color-primary);
         }
       }
     }
@@ -77,7 +77,7 @@ cx-product-images {
   // make thumb section transparent initially
   .thumbs {
     opacity: 0.5;
-    transition: all var(--cx-g-transition-duration);
+    transition: all var(--cx-transition-duration);
   }
   &:hover {
     .thumbs {
