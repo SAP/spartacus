@@ -26,10 +26,10 @@ interface SearchCriteria {
 export class ProductListComponentService {
   protected defaultPageSize = 10;
 
-  private sub: Subscription;
+  protected sub: Subscription;
 
-  private readonly RELEVANCE_CATEGORY = ':relevance:category:';
-  private readonly RELEVANCE_BRAND = ':relevance:brand:';
+  protected readonly RELEVANCE_CATEGORY = ':relevance:category:';
+  protected readonly RELEVANCE_BRAND = ':relevance:brand:';
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -50,7 +50,7 @@ export class ProductListComponentService {
         })
       )
       .subscribe(({ state }) => {
-        const criteria = this.getCriteriaFromRouting(
+        const criteria = this.getCriteriaFromRoute(
           state.params,
           state.queryParams
         );
@@ -58,7 +58,7 @@ export class ProductListComponentService {
       });
   }
 
-  private getCriteriaFromRouting(
+  private getCriteriaFromRoute(
     routeParams: ProductListRouteParams,
     queryParams: SearchCriteria
   ): SearchCriteria {
@@ -124,7 +124,7 @@ export class ProductListComponentService {
       .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
   }
 
-  private setQueryParams(queryParams: SearchCriteria) {
+  protected setQueryParams(queryParams: SearchCriteria): void {
     this.router.navigateByUrl(
       this.router.createUrlTree([], {
         queryParams,
