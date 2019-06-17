@@ -1,5 +1,5 @@
-import { login } from '../../helpers/auth-forms';
-import * as helper from '../../helpers/login';
+import { login } from '../../../helpers/auth-forms';
+import * as helper from '../../../helpers/login';
 
 describe('My Account - Update Password', () => {
   const PAGE_TITLE_UPDATE_PASSWORD = 'Update Password';

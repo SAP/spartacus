@@ -1,7 +1,7 @@
 @mixin checkout-media-style() {
   @include media-breakpoint-down(md) {
     display: block;
-    background-color: var(--cx-g-color-background);
+    background-color: var(--cx-color-background);
   }
 
   .col-md-12 {
