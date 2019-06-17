@@ -39,51 +39,37 @@ export class ProductListComponentService {
     protected router: Router
   ) {}
 
-  getSearchResults(): Observable<SearchResults> {
-    return this.productSearchService
-      .getResults()
-      .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
+  onInit() {
+    this.productSearchService.clearResults();
+
+    this.sub = this.routing
+      .getRouterState()
+      .pipe(
+        distinctUntilChanged((x, y) => {
+          // router emits new value also when the anticipated `nextState` changes
+          // but we want to perform search only when current url changes
+          return x.state.url === y.state.url;
+        })
+      )
+      .subscribe(({ state }) => {
+        const criteria = this.getCriteriaFromRouting(
+          state.params,
+          state.queryParams
+        );
+        this.search(criteria);
+      });
   }
 
-  private getSearchConfig(criteria: SearchCriteria) {
-    const result: SearchConfig = {
-      currentPage: criteria.currentPage,
-      pageSize: criteria.pageSize,
-      sortCode: criteria.sortCode,
+  private getCriteriaFromRouting(
+    routeParams: ProductListRouteParams,
+    queryParams: ProductListQueryParams
+  ): SearchCriteria {
+    return {
+      query: queryParams.query || this.getQueryFromRouteParams(routeParams),
+      pageSize: queryParams.pageSize || this.defaultPageSize,
+      currentPage: queryParams.currentPage,
+      sortCode: queryParams.sortCode,
     };
-
-    // drop empty keys
-    Object.keys(result).forEach(key => !result[key] && delete result[key]);
-
-    return result;
-  }
-
-  setQuery(query: string) {
-    this.mergeQueryParams({ query });
-  }
-
-  viewPage(pageNumber: number): void {
-    this.mergeQueryParams({ currentPage: pageNumber });
-  }
-
-  sort(sortCode: string): void {
-    this.mergeQueryParams({ sortCode });
-  }
-
-  private mergeQueryParams(queryParams: ProductListQueryParams) {
-    this.router.navigateByUrl(
-      this.router.createUrlTree([], {
-        queryParams,
-        queryParamsHandling: 'merge',
-      })
-    );
-  }
-
-  private search(criteria: SearchCriteria): void {
-    const query = criteria.query;
-    const searchConfig = this.getSearchConfig(criteria);
-
-    this.productSearchService.search(query, searchConfig);
   }
 
   private getQueryFromRouteParams({
@@ -102,39 +88,51 @@ export class ProductListComponentService {
     }
   }
 
-  private getCriteriaFromRouting(
-    routeParams: ProductListRouteParams,
-    queryParams: ProductListQueryParams
-  ): SearchCriteria {
-    return {
-      query: queryParams.query || this.getQueryFromRouteParams(routeParams),
-      pageSize: queryParams.pageSize || this.defaultPageSize,
-      currentPage: queryParams.currentPage,
-      sortCode: queryParams.sortCode,
-    };
+  private search(criteria: SearchCriteria): void {
+    const query = criteria.query;
+    const searchConfig = this.getSearchConfig(criteria);
+
+    this.productSearchService.search(query, searchConfig);
   }
 
-  // should register on PLP component mounted and unregister on component destroy
-  onInit() {
-    this.productSearchService.clearResults();
+  private getSearchConfig(criteria: SearchCriteria) {
+    const result: SearchConfig = {
+      currentPage: criteria.currentPage,
+      pageSize: criteria.pageSize,
+      sortCode: criteria.sortCode,
+    };
 
-    // // spike todo: avoid changes on routing nextState (maybe use activatedRoute?)
-    this.sub = this.routing
-      .getRouterState()
-      .pipe(
-        distinctUntilChanged((x, y) => {
-          // router emits new value also when the anticipated `nextState` changes
-          // but we want to perform search only when current url changes
-          return x.state.url === y.state.url;
-        })
-      )
-      .subscribe(({ state }) => {
-        const criteria = this.getCriteriaFromRouting(
-          state.params,
-          state.queryParams
-        );
-        this.search(criteria);
-      });
+    // drop empty keys
+    Object.keys(result).forEach(key => !result[key] && delete result[key]);
+
+    return result;
+  }
+
+  setQuery(query: string) {
+    this.setQueryParams({ query });
+  }
+
+  viewPage(pageNumber: number): void {
+    this.setQueryParams({ currentPage: pageNumber });
+  }
+
+  sort(sortCode: string): void {
+    this.setQueryParams({ sortCode });
+  }
+
+  getSearchResults(): Observable<SearchResults> {
+    return this.productSearchService
+      .getResults()
+      .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
+  }
+
+  private setQueryParams(queryParams: ProductListQueryParams) {
+    this.router.navigateByUrl(
+      this.router.createUrlTree([], {
+        queryParams,
+        queryParamsHandling: 'merge',
+      })
+    );
   }
 
   onDestroy() {
