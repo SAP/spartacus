@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
+import { CarouselModule } from '../../../shared/components/carousel/index';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { ProductImagesComponent } from './product-images.component';
 
@@ -19,6 +20,7 @@ import { ProductImagesComponent } from './product-images.component';
         },
       },
     }),
+    CarouselModule,
   ],
   declarations: [ProductImagesComponent],
   entryComponents: [ProductImagesComponent],
