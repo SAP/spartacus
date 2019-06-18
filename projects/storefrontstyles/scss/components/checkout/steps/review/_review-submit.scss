@@ -12,14 +12,14 @@
 
   .cx-review-summary {
     margin: 0;
-    background-color: var(--cx-g-color-background);
+    background-color: var(--cx-color-background);
 
     .cx-review-summary-card {
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
         border-style: solid;
         border-width: 1px;
-        border-color: var(--cx-g-color-light);
+        border-color: var(--cx-color-light);
       }
     }
   }
@@ -48,7 +48,7 @@
     margin: 0;
     border-style: solid;
     border-width: 1px 0;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
 
     @include media-breakpoint-down(md) {
       border-width: 1px 0 0;
@@ -77,7 +77,7 @@
     @include media-breakpoint-down(md) {
       border-style: solid;
       border-width: 1px 0 0;
-      border-color: var(--cx-g-color-light);
+      border-color: var(--cx-color-light);
     }
   }
 
