@@ -12,7 +12,8 @@ import { ProductListComponentService } from './product-list-component.service';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   model$: Observable<ProductSearchPage>;
-  gridMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
+  viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
+  viewModes = ViewModes;
 
   constructor(
     private pageLayoutService: PageLayoutService,
@@ -24,7 +25,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.model$ = this.productListComponentService.getSearchResults();
 
     this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
-      this.gridMode$.next(
+      this.viewMode$.next(
         template === 'ProductGridPageTemplate' ? ViewModes.Grid : ViewModes.List
       );
     });
@@ -38,8 +39,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productListComponentService.sort(sortCode);
   }
 
-  setGridMode(mode: ViewModes): void {
-    this.gridMode$.next(mode);
+  setViewMode(mode: ViewModes): void {
+    this.viewMode$.next(mode);
   }
 
   ngOnDestroy() {

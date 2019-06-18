@@ -2,7 +2,7 @@
   <section class="cx-page-section">
     <div class="container">
       <div class="row">
-        <div class="col-12 col-lg-12" *ngIf="(gridMode$ | async) as gridMode">
+        <div class="col-12 col-lg-12" *ngIf="(viewMode$ | async) as viewMode">
           <div class="cx-sorting top">
             <div class="row">
               <div class="col-12 col-lg-4 mr-auto">
@@ -30,14 +30,14 @@
               </div>
               <div class="col-auto ml-auto ml-lg-0">
                 <cx-product-view
-                  (modeChange)="setGridMode($event)"
-                  [mode]="gridMode"
+                  (modeChange)="setViewMode($event)"
+                  [mode]="viewMode"
                 ></cx-product-view>
               </div>
             </div>
           </div>
           <div class="cx-product-container">
-            <ng-container *ngIf="gridMode === 'grid'">
+            <ng-container *ngIf="viewMode === viewModes.Grid">
               <div class="row">
                 <cx-product-grid-item
                   *ngFor="let product of model?.products"
@@ -47,7 +47,7 @@
               </div>
             </ng-container>
 
-            <ng-container *ngIf="gridMode === 'list'">
+            <ng-container *ngIf="viewMode === viewModes.List">
               <cx-product-list-item
                 *ngFor="let product of model?.products"
                 [product]="product"
@@ -79,8 +79,8 @@
               </div>
               <div class="col-auto ml-auto ml-lg-0">
                 <cx-product-view
-                  (modeChange)="setGridMode($event)"
-                  [mode]="gridMode"
+                  (modeChange)="setViewMode($event)"
+                  [mode]="viewMode"
                 ></cx-product-view>
               </div>
             </div>
