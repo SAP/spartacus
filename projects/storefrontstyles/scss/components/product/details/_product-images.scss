@@ -59,15 +59,15 @@ $productThumbSize: 75px !default;
       margin: 0.5vw;
       padding: 0.5vw;
 
-      border: 2px solid var(--cx-g-color-light);
+      border: 2px solid var(--cx-color-light);
 
       &:hover {
-        border-color: var(--cx-g-color-primary);
+        border-color: var(--cx-color-primary);
       }
     }
     .activeItem {
       cx-media {
-        border-color: var(--cx-g-color-primary);
+        border-color: var(--cx-color-primary);
       }
     }
   }

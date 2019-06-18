@@ -5,7 +5,7 @@ $gutterSize: 15px;
     display: flex;
     flex-wrap: wrap;
 
-    border-bottom: 1px solid var(--cx-g-color-light);
+    border-bottom: 1px solid var(--cx-color-light);
 
     padding: 0 $gutterSize $gutterSize;
     margin: 0 -#{$gutterSize} 40px -#{$gutterSize};

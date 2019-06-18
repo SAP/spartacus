@@ -25,10 +25,10 @@
     text-indent: -9999em;
     border-width: 1.1em;
     border-style: solid;
-    border-top-color: var(--cx-g-color-light);
-    border-bottom-color: var(--cx-g-color-light);
-    border-right-color: var(--cx-g-color-light);
-    border-left-color: var(--cx-g-color-primary);
+    border-top-color: var(--cx-color-light);
+    border-bottom-color: var(--cx-color-light);
+    border-right-color: var(--cx-color-light);
+    border-left-color: var(--cx-color-primary);
     transform: translateZ(0);
     animation: load8 1.1s infinite linear;
   }

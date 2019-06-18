@@ -6,22 +6,22 @@
     @include type(4);
     padding: 12px 17px 12px 17px;
     height: 48px;
-    color: var(--cx-g-color-text);
+    color: var(--cx-color-text);
     cursor: pointer;
 
     &:hover {
-      background-color: var(--cx-g-color-primary);
-      color: var(--cx-g-color-inverse);
+      background-color: var(--cx-color-primary);
+      color: var(--cx-color-inverse);
       font-weight: 700;
     }
 
     &[aria-label='Previous'],
     &[aria-label='Next'] {
       padding: 11px 14px 12px 14px;
-      color: var(--cx-g-color-secondary);
+      color: var(--cx-color-secondary);
 
       &:hover {
-        color: var(--cx-g-color-inverse);
+        color: var(--cx-color-inverse);
       }
     }
   }
@@ -30,7 +30,7 @@
     .page-link {
       &[aria-label='Previous'],
       &[aria-label='Next'] {
-        color: var(--cx-g-color-light);
+        color: var(--cx-color-light);
       }
     }
   }
