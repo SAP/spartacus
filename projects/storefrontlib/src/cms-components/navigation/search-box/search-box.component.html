@@ -30,7 +30,7 @@
 <div
   *ngIf="(results$ | async) as result"
   class="results"
-  (click)="close($event)"
+  (click)="close($event, true)"
 >
   <div
     *ngIf="result.message"
@@ -50,7 +50,7 @@
       "
       (keydown.arrowup)="focusPreviousChild($event)"
       (keydown.arrowdown)="focusNextChild($event)"
-      (keydown.enter)="blur($event)"
+      (keydown.enter)="close($event, true)"
       (blur)="close($event)"
     >
     </a>
@@ -68,7 +68,7 @@
       [class.has-media]="config.displayProductImages"
       (keydown.arrowup)="focusPreviousChild($event)"
       (keydown.arrowdown)="focusNextChild($event)"
-      (keydown.enter)="blur($event)"
+      (keydown.enter)="close($event, true)"
       (blur)="close($event)"
     >
       <cx-media

@@ -28,7 +28,7 @@ const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
 })
 export class SearchBoxComponent {
   config: SearchBoxConfig;
-  resultItems: HTMLElement[];
+
   /**
    * Sets the search box input field
    */
@@ -106,22 +106,13 @@ export class SearchBoxComponent {
     this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
   }
 
-  // Check if focus is on searchbox or result list elements
-  private isSearchboxFocused(): boolean {
-    return this.getResultElements().indexOf(this.getFocusedElement()) === -1 &&
-      this.winRef.document.querySelector('input[aria-label="search"]') !==
-        this.getFocusedElement()
-      ? false
-      : true;
-  }
-
   /**
    * Closes the typehead searchbox.
    */
-  close(event: UIEvent): void {
+  close(event: UIEvent, force?: boolean): void {
     // Use timeout to detect changes
     setTimeout(() => {
-      if (!this.ignoreCloseEvent && !this.isSearchboxFocused()) {
+      if ((!this.ignoreCloseEvent && !this.isSearchboxFocused()) || force) {
         this.searchBoxComponentService.toggleBodyClass(
           'searchbox-is-active',
           false
@@ -134,13 +125,13 @@ export class SearchBoxComponent {
     }, 0);
   }
 
-  blur(event: UIEvent): void {
-    // Use timeout to act on enter key before blurring
-    setTimeout(() => {
-      if (event && event.target) {
-        (<HTMLElement>event.target).blur();
-      }
-    });
+  // Check if focus is on searchbox or result list elements
+  private isSearchboxFocused(): boolean {
+    return this.getResultElements().indexOf(this.getFocusedElement()) === -1 &&
+      this.winRef.document.querySelector('input[aria-label="search"]') !==
+        this.getFocusedElement()
+      ? false
+      : true;
   }
 
   /**
@@ -195,7 +186,7 @@ export class SearchBoxComponent {
     const results = this.getResultElements();
     const focusedIndex = results.indexOf(this.getFocusedElement());
 
-    // Focus on last index moving to first
+    // Focus on first index moving to last
     if (results.length) {
       if (focusedIndex >= results.length - 1) {
         results[0].focus();
