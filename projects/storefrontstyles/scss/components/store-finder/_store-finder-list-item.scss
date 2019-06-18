@@ -12,11 +12,11 @@
   }
   .cx-store-open {
     @include type('8');
-    color: var(--cx-g-color-success);
+    color: var(--cx-color-success);
   }
   .cx-store-closed {
     @include type('8');
-    color: var(--cx-g-color-danger);
+    color: var(--cx-color-danger);
   }
   .cx-button {
     line-height: 2;
