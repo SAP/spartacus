@@ -1,5 +1,4 @@
 import { login } from '../../../helpers/auth-forms';
-import { checkBanner } from '../../../helpers/homepage';
 import { generateMail, randomString } from '../../../helpers/user';
 import { standardUser } from '../../../sample-data/shared-users';
 
@@ -37,8 +36,6 @@ describe('Close Account', () => {
     it('should be able to cancel and go back to home', () => {
       cy.get('cx-close-account a').click({ force: true });
 
-      checkBanner();
-
       cy.location('pathname').should('contain', '/');
     });
 
@@ -54,8 +51,6 @@ describe('Close Account', () => {
       ).click();
 
       cy.wait('@deleteQuery');
-
-      checkBanner();
 
       cy.location('pathname').should('contain', '/');
 
@@ -73,8 +68,6 @@ describe('Close Account', () => {
       );
 
       cy.location('pathname').should('contain', '/login');
-
-      // cy.get('cx-global-message').should('contain', 'User is disabled');
     });
   });
 });
