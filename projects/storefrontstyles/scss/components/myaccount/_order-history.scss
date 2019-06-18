@@ -9,7 +9,7 @@
     padding: 1.5rem 0 1.125rem 0;
     margin-bottom: 0;
     border-width: 1px 0 1px 0;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     border-style: solid;
 
     tr {
@@ -17,7 +17,7 @@
 
       @include media-breakpoint-down(sm) {
         border-width: 1px 0 0 0;
-        border-color: var(--cx-g-color-light);
+        border-color: var(--cx-color-light);
         border-style: solid;
 
         &:first-child {
@@ -67,7 +67,7 @@
 
   .cx-order-history-header {
     padding: 40px 0 0 0;
-    color: var(--cx-g-color-text);
+    color: var(--cx-color-text);
 
     @include media-breakpoint-down(sm) {
       padding: 40px 20px 0 20px;
@@ -110,7 +110,7 @@
 
   .cx-order-history-label {
     text-transform: uppercase;
-    color: var(--cx-g-color-secondary);
+    color: var(--cx-color-secondary);
 
     @include media-breakpoint-down(sm) {
       @include type('8');
@@ -119,7 +119,7 @@
   }
 
   .cx-order-history-value {
-    color: var(--cx-g-color-text);
+    color: var(--cx-color-text);
 
     @include media-breakpoint-down(sm) {
       @include type('5');

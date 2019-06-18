@@ -68,21 +68,25 @@ export class CmsService {
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
-      this.components[uid] = combineLatest(
+      this.components[uid] = combineLatest([
         this.routingService.isNavigating(),
-        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
-      ).pipe(
+        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid))),
+      ]).pipe(
         tap(([isNavigating, componentState]) => {
-          const attemptedLoad =
-            componentState.loading ||
-            componentState.success ||
-            componentState.error;
-          if (!attemptedLoad && !isNavigating) {
-            this.store.dispatch(new fromStore.LoadComponent(uid));
+          // componentState is undefined when the whole components entities are empty.
+          // In this case, we don't load component one by one, but extract component data from cms page
+          if (componentState !== undefined) {
+            const attemptedLoad =
+              componentState.loading ||
+              componentState.success ||
+              componentState.error;
+            if (!attemptedLoad && !isNavigating) {
+              this.store.dispatch(new fromStore.LoadComponent(uid));
+            }
           }
         }),
         pluck(1),
-        filter(componentState => componentState.success),
+        filter(componentState => componentState && componentState.success),
         pluck('value'),
         shareReplay({ bufferSize: 1, refCount: true })
       );
@@ -185,13 +189,15 @@ export class CmsService {
    * @param pageContext
    */
   hasPage(pageContext: PageContext, forceReload = false): Observable<boolean> {
+    let loaded = false;
     return this.store.pipe(
       select(fromStore.getIndexEntity(pageContext)),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
-        const shouldReload = forceReload && !entity.loading;
+        const shouldReload = forceReload && !entity.loading && !loaded;
         if (!attemptedLoad || shouldReload) {
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
+          loaded = true;
         }
       }),
       filter(entity => entity.success || entity.error),
