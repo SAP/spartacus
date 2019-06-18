@@ -4,7 +4,6 @@ import {
   ConfigModule,
   I18nModule,
   provideConfigFromMetaTags,
-  SiteContextModule,
   StateModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
@@ -17,8 +16,6 @@ import { LayoutModule } from '../layout/layout.module';
     ConfigModule.forRoot(),
     RoutingModule,
     I18nModule.forRoot(),
-
-    SiteContextModule.forRoot(),
 
     LayoutModule,
   ],
