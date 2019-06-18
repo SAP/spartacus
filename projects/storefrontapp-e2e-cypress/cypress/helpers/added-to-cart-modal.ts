@@ -123,12 +123,17 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   cy.get('cx-added-to-cart-dialog .btn-primary').click();
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
+  cy.server();
+  cy.route('GET', '/rest/v2/electronics-spa/users/anonymous/carts/*').as(
+    'getRefreshedCart'
+  );
+
   // delete a product and check if the total is updated
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
     .find('.cx-actions .link')
     .click();
-  cy.get('cx-cart-details').should('contain', 'Cart total (1 item)');
+  cy.get('cx-cart-details').should('contain', 'Cart #');
 
   // check for the other product still exist
   cy.get('cx-cart-item-list .cx-item-list-items')
@@ -159,6 +164,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
       expect(totalPrice).equal('$927.89');
     });
 
+  cy.wait('@getRefreshedCart');
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
