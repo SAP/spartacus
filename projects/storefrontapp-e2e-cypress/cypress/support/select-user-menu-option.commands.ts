@@ -29,13 +29,9 @@ Cypress.Commands.add(
       // below click is exactly the same as clickHamburger() but we cannot import it here
       cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
     }
-    const userMenu = cy.get('[position="HeaderLinks"] cx-navigation-ui > nav');
 
-    userMenu.within(() => {
-      cy.get('h5').click({
-        force: true,
-      });
-      cy.getByText(new RegExp(option, 'i')).click({ force: true });
-    });
+    cy.get('a')
+      .getByText(new RegExp(option, 'i'))
+      .click({ force: true });
   }
 );
