@@ -19,7 +19,7 @@
     text-align: center;
     display: block;
     margin: 0 0 25px 0;
-    color: var(--cx-g-color-dark);
+    color: var(--cx-color-dark);
     text-decoration: none;
     height: 2.4em;
     overflow: hidden;
@@ -35,7 +35,7 @@
     &:after {
       content: '';
       background: none repeat scroll 0% 0%;
-      background-color: var(--cx-g-color-inverse);
+      background-color: var(--cx-color-inverse);
       position: absolute;
       height: 50px;
       width: 100%;
@@ -43,7 +43,7 @@
     }
 
     &:hover {
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
   }
 
@@ -62,14 +62,14 @@
     margin: 0 0 25px 0;
 
     .old {
-      color: var(--cx-g-secondary);
+      color: var(--cx-secondary);
       text-decoration: line-through;
       margin: 0;
     }
 
     .new {
       margin: 0 0 25px 5px;
-      color: var(--cx-g-primary);
+      color: var(--cx-primary);
     }
   }
 }

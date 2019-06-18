@@ -10,9 +10,6 @@
     "publishPath": "./../../dist/core",
     "tag": "latest"
   },
-  "scripts": {
-    "afterBump": "cd ../.. && yarn build:core:lib"
-  },
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
