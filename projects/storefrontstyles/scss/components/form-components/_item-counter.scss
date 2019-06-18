@@ -10,7 +10,7 @@
     border-radius: 4px;
     border-width: 1px;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
   }
 
   .cx-counter-value {
@@ -18,7 +18,7 @@
     text-align: center;
     border-width: 0 1px 0 1px;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     padding: 12px 9px 12px 9px;
     max-height: 46px;
     min-width: 48px;
@@ -30,23 +30,23 @@
     min-width: 40px;
     border: none;
     cursor: pointer;
-    color: var(--cx-g-color-text);
-    background-color: var(--cx-g-color-transparent);
+    color: var(--cx-color-text);
+    background-color: var(--cx-color-transparent);
     margin: 0;
     @include type(3);
 
     &:hover {
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
 
     &:focus {
-      color: var(--cx-color, var(--cx-g-color-primary));
-      font-weight: var(--cx-g-font-weight-bold);
+      color: var(--cx-color, var(--cx-color-primary));
+      font-weight: var(--cx-font-weight-bold);
       cursor: pointer;
     }
 
     &:disabled {
-      color: var(--cx-g-color-light);
+      color: var(--cx-color-light);
       opacity: 1;
       cursor: not-allowed;
     }
