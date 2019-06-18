@@ -4,7 +4,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { OccConfig } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import { BaseSiteService } from 'projects/core/src/site-context';
 import { Observable, of } from 'rxjs';
 import * as fromAuth from '../../../auth/store/index';
 import { Cart } from '../../../model/cart.model';
@@ -36,12 +35,6 @@ const testCart: Cart = {
 class MockCartConnector {
   create = createSpy().and.returnValue(of(testCart));
   load = createSpy().and.returnValue(of(testCart));
-}
-
-class MockBaseSiteService {
-  getActive() {
-    return of(true);
-  }
 }
 
 describe('Cart effect', () => {
@@ -79,7 +72,6 @@ describe('Cart effect', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
         CartService,
         CartDataService,
-        { provide: BaseSiteService, useClass: MockBaseSiteService },
         provideMockActions(() => actions$),
       ],
     });
