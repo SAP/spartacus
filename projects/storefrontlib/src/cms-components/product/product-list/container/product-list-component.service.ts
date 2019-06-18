@@ -106,7 +106,7 @@ export class ProductListComponentService {
     return result;
   }
 
-  setQuery(query: string) {
+  setQuery(query: string): void {
     this.setQueryParams({ query });
   }
 
