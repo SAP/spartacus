@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthConfig } from '../../config/auth-config';
-
 import { ClientToken } from '../../models/token-types.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
@@ -31,7 +29,7 @@ export class ClientAuthenticationTokenService {
     });
     return this.http
       .post<ClientToken>(url, params, { headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   protected getOAuthEndpoint(): string {

@@ -3,20 +3,20 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Title, User, UserSignUp } from '../../../model/misc.model';
+import {
+  TITLE_NORMALIZER,
+  USER_NORMALIZER,
+  USER_SERIALIZER,
+  USER_SIGN_UP_SERIALIZER,
+} from '../../../user/connectors/user/converters';
+import { UserAdapter } from '../../../user/connectors/user/user.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-import { ConverterService } from '../../../util/converter.service';
-import {
-  TITLE_NORMALIZER,
-  USER_SERIALIZER,
-  USER_SIGN_UP_SERIALIZER,
-} from '../../../user/connectors/user/converters';
-import { UserAdapter } from '../../../user/connectors/user/user.adapter';
-import { USER_NORMALIZER } from '../../../user/connectors/user/converters';
-import { Occ } from '../../occ-models';
 
 const USER_ENDPOINT = 'users/';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
@@ -140,7 +140,7 @@ export class OccUserAdapter implements UserAdapter {
     return this.http
       .get<Occ.TitleList>(this.occEndpoints.getEndpoint(TITLES_ENDPOINT))
       .pipe(
-        catchError((error: any) => throwError(error.json())),
+        catchError((error: any) => throwError(error)),
         map(titleList => titleList.titles),
         this.converter.pipeableMany(TITLE_NORMALIZER)
       );

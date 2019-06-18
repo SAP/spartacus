@@ -1,24 +1,23 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { throwError, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-
-import { StoreFinderSearchConfig } from '../../../store-finder/model';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { PointOfService } from '../../../model/point-of-service.model';
-import { StoreFinderAdapter } from '../../../store-finder/connectors/store-finder.adapter';
 import { GeoPoint } from '../../../model/misc.model';
+import { PointOfService } from '../../../model/point-of-service.model';
+import {
+  StoreCount,
+  StoreFinderSearchPage,
+} from '../../../model/store-finder.model';
+import {
+  POINT_OF_SERVICE_NORMALIZER,
+  STORE_COUNT_NORMALIZER,
+  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
+} from '../../../store-finder/connectors';
+import { StoreFinderAdapter } from '../../../store-finder/connectors/store-finder.adapter';
+import { StoreFinderSearchConfig } from '../../../store-finder/model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
-import {
-  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
-  STORE_COUNT_NORMALIZER,
-  POINT_OF_SERVICE_NORMALIZER,
-} from '../../../store-finder/connectors';
-import {
-  StoreFinderSearchPage,
-  StoreCount,
-} from '../../../model/store-finder.model';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const STORES_ENDPOINT = 'stores';
 
@@ -36,7 +35,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     longitudeLatitude?: GeoPoint
   ): Observable<StoreFinderSearchPage> {
     return this.callOccFindStores(query, searchConfig, longitudeLatitude).pipe(
-      catchError((error: any) => throwError(error.json())),
+      catchError((error: any) => throwError(error)),
       this.converter.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER)
     );
   }
@@ -46,7 +45,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
     return this.http.get<Occ.StoreCountList>(storeCountUrl).pipe(
       map(({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount),
-      catchError((error: any) => throwError(error.json())),
+      catchError((error: any) => throwError(error)),
       this.converter.pipeableMany(STORE_COUNT_NORMALIZER)
     );
   }
@@ -56,7 +55,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     const params = { fields: 'FULL' };
 
     return this.http.get<Occ.PointOfService>(storeDetailsUrl, { params }).pipe(
-      catchError((error: any) => throwError(error.json())),
+      catchError((error: any) => throwError(error)),
       this.converter.pipeable(POINT_OF_SERVICE_NORMALIZER)
     );
   }

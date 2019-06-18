@@ -1,12 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { Occ } from '../../occ-models/occ.models';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { makeHttpErrorSerializable } from 'projects/core/src/util';
+import { Observable, throwError } from 'rxjs';
 import { catchError, pluck } from 'rxjs/operators';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/checkout-delivery.adapter';
-import { ConverterService } from '../../../util/converter.service';
 import { DELIVERY_MODE_NORMALIZER } from '../../../checkout/connectors/delivery/converters';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
@@ -14,6 +11,9 @@ import {
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
 } from '../../../user/connectors/address/converters';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
@@ -44,7 +44,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
         }
       )
       .pipe(
-        catchError((error: any) => throwError(error.json())),
+        catchError((error: any) => throwError(error)),
         this.converter.pipeable(ADDRESS_NORMALIZER)
       );
   }
@@ -62,7 +62,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
           params: { addressId: addressId },
         }
       )
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   public setMode(
@@ -78,14 +78,14 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
           params: { deliveryModeId: deliveryModeId },
         }
       )
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   public getMode(userId: string, cartId: string): Observable<any> {
     return this.http
       .get(this.getCartEndpoint(userId) + cartId + '/deliverymode')
       .pipe(
-        catchError((error: any) => throwError(error.json())),
+        catchError((error: any) => throwError(error)),
         this.converter.pipeable(DELIVERY_MODE_NORMALIZER)
       );
   }
@@ -99,7 +99,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
         this.getCartEndpoint(userId) + cartId + '/deliverymodes'
       )
       .pipe(
-        catchError((error: any) => throwError(error.json())),
+        catchError(error => throwError(makeHttpErrorSerializable(error))),
         pluck('deliveryModes'),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );

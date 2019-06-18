@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { ErrorAction } from 'projects/core/src/state/utils/errors/error.action';
 import { User } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
@@ -24,11 +23,9 @@ export class LoadUserDetails implements Action {
   constructor(public payload: string) {}
 }
 
-export class LoadUserDetailsFail extends ErrorAction {
+export class LoadUserDetailsFail implements Action {
   readonly type = LOAD_USER_DETAILS_FAIL;
-  constructor(payload: any) {
-    super(payload);
-  }
+  constructor(public payload: any) {}
 }
 
 export class LoadUserDetailsSuccess implements Action {

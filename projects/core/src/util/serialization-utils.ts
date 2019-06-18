@@ -2,20 +2,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpErrorModel } from '../model/misc.model';
 
 export function makeHttpErrorSerializable(
-  error: HttpErrorResponse
-): HttpErrorModel | HttpErrorResponse {
-  if (!(error instanceof HttpErrorResponse) || !error || !error.headers) {
+  error: HttpErrorResponse | any
+): HttpErrorModel | {} {
+  if (!(error instanceof HttpErrorResponse) || !error) {
     return error;
   }
 
-  const headers: { [key: string]: string } = {};
-  for (const headerName of error.headers.keys()) {
-    const headerValue = error.headers.get(headerName);
-    headers[headerName] = headerValue;
-  }
-
   return {
-    ...error,
-    headers,
+    message: error.message,
+    error: error.error,
+    status: error.status,
+    statusText: error.statusText,
+    url: error.url,
   };
 }

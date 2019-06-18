@@ -1,18 +1,18 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { CustomEncoder } from '../cart/custom.encoder';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
-import { ConverterService } from '../../../util/converter.service';
 import {
   CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '../../../checkout/connectors/payment/converters';
 import { CardType, PaymentDetails } from '../../../model/cart.model';
+import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { CustomEncoder } from '../cart/custom.encoder';
 
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 
@@ -89,14 +89,14 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           params: { paymentDetailsId: paymentDetailsId },
         }
       )
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   loadCardTypes(): Observable<CardType[]> {
     return this.http
       .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(
-        catchError((error: any) => throwError(error.json())),
+        catchError((error: any) => throwError(error)),
         map(cardTypeList => cardTypeList.cardTypes),
         this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
       );
@@ -112,7 +112,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           cartId +
           '/payment/sop/request?responseUrl=sampleUrl'
       )
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   protected createSubWithProvider(

@@ -1,13 +1,12 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
-import { ConverterService } from '../../../util/converter.service';
 import { CART_MODIFICATION_NORMALIZER } from '../../../cart/connectors/entry/converters';
 import { CartModification } from '../../../model/cart.model';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccCartEntryAdapter implements CartEntryAdapter {
@@ -43,7 +42,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     return this.http
       .post<CartModification>(url, toAdd, { headers, params })
       .pipe(
-        catchError((error: any) => throwError(error.json())),
+        catchError((error: any) => throwError(error)),
         this.converter.pipeable(CART_MODIFICATION_NORMALIZER)
       );
   }
@@ -71,7 +70,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     return this.http.patch<CartModification>(url, {}, { headers, params }).pipe(
-      catchError((error: any) => throwError(error.json())),
+      catchError((error: any) => throwError(error)),
       this.converter.pipeable(CART_MODIFICATION_NORMALIZER)
     );
   }
@@ -90,6 +89,6 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     return this.http
       .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 }
