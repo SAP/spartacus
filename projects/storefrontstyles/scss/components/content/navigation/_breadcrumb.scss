@@ -6,13 +6,13 @@
   text-align: center;
 
   color: currentcolor;
-  background-color: var(--cx-g-color-background);
+  background-color: var(--cx-color-background);
 
   nav {
     font-size: 0.85rem;
     padding: 5px 0;
     span {
-      color: var(--cx-g-color-secondary);
+      color: var(--cx-color-secondary);
 
       &:not(:last-child):after {
         content: '/';
