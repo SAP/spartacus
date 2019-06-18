@@ -3,7 +3,9 @@ import { login, register } from './auth-forms';
 import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
 
 export function signOut() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
 }
 
 export function registerUser() {
@@ -136,7 +138,9 @@ export function verifyOrderConfirmationPage() {
 }
 
 export function viewOrderHistory() {
-  cy.selectUserMenuOption('Order History');
+  cy.selectUserMenuOption({
+    option: 'Order History',
+  });
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
