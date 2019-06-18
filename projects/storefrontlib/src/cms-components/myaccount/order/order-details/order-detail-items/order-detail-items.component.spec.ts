@@ -1,7 +1,14 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Order, PromotionResult } from '@spartacus/core';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  ConsignmentTracking,
+  I18nTestingModule,
+  Order,
+  PromotionResult,
+  UserOrderService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
@@ -75,11 +82,16 @@ class MockCartItemListComponent {
   cartIsLoading = false;
 }
 
-describe('OrderDetailItemsComponent', () => {
+fdescribe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
+  let ngbModal: NgbModal;
+  const userOrderService = jasmine.createSpyObj('UserOrderService', [
+    'getConsignmentTracking',
+    'loadConsignmentTracking',
+  ]);
 
   beforeEach(async(() => {
     mockOrderDetailsService = <OrderDetailsService>{
@@ -89,9 +101,11 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule],
+      imports: [CardModule, I18nTestingModule, NgbModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        { provide: UserOrderService, useValue: userOrderService },
+        { provide: NgbModal, useValue: { open: () => {} } },
       ],
       declarations: [OrderDetailItemsComponent, MockCartItemListComponent],
     }).compileComponents();
@@ -100,12 +114,17 @@ describe('OrderDetailItemsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailItemsComponent);
     el = fixture.debugElement;
-
     component = fixture.componentInstance;
-    component.ngOnInit();
+    userOrderService.getConsignmentTracking.and.returnValue(
+      of({ trackingID: '1234567890' })
+    );
+    userOrderService.loadConsignmentTracking.and.callFake(
+      (_orderCode: string, _consignmentCode: string) => {}
+    );
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -123,5 +142,45 @@ describe('OrderDetailItemsComponent', () => {
   it('should order details item be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
+  });
+
+  it('should display tracking package button', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('.btn'))).toBeTruthy();
+  });
+
+  it('should not display tracking package button', () => {
+    const order: Order = mockOrder;
+    order.consignments[0].status = 'WAITING';
+    component.order$ = of(order);
+    fixture.detectChanges();
+    expect(el.query(By.css('.btn'))).toBeFalsy();
+  });
+
+  it('should be able to open dialog', () => {
+    fixture.detectChanges();
+    const modalRef = {
+      componentInstance: {
+        shipDate: null,
+        tracking$: of<ConsignmentTracking>(),
+      },
+    };
+    ngbModal = TestBed.get(NgbModal);
+    spyOn(ngbModal, 'open').and.returnValue(modalRef);
+    component.orderCode = mockOrder.code;
+    component.openTrackingDialog(mockOrder.consignments[0]);
+    fixture.detectChanges();
+
+    expect(userOrderService.loadConsignmentTracking).toHaveBeenCalledWith(
+      component.orderCode,
+      mockOrder.consignments[0].code
+    );
+    expect(ngbModal.open).toHaveBeenCalled();
+    expect(modalRef.componentInstance.shipDate).toEqual(
+      mockOrder.consignments[0].statusDate
+    );
+    modalRef.componentInstance.tracking$.subscribe(c =>
+      expect(c.trackingID).toEqual('1234567890')
+    );
   });
 });
