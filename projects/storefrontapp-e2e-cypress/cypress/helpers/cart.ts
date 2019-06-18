@@ -124,7 +124,9 @@ export function addProductWhenLoggedIn(mobile) {
 }
 
 export function logOutAndNavigateToEmptyCart() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
   cy.visit('/cart');
@@ -184,7 +186,9 @@ export function verifyMergedCartWhenLoggedIn() {
 }
 
 export function logOutAndEmptyCart() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
   cy.visit('/cart');
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('.EmptyCartMiddleContent').should(
