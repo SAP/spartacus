@@ -82,16 +82,18 @@ export class NavigationUIComponent {
     const nav = <HTMLElement>event.currentTarget;
     const navBar = <HTMLElement>this.renderer.parentNode(nav);
     const wrapper = <HTMLElement>nav.getElementsByClassName('wrapper')[0];
-    if (
-      wrapper &&
-      wrapper.offsetLeft + wrapper.offsetWidth >
+    if (wrapper) {
+      this.renderer.removeStyle(wrapper, 'margin-left');
+      if (
+        wrapper.offsetLeft + wrapper.offsetWidth >
         navBar.offsetLeft + navBar.offsetWidth
-    ) {
-      this.renderer.setStyle(
-        wrapper,
-        'margin-left',
-        `${nav.offsetWidth - wrapper.offsetWidth}px`
-      );
+      ) {
+        this.renderer.setStyle(
+          wrapper,
+          'margin-left',
+          `${nav.offsetWidth - wrapper.offsetWidth}px`
+        );
+      }
     }
   }
 
