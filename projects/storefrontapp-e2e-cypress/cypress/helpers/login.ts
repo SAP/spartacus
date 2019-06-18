@@ -15,7 +15,9 @@ export function registerUser() {
 }
 
 export function signOutUser() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
 
   cy.get(userGreetSelector).should('not.exist');
 }

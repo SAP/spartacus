@@ -1,10 +1,7 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, ConfigModule } from '../config/config.module';
-import { RoutingModule } from '../routing/routing.module';
-
 import { AuthConfig } from './config/auth-config';
 import { defaultAuthConfig } from './config/default-auth-config';
 import { interceptors } from './http-interceptors/index';
@@ -15,7 +12,6 @@ import { AuthStoreModule } from './store/auth-store.module';
   imports: [
     CommonModule,
     HttpClientModule,
-    RoutingModule,
     AuthStoreModule,
     ConfigModule.withConfig(defaultAuthConfig),
   ],
