@@ -124,7 +124,7 @@ export class ProductListComponentService {
       .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
   }
 
-  protected setQueryParams(queryParams: SearchCriteria): void {
+  private setQueryParams(queryParams: SearchCriteria): void {
     this.routing.go([], null, {
       queryParams,
       queryParamsHandling: 'merge',
