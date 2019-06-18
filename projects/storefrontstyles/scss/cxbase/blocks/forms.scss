@@ -5,7 +5,7 @@
 .form-control {
   margin-bottom: 0.25rem;
   &:focus {
-    border-color: var(--cx-g-color-secondary);
+    border-color: var(--cx-color-secondary);
     box-shadow: none;
     -webkit-box-shadow: none;
   }
@@ -15,15 +15,15 @@
   text-align: left;
   &::before {
     content: '!';
-    color: var(--cx-g-color-inverse);
+    color: var(--cx-color-inverse);
     text-align: center;
     border-radius: 50%;
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-color: var(--cx-g-color-danger);
+    background-color: var(--cx-color-danger);
     margin-right: 6px;
-    font-weight: var(--cx-g-font-weight-bold);
+    font-weight: var(--cx-font-weight-bold);
   }
   &:focus {
     box-shadow: none;
@@ -32,7 +32,7 @@
 }
 
 .is-invalid {
-  color: var(--cx-g-color-danger);
+  color: var(--cx-color-danger);
 }
 
 input[type='checkbox'],
@@ -61,7 +61,7 @@ label {
     display: block;
     margin-bottom: $label-margin-bottom;
     &.bold {
-      font-weight: var(--cx-g-font-weight-semi);
+      font-weight: var(--cx-font-weight-semi);
     }
   }
 }
@@ -70,7 +70,7 @@ label {
   margin-bottom: 18px;
 
   label {
-    font-weight: var(--cx-g-font-weight-normal);
+    font-weight: var(--cx-font-weight-normal);
   }
 
   .form-check-label {
@@ -81,7 +81,7 @@ label {
   }
 
   input + .form-check-label {
-    color: var(--cx-g-color-text);
+    color: var(--cx-color-text);
 
     &::after {
       content: none;
@@ -89,7 +89,7 @@ label {
   }
 
   input:disabled + .form-check-label {
-    color: var(--cx-g-color-light);
+    color: var(--cx-color-light);
   }
 
   input[role='checkbox'],
@@ -97,8 +97,8 @@ label {
     display: inline-block;
 
     &:focus {
-      box-shadow: 0px 0px 0px 3px var(--cx-g-color-light);
-      border-color: var(--cx-g-color-secondary);
+      box-shadow: 0px 0px 0px 3px var(--cx-color-light);
+      border-color: var(--cx-color-secondary);
     }
   }
 
@@ -106,15 +106,15 @@ label {
     border-style: solid;
     border-radius: 5px;
     border-width: 2px;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
 
     &:checked {
       font-style: normal;
-      border-color: var(--cx-g-color-primary);
-      background-color: var(--cx-g-color-primary);
+      border-color: var(--cx-color-primary);
+      background-color: var(--cx-color-primary);
 
       &::after {
-        color: var(--cx-g-color-inverse);
+        color: var(--cx-color-inverse);
         position: absolute;
 
         content: '';
@@ -125,7 +125,7 @@ label {
         left: 5px;
         border-width: 0 0 2px 2px;
         border-style: solid;
-        border-color: var(--cx-g-color-inverse);
+        border-color: var(--cx-color-inverse);
         transform: rotate(-45deg);
       }
     }
@@ -134,7 +134,7 @@ label {
 
 .form-control[type='text'] {
   &:focus {
-    background-color: var(--cx-g-color-background);
+    background-color: var(--cx-color-background);
     box-shadow: none;
     -webkit-box-shadow: none;
   }
@@ -145,7 +145,7 @@ input[type='radio'] {
   display: inline-block;
   border-style: solid;
   border-width: 2px;
-  border-color: var(--cx-g-color-light);
+  border-color: var(--cx-color-light);
   position: absolute;
 
   &::after {
@@ -155,16 +155,16 @@ input[type='radio'] {
     height: 10px;
     width: 10px;
     border-radius: 50%;
-    background-color: var(--cx-g-color-inverse);
+    background-color: var(--cx-color-inverse);
     left: 4px;
     top: 4px;
   }
   &:checked {
-    border-color: var(--cx-g-color-primary) !important;
-    background-color: var(--cx-g-color-inverse);
+    border-color: var(--cx-color-primary) !important;
+    background-color: var(--cx-color-inverse);
 
     &::after {
-      background-color: var(--cx-g-color-primary);
+      background-color: var(--cx-color-primary);
     }
   }
 }
@@ -172,7 +172,7 @@ input[type='radio'] {
 .form-message {
   @include type(7);
   &--danger {
-    color: var(--cx-g-color-danger);
+    color: var(--cx-color-danger);
   }
 }
 
@@ -181,14 +181,14 @@ input[type='radio'] {
   .ng-dropdown-panel {
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {
-        background-color: var(--cx-g-color-light);
+        background-color: var(--cx-color-light);
       }
     }
   }
 
   .ng-arrow-wrapper {
     .ng-arrow {
-      border-color: var(--cx-g-color-text) transparent transparent;
+      border-color: var(--cx-color-text) transparent transparent;
       border-style: solid;
       border-width: 5px 5px 2.5px;
     }
