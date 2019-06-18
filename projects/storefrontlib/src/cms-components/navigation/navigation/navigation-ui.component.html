@@ -19,7 +19,7 @@
   <nav
     tabindex="0"
     (click)="toggleOpen($event)"
-    (mouseenter)="alignWrapperToRight($event)"
+    (mouseenter)="alignWrapperToRightIfStickOut($event)"
   >
     <cx-generic-link
       *ngIf="
