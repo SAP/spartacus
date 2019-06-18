@@ -7,12 +7,12 @@
   }
 
   .cx-login-greet {
-    color: var(--cx-g-color-inverse);
+    color: var(--cx-color-inverse);
     @include type('7');
-    font-weight: var(--cx-g-font-weight-semi);
+    font-weight: var(--cx-font-weight-semi);
 
     @include media-breakpoint-down(md) {
-      color: var(--cx-g-color-text);
+      color: var(--cx-color-text);
       padding: 0.5rem 1rem 0;
       @include type();
     }
