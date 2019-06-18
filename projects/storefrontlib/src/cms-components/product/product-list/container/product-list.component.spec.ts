@@ -9,7 +9,10 @@ import { PageLayoutService } from '../../../../cms-structure';
 import { ListNavigationModule, MediaComponent } from '../../../../shared';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
-import { ProductViewComponent } from '../product-view/product-view.component';
+import {
+  ProductViewComponent,
+  ViewModes,
+} from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
@@ -123,12 +126,31 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    beforeEach(() => {
-      component.ngOnInit();
-    });
-    it('should call service.onInit', () => {
-      expect(componentService.onInit).toHaveBeenCalled();
-    });
+  it('ngOnInit should call service.onInit', () => {
+    component.ngOnInit();
+    expect(componentService.onInit).toHaveBeenCalled();
+  });
+
+  it('ngOnDestroy should call service.onDestroy', () => {
+    component.ngOnDestroy();
+    expect(componentService.onDestroy).toHaveBeenCalled();
+  });
+
+  it('viewPage should call service.viewPage', () => {
+    component.viewPage(123);
+    expect(componentService.viewPage).toHaveBeenCalledWith(123);
+  });
+
+  it('sortList should call service.sort', () => {
+    component.sortList('testSortCode');
+    expect(componentService.sort).toHaveBeenCalledWith('testSortCode');
+  });
+
+  it('setViewMode should set view mode', () => {
+    component.setViewMode(ViewModes.List);
+    expect(component.viewMode$.value).toBe(ViewModes.List);
+
+    component.setViewMode(ViewModes.Grid);
+    expect(component.viewMode$.value).toBe(ViewModes.Grid);
   });
 });
