@@ -126,15 +126,11 @@ export class SearchBoxComponent {
   }
 
   private isSearchboxFocused(): boolean {
-    if (
-      this.resultItems &&
-      this.resultItems.indexOf(this.getFocusedElement()) === -1 &&
+    return this.getResultElements().indexOf(this.getFocusedElement()) === -1 &&
       this.winRef.document.querySelector('input[aria-label="search"]') !==
         this.getFocusedElement()
-    ) {
-      return false;
-    }
-    return true;
+      ? false
+      : true;
   }
 
   /**
@@ -195,37 +191,37 @@ export class SearchBoxComponent {
 
   focusPreviousChild(event) {
     event.preventDefault(); // Negate normal keyscroll
-    if (this.resultItems) {
-      let foundElement = false;
-      for (let i = this.resultItems.length; i > 0; i--) {
-        if (this.getFocusedElement() === this.resultItems[i]) {
-          this.resultItems[i - 1].focus();
-          foundElement = true;
-          break;
-        }
-      }
+    const results = this.getResultElements();
 
-      if (!foundElement) {
-        this.resultItems[this.resultItems.length - 1].focus();
+    let foundElement = false;
+    for (let i = results.length; i > 0; i--) {
+      if (this.getFocusedElement() === results[i]) {
+        results[i - 1].focus();
+        foundElement = true;
+        break;
       }
+    }
+
+    if (results.length && !foundElement) {
+      results[results.length - 1].focus();
     }
   }
 
   focusNextChild(event) {
     event.preventDefault(); // Negate normal keyscroll
-    if (this.resultItems) {
-      let foundElement = false;
-      for (let i = 0; i < this.resultItems.length - 1; i++) {
-        if (this.getFocusedElement() === this.resultItems[i]) {
-          this.resultItems[i + 1].focus();
-          foundElement = true;
-          break;
-        }
-      }
+    const results = this.getResultElements();
 
-      if (!foundElement) {
-        this.resultItems[0].focus();
+    let foundElement = false;
+    for (let i = 0; i < results.length - 1; i++) {
+      if (this.getFocusedElement() === results[i]) {
+        results[i + 1].focus();
+        foundElement = true;
+        break;
       }
+    }
+
+    if (results.length && !foundElement) {
+      results[0].focus();
     }
   }
 
