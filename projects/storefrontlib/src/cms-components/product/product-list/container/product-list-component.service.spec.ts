@@ -31,7 +31,7 @@ function mockRoutingState(
   );
 }
 
-fdescribe('ProductListComponentService', () => {
+describe('ProductListComponentService', () => {
   let service: ProductListComponentService;
   let routing: RoutingService;
   let activatedRoute: ActivatedRoute;
@@ -80,7 +80,7 @@ fdescribe('ProductListComponentService', () => {
     });
   });
 
-  it('getSearchResults return search results', () => {
+  it('getSearchResults should return search results', () => {
     let result;
     service.getSearchResults().subscribe(res => (result = res));
     expect(result).toEqual({ products: [] });
