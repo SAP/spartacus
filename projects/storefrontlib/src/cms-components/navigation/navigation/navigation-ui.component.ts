@@ -79,18 +79,18 @@ export class NavigationUIComponent {
   }
 
   alignWrapperToRightIfStickOut(event: UIEvent) {
-    const node = <HTMLElement>event.currentTarget;
-    const parent = <HTMLElement>this.renderer.parentNode(node);
-    const wrapper = <HTMLElement>node.getElementsByClassName('wrapper')[0];
+    const nav = <HTMLElement>event.currentTarget;
+    const navBar = <HTMLElement>this.renderer.parentNode(nav);
+    const wrapper = <HTMLElement>nav.getElementsByClassName('wrapper')[0];
     if (
       wrapper &&
       wrapper.offsetLeft + wrapper.offsetWidth >
-        parent.offsetLeft + parent.offsetWidth
+        navBar.offsetLeft + navBar.offsetWidth
     ) {
       this.renderer.setStyle(
         wrapper,
         'margin-left',
-        `${node.offsetWidth - wrapper.offsetWidth}px`
+        `${nav.offsetWidth - wrapper.offsetWidth}px`
       );
     }
   }
