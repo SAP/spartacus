@@ -4,7 +4,7 @@ import { CarouselService } from './carousel.service';
 
 const itemWidth = 300;
 
-fdescribe('Carousel Service', () => {
+describe('Carousel Service', () => {
   let service: CarouselService;
   let element: HTMLElement;
 
@@ -21,12 +21,12 @@ fdescribe('Carousel Service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should display size for carousel items', () => {
+  it('should display size for carousel items', done => {
     spyOnProperty(element, 'clientWidth').and.returnValue(1140);
 
-    service
-      .getSize(element, itemWidth)
-      .subscribe(value => expect(value).toEqual(4))
-      .unsubscribe();
+    service.getSize(element, itemWidth).subscribe(value => {
+      expect(value).toEqual(4);
+      done();
+    });
   });
 });
