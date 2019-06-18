@@ -15,7 +15,9 @@ describe('Order History with no orders', () => {
       .click();
     register(user);
 
-    cy.selectUserMenuOption('Sign Out');
+    cy.selectUserMenuOption({
+      option: 'Sign Out',
+    });
   });
 
   orderHistoryTest.checkRedirectNotLoggedInUser();
