@@ -12,8 +12,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Title,
-  UserSignUp,
   UserService,
+  UserSignUp,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -62,6 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.emailToLowerCase();
     const {
       firstName,
       lastName,
@@ -106,15 +107,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
     if (ac.get('password').value !== ac.get('passwordconf').value) {
       return { NotEqual: true };
+    }
+  }
+
+  /*
+   * Change the inputed email to lowercase because
+   * the backend only accepts lowercase emails
+   */
+  private emailToLowerCase(): void {
+    this.userRegistrationForm.value.email = this.userRegistrationForm.value.email.toLowerCase();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }
