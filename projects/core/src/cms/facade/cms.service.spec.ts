@@ -337,7 +337,7 @@ describe('CmsService', () => {
     it('should return true if the load was successful', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = { success: true };
+        const mockedEntity: LoaderState<string> = { success: true, value: '' };
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)
         );
@@ -359,6 +359,7 @@ describe('CmsService', () => {
         const mockedEntity: LoaderState<string> = {
           success: false,
           error: true,
+          value: undefined,
         };
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)

@@ -1,8 +1,12 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import {
   OccModule,
   PersonalizationModule,
   provideConfig,
+  SiteContextModule,
   SmartEditModule,
 } from '@spartacus/core';
 import { ProductDetailsPageModule } from '../cms-pages/product-details-page/product-details-page.module';
@@ -12,7 +16,27 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
 
 @NgModule({
   imports: [
+    RouterModule.forRoot([], {
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+    }),
+
+    StoreModule.forRoot(
+      {},
+      {
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictStateSerializability: true,
+          strictActionImmutability: true,
+          // TODO:#3010 - enable
+          // strictActionSerializability: true,
+        },
+      }
+    ),
+    EffectsModule.forRoot([]),
+
     StorefrontFoundationModule,
+    SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
 
     SmartEditModule.forRoot(), // should be custom
     PersonalizationModule.forRoot(), // should be custom
