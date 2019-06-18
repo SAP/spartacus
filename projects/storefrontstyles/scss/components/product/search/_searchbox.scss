@@ -176,8 +176,9 @@
 
       &:hover,
       &:focus {
-        background: var(--cx-g-color-light);
-        color: currentColor;
+        background: var(--cx-color-light);
+        color: var(--cx-color-light);
+        outline: auto 5px var(--cx-color-info);
       }
     }
     .suggestions {
