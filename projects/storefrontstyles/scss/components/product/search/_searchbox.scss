@@ -177,8 +177,8 @@
       &:hover,
       &:focus {
         background: var(--cx-color-light);
-        color: var(--cx-color-light);
-        outline: auto 5px var(--cx-color-info);
+        color: currentColor;
+        outline: auto 5px var(--cx-color-info) !important;
       }
     }
     .suggestions {

@@ -194,8 +194,8 @@ export class SearchBoxComponent {
   }
 
   focusPreviousChild(event) {
-    event.preventDefault();
-    if (this.resultItems.length) {
+    event.preventDefault(); // Negate normal keyscroll
+    if (this.resultItems) {
       let foundElement = false;
       for (let i = this.resultItems.length; i > 0; i--) {
         if (this.getFocusedElement() === this.resultItems[i]) {
@@ -212,8 +212,8 @@ export class SearchBoxComponent {
   }
 
   focusNextChild(event) {
-    event.preventDefault();
-    if (this.resultItems.length) {
+    event.preventDefault(); // Negate normal keyscroll
+    if (this.resultItems) {
       let foundElement = false;
       for (let i = 0; i < this.resultItems.length - 1; i++) {
         if (this.getFocusedElement() === this.resultItems[i]) {
