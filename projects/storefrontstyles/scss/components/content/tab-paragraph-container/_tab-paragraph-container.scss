@@ -20,7 +20,7 @@ $useTabsOnPDP: false !default;
   }
 
   > div {
-    background: var(--cx-g-color-background);
+    background: var(--cx-color-background);
     &:not(.active) {
       display: none;
     }
@@ -32,7 +32,7 @@ $useTabsOnPDP: false !default;
     margin-bottom: 0;
     &.active,
     &:hover {
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
     cursor: pointer;
     @include media-breakpoint-up(md) {
@@ -47,7 +47,7 @@ $useTabsOnPDP: false !default;
       display: block;
       margin: 15px auto auto auto;
       height: 5px;
-      background: var(--cx-g-color-primary);
+      background: var(--cx-color-primary);
 
       // the tab hover effect uses a border in the :after pseudo
       // that is animated from 0% to 100% width
@@ -72,7 +72,7 @@ $useTabsOnPDP: false !default;
   @include media-breakpoint-down(sm) {
     > h3 {
       text-indent: 20px;
-      border-top: 1px var(--cx-g-color-light) solid;
+      border-top: 1px var(--cx-color-light) solid;
       font-size: 18px;
       padding: 15px 0 0 0;
       &:before {
@@ -82,7 +82,7 @@ $useTabsOnPDP: false !default;
         font-size: 33px;
         bottom: 12px;
         position: relative;
-        color: var(--cx-g-color-text);
+        color: var(--cx-color-text);
       }
       &.active {
         &:before {
@@ -128,7 +128,7 @@ $useTabsOnPDP: false !default;
       grid-column-start: 1;
       grid-column-end: -1;
       padding: 50px 0;
-      border-top: 1px var(--cx-g-color-light) solid;
+      border-top: 1px var(--cx-color-light) solid;
     }
   }
 }
@@ -146,7 +146,7 @@ $useTabsOnPDP: false !default;
   > h3 {
     order: 2;
 
-    color: var(--cx-g-color-primary);
+    color: var(--cx-color-primary);
     font-weight: normal;
     font-size: 0.9em;
     cursor: pointer;

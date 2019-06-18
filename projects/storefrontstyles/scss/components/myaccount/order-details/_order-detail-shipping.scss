@@ -2,7 +2,7 @@
 
 %cx-order-detail-shipping {
   .cx-account-summary {
-    background-color: var(--cx-g-color-background);
+    background-color: var(--cx-color-background);
     margin-bottom: 3.125rem;
 
     @include media-breakpoint-down(sm) {
