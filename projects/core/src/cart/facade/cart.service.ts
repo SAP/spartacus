@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
-
 import { select, Store } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
+import { combineLatest, Observable } from 'rxjs';
+import { filter, take, tap } from 'rxjs/operators';
 import { AuthService, UserToken } from '../../auth/index';
-
-import * as fromAction from '../store/actions';
-import * as fromSelector from '../store/selectors';
-import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { StateWithCart } from '../store/cart-state';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { BaseSiteService } from '../../site-context/index';
+import * as fromAction from '../store/actions';
+import { StateWithCart } from '../store/cart-state';
+import * as fromSelector from '../store/selectors';
+import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
 @Injectable()
 export class CartService {
-  private callback: Function;
-
   constructor(
     protected store: Store<StateWithCart>,
     protected cartData: CartDataService,
@@ -46,10 +41,6 @@ export class CartService {
   protected init(): void {
     this.store.pipe(select(fromSelector.getCartContent)).subscribe(cart => {
       this.cartData.cart = cart;
-      if (this.callback) {
-        this.callback();
-        this.callback = null;
-      }
     });
 
     combineLatest([
@@ -135,11 +126,20 @@ export class CartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
-    if (!this.isCreated(this.cartData.cart)) {
-      this.store.dispatch(
-        new fromAction.CreateCart({ userId: this.cartData.userId })
-      );
-      this.callback = function() {
+    this.store
+      .pipe(
+        select(fromSelector.getActiveCartState),
+        tap(cartState => {
+          if (!this.isCreated(cartState.value.content) && !cartState.loading) {
+            this.store.dispatch(
+              new fromAction.CreateCart({ userId: this.cartData.userId })
+            );
+          }
+        }),
+        filter(cartState => this.isCreated(cartState.value.content)),
+        take(1)
+      )
+      .subscribe(_ => {
         this.store.dispatch(
           new fromAction.AddEntry({
             userId: this.cartData.userId,
@@ -148,17 +148,7 @@ export class CartService {
             quantity: quantity,
           })
         );
-      };
-    } else {
-      this.store.dispatch(
-        new fromAction.AddEntry({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          productCode: productCode,
-          quantity: quantity,
-        })
-      );
-    }
+      });
   }
 
   removeEntry(entry: OrderEntry): void {
