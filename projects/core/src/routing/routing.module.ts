@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import {
   RouterState,
@@ -8,7 +7,6 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { ConfigurableRoutesModule } from './configurable-routes/configurable-routes.module';
-import { RoutingService } from './facade/routing.service';
 import { effects } from './store/effects/index';
 import {
   CustomSerializer,
@@ -20,10 +18,6 @@ import { ROUTING_FEATURE } from './store/state';
 @NgModule({
   imports: [
     ConfigurableRoutesModule,
-    RouterModule.forRoot([], {
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
-    }),
     StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
     StoreRouterConnectingModule.forRoot({
@@ -32,7 +26,6 @@ import { ROUTING_FEATURE } from './store/state';
     }),
   ],
   providers: [
-    RoutingService,
     reducerProvider,
     {
       provide: RouterStateSerializer,

@@ -5,14 +5,14 @@
 }
 
 .cx-page-header {
-  background-color: var(--cx-g-color-background);
+  background-color: var(--cx-color-background);
   text-align: center;
   padding: 25px 0;
 }
 
 .cx-page-title {
   @include type('4');
-  font-weight: var(--cx-g-font-weight-semi);
+  font-weight: var(--cx-font-weight-semi);
   margin: 0 auto;
 }
 

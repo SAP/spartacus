@@ -44,9 +44,7 @@ describe('Language switch - product-details page', () => {
       );
 
       cy.get('cx-add-to-cart button.btn-primary').click();
-      cy.get('cx-added-to-cart-dialog .cx-link')
-        .invoke('text')
-        .should('contains', deutschName);
+      cy.get('cx-added-to-cart-dialog .cx-link').should('contain', deutschName);
     });
   });
 });

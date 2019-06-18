@@ -1,8 +1,8 @@
 $space: 0.5rem;
 
 %header {
-  background-color: var(--cx-g-color-dark);
-  color: var(--cx-g-color-inverse);
+  background-color: var(--cx-color-dark);
+  color: var(--cx-color-inverse);
   display: block;
 
   .header {
@@ -57,7 +57,7 @@ $space: 0.5rem;
   .SiteContext,
   .SiteLinks {
     font-size: 0.75rem;
-    color: var(--cx-g-color-light);
+    color: var(--cx-color-light);
     > * {
       flex: none;
     }
@@ -90,7 +90,7 @@ $space: 0.5rem;
     min-height: 67px;
 
     @include media-breakpoint-down(md) {
-      background-color: var(--cx-g-color-background);
+      background-color: var(--cx-color-background);
     }
   }
 
@@ -109,8 +109,8 @@ $space: 0.5rem;
     .SiteContext,
     .SiteLinks,
     .SiteLogin {
-      background-color: var(--cx-g-color-light);
-      color: var(--cx-color, var(--cx-g-color-text));
+      background-color: var(--cx-color-light);
+      color: var(--cx-color, var(--cx-color-text));
     }
 
     .SiteContext {

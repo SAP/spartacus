@@ -3,7 +3,7 @@
 .cx-card-border {
   border-width: var(--cx-border-width, 1px);
   border-style: var(--cx-border-style, solid);
-  border-color: var(--cx-border-color, var(--cx-g-color-light));
+  border-color: var(--cx-border-color, var(--cx-color-light));
 }
 
 .cx-card-container {
@@ -28,7 +28,7 @@
 }
 
 .cx-card-delete {
-  background-color: var(--cx-background-color, var(--cx-g-color-background));
+  background-color: var(--cx-background-color, var(--cx-color-background));
 }
 
 .cx-card-body-delete {
@@ -36,7 +36,7 @@
 }
 
 .cx-card-delete-msg {
-  color: var(--cx-color, var(--cx-g-color-danger));
+  color: var(--cx-color, var(--cx-color-danger));
   padding: var(--cx-padding, 0 0 1.25rem 0);
 }
 

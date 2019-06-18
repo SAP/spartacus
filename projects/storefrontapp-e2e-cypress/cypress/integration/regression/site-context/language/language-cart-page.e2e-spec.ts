@@ -36,9 +36,7 @@ describe('Language switch - cart page', () => {
         siteContextSelector.LANGUAGE_LABEL
       );
 
-      cy.get('cx-cart-item-list .cx-link')
-        .invoke('text')
-        .should('contains', deutschName);
+      cy.get('cx-cart-item-list .cx-link').should('contain', deutschName);
     });
   });
 });
