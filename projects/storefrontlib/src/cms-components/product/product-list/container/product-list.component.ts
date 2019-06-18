@@ -13,7 +13,7 @@ import { ProductListComponentService } from './product-list-component.service';
 export class ProductListComponent implements OnInit, OnDestroy {
   model$: Observable<ProductSearchPage>;
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
-  viewModes = ViewModes;
+  ViewModes = ViewModes;
 
   constructor(
     private pageLayoutService: PageLayoutService,

@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="cx-product-container">
-            <ng-container *ngIf="viewMode === viewModes.Grid">
+            <ng-container *ngIf="viewMode === ViewModes.Grid">
               <div class="row">
                 <cx-product-grid-item
                   *ngFor="let product of model?.products"
@@ -47,7 +47,7 @@
               </div>
             </ng-container>
 
-            <ng-container *ngIf="viewMode === viewModes.List">
+            <ng-container *ngIf="viewMode === ViewModes.List">
               <cx-product-list-item
                 *ngFor="let product of model?.products"
                 [product]="product"
