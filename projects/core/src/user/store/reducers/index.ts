@@ -8,18 +8,20 @@ import {
 import { LOGOUT } from '../../../auth/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { ConsentTemplate } from '../../../model/consent.model';
 import { OrderHistoryList } from '../../../model/order.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
+  REGIONS,
+  RegionsState,
+  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  UserState,
-  REGIONS,
-  RegionsState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
+import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
@@ -30,7 +32,6 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import { ConsentTemplate } from '../../../model/consent.model';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -59,6 +60,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     titles: fromTitlesReducer.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
+    consignmentTracking: fromConsignmentTrackingReducer.reducer,
   };
 }
 

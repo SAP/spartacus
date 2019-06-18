@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
-import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { Order, OrderHistoryList } from '../../../model/order.model';
-import { Occ } from '../../occ-models/occ.models';
-import { ConverterService } from '../../../util/converter.service';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
+import { Order, OrderHistoryList } from '../../../model/order.model';
+import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
@@ -24,6 +25,15 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   protected getOrderEndpoint(userId: string): string {
     const orderEndpoint = 'users/' + userId + '/orders';
     return this.occEndpoints.getEndpoint(orderEndpoint);
+  }
+
+  protected getConsignmentTrackingEndpoint(
+    orderCode: string,
+    consignmentCode: string
+  ): string {
+    const endpoint =
+      '/orders/' + orderCode + '/consignments/' + consignmentCode + '/tracking';
+    return this.occEndpoints.getEndpoint(endpoint);
   }
 
   public load(userId: string, orderCode: string): Observable<Order> {
@@ -67,5 +77,16 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       catchError((error: any) => throwError(error.json())),
       this.converter.pipeable(ORDER_HISTORY_NORMALIZER)
     );
+  }
+
+  public getConsignmentTracking(
+    orderCode: string,
+    consignmentCode: string
+  ): Observable<ConsignmentTracking> {
+    return this.http
+      .get<ConsignmentTracking>(
+        this.getConsignmentTrackingEndpoint(orderCode, consignmentCode)
+      )
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 }
