@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProductSearchPage, SearchConfig } from '@spartacus/core';
+import { ProductSearchPage } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
@@ -11,14 +11,7 @@ import { ProductListComponentService } from './product-list-component.service';
   templateUrl: './product-list.component.html',
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  query: string;
-  categoryCode: string;
-  brandCode: string;
-  itemPerPage: number;
-
   model$: Observable<ProductSearchPage>;
-  searchConfig: SearchConfig = {};
-  options: SearchConfig;
   gridMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
 
   constructor(
