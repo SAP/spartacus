@@ -1,28 +1,16 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import {
-  I18nTestingModule,
-  ProductSearchPage,
-  ProductSearchService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
-import {
-  ListNavigationModule,
-  MediaComponent,
-  PaginationComponent,
-  SortingComponent,
-} from '../../../../shared';
+import { ListNavigationModule, MediaComponent } from '../../../../shared';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
-import {
-  ProductViewComponent,
-  ViewModes,
-} from '../product-view/product-view.component';
+import { ProductViewComponent } from '../product-view/product-view.component';
+import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
 
@@ -44,21 +32,6 @@ class MockPageLayoutService {
   }
 }
 
-class MockProductSearchService {
-  search = createSpy('search');
-  searchResults$ = of();
-
-  getSearchResults(): Observable<ProductSearchPage> {
-    return of();
-  }
-
-  clearSearchResults(): void {}
-}
-class MockActivatedRoute {
-  params = of();
-  snapshot = { queryParams: {} };
-  setParams = params => (this.snapshot.queryParams = params);
-}
 @Component({
   template: '',
   selector: 'cx-product-list-item',
@@ -92,9 +65,19 @@ export class MockAddToCartComponent {
   @Input() showQuantity;
 }
 
+export class MockProductListComponentService {
+  onInit = createSpy('onInit');
+  onDestroy = createSpy('onDestroy');
+  setQuery = createSpy('setQuery');
+  viewPage = createSpy('viewPage');
+  sort = createSpy('sort');
+  getSearchResults = createSpy('getSearchResults').and.returnValue(of());
+}
+
 describe('ProductListComponent in product-list', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
+  let componentService: ProductListComponentService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -107,16 +90,12 @@ describe('ProductListComponent in product-list', () => {
       ],
       providers: [
         {
-          provide: ProductSearchService,
-          useClass: MockProductSearchService,
-        },
-        {
-          provide: ActivatedRoute,
-          useClass: MockActivatedRoute,
-        },
-        {
           provide: PageLayoutService,
           useClass: MockPageLayoutService,
+        },
+        {
+          provide: ProductListComponentService,
+          useClass: MockProductListComponentService,
         },
       ],
       declarations: [
@@ -137,50 +116,19 @@ describe('ProductListComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
+    componentService = TestBed.get(ProductListComponentService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update() method to be defined', done => {
-    expect(component.update).toBeDefined();
-    done();
-  });
-
-  it('should change pages', done => {
-    const pagination = new PaginationComponent();
-    component.query = 'mockQuery';
-    pagination.viewPageEvent.subscribe(event => {
-      expect(event).toEqual(1);
-      component.viewPage(event);
-      expect(component.searchConfig.currentPage).toBe(event);
-      done();
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      component.ngOnInit();
     });
-
-    pagination.pageChange(2);
-  });
-
-  it('should change sortings', done => {
-    const pagination = new SortingComponent();
-    component.query = 'mockQuery';
-    pagination.sortListEvent.subscribe(event => {
-      expect(event).toEqual('sortCode');
-      component.viewPage(event);
-      expect(component.searchConfig.currentPage).toBe(event);
-      done();
+    it('should call service.onInit', () => {
+      expect(componentService.onInit).toHaveBeenCalled();
     });
-
-    pagination.sortList('sortCode');
-  });
-
-  it('should change view mode to grid from default list', done => {
-    const viewMode = new ProductViewComponent();
-    viewMode.modeChange.subscribe(event => {
-      expect(event).toEqual(ViewModes.Grid);
-      done();
-    });
-
-    viewMode.changeMode();
   });
 });

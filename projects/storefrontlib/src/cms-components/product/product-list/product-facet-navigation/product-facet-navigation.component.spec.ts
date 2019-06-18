@@ -13,9 +13,11 @@ import {
   ProductSearchService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 import { ModalService } from '../../../../shared/components/modal/index';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { ProductListComponentService } from '../container/product-list-component.service';
+import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-icon',
@@ -25,19 +27,21 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+export class MockProductListComponentService {
+  setQuery = createSpy('setQuery');
+}
+
 describe('ProductFacetNavigationComponent in product-list', () => {
   let component: ProductFacetNavigationComponent;
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
   let element: DebugElement;
   let service: ProductSearchService;
+  let productListComponentService: ProductListComponentService;
 
   class MockProductSearchService {
-    search = jasmine.createSpy('search');
     getResults(): Observable<ProductSearchPage> {
       return of();
     }
-
-    clearSearchResults(): void {}
   }
   class MockActivatedRoute {
     params = of();
@@ -88,6 +92,10 @@ describe('ProductFacetNavigationComponent in product-list', () => {
           useClass: MockProductSearchService,
         },
         {
+          provide: ProductListComponentService,
+          useClass: MockProductListComponentService,
+        },
+        {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute,
         },
@@ -106,6 +114,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductFacetNavigationComponent);
     component = fixture.componentInstance;
     service = TestBed.get(ProductSearchService);
+    productListComponentService = TestBed.get(ProductListComponentService);
   });
 
   it('should create', () => {
@@ -118,7 +127,9 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   it('should toggle value', () => {
     component.toggleValue('mockQuery');
-    expect(service.search).toHaveBeenCalledWith('mockQuery');
+    expect(productListComponentService.setQuery).toHaveBeenCalledWith(
+      'mockQuery'
+    );
   });
 
   describe('ProductFacetNavigationComponent UI tests', () => {

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
@@ -8,10 +7,7 @@ import * as fromStore from '../store/index';
 
 @Injectable()
 export class ProductSearchService {
-  constructor(
-    protected store: Store<fromStore.StateWithProduct>,
-    protected router: Router
-  ) {}
+  constructor(protected store: Store<fromStore.StateWithProduct>) {}
 
   search(query: string, searchConfig?: SearchConfig): void {
     this.store.dispatch(
