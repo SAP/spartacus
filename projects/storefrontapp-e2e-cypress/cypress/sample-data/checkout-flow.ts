@@ -32,8 +32,10 @@ export const product = {
 };
 
 export const cart = {
-  total: '$2,635.07',
+  total: '$2,623.08',
 };
+
+export const cartTotalAndShipping = '$2,635.07'; // $2,623.08 + $11.99
 
 export const delivery = {
   mode: 'standard-gross',

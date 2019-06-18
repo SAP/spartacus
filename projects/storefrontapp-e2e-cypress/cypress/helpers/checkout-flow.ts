@@ -1,9 +1,16 @@
-import { cart, product, user } from '../sample-data/checkout-flow';
+import {
+  cart,
+  product,
+  user,
+  cartTotalAndShipping,
+} from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
 
 export function signOut() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
 }
 
 export function registerUser() {
@@ -58,7 +65,7 @@ export function fillAddressForm() {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
-    .should('contain', '$2,623.08');
+    .should('contain', cart.total);
 
   fillShippingAddress(user);
 }
@@ -79,7 +86,7 @@ export function fillPaymentForm() {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cart.total);
+    .should('contain', cartTotalAndShipping);
 
   fillPaymentDetails(user);
 }
@@ -102,7 +109,7 @@ export function placeOrder() {
     });
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
-    cart.total
+    cartTotalAndShipping
   );
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -132,14 +139,19 @@ export function verifyOrderConfirmationPage() {
     });
   });
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
-  cy.get('cx-order-summary .cx-summary-amount').should('contain', cart.total);
+  cy.get('cx-order-summary .cx-summary-amount').should(
+    'contain',
+    cartTotalAndShipping
+  );
 }
 
 export function viewOrderHistory() {
-  cy.selectUserMenuOption('Order History');
+  cy.selectUserMenuOption({
+    option: 'Order History',
+  });
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cart.total);
+    .should('contain', cartTotalAndShipping);
 }
