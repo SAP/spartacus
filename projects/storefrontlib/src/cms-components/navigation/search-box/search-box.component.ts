@@ -60,27 +60,8 @@ export class SearchBoxComponent {
 
   results$: Observable<SearchResults> = this.config$.pipe(
     tap(c => (this.config = c)),
-    switchMap(config => this.searchBoxComponentService.getResults(config)),
-    tap(results => {
-      if (this.hasResults(results)) {
-        // Use timeout to render html elements for results
-        setTimeout(() => {
-          const children = this.getResultElements();
-          if (this.resultItems !== children) {
-            this.resultItems = children;
-          }
-        }, 0);
-      }
-    })
+    switchMap(config => this.searchBoxComponentService.getResults(config))
   );
-
-  private hasResults(results: SearchResults): boolean {
-    return (
-      (!!results.products && results.products.length > 0) ||
-      (!!results.suggestions && results.suggestions.length > 0) ||
-      !!results.message
-    );
-  }
 
   /**
    * Returns the backend configuration or default configuration for the searchbox.
@@ -125,6 +106,7 @@ export class SearchBoxComponent {
     this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
   }
 
+  // Check if focus is on searchbox or result list elements
   private isSearchboxFocused(): boolean {
     return this.getResultElements().indexOf(this.getFocusedElement()) === -1 &&
       this.winRef.document.querySelector('input[aria-label="search"]') !==
@@ -172,6 +154,7 @@ export class SearchBoxComponent {
     }
   }
 
+  // Return result list as HTMLElement array
   private getResultElements(): HTMLElement[] {
     const suggestions = this.winRef.document.querySelectorAll(
       'div.suggestions > a'
@@ -185,43 +168,40 @@ export class SearchBoxComponent {
     return <HTMLElement[]>results;
   }
 
+  // Return focused element as HTMLElement
   private getFocusedElement(): HTMLElement {
     return <HTMLElement>this.winRef.document.activeElement;
   }
 
+  // Focus on previous item in results list
   focusPreviousChild(event) {
     event.preventDefault(); // Negate normal keyscroll
     const results = this.getResultElements();
+    const focusedIndex = results.indexOf(this.getFocusedElement());
 
-    let foundElement = false;
-    for (let i = results.length; i > 0; i--) {
-      if (this.getFocusedElement() === results[i]) {
-        results[i - 1].focus();
-        foundElement = true;
-        break;
+    // Focus on last index moving to first
+    if (results.length) {
+      if (focusedIndex < 1) {
+        results[results.length - 1].focus();
+      } else {
+        results[focusedIndex - 1].focus();
       }
-    }
-
-    if (results.length && !foundElement) {
-      results[results.length - 1].focus();
     }
   }
 
+  // Focus on next item in results list
   focusNextChild(event) {
     event.preventDefault(); // Negate normal keyscroll
     const results = this.getResultElements();
+    const focusedIndex = results.indexOf(this.getFocusedElement());
 
-    let foundElement = false;
-    for (let i = 0; i < results.length - 1; i++) {
-      if (this.getFocusedElement() === results[i]) {
-        results[i + 1].focus();
-        foundElement = true;
-        break;
+    // Focus on last index moving to first
+    if (results.length) {
+      if (focusedIndex >= results.length - 1) {
+        results[0].focus();
+      } else {
+        results[focusedIndex + 1].focus();
       }
-    }
-
-    if (results.length && !foundElement) {
-      results[0].focus();
     }
   }
 
