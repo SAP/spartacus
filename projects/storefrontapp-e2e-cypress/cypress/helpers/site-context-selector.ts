@@ -125,7 +125,9 @@ export function siteContextChange(
 ): void {
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
   cy.wait(`@${alias}`);
+  cy.route('GET', `*${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
+  cy.wait('@switchedContext');
 }
 
 export function verifySiteContextChangeUrl(
