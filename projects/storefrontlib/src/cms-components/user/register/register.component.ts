@@ -117,7 +117,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * Change the inputed email to lowercase because
    * the backend only accepts lowercase emails
    */
-  private emailToLowerCase(): void {
+  emailToLowerCase(): void {
     this.userRegistrationForm.value.email = this.userRegistrationForm.value.email.toLowerCase();
   }
 

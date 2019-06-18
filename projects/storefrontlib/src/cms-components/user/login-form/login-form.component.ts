@@ -49,7 +49,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
    * Change the inputed email to lowercase because
    * the backend only accepts lowercase emails
    */
-  private emailToLowerCase() {
+  emailToLowerCase() {
     return this.form.controls.userId.value.toLowerCase();
   }
 
