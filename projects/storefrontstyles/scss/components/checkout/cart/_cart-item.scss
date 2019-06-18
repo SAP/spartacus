@@ -15,18 +15,18 @@
     min-width: 17rem;
 
     .cx-link {
-      color: var(--cx-g-color-text);
+      color: var(--cx-color-text);
       text-decoration: none;
 
       &:hover {
-        color: var(--cx-g-color-primary);
+        color: var(--cx-color-primary);
       }
     }
   }
 
   .cx-code {
     @include type('7');
-    color: var(--cx-g-color-secondary);
+    color: var(--cx-color-secondary);
     padding: 0.625rem 0;
   }
 
@@ -67,12 +67,12 @@
 
     .cx-old {
       text-decoration: line-through;
-      color: var(--cx-g-color-secondary);
+      color: var(--cx-color-secondary);
       padding: 0 1rem 0 0;
     }
 
     .cx-new {
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
   }
 
@@ -98,14 +98,14 @@
 
   .cx-promo {
     @include type('8');
-    color: var(--cx-g-color-success);
+    color: var(--cx-color-success);
     padding: 0.75rem 0;
     margin: 0;
   }
 
   .cx-availability {
     @include type('8');
-    color: var(--cx-g-color-danger);
+    color: var(--cx-color-danger);
     padding: 0.75rem 0;
     margin: 0;
   }
@@ -123,7 +123,7 @@
 
     button.link {
       @include type('8');
-      color: var(--cx-g-color-text);
+      color: var(--cx-color-text);
       border-width: 0;
     }
   }
@@ -163,7 +163,7 @@
 
       button.link {
         @include type('8');
-        color: var(--cx-g-color-text);
+        color: var(--cx-color-text);
       }
     }
   }

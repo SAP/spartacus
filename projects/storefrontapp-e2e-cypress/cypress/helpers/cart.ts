@@ -1,4 +1,5 @@
 import { standardUser } from '../sample-data/shared-users';
+import { apiUrl } from '../support/utils/login';
 import { login } from './auth-forms';
 import { generateMail, randomString } from './user';
 
@@ -118,12 +119,19 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 export function removeAllItemsFromCart() {
   const product0 = products[0];
   const product1 = products[1];
+  cy.server();
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
+  ).as('refresh_cart');
 
   getCartItem(product0.name).within(() => {
     cy.getByText('Remove').click();
   });
 
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (1 item)');
+  cy.wait('@refresh_cart');
+
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
   getCartItem(product1.name).within(() => {
     cy.getByText('Remove').click();

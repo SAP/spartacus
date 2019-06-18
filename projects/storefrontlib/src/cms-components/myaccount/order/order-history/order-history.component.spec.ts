@@ -61,7 +61,9 @@ class MockUserOrderService {
   clearOrderList() {}
 }
 
-class MockRoutingService {}
+class MockRoutingService {
+  go() {}
+}
 
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
@@ -130,8 +132,9 @@ describe('OrderHistoryComponent', () => {
     expect(orders).toEqual(mockOrders);
   });
 
-  xit('should redirect when clicking on order id', () => {
+  it('should redirect when clicking on order id', () => {
     spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
+    spyOn(routingService, 'go').and.stub();
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -142,6 +145,7 @@ describe('OrderHistoryComponent', () => {
     rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
       expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'orderDetails',
         params: mockOrders.orders[1],
       });
     });

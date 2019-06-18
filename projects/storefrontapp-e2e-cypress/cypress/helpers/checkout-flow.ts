@@ -69,19 +69,18 @@ export function fillAddressForm() {
 }
 
 export function chooseDeliveryMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').check({ force: true });
-  cy.get('button.btn-primary').click();
-}
-
-export function fillPaymentForm() {
   cy.server();
   cy.route(
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('#deliveryMode-standard-gross').check({ force: true });
+  cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage');
+}
 
+export function fillPaymentForm() {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
@@ -112,7 +111,11 @@ export function placeOrder() {
   );
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
-    .should('have.attr', 'href', '/electronics-spa/en/USD/termsAndConditions');
+    .should(
+      'have.attr',
+      'href',
+      '/electronics-spa/en/USD/terms-and-conditions'
+    );
   cy.get('.form-check-input').check();
   cy.get('cx-place-order button.btn-primary').click();
 }
