@@ -5,7 +5,6 @@ import { AuthService, UserToken } from '../../auth';
 import * as fromCart from '../../cart/store';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { BaseSiteService } from '../../site-context';
 import { StateWithCart } from '../store/cart-state';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
@@ -18,12 +17,6 @@ class CartDataServiceStub {
 
 class AuthServiceStub {
   getUserToken(): Observable<UserToken> {
-    return of();
-  }
-}
-
-class BaseSiteServiceSub {
-  getActive(): Observable<string> {
     return of();
   }
 }
@@ -51,7 +44,6 @@ describe('CartService', () => {
         CartService,
         { provide: CartDataService, useClass: CartDataServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
-        { provide: BaseSiteService, useClass: BaseSiteServiceSub },
       ],
     });
 

@@ -5,7 +5,6 @@ import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { BaseSiteService } from '../../site-context/index';
 import * as fromAction from '../store/actions';
 import { StateWithCart } from '../store/cart-state';
 import * as fromSelector from '../store/selectors';
@@ -18,8 +17,7 @@ export class CartService {
   constructor(
     protected store: Store<StateWithCart>,
     protected cartData: CartDataService,
-    protected authService: AuthService,
-    protected baseSiteService: BaseSiteService
+    protected authService: AuthService
   ) {}
 
   getActive(): Observable<Cart> {

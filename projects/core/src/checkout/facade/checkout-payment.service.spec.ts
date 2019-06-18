@@ -7,7 +7,7 @@ import { CheckoutPaymentService } from './checkout-payment.service';
 
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
-  let cartData: CartDataService;
+  let cartData: CartDataServiceStub;
   let store: Store<fromCheckout.CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -40,8 +40,8 @@ describe('CheckoutPaymentService', () => {
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
 
-    Object.defineProperty(cartData, 'userId', { value: userId });
-    Object.defineProperty(cartData, 'cart', { value: cart });
+    cartData.userId = userId;
+    cartData.cart = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
