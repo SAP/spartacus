@@ -1,4 +1,5 @@
 import { standardUser } from '../sample-data/shared-users';
+import { apiUrl } from '../support/utils/login';
 import { login } from './auth-forms';
 import { generateMail, randomString } from './user';
 
@@ -80,11 +81,19 @@ export function addProductToCartViaSearchPage(mobile) {
 }
 
 export function removeAllItemsFromCart() {
+  cy.server();
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
+  ).as('refresh_cart');
+
   getCartItem('PowerShot A480').within(() => {
     cy.getByText('Remove').click();
   });
 
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (1 item)');
+  cy.wait('@refresh_cart');
+
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
   getCartItem('Photosmart E317 Digital Camera').within(() => {
     cy.getByText('Remove').click();
