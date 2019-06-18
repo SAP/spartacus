@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
-import { BaseSiteService } from '../../../site-context/index';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import * as fromEntryActions from '../actions/cart-entry.action';
@@ -27,31 +27,24 @@ export class CartEffects {
         userId: (payload && payload.userId) || this.cartData.userId,
         cartId: (payload && payload.cartId) || this.cartData.cartId,
         details:
-          payload && payload.details !== undefined
-            ? payload.details
-            : this.cartData.getDetails,
+          payload && payload.details !== undefined ? payload.details : true,
       };
 
       if (this.isMissingData(loadCartParams)) {
         return of(new fromActions.LoadCartFail({}));
       }
-      return this.baseSiteService.getActive().pipe(
-        filter(active => !!active),
-        switchMap(() => {
-          return this.cartConnector
-            .load(
-              loadCartParams.userId,
-              loadCartParams.cartId,
-              loadCartParams.details
-            )
-            .pipe(
-              map((cart: Cart) => {
-                return new fromActions.LoadCartSuccess(cart);
-              }),
-              catchError(error => of(new fromActions.LoadCartFail(error)))
-            );
-        })
-      );
+      return this.cartConnector
+        .load(
+          loadCartParams.userId,
+          loadCartParams.cartId,
+          loadCartParams.details
+        )
+        .pipe(
+          map((cart: Cart) => {
+            return new fromActions.LoadCartSuccess(cart);
+          }),
+          catchError(error => of(new fromActions.LoadCartFail(error)))
+        );
     })
   );
 
@@ -116,26 +109,33 @@ export class CartEffects {
           | fromEntryActions.AddEntrySuccess
           | fromEntryActions.UpdateEntrySuccess
           | fromEntryActions.RemoveEntrySuccess
-      ) => {
-        console.log(action);
-        return action.payload;
-      }
+      ) => action.payload
     ),
-    map(payload => {
-      console.log('tea', payload);
-      return new fromActions.LoadCart({
-        userId: payload.userId,
-        cartId: payload.cartId,
-        details: true,
-      });
-    })
+    map(
+      payload =>
+        new fromActions.LoadCart({
+          userId: payload.userId,
+          cartId: payload.cartId,
+          details: true,
+        })
+    )
+  );
+
+  @Effect()
+  resetCartDetailsOnSiteContextChange$: Observable<
+    fromActions.ResetCartDetails
+  > = this.actions$.pipe(
+    ofType(
+      fromSiteContextActions.LANGUAGE_CHANGE,
+      fromSiteContextActions.CURRENCY_CHANGE
+    ),
+    map(() => new fromActions.ResetCartDetails())
   );
 
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
-    private cartData: CartDataService,
-    private baseSiteService: BaseSiteService
+    private cartData: CartDataService
   ) {}
 
   private isMissingData(payload) {

@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ANONYMOUS_USERID, CartDataService } from '@spartacus/core';
+import { CartDataService } from '@spartacus/core';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
 import * as fromCheckout from '../store/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -20,7 +20,7 @@ describe('CheckoutPaymentService', () => {
     userId;
     cart;
     get cartId() {
-      return this.userId === ANONYMOUS_USERID ? cart.guid : cart.code;
+      return this.cart.code;
     }
   }
 
@@ -39,6 +39,9 @@ describe('CheckoutPaymentService', () => {
     service = TestBed.get(CheckoutPaymentService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
+
+    Object.defineProperty(cartData, 'userId', { value: userId });
+    Object.defineProperty(cartData, 'cart', { value: cart });
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -89,9 +92,6 @@ describe('CheckoutPaymentService', () => {
   });
 
   it('should be able to create payment details', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.createPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -104,9 +104,6 @@ describe('CheckoutPaymentService', () => {
   });
 
   it('should set payment details', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.setPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(

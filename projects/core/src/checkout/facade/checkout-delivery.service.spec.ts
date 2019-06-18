@@ -1,7 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartDataService } from '@spartacus/core';
-import { ANONYMOUS_USERID } from '../../cart';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
 import { DeliveryMode } from '../../model/order.model';
@@ -19,7 +18,7 @@ describe('CheckoutDeliveryService', () => {
     userId;
     cart;
     get cartId() {
-      return this.userId === ANONYMOUS_USERID ? cart.guid : cart.code;
+      return this.cart.code;
     }
   }
 
@@ -48,6 +47,9 @@ describe('CheckoutDeliveryService', () => {
     service = TestBed.get(CheckoutDeliveryService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
+
+    Object.defineProperty(cartData, 'userId', { value: userId });
+    Object.defineProperty(cartData, 'cart', { value: cart });
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -138,9 +140,6 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to create and set address to cart', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.createAndSetAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -153,9 +152,6 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to load the supported delivery modes', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.loadSupportedDeliveryModes();
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -167,9 +163,6 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to set the delivery mode', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     const modeId = 'testId';
     service.setDeliveryMode(modeId);
 
@@ -183,9 +176,6 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should load address verification results', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.verifyAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -197,8 +187,6 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should set delivery address', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
     service.setDeliveryAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(

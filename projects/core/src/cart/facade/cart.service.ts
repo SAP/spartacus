@@ -25,12 +25,18 @@ export class CartService {
   getActive(): Observable<Cart> {
     return combineLatest(
       this.store.select(fromSelector.getCartContent),
-      this.store.select(fromSelector.getLoading),
+      this.store.select(fromSelector.getCartLoading),
       this.authService.getUserToken()
     ).pipe(
+      // combineLatest emits multiple times on each property update instead of one emit
+      // additionally dispatching actions that changes selectors used here needs to happen in order
+      // for this asyncScheduler is used here
       debounceTime(1, asyncScheduler),
       tap(([cart, loading, userToken]) => {
         if (
+          // we are only interested in case when we switch from not logged user to logged
+          // we skip the first execution when loading data to store by checking initial value
+          // check for undefined is used to ignore this action on logout
           this.prevCartUserId !== null &&
           this.prevCartUserId !== userToken.userId &&
           typeof userToken.userId !== 'undefined' &&
@@ -39,7 +45,7 @@ export class CartService {
           this.loadOrMerge();
         }
         if (!loading && !this.isLoaded(cart)) {
-          this.loadDetails(cart);
+          this.loadDetails();
         }
         this.prevCartUserId = userToken.userId;
       }),
@@ -52,7 +58,7 @@ export class CartService {
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.store.pipe(select(fromSelector.getEntries));
+    return this.store.pipe(select(fromSelector.getCartEntries));
   }
 
   getCartMergeComplete(): Observable<boolean> {
@@ -60,11 +66,10 @@ export class CartService {
   }
 
   getLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromSelector.getLoaded));
+    return this.store.pipe(select(fromSelector.getCartLoaded));
   }
 
   protected loadOrMerge(): void {
-    this.cartData.getDetails = true;
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
     if (this.cartData.userId !== ANONYMOUS_USERID) {
@@ -88,20 +93,20 @@ export class CartService {
     }
   }
 
-  loadDetails(cart: Cart): void {
+  loadDetails(): void {
     if (this.cartData.userId !== ANONYMOUS_USERID) {
       this.store.dispatch(
         new fromAction.LoadCart({
           userId: this.cartData.userId,
-          cartId: cart.code ? cart.code : 'current',
+          cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
           details: true,
         })
       );
-    } else if (cart.guid) {
+    } else if (this.cartData.cartId) {
       this.store.dispatch(
         new fromAction.LoadCart({
           userId: this.cartData.userId,
-          cartId: cart.guid,
+          cartId: this.cartData.cartId,
           details: true,
         })
       );
@@ -171,7 +176,7 @@ export class CartService {
 
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
-      select(fromSelector.getEntrySelectorFactory(productCode))
+      select(fromSelector.getCartEntrySelectorFactory(productCode))
     );
   }
 

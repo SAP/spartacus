@@ -107,8 +107,9 @@ describe('CartService', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = userId;
       cartData.cart = cart;
+      cartData.cartId = cart.code;
 
-      service.loadDetails(cart);
+      service.loadDetails();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
@@ -125,7 +126,7 @@ describe('CartService', () => {
       cartData.userId = ANONYMOUS_USERID;
       cartData.cartId = cart.guid;
 
-      service.loadDetails(cart);
+      service.loadDetails();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
@@ -140,7 +141,7 @@ describe('CartService', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = ANONYMOUS_USERID;
 
-      service.loadDetails({ ...cart, guid: null });
+      service.loadDetails();
 
       expect(store.dispatch).not.toHaveBeenCalled();
     });

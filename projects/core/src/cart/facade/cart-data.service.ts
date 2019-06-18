@@ -12,7 +12,6 @@ export const ANONYMOUS_USERID = 'anonymous';
 export class CartDataService {
   private _userId = ANONYMOUS_USERID;
   private _cart: Cart;
-  private _getDetails = false;
 
   constructor(
     protected store: Store<StateWithCart>,
@@ -23,30 +22,18 @@ export class CartDataService {
       .pipe(filter(userToken => this.userId !== userToken.userId))
       .subscribe(userToken => {
         if (Object.keys(userToken).length !== 0) {
-          this.userId = userToken.userId;
+          this._userId = userToken.userId;
         } else {
-          this.userId = ANONYMOUS_USERID;
+          this._userId = ANONYMOUS_USERID;
         }
       });
     this.store.pipe(select(fromSelector.getCartContent)).subscribe(cart => {
-      this.cart = cart;
+      this._cart = cart;
     });
   }
 
   get hasCart(): boolean {
     return !!this._cart;
-  }
-
-  set userId(val) {
-    this._userId = val;
-  }
-
-  set cart(val) {
-    this._cart = val;
-  }
-
-  set getDetails(val) {
-    this._getDetails = val;
   }
 
   get userId(): string {
@@ -55,10 +42,6 @@ export class CartDataService {
 
   get cart(): Cart {
     return this._cart;
-  }
-
-  get getDetails() {
-    return this._getDetails;
   }
 
   get cartId(): string {

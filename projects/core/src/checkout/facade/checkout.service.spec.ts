@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ANONYMOUS_USERID, CartDataService } from '@spartacus/core';
+import { CartDataService } from '@spartacus/core';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
 import * as fromCheckout from '../store/index';
@@ -17,7 +17,7 @@ describe('CheckoutService', () => {
     userId;
     cart;
     get cartId() {
-      return this.userId === ANONYMOUS_USERID ? cart.guid : cart.code;
+      return this.cart.code;
     }
   }
 
@@ -36,6 +36,9 @@ describe('CheckoutService', () => {
     service = TestBed.get(CheckoutService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
+
+    Object.defineProperty(cartData, 'userId', { value: userId });
+    Object.defineProperty(cartData, 'cart', { value: cart });
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -61,9 +64,6 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to place order', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.placeOrder();
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -90,7 +90,6 @@ describe('CheckoutService', () => {
 
   it('should be able to load checkout details', () => {
     const cartId = cart.code;
-    cartData.userId = userId;
     service.loadCheckoutDetails(cartId);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.LoadCheckoutDetails({ userId, cartId })
