@@ -7,7 +7,9 @@ import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
 
 class MockCarouselService {
-  getSize(_nativeElement: HTMLElement, _itemWidth: number) {}
+  getSize(_nativeElement: HTMLElement, _itemWidth: number) {
+    return of();
+  }
 }
 
 @Pipe({
@@ -35,7 +37,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-fdescribe('Carousel Component', () => {
+describe('Carousel Component', () => {
   let component: CarouselComponent;
   let fixture: ComponentFixture<CarouselComponent>;
   let service: CarouselService;
@@ -68,7 +70,12 @@ fdescribe('Carousel Component', () => {
 
   it('should call ngOnInit to get the size', () => {
     spyOn(service, 'getSize').and.returnValue(of(4));
+
+    let results: number;
+
     component.ngOnInit();
-    component.size$.subscribe(value => expect(value).toEqual(4));
+    component.size$.subscribe(value => (results = value)).unsubscribe();
+
+    expect(results).toEqual(4);
   });
 });
