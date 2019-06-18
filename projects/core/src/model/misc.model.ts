@@ -68,11 +68,11 @@ export interface ErrorModel {
 }
 
 export interface HttpErrorModel {
-  message: string;
-  error: any | null;
-  status: number;
-  statusText: string;
-  url: string | null;
+  message?: string;
+  error?: any | null;
+  status?: number;
+  statusText?: string;
+  url?: string | null;
 }
 
 export interface BaseSite {

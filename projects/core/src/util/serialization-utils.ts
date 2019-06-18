@@ -3,7 +3,7 @@ import { HttpErrorModel } from '../model/misc.model';
 
 export function makeHttpErrorSerializable(
   error: HttpErrorResponse | any
-): HttpErrorModel | {} {
+): HttpErrorModel {
   if (!(error instanceof HttpErrorResponse) || !error) {
     return error;
   }
