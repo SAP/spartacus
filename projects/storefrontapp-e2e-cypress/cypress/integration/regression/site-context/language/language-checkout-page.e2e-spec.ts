@@ -68,9 +68,7 @@ describe('Language switch - checkout page', () => {
     });
 
     it('should change language in the checkoutReviewPath page', () => {
-      cy.get('cx-review-submit .cx-link')
-        .invoke('text')
-        .should('contains', deutschName);
+      cy.get('cx-review-submit .cx-link').should('contain', deutschName);
     });
   });
 });
