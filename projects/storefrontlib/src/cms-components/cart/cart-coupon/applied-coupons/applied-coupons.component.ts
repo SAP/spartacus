@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Voucher } from 'projects/backend/occ-client/lib/models';
+import { Voucher } from '@spartacus/core';
+
 
 @Component({
   selector: 'cx-applied-coupons',

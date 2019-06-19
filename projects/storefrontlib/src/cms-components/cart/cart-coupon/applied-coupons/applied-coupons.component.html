@@ -1,6 +1,4 @@
-<div class="cx-promotions" *ngIf="vouchers">
-  Coupons:
-  <strong *ngFor="let v of vouchers; let isLast = last">
-    {{ v.code }}{{ v.code }}{{ isLast ? '' : ', ' }}
-  </strong>
+<div class="cx-cart-coupons cx-promotions" *ngIf="vouchers">
+  {{ 'cartCoupon.coupon' | cxTranslate }}
+  <div *ngFor="let v of vouchers">{{ v.code }}</div>
 </div>

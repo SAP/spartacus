@@ -14,7 +14,7 @@ export const defaultI18nConfig: I18nConfig = {
         'httpHandlers',
         'pageMetaResolver',
       ],
-      cart: ['cartDetails', 'cartItems', 'orderCost', 'miniCart'],
+      cart: ['cartDetails', 'cartItems', 'orderCost', 'miniCart', 'cartCoupon'],
       address: ['addressForm', 'addressBook', 'addressCard'],
       payment: ['paymentForm', 'paymentMethods', 'paymentCard'],
       myAccount: ['orderDetails', 'orderHistory', 'closeAccount'],

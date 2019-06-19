@@ -13,7 +13,11 @@
         [cartIsLoading]="!(cartLoaded$ | async)"
       ></cx-cart-item-list>
 
-      <cx-cart-coupon [cart]="cart" [guid]="cart.guid"></cx-cart-coupon>
+      <cx-cart-coupon
+        [cart]="cart"
+        [guid]="cart.guid"
+        [cartIsLoading]="!(cartLoaded$ | async)"
+      ></cx-cart-coupon>
     </div>
   </ng-container>
 </ng-container>

@@ -2,7 +2,7 @@
 <div class="row col-md-8">
   <label>
     <span class="label-content">
-      coupon
+      {{ 'cartCoupon.couponLabel' | cxTranslate }}
     </span>
   </label>
 </div>
@@ -13,35 +13,35 @@
         type="text"
         class="form-control"
         formControlName="couponCode"
-        placeholder="Enter coupon code"
+        placeholder="{{ 'cartCoupon.placeholder' | cxTranslate }}"
       />
     </div>
     <div class="col-md-4">
       <button
         class="btn btn-block btn-action"
         type="submit"
-        [disabled]="!disableBtn && cartIsLoading"
+        [disabled]="!disableBtn || cartIsLoading"
         [class.disabled]="cartIsLoading"
       >
-        Apply
+        {{ 'cartCoupon.apply' | cxTranslate }}
       </button>
     </div>
   </div>
 </form>
 
 <ng-container *ngIf="cart.appliedVouchers as vouchers">
-  <div *ngFor="let v of vouchers" class="row">
-    <div *ngIf="!isReadOnly" class="cx-actions col-12">
+  <div *ngFor="let v of vouchers" class="row cx-actions col-12">
+    <span class="label-content">
       {{ v.code }}
-
-      <button
-        class="link"
-        [class.disabled]="cartIsLoading"
-        [disabled]="cartIsLoading"
-        (click)="removeVoucher(v.code)"
-      >
-        {{ 'common.remove' | cxTranslate }}
-      </button>
-    </div>
+    </span>
+    <span *ngIf="v.name" class="label-content"> - {{ v.name }} </span>
+    <button
+      class="link"
+      [class.disabled]="cartIsLoading"
+      [disabled]="cartIsLoading"
+      (click)="removeVoucher(v.code)"
+    >
+      {{ 'cartCoupon.remove' | cxTranslate }}
+    </button>
   </div>
 </ng-container>

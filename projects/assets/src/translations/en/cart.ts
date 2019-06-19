@@ -28,4 +28,11 @@ export const cart = {
     item: '{{count}} item currently in your cart',
     item_plural: '{{count}} items currently in your cart',
   },
+  cartCoupon: {
+    coupon: 'Coupons:',
+    apply: 'Apply',
+    couponLabel: 'COUPON',
+    placeholder: 'Enter coupon code',
+    remove: 'REMOVE',
+  }
 };
