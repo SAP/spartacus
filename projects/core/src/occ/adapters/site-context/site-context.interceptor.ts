@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
   HttpEvent,
+  HttpHandler,
   HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
-import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { SiteContextConfig } from '../../../site-context/config/site-context-config';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
-  activeLang: string = this.config.site.language;
-  activeCurr: string = this.config.site.currency;
+  activeLang: string = this.config.context.parameters.language.default;
+  activeCurr: string = this.config.context.parameters.language.default;
 
   constructor(
     private languageService: LanguageService,
     private currencyService: CurrencyService,
     private occEndpoints: OccEndpointsService,
-    private config: OccConfig
+    private config: SiteContextConfig
   ) {
     this.languageService
       .getActive()

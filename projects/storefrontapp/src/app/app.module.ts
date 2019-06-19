@@ -38,17 +38,17 @@ if (!environment.production) {
           legacy: false,
         },
       },
-      siteContext: {
-        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
+      context: {
+        urlEncodingParameters: ['baseSite', 'language', 'currency'],
         parameters: {
-          BASE_SITE: {
+          baseSite: {
             values: [
               'electronics-spa',
               'electronics',
               'apparel-de',
               'apparel-uk',
             ],
-            defaultValue: 'electronics-spa',
+            default: 'electronics-spa',
             persistence: 'route',
           },
         },

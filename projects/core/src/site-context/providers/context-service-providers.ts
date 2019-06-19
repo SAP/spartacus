@@ -3,17 +3,26 @@ import { LanguageService } from '../facade/language.service';
 import { CurrencyService } from '../facade/currency.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { BaseSiteService } from '../facade/base-site.service';
+import { SiteContextConfig } from '../config/site-context-config';
 
 export function inititializeContext(
-  config: OccConfig,
+  config: SiteContextConfig,
   baseSiteService: BaseSiteService,
   langService: LanguageService,
   currService: CurrencyService
 ) {
   return () => {
-    baseSiteService.initialize(config.site.baseSite);
-    langService.initialize(config.site.language);
-    currService.initialize(config.site.currency);
+    const contextParams = config.context && config.context.parameters;
+
+    baseSiteService.initialize(
+      contextParams.baseSite && contextParams.baseSite.default
+    );
+    langService.initialize(
+      contextParams.language && contextParams.language.default
+    );
+    currService.initialize(
+      contextParams.currency && contextParams.currency.default
+    );
   };
 }
 
