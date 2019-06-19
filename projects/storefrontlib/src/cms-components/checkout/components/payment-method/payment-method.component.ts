@@ -65,6 +65,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
 
+    this.getDeliveryAddressSub = this.checkoutDeliveryService
+      .getDeliveryAddress()
+      .subscribe((address: Address) => {
+        this.deliveryAddress = address;
+      });
+
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
     this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
@@ -156,11 +162,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     paymentDetails: PaymentDetails;
     billingAddress: Address;
   }): void {
-    this.getDeliveryAddressSub = this.checkoutDeliveryService
-      .getDeliveryAddress()
-      .subscribe(address => {
-        billingAddress = address;
-      });
     this.addPaymentInfo({
       payment: paymentDetails,
       billingAddress,
