@@ -1,12 +1,18 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
 import {
   CheckoutState,
   CHECKOUT_DETAILS,
   CheckoutStepsState,
 } from '../checkout-state';
+import * as fromAction from '../actions/index';
+import { LOGOUT } from '../../../auth/store/actions/index';
+import {
+  CURRENCY_CHANGE,
+  LANGUAGE_CHANGE,
+} from '../../../site-context/store/actions/index';
 
 import * as fromAddressVerification from './address-verification.reducer';
 import * as fromCardTypes from './card-types.reducer';
@@ -32,3 +38,27 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
+
+export function clearCheckoutState(
+  reducer: ActionReducer<CheckoutState>
+): ActionReducer<CheckoutState> {
+  return function(state, action) {
+    switch (action.type) {
+      case LANGUAGE_CHANGE: {
+        action = new fromAction.CheckoutClearMiscsData();
+        break;
+      }
+      case CURRENCY_CHANGE: {
+        action = new fromAction.ClearSupportedDeliveryModes();
+        break;
+      }
+      case LOGOUT: {
+        action = new fromAction.ClearCheckoutData();
+        break;
+      }
+    }
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<CheckoutState>[] = [clearCheckoutState];

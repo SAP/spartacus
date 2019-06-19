@@ -4,8 +4,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
-import * as fromAuthActions from '../../../auth/store/actions/index';
 import * as fromUserActions from '../../../user/store/actions/index';
 import * as fromCartActions from './../../../cart/store/actions/index';
 import { AddMessage } from '../../../global-message/index';
@@ -13,7 +11,6 @@ import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
-import { CartDataService } from '../../../cart/facade/cart-data.service';
 
 @Injectable()
 export class CheckoutEffects {
@@ -88,47 +85,6 @@ export class CheckoutEffects {
           )
         );
     })
-  );
-
-  @Effect()
-  reloadSupportedDeliveryModesOnSiteContextChange$: Observable<
-    any
-  > = this.actions$.pipe(
-    ofType(
-      fromActions.CHECKOUT_CLEAR_MISCS_DATA,
-      fromActions.CLEAR_SUPPORTED_DELIVERY_MODES
-    ),
-    map(
-      () =>
-        new fromActions.LoadSupportedDeliveryModes({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-        })
-    )
-  );
-
-  @Effect()
-  clearCheckoutMiscsDataOnLanguageChange$: Observable<
-    fromActions.CheckoutClearMiscsData
-  > = this.actions$.pipe(
-    ofType(fromSiteContextActions.LANGUAGE_CHANGE),
-    map(() => new fromActions.CheckoutClearMiscsData())
-  );
-
-  @Effect()
-  clearDeliveryModesOnCurrencyChange$: Observable<
-    fromActions.ClearSupportedDeliveryModes
-  > = this.actions$.pipe(
-    ofType(fromSiteContextActions.CURRENCY_CHANGE),
-    map(() => new fromActions.ClearSupportedDeliveryModes())
-  );
-
-  @Effect()
-  clearCheckoutDataOnLogout$: Observable<
-    fromActions.ClearCheckoutData
-  > = this.actions$.pipe(
-    ofType(fromAuthActions.LOGOUT),
-    map(() => new fromActions.ClearCheckoutData())
   );
 
   @Effect()
@@ -256,7 +212,6 @@ export class CheckoutEffects {
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
-    private checkoutConnector: CheckoutConnector,
-    private cartData: CartDataService
+    private checkoutConnector: CheckoutConnector
   ) {}
 }
