@@ -10,7 +10,7 @@ import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { BaseSiteService } from './base-site.service';
 import createSpy = jasmine.createSpy;
 
-fdescribe('BaseSiteService', () => {
+describe('BaseSiteService', () => {
   let service: BaseSiteService;
   const mockBaseSite = 'mock-base-site';
   const mockBaseSiteSelect = createSpy('select').and.returnValue(() =>
