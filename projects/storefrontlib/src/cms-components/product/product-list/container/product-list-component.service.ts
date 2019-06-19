@@ -60,7 +60,6 @@ export class ProductListComponentService {
       return x.state.url === y.state.url;
     }),
     tap(({ state }) => {
-      debugger;
       const criteria = this.getCriteriaFromRoute(
         state.params,
         state.queryParams
