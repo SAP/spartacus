@@ -141,7 +141,7 @@ export class ProductListComponentService {
   }
 
   setQuery(query: string): void {
-    this.setQueryParams({ query });
+    this.setQueryParams({ query, currentPage: undefined });
   }
 
   viewPage(pageNumber: number): void {
@@ -149,7 +149,7 @@ export class ProductListComponentService {
   }
 
   sort(sortCode: string): void {
-    this.setQueryParams({ sortCode });
+    this.setQueryParams({ sortCode, currentPage: undefined });
   }
 
   private setQueryParams(queryParams: SearchCriteria): void {

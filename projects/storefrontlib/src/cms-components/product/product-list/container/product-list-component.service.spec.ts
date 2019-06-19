@@ -59,10 +59,10 @@ describe('ProductListComponentService', () => {
     productSearchService = TestBed.get(ProductSearchService);
   });
 
-  it('setQuery should set query param "query" in the url', () => {
+  it('setQuery should set query param "query" in the url and reset "currentPage"', () => {
     service.setQuery('testQuery');
     expect(router.navigate).toHaveBeenCalledWith([], {
-      queryParams: { query: 'testQuery' },
+      queryParams: { query: 'testQuery', currentPage: undefined },
       queryParamsHandling: 'merge',
       relativeTo: activatedRoute,
     });
@@ -77,10 +77,10 @@ describe('ProductListComponentService', () => {
     });
   });
 
-  it('sort should set query param "sortCode" in the url', () => {
+  it('sort should set query param "sortCode" in the url and reset "currentPage"', () => {
     service.sort('testSortCode');
     expect(router.navigate).toHaveBeenCalledWith([], {
-      queryParams: { sortCode: 'testSortCode' },
+      queryParams: { sortCode: 'testSortCode', currentPage: undefined },
       queryParamsHandling: 'merge',
       relativeTo: activatedRoute,
     });
