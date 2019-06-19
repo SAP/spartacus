@@ -32,7 +32,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    let userId = this.emailToLowerCase();
+    const userId = this.emailToLowerCase();
     this.auth.authorize(userId, this.form.controls.password.value);
 
     if (!this.sub) {
