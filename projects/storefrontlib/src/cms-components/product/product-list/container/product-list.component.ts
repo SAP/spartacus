@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductSearchPage } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { ProductListComponentService } from './product-list-component.service';
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
 })
-export class ProductListComponent implements OnInit, OnDestroy {
+export class ProductListComponent implements OnInit {
   model$: Observable<ProductSearchPage>;
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
@@ -21,8 +21,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.productListComponentService.onInit();
-    this.model$ = this.productListComponentService.getSearchResults();
+    this.productListComponentService.clearResults();
+    this.model$ = this.productListComponentService.model$;
 
     this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
       this.viewMode$.next(
@@ -41,9 +41,5 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   setViewMode(mode: ViewModes): void {
     this.viewMode$.next(mode);
-  }
-
-  ngOnDestroy() {
-    this.productListComponentService.onDestroy();
   }
 }

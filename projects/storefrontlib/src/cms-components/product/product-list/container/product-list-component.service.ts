@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  ProductSearchPage,
   ProductSearchService,
   RoutingService,
   SearchConfig,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  tap,
+} from 'rxjs/operators';
 import { SearchResults } from '../../../navigation';
 
 interface ProductListRouteParams {
@@ -38,25 +45,44 @@ export class ProductListComponentService {
     protected router: Router
   ) {}
 
-  onInit() {
-    this.productSearchService.clearResults();
+  private searchResults$: Observable<
+    ProductSearchPage
+  > = this.productSearchService
+    .getResults()
+    .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
 
-    this.sub = this.routing
-      .getRouterState()
-      .pipe(
-        distinctUntilChanged((x, y) => {
-          // router emits new value also when the anticipated `nextState` changes
-          // but we want to perform search only when current url changes
-          return x.state.url === y.state.url;
-        })
-      )
-      .subscribe(({ state }) => {
-        const criteria = this.getCriteriaFromRoute(
-          state.params,
-          state.queryParams
-        );
-        this.search(criteria);
-      });
+  private searchByRouting$: Observable<
+    any
+  > = this.routing.getRouterState().pipe(
+    distinctUntilChanged((x, y) => {
+      // router emits new value also when the anticipated `nextState` changes
+      // but we want to perform search only when current url changes
+      return x.state.url === y.state.url;
+    }),
+    tap(({ state }) => {
+      debugger;
+      const criteria = this.getCriteriaFromRoute(
+        state.params,
+        state.queryParams
+      );
+      this.search(criteria);
+    })
+  );
+
+  private _model$: Observable<ProductSearchPage> = combineLatest(
+    this.searchResults$,
+    this.searchByRouting$
+  ).pipe(
+    map(([searchResults]) => searchResults),
+    shareReplay()
+  );
+
+  get model$() {
+    return this._model$;
+  }
+
+  clearResults(): void {
+    this.productSearchService.clearResults();
   }
 
   private getCriteriaFromRoute(
@@ -131,11 +157,5 @@ export class ProductListComponentService {
       queryParamsHandling: 'merge',
       relativeTo: this.activatedRoute,
     });
-  }
-
-  onDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
   }
 }
