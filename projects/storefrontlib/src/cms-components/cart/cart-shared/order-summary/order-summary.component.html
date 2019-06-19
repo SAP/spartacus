@@ -21,7 +21,6 @@
       }}
     </div>
   </div>
-  <cx-applied-coupons [cart]="cart" [readonly]="true"></cx-applied-coupons>
   <div class="cx-summary-row cx-summary-savings">
     <div class="col-6 cx-summary-label">
       {{ 'orderCost.discount' | cxTranslate }}
@@ -47,5 +46,5 @@
     </div>
   </div>
 </div>
-
+<cx-applied-coupons [vouchers]="cart.appliedVouchers"></cx-applied-coupons>
 <cx-promotions [promotions]="cart.appliedOrderPromotions"></cx-promotions>

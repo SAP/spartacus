@@ -1,4 +1,3 @@
-
 <br />
 <div class="row col-md-8">
   <label>
@@ -18,10 +17,31 @@
       />
     </div>
     <div class="col-md-4">
-      <button class="btn btn-block btn-action" type="submit">
+      <button
+        class="btn btn-block btn-action"
+        type="submit"
+        [disabled]="!disableBtn && cartIsLoading"
+        [class.disabled]="cartIsLoading"
+      >
         Apply
       </button>
     </div>
   </div>
 </form>
-<cx-applied-coupons [cart]="cart"></cx-applied-coupons>
+
+<ng-container *ngIf="cart.appliedVouchers as vouchers">
+  <div *ngFor="let v of vouchers" class="row">
+    <div *ngIf="!isReadOnly" class="cx-actions col-12">
+      {{ v.code }}
+
+      <button
+        class="link"
+        [class.disabled]="cartIsLoading"
+        [disabled]="cartIsLoading"
+        (click)="removeVoucher(v.code)"
+      >
+        {{ 'common.remove' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

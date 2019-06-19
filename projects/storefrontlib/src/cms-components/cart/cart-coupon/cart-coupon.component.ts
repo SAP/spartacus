@@ -5,6 +5,8 @@ import {
   AuthService,
   Cart,
   CartService,
+  GlobalMessageService,
+  GlobalMessageType,
   OccEndpointsService,
   Order,
 } from '@spartacus/core';
@@ -18,12 +20,16 @@ import { map } from 'rxjs/operators';
 export class CartCouponComponent implements OnInit {
   form: FormGroup;
   vouchers$: Observable<any>;
+  disableBtn: boolean;
 
   @Input()
   cart: Cart | Order;
   @Input()
   guid: string;
-
+  @Input()
+  isReadOnly = false;
+  @Input()
+  cartIsLoading = false;
   userId: string;
 
   constructor(
@@ -31,7 +37,8 @@ export class CartCouponComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthService,
     private occEndpoints: OccEndpointsService,
-    private cartService: CartService
+    private cartService: CartService,
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {
@@ -42,6 +49,10 @@ export class CartCouponComponent implements OnInit {
       .getUserToken()
       .pipe(map(token => token.userId))
       .subscribe(userId => (this.userId = userId));
+
+    this.form.valueChanges.subscribe(() => {
+      this.disableBtn = this.form.valid;
+    });
   }
 
   apply(): void {
@@ -52,10 +63,26 @@ export class CartCouponComponent implements OnInit {
     this.http
       .post(this.getEndpoint(this.userId, this.cart.code), {}, { params })
       .subscribe(() => this.cartService.loadDetails());
+
+    this.globalMessageService.add(
+      { key: 'You have applied a coupon. need to confirm with shuan.' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+
+    //check if the apply action success, then we reset the form.
+    this.form.reset();
   }
 
-  getEndpoint(userId: string, cartId: string): string {
-    const endpoint = `/users/${userId}/carts/${cartId}/vouchers`;
+  removeVoucher(voucherId: string) {
+    this.http
+      .delete(this.getEndpoint(this.userId, this.cart.code, voucherId))
+      .subscribe(() => this.cartService.loadDetails());
+  }
+
+  getEndpoint(userId: string, cartId: string, voucherId?: string): string {
+    const endpoint = voucherId
+      ? `/users/${userId}/carts/${cartId}/vouchers/${voucherId}`
+      : `/users/${userId}/carts/${cartId}/vouchers`;
     return this.occEndpoints.getEndpoint(endpoint);
   }
 }
