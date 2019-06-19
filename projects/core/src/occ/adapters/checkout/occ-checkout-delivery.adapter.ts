@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { makeHttpErrorSerializable } from 'projects/core/src/util';
 import { Observable, throwError } from 'rxjs';
 import { catchError, pluck } from 'rxjs/operators';
 import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/checkout-delivery.adapter';
@@ -12,6 +11,7 @@ import {
   ADDRESS_SERIALIZER,
 } from '../../../user/connectors/address/converters';
 import { ConverterService } from '../../../util/converter.service';
+import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 

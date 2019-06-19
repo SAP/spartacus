@@ -1,22 +1,17 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
+import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
-import * as fromActions from '../actions/index';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
+import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
+import * as fromActions from '../actions/index';
 
 @Injectable()
 export class ResetPasswordEffects {
   @Effect()
-  resetPassword$: Observable<
-    | fromActions.ResetPasswordSuccess
-    | AddMessage
-    | fromActions.ResetPasswordFail
-  > = this.actions$.pipe(
+  resetPassword$: Observable<Action> = this.actions$.pipe(
     ofType(fromActions.RESET_PASSWORD),
     map((action: fromActions.ResetPassword) => {
       return action.payload;
@@ -30,7 +25,11 @@ export class ResetPasswordEffects {
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
           }),
         ]),
-        catchError(error => of(new fromActions.ResetPasswordFail(error)))
+        catchError(error =>
+          of(
+            new fromActions.ResetPasswordFail(makeHttpErrorSerializable(error))
+          )
+        )
       );
     })
   );
