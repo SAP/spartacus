@@ -5,7 +5,7 @@
 //alert - https://github.com/twbs/bootstrap/blob/v4-dev/scss/alert.scss
 .alert {
   text-align: var(--cx-text-align, center);
-  color: var(--cx-color, var(--cx-g-color-text));
+  color: var(--cx-color, var(--cx-color-text));
   @include type('6', 'semi');
   padding: var(--cx-padding, 0 4rem 0 20px);
   line-height: var(--cx-line-height, 1.5);
@@ -37,7 +37,7 @@
     border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
-        color: var(--cx-color, var(--cx-g-color-success));
+        color: var(--cx-color, var(--cx-color-success));
       }
     }
   }
@@ -47,7 +47,7 @@
     border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
-        color: var(--cx-color, var(--cx-g-color-danger));
+        color: var(--cx-color, var(--cx-color-danger));
       }
     }
   }
@@ -57,7 +57,7 @@
     border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
-        color: var(--cx-color, var(--cx-g-color-info));
+        color: var(--cx-color, var(--cx-color-info));
       }
     }
   }
@@ -67,13 +67,13 @@
     border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
-        color: var(--cx-color, var(--cx-g-color-warning));
+        color: var(--cx-color, var(--cx-color-warning));
       }
     }
   }
 
   .close {
-    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal));
+    font-weight: var(--cx-font-weight, var(--cx-font-weight-normal));
     position: var(--cx-position, absolute);
     top: var(--cx-top, 32%);
     right: 3rem;

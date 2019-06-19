@@ -27,7 +27,7 @@
     }
 
     &.Section4 {
-      color: var(--cx-color, var(--cx-g-color-light));
+      color: var(--cx-color, var(--cx-color-light));
       flex-wrap: nowrap;
 
       @include media-breakpoint-down(md) {

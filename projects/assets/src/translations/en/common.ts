@@ -82,6 +82,10 @@ export const common = {
           isocode: 'Missing country',
         },
       },
+      invalid: {
+        card_expirationMonth:
+          'The credit card expiration date entered is not valid.',
+      },
     },
     cartNotFound: 'Cart not found.',
   },
