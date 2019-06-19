@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ProductSearchService,
   RoutingService,
@@ -34,7 +34,8 @@ export class ProductListComponentService {
   constructor(
     protected productSearchService: ProductSearchService,
     protected routing: RoutingService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected router: Router
   ) {}
 
   onInit() {
@@ -125,7 +126,7 @@ export class ProductListComponentService {
   }
 
   private setQueryParams(queryParams: SearchCriteria): void {
-    this.routing.go([], null, {
+    this.router.navigate([], {
       queryParams,
       queryParamsHandling: 'merge',
       relativeTo: this.activatedRoute,
