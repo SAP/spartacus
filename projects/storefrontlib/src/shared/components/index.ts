@@ -1,6 +1,6 @@
 export * from './card/index';
 export * from './carousel/index';
-export * from './form-components/index';
+export * from './item-counter/index';
 export * from './generic-link/index';
 export * from './list-navigation/index';
 export * from './media/index';
