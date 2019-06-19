@@ -70,10 +70,6 @@
       &:hover {
         color: var(--cx-color-primary);
       }
-
-      @include media-breakpoint-up(lg) {
-        padding: 5px 0;
-      }
     }
 
     @include media-breakpoint-down(md) {
@@ -108,10 +104,12 @@
       > nav {
         cursor: pointer;
         // top level headings
-        > h5,
-        > cx-generic-link {
-          padding: 5px 15px 5px 0;
-          height: 67px;
+        > h5 {
+          margin-top: 3px;
+          padding: 20px 15px 5px 0;
+        }
+        a {
+          padding: 20px 15px 5px 0;
         }
         // first level headings will be bold in desktop
         nav > h5 {
