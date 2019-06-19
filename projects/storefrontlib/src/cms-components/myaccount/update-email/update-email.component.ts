@@ -59,9 +59,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
     this.userService.resetUpdateEmailResultState();
   }
 }

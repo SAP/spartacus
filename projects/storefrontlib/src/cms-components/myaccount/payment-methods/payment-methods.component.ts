@@ -4,7 +4,7 @@ import {
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card/card.component';
 
@@ -16,8 +16,6 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
   loading$: Observable<boolean>;
-
-  userServiceSub: Subscription;
 
   constructor(
     private userPaymentService: UserPaymentService,
@@ -103,9 +101,5 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
   }
 
-  ngOnDestroy(): void {
-    if (this.userServiceSub) {
-      this.userServiceSub.unsubscribe();
-    }
-  }
+  ngOnDestroy(): void {}
 }
