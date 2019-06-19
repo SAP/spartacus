@@ -11,7 +11,6 @@ import {
   ADDRESS_SERIALIZER,
 } from '../../../user/connectors/address/converters';
 import { ConverterService } from '../../../util/converter.service';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
@@ -99,7 +98,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
         this.getCartEndpoint(userId) + cartId + '/deliverymodes'
       )
       .pipe(
-        catchError(error => throwError(makeHttpErrorSerializable(error))),
+        catchError(error => throwError(error)),
         pluck('deliveryModes'),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );
