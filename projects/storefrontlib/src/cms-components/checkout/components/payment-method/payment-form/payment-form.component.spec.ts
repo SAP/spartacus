@@ -34,6 +34,7 @@ const mockBillingAddress: Address = {
   town: 'Montreal',
   postalCode: 'H3A',
   country: { isocode: 'CA' },
+  region: { isocode: 'CA-QC' },
 };
 
 const mockAddress: Address = {
@@ -113,7 +114,7 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
-describe('PaymentFormComponent', () => {
+fdescribe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
@@ -329,6 +330,9 @@ describe('PaymentFormComponent', () => {
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
       );
+      controls.billingAddress.region['controls'].isocode.setValue(
+        mockBillingAddress.region
+      );
       controls.billingAddress['postalCode'].setValue(
         mockBillingAddress.postalCode
       );
@@ -416,6 +420,10 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
+      );
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls.billingAddress.region['controls'].isocode.setValue(
+        mockBillingAddress.region
       );
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress['postalCode'].setValue(
