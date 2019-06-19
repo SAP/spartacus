@@ -149,7 +149,7 @@ export class ProductListComponentService {
   }
 
   sort(sortCode: string): void {
-    this.setQueryParams({ sortCode, currentPage: undefined });
+    this.setQueryParams({ sortCode });
   }
 
   private setQueryParams(queryParams: SearchCriteria): void {

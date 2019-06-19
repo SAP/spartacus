@@ -77,10 +77,10 @@ describe('ProductListComponentService', () => {
     });
   });
 
-  it('sort should set query param "sortCode" in the url and reset "currentPage"', () => {
+  it('sort should set query param "sortCode" in the url', () => {
     service.sort('testSortCode');
     expect(router.navigate).toHaveBeenCalledWith([], {
-      queryParams: { sortCode: 'testSortCode', currentPage: undefined },
+      queryParams: { sortCode: 'testSortCode' },
       queryParamsHandling: 'merge',
       relativeTo: activatedRoute,
     });
