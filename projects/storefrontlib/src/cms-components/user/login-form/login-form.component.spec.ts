@@ -100,7 +100,7 @@ describe('LoginFormComponent', () => {
       const lowerCaseEmail = upperCaseEmail.toLowerCase();
 
       control.setValue(upperCaseEmail);
-      let result = component.emailToLowerCase();
+      const result = component.emailToLowerCase();
       expect(result).toEqual(lowerCaseEmail);
     });
 
