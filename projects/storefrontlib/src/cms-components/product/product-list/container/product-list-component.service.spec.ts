@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductSearchService, RoutingService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
-export class MockRoutingService {
-  go = jasmine.createSpy('go');
-  getRouterState() {}
+export class MockRouter {
+  navigate = jasmine.createSpy('navigate');
 }
 
 export class MockProductSearchService {
@@ -17,45 +16,52 @@ export class MockProductSearchService {
   clearResults = jasmine.createSpy('clearResults');
 }
 
-function mockRoutingState(
-  routing: RoutingService,
-  state: { params?: object; queryParams?: object }
-) {
-  spyOn(routing, 'getRouterState').and.returnValue(
-    of({
+describe('ProductListComponentService', () => {
+  let service: ProductListComponentService;
+  let activatedRoute: ActivatedRoute;
+  let productSearchService: ProductSearchService;
+  let router: Router;
+  let routingState;
+
+  function mockRoutingState(state: { params?: object; queryParams?: object }) {
+    routingState.next({
       state: {
         params: state.params || {},
         queryParams: state.queryParams || {},
       },
-    })
-  );
-}
-
-describe('ProductListComponentService', () => {
-  let service: ProductListComponentService;
-  let routing: RoutingService;
-  let activatedRoute: ActivatedRoute;
-  let productSearchService: ProductSearchService;
+    });
+  }
 
   beforeEach(() => {
+    routingState = new BehaviorSubject({
+      state: { params: {}, queryParams: {} },
+    });
+
+    const mockRoutingService = {
+      getRouterState: jasmine
+        .createSpy('getRouterState')
+        .and.returnValue(routingState),
+    };
+
     TestBed.configureTestingModule({
       providers: [
         ProductListComponentService,
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: Router, useClass: MockRouter },
         { provide: ActivatedRoute, useValue: 'ActivatedRoute' },
         { provide: ProductSearchService, useClass: MockProductSearchService },
       ],
     });
 
     service = TestBed.get(ProductListComponentService);
-    routing = TestBed.get(RoutingService);
+    router = TestBed.get(Router);
     activatedRoute = TestBed.get(ActivatedRoute);
     productSearchService = TestBed.get(ProductSearchService);
   });
 
   it('setQuery should set query param "query" in the url', () => {
     service.setQuery('testQuery');
-    expect(routing.go).toHaveBeenCalledWith([], null, {
+    expect(router.navigate).toHaveBeenCalledWith([], {
       queryParams: { query: 'testQuery' },
       queryParamsHandling: 'merge',
       relativeTo: activatedRoute,
@@ -64,7 +70,7 @@ describe('ProductListComponentService', () => {
 
   it('viewPage should set query param "currentPage" in the url', () => {
     service.viewPage(123);
-    expect(routing.go).toHaveBeenCalledWith([], null, {
+    expect(router.navigate).toHaveBeenCalledWith([], {
       queryParams: { currentPage: 123 },
       queryParamsHandling: 'merge',
       relativeTo: activatedRoute,
@@ -73,127 +79,128 @@ describe('ProductListComponentService', () => {
 
   it('sort should set query param "sortCode" in the url', () => {
     service.sort('testSortCode');
-    expect(routing.go).toHaveBeenCalledWith([], null, {
+    expect(router.navigate).toHaveBeenCalledWith([], {
       queryParams: { sortCode: 'testSortCode' },
       queryParamsHandling: 'merge',
       relativeTo: activatedRoute,
     });
   });
 
-  it('getSearchResults should return search results', () => {
-    let result;
-    service.getSearchResults().subscribe(res => (result = res));
-    expect(result).toEqual({ products: [] });
-  });
-
-  describe('onInit should search by route', () => {
-    it('with default "pageSize" 10', () => {
-      mockRoutingState(routing, {});
-
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(undefined, {
-        pageSize: 10,
-      });
+  describe('model$', () => {
+    it('should return search results', () => {
+      let result;
+      service.model$.subscribe(res => (result = res));
+      expect(result).toEqual({ products: [] });
     });
 
-    it('param "categoryCode"', () => {
-      mockRoutingState(routing, {
-        params: { categoryCode: 'testCategory' },
+    describe('should perform search on change of routing', () => {
+      it('with default "pageSize" 10', () => {
+        service.model$.subscribe();
+
+        expect(productSearchService.search).toHaveBeenCalledWith(undefined, {
+          pageSize: 10,
+        });
       });
 
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(
-        ':relevance:category:testCategory',
-        jasmine.any(Object)
-      );
-    });
+      it('param "categoryCode"', () => {
+        mockRoutingState({
+          params: { categoryCode: 'testCategory' },
+        });
+        service.model$.subscribe();
 
-    it('param "brandCode"', () => {
-      mockRoutingState(routing, {
-        params: { brandCode: 'testBrand' },
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          ':relevance:category:testCategory',
+          jasmine.any(Object)
+        );
       });
 
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(
-        ':relevance:brand:testBrand',
-        jasmine.any(Object)
-      );
-    });
+      it('param "brandCode"', () => {
+        mockRoutingState({
+          params: { brandCode: 'testBrand' },
+        });
+        service.model$.subscribe();
 
-    it('param "query"', () => {
-      mockRoutingState(routing, {
-        params: { query: 'testQuery' },
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          ':relevance:brand:testBrand',
+          jasmine.any(Object)
+        );
       });
 
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(
-        'testQuery',
-        jasmine.any(Object)
-      );
-    });
+      it('param "query"', () => {
+        mockRoutingState({
+          params: { query: 'testQuery' },
+        });
+        service.model$.subscribe();
 
-    it('query param "query"', () => {
-      mockRoutingState(routing, {
-        queryParams: { query: 'testQuery' },
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          'testQuery',
+          jasmine.any(Object)
+        );
       });
 
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(
-        'testQuery',
-        jasmine.any(Object)
-      );
-    });
+      it('query param "query"', () => {
+        mockRoutingState({
+          queryParams: { query: 'testQuery' },
+        });
+        service.model$.subscribe();
 
-    it('param "query" and query param "query"', () => {
-      mockRoutingState(routing, {
-        params: { query: 'testQuery1' },
-        queryParams: { query: 'testQuery2' },
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          'testQuery',
+          jasmine.any(Object)
+        );
       });
 
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(
-        'testQuery2',
-        jasmine.any(Object)
-      );
-    });
+      it('param "query" and query param "query"', () => {
+        mockRoutingState({
+          params: { query: 'testQuery1' },
+          queryParams: { query: 'testQuery2' },
+        });
+        service.model$.subscribe();
 
-    it('query param "currentPage"', () => {
-      mockRoutingState(routing, {
-        params: { query: 'testQuery' },
-        queryParams: { currentPage: 123 },
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          'testQuery2',
+          jasmine.any(Object)
+        );
       });
 
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(
-        'testQuery',
-        jasmine.objectContaining({ currentPage: 123 })
-      );
-    });
+      it('query param "currentPage"', () => {
+        mockRoutingState({
+          params: { query: 'testQuery' },
+          queryParams: { currentPage: 123 },
+        });
+        service.model$.subscribe();
 
-    it('query param "pageSize"', () => {
-      mockRoutingState(routing, {
-        params: { query: 'testQuery' },
-        queryParams: { pageSize: 20 },
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          'testQuery',
+          jasmine.objectContaining({ currentPage: 123 })
+        );
       });
 
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(
-        'testQuery',
-        jasmine.objectContaining({ pageSize: 20 })
-      );
-    });
+      it('query param "pageSize"', () => {
+        mockRoutingState({
+          params: { query: 'testQuery' },
+          queryParams: { pageSize: 20 },
+        });
+        service.model$.subscribe();
 
-    it('query param "sortCode"', () => {
-      mockRoutingState(routing, {
-        params: { query: 'testQuery' },
-        queryParams: { sortCode: 'name-asc' },
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          'testQuery',
+          jasmine.objectContaining({ pageSize: 20 })
+        );
       });
 
-      service.onInit();
-      expect(productSearchService.search).toHaveBeenCalledWith(
-        'testQuery',
-        jasmine.objectContaining({ sortCode: 'name-asc' })
-      );
+      it('query param "sortCode"', () => {
+        mockRoutingState({
+          params: { query: 'testQuery' },
+          queryParams: { sortCode: 'name-asc' },
+        });
+        service.model$.subscribe();
+
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          'testQuery',
+          jasmine.objectContaining({ sortCode: 'name-asc' })
+        );
+      });
     });
   });
 });

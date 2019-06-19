@@ -14,7 +14,6 @@ import {
   shareReplay,
   tap,
 } from 'rxjs/operators';
-import { SearchResults } from '../../../navigation';
 
 interface ProductListRouteParams {
   brandCode?: string;
@@ -68,6 +67,15 @@ export class ProductListComponentService {
     })
   );
 
+  /**
+   * This stream should be used only on the Product Listing Page.
+   *
+   * It not only emits search results, but also performs a search on every change
+   * of the route (i.e. route params or query params).
+   *
+   * When a user leaves the PLP route, the PLP component unsubscribes from this stream
+   * so no longer the search is performed on route change.
+   */
   private _model$: Observable<ProductSearchPage> = combineLatest(
     this.searchResults$,
     this.searchByRouting$
@@ -80,7 +88,7 @@ export class ProductListComponentService {
     return this._model$;
   }
 
-  clearResults(): void {
+  clearSearchResults(): void {
     this.productSearchService.clearResults();
   }
 
@@ -142,12 +150,6 @@ export class ProductListComponentService {
 
   sort(sortCode: string): void {
     this.setQueryParams({ sortCode });
-  }
-
-  getSearchResults(): Observable<SearchResults> {
-    return this.productSearchService
-      .getResults()
-      .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
   }
 
   private setQueryParams(queryParams: SearchCriteria): void {

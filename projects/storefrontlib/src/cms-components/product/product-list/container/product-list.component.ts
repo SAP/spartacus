@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productListComponentService.clearResults();
+    this.productListComponentService.clearSearchResults();
     this.model$ = this.productListComponentService.model$;
 
     this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {

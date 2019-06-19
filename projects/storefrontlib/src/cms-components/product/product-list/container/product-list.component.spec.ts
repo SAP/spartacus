@@ -69,15 +69,14 @@ export class MockAddToCartComponent {
 }
 
 export class MockProductListComponentService {
-  onInit = createSpy('onInit');
-  onDestroy = createSpy('onDestroy');
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
-  getSearchResults = createSpy('getSearchResults').and.returnValue(of());
+  clearSearchResults = createSpy('clearSearchResults');
+  model$ = of({});
 }
 
-describe('ProductListComponent in product-list', () => {
+describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   let componentService: ProductListComponentService;
@@ -126,14 +125,16 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should call service.onInit', () => {
-    component.ngOnInit();
-    expect(componentService.onInit).toHaveBeenCalled();
-  });
+  describe('ngOnInit', () => {
+    it('should clear search results', () => {
+      component.ngOnInit();
+      expect(componentService.clearSearchResults).toHaveBeenCalled();
+    });
 
-  it('ngOnDestroy should call service.onDestroy', () => {
-    component.ngOnDestroy();
-    expect(componentService.onDestroy).toHaveBeenCalled();
+    it('should get model from the service', () => {
+      component.ngOnInit();
+      expect(component.model$).toBe(componentService.model$);
+    });
   });
 
   it('viewPage should call service.viewPage', () => {
