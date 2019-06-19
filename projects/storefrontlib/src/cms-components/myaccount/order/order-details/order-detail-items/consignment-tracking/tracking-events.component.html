@@ -39,7 +39,9 @@
                 'orderDetails.consignmentTracking.dialog.shipped' | cxTranslate
               }}
             </div>
-            <div>{{ shipDate | date }}</div>
+            <div class="cx-consignment-tracking-dialog__shipment-content">
+              {{ shipDate | cxDate: 'medium' }}
+            </div>
           </div>
           <div
             class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6"
@@ -49,8 +51,8 @@
                 'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate
               }}
             </div>
-            <div class="cx-consignment-tracking-dialog__date">
-              {{ consignmentTracking?.targetArrivalDate | date }}
+            <div class="cx-consignment-tracking-dialog__shipment-content">
+              {{ consignmentTracking?.targetArrivalDate | cxDate: 'medium' }}
             </div>
           </div>
         </div>
@@ -64,7 +66,9 @@
                 'orderDetails.consignmentTracking.dialog.carrier' | cxTranslate
               }}
             </div>
-            <div>{{ consignmentTracking?.carrierDetails?.name }}</div>
+            <div class="cx-consignment-tracking-dialog__shipment-content">
+              {{ consignmentTracking?.carrierDetails?.name }}
+            </div>
           </div>
           <div
             class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6"
@@ -75,7 +79,7 @@
                   | cxTranslate
               }}
             </div>
-            <div>
+            <div class="cx-consignment-tracking-dialog__shipment-content">
               <a [href]="consignmentTracking?.trackingUrl" target="_blank">
                 {{ consignmentTracking?.trackingID }}
               </a>
