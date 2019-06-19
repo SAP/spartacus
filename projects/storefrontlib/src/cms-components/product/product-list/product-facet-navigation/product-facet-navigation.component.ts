@@ -1,13 +1,9 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import {
-  Facet,
-  ProductSearchPage,
-  ProductSearchService,
-} from '@spartacus/core';
+import { Facet, ProductSearchPage } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { ProductListComponentService } from '../container/product-list-component.service';
@@ -39,7 +35,6 @@ export class ProductFacetNavigationComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private activatedRoute: ActivatedRoute,
-    private productSearchService: ProductSearchService,
     private productListComponentService: ProductListComponentService
   ) {
     this.showAllPerFacetMap = new Map<String, boolean>();
@@ -53,7 +48,7 @@ export class ProductFacetNavigationComponent implements OnInit {
       })
     );
 
-    this.searchResult$ = this.productSearchService.getResults().pipe(
+    this.searchResult$ = this.productListComponentService.model$.pipe(
       tap(searchResult => {
         this.searchResult = searchResult;
         if (this.searchResult.facets) {
@@ -61,8 +56,7 @@ export class ProductFacetNavigationComponent implements OnInit {
             this.showAllPerFacetMap.set(el.name, false);
           });
         }
-      }),
-      filter(searchResult => Object.keys(searchResult).length > 0)
+      })
     );
   }
 

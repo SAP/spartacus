@@ -1,11 +1,11 @@
 <div class="cx-search-facet" *ngIf="(searchResult$ | async) as searchResult">
-  <ng-container *ngIf="searchResult.breadcrumbs?.length">
+  <ng-container *ngIf="searchResult?.breadcrumbs?.length">
     <h4 class="cx-facet-filter-header">
       {{ 'productList.filterBy.label' | cxTranslate }}
     </h4>
     <div class="cx-facet-filter-container">
       <div
-        *ngFor="let breadcrumb of searchResult.breadcrumbs"
+        *ngFor="let breadcrumb of searchResult?.breadcrumbs"
         [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
         class="cx-facet-filter-pill"
         role="filter"
@@ -105,7 +105,7 @@
 <!-- START ONLY SHOW FILTER SECTION IN MOBILE WHEN THEY ARE SELECTED -->
 <ng-container *ngIf="(updateParams$ | async) as params">
   <div class="container">
-    <div class="cx-facet-mobile" *ngIf="searchResult.breadcrumbs?.length">
+    <div class="cx-facet-mobile" *ngIf="searchResult?.breadcrumbs?.length">
       <div class="cx-facet-filter-container">
         <h4 class="cx-facet-filter-header">
           {{ 'productList.appliedFilter' | cxTranslate }}
@@ -113,7 +113,7 @@
         <div
           class="cx-facet-filter-pill"
           role="filter"
-          *ngFor="let breadcrumb of searchResult.breadcrumbs"
+          *ngFor="let breadcrumb of searchResult?.breadcrumbs"
         >
           {{ breadcrumb.facetValueName }}
           <button
@@ -153,7 +153,7 @@
     <form>
       <div
         class="form-group"
-        *ngFor="let facet of searchResult.facets; index as facetId"
+        *ngFor="let facet of searchResult?.facets; index as facetId"
       >
         <h4 class="cx-facet-modal-label" for="megapixels">{{ facet.name }}</h4>
         <div class="input-group">
