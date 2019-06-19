@@ -7,6 +7,7 @@ import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { StateWithCart } from '../store/cart-state';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
+import { CartUtilService } from './cart-util.service';
 import { CartService } from './cart.service';
 
 class CartDataServiceStub {
@@ -61,7 +62,7 @@ describe('CartService', () => {
     describe('when user is not an anonymous', () => {
       describe('and the cart is not created', () => {
         it('should load the cart', () => {
-          spyOn(service, 'isCreated').and.returnValue(false);
+          spyOn(CartUtilService, 'isCreated').and.returnValue(false);
           spyOn(store, 'dispatch').and.stub();
           cartData.cart = cart;
 
@@ -77,7 +78,7 @@ describe('CartService', () => {
       });
       describe('and the cart is created', () => {
         it('should merge the cart', () => {
-          spyOn(service, 'isCreated').and.returnValue(true);
+          spyOn(CartUtilService, 'isCreated').and.returnValue(true);
           spyOn(store, 'dispatch').and.stub();
           cartData.cart = cart;
 
@@ -160,7 +161,7 @@ describe('CartService', () => {
     });
 
     it('should be able to addCartEntry if cart does not exist', () => {
-      spyOn(service, 'isCreated').and.returnValue(false);
+      spyOn(CartUtilService, 'isCreated').and.returnValue(false);
       store.dispatch(new fromCart.LoadCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -228,36 +229,6 @@ describe('CartService', () => {
           entry: mockCartEntry.entryNumber,
         })
       );
-    });
-  });
-
-  describe('isCartCreated', () => {
-    it('should return false, when argument is empty object', () => {
-      expect(service.isCreated({})).toBe(false);
-    });
-
-    it('should return true, when argument is an non-empty object', () => {
-      expect(service.isCreated({ guid: 'hash' })).toBe(true);
-    });
-
-    it('should return false, when guid is not set', () => {
-      expect(service.isCreated({ totalItems: 0 })).toBe(false);
-      expect(service.isCreated({ totalItems: 99 })).toBe(false);
-    });
-  });
-
-  describe('isCartEmpty', () => {
-    it('should return true, when argument is an empty object', () => {
-      expect(service.isEmpty({})).toBe(true);
-    });
-
-    it('should return true, when totalItems property of argument is 0', () => {
-      expect(service.isEmpty({ totalItems: 0 })).toBe(true);
-    });
-
-    it('should return false, when totalItems property of argument is greater than 0', () => {
-      expect(service.isEmpty({ totalItems: 1 })).toBe(false);
-      expect(service.isEmpty({ totalItems: 99 })).toBe(false);
     });
   });
 

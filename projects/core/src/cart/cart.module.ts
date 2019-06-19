@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CartDataService, CartService } from './facade/index';
+import { CartDataService } from './facade/cart-data.service';
+import { CartService } from './facade/index';
 import { CartStoreModule } from './store/cart-store.module';
 
 @NgModule({

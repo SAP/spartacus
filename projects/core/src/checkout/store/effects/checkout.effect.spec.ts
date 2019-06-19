@@ -1,32 +1,28 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/checkout.action';
-import * as fromIndexActions from '../actions/index';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { Observable, of } from 'rxjs';
 import * as fromAuthActions from '../../../auth/store/actions/index';
-import * as fromCartActions from './../../../cart/store/actions/index';
+import { CartDataService } from '../../../cart/facade/cart-data.service';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../../checkout/connectors';
-import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
-
-import * as fromEffects from './checkout.effect';
-import { CheckoutDetails } from '../../models/checkout.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 import { CheckoutConnector } from '../../connectors/checkout';
+import { CheckoutDetails } from '../../models/checkout.model';
+import * as fromActions from '../actions/checkout.action';
+import * as fromIndexActions from '../actions/index';
+import * as fromCartActions from './../../../cart/store/actions/index';
+import * as fromEffects from './checkout.effect';
+
 import createSpy = jasmine.createSpy;
-import { CartDataService } from 'projects/core/src/cart';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';

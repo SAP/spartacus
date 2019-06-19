@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '@spartacus/core';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
 import * as fromCheckout from '../store/index';
 import { CheckoutPaymentService } from './checkout-payment.service';

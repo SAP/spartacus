@@ -9,6 +9,7 @@ import * as fromAction from '../store/actions';
 import { StateWithCart } from '../store/cart-state';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
+import { CartUtilService } from './cart-util.service';
 
 @Injectable()
 export class CartService {
@@ -42,7 +43,7 @@ export class CartService {
         ) {
           this.loadOrMerge();
         }
-        if (!loading && !this.isLoaded(cart)) {
+        if (!loading && !CartUtilService.isLoaded(cart)) {
           this.loadDetails();
         }
         this.prevCartUserId = userToken.userId;
@@ -50,7 +51,8 @@ export class CartService {
       map(([cart]) => cart),
       filter(
         cart =>
-          (this.isLoaded(cart) && this.isCreated(cart)) || !this.isCreated(cart)
+          (CartUtilService.isLoaded(cart) && CartUtilService.isCreated(cart)) ||
+          !CartUtilService.isCreated(cart)
       )
     );
   }
@@ -71,7 +73,7 @@ export class CartService {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
     if (this.cartData.userId !== ANONYMOUS_USERID) {
-      if (!this.isCreated(this.cartData.cart)) {
+      if (!CartUtilService.isCreated(this.cartData.cart)) {
         this.store.dispatch(
           new fromAction.LoadCart({
             userId: this.cartData.userId,
@@ -112,12 +114,12 @@ export class CartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
-    if (!this.isCreated(this.cartData.cart)) {
+    if (!CartUtilService.isCreated(this.cartData.cart)) {
       this.store.dispatch(
         new fromAction.CreateCart({ userId: this.cartData.userId })
       );
       const sub = this.getActive().subscribe(cart => {
-        if (this.isLoaded(cart)) {
+        if (CartUtilService.isLoaded(cart)) {
           this.store.dispatch(
             new fromAction.AddEntry({
               userId: this.cartData.userId,
@@ -176,22 +178,5 @@ export class CartService {
     return this.store.pipe(
       select(fromSelector.getCartEntrySelectorFactory(productCode))
     );
-  }
-
-  isCreated(cart: Cart): boolean {
-    return (
-      cart && !!Object.keys(cart).length && typeof cart.guid !== 'undefined'
-    );
-  }
-
-  isLoaded(cart: Cart): boolean {
-    // totalItems are checked to be sure we have loaded cart (if they are undefined, we loaded guid and code from localStorage, but didn't fetched cart from backend)
-    return (
-      cart && Object.keys(cart).length && typeof cart.totalItems !== 'undefined'
-    );
-  }
-
-  isEmpty(cart: Cart): boolean {
-    return cart && !cart.totalItems;
   }
 }
