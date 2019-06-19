@@ -14,21 +14,21 @@ import createSpy = jasmine.createSpy;
 
 describe('SiteContextParamsService', () => {
   const siteContextConfig: SiteContextConfig = {
-    siteContext: {
+    context: {
       parameters: {
         [LANGUAGE_CONTEXT_ID]: {
           persistence: 'route',
-          defaultValue: 'en',
+          default: 'en',
           values: ['en', 'de', 'ja', 'zh'],
         },
         [CURRENCY_CONTEXT_ID]: {
           persistence: 'route',
-          defaultValue: 'USD',
+          default: 'USD',
           values: ['USD', 'JPY'],
         },
         site: {
           persistence: 'session',
-          defaultValue: 'electronics',
+          default: 'electronics',
           values: ['electronics', 'apparel-de'],
         },
       },

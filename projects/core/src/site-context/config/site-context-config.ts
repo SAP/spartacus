@@ -2,12 +2,12 @@ export type ContextParamPersistence = 'session' | 'cookie' | 'route' | 'domain';
 
 export interface ContextParams {
   persistence?: ContextParamPersistence;
-  defaultValue?: string;
+  default?: string;
   values?: string[];
 }
 
 export abstract class SiteContextConfig {
-  siteContext?: {
+  context?: {
     parameters?: {
       [contextName: string]: ContextParams;
     };

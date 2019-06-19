@@ -6,11 +6,11 @@ import { SiteContextConfig } from './site-context-config';
 
 export function defaultSiteContextConfigFactory(): SiteContextConfig {
   return {
-    siteContext: {
+    context: {
       parameters: {
         [LANGUAGE_CONTEXT_ID]: {
           persistence: 'route',
-          defaultValue: 'en',
+          default: 'en',
           values: [
             'en',
             'de',
@@ -33,7 +33,7 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
         },
         [CURRENCY_CONTEXT_ID]: {
           persistence: 'route',
-          defaultValue: 'USD',
+          default: 'USD',
           values: [
             'USD',
             'EUR',
