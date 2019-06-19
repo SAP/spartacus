@@ -6,8 +6,12 @@ describe('CartUtilService', () => {
       expect(CartUtilService.isCreated({})).toBe(false);
     });
 
-    it('should return true, when argument is an non-empty object', () => {
+    it('should return true, when argument is an object with guid', () => {
       expect(CartUtilService.isCreated({ guid: 'hash' })).toBe(true);
+    });
+
+    it('should return true, when argument is an object with code', () => {
+      expect(CartUtilService.isCreated({ code: 'hash' })).toBe(true);
     });
 
     it('should return false, when guid is not set', () => {

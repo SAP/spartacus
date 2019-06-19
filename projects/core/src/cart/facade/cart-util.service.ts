@@ -7,7 +7,9 @@ export class CartUtilService {
 
   static isCreated(cart: Cart): boolean {
     return (
-      cart && !!Object.keys(cart).length && typeof cart.guid !== 'undefined'
+      cart &&
+      !!Object.keys(cart).length &&
+      (typeof cart.guid !== 'undefined' || typeof cart.code !== 'undefined')
     );
   }
 
