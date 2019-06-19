@@ -32,10 +32,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    this.auth.authorize(
-      this.form.controls.userId.value,
-      this.form.controls.password.value
-    );
+    const userId = this.emailToLowerCase();
+    this.auth.authorize(userId, this.form.controls.password.value);
 
     if (!this.sub) {
       this.sub = this.auth.getUserToken().subscribe(data => {
@@ -45,6 +43,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  /*
+   * Change the inputed email to lowercase because
+   * the backend only accepts lowercase emails
+   */
+  emailToLowerCase() {
+    return this.form.controls.userId.value.toLowerCase();
   }
 
   ngOnDestroy() {
