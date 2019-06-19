@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
-import * as fromAction from '../actions/address-verification.action';
 import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
+import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import * as fromAction from '../actions/address-verification.action';
 
 @Injectable()
 export class AddressVerificationEffect {
@@ -18,10 +16,10 @@ export class AddressVerificationEffect {
     map((action: any) => action.payload),
     mergeMap(payload =>
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
-        map(data => {
-          return new fromAction.VerifyAddressSuccess(data);
-        }),
-        catchError(error => of(new fromAction.VerifyAddressFail(error)))
+        map(data => new fromAction.VerifyAddressSuccess(data)),
+        catchError(error =>
+          of(new fromAction.VerifyAddressFail(makeHttpErrorSerializable(error)))
+        )
       )
     )
   );
