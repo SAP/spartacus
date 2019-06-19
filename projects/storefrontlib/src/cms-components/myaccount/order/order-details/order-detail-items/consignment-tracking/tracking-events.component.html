@@ -22,14 +22,14 @@
     <!-- Modal Body -->
 
     <!-- shipment header -->
-    <div class="cx-consignment-tracking-dialog__shipment-heading">
-      <ng-container
-        *ngIf="
-          consignmentTracking?.carrierDetails &&
-            consignmentTracking?.trackingID;
-          else noTracking
-        "
-      >
+
+    <ng-container
+      *ngIf="
+        consignmentTracking?.carrierDetails && consignmentTracking?.trackingID;
+        else noTracking
+      "
+    >
+      <div class="cx-consignment-tracking-dialog__shipment-heading">
         <div class="cx-consignment-tracking-dialog__shipment-row row">
           <div
             class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6"
@@ -82,15 +82,16 @@
             </div>
           </div>
         </div>
-      </ng-container>
-    </div>
+      </div>
+    </ng-container>
+
     <!-- tracking events -->
     <div class="cx-consignment-tracking-dialog__event modal-body">
       <ng-container
         *ngFor="let consignmentEvent of consignmentTracking.trackingEvents"
       >
         <div class="event-body">
-          <div>{{ consignmentEvent.eventDate | date }}</div>
+          <div>{{ consignmentEvent.eventDate | cxDate: 'medium' }}</div>
           <div class="cx-consignment-tracking-dialog__shipment-title">
             {{ consignmentEvent.referenceCode }}
           </div>
@@ -102,9 +103,12 @@
       </ng-container>
     </div>
   </ng-container>
+
   <ng-template #noTracking>
-    <div class="no-tracking-info">
-      {{ 'orderDetails.consignmentTracking.dialog.noTracking' | cxTranslate }}
+    <div class="cx-consignment-tracking-dialog__no-tracking-heading">
+      <div class="no-tracking-info">
+        {{ 'orderDetails.consignmentTracking.dialog.noTracking' | cxTranslate }}
+      </div>
     </div>
   </ng-template>
 
