@@ -1,9 +1,9 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Facet, ProductSearchPage } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { ProductListComponentService } from '../container/product-list-component.service';
@@ -13,7 +13,9 @@ import { ProductListComponentService } from '../container/product-list-component
   templateUrl: './product-facet-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductFacetNavigationComponent implements OnInit {
+export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
+  private sub: Subscription;
+
   iconTypes = ICON_TYPE;
 
   activeFacetValueCode: string;
@@ -23,14 +25,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
   searchResult$: Observable<ProductSearchPage>;
-  updateParams$: Observable<Params>;
-
-  get visibleFacets(): Facet[] {
-    if (!this.searchResult.facets) {
-      return [];
-    }
-    return this.searchResult.facets.filter(facet => facet.visible);
-  }
+  visibleFacets$: Observable<Facet[]>;
 
   constructor(
     private modalService: ModalService,
@@ -42,20 +37,25 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateParams$ = this.activatedRoute.params.pipe(
-      tap(params => {
-        this.activeFacetValueCode = params.categoryCode || params.brandCode;
-      })
-    );
+    this.sub = this.activatedRoute.params.subscribe(params => {
+      this.activeFacetValueCode = params.categoryCode || params.brandCode;
+    });
 
     this.searchResult$ = this.productListComponentService.model$.pipe(
       tap(searchResult => {
-        this.searchResult = searchResult;
-        if (this.searchResult.facets) {
-          this.searchResult.facets.forEach(el => {
+        if (searchResult.facets) {
+          searchResult.facets.forEach(el => {
             this.showAllPerFacetMap.set(el.name, false);
           });
         }
+      })
+    );
+
+    this.visibleFacets$ = this.searchResult$.pipe(
+      map(searchResult => {
+        return searchResult.facets
+          ? searchResult.facets.filter(facet => facet.visible)
+          : [];
       })
     );
   }
@@ -101,5 +101,11 @@ export class ProductFacetNavigationComponent implements OnInit {
         ? facet.values.length
         : this.minPerFacet
     );
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 }
