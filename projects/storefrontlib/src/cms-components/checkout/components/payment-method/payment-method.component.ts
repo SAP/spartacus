@@ -156,11 +156,14 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     paymentDetails: PaymentDetails;
     billingAddress: Address;
   }): void {
-    this.getDeliveryAddressSub = this.checkoutDeliveryService
-      .getDeliveryAddress()
-      .subscribe(address => {
-        billingAddress = address;
-      });
+    if (!billingAddress) {
+      this.getDeliveryAddressSub = this.checkoutDeliveryService
+        .getDeliveryAddress()
+        .subscribe(address => {
+          billingAddress = address;
+        });
+    }
+
     this.addPaymentInfo({
       payment: paymentDetails,
       billingAddress,
@@ -177,11 +180,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     payment: PaymentDetails;
     billingAddress?: Address;
   }): void {
-    payment.billingAddress = billingAddress
-      ? billingAddress
-      : this.deliveryAddress;
-
     if (newPayment) {
+      payment.billingAddress = billingAddress
+        ? billingAddress
+        : this.deliveryAddress;
+
       this.checkoutPaymentService.createPaymentDetails(payment);
       this.checkoutService.clearCheckoutStep(3);
     }
