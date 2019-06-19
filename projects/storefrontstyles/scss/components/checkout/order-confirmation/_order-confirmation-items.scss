@@ -4,34 +4,34 @@
   .cx-order-items {
     &.container {
       @include media-breakpoint-down(md) {
-        max-width: var(--cx-max-width, 100%);
-        min-width: var(--cx-min-width, 100%);
-        padding: var(--cx-padding, 0);
+        max-width: 100%;
+        min-width: 100%;
+        padding: 0;
       }
       @include media-breakpoint-down(sm) {
-        max-width: var(--cx-max-width, 100%);
-        min-width: var(--cx-min-width, 100%);
-        padding: var(--cx-padding, 0);
+        max-width: 100%;
+        min-width: 100%;
+        padding: 0;
       }
     }
   }
 
   .cx-order-items-header {
     @include type('4');
-    padding: var(--cx-padding, 1.375rem 0);
-    margin: var(--cx-margin, 0);
-    border-width: var(--cx-border-width, 0 0 1px 0);
-    border-style: var(--cx-border-style, solid);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
+    padding: 1.375rem 0;
+    margin: 0;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
     @include media-breakpoint-down(md) {
-      max-width: var(--cx-max-width, 100%);
-      min-width: var(--cx-min-width, 100%);
-      padding-left: var(--cx-padding, 2.5rem);
+      max-width: 100%;
+      min-width: 100%;
+      padding-left: 2.5rem;
     }
     @include media-breakpoint-down(sm) {
-      max-width: var(--cx-max-width, 100%);
-      min-width: var(--cx-min-width, 100%);
-      padding-left: var(--cx-padding, 1rem);
+      max-width: 100%;
+      min-width: 100%;
+      padding-left: 1rem;
     }
   }
 }

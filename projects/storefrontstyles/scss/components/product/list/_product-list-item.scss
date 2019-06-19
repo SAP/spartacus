@@ -2,7 +2,7 @@
   .cx-product-search-list {
     border-width: 0 0 1px 0;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     margin: 0 0 25px 0;
 
     &:last-of-type {
@@ -24,11 +24,11 @@
     text-align: left;
     display: block;
     margin: 0 0 3px 0;
-    color: var(--cx-g-color-dark);
+    color: var(--cx-color-dark);
     text-decoration: none;
 
     &:hover {
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
   }
 
@@ -38,13 +38,13 @@
     margin: 15px 0 0 0;
 
     &.old {
-      color: var(--cx-g-color-secondary);
+      color: var(--cx-color-secondary);
       text-decoration: line-through;
     }
 
     &.new {
       margin: 0 0 0 5px;
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
   }
 }

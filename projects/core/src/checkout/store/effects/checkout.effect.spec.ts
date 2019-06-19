@@ -9,6 +9,9 @@ import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
+import * as fromIndexActions from '../actions/index';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import * as fromAuthActions from '../../../auth/store/actions/index';
 import * as fromCartActions from './../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
@@ -23,6 +26,7 @@ import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { CheckoutConnector } from '../../connectors/checkout';
 import createSpy = jasmine.createSpy;
+import { CartDataService } from 'projects/core/src/cart';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -58,6 +62,11 @@ class MockCheckoutDeliveryConnector {
   setMode = createSpy().and.returnValue(of({}));
 }
 
+class MockCartDataService {
+  cartId = 'cartId';
+  userId = 'userId';
+}
+
 class MockCheckoutPaymentConnector {
   set = createSpy().and.returnValue(of({}));
   create = createSpy().and.returnValue(of(paymentDetails));
@@ -87,6 +96,7 @@ describe('Checkout effect', () => {
           useClass: MockCheckoutPaymentConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
+        { provide: CartDataService, useClass: MockCartDataService },
         fromEffects.CheckoutEffects,
         provideMockActions(() => actions$),
       ],
@@ -154,6 +164,78 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.loadSupportedDeliveryModes$).toBeObservable(expected);
+    });
+  });
+
+  describe('reloadSupportedDeliveryModesOnSiteContextChange$', () => {
+    it('should load all supported delivery on clear miscs data action', () => {
+      const action = new fromIndexActions.CheckoutClearMiscsData();
+      const completion = new fromActions.LoadSupportedDeliveryModes({
+        cartId: 'cartId',
+        userId: 'userId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(
+        entryEffects.reloadSupportedDeliveryModesOnSiteContextChange$
+      ).toBeObservable(expected);
+    });
+
+    it('should load all supported delivery on clear supported delivery modes action', () => {
+      const action = new fromActions.ClearSupportedDeliveryModes();
+      const completion = new fromActions.LoadSupportedDeliveryModes({
+        cartId: 'cartId',
+        userId: 'userId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(
+        entryEffects.reloadSupportedDeliveryModesOnSiteContextChange$
+      ).toBeObservable(expected);
+    });
+  });
+
+  describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
+    it('should dispatch checkout clear miscs data action on language change', () => {
+      const action = new fromSiteContextActions.LanguageChange();
+      const completion = new fromIndexActions.CheckoutClearMiscsData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(
+        entryEffects.clearCheckoutMiscsDataOnLanguageChange$
+      ).toBeObservable(expected);
+    });
+  });
+
+  describe('clearDeliveryModesOnCurrencyChange$', () => {
+    it('should dispatch clear supported delivery modes action on currency change', () => {
+      const action = new fromSiteContextActions.CurrencyChange();
+      const completion = new fromIndexActions.ClearSupportedDeliveryModes();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearDeliveryModesOnCurrencyChange$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('clearCheckoutDataOnLogout$', () => {
+    it('should dispatch clear checkout data action on logout', () => {
+      const action = new fromAuthActions.Logout();
+      const completion = new fromIndexActions.ClearCheckoutData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDataOnLogout$).toBeObservable(expected);
     });
   });
 

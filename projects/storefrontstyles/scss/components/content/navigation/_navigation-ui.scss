@@ -68,7 +68,7 @@
       color: currentColor;
 
       &:hover {
-        color: var(--cx-g-color-primary);
+        color: var(--cx-color-primary);
       }
 
       @include media-breakpoint-up(lg) {
@@ -87,7 +87,7 @@
       }
       h5,
       cx-generic-link {
-        border-bottom: 1px solid var(--cx-g-color-light);
+        border-bottom: 1px solid var(--cx-color-light);
         display: flex;
         justify-content: space-between;
 
