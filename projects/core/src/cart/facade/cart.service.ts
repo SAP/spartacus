@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { asyncScheduler, combineLatest, Observable } from 'rxjs';
-import { debounceTime, filter, map, tap } from 'rxjs/operators';
+import { debounceTime, filter, map, shareReplay, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
@@ -13,16 +13,15 @@ import { CartUtilService } from './cart-util.service';
 
 @Injectable()
 export class CartService {
-  prevCartUserId = null;
+  prevCartUserId;
+  private _activeCart$;
 
   constructor(
     protected store: Store<StateWithCart>,
     protected cartData: CartDataService,
     protected authService: AuthService
-  ) {}
-
-  getActive(): Observable<Cart> {
-    return combineLatest(
+  ) {
+    this._activeCart$ = combineLatest(
       this.store.select(fromSelector.getCartContent),
       this.store.select(fromSelector.getCartLoading),
       this.authService.getUserToken()
@@ -34,9 +33,7 @@ export class CartService {
       tap(([cart, loading, userToken]) => {
         if (
           // we are only interested in case when we switch from not logged user to logged
-          // we skip the first execution when loading data to store by checking initial value
           // check for undefined is used to ignore this action on logout
-          this.prevCartUserId !== null &&
           this.prevCartUserId !== userToken.userId &&
           typeof userToken.userId !== 'undefined' &&
           !loading
@@ -53,8 +50,13 @@ export class CartService {
         cart =>
           (CartUtilService.isLoaded(cart) && CartUtilService.isCreated(cart)) ||
           !CartUtilService.isCreated(cart)
-      )
+      ),
+      shareReplay()
     );
+  }
+
+  getActive(): Observable<Cart> {
+    return this._activeCart$;
   }
 
   getEntries(): Observable<OrderEntry[]> {

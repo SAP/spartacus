@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
 import { Cart } from '../../model/cart.model';
 
-@Injectable()
 export class CartUtilService {
   constructor() {}
 
