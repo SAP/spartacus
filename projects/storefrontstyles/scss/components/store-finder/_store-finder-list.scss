@@ -34,17 +34,17 @@
   .cx-list-items {
     border-width: 1px 0 0 0;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     padding: 1rem 1.5rem;
 
     &:hover {
-      background-color: var(--cx-g-color-background);
+      background-color: var(--cx-color-background);
     }
 
     &.cx-selected-item {
-      background-color: var(--cx-g-color-light);
+      background-color: var(--cx-color-light);
       &:hover {
-        background-color: var(--cx-g-color-light);
+        background-color: var(--cx-color-light);
       }
     }
   }
@@ -85,7 +85,7 @@
     font-weight: 600;
 
     &:hover {
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
   }
 }

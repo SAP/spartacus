@@ -27,14 +27,14 @@ export interface PaymentDetails {
 
 export function fillShippingAddress(shippingAddressData: ShippingAddressData) {
   cy.get('cx-address-form').within(() => {
+    cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
+      shippingAddressData.address.country
+    );
     cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
     cy.get('[formcontrolname="firstName"]').type(shippingAddressData.firstName);
     cy.get('[formcontrolname="lastName"]').type(shippingAddressData.lastName);
     cy.get('[formcontrolname="line1"]').type(shippingAddressData.address.line1);
     cy.get('[formcontrolname="line2"]').type(shippingAddressData.address.line2);
-    cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
-      shippingAddressData.address.country
-    );
     cy.get('[formcontrolname="town"]').type(shippingAddressData.address.city);
     cy.get('.region-select[formcontrolname="isocode"]').ngSelect(
       shippingAddressData.address.state

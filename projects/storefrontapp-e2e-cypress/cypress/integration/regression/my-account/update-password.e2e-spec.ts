@@ -42,7 +42,9 @@ describe('My Account - Update Password', () => {
 
     it('should access the update password page from the menu.', () => {
       cy.visit('/');
-      cy.selectUserMenuOption('Password');
+      cy.selectUserMenuOption({
+        option: 'Password',
+      });
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
       cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
     });
