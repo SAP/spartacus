@@ -1,5 +1,10 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Facet, ProductSearchPage } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -22,7 +27,7 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
   searchResult: ProductSearchPage;
   minPerFacet = 6;
   showAllPerFacetMap: Map<String, boolean>;
-  queryCodec: HttpUrlEncodingCodec;
+  protected queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
   searchResult$: Observable<ProductSearchPage>;
   visibleFacets$: Observable<Facet[]>;
