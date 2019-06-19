@@ -194,7 +194,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
    * @memberof PaymentFormComponent
    */
   showSameAsShippingAddressCheckbox(): Observable<boolean> {
-    return combineLatest(this.countries$, this.shippingAddress$).pipe(
+    return combineLatest([this.countries$, this.shippingAddress$]).pipe(
       map(([countries, address]) => {
         return !!countries.filter(
           (country: Country): boolean =>
