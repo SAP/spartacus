@@ -95,6 +95,23 @@ describe('LoginFormComponent', () => {
       control = component.form.controls['userId'];
     });
 
+    it('should make email lowercase', () => {
+      const upperCaseEmail = 'Test@email.com';
+      const lowerCaseEmail = upperCaseEmail.toLowerCase();
+
+      control.setValue(upperCaseEmail);
+      const result = component.emailToLowerCase();
+      expect(result).toEqual(lowerCaseEmail);
+    });
+
+    it('original form email value should NOT be changed', () => {
+      const upperCaseEmail = 'Test@email.com';
+
+      control.setValue(upperCaseEmail);
+      component.emailToLowerCase();
+      expect(control.value).toEqual(upperCaseEmail);
+    });
+
     it('should NOT be valid when empty', () => {
       control.setValue('');
       expect(control.valid).toBeFalsy();
