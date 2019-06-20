@@ -15,6 +15,10 @@
     @include media-breakpoint-down(sm) {
       padding: 0;
     }
+    cx-media.is-missing {
+      min-width: 100%;
+      background-size: 85px;
+    }
   }
 
   .cx-dialog-row {
