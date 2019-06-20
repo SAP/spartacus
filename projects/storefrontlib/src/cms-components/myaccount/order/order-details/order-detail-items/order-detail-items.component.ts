@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   Consignment,
   ConsignmentTracking,
@@ -9,6 +8,10 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import {
+  ModalRef,
+  ModalService,
+} from '../../../../../shared/components/modal/index';
 import { OrderDetailsService } from '../order-details.service';
 import { TrackingEventsComponent } from './consignment-tracking/tracking-events.component';
 
@@ -24,17 +27,17 @@ export class OrderDetailItemsComponent implements OnInit {
     'DELIVERY_COMPLETED',
     'DELIVERY_REJECTED',
   ];
+  modalRef: ModalRef;
 
   constructor(
     private orderDetailsService: OrderDetailsService,
     private userOrderService: UserOrderService,
-    private ngbModal: NgbModal
+    private modalService: ModalService
   ) {}
 
   order$: Observable<Order>;
   consignmentTracking$: Observable<ConsignmentTracking>;
   orderCode: string;
-  dialog: any;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService
@@ -57,12 +60,17 @@ export class OrderDetailItemsComponent implements OnInit {
       this.orderCode,
       consignment.code
     );
-    this.dialog = this.ngbModal.open(TrackingEventsComponent, {
+    this.consignmentTracking$ = this.userOrderService.getConsignmentTracking();
+
+    let modalInstance: any;
+    this.modalRef = this.modalService.open(TrackingEventsComponent, {
       centered: true,
       size: 'lg',
-    }).componentInstance;
-    this.dialog.tracking$ = this.consignmentTracking$;
-    this.dialog.shipDate = consignment.statusDate;
-    this.dialog.consignmentCode = consignment.code;
+    });
+
+    modalInstance = this.modalRef.componentInstance;
+    modalInstance.tracking$ = this.consignmentTracking$;
+    modalInstance.shipDate = consignment.statusDate;
+    modalInstance.consignmentCode = consignment.code;
   }
 }

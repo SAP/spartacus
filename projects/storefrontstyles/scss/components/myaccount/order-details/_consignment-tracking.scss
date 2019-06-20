@@ -6,48 +6,47 @@
   $cx-consignment-tracking-dialog-body-padding-sm: 0 !default;
 
   .cx-consignment-tracking-dialog {
-    &__header {
+    .header {
       padding-left: $cx-consignment-tracking-dialog-header-padding-left;
     }
 
-    &__title {
+    .title {
       @include type('3');
     }
 
-    &__body {
+    .body {
       @include media-breakpoint-down(sm) {
         padding: $cx-consignment-tracking-dialog-body-padding-sm;
       }
     }
 
-    &__shipment-heading {
+    .shipment-heading {
       position: relative;
       padding: 2rem 0 1rem 2rem;
       background-color: var(--cx-color-background);
     }
 
-    &__no-tracking-heading {
+    .no-tracking-heading {
       position: relative;
       padding: $cx-consignment-tracking-dialog-header-padding-left;
     }
 
-    &__shipment-title {
-      @include type('4');
-    }
-
-    &__shipment-city {
-      @include type('6');
-    }
-
-    &__shipment-content {
+    .shipment-content {
       padding: 0.5rem 0 1rem 0;
     }
 
-    &__event {
+    .shipment-title {
+      @include type('4');
+    }
+
+    .event {
       .event-body {
         border-left: 10px solid var(--cx-color-secondary);
         padding-left: 16px;
         margin-bottom: 16px;
+        .shipment-city {
+          @include type('6');
+        }
       }
     }
   }

@@ -22,7 +22,7 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-fdescribe('TrackingEventsComponent', () => {
+describe('TrackingEventsComponent', () => {
   let component: TrackingEventsComponent;
   let fixture: ComponentFixture<TrackingEventsComponent>;
   let el: DebugElement;
@@ -40,10 +40,10 @@ fdescribe('TrackingEventsComponent', () => {
     el = fixture.debugElement;
     component = fixture.componentInstance;
     component.shipDate = shipDate;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -58,7 +58,7 @@ fdescribe('TrackingEventsComponent', () => {
       trackingID: '1234567890',
     });
     fixture.detectChanges();
-    expect(el.query(By.css('.no-tracking-info'))).toBeTruthy();
+    expect(el.query(By.css('.no-tracking-heading'))).toBeTruthy();
   });
 
   it('should show tracking info', () => {
@@ -70,8 +70,6 @@ fdescribe('TrackingEventsComponent', () => {
       trackingID: '1234567890',
     });
     fixture.detectChanges();
-    expect(
-      el.query(By.css('.cx-consignment-tracking-dialog__shipment-row'))
-    ).toBeTruthy();
+    expect(el.query(By.css('.shipment-heading'))).toBeTruthy();
   });
 });
