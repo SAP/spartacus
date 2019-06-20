@@ -8,6 +8,10 @@
     }
   }
 
+  cx-media.is-missing {
+    min-width: 96px;
+  }
+
   .cx-name {
     @include type('5');
     overflow-wrap: break-word;
