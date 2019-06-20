@@ -129,6 +129,11 @@
       @include type('8');
       color: var(--cx-color-text);
       border-width: 0;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
