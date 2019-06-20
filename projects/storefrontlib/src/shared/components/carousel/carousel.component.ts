@@ -19,22 +19,20 @@ import { CarouselService } from './carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarouselComponent implements OnInit {
+  /**
+   * Optional title that will be rendered as a heading
+   * at the start of the carousel.
+   */
   @Input() title: string;
 
+  /**
+   * Array of Observables that can contain any data.
+   */
   @Input() items$: Observable<any>[];
 
   // TODO: drop after we refactored to Observables
   @Input() items: any[];
-
-  // private _items: CarouselItem[];
-  // @Input('items')
-  // set items(value: CarouselItem[]) {
-  //   this._items = value;
-  //   this.select();
-  // }
-  // get items(): CarouselItem[] {
-  //   return this._items;
-  // }
+  @Input() minItemPixelSize = 300;
 
   /** Indicates the current active item in carousel (if any)  */
   @Input() activeItem: number;
@@ -46,8 +44,9 @@ export class CarouselComponent implements OnInit {
    * which means that a carousel can be placed in different layouts,
    * regardless of the overall size.
    */
-  @Input() minItemPixelSize = 300;
+  @Input() itemWidth = '300px';
 
+  /** Mandatory template responsible for rndering the carousel item */
   @Input() template: TemplateRef<any>;
 
   @Input() hideIndicators = false;
@@ -72,7 +71,7 @@ export class CarouselComponent implements OnInit {
 
   ngOnInit() {
     this.size$ = this.service
-      .getSize(this.el.nativeElement, this.minItemPixelSize)
+      .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => this.select()));
   }
 

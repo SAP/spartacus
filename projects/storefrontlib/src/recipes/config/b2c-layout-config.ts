@@ -2,40 +2,40 @@ import { LayoutConfig } from '../../layout/config/layout-config';
 
 export const b2cLayoutConfig: LayoutConfig = {
   layoutSlots: {
-    // header: {
-    //   md: {
-    //     slots: [
-    //       'PreHeader',
-    //       'SiteContext',
-    //       'SiteLinks',
-    //       'SiteLogo',
-    //       'SearchBox',
-    //       'SiteLogin',
-    //       'MiniCart',
-    //       'NavigationBar',
-    //     ],
-    //   },
-    //   xs: {
-    //     slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
-    //   },
-    // },
-    // navigation: {
-    //   md: { slots: [] },
-    //   xs: {
-    //     slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
-    //   },
-    // },
-    // footer: {
-    //   slots: ['Footer'],
-    // },
+    header: {
+      md: {
+        slots: [
+          'PreHeader',
+          'SiteContext',
+          'SiteLinks',
+          'SiteLogo',
+          'SearchBox',
+          'SiteLogin',
+          'MiniCart',
+          'NavigationBar',
+        ],
+      },
+      xs: {
+        slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
+      },
+    },
+    navigation: {
+      md: { slots: [] },
+      xs: {
+        slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
+      },
+    },
+    footer: {
+      slots: ['Footer'],
+    },
     LandingPage2Template: {
       slots: [
-        // 'Section1',
+        'Section1',
         // 'Section2A',
         // 'Section2B',
         // 'Section2C',
         'Section3',
-        // 'Section4',
+        'Section4',
         // 'Section5',
       ],
     },

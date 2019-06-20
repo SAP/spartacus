@@ -1,40 +1,51 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsBannerCarouselComponent } from '@spartacus/core';
-import { CarouselItem } from 'projects/storefrontlib/src/shared';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  CmsBannerCarouselComponent as model,
+  CmsService,
+  ContentSlotComponentData,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/index';
-import { BannerCarouselService } from './banner.carousel.service';
 
+/**
+ * Generic carousel that renders CMS Components.
+ */
 @Component({
   selector: 'cx-banner-carousel',
   templateUrl: 'banner-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerCarouselComponent {
-  componentData$: Observable<
-    CmsBannerCarouselComponent
-  > = this.componentData.data$.pipe(filter(Boolean));
+  private componentData$: Observable<model> = this.componentData.data$.pipe(
+    filter(Boolean),
+    tap((d: model) => (this.theme = `${d.effects}-theme`))
+  );
+
+  private items$: Observable<
+    Observable<ContentSlotComponentData>[]
+  > = this.componentData$.pipe(
+    map(data => data.banners.trim().split(' ')),
+    map(codes => codes.map(code => this.cmsService.getComponentData(code)))
+  );
+
+  /**
+   * Adds a specific theme for the carousel. The effect can be
+   * used in CSS customisations.
+   */
+  @HostBinding('class') theme = '';
 
   constructor(
-    private componentData: CmsComponentData<CmsBannerCarouselComponent>,
-    private bannerCarouselService: BannerCarouselService
+    private componentData: CmsComponentData<model>,
+    private cmsService: CmsService
   ) {}
 
-  test() {
-    console.log('test???');
-  }
-
-  getCarouselItems(): Observable<Observable<CarouselItem>[]> {
-    return this.componentData$.pipe(
-      map(data => data.banners.split(' ')),
-      map(codes => this.bannerCarouselService.getCarouselItems(codes))
-    );
-  }
-
-  getCarouselItemData(): Observable<CarouselItem[]> {
-    return this.getCarouselItems().pipe(
-      switchMap(items => combineLatest(items))
-    );
+  /**
+   * Returns an Obervable with an Array of Observables. This is done, so that
+   * the component UI could consider to lazy load the UI components when they're
+   * in the viewpoint.
+   */
+  getItems(): Observable<Observable<ContentSlotComponentData>[]> {
+    return this.items$;
   }
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CarouselItem } from '../../../shared/components/carousel/index';
 import { CurrentProductService } from '../current-product.service';
@@ -42,8 +42,23 @@ export class ProductImagesComponent {
     return this.mainImage$;
   }
 
-  openImage(item: CarouselItem): void {
-    this.mainMediaContainer.next(item.media.container);
+  openImage(item: any): void {
+    this.mainMediaContainer.next(item);
+  }
+
+  isActive(thumbnail): Observable<boolean> {
+    return this.mainMediaContainer.pipe(
+      filter(Boolean),
+      map((container: any) => {
+        return (
+          container.zoom &&
+          container.zoom.url &&
+          thumbnail.zoom &&
+          thumbnail.zoom.url &&
+          container.zoom.url === thumbnail.zoom.url
+        );
+      })
+    );
   }
 
   /** find the index of the main media in the list of media */
@@ -68,22 +83,15 @@ export class ProductImagesComponent {
    * Return an array of CarouselItems for the product thumbnails.
    * In case there are less then 2 thumbs, we return null.
    */
-  private createCarouselItems(product: Product): CarouselItem[] {
+  private createCarouselItems(product: Product): any[] {
     if (
       !product.images ||
       !product.images.GALLERY ||
       product.images.GALLERY.length < 2
     ) {
-      return null;
+      return [];
     }
 
-    return (<any[]>product.images.GALLERY).map(c => {
-      return {
-        media: {
-          container: c,
-          format: 'thumbnail',
-        },
-      };
-    });
+    return (<any[]>product.images.GALLERY).map(c => of({ container: c }));
   }
 }

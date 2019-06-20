@@ -3,7 +3,6 @@
   [attr.src]="media.src"
   [attr.srcset]="media.srcset"
   [attr.alt]="media.alt"
+  (load)="loadHandler()"
   (error)="errorHandler()"
 />
-
-<!-- (load)="loadHandler()" -->

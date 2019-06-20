@@ -50,48 +50,18 @@
         }
 
         .item {
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-          justify-content: space-between;
-          padding-bottom: 10px;
-          color: var(--cx-color-text);
-
-          cursor: pointer;
-
-          cx-media {
-            // height: 20vmin;
-
-            &.is-missing {
-              min-height: 20vmin;
-              background-size: 20vmin;
-            }
-          }
           opacity: 0;
           z-index: -1;
           &.active {
             opacity: 1;
             z-index: 1;
           }
-
           transition: 0.4s all;
+
           // we add a transition delay so that items are nicely animated in a sequence
           @for $i from 1 through 4 {
             &:nth-child(#{$i}) {
               transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
-            }
-          }
-
-          h4 {
-            font-size: 0.9rem;
-            height: 30px;
-            font-weight: bold;
-            margin-top: 5px;
-          }
-          &:hover {
-            text-decoration: none;
-            h4 {
-              color: var(--cx-color-primary);
             }
           }
         }

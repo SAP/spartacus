@@ -1,0 +1,75 @@
+%cx-banner-carousel {
+  // let's do a FULL size carousel
+  .carousel-panel {
+    // max-height: 400px;
+    overflow: hidden;
+  }
+  .inline-navigation {
+    position: relative;
+    // padding: 20px;
+    .carousel-panel {
+      position: relative;
+
+      .previous,
+      .next {
+        position: absolute;
+        z-index: 10;
+        height: 100%;
+        width: 5vw;
+        transition: all 0.4s;
+        &:hover {
+          font-size: 3rem;
+        }
+      }
+      .next {
+        right: 0;
+        border-block-start: solid 1px white;
+      }
+    }
+    .indicators {
+      margin-top: -60px;
+      z-index: 1;
+    }
+  }
+
+  h3 {
+    // display: block;
+    // margin: 20px;
+    // padding: 10px;
+
+    // position: absolute;
+    // z-index: 10;
+
+    // // display: flex;
+    // // justify-content: center;
+    // // align-items: center;
+
+    // background: blue;
+    // color: #fff;
+
+    // transition: all 0.3s;
+  }
+
+  &:hover {
+    h3 {
+      // padding: 10px 30px;
+      // margin-right: 50px;
+      // margin-left: 50px;
+    }
+  }
+
+  &.FADE-theme h3 {
+    align-self: flex-end;
+  }
+  &.ZOOM-theme h3 {
+    align-self: flex-start;
+  }
+  &.CURTAIN-theme h3 {
+    align-self: flex-start;
+    bottom: 0;
+  }
+  &.TURN_DOWN-theme h3 {
+    align-self: flex-end;
+    bottom: 0;
+  }
+}

@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsProductCarouselComponent, Product } from '@spartacus/core';
+import {
+  CmsProductCarouselComponent,
+  Product,
+  ProductService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { ProductCarouselService } from '../product-carousel.service';
 import { ProductCarouselComponent } from './product-carousel.component';
 
 @Component({
@@ -13,7 +16,17 @@ import { ProductCarouselComponent } from './product-carousel.component';
 })
 class MockCarouselComponent {
   @Input() title;
-  @Input() items;
+  @Input() template;
+  @Input() items$;
+}
+
+@Component({
+  selector: 'cx-media',
+  template: '',
+})
+class MockMediaComponent {
+  @Input() container;
+  @Input() format;
 }
 
 const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
@@ -42,8 +55,8 @@ const MockCmsProductCarouselComponent = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
-class MockProductCarouselService {
-  loadProduct(): Observable<Product> {
+class MockProductService {
+  get(): Observable<Product> {
     return of(mockProduct);
   }
 }
@@ -51,20 +64,23 @@ class MockProductCarouselService {
 describe('ProductCarouselComponent', () => {
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
-  //   // let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ProductCarouselComponent, MockCarouselComponent],
+      declarations: [
+        ProductCarouselComponent,
+        MockCarouselComponent,
+        MockMediaComponent,
+      ],
       providers: [
         {
           provide: CmsComponentData,
           useValue: MockCmsProductCarouselComponent,
         },
         {
-          provide: ProductCarouselService,
-          useClass: MockProductCarouselService,
+          provide: ProductService,
+          useClass: MockProductService,
         },
       ],
     }).compileComponents();
@@ -74,7 +90,6 @@ describe('ProductCarouselComponent', () => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
     productCarouselComponent = fixture.componentInstance;
     fixture.detectChanges();
-    // el = fixture.debugElement;
   });
 
   it('should be created', async(() => {

@@ -5,5 +5,8 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: '',
+
+  occBaseUrl: 'https://dev-com-19.accdemo.b2c.ydev.hybris.com:9002',
+  // occBaseUrl:
+  //   'https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com',
 };

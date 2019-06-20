@@ -74,6 +74,9 @@ export interface CmsBannerComponent extends CmsComponent {
 
 export enum CmsBannerCarouselEffect {
   FADE = 'FADE',
+  ZOOM = 'ZOOM',
+  CURTAIN = 'CURTAIN',
+  TURN_DOWN = 'TURN_DOWN',
 }
 
 export interface CmsBannerCarouselComponent extends CmsComponent {

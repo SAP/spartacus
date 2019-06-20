@@ -19,51 +19,15 @@
           <ng-container
             *ngFor="let item of (items$ | slice: i:i + size); let j = index"
           >
-            <div *ngIf="(item | async) as data">
-              <div class="item" [class.active]="i === activeSlide">
-                <ng-container
-                  *ngTemplateOutlet="template; context: { item: data }"
-                ></ng-container>
-              </div>
-            </div>
-
-            <!-- <a
-              *ngIf="item && item.route; else noLink"
+            <div
+              *ngIf="(item | async) as data"
               class="item"
               [class.active]="i === activeSlide"
-              [class.activeItem]="j === activeItem - i"
-              (focus)="onOpen(i, j)"
-              tabindex="0"
-              [routerLink]="item.route"
             >
-              <cx-media
-                [container]="item.media?.container"
-                [format]="item.media?.format"
-              >
-              </cx-media>
-
-              <h4 *ngIf="item.title">{{ item.title }}</h4>
-              <div *ngIf="item.price" class="price">{{ item.price }}</div>
-            </a>
-            <ng-template #noLink>
-              <a
-                *ngIf="item"
-                class="item"
-                [class.active]="i === activeSlide"
-                [class.activeItem]="j === activeItem - i"
-                (focus)="onOpen(i, j)"
-                tabindex="0"
-              >
-                <cx-media
-                  [container]="item.media?.container"
-                  [format]="item.media?.format"
-                >
-                </cx-media>
-
-                <h4 *ngIf="item.title">{{ item.title }}</h4>
-                <div *ngIf="item.price" class="price">{{ item.price }}</div>
-              </a>
-            </ng-template> -->
+              <ng-container
+                *ngTemplateOutlet="template; context: { item: data }"
+              ></ng-container>
+            </div>
           </ng-container>
         </div>
       </ng-container>
@@ -73,6 +37,7 @@
       *ngIf="size < items$.length"
       class="next"
       (click)="select(activeSlide + size)"
+      tabindex="0"
       [disabled]="activeSlide > items$.length - size - 1"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
@@ -83,8 +48,9 @@
     <ng-container *ngFor="let _ of items$; let i = index">
       <button
         *ngIf="i % size === 0"
-        (click)="select(i)"
+        (focus)="select(i)"
         [disabled]="i === activeSlide"
+        tabindex="0"
       >
         <cx-icon [type]="indicatorIcon"></cx-icon>
       </button>
