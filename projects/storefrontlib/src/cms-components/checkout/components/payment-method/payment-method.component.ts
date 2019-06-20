@@ -196,19 +196,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.checkoutPaymentService.setPaymentDetails(payment);
       this.checkoutService.clearCheckoutStep(3);
     }
-    // console.log('in');
-    // this.checkoutService.clearCheckoutStep(3);
-    // this.routingService.go(this.checkoutStepUrlNext);
-
-    // this.getPaymentDetailsSub = this.checkoutPaymentService
-    //   .getPaymentDetails()
-    //   .subscribe(data => {
-    //     if (data.accountHolderName && data.cardNumber) {
-    //       this.routingService.go(this.checkoutStepUrlNext);
-
-    //       return;
-    //     }
-    //   });
   }
 
   ngOnDestroy(): void {
