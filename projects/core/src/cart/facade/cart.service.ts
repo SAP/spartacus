@@ -5,9 +5,14 @@ import { filter } from 'rxjs/operators';
 import { AuthService, UserToken } from '../../auth/index';
 import { Cart, Voucher } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import * as fromProcessStore from '../../process/store/process-state';
+import {
+  getProcessErrorFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { BaseSiteService } from '../../site-context/index';
 import * as fromAction from '../store/actions';
-import { StateWithCart } from '../store/cart-state';
+import { ADD_VOUCHER_PROCESS_ID, StateWithCart } from '../store/cart-state';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
@@ -16,7 +21,9 @@ export class CartService {
   private callback: Function;
 
   constructor(
-    protected store: Store<StateWithCart>,
+    protected store: Store<
+      StateWithCart | fromProcessStore.StateWithProcess<void>
+    >,
     protected cartData: CartDataService,
     protected authService: AuthService,
     protected baseSiteService: BaseSiteService
@@ -224,6 +231,18 @@ export class CartService {
         cartId: this.cartData.cartId,
         voucherId: voucherId,
       })
+    );
+  }
+
+  getAddVoucherResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID))
+    );
+  }
+
+  getAddVoucherResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 }

@@ -1,9 +1,14 @@
 import {
+  EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
+} from '../../../state/utils/entity-loader/entity-loader.action';
+import {
   LoaderFailAction,
   LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import { CART_DATA } from '../cart-state';
+import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
 
 export const ADD_CART_VOUCHER = '[Cart] Add Cart Vouchers';
 export const ADD_CART_VOUCHER_FAIL = '[Cart] Add Cart Voucher Fail';
@@ -14,24 +19,24 @@ export const REMOVE_CART_VOUCHER_FAIL = '[Cart] Remove Cart Voucher Fail';
 export const REMOVE_CART_VOUCHER_SUCCESS = '[Cart] Remove Cart Voucher Success';
 
 // Adding cart voucher actions
-export class AddCartVoucher extends LoaderLoadAction {
+export class AddCartVoucher extends EntityLoadAction {
   readonly type = ADD_CART_VOUCHER;
   constructor(public payload: any) {
-    super(CART_DATA);
+    super(CART_DATA, ADD_VOUCHER_PROCESS_ID);
   }
 }
 
-export class AddCartVoucherFail extends LoaderFailAction {
+export class AddCartVoucherFail extends EntityFailAction {
   readonly type = ADD_CART_VOUCHER_FAIL;
   constructor(public payload: any) {
-    super(CART_DATA, payload);
+    super(CART_DATA, ADD_VOUCHER_PROCESS_ID, payload);
   }
 }
 
-export class AddCartVoucherSuccess extends LoaderSuccessAction {
+export class AddCartVoucherSuccess extends EntitySuccessAction {
   readonly type = ADD_CART_VOUCHER_SUCCESS;
   constructor(public payload: any) {
-    super(CART_DATA);
+    super(CART_DATA, ADD_VOUCHER_PROCESS_ID);
   }
 }
 

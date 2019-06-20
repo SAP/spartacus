@@ -1,16 +1,21 @@
 import {
+  entityFailMeta,
+  entityLoadMeta,
+  entitySuccessMeta,
+} from '../../../state/utils/entity-loader/entity-loader.action';
+import {
   failMeta,
   loadMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
-import { CART_DATA } from '../cart-state';
+import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
 import * as fromCartVoucher from './cart-voucher.action';
 
 const userId = 'xxx@xxx.xxx';
 const cartId = 'testCartId';
 const voucherId = 'testVoucherId';
 
-fdescribe('Cart-voucher Actions', () => {
+describe('Cart-voucher Actions', () => {
   describe('AddCartVoucher Actions', () => {
     describe('AddVoucher', () => {
       it('should create the action', () => {
@@ -23,7 +28,7 @@ fdescribe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCartVoucher.ADD_CART_VOUCHER,
           payload: payload,
-          meta: loadMeta(CART_DATA),
+          meta: entityLoadMeta(CART_DATA, ADD_VOUCHER_PROCESS_ID),
         });
       });
     });
@@ -36,7 +41,7 @@ fdescribe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCartVoucher.ADD_CART_VOUCHER_FAIL,
           payload: error,
-          meta: failMeta(CART_DATA, error),
+          meta: entityFailMeta(CART_DATA, ADD_VOUCHER_PROCESS_ID, error),
         });
       });
     });
@@ -47,7 +52,7 @@ fdescribe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCartVoucher.ADD_CART_VOUCHER_SUCCESS,
           payload: {},
-          meta: successMeta(CART_DATA),
+          meta: entitySuccessMeta(CART_DATA, ADD_VOUCHER_PROCESS_ID),
         });
       });
     });
