@@ -21,15 +21,7 @@
       }}
     </div>
   </div>
-  <div class="cx-summary-row cx-summary-savings">
-    <div class="col-6 cx-summary-label">
-      {{ 'orderCost.discount' | cxTranslate }}
-    </div>
-    <div class="col-6 cx-summary-amount">
-      {{ cart.totalDiscounts?.formattedValue }}
-    </div>
-  </div>
-  <div class="cx-summary-row">
+  <div class="cx-summary-row" *ngIf="cart.net">
     <div class="col-6 cx-summary-label">
       {{ 'orderCost.salesTax' | cxTranslate }}
     </div>
@@ -45,6 +37,16 @@
       {{ cart.totalPriceWithTax?.formattedValue }}
     </div>
   </div>
+  <div class="cx-summary-row" *ngIf="cart.totalDiscounts?.value > 0">
+    {{ 'orderCost.discount' | cxTranslate }}
+    {{ cart.totalDiscounts?.formattedValue }}
+  </div>
+  <div class="cx-summary-row" *ngIf="!cart.net">
+    {{ 'orderCost.grossTax' | cxTranslate }}
+    {{ cart.totalTax?.formattedValue }}.
+  </div>
 </div>
 
+<!--
 <cx-promotions [promotions]="cart.appliedOrderPromotions"></cx-promotions>
+-->
