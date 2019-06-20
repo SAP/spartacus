@@ -114,13 +114,13 @@ describe('Checkout Selectors', () => {
     });
   });
 
-  describe('getSelectedCode', () => {
+  describe('getSelectedDeliveryModeCode', () => {
     it('should return selected delivery mode code', () => {
       const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: string;
       store
-        .pipe(select(CheckoutSelectors.getSelectedCode))
+        .pipe(select(CheckoutSelectors.getSelectedDeliveryModeCode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual('');

@@ -40,7 +40,9 @@ export class CheckoutDeliveryService {
    * Get selected delivery mode code
    */
   getSelectedDeliveryModeCode(): Observable<string> {
-    return this.checkoutStore.pipe(select(CheckoutSelectors.getSelectedCode));
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getSelectedDeliveryModeCode)
+    );
   }
 
   /**
