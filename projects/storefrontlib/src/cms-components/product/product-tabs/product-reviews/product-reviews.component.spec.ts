@@ -7,7 +7,7 @@ import {
   Product,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { FormComponentsModule } from '../../../../shared';
+import { ItemCounterModule } from '../../../../shared';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -48,7 +48,7 @@ describe('ProductReviewsComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, FormComponentsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, ItemCounterModule, I18nTestingModule],
       providers: [
         {
           provide: ProductReviewService,
