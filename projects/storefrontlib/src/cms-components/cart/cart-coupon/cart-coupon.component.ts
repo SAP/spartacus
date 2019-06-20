@@ -1,15 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  AuthService,
-  Cart,
-  CartService,
-  GlobalMessageService,
-  GlobalMessageType,
-  OccEndpointsService,
-  Order,
-} from '@spartacus/core';
+import { AuthService, Cart, CartService, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -34,11 +25,8 @@ export class CartCouponComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
     private authService: AuthService,
-    private occEndpoints: OccEndpointsService,
-    private cartService: CartService,
-    private globalMessageService: GlobalMessageService
+    private cartService: CartService
   ) {}
 
   ngOnInit() {
@@ -56,33 +44,13 @@ export class CartCouponComponent implements OnInit {
   }
 
   apply(): void {
-    const params = new HttpParams().set(
-      'voucherId',
-      this.form.value.couponCode
-    );
-    this.http
-      .post(this.getEndpoint(this.userId, this.cart.code), {}, { params })
-      .subscribe(() => this.cartService.loadDetails());
-
-    this.globalMessageService.add(
-      { key: 'You have applied a coupon. need to confirm with shuan.' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+    this.cartService.addVoucher(this.form.value.couponCode);
 
     //check if the apply action success, then we reset the form.
     this.form.reset();
   }
 
   removeVoucher(voucherId: string) {
-    this.http
-      .delete(this.getEndpoint(this.userId, this.cart.code, voucherId))
-      .subscribe(() => this.cartService.loadDetails());
-  }
-
-  getEndpoint(userId: string, cartId: string, voucherId?: string): string {
-    const endpoint = voucherId
-      ? `/users/${userId}/carts/${cartId}/vouchers/${voucherId}`
-      : `/users/${userId}/carts/${cartId}/vouchers`;
-    return this.occEndpoints.getEndpoint(endpoint);
+    this.cartService.removeVoucher(voucherId);
   }
 }

@@ -1,7 +1,6 @@
-import * as fromActions from './../actions';
-
-import * as fromCart from './cart.reducer';
 import { Cart } from '../../../model/cart.model';
+import * as fromActions from './../actions';
+import * as fromCart from './cart.reducer';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
@@ -37,6 +36,7 @@ describe('Cart reducer', () => {
       expect(state.content).toEqual(testCart);
       expect(state.entries).toEqual({});
       expect(state.refresh).toEqual(false);
+      expect(state.appliedVouchers).toEqual([]);
     });
 
     it('should load an existing cart', () => {
@@ -53,6 +53,7 @@ describe('Cart reducer', () => {
           currencyIso: 'USD',
           value: 0,
         },
+        appliedVouchers: [{ code: 'testVoucherId' }],
       };
 
       const { initialState } = fromCart;
@@ -67,6 +68,7 @@ describe('Cart reducer', () => {
         '1234': { entryNumber: 0, product: { code: '1234' } },
       });
       expect(state.refresh).toEqual(false);
+      expect(state.appliedVouchers).toEqual([{ code: 'testVoucherId' }]);
     });
   });
 
@@ -75,6 +77,16 @@ describe('Cart reducer', () => {
       const { initialState } = fromCart;
 
       const action = new fromActions.AddEntrySuccess({});
+      const state = fromCart.reducer(initialState, action);
+      expect(state.refresh).toEqual(true);
+    });
+  });
+
+  describe('REMOVE_CART_VOUCHER_SUCCESS or ADD_CART_VOUCHER_SUCCESS action', () => {
+    it('should set refresh to true', () => {
+      const { initialState } = fromCart;
+
+      const action = new fromActions.AddCartVoucherSuccess({});
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });

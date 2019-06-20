@@ -1,19 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Store, StoreModule } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-
 import { AuthService, UserToken } from '../../auth';
-import { BaseSiteService } from '../../site-context';
-
-import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
-
+import { Cart, Voucher } from '../../model/cart.model';
+import { OrderEntry } from '../../model/order.model';
+import { BaseSiteService } from '../../site-context';
+import { StateWithCart } from '../store/cart-state';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
-import { OrderEntry } from '../../model/order.model';
-import { Cart } from '../../model/cart.model';
 
 class CartDataServiceStub {
   userId;
@@ -55,6 +50,7 @@ describe('CartService', () => {
     entryNumber: 0,
     product: { code: productCode },
   };
+  const voucherId = 'voucherTest1';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -412,6 +408,60 @@ describe('CartService', () => {
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toEqual(cart);
+    });
+  });
+
+  describe('getAppliedVouchers', () => {
+    it('should return voucher array', () => {
+      const testCart: Cart = <Cart>{
+        appliedVouchers: [{ code: 'voucher1' }, { code: 'voucher2' }],
+      };
+      store.dispatch(new fromCart.LoadCartSuccess(testCart));
+
+      let result: Voucher[];
+      service
+        .getAppliedVouchers()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(testCart.appliedVouchers);
+    });
+  });
+
+  describe('add Voucher', () => {
+    it('should be able to addVoucher', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+
+      service.addVoucher(voucherId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.AddCartVoucher({
+          userId: userId,
+          cartId: cart.code,
+          voucherId: voucherId,
+        })
+      );
+    });
+  });
+
+  describe('remove Voucher', () => {
+    it('should be able to removeVoucher', () => {
+      spyOn(store, 'dispatch').and.stub();
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+
+      service.removeVoucher(voucherId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.RemoveCartVoucher({
+          userId: userId,
+          cartId: cart.code,
+          voucherId: voucherId,
+        })
+      );
     });
   });
 });

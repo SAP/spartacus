@@ -3,26 +3,27 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import {
-  CART_FEATURE,
-  CartsState,
-  CartState,
-  StateWithCart,
-} from '../cart-state';
+import { Cart, Voucher } from '../../../model/cart.model';
+import { OrderEntry } from '../../../model/order.model';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderLoadingSelector,
   loaderSuccessSelector,
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { Cart } from '../../../model/cart.model';
-import { OrderEntry } from '../../../model/order.model';
+import {
+  CartsState,
+  CartState,
+  CART_FEATURE,
+  StateWithCart,
+} from '../cart-state';
 
 export const getCartContentSelector = (state: CartState) => state.content;
 export const getRefreshSelector = (state: CartState) => state.refresh;
 export const getEntriesSelector = (state: CartState) => state.entries;
 export const getCartMergeCompleteSelector = (state: CartState) =>
   state.cartMergeComplete;
+export const getVouchersSelector = (state: CartState) => state.appliedVouchers;
 
 export const getCartsState: MemoizedSelector<
   StateWithCart,
@@ -103,4 +104,12 @@ export const getEntries: MemoizedSelector<any, OrderEntry[]> = createSelector(
   entities => {
     return Object.keys(entities).map(code => entities[code]);
   }
+);
+
+export const getVouchers: MemoizedSelector<
+  StateWithCart,
+  Voucher[]
+> = createSelector(
+  getCartState,
+  getVouchersSelector
 );

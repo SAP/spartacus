@@ -33,7 +33,7 @@ describe('AppliedCouponsComponent', () => {
     component.vouchers = mockVouchers;
     fixture.detectChanges();
     const promotionsContent = fixture.debugElement.query(
-      By.css('.cx-promotions')
+      By.css('.cx-cart-coupons')
     ).nativeElement.textContent;
 
     expect(promotionsContent).toContain(mockVoucher.code);

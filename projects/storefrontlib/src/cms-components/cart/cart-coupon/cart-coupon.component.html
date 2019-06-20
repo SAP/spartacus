@@ -2,7 +2,7 @@
 <div class="row col-md-8">
   <label>
     <span class="label-content">
-      {{ 'cartCoupon.couponLabel' | cxTranslate }}
+      {{ 'voucher.couponLabel' | cxTranslate }}
     </span>
   </label>
 </div>
@@ -13,7 +13,7 @@
         type="text"
         class="form-control"
         formControlName="couponCode"
-        placeholder="{{ 'cartCoupon.placeholder' | cxTranslate }}"
+        placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
       />
     </div>
     <div class="col-md-4">
@@ -23,7 +23,7 @@
         [disabled]="!disableBtn || cartIsLoading"
         [class.disabled]="cartIsLoading"
       >
-        {{ 'cartCoupon.apply' | cxTranslate }}
+        {{ 'voucher.apply' | cxTranslate }}
       </button>
     </div>
   </div>
@@ -41,7 +41,7 @@
       [disabled]="cartIsLoading"
       (click)="removeVoucher(v.code)"
     >
-      {{ 'cartCoupon.remove' | cxTranslate }}
+      {{ 'common.remove' | cxTranslate }}
     </button>
   </div>
 </ng-container>

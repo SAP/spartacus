@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
-
 import { select, Store } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
 import { AuthService, UserToken } from '../../auth/index';
-
-import * as fromAction from '../store/actions';
-import * as fromSelector from '../store/selectors';
-import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { StateWithCart } from '../store/cart-state';
-import { Cart } from '../../model/cart.model';
+import { Cart, Voucher } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { BaseSiteService } from '../../site-context/index';
+import * as fromAction from '../store/actions';
+import { StateWithCart } from '../store/cart-state';
+import * as fromSelector from '../store/selectors';
+import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
 @Injectable()
 export class CartService {
@@ -204,5 +201,29 @@ export class CartService {
 
   isEmpty(cart: Cart): boolean {
     return cart && !cart.totalItems;
+  }
+
+  getAppliedVouchers(): Observable<Voucher[]> {
+    return this.store.pipe(select(fromSelector.getVouchers));
+  }
+
+  addVoucher(voucherId: string): void {
+    this.store.dispatch(
+      new fromAction.AddCartVoucher({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+        voucherId: voucherId,
+      })
+    );
+  }
+
+  removeVoucher(voucherId: string): void {
+    this.store.dispatch(
+      new fromAction.RemoveCartVoucher({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+        voucherId: voucherId,
+      })
+    );
   }
 }
