@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-
-import { CartService, Cart, OrderEntry } from '@spartacus/core';
-
+import { Cart, CartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -27,7 +25,15 @@ export class CartDetailsComponent implements OnInit {
 
   getAllPromotionsForCart(cart: Cart): Cart[] {
     const potentialPromotions = cart.potentialOrderPromotions || [];
-    const appliedPromotions = cart.appliedOrderPromotions || [];
+
+    let appliedPromotions = [];
+    if (cart.appliedOrderPromotions) {
+      appliedPromotions.push(...cart.appliedOrderPromotions);
+    }
+    if (cart.appliedProductPromotions) {
+      appliedPromotions.push(...cart.appliedProductPromotions);
+    }
+
     return [...potentialPromotions, ...appliedPromotions];
   }
 }
