@@ -72,6 +72,7 @@ export function reducer(
     }
 
     case fromAction.ADD_CART_VOUCHER_SUCCESS:
+    case fromAction.ADD_CART_VOUCHER_FAIL:
     case fromAction.REMOVE_CART_VOUCHER_SUCCESS:
     case fromAction.REMOVE_ENTRY_SUCCESS:
     case fromAction.UPDATE_ENTRY_SUCCESS:

@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService, Cart, CartService, Order } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Cart, CartService, Order } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -10,34 +8,23 @@ import { map } from 'rxjs/operators';
 })
 export class CartCouponComponent implements OnInit {
   form: FormGroup;
-  vouchers$: Observable<any>;
   disableBtn: boolean;
 
   @Input()
   cart: Cart | Order;
   @Input()
-  guid: string;
-  @Input()
-  isReadOnly = false;
-  @Input()
   cartIsLoading = false;
   userId: string;
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private cartService: CartService
+    private cartService: CartService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.form = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
-    this.authService
-      .getUserToken()
-      .pipe(map(token => token.userId))
-      .subscribe(userId => (this.userId = userId));
-
     this.form.valueChanges.subscribe(() => {
       this.disableBtn = this.form.valid;
     });
