@@ -11,7 +11,6 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
-  styleUrls: ['./update-email.component.scss'],
 })
 export class UpdateEmailComponent implements OnInit, OnDestroy {
   constructor(
