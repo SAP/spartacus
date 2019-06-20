@@ -53,9 +53,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
     this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
 
-    //this.checkoutDeliveryService.loadSupportedDeliveryModes();
-
-    this.checkoutDeliveryService
+    this.deliveryModeSub = this.checkoutDeliveryService
       .getSelectedDeliveryMode()
       .pipe(
         map((deliveryMode: DeliveryMode) =>
@@ -63,9 +61,12 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(code => {
+        if (!!code && code === this.currentDeliveryModeId) {
+          this.routingService.go(this.checkoutStepUrlNext);
+        }
+        this.currentDeliveryModeId = code;
         if (code) {
           this.mode.controls['deliveryModeId'].setValue(code);
-          this.currentDeliveryModeId = code;
         }
       });
   }
@@ -80,15 +81,9 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   next(): void {
     if (this.changedOption) {
       this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
+    } else {
+      this.routingService.go(this.checkoutStepUrlNext);
     }
-
-    this.deliveryModeSub = this.checkoutDeliveryService
-      .getSelectedDeliveryMode()
-      .subscribe(data => {
-        if (data && data.code === this.currentDeliveryModeId) {
-          this.routingService.go(this.checkoutStepUrlNext);
-        }
-      });
   }
 
   back(): void {
