@@ -12,8 +12,7 @@ import {
   RefreshUserToken,
 } from '../store/actions/user-token.action';
 import { StateWithAuth } from '../store/auth-state';
-import { getClientTokenState } from '../store/selectors/client-token.selectors';
-import { getUserToken } from '../store/selectors/user-token.selectors';
+import { AuthSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +38,7 @@ export class AuthService {
    * Returns the user's token
    */
   getUserToken(): Observable<UserToken> {
-    return this.store.pipe(select(getUserToken));
+    return this.store.pipe(select(AuthSelectors.getUserToken));
   }
 
   /**
@@ -74,7 +73,7 @@ export class AuthService {
    */
   getClientToken(): Observable<ClientToken> {
     return this.store.pipe(
-      select(getClientTokenState),
+      select(AuthSelectors.getClientTokenState),
       filter((state: LoaderState<ClientToken>) => {
         if (this.isClientTokenLoaded(state)) {
           return true;
@@ -97,7 +96,7 @@ export class AuthService {
     this.store.dispatch(new LoadClientToken());
 
     return this.store.pipe(
-      select(getClientTokenState),
+      select(AuthSelectors.getClientTokenState),
       filter((state: LoaderState<ClientToken>) =>
         this.isClientTokenLoaded(state)
       ),
