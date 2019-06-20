@@ -72,6 +72,15 @@ export interface CmsBannerComponent extends CmsComponent {
   external?: string;
 }
 
+export enum CmsBannerCarouselEffect {
+  FADE = 'FADE',
+}
+
+export interface CmsBannerCarouselComponent extends CmsComponent {
+  banners?: string;
+  effects?: CmsBannerCarouselEffect;
+}
+
 export interface CmsProductCarouselComponent extends CmsComponent {
   title?: string;
   productCodes?: string;

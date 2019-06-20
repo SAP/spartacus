@@ -1,11 +1,11 @@
-<ng-container *ngIf="items && items.length > 0 && (size$ | async) as size">
+<ng-container *ngIf="items$ && items$.length > 0 && (size$ | async) as size">
   <h3 *ngIf="title">
     {{ title }}
   </h3>
 
   <div class="carousel-panel" [ngClass]="'size-' + size">
     <button
-      *ngIf="size < items.length"
+      *ngIf="size < items$.length"
       class="previous"
       (click)="select(activeSlide - size)"
       [disabled]="activeSlide === 0"
@@ -14,12 +14,20 @@
     </button>
 
     <div class="groups">
-      <ng-container *ngFor="let _ of items; let i = index">
+      <ng-container *ngFor="let _ of items$; let i = index">
         <div class="group" *ngIf="i % size === 0">
           <ng-container
-            *ngFor="let item of (items | slice: i:i + size); let j = index"
+            *ngFor="let item of (items$ | slice: i:i + size); let j = index"
           >
-            <a
+            <div *ngIf="(item | async) as data">
+              <div class="item" [class.active]="i === activeSlide">
+                <ng-container
+                  *ngTemplateOutlet="template; context: { item: data }"
+                ></ng-container>
+              </div>
+            </div>
+
+            <!-- <a
               *ngIf="item && item.route; else noLink"
               class="item"
               [class.active]="i === activeSlide"
@@ -55,24 +63,24 @@
                 <h4 *ngIf="item.title">{{ item.title }}</h4>
                 <div *ngIf="item.price" class="price">{{ item.price }}</div>
               </a>
-            </ng-template>
+            </ng-template> -->
           </ng-container>
         </div>
       </ng-container>
     </div>
 
     <button
-      *ngIf="size < items.length"
+      *ngIf="size < items$.length"
       class="next"
       (click)="select(activeSlide + size)"
-      [disabled]="activeSlide > items.length - size - 1"
+      [disabled]="activeSlide > items$.length - size - 1"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>
   </div>
 
-  <div *ngIf="!hideIndicators && size < items.length" class="indicators">
-    <ng-container *ngFor="let _ of items; let i = index">
+  <div *ngIf="!hideIndicators && size < items$.length" class="indicators">
+    <ng-container *ngFor="let _ of items$; let i = index">
       <button
         *ngIf="i % size === 0"
         (click)="select(i)"

@@ -42,7 +42,9 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private config: CmsConfig,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) {
+    console.log('construct wrapper');
+  }
 
   ngOnInit() {
     if (!this.shouldRenderComponent()) {

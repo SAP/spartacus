@@ -5,7 +5,10 @@ import { GlobalMessageComponentModule } from '../../cms-components/misc/global-m
 import { UserComponentModule } from '../../cms-components/user/index';
 import { SeoModule } from '../../cms-structure/index';
 import { OutletRefModule } from '../../cms-structure/outlet/outlet-ref/outlet-ref.module';
-import { PageLayoutModule } from '../../cms-structure/page/index';
+import {
+  PageComponentModule,
+  PageLayoutModule,
+} from '../../cms-structure/page/index';
 import { PageSlotModule } from '../../cms-structure/page/slot/page-slot.module';
 import { PwaModule } from '../../cms-structure/pwa/index';
 import { StorefrontComponent } from './storefront.component';
@@ -21,6 +24,9 @@ import { StorefrontComponent } from './storefront.component';
     PageLayoutModule,
     SeoModule,
     PageSlotModule,
+
+    // temp
+    PageComponentModule,
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent],

@@ -1,0 +1,18 @@
+<cx-carousel
+  title="test banner carousel"
+  [items$]="getCarouselItems() | async"
+  [template]="template"
+></cx-carousel>
+
+<ng-template #template let-item="item">
+  <a *ngIf="item">
+    <ng-container
+      [cxComponentWrapper]="{
+        flexType: item.componentData?.typeCode,
+        typeCode: item.componentData?.typeCode,
+        uid: item.componentData?.uid
+      }"
+    >
+    </ng-container>
+  </a>
+</ng-template>

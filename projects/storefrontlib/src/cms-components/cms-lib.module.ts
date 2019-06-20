@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { HamburgerMenuModule } from '../layout/index';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
+import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
 import {
   BannerModule,
   CmsParagraphModule,
@@ -76,6 +77,7 @@ import { ProductSummaryModule } from './product/product-summary/product-summary.
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
+    BannerCarouselModule,
   ],
 })
 export class CmsLibModule {}

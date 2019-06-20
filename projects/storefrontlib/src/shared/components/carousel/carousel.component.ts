@@ -1,33 +1,40 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
+  TemplateRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
-import { CarouselItem } from './carousel.model';
 import { CarouselService } from './carousel.service';
 
 @Component({
   selector: 'cx-carousel',
   templateUrl: './carousel.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarouselComponent implements OnInit {
   @Input() title: string;
 
-  private _items: CarouselItem[];
-  @Input('items')
-  set items(value: CarouselItem[]) {
-    this._items = value;
-    this.select();
-  }
-  get items(): CarouselItem[] {
-    return this._items;
-  }
+  @Input() items$: Observable<any>[];
+
+  // TODO: drop after we refactored to Observables
+  @Input() items: any[];
+
+  // private _items: CarouselItem[];
+  // @Input('items')
+  // set items(value: CarouselItem[]) {
+  //   this._items = value;
+  //   this.select();
+  // }
+  // get items(): CarouselItem[] {
+  //   return this._items;
+  // }
 
   /** Indicates the current active item in carousel (if any)  */
   @Input() activeItem: number;
@@ -41,18 +48,20 @@ export class CarouselComponent implements OnInit {
    */
   @Input() minItemPixelSize = 300;
 
+  @Input() template: TemplateRef<any>;
+
   @Input() hideIndicators = false;
 
   @Input() indicatorIcon = ICON_TYPE.CIRCLE;
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
 
-  @Output() open = new EventEmitter<CarouselItem>();
+  @Output() open = new EventEmitter<Observable<any>>();
 
   /**
    * The group with items which is currently active.
    */
-  activeSlide = 0;
+  activeSlide;
 
   /**
    * The number of items that should be rendered in the carousel.
@@ -68,11 +77,13 @@ export class CarouselComponent implements OnInit {
   }
 
   select(slide = 0) {
-    this.activeSlide = slide;
+    if (this.activeSlide !== slide) {
+      this.activeSlide = slide;
+    }
   }
 
   onOpen(groupIndex: number, itemIndex: number): void {
     this.select(groupIndex);
-    this.open.emit(this.items[groupIndex + itemIndex]);
+    this.open.emit(this.items$[groupIndex + itemIndex]);
   }
 }

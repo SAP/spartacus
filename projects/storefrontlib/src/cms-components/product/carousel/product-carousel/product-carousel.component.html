@@ -1,1 +1,13 @@
-<cx-carousel [items]="items$ | async" [title]="title$ | async"> </cx-carousel>
+<cx-carousel
+  [items]="items$ | async"
+  [title]="title$ | async"
+  [template]="carouselItem"
+>
+</cx-carousel>
+
+<ng-template #carouselItem let-item="item">
+  <cx-media [container]="item.media?.container" [format]="item.media?.format">
+  </cx-media>
+  <h4 *ngIf="item.title">{{ item.title }}</h4>
+  <div *ngIf="item.price" class="price">{{ item.price }}</div>
+</ng-template>
