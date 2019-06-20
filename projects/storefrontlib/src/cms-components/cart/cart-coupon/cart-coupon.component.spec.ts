@@ -1,34 +1,30 @@
+import { Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AuthService, GlobalMessageService, I18nTestingModule, UserToken } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CartService, I18nTestingModule } from '@spartacus/core';
 import { CartCouponComponent } from './cart-coupon.component';
-
 import createSpy = jasmine.createSpy;
-class MockAuthService {
-  authorize = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
-  }
-}
 
-class MockGlobalMessageService {
-  add = createSpy();
+class MockCartCouponComponent {
+  @Input() cart;
+  @Input() cartIsLoading;
 }
 
 describe('CartCouponComponent', () => {
   let component: CartCouponComponent;
   let fixture: ComponentFixture<CartCouponComponent>;
-  let mockGlobalMessageService: MockGlobalMessageService;
-  
+  let mockCartService: any;
+
   beforeEach(async(() => {
-    mockGlobalMessageService = new MockGlobalMessageService();
+    mockCartService = {
+      applyVoucher: createSpy(),
+      removeVoucher: createSpy(),
+    };
+
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, AuthService, GlobalMessageService],
-      declarations: [CartCouponComponent],
-      providers: [
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-      ],
+      imports: [I18nTestingModule, ReactiveFormsModule],
+      declarations: [CartCouponComponent, MockCartCouponComponent],
+      providers: [{ provide: CartService, useValue: mockCartService }],
     }).compileComponents();
   }));
 

@@ -30,7 +30,7 @@ export class CartCouponComponent implements OnInit {
     });
   }
 
-  apply(): void {
+  applyVoucher(): void {
     this.cartService.addVoucher(this.form.value.couponCode);
 
     //check if the apply action success, then we reset the form.
