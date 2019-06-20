@@ -153,6 +153,7 @@
     .cx-total,
     .cx-actions {
       justify-content: flex-start;
+      padding: 0 0 10px 0;
 
       .cx-label {
         @include type('8');
@@ -162,8 +163,6 @@
       .cx-value {
         @include type('7');
       }
-
-      padding: 0;
 
       button.link {
         @include type('8');
