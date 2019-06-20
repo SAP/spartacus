@@ -16,6 +16,10 @@
       padding: 0;
       background-color: var(--cx-g-color-inverse);
     }
+    cx-media.is-missing {
+      min-width: 100%;
+      background-size: 85px;
+    }
   }
 
   .cx-dialog-row {
