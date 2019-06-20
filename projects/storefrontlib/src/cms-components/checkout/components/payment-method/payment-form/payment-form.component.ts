@@ -82,7 +82,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: [null, Validators.required],
+      isocodeShort: [null, Validators.required],
     }),
     country: this.fb.group({
       isocode: [null, Validators.required],

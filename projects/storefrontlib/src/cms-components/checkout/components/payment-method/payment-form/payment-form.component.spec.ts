@@ -34,7 +34,7 @@ const mockBillingAddress: Address = {
   town: 'Montreal',
   postalCode: 'H3A',
   country: { isocode: 'CA' },
-  region: { isocode: 'CA-QC' },
+  region: { isocodeShort: 'QC' },
 };
 
 const mockAddress: Address = {
@@ -330,7 +330,7 @@ describe('PaymentFormComponent', () => {
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
       );
-      controls.billingAddress.region['controls'].isocode.setValue(
+      controls.billingAddress.region['controls'].isocodeShort.setValue(
         mockBillingAddress.region
       );
       controls.billingAddress['postalCode'].setValue(
@@ -422,7 +422,7 @@ describe('PaymentFormComponent', () => {
         mockBillingAddress.country
       );
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.region['controls'].isocode.setValue(
+      controls.billingAddress.region['controls'].isocodeShort.setValue(
         mockBillingAddress.region
       );
       expect(isContinueBtnDisabled()).toBeTruthy();

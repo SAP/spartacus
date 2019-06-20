@@ -123,7 +123,6 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: 'text/html',
     });
-    console.log('p', parameters);
     let httpParams = new HttpParams({ encoder: new CustomEncoder() });
     Object.keys(parameters).forEach(key => {
       httpParams = httpParams.append(key, parameters[key]);
@@ -144,8 +143,6 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     Object.keys(parameters).forEach(key => {
       httpParams = httpParams.append(key, parameters[key]);
     });
-
-    console.log(httpParams);
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -197,7 +194,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     params[mappingLabels['hybris_billTo_city']] =
       paymentDetails.billingAddress.town;
     params[mappingLabels['hybris_billTo_region']] =
-      paymentDetails.billingAddress.region.isocode;
+      paymentDetails.billingAddress.region.isocodeShort;
     params[mappingLabels['hybris_billTo_postalcode']] =
       paymentDetails.billingAddress.postalCode;
     return params;

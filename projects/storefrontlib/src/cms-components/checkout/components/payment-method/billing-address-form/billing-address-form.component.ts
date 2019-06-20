@@ -30,7 +30,7 @@ export class BillingAddressFormComponent implements OnInit {
     this.regions$ = this.selectedCountry$.pipe(
       switchMap(country => this.userAddressService.getRegions(country)),
       tap(regions => {
-        const regionControl = this.billingAddress.get('region.isocode');
+        const regionControl = this.billingAddress.get('region.isocodeShort');
         if (regions.length > 0) {
           regionControl.enable();
         } else {
@@ -48,8 +48,8 @@ export class BillingAddressFormComponent implements OnInit {
   }
 
   regionSelected(region: Region): void {
-    this.billingAddress['controls'].region['controls'].isocode.setValue(
-      region.isocode
+    this.billingAddress['controls'].region['controls'].isocodeShort.setValue(
+      region.isocodeShort
     );
   }
 }
