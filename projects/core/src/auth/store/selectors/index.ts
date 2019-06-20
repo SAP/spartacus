@@ -1,2 +1,2 @@
-import * as AuthSelectors from './auth.selectors';
+import * as AuthSelectors from './auth-group.selectors';
 export { AuthSelectors };

@@ -1,2 +1,2 @@
-import * as CartSelectors from './cart.selectors';
+import * as CartSelectors from './cart-group.selectors';
 export { CartSelectors };
