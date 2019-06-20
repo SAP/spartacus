@@ -76,8 +76,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.getInjectorForComponent()
       );
 
-      this.cd.detectChanges();
-
       if (this.cmsService.isLaunchInSmartEdit()) {
         this.addSmartEditContract(this.cmpRef.location.nativeElement);
       }
