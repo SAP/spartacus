@@ -5,7 +5,6 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
 @Component({
   selector: 'cx-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
   form: FormGroup;
