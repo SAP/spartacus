@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
 import { select, Store, StoreModule } from '@ngrx/store';
-
-import * as fromActions from './../actions';
-import { StateWithCart } from '../cart-state';
-import * as fromReducers from './../reducers';
-import * as fromSelectors from './../selectors';
-import { OrderEntry } from '../../../model/order.model';
 import { Cart } from '../../../model/cart.model';
+import { OrderEntry } from '../../../model/order.model';
+import { StateWithCart } from '../cart-state';
+import * as fromActions from './../actions/index';
+import * as fromReducers from './../reducers/index';
+import { CartSelectors } from './../selectors/index';
 
 describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
@@ -57,7 +55,7 @@ describe('Cart selectors', () => {
     it('should return the cart content from the state', () => {
       let result: Cart;
       store
-        .pipe(select(fromSelectors.getCartContent))
+        .pipe(select(CartSelectors.getCartContent))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -67,11 +65,11 @@ describe('Cart selectors', () => {
     });
   });
 
-  describe('getRefresh', () => {
+  describe('getCartRefresh', () => {
     it('should return the refresh value', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getRefresh))
+        .pipe(select(CartSelectors.getCartRefresh))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -88,11 +86,11 @@ describe('Cart selectors', () => {
     });
   });
 
-  describe('getLoaded', () => {
+  describe('getCartLoaded', () => {
     it('should return the loaded value', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getLoaded))
+        .pipe(select(CartSelectors.getCartLoaded))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -102,11 +100,11 @@ describe('Cart selectors', () => {
     });
   });
 
-  describe('getEntriesMap', () => {
+  describe('getCartEntriesMap', () => {
     it('should return the cart entries in map', () => {
       let result: { [code: string]: OrderEntry };
       store
-        .pipe(select(fromSelectors.getEntriesMap))
+        .pipe(select(CartSelectors.getCartEntriesMap))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -119,12 +117,12 @@ describe('Cart selectors', () => {
     });
   });
 
-  describe('getEntrySelectorFactory', () => {
+  describe('getCartEntrySelectorFactory', () => {
     it('should return entry by productCode', () => {
       let result: OrderEntry;
 
       store
-        .pipe(select(fromSelectors.getEntrySelectorFactory('1234')))
+        .pipe(select(CartSelectors.getCartEntrySelectorFactory('1234')))
         .subscribe(value => {
           result = value;
         });
@@ -137,11 +135,11 @@ describe('Cart selectors', () => {
     });
   });
 
-  describe('getEntriesList', () => {
+  describe('getCartEntriesList', () => {
     it('should return the list of entries', () => {
       let result: OrderEntry[];
       store
-        .pipe(select(fromSelectors.getEntries))
+        .pipe(select(CartSelectors.getCartEntries))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);

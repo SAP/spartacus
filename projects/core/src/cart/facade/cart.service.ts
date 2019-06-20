@@ -6,9 +6,9 @@ import { AuthService, UserToken } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { BaseSiteService } from '../../site-context/index';
-import * as fromAction from '../store/actions';
+import * as fromAction from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
-import * as fromSelector from '../store/selectors';
+import { CartSelectors } from '../store/selectors/index';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
 @Injectable()
@@ -23,23 +23,23 @@ export class CartService {
   }
 
   getActive(): Observable<Cart> {
-    return this.store.pipe(select(fromSelector.getCartContent));
+    return this.store.pipe(select(CartSelectors.getCartContent));
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.store.pipe(select(fromSelector.getEntries));
+    return this.store.pipe(select(CartSelectors.getCartEntries));
   }
 
   getCartMergeComplete(): Observable<boolean> {
-    return this.store.pipe(select(fromSelector.getCartMergeComplete));
+    return this.store.pipe(select(CartSelectors.getCartMergeComplete));
   }
 
   getLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromSelector.getLoaded));
+    return this.store.pipe(select(CartSelectors.getCartLoaded));
   }
 
   protected init(): void {
-    this.store.pipe(select(fromSelector.getCartContent)).subscribe(cart => {
+    this.store.pipe(select(CartSelectors.getCartContent)).subscribe(cart => {
       this.cartData.cart = cart;
     });
 
@@ -90,7 +90,7 @@ export class CartService {
   }
 
   protected refresh(): void {
-    this.store.pipe(select(fromSelector.getRefresh)).subscribe(refresh => {
+    this.store.pipe(select(CartSelectors.getCartRefresh)).subscribe(refresh => {
       if (refresh) {
         this.store.dispatch(
           new fromAction.LoadCart({
@@ -128,7 +128,7 @@ export class CartService {
   addEntry(productCode: string, quantity: number): void {
     this.store
       .pipe(
-        select(fromSelector.getActiveCartState),
+        select(CartSelectors.getActiveCartState),
         tap(cartState => {
           if (!this.isCreated(cartState.value.content) && !cartState.loading) {
             this.store.dispatch(
@@ -184,7 +184,7 @@ export class CartService {
 
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
-      select(fromSelector.getEntrySelectorFactory(productCode))
+      select(CartSelectors.getCartEntrySelectorFactory(productCode))
     );
   }
 
