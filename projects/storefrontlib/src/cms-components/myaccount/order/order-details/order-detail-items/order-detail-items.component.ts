@@ -60,8 +60,6 @@ export class OrderDetailItemsComponent implements OnInit {
       this.orderCode,
       consignment.code
     );
-    this.consignmentTracking$ = this.userOrderService.getConsignmentTracking();
-
     let modalInstance: any;
     this.modalRef = this.modalService.open(TrackingEventsComponent, {
       centered: true,

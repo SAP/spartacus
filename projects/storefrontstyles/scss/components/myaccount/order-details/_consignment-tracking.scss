@@ -22,7 +22,7 @@
 
     .shipment-heading {
       position: relative;
-      padding: 2rem 0 1rem 2rem;
+      padding: 1.5rem 0 0.4rem 2rem;
       background-color: var(--cx-color-background);
     }
 
@@ -32,20 +32,30 @@
     }
 
     .shipment-content {
-      padding: 0.5rem 0 1rem 0;
+      padding: 0.6rem 0 1.2rem 0;
     }
 
     .shipment-title {
       @include type('4');
     }
 
-    .event {
+    .events {
       .event-body {
-        border-left: 10px solid var(--cx-color-secondary);
-        padding-left: 16px;
-        margin-bottom: 16px;
-        .shipment-city {
+        border-left: 0.7rem solid var(--cx-color-secondary);
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+        div {
+          padding-bottom: 0.6rem;
+        }
+        .event-title {
+          @include type('5');
+        }
+        .event-city {
+          @include type('7');
+        }
+        .enent-content {
           @include type('6');
+          padding-bottom: 20rem;
         }
       }
     }

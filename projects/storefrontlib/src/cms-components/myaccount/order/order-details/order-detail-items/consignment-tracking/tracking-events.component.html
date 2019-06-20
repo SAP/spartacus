@@ -1,4 +1,4 @@
-<div class="cx-consignment-tracking-dialog" #dialog>
+<div class="cx-consignment-tracking-dialog">
   <!-- Modal Header -->
   <ng-container
     *ngIf="(tracking$ | async) as consignmentTracking; else loading"
@@ -70,9 +70,9 @@
               }}
             </div>
             <div class="shipment-content">
-              <a [href]="consignmentTracking?.trackingUrl" target="_blank">
+              <label>
                 {{ consignmentTracking?.trackingID }}
-              </a>
+              </label>
             </div>
           </div>
         </div>
@@ -80,17 +80,19 @@
     </ng-container>
 
     <!-- tracking events -->
-    <div class="event modal-body">
+    <div class="events modal-body">
       <ng-container
         *ngFor="let consignmentEvent of consignmentTracking.trackingEvents"
       >
         <div class="event-body">
-          <div>{{ consignmentEvent.eventDate | cxDate: 'medium' }}</div>
-          <div class="shipment-title">
+          <div class="event-content">
+            {{ consignmentEvent.eventDate | cxDate: 'medium' }}
+          </div>
+          <div class="event-title">
             {{ consignmentEvent.referenceCode }}
           </div>
-          <div>{{ consignmentEvent.detail }}</div>
-          <div class="shipment-city">
+          <div class="event-content">{{ consignmentEvent.detail }}</div>
+          <div class="event-city">
             location: {{ consignmentEvent.location }}
           </div>
         </div>
