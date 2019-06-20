@@ -1,14 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
 import { select, Store, StoreModule } from '@ngrx/store';
-
-import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
-import * as fromActions from '../actions/index';
-import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import * as fromActions from '../actions/index';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
+import * as fromReducers from '../reducers/index';
+import { CheckoutSelectors } from '../selectors/index';
 
 describe('Checkout Selectors', () => {
   let store: Store<StateWithCheckout>;
@@ -40,7 +38,7 @@ describe('Checkout Selectors', () => {
 
       let result: Address;
       store
-        .pipe(select(fromSelectors.getDeliveryAddress))
+        .pipe(select(CheckoutSelectors.getDeliveryAddress))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -70,7 +68,7 @@ describe('Checkout Selectors', () => {
 
       let result;
       store
-        .pipe(select(fromSelectors.getDeliveryMode))
+        .pipe(select(CheckoutSelectors.getDeliveryMode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(emptyEntities);
@@ -87,7 +85,7 @@ describe('Checkout Selectors', () => {
 
       let result: DeliveryMode[];
       store
-        .pipe(select(fromSelectors.getSupportedDeliveryModes))
+        .pipe(select(CheckoutSelectors.getSupportedDeliveryModes))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -104,7 +102,7 @@ describe('Checkout Selectors', () => {
 
       let result: DeliveryMode;
       store
-        .pipe(select(fromSelectors.getSelectedDeliveryMode))
+        .pipe(select(CheckoutSelectors.getSelectedDeliveryMode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(undefined);
@@ -122,7 +120,7 @@ describe('Checkout Selectors', () => {
 
       let result: string;
       store
-        .pipe(select(fromSelectors.getSelectedCode))
+        .pipe(select(CheckoutSelectors.getSelectedCode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual('');
@@ -142,7 +140,7 @@ describe('Checkout Selectors', () => {
       };
 
       store
-        .pipe(select(fromSelectors.getPaymentDetails))
+        .pipe(select(CheckoutSelectors.getPaymentDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -163,7 +161,7 @@ describe('Checkout Selectors', () => {
       };
 
       store
-        .pipe(select(fromSelectors.getCheckoutOrderDetails))
+        .pipe(select(CheckoutSelectors.getCheckoutOrderDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});

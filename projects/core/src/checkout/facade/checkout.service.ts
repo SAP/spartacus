@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ANONYMOUS_USERID, CartDataService } from '../../cart/index';
-import * as fromSelector from '../../checkout/store/selectors/index';
 import { Order } from '../../model/order.model';
-import * as fromCheckoutStore from '../store/index';
+import * as fromCheckoutActions from '../store/actions/index';
+import { StateWithCheckout } from '../store/checkout-state';
+import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CheckoutService {
   constructor(
-    protected checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
+    protected checkoutStore: Store<StateWithCheckout>,
     protected cartData: CartDataService
   ) {}
 
@@ -19,7 +20,7 @@ export class CheckoutService {
   placeOrder(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutStore.PlaceOrder({
+        new fromCheckoutActions.PlaceOrder({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -31,7 +32,7 @@ export class CheckoutService {
    * Clear checkout data
    */
   clearCheckoutData(): void {
-    this.checkoutStore.dispatch(new fromCheckoutStore.ClearCheckoutData());
+    this.checkoutStore.dispatch(new fromCheckoutActions.ClearCheckoutData());
   }
 
   /**
@@ -40,13 +41,13 @@ export class CheckoutService {
    */
   clearCheckoutStep(stepNumber: number): void {
     this.checkoutStore.dispatch(
-      new fromCheckoutStore.ClearCheckoutStep(stepNumber)
+      new fromCheckoutActions.ClearCheckoutStep(stepNumber)
     );
   }
 
   loadCheckoutDetails(cartId: string) {
     this.checkoutStore.dispatch(
-      new fromCheckoutStore.LoadCheckoutDetails({
+      new fromCheckoutActions.LoadCheckoutDetails({
         userId: this.cartData.userId,
         cartId,
       })
@@ -55,7 +56,7 @@ export class CheckoutService {
 
   getCheckoutDetailsLoaded(): Observable<boolean> {
     return this.checkoutStore.pipe(
-      select(fromSelector.getCheckoutDetailsLoaded)
+      select(CheckoutSelectors.getCheckoutDetailsLoaded)
     );
   }
 
@@ -64,7 +65,7 @@ export class CheckoutService {
    */
   getOrderDetails(): Observable<Order> {
     return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getCheckoutOrderDetails)
+      select(CheckoutSelectors.getCheckoutOrderDetails)
     );
   }
 
