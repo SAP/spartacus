@@ -120,7 +120,6 @@ export class CartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
-    // SPIKE NEW:
     if (!CartUtilService.isCreated(this.cartData.cart)) {
       this.store.dispatch(
         new fromAction.CreateCart({ userId: this.cartData.userId })
@@ -148,32 +147,6 @@ export class CartService {
         })
       );
     }
-
-    // SPIKE OLD:
-
-    // this.store
-    //   .pipe(
-    //     select(fromSelector.getActiveCartState),
-    //     tap(cartState => {
-    //       if (!this.isCreated(cartState.value.content) && !cartState.loading) {
-    //         this.store.dispatch(
-    //           new fromAction.CreateCart({ userId: this.cartData.userId })
-    //         );
-    //       }
-    //     }),
-    //     filter(cartState => this.isCreated(cartState.value.content)),
-    //     take(1)
-    //   )
-    //   .subscribe(_ => {
-    //     this.store.dispatch(
-    //       new fromAction.AddEntry({
-    //         userId: this.cartData.userId,
-    //         cartId: this.cartData.cartId,
-    //         productCode: productCode,
-    //         quantity: quantity,
-    //       })
-    //     );
-    //   });
   }
 
   removeEntry(entry: OrderEntry): void {
