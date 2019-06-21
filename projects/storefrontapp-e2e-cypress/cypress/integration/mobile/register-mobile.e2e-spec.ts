@@ -21,13 +21,15 @@ describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
     register.registerUser(user);
     waitForHomePage();
     register.signOut();
+    register.navigateToTermsAndConditions();
     register.checkTermsAndConditions();
     clickHamburger();
     register.registerUser(user);
-    checkBanner();
+    register.checkTermsAndConditions();
   });
 
   it('should contain error when trying to register with the same email and different password', () => {
+    cy.visit('/');
     waitForHomePage();
     register.registerUser(user);
     waitForHomePage();

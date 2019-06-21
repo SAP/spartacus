@@ -16,15 +16,9 @@ export const common = {
       title: '{{count}} result for {{query}}',
       title_plural: '{{count}} results for {{query}}',
     },
-    content: {
-      title: '{{content}}',
-    },
     checkout: {
       title: 'Checkout {{count}} item',
       title_plural: 'Checkout {{count}} items',
-    },
-    cart: {
-      title: '{{title}} ({{code}})',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
@@ -87,6 +81,10 @@ export const common = {
         country: {
           isocode: 'Missing country',
         },
+      },
+      invalid: {
+        card_expirationMonth:
+          'The credit card expiration date entered is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',

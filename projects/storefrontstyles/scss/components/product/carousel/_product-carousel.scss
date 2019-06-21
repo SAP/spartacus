@@ -1,3 +1,10 @@
 %cx-product-carousel {
-  // empty
+  cx-media {
+    height: 20vmin;
+
+    &.is-missing {
+      min-height: 20vmin;
+      background-size: 20vmin;
+    }
+  }
 }

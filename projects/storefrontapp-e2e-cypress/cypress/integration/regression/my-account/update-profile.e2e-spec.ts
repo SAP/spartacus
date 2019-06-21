@@ -16,7 +16,12 @@ describe('Update profile', () => {
     });
 
     beforeEach(() => {
+      cy.restoreLocalStorage();
       cy.visit(UPDATE_PROFILE_URL);
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
     });
 
     const newTitle = 'dr';
@@ -50,23 +55,30 @@ describe('Update profile', () => {
       );
     });
 
-    it('should be able to cancel and go back to home', () => {
+    it('should be able to see the new updated profile', () => {
       // check where the user's details updated in the previous test
-      cy.get('[formcontrolname="titleCode"]')
-        .find(':selected')
-        .should('have.value', newTitle);
-      cy.get('[formcontrolname="firstName"]').should(
-        'have.value',
-        newFirstName
-      );
-      cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
+      cy.get('cx-update-profile-form').within(() => {
+        cy.get('[formcontrolname="titleCode"]')
+          .find(':selected')
+          .should('have.value', newTitle);
+        cy.get('[formcontrolname="firstName"]').should(
+          'have.value',
+          newFirstName
+        );
+        cy.get('[formcontrolname="lastName"]').should(
+          'have.value',
+          newLastName
+        );
+      });
+    });
 
+    it('should be able to cancel and go back to home', () => {
       cy.get('cx-update-profile-form').within(() => {
         cy.get('button[type="button"]').click();
       });
+      checkBanner();
 
       cy.location('pathname').should('contain', '/');
-      checkBanner();
     });
   });
 });
