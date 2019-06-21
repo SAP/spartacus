@@ -1,16 +1,15 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { OccConfig } from '../../index';
-import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
-import { OccCartAdapter } from './occ-cart.adapter';
-import { ConverterService } from '../../../util/converter.service';
+import { TestBed } from '@angular/core/testing';
 import { CART_NORMALIZER } from '@spartacus/core';
-import { Occ } from '../../occ-models/occ.models';
 import { Cart } from '../../../model/cart.model';
+import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
+import { ConverterService } from '../../../util/converter.service';
+import { OccConfig } from '../../index';
+import { Occ } from '../../occ-models/occ.models';
+import { OccCartAdapter } from './occ-cart.adapter';
 
 const userId = '123';
 const cartId = '456';
@@ -35,7 +34,7 @@ const BASIC_PARAMS =
 const DETAILS_PARAMS =
   'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
-  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
+  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
   'appliedVouchers,productDiscounts(formattedValue)';
 

@@ -21,7 +21,6 @@ import { ModalService } from '../../../../../shared/components/modal/index';
 @Component({
   selector: 'cx-close-account-modal',
   templateUrl: './close-account-modal.component.html',
-  styleUrls: ['./close-account-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseAccountModalComponent implements OnInit, OnDestroy {
