@@ -2,9 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart, CartService, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { OrderSummaryComponent } from '../../../../cms-components/cart/cart-shared/order-summary/order-summary.component';
+import { AppliedCouponsComponent } from '../../../cart/cart-coupon/applied-coupons/applied-coupons.component';
 import { PromotionsComponent } from '../promotions/promotions.component';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
-
 import createSpy = jasmine.createSpy;
 
 describe('CheckoutOrderSummaryComponent', () => {
@@ -28,6 +28,7 @@ describe('CheckoutOrderSummaryComponent', () => {
         CheckoutOrderSummaryComponent,
         OrderSummaryComponent,
         PromotionsComponent,
+        AppliedCouponsComponent,
       ],
       providers: [{ provide: CartService, useValue: mockCartService }],
     }).compileComponents();

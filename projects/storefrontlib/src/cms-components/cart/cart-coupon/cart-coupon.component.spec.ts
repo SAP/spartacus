@@ -59,6 +59,7 @@ describe('CartCouponComponent', () => {
   it('should call applyVoucher() method on submit', () => {
     const request = spyOn(component, 'applyVoucher');
     const input = component.form.controls['couponCode'];
+    component.cartIsLoading = false;
     input.setValue('couponCode1');
     fixture.detectChanges();
     form.triggerEventHandler('submit', null);
@@ -69,11 +70,28 @@ describe('CartCouponComponent', () => {
     expect(component.removeVoucher).toBeDefined();
   });
 
-  it('should submit button be enabled when form is invalid', () => {
+  it('should display coupons applied on cart', () => {
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('.cx-cart-coupons-label'));
+    const cartName = el.nativeElement.innerText;
+    expect(cartName).toEqual('voucher.couponLabel');
+  });
+
+  it('should submit button be enabled when form input is not empty and cart loaded', () => {
     const input = component.form.controls['couponCode'];
     input.setValue('couponCode1');
+    component.cartIsLoading = false;
+    fixture.detectChanges();
+    expect(component.form.invalid).toBeFalsy();
+    expect(submit.nativeElement.disabled).toBeFalsy();
+  });
+
+  it('should submit button be disabled when form input is empty', () => {
+    const input = component.form.controls['couponCode'];
+    input.setValue('');
+    component.cartIsLoading = false;
     fixture.detectChanges();
     expect(component.form.valid).toBeFalsy();
-    expect(submit.nativeElement.disabled).toBeFalsy();
+    expect(submit.nativeElement.enabled).toBeFalsy();
   });
 });

@@ -1,19 +1,20 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
   CartDataService,
   CartService,
   I18nTestingModule,
-  PromotionResult,
+  Order,
   OrderEntry,
+  PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
-import { By } from '@angular/platform-browser';
 
 class MockCartService {
   removeEntry(): void {}
@@ -43,6 +44,18 @@ class MockCartItemListComponent {
   cartIsLoading: Observable<boolean>;
 }
 
+@Component({
+  template: '',
+  selector: 'cx-cart-coupon',
+})
+class MockCartCouponComponent {
+  @Input()
+  cart: Cart | Order;
+  @Input()
+  cartIsLoading = false;
+  userId: string;
+}
+
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -50,7 +63,11 @@ describe('CartDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
-      declarations: [CartDetailsComponent, MockCartItemListComponent],
+      declarations: [
+        CartDetailsComponent,
+        MockCartItemListComponent,
+        MockCartCouponComponent,
+      ],
       providers: [
         CartDataService,
         { provide: CartService, useClass: MockCartService },
