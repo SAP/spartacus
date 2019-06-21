@@ -82,13 +82,14 @@ export class SiteContextComponentService {
     } else if (this.componentData) {
       return this.componentData.data$.pipe(
         map(data => data.context),
-        // this mapping
         map(ctx => {
           switch (ctx) {
             case 'LANGUAGE':
               return LANGUAGE_CONTEXT_ID;
             case 'CURRENCY':
               return CURRENCY_CONTEXT_ID;
+            default:
+              return ctx;
           }
         })
       );
