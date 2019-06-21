@@ -16,12 +16,13 @@ import { CurrentProductService } from '../current-product.service';
 export class ProductVariantSelectorComponent {
   constructor(
     private routingService: RoutingService,
-    protected currentProductService: CurrentProductService,
-    protected config: OccConfig
+    private currentProductService: CurrentProductService,
+    private config: OccConfig
   ) {}
 
   product$: Observable<Product> = this.currentProductService.getProduct();
   sizeGuideLabel = 'Style Guide';
+  baseUrl = this.config.backend.occ.baseUrl;
 
   getVariantName(variant) {
     return variant.variantType.toLowerCase().includes('style')
