@@ -5,7 +5,8 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { CartDataService } from 'projects/core/src/cart';
 import { Observable, of } from 'rxjs';
-import * as fromAuthActions from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/store/actions/index';
+import * as fromCartActions from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
@@ -19,7 +20,6 @@ import { CheckoutConnector } from '../../connectors/checkout';
 import { CheckoutDetails } from '../../models/checkout.model';
 import * as fromActions from '../actions/checkout.action';
 import * as fromIndexActions from '../actions/index';
-import * as fromCartActions from './../../../cart/store/actions/index';
 import * as fromEffects from './checkout.effect';
 
 import createSpy = jasmine.createSpy;
@@ -193,7 +193,7 @@ describe('Checkout effect', () => {
 
   describe('clearCheckoutDataOnLogout$', () => {
     it('should dispatch clear checkout data action on logout', () => {
-      const action = new fromAuthActions.Logout();
+      const action = new AuthActions.Logout();
       const completion = new fromIndexActions.ClearCheckoutData();
 
       actions$ = hot('-a', { a: action });

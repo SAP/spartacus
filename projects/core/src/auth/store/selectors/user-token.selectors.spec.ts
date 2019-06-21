@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { UserToken } from '../../models/token-types.model';
-import * as fromActions from '../actions';
+import { AuthActions } from '../actions/index';
 import { StateWithAuth } from '../auth-state';
 import * as fromReducers from '../reducers/index';
 import { AuthSelectors } from '../selectors/index';
@@ -38,7 +38,7 @@ describe('UserToken Selectors', () => {
         scope: ['xxx'],
         userId: 'xxx',
       };
-      store.dispatch(new fromActions.LoadUserTokenSuccess(testToken));
+      store.dispatch(new AuthActions.LoadUserTokenSuccess(testToken));
 
       expect(result).toEqual(testToken);
     });
