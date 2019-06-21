@@ -1,3 +1,4 @@
+import { PROCESS_FEATURE } from 'projects/core/src/process';
 import {
   EntityFailAction,
   EntityLoadAction,
@@ -22,21 +23,21 @@ export const REMOVE_CART_VOUCHER_SUCCESS = '[Cart] Remove Cart Voucher Success';
 export class AddCartVoucher extends EntityLoadAction {
   readonly type = ADD_CART_VOUCHER;
   constructor(public payload: any) {
-    super(CART_DATA, ADD_VOUCHER_PROCESS_ID);
+    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
 
 export class AddCartVoucherFail extends EntityFailAction {
   readonly type = ADD_CART_VOUCHER_FAIL;
   constructor(public payload: any) {
-    super(CART_DATA, ADD_VOUCHER_PROCESS_ID, payload);
+    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload);
   }
 }
 
 export class AddCartVoucherSuccess extends EntitySuccessAction {
   readonly type = ADD_CART_VOUCHER_SUCCESS;
   constructor(public payload: any) {
-    super(CART_DATA, ADD_VOUCHER_PROCESS_ID);
+    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
 

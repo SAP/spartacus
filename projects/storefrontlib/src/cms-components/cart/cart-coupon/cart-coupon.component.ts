@@ -33,11 +33,15 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.cartService.getAddVoucherResultSuccess().subscribe(success => {
-        if (success) {
-          this.form.reset();
-        }
+        this.onSuccess(success);
       })
     );
+  }
+
+  private onSuccess(success: boolean) {
+    if (success) {
+      this.form.reset();
+    }
   }
 
   applyVoucher(): void {
@@ -47,7 +51,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   removeVoucher(voucherId: string) {
     this.cartService.removeVoucher(voucherId);
   }
-  
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

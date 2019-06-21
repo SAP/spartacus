@@ -1,3 +1,4 @@
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   entityFailMeta,
   entityLoadMeta,
@@ -28,7 +29,7 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCartVoucher.ADD_CART_VOUCHER,
           payload: payload,
-          meta: entityLoadMeta(CART_DATA, ADD_VOUCHER_PROCESS_ID),
+          meta: entityLoadMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
       });
     });
@@ -41,7 +42,7 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCartVoucher.ADD_CART_VOUCHER_FAIL,
           payload: error,
-          meta: entityFailMeta(CART_DATA, ADD_VOUCHER_PROCESS_ID, error),
+          meta: entityFailMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, error),
         });
       });
     });
@@ -52,7 +53,7 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCartVoucher.ADD_CART_VOUCHER_SUCCESS,
           payload: {},
-          meta: entitySuccessMeta(CART_DATA, ADD_VOUCHER_PROCESS_ID),
+          meta: entitySuccessMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
       });
     });
