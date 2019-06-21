@@ -51,7 +51,7 @@ export class CartService {
           (CartUtilService.isLoaded(cart) && CartUtilService.isCreated(cart)) ||
           !CartUtilService.isCreated(cart)
       ),
-      shareReplay()
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
