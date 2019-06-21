@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card/card.component';
 
@@ -12,12 +12,10 @@ import { Card } from '../../../shared/components/card/card.component';
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
 })
-export class PaymentMethodsComponent implements OnInit, OnDestroy {
+export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
   loading$: Observable<boolean>;
-
-  userServiceSub: Subscription;
 
   constructor(
     private userPaymentService: UserPaymentService,
@@ -101,11 +99,5 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
-  }
-
-  ngOnDestroy(): void {
-    if (this.userServiceSub) {
-      this.userServiceSub.unsubscribe();
-    }
   }
 }

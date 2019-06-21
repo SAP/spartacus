@@ -47,7 +47,7 @@ describe('CheckoutDeliveryService', () => {
     }
   ));
 
-  it('should be able to get supported delivery modes', () => {
+  it('should be able to get supported delivery modes if data exists', () => {
     store.dispatch(
       new fromCheckout.LoadSupportedDeliveryModesSuccess([
         { code: 'mode1' },
@@ -65,7 +65,22 @@ describe('CheckoutDeliveryService', () => {
     expect(deliveryModes).toEqual([{ code: 'mode1' }, { code: 'mode2' }]);
   });
 
-  it('should be able to get selected delivery mode', () => {
+  it('should be able to get supported delivery modes after trigger data loading when they do not exist', () => {
+    spyOn(service, 'loadSupportedDeliveryModes').and.callThrough();
+
+    let deliveryModes: DeliveryMode[];
+    service
+      .getSupportedDeliveryModes()
+      .subscribe(data => {
+        deliveryModes = data;
+      })
+      .unsubscribe();
+
+    expect(deliveryModes).toEqual([]);
+    expect(service.loadSupportedDeliveryModes).toHaveBeenCalled();
+  });
+
+  it('should be able to get selected delivery mode if data exist', () => {
     store.dispatch(
       new fromCheckout.LoadSupportedDeliveryModesSuccess([
         { code: 'mode1' },
