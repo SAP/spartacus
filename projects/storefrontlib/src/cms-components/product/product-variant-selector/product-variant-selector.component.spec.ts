@@ -31,7 +31,7 @@ class MockCurrentProductService {
   }
 }
 
-describe('ProductVariantSelectorComponent', () => {
+fdescribe('ProductVariantSelectorComponent', () => {
   let component: ProductVariantSelectorComponent;
   let fixture: ComponentFixture<ProductVariantSelectorComponent>;
 
@@ -48,7 +48,10 @@ describe('ProductVariantSelectorComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        { provide: OccConfig, useValue: {} },
+        {
+          provide: OccConfig,
+          useValue: { backend: { occ: { baseUrl: 'abc' } } },
+        },
       ],
     }).compileComponents();
   }));
