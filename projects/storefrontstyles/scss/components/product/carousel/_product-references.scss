@@ -1,5 +1,14 @@
 %cx-product-references {
   padding-bottom: 50px;
+  a {
+    outline: none;
+    color: var(--cx-color-text);
+
+    &:focus {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+    }
+  }
   cx-media {
     height: 20vmin;
 

@@ -5,8 +5,8 @@ import {
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -23,14 +23,14 @@ export class ProductReferencesComponent {
     map((p: Product) => p.code)
   );
 
-  // private items$: Observable<Observable<ProductReference>[]> = combineLatest([
-  //   this.currentProductCode$,
-  //   this.component.data$,
-  // ]).pipe(
-  //   switchMap(([code, data]) =>
-  //     this.getProductReferences(code, data.productReferenceTypes)
-  //   )
-  // );
+  private items$: Observable<Observable<Product>[]> = combineLatest([
+    this.currentProductCode$,
+    this.component.data$,
+  ]).pipe(
+    switchMap(([code, data]) =>
+      this.getProductReferences(code, data.productReferenceTypes)
+    )
+  );
 
   constructor(
     protected component: CmsComponentData<CmsProductReferencesComponent>,
@@ -51,13 +51,16 @@ export class ProductReferencesComponent {
    * in the viewpoint.
    */
   getItems(): Observable<Observable<ProductReference>[]> {
-    return of([]); //this.items$;
+    return this.items$;
   }
 
-  // private getProductReferences(
-  //   code: string,
-  //   referenceType: string
-  // ): Observable<ProductReference>[] {
-  //   return []
-  // }
+  private getProductReferences(
+    code: string,
+    referenceType: string
+  ): Observable<Observable<Product>[]> {
+    return this.referenceService.get(code, referenceType).pipe(
+      filter(Boolean),
+      map((refs: ProductReference[]) => refs.map(ref => of(ref.target)))
+    );
+  }
 }
