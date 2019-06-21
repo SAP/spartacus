@@ -33,8 +33,8 @@ export class CartService {
       tap(([cart, loading, userToken]) => {
         if (
           // we are only interested in case when we switch from not logged user to logged
-          // - check for userToken.userId !=== undefined is used to ignore this action on logout
-          // - check for this.prevCartUserId !=== null is used to ignore this action on page refresh for logged in user
+          // - check for userToken.userId !== undefined is used to ignore this action on logout
+          // - check for this.prevCartUserId !== null is used to ignore this action on page refresh for logged in user
           this.prevCartUserId !== userToken.userId &&
           typeof userToken.userId !== 'undefined' &&
           this.prevCartUserId !== null &&
@@ -47,12 +47,14 @@ export class CartService {
         }
         this.prevCartUserId = userToken.userId;
       }),
-      map(([cart]) => cart),
       filter(
-        cart =>
-          (CartUtilService.isLoaded(cart) && CartUtilService.isCreated(cart)) ||
+        ([cart, loading]) =>
+          (!loading &&
+            (CartUtilService.isLoaded(cart) &&
+              CartUtilService.isCreated(cart))) ||
           !CartUtilService.isCreated(cart)
       ),
+      map(([cart]) => cart),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
