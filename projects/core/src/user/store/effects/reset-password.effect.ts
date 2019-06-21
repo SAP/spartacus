@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
@@ -11,11 +10,13 @@ import * as fromActions from '../actions/index';
 @Injectable()
 export class ResetPasswordEffects {
   @Effect()
-  resetPassword$: Observable<Action> = this.actions$.pipe(
+  resetPassword$: Observable<
+    | fromActions.ResetPasswordSuccess
+    | AddMessage
+    | fromActions.ResetPasswordFail
+  > = this.actions$.pipe(
     ofType(fromActions.RESET_PASSWORD),
-    map((action: fromActions.ResetPassword) => {
-      return action.payload;
-    }),
+    map((action: fromActions.ResetPassword) => action.payload),
     switchMap(({ token, password }) => {
       return this.userAccountConnector.resetPassword(token, password).pipe(
         switchMap(() => [
