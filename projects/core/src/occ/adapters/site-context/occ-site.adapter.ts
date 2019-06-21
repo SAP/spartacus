@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Country, CountryType, Region } from '../../../model/address.model';
 import { BaseSite, Currency, Language } from '../../../model/misc.model';
 import {
@@ -30,7 +30,6 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<Occ.LanguageList>(this.occEndpoints.getEndpoint('languages'))
       .pipe(
-        catchError((error: any) => throwError(error)),
         map(languageList => languageList.languages),
         this.converter.pipeableMany(LANGUAGE_NORMALIZER)
       );
@@ -40,7 +39,6 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<Occ.CurrencyList>(this.occEndpoints.getEndpoint('currencies'))
       .pipe(
-        catchError((error: any) => throwError(error)),
         map(currencyList => currencyList.currencies),
         this.converter.pipeableMany(CURRENCY_NORMALIZER)
       );
@@ -58,7 +56,6 @@ export class OccSiteAdapter implements SiteAdapter {
         params,
       })
       .pipe(
-        catchError((error: any) => throwError(error)),
         map(countryList => countryList.countries),
         this.converter.pipeableMany(COUNTRY_NORMALIZER)
       );
@@ -69,7 +66,6 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<Occ.RegionList>(this.occEndpoints.getEndpoint(regionsEndpoint))
       .pipe(
-        catchError((error: any) => throwError(error)),
         map(regionList => regionList.regions),
         this.converter.pipeableMany(REGION_NORMALIZER)
       );
@@ -88,7 +84,6 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<{ baseSites: BaseSite[] }>(url, { params: params })
       .pipe(
-        catchError((error: any) => throwError(error)),
         map(siteList => {
           return siteList.baseSites.find(site => site.uid === activeSite);
         })
