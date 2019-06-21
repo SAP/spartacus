@@ -89,8 +89,13 @@ export class NavigationUIComponent {
     this.updateClasses();
   }
 
-  private alignWrapperToRightIfStickOut(navBar, nav) {
-    const wrapper = <HTMLElement>nav.getElementsByClassName('wrapper')[0];
+  onMouseEnter(event: UIEvent) {
+    this.alignWrapperToRightIfStickOut(<HTMLElement>event.currentTarget);
+  }
+
+  private alignWrapperToRightIfStickOut(node: HTMLElement) {
+    const wrapper = <HTMLElement>node.querySelector('.wrapper');
+    const navBar = <HTMLElement>this.elemRef.nativeElement;
     if (wrapper) {
       this.renderer.removeStyle(wrapper, 'margin-left');
       if (
@@ -100,24 +105,17 @@ export class NavigationUIComponent {
         this.renderer.setStyle(
           wrapper,
           'margin-left',
-          `${nav.offsetWidth - wrapper.offsetWidth}px`
+          `${node.offsetWidth - wrapper.offsetWidth}px`
         );
       }
     }
   }
 
   private validateWrappersAndAlignToRightIfStickOut() {
-    const navBar = <HTMLElement>this.elemRef.nativeElement;
-    const navs = navBar.getElementsByTagName('NAV');
-    Array.from(navs).forEach(nav =>
-      this.alignWrapperToRightIfStickOut(navBar, nav)
-    );
-  }
-
-  onMouseEnter(event: UIEvent) {
-    const nav = <HTMLElement>event.currentTarget;
-    const navBar = <HTMLElement>this.renderer.parentNode(nav);
-    this.alignWrapperToRightIfStickOut(navBar, nav);
+    const navs = <HTMLCollection>this.elemRef.nativeElement.childNodes;
+    Array.from(navs)
+      .filter(node => node.tagName === 'NAV')
+      .forEach(nav => this.alignWrapperToRightIfStickOut(<HTMLElement>nav));
   }
 
   private updateClasses(): void {
