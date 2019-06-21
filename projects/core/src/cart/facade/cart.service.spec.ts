@@ -1,19 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Store, StoreModule } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-
 import { AuthService, UserToken } from '../../auth';
-import { BaseSiteService } from '../../site-context';
-
-import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
-
+import { Cart } from '../../model/cart.model';
+import { OrderEntry } from '../../model/order.model';
+import { BaseSiteService } from '../../site-context';
+import { StateWithCart } from '../store/cart-state';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
-import { OrderEntry } from '../../model/order.model';
-import { Cart } from '../../model/cart.model';
 
 class CartDataServiceStub {
   userId;
@@ -241,6 +236,8 @@ describe('CartService', () => {
 
   describe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
+      spyOn(service, 'isCreated').and.returnValue(true);
+      store.dispatch(new fromCart.CreateCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
       cartData.userId = userId;

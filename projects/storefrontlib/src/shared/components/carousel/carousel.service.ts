@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { fromEvent } from 'rxjs';
+import { fromEvent, iif, Observable, of } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   map,
   startWith,
 } from 'rxjs/operators';
+import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarouselService {
-  constructor(private winRef: WindowRef) {}
+  constructor(private winRef: WindowRef, private layoutConfig: LayoutConfig) {}
 
   /**
    * The number of items per slide is calculated by the help of
@@ -25,15 +26,26 @@ export class CarouselService {
    * window `resize` event, so that we can adjust the number of items
    * whenever the window got resized.
    */
-  getItemsPerSlide(nativeElement: HTMLElement, itemWidth: string) {
-    return fromEvent(this.winRef.nativeWindow, 'resize').pipe(
-      map(_ => (nativeElement as HTMLElement).clientWidth),
-      startWith((nativeElement as HTMLElement).clientWidth),
-      debounceTime(100),
-      map((totalWidth: any) => {
-        return this.calculateItems(totalWidth, itemWidth);
-      }),
-      distinctUntilChanged()
+  getItemsPerSlide(
+    nativeElement: HTMLElement,
+    itemWidth: string
+  ): Observable<number> {
+    return iif(
+      () => Boolean(this.winRef.nativeWindow),
+      fromEvent(this.winRef.nativeWindow, 'resize').pipe(
+        map(_ => (nativeElement as HTMLElement).clientWidth),
+        startWith((nativeElement as HTMLElement).clientWidth),
+        debounceTime(100),
+        map(totalWidth => this.calculateItems(totalWidth, itemWidth)),
+        distinctUntilChanged()
+      ),
+      // no window object (SSR), mobile first
+      of(
+        this.calculateItems(
+          this.layoutConfig.breakpoints[BREAKPOINT.xs],
+          itemWidth
+        )
+      )
     );
   }
 

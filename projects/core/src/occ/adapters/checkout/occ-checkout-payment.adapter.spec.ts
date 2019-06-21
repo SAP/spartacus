@@ -1,11 +1,8 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { Occ, OccConfig } from '../../index';
-import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
+import { TestBed } from '@angular/core/testing';
 import {
   CARD_TYPE_NORMALIZER,
   ConverterService,
@@ -13,6 +10,8 @@ import {
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/core';
 import { Cart, PaymentDetails } from '../../../model/cart.model';
+import { Occ, OccConfig } from '../../index';
+import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
 
 const userId = '123';
 const cartId = '456';
@@ -27,6 +26,7 @@ const mockPaymentDetails: PaymentDetails = {
   },
   billingAddress: {
     country: {},
+    region: {},
   },
 };
 
@@ -129,6 +129,10 @@ const paymentProviderInfo = {
         value: 'billTo_firstName',
       },
       {
+        key: 'hybris_billTo_region',
+        value: 'billTo_state',
+      },
+      {
         key: 'hybris_billTo_postalcode',
         value: 'billTo_postalCode',
       },
@@ -149,6 +153,7 @@ const html =
   '<input type="hidden" id="decision_publicSignature" name="decision_publicSignature" value="mEhlMRLCsuPimhp50ElrY94zFyc=" />' +
   '<input type="hidden" id="decision" name="decision" value="ACCEPT" />' +
   '<input type="hidden" id="billTo_country" name="billTo_country" value="US" />' +
+  '<input type="hidden" id="billTo_state" name="billTo_state" value="CA" />' +
   '<input type="hidden" id="billTo_lastName" name="billTo_lastName" value="test" />' +
   '<input type="hidden" id="ccAuthReply_cvCode" name="ccAuthReply_cvCode" value="M" />' +
   '<input type="hidden" id="billTo_postalCode" name="billTo_postalCode" value="12345" />' +
