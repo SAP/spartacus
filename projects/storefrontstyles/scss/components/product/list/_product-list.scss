@@ -37,6 +37,10 @@
   .cx-pagination {
     display: inline-block;
     vertical-align: top;
+
+    .page-link:hover {
+      color: var(--cx-color-inverse);
+    }
   }
 
   .cx-sort-dropdown {
