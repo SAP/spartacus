@@ -5,9 +5,11 @@ import {
   HostBinding,
   HostListener,
   Input,
+  OnDestroy,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
@@ -17,7 +19,7 @@ import { NavigationNode } from './navigation-node.model';
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationUIComponent {
+export class NavigationUIComponent implements OnDestroy {
   /**
    * The navigation node to render.
    */
@@ -45,6 +47,8 @@ export class NavigationUIComponent {
 
   private openNodes: HTMLElement[] = [];
 
+  private subscription: Subscription;
+
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.validateWrappersAndAlignToRightIfStickOut();
@@ -55,7 +59,7 @@ export class NavigationUIComponent {
     private renderer: Renderer2,
     private elemRef: ElementRef
   ) {
-    this.router.events
+    this.subscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.clear());
   }
@@ -91,6 +95,20 @@ export class NavigationUIComponent {
 
   onMouseEnter(event: UIEvent) {
     this.alignWrapperToRightIfStickOut(<HTMLElement>event.currentTarget);
+  }
+
+  getDepth(node: NavigationNode, depth = 0): number {
+    if (node.children && node.children.length > 0) {
+      return Math.max(...node.children.map(n => this.getDepth(n, depth + 1)));
+    } else {
+      return depth;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private alignWrapperToRightIfStickOut(node: HTMLElement) {
@@ -130,13 +148,5 @@ export class NavigationUIComponent {
     });
 
     this.isOpen = this.openNodes.length > 0;
-  }
-
-  getDepth(node: NavigationNode, depth = 0): number {
-    if (node.children && node.children.length > 0) {
-      return Math.max(...node.children.map(n => this.getDepth(n, depth + 1)));
-    } else {
-      return depth;
-    }
   }
 }

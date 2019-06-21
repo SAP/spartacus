@@ -5,6 +5,7 @@ import {
   forwardRef,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   Renderer2,
@@ -15,6 +16,7 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 const COUNTER_CONTROL_ACCESSOR = {
@@ -30,7 +32,7 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR],
 })
 export class ItemCounterComponent
-  implements OnInit, ControlValueAccessor, OnChanges {
+  implements OnInit, ControlValueAccessor, OnChanges, OnDestroy {
   @ViewChild('itemCounterInput', { static: false })
   public input: ElementRef;
   @ViewChild('incrementBtn', { static: false })
@@ -62,13 +64,17 @@ export class ItemCounterComponent
     disabled: this.isValueChangeable,
   });
 
+  subscription: Subscription;
+
   ngOnInit() {
     this.writeValue(this.min || 0);
-    this.inputValue.valueChanges.pipe(debounceTime(300)).subscribe(value => {
-      if (value) {
-        this.manualChange(Number(value));
-      }
-    });
+    this.subscription = this.inputValue.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(value => {
+        if (value) {
+          this.manualChange(Number(value));
+        }
+      });
   }
 
   ngOnChanges() {
@@ -202,5 +208,11 @@ export class ItemCounterComponent
 
   isMaxOrMinValueOrBeyond(): boolean {
     return this.value >= this.max || this.value <= this.min;
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
