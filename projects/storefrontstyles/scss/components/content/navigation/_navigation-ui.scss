@@ -108,9 +108,6 @@
           margin-top: 3px;
           padding: 20px 15px 25px 0;
         }
-        a {
-          padding: 20px 15px 22px 0;
-        }
         // first level headings will be bold in desktop
         nav > h5 {
           @include type('5');
@@ -125,6 +122,15 @@
   }
   cx-generic-link.all {
     text-decoration: underline;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  cx-category-navigation > cx-navigation-ui > nav > cx-generic-link > a {
+    padding: 20px 15px 22px 0;
+  }
+  nav > div.wrapper > cx-generic-link {
+    padding: 10px 0;
   }
 }
 
