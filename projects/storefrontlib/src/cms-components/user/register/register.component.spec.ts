@@ -239,6 +239,7 @@ describe('RegisterComponent', () => {
     beforeEach(() => {
       spyOn(globalMessageService, 'remove').and.callThrough();
       spyOn(userService, 'register').and.stub();
+      component.ngOnInit();
       component.submit();
     });
 

@@ -65,13 +65,13 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
-    this.cards$ = combineLatest(
+    this.cards$ = combineLatest([
       this.existingAddresses$,
       this.selectedAddress$.asObservable(),
       this.translation.translate('checkoutAddress.defaultShippingAddress'),
       this.translation.translate('checkoutAddress.shipToThisAddress'),
-      this.translation.translate('addressCard.selected')
-    ).pipe(
+      this.translation.translate('addressCard.selected'),
+    ]).pipe(
       map(
         ([
           addresses,
