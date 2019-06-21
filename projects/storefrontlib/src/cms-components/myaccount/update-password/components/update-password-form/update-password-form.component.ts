@@ -11,7 +11,6 @@ import { CustomFormValidators } from '../../../../../shared/utils/validators/cus
 @Component({
   selector: 'cx-update-password-form',
   templateUrl: './update-password-form.component.html',
-  styleUrls: ['./update-password-form.component.scss'],
 })
 export class UpdatePasswordFormComponent implements OnInit {
   private submitClicked = false;

@@ -91,6 +91,49 @@
       </label>
     </div>
     <div class="form-group col-md-6">
+      <ng-container
+        *ngIf="(regions$ | async) as regions"
+        formGroupName="region"
+      >
+        <div *ngIf="regions.length !== 0">
+          <label aria-required="true">
+            <span class="label-content required">{{
+              'addressForm.state' | cxTranslate
+            }}</span>
+            <ng-container *ngIf="regions[0].name">
+              <ng-select
+                class="region-select"
+                formControlName="isocodeShort"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="regions"
+                bindLabel="name"
+                bindValue="isocodeShort"
+                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                (change)="regionSelected($event)"
+              >
+              </ng-select>
+            </ng-container>
+            <ng-container *ngIf="!regions[0].name">
+              <ng-select
+                class="region-select"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="regions"
+                bindLabel="isocodeShort"
+                bindValue="region"
+                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                (change)="regionSelected($event)"
+              >
+              </ng-select>
+            </ng-container>
+          </label>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
       <label>
         <span class="label-content required">{{
           'addressForm.zipCode.label' | cxTranslate
