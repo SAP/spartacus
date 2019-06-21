@@ -42,9 +42,7 @@ export class CreateCartSuccess extends LoaderSuccessAction {
 
 export class LoadCart extends LoaderLoadAction {
   readonly type = LOAD_CART;
-  constructor(
-    public payload: { userId: string; cartId: string; details?: boolean }
-  ) {
+  constructor(public payload: { userId: string; cartId: string }) {
     super(CART_DATA);
   }
 }

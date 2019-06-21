@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-
-import * as fromActions from '../actions/index';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import * as fromAuthActions from '../../../auth/store/actions/index';
-import * as fromUserActions from '../../../user/store/actions/index';
-import * as fromCartActions from './../../../cart/store/actions/index';
-import { AddMessage } from '../../../global-message/index';
+import { CartDataService } from '../../../cart/facade/cart-data.service';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
+import { AddMessage } from '../../../global-message/index';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import * as fromUserActions from '../../../user/store/actions/index';
+import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
-import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
-import { CartDataService } from '../../../cart/facade/cart-data.service';
+import * as fromActions from '../actions/index';
+import * as fromCartActions from './../../../cart/store/actions/index';
 
 @Injectable()
 export class CheckoutEffects {
@@ -149,7 +148,6 @@ export class CheckoutEffects {
               new fromCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
-                details: true,
               }),
             ];
           }),

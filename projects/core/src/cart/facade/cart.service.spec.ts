@@ -71,7 +71,6 @@ describe('CartService', () => {
             new fromCart.LoadCart({
               userId: cartData.userId,
               cartId: 'current',
-              details: true,
             })
           );
         });
@@ -87,7 +86,6 @@ describe('CartService', () => {
             new fromCart.MergeCart({
               userId: cartData.userId,
               cartId: cartData.cart.guid,
-              details: true,
             })
           );
         });
@@ -108,7 +106,6 @@ describe('CartService', () => {
         new fromCart.LoadCart({
           userId: userId,
           cartId: cart.code,
-          details: true,
         })
       );
     });
@@ -125,7 +122,6 @@ describe('CartService', () => {
         new fromCart.LoadCart({
           userId: ANONYMOUS_USERID,
           cartId: cart.guid,
-          details: true,
         })
       );
     });
@@ -142,7 +138,7 @@ describe('CartService', () => {
 
   describe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
-      spyOn(service, 'isCreated').and.returnValue(true);
+      //spyOn(service, 'isCreated').and.returnValue(true);
       store.dispatch(new fromCart.CreateCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 

@@ -84,7 +84,6 @@ export class CartService {
           new fromAction.LoadCart({
             userId: this.cartData.userId,
             cartId: 'current',
-            details: true,
           })
         );
       } else {
@@ -92,7 +91,6 @@ export class CartService {
           new fromAction.MergeCart({
             userId: this.cartData.userId,
             cartId: this.cartData.cart.guid,
-            details: true,
           })
         );
       }
@@ -105,7 +103,6 @@ export class CartService {
         new fromAction.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
-          details: true,
         })
       );
     } else if (this.cartData.cartId) {
@@ -113,7 +110,6 @@ export class CartService {
         new fromAction.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          details: true,
         })
       );
     }

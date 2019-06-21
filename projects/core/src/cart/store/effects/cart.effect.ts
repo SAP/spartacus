@@ -19,26 +19,20 @@ export class CartEffects {
     map(
       (action: {
         type: string;
-        payload?: { userId: string; cartId: string; details?: boolean };
+        payload?: { userId: string; cartId: string };
       }) => action.payload
     ),
     mergeMap(payload => {
       const loadCartParams = {
         userId: (payload && payload.userId) || this.cartData.userId,
         cartId: (payload && payload.cartId) || this.cartData.cartId,
-        details:
-          payload && payload.details !== undefined ? payload.details : true,
       };
 
       if (this.isMissingData(loadCartParams)) {
         return of(new fromActions.LoadCartFail({}));
       }
       return this.cartConnector
-        .load(
-          loadCartParams.userId,
-          loadCartParams.cartId,
-          loadCartParams.details
-        )
+        .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
           map((cart: Cart) => {
             return new fromActions.LoadCartSuccess(cart);
@@ -116,7 +110,6 @@ export class CartEffects {
         new fromActions.LoadCart({
           userId: payload.userId,
           cartId: payload.cartId,
-          details: true,
         })
     )
   );

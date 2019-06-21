@@ -248,7 +248,6 @@ describe('Checkout effect', () => {
       const loadCart = new fromCartActions.LoadCart({
         userId,
         cartId,
-        details: true,
       });
 
       actions$ = hot('-a', { a: action });
