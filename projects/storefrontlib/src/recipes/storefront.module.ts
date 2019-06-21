@@ -28,8 +28,7 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
           strictStateImmutability: true,
           strictStateSerializability: true,
           strictActionImmutability: true,
-          // TODO:#3010 - enable
-          // strictActionSerializability: true,
+          strictActionSerializability: true,
         },
       }
     ),
