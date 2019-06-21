@@ -41,7 +41,7 @@ export class CartService {
         ) {
           this.loadOrMerge();
         }
-        if (!loading && this.shouldLoadDetails(cart)) {
+        if (!loading && this.isCreated(cart) && this.isIncomplete(cart)) {
           this.loadDetails();
         }
         this.prevCartUserId = userToken.userId;
@@ -49,7 +49,7 @@ export class CartService {
       filter(
         ([cart, loading]) =>
           !loading &&
-          ((this.isCreated(cart) && !this.shouldLoadDetails(cart)) ||
+          ((this.isCreated(cart) && !this.isIncomplete(cart)) ||
             !this.isCreated(cart))
       ),
       map(([cart]) => cart),
@@ -106,7 +106,7 @@ export class CartService {
           details: true,
         })
       );
-    } else if (this.cartData.cartId) {
+    } else {
       this.store.dispatch(
         new fromAction.LoadCart({
           userId: this.cartData.userId,
@@ -123,7 +123,7 @@ export class CartService {
         new fromAction.CreateCart({ userId: this.cartData.userId })
       );
       const sub = this.getActive().subscribe(cart => {
-        if (!this.shouldLoadDetails(cart)) {
+        if (!this.isIncomplete(cart)) {
           this.store.dispatch(
             new fromAction.AddEntry({
               userId: this.cartData.userId,
@@ -189,10 +189,10 @@ export class CartService {
   }
 
   /**
-   * Cart is deficient if it contains only `guid` and `code` properties, which come from local storage,
-   * so we should load cart from backend.
+   * Cart is incomplete if it contains only `guid` and `code` properties, which come from local storage.
+   * To get cart content, we need to load cart from backend.
    */
-  private shouldLoadDetails(cart: Cart): boolean {
+  private isIncomplete(cart: Cart): boolean {
     return cart && Object.keys(cart).length <= 2;
   }
 }
