@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -41,14 +41,16 @@ export class MockSiteContextModuleConfig {
     occPrefix: '/rest/v2/',
   };
 
-  site = {
-    baseSite: 'electronics',
-    language: '',
-    currency: '',
+  context = {
+    parameters: {
+      baseSite: { default: 'electronics' },
+      language: { default: '' },
+      currency: { default: '' },
+    },
   };
 }
 
-describe('SiteContextInterceptor', () => {
+fdescribe('SiteContextInterceptor', () => {
   const languageDe = 'de';
   const currencyJpy = 'JPY';
 
@@ -112,7 +114,7 @@ describe('SiteContextInterceptor', () => {
       languageService.setActive(languageDe);
       currencyService.setActive(currencyJpy);
       http
-        .get('https://localhost:9002/rest/v2/electronics')
+        .get('https://localhost:9002/rest/v2/electronics/')
         .subscribe(result => {
           expect(result).toBeTruthy();
         });

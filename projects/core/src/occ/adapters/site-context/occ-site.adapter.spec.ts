@@ -26,10 +26,12 @@ const MockOccModuleConfig: OccConfig = {
     },
   },
 
-  site: {
-    baseSite: 'test-site',
-    language: '',
-    currency: '',
+  context: {
+    parameters: {
+      baseSite: { default: 'test-site' },
+      language: { default: '' },
+      currency: { default: '' },
+    },
   },
 };
 

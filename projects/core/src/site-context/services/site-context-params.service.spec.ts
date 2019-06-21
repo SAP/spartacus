@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SiteContextParamsService } from './site-context-params.service';
 import {
+  BASE_SITE_CONTEXT_ID,
   contextServiceMapProvider,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
@@ -26,7 +27,7 @@ describe('SiteContextParamsService', () => {
           default: 'USD',
           values: ['USD', 'JPY'],
         },
-        site: {
+        [BASE_SITE_CONTEXT_ID]: {
           persistence: 'session',
           default: 'electronics',
           values: ['electronics', 'apparel-de'],
