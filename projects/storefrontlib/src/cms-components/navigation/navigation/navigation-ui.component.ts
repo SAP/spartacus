@@ -5,7 +5,6 @@ import {
   HostBinding,
   HostListener,
   Input,
-  OnChanges,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
