@@ -3,7 +3,6 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import * as fromAuthActions from '../../../auth/store/actions/index';
-import { CartDataService } from '../../../cart/facade/cart-data.service';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { AddMessage } from '../../../global-message/index';
 import * as fromSiteContextActions from '../../../site-context/store/actions/index';
@@ -104,23 +103,6 @@ export class CheckoutEffects {
           )
         );
     })
-  );
-
-  @Effect()
-  reloadSupportedDeliveryModesOnSiteContextChange$: Observable<
-    any
-  > = this.actions$.pipe(
-    ofType(
-      fromActions.CHECKOUT_CLEAR_MISCS_DATA,
-      fromActions.CLEAR_SUPPORTED_DELIVERY_MODES
-    ),
-    map(
-      () =>
-        new fromActions.LoadSupportedDeliveryModes({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-        })
-    )
   );
 
   @Effect()
@@ -294,7 +276,6 @@ export class CheckoutEffects {
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
-    private checkoutConnector: CheckoutConnector,
-    private cartData: CartDataService
+    private checkoutConnector: CheckoutConnector
   ) {}
 }

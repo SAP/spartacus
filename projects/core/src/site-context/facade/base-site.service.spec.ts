@@ -1,14 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-
-import { BaseSiteService } from './base-site.service';
-import { SiteConnector, StateWithSiteContext } from '@spartacus/core';
+import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { SiteContextStoreModule } from '../store/site-context-store.module';
+import { SiteConnector, StateWithSiteContext } from '@spartacus/core';
 import { of } from 'rxjs';
-import * as fromStore from '../store';
 import { SiteAdapter } from '../connectors/site.adapter';
+import * as fromStore from '../store';
+import { SiteContextStoreModule } from '../store/site-context-store.module';
+import { BaseSiteService } from './base-site.service';
 import createSpy = jasmine.createSpy;
 
 describe('BaseSiteService', () => {
@@ -38,7 +37,7 @@ describe('BaseSiteService', () => {
       ],
     });
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    spyOn(store, 'dispatch').and.stub();
     service = TestBed.get(BaseSiteService);
   });
 
