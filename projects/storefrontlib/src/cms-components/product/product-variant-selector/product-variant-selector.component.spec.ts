@@ -31,7 +31,7 @@ class MockCurrentProductService {
   }
 }
 
-fdescribe('ProductVariantSelectorComponent', () => {
+describe('ProductVariantSelectorComponent', () => {
   let component: ProductVariantSelectorComponent;
   let fixture: ComponentFixture<ProductVariantSelectorComponent>;
 
