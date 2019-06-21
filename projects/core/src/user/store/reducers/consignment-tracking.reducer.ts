@@ -2,9 +2,7 @@ import { ConsignmentTracking } from '../../../model/index';
 import * as fromAction from '../actions/consignment-tracking.action';
 import { ConsignmentTrackingState } from '../user-state';
 
-export const initialState: ConsignmentTrackingState = {
-  tracking: {},
-};
+export const initialState: ConsignmentTrackingState = {};
 
 export function reducer(
   state = initialState,
@@ -16,6 +14,9 @@ export function reducer(
       return {
         tracking,
       };
+    }
+    case fromAction.CLEAR_CONSIGNMENT_TRACKING: {
+      return initialState;
     }
   }
   return state;

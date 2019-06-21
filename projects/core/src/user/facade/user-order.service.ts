@@ -116,4 +116,11 @@ export class UserOrderService {
       })
     );
   }
+
+  /**
+   * Cleaning consignment tracking
+   */
+  clearConsignmentTracking(): void {
+    this.store.dispatch(new fromStore.ClearConsignmentTracking());
+  }
 }

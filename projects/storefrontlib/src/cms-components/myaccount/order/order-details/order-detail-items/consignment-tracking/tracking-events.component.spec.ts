@@ -2,16 +2,14 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ConsignmentTracking, I18nTestingModule } from '@spartacus/core';
+import {
+  ConsignmentTracking,
+  I18nTestingModule,
+  UserOrderService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
 import { TrackingEventsComponent } from './tracking-events.component';
-
-class MockNgbActiveModal {
-  dismiss(): void {}
-
-  close(): void {}
-}
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
 
@@ -26,12 +24,19 @@ describe('TrackingEventsComponent', () => {
   let component: TrackingEventsComponent;
   let fixture: ComponentFixture<TrackingEventsComponent>;
   let el: DebugElement;
+  const userOrderService = jasmine.createSpyObj('UserOrderService', [
+    'clearConsignmentTracking',
+  ]);
+  const ngbActiveModal = jasmine.createSpyObj('NgbActiveModal', ['dismiss']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgbModule, SpinnerModule, I18nTestingModule],
       declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
-      providers: [{ provide: NgbActiveModal, useValue: MockNgbActiveModal }],
+      providers: [
+        { provide: NgbActiveModal, useValue: ngbActiveModal },
+        { provide: UserOrderService, useValue: userOrderService },
+      ],
     }).compileComponents();
   }));
 
@@ -40,6 +45,8 @@ describe('TrackingEventsComponent', () => {
     el = fixture.debugElement;
     component = fixture.componentInstance;
     component.shipDate = shipDate;
+    userOrderService.clearConsignmentTracking.and.stub();
+    ngbActiveModal.dismiss.and.stub();
   });
 
   it('should create', () => {
@@ -71,5 +78,17 @@ describe('TrackingEventsComponent', () => {
     });
     fixture.detectChanges();
     expect(el.query(By.css('.shipment-heading'))).toBeTruthy();
+  });
+
+  it('should be able to clear state when destorying component', () => {
+    fixture.detectChanges();
+    component.ngOnDestroy();
+    expect(userOrderService.clearConsignmentTracking).toHaveBeenCalled();
+  });
+
+  it('should be able to close dialog', () => {
+    fixture.detectChanges();
+    el.query(By.css('button')).nativeElement.click();
+    expect(ngbActiveModal.dismiss).toHaveBeenCalledWith('Cross click');
   });
 });
