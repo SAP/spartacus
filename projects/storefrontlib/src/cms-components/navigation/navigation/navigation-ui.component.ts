@@ -89,15 +89,7 @@ export class NavigationUIComponent {
     this.updateClasses();
   }
 
-  validateWrappersAndAlignToRightIfStickOut() {
-    const navBar = <HTMLElement>this.elemRef.nativeElement;
-    const navs = navBar.getElementsByTagName('NAV');
-    Array.from(navs).forEach(nav =>
-      this.alignWrapperToRightIfStickOut(navBar, nav)
-    );
-  }
-
-  alignWrapperToRightIfStickOut(navBar, nav) {
+  private alignWrapperToRightIfStickOut(navBar, nav) {
     const wrapper = <HTMLElement>nav.getElementsByClassName('wrapper')[0];
     if (wrapper) {
       this.renderer.removeStyle(wrapper, 'margin-left');
@@ -112,6 +104,14 @@ export class NavigationUIComponent {
         );
       }
     }
+  }
+
+  private validateWrappersAndAlignToRightIfStickOut() {
+    const navBar = <HTMLElement>this.elemRef.nativeElement;
+    const navs = navBar.getElementsByTagName('NAV');
+    Array.from(navs).forEach(nav =>
+      this.alignWrapperToRightIfStickOut(navBar, nav)
+    );
   }
 
   onMouseEnter(event: UIEvent) {
