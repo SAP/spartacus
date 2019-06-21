@@ -18,6 +18,12 @@ import {
   StateWithCart,
 } from '../cart-state';
 
+const getCartContentSelector = (state: CartState) => state.content;
+const getCartRefreshSelector = (state: CartState) => state.refresh;
+const getCartEntriesSelector = (state: CartState) => state.entries;
+const getCartMergeCompleteSelector = (state: CartState) =>
+  state.cartMergeComplete;
+
 export const getCartsState: MemoizedSelector<
   StateWithCart,
   CartsState
@@ -44,7 +50,7 @@ export const getCartContent: MemoizedSelector<
   Cart
 > = createSelector(
   getCartState,
-  (state: CartState) => state.content
+  getCartContentSelector
 );
 
 export const getCartRefresh: MemoizedSelector<
@@ -52,7 +58,7 @@ export const getCartRefresh: MemoizedSelector<
   boolean
 > = createSelector(
   getCartState,
-  (state: CartState) => state.refresh
+  getCartRefreshSelector
 );
 
 export const getCartLoaded: MemoizedSelector<
@@ -71,7 +77,7 @@ export const getCartMergeComplete: MemoizedSelector<
   boolean
 > = createSelector(
   getCartState,
-  (state: CartState) => state.cartMergeComplete
+  getCartMergeCompleteSelector
 );
 
 export const getCartEntriesMap: MemoizedSelector<
@@ -79,7 +85,7 @@ export const getCartEntriesMap: MemoizedSelector<
   { [code: string]: OrderEntry }
 > = createSelector(
   getCartState,
-  (state: CartState) => state.entries
+  getCartEntriesSelector
 );
 
 export const getCartEntrySelectorFactory = (

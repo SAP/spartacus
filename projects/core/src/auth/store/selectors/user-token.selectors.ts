@@ -3,6 +3,8 @@ import { UserToken } from '../../models/token-types.model';
 import { AuthState, StateWithAuth, UserTokenState } from '../auth-state';
 import { getAuthState } from './feature.selector';
 
+const getUserTokenSelector = (state: UserTokenState) => state.token;
+
 export const getUserTokenState: MemoizedSelector<
   StateWithAuth,
   UserTokenState
@@ -16,5 +18,5 @@ export const getUserToken: MemoizedSelector<
   UserToken
 > = createSelector(
   getUserTokenState,
-  (state: UserTokenState) => state.token
+  getUserTokenSelector
 );

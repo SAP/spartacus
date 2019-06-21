@@ -14,7 +14,6 @@ import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
 import * as fromActions from '../actions/cart.action';
 import * as fromEffects from './cart.effect';
-
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
