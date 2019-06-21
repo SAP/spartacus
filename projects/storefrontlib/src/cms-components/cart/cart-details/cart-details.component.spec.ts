@@ -43,7 +43,7 @@ class MockCartItemListComponent {
   cartIsLoading: Observable<boolean>;
 }
 
-fdescribe('CartDetailsComponent', () => {
+describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
 
