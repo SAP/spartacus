@@ -76,17 +76,13 @@ export class ProductListComponentService {
    * When a user leaves the PLP route, the PLP component unsubscribes from this stream
    * so no longer the search is performed on route change.
    */
-  private _model$: Observable<ProductSearchPage> = combineLatest(
+  readonly model$: Observable<ProductSearchPage> = combineLatest(
     this.searchResults$,
     this.searchByRouting$
   ).pipe(
     map(([searchResults]) => searchResults),
-    shareReplay()
+    shareReplay({ bufferSize: 1, refCount: true })
   );
-
-  get model$() {
-    return this._model$;
-  }
 
   clearSearchResults(): void {
     this.productSearchService.clearResults();

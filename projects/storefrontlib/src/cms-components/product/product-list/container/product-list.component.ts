@@ -11,7 +11,8 @@ import { ProductListComponentService } from './product-list-component.service';
   templateUrl: './product-list.component.html',
 })
 export class ProductListComponent implements OnInit {
-  model$: Observable<ProductSearchPage>;
+  model$: Observable<ProductSearchPage> = this.productListComponentService
+    .model$;
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
 
@@ -22,7 +23,6 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.productListComponentService.clearSearchResults();
-    this.model$ = this.productListComponentService.model$;
 
     this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
       this.viewMode$.next(
