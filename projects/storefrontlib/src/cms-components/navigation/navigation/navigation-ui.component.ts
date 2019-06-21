@@ -50,11 +50,13 @@ export class NavigationUIComponent {
   }
 
   toggleOpen(event: UIEvent): void {
-    if (this.openNodes.includes(<HTMLElement>event.currentTarget)) {
-      this.openNodes = this.openNodes.filter(n => n !== event.currentTarget);
-      this.renderer.removeClass(<HTMLElement>event.currentTarget, 'is-open');
+    const target: HTMLElement = <HTMLElement>event.currentTarget;
+
+    if (this.openNodes.includes(target)) {
+      this.openNodes = this.openNodes.filter(n => n !== target);
+      this.renderer.removeClass(target, 'is-open');
     } else {
-      this.openNodes.push(<HTMLElement>event.currentTarget);
+      this.openNodes.push(target);
     }
 
     this.updateClasses();
@@ -104,8 +106,10 @@ export class NavigationUIComponent {
     const target: HTMLElement = event.target
       ? <HTMLElement>event.target
       : <HTMLElement>event.relatedTarget;
-
-    if (target.ownerDocument.activeElement.matches('nav[tabindex]')) {
+    if (
+      target.ownerDocument.activeElement.matches('nav[tabindex]') &&
+      target.querySelector('cx-icon')
+    ) {
       target.focus();
     }
     return target.ownerDocument;

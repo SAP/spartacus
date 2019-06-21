@@ -68,9 +68,16 @@
 }
 
 %nav-heading {
+  nav {
+    &:focus {
+      color: var(--cx-g-color-primary);
+    }
+  }
+
   h5 {
     margin: 0;
   }
+
   &.flyout {
     h5,
     cx-generic-link {
