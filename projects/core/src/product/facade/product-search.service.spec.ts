@@ -1,5 +1,4 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
@@ -12,16 +11,7 @@ import { ProductSearchService } from './product-search.service';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
-  let routerService: Router;
   let store: Store<fromStore.ProductsState>;
-  class MockRouter {
-    createUrlTree() {
-      return {};
-    }
-    navigateByUrl() {
-      return {};
-    }
-  }
   const mockSearchResults: ProductSearchPage = {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
@@ -45,19 +35,11 @@ describe('ProductSearchService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('product', fromStore.getReducers()),
       ],
-      providers: [
-        ProductSearchService,
-        {
-          provide: Router,
-          useClass: MockRouter,
-        },
-      ],
+      providers: [ProductSearchService],
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(ProductSearchService);
-    routerService = TestBed.get(Router);
-    spyOn(routerService, 'navigateByUrl').and.callThrough();
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -92,7 +74,6 @@ describe('ProductSearchService', () => {
       const searchConfig: SearchConfig = {};
 
       service.search('test query', searchConfig);
-      expect(routerService.navigateByUrl).toHaveBeenCalledWith({});
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts({
           queryText: 'test query',
