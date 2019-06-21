@@ -9,7 +9,7 @@
       @include media-breakpoint-up(lg) {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(2, auto) 1fr;
+        grid-template-rows: repeat(2, auto) 0.5fr 1fr;
         grid-column-gap: 20px;
         grid-row-gap: 0px;
         cx-product-images {
@@ -27,10 +27,15 @@
           grid-row: 2 / 3;
         }
 
-        cx-add-to-cart {
+        cx-product-variant-selector {
           grid-column: 2;
           grid-row: 3 / 4;
-          padding: 0 20px 20px 20px;
+        }
+
+        cx-add-to-cart {
+          grid-column: 2;
+          grid-row: 4 / 5;
+          padding: 20px 20px 0px 20px;
         }
       }
     }

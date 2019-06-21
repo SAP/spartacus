@@ -14,18 +14,6 @@
   </div>
 
   <ng-template #styleSelector let-variant="variant">
-    <style>
-      ul.variant-list {
-        padding: 0;
-      }
-      ul.variant-list li {
-        display: inline;
-      }
-      ul.variant-list li img {
-        margin: 3px;
-        border: 1px solid #ddd;
-      }
-    </style>
     <div class="variant-name">
       {{ getVariantName(variant)
       }}<span class="variant-selected styleName"
@@ -64,7 +52,6 @@
       id="{{ getVariantName(variant) }}"
       class="form-control variant-select"
     >
-      <!-- <option value="" selected="selected"> Select a size</option> -->
       <option
         *ngFor="let option of variant.options"
         value="{{ option.url }}"
@@ -72,6 +59,6 @@
         >{{ option.variantOptionQualifiers[0].value }}</option
       >
     </select>
-    <a href="#" class="size-guide" title="Size guide">&nbsp;</a>
+    <a href="#" class="size-guide" title="Size guide">Size guide</a>
   </ng-template>
 </div>

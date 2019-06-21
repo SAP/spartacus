@@ -17,6 +17,9 @@
     margin: 0 0 11px 0;
   }
 
+  p.summary p {
+    margin-bottom: 0;
+  }
   .quantity {
     label {
       @include type('8');
