@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
-import { Store, StoreModule, select } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
-
+import { select, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-
-import * as fromStore from './../../store';
-import { StateWithProduct } from './../../store';
 import { Review } from '../../../model/product.model';
+import * as fromProductReducers from '../../store/reducers/index';
+import { ProductSelectors } from '../../store/selectors/index';
+import { StateWithProduct } from '../product-state';
 
 describe('Product Reviews selectors', () => {
   const productCode = '123';
@@ -40,7 +38,7 @@ describe('Product Reviews selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('products', fromStore.getReducers()),
+        StoreModule.forFeature('products', fromProductReducers.getReducers()),
       ],
     });
 
@@ -51,7 +49,9 @@ describe('Product Reviews selectors', () => {
   it('getSelectedProductReviewsFactory should return reviews', () => {
     let result: Review[];
     store
-      .pipe(select(fromStore.getSelectedProductReviewsFactory(productCode)))
+      .pipe(
+        select(ProductSelectors.getSelectedProductReviewsFactory(productCode))
+      )
       .subscribe(data => (result = data))
       .unsubscribe();
 
