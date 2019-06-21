@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   PaymentDetails,
   TranslationService,
@@ -12,7 +12,7 @@ import { Card } from '../../../shared/components/card/card.component';
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
 })
-export class PaymentMethodsComponent implements OnInit, OnDestroy {
+export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
   loading$: Observable<boolean>;
@@ -100,6 +100,4 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
   }
-
-  ngOnDestroy(): void {}
 }
