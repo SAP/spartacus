@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cart, CartService, Order } from '@spartacus/core';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
 })
-export class CartCouponComponent implements OnInit {
+export class CartCouponComponent implements OnInit, OnDestroy {
   form: FormGroup;
   disableBtn: boolean;
   private subscription = new Subscription();
@@ -32,9 +32,11 @@ export class CartCouponComponent implements OnInit {
     });
 
     this.subscription.add(
-      this.cartService
-        .getAddVoucherResultSuccess()
-        .subscribe(success => this.onSuccess(success))
+      this.cartService.getAddVoucherResultSuccess().subscribe(success => {
+        if (success) {
+          this.form.reset();
+        }
+      })
     );
   }
 
@@ -45,10 +47,8 @@ export class CartCouponComponent implements OnInit {
   removeVoucher(voucherId: string) {
     this.cartService.removeVoucher(voucherId);
   }
-
-  onSuccess(success: boolean): void {
-    if (success) {
-      this.form.reset();
-    }
+  
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
