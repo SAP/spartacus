@@ -2,12 +2,12 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
 
 class MockCarouselService {
-  getSize(_nativeElement: HTMLElement, _itemWidth: number) {
+  getSize(_nativeElement: HTMLElement, _itemWidth: number): Observable<number> {
     return of();
   }
 }
@@ -24,9 +24,9 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-media',
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() format;
-  @Input() alt;
+  @Input() container: any;
+  @Input() format: string;
+  @Input() alt: string;
 }
 
 @Component({
