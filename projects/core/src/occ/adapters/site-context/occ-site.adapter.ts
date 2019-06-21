@@ -65,7 +65,7 @@ export class OccSiteAdapter implements SiteAdapter {
   }
 
   loadRegions(countryIsoCode: string): Observable<Region[]> {
-    const regionsEndpoint = `${COUNTRIES_ENDPOINT}/${countryIsoCode}/${REGIONS_ENDPOINT}`;
+    const regionsEndpoint = `${COUNTRIES_ENDPOINT}/${countryIsoCode}/${REGIONS_ENDPOINT}?fields=regions(name,isocode,isocodeShort)`;
     return this.http
       .get<Occ.RegionList>(this.occEndpoints.getEndpoint(regionsEndpoint))
       .pipe(
