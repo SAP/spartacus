@@ -1,8 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
+  HostListener,
   Input,
+  OnChanges,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
@@ -43,7 +46,16 @@ export class NavigationUIComponent {
 
   private openNodes: HTMLElement[] = [];
 
-  constructor(private router: Router, private renderer: Renderer2) {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.validateWrappersAndAlignToRightIfStickOut();
+  }
+
+  constructor(
+    private router: Router,
+    private renderer: Renderer2,
+    private elemRef: ElementRef
+  ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.clear());
@@ -78,9 +90,15 @@ export class NavigationUIComponent {
     this.updateClasses();
   }
 
-  alignWrapperToRightIfStickOut(event: UIEvent) {
-    const nav = <HTMLElement>event.currentTarget;
-    const navBar = <HTMLElement>this.renderer.parentNode(nav);
+  validateWrappersAndAlignToRightIfStickOut() {
+    const navBar = <HTMLElement>this.elemRef.nativeElement;
+    const navs = navBar.getElementsByTagName('NAV');
+    Array.from(navs).forEach(nav =>
+      this.alignWrapperToRightIfStickOut(navBar, nav)
+    );
+  }
+
+  alignWrapperToRightIfStickOut(navBar, nav) {
     const wrapper = <HTMLElement>nav.getElementsByClassName('wrapper')[0];
     if (wrapper) {
       this.renderer.removeStyle(wrapper, 'margin-left');
@@ -95,6 +113,12 @@ export class NavigationUIComponent {
         );
       }
     }
+  }
+
+  onMouseEnter(event: UIEvent) {
+    const nav = <HTMLElement>event.currentTarget;
+    const navBar = <HTMLElement>this.renderer.parentNode(nav);
+    this.alignWrapperToRightIfStickOut(navBar, nav);
   }
 
   private updateClasses(): void {
