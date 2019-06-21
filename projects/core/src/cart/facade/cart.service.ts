@@ -21,11 +21,11 @@ export class CartService {
     protected cartData: CartDataService,
     protected authService: AuthService
   ) {
-    this._activeCart$ = combineLatest(
+    this._activeCart$ = combineLatest([
       this.store.select(fromSelector.getCartContent),
       this.store.select(fromSelector.getCartLoading),
-      this.authService.getUserToken()
-    ).pipe(
+      this.authService.getUserToken(),
+    ]).pipe(
       // combineLatest emits multiple times on each property update instead of one emit
       // additionally dispatching actions that changes selectors used here needs to happen in order
       // for this asyncScheduler is used here

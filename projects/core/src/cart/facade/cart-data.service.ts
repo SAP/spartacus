@@ -27,6 +27,7 @@ export class CartDataService {
           this._userId = ANONYMOUS_USERID;
         }
       });
+
     this.store.pipe(select(fromSelector.getCartContent)).subscribe(cart => {
       this._cart = cart;
     });
