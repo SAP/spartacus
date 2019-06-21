@@ -1,20 +1,18 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import {
-  DeliveryMode,
   CheckoutDeliveryService,
+  DeliveryMode,
   RoutingService,
 } from '@spartacus/core';
-
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
 import { CheckoutConfigService } from '../../checkout-config.service';
 
 @Component({
@@ -54,20 +52,21 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     this.changedOption = false;
 
     this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
-    this.selectedDeliveryMode$ = this.checkoutDeliveryService.getSelectedDeliveryMode();
 
-    this.checkoutDeliveryService.loadSupportedDeliveryModes();
-
-    this.selectedDeliveryMode$
+    this.deliveryModeSub = this.checkoutDeliveryService
+      .getSelectedDeliveryMode()
       .pipe(
         map((deliveryMode: DeliveryMode) =>
           deliveryMode && deliveryMode.code ? deliveryMode.code : null
         )
       )
       .subscribe(code => {
+        if (!!code && code === this.currentDeliveryModeId) {
+          this.routingService.go(this.checkoutStepUrlNext);
+        }
+        this.currentDeliveryModeId = code;
         if (code) {
           this.mode.controls['deliveryModeId'].setValue(code);
-          this.currentDeliveryModeId = code;
         }
       });
   }
@@ -82,15 +81,9 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   next(): void {
     if (this.changedOption) {
       this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
+    } else {
+      this.routingService.go(this.checkoutStepUrlNext);
     }
-
-    this.deliveryModeSub = this.checkoutDeliveryService
-      .getSelectedDeliveryMode()
-      .subscribe(data => {
-        if (data && data.code === this.currentDeliveryModeId) {
-          this.routingService.go(this.checkoutStepUrlNext);
-        }
-      });
   }
 
   back(): void {
