@@ -142,6 +142,8 @@ describe('CartService', () => {
 
   describe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
+      spyOn(service, 'isCreated').and.returnValue(true);
+      store.dispatch(new fromCart.CreateCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
       cartData.userId = userId;
