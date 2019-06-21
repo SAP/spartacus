@@ -115,7 +115,9 @@
           role="filter"
           *ngFor="let breadcrumb of searchResult.breadcrumbs"
         >
-          {{ breadcrumb.facetValueName }}
+          <span class="cx-facet-pill-value">
+            {{ breadcrumb.facetValueName }}
+          </span>
           <button
             type="button"
             class="close"
