@@ -1,15 +1,15 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import {
-  StoresState,
-  StateWithStoreFinder,
-  ViewAllStoresState,
-} from '../store-finder-state';
-import { getStoreFinderState } from './feature.selector';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderLoadingSelector,
   loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
+import {
+  StateWithStoreFinder,
+  StoresState,
+  ViewAllStoresState,
+} from '../store-finder-state';
+import { getStoreFinderState } from './feature.selector';
 
 export const getViewAllStoresState: MemoizedSelector<
   StateWithStoreFinder,
