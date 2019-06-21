@@ -62,7 +62,8 @@ button {
       @include cx-darken(88);
     }
 
-    &.disabled {
+    &.disabled,
+    &:disabled {
       background-color: var(--cx-color-primary);
       border-color: var(--cx-color-primary);
 
@@ -104,7 +105,8 @@ button {
       @include cx-darken(84);
     }
 
-    &.disabled {
+    &.disabled,
+    &:disabled {
       background-color: var(--cx-color-secondary);
       border-color: var(--cx-color-secondary);
 
