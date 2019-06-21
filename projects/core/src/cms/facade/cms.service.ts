@@ -189,15 +189,13 @@ export class CmsService {
    * @param pageContext
    */
   hasPage(pageContext: PageContext, forceReload = false): Observable<boolean> {
-    let loaded = false;
     return this.store.pipe(
       select(fromStore.getIndexEntity(pageContext)),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
-        const shouldReload = forceReload && !entity.loading && !loaded;
+        const shouldReload = forceReload && !entity.loading;
         if (!attemptedLoad || shouldReload) {
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
-          loaded = true;
         }
       }),
       filter(entity => {
@@ -206,6 +204,7 @@ export class CmsService {
           // we should wait for reload and actual value
           return false;
         }
+        forceReload = false;
         return entity.success || (entity.error && !entity.loading);
       }),
       pluck('success'),
