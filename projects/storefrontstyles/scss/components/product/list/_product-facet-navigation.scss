@@ -139,11 +139,22 @@
 
     button {
       margin: 0 0 0 10px;
-      flex: 0 0 1rem;
+      line-height: 0.9;
 
       span {
         vertical-align: middle;
       }
+    }
+  }
+
+  .cx-facet-pill-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 203px;
+
+    @include media-breakpoint-only(sm) {
+      max-width: 100%;
     }
   }
 

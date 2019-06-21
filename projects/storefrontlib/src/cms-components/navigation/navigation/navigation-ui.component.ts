@@ -3,9 +3,11 @@ import {
   Component,
   HostBinding,
   Input,
+  OnDestroy,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
@@ -15,7 +17,7 @@ import { NavigationNode } from './navigation-node.model';
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationUIComponent {
+export class NavigationUIComponent implements OnDestroy {
   /**
    * The navigation node to render.
    */
@@ -43,8 +45,10 @@ export class NavigationUIComponent {
 
   private openNodes: HTMLElement[] = [];
 
+  private subscription: Subscription;
+
   constructor(private router: Router, private renderer: Renderer2) {
-    this.router.events
+    this.subscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.clear());
   }
@@ -96,6 +100,12 @@ export class NavigationUIComponent {
       return Math.max(...node.children.map(n => this.getDepth(n, depth + 1)));
     } else {
       return depth;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }

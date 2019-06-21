@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
 
@@ -27,9 +26,7 @@ export class ClientAuthenticationTokenService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    return this.http
-      .post<ClientToken>(url, params, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.post<ClientToken>(url, params, { headers });
   }
 
   protected getOAuthEndpoint(): string {
