@@ -163,38 +163,6 @@ describe('Checkout effect', () => {
     });
   });
 
-  describe('reloadSupportedDeliveryModesOnSiteContextChange$', () => {
-    it('should load all supported delivery on clear miscs data action', () => {
-      const action = new fromIndexActions.CheckoutClearMiscsData();
-      const completion = new fromActions.LoadSupportedDeliveryModes({
-        cartId: 'cartId',
-        userId: 'userId',
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(
-        entryEffects.reloadSupportedDeliveryModesOnSiteContextChange$
-      ).toBeObservable(expected);
-    });
-
-    it('should load all supported delivery on clear supported delivery modes action', () => {
-      const action = new fromActions.ClearSupportedDeliveryModes();
-      const completion = new fromActions.LoadSupportedDeliveryModes({
-        cartId: 'cartId',
-        userId: 'userId',
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(
-        entryEffects.reloadSupportedDeliveryModesOnSiteContextChange$
-      ).toBeObservable(expected);
-    });
-  });
-
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
       const action = new fromSiteContextActions.LanguageChange();

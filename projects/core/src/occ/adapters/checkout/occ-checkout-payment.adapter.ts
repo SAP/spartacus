@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
 import {
   CARD_TYPE_NORMALIZER,
@@ -81,22 +81,19 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     cartId: string,
     paymentDetailsId: string
   ): Observable<any> {
-    return this.http
-      .put(
-        this.getCartEndpoint(userId) + cartId + '/paymentdetails',
-        {},
-        {
-          params: { paymentDetailsId: paymentDetailsId },
-        }
-      )
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.put(
+      this.getCartEndpoint(userId) + cartId + '/paymentdetails',
+      {},
+      {
+        params: { paymentDetailsId: paymentDetailsId },
+      }
+    );
   }
 
   loadCardTypes(): Observable<CardType[]> {
     return this.http
       .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(
-        catchError((error: any) => throwError(error.json())),
         map(cardTypeList => cardTypeList.cardTypes),
         this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
       );
@@ -106,13 +103,11 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     userId: string,
     cartId: string
   ): Observable<any> {
-    return this.http
-      .get(
-        this.getCartEndpoint(userId) +
-          cartId +
-          '/payment/sop/request?responseUrl=sampleUrl'
-      )
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.get(
+      this.getCartEndpoint(userId) +
+        cartId +
+        '/payment/sop/request?responseUrl=sampleUrl'
+    );
   }
 
   protected createSubWithProvider(
@@ -148,13 +143,11 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http
-      .post<PaymentDetails>(
-        this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
-        httpParams,
-        { headers }
-      )
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.post<PaymentDetails>(
+      this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
+      httpParams,
+      { headers }
+    );
   }
 
   private getParamsForPaymentProvider(
