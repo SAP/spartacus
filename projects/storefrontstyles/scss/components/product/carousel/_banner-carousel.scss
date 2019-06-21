@@ -10,6 +10,12 @@
     .carousel-panel {
       position: relative;
 
+      // force a max-height for the carousel and underlying items
+      &,
+      .item {
+        max-height: 600px;
+      }
+
       .previous,
       .next {
         position: absolute;
@@ -58,17 +64,27 @@
     }
   }
 
-  &.FADE-theme h3 {
+  cx-banner {
+    a {
+      display: flex;
+      flex-direction: column;
+      p {
+        position: absolute;
+      }
+    }
+  }
+
+  &.FADE-theme p {
     align-self: flex-end;
   }
-  &.ZOOM-theme h3 {
+  &.ZOOM-theme p {
     align-self: flex-start;
   }
-  &.CURTAIN-theme h3 {
+  &.CURTAINX-theme p {
     align-self: flex-start;
     bottom: 0;
   }
-  &.TURN_DOWN-theme h3 {
+  &.TURNDOWN-theme p {
     align-self: flex-end;
     bottom: 0;
   }

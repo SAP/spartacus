@@ -66,7 +66,6 @@ export class CarouselComponent implements OnInit {
    * The number of items that should be rendered in the carousel.
    */
   size$: Observable<number>;
-
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
   ngOnInit() {

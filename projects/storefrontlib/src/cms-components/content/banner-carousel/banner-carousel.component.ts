@@ -19,7 +19,7 @@ import { CmsComponentData } from '../../../cms-structure/index';
 export class BannerCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter(Boolean),
-    tap((d: model) => (this.theme = `${d.effects}-theme`))
+    tap((d: model) => (this.theme = `${d.effect}-theme`))
   );
 
   private items$: Observable<

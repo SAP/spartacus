@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { fromEvent, iif, Observable, of } from 'rxjs';
+import { BreakpointService } from 'projects/storefrontlib/src/layout';
+import { fromEvent, Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   map,
   startWith,
 } from 'rxjs/operators';
-import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarouselService {
-  constructor(private winRef: WindowRef, private layoutConfig: LayoutConfig) {}
+  constructor(
+    private winRef: WindowRef,
+    private breakpointService: BreakpointService
+  ) {}
 
   /**
    * The number of items per slide is calculated by the help of
@@ -30,23 +33,32 @@ export class CarouselService {
     nativeElement: HTMLElement,
     itemWidth: string
   ): Observable<number> {
-    return iif(
-      () => Boolean(this.winRef.nativeWindow),
-      fromEvent(this.winRef.nativeWindow, 'resize').pipe(
-        map(_ => (nativeElement as HTMLElement).clientWidth),
-        startWith((nativeElement as HTMLElement).clientWidth),
-        debounceTime(100),
-        map(totalWidth => this.calculateItems(totalWidth, itemWidth)),
-        distinctUntilChanged()
-      ),
-      // no window object (SSR), mobile first
-      of(
-        this.calculateItems(
-          this.layoutConfig.breakpoints[BREAKPOINT.xs],
-          itemWidth
-        )
-      )
+    // TODO: ensure SSR
+    return fromEvent(this.winRef.nativeWindow, 'resize').pipe(
+      map(_ => (nativeElement as HTMLElement).clientWidth),
+      startWith((nativeElement as HTMLElement).clientWidth),
+      debounceTime(100),
+      map(totalWidth => this.calculateItems(totalWidth, itemWidth)),
+      distinctUntilChanged()
     );
+
+    // return iif(
+    //   () => Boolean(this.winRef.nativeWindow),
+    //   fromEvent(this.winRef.nativeWindow, 'resize').pipe(
+    //     map(_ => (nativeElement as HTMLElement).clientWidth),
+    //     startWith((nativeElement as HTMLElement).clientWidth),
+    //     debounceTime(100),
+    //     map(totalWidth => this.calculateItems(totalWidth, itemWidth)),
+    //     distinctUntilChanged()
+    //   ),
+    //   // no window object (SSR), mobile first
+    //   of(
+    //     this.calculateItems(
+    //       this.breakpointService.getSize(BREAKPOINT.xs),
+    //       itemWidth
+    //     )
+    //   )
+    // );
   }
 
   /**
@@ -68,6 +80,6 @@ export class CarouselService {
       calculatedItems = hostSize / (hostSize * (<number>(<any>perc) / 100));
     }
 
-    return Math.round(calculatedItems);
+    return Math.round(calculatedItems) || 1;
   }
 }
