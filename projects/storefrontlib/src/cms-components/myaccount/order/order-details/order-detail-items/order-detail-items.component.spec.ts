@@ -65,6 +65,14 @@ const mockOrder: Order = {
   ],
 };
 
+const consignmentStatus: string[] = [
+  'SHIPPED',
+  'IN_TRANSIT',
+  'DELIVERY_COMPLETED',
+  'DELIVERY_REJECTED',
+  'DELIVERING',
+];
+
 @Component({
   selector: 'cx-cart-item-list',
   template: '',
@@ -148,7 +156,14 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should display tracking package button', () => {
-    fixture.detectChanges();
+    const order: Order = mockOrder;
+    component.order$ = of(order);
+    consignmentStatus.forEach(status => {
+      order.consignments[0].status = status;
+      fixture.detectChanges();
+      expect(el.query(By.css('.btn'))).toBeTruthy();
+    });
+
     expect(el.query(By.css('.btn'))).toBeTruthy();
   });
 

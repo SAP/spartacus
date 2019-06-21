@@ -20,7 +20,7 @@ export const myAccount = {
     consignmentTracking: {
       action: 'Track package',
       dialog: {
-        header: '{{ consignmentCode }} - Tracking',
+        header: 'Tracking Information',
         shipped: 'Shipped',
         estimate: 'Estimated Delivery',
         carrier: 'Delivery Service',

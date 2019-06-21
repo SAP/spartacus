@@ -21,11 +21,11 @@ import { TrackingEventsComponent } from './consignment-tracking/tracking-events.
 })
 export class OrderDetailItemsComponent implements OnInit {
   consignmentStatus: string[] = [
-    '',
     'SHIPPED',
     'IN_TRANSIT',
     'DELIVERY_COMPLETED',
     'DELIVERY_REJECTED',
+    'DELIVERING',
   ];
   modalRef: ModalRef;
 
