@@ -9,7 +9,6 @@ import * as fromAction from '../store/actions';
 import { StateWithCart } from '../store/cart-state';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { CartUtilService } from './cart-util.service';
 
 @Injectable()
 export class CartService {
@@ -42,17 +41,16 @@ export class CartService {
         ) {
           this.loadOrMerge();
         }
-        if (!loading && !CartUtilService.isLoaded(cart)) {
+        if (!loading && this.shouldLoadDetails(cart)) {
           this.loadDetails();
         }
         this.prevCartUserId = userToken.userId;
       }),
       filter(
         ([cart, loading]) =>
-          (!loading &&
-            (CartUtilService.isLoaded(cart) &&
-              CartUtilService.isCreated(cart))) ||
-          !CartUtilService.isCreated(cart)
+          !loading &&
+          ((this.isCreated(cart) && !this.shouldLoadDetails(cart)) ||
+            !this.isCreated(cart))
       ),
       map(([cart]) => cart),
       shareReplay({ bufferSize: 1, refCount: true })
@@ -79,7 +77,7 @@ export class CartService {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
     if (this.cartData.userId !== ANONYMOUS_USERID) {
-      if (!CartUtilService.isCreated(this.cartData.cart)) {
+      if (!this.isCreated(this.cartData.cart)) {
         this.store.dispatch(
           new fromAction.LoadCart({
             userId: this.cartData.userId,
@@ -99,7 +97,7 @@ export class CartService {
     }
   }
 
-  loadDetails(): void {
+  protected loadDetails(): void {
     if (this.cartData.userId !== ANONYMOUS_USERID) {
       this.store.dispatch(
         new fromAction.LoadCart({
@@ -120,12 +118,12 @@ export class CartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
-    if (!CartUtilService.isCreated(this.cartData.cart)) {
+    if (!this.isCreated(this.cartData.cart)) {
       this.store.dispatch(
         new fromAction.CreateCart({ userId: this.cartData.userId })
       );
       const sub = this.getActive().subscribe(cart => {
-        if (CartUtilService.isLoaded(cart)) {
+        if (!this.shouldLoadDetails(cart)) {
           this.store.dispatch(
             new fromAction.AddEntry({
               userId: this.cartData.userId,
@@ -184,5 +182,17 @@ export class CartService {
     return this.store.pipe(
       select(fromSelector.getCartEntrySelectorFactory(productCode))
     );
+  }
+
+  private isCreated(cart: Cart): boolean {
+    return cart && typeof cart.guid !== 'undefined';
+  }
+
+  /**
+   * Cart is deficient if it contains only `guid` and `code` properties, which come from local storage,
+   * so we should load cart from backend.
+   */
+  private shouldLoadDetails(cart: Cart): boolean {
+    return cart && Object.keys(cart).length <= 2;
   }
 }
