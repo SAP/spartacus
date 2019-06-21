@@ -1,10 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   TemplateRef,
 } from '@angular/core';
@@ -18,7 +18,7 @@ import { CarouselService } from './carousel.service';
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements AfterViewInit {
   /**
    * Optional title that will be rendered as a heading
    * at the start of the carousel.
@@ -68,7 +68,7 @@ export class CarouselComponent implements OnInit {
   size$: Observable<number>;
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => this.select()));

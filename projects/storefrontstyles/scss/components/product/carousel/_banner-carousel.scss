@@ -23,13 +23,12 @@
         height: 100%;
         width: 5vw;
         transition: all 0.4s;
-        &:hover {
+        &:not([disabled]):hover {
           font-size: 3rem;
         }
       }
       .next {
         right: 0;
-        border-block-start: solid 1px white;
       }
     }
     .indicators {

@@ -35,6 +35,7 @@ export class CarouselService {
   ): Observable<number> {
     // TODO: ensure SSR
     return fromEvent(this.winRef.nativeWindow, 'resize').pipe(
+      startWith({ target: this.winRef.nativeWindow }),
       map(_ => (nativeElement as HTMLElement).clientWidth),
       startWith((nativeElement as HTMLElement).clientWidth),
       debounceTime(100),
