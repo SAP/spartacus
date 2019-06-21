@@ -24,7 +24,13 @@ export class CartDetailsComponent implements OnInit {
   }
 
   getAllPromotionsForCart(cart: Cart): Cart[] {
-    const potentialPromotions = cart.potentialOrderPromotions || [];
+    let potentialPromotions = [];
+    if (cart.potentialOrderPromotions) {
+      potentialPromotions.push(...cart.potentialOrderPromotions);
+    }
+    if (cart.potentialProductPromotions) {
+      potentialPromotions.push(...cart.potentialProductPromotions);
+    }
 
     let appliedPromotions = [];
     if (cart.appliedOrderPromotions) {
