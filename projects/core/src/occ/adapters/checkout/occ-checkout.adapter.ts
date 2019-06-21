@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { CheckoutAdapter } from '../../../checkout/connectors/checkout/checkout.adapter';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
@@ -39,10 +38,9 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http.post<Occ.Order>(url, {}, { headers, params }).pipe(
-      catchError((error: any) => throwError(error)),
-      this.converter.pipeable(ORDER_NORMALIZER)
-    );
+    return this.http
+      .post<Occ.Order>(url, {}, { headers, params })
+      .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 
   loadCheckoutDetails(
@@ -53,8 +51,6 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     const params = new HttpParams({
       fromString: `fields=${CHECKOUT_PARAMS}`,
     });
-    return this.http
-      .get<CheckoutDetails>(url, { params })
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.get<CheckoutDetails>(url, { params });
   }
 }
