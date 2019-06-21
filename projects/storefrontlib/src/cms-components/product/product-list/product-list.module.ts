@@ -29,6 +29,9 @@ import { ProductViewComponent } from './product-view/product-view.component';
         CMSProductListComponent: {
           component: ProductListComponent,
         },
+        ProductGridComponent: {
+          component: ProductListComponent,
+        },
         SearchResultsListComponent: {
           component: ProductListComponent,
         },
