@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
+  GeoPoint,
   SearchConfig,
   StoreFinderSearchQuery,
   StoreFinderService,
-  GeoPoint,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-store-finder-search-result',
@@ -30,7 +30,9 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => this.initialize(params));
+    this.subscription = this.route.queryParams.subscribe(params =>
+      this.initialize(params)
+    );
   }
 
   ngOnDestroy() {
@@ -57,13 +59,13 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
     );
 
     this.isLoading$ = this.storeFinderService.getStoresLoading();
-    this.locations$ = this.storeFinderService.getFindStoresEntities();
-    this.subscription = this.locations$
-      .pipe(
-        filter(Boolean),
-        map(data => data.longitudeLatitude)
-      )
-      .subscribe(geoData => (this.geolocation = geoData));
+    this.locations$ = this.storeFinderService.getFindStoresEntities().pipe(
+      tap(data => {
+        if (data) {
+          this.geolocation = data.longitudeLatitude;
+        }
+      })
+    );
   }
 
   private parseParameters(queryParams: {

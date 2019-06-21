@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
 import { CART_MODIFICATION_NORMALIZER } from '../../../cart/connectors/entry/converters';
 import { CartModification } from '../../../model/cart.model';
@@ -41,10 +40,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     return this.http
       .post<CartModification>(url, toAdd, { headers, params })
-      .pipe(
-        catchError((error: any) => throwError(error)),
-        this.converter.pipeable(CART_MODIFICATION_NORMALIZER)
-      );
+      .pipe(this.converter.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
   public update(
@@ -69,10 +65,9 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http.patch<CartModification>(url, {}, { headers, params }).pipe(
-      catchError((error: any) => throwError(error)),
-      this.converter.pipeable(CART_MODIFICATION_NORMALIZER)
-    );
+    return this.http
+      .patch<CartModification>(url, {}, { headers, params })
+      .pipe(this.converter.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
   public remove(
@@ -87,8 +82,6 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http
-      .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.delete(url, { headers });
   }
 }
