@@ -21,6 +21,7 @@ export class ProductVariantSelectorComponent {
   ) {}
 
   product$: Observable<Product> = this.currentProductService.getProduct();
+  sizeGuideLabel = 'Style Guide';
 
   getVariantName(variant) {
     return variant.variantType.toLowerCase().includes('style')
