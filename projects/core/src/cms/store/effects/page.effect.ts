@@ -30,6 +30,7 @@ export class PageEffects {
     ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
     switchMap(_ =>
       this.routingService.getRouterState().pipe(
+        take(1),
         filter(
           routerState =>
             routerState &&
@@ -38,7 +39,6 @@ export class PageEffects {
             !routerState.nextState
         ),
         map(routerState => routerState.state.context),
-        take(1),
         mergeMap(context => of(new pageActions.LoadPageData(context)))
       )
     )
