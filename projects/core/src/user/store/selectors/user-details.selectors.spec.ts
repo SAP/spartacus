@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { User } from '../../../model/misc.model';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { User } from '../../../model/misc.model';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -33,7 +33,7 @@ describe('User Details Selectors', () => {
     it('should return a user details', () => {
       let result: User;
       store
-        .pipe(select(fromSelectors.getDetails))
+        .pipe(select(UsersSelectors.getDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});

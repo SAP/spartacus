@@ -4,8 +4,8 @@ import { ConsentTemplate } from '@spartacus/core';
 import { LoaderState } from '../../../state';
 import * as fromActions from '../actions/user-consents.action';
 import * as fromReducers from '../reducers/index';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import * as fromSelectors from './user-consents.selectors';
 
 const consents: ConsentTemplate[] = [{ id: 'xxx' }];
 
@@ -30,7 +30,7 @@ describe('User consents selectors', () => {
 
       let result: LoaderState<ConsentTemplate[]>;
       store
-        .pipe(select(fromSelectors.getConsentsState))
+        .pipe(select(UsersSelectors.getConsentsState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -48,7 +48,7 @@ describe('User consents selectors', () => {
 
       let result: ConsentTemplate[];
       store
-        .pipe(select(fromSelectors.getConsentsValue))
+        .pipe(select(UsersSelectors.getConsentsValue))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -61,7 +61,7 @@ describe('User consents selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getConsentsLoading))
+        .pipe(select(UsersSelectors.getConsentsLoading))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -74,7 +74,7 @@ describe('User consents selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getConsentsSuccess))
+        .pipe(select(UsersSelectors.getConsentsSuccess))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -87,7 +87,7 @@ describe('User consents selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getConsentsError))
+        .pipe(select(UsersSelectors.getConsentsError))
         .subscribe(value => (result = value))
         .unsubscribe();
 
