@@ -14,8 +14,8 @@ import { SiteContextConfig } from '../../../site-context/config/site-context-con
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
-  activeLang: string = this.config.context.parameters.language.default;
-  activeCurr: string = this.config.context.parameters.language.default;
+  activeLang: string;
+  activeCurr: string;
 
   constructor(
     private languageService: LanguageService,
@@ -23,6 +23,10 @@ export class SiteContextInterceptor implements HttpInterceptor {
     private occEndpoints: OccEndpointsService,
     private config: SiteContextConfig
   ) {
+    const ctxParams = this.config.context && this.config.context.parameters;
+    this.activeLang = ctxParams && ctxParams.language.default;
+    this.activeCurr = ctxParams && ctxParams.currency.default;
+
     this.languageService
       .getActive()
       .subscribe(data => (this.activeLang = data));

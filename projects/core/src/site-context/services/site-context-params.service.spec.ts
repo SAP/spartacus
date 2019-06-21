@@ -67,11 +67,11 @@ describe('SiteContextParamsService', () => {
   describe('getContextParameters', () => {
     it('should get all site context parameters', () => {
       const params = service.getContextParameters();
-      expect(params).toEqual(['LANGUAGE', 'CURRENCY', 'site']);
+      expect(params).toEqual(['language', 'currency', 'baseSite']);
     });
     it('should get context parameters by type', () => {
       const params = service.getContextParameters('route');
-      expect(params).toEqual(['LANGUAGE', 'CURRENCY']);
+      expect(params).toEqual(['language', 'currency']);
     });
   });
 

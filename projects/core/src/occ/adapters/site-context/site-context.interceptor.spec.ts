@@ -9,7 +9,7 @@ import { SiteContextInterceptor } from './site-context.interceptor';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LanguageService } from '../../../site-context/facade/language.service';
 import { CurrencyService } from '../../../site-context/facade/currency.service';
-import { OccConfig } from '../../config/occ-config';
+import { OccConfig, SiteContextConfig } from '@spartacus/core';
 
 class MockCurrencyService {
   isocode = new BehaviorSubject(null);
@@ -50,7 +50,7 @@ export class MockSiteContextModuleConfig {
   };
 }
 
-fdescribe('SiteContextInterceptor', () => {
+describe('SiteContextInterceptor', () => {
   const languageDe = 'de';
   const currencyJpy = 'JPY';
 
@@ -69,6 +69,10 @@ fdescribe('SiteContextInterceptor', () => {
         {
           provide: CurrencyService,
           useClass: MockCurrencyService,
+        },
+        {
+          provide: SiteContextConfig,
+          useClass: MockSiteContextModuleConfig,
         },
         {
           provide: OccConfig,
