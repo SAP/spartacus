@@ -12,8 +12,8 @@ export class AddressVerificationEffect {
   verifyAddress$: Observable<
     fromAction.VerifyAddressSuccess | fromAction.VerifyAddressFail
   > = this.actions$.pipe(
-    ofType(fromAction.VERIFY_ADDRESS),
-    map((action: any) => action.payload),
+    ofType<fromAction.VerifyAddress>(fromAction.VERIFY_ADDRESS),
+    map(action => action.payload),
     mergeMap(payload =>
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
         map(data => new fromAction.VerifyAddressSuccess(data)),
