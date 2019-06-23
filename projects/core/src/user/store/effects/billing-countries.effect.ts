@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { CountryType } from '../../../model/address.model';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import * as fromAction from '../actions/billing-countries.action';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class BillingCountriesEffect {
         catchError(error =>
           of(
             new fromAction.LoadBillingCountriesFail(
-              makeHttpErrorSerializable(error)
+              makeErrorSerializable(error)
             )
           )
         )
