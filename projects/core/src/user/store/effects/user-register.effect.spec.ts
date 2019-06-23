@@ -7,6 +7,7 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
 
@@ -47,12 +48,12 @@ describe('UserRegister effect', () => {
 
   describe('registerUser$', () => {
     it('should register user', () => {
-      const action = new fromStore.RegisterUser(user);
+      const action = new UserActions.RegisterUser(user);
       const loadUser = new AuthActions.LoadUserToken({
         userId: user.uid,
         password: user.password,
       });
-      const completion = new fromStore.RegisterUserSuccess();
+      const completion = new UserActions.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -66,9 +67,9 @@ describe('UserRegister effect', () => {
 
   describe('removeUser$', () => {
     it('should remove user', () => {
-      const action = new fromStore.RemoveUser('testUserId');
+      const action = new UserActions.RemoveUser('testUserId');
       const logout = new AuthActions.Logout();
-      const completion = new fromStore.RemoveUserSuccess();
+      const completion = new UserActions.RemoveUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {

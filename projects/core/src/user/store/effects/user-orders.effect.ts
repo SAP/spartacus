@@ -7,8 +7,7 @@ import { OrderHistoryList } from '../../../model/order.model';
 import { LoaderResetAction } from '../../../state';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import { CLEAR_MISCS_DATA } from '../actions/index';
-import * as fromUserOrdersAction from '../actions/user-orders.action';
+import { UserActions } from '../actions/index';
 import { USER_ORDERS } from '../user-state';
 
 @Injectable()
@@ -20,10 +19,10 @@ export class UserOrdersEffect {
 
   @Effect()
   loadUserOrders$: Observable<
-    fromUserOrdersAction.UserOrdersAction
+    UserActions.UserOrdersAction
   > = this.actions$.pipe(
-    ofType(fromUserOrdersAction.LOAD_USER_ORDERS),
-    map((action: fromUserOrdersAction.LoadUserOrders) => action.payload),
+    ofType(UserActions.LOAD_USER_ORDERS),
+    map((action: UserActions.LoadUserOrders) => action.payload),
     switchMap(payload => {
       return this.orderConnector
         .getHistory(
@@ -34,14 +33,10 @@ export class UserOrdersEffect {
         )
         .pipe(
           map((orders: OrderHistoryList) => {
-            return new fromUserOrdersAction.LoadUserOrdersSuccess(orders);
+            return new UserActions.LoadUserOrdersSuccess(orders);
           }),
           catchError(error =>
-            of(
-              new fromUserOrdersAction.LoadUserOrdersFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
           )
         );
     })
@@ -49,7 +44,7 @@ export class UserOrdersEffect {
 
   @Effect()
   resetUserOrders$: Observable<Action> = this.actions$.pipe(
-    ofType(CLEAR_MISCS_DATA, fromUserOrdersAction.CLEAR_USER_ORDERS),
+    ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_USER_ORDERS),
     map(() => {
       return new LoaderResetAction(USER_ORDERS);
     })

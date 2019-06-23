@@ -6,18 +6,18 @@ import { GlobalMessageType } from '../../../global-message/models/global-message
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromActions from '../actions/index';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ForgotPasswordEffects {
   @Effect()
   requestForgotPasswordEmail$: Observable<
-    | fromActions.ForgotPasswordEmailRequestSuccess
+    | UserActions.ForgotPasswordEmailRequestSuccess
     | GlobalMessageActions.AddMessage
-    | fromActions.ForgotPasswordEmailRequestFail
+    | UserActions.ForgotPasswordEmailRequestFail
   > = this.actions$.pipe(
-    ofType(fromActions.FORGOT_PASSWORD_EMAIL_REQUEST),
-    map((action: fromActions.ForgotPasswordEmailRequest) => {
+    ofType(UserActions.FORGOT_PASSWORD_EMAIL_REQUEST),
+    map((action: UserActions.ForgotPasswordEmailRequest) => {
       return action.payload;
     }),
     concatMap(userEmailAddress => {
@@ -25,7 +25,7 @@ export class ForgotPasswordEffects {
         .requestForgotPasswordEmail(userEmailAddress)
         .pipe(
           switchMap(() => [
-            new fromActions.ForgotPasswordEmailRequestSuccess(),
+            new UserActions.ForgotPasswordEmailRequestSuccess(),
             new GlobalMessageActions.AddMessage({
               text: { key: 'forgottenPassword.passwordResetEmailSent' },
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
@@ -33,7 +33,7 @@ export class ForgotPasswordEffects {
           ]),
           catchError(error =>
             of(
-              new fromActions.ForgotPasswordEmailRequestFail(
+              new UserActions.ForgotPasswordEmailRequestFail(
                 makeErrorSerializable(error)
               )
             )

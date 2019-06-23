@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
-import * as fromActions from '../actions';
+import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers';
 import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
@@ -42,7 +42,7 @@ describe('Delivery Countries Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new fromActions.LoadDeliveryCountriesSuccess(mockCountries)
+        new UserActions.LoadDeliveryCountriesSuccess(mockCountries)
       );
 
       expect(result).toEqual(mockCountries);
@@ -70,7 +70,7 @@ describe('Delivery Countries Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new fromActions.LoadDeliveryCountriesSuccess(mockCountries)
+        new UserActions.LoadDeliveryCountriesSuccess(mockCountries)
       );
       expect(result).toEqual(mockCountries[0]);
     });

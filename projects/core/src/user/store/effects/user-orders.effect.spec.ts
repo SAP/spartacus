@@ -1,23 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
-import { provideMockActions } from '@ngrx/effects/testing';
 import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of, throwError } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import { CLEAR_MISCS_DATA } from '../actions';
-import { USER_ORDERS } from '../user-state';
-import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { LoaderResetAction } from '../../../state';
-
-import * as fromUserOrdersEffect from './user-orders.effect';
+import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryList } from '../../../model/order.model';
-import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { LoaderResetAction } from '../../../state';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
+import { USER_ORDERS } from '../user-state';
+import * as fromUserOrdersEffect from './user-orders.effect';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
@@ -48,14 +42,12 @@ describe('User Orders effect', () => {
   describe('loadUserOrders$', () => {
     it('should load user Orders', () => {
       spyOn(orderConnector, 'getHistory').and.returnValue(of(mockUserOrders));
-      const action = new fromUserOrdersAction.LoadUserOrders({
+      const action = new UserActions.LoadUserOrders({
         userId: 'test@sap.com',
         pageSize: 5,
       });
 
-      const completion = new fromUserOrdersAction.LoadUserOrdersSuccess(
-        mockUserOrders
-      );
+      const completion = new UserActions.LoadUserOrdersSuccess(mockUserOrders);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -66,12 +58,12 @@ describe('User Orders effect', () => {
     it('should handle failures for load user Orders', () => {
       spyOn(orderConnector, 'getHistory').and.returnValue(throwError('Error'));
 
-      const action = new fromUserOrdersAction.LoadUserOrders({
+      const action = new UserActions.LoadUserOrders({
         userId: 'test@sap.com',
         pageSize: 5,
       });
 
-      const completion = new fromUserOrdersAction.LoadUserOrdersFail('Error');
+      const completion = new UserActions.LoadUserOrdersFail('Error');
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -83,7 +75,7 @@ describe('User Orders effect', () => {
   describe('resetUserOrders$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: CLEAR_MISCS_DATA,
+        type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
       const completion = new LoaderResetAction(USER_ORDERS);

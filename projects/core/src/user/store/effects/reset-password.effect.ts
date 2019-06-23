@@ -6,29 +6,29 @@ import { GlobalMessageType } from '../../../global-message/index';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromActions from '../actions/index';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ResetPasswordEffects {
   @Effect()
   resetPassword$: Observable<
-    | fromActions.ResetPasswordSuccess
+    | UserActions.ResetPasswordSuccess
     | GlobalMessageActions.AddMessage
-    | fromActions.ResetPasswordFail
+    | UserActions.ResetPasswordFail
   > = this.actions$.pipe(
-    ofType(fromActions.RESET_PASSWORD),
-    map((action: fromActions.ResetPassword) => action.payload),
+    ofType(UserActions.RESET_PASSWORD),
+    map((action: UserActions.ResetPassword) => action.payload),
     switchMap(({ token, password }) => {
       return this.userAccountConnector.resetPassword(token, password).pipe(
         switchMap(() => [
-          new fromActions.ResetPasswordSuccess(),
+          new UserActions.ResetPasswordSuccess(),
           new GlobalMessageActions.AddMessage({
             text: { key: 'forgottenPassword.passwordResetSuccess' },
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
           }),
         ]),
         catchError(error =>
-          of(new fromActions.ResetPasswordFail(makeErrorSerializable(error)))
+          of(new UserActions.ResetPasswordFail(makeErrorSerializable(error)))
         )
       );
     })
