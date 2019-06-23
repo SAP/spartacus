@@ -3,13 +3,15 @@ import { Store, StoreModule } from '@ngrx/store';
 import { CartDataService } from '@spartacus/core';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
-import * as fromCheckout from '../store/index';
+import { CheckoutActions } from '../store/actions/index';
+import { CheckoutState, CHECKOUT_FEATURE } from '../store/checkout-state';
+import * as CheckoutActionsReducers from '../store/reducers/index';
 import { CheckoutService } from './checkout.service';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let cartData: CartDataService;
-  let store: Store<fromCheckout.CheckoutState>;
+  let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
@@ -17,7 +19,10 @@ describe('CheckoutService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature(
+          CHECKOUT_FEATURE,
+          CheckoutActionsReducers.getReducers()
+        ),
       ],
       providers: [CheckoutService, CartDataService],
     });
@@ -37,7 +42,9 @@ describe('CheckoutService', () => {
   ));
 
   it('should be able to get the order details', () => {
-    store.dispatch(new fromCheckout.PlaceOrderSuccess({ code: 'testOrder' }));
+    store.dispatch(
+      new CheckoutActions.PlaceOrderSuccess({ code: 'testOrder' })
+    );
 
     let orderDetails: Order;
     service
@@ -56,7 +63,7 @@ describe('CheckoutService', () => {
     service.placeOrder();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.PlaceOrder({
+      new CheckoutActions.PlaceOrder({
         userId: userId,
         cartId: cart.code,
       })
@@ -66,14 +73,14 @@ describe('CheckoutService', () => {
   it('should be able to clear checkout data', () => {
     service.clearCheckoutData();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.ClearCheckoutData()
+      new CheckoutActions.ClearCheckoutData()
     );
   });
 
   it('should be able to clear checkout step', () => {
     service.clearCheckoutStep(2);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.ClearCheckoutStep(2)
+      new CheckoutActions.ClearCheckoutStep(2)
     );
   });
 
@@ -82,14 +89,14 @@ describe('CheckoutService', () => {
     cartData.userId = userId;
     service.loadCheckoutDetails(cartId);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.LoadCheckoutDetails({ userId, cartId })
+      new CheckoutActions.LoadCheckoutDetails({ userId, cartId })
     );
   });
 
   describe('get checkout details loaded', () => {
     it('should return true for success', () => {
       store.dispatch(
-        new fromCheckout.LoadCheckoutDetailsSuccess({ deliveryAddress: {} })
+        new CheckoutActions.LoadCheckoutDetailsSuccess({ deliveryAddress: {} })
       );
 
       let loaded: boolean;
@@ -104,7 +111,7 @@ describe('CheckoutService', () => {
   });
 
   it('should return false for fail', () => {
-    store.dispatch(new fromCheckout.LoadCheckoutDetailsFail(new Error()));
+    store.dispatch(new CheckoutActions.LoadCheckoutDetailsFail(new Error()));
 
     let loaded: boolean;
     service

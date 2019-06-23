@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
-import * as fromAction from '../actions/address-verification.action';
 import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
+import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class AddressVerificationEffect {
   @Effect()
   verifyAddress$: Observable<
-    fromAction.VerifyAddressSuccess | fromAction.VerifyAddressFail
+    CheckoutActions.VerifyAddressSuccess | CheckoutActions.VerifyAddressFail
   > = this.actions$.pipe(
-    ofType(fromAction.VERIFY_ADDRESS),
+    ofType(CheckoutActions.VERIFY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap(payload =>
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
         map(data => {
-          return new fromAction.VerifyAddressSuccess(data);
+          return new CheckoutActions.VerifyAddressSuccess(data);
         }),
-        catchError(error => of(new fromAction.VerifyAddressFail(error)))
+        catchError(error => of(new CheckoutActions.VerifyAddressFail(error)))
       )
     )
   );

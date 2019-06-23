@@ -5,7 +5,7 @@ import { filter, shareReplay, tap } from 'rxjs/operators';
 import { ANONYMOUS_USERID, CartDataService } from '../../cart/index';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
-import * as fromCheckoutActions from '../store/actions/index';
+import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
@@ -77,7 +77,7 @@ export class CheckoutDeliveryService {
   createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutActions.AddDeliveryAddress({
+        new CheckoutActions.AddDeliveryAddress({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           address: address,
@@ -92,7 +92,7 @@ export class CheckoutDeliveryService {
   loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutActions.LoadSupportedDeliveryModes({
+        new CheckoutActions.LoadSupportedDeliveryModes({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -107,7 +107,7 @@ export class CheckoutDeliveryService {
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutActions.SetDeliveryMode({
+        new CheckoutActions.SetDeliveryMode({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           selectedModeId: mode,
@@ -123,7 +123,7 @@ export class CheckoutDeliveryService {
   verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutActions.VerifyAddress({
+        new CheckoutActions.VerifyAddress({
           userId: this.cartData.userId,
           address,
         })
@@ -138,7 +138,7 @@ export class CheckoutDeliveryService {
   setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutActions.SetDeliveryAddress({
+        new CheckoutActions.SetDeliveryAddress({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,
           address: address,
@@ -152,7 +152,7 @@ export class CheckoutDeliveryService {
    */
   clearAddressVerificationResults(): void {
     this.checkoutStore.dispatch(
-      new fromCheckoutActions.ClearAddressVerificationResults()
+      new CheckoutActions.ClearAddressVerificationResults()
     );
   }
 

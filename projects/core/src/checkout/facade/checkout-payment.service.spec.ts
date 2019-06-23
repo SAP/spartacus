@@ -2,6 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartDataService } from '@spartacus/core';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
+import { CheckoutActions } from '../store/actions/index';
 import * as fromCheckout from '../store/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
 
@@ -41,7 +42,7 @@ describe('CheckoutPaymentService', () => {
 
   it('should be able to get the card types', () => {
     store.dispatch(
-      new fromCheckout.LoadCardTypesSuccess([
+      new CheckoutActions.LoadCardTypesSuccess([
         { code: 'visa', name: 'visa' },
         { code: 'masterCard', name: 'masterCard' },
       ])
@@ -58,7 +59,9 @@ describe('CheckoutPaymentService', () => {
   });
 
   it('should be able to get the payment details', () => {
-    store.dispatch(new fromCheckout.SetPaymentDetailsSuccess(paymentDetails));
+    store.dispatch(
+      new CheckoutActions.SetPaymentDetailsSuccess(paymentDetails)
+    );
 
     let tempPaymentDetails: PaymentDetails;
     service
@@ -73,7 +76,7 @@ describe('CheckoutPaymentService', () => {
   it('should be able to load supported cart types', () => {
     service.loadSupportedCardTypes();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.LoadCardTypes()
+      new CheckoutActions.LoadCardTypes()
     );
   });
 
@@ -84,7 +87,7 @@ describe('CheckoutPaymentService', () => {
     service.createPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.CreatePaymentDetails({
+      new CheckoutActions.CreatePaymentDetails({
         userId: userId,
         cartId: cart.code,
         paymentDetails,
@@ -99,7 +102,7 @@ describe('CheckoutPaymentService', () => {
     service.setPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.SetPaymentDetails({
+      new CheckoutActions.SetPaymentDetails({
         userId: userId,
         cartId: cartData.cart.code,
         paymentDetails,
