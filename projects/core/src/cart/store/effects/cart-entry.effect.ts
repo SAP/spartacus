@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -10,7 +9,9 @@ import * as fromActions from './../actions';
 @Injectable()
 export class CartEntryEffects {
   @Effect()
-  addEntry$: Observable<Action> = this.actions$.pipe(
+  addEntry$: Observable<
+    fromActions.AddEntrySuccess | fromActions.AddEntryFail
+  > = this.actions$.pipe(
     ofType(fromActions.ADD_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
@@ -31,7 +32,9 @@ export class CartEntryEffects {
   );
 
   @Effect()
-  removeEntry$: Observable<Action> = this.actions$.pipe(
+  removeEntry$: Observable<
+    fromActions.RemoveEntrySuccess | fromActions.RemoveEntryFail
+  > = this.actions$.pipe(
     ofType(fromActions.REMOVE_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
@@ -49,7 +52,9 @@ export class CartEntryEffects {
   );
 
   @Effect()
-  updateEntry$: Observable<Action> = this.actions$.pipe(
+  updateEntry$: Observable<
+    fromActions.UpdateEntrySuccess | fromActions.UpdateEntryFail
+  > = this.actions$.pipe(
     ofType(fromActions.UPDATE_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
