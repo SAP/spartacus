@@ -8,7 +8,7 @@ import {
 } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
 import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
@@ -31,7 +31,7 @@ export class UserAddressesEffects {
         catchError(error =>
           of(
             new fromUserAddressesAction.LoadUserAddressesFail(
-              makeHttpErrorSerializable(error)
+              makeErrorSerializable(error)
             )
           )
         )
@@ -55,7 +55,7 @@ export class UserAddressesEffects {
           catchError(error =>
             of(
               new fromUserAddressesAction.AddUserAddressFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
@@ -90,7 +90,7 @@ export class UserAddressesEffects {
           catchError(error =>
             of(
               new fromUserAddressesAction.UpdateUserAddressFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
@@ -114,7 +114,7 @@ export class UserAddressesEffects {
           catchError(error =>
             of(
               new fromUserAddressesAction.DeleteUserAddressFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )

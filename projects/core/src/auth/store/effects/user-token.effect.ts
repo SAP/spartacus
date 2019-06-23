@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../models/token-types.model';
 import { Login } from '../actions/login-logout.action';
 import { UserTokenAction } from '../actions/user-token.action';
@@ -26,9 +26,7 @@ export class UserTokenEffects {
           return new fromActions.LoadUserTokenSuccess(token);
         }),
         catchError(error =>
-          of(
-            new fromActions.LoadUserTokenFail(makeHttpErrorSerializable(error))
-          )
+          of(new fromActions.LoadUserTokenFail(makeErrorSerializable(error)))
         )
       )
     )
@@ -52,7 +50,7 @@ export class UserTokenEffects {
           token.expiration_time = date.toJSON();
           token.userId = USERID_CURRENT;
           return new fromActions.RefreshUserTokenSuccess(token);
-        }, catchError(error => of(new fromActions.RefreshUserTokenFail(makeHttpErrorSerializable(error)))))
+        }, catchError(error => of(new fromActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
       );
     })
   );

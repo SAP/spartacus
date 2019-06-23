@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderHistoryList } from '../../../model/order.model';
 import { LoaderResetAction } from '../../../state';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { CLEAR_MISCS_DATA } from '../actions/index';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
@@ -39,7 +39,7 @@ export class UserOrdersEffect {
           catchError(error =>
             of(
               new fromUserOrdersAction.LoadUserOrdersFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
