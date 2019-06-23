@@ -7,7 +7,7 @@ import {
   LOAD_USER_TOKEN,
   LOAD_USER_TOKEN_SUCCESS,
 } from '../../../auth/store/actions/index';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import * as fromActions from '../actions/open-id-token.action';
@@ -48,9 +48,7 @@ export class OpenIdTokenEffect {
           map(token => new fromActions.LoadOpenIdTokenSuccess(token)),
           catchError(error =>
             of(
-              new fromActions.LoadOpenIdTokenFail(
-                makeHttpErrorSerializable(error)
-              )
+              new fromActions.LoadOpenIdTokenFail(makeErrorSerializable(error))
             )
           )
         )
