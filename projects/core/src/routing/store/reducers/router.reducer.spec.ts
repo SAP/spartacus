@@ -9,6 +9,7 @@ import {
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
+import { RouterState } from '../roting-state';
 import * as fromReducer from './router.reducer';
 
 @Component({
@@ -117,7 +118,7 @@ describe('Router Reducer', () => {
         expect(state.state).toBe(action.payload.routerState);
       });
       it('should clear nextState', () => {
-        const initialState: fromReducer.RouterState = {
+        const initialState: RouterState = {
           ...fromReducer.initialState,
           nextState: {
             url: '',

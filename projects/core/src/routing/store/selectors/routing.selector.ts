@@ -4,8 +4,7 @@ import {
   MemoizedSelector,
 } from '@ngrx/store';
 import { PageContext } from '../../models/page-context.model';
-import { RouterState, State } from '../reducers/index';
-import { ROUTING_FEATURE } from '../state';
+import { RouterState, ROUTING_FEATURE, State } from '../roting-state';
 
 export const getRouterFeatureState: MemoizedSelector<
   any,
