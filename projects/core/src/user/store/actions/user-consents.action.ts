@@ -1,3 +1,4 @@
+import { ConsentTemplate } from '../../../model/consent.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -16,7 +17,6 @@ import {
   USER_CONSENTS,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../user-state';
-import { ConsentTemplate } from '../../../model/consent.model';
 
 export const LOAD_USER_CONSENTS = '[User] Load User Consents';
 export const LOAD_USER_CONSENTS_SUCCESS = '[User] Load User Consents Success';
@@ -139,6 +139,7 @@ export type UserConsentsAction =
   | GiveUserConsent
   | GiveUserConsentFail
   | GiveUserConsentSuccess
+  | ResetGiveUserConsentProcess
   | WithdrawUserConsent
   | WithdrawUserConsentFail
   | WithdrawUserConsentSuccess

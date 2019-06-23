@@ -4,6 +4,7 @@ import { Title, User, UserSignUp } from '../../model/misc.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import { UserActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
@@ -39,7 +40,7 @@ describe('UserService', () => {
 
   it('get() should be able to get user details when they are present in the store', () => {
     store.dispatch(
-      new fromStore.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
+      new UserActions.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
     );
 
     let userDetails: User;
@@ -62,14 +63,14 @@ describe('UserService', () => {
       .unsubscribe();
     expect(userDetails).toEqual({});
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserDetails(USERID_CURRENT)
+      new UserActions.LoadUserDetails(USERID_CURRENT)
     );
   });
 
   it('should be able to load user details', () => {
     service.load();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserDetails(USERID_CURRENT)
+      new UserActions.LoadUserDetails(USERID_CURRENT)
     );
   });
 
@@ -83,7 +84,7 @@ describe('UserService', () => {
     };
     service.register(userRegisterFormData);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.RegisterUser(userRegisterFormData)
+      new UserActions.RegisterUser(userRegisterFormData)
     );
   });
 
@@ -91,12 +92,12 @@ describe('UserService', () => {
     it('should be able to remove user account', () => {
       service.remove();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RemoveUser(USERID_CURRENT)
+        new UserActions.RemoveUser(USERID_CURRENT)
       );
     });
 
     it('should getRemoveUserResultLoading() return loading flag', () => {
-      store.dispatch(new fromStore.RemoveUser('testUserId'));
+      store.dispatch(new UserActions.RemoveUser('testUserId'));
 
       let result = false;
       service
@@ -108,7 +109,7 @@ describe('UserService', () => {
     });
 
     it('should getRemoveUserResultError() return the error flag', () => {
-      store.dispatch(new fromStore.RemoveUserFail('error'));
+      store.dispatch(new UserActions.RemoveUserFail('error'));
 
       let result = false;
       service
@@ -120,7 +121,7 @@ describe('UserService', () => {
     });
 
     it('should getRemoveUserResultSuccess() return the success flag', () => {
-      store.dispatch(new fromStore.RemoveUserSuccess());
+      store.dispatch(new UserActions.RemoveUserSuccess());
 
       let result = false;
       service
@@ -134,14 +135,14 @@ describe('UserService', () => {
     it('should resetUpdatePasswordProcessState() dispatch an UpdatePasswordReset action', () => {
       service.resetUpdatePasswordProcessState();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdatePasswordReset()
+        new UserActions.UpdatePasswordReset()
       );
     });
   });
 
   it('should be able to get titles data', () => {
     store.dispatch(
-      new fromStore.LoadTitlesSuccess([
+      new UserActions.LoadTitlesSuccess([
         { code: 't1', name: 't1' },
         { code: 't2', name: 't2' },
       ])
@@ -161,7 +162,7 @@ describe('UserService', () => {
 
   it('should be able to load titles', () => {
     service.loadTitles();
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadTitles());
+    expect(store.dispatch).toHaveBeenCalledWith(new UserActions.LoadTitles());
   });
 
   describe('update personal details', () => {
@@ -173,7 +174,7 @@ describe('UserService', () => {
     it('should dispatch UpdateUserDetails action', () => {
       service.updatePersonalDetails(userDetails);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateUserDetails({
+        new UserActions.UpdateUserDetails({
           username: USERID_CURRENT,
           userDetails,
         })
@@ -181,7 +182,7 @@ describe('UserService', () => {
     });
 
     it('should return the loading flag', () => {
-      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+      store.dispatch(new UserActions.UpdateUserDetailsSuccess(userDetails));
 
       let result: boolean;
       service
@@ -193,7 +194,7 @@ describe('UserService', () => {
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new fromStore.UpdateUserDetailsFail('error'));
+      store.dispatch(new UserActions.UpdateUserDetailsFail('error'));
 
       let result: boolean;
       service
@@ -205,7 +206,7 @@ describe('UserService', () => {
     });
 
     it('should return the success flag', () => {
-      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+      store.dispatch(new UserActions.UpdateUserDetailsSuccess(userDetails));
 
       let result: boolean;
       service
@@ -219,7 +220,7 @@ describe('UserService', () => {
     it('should dispatch a reset action', () => {
       service.resetUpdatePersonalDetailsProcessingState();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.ResetUpdateUserDetails()
+        new UserActions.ResetUpdateUserDetails()
       );
     });
   });
@@ -227,7 +228,7 @@ describe('UserService', () => {
   it('should be able to reset password', () => {
     service.resetPassword('test token', 'test password');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.ResetPassword({
+      new UserActions.ResetPassword({
         token: 'test token',
         password: 'test password',
       })
@@ -237,12 +238,12 @@ describe('UserService', () => {
   it('should be able to request a forgot password email', () => {
     service.requestForgotPasswordEmail('test@test.com');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.ForgotPasswordEmailRequest('test@test.com')
+      new UserActions.ForgotPasswordEmailRequest('test@test.com')
     );
   });
 
   it('should be able to return whether user password is succesfully reset', () => {
-    store.dispatch(new fromStore.ResetPasswordSuccess());
+    store.dispatch(new UserActions.ResetPasswordSuccess());
 
     let isResst: boolean;
     service
@@ -261,7 +262,7 @@ describe('UserService', () => {
     it('should dispatch UpdateEmail action', () => {
       service.updateEmail(password, newUid);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateEmailAction({
+        new UserActions.UpdateEmailAction({
           uid: USERID_CURRENT,
           password,
           newUid,
@@ -270,7 +271,7 @@ describe('UserService', () => {
     });
 
     it('should return the success flag', () => {
-      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+      store.dispatch(new UserActions.UpdateEmailSuccessAction(newUid));
 
       let result: boolean;
       service
@@ -282,7 +283,7 @@ describe('UserService', () => {
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new fromStore.UpdateEmailErrorAction('error'));
+      store.dispatch(new UserActions.UpdateEmailErrorAction('error'));
 
       let result: boolean;
       service
@@ -294,7 +295,7 @@ describe('UserService', () => {
     });
 
     it('should return the loading flag', () => {
-      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+      store.dispatch(new UserActions.UpdateEmailSuccessAction(newUid));
 
       let result: boolean;
       service
@@ -308,7 +309,7 @@ describe('UserService', () => {
     it('should dispatch a ResetUpdateEmail action', () => {
       service.resetUpdateEmailResultState();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.ResetUpdateEmailAction()
+        new UserActions.ResetUpdateEmailAction()
       );
     });
   });
@@ -322,7 +323,7 @@ describe('UserService', () => {
       service.updatePassword(oldPassword, newPassword);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdatePassword({
+        new UserActions.UpdatePassword({
           userId: USERID_CURRENT,
           oldPassword,
           newPassword,
@@ -332,7 +333,7 @@ describe('UserService', () => {
 
     it('should getUpdatePasswordResultLoading() return loading flag', () => {
       store.dispatch(
-        new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+        new UserActions.UpdatePassword({ userId, oldPassword, newPassword })
       );
 
       let result = false;
@@ -345,7 +346,7 @@ describe('UserService', () => {
     });
 
     it('should getUpdatePasswordResultError() return the error flag', () => {
-      store.dispatch(new fromStore.UpdatePasswordFail('error'));
+      store.dispatch(new UserActions.UpdatePasswordFail('error'));
 
       let result = false;
       service
@@ -357,7 +358,7 @@ describe('UserService', () => {
     });
 
     it('should getUpdatePasswordResultSuccess() return the success flag', () => {
-      store.dispatch(new fromStore.UpdatePasswordSuccess());
+      store.dispatch(new UserActions.UpdatePasswordSuccess());
 
       let result = false;
       service
@@ -371,7 +372,7 @@ describe('UserService', () => {
     it('should resetUpdatePasswordProcessState() dispatch an UpdatePasswordReset action', () => {
       service.resetUpdatePasswordProcessState();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdatePasswordReset()
+        new UserActions.UpdatePasswordReset()
       );
     });
   });

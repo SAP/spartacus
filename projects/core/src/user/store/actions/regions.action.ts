@@ -1,12 +1,11 @@
+import { Action } from '@ngrx/store';
 import { Region } from '../../../model/address.model';
-
 import {
-  LoaderLoadAction,
   LoaderFailAction,
+  LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { REGIONS } from '../user-state';
-import { Action } from '@ngrx/store';
 
 export const LOAD_REGIONS = '[User] Load Regions';
 export const LOAD_REGIONS_SUCCESS = '[User] Load Regions Success';

@@ -1,10 +1,10 @@
-import { USER_ADDRESSES } from '../user-state';
+import { Address } from '../../../model/address.model';
 import {
-  LoaderLoadAction,
   LoaderFailAction,
+  LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import { Address } from '../../../model/address.model';
+import { USER_ADDRESSES } from '../user-state';
 
 export const LOAD_USER_ADDRESSES = '[User] Load User Addresses';
 export const LOAD_USER_ADDRESSES_FAIL = '[User] Load User Addresses Fail';

@@ -5,6 +5,7 @@ import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
+import { UserActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { UsersSelectors } from '../store/selectors/index';
 
@@ -22,7 +23,7 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.store.dispatch(new fromStore.LoadUserPaymentMethods(USERID_CURRENT));
+    this.store.dispatch(new UserActions.LoadUserPaymentMethods(USERID_CURRENT));
   }
 
   /**
@@ -45,7 +46,7 @@ export class UserPaymentService {
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
     this.store.dispatch(
-      new fromStore.SetDefaultUserPaymentMethod({
+      new UserActions.SetDefaultUserPaymentMethod({
         userId: USERID_CURRENT,
         paymentMethodId,
       })
@@ -59,7 +60,7 @@ export class UserPaymentService {
    */
   deletePaymentMethod(paymentMethodId: string): void {
     this.store.dispatch(
-      new fromStore.DeleteUserPaymentMethod({
+      new UserActions.DeleteUserPaymentMethod({
         userId: USERID_CURRENT,
         paymentMethodId,
       })
@@ -77,6 +78,6 @@ export class UserPaymentService {
    * Retrieves billing countries
    */
   loadBillingCountries(): void {
-    this.store.dispatch(new fromStore.LoadBillingCountries());
+    this.store.dispatch(new UserActions.LoadBillingCountries());
   }
 }

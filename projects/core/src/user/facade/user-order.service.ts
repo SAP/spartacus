@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
+import { UserActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { UsersSelectors } from '../store/selectors/index';
 
@@ -32,7 +33,7 @@ export class UserOrderService {
    */
   loadOrderDetails(orderCode: string): void {
     this.store.dispatch(
-      new fromStore.LoadOrderDetails({
+      new UserActions.LoadOrderDetails({
         userId: USERID_CURRENT,
         orderCode: orderCode,
       })
@@ -43,7 +44,7 @@ export class UserOrderService {
    * Clears order's details
    */
   clearOrderDetails(): void {
-    this.store.dispatch(new fromStore.ClearOrderDetails());
+    this.store.dispatch(new UserActions.ClearOrderDetails());
   }
 
   /**
@@ -80,7 +81,7 @@ export class UserOrderService {
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
-      new fromStore.LoadUserOrders({
+      new UserActions.LoadUserOrders({
         userId: USERID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
@@ -93,6 +94,6 @@ export class UserOrderService {
    * Cleaning order list
    */
   clearOrderList(): void {
-    this.store.dispatch(new fromStore.ClearUserOrders());
+    this.store.dispatch(new UserActions.ClearUserOrders());
   }
 }

@@ -7,7 +7,7 @@ import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import * as fromSiteContextActions from '../../../site-context/store/actions/index';
-import * as fromUserActions from '../../../user/store/actions/index';
+import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
@@ -18,7 +18,7 @@ import { CheckoutActions } from '../actions/index';
 export class CheckoutEffects {
   @Effect()
   addDeliveryAddress$: Observable<
-    | fromUserActions.LoadUserAddresses
+    | UserActions.LoadUserAddresses
     | CheckoutActions.SetDeliveryAddress
     | CheckoutActions.AddDeliveryAddressFail
   > = this.actions$.pipe(
@@ -31,7 +31,7 @@ export class CheckoutEffects {
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
             return [
-              new fromUserActions.LoadUserAddresses(payload.userId),
+              new UserActions.LoadUserAddresses(payload.userId),
               new CheckoutActions.SetDeliveryAddress({
                 userId: payload.userId,
                 cartId: payload.cartId,
@@ -166,7 +166,7 @@ export class CheckoutEffects {
 
   @Effect()
   createPaymentDetails$: Observable<
-    | fromUserActions.LoadUserPaymentMethods
+    | UserActions.LoadUserPaymentMethods
     | CheckoutActions.CreatePaymentDetailsSuccess
     | CheckoutActions.CreatePaymentDetailsFail
   > = this.actions$.pipe(
@@ -178,7 +178,7 @@ export class CheckoutEffects {
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
           mergeMap(details => [
-            new fromUserActions.LoadUserPaymentMethods(payload.userId),
+            new UserActions.LoadUserPaymentMethods(payload.userId),
             new CheckoutActions.CreatePaymentDetailsSuccess(details),
           ]),
           catchError(error =>

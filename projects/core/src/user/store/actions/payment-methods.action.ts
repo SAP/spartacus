@@ -1,10 +1,10 @@
-import { USER_PAYMENT_METHODS } from '../user-state';
+import { PaymentDetails } from '../../../model/cart.model';
 import {
-  LoaderLoadAction,
   LoaderFailAction,
+  LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import { PaymentDetails } from '../../../model/cart.model';
+import { USER_PAYMENT_METHODS } from '../user-state';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =

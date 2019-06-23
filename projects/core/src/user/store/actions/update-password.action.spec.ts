@@ -6,7 +6,7 @@ import {
   entitySuccessMeta,
 } from '../../../state';
 import { UPDATE_PASSWORD_PROCESS_ID } from '../user-state';
-import * as fromActions from './update-password.action';
+import { UserActions } from './index';
 
 describe('Update Password Actions', () => {
   describe('UpdatePassword Action', () => {
@@ -14,14 +14,14 @@ describe('Update Password Actions', () => {
       const userId = 'user@email.com';
       const oldPassword = 'oldPass123';
       const newPassword = 'newPass456';
-      const action = new fromActions.UpdatePassword({
+      const action = new UserActions.UpdatePassword({
         userId,
         oldPassword,
         newPassword,
       });
 
       expect({ ...action }).toEqual({
-        type: fromActions.UPDATE_PASSWORD,
+        type: UserActions.UPDATE_PASSWORD,
         payload: { userId, oldPassword, newPassword },
         meta: entityLoadMeta(PROCESS_FEATURE, UPDATE_PASSWORD_PROCESS_ID),
       });
@@ -31,10 +31,10 @@ describe('Update Password Actions', () => {
   describe('UpdatePasswordFail Action', () => {
     it('should create the action', () => {
       const error = 'error';
-      const action = new fromActions.UpdatePasswordFail(error);
+      const action = new UserActions.UpdatePasswordFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromActions.UPDATE_PASSWORD_FAIL,
+        type: UserActions.UPDATE_PASSWORD_FAIL,
         payload: error,
         meta: entityFailMeta(
           PROCESS_FEATURE,
@@ -47,10 +47,10 @@ describe('Update Password Actions', () => {
 
   describe('UpdatePasswordSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromActions.UpdatePasswordSuccess();
+      const action = new UserActions.UpdatePasswordSuccess();
 
       expect({ ...action }).toEqual({
-        type: fromActions.UPDATE_PASSWORD_SUCCESS,
+        type: UserActions.UPDATE_PASSWORD_SUCCESS,
         meta: entitySuccessMeta(PROCESS_FEATURE, UPDATE_PASSWORD_PROCESS_ID),
         payload: undefined,
       });
@@ -59,10 +59,10 @@ describe('Update Password Actions', () => {
 
   describe('UpdatePasswordReset Action', () => {
     it('should create the action', () => {
-      const action = new fromActions.UpdatePasswordReset();
+      const action = new UserActions.UpdatePasswordReset();
 
       expect({ ...action }).toEqual({
-        type: fromActions.UPDATE_PASSWORD_RESET,
+        type: UserActions.UPDATE_PASSWORD_RESET,
         meta: entityResetMeta(PROCESS_FEATURE, UPDATE_PASSWORD_PROCESS_ID),
       });
     });

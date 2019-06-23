@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-
+import { UserSignUp } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -8,7 +8,6 @@ import {
   EntitySuccessAction,
 } from '../../../state';
 import { REMOVE_USER_PROCESS_ID } from '../user-state';
-import { UserSignUp } from '../../../model/misc.model';
 
 export const REGISTER_USER = '[User] Register User';
 export const REGISTER_USER_FAIL = '[User] Register User Fail';
