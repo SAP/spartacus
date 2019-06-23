@@ -8,6 +8,7 @@ import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { AddMessage } from '../../../global-message/index';
 import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import * as fromUserActions from '../../../user/store/actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
@@ -39,7 +40,11 @@ export class CheckoutEffects {
             ];
           }),
           catchError(error =>
-            of(new CheckoutActions.AddDeliveryAddressFail(error))
+            of(
+              new CheckoutActions.AddDeliveryAddressFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         )
     )
@@ -65,7 +70,11 @@ export class CheckoutEffects {
             }),
           ]),
           catchError(error =>
-            of(new CheckoutActions.SetDeliveryAddressFail(error))
+            of(
+              new CheckoutActions.SetDeliveryAddressFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -86,7 +95,11 @@ export class CheckoutEffects {
             return new CheckoutActions.LoadSupportedDeliveryModesSuccess(data);
           }),
           catchError(error =>
-            of(new CheckoutActions.LoadSupportedDeliveryModesFail(error))
+            of(
+              new CheckoutActions.LoadSupportedDeliveryModesFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -141,7 +154,11 @@ export class CheckoutEffects {
             ];
           }),
           catchError(error =>
-            of(new CheckoutActions.SetDeliveryModeFail(error))
+            of(
+              new CheckoutActions.SetDeliveryModeFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -165,7 +182,11 @@ export class CheckoutEffects {
             new CheckoutActions.CreatePaymentDetailsSuccess(details),
           ]),
           catchError(error =>
-            of(new CheckoutActions.CreatePaymentDetailsFail(error))
+            of(
+              new CheckoutActions.CreatePaymentDetailsFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -189,7 +210,11 @@ export class CheckoutEffects {
               )
           ),
           catchError(error =>
-            of(new CheckoutActions.SetPaymentDetailsFail(error))
+            of(
+              new CheckoutActions.SetPaymentDetailsFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -208,7 +233,9 @@ export class CheckoutEffects {
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
           switchMap(data => [new CheckoutActions.PlaceOrderSuccess(data)]),
-          catchError(error => of(new CheckoutActions.PlaceOrderFail(error)))
+          catchError(error =>
+            of(new CheckoutActions.PlaceOrderFail(makeErrorSerializable(error)))
+          )
         );
     })
   );
@@ -229,7 +256,11 @@ export class CheckoutEffects {
               new CheckoutActions.LoadCheckoutDetailsSuccess(data)
           ),
           catchError(error =>
-            of(new CheckoutActions.LoadCheckoutDetailsFail(error))
+            of(
+              new CheckoutActions.LoadCheckoutDetailsFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
