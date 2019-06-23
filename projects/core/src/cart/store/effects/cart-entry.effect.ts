@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
-import * as fromActions from './../actions';
+import * as fromActions from './../actions/index';
 
 @Injectable()
 export class CartEntryEffects {
