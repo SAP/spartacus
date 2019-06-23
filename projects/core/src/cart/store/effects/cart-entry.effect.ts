@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import * as fromActions from './../actions';
 
@@ -25,7 +25,7 @@ export class CartEntryEffects {
         .pipe(
           map(entry => new fromActions.AddEntrySuccess(entry)),
           catchError(error =>
-            of(new fromActions.AddEntryFail(makeHttpErrorSerializable(error)))
+            of(new fromActions.AddEntryFail(makeErrorSerializable(error)))
           )
         )
     )
@@ -45,9 +45,7 @@ export class CartEntryEffects {
             return new fromActions.RemoveEntrySuccess();
           }),
           catchError(error =>
-            of(
-              new fromActions.RemoveEntryFail(makeHttpErrorSerializable(error))
-            )
+            of(new fromActions.RemoveEntryFail(makeErrorSerializable(error)))
           )
         )
     )
@@ -67,9 +65,7 @@ export class CartEntryEffects {
             return new fromActions.UpdateEntrySuccess();
           }),
           catchError(error =>
-            of(
-              new fromActions.UpdateEntryFail(makeHttpErrorSerializable(error))
-            )
+            of(new fromActions.UpdateEntryFail(makeErrorSerializable(error)))
           )
         )
     )

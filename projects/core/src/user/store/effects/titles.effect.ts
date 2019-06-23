@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Title } from '../../../model/misc.model';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
 import * as fromAction from '../actions/titles.action';
 
@@ -19,7 +19,7 @@ export class TitlesEffects {
           return new fromAction.LoadTitlesSuccess(sortedTitles);
         }),
         catchError(error =>
-          of(new fromAction.LoadTitlesFail(makeHttpErrorSerializable(error)))
+          of(new fromAction.LoadTitlesFail(makeErrorSerializable(error)))
         )
       );
     })
