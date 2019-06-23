@@ -1,12 +1,12 @@
-import { GlobalMessageAction } from '../actions/global-message.actions';
+import { Translatable } from '../../../i18n/translatable';
+import { deepEqualObjects } from '../../../util/compare-equal-objects';
 import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
-import * as fromAction from '../actions/index';
+import { GlobalMessageAction } from '../actions/global-message.actions';
+import { GlobalMessageActions } from '../actions/index';
 import { GlobalMessageState } from '../global-message-state';
-import { Translatable } from '../../../i18n/translatable';
-import { deepEqualObjects } from '../../../util/compare-equal-objects';
 
 export const initialState: GlobalMessageState = {
   entities: {},
@@ -17,7 +17,7 @@ export function reducer(
   action: GlobalMessageAction
 ): GlobalMessageState {
   switch (action.type) {
-    case fromAction.ADD_MESSAGE: {
+    case GlobalMessageActions.ADD_MESSAGE: {
       const message: GlobalMessage = action.payload;
 
       if (state.entities[message.type] === undefined) {
@@ -43,7 +43,7 @@ export function reducer(
       return state;
     }
 
-    case fromAction.REMOVE_MESSAGE: {
+    case GlobalMessageActions.REMOVE_MESSAGE: {
       const msgType: GlobalMessageType = action.payload.type;
       const msgIndex: number = action.payload.index;
       if (
@@ -65,7 +65,7 @@ export function reducer(
       };
     }
 
-    case fromAction.REMOVE_MESSAGES_BY_TYPE: {
+    case GlobalMessageActions.REMOVE_MESSAGES_BY_TYPE: {
       const entities = {
         ...state.entities,
         [action.payload]: [],
