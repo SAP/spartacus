@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { iif, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, withLatestFrom } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import * as fromActions from '../actions/open-id-token.action';
@@ -40,14 +41,18 @@ export class OpenIdTokenEffect {
   > = this.actions$.pipe(
     ofType(fromActions.LOAD_OPEN_ID_TOKEN),
     map((action: fromActions.LoadOpenIdToken) => action.payload),
-    exhaustMap(payload => {
-      return this.openIdTokenService
+    exhaustMap(payload =>
+      this.openIdTokenService
         .loadOpenIdAuthenticationToken(payload.username, payload.password)
         .pipe(
           map(token => new fromActions.LoadOpenIdTokenSuccess(token)),
-          catchError(error => of(new fromActions.LoadOpenIdTokenFail(error)))
-        );
-    })
+          catchError(error =>
+            of(
+              new fromActions.LoadOpenIdTokenFail(makeErrorSerializable(error))
+            )
+          )
+        )
+    )
   );
 
   constructor(

@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
 import * as fromActions from '../actions/index';
 
@@ -27,9 +27,7 @@ export class ResetPasswordEffects {
           }),
         ]),
         catchError(error =>
-          of(
-            new fromActions.ResetPasswordFail(makeHttpErrorSerializable(error))
-          )
+          of(new fromActions.ResetPasswordFail(makeErrorSerializable(error)))
         )
       );
     })
