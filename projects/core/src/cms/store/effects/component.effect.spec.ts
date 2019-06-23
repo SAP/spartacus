@@ -3,12 +3,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CmsComponent } from '../../../model/cms.model';
+import { CmsComponent, PageType } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import * as fromActions from '../actions/component.action';
 import * as fromEffects from './component.effect';
-import { PageType } from '../../../model/cms.model';
 
 const router = {
   state: {
@@ -59,8 +58,8 @@ describe('Component Effects', () => {
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
-      const action = new fromActions.LoadComponent('comp1');
-      const completion = new fromActions.LoadComponentSuccess(component);
+      const action = new fromActions.LoadCmsComponent('comp1');
+      const completion = new fromActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'get').and.returnValue(of(component));
 
       actions$ = hot('-a', { a: action });
@@ -70,8 +69,8 @@ describe('Component Effects', () => {
     });
 
     it('should process only one ongoing request for multiple load component dispatches for the same uid', () => {
-      const action = new fromActions.LoadComponent('comp1');
-      const completion = new fromActions.LoadComponentSuccess(component);
+      const action = new fromActions.LoadCmsComponent('comp1');
+      const completion = new fromActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'get').and.returnValue(cold('---c', { c: component }));
 
       actions$ = hot('-aaa------a', { a: action });

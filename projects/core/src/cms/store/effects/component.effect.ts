@@ -26,11 +26,11 @@ export class ComponentEffects {
 
   @Effect()
   loadComponent$: Observable<
-    | componentActions.LoadComponentSuccess<CmsComponent>
-    | componentActions.LoadComponentFail
+    | componentActions.LoadCmsComponentSuccess<CmsComponent>
+    | componentActions.LoadCmsComponentFail
   > = this.actions$.pipe(
-    ofType(componentActions.LOAD_COMPONENT),
-    map((action: componentActions.LoadComponent) => action.payload),
+    ofType(componentActions.LOAD_CMS_COMPONENT),
+    map((action: componentActions.LoadCmsComponent) => action.payload),
     groupBy(uid => uid),
     mergeMap(group =>
       group.pipe(
@@ -42,11 +42,12 @@ export class ComponentEffects {
             mergeMap(pageContext =>
               this.cmsComponentLoader.get(uid, pageContext).pipe(
                 map(
-                  data => new componentActions.LoadComponentSuccess(data, uid)
+                  data =>
+                    new componentActions.LoadCmsComponentSuccess(data, uid)
                 ),
                 catchError(error =>
                   of(
-                    new componentActions.LoadComponentFail(
+                    new componentActions.LoadCmsComponentFail(
                       uid,
                       makeErrorSerializable(error)
                     )

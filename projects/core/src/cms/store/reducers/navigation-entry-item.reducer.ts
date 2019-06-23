@@ -5,10 +5,10 @@ export const initialState: NodeItem = undefined;
 
 export function reducer(
   state = initialState,
-  action: fromNavigationItem.NavigationEntryItemAction
+  action: fromNavigationItem.CmsNavigationEntryItemAction
 ): NodeItem {
   switch (action.type) {
-    case fromNavigationItem.LOAD_NAVIGATION_ITEMS_SUCCESS: {
+    case fromNavigationItem.LOAD_CMS_NAVIGATION_ITEMS_SUCCESS: {
       if (action.payload.components) {
         const components = action.payload.components;
         const newItem: NodeItem = components.reduce(

@@ -11,11 +11,13 @@ import * as navigationItemActions from '../actions/navigation-entry-item.action'
 export class NavigationEntryItemEffects {
   @Effect()
   loadNavigationItems$: Observable<
-    | navigationItemActions.LoadNavigationItemsSuccess
-    | navigationItemActions.LoadNavigationItemsFail
+    | navigationItemActions.LoadCmsNavigationItemsSuccess
+    | navigationItemActions.LoadCmsNavigationItemsFail
   > = this.actions$.pipe(
-    ofType(navigationItemActions.LOAD_NAVIGATION_ITEMS),
-    map((action: navigationItemActions.LoadNavigationItems) => action.payload),
+    ofType(navigationItemActions.LOAD_CMS_NAVIGATION_ITEMS),
+    map(
+      (action: navigationItemActions.LoadCmsNavigationItems) => action.payload
+    ),
     map(payload => {
       return {
         ids: this.getIdListByItemType(payload.items),
@@ -35,14 +37,14 @@ export class NavigationEntryItemEffects {
               .pipe(
                 map(
                   components =>
-                    new navigationItemActions.LoadNavigationItemsSuccess({
+                    new navigationItemActions.LoadCmsNavigationItemsSuccess({
                       nodeId: data.nodeId,
                       components: components,
                     })
                 ),
                 catchError(error =>
                   of(
-                    new navigationItemActions.LoadNavigationItemsFail(
+                    new navigationItemActions.LoadCmsNavigationItemsFail(
                       data.nodeId,
                       makeErrorSerializable(error)
                     )
@@ -59,7 +61,7 @@ export class NavigationEntryItemEffects {
         // send request to get list of media
       } else {
         return of(
-          new navigationItemActions.LoadNavigationItemsFail(
+          new navigationItemActions.LoadCmsNavigationItemsFail(
             data.nodeId,
             'navigation nodes are empty'
           )

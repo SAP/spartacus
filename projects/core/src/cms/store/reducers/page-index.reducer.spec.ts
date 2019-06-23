@@ -1,9 +1,8 @@
-import * as fromActions from '../actions/page.action';
+import { PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
 import { Page } from '../../model/page.model';
-
+import * as fromActions from '../actions/page.action';
 import * as fromPage from './page-index.reducer';
-import { PageType } from '../../../model/cms.model';
 
 const pageContext: PageContext = {
   id: 'testPageId',
@@ -14,7 +13,7 @@ describe('Cms Page Index Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromPage;
-      const action = {} as fromActions.LoadPageDataSuccess;
+      const action = {} as fromActions.LoadCmsPageDataSuccess;
 
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(undefined, action);
 
@@ -30,7 +29,7 @@ describe('Cms Page Index Reducer', () => {
       } as Page;
 
       const { initialState } = fromPage;
-      const action = new fromActions.LoadPageDataSuccess(pageContext, page);
+      const action = new fromActions.LoadCmsPageDataSuccess(pageContext, page);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(
         initialState,
         action
@@ -44,7 +43,7 @@ describe('Cms Page Index Reducer', () => {
     it('should return the initial state', () => {
       const error = 'error';
       const { initialState } = fromPage;
-      const action = new fromActions.LoadPageDataFail(pageContext, error);
+      const action = new fromActions.LoadCmsPageDataFail(pageContext, error);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(
         initialState,
         action
@@ -58,7 +57,7 @@ describe('Cms Page Index Reducer', () => {
     it('should return index', () => {
       const newIndex = 'index';
       const { initialState } = fromPage;
-      const action = new fromActions.SetPageFailIndex(pageContext, newIndex);
+      const action = new fromActions.CmsSetPageFailIndex(pageContext, newIndex);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(
         initialState,
         action

@@ -36,15 +36,15 @@ export class PageEffects {
             !routerState.nextState
         ),
         map(routerState => routerState.state.context),
-        mergeMap(context => of(new pageActions.LoadPageData(context)))
+        mergeMap(context => of(new pageActions.LoadCmsPageData(context)))
       )
     )
   );
 
   @Effect()
   loadPageData$: Observable<Action> = this.actions$.pipe(
-    ofType(pageActions.LOAD_PAGE_DATA),
-    map((action: pageActions.LoadPageData) => action.payload),
+    ofType(pageActions.LOAD_CMS_PAGE_DATA),
+    map((action: pageActions.LoadCmsPageData) => action.payload),
     groupBy(pageContext => pageContext.type + pageContext.id),
     mergeMap(group =>
       group.pipe(
@@ -52,10 +52,10 @@ export class PageEffects {
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
               return [
-                new componentActions.GetComponentFromPage(
+                new componentActions.CmsGetComponentFromPage(
                   cmsStructure.components
                 ),
-                new pageActions.LoadPageDataSuccess(
+                new pageActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
                 ),
@@ -63,7 +63,7 @@ export class PageEffects {
             }),
             catchError(error =>
               of(
-                new pageActions.LoadPageDataFail(
+                new pageActions.LoadCmsPageDataFail(
                   pageContext,
                   makeErrorSerializable(error)
                 )

@@ -1,19 +1,16 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-
-import { RoutingService } from '../../../routing/index';
-import * as fromEffects from './navigation-entry-item.effect';
-import * as fromActions from '../actions/navigation-entry-item.action';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import * as fromCmsReducer from '../../../cms/store/reducers/index';
 import { CmsComponent, OccConfig } from '@spartacus/core';
-import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import * as fromCmsReducer from '../../../cms/store/reducers/index';
 import { PageType } from '../../../model/cms.model';
+import { RoutingService } from '../../../routing/index';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import * as fromActions from '../actions/navigation-entry-item.action';
+import * as fromEffects from './navigation-entry-item.effect';
 
 const router = {
   state: {
@@ -81,7 +78,7 @@ describe('Navigation Entry Items Effects', () => {
 
   describe('loadNavigationItems$', () => {
     it('should return list of components from LoadNavigationItemsSuccess', () => {
-      const action = new fromActions.LoadNavigationItems({
+      const action = new fromActions.LoadCmsNavigationItems({
         nodeId: 'MockNavigationNode001',
         items: [
           {
@@ -94,7 +91,7 @@ describe('Navigation Entry Items Effects', () => {
           },
         ],
       });
-      const completion = new fromActions.LoadNavigationItemsSuccess({
+      const completion = new fromActions.LoadCmsNavigationItemsSuccess({
         nodeId: 'MockNavigationNode001',
         components: listComponents,
       });
