@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
-import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
@@ -15,7 +15,11 @@ export class CartEffects {
   loadCart$: Observable<
     CartActions.LoadCartFail | CartActions.LoadCartSuccess
   > = this.actions$.pipe(
-    ofType(CartActions.LOAD_CART, LANGUAGE_CHANGE, CURRENCY_CHANGE),
+    ofType(
+      CartActions.LOAD_CART,
+      SiteContextActions.LANGUAGE_CHANGE,
+      SiteContextActions.CURRENCY_CHANGE
+    ),
     map(
       (action: {
         type: string;
