@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
@@ -15,7 +14,9 @@ export class ViewAllStoresEffect {
   ) {}
 
   @Effect()
-  viewAllStores$: Observable<Action> = this.actions$.pipe(
+  viewAllStores$: Observable<
+    fromAction.ViewAllStoresSuccess | fromAction.ViewAllStoresFail
+  > = this.actions$.pipe(
     ofType(fromAction.VIEW_ALL_STORES),
     switchMap(() => {
       return this.storeFinderConnector.getCounts().pipe(
