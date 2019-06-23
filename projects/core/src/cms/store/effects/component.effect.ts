@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -11,8 +10,9 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+import { CmsComponent } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import * as componentActions from '../actions/component.action';
 
@@ -25,7 +25,10 @@ export class ComponentEffects {
   ) {}
 
   @Effect()
-  loadComponent$: Observable<Action> = this.actions$.pipe(
+  loadComponent$: Observable<
+    | componentActions.LoadComponentSuccess<CmsComponent>
+    | componentActions.LoadComponentFail
+  > = this.actions$.pipe(
     ofType(componentActions.LOAD_COMPONENT),
     map((action: componentActions.LoadComponent) => action.payload),
     groupBy(uid => uid),
@@ -45,7 +48,7 @@ export class ComponentEffects {
                   of(
                     new componentActions.LoadComponentFail(
                       uid,
-                      makeHttpErrorSerializable(error)
+                      makeErrorSerializable(error)
                     )
                   )
                 )
