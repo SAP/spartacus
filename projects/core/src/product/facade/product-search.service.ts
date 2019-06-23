@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
+import { ProductActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { ProductSelectors } from '../store/selectors/index';
 
@@ -12,7 +13,7 @@ export class ProductSearchService {
 
   search(query: string, searchConfig?: SearchConfig): void {
     this.store.dispatch(
-      new fromStore.SearchProducts({
+      new ProductActions.SearchProducts({
         queryText: query,
         searchConfig: searchConfig,
       })
@@ -25,7 +26,7 @@ export class ProductSearchService {
 
   clearResults(): void {
     this.store.dispatch(
-      new fromStore.ClearProductSearchResult({
+      new ProductActions.ClearProductSearchResult({
         clearPageResults: true,
       })
     );

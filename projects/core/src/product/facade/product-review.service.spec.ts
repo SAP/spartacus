@@ -3,6 +3,7 @@ import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Review } from '../../model/product.model';
+import { ProductActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { ProductReviewService } from './product-review.service';
 
@@ -55,7 +56,7 @@ describe('ReviewService', () => {
         .unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.LoadProductReviews('testId')
+        new ProductActions.LoadProductReviews('testId')
       );
     });
   });
@@ -66,7 +67,7 @@ describe('ReviewService', () => {
       const review: Review = { id: '123', comment: 'test review' };
       service.add(productCode, review);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.PostProductReview({ productCode, review })
+        new ProductActions.PostProductReview({ productCode, review })
       );
     });
   });

@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
+import { ProductActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { ProductSelectors } from '../store/selectors/index';
 
@@ -28,7 +29,7 @@ export class ProductService {
             productState.loading || productState.success || productState.error;
 
           if (!attemptedLoad) {
-            this.store.dispatch(new fromStore.LoadProduct(productCode));
+            this.store.dispatch(new ProductActions.LoadProduct(productCode));
           }
         }),
         map(productState => productState.value),
@@ -71,6 +72,6 @@ export class ProductService {
    * explicit reload might be needed.
    */
   reload(productCode: string): void {
-    this.store.dispatch(new fromStore.LoadProduct(productCode));
+    this.store.dispatch(new ProductActions.LoadProduct(productCode));
   }
 }

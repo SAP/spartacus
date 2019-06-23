@@ -3,8 +3,9 @@ import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';
 import { Product } from '../../model/product.model';
+import { ProductActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
-import { ProductsState } from '../store/index';
+import { ProductsState } from '../store/product-state';
 import { ProductService } from './product.service';
 
 describe('ProductService', () => {
@@ -103,7 +104,7 @@ describe('ProductService', () => {
         .subscribe()
         .unsubscribe();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.LoadProduct('productCode')
+        new ProductActions.LoadProduct('productCode')
       );
     });
 

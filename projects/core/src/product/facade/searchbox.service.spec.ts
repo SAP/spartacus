@@ -7,7 +7,8 @@ import {
   ProductSearchPage,
   Suggestion,
 } from '../../model/product-search.model';
-import { SearchConfig } from '../model';
+import { SearchConfig } from '../model/index';
+import { ProductActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
@@ -89,7 +90,7 @@ describe('SearchboxService', () => {
   it('should be able to clear search results', () => {
     service.clearResults();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.ClearProductSearchResult({
+      new ProductActions.ClearProductSearchResult({
         clearSearchboxResults: true,
       })
     );
@@ -101,7 +102,7 @@ describe('SearchboxService', () => {
 
       service.search('test query', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SearchProducts(
+        new ProductActions.SearchProducts(
           {
             queryText: 'test query',
             searchConfig: searchConfig,
@@ -126,7 +127,7 @@ describe('SearchboxService', () => {
       const searchConfig: SearchConfig = {};
       service.searchSuggestions('test term', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.GetProductSuggestions({
+        new ProductActions.GetProductSuggestions({
           term: 'test term',
           searchConfig: searchConfig,
         })

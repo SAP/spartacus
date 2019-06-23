@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Review } from '../../model/product.model';
+import { ProductActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { ProductSelectors } from '../store/selectors/index';
 
@@ -15,7 +16,9 @@ export class ProductReviewService {
       select(ProductSelectors.getSelectedProductReviewsFactory(productCode)),
       tap(reviews => {
         if (reviews === undefined && productCode !== undefined) {
-          this.store.dispatch(new fromStore.LoadProductReviews(productCode));
+          this.store.dispatch(
+            new ProductActions.LoadProductReviews(productCode)
+          );
         }
       })
     );
@@ -23,7 +26,7 @@ export class ProductReviewService {
 
   add(productCode: string, review: Review): void {
     this.store.dispatch(
-      new fromStore.PostProductReview({
+      new ProductActions.PostProductReview({
         productCode: productCode,
         review,
       })

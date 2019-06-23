@@ -4,6 +4,7 @@ import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
+import { ProductActions } from '../store/actions/index';
 import * as fromStore from '../store/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
@@ -63,7 +64,7 @@ describe('ProductSearchService', () => {
   it('should be able to clear search results', () => {
     service.clearResults();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.ClearProductSearchResult({
+      new ProductActions.ClearProductSearchResult({
         clearPageResults: true,
       })
     );
@@ -75,7 +76,7 @@ describe('ProductSearchService', () => {
 
       service.search('test query', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SearchProducts({
+        new ProductActions.SearchProducts({
           queryText: 'test query',
           searchConfig: searchConfig,
         })
