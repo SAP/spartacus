@@ -7,15 +7,15 @@ import { SemanticPathService } from '../configurable-routes/url-translation/sema
 import { UrlCommands } from '../configurable-routes/url-translation/url-command';
 import { PageContext } from '../models/page-context.model';
 import { RoutingActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
-import { RouterState } from '../store/reducers/router.reducer';
+import { RouterState } from '../store/roting-state';
+import { RoutingSelector } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoutingService {
   constructor(
-    protected store: Store<fromStore.RouterState>,
+    protected store: Store<RouterState>,
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService
   ) {}
@@ -24,28 +24,28 @@ export class RoutingService {
    * Get the current router state
    */
   getRouterState(): Observable<RouterState> {
-    return this.store.pipe(select(fromStore.getRouterState));
+    return this.store.pipe(select(RoutingSelector.getRouterState));
   }
 
   /**
    * Get the `PageContext` from the state
    */
   getPageContext(): Observable<PageContext> {
-    return this.store.pipe(select(fromStore.getPageContext));
+    return this.store.pipe(select(RoutingSelector.getPageContext));
   }
 
   /**
    * Get the next `PageContext` from the state
    */
   getNextPageContext(): Observable<PageContext> {
-    return this.store.pipe(select(fromStore.getNextPageContext));
+    return this.store.pipe(select(RoutingSelector.getNextPageContext));
   }
 
   /**
    * Get the `isNavigating` info from the state
    */
   isNavigating(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.isNavigating));
+    return this.store.pipe(select(RoutingSelector.isNavigating));
   }
 
   /**
