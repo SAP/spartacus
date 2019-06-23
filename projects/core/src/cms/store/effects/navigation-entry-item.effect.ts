@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/index';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
 
 @Injectable()
 export class NavigationEntryItemEffects {
   @Effect()
-  loadNavigationItems$: Observable<Action> = this.actions$.pipe(
+  loadNavigationItems$: Observable<
+    | navigationItemActions.LoadNavigationItemsSuccess
+    | navigationItemActions.LoadNavigationItemsFail
+  > = this.actions$.pipe(
     ofType(navigationItemActions.LOAD_NAVIGATION_ITEMS),
     map((action: navigationItemActions.LoadNavigationItems) => action.payload),
     map(payload => {
@@ -42,7 +44,7 @@ export class NavigationEntryItemEffects {
                   of(
                     new navigationItemActions.LoadNavigationItemsFail(
                       data.nodeId,
-                      makeHttpErrorSerializable(error)
+                      makeErrorSerializable(error)
                     )
                   )
                 )

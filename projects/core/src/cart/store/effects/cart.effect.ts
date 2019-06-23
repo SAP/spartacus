@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import * as fromActions from './../actions/cart.action';
@@ -47,7 +47,7 @@ export class CartEffects {
             return new fromActions.LoadCartSuccess(cart);
           }),
           catchError(error =>
-            of(new fromActions.LoadCartFail(makeHttpErrorSerializable(error)))
+            of(new fromActions.LoadCartFail(makeErrorSerializable(error)))
           )
         );
     })
@@ -78,7 +78,7 @@ export class CartEffects {
             return [new fromActions.CreateCartSuccess(cart)];
           }),
           catchError(error =>
-            of(new fromActions.CreateCartFail(makeHttpErrorSerializable(error)))
+            of(new fromActions.CreateCartFail(makeErrorSerializable(error)))
           )
         );
     })

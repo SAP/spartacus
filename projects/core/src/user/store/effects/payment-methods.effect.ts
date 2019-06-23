@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PaymentDetails } from '../../../model/cart.model';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
 
@@ -27,7 +27,7 @@ export class UserPaymentMethodsEffects {
         catchError(error =>
           of(
             new fromUserPaymentMethodsAction.LoadUserPaymentMethodsFail(
-              makeHttpErrorSerializable(error)
+              makeErrorSerializable(error)
             )
           )
         )
@@ -57,7 +57,7 @@ export class UserPaymentMethodsEffects {
           catchError(error =>
             of(
               new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
@@ -86,7 +86,7 @@ export class UserPaymentMethodsEffects {
           catchError(error =>
             of(
               new fromUserPaymentMethodsAction.DeleteUserPaymentMethodFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )

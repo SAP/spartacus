@@ -14,7 +14,7 @@ import {
 import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { RoutingService } from '../../../routing/index';
 import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
 import * as componentActions from '../actions/component.action';
@@ -65,7 +65,7 @@ export class PageEffects {
               of(
                 new pageActions.LoadPageDataFail(
                   pageContext,
-                  makeHttpErrorSerializable(error)
+                  makeErrorSerializable(error)
                 )
               )
             )

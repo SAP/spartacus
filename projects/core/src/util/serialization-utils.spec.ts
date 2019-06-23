@@ -1,16 +1,30 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpErrorModel } from '../model';
-import { makeHttpErrorSerializable } from './serialization-utils';
+import { makeErrorSerializable } from './serialization-utils';
 
 describe('serialization-utils', () => {
-  describe('makeHttpErrorSerializable', () => {
-    describe(`when the provided argument is not an instance of HttpErrorResponse, or it's falsy`, () => {
-      it('should just return the same value', () => {
-        const error = { error: 'error' } as HttpErrorResponse;
-        const result = makeHttpErrorSerializable(error as HttpErrorResponse);
+  describe('makeErrorSerializable', () => {
+    describe(`when the provided argument is not an instance of Error nor of HttpErrorResponse`, () => {
+      it('should return the same value as provided', () => {
+        const error = 'xxx';
+        const result = makeErrorSerializable(error);
         expect(result).toEqual(error);
       });
     });
+
+    describe(`when the provided argument is an instance of Error`, () => {
+      it('should make it serializable', () => {
+        const error = new Error('xxx');
+        const result = makeErrorSerializable(error);
+        expect(result).toEqual(
+          jasmine.objectContaining({
+            message: error.message,
+            type: error.name,
+          })
+        );
+      });
+    });
+
     describe('when the provided error is an instance of HttpErrorResponse', () => {
       it('should make it serializable', () => {
         const mockError = new HttpErrorResponse({
@@ -21,9 +35,7 @@ describe('serialization-utils', () => {
           url: '/xxx',
         });
 
-        const result = makeHttpErrorSerializable(
-          mockError as HttpErrorResponse
-        );
+        const result = makeErrorSerializable(mockError as HttpErrorResponse);
         expect(result).toEqual({
           message: mockError.message,
           error: mockError.error,

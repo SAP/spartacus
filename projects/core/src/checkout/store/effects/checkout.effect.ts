@@ -7,7 +7,7 @@ import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { AddMessage } from '../../../global-message/index';
 import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import * as fromUserActions from '../../../user/store/actions/index';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
@@ -42,7 +42,7 @@ export class CheckoutEffects {
           catchError(error =>
             of(
               new fromActions.AddDeliveryAddressFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
@@ -72,7 +72,7 @@ export class CheckoutEffects {
           catchError(error =>
             of(
               new fromActions.SetDeliveryAddressFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
@@ -97,7 +97,7 @@ export class CheckoutEffects {
           catchError(error =>
             of(
               new fromActions.LoadSupportedDeliveryModesFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
@@ -153,9 +153,7 @@ export class CheckoutEffects {
           }),
           catchError(error =>
             of(
-              new fromActions.SetDeliveryModeFail(
-                makeHttpErrorSerializable(error)
-              )
+              new fromActions.SetDeliveryModeFail(makeErrorSerializable(error))
             )
           )
         );
@@ -182,7 +180,7 @@ export class CheckoutEffects {
           catchError(error =>
             of(
               new fromActions.CreatePaymentDetailsFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
@@ -207,7 +205,7 @@ export class CheckoutEffects {
           catchError(error =>
             of(
               new fromActions.SetPaymentDetailsFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
@@ -227,7 +225,7 @@ export class CheckoutEffects {
         .pipe(
           switchMap(data => [new fromActions.PlaceOrderSuccess(data)]),
           catchError(error =>
-            of(new fromActions.PlaceOrderFail(makeHttpErrorSerializable(error)))
+            of(new fromActions.PlaceOrderFail(makeErrorSerializable(error)))
           )
         );
     })
@@ -250,7 +248,7 @@ export class CheckoutEffects {
           catchError(error =>
             of(
               new fromActions.LoadCheckoutDetailsFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
