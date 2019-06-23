@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import * as actions from '../actions/index';
 
@@ -26,7 +26,7 @@ export class ProductEffects {
               of(
                 new actions.LoadProductFail(
                   productCode,
-                  makeHttpErrorSerializable(error)
+                  makeErrorSerializable(error)
                 )
               )
             )
