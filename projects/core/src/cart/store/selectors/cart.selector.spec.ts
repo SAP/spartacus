@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
+import { CartActions } from '../actions/index';
 import { StateWithCart } from '../cart-state';
-import * as fromActions from './../actions/index';
 import * as fromReducers from './../reducers/index';
 import { CartSelectors } from './../selectors/index';
 
@@ -60,7 +60,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.CreateCartSuccess(testEmptyCart));
+      store.dispatch(new CartActions.CreateCartSuccess(testEmptyCart));
       expect(result).toEqual(testEmptyCart);
     });
   });
@@ -75,10 +75,7 @@ describe('Cart selectors', () => {
       expect(result).toEqual(false);
 
       store.dispatch(
-        new fromActions.AddEntrySuccess({
-          userId: 'testUserId',
-          cartId: 'testCartId',
-          productCode: 'testProductCode',
+        new CartActions.CartAddEntrySuccess({
           quantity: 1,
         })
       );
@@ -95,7 +92,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.CreateCart(testEmptyCart));
+      store.dispatch(new CartActions.CreateCart(testEmptyCart));
       expect(result).toEqual(false);
     });
   });
@@ -109,7 +106,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.LoadCartSuccess(testCart));
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({
         '1234': { entryNumber: 0, product: { code: '1234' } },
@@ -129,7 +126,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual(undefined);
 
-      store.dispatch(new fromActions.LoadCartSuccess(testCart));
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({ entryNumber: 0, product: { code: '1234' } });
     });
@@ -144,7 +141,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadCartSuccess(testCart));
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual([{ entryNumber: 0, product: { code: '1234' } }]);
     });

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
-import * as fromActions from './../actions';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import { CartActions } from './../actions/index';
 
 @Injectable()
 export class CartEntryEffects {
   @Effect()
-  addEntry$: Observable<any> = this.actions$.pipe(
-    ofType(fromActions.ADD_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+  addEntry$: Observable<Action> = this.actions$.pipe(
+    ofType(CartActions.CART_ADD_ENTRY),
+    map((action: CartActions.CartAddEntry) => action.payload),
     mergeMap(payload =>
       this.cartEntryConnector
         .add(
@@ -21,40 +21,40 @@ export class CartEntryEffects {
           payload.quantity
         )
         .pipe(
-          map((entry: any) => new fromActions.AddEntrySuccess(entry)),
-          catchError(error => of(new fromActions.AddEntryFail(error)))
+          map(entry => new CartActions.CartAddEntrySuccess(entry)),
+          catchError(error => of(new CartActions.CartAddEntryFail(error)))
         )
     )
   );
 
   @Effect()
-  removeEntry$: Observable<any> = this.actions$.pipe(
-    ofType(fromActions.REMOVE_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+  removeEntry$: Observable<Action> = this.actions$.pipe(
+    ofType(CartActions.CART_REMOVE_ENTRY),
+    map((action: CartActions.CartRemoveEntry) => action.payload),
     mergeMap(payload =>
       this.cartEntryConnector
         .remove(payload.userId, payload.cartId, payload.entry)
         .pipe(
           map(() => {
-            return new fromActions.RemoveEntrySuccess();
+            return new CartActions.CartRemoveEntrySuccess();
           }),
-          catchError(error => of(new fromActions.RemoveEntryFail(error)))
+          catchError(error => of(new CartActions.CartRemoveEntryFail(error)))
         )
     )
   );
 
   @Effect()
-  updateEntry$: Observable<any> = this.actions$.pipe(
-    ofType(fromActions.UPDATE_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+  updateEntry$: Observable<Action> = this.actions$.pipe(
+    ofType(CartActions.CART_UPDATE_ENTRY),
+    map((action: CartActions.CartUpdateEntry) => action.payload),
     mergeMap(payload =>
       this.cartEntryConnector
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
           map(() => {
-            return new fromActions.UpdateEntrySuccess();
+            return new CartActions.CartUpdateEntrySuccess();
           }),
-          catchError(error => of(new fromActions.UpdateEntryFail(error)))
+          catchError(error => of(new CartActions.CartUpdateEntryFail(error)))
         )
     )
   );

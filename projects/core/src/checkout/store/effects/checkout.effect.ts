@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
-import * as fromCartActions from '../../../cart/store/actions/index';
+import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { AddMessage } from '../../../global-message/index';
 import * as fromSiteContextActions from '../../../site-context/store/actions/index';
@@ -116,7 +116,7 @@ export class CheckoutEffects {
   setDeliveryMode$: Observable<
     | fromActions.SetDeliveryModeSuccess
     | fromActions.SetDeliveryModeFail
-    | fromCartActions.LoadCart
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(fromActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
@@ -127,7 +127,7 @@ export class CheckoutEffects {
           mergeMap(() => {
             return [
               new fromActions.SetDeliveryModeSuccess(payload.selectedModeId),
-              new fromCartActions.LoadCart({
+              new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
                 details: true,
@@ -223,8 +223,8 @@ export class CheckoutEffects {
   reloadDetailsOnMergeCart$: Observable<
     fromActions.LoadCheckoutDetails
   > = this.actions$.pipe(
-    ofType(fromCartActions.MERGE_CART_SUCCESS),
-    map((action: fromCartActions.MergeCartSuccess) => action.payload),
+    ofType(CartActions.MERGE_CART_SUCCESS),
+    map((action: CartActions.MergeCartSuccess) => action.payload),
     map(payload => {
       return new fromActions.LoadCheckoutDetails({
         userId: payload.userId,
