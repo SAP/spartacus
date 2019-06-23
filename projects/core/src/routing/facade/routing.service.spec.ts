@@ -1,18 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-
 import { of } from 'rxjs';
-
-import * as fromStore from '../store';
-import { PageContext } from '../models/page-context.model';
+import { PageType } from '../../model/cms.model';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
+import { PageContext } from '../models/page-context.model';
+import * as fromStore from '../store';
 import { RouterState } from '../store/reducers/router.reducer';
-
+import { RoutingSelector } from '../store/selectors/index';
 import { RoutingService } from './routing.service';
 import createSpy = jasmine.createSpy;
-import { PageType } from '../../model/cms.model';
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
@@ -103,7 +100,9 @@ describe('RoutingService', () => {
 
     let routerState: any;
     service.getRouterState().subscribe(state => (routerState = state));
-    expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
+    expect(mockRouterState).toHaveBeenCalledWith(
+      RoutingSelector.getRouterState
+    );
     expect(routerState).toEqual({});
   });
 
@@ -139,7 +138,9 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
-    expect(NgrxStore.select).toHaveBeenCalledWith(fromStore.getNextPageContext);
+    expect(NgrxStore.select).toHaveBeenCalledWith(
+      RoutingSelector.getNextPageContext
+    );
   });
 
   it('isNavigating should return isNavigating state', () => {
@@ -154,6 +155,6 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(isNavigating);
-    expect(NgrxStore.select).toHaveBeenCalledWith(fromStore.isNavigating);
+    expect(NgrxStore.select).toHaveBeenCalledWith(RoutingSelector.isNavigating);
   });
 });
