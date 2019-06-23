@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import * as fromAction from './../actions/find-stores.action';
 
@@ -38,7 +38,7 @@ export class FindStoresEffect {
             return new fromAction.FindStoresSuccess(data);
           }),
           catchError(error =>
-            of(new fromAction.FindStoresFail(makeHttpErrorSerializable(error)))
+            of(new fromAction.FindStoresFail(makeErrorSerializable(error)))
           )
         )
     )
@@ -54,7 +54,7 @@ export class FindStoresEffect {
       this.storeFinderConnector.get(payload.storeId).pipe(
         map(data => new fromAction.FindStoreByIdSuccess(data)),
         catchError(error =>
-          of(new fromAction.FindStoreByIdFail(makeHttpErrorSerializable(error)))
+          of(new fromAction.FindStoreByIdFail(makeErrorSerializable(error)))
         )
       )
     )

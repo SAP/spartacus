@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import * as fromAction from './../actions/view-all-stores.action';
 
@@ -22,7 +22,7 @@ export class ViewAllStoresEffect {
       return this.storeFinderConnector.getCounts().pipe(
         map(data => new fromAction.ViewAllStoresSuccess(data)),
         catchError(error =>
-          of(new fromAction.ViewAllStoresFail(makeHttpErrorSerializable(error)))
+          of(new fromAction.ViewAllStoresFail(makeErrorSerializable(error)))
         )
       );
     })
