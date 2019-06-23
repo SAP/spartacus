@@ -37,7 +37,7 @@ describe('Router Effects', () => {
 
   describe('navigate$', () => {
     it('should navigate to path', () => {
-      const action = new fromActions.Go({
+      const action = new fromActions.RouteGoAction({
         path: ['/test'],
       });
 
@@ -55,7 +55,7 @@ describe('Router Effects', () => {
 
   describe('navigateByUrl$', () => {
     it('should navigate to url', () => {
-      const action = new fromActions.GoByUrl('/test');
+      const action = new fromActions.RouteGoByUrlAction('/test');
 
       actions$ = hot('-a', { a: action });
 
@@ -83,7 +83,7 @@ describe('Router Effects', () => {
 
   describe('navigateBack$', () => {
     it('should navigate back', () => {
-      const action = new fromActions.Back();
+      const action = new fromActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 
@@ -96,7 +96,7 @@ describe('Router Effects', () => {
 
   describe('navigateForward$', () => {
     it('should navigate forward', () => {
-      const action = new fromActions.Back();
+      const action = new fromActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 

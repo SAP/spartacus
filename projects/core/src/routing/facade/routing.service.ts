@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
-
 import { select, Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
-
-import * as fromStore from '../store';
-import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
-import { UrlCommands } from '../configurable-routes/url-translation/url-command';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
+import { UrlCommands } from '../configurable-routes/url-translation/url-command';
+import { PageContext } from '../models/page-context.model';
+import { RoutingActions } from '../store/actions/index';
+import * as fromStore from '../store/index';
 import { RouterState } from '../store/reducers/router.reducer';
 
 @Injectable({
@@ -67,7 +65,7 @@ export class RoutingService {
    * @param url
    */
   goByUrl(url: string) {
-    this.store.dispatch(new fromStore.GoByUrl(url));
+    this.store.dispatch(new RoutingActions.RouteGoByUrlAction(url));
   }
 
   /**
@@ -78,7 +76,7 @@ export class RoutingService {
       this.winRef.nativeWindow.location.origin
     );
     if (isLastPageInApp) {
-      this.store.dispatch(new fromStore.Back());
+      this.store.dispatch(new RoutingActions.RouteBackAction());
       return;
     }
     this.go(['/']);
@@ -89,7 +87,7 @@ export class RoutingService {
    * Navigating forward
    */
   forward(): void {
-    this.store.dispatch(new fromStore.Forward());
+    this.store.dispatch(new RoutingActions.RouteForwardAction());
   }
 
   /**
@@ -104,7 +102,7 @@ export class RoutingService {
     extras?: NavigationExtras
   ): void {
     this.store.dispatch(
-      new fromStore.Go({
+      new RoutingActions.RouteGoAction({
         path,
         query,
         extras,

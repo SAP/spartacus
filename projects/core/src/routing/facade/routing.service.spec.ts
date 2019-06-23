@@ -1,18 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-
 import { of } from 'rxjs';
-
-import * as fromStore from '../store';
-import { PageContext } from '../models/page-context.model';
-import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
-import { RouterState } from '../store/reducers/router.reducer';
-
-import { RoutingService } from './routing.service';
-import createSpy = jasmine.createSpy;
 import { PageType } from '../../model/cms.model';
+import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
+import { PageContext } from '../models/page-context.model';
+import { RoutingActions } from '../store/actions/index';
+import * as fromStore from '../store/index';
+import { RouterState } from '../store/reducers/router.reducer';
+import { RoutingService } from './routing.service';
+
+import createSpy = jasmine.createSpy;
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
@@ -43,7 +41,7 @@ describe('RoutingService', () => {
       spyOn(urlService, 'transform').and.returnValue(['generated', 'path']);
       service.go([]);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.Go({
+        new RoutingActions.RouteGoAction({
           path: ['generated', 'path'],
           query: undefined,
           extras: undefined,
@@ -63,7 +61,7 @@ describe('RoutingService', () => {
     it('should dispatch GoByUrl action', () => {
       service.goByUrl('test');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.GoByUrl('test')
+        new RoutingActions.RouteGoByUrlAction('test')
       );
     });
   });
@@ -71,7 +69,9 @@ describe('RoutingService', () => {
   describe('back', () => {
     it('should dispatch back action', () => {
       service.back();
-      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Back());
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new RoutingActions.RouteBackAction()
+      );
     });
 
     it('should go to homepage on back action when referer is not from the app', () => {
@@ -81,7 +81,7 @@ describe('RoutingService', () => {
       spyOn(urlService, 'transform').and.callFake(x => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.Go({
+        new RoutingActions.RouteGoAction({
           path: ['/'],
           query: undefined,
           extras: undefined,
@@ -93,7 +93,9 @@ describe('RoutingService', () => {
   describe('forward', () => {
     it('should dispatch forward action', () => {
       service.forward();
-      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Forward());
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new RoutingActions.RouteForwardAction()
+      );
     });
   });
 
