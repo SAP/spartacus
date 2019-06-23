@@ -1,18 +1,26 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorModel } from '../model/misc.model';
+import { ErrorModel, HttpErrorModel } from '../model/misc.model';
 
-export function makeHttpErrorSerializable(
-  error: HttpErrorResponse | any
-): HttpErrorModel {
-  if (!(error instanceof HttpErrorResponse) || !error) {
-    return error;
+export function makeErrorSerializable(
+  error: HttpErrorResponse | ErrorModel | any
+): HttpErrorModel | Error | any {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      type: error.name,
+      reason: error.stack,
+    } as ErrorModel;
   }
 
-  return {
-    message: error.message,
-    error: error.error,
-    status: error.status,
-    statusText: error.statusText,
-    url: error.url,
-  };
+  if (error instanceof HttpErrorResponse) {
+    return {
+      message: error.message,
+      error: error.error,
+      status: error.status,
+      statusText: error.statusText,
+      url: error.url,
+    } as HttpErrorModel;
+  }
+
+  return error;
 }

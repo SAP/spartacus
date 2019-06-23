@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
 import * as fromActions from '../actions/index';
 
@@ -33,7 +33,7 @@ export class ForgotPasswordEffects {
           catchError(error =>
             of(
               new fromActions.ForgotPasswordEmailRequestFail(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
