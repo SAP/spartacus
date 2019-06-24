@@ -72,6 +72,11 @@ export const getCartLoaded: MemoizedSelector<
     !loaderValueSelector(state).refresh
 );
 
+export const getCartLoading: MemoizedSelector<any, boolean> = createSelector(
+  getActiveCartState,
+  state => loaderLoadingSelector(state)
+);
+
 export const getCartMergeComplete: MemoizedSelector<
   StateWithCart,
   boolean
