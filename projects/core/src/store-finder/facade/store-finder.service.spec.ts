@@ -3,7 +3,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { GeoPoint } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
 import { StoreFinderActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
+import * as fromStoreReducers from '../store/reducers/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
 
@@ -40,7 +40,7 @@ describe('StoreFinderService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          store: combineReducers(fromStore.getReducers),
+          store: combineReducers(fromStoreReducers.getReducers),
         }),
       ],
       providers: [

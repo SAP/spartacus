@@ -9,7 +9,7 @@ import * as fromCmsReducer from '../../../cms/store/reducers/index';
 import { PageType } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
-import * as fromActions from '../actions/navigation-entry-item.action';
+import { CmsActions } from '../actions/index';
 import * as fromEffects from './navigation-entry-item.effect';
 
 const router = {
@@ -78,7 +78,7 @@ describe('Navigation Entry Items Effects', () => {
 
   describe('loadNavigationItems$', () => {
     it('should return list of components from LoadNavigationItemsSuccess', () => {
-      const action = new fromActions.LoadCmsNavigationItems({
+      const action = new CmsActions.LoadCmsNavigationItems({
         nodeId: 'MockNavigationNode001',
         items: [
           {
@@ -91,7 +91,7 @@ describe('Navigation Entry Items Effects', () => {
           },
         ],
       });
-      const completion = new fromActions.LoadCmsNavigationItemsSuccess({
+      const completion = new CmsActions.LoadCmsNavigationItemsSuccess({
         nodeId: 'MockNavigationNode001',
         components: listComponents,
       });

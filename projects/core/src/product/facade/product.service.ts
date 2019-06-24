@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
+import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class ProductService {
-  constructor(protected store: Store<fromStore.StateWithProduct>) {}
+  constructor(protected store: Store<StateWithProduct>) {}
 
   private products: { [code: string]: Observable<Product> } = {};
 

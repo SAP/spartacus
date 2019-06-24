@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { delay, filter, mergeMap, pluck, switchMap } from 'rxjs/operators';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import { GlobalMessageType } from '../../models/global-message.model';
-import * as GlobalMessageActions from '../actions/global-message.actions';
+import { GlobalMessageActions } from '../actions/index';
 import { StateWithGlobalMessage } from '../global-message-state';
 import { GlobalMessageSelectors } from '../selectors/index';
 

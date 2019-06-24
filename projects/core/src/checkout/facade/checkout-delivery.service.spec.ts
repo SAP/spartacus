@@ -5,13 +5,14 @@ import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
 import { DeliveryMode } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
-import * as fromCheckout from '../store/index';
+import { CheckoutState } from '../store/checkout-state';
+import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
   let cartData: CartDataServiceStub;
-  let store: Store<fromCheckout.CheckoutState>;
+  let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
@@ -37,7 +38,7 @@ describe('CheckoutDeliveryService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
       ],
       providers: [
         CheckoutDeliveryService,
