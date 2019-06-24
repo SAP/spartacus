@@ -5,14 +5,14 @@ import { EMPTY, of } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
 import { ProductActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
-import { StateWithProduct } from '../store/product-state';
+import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
+import * as fromStoreReducers from '../store/reducers/index';
 import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
-  let store: Store<fromStore.ProductsState>;
+  let store: Store<StateWithProduct>;
   const mockSearchResults: ProductSearchPage = {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
@@ -34,7 +34,10 @@ describe('ProductSearchService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromStoreReducers.getReducers()
+        ),
       ],
       providers: [ProductSearchService],
     });

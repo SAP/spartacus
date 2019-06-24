@@ -4,7 +4,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
+import {
+  GlobalMessageState,
+  GLOBAL_MESSAGE_FEATURE,
+} from '../store/global-message-state';
+import * as fromStoreReducers from '../store/reducers/index';
 import { GlobalMessageService } from './global-message.service';
 import createSpy = jasmine.createSpy;
 
@@ -19,15 +23,15 @@ describe('GlobalMessageService', () => {
   );
 
   let service: GlobalMessageService;
-  let store: Store<fromStore.GlobalMessageState>;
+  let store: Store<GlobalMessageState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          fromStore.GLOBAL_MESSAGE_FEATURE,
-          fromStore.getReducers()
+          GLOBAL_MESSAGE_FEATURE,
+          fromStoreReducers.getReducers()
         ),
       ],
       providers: [GlobalMessageService],
