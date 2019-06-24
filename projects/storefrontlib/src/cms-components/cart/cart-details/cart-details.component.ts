@@ -24,7 +24,7 @@ export class CartDetailsComponent implements OnInit {
   }
 
   getAllPromotionsForCart(cart: Cart): Cart[] {
-    let potentialPromotions = [];
+    const potentialPromotions = [];
     if (cart.potentialOrderPromotions) {
       potentialPromotions.push(...cart.potentialOrderPromotions);
     }
@@ -32,7 +32,7 @@ export class CartDetailsComponent implements OnInit {
       potentialPromotions.push(...cart.potentialProductPromotions);
     }
 
-    let appliedPromotions = [];
+    const appliedPromotions = [];
     if (cart.appliedOrderPromotions) {
       appliedPromotions.push(...cart.appliedOrderPromotions);
     }
