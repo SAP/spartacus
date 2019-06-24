@@ -49,10 +49,10 @@ describe('Cart-voucher Actions', () => {
 
     describe('AddVoucherSuccess', () => {
       it('should create the action', () => {
-        const action = new fromCartVoucher.AddCartVoucherSuccess({});
+        const action = new fromCartVoucher.AddCartVoucherSuccess();
         expect({ ...action }).toEqual({
           type: fromCartVoucher.ADD_CART_VOUCHER_SUCCESS,
-          payload: {},
+          payload: undefined,
           meta: entitySuccessMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
       });

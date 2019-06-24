@@ -86,7 +86,7 @@ describe('Cart reducer', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new fromActions.AddCartVoucherSuccess({});
+      const action = new fromActions.AddCartVoucherSuccess();
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });

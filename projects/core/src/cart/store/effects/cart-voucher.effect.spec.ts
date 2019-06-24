@@ -24,7 +24,7 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
-fdescribe('Cart effect', () => {
+describe('Cart effect', () => {
   let voucherEffects: fromEffects.CartVoucherEffects;
   let actions$: Observable<any>;
   let cartVoucherConnector: CartVoucherConnector;
@@ -59,7 +59,7 @@ fdescribe('Cart effect', () => {
         cartId: cartId,
         voucherId: voucherId,
       });
-      const completion = new fromActions.AddCartVoucherSuccess({});
+      const completion = new fromActions.AddCartVoucherSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

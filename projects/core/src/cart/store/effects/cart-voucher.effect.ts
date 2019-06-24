@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { GlobalMessageType } from 'projects/core/src/global-message/models/global-message.model';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import * as fromActions from './../actions/cart-voucher.action';
 
@@ -25,7 +25,7 @@ export class CartVoucherEffects {
       return this.cartVoucherConnector
         .add(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
-          map((data: any) => {
+          map(() => {
             this.messageService.add(
               {
                 key: 'voucher.applyVoucherSuccess',
@@ -33,7 +33,7 @@ export class CartVoucherEffects {
               },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
-            return new fromActions.AddCartVoucherSuccess(data);
+            return new fromActions.AddCartVoucherSuccess();
           }),
           catchError(error => of(new fromActions.AddCartVoucherFail(error)))
         );

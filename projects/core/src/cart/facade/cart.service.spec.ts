@@ -3,8 +3,10 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService, UserToken } from '../../auth';
 import * as fromCart from '../../cart/store';
-import { Cart, Voucher } from '../../model/cart.model';
+import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { BaseSiteService } from '../../site-context';
 import { StateWithCart } from '../store/cart-state';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
@@ -57,6 +59,10 @@ describe('CartService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         CartService,
@@ -417,23 +423,20 @@ describe('CartService', () => {
         appliedVouchers: [{ code: 'voucher1' }, { code: 'voucher2' }],
       };
       store.dispatch(new fromCart.LoadCartSuccess(testCart));
-
-      let result: Voucher[];
       service
         .getAppliedVouchers()
-        .subscribe(value => (result = value))
+        .subscribe(value => expect(value).toEqual(testCart.appliedVouchers))
         .unsubscribe();
-      expect(result).toEqual(testCart.appliedVouchers);
     });
   });
 
   describe('add Voucher', () => {
-    it('should be able to addVoucher', () => {
-      spyOn(store, 'dispatch').and.callThrough();
+    
+    it('should dispatch addVoucher action', () => {
+      spyOn(store, 'dispatch').and.stub();
       cartData.userId = userId;
       cartData.cart = cart;
       cartData.cartId = cart.code;
-
       service.addVoucher(voucherId);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -443,6 +446,23 @@ describe('CartService', () => {
           voucherId: voucherId,
         })
       );
+    });
+
+    it('should return the error flag', () => {
+     
+      store.dispatch(new fromCart.AddCartVoucherFail('error'));
+      service
+        .getAddVoucherResultError()
+        .subscribe(result => expect(result).toEqual(true))
+        .unsubscribe();
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromCart.AddCartVoucherSuccess());
+      service
+        .getAddVoucherResultSuccess()
+        .subscribe(result => expect(result).toEqual(true))
+        .unsubscribe();
     });
   });
 

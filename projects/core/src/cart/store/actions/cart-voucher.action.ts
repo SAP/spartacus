@@ -22,7 +22,9 @@ export const REMOVE_CART_VOUCHER_SUCCESS = '[Cart] Remove Cart Voucher Success';
 // Adding cart voucher actions
 export class AddCartVoucher extends EntityLoadAction {
   readonly type = ADD_CART_VOUCHER;
-  constructor(public payload: any) {
+  constructor(
+    public payload: { userId: string; cartId: string; voucherId: string }
+  ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
@@ -36,7 +38,7 @@ export class AddCartVoucherFail extends EntityFailAction {
 
 export class AddCartVoucherSuccess extends EntitySuccessAction {
   readonly type = ADD_CART_VOUCHER_SUCCESS;
-  constructor(public payload: any) {
+  constructor() {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
@@ -44,7 +46,9 @@ export class AddCartVoucherSuccess extends EntitySuccessAction {
 // Deleting cart voucher
 export class RemoveCartVoucher extends LoaderLoadAction {
   readonly type = REMOVE_CART_VOUCHER;
-  constructor(public payload: any) {
+  constructor(
+    public payload: { userId: string; cartId: string; voucherId: string }
+  ) {
     super(CART_DATA);
   }
 }
