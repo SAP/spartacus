@@ -19,8 +19,10 @@ import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
 @Injectable()
 export class CartService {
-  private prevCartUserId = null;
-  private _activeCart$;
+  private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
+    'PREVIOUS_USER_ID_INITIAL_VALUE';
+  private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
+  private _activeCart$: Observable<Cart>;
 
   constructor(
     protected store: Store<StateWithCart>,
@@ -36,28 +38,20 @@ export class CartService {
       // additionally dispatching actions that changes selectors used here needs to happen in order
       // for this asyncScheduler is used here
       debounceTime(1, asyncScheduler),
-      tap(([cart, loading, userToken]) => {
-        if (
-          // we are only interested in case when we switch from not logged user to logged
-          // - check for userToken.userId !== undefined is used to ignore this action on logout
-          // - check for this.prevCartUserId !== null is used to ignore this action on page refresh for logged in user
-          this.prevCartUserId !== userToken.userId &&
-          typeof userToken.userId !== 'undefined' &&
-          this.prevCartUserId !== null &&
-          !loading
-        ) {
+      filter(([, loading]) => !loading),
+      tap(([cart, , userToken]) => {
+        if (this.isJustLoggedIn(userToken.userId)) {
           this.loadOrMerge();
+        } else if (this.isCreated(cart) && this.isIncomplete(cart)) {
+          this.load();
         }
-        if (!loading && this.isCreated(cart) && this.isIncomplete(cart)) {
-          this.loadDetails();
-        }
-        this.prevCartUserId = userToken.userId;
+
+        this.previousUserId = userToken.userId;
       }),
       filter(
-        ([cart, loading]) =>
-          !loading &&
-          (!this.isCreated(cart) ||
-            (this.isCreated(cart) && !this.isIncomplete(cart)))
+        ([cart]) =>
+          !this.isCreated(cart) ||
+          (this.isCreated(cart) && !this.isIncomplete(cart))
       ),
       map(([cart]) => cart),
       shareReplay({ bufferSize: 1, refCount: true })
@@ -80,29 +74,27 @@ export class CartService {
     return this.store.pipe(select(fromSelector.getCartLoaded));
   }
 
-  protected loadOrMerge(): void {
+  private loadOrMerge(): void {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
-    if (this.cartData.userId !== ANONYMOUS_USERID) {
-      if (!this.isCreated(this.cartData.cart)) {
-        this.store.dispatch(
-          new fromAction.LoadCart({
-            userId: this.cartData.userId,
-            cartId: 'current',
-          })
-        );
-      } else {
-        this.store.dispatch(
-          new fromAction.MergeCart({
-            userId: this.cartData.userId,
-            cartId: this.cartData.cart.guid,
-          })
-        );
-      }
+    if (!this.isCreated(this.cartData.cart)) {
+      this.store.dispatch(
+        new fromAction.LoadCart({
+          userId: this.cartData.userId,
+          cartId: 'current',
+        })
+      );
+    } else {
+      this.store.dispatch(
+        new fromAction.MergeCart({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cart.guid,
+        })
+      );
     }
   }
 
-  protected loadDetails(): void {
+  private load(): void {
     if (this.cartData.userId !== ANONYMOUS_USERID) {
       this.store.dispatch(
         new fromAction.LoadCart({
@@ -193,5 +185,13 @@ export class CartService {
    */
   private isIncomplete(cart: Cart): boolean {
     return cart && Object.keys(cart).length <= 2;
+  }
+
+  private isJustLoggedIn(userId: string): boolean {
+    return (
+      typeof userId !== 'undefined' && // logged in user
+      this.previousUserId !== userId && // *just* logged in
+      this.previousUserId !== this.PREVIOUS_USER_ID_INITIAL_VALUE // not app initialization
+    );
   }
 }
