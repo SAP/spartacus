@@ -1,47 +1,31 @@
-<br />
-<div class="cx-cart-coupons-label row col-md-8">
-  <label>
-    <span class="label-content">
-      {{ 'voucher.couponLabel' | cxTranslate }}
-    </span>
-  </label>
+<div class="cx-cart-coupon-title">
+  {{ 'voucher.couponLabel' | cxTranslate }}
 </div>
-<form (submit)="applyVoucher()" [formGroup]="form">
-  <div class="row">
-    <div class="form-group col-md-8">
-      <input
-        type="text"
-        class="form-control"
-        formControlName="couponCode"
-        placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
-      />
+<div>
+  <form (submit)="applyVoucher()" [formGroup]="form">
+    <div class="row">
+      <div class="form-group col-md-8">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="couponCode"
+          placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+        />
+      </div>
+      <div class="col-md-4">
+        <button
+          class="btn btn-block btn-action"
+          type="submit"
+          [disabled]="!enableBtn || cartIsLoading"
+          [class.disabled]="!enableBtn || cartIsLoading"
+        >
+          {{ 'voucher.apply' | cxTranslate }}
+        </button>
+      </div>
     </div>
-    <div class="col-md-4">
-      <button
-        class="btn btn-block btn-action"
-        type="submit"
-        [disabled]="!enableBtn || cartIsLoading"
-        [class.disabled]="!enableBtn || cartIsLoading"
-      >
-        {{ 'voucher.apply' | cxTranslate }}
-      </button>
-    </div>
-  </div>
-</form>
-
-<ng-container *ngIf="cart.appliedVouchers as vouchers">
-  <div *ngFor="let v of vouchers" class="row cx-actions col-12">
-    <span class="label-content">
-      {{ v.code }}
-    </span>
-    <span *ngIf="v.name" class="label-content"> - {{ v.name }} </span>
-    <button
-      class="link"
-      [class.disabled]="cartIsLoading"
-      [disabled]="cartIsLoading"
-      (click)="removeVoucher(v.code)"
-    >
-      {{ 'common.remove' | cxTranslate }}
-    </button>
-  </div>
-</ng-container>
+  </form>
+</div>
+<cx-applied-coupons
+  [vouchers]="cart.appliedVouchers"
+  [cartIsLoading]="cartIsLoading"
+></cx-applied-coupons>

@@ -1,0 +1,35 @@
+@import '../../../theme';
+
+%cx-cart-coupon {
+  display: block;
+
+  .cx-cart-coupon-title {
+    @include type('5');
+    margin: 1.125rem 0 0.5rem;
+    font-weight: var(--cx-g-font-weight-bold);
+  }
+
+  .cx-cart-coupon-item {
+    padding: 0 1rem 0.5rem 1rem;
+  }
+
+  .cx-cart-coupon-remove {
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--cx-g-color-background);
+    padding: 1rem 1rem 1rem 1rem;
+
+    button.link {
+      @include type('8');
+      background-color: var(--cx-g-color-background);
+      color: var(--cx-g-color-text);
+      border-width: 0;
+    }
+  }
+
+  .cx-coupon-code {
+    background-color: var(--cx-g-color-background);
+    padding: 1rem 1rem 1rem 1rem;
+    font-weight: var(--cx-g-font-weight-bold);
+  }
+}

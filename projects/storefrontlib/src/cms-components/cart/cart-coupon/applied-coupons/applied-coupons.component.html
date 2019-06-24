@@ -1,4 +1,19 @@
-<div class="cx-cart-coupons cx-promotions" *ngIf="vouchers">
-  {{ 'voucher.coupon' | cxTranslate }}
-  <div *ngFor="let v of vouchers">{{ v.code }}</div>
+<div *ngIf="vouchers">
+  <div *ngIf="isReadOnly">{{ 'voucher.coupon' | cxTranslate }}</div>
+
+  <div class="cx-cart-coupon-item row" *ngFor="let v of vouchers">
+    <div class="cx-coupon-code col-4">
+      {{ v.code }}
+    </div>
+    <div class="cx-cart-coupon-remove col-8" *ngIf="!isReadOnly">
+      <button
+        class="link"
+        [class.disabled]="cartIsLoading"
+        [disabled]="cartIsLoading"
+        (click)="removeVoucher(v.code)"
+      >
+        {{ 'common.remove' | cxTranslate }}
+      </button>
+    </div>
+  </div>
 </div>
