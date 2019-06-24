@@ -14,6 +14,7 @@ import {
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
+import { VariantRoutingModule } from './variant-semantic-path.service';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -69,6 +70,8 @@ if (!environment.production) {
         resources: translations,
       },
     }),
+
+    VariantRoutingModule,
 
     ...devImports,
   ],
