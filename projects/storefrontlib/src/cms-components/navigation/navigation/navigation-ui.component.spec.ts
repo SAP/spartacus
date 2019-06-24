@@ -230,6 +230,8 @@ describe('Navigation UI Component', () => {
       const first: HTMLElement = rootNavElements[0].nativeElement;
       const second: HTMLElement = rootNavElements[1].nativeElement;
 
+      console.log(first.parentElement);
+
       // First element should not focus when no element is focused
       expect(first).not.toBe(<HTMLElement>document.activeElement);
 

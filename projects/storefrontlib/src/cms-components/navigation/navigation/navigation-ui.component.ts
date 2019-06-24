@@ -108,7 +108,7 @@ export class NavigationUIComponent {
       : <HTMLElement>event.relatedTarget;
     if (
       target.ownerDocument.activeElement.matches('nav[tabindex]') &&
-      target.querySelector('cx-icon')
+      target.parentElement.matches('.flyout')
     ) {
       target.focus();
     }
