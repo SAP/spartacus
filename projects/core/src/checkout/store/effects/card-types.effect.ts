@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
-import * as fromAction from '../actions/card-types.action';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
+import * as fromAction from '../actions/card-types.action';
 
 @Injectable()
 export class CardTypesEffects {
@@ -18,7 +16,9 @@ export class CardTypesEffects {
     switchMap(() => {
       return this.checkoutPaymentConnector.getCardTypes().pipe(
         map(cardTypes => new fromAction.LoadCardTypesSuccess(cardTypes)),
-        catchError(error => of(new fromAction.LoadCardTypesFail(error)))
+        catchError(error =>
+          of(new fromAction.LoadCardTypesFail(makeErrorSerializable(error)))
+        )
       );
     })
   );

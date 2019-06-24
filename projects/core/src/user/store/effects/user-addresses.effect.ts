@@ -7,10 +7,11 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
+import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -28,7 +29,11 @@ export class UserAddressesEffects {
           );
         }),
         catchError(error =>
-          of(new fromUserAddressesAction.LoadUserAddressesFail(error))
+          of(
+            new fromUserAddressesAction.LoadUserAddressesFail(
+              makeErrorSerializable(error)
+            )
+          )
         )
       );
     })
@@ -48,7 +53,11 @@ export class UserAddressesEffects {
             return new fromUserAddressesAction.AddUserAddressSuccess(data);
           }),
           catchError(error =>
-            of(new fromUserAddressesAction.AddUserAddressFail(error))
+            of(
+              new fromUserAddressesAction.AddUserAddressFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -64,7 +73,7 @@ export class UserAddressesEffects {
       return this.userAddressConnector
         .update(payload.userId, payload.addressId, payload.address)
         .pipe(
-          map((data: any) => {
+          map(data => {
             // don't show the message if just setting address as default
             if (
               payload.address &&
@@ -79,7 +88,11 @@ export class UserAddressesEffects {
             }
           }),
           catchError(error =>
-            of(new fromUserAddressesAction.UpdateUserAddressFail(error))
+            of(
+              new fromUserAddressesAction.UpdateUserAddressFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -95,11 +108,15 @@ export class UserAddressesEffects {
       return this.userAddressConnector
         .delete(payload.userId, payload.addressId)
         .pipe(
-          map((data: any) => {
+          map(data => {
             return new fromUserAddressesAction.DeleteUserAddressSuccess(data);
           }),
           catchError(error =>
-            of(new fromUserAddressesAction.DeleteUserAddressFail(error))
+            of(
+              new fromUserAddressesAction.DeleteUserAddressFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })

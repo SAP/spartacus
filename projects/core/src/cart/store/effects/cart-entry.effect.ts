@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
-import * as fromActions from './../actions';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import * as fromActions from './../actions/index';
 
 @Injectable()
 export class CartEntryEffects {
   @Effect()
-  addEntry$: Observable<any> = this.actions$.pipe(
+  addEntry$: Observable<
+    fromActions.AddEntrySuccess | fromActions.AddEntryFail
+  > = this.actions$.pipe(
     ofType(fromActions.ADD_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
@@ -21,14 +23,18 @@ export class CartEntryEffects {
           payload.quantity
         )
         .pipe(
-          map((entry: any) => new fromActions.AddEntrySuccess(entry)),
-          catchError(error => of(new fromActions.AddEntryFail(error)))
+          map(entry => new fromActions.AddEntrySuccess(entry)),
+          catchError(error =>
+            of(new fromActions.AddEntryFail(makeErrorSerializable(error)))
+          )
         )
     )
   );
 
   @Effect()
-  removeEntry$: Observable<any> = this.actions$.pipe(
+  removeEntry$: Observable<
+    fromActions.RemoveEntrySuccess | fromActions.RemoveEntryFail
+  > = this.actions$.pipe(
     ofType(fromActions.REMOVE_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
@@ -38,13 +44,17 @@ export class CartEntryEffects {
           map(() => {
             return new fromActions.RemoveEntrySuccess();
           }),
-          catchError(error => of(new fromActions.RemoveEntryFail(error)))
+          catchError(error =>
+            of(new fromActions.RemoveEntryFail(makeErrorSerializable(error)))
+          )
         )
     )
   );
 
   @Effect()
-  updateEntry$: Observable<any> = this.actions$.pipe(
+  updateEntry$: Observable<
+    fromActions.UpdateEntrySuccess | fromActions.UpdateEntryFail
+  > = this.actions$.pipe(
     ofType(fromActions.UPDATE_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
@@ -54,7 +64,9 @@ export class CartEntryEffects {
           map(() => {
             return new fromActions.UpdateEntrySuccess();
           }),
-          catchError(error => of(new fromActions.UpdateEntryFail(error)))
+          catchError(error =>
+            of(new fromActions.UpdateEntryFail(makeErrorSerializable(error)))
+          )
         )
     )
   );
