@@ -417,21 +417,7 @@ describe('CartService', () => {
     });
   });
 
-  describe('getAppliedVouchers', () => {
-    it('should return voucher array', () => {
-      const testCart: Cart = <Cart>{
-        appliedVouchers: [{ code: 'voucher1' }, { code: 'voucher2' }],
-      };
-      store.dispatch(new fromCart.LoadCartSuccess(testCart));
-      service
-        .getAppliedVouchers()
-        .subscribe(value => expect(value).toEqual(testCart.appliedVouchers))
-        .unsubscribe();
-    });
-  });
-
   describe('add Voucher', () => {
-    
     it('should dispatch addVoucher action', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = userId;
@@ -449,7 +435,6 @@ describe('CartService', () => {
     });
 
     it('should return the error flag', () => {
-     
       store.dispatch(new fromCart.AddCartVoucherFail('error'));
       service
         .getAddVoucherResultError()
