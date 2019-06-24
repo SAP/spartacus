@@ -8,7 +8,7 @@ import {
 } from '@ngrx/store';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { ClientToken } from '../../models/token-types.model';
-import { LOGOUT } from '../actions/login-logout.action';
+import { AuthActions } from '../actions/index';
 import { AuthState, CLIENT_TOKEN_DATA } from '../auth-state';
 import * as fromUserTokenReducer from './user-token.reducer';
 
@@ -32,7 +32,7 @@ export function clearAuthState(
   reducer: ActionReducer<AuthState, Action>
 ): ActionReducer<AuthState, Action> {
   return function(state, action) {
-    if (action.type === LOGOUT) {
+    if (action.type === AuthActions.LOGOUT) {
       state = {
         ...state,
         userToken: undefined,

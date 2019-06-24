@@ -5,13 +5,14 @@ import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ClientToken } from '../../models/token-types.model';
 import { ClientAuthenticationTokenService } from '../../services/client-authentication/client-authentication-token.service';
-import { ClientTokenAction } from '../actions/client-token.action';
 import { AuthActions } from '../actions/index';
 
 @Injectable()
 export class ClientTokenEffect {
   @Effect()
-  loadClientToken$: Observable<ClientTokenAction> = this.actions$.pipe(
+  loadClientToken$: Observable<
+    AuthActions.ClientTokenAction
+  > = this.actions$.pipe(
     ofType(AuthActions.LOAD_CLIENT_TOKEN),
     exhaustMap(() => {
       return this.clientAuthenticationTokenService
