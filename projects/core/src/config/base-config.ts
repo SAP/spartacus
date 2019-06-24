@@ -34,6 +34,4 @@ export abstract class BaseConfig {
   production?: boolean;
 }
 
-export const defaultBaseConfig: BaseConfig = {
-  production: true,
-};
+export const defaultBaseConfig: BaseConfig = {};
