@@ -2,14 +2,14 @@ import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
 } from '../providers/context-service-map';
-import { SiteContextConfig } from './site-context-config';
+import { ContextPersistence, SiteContextConfig } from './site-context-config';
 
 export function defaultSiteContextConfigFactory(): SiteContextConfig {
   return {
     context: {
       parameters: {
         [LANGUAGE_CONTEXT_ID]: {
-          persistence: 'route',
+          persistence: ContextPersistence.ROUTE,
           default: 'en',
           values: [
             'en',
@@ -32,7 +32,7 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
           ],
         },
         [CURRENCY_CONTEXT_ID]: {
-          persistence: 'route',
+          persistence: ContextPersistence.ROUTE,
           default: 'USD',
           values: [
             'USD',

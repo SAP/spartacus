@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import {
-  ContextParamPersistence,
+  ContextPersistence,
   SiteContextConfig,
 } from '../config/site-context-config';
 import { SiteContext } from '../facade/site-context.interface';
@@ -14,7 +14,7 @@ export class SiteContextParamsService {
     private serviceMap: ContextServiceMap
   ) {}
 
-  getContextParameters(persistence?: ContextParamPersistence): string[] {
+  getContextParameters(persistence?: ContextPersistence | string): string[] {
     const contextConfig = this.config.context.parameters;
     if (contextConfig) {
       const params = Object.keys(contextConfig);
