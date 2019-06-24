@@ -7,7 +7,7 @@ import { Action } from '@ngrx/store';
 import { AuthActions } from '@spartacus/core';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import * as fromActions from '../actions/router.action';
+import { RoutingActions } from '../actions/index';
 import * as fromEffects from './router.effect';
 
 describe('Router Effects', () => {
@@ -37,7 +37,7 @@ describe('Router Effects', () => {
 
   describe('navigate$', () => {
     it('should navigate to path', () => {
-      const action = new fromActions.RouteGoAction({
+      const action = new RoutingActions.RouteGoAction({
         path: ['/test'],
       });
 
@@ -55,7 +55,7 @@ describe('Router Effects', () => {
 
   describe('navigateByUrl$', () => {
     it('should navigate to url', () => {
-      const action = new fromActions.RouteGoByUrlAction('/test');
+      const action = new RoutingActions.RouteGoByUrlAction('/test');
 
       actions$ = hot('-a', { a: action });
 
@@ -83,7 +83,7 @@ describe('Router Effects', () => {
 
   describe('navigateBack$', () => {
     it('should navigate back', () => {
-      const action = new fromActions.RouteBackAction();
+      const action = new RoutingActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 
@@ -96,7 +96,7 @@ describe('Router Effects', () => {
 
   describe('navigateForward$', () => {
     it('should navigate forward', () => {
-      const action = new fromActions.RouteBackAction();
+      const action = new RoutingActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 

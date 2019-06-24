@@ -8,14 +8,14 @@ import { map, tap } from 'rxjs/operators';
 import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
 import { CmsRoute } from '../../models/cms-route';
-import * as RouterActions from '../actions/router.action';
+import { RoutingActions } from '../actions/index';
 
 @Injectable()
 export class RouterEffects {
   @Effect({ dispatch: false })
   navigate$: Observable<any> = this.actions$.pipe(
-    ofType(RouterActions.ROUTER_GO),
-    map((action: RouterActions.RouteGoAction) => action.payload),
+    ofType(RoutingActions.ROUTER_GO),
+    map((action: RoutingActions.RouteGoAction) => action.payload),
     tap(({ path, query: queryParams, extras }) => {
       this.router.navigate(path, { queryParams, ...extras });
     })
@@ -23,8 +23,8 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   navigateBuUrl$: Observable<any> = this.actions$.pipe(
-    ofType(RouterActions.ROUTER_GO_BY_URL),
-    map((action: RouterActions.RouteGoAction) => action.payload),
+    ofType(RoutingActions.ROUTER_GO_BY_URL),
+    map((action: RoutingActions.RouteGoAction) => action.payload),
     tap(url => {
       this.router.navigateByUrl(url);
     })
@@ -45,13 +45,13 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   navigateBack$: Observable<Action> = this.actions$.pipe(
-    ofType(RouterActions.ROUTER_BACK),
+    ofType(RoutingActions.ROUTER_BACK),
     tap(() => this.location.back())
   );
 
   @Effect({ dispatch: false })
   navigateForward$: Observable<Action> = this.actions$.pipe(
-    ofType(RouterActions.ROUTER_FORWARD),
+    ofType(RoutingActions.ROUTER_FORWARD),
     tap(() => this.location.forward())
   );
 
