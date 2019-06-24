@@ -1,5 +1,5 @@
 import { CmsComponent } from '../../../model/cms.model';
-import * as fromActions from '../actions/navigation-entry-item.action';
+import { CmsActions } from '../actions/index';
 import { NavigationNodes } from '../cms-state';
 import * as fromComponent from './navigation-entry-item.reducer';
 
@@ -7,7 +7,7 @@ describe('Navigation Entry Item Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromComponent;
-      const action = {} as fromActions.CmsNavigationEntryItemAction;
+      const action = {} as CmsActions.CmsNavigationEntryItemAction;
       const state = fromComponent.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -37,7 +37,7 @@ describe('Navigation Entry Item Reducer', () => {
       };
 
       const { initialState } = fromComponent;
-      const action = new fromActions.LoadCmsNavigationItemsSuccess(mockPayload);
+      const action = new CmsActions.LoadCmsNavigationItemsSuccess(mockPayload);
       const state = fromComponent.reducer(initialState, action);
       expect(state).toEqual(mockNodes['testId']);
     });
