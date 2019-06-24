@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { asyncScheduler, combineLatest, Observable } from 'rxjs';
-import { debounceTime, filter, map, shareReplay, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+  shareReplay,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
@@ -114,33 +121,29 @@ export class CartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
-    if (!this.isCreated(this.cartData.cart)) {
-      this.store.dispatch(
-        new fromAction.CreateCart({ userId: this.cartData.userId })
-      );
-      const sub = this.getActive().subscribe(cart => {
-        if (!this.isIncomplete(cart)) {
-          this.store.dispatch(
-            new fromAction.AddEntry({
-              userId: this.cartData.userId,
-              cartId: this.cartData.cartId,
-              productCode: productCode,
-              quantity: quantity,
-            })
-          );
-          sub.unsubscribe();
-        }
+    this.store
+      .pipe(
+        select(fromSelector.getActiveCartState),
+        tap(cartState => {
+          if (!this.isCreated(cartState.value.content) && !cartState.loading) {
+            this.store.dispatch(
+              new fromAction.CreateCart({ userId: this.cartData.userId })
+            );
+          }
+        }),
+        filter(cartState => this.isCreated(cartState.value.content)),
+        take(1)
+      )
+      .subscribe(_ => {
+        this.store.dispatch(
+          new fromAction.AddEntry({
+            userId: this.cartData.userId,
+            cartId: this.cartData.cartId,
+            productCode: productCode,
+            quantity: quantity,
+          })
+        );
       });
-    } else {
-      this.store.dispatch(
-        new fromAction.AddEntry({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          productCode: productCode,
-          quantity: quantity,
-        })
-      );
-    }
   }
 
   removeEntry(entry: OrderEntry): void {
