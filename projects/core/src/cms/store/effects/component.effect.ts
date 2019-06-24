@@ -14,7 +14,7 @@ import { CmsComponent } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
-import * as componentActions from '../actions/component.action';
+import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class ComponentEffects {
@@ -26,11 +26,11 @@ export class ComponentEffects {
 
   @Effect()
   loadComponent$: Observable<
-    | componentActions.LoadCmsComponentSuccess<CmsComponent>
-    | componentActions.LoadCmsComponentFail
+    | CmsActions.LoadCmsComponentSuccess<CmsComponent>
+    | CmsActions.LoadCmsComponentFail
   > = this.actions$.pipe(
-    ofType(componentActions.LOAD_CMS_COMPONENT),
-    map((action: componentActions.LoadCmsComponent) => action.payload),
+    ofType(CmsActions.LOAD_CMS_COMPONENT),
+    map((action: CmsActions.LoadCmsComponent) => action.payload),
     groupBy(uid => uid),
     mergeMap(group =>
       group.pipe(
@@ -41,13 +41,10 @@ export class ComponentEffects {
             take(1),
             mergeMap(pageContext =>
               this.cmsComponentLoader.get(uid, pageContext).pipe(
-                map(
-                  data =>
-                    new componentActions.LoadCmsComponentSuccess(data, uid)
-                ),
+                map(data => new CmsActions.LoadCmsComponentSuccess(data, uid)),
                 catchError(error =>
                   of(
-                    new componentActions.LoadCmsComponentFail(
+                    new CmsActions.LoadCmsComponentFail(
                       uid,
                       makeErrorSerializable(error)
                     )
