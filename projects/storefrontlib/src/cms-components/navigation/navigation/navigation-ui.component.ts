@@ -49,7 +49,7 @@ export class NavigationUIComponent implements OnDestroy {
 
   private subscription: Subscription;
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     this.validateWrappersAndAlignToRightIfStickOut();
   }
