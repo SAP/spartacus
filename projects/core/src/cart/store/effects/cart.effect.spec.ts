@@ -12,7 +12,7 @@ import * as fromUser from '../../../user/store/index';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
-import * as fromCart from '../../store/index';
+import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
@@ -57,7 +57,7 @@ describe('Cart effect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('cart', fromCartReducers.getReducers()),
         StoreModule.forFeature('user', fromUser.getReducers()),
         StoreModule.forFeature('auth', fromAuth.getReducers()),
       ],

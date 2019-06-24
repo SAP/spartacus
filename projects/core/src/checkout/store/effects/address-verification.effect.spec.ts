@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { Address, AddressValidation } from '../../../model/address.model';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
 import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
-import { CheckoutActions } from './../actions/index';
+import { CheckoutActions } from '../actions/index';
 import { AddressVerificationEffect } from './address-verification.effect';
 
 const addressValidation: AddressValidation = {
