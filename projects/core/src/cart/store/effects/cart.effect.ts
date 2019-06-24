@@ -7,7 +7,7 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
-import { CartActions } from './../actions/index';
+import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartEffects {
