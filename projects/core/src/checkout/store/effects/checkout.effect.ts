@@ -147,7 +147,6 @@ export class CheckoutEffects {
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
-                details: true,
               }),
             ];
           }),
