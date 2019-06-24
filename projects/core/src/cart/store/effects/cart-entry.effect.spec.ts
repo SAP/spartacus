@@ -4,11 +4,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CartModification } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/index';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-entry.effect';
+
 import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
@@ -21,13 +21,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockCartEntryConnector {
-  add = createSpy().and.returnValue(
-    of({
-      entry: {
-        entryNumber: 1,
-      },
-    } as CartModification)
-  );
+  add = createSpy().and.returnValue(of({ entry: 'testEntry' }));
   remove = createSpy().and.returnValue(of({}));
   update = createSpy().and.returnValue(of({}));
 }
@@ -62,7 +56,9 @@ describe('Cart effect', () => {
         quantity: 1,
       });
       const completion = new CartActions.CartAddEntrySuccess({
-        entry: { entryNumber: 1 },
+        entry: 'testEntry',
+        userId,
+        cartId,
       });
 
       actions$ = hot('-a', { a: action });
@@ -79,7 +75,10 @@ describe('Cart effect', () => {
         cartId: cartId,
         entry: 'testEntryNumber',
       });
-      const completion = new CartActions.CartRemoveEntrySuccess();
+      const completion = new CartActions.CartRemoveEntrySuccess({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -96,7 +95,10 @@ describe('Cart effect', () => {
         entry: 'testEntryNumber',
         qty: 1,
       });
-      const completion = new CartActions.CartUpdateEntrySuccess();
+      const completion = new CartActions.CartUpdateEntrySuccess({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
