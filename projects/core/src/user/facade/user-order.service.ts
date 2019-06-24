@@ -4,20 +4,16 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
+import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
 import { UsersSelectors } from '../store/selectors/index';
+import { StateWithUser } from '../store/user-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserOrderService {
-  constructor(
-    protected store: Store<
-      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Returns an order's detail

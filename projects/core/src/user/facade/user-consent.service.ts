@@ -3,17 +3,17 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ConsentTemplate } from '../../model/consent.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
+import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { UserActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
   GIVE_CONSENT_PROCESS_ID,
+  StateWithUser,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
 
@@ -21,11 +21,7 @@ import {
   providedIn: 'root',
 })
 export class UserConsentService {
-  constructor(
-    protected store: Store<
-      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Retrieves all consents.

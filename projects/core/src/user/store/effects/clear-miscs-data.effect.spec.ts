@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../actions/index';
 import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
 
@@ -22,7 +22,7 @@ describe('ClearMiscsDataEffect', () => {
   describe('clearMiscsData$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: LANGUAGE_CHANGE,
+        type: SiteContextActions.LANGUAGE_CHANGE,
       };
 
       const completion = new UserActions.ClearUserMiscsData();

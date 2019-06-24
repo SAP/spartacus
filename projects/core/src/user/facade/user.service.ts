@@ -4,27 +4,25 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
+import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { UserActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
+  REMOVE_USER_PROCESS_ID,
+  StateWithUser,
   UPDATE_EMAIL_PROCESS_ID,
+  UPDATE_PASSWORD_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-state';
 
 @Injectable()
 export class UserService {
-  constructor(
-    protected store: Store<
-      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Returns a user
@@ -68,7 +66,7 @@ export class UserService {
    */
   getRemoveUserResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(fromStore.REMOVE_USER_PROCESS_ID))
+      select(getProcessLoadingFactory(REMOVE_USER_PROCESS_ID))
     );
   }
 
@@ -77,7 +75,7 @@ export class UserService {
    */
   getRemoveUserResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessErrorFactory(fromStore.REMOVE_USER_PROCESS_ID))
+      select(getProcessErrorFactory(REMOVE_USER_PROCESS_ID))
     );
   }
 
@@ -86,7 +84,7 @@ export class UserService {
    */
   getRemoveUserResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(fromStore.REMOVE_USER_PROCESS_ID))
+      select(getProcessSuccessFactory(REMOVE_USER_PROCESS_ID))
     );
   }
 
@@ -251,7 +249,7 @@ export class UserService {
    */
   getUpdatePasswordResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessLoadingFactory(UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 
@@ -260,7 +258,7 @@ export class UserService {
    */
   getUpdatePasswordResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessErrorFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessErrorFactory(UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 
@@ -269,7 +267,7 @@ export class UserService {
    */
   getUpdatePasswordResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessSuccessFactory(UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 

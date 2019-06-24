@@ -8,7 +8,7 @@ import { UserSignUp } from '../../../model/misc.model';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
-import * as fromStore from '../index';
+import * as fromStoreReducers from '../reducers/index';
 import { UserRegisterEffects } from './user-register.effect';
 
 const user: UserSignUp = {
@@ -28,8 +28,8 @@ describe('UserRegister effect', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers()),
+          ...fromStoreReducers.getReducers(),
+          user: combineReducers(fromStoreReducers.getReducers()),
         }),
       ],
       providers: [
