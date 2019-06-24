@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
 import * as fromUpdateEmailAction from '../actions/update-email.action';
 
@@ -31,7 +31,7 @@ export class UpdateEmailEffects {
           catchError(error =>
             of(
               new fromUpdateEmailAction.UpdateEmailErrorAction(
-                makeHttpErrorSerializable(error)
+                makeErrorSerializable(error)
               )
             )
           )
