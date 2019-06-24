@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
 import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import * as fromEntryActions from '../actions/cart-entry.action';
@@ -37,7 +38,9 @@ export class CartEffects {
           map((cart: Cart) => {
             return new fromActions.LoadCartSuccess(cart);
           }),
-          catchError(error => of(new fromActions.LoadCartFail(error)))
+          catchError(error =>
+            of(new fromActions.LoadCartFail(makeErrorSerializable(error)))
+          )
         );
     })
   );
@@ -66,7 +69,9 @@ export class CartEffects {
             }
             return [new fromActions.CreateCartSuccess(cart)];
           }),
-          catchError(error => of(new fromActions.CreateCartFail(error)))
+          catchError(error =>
+            of(new fromActions.CreateCartFail(makeErrorSerializable(error)))
+          )
         );
     })
   );
