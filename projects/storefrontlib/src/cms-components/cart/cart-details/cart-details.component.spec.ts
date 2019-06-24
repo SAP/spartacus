@@ -1,19 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
-  CartDataService,
   CartService,
   I18nTestingModule,
-  PromotionResult,
   OrderEntry,
+  PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
-import { By } from '@angular/platform-browser';
 
 class MockCartService {
   removeEntry(): void {}
@@ -51,10 +50,7 @@ describe('CartDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
       declarations: [CartDetailsComponent, MockCartItemListComponent],
-      providers: [
-        CartDataService,
-        { provide: CartService, useClass: MockCartService },
-      ],
+      providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));
 

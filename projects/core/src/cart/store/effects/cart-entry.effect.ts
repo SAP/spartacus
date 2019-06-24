@@ -23,7 +23,14 @@ export class CartEntryEffects {
           payload.quantity
         )
         .pipe(
-          map(entry => new CartActions.CartAddEntrySuccess(entry)),
+          map(
+            (entry: any) =>
+              new CartActions.CartAddEntrySuccess({
+                ...entry,
+                userId: payload.userId,
+                cartId: payload.cartId,
+              })
+          ),
           catchError(error =>
             of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
           )
@@ -42,7 +49,10 @@ export class CartEntryEffects {
         .remove(payload.userId, payload.cartId, payload.entry)
         .pipe(
           map(() => {
-            return new CartActions.CartRemoveEntrySuccess();
+            return new CartActions.CartRemoveEntrySuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
           catchError(error =>
             of(
@@ -64,7 +74,10 @@ export class CartEntryEffects {
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
           map(() => {
-            return new CartActions.CartUpdateEntrySuccess();
+            return new CartActions.CartUpdateEntrySuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
           catchError(error =>
             of(
