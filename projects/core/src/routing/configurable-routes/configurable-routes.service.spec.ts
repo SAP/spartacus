@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { ServerConfig } from '../../config/server-config/server-config';
-import { RoutingConfigService } from './routing-config.service';
-import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
+import { BaseConfig } from '../../config/index';
+import { ConfigurableRoutesService } from './configurable-routes.service';
+import { RoutingConfigService } from './routing-config.service';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 class MockServerConfig {
@@ -43,7 +43,7 @@ describe('ConfigurableRoutesService', () => {
           provide: RoutingConfigService,
           useClass: MockRoutingConfigService,
         },
-        { provide: ServerConfig, useClass: MockServerConfig },
+        { provide: BaseConfig, useClass: MockServerConfig },
         {
           provide: UrlMatcherFactoryService,
           useClass: MockUrlMatcherFactoryService,
@@ -56,7 +56,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     service = TestBed.get(ConfigurableRoutesService);
-    serverConfig = TestBed.get(ServerConfig);
+    serverConfig = TestBed.get(BaseConfig);
     router = TestBed.get(Router);
     routingConfigService = TestBed.get(RoutingConfigService);
 

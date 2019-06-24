@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, UrlTree, Router } from '@angular/router';
-
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { BaseConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { CheckoutConfigService } from '../checkout-config.service';
-import { ServerConfig, RoutingConfigService } from '@spartacus/core';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
@@ -18,7 +16,7 @@ export class DeliveryModeSetGuard implements CanActivate {
     private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
     private router: Router,
-    private serverConfig: ServerConfig
+    private serverConfig: BaseConfig
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { BaseConfig } from '../../../config/index';
 import { GlobalMessageService } from '../../facade/global-message.service';
-import { ServerConfig } from '../../../config/server-config/server-config';
 import { HttpResponseStatus } from '../../models/response-status.model';
 import { HttpErrorHandler } from './http-error.handler';
 
@@ -9,7 +9,7 @@ import { HttpErrorHandler } from './http-error.handler';
 })
 export class UnknownErrorHandler extends HttpErrorHandler {
   constructor(
-    private config: ServerConfig,
+    private config: BaseConfig,
     protected globalMessageService: GlobalMessageService
   ) {
     super(globalMessageService);

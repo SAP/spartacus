@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { UrlParsingService } from './url-parsing.service';
-import { ServerConfig } from '../../../config/server-config/server-config';
-import { RouteConfig, ParamsMapping } from '../routes-config';
-import { getParamName, isParam } from './path-utils';
-import { UrlCommandRoute, UrlCommands, UrlCommand } from './url-command';
+import { BaseConfig } from '../../../config/index';
+import { ParamsMapping, RouteConfig } from '../routes-config';
 import { RoutingConfigService } from '../routing-config.service';
+import { getParamName, isParam } from './path-utils';
+import { UrlCommand, UrlCommandRoute, UrlCommands } from './url-command';
+import { UrlParsingService } from './url-parsing.service';
 
 @Injectable({ providedIn: 'root' })
 export class SemanticPathService {
@@ -13,7 +13,7 @@ export class SemanticPathService {
   constructor(
     protected routingConfigService: RoutingConfigService,
     protected urlParser: UrlParsingService,
-    protected config: ServerConfig
+    protected config: BaseConfig
   ) {}
 
   /**

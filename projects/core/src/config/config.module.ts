@@ -1,21 +1,18 @@
+import { CommonModule } from '@angular/common';
 import {
   InjectionToken,
   ModuleWithProviders,
   NgModule,
-  Provider,
   Optional,
+  Provider,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  defaultServerConfig,
-  ServerConfig,
-} from './server-config/server-config';
-import { deepMerge } from './utils/deep-merge';
+import { BaseConfig, defaultBaseConfig } from './base-config';
 import {
   ConfigValidator,
   ConfigValidatorToken,
   validateConfig,
 } from './utils/config-validator';
+import { deepMerge } from './utils/deep-merge';
 
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app
@@ -112,8 +109,8 @@ export class ConfigModule {
     return {
       ngModule: ConfigModule,
       providers: [
-        { provide: ServerConfig, useExisting: Config },
-        provideConfig(defaultServerConfig),
+        { provide: BaseConfig, useExisting: Config },
+        provideConfig(defaultBaseConfig),
         provideConfig(config),
         {
           provide: Config,

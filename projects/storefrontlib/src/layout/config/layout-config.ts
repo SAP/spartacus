@@ -1,4 +1,4 @@
-import { ServerConfig } from '@spartacus/core';
+import { BaseConfig } from '@spartacus/core';
 
 export enum BREAKPOINT {
   xs = 'xs',
@@ -40,7 +40,7 @@ export type LayoutSlotConfig = {
  * adaptive design per breadpoint (not per device type), so that the DOM is (re)rendered
  * por a given breakpoint.
  */
-export abstract class LayoutConfig extends ServerConfig {
+export abstract class LayoutConfig extends BaseConfig {
   /** The breakpoint configuration is used when the DOM is (re)rendered in specific view.
    * This allows for adaptive rendering, so that the DOM is rendered for specific breakpoints. */
   breakpoints?: {

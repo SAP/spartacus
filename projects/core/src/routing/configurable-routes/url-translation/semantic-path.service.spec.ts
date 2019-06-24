@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UrlParsingService } from './url-parsing.service';
-import { SemanticPathService } from './semantic-path.service';
+import { BaseConfig } from '../../../config/index';
 import { RouteConfig } from '../routes-config';
-import { UrlCommands } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
+import { SemanticPathService } from './semantic-path.service';
+import { UrlCommands } from './url-command';
+import { UrlParsingService } from './url-parsing.service';
 
 const mockRoutingConfigService = {
   getRouteConfig: () => {},
@@ -13,7 +13,7 @@ const mockRoutingConfigService = {
 
 describe('SemanticPathService', () => {
   let service: SemanticPathService;
-  let serverConfig: ServerConfig;
+  let serverConfig: BaseConfig;
   let routingConfigService: RoutingConfigService;
 
   beforeEach(() => {
@@ -26,12 +26,12 @@ describe('SemanticPathService', () => {
           provide: RoutingConfigService,
           useValue: mockRoutingConfigService,
         },
-        { provide: ServerConfig, useValue: {} },
+        { provide: BaseConfig, useValue: {} },
       ],
     });
 
     service = TestBed.get(SemanticPathService);
-    serverConfig = TestBed.get(ServerConfig);
+    serverConfig = TestBed.get(BaseConfig);
     routingConfigService = TestBed.get(RoutingConfigService);
   });
 

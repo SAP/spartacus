@@ -4,14 +4,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import {
+  BaseConfig,
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
-  ServerConfig,
 } from '@spartacus/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { HttpResponseStatus } from '../models/response-status.model';
 import {
   BadGatewayHandler,
@@ -30,7 +30,7 @@ describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
   let http: HttpClient;
-  const MockServerConfig: ServerConfig = { production: false };
+  const MockServerConfig: BaseConfig = { production: false };
 
   beforeEach(() => {
     mockMessageService = {
@@ -94,7 +94,7 @@ describe('HttpErrorInterceptor', () => {
           multi: true,
         },
         { provide: GlobalMessageService, useValue: mockMessageService },
-        { provide: ServerConfig, useValue: MockServerConfig },
+        { provide: BaseConfig, useValue: MockServerConfig },
       ],
     });
 

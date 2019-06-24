@@ -1,6 +1,6 @@
-import { ServerConfig } from '../../config/server-config/server-config';
+import { BaseConfig } from '../../config/index';
 
-export abstract class OccConfig extends ServerConfig {
+export abstract class OccConfig extends BaseConfig {
   site?: {
     baseSite?: string;
     language?: string;

@@ -1,13 +1,13 @@
 import { Injectable, Injector } from '@angular/core';
-import { Routes, Router, Route } from '@angular/router';
-import { ServerConfig } from '../../config/server-config/server-config';
+import { Route, Router, Routes } from '@angular/router';
+import { BaseConfig } from '../../config/index';
 import { RoutingConfigService } from './routing-config.service';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
   constructor(
-    private config: ServerConfig,
+    private config: BaseConfig,
     private injector: Injector,
     private routingConfigService: RoutingConfigService,
     private urlMatcherFactory: UrlMatcherFactoryService
