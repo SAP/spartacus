@@ -12,6 +12,7 @@ import { translations } from '@spartacus/assets';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
+  StorefrontConfig,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 
@@ -68,7 +69,7 @@ if (!environment.production) {
       i18n: {
         resources: translations,
       },
-    }),
+    } as StorefrontConfig),
 
     ...devImports,
   ],

@@ -1,5 +1,6 @@
 import {
   AuthConfig,
+  BaseConfig,
   CmsConfig,
   GlobalMessageConfig,
   I18nConfig,
@@ -16,6 +17,7 @@ import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { LayoutConfig } from './layout/config/layout-config';
 
 export type StorefrontConfig =
+  | BaseConfig
   | AuthConfig
   | CmsConfig
   | OccConfig
