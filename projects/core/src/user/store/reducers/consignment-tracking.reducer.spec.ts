@@ -29,4 +29,13 @@ describe('Consignment Tracking Reducer', () => {
       expect(state.tracking).toEqual(mockTracking);
     });
   });
+
+  describe('CLEAR_CONSIGNMENT_TRACKING action', () => {
+    it('should return the default state', () => {
+      const { initialState } = fromTrackingReducer;
+      const action = new fromTrackingAction.ClearConsignmentTracking();
+      const state = fromTrackingReducer.reducer(initialState, action);
+      expect(state).toBe(initialState);
+    });
+  });
 });

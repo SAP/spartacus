@@ -143,4 +143,11 @@ describe('UserOrderService', () => {
       })
     );
   });
+
+  it('should be able to clear consignment tracking', () => {
+    service.clearConsignmentTracking();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ClearConsignmentTracking()
+    );
+  });
 });

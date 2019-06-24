@@ -69,26 +69,43 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should show tracking info', () => {
+    const eventDate = new Date('2019-01-06T07:18:22+0000');
     component.tracking$ = of<ConsignmentTracking>({
       carrierDetails: {
         code: 'MockCarrier',
         name: 'MockCarrier',
       },
       trackingID: '1234567890',
+      trackingEvents: [
+        {
+          detail: 'Your package has reached(Mock).',
+          eventDate: eventDate,
+          location: 'Boulder CO 80301, United States',
+          referenceCode: 'DELIVERY_COMPLETED',
+        },
+        {
+          detail: 'The package is delivering(Mock).',
+          eventDate: eventDate,
+          location: 'Evans Mills NY 13637, United States',
+          referenceCode: 'DELIVERING',
+        },
+        {
+          detail: 'The package is transferring(Mock).',
+          eventDate: eventDate,
+          location: 'Farmingdale NY 11735, United States',
+          referenceCode: 'IN_TRANSIT',
+        },
+      ],
     });
     fixture.detectChanges();
     expect(el.query(By.css('.shipment-heading'))).toBeTruthy();
-  });
-
-  it('should be able to clear state when destorying component', () => {
-    fixture.detectChanges();
-    component.ngOnDestroy();
-    expect(userOrderService.clearConsignmentTracking).toHaveBeenCalled();
+    expect(el.queryAll(By.css('.event-body')).length).toBe(3);
   });
 
   it('should be able to close dialog', () => {
     fixture.detectChanges();
     el.query(By.css('button')).nativeElement.click();
     expect(ngbActiveModal.dismiss).toHaveBeenCalledWith('Cross click');
+    expect(userOrderService.clearConsignmentTracking).toHaveBeenCalled();
   });
 });

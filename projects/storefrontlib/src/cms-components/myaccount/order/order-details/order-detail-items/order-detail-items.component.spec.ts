@@ -66,11 +66,11 @@ const mockOrder: Order = {
 };
 
 const consignmentStatus: string[] = [
-  'SHIPPED',
-  'IN_TRANSIT',
-  'DELIVERY_COMPLETED',
-  'DELIVERY_REJECTED',
   'DELIVERING',
+  'DELIVERY_REJECTED',
+  'DELIVERY_COMPLETED',
+  'IN_TRANSIT',
+  'SHIPPED',
 ];
 
 @Component({
@@ -96,7 +96,17 @@ describe('OrderDetailItemsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
   let modalInstance: any;
-
+  const arrayEqyals = (array1: string[], array2: string[]) => {
+    let equals = false;
+    if (array1 && array2) {
+      equals =
+        array1.length === array2.length &&
+        array1.every(element => {
+          return array2.includes(element);
+        });
+    }
+    return equals;
+  };
   const userOrderService = jasmine.createSpyObj('UserOrderService', [
     'getConsignmentTracking',
     'loadConsignmentTracking',
@@ -163,15 +173,21 @@ describe('OrderDetailItemsComponent', () => {
       fixture.detectChanges();
       expect(el.query(By.css('.btn'))).toBeTruthy();
     });
-
-    expect(el.query(By.css('.btn'))).toBeTruthy();
+    expect(
+      arrayEqyals(consignmentStatus, component.consignmentStatus)
+    ).toBeTruthy();
   });
 
   it('should not display tracking package button', () => {
     const order: Order = mockOrder;
-    order.consignments[0].status = 'WAITING';
+    const status = 'WAITING';
+    order.consignments[0].status = status;
     component.order$ = of(order);
     fixture.detectChanges();
+    expect(
+      arrayEqyals(consignmentStatus, component.consignmentStatus)
+    ).toBeTruthy();
+    expect(consignmentStatus.includes(status)).toBeFalsy();
     expect(el.query(By.css('.btn'))).toBeFalsy();
   });
 

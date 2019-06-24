@@ -44,4 +44,13 @@ describe('Consignment Tracking Actions', () => {
       });
     });
   });
+
+  describe('Clear Consignment Tracking Action', () => {
+    it('should create the action', () => {
+      const action = new fromAction.ClearConsignmentTracking();
+      expect({ ...action }).toEqual({
+        type: fromAction.CLEAR_CONSIGNMENT_TRACKING,
+      });
+    });
+  });
 });
