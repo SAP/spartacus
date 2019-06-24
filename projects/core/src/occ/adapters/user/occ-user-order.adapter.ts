@@ -49,10 +49,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       .get<Occ.Order>(orderUrl, {
         params: params,
       })
-      .pipe(
-        catchError((error: any) => throwError(error.json())),
-        this.converter.pipeable(ORDER_NORMALIZER)
-      );
+      .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 
   public loadHistory(
@@ -73,10 +70,9 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       params = params.set('sort', sort);
     }
 
-    return this.http.get<Occ.OrderHistoryList>(url, { params: params }).pipe(
-      catchError((error: any) => throwError(error.json())),
-      this.converter.pipeable(ORDER_HISTORY_NORMALIZER)
-    );
+    return this.http
+      .get<Occ.OrderHistoryList>(url, { params: params })
+      .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
   }
 
   public getConsignmentTracking(

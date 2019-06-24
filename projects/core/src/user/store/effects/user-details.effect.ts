@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { User } from '../../../model/misc.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
+import * as fromUserDetailsAction from '../actions/user-details.action';
 
 @Injectable()
 export class UserDetailsEffects {
@@ -20,7 +21,11 @@ export class UserDetailsEffects {
           return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
         }),
         catchError(error =>
-          of(new fromUserDetailsAction.LoadUserDetailsFail(error))
+          of(
+            new fromUserDetailsAction.LoadUserDetailsFail(
+              makeErrorSerializable(error)
+            )
+          )
         )
       );
     })
@@ -42,7 +47,11 @@ export class UserDetailsEffects {
             )
         ),
         catchError(error =>
-          of(new fromUserDetailsAction.UpdateUserDetailsFail(error))
+          of(
+            new fromUserDetailsAction.UpdateUserDetailsFail(
+              makeErrorSerializable(error)
+            )
+          )
         )
       )
     )

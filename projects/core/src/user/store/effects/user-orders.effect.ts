@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
-
-import { USER_ORDERS } from '../user-state';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { OrderHistoryList } from '../../../model/order.model';
+import { LoaderResetAction } from '../../../state';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { CLEAR_MISCS_DATA } from '../actions/index';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { LoaderResetAction } from '../../../state';
-import { OrderHistoryList } from '../../../model/order.model';
-import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { USER_ORDERS } from '../user-state';
 
 @Injectable()
 export class UserOrdersEffect {
@@ -39,7 +37,11 @@ export class UserOrdersEffect {
             return new fromUserOrdersAction.LoadUserOrdersSuccess(orders);
           }),
           catchError(error =>
-            of(new fromUserOrdersAction.LoadUserOrdersFail(error))
+            of(
+              new fromUserOrdersAction.LoadUserOrdersFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
