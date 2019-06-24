@@ -48,4 +48,7 @@
 </div>
 
 <cx-promotions [promotions]="cart.appliedOrderPromotions"></cx-promotions>
-<cx-applied-coupons [vouchers]="cart.appliedVouchers"></cx-applied-coupons>
+<cx-applied-coupons
+  [vouchers]="cart.appliedVouchers"
+  [isReadOnly]="true"
+></cx-applied-coupons>

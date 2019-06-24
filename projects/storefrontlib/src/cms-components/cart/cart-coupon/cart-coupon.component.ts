@@ -47,10 +47,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.cartService.addVoucher(this.form.value.couponCode);
   }
 
-  removeVoucher(voucherId: string) {
-    this.cartService.removeVoucher(voucherId);
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

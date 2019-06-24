@@ -31,7 +31,7 @@ export const cart = {
   voucher: {
     coupon: 'Coupons:',
     apply: 'Apply',
-    couponLabel: 'COUPON',
+    couponLabel: 'Coupon',
     placeholder: 'Enter coupon code',
     applyVoucherSuccess: '{{voucherCode}} has been applied.',
     removeVoucherSuccess: '{{voucherCode}} has been removed.',

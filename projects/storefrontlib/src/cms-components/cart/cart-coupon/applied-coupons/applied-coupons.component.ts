@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Voucher } from '@spartacus/core';
+import { CartService, Voucher } from '@spartacus/core';
 
 @Component({
   selector: 'cx-applied-coupons',
@@ -10,8 +10,16 @@ export class AppliedCouponsComponent implements OnInit {
 
   @Input()
   vouchers: Voucher[];
+  @Input()
+  isReadOnly = false;
+  @Input()
+  cartIsLoading = false;
 
-  constructor() {}
+  constructor(private cartService: CartService) {}
+
+  removeVoucher(voucherId: string) {
+    this.cartService.removeVoucher(voucherId);
+  }
 
   ngOnInit() {}
 }
