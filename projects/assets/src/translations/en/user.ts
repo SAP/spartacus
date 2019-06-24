@@ -68,10 +68,6 @@ export const user = {
     bothPasswordMustMatch: 'Both password must match',
     titleRequired: 'Title is required.',
   },
-  login: {
-    userGreeting: 'Hi, {{name}}',
-    signInRegister: 'Sign In / Register',
-  },
   updateEmailForm: {
     newEmailAddress: {
       label: 'New email address',

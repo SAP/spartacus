@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
-  CartDataService,
   CartService,
   I18nTestingModule,
   OrderEntry,
@@ -51,10 +50,7 @@ describe('CartDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
       declarations: [CartDetailsComponent, MockCartItemListComponent],
-      providers: [
-        CartDataService,
-        { provide: CartService, useClass: MockCartService },
-      ],
+      providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));
 

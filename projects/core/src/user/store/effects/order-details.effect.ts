@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Order } from '../../../model/order.model';
-import { makeHttpErrorSerializable } from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 
@@ -23,7 +23,7 @@ export class OrderDetailsEffect {
         catchError(error =>
           of(
             new fromOrderDetailsAction.LoadOrderDetailsFail(
-              makeHttpErrorSerializable(error)
+              makeErrorSerializable(error)
             )
           )
         )
