@@ -7,7 +7,7 @@ export enum ContextPersistence {
   // COOKIE = 'cookie'
 }
 
-export interface ContextParams {
+export interface ContextParameter {
   persistence?: ContextPersistence | string;
   default?: string;
   values?: string[];
@@ -16,7 +16,7 @@ export interface ContextParams {
 export abstract class SiteContextConfig {
   context?: {
     parameters?: {
-      [contextName: string]: ContextParams;
+      [contextName: string]: ContextParameter;
     };
     urlEncodingParameters?: string[];
   };

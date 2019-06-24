@@ -1,5 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import {
+  ContextParameter,
   ContextPersistence,
   SiteContextConfig,
 } from '../config/site-context-config';
@@ -29,18 +30,21 @@ export class SiteContextParamsService {
     return [];
   }
 
+  getParameter(param: string): ContextParameter {
+    return (
+      (this.config.context &&
+        this.config.context.parameters &&
+        this.config.context.parameters[param]) ||
+      {}
+    );
+  }
+
   getParamValues(param: string): string[] {
-    return this.config.context.parameters &&
-      this.config.context.parameters[param]
-      ? this.config.context.parameters[param].values
-      : undefined;
+    return this.getParameter(param).values;
   }
 
   getParamDefaultValue(param: string): string {
-    return this.config.context.parameters &&
-      this.config.context.parameters[param]
-      ? this.config.context.parameters[param].default
-      : undefined;
+    return this.getParameter(param).default;
   }
 
   getSiteContextService(param: string): SiteContext<any> {

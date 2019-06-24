@@ -24,8 +24,10 @@ export class SiteContextInterceptor implements HttpInterceptor {
     private config: SiteContextConfig
   ) {
     const ctxParams = this.config.context && this.config.context.parameters;
-    this.activeLang = ctxParams && ctxParams.language.default;
-    this.activeCurr = ctxParams && ctxParams.currency.default;
+    this.activeLang =
+      ctxParams && ctxParams.language && ctxParams.language.default;
+    this.activeCurr =
+      ctxParams && ctxParams.currency && ctxParams.currency.default;
 
     this.languageService
       .getActive()
