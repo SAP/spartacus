@@ -1,9 +1,5 @@
 import { CartModification } from '../../../model/cart.model';
-import {
-  LoaderFailAction,
-  LoaderLoadAction,
-  LoaderSuccessAction,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/index';
 import { CART_DATA } from '../cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
@@ -18,63 +14,63 @@ export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
 export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
-export class CartAddEntry extends LoaderLoadAction {
+export class CartAddEntry extends StateLoaderActions.LoaderLoadAction {
   readonly type = CART_ADD_ENTRY;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class CartAddEntrySuccess extends LoaderSuccessAction {
+export class CartAddEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_ADD_ENTRY_SUCCESS;
   constructor(public payload: CartModification) {
     super(CART_DATA);
   }
 }
 
-export class CartAddEntryFail extends LoaderFailAction {
+export class CartAddEntryFail extends StateLoaderActions.LoaderFailAction {
   readonly type = CART_ADD_ENTRY_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class CartRemoveEntry extends LoaderLoadAction {
+export class CartRemoveEntry extends StateLoaderActions.LoaderLoadAction {
   readonly type = CART_REMOVE_ENTRY;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class CartRemoveEntrySuccess extends LoaderSuccessAction {
+export class CartRemoveEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
   constructor() {
     super(CART_DATA);
   }
 }
 
-export class CartRemoveEntryFail extends LoaderFailAction {
+export class CartRemoveEntryFail extends StateLoaderActions.LoaderFailAction {
   readonly type = CART_REMOVE_ENTRY_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class CartUpdateEntry extends LoaderLoadAction {
+export class CartUpdateEntry extends StateLoaderActions.LoaderLoadAction {
   readonly type = CART_UPDATE_ENTRY;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class CartUpdateEntrySuccess extends LoaderSuccessAction {
+export class CartUpdateEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
   constructor() {
     super(CART_DATA);
   }
 }
 
-export class CartUpdateEntryFail extends LoaderFailAction {
+export class CartUpdateEntryFail extends StateLoaderActions.LoaderFailAction {
   readonly type = CART_UPDATE_ENTRY_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
