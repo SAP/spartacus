@@ -12,7 +12,7 @@
     transition: 0.3s;
 
     &:checked + .cx-facet-text {
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
   }
 
@@ -27,9 +27,9 @@
     }
 
     .cx-facet-label {
-      color: var(--cx-g-color-secondary);
+      color: var(--cx-color-secondary);
       @include type(6);
-      font-weight: var(--cx-g-font-weight-normal);
+      font-weight: var(--cx-font-weight-normal);
       position: relative;
       margin: 0;
       display: flex;
@@ -38,7 +38,7 @@
       cursor: pointer;
 
       &:hover .cx-facet-checkbox:not(:checked) {
-        background-color: var(--cx-g-color-light);
+        background-color: var(--cx-color-light);
       }
 
       .cx-facet-text {
@@ -54,12 +54,12 @@
   .cx-facet-header {
     border-width: 0 0 1px 0;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     @include type(4);
-    color: var(--cx-g-color-text);
+    color: var(--cx-color-text);
     margin: 0 0 17px 0;
     display: block;
-    font-weight: var(--cx-g-font-weight-semi);
+    font-weight: var(--cx-font-weight-semi);
 
     &-link {
       padding: 5px;
@@ -68,7 +68,7 @@
       transition: 0.3s;
 
       &:hover {
-        background-color: var(--cx-g-color-light);
+        background-color: var(--cx-color-light);
       }
     }
 
@@ -79,7 +79,7 @@
         font-size: 12px;
         top: 5px;
         position: relative;
-        color: var(--cx-g-color-secondary);
+        color: var(--cx-color-secondary);
       }
     }
 
@@ -90,7 +90,7 @@
         font-size: 14px;
         top: 5px;
         position: relative;
-        color: var(--cx-g-color-secondary);
+        color: var(--cx-color-secondary);
       }
     }
   }
@@ -105,7 +105,7 @@
 
   .cx-facet-filter-header {
     @include type(3);
-    color: var(--cx-g-color-text);
+    color: var(--cx-color-text);
     padding: 0 0 10px 0;
     margin: 0 0 20px 0;
 
@@ -116,7 +116,7 @@
   }
 
   .cx-facet-filter-pill {
-    background: var(--cx-g-color-light);
+    background: var(--cx-color-light);
     padding: 7px 15px 7px 13px;
     margin: 10px 10px 5px 0;
     display: inline-flex;
@@ -139,11 +139,22 @@
 
     button {
       margin: 0 0 0 10px;
-      flex: 0 0 1rem;
+      line-height: 0.9;
 
       span {
         vertical-align: middle;
       }
+    }
+  }
+
+  .cx-facet-pill-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 203px;
+
+    @include media-breakpoint-only(sm) {
+      max-width: 100%;
     }
   }
 
@@ -171,7 +182,7 @@
 
     .cx-facet-modal-label {
       @include type(4);
-      font-weight: var(--cx-g-font-weight-semi);
+      font-weight: var(--cx-font-weight-semi);
       margin: 0 0 27px 0;
     }
   }

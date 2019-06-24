@@ -1,29 +1,32 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   HostBinding,
+  Input,
+  OnDestroy,
   Renderer2,
-  SimpleChanges,
-  OnChanges,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
-
-const COLUMN_SIZE = 10;
 
 @Component({
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationUIComponent implements OnChanges {
+export class NavigationUIComponent implements OnDestroy {
   /**
    * The navigation node to render.
    */
   @Input() node: NavigationNode;
+
+  /**
+   * The number of child nodes that must be wrapped.
+   */
+  @Input() wrapAfter: number;
 
   /**
    * the icon type that will be used for navigation nodes
@@ -42,8 +45,10 @@ export class NavigationUIComponent implements OnChanges {
 
   private openNodes: HTMLElement[] = [];
 
+  private subscription: Subscription;
+
   constructor(private router: Router, private renderer: Renderer2) {
-    this.router.events
+    this.subscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.clear());
   }
@@ -98,39 +103,9 @@ export class NavigationUIComponent implements OnChanges {
     }
   }
 
-  // Recursively break nodes with more than COLUMN_SIZE into sub nodes to create columns
-  breakNodesIntoColumns(
-    node: NavigationNode,
-    columnSize: number
-  ): NavigationNode {
-    if (node.hasOwnProperty('children')) {
-      // Check if too many children for column
-      if (node.children.length > columnSize) {
-        const clonedNode: NavigationNode = { ...node };
-        node.children = [];
-        // Break node into subnodes with children length of columnSize
-        while (clonedNode.children.length > 0) {
-          const newSubNode: NavigationNode = { title: null, children: [] };
-          newSubNode.children.push(
-            ...clonedNode.children.splice(0, columnSize)
-          );
-          node.children.push(newSubNode);
-        }
-      }
-
-      // Recursively do the same with child nodes
-      node.children.forEach(child => {
-        child = this.breakNodesIntoColumns(child, columnSize);
-      });
-    }
-
-    return node;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // Recursively break into columns once node exists on component
-    if (changes.node.currentValue) {
-      this.node = this.breakNodesIntoColumns(this.node, COLUMN_SIZE);
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }

@@ -18,7 +18,7 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/icon';
 import { CheckoutConfigService } from '../../checkout-config.service';
@@ -34,6 +34,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
   selectedPayment: PaymentDetails;
+  newPayment = false;
 
   private getPaymentDetailsSub: Subscription;
   private getDeliveryAddressSub: Subscription;
@@ -65,13 +66,24 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
 
+    this.getDeliveryAddressSub = this.checkoutDeliveryService
+      .getDeliveryAddress()
+      .subscribe((address: Address) => {
+        this.deliveryAddress = address;
+      });
+
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
     this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .pipe(
         filter(
           paymentInfo => paymentInfo && Object.keys(paymentInfo).length !== 0
-        )
+        ),
+        tap(paymentInfo => {
+          if (paymentInfo === this.selectedPayment || this.newPayment) {
+            this.routingService.go(this.checkoutStepUrlNext);
+          }
+        })
       )
       .subscribe(paymentInfo => {
         if (!paymentInfo['hasError']) {
@@ -156,11 +168,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     paymentDetails: PaymentDetails;
     billingAddress: Address;
   }): void {
-    this.getDeliveryAddressSub = this.checkoutDeliveryService
-      .getDeliveryAddress()
-      .subscribe(address => {
-        billingAddress = address;
-      });
     this.addPaymentInfo({
       payment: paymentDetails,
       billingAddress,
@@ -177,30 +184,18 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     payment: PaymentDetails;
     billingAddress?: Address;
   }): void {
-    payment.billingAddress = billingAddress
-      ? billingAddress
-      : this.deliveryAddress;
-
     if (newPayment) {
+      payment.billingAddress = billingAddress
+        ? billingAddress
+        : this.deliveryAddress;
+
       this.checkoutPaymentService.createPaymentDetails(payment);
       this.checkoutService.clearCheckoutStep(3);
-    }
-
-    // if the selected payment is the same as the cart's one
-    if (this.selectedPayment && this.selectedPayment.id === payment.id) {
+      this.newPayment = newPayment;
+    } else if (this.selectedPayment && this.selectedPayment.id === payment.id) {
       this.checkoutPaymentService.setPaymentDetails(payment);
       this.checkoutService.clearCheckoutStep(3);
     }
-
-    this.getPaymentDetailsSub = this.checkoutPaymentService
-      .getPaymentDetails()
-      .subscribe(data => {
-        if (data.accountHolderName && data.cardNumber) {
-          this.routingService.go(this.checkoutStepUrlNext);
-
-          return;
-        }
-      });
   }
 
   ngOnDestroy(): void {

@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { LoaderResetAction } from '../../../state/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import * as fromActions from '../actions/index';
 import { CLEAR_MISCS_DATA } from '../actions/index';
 import { REGIONS } from '../user-state';
-import { LoaderResetAction } from '../../../state/index';
-import { SiteConnector } from '../../../site-context/connectors/site.connector';
 
 @Injectable()
 export class RegionsEffects {
@@ -29,7 +27,9 @@ export class RegionsEffects {
               country: countryCode,
             })
         ),
-        catchError(error => of(new fromActions.LoadRegionsFail(error)))
+        catchError(error =>
+          of(new fromActions.LoadRegionsFail(makeErrorSerializable(error)))
+        )
       );
     })
   );

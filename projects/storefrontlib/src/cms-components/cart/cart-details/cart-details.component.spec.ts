@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
-  CartDataService,
   CartService,
   I18nTestingModule,
+  OrderEntry,
   PromotionResult,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
@@ -17,6 +18,15 @@ class MockCartService {
   removeEntry(): void {}
   loadDetails(): void {}
   updateEntry(): void {}
+  getActive(): Observable<Cart> {
+    return of<Cart>({ code: '123' });
+  }
+  getEntries(): Observable<OrderEntry[]> {
+    return of([{}]);
+  }
+  getLoaded(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 @Component({
@@ -40,10 +50,7 @@ describe('CartDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
       declarations: [CartDetailsComponent, MockCartItemListComponent],
-      providers: [
-        CartDataService,
-        { provide: CartService, useClass: MockCartService },
-      ],
+      providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));
 
@@ -234,5 +241,12 @@ describe('CartDetailsComponent', () => {
       const promotions = component.getAllPromotionsForCart(mockedCart);
       expect(promotions).toEqual(expectedResult);
     });
+  });
+
+  it('should display cart text with cart number', () => {
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('.cx-total'));
+    const cartName = el.nativeElement.innerText;
+    expect(cartName).toEqual('cartDetails.cartName code:123');
   });
 });

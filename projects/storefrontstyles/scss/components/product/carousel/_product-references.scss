@@ -1,3 +1,11 @@
 %cx-product-references {
   padding-bottom: 50px;
+  cx-media {
+    height: 20vmin;
+
+    &.is-missing {
+      min-height: 20vmin;
+      background-size: 20vmin;
+    }
+  }
 }

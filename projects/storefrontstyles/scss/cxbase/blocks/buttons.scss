@@ -30,7 +30,7 @@ button {
   height: 48px;
   max-height: 48px;
   min-width: 48px;
-  border-radius: var(--cx-g-buttons-border-radius);
+  border-radius: var(--cx-buttons-border-radius);
 
   &-sm {
     padding-top: 0;
@@ -47,94 +47,96 @@ button {
   }
 
   &-primary {
-    background-color: var(--cx-g-color-primary);
-    border-color: var(--cx-g-color-primary);
+    background-color: var(--cx-color-primary);
+    border-color: var(--cx-color-primary);
 
     &:hover {
-      background-color: var(--cx-g-color-primary);
-      border-color: var(--cx-g-color-primary);
+      background-color: var(--cx-color-primary);
+      border-color: var(--cx-color-primary);
       @include cx-darken(88);
     }
 
     &.active {
-      background-color: var(--cx-g-color-primary);
-      border-color: var(--cx-g-color-primary);
+      background-color: var(--cx-color-primary);
+      border-color: var(--cx-color-primary);
       @include cx-darken(88);
     }
 
-    &.disabled {
-      background-color: var(--cx-g-color-primary);
-      border-color: var(--cx-g-color-primary);
+    &.disabled,
+    &:disabled {
+      background-color: var(--cx-color-primary);
+      border-color: var(--cx-color-primary);
 
       &:hover {
-        border-color: var(--cx-g-color-primary);
+        border-color: var(--cx-color-primary);
         @include cx-darken(100);
       }
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.2em rgba(var(--cx-g-color-primary), 0.5);
+      box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
     }
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-      background-color: var(--cx-g-color-primary);
-      border-color: var(--cx-g-color-primary);
+      background-color: var(--cx-color-primary);
+      border-color: var(--cx-color-primary);
       @include cx-darken(88);
 
       &:focus {
-        box-shadow: 0 0 0 0.2em rgba(var(--cx-g-color-primary), 0.5);
+        box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
       }
     }
   }
 
   &-secondary {
-    background-color: var(--cx-g-color-secondary);
-    border-color: var(--cx-g-color-secondary);
+    background-color: var(--cx-color-secondary);
+    border-color: var(--cx-color-secondary);
 
     &:hover {
-      background-color: var(--cx-g-color-secondary);
-      border-color: var(--cx-g-color-secondary);
+      background-color: var(--cx-color-secondary);
+      border-color: var(--cx-color-secondary);
       @include cx-darken(84);
     }
 
     &.active {
-      background-color: var(--cx-g-color-secondary);
-      border-color: var(--cx-g-color-secondary);
+      background-color: var(--cx-color-secondary);
+      border-color: var(--cx-color-secondary);
       @include cx-darken(84);
     }
 
-    &.disabled {
-      background-color: var(--cx-g-color-secondary);
-      border-color: var(--cx-g-color-secondary);
+    &.disabled,
+    &:disabled {
+      background-color: var(--cx-color-secondary);
+      border-color: var(--cx-color-secondary);
 
       &:hover {
-        border-color: var(--cx-g-color-secondary);
+        border-color: var(--cx-color-secondary);
         @include cx-darken(100);
       }
     }
 
     &:focus {
       //this here below will not work unles cx global colors are initially declared in rbg
-      box-shadow: 0 0 0 0.2em rgba(var(--cx-g-color-primary), 0.5);
+      box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
     }
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-      background-color: var(--cx-g-color-secondary);
-      border-color: var(--cx-g-color-secondary);
+      background-color: var(--cx-color-secondary);
+      border-color: var(--cx-color-secondary);
       @include cx-darken(84);
 
       &:focus {
         //this here below will not work unles cx global colors are initially declared in rbg
-        box-shadow: 0 0 0 0.2em rgba(var(--cx-g-color-primary), 0.5);
+        box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
       }
     }
   }
 
   &-link {
     font-size: $font-size-base * 1.125;
-    color: var(--cx-g-color-text);
+    color: var(--cx-color-text);
     text-decoration: underline;
     cursor: pointer;
     display: inline-block;
@@ -147,80 +149,25 @@ button {
   border-style: solid;
 
   &:hover {
-    color: var(--cx-g-color-primary);
+    color: var(--cx-color-primary);
     border-width: 2px;
     border-style: solid;
-    border-color: var(--cx-g-color-primary);
-    background-color: var(--cx-g-color-inverse);
+    border-color: var(--cx-color-primary);
+    background-color: var(--cx-color-inverse);
   }
 
   &.active {
-    color: var(--cx-g-color-primary);
+    color: var(--cx-color-primary);
     border-width: 2px;
     border-style: solid;
-    background-color: var(--cx-g-color-inverse);
+    background-color: var(--cx-color-inverse);
   }
 
   &.disabled {
-    color: var(--cx-g-color-light);
+    color: var(--cx-color-light);
     border-width: 2px;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     opacity: 1;
   }
 }
-
-// When switched to Angular 8, we switched also the compiler from `node-sass` to `sass` (dart-sass).
-// Then extending compound selector become illegal (i.e. `@extend .btn.active`)
-// See: https://github.com/sass/dart-sass#behavioral-differences-from-ruby-sass
-// Commented out the styles below, because they use the forbidden syntax:
-
-// .btn[aria-pressed='true'] {
-//   @extend .btn.active;
-
-//   &.btn-primary {
-//     @extend .btn-primary;
-//   }
-
-//   &.btn-secondary {
-//     @extend .btn-secondary;
-//   }
-
-//   &.btn-action {
-//     @extend .btn-action;
-//   }
-// }
-
-// .btn[aria-disabled='true'] {
-//   @extend .btn.disabled;
-//   cursor: auto;
-//   opacity: 0.6;
-
-//   &.btn-primary {
-//     @extend .btn-primary.disabled;
-//   }
-
-//   &.btn-secondary {
-//     @extend .btn-secondary.disabled;
-//   }
-
-//   &.btn-action {
-//     @extend .btn-action.disabled;
-//   }
-// }
-
-// .btn[disabled] {
-//   &.btn-primary {
-//     @extend .btn-primary.disabled;
-//   }
-
-//   &.btn-secondary {
-//     @extend .btn-secondary.disabled;
-//   }
-
-//   &.btn-action {
-//     @extend .btn-action.disabled;
-//   }
-// }
-
-// ============ end of commented out styles =============

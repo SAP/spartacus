@@ -20,9 +20,6 @@ export const common = {
       title: 'Checkout {{count}} item',
       title_plural: 'Checkout {{count}} items',
     },
-    cart: {
-      title: '{{title}} ({{code}})',
-    },
     search: {
       title: '{{count}} result for "{{query}}"',
       title_plural: '{{count}} results for "{{query}}"',
@@ -59,7 +56,7 @@ export const common = {
     conflict: 'Already exists',
     forbidden: 'You are not authorized to perform this action.',
     gatewayTimeout: 'The server did not responded, please try again later.',
-    unknownError: 'An unknown error occured',
+    unknownError: 'An unknown error occurred',
     validationErrors: {
       missing: {
         card_cardType:
@@ -81,6 +78,13 @@ export const common = {
           'The country entered is not valid for this credit card.',
         billTo_postalCode:
           'The zip/postal code is not valid for this credit card.',
+        country: {
+          isocode: 'Missing country',
+        },
+      },
+      invalid: {
+        card_expirationMonth:
+          'The credit card expiration date entered is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',

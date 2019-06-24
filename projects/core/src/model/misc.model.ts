@@ -67,6 +67,14 @@ export interface ErrorModel {
   type?: string;
 }
 
+export interface HttpErrorModel {
+  message?: string;
+  error?: any | null;
+  status?: number;
+  statusText?: string;
+  url?: string | null;
+}
+
 export interface BaseSite {
   channel?: string;
   defaultLanguage?: Language;

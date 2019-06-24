@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { CustomEncoder } from '../cart/custom.encoder';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
-import { ConverterService } from '../../../util/converter.service';
 import {
   CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '../../../checkout/connectors/payment/converters';
 import { CardType, PaymentDetails } from '../../../model/cart.model';
+import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { CustomEncoder } from '../cart/custom.encoder';
 
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 
@@ -62,6 +62,8 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         return this.createSubWithProvider(sub.url, sub.parameters).pipe(
           map(response => this.extractPaymentDetailsFromHtml(response)),
           mergeMap(fromPaymentProvider => {
+            fromPaymentProvider['defaultPayment'] =
+              paymentDetails.defaultPayment;
             fromPaymentProvider['savePaymentInfo'] = true;
             return this.createDetailsWithParameters(
               userId,
@@ -79,22 +81,19 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     cartId: string,
     paymentDetailsId: string
   ): Observable<any> {
-    return this.http
-      .put(
-        this.getCartEndpoint(userId) + cartId + '/paymentdetails',
-        {},
-        {
-          params: { paymentDetailsId: paymentDetailsId },
-        }
-      )
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.put(
+      this.getCartEndpoint(userId) + cartId + '/paymentdetails',
+      {},
+      {
+        params: { paymentDetailsId: paymentDetailsId },
+      }
+    );
   }
 
   loadCardTypes(): Observable<CardType[]> {
     return this.http
       .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(
-        catchError((error: any) => throwError(error.json())),
         map(cardTypeList => cardTypeList.cardTypes),
         this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
       );
@@ -104,13 +103,11 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     userId: string,
     cartId: string
   ): Observable<any> {
-    return this.http
-      .get(
-        this.getCartEndpoint(userId) +
-          cartId +
-          '/payment/sop/request?responseUrl=sampleUrl'
-      )
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.get(
+      this.getCartEndpoint(userId) +
+        cartId +
+        '/payment/sop/request?responseUrl=sampleUrl'
+    );
   }
 
   protected createSubWithProvider(
@@ -146,13 +143,11 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http
-      .post<PaymentDetails>(
-        this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
-        httpParams,
-        { headers }
-      )
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.post<PaymentDetails>(
+      this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
+      httpParams,
+      { headers }
+    );
   }
 
   private getParamsForPaymentProvider(
@@ -191,6 +186,8 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       paymentDetails.billingAddress.line2;
     params[mappingLabels['hybris_billTo_city']] =
       paymentDetails.billingAddress.town;
+    params[mappingLabels['hybris_billTo_region']] =
+      paymentDetails.billingAddress.region.isocodeShort;
     params[mappingLabels['hybris_billTo_postalcode']] =
       paymentDetails.billingAddress.postalCode;
     return params;

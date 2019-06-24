@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import * as fromUpdateEmailAction from '../actions/update-email.action';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
+import * as fromUpdateEmailAction from '../actions/update-email.action';
 
 @Injectable()
 export class UpdateEmailEffects {
@@ -28,7 +29,11 @@ export class UpdateEmailEffects {
               new fromUpdateEmailAction.UpdateEmailSuccessAction(payload.newUid)
           ),
           catchError(error =>
-            of(new fromUpdateEmailAction.UpdateEmailErrorAction(error))
+            of(
+              new fromUpdateEmailAction.UpdateEmailErrorAction(
+                makeErrorSerializable(error)
+              )
+            )
           )
         )
     )

@@ -1,15 +1,13 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { OccConfig } from '../../config/occ-config';
-import { Occ } from '../../occ-models/occ.models';
+import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
-  COUNTRY_NORMALIZER,
   CountryType,
+  COUNTRY_NORMALIZER,
   OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
@@ -17,6 +15,8 @@ import {
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
 } from '../../../site-context/connectors/converters';
+import { OccConfig } from '../../config/occ-config';
+import { Occ } from '../../occ-models/occ.models';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -185,7 +185,8 @@ describe('OccSiteAdapter', () => {
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'GET' &&
-          req.url === 'base-url/rest/v2/test-site/countries/CA/regions'
+          req.url ===
+            'base-url/rest/v2/test-site/countries/CA/regions?fields=regions(name,isocode,isocodeShort)'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -196,7 +197,9 @@ describe('OccSiteAdapter', () => {
     it('should use converter', () => {
       service.loadRegions('CA').subscribe();
       httpMock
-        .expectOne('base-url/rest/v2/test-site/countries/CA/regions')
+        .expectOne(
+          'base-url/rest/v2/test-site/countries/CA/regions?fields=regions(name,isocode,isocodeShort)'
+        )
         .flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(REGION_NORMALIZER);
     });
