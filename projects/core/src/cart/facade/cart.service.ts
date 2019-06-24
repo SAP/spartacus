@@ -56,8 +56,8 @@ export class CartService {
       filter(
         ([cart, loading]) =>
           !loading &&
-          ((this.isCreated(cart) && !this.isIncomplete(cart)) ||
-            !this.isCreated(cart))
+          (!this.isCreated(cart) ||
+            (this.isCreated(cart) && !this.isIncomplete(cart)))
       ),
       map(([cart]) => cart),
       shareReplay({ bufferSize: 1, refCount: true })
