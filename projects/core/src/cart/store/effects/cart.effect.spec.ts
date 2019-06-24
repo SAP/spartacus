@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import * as fromAuth from '../../../auth/store/index';
 import { Cart } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/config/occ-config';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import * as fromUser from '../../../user/store/index';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
@@ -120,6 +121,20 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetCartDetailsOnSiteContextChange$', () => {
+    it('should reset cart details', () => {
+      const action = new fromSiteContextActions.LanguageChange();
+      const completion = new fromActions.ResetCartDetails();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
+        expected
+      );
     });
   });
 });

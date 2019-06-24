@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
-import { AuthService, UserToken } from '../../auth/index';
+import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import {
+  debounceTime,
+  filter,
+  map,
+  shareReplay,
+  take,
+  tap,
+} from 'rxjs/operators';
+import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { BaseSiteService } from '../../site-context/index';
 import * as fromAction from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
@@ -13,17 +19,47 @@ import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
 @Injectable()
 export class CartService {
+  private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
+    'PREVIOUS_USER_ID_INITIAL_VALUE';
+  private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
+  private _activeCart$: Observable<Cart>;
+
   constructor(
     protected store: Store<StateWithCart>,
     protected cartData: CartDataService,
-    protected authService: AuthService,
-    protected baseSiteService: BaseSiteService
+    protected authService: AuthService
   ) {
-    this.init();
+    this._activeCart$ = combineLatest([
+      this.store.select(CartSelectors.getCartContent),
+      this.store.select(CartSelectors.getCartLoading),
+      this.authService.getUserToken(),
+    ]).pipe(
+      // combineLatest emits multiple times on each property update instead of one emit
+      // additionally dispatching actions that changes selectors used here needs to happen in order
+      // for this asyncScheduler is used here
+      debounceTime(1, asyncScheduler),
+      filter(([, loading]) => !loading),
+      tap(([cart, , userToken]) => {
+        if (this.isJustLoggedIn(userToken.userId)) {
+          this.loadOrMerge();
+        } else if (this.isCreated(cart) && this.isIncomplete(cart)) {
+          this.load();
+        }
+
+        this.previousUserId = userToken.userId;
+      }),
+      filter(
+        ([cart]) =>
+          !this.isCreated(cart) ||
+          (this.isCreated(cart) && !this.isIncomplete(cart))
+      ),
+      map(([cart]) => cart),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   getActive(): Observable<Cart> {
-    return this.store.pipe(select(CartSelectors.getCartContent));
+    return this._activeCart$;
   }
 
   getEntries(): Observable<OrderEntry[]> {
@@ -38,88 +74,39 @@ export class CartService {
     return this.store.pipe(select(CartSelectors.getCartLoaded));
   }
 
-  protected init(): void {
-    this.store.pipe(select(CartSelectors.getCartContent)).subscribe(cart => {
-      this.cartData.cart = cart;
-    });
-
-    combineLatest([
-      this.baseSiteService.getActive(),
-      this.authService.getUserToken(),
-    ])
-      .pipe(
-        filter(([, userToken]) => this.cartData.userId !== userToken.userId)
-      )
-      .subscribe(([, userToken]) => {
-        this.setUserId(userToken);
-        this.loadOrMerge();
-      });
-
-    this.refresh();
-  }
-
-  protected setUserId(userToken: UserToken): void {
-    if (Object.keys(userToken).length !== 0) {
-      this.cartData.userId = userToken.userId;
-    } else {
-      this.cartData.userId = ANONYMOUS_USERID;
-    }
-  }
-
-  protected loadOrMerge(): void {
-    this.cartData.getDetails = true;
+  private loadOrMerge(): void {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
-    if (this.cartData.userId !== ANONYMOUS_USERID) {
-      if (!this.isCreated(this.cartData.cart)) {
-        this.store.dispatch(
-          new fromAction.LoadCart({
-            userId: this.cartData.userId,
-            cartId: 'current',
-          })
-        );
-      } else {
-        this.store.dispatch(
-          new fromAction.MergeCart({
-            userId: this.cartData.userId,
-            cartId: this.cartData.cart.guid,
-          })
-        );
-      }
+    if (!this.isCreated(this.cartData.cart)) {
+      this.store.dispatch(
+        new fromAction.LoadCart({
+          userId: this.cartData.userId,
+          cartId: 'current',
+        })
+      );
+    } else {
+      this.store.dispatch(
+        new fromAction.MergeCart({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cart.guid,
+        })
+      );
     }
   }
 
-  protected refresh(): void {
-    this.store.pipe(select(CartSelectors.getCartRefresh)).subscribe(refresh => {
-      if (refresh) {
-        this.store.dispatch(
-          new fromAction.LoadCart({
-            userId: this.cartData.userId,
-            cartId: this.cartData.cartId,
-            details: true,
-          })
-        );
-      }
-    });
-  }
-
-  loadDetails(): void {
-    this.cartData.getDetails = true;
-
+  private load(): void {
     if (this.cartData.userId !== ANONYMOUS_USERID) {
       this.store.dispatch(
         new fromAction.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
-          details: true,
         })
       );
-    } else if (this.cartData.cartId) {
+    } else {
       this.store.dispatch(
         new fromAction.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          details: true,
         })
       );
     }
@@ -162,7 +149,7 @@ export class CartService {
   }
 
   updateEntry(entryNumber: string, quantity: number): void {
-    if (+quantity > 0) {
+    if (quantity > 0) {
       this.store.dispatch(
         new fromAction.UpdateEntry({
           userId: this.cartData.userId,
@@ -188,11 +175,23 @@ export class CartService {
     );
   }
 
-  isCreated(cart: Cart): boolean {
-    return cart && !!Object.keys(cart).length;
+  private isCreated(cart: Cart): boolean {
+    return cart && typeof cart.guid !== 'undefined';
   }
 
-  isEmpty(cart: Cart): boolean {
-    return cart && !cart.totalItems;
+  /**
+   * Cart is incomplete if it contains only `guid` and `code` properties, which come from local storage.
+   * To get cart content, we need to load cart from backend.
+   */
+  private isIncomplete(cart: Cart): boolean {
+    return cart && Object.keys(cart).length <= 2;
+  }
+
+  private isJustLoggedIn(userId: string): boolean {
+    return (
+      typeof userId !== 'undefined' && // logged in user
+      this.previousUserId !== userId && // *just* logged in
+      this.previousUserId !== this.PREVIOUS_USER_ID_INITIAL_VALUE // not app initialization
+    );
   }
 }

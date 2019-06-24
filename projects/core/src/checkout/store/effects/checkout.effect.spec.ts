@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { CartDataService } from 'projects/core/src/cart';
 import { Observable, of } from 'rxjs';
 import * as fromAuthActions from '../../../auth/store/actions/index';
+import { CartDataService } from '../../../cart/facade/cart-data.service';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
@@ -216,7 +216,6 @@ describe('Checkout effect', () => {
       const loadCart = new fromCartActions.LoadCart({
         userId,
         cartId,
-        details: true,
       });
 
       actions$ = hot('-a', { a: action });
