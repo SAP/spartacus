@@ -2,7 +2,8 @@ import { inject, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { GeoPoint } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
-import * as fromStore from '../store';
+import { StoreFinderActions } from '../store/actions/index';
+import * as fromStore from '../store/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
 
@@ -75,7 +76,7 @@ describe('StoreFinderService', () => {
       service.findStores(queryText, false);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStores({ queryText: queryText })
+        new StoreFinderActions.FindStores({ queryText: queryText })
       );
     });
   });
@@ -84,9 +85,11 @@ describe('StoreFinderService', () => {
     it('should dispatch a OnHold action and a FindStores action', () => {
       service.findStores(queryText, true);
 
-      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.OnHold());
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStores({
+        new StoreFinderActions.FindStoresOnHold()
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new StoreFinderActions.FindStores({
           queryText,
           longitudeLatitude,
         })
@@ -115,7 +118,7 @@ describe('StoreFinderService', () => {
       service.viewStoreById(storeId);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStoreById({ storeId })
+        new StoreFinderActions.FindStoreById({ storeId })
       );
     });
   });
@@ -125,7 +128,7 @@ describe('StoreFinderService', () => {
       service.viewAllStores();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.ViewAllStores()
+        new StoreFinderActions.ViewAllStores()
       );
     });
   });

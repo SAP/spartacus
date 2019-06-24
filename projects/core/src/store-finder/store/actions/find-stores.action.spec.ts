@@ -7,9 +7,9 @@ import * as fromActions from './find-stores.action';
 describe('Find Stores Actions', () => {
   describe('OnHold', () => {
     it('should create OnHold action', () => {
-      const action = new fromActions.OnHold();
+      const action = new fromActions.FindStoresOnHold();
       expect({ ...action }).toEqual({
-        type: fromActions.ON_HOLD,
+        type: fromActions.FIND_STORES_ON_HOLD,
         meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
     });
