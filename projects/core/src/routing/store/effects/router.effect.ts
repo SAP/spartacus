@@ -6,7 +6,7 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
-import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CmsRoute } from '../../models/cms-route';
 import { RoutingActions } from '../actions/index';
 
@@ -32,7 +32,11 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   clearCmsRoutes$: Observable<Action> = this.actions$.pipe(
-    ofType(LANGUAGE_CHANGE, AuthActions.LOGOUT, AuthActions.LOGIN),
+    ofType(
+      SiteContextActions.LANGUAGE_CHANGE,
+      AuthActions.LOGOUT,
+      AuthActions.LOGIN
+    ),
     tap(_ => {
       const filteredConfig = this.router.config.filter(
         (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext)
