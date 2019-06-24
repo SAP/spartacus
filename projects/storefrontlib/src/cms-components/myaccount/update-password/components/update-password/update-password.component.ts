@@ -56,9 +56,8 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
+
     this.userService.resetUpdatePasswordProcessState();
   }
 }

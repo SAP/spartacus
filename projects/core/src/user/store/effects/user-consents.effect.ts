@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
 import * as fromActions from '../actions/user-consents.action';
 
@@ -14,7 +15,9 @@ export class UserConsentsEffect {
     switchMap(userId =>
       this.userConsentConnector.loadConsents(userId).pipe(
         map(consents => new fromActions.LoadUserConsentsSuccess(consents)),
-        catchError(error => of(new fromActions.LoadUserConsentsFail(error)))
+        catchError(error =>
+          of(new fromActions.LoadUserConsentsFail(makeErrorSerializable(error)))
+        )
       )
     )
   );
@@ -28,7 +31,11 @@ export class UserConsentsEffect {
         .giveConsent(userId, consentTemplateId, consentTemplateVersion)
         .pipe(
           map(consent => new fromActions.GiveUserConsentSuccess(consent)),
-          catchError(error => of(new fromActions.GiveUserConsentFail(error)))
+          catchError(error =>
+            of(
+              new fromActions.GiveUserConsentFail(makeErrorSerializable(error))
+            )
+          )
         )
     )
   );
@@ -42,7 +49,13 @@ export class UserConsentsEffect {
     switchMap(({ userId, consentCode }) =>
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
         map(_ => new fromActions.WithdrawUserConsentSuccess()),
-        catchError(error => of(new fromActions.WithdrawUserConsentFail(error)))
+        catchError(error =>
+          of(
+            new fromActions.WithdrawUserConsentFail(
+              makeErrorSerializable(error)
+            )
+          )
+        )
       )
     )
   );

@@ -7,19 +7,31 @@ declare namespace Cypress {
        *
        * @example
         ```
-        cy.selectUserMenuOption('Sign out')
+        cy.selectUserMenuOption({
+          option: 'Sign out'
+        })
         ```
        */
-    selectUserMenuOption: (option: string) => void;
+    selectUserMenuOption: ({
+      option,
+      isMobile,
+    }: {
+      option: string;
+      isMobile?: boolean;
+    }) => void;
   }
 }
 
-Cypress.Commands.add('selectUserMenuOption', (option: string) => {
-  cy.get('[position="HeaderLinks"] cx-navigation-ui > nav > h5').click({
-    force: true,
-  });
+Cypress.Commands.add(
+  'selectUserMenuOption',
+  ({ isMobile, option }: { option: string; isMobile?: boolean }) => {
+    if (isMobile) {
+      // below click is exactly the same as clickHamburger() but we cannot import it here
+      cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
+    }
 
-  cy.get('[position="HeaderLinks"] cx-navigation-ui > nav').within(() => {
-    cy.getByText(new RegExp(option, 'i')).click({ force: true });
-  });
-});
+    cy.get('a')
+      .getByText(new RegExp(option, 'i'))
+      .click({ force: true });
+  }
+);

@@ -196,9 +196,17 @@ export class CmsService {
         const shouldReload = forceReload && !entity.loading;
         if (!attemptedLoad || shouldReload) {
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
+          forceReload = false;
         }
       }),
-      filter(entity => entity.success || entity.error),
+      filter(entity => {
+        if (!entity.hasOwnProperty('value')) {
+          // if we have incomplete state from srr failed load transfer state,
+          // we should wait for reload and actual value
+          return false;
+        }
+        return entity.success || (entity.error && !entity.loading);
+      }),
       pluck('success'),
       catchError(() => of(false))
     );

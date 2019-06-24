@@ -32,9 +32,10 @@ describe('Currency switch - product-search page', () => {
         siteContextSelector.CURRENCY_LABEL
       );
 
-      cy.get('cx-product-list-item .cx-product-price')
-        .invoke('text')
-        .should('contains', jpCurrency);
+      cy.get('cx-product-list-item .cx-product-price').should(
+        'contain',
+        jpCurrency
+      );
     });
 
     it('should change currency in the search result', () => {
@@ -46,9 +47,7 @@ describe('Currency switch - product-search page', () => {
       );
 
       cy.get('cx-searchbox input').type('fun');
-      cy.get('cx-searchbox .products .price')
-        .invoke('text')
-        .should('contains', jpCurrency);
+      cy.get('cx-searchbox .products .price').should('contain', jpCurrency);
     });
   });
 });

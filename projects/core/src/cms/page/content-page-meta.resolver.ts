@@ -37,9 +37,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(page: Page): Observable<string> {
-    return this.translation.translate('pageMetaResolver.content.title', {
-      content: page.title,
-    });
+    return of(page.title);
   }
 
   resolveBreadcrumbLabel(): Observable<string> {

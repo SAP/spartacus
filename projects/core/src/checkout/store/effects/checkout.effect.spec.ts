@@ -1,27 +1,27 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/checkout.action';
-import * as fromCartActions from './../../../cart/store/actions/index';
+import { CartDataService } from 'projects/core/src/cart';
+import { Observable, of } from 'rxjs';
+import * as fromAuthActions from '../../../auth/store/actions/index';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../../checkout/connectors';
-import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
-
-import * as fromEffects from './checkout.effect';
-import { CheckoutDetails } from '../../models/checkout.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 import { CheckoutConnector } from '../../connectors/checkout';
+import { CheckoutDetails } from '../../models/checkout.model';
+import * as fromActions from '../actions/checkout.action';
+import * as fromIndexActions from '../actions/index';
+import * as fromCartActions from './../../../cart/store/actions/index';
+import * as fromEffects from './checkout.effect';
+
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
@@ -58,6 +58,11 @@ class MockCheckoutDeliveryConnector {
   setMode = createSpy().and.returnValue(of({}));
 }
 
+class MockCartDataService {
+  cartId = 'cartId';
+  userId = 'userId';
+}
+
 class MockCheckoutPaymentConnector {
   set = createSpy().and.returnValue(of({}));
   create = createSpy().and.returnValue(of(paymentDetails));
@@ -87,6 +92,7 @@ describe('Checkout effect', () => {
           useClass: MockCheckoutPaymentConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
+        { provide: CartDataService, useClass: MockCartDataService },
         fromEffects.CheckoutEffects,
         provideMockActions(() => actions$),
       ],
@@ -154,6 +160,46 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.loadSupportedDeliveryModes$).toBeObservable(expected);
+    });
+  });
+
+  describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
+    it('should dispatch checkout clear miscs data action on language change', () => {
+      const action = new fromSiteContextActions.LanguageChange();
+      const completion = new fromIndexActions.CheckoutClearMiscsData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(
+        entryEffects.clearCheckoutMiscsDataOnLanguageChange$
+      ).toBeObservable(expected);
+    });
+  });
+
+  describe('clearDeliveryModesOnCurrencyChange$', () => {
+    it('should dispatch clear supported delivery modes action on currency change', () => {
+      const action = new fromSiteContextActions.CurrencyChange();
+      const completion = new fromIndexActions.ClearSupportedDeliveryModes();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearDeliveryModesOnCurrencyChange$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('clearCheckoutDataOnLogout$', () => {
+    it('should dispatch clear checkout data action on logout', () => {
+      const action = new fromAuthActions.Logout();
+      const completion = new fromIndexActions.ClearCheckoutData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDataOnLogout$).toBeObservable(expected);
     });
   });
 
