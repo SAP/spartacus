@@ -483,8 +483,6 @@ describe('CartDetailsComponent', () => {
       ];
 
       const promotions = component.getAllPromotionsForCart(mockedCart);
-      console.log('Promotions' + promotions);
-      console.log('Expected: ' + expectedResult);
       expect(promotions).toEqual(expectedResult);
     });
   });
@@ -590,7 +588,7 @@ describe('CartDetailsComponent', () => {
   describe('when cart has appliedProductPromotions is undefined and appliedOrderPromotions is defined', () => {
     it('should have one consumedEntries', () => {
       const mockedCart: Cart = {
-        guid: '15',
+        gufid: '15',
         appliedOrderPromotions: [
           {
             consumedEntries: [
