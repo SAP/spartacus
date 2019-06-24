@@ -1,11 +1,6 @@
 import { User } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  entityFailMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
-} from '../../../state';
+import { StateEntityLoaderActions } from '../../../state/index';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
 import { UserActions } from './index';
 
@@ -66,7 +61,10 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_USER_DETAILS,
         payload: { username, userDetails },
-        meta: entityLoadMeta(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID),
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          UPDATE_USER_DETAILS_PROCESS_ID
+        ),
       });
     });
   });
@@ -79,7 +77,7 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_USER_DETAILS_FAIL,
         payload: error,
-        meta: entityFailMeta(
+        meta: StateEntityLoaderActions.entityFailMeta(
           PROCESS_FEATURE,
           UPDATE_USER_DETAILS_PROCESS_ID,
           error
@@ -98,7 +96,7 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_USER_DETAILS_SUCCESS,
         userUpdates,
-        meta: entitySuccessMeta(
+        meta: StateEntityLoaderActions.entitySuccessMeta(
           PROCESS_FEATURE,
           UPDATE_USER_DETAILS_PROCESS_ID
         ),
@@ -113,7 +111,10 @@ describe('User Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.RESET_USER_DETAILS,
-        meta: entityResetMeta(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID),
+        meta: StateEntityLoaderActions.entityResetMeta(
+          PROCESS_FEATURE,
+          UPDATE_USER_DETAILS_PROCESS_ID
+        ),
       });
     });
   });

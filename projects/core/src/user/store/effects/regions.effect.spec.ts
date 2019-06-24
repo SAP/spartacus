@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { LoaderResetAction, Region } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { Region } from '../../../model/index';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { StateLoaderActions } from '../../../state/index';
 import { UserActions } from '../actions/index';
 import { REGIONS } from '../user-state';
 import { RegionsEffects } from './regions.effect';
@@ -64,7 +65,7 @@ describe('', () => {
         type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
-      const completion = new LoaderResetAction(REGIONS);
+      const completion = new StateLoaderActions.LoaderResetAction(REGIONS);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

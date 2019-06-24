@@ -6,7 +6,7 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryList } from '../../../model/order.model';
-import { LoaderResetAction } from '../../../state';
+import { StateLoaderActions } from '../../../state/index';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
@@ -78,7 +78,7 @@ describe('User Orders effect', () => {
         type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
-      const completion = new LoaderResetAction(USER_ORDERS);
+      const completion = new StateLoaderActions.LoaderResetAction(USER_ORDERS);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

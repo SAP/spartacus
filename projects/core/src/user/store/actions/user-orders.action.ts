@@ -1,9 +1,5 @@
 import { OrderHistoryList } from '../../../model/order.model';
-import {
-  LoaderFailAction,
-  LoaderLoadAction,
-  LoaderSuccessAction,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/index';
 import { USER_ORDERS } from '../user-state';
 
 export const LOAD_USER_ORDERS = '[User] Load User Orders';
@@ -11,7 +7,7 @@ export const LOAD_USER_ORDERS_FAIL = '[User] Load User Orders Fail';
 export const LOAD_USER_ORDERS_SUCCESS = '[User] Load User Orders Success';
 export const CLEAR_USER_ORDERS = '[User] Clear User Orders';
 
-export class LoadUserOrders extends LoaderLoadAction {
+export class LoadUserOrders extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_USER_ORDERS;
   constructor(
     public payload: {
@@ -25,14 +21,14 @@ export class LoadUserOrders extends LoaderLoadAction {
   }
 }
 
-export class LoadUserOrdersFail extends LoaderFailAction {
+export class LoadUserOrdersFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_USER_ORDERS_FAIL;
   constructor(public payload: any) {
     super(USER_ORDERS, payload);
   }
 }
 
-export class LoadUserOrdersSuccess extends LoaderSuccessAction {
+export class LoadUserOrdersSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_USER_ORDERS_SUCCESS;
   constructor(public payload: OrderHistoryList) {
     super(USER_ORDERS);

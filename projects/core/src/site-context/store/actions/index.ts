@@ -1,3 +1,2 @@
-export * from './languages.action';
-export * from './currencies.action';
-export * from './base-site.action';
+import * as SiteContextActions from './site-context-group.actions';
+export { SiteContextActions };
