@@ -6,8 +6,7 @@ import * as fromCart from '../../cart/store';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { StateWithCart } from '../store/cart-state';
-import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { CartUtilService } from './cart-util.service';
+import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
 
 class CartDataServiceStub {
@@ -62,9 +61,8 @@ describe('CartService', () => {
     describe('when user is not an anonymous', () => {
       describe('and the cart is not created', () => {
         it('should load the cart', () => {
-          spyOn(CartUtilService, 'isCreated').and.returnValue(false);
           spyOn(store, 'dispatch').and.stub();
-          cartData.cart = cart;
+          cartData.cart = {};
 
           service[loadOrMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -77,7 +75,6 @@ describe('CartService', () => {
       });
       describe('and the cart is created', () => {
         it('should merge the cart', () => {
-          spyOn(CartUtilService, 'isCreated').and.returnValue(true);
           spyOn(store, 'dispatch').and.stub();
           cartData.cart = cart;
 
@@ -93,52 +90,8 @@ describe('CartService', () => {
     });
   });
 
-  describe('Load cart details', () => {
-    it('should load more details when a user is logged in', () => {
-      spyOn(store, 'dispatch').and.stub();
-      cartData.userId = userId;
-      cartData.cart = cart;
-      cartData.cartId = cart.code;
-
-      service.loadDetails();
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.LoadCart({
-          userId: userId,
-          cartId: cart.code,
-        })
-      );
-    });
-
-    it('should load more details for anonymous user if cartid exists', () => {
-      spyOn(store, 'dispatch').and.stub();
-      cartData.cart = cart;
-      cartData.userId = ANONYMOUS_USERID;
-      cartData.cartId = cart.guid;
-
-      service.loadDetails();
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.LoadCart({
-          userId: ANONYMOUS_USERID,
-          cartId: cart.guid,
-        })
-      );
-    });
-
-    it('should not load more details for anonymous user if cartid and guid is null', () => {
-      spyOn(store, 'dispatch').and.stub();
-      cartData.userId = ANONYMOUS_USERID;
-
-      service.loadDetails();
-
-      expect(store.dispatch).not.toHaveBeenCalled();
-    });
-  });
-
   describe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
-      spyOn(service, 'isCreated').and.returnValue(true);
       store.dispatch(new fromCart.CreateCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -159,8 +112,7 @@ describe('CartService', () => {
     });
 
     it('should be able to addCartEntry if cart does not exist', () => {
-      spyOn(CartUtilService, 'isCreated').and.returnValue(false);
-      store.dispatch(new fromCart.LoadCartSuccess(cart));
+      store.dispatch(new fromCart.LoadCartSuccess({}));
       spyOn(store, 'dispatch').and.callThrough();
 
       cartData.userId = userId;
