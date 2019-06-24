@@ -10,7 +10,6 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 @Component({
   selector: 'cx-global-message',
   templateUrl: './global-message.component.html',
-  styleUrls: ['./global-message.component.scss'],
 })
 export class GlobalMessageComponent implements OnInit {
   iconTypes = ICON_TYPE;

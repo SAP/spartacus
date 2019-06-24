@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import * as fromAction from '../actions/titles.action';
 import { Title } from '../../../model/misc.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
+import * as fromAction from '../actions/titles.action';
 
 @Injectable()
 export class TitlesEffects {
@@ -17,7 +18,9 @@ export class TitlesEffects {
           const sortedTitles = this.sortTitles(titles);
           return new fromAction.LoadTitlesSuccess(sortedTitles);
         }),
-        catchError(error => of(new fromAction.LoadTitlesFail(error)))
+        catchError(error =>
+          of(new fromAction.LoadTitlesFail(makeErrorSerializable(error)))
+        )
       );
     })
   );

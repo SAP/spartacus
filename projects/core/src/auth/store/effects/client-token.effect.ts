@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
-import { map, catchError, exhaustMap } from 'rxjs/operators';
-
-import * as fromActions from './../actions';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ClientTokenAction } from '../actions/client-token.action';
 import { ClientToken } from './../../models/token-types.model';
 import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
+import * as fromActions from './../actions';
 
 @Injectable()
 export class ClientTokenEffect {
@@ -22,7 +20,11 @@ export class ClientTokenEffect {
           map((token: ClientToken) => {
             return new fromActions.LoadClientTokenSuccess(token);
           }),
-          catchError(error => of(new fromActions.LoadClientTokenFail(error)))
+          catchError(error =>
+            of(
+              new fromActions.LoadClientTokenFail(makeErrorSerializable(error))
+            )
+          )
         );
     })
   );
