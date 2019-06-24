@@ -10,14 +10,14 @@
   }
 
   .cx-cart-coupon-item {
-    padding: 0 1rem 0.5rem 1rem;
+    padding: 1rem 1rem 0.5rem 1rem;
   }
 
   .cx-cart-coupon-remove {
     display: flex;
     justify-content: flex-end;
     background-color: var(--cx-g-color-background);
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 0 1rem 0.5rem 1rem;
 
     button.link {
       @include type('8');
@@ -31,5 +31,20 @@
     background-color: var(--cx-g-color-background);
     padding: 1rem 1rem 1rem 1rem;
     font-weight: var(--cx-g-font-weight-bold);
+    word-break: true;
+  }
+
+  .cx-coupon-code-pill {
+    background: var(--cx-g-color-light);
+    padding: 7px 15px 7px 13px;
+    margin: 10px 10px 5px 0;
+    display: inline-flex;
+    align-items: flex-start;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+
+  .cx-coupon-code--pill-value {
+    line-height: 1.7;
   }
 }
