@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '@spartacus/core';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
@@ -10,10 +10,18 @@ import { CheckoutService } from './checkout.service';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
-  let cartData: CartDataService;
+  let cartData: CartDataServiceStub;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
+
+  class CartDataServiceStub {
+    userId;
+    cart;
+    get cartId() {
+      return this.cart.code;
+    }
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,12 +32,18 @@ describe('CheckoutService', () => {
           CheckoutActionsReducers.getReducers()
         ),
       ],
-      providers: [CheckoutService, CartDataService],
+      providers: [
+        CheckoutService,
+        { provide: CartDataService, useClass: CartDataServiceStub },
+      ],
     });
 
     service = TestBed.get(CheckoutService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
+
+    cartData.userId = userId;
+    cartData.cart = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -57,9 +71,6 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to place order', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.placeOrder();
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -86,7 +97,6 @@ describe('CheckoutService', () => {
 
   it('should be able to load checkout details', () => {
     const cartId = cart.code;
-    cartData.userId = userId;
     service.loadCheckoutDetails(cartId);
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.LoadCheckoutDetails({ userId, cartId })

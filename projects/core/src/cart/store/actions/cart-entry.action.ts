@@ -1,4 +1,3 @@
-import { CartModification } from '../../../model/cart.model';
 import {
   LoaderFailAction,
   LoaderLoadAction,
@@ -27,7 +26,7 @@ export class CartAddEntry extends LoaderLoadAction {
 
 export class CartAddEntrySuccess extends LoaderSuccessAction {
   readonly type = CART_ADD_ENTRY_SUCCESS;
-  constructor(public payload: CartModification) {
+  constructor(public payload: any) {
     super(CART_DATA);
   }
 }
@@ -48,7 +47,7 @@ export class CartRemoveEntry extends LoaderLoadAction {
 
 export class CartRemoveEntrySuccess extends LoaderSuccessAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
-  constructor() {
+  constructor(public payload: any) {
     super(CART_DATA);
   }
 }
@@ -69,7 +68,7 @@ export class CartUpdateEntry extends LoaderLoadAction {
 
 export class CartUpdateEntrySuccess extends LoaderSuccessAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
-  constructor() {
+  constructor(public payload: any) {
     super(CART_DATA);
   }
 }
