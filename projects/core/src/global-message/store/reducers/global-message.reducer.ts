@@ -4,7 +4,6 @@ import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
-import { GlobalMessageAction } from '../actions/global-message.actions';
 import { GlobalMessageActions } from '../actions/index';
 import { GlobalMessageState } from '../global-message-state';
 
@@ -14,7 +13,7 @@ export const initialState: GlobalMessageState = {
 
 export function reducer(
   state = initialState,
-  action: GlobalMessageAction
+  action: GlobalMessageActions.GlobalMessageAction
 ): GlobalMessageState {
   switch (action.type) {
     case GlobalMessageActions.ADD_MESSAGE: {
