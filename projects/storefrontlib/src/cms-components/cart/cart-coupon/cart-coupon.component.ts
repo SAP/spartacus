@@ -9,14 +9,13 @@ import { Subscription } from 'rxjs/internal/Subscription';
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  disableBtn: boolean;
+  enableBtn: boolean;
   private subscription = new Subscription();
 
   @Input()
   cart: Cart | Order;
   @Input()
   cartIsLoading = false;
-  userId: string;
 
   constructor(
     private cartService: CartService,
@@ -28,7 +27,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       couponCode: ['', [Validators.required]],
     });
     this.form.valueChanges.subscribe(() => {
-      this.disableBtn = !this.form.valid;
+      this.enableBtn = this.form.valid;
     });
 
     this.subscription.add(
