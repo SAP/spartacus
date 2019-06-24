@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoadUserToken, Logout } from '../../../auth/index';
 import { UserSignUp } from '../../../model/misc.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
 import * as fromActions from '../actions/user-register.action';
 
@@ -24,7 +25,9 @@ export class UserRegisterEffects {
           }),
           new fromActions.RegisterUserSuccess(),
         ]),
-        catchError(error => of(new fromActions.RegisterUserFail(error)))
+        catchError(error =>
+          of(new fromActions.RegisterUserFail(makeErrorSerializable(error)))
+        )
       )
     )
   );
@@ -41,7 +44,9 @@ export class UserRegisterEffects {
           new fromActions.RemoveUserSuccess(),
           new Logout(),
         ]),
-        catchError(error => of(new fromActions.RemoveUserFail(error)))
+        catchError(error =>
+          of(new fromActions.RemoveUserFail(makeErrorSerializable(error)))
+        )
       );
     })
   );
