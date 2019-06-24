@@ -4,19 +4,23 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Review } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
-import * as fromStore from '../store/index';
+import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
+import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReviewService } from './product-review.service';
 
 describe('ReviewService', () => {
   let service: ProductReviewService;
-  let store: Store<fromStore.ProductsState>;
+  let store: Store<ProductsState>;
   const mockReview: Review = { id: 'testId' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('products', fromStore.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromStoreReducers.getReducers()
+        ),
       ],
       providers: [ProductReviewService],
     });

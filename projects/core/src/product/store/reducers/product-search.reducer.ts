@@ -2,7 +2,7 @@ import {
   ProductSearchPage,
   Suggestion,
 } from '../../../model/product-search.model';
-import * as fromProductsSearch from '../actions/product-search.action';
+import { ProductActions } from '../actions/index';
 import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {
@@ -13,10 +13,10 @@ export const initialState: ProductsSearchState = {
 
 export function reducer(
   state = initialState,
-  action: fromProductsSearch.ProductSearchAction
+  action: ProductActions.ProductSearchAction
 ): ProductsSearchState {
   switch (action.type) {
-    case fromProductsSearch.SEARCH_PRODUCTS_SUCCESS: {
+    case ProductActions.SEARCH_PRODUCTS_SUCCESS: {
       const results = action.payload;
       const res = action.auxiliary ? { auxResults: results } : { results };
       return {
@@ -25,7 +25,7 @@ export function reducer(
       };
     }
 
-    case fromProductsSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
+    case ProductActions.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
       const suggestions: Suggestion[] = action.payload;
 
       return {
@@ -34,7 +34,7 @@ export function reducer(
       };
     }
 
-    case fromProductsSearch.CLEAR_PRODUCT_SEARCH_RESULT: {
+    case ProductActions.CLEAR_PRODUCT_SEARCH_RESULT: {
       return {
         ...state,
         results: action.payload.clearPageResults ? {} : state.results,

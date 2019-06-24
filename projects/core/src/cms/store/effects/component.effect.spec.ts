@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { CmsComponent, PageType } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
-import * as fromActions from '../actions/component.action';
+import { CmsActions } from '../actions/index';
 import * as fromEffects from './component.effect';
 
 const router = {
@@ -58,8 +58,8 @@ describe('Component Effects', () => {
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
-      const action = new fromActions.LoadCmsComponent('comp1');
-      const completion = new fromActions.LoadCmsComponentSuccess(component);
+      const action = new CmsActions.LoadCmsComponent('comp1');
+      const completion = new CmsActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'get').and.returnValue(of(component));
 
       actions$ = hot('-a', { a: action });
@@ -69,8 +69,8 @@ describe('Component Effects', () => {
     });
 
     it('should process only one ongoing request for multiple load component dispatches for the same uid', () => {
-      const action = new fromActions.LoadCmsComponent('comp1');
-      const completion = new fromActions.LoadCmsComponentSuccess(component);
+      const action = new CmsActions.LoadCmsComponent('comp1');
+      const completion = new CmsActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'get').and.returnValue(cold('---c', { c: component }));
 
       actions$ = hot('-aaa------a', { a: action });

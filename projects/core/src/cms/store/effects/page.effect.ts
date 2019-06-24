@@ -17,8 +17,7 @@ import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.a
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
-import * as componentActions from '../actions/component.action';
-import * as pageActions from '../actions/page.action';
+import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class PageEffects {
@@ -36,15 +35,15 @@ export class PageEffects {
             !routerState.nextState
         ),
         map(routerState => routerState.state.context),
-        mergeMap(context => of(new pageActions.LoadCmsPageData(context)))
+        mergeMap(context => of(new CmsActions.LoadCmsPageData(context)))
       )
     )
   );
 
   @Effect()
   loadPageData$: Observable<Action> = this.actions$.pipe(
-    ofType(pageActions.LOAD_CMS_PAGE_DATA),
-    map((action: pageActions.LoadCmsPageData) => action.payload),
+    ofType(CmsActions.LOAD_CMS_PAGE_DATA),
+    map((action: CmsActions.LoadCmsPageData) => action.payload),
     groupBy(pageContext => pageContext.type + pageContext.id),
     mergeMap(group =>
       group.pipe(
@@ -52,10 +51,8 @@ export class PageEffects {
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
               return [
-                new componentActions.CmsGetComponentFromPage(
-                  cmsStructure.components
-                ),
-                new pageActions.LoadCmsPageDataSuccess(
+                new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
+                new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
                 ),
@@ -63,7 +60,7 @@ export class PageEffects {
             }),
             catchError(error =>
               of(
-                new pageActions.LoadCmsPageDataFail(
+                new CmsActions.LoadCmsPageDataFail(
                   pageContext,
                   makeErrorSerializable(error)
                 )
