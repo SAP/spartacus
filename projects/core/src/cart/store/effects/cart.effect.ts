@@ -15,37 +15,24 @@ export class CartEffects {
   loadCart$: Observable<
     CartActions.LoadCartFail | CartActions.LoadCartSuccess
   > = this.actions$.pipe(
-    ofType(
-      CartActions.LOAD_CART,
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
+    ofType(CartActions.LOAD_CART),
     map(
       (action: {
         type: string;
-        payload?: { userId: string; cartId: string; details?: boolean };
+        payload?: { userId: string; cartId: string };
       }) => action.payload
     ),
     mergeMap(payload => {
       const loadCartParams = {
         userId: (payload && payload.userId) || this.cartData.userId,
         cartId: (payload && payload.cartId) || this.cartData.cartId,
-        details:
-          payload && payload.details !== undefined
-            ? payload.details
-            : this.cartData.getDetails,
       };
 
       if (this.isMissingData(loadCartParams)) {
         return of(new CartActions.LoadCartFail({}));
       }
-
       return this.cartConnector
-        .load(
-          loadCartParams.userId,
-          loadCartParams.cartId,
-          loadCartParams.details
-        )
+        .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
           map((cart: Cart) => {
             return new CartActions.LoadCartSuccess(cart);
@@ -105,13 +92,50 @@ export class CartEffects {
     })
   );
 
+  @Effect()
+  refresh$: Observable<CartActions.LoadCart> = this.actions$.pipe(
+    ofType(
+      CartActions.MERGE_CART_SUCCESS,
+      CartActions.CART_ADD_ENTRY_SUCCESS,
+      CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_ENTRY_SUCCESS
+    ),
+    map(
+      (
+        action:
+          | CartActions.MergeCartSuccess
+          | CartActions.CartAddEntrySuccess
+          | CartActions.CartUpdateEntrySuccess
+          | CartActions.CartRemoveEntrySuccess
+      ) => action.payload
+    ),
+    map(
+      payload =>
+        new CartActions.LoadCart({
+          userId: payload.userId,
+          cartId: payload.cartId,
+        })
+    )
+  );
+
+  @Effect()
+  resetCartDetailsOnSiteContextChange$: Observable<
+    CartActions.ResetCartDetails
+  > = this.actions$.pipe(
+    ofType(
+      SiteContextActions.LANGUAGE_CHANGE,
+      SiteContextActions.CURRENCY_CHANGE
+    ),
+    map(() => new CartActions.ResetCartDetails())
+  );
+
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
     private cartData: CartDataService
   ) {}
 
-  private isMissingData(payload) {
+  private isMissingData(payload: { userId: string; cartId: string }) {
     return payload.userId === undefined || payload.cartId === undefined;
   }
 }

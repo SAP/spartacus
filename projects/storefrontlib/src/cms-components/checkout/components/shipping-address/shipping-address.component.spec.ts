@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
-  CartDataService,
   CartService,
   CheckoutDeliveryService,
   I18nTestingModule,
@@ -81,10 +80,6 @@ const mockAddress2: Address = {
 
 const mockAddresses: Address[] = [mockAddress1, mockAddress2];
 
-const mockCartDataService = {
-  userId: 'testUser',
-};
-
 const mockActivatedRoute = {
   snapshot: {
     url: ['checkout', 'delivery-mode'],
@@ -136,7 +131,6 @@ describe('ShippingAddressComponent', () => {
       ],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: CartDataService, useValue: mockCartDataService },
         { provide: CartService, useClass: MockCartService },
         {
           provide: CheckoutDeliveryService,
