@@ -35,5 +35,12 @@ export const cart = {
     placeholder: 'Enter coupon code',
     applyVoucherSuccess: '{{voucherCode}} has been applied.',
     removeVoucherSuccess: '{{voucherCode}} has been removed.',
+    anchor: {
+      vouchers: 'COUPON CODE APPLIED: {{voucherNumber}}',
+      vouchers_plural: 'COUPONS CODES APPLIED: {{voucherNumber}}',
+      noVouchers: 'ENTER COUPON CODES',
+      tips:
+        ' You can enter your coupon and discount codes using the form bellow.',
+    },
   },
 };

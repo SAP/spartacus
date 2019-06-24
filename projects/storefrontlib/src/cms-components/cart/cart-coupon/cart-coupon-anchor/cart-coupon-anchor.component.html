@@ -1,15 +1,27 @@
-<ng-container *ngIf="vouchers || vouchers.length; else noVouchers">
-  <div class="cx-coupon-anchor-title">
-    <a (click)="scrollToAnchor('#applyVoucher')">Applied coupons</a>
-  </div>
-  <div class="cx-cart-coupon-item row" *ngFor="let v of vouchers">
-    <div class="cx-coupon-code col-4">
-      {{ v.code }}
+<div class="cx-cart-coupon-anchor">
+  <ng-container *ngIf="vouchers && vouchers.length > 0; else noVouchers">
+    <div class="cx-cart-coupon-anchor-title">
+      <button class="link" (click)="scrollToAnchor('#applyVoucher')">
+        {{
+          'voucher.anchor.vouchers'
+            | cxTranslate: { voucherNumber: vouchers.length }
+        }}
+      </button>
     </div>
-  </div>
+  </ng-container>
+
   <ng-template #noVouchers>
-    <div class="cx-coupon-anchor-title">
-      <a (click)="scrollToAnchor('#applyVoucher')">Have a coupon code?</a>
+    <div class="cx-cart-coupon-anchor-title">
+      <label
+        class="cx-cart-coupon-anchor-link"
+        (click)="scrollToAnchor('cx-cart-coupon')"
+      >
+        {{ 'voucher.anchor.noVouchers' | cxTranslate }}
+      </label>
     </div>
   </ng-template>
-</ng-container>
+
+  <div class="cx-cart-coupon-anchor-tips">
+    {{ 'voucher.anchor.tips' | cxTranslate }}
+  </div>
+</div>

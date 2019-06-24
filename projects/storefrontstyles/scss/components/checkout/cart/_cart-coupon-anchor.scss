@@ -1,0 +1,23 @@
+@import '../../../theme';
+
+%cx-cart-coupon-anchor {
+  .cx-cart-coupon-anchor {
+    padding-top: 2rem;
+
+    &-title {
+      @include type('5');
+      padding-bottom: 1rem;
+    }
+    &-tips {
+      @include type('8');
+      font-weight: var(--cx-g-font-weight-normal);
+    }
+    &-link {
+      cursor: pointer;
+      display: inline-block;
+      font-weight: var(--cx-g-font-weight-blod);
+      font-size: var(--cx-font-siz);
+      text-decoration: underline;
+    }
+  }
+}
