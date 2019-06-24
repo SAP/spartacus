@@ -1,4 +1,3 @@
-import { CartModification } from '../../../model/cart.model';
 import { StateLoaderActions } from '../../../state/index';
 import { CART_DATA } from '../cart-state';
 
@@ -23,7 +22,7 @@ export class CartAddEntry extends StateLoaderActions.LoaderLoadAction {
 
 export class CartAddEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_ADD_ENTRY_SUCCESS;
-  constructor(public payload: CartModification) {
+  constructor(public payload: any) {
     super(CART_DATA);
   }
 }
@@ -44,7 +43,7 @@ export class CartRemoveEntry extends StateLoaderActions.LoaderLoadAction {
 
 export class CartRemoveEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
-  constructor() {
+  constructor(public payload: any) {
     super(CART_DATA);
   }
 }
@@ -65,7 +64,7 @@ export class CartUpdateEntry extends StateLoaderActions.LoaderLoadAction {
 
 export class CartUpdateEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
-  constructor() {
+  constructor(public payload: any) {
     super(CART_DATA);
   }
 }

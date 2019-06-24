@@ -7,12 +7,13 @@ import { Observable, of } from 'rxjs';
 import * as fromAuth from '../../../auth/store/index';
 import { Cart } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/config/occ-config';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import * as fromUser from '../../../user/store/index';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
-import * as fromActions from '../actions/cart.action';
+import { CartActions } from '../actions/index';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
 
@@ -79,8 +80,8 @@ describe('Cart effect', () => {
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new fromActions.CreateCart(userId);
-      const completion = new fromActions.CreateCartSuccess(testCart);
+      const action = new CartActions.CreateCart(userId);
+      const completion = new CartActions.CreateCartSuccess(testCart);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -91,11 +92,11 @@ describe('Cart effect', () => {
 
   describe('loadCart$', () => {
     it('should load a cart', () => {
-      const action = new fromActions.LoadCart({
+      const action = new CartActions.LoadCart({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new fromActions.LoadCartSuccess(testCart);
+      const completion = new CartActions.LoadCartSuccess(testCart);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -106,11 +107,11 @@ describe('Cart effect', () => {
 
   describe('mergeCart$', () => {
     it('should merge old cart into the session cart', () => {
-      const action = new fromActions.MergeCart({
+      const action = new CartActions.MergeCart({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new fromActions.CreateCart({
+      const completion = new CartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',
@@ -120,6 +121,20 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetCartDetailsOnSiteContextChange$', () => {
+    it('should reset cart details', () => {
+      const action = new SiteContextActions.LanguageChange();
+      const completion = new CartActions.ResetCartDetails();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
+        expected
+      );
     });
   });
 });

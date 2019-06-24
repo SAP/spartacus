@@ -79,9 +79,10 @@ describe('Cart-entry Actions', () => {
 
     describe('CartRemoveEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartRemoveEntrySuccess();
+        const action = new CartActions.CartRemoveEntrySuccess({});
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_ENTRY_SUCCESS,
+          payload: {},
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
@@ -121,9 +122,10 @@ describe('Cart-entry Actions', () => {
 
     describe('CartUpdateEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartUpdateEntrySuccess();
+        const action = new CartActions.CartUpdateEntrySuccess({});
         expect({ ...action }).toEqual({
           type: CartActions.CART_UPDATE_ENTRY_SUCCESS,
+          payload: {},
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
