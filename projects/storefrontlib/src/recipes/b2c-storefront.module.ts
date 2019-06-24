@@ -4,7 +4,6 @@ import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { LayoutModule } from '../layout/layout.module';
 import { StorefrontConfig } from '../storefront-config';
 import { b2cLayoutConfig } from './config/b2c-layout-config';
-import { carouselStaticCmsonfig } from './config/static-cms-structure/carousel-sample.config';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
 
@@ -19,7 +18,6 @@ import { StorefrontModule } from './storefront.module';
 
     ConfigModule.withConfig(b2cLayoutConfig),
     ConfigModule.withConfigFactory(defaultCmsContentConfig),
-    ConfigModule.withConfig(carouselStaticCmsonfig),
 
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
