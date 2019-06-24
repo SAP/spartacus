@@ -1,0 +1,15 @@
+<ng-container *ngIf="vouchers || vouchers.length; else noVouchers">
+  <div class="cx-coupon-anchor-title">
+    <a (click)="scrollToAnchor('#applyVoucher')">Applied coupons</a>
+  </div>
+  <div class="cx-cart-coupon-item row" *ngFor="let v of vouchers">
+    <div class="cx-coupon-code col-4">
+      {{ v.code }}
+    </div>
+  </div>
+  <ng-template #noVouchers>
+    <div class="cx-coupon-anchor-title">
+      <a (click)="scrollToAnchor('#applyVoucher')">Have a coupon code?</a>
+    </div>
+  </ng-template>
+</ng-container>
