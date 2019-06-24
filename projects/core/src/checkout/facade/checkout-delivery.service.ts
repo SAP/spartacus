@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { ANONYMOUS_USERID, CartDataService } from '../../cart/index';
+import { filter, shareReplay, tap } from 'rxjs/operators';
+import {
+  ANONYMOUS_USERID,
+  CartDataService,
+} from '../../cart/facade/cart-data.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
 import * as fromCheckoutStore from '../store/index';
@@ -21,7 +24,13 @@ export class CheckoutDeliveryService {
    */
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getSupportedDeliveryModes)
+      select(fromCheckoutStore.getSupportedDeliveryModes),
+      tap(deliveryModes => {
+        if (Object.keys(deliveryModes).length === 0) {
+          this.loadSupportedDeliveryModes();
+        }
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 

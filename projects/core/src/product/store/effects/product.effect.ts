@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { of, Observable } from 'rxjs';
-import { map, catchError, mergeMap, switchMap, groupBy } from 'rxjs/operators';
-
-import * as actions from '../actions/index';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ProductConnector } from '../../connectors/product/product.connector';
+import * as actions from '../actions/index';
 
 @Injectable()
 export class ProductEffects {
@@ -24,7 +23,12 @@ export class ProductEffects {
               return new actions.LoadProductSuccess(product);
             }),
             catchError(error =>
-              of(new actions.LoadProductFail(productCode, error))
+              of(
+                new actions.LoadProductFail(
+                  productCode,
+                  makeErrorSerializable(error)
+                )
+              )
             )
           );
         })
