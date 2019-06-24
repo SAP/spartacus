@@ -87,6 +87,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         }
         this.openModal();
         this.cartService.addEntry(this.productCode, this.quantity);
+        this.increment = false;
       })
       .unsubscribe();
   }
