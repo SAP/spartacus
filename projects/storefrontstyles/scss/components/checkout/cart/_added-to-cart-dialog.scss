@@ -14,6 +14,11 @@
     padding: 1rem 1rem 0 1rem;
     @include media-breakpoint-down(sm) {
       padding: 0;
+      background-color: var(--cx-g-color-inverse);
+    }
+    cx-media.is-missing {
+      min-width: 100%;
+      background-size: 85px;
     }
   }
 
@@ -39,7 +44,7 @@
   .cx-dialog-separator {
     border-width: 1px 0 0 0;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
   }
 
   .cx-dialog-actions {
@@ -48,7 +53,7 @@
     padding: 0 1rem 0 2.5rem;
     border-width: 0 0 0 1px;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
 
     @include media-breakpoint-down(sm) {
       border-width: 0;

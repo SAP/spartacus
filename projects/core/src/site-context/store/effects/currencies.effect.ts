@@ -1,28 +1,31 @@
-import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { map, catchError, exhaustMap, tap } from 'rxjs/operators';
-
-import * as actions from '../actions/currencies.action';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
+import * as actions from '../actions/currencies.action';
 
 @Injectable()
 export class CurrenciesEffects {
   @Effect()
-  loadCurrencies$: Observable<any> = this.actions$.pipe(
+  loadCurrencies$: Observable<
+    actions.LoadCurrenciesSuccess | actions.LoadCurrenciesFail
+  > = this.actions$.pipe(
     ofType(actions.LOAD_CURRENCIES),
     exhaustMap(() => {
       return this.siteConnector.getCurrencies().pipe(
         map(currencies => new actions.LoadCurrenciesSuccess(currencies)),
-        catchError(error => of(new actions.LoadCurrenciesFail(error)))
+        catchError(error =>
+          of(new actions.LoadCurrenciesFail(makeErrorSerializable(error)))
+        )
       );
     })
   );
 
   @Effect()
-  activateCurrency$: Observable<any> = this.actions$.pipe(
+  activateCurrency$: Observable<actions.CurrencyChange> = this.actions$.pipe(
     ofType(actions.SET_ACTIVE_CURRENCY),
     tap((action: actions.SetActiveCurrency) => {
       if (this.winRef.sessionStorage) {

@@ -67,9 +67,8 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
+
     // clean up the state
     this.userService.resetUpdatePersonalDetailsProcessingState();
   }

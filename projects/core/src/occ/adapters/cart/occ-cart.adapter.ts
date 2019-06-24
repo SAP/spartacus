@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { Occ } from '../../occ-models/occ.models';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map, pluck } from 'rxjs/operators';
-
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, pluck } from 'rxjs/operators';
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
 import { Cart } from '../../../model/cart.model';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -19,7 +18,7 @@ const BASIC_PARAMS =
 const DETAILS_PARAMS =
   'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
-  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
+  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
   'appliedVouchers,productDiscounts(formattedValue)';
 
@@ -46,7 +45,6 @@ export class OccCartAdapter implements CartAdapter {
           fromString: `fields=carts(${BASIC_PARAMS},saveTime)`,
         });
     return this.http.get<Occ.CartList>(url, { params: params }).pipe(
-      catchError((error: any) => throwError(error)),
       pluck('carts'),
       this.converter.pipeableMany(CART_NORMALIZER)
     );
@@ -80,10 +78,9 @@ export class OccCartAdapter implements CartAdapter {
         })
       );
     } else {
-      return this.http.get<Occ.Cart>(url, { params: params }).pipe(
-        catchError((error: any) => throwError(error)),
-        this.converter.pipeable(CART_NORMALIZER)
-      );
+      return this.http
+        .get<Occ.Cart>(url, { params: params })
+        .pipe(this.converter.pipeable(CART_NORMALIZER));
     }
   }
 
@@ -106,9 +103,8 @@ export class OccCartAdapter implements CartAdapter {
       fromString: queryString,
     });
 
-    return this.http.post<Occ.Cart>(url, toAdd, { params: params }).pipe(
-      this.converter.pipeable(CART_NORMALIZER),
-      catchError((error: any) => throwError(error.json()))
-    );
+    return this.http
+      .post<Occ.Cart>(url, toAdd, { params: params })
+      .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 }

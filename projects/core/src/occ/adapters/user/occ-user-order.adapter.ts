@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
-import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
-import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { Order, OrderHistoryList } from '../../../model/order.model';
-import { Occ } from '../../occ-models/occ.models';
-import { ConverterService } from '../../../util/converter.service';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { Order, OrderHistoryList } from '../../../model/order.model';
+import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
@@ -39,10 +38,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       .get<Occ.Order>(orderUrl, {
         params: params,
       })
-      .pipe(
-        catchError((error: any) => throwError(error.json())),
-        this.converter.pipeable(ORDER_NORMALIZER)
-      );
+      .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 
   public loadHistory(
@@ -63,9 +59,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       params = params.set('sort', sort);
     }
 
-    return this.http.get<Occ.OrderHistoryList>(url, { params: params }).pipe(
-      catchError((error: any) => throwError(error.json())),
-      this.converter.pipeable(ORDER_HISTORY_NORMALIZER)
-    );
+    return this.http
+      .get<Occ.OrderHistoryList>(url, { params: params })
+      .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
   }
 }

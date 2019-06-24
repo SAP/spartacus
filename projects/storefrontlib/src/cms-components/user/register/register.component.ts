@@ -12,8 +12,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Title,
-  UserSignUp,
   UserService,
+  UserSignUp,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -25,7 +25,9 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
-  subscription: Subscription;
+
+  private subscription = new Subscription();
+
   userRegistrationForm: FormGroup = this.fb.group(
     {
       titleCode: [''],
@@ -59,9 +61,39 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
+
+    this.subscription.add(
+      this.auth.getUserToken().subscribe(data => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
+      })
+    );
+
+    // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+    this.subscription.add(
+      this.globalMessageService
+        .get()
+        .pipe(filter(data => Object.keys(data).length > 0))
+        .subscribe((globalMessageEntities: GlobalMessageEntities) => {
+          if (
+            globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR].some(
+              message => message === 'This field is required.'
+            )
+          ) {
+            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+            this.globalMessageService.add(
+              { key: 'register.titleRequired' },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+          }
+        })
+    );
   }
 
   submit(): void {
+    this.emailToLowerCase();
     const {
       firstName,
       lastName,
@@ -77,44 +109,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
       titleCode,
     };
     this.userService.register(userRegisterFormData);
-
-    if (!this.subscription) {
-      this.subscription = this.auth.getUserToken().subscribe(data => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      });
-    }
-
-    // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
-    this.globalMessageService
-      .get()
-      .pipe(filter(data => Object.keys(data).length > 0))
-      .subscribe((globalMessageEntities: GlobalMessageEntities) => {
-        if (
-          globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR].some(
-            message => message === 'This field is required.'
-          )
-        ) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.globalMessageService.add(
-            { key: 'register.titleRequired' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
     if (ac.get('password').value !== ac.get('passwordconf').value) {
       return { NotEqual: true };
     }
+  }
+
+  /*
+   * Change the inputed email to lowercase because
+   * the backend only accepts lowercase emails
+   */
+  emailToLowerCase(): void {
+    this.userRegistrationForm.value.email = this.userRegistrationForm.value.email.toLowerCase();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

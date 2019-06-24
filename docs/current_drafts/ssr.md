@@ -15,7 +15,7 @@ environment = {
 1. Rebuild your libs (`yarn build:core:lib`)
 1. Build your shell app (`yarn build`)
 1. Build your shell app in ssr mode (`yarn build:ssr`)
-1. start ssr server (`yarn start`)
+1. start ssr server (`yarn start:ssr`)
 
 ### Service workers
 
@@ -40,7 +40,7 @@ StorefrontModule.withConfig({
 
 ## Known issues
 
-If the backend server (endpoint) is eithernot reachable or not valid through https, you’ll get the following error:
+If the backend server (endpoint) is either not reachable or not valid through https, you’ll get the following error:
 
 `TypeError: You provided 'undefined' where a stream was expected. You can provide an Observable, Promise, Array, or Iterable.`
 

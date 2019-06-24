@@ -1,14 +1,35 @@
 %LandingPage2Template {
   display: flex;
   flex-wrap: wrap;
+  max-width: 1700px;
+  margin: auto;
 
   cx-page-slot {
+    &.Section1 {
+      max-width: 1140px;
+      margin: auto;
+      margin-top: 30px;
+
+      @include media-breakpoint-down(md) {
+        margin-top: 0;
+      }
+    }
+
+    &.Section2A {
+      margin-left: auto;
+    }
+
+    &.Section2B {
+      margin-right: auto;
+    }
+
     &.Section2A,
     &.Section2B {
       --cx-flex-basis: 50%;
-
+      max-width: 570px;
       @include media-breakpoint-down(md) {
         --cx-flex-basis: 100%;
+        max-width: 100%;
         > * {
           --cx-flex-basis: 50%;
         }
@@ -27,7 +48,7 @@
     }
 
     &.Section4 {
-      color: var(--cx-color, var(--cx-g-color-light));
+      color: var(--cx-color, var(--cx-color-light));
       flex-wrap: nowrap;
 
       @include media-breakpoint-down(md) {
