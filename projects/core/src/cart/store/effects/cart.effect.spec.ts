@@ -4,16 +4,19 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import * as fromAuth from '../../../auth/store/index';
+import { AUTH_FEATURE } from '../../../auth/store/auth-state';
+import * as fromAuthReducers from '../../../auth/store/reducers/index';
 import { Cart } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import * as fromUser from '../../../user/store/index';
+import * as fromUserReducers from '../../../user/store/reducers/index';
+import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
-import * as fromCart from '../../store/index';
+import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
+import { CART_FEATURE } from '../cart-state';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
 
@@ -57,9 +60,9 @@ describe('Cart effect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
-        StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers()),
+        StoreModule.forFeature(CART_FEATURE, fromCartReducers.getReducers()),
+        StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
+        StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
       ],
 
       providers: [
