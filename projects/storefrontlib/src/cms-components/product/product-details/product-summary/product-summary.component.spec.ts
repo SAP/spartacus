@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, Product } from '@spartacus/core';
 import { AddToCartModule } from '../../../../cms-components/checkout/index';
 import { OutletDirective } from '../../../../cms-structure/outlet/index';
 import { FormComponentsModule } from '../../../../shared/components/form-components/form-components.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
+import { By } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-star-rating',
@@ -28,7 +29,7 @@ class MockDynamicSlotComponent {
   selector: 'cx-stock-notification',
   template: '',
 })
-class MockSotckNotificationComponent {
+class MockStockNotificationComponent {
   @Input()
   productCode: string;
 }
@@ -45,7 +46,7 @@ describe('ProductSummaryComponent in product ', () => {
         OutletDirective,
         MockStarRatingComponent,
         MockDynamicSlotComponent,
-        MockSotckNotificationComponent,
+        MockStockNotificationComponent,
       ],
     }).compileComponents();
   }));
@@ -114,6 +115,22 @@ describe('ProductSummaryComponent in product ', () => {
       );
 
       expect(result).toBe(tab2);
+    });
+  });
+
+  describe('stock notification component', () => {
+    it('should be loaded', () => {
+      const mockNoStockProduct: Product = {
+        name: 'mockProduct',
+        code: 'code1',
+        stock: { stockLevelStatus: 'outOfStock', stockLevel: 0 },
+      };
+      productSummaryComponent.product = mockNoStockProduct;
+      fixture.detectChanges();
+      const stockNotification = fixture.debugElement.query(
+        By.css('cx-stock-notification')
+      );
+      expect(!!stockNotification).toBeTruthy();
     });
   });
 });
