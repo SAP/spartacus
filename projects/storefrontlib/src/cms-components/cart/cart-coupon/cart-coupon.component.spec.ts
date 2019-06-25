@@ -130,10 +130,10 @@ describe('CartCouponComponent', () => {
     expect(component.onSuccess).toHaveBeenCalledWith(true);
   });
 
-  it('should NOT add a global message and NOT navigate to a url ', () => {
+  it('should call from rest for call onSuccess with true ', () => {
     spyOn(component.form, 'reset').and.stub();
 
     component.onSuccess(true);
-    expect(component.form.reset).not.toHaveBeenCalled();
+    expect(component.form.reset).toHaveBeenCalled();
   });
 });
