@@ -1,6 +1,6 @@
 import {
-  LoaderLoadAction,
   LoaderFailAction,
+  LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { CART_DATA } from '../cart-state';
@@ -47,7 +47,7 @@ export class RemoveEntry extends LoaderLoadAction {
 
 export class RemoveEntrySuccess extends LoaderSuccessAction {
   readonly type = REMOVE_ENTRY_SUCCESS;
-  constructor() {
+  constructor(public payload: any) {
     super(CART_DATA);
   }
 }
@@ -68,7 +68,7 @@ export class UpdateEntry extends LoaderLoadAction {
 
 export class UpdateEntrySuccess extends LoaderSuccessAction {
   readonly type = UPDATE_ENTRY_SUCCESS;
-  constructor() {
+  constructor(public payload: any) {
     super(CART_DATA);
   }
 }

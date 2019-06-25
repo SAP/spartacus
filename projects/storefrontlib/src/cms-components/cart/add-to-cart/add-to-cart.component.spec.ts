@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
-  CartDataService,
   CartService,
   I18nTestingModule,
   OrderEntry,
@@ -77,7 +76,6 @@ describe('AddToCartComponent', () => {
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
-        CartDataService,
         { provide: ModalService, useValue: { open: () => {} } },
         { provide: CartService, useClass: MockCartService },
         { provide: CurrentProductService, useClass: MockCurrentProductService },

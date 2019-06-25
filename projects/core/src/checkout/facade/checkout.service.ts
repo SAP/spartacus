@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ANONYMOUS_USERID, CartDataService } from '../../cart/index';
+import {
+  ANONYMOUS_USERID,
+  CartDataService,
+} from '../../cart/facade/cart-data.service';
 import * as fromSelector from '../../checkout/store/selectors/index';
 import { Order } from '../../model/order.model';
 import * as fromCheckoutStore from '../store/index';
