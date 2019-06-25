@@ -1,10 +1,11 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, EventEmitter, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Cart, CartService, I18nTestingModule, Voucher } from '@spartacus/core';
 import { of } from 'rxjs';
 import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
+import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 import { CartCouponComponent } from './cart-coupon.component';
 
 const coupon1: Voucher = { code: 'coupon1' };
@@ -34,6 +35,12 @@ describe('CartCouponComponent', () => {
     'resetAddVoucherProcessingState',
   ]);
 
+  const mockCartCouponAnchorService = {
+    getEventEmit(): EventEmitter<string> {
+      return new EventEmitter<string>();
+    },
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
@@ -42,7 +49,13 @@ describe('CartCouponComponent', () => {
         AppliedCouponsComponent,
         MockCxIconComponent,
       ],
-      providers: [{ provide: CartService, useValue: mockCartService }],
+      providers: [
+        { provide: CartService, useValue: mockCartService },
+        {
+          provide: CartCouponAnchorService,
+          useValue: mockCartCouponAnchorService,
+        },
+      ],
     }).compileComponents();
   }));
 
