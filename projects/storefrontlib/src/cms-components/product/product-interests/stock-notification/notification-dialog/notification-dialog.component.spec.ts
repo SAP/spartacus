@@ -60,8 +60,6 @@ describe('NotificationDialogComponent', () => {
     fixture = TestBed.createComponent(NotificationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    component.subscribeSuccess$ = of(true);
   });
 
   it('should create', () => {

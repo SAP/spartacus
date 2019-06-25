@@ -17,12 +17,14 @@ export class NotificationDialogComponent implements OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.subscribeSuccess$
-      .subscribe(success => {
-        if (success) {
-          this.productInterestService.resetCreateState();
-        }
-      })
-      .unsubscribe();
+    if (this.subscribeSuccess$) {
+      this.subscribeSuccess$
+        .subscribe(success => {
+          if (success) {
+            this.productInterestService.resetCreateState();
+          }
+        })
+        .unsubscribe();
+    }
   }
 }
