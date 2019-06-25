@@ -33,10 +33,12 @@ const MockAuthConfig: OccConfig = {
       prefix: '/rest/v2/',
     },
   },
-  site: {
-    baseSite: 'electronics',
-    language: '',
-    currency: '',
+  context: {
+    parameters: {
+      baseSite: { default: 'test-site' },
+      language: { default: '' },
+      currency: { default: '' },
+    },
   },
 };
 
@@ -89,7 +91,7 @@ describe('UserTokenInterceptor', () => {
     (http: HttpClient) => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
       const sub: Subscription = http
-        .get('https://localhost:9002/rest/v2/electronics')
+        .get('https://localhost:9002/rest/v2/test-site')
         .subscribe(result => {
           expect(result).toBeTruthy();
         });
@@ -116,7 +118,7 @@ describe('UserTokenInterceptor', () => {
 
       const headers = { Authorization: 'bearer 123' };
       const sub: Subscription = http
-        .get('https://localhost:9002/rest/v2/electronics', { headers })
+        .get('https://localhost:9002/rest/v2/test-site', { headers })
         .subscribe(result => {
           expect(result).toBeTruthy();
         });

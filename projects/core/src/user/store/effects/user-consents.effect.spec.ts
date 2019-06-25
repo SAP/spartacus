@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { UserConsentAdapter } from '../../connectors';
 import * as fromAction from '../actions/user-consents.action';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import * as fromEffect from './user-consents.effect';
 
 class MockOccUserAdapter {
@@ -105,6 +106,18 @@ describe('User Consents effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userConsentEffect.withdrawConsent$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetConsents$', () => {
+    it('should return ResetLoadUserConsents', () => {
+      const action = new fromSiteContextActions.LanguageChange();
+      const completion = new fromAction.ResetLoadUserConsents();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userConsentEffect.resetConsents$).toBeObservable(expected);
     });
   });
 });

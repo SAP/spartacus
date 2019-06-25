@@ -1,28 +1,42 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
   HttpEvent,
+  HttpHandler,
   HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
-import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { SiteContextConfig } from '../../../site-context/config/site-context-config';
+import { getContextParameterDefault } from '../../../site-context/config/context-config-utils';
+import {
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID,
+} from '../../../site-context/providers/context-service-map';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
-  activeLang: string = this.config.site.language;
-  activeCurr: string = this.config.site.currency;
+  activeLang: string;
+  activeCurr: string;
 
   constructor(
     private languageService: LanguageService,
     private currencyService: CurrencyService,
     private occEndpoints: OccEndpointsService,
-    private config: OccConfig
+    private config: SiteContextConfig
   ) {
+    this.activeLang = getContextParameterDefault(
+      this.config,
+      LANGUAGE_CONTEXT_ID
+    );
+    this.activeCurr = getContextParameterDefault(
+      this.config,
+      CURRENCY_CONTEXT_ID
+    );
+
     this.languageService
       .getActive()
       .subscribe(data => (this.activeLang = data));

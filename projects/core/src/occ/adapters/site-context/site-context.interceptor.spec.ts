@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -9,7 +9,7 @@ import { SiteContextInterceptor } from './site-context.interceptor';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LanguageService } from '../../../site-context/facade/language.service';
 import { CurrencyService } from '../../../site-context/facade/currency.service';
-import { OccConfig } from '../../config/occ-config';
+import { OccConfig, SiteContextConfig } from '@spartacus/core';
 
 class MockCurrencyService {
   isocode = new BehaviorSubject(null);
@@ -41,10 +41,12 @@ export class MockSiteContextModuleConfig {
     occPrefix: '/rest/v2/',
   };
 
-  site = {
-    baseSite: 'electronics',
-    language: '',
-    currency: '',
+  context = {
+    parameters: {
+      baseSite: { default: 'electronics' },
+      language: { default: '' },
+      currency: { default: '' },
+    },
   };
 }
 
@@ -67,6 +69,10 @@ describe('SiteContextInterceptor', () => {
         {
           provide: CurrencyService,
           useClass: MockCurrencyService,
+        },
+        {
+          provide: SiteContextConfig,
+          useClass: MockSiteContextModuleConfig,
         },
         {
           provide: OccConfig,
@@ -112,7 +118,7 @@ describe('SiteContextInterceptor', () => {
       languageService.setActive(languageDe);
       currencyService.setActive(currencyJpy);
       http
-        .get('https://localhost:9002/rest/v2/electronics')
+        .get('https://localhost:9002/rest/v2/electronics/')
         .subscribe(result => {
           expect(result).toBeTruthy();
         });
