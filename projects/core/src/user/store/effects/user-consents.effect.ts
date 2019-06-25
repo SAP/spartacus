@@ -5,9 +5,18 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
 import * as fromActions from '../actions/user-consents.action';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 
 @Injectable()
 export class UserConsentsEffect {
+  @Effect()
+  resetConsents$: Observable<
+    fromActions.ResetLoadUserConsents
+  > = this.actions$.pipe(
+    ofType(fromSiteContextActions.LANGUAGE_CHANGE),
+    map(() => new fromActions.ResetLoadUserConsents())
+  );
+
   @Effect()
   getConsents$: Observable<fromActions.UserConsentsAction> = this.actions$.pipe(
     ofType(fromActions.LOAD_USER_CONSENTS),
@@ -48,7 +57,7 @@ export class UserConsentsEffect {
     map((action: fromActions.WithdrawUserConsent) => action.payload),
     switchMap(({ userId, consentCode }) =>
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
-        map(_ => new fromActions.WithdrawUserConsentSuccess()),
+        map(() => new fromActions.WithdrawUserConsentSuccess()),
         catchError(error =>
           of(
             new fromActions.WithdrawUserConsentFail(
