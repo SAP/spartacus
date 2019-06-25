@@ -1,11 +1,11 @@
-import * as fromCart from './../actions/cart.action';
-import { CART_DATA } from '../cart-state';
+import { Cart } from '../../../model/cart.model';
 import {
   failMeta,
   loadMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
-import { Cart } from '../../../model/cart.model';
+import { CART_DATA } from '../cart-state';
+import { CartActions } from './index';
 
 const cart: Cart = {
   code: 'xxx',
@@ -26,9 +26,9 @@ describe('Cart Actions', () => {
     describe('CreateCart', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
-        const action = new fromCart.CreateCart(userId);
+        const action = new CartActions.CreateCart(userId);
         expect({ ...action }).toEqual({
-          type: fromCart.CREATE_CART,
+          type: CartActions.CREATE_CART,
           payload: userId,
           meta: loadMeta(CART_DATA),
         });
@@ -38,10 +38,10 @@ describe('Cart Actions', () => {
     describe('CreateCartFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromCart.CreateCartFail(error);
+        const action = new CartActions.CreateCartFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromCart.CREATE_CART_FAIL,
+          type: CartActions.CREATE_CART_FAIL,
           payload: error,
           meta: failMeta(CART_DATA, error),
         });
@@ -50,9 +50,9 @@ describe('Cart Actions', () => {
 
     describe('CreateCartSuccess', () => {
       it('should create the action', () => {
-        const action = new fromCart.CreateCartSuccess(cart);
+        const action = new CartActions.CreateCartSuccess(cart);
         expect({ ...action }).toEqual({
-          type: fromCart.CREATE_CART_SUCCESS,
+          type: CartActions.CREATE_CART_SUCCESS,
           payload: cart,
           meta: successMeta(CART_DATA),
         });
@@ -65,12 +65,12 @@ describe('Cart Actions', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
-        const action = new fromCart.LoadCart({
+        const action = new CartActions.LoadCart({
           userId: userId,
           cartId: cartId,
         });
         expect({ ...action }).toEqual({
-          type: fromCart.LOAD_CART,
+          type: CartActions.LOAD_CART,
           payload: { userId: userId, cartId: cartId },
           meta: loadMeta(CART_DATA),
         });
@@ -80,10 +80,10 @@ describe('Cart Actions', () => {
     describe('LoadCartFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromCart.LoadCartFail(error);
+        const action = new CartActions.LoadCartFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromCart.LOAD_CART_FAIL,
+          type: CartActions.LOAD_CART_FAIL,
           payload: error,
           meta: failMeta(CART_DATA, error),
         });
@@ -92,9 +92,9 @@ describe('Cart Actions', () => {
 
     describe('LoadCartSuccess', () => {
       it('should create the action', () => {
-        const action = new fromCart.LoadCartSuccess(cart);
+        const action = new CartActions.LoadCartSuccess(cart);
         expect({ ...action }).toEqual({
-          type: fromCart.LOAD_CART_SUCCESS,
+          type: CartActions.LOAD_CART_SUCCESS,
           payload: cart,
           meta: successMeta(CART_DATA),
         });
@@ -107,12 +107,12 @@ describe('Cart Actions', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
-        const action = new fromCart.MergeCart({
+        const action = new CartActions.MergeCart({
           userId: userId,
           cartId: cartId,
         });
         expect({ ...action }).toEqual({
-          type: fromCart.MERGE_CART,
+          type: CartActions.MERGE_CART,
           payload: { userId: userId, cartId: cartId },
         });
       });

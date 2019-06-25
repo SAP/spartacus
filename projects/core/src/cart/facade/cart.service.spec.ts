@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { AuthService, UserToken } from '../../auth';
-import * as fromCart from '../../cart/store';
+import { AuthService, UserToken } from '../../auth/index';
+import { CartActions } from '../../cart/store/actions/index';
+import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { StateWithCart } from '../store/cart-state';
@@ -38,7 +39,7 @@ describe('CartService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('cart', fromReducers.getReducers()),
       ],
       providers: [
         CartService,
@@ -66,7 +67,7 @@ describe('CartService', () => {
 
           service[loadOrMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
-            new fromCart.LoadCart({
+            new CartActions.LoadCart({
               userId: cartData.userId,
               cartId: 'current',
             })
@@ -80,7 +81,7 @@ describe('CartService', () => {
 
           service[loadOrMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
-            new fromCart.MergeCart({
+            new CartActions.MergeCart({
               userId: cartData.userId,
               cartId: cartData.cart.guid,
             })
@@ -92,7 +93,7 @@ describe('CartService', () => {
 
   describe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
-      store.dispatch(new fromCart.CreateCartSuccess(cart));
+      store.dispatch(new CartActions.CreateCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
       cartData.userId = userId;
@@ -102,7 +103,7 @@ describe('CartService', () => {
       service.addEntry(productCode, 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.AddEntry({
+        new CartActions.CartAddEntry({
           userId: userId,
           cartId: cart.code,
           productCode: productCode,
@@ -112,7 +113,7 @@ describe('CartService', () => {
     });
 
     it('should be able to addCartEntry if cart does not exist', () => {
-      store.dispatch(new fromCart.LoadCartSuccess({}));
+      store.dispatch(new CartActions.LoadCartSuccess({}));
       spyOn(store, 'dispatch').and.callThrough();
 
       cartData.userId = userId;
@@ -120,7 +121,7 @@ describe('CartService', () => {
       service.addEntry(productCode, 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.CreateCart({
+        new CartActions.CreateCart({
           userId: userId,
         })
       );
@@ -137,7 +138,7 @@ describe('CartService', () => {
       service.updateEntry('1', 1);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.UpdateEntry({
+        new CartActions.CartUpdateEntry({
           userId: userId,
           cartId: cart.code,
           entry: '1',
@@ -154,7 +155,7 @@ describe('CartService', () => {
       service.updateEntry('1', 0);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.RemoveEntry({
+        new CartActions.CartRemoveEntry({
           userId: userId,
           cartId: cart.code,
           entry: '1',
@@ -173,7 +174,7 @@ describe('CartService', () => {
       service.removeEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.RemoveEntry({
+        new CartActions.CartRemoveEntry({
           userId: userId,
           cartId: cart.code,
           entry: mockCartEntry.entryNumber,
@@ -184,7 +185,7 @@ describe('CartService', () => {
 
   describe('getLoaded', () => {
     it('should return a loaded state', () => {
-      store.dispatch(new fromCart.CreateCartSuccess(cart));
+      store.dispatch(new CartActions.CreateCartSuccess(cart));
       let result: boolean;
       service
         .getLoaded()
@@ -202,7 +203,7 @@ describe('CartService', () => {
           { product: { code: 'code2' } },
         ],
       };
-      store.dispatch(new fromCart.LoadCartSuccess(testCart));
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       let result: OrderEntry;
       service
@@ -216,7 +217,7 @@ describe('CartService', () => {
   describe('getCartMergeComplete', () => {
     it('should return true when the merge is complete', () => {
       store.dispatch(
-        new fromCart.MergeCartSuccess({ cartId: 'cartId', userId: 'userId' })
+        new CartActions.MergeCartSuccess({ cartId: 'cartId', userId: 'userId' })
       );
       let result: boolean;
       service

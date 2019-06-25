@@ -4,7 +4,7 @@ import {
   successMeta,
 } from '../../../state/utils/loader/loader.action';
 import { CART_DATA } from '../cart-state';
-import * as fromCartEntry from './../actions/cart-entry.action';
+import { CartActions } from './index';
 
 const userId = 'xxx@xxx.xxx';
 const cartId = 'testCartId';
@@ -13,7 +13,7 @@ const entryNumber = 'testEntryNumber';
 
 describe('Cart-entry Actions', () => {
   describe('AddCartEntry Actions', () => {
-    describe('AddEntry', () => {
+    describe('CartAddEntry', () => {
       it('should create the action', () => {
         const payload = {
           userId: userId,
@@ -21,33 +21,33 @@ describe('Cart-entry Actions', () => {
           productCode: productCode,
           quantity: 1,
         };
-        const action = new fromCartEntry.AddEntry(payload);
+        const action = new CartActions.CartAddEntry(payload);
         expect({ ...action }).toEqual({
-          type: fromCartEntry.ADD_ENTRY,
+          type: CartActions.CART_ADD_ENTRY,
           payload: payload,
           meta: loadMeta(CART_DATA),
         });
       });
     });
 
-    describe('AddEntryFail', () => {
+    describe('CartAddEntryFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromCartEntry.AddEntryFail(error);
+        const action = new CartActions.CartAddEntryFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromCartEntry.ADD_ENTRY_FAIL,
+          type: CartActions.CART_ADD_ENTRY_FAIL,
           payload: error,
           meta: failMeta(CART_DATA, error),
         });
       });
     });
 
-    describe('AddEntrySuccess', () => {
+    describe('CartAddEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new fromCartEntry.AddEntrySuccess({});
+        const action = new CartActions.CartAddEntrySuccess({});
         expect({ ...action }).toEqual({
-          type: fromCartEntry.ADD_ENTRY_SUCCESS,
+          type: CartActions.CART_ADD_ENTRY_SUCCESS,
           payload: {},
           meta: successMeta(CART_DATA),
         });
@@ -56,36 +56,36 @@ describe('Cart-entry Actions', () => {
   });
 
   describe('RemoveCartEntry Actions', () => {
-    describe('RemoveEntry', () => {
+    describe('CartRemoveEntry', () => {
       it('should create the action', () => {
         const payload = { userId: userId, cartId: cartId, entry: entryNumber };
-        const action = new fromCartEntry.RemoveEntry(payload);
+        const action = new CartActions.CartRemoveEntry(payload);
         expect({ ...action }).toEqual({
-          type: fromCartEntry.REMOVE_ENTRY,
+          type: CartActions.CART_REMOVE_ENTRY,
           payload: payload,
           meta: loadMeta(CART_DATA),
         });
       });
     });
 
-    describe('RemoveEntryFail', () => {
+    describe('CartRemoveEntryFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromCartEntry.RemoveEntryFail(error);
+        const action = new CartActions.CartRemoveEntryFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromCartEntry.REMOVE_ENTRY_FAIL,
+          type: CartActions.CART_REMOVE_ENTRY_FAIL,
           payload: error,
           meta: failMeta(CART_DATA, error),
         });
       });
     });
 
-    describe('RemoveEntrySuccess', () => {
+    describe('CartRemoveEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new fromCartEntry.RemoveEntrySuccess({});
+        const action = new CartActions.CartRemoveEntrySuccess({});
         expect({ ...action }).toEqual({
-          type: fromCartEntry.REMOVE_ENTRY_SUCCESS,
+          type: CartActions.CART_REMOVE_ENTRY_SUCCESS,
           payload: {},
           meta: successMeta(CART_DATA),
         });
@@ -94,7 +94,7 @@ describe('Cart-entry Actions', () => {
   });
 
   describe('UpdateCartEntry Actions', () => {
-    describe('UpdateEntry', () => {
+    describe('CartUpdateEntry', () => {
       it('should create the action', () => {
         const payload = {
           userId: userId,
@@ -102,33 +102,33 @@ describe('Cart-entry Actions', () => {
           productCode: productCode,
           quantity: 1,
         };
-        const action = new fromCartEntry.UpdateEntry(payload);
+        const action = new CartActions.CartUpdateEntry(payload);
         expect({ ...action }).toEqual({
-          type: fromCartEntry.UPDATE_ENTRY,
+          type: CartActions.CART_UPDATE_ENTRY,
           payload: payload,
           meta: loadMeta(CART_DATA),
         });
       });
     });
 
-    describe('UpdateEntryFail', () => {
+    describe('CartUpdateEntryFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromCartEntry.UpdateEntryFail(error);
+        const action = new CartActions.CartUpdateEntryFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromCartEntry.UPDATE_ENTRY_FAIL,
+          type: CartActions.CART_UPDATE_ENTRY_FAIL,
           payload: error,
           meta: failMeta(CART_DATA, error),
         });
       });
     });
 
-    describe('UpdateEntrySuccess', () => {
+    describe('CartUpdateEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new fromCartEntry.UpdateEntrySuccess({});
+        const action = new CartActions.CartUpdateEntrySuccess({});
         expect({ ...action }).toEqual({
-          type: fromCartEntry.UPDATE_ENTRY_SUCCESS,
+          type: CartActions.CART_UPDATE_ENTRY_SUCCESS,
           payload: {},
           meta: successMeta(CART_DATA),
         });
