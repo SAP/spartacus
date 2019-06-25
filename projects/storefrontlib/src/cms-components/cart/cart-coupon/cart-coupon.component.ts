@@ -40,7 +40,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         this.onSuccess(success);
       })
     );
-    this.cartCouponAnchorService.eventEmit.subscribe((anchor: string) => {
+    this.cartCouponAnchorService.getEventEmit().subscribe((anchor: string) => {
       const anchorElement = this.element.nativeElement.querySelector(anchor);
       if (anchorElement) {
         anchorElement.scrollIntoView({ behavior: 'smooth' });

@@ -10,7 +10,7 @@
       {{ 'cartDetails.proceedToCheckout' | cxTranslate }}
     </button>
     <cx-cart-coupon-anchor
-      [vouchers]="cart.appliedVouchers"
+      [vouchers]="cart.appliedVouchers || []"
     ></cx-cart-coupon-anchor>
   </ng-container>
 </ng-container>

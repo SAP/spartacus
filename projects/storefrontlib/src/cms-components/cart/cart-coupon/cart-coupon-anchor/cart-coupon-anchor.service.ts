@@ -4,9 +4,13 @@ import { EventEmitter, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CartCouponAnchorService {
-  eventEmit: EventEmitter<string>;
+  private eventEmit: EventEmitter<string>;
 
   constructor() {
     this.eventEmit = new EventEmitter<string>();
+  }
+
+  public getEventEmit():EventEmitter<string>{
+    return this.eventEmit;
   }
 }
