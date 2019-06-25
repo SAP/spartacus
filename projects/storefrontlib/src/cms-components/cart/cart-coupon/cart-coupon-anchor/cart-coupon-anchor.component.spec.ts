@@ -5,36 +5,29 @@ import { I18nTestingModule, Voucher } from '@spartacus/core';
 import { CartCouponAnchorComponent } from './cart-coupon-anchor.component';
 import { CartCouponAnchorService } from './cart-coupon-anchor.service';
 
-class MockCartCouponAnchorService {
-  getEventEmit(): EventEmitter<string> {
-    return new EventEmitter<string>();
-  }
-}
-describe('CartCouponAnchorComponent', () => {
+fdescribe('CartCouponAnchorComponent', () => {
   let component: CartCouponAnchorComponent;
   let fixture: ComponentFixture<CartCouponAnchorComponent>;
 
   let cartCouponAnchorService;
+
   const mockVouchers: Voucher[] = [{ code: 'mockVoucher' }];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [CartCouponAnchorComponent],
-      providers: [
-        {
-          provide: CartCouponAnchorService,
-          useClass: MockCartCouponAnchorService,
-        },
-      ],
+      providers: [CartCouponAnchorService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartCouponAnchorComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
+    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(
+      new EventEmitter<string>()
+    );
     spyOn(component, 'sendScrollEvent').and.callThrough();
   });
 
@@ -44,27 +37,28 @@ describe('CartCouponAnchorComponent', () => {
   });
 
   it('should prompt enter coupon codes', () => {
-    spyOn(cartCouponAnchorService, 'getEventEmit').and.callThrough();
     component.vouchers = [];
+    fixture.detectChanges();
     const anchorTitle = fixture.debugElement.query(
       By.css('.cx-cart-coupon-anchor-link')
     ).nativeElement;
 
     anchorTitle.click();
-    fixture.detectChanges();
+
     expect(component.sendScrollEvent).toHaveBeenCalledWith('#applyVoucher');
     expect(cartCouponAnchorService.getEventEmit).toHaveBeenCalled();
     expect(anchorTitle.innerText).toEqual('voucher.anchor.noVouchers');
   });
 
   it('should display coupons applied title and count', () => {
-    spyOn(cartCouponAnchorService, 'getEventEmit').and.callThrough();
     component.vouchers = mockVouchers;
+    fixture.detectChanges();
+
     const anchorTitle = fixture.debugElement.query(
       By.css('.cx-cart-coupon-anchor-link')
     ).nativeElement;
     anchorTitle.click();
-    fixture.detectChanges();
+
     expect(component.sendScrollEvent).toHaveBeenCalledWith('#applyVoucher');
     expect(cartCouponAnchorService.getEventEmit).toHaveBeenCalled();
     expect(anchorTitle.innerText).toContain('voucher.anchor.vouchers');
@@ -72,6 +66,7 @@ describe('CartCouponAnchorComponent', () => {
   });
 
   it('should display apply coupon tips', () => {
+    fixture.detectChanges();
     const tipsContent = fixture.debugElement.query(
       By.css('.cx-cart-coupon-anchor-tips')
     ).nativeElement.innerText;
