@@ -30,8 +30,8 @@ describe('CartCouponAnchorComponent', () => {
     component.vouchers = [];
     const anchorTitle = fixture.debugElement.query(
       By.css('.cx-cart-coupon-anchor-link')
-    ).nativeElement; 
-  
+    ).nativeElement;
+
     anchorTitle.click();
     fixture.detectChanges();
     expect(component.scrollToAnchor).toHaveBeenCalled();
@@ -40,7 +40,7 @@ describe('CartCouponAnchorComponent', () => {
 
   it('should display coupons applied title and count', () => {
     component.vouchers = mockVouchers;
-    
+
     const anchorTitle = fixture.debugElement.query(
       By.css('.cx-cart-coupon-anchor-link')
     ).nativeElement;
