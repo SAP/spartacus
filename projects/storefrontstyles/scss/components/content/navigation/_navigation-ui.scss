@@ -263,9 +263,11 @@
           // display: flex;
           position: absolute;
           visibility: hidden;
+          overflow: hidden;
           opacity: 0;
           margin-left: -10px;
           border: 1px solid #ccc;
+          width: 0;
         }
 
         /* we only threat the first wrapper as a collapsible container */
@@ -274,6 +276,8 @@
           > .wrapper {
             opacity: 1;
             visibility: visible;
+            overflow: visible;
+            width: auto;
           }
         }
       }
@@ -293,8 +297,11 @@
 
       > nav {
         > .wrapper {
-          transition: all 0.4s;
+          transition: opacity 0.4s;
         }
+      }
+      > nav:last-child {
+        overflow: hidden;
       }
     }
   }
