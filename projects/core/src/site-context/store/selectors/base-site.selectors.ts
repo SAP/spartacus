@@ -8,7 +8,8 @@ export const getActiveBaseSite: MemoizedSelector<
   string
 > = createSelector(
   getSiteContextState,
-  (state: SiteContextState) => state.baseSite.activeSite
+  (state: SiteContextState) =>
+    state && state.baseSite && state.baseSite.activeSite
 );
 
 export const getBaseSiteData: MemoizedSelector<
@@ -16,5 +17,5 @@ export const getBaseSiteData: MemoizedSelector<
   BaseSite
 > = createSelector(
   getSiteContextState,
-  (state: SiteContextState) => state.baseSite.details
+  (state: SiteContextState) => state && state.baseSite && state.baseSite.details
 );
