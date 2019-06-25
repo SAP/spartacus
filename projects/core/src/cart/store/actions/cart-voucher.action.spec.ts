@@ -2,6 +2,7 @@ import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   entityFailMeta,
   entityLoadMeta,
+  entityResetMeta,
   entitySuccessMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import {
@@ -54,6 +55,16 @@ describe('Cart-voucher Actions', () => {
           type: fromCartVoucher.ADD_CART_VOUCHER_SUCCESS,
           payload: undefined,
           meta: entitySuccessMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
+        });
+      });
+    });
+
+    describe('ResetAddCartVoucher', () => {
+      it('should create the action', () => {
+        const action = new fromCartVoucher.ResetAddCartVoucher();
+        expect({ ...action }).toEqual({
+          type: fromCartVoucher.RESET_ADD_CART_VOUCHER,
+          meta: entityResetMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
       });
     });

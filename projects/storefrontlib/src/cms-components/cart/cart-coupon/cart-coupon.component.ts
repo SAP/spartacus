@@ -23,6 +23,8 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.cartService.resetAddVoucherProcessingState();
+
     this.form = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
@@ -45,9 +47,13 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   applyVoucher(): void {
     this.cartService.addVoucher(this.form.value.couponCode);
+    this.cartService.resetAddVoucherProcessingState();
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.cartService.resetAddVoucherProcessingState();
   }
 }
