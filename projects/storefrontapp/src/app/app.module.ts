@@ -8,7 +8,7 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { translations } from '@spartacus/assets';
+import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
@@ -34,7 +34,7 @@ if (!environment.production) {
       production: environment.production,
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
           legacy: false,
         },
       },
@@ -67,6 +67,7 @@ if (!environment.production) {
       // but adding
       i18n: {
         resources: translations,
+        chunks: translationChunksConfig,
       },
     }),
 
