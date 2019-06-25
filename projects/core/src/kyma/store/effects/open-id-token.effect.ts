@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { iif, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, withLatestFrom } from 'rxjs/operators';
-import {
-  LoadUserToken,
-  LOAD_USER_TOKEN,
-  LOAD_USER_TOKEN_SUCCESS,
-} from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
@@ -21,9 +17,13 @@ export class OpenIdTokenEffect {
   >(
     () => this.config.authentication && this.config.authentication.kyma_enabled,
     this.actions$.pipe(
-      ofType<fromActions.LoadOpenIdTokenSuccess>(LOAD_USER_TOKEN_SUCCESS),
+      ofType<fromActions.LoadOpenIdTokenSuccess>(
+        AuthActions.LOAD_USER_TOKEN_SUCCESS
+      ),
       withLatestFrom(
-        this.actions$.pipe(ofType<LoadUserToken>(LOAD_USER_TOKEN))
+        this.actions$.pipe(
+          ofType<AuthActions.LoadUserToken>(AuthActions.LOAD_USER_TOKEN)
+        )
       ),
       map(
         ([, loginAction]) =>

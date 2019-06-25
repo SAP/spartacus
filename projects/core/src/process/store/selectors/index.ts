@@ -1,2 +1,2 @@
-export * from './feature.selector';
-export * from './process.selectors';
+import * as ProcessSelectors from './process.selectors';
+export { ProcessSelectors };

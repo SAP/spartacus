@@ -1,25 +1,18 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
-
-import { Observable, of, throwError } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from '../actions';
-import { Login, Logout } from '../../../auth';
+import { Observable, of, throwError } from 'rxjs';
+import { AuthActions } from '../../../auth/store/actions/index';
+import * as fromCmsReducer from '../../../cms/store/reducers';
+import { PageType } from '../../../model/cms.model';
 import { PageContext, RoutingService } from '../../../routing';
 import { LanguageChange } from '../../../site-context';
-
-import { CmsStructureModel, Page } from '../../model/page.model';
-
-import * as fromCmsReducer from '../../../cms/store/reducers';
-
-import * as fromEffects from './page.effect';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
-import { PageType } from '../../../model/cms.model';
+import { CmsStructureModel, Page } from '../../model/page.model';
+import * as fromActions from '../actions/index';
+import * as fromEffects from './page.effect';
 
 export function mockDateNow(): number {
   return 1000000000000;
@@ -178,7 +171,7 @@ describe('Page Effects', () => {
           of(mockRouterState)
         );
 
-        const action = new Logout();
+        const action = new AuthActions.Logout();
         const completion = new fromActions.LoadPageData(context);
 
         actions$ = hot('-a', { a: action });
@@ -193,7 +186,7 @@ describe('Page Effects', () => {
           of(mockRouterState)
         );
 
-        const action = new Login();
+        const action = new AuthActions.Login();
         const completion = new fromActions.LoadPageData(context);
 
         actions$ = hot('-a', { a: action });

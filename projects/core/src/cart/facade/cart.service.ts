@@ -12,9 +12,9 @@ import {
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import * as fromAction from '../store/actions';
+import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
-import * as fromSelector from '../store/selectors';
+import { CartSelectors } from '../store/selectors/index';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
 @Injectable()
@@ -30,8 +30,8 @@ export class CartService {
     protected authService: AuthService
   ) {
     this._activeCart$ = combineLatest([
-      this.store.select(fromSelector.getCartContent),
-      this.store.select(fromSelector.getCartLoading),
+      this.store.select(CartSelectors.getCartContent),
+      this.store.select(CartSelectors.getCartLoading),
       this.authService.getUserToken(),
     ]).pipe(
       // combineLatest emits multiple times on each property update instead of one emit
@@ -63,15 +63,15 @@ export class CartService {
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.store.pipe(select(fromSelector.getCartEntries));
+    return this.store.pipe(select(CartSelectors.getCartEntries));
   }
 
   getCartMergeComplete(): Observable<boolean> {
-    return this.store.pipe(select(fromSelector.getCartMergeComplete));
+    return this.store.pipe(select(CartSelectors.getCartMergeComplete));
   }
 
   getLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromSelector.getCartLoaded));
+    return this.store.pipe(select(CartSelectors.getCartLoaded));
   }
 
   private loadOrMerge(): void {
@@ -79,14 +79,14 @@ export class CartService {
     // current cart and merge it into the existing cart
     if (!this.isCreated(this.cartData.cart)) {
       this.store.dispatch(
-        new fromAction.LoadCart({
+        new CartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: 'current',
         })
       );
     } else {
       this.store.dispatch(
-        new fromAction.MergeCart({
+        new CartActions.MergeCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.guid,
         })
@@ -97,14 +97,14 @@ export class CartService {
   private load(): void {
     if (this.cartData.userId !== ANONYMOUS_USERID) {
       this.store.dispatch(
-        new fromAction.LoadCart({
+        new CartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
         })
       );
     } else {
       this.store.dispatch(
-        new fromAction.LoadCart({
+        new CartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -115,11 +115,11 @@ export class CartService {
   addEntry(productCode: string, quantity: number): void {
     this.store
       .pipe(
-        select(fromSelector.getActiveCartState),
+        select(CartSelectors.getActiveCartState),
         tap(cartState => {
           if (!this.isCreated(cartState.value.content) && !cartState.loading) {
             this.store.dispatch(
-              new fromAction.CreateCart({ userId: this.cartData.userId })
+              new CartActions.CreateCart({ userId: this.cartData.userId })
             );
           }
         }),
@@ -128,7 +128,7 @@ export class CartService {
       )
       .subscribe(_ => {
         this.store.dispatch(
-          new fromAction.AddEntry({
+          new CartActions.CartAddEntry({
             userId: this.cartData.userId,
             cartId: this.cartData.cartId,
             productCode: productCode,
@@ -140,7 +140,7 @@ export class CartService {
 
   removeEntry(entry: OrderEntry): void {
     this.store.dispatch(
-      new fromAction.RemoveEntry({
+      new CartActions.CartRemoveEntry({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
         entry: entry.entryNumber,
@@ -151,7 +151,7 @@ export class CartService {
   updateEntry(entryNumber: string, quantity: number): void {
     if (quantity > 0) {
       this.store.dispatch(
-        new fromAction.UpdateEntry({
+        new CartActions.CartUpdateEntry({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           entry: entryNumber,
@@ -160,7 +160,7 @@ export class CartService {
       );
     } else {
       this.store.dispatch(
-        new fromAction.RemoveEntry({
+        new CartActions.CartRemoveEntry({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           entry: entryNumber,
@@ -171,7 +171,7 @@ export class CartService {
 
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
-      select(fromSelector.getCartEntrySelectorFactory(productCode))
+      select(CartSelectors.getCartEntrySelectorFactory(productCode))
     );
   }
 

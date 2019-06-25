@@ -6,14 +6,16 @@ import {
   CartDataService,
 } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
-import * as fromCheckoutStore from '../store/index';
+import { CheckoutActions } from '../store/actions/index';
+import { StateWithCheckout } from '../store/checkout-state';
+import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutPaymentService {
   constructor(
-    protected checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
+    protected checkoutStore: Store<StateWithCheckout>,
     protected cartData: CartDataService
   ) {}
 
@@ -21,21 +23,21 @@ export class CheckoutPaymentService {
    * Get card types
    */
   getCardTypes(): Observable<CardType[]> {
-    return this.checkoutStore.pipe(select(fromCheckoutStore.getAllCardTypes));
+    return this.checkoutStore.pipe(select(CheckoutSelectors.getAllCardTypes));
   }
 
   /**
    * Get payment details
    */
   getPaymentDetails(): Observable<PaymentDetails> {
-    return this.checkoutStore.pipe(select(fromCheckoutStore.getPaymentDetails));
+    return this.checkoutStore.pipe(select(CheckoutSelectors.getPaymentDetails));
   }
 
   /**
    * Load the supported card types
    */
   loadSupportedCardTypes(): void {
-    this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
+    this.checkoutStore.dispatch(new CheckoutActions.LoadCardTypes());
   }
 
   /**
@@ -45,7 +47,7 @@ export class CheckoutPaymentService {
   createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutStore.CreatePaymentDetails({
+        new CheckoutActions.CreatePaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           paymentDetails,
@@ -61,7 +63,7 @@ export class CheckoutPaymentService {
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutStore.SetPaymentDetails({
+        new CheckoutActions.SetPaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,
           paymentDetails: paymentDetails,

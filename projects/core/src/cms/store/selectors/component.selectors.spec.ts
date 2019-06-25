@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { CmsComponent } from '../../../model/cms.model';
-import * as fromReducers from '../reducers/index';
 import * as fromActions from '../actions/index';
-import * as fromSelectors from '../selectors/component.selectors';
 import { StateWithCms } from '../cms-state';
+import * as fromReducers from '../reducers/index';
+import { CmsSelectors } from '../selectors/index';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithCms>;
@@ -33,7 +33,7 @@ describe('Cms Component Selectors', () => {
       let result;
 
       store
-        .pipe(select(fromSelectors.getComponentEntities))
+        .pipe(select(CmsSelectors.getComponentEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -49,7 +49,7 @@ describe('Cms Component Selectors', () => {
       let result: CmsComponent;
 
       store
-        .pipe(select(fromSelectors.componentSelectorFactory('comp1')))
+        .pipe(select(CmsSelectors.componentSelectorFactory('comp1')))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadComponentSuccess(component));

@@ -1,14 +1,13 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-
-import { UserState, RegionsState, StateWithUser } from '../user-state';
-import { getUserState } from './feature.selector';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Region } from '../../../model/address.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
-  loaderValueSelector,
   loaderLoadingSelector,
   loaderSuccessSelector,
+  loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
+import { RegionsState, StateWithUser, UserState } from '../user-state';
+import { getUserState } from './feature.selector';
 
 export const getRegionsLoaderState: MemoizedSelector<
   StateWithUser,
