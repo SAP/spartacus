@@ -4,15 +4,15 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { OccConfig, Occ } from '../../index';
+import { Occ, OccConfig } from '../../index';
 import { StoreFinderSearchConfig } from '../../../store-finder/model/search-config';
 import { GeoPoint } from '../../../model/misc.model';
 import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import {
-  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
   POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
+  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
 } from '../../../store-finder/connectors';
 
 const queryText = 'test';
@@ -37,10 +37,12 @@ export class MockOccModuleConfig {
     baseUrl: '',
     occPrefix: '',
   };
-  site = {
-    baseSite: '',
-    language: '',
-    currency: '',
+  context = {
+    parameters: {
+      baseSite: { default: 'test-site' },
+      language: { default: '' },
+      currency: { default: '' },
+    },
   };
 }
 

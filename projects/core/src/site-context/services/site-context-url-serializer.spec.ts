@@ -15,7 +15,7 @@ describe('SiteContextUrlSerializer', () => {
   };
 
   const mockSiteContextConfig: SiteContextConfig = {
-    siteContext: {
+    context: {
       urlEncodingParameters: ['language', 'currency'],
     },
   };
