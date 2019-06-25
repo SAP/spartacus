@@ -47,4 +47,13 @@
   .cx-coupon-code--pill-value {
     line-height: 1.7;
   }
+
+  button {
+    margin: 0 0 0 10px;
+    flex: 0 0 1rem;
+
+    span {
+      vertical-align: middle;
+    }
+  }
 }
