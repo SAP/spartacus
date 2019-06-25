@@ -6,20 +6,12 @@
       display: none;
     }
     padding-top: 2rem;
+    @include type('5');
 
-    &-title {
-      @include type('5');
-      padding-bottom: 1rem;
-    }
-    &-tips {
-      font-size: $small-font-size;
-      font-weight: var(--cx-g-font-weight-normal);
-    }
     &-link {
       @include type('8');
       cursor: pointer;
       display: inline-block;
-      font-weight: var(--cx-g-font-weight-blod);
       text-decoration: underline;
     }
   }

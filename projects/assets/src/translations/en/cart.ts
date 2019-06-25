@@ -35,11 +35,6 @@ export const cart = {
     placeholder: 'Enter coupon code',
     applyVoucherSuccess: '{{voucherCode}} has been applied.',
     removeVoucherSuccess: '{{voucherCode}} has been removed.',
-    anchor: {
-      vouchers: 'COUPON APPLIED: {{count}}',
-      vouchers_plural: 'COUPONS APPLIED: {{count}}',
-      noVouchers: 'ENTER COUPON CODE',
-      tips: 'You can enter your coupon codes in the Coupon field.',
-    },
+    anchorLabel: 'Enter or remove your coupon codes.',
   },
 };
