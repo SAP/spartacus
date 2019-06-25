@@ -4,9 +4,9 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConsentTemplate } from '../../../model/consent.model';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserConsentAdapter } from '../../connectors';
 import * as fromAction from '../actions/user-consents.action';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import * as fromEffect from './user-consents.effect';
 
 class MockOccUserAdapter {
@@ -111,7 +111,7 @@ describe('User Consents effect', () => {
 
   describe('resetConsents$', () => {
     it('should return ResetLoadUserConsents', () => {
-      const action = new fromSiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange();
       const completion = new fromAction.ResetLoadUserConsents();
 
       actions$ = hot('-a', { a: action });

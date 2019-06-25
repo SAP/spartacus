@@ -6,10 +6,9 @@ import { PageType } from '../../model/cms.model';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { PageContext } from '../models/page-context.model';
 import { RoutingActions } from '../store/actions/index';
-import { RouterState } from '../store/roting-state';
+import { RouterState } from '../store/routing-state';
 import { RoutingSelector } from '../store/selectors/index';
 import { RoutingService } from './routing.service';
-
 import createSpy = jasmine.createSpy;
 
 describe('RoutingService', () => {
