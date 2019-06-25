@@ -1,7 +1,4 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CART_VOUCHER_NORMALIZER } from '../../../cart/connectors/voucher/converters';
 import { Cart } from '../../../model/cart.model';
@@ -92,12 +89,7 @@ describe('OccCartVoucherAdapter', () => {
         return (
           req.method === 'DELETE' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/vouchers/' +
-              voucherId
+            usersEndpoint + `/${userId}` + cartsEndpoint + cartId + '/vouchers/'+voucherId
         );
       });
 
