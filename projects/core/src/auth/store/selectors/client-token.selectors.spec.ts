@@ -4,8 +4,8 @@ import { LoaderState } from '../../../state';
 import { ClientToken } from '../../models/token-types.model';
 import * as fromActions from '../actions/client-token.action';
 import { AUTH_FEATURE, StateWithAuth } from '../auth-state';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from './client-token.selectors';
+import * as fromReducers from '../reducers/index';
+import { AuthSelectors } from '../selectors/index';
 
 const mockClientToken = {
   access_token: 'xxx',
@@ -32,7 +32,7 @@ describe('ClientToken Selectors', () => {
 
       let result: LoaderState<ClientToken>;
       store
-        .pipe(select(fromSelectors.getClientTokenState))
+        .pipe(select(AuthSelectors.getClientTokenState))
         .subscribe(value => (result = value))
         .unsubscribe();
 

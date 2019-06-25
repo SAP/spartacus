@@ -1,21 +1,15 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { Params, RouterStateSnapshot } from '@angular/router';
+import { RouterStateSnapshot } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
-import {
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MemoizedSelector,
-} from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 import { PageContext } from '../../models/page-context.model';
-import { ROUTING_FEATURE } from '../state';
-
-export interface RouterState
-  extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
-  nextState?: ActivatedRouterStateSnapshot;
-}
+import {
+  ActivatedRouterStateSnapshot,
+  RouterState,
+  State,
+} from '../routing-state';
 
 export const initialState: RouterState = {
   navigationId: 0,
@@ -30,18 +24,6 @@ export const initialState: RouterState = {
   },
   nextState: undefined,
 };
-
-export interface ActivatedRouterStateSnapshot {
-  url: string;
-  queryParams: Params;
-  params: Params;
-  context: PageContext;
-  cmsRequired: boolean;
-}
-
-export interface State {
-  router: RouterState;
-}
 
 export function getReducers(): ActionReducerMap<State> {
   return {
@@ -92,42 +74,6 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
-
-export const getRouterFeatureState: MemoizedSelector<
-  any,
-  State
-> = createFeatureSelector<State>(ROUTING_FEATURE);
-
-export const getRouterState: MemoizedSelector<
-  any,
-  RouterState
-> = createSelector(
-  getRouterFeatureState,
-  state => state.router
-);
-
-export const getPageContext: MemoizedSelector<
-  any,
-  PageContext
-> = createSelector(
-  getRouterState,
-  (routingState: RouterState) =>
-    (routingState.state && routingState.state.context) || { id: '' }
-);
-
-export const getNextPageContext: MemoizedSelector<
-  any,
-  PageContext
-> = createSelector(
-  getRouterState,
-  (routingState: RouterState) =>
-    routingState.nextState && routingState.nextState.context
-);
-
-export const isNavigating: MemoizedSelector<any, boolean> = createSelector(
-  getNextPageContext,
-  context => !!context
-);
 
 /* The serializer is there to parse the RouterStateSnapshot,
 and to reduce the amount of properties to be passed to the reducer.

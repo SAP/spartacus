@@ -1,15 +1,13 @@
-import { select, Store, StoreModule } from '@ngrx/store';
-
 import { TestBed } from '@angular/core/testing';
-
-import * as fromReducers from './../reducers';
-import * as fromSelectors from './../selectors';
-import * as fromActions from './../actions';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { UserToken } from '../../models/token-types.model';
-import { AuthState } from '../auth-state';
+import * as fromActions from '../actions';
+import { StateWithAuth } from '../auth-state';
+import * as fromReducers from '../reducers/index';
+import { AuthSelectors } from '../selectors/index';
 
 describe('UserToken Selectors', () => {
-  let store: Store<AuthState>;
+  let store: Store<StateWithAuth>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -28,7 +26,7 @@ describe('UserToken Selectors', () => {
       let result: UserToken;
 
       store
-        .pipe(select(fromSelectors.getUserToken))
+        .pipe(select(AuthSelectors.getUserToken))
         .subscribe(value => (result = value));
       expect(result).toEqual(<UserToken>{});
 

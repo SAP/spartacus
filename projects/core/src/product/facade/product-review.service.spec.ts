@@ -1,14 +1,10 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { StoreModule, Store } from '@ngrx/store';
+import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
-
+import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-
-import * as fromStore from '../store';
-
-import { ProductReviewService } from './product-review.service';
 import { Review } from '../../model/product.model';
+import * as fromStore from '../store/index';
+import { ProductReviewService } from './product-review.service';
 
 describe('ReviewService', () => {
   let service: ProductReviewService;
