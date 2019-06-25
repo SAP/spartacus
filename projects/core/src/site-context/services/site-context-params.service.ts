@@ -39,7 +39,7 @@ export class SiteContextParamsService {
   }
 
   getParamValues(param: string): string[] {
-    return this.getParameter(param).values;
+    return this.getParameter(param).values || [];
   }
 
   getParamDefaultValue(param: string): string {

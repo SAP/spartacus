@@ -48,7 +48,6 @@ if (!environment.production) {
               'apparel-de',
               'apparel-uk',
             ],
-            default: 'electronics-spa',
             persistence: 'route',
           },
         },
