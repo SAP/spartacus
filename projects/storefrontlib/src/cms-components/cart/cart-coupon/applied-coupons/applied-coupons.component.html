@@ -1,8 +1,14 @@
 <div
   class="cx-cart-coupon-title"
-  *ngIf="isReadOnly && sortedVouchers.length > 0"
+  *ngIf="isReadOnly && sortedVouchers.length === 1"
 >
   {{ 'voucher.coupon' | cxTranslate }}
+</div>
+<div
+  class="cx-cart-coupon-title"
+  *ngIf="isReadOnly && sortedVouchers.length > 1"
+>
+  {{ 'voucher.coupons' | cxTranslate }}
 </div>
 <div *ngFor="let v of sortedVouchers" class="cx-coupon-code-pill" role="filter">
   <span class="cx-coupon-code-pill-value">{{ v.code }}</span>

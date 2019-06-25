@@ -48,14 +48,14 @@ describe('AppliedCouponsComponent', () => {
     component.vouchers = [coupon2, coupon1];
     fixture.detectChanges();
     const elTitle = fixture.debugElement.query(By.css('.cx-cart-coupon-title'));
-    const cartName = elTitle.nativeElement.innerText;
+    const couponTitle = elTitle.nativeElement.innerText;
     const elValue = fixture.debugElement.query(
       By.css('.cx-coupon-code-pill-value')
     );
     const couponCode = elValue.context;
     const elButton = fixture.debugElement.query(By.css('button'));
 
-    expect(cartName).toEqual('voucher.coupon');
+    expect(couponTitle).toEqual('voucher.coupons');
     expect(component.sortedVouchers.length > 0);
     component.sortedVouchers.forEach(coupon =>
       expect(coupon.code === couponCode)
@@ -120,5 +120,15 @@ describe('AppliedCouponsComponent', () => {
     elButton.click();
 
     expect(mockCartService.removeVoucher).toHaveBeenCalledWith(coupon1.code);
+  });
+
+  it('should singular coupon tile  with one coupon', () => {
+    component.isReadOnly = true;
+    component.vouchers = [coupon1];
+    fixture.detectChanges();
+
+    const elTitle = fixture.debugElement.query(By.css('.cx-cart-coupon-title'));
+    const couponTitle = elTitle.nativeElement.innerText;
+    expect(couponTitle).toEqual('voucher.coupon');
   });
 });
