@@ -40,12 +40,19 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         this.onSuccess(success);
       })
     );
-    this.cartCouponAnchorService.getEventEmit().subscribe((anchor: string) => {
-      const anchorElement = this.element.nativeElement.querySelector(anchor);
-      if (anchorElement) {
-        anchorElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
+
+    this.subscription.add(
+      this.cartCouponAnchorService
+        .getEventEmit()
+        .subscribe((anchor: string) => {
+          const anchorElement = this.element.nativeElement.querySelector(
+            anchor
+          );
+          if (anchorElement) {
+            anchorElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        })
+    );
   }
 
   private onSuccess(success: boolean) {

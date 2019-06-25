@@ -2,6 +2,9 @@
 
 %cx-cart-coupon-anchor {
   .cx-cart-coupon-anchor {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
     padding-top: 2rem;
 
     &-title {
