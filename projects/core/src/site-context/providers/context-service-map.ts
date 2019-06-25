@@ -8,9 +8,9 @@ export abstract class ContextServiceMap {
   [context: string]: Type<SiteContext<any>>;
 }
 
-export const LANGUAGE_CONTEXT_ID = 'LANGUAGE';
-export const CURRENCY_CONTEXT_ID = 'CURRENCY';
-export const BASE_SITE_CONTEXT_ID = 'BASE_SITE';
+export const LANGUAGE_CONTEXT_ID = 'language';
+export const CURRENCY_CONTEXT_ID = 'currency';
+export const BASE_SITE_CONTEXT_ID = 'baseSite';
 
 export function serviceMapFactory() {
   return {
