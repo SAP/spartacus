@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConsentTemplate } from '../../../model/consent.model';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserConsentAdapter } from '../../connectors/index';
 import { UserActions } from '../actions/index';
 import * as fromEffect from './user-consents.effect';
@@ -107,6 +108,18 @@ describe('User Consents effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userConsentEffect.withdrawConsent$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetConsents$', () => {
+    it('should return ResetLoadUserConsents', () => {
+      const action = new SiteContextActions.LanguageChange();
+      const completion = new UserActions.ResetLoadUserConsents();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userConsentEffect.resetConsents$).toBeObservable(expected);
     });
   });
 });

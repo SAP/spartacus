@@ -14,8 +14,10 @@ describe('OccEndpointsService', () => {
         },
       },
     },
-    site: {
-      baseSite: '/test-baseSite',
+    context: {
+      parameters: {
+        baseSite: { default: '/test-baseSite' },
+      },
     },
   };
 
