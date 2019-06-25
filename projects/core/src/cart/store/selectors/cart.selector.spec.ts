@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
 import { select, Store, StoreModule } from '@ngrx/store';
-
-import * as fromActions from './../actions';
+import { Cart } from '../../../model/cart.model';
+import { OrderEntry } from '../../../model/order.model';
 import { StateWithCart } from '../cart-state';
+import * as fromActions from './../actions';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
-import { OrderEntry } from '../../../model/order.model';
-import { Cart } from '../../../model/cart.model';
 
 describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
@@ -71,7 +69,7 @@ describe('Cart selectors', () => {
     it('should return the refresh value', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getRefresh))
+        .pipe(select(fromSelectors.getCartRefresh))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -92,7 +90,7 @@ describe('Cart selectors', () => {
     it('should return the loaded value', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getLoaded))
+        .pipe(select(fromSelectors.getCartLoaded))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -106,7 +104,7 @@ describe('Cart selectors', () => {
     it('should return the cart entries in map', () => {
       let result: { [code: string]: OrderEntry };
       store
-        .pipe(select(fromSelectors.getEntriesMap))
+        .pipe(select(fromSelectors.getCartEntriesMap))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -124,7 +122,7 @@ describe('Cart selectors', () => {
       let result: OrderEntry;
 
       store
-        .pipe(select(fromSelectors.getEntrySelectorFactory('1234')))
+        .pipe(select(fromSelectors.getCartEntrySelectorFactory('1234')))
         .subscribe(value => {
           result = value;
         });
@@ -141,7 +139,7 @@ describe('Cart selectors', () => {
     it('should return the list of entries', () => {
       let result: OrderEntry[];
       store
-        .pipe(select(fromSelectors.getEntries))
+        .pipe(select(fromSelectors.getCartEntries))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);

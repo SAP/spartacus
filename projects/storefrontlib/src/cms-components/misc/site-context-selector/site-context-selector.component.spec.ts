@@ -15,8 +15,8 @@ import {
   contextServiceMapProvider,
   CurrencyService,
   Language,
-  LanguageService,
   LANGUAGE_CONTEXT_ID,
+  LanguageService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
