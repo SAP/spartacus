@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
-import * as fromStore from '../store/index';
 import { Product } from '../../model/product.model';
+import * as fromStore from '../store/index';
+import { ProductSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class ProductService {
@@ -21,7 +22,7 @@ export class ProductService {
   get(productCode: string): Observable<Product> {
     if (!this.products[productCode]) {
       this.products[productCode] = this.store.pipe(
-        select(fromStore.getSelectedProductStateFactory(productCode)),
+        select(ProductSelectors.getSelectedProductStateFactory(productCode)),
         tap(productState => {
           const attemptedLoad =
             productState.loading || productState.success || productState.error;
@@ -42,7 +43,7 @@ export class ProductService {
    */
   isLoading(productCode: string): Observable<boolean> {
     return this.store.pipe(
-      select(fromStore.getSelectedProductLoadingFactory(productCode))
+      select(ProductSelectors.getSelectedProductLoadingFactory(productCode))
     );
   }
 
@@ -51,7 +52,7 @@ export class ProductService {
    */
   isSuccess(productCode: string): Observable<boolean> {
     return this.store.pipe(
-      select(fromStore.getSelectedProductSuccessFactory(productCode))
+      select(ProductSelectors.getSelectedProductSuccessFactory(productCode))
     );
   }
 
@@ -60,7 +61,7 @@ export class ProductService {
    */
   hasError(productCode: string): Observable<boolean> {
     return this.store.pipe(
-      select(fromStore.getSelectedProductErrorFactory(productCode))
+      select(ProductSelectors.getSelectedProductErrorFactory(productCode))
     );
   }
 

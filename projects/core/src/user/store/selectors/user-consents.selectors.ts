@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { ConsentTemplate } from '../../../model/consent.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderErrorSelector,
@@ -8,7 +9,6 @@ import {
 } from '../../../state/utils/loader/loader.selectors';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
-import { ConsentTemplate } from '../../../model/consent.model';
 
 export const getConsentsState: MemoizedSelector<
   StateWithUser,

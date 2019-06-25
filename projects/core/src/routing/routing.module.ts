@@ -13,7 +13,7 @@ import {
   reducerProvider,
   reducerToken,
 } from './store/reducers/router.reducer';
-import { ROUTING_FEATURE } from './store/state';
+import { ROUTING_FEATURE } from './store/routing-state';
 
 @NgModule({
   imports: [

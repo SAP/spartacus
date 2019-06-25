@@ -10,6 +10,7 @@ import {
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import * as fromStore from '../store/index';
+import { UsersSelectors } from '../store/selectors/index';
 import {
   GIVE_CONSENT_PROCESS_ID,
   WITHDRAW_CONSENT_PROCESS_ID,
@@ -36,28 +37,28 @@ export class UserConsentService {
    * Returns all consents
    */
   getConsents(): Observable<ConsentTemplate[]> {
-    return this.store.pipe(select(fromStore.getConsentsValue));
+    return this.store.pipe(select(UsersSelectors.getConsentsValue));
   }
 
   /**
    * Returns the consents loading flag
    */
   getConsentsResultLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getConsentsLoading));
+    return this.store.pipe(select(UsersSelectors.getConsentsLoading));
   }
 
   /**
    * Returns the consents success flag
    */
   getConsentsResultSuccess(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getConsentsSuccess));
+    return this.store.pipe(select(UsersSelectors.getConsentsSuccess));
   }
 
   /**
    * Returns the consents error flag
    */
   getConsentsResultError(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getConsentsError));
+    return this.store.pipe(select(UsersSelectors.getConsentsError));
   }
 
   /**

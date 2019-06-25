@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromReducers from '../reducers/index';
-import * as fromActions from '../actions/index';
-import * as fromSelectors from '../selectors/index';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { CmsComponent } from '../../../model/cms.model';
+import * as fromActions from '../actions/index';
 import { StateWithCms } from '../cms-state';
+import * as fromReducers from '../reducers/index';
+import { CmsSelectors } from '../selectors/index';
 
 describe('Navigation Entry Items Selectors', () => {
   let store: Store<StateWithCms>;
@@ -45,7 +44,7 @@ describe('Navigation Entry Items Selectors', () => {
 
       store
         .pipe(
-          select(fromSelectors.getSelectedNavigationEntryItemState('testId'))
+          select(CmsSelectors.getSelectedNavigationEntryItemState('testId'))
         )
         .subscribe(value => (result = value));
 
@@ -67,7 +66,7 @@ describe('Navigation Entry Items Selectors', () => {
       let result;
 
       store
-        .pipe(select(fromSelectors.itemsSelectorFactory('testId')))
+        .pipe(select(CmsSelectors.getNavigationEntryItems('testId')))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadNavigationItemsSuccess(mockPayload));

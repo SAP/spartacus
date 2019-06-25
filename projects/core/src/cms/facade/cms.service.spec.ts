@@ -1,14 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
-
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-
 import { take } from 'rxjs/operators';
-
-import * as fromStore from '../store';
-import { LoadPageDataSuccess } from '../store';
+import { PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing';
 import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -17,9 +12,7 @@ import { Page } from '../model/page.model';
 import * as fromActions from '../store/actions';
 import { StateWithCms } from '../store/cms-state';
 import * as fromReducers from '../store/reducers';
-
 import { CmsService } from './cms.service';
-import { PageType } from '../../model/cms.model';
 import createSpy = jasmine.createSpy;
 
 class MockRoutingService {
@@ -93,7 +86,7 @@ describe('CmsService', () => {
       expect(mockSelect).toHaveBeenCalled();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.LoadComponent(testUid)
+        new fromActions.LoadComponent(testUid)
       );
     }
   ));
@@ -147,7 +140,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       service.loadNavigationItems('rootId', []);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.LoadNavigationItems({
+        new fromActions.LoadNavigationItems({
           nodeId: 'rootId',
           items: [],
         })
@@ -219,7 +212,9 @@ describe('CmsService', () => {
       const pageData: Page = {
         slots: {},
       };
-      store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
+      store.dispatch(
+        new fromActions.LoadPageDataSuccess(pageContext, pageData)
+      );
 
       let result;
       service.getPageState(pageContext).subscribe(res => (result = res));
@@ -241,7 +236,9 @@ describe('CmsService', () => {
           },
         },
       };
-      store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
+      store.dispatch(
+        new fromActions.LoadPageDataSuccess(pageContext, pageData)
+      );
 
       let result;
       service
@@ -385,7 +382,9 @@ describe('CmsService', () => {
         pageId: 'testUid',
         slots: {},
       };
-      store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
+      store.dispatch(
+        new fromActions.LoadPageDataSuccess(pageContext, pageData)
+      );
 
       let result;
       service.getPageIndex(pageContext).subscribe(res => (result = res));
