@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { CartCouponAnchorService } from './cart-coupon-anchor.service';
 
-describe('CartCouponAnchorService', () => {
+fdescribe('CartCouponAnchorService', () => {
   let service: CartCouponAnchorService;
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -13,6 +13,6 @@ describe('CartCouponAnchorService', () => {
   });
 
   it('should provide event emitter', () => {
-    expect(service.getEventEmit()).toBeDefined();
+    expect(service.getEventEmit()).toBeTruthy();
   });
 });
