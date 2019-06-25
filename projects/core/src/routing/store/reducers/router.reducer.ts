@@ -9,7 +9,7 @@ import {
   ActivatedRouterStateSnapshot,
   RouterState,
   State,
-} from '../roting-state';
+} from '../routing-state';
 
 export const initialState: RouterState = {
   navigationId: 0,
