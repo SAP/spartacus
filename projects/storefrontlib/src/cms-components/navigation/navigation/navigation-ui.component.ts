@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   HostBinding,
   HostListener,
   Input,
@@ -10,7 +11,7 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
 
@@ -46,12 +47,12 @@ export class NavigationUIComponent implements OnDestroy {
   @Input() @HostBinding('class.is-open') isOpen = false;
 
   private openNodes: HTMLElement[] = [];
-
-  private subscription: Subscription;
+  private subscriptions = new Subscription();
+  private resize = new EventEmitter();
 
   @HostListener('window:resize')
   onResize() {
-    this.validateWrappersAndAlignToRightIfStickOut();
+    this.resize.next();
   }
 
   constructor(
@@ -59,9 +60,16 @@ export class NavigationUIComponent implements OnDestroy {
     private renderer: Renderer2,
     private elemRef: ElementRef
   ) {
-    this.subscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => this.clear());
+    this.subscriptions.add(
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe(() => this.clear())
+    );
+    this.subscriptions.add(
+      this.resize.pipe(debounceTime(50)).subscribe(() => {
+        this.alignWrappersToRightIfStickOut();
+      })
+    );
   }
 
   toggleOpen(event: UIEvent): void {
@@ -106,8 +114,8 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
     }
   }
 
@@ -129,7 +137,7 @@ export class NavigationUIComponent implements OnDestroy {
     }
   }
 
-  private validateWrappersAndAlignToRightIfStickOut() {
+  private alignWrappersToRightIfStickOut() {
     const navs = <HTMLCollection>this.elemRef.nativeElement.childNodes;
     Array.from(navs)
       .filter(node => node.tagName === 'NAV')
