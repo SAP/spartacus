@@ -1,21 +1,20 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { BaseSite } from '../../../model/misc.model';
 import { SiteContextState, StateWithSiteContext } from '../state';
-import { SiteContextSelectors } from './index';
+import { getSiteContextState } from './site-context.selector';
 
 export const getActiveBaseSite: MemoizedSelector<
   StateWithSiteContext,
   string
 > = createSelector(
-  SiteContextSelectors.getSiteContextState,
-  (state: SiteContextState) =>
-    state && state.baseSite && state.baseSite.activeSite
+  getSiteContextState,
+  (state: SiteContextState) => state.baseSite.activeSite
 );
 
 export const getBaseSiteData: MemoizedSelector<
   StateWithSiteContext,
   BaseSite
 > = createSelector(
-  SiteContextSelectors.getSiteContextState,
-  (state: SiteContextState) => state && state.baseSite && state.baseSite.details
+  getSiteContextState,
+  (state: SiteContextState) => state.baseSite.details
 );
