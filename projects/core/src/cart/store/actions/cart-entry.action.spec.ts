@@ -1,10 +1,10 @@
-import * as fromCartEntry from './../actions/cart-entry.action';
-import { CART_DATA } from '../cart-state';
 import {
-  loadMeta,
   failMeta,
+  loadMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
+import { CART_DATA } from '../cart-state';
+import * as fromCartEntry from './../actions/cart-entry.action';
 
 const userId = 'xxx@xxx.xxx';
 const cartId = 'testCartId';
@@ -83,9 +83,10 @@ describe('Cart-entry Actions', () => {
 
     describe('RemoveEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new fromCartEntry.RemoveEntrySuccess();
+        const action = new fromCartEntry.RemoveEntrySuccess({});
         expect({ ...action }).toEqual({
           type: fromCartEntry.REMOVE_ENTRY_SUCCESS,
+          payload: {},
           meta: successMeta(CART_DATA),
         });
       });
@@ -125,9 +126,10 @@ describe('Cart-entry Actions', () => {
 
     describe('UpdateEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new fromCartEntry.UpdateEntrySuccess();
+        const action = new fromCartEntry.UpdateEntrySuccess({});
         expect({ ...action }).toEqual({
           type: fromCartEntry.UPDATE_ENTRY_SUCCESS,
+          payload: {},
           meta: successMeta(CART_DATA),
         });
       });

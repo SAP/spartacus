@@ -9,12 +9,6 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-// for mini cart
-const BASIC_PARAMS =
-  'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
-  'entries(totalPrice(formattedValue),product(images(FULL)))';
-
-// for cart details page
 const DETAILS_PARAMS =
   'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
@@ -35,37 +29,26 @@ export class OccCartAdapter implements CartAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public loadAll(userId: string, details?: boolean): Observable<Cart[]> {
+  public loadAll(userId: string): Observable<Cart[]> {
     const url = this.getCartEndpoint(userId);
-    const params = details
-      ? new HttpParams({
-          fromString: `fields=carts(${DETAILS_PARAMS},saveTime)`,
-        })
-      : new HttpParams({
-          fromString: `fields=carts(${BASIC_PARAMS},saveTime)`,
-        });
+    const params = new HttpParams({
+      fromString: `fields=carts(${DETAILS_PARAMS},saveTime)`,
+    });
+
     return this.http.get<Occ.CartList>(url, { params: params }).pipe(
       pluck('carts'),
       this.converter.pipeableMany(CART_NORMALIZER)
     );
   }
 
-  public load(
-    userId: string,
-    cartId: string,
-    details?: boolean
-  ): Observable<Cart> {
+  public load(userId: string, cartId: string): Observable<Cart> {
     const url = this.getCartEndpoint(userId) + cartId;
-    const params = details
-      ? new HttpParams({
-          fromString: `fields=${DETAILS_PARAMS}`,
-        })
-      : new HttpParams({
-          fromString: `fields=${BASIC_PARAMS}`,
-        });
+    const params = new HttpParams({
+      fromString: `fields=${DETAILS_PARAMS}`,
+    });
 
     if (cartId === 'current') {
-      return this.loadAll(userId, details).pipe(
+      return this.loadAll(userId).pipe(
         map(carts => {
           if (carts) {
             const activeCart = carts.find(cart => {
@@ -91,7 +74,7 @@ export class OccCartAdapter implements CartAdapter {
   ): Observable<Cart> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
-    let queryString = `fields=${BASIC_PARAMS}`;
+    let queryString = `fields=${DETAILS_PARAMS}`;
 
     if (oldCartId) {
       queryString = `${queryString}&oldCartId=${oldCartId}`;
