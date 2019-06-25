@@ -274,7 +274,7 @@ export function manipulateCartQuantity() {
   cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
   cy.get('cx-order-summary')
-    .contains('.cx-summary-row', 'Subtotal:')
+    .contains('.cx-summary-row', 'Subtotal')
     .get('.cx-summary-amount')
     .should('contain', '$208.24');
 
@@ -294,7 +294,7 @@ export function manipulateCartQuantity() {
   cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
   cy.get('cx-order-summary')
-    .contains('.cx-summary-row', 'Subtotal:')
+    .contains('.cx-summary-row', 'Subtotal')
     .get('.cx-summary-amount')
     .should('contain', '$322.36');
 
