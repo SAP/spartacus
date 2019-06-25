@@ -4,6 +4,12 @@ import { CurrencyService } from '../facade/currency.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { BaseSiteService } from '../facade/base-site.service';
 import { SiteContextConfig } from '../config/site-context-config';
+import { getContextParameterDefault } from '../config/context-config-utils';
+import {
+  BASE_SITE_CONTEXT_ID,
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID,
+} from './context-service-map';
 
 export function inititializeContext(
   config: SiteContextConfig,
@@ -12,16 +18,14 @@ export function inititializeContext(
   currService: CurrencyService
 ) {
   return () => {
-    const contextParams = config.context && config.context.parameters;
-
     baseSiteService.initialize(
-      contextParams.baseSite && contextParams.baseSite.default
+      getContextParameterDefault(config, BASE_SITE_CONTEXT_ID)
     );
     langService.initialize(
-      contextParams.language && contextParams.language.default
+      getContextParameterDefault(config, LANGUAGE_CONTEXT_ID)
     );
     currService.initialize(
-      contextParams.currency && contextParams.currency.default
+      getContextParameterDefault(config, CURRENCY_CONTEXT_ID)
     );
   };
 }

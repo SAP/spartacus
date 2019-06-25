@@ -6,6 +6,10 @@ import {
 } from '../config/site-context-config';
 import { SiteContext } from '../facade/site-context.interface';
 import { ContextServiceMap } from '../providers/context-service-map';
+import {
+  getContextParameter,
+  getContextParameterDefault,
+} from '../config/context-config-utils';
 
 @Injectable()
 export class SiteContextParamsService {
@@ -16,7 +20,7 @@ export class SiteContextParamsService {
   ) {}
 
   getContextParameters(persistence?: ContextPersistence | string): string[] {
-    const contextConfig = this.config.context.parameters;
+    const contextConfig = this.config.context && this.config.context.parameters;
     if (contextConfig) {
       const params = Object.keys(contextConfig);
       if (persistence) {
@@ -31,12 +35,7 @@ export class SiteContextParamsService {
   }
 
   getParameter(param: string): ContextParameter {
-    return (
-      (this.config.context &&
-        this.config.context.parameters &&
-        this.config.context.parameters[param]) ||
-      {}
-    );
+    return getContextParameter(this.config, param);
   }
 
   getParamValues(param: string): string[] {
@@ -44,7 +43,7 @@ export class SiteContextParamsService {
   }
 
   getParamDefaultValue(param: string): string {
-    return this.getParameter(param).default;
+    return getContextParameterDefault(this.config, param);
   }
 
   getSiteContextService(param: string): SiteContext<any> {

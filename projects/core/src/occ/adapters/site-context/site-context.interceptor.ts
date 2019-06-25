@@ -11,6 +11,11 @@ import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { SiteContextConfig } from '../../../site-context/config/site-context-config';
+import { getContextParameterDefault } from '../../../site-context/config/context-config-utils';
+import {
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID,
+} from '../../../site-context/providers/context-service-map';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
@@ -23,11 +28,14 @@ export class SiteContextInterceptor implements HttpInterceptor {
     private occEndpoints: OccEndpointsService,
     private config: SiteContextConfig
   ) {
-    const ctxParams = this.config.context && this.config.context.parameters;
-    this.activeLang =
-      ctxParams && ctxParams.language && ctxParams.language.default;
-    this.activeCurr =
-      ctxParams && ctxParams.currency && ctxParams.currency.default;
+    this.activeLang = getContextParameterDefault(
+      this.config,
+      LANGUAGE_CONTEXT_ID
+    );
+    this.activeCurr = getContextParameterDefault(
+      this.config,
+      CURRENCY_CONTEXT_ID
+    );
 
     this.languageService
       .getActive()
