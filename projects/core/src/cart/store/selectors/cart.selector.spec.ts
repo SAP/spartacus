@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Cart, Voucher } from '../../../model/cart.model';
+import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
 import { StateWithCart } from '../cart-state';
 import * as fromActions from './../actions';
@@ -23,7 +23,6 @@ describe('Cart selectors', () => {
       currencyIso: 'USD',
       value: 0,
     },
-    appliedVouchers: [{ code: 'testVoucherId' }],
   };
 
   const testEmptyCart: Cart = {
@@ -148,20 +147,6 @@ describe('Cart selectors', () => {
       store.dispatch(new fromActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual([{ entryNumber: 0, product: { code: '1234' } }]);
-    });
-  });
-
-  describe('getVouchers', () => {
-    it('should return the vouchers', () => {
-      let result: Voucher[];
-      store
-        .pipe(select(fromSelectors.getVouchers))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual([]);
-
-      store.dispatch(new fromActions.LoadCartSuccess(testCart));
-      expect(result).toEqual([{ code: 'testVoucherId' }]);
     });
   });
 });

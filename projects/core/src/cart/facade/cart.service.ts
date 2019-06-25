@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthService, UserToken } from '../../auth/index';
-import { Cart, Voucher } from '../../model/cart.model';
+import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
@@ -208,10 +208,6 @@ export class CartService {
 
   isEmpty(cart: Cart): boolean {
     return cart && !cart.totalItems;
-  }
-
-  getAppliedVouchers(): Observable<Voucher[]> {
-    return this.store.pipe(select(fromSelector.getVouchers));
   }
 
   addVoucher(voucherId: string): void {

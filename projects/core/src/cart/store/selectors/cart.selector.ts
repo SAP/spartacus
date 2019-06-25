@@ -3,7 +3,7 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Cart, Voucher } from '../../../model/cart.model';
+import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
@@ -23,7 +23,6 @@ export const getRefreshSelector = (state: CartState) => state.refresh;
 export const getEntriesSelector = (state: CartState) => state.entries;
 export const getCartMergeCompleteSelector = (state: CartState) =>
   state.cartMergeComplete;
-export const getVouchersSelector = (state: CartState) => state.appliedVouchers;
 
 export const getCartsState: MemoizedSelector<
   StateWithCart,
@@ -104,12 +103,4 @@ export const getEntries: MemoizedSelector<any, OrderEntry[]> = createSelector(
   entities => {
     return Object.keys(entities).map(code => entities[code]);
   }
-);
-
-export const getVouchers: MemoizedSelector<
-  StateWithCart,
-  Voucher[]
-> = createSelector(
-  getCartState,
-  getVouchersSelector
 );
