@@ -3,7 +3,6 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CART_NORMALIZER } from '@spartacus/core';
 import { Cart } from '../../../model/cart.model';
 import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
 import { ConverterService } from '../../../util/converter.service';
@@ -27,9 +26,6 @@ const mergedCart: Cart = {
 
 const usersEndpoint = '/users';
 const cartsEndpoint = 'carts';
-const BASIC_PARAMS =
-  'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
-  'entries(totalPrice(formattedValue),product(images(FULL)))';
 
 const DETAILS_PARAMS =
   'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
@@ -80,30 +76,9 @@ describe('OccCartAdapter', () => {
   });
 
   describe('load all carts', () => {
-    it('should load all carts basic data for given user', () => {
-      let result;
-      service.loadAll(userId).subscribe(res => (result = res));
-
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
-        );
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'carts(' + BASIC_PARAMS + ',saveTime)'
-      );
-      mockReq.flush(cartDataList);
-      expect(result).toEqual(cartDataList.carts);
-      expect(converter.pipeableMany).toHaveBeenCalledWith(CART_NORMALIZER);
-    });
-
     it('should load all carts details data for given user with details flag', () => {
       let result;
-      service.loadAll(userId, true).subscribe(res => (result = res));
+      service.loadAll(userId).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -123,28 +98,9 @@ describe('OccCartAdapter', () => {
   });
 
   describe('load cart data', () => {
-    it('should load cart basic data for given userId and cartId', () => {
+    it('should load cart detail data for given userId, cartId', () => {
       let result;
       service.load(userId, cartId).subscribe(res => (result = res));
-
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
-        );
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('fields')).toEqual(BASIC_PARAMS);
-      mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
-      expect(converter.pipeable).toHaveBeenCalledWith(CART_NORMALIZER);
-    });
-
-    it('should load cart detail data for given userId, cartId and details flag', () => {
-      let result;
-      service.load(userId, cartId, true).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -174,7 +130,7 @@ describe('OccCartAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('fields')).toEqual(
-        'carts(' + BASIC_PARAMS + ',saveTime)'
+        'carts(' + DETAILS_PARAMS + ',saveTime)'
       );
       mockReq.flush({ carts: [cartData] });
       expect(result).toEqual(cartData);
@@ -193,7 +149,7 @@ describe('OccCartAdapter', () => {
         );
       });
 
-      expect(mockReq.request.params.get('fields')).toEqual(BASIC_PARAMS);
+      expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -222,7 +178,7 @@ describe('OccCartAdapter', () => {
         toMergeCart.guid
       );
 
-      expect(mockReq.request.params.get('fields')).toEqual(BASIC_PARAMS);
+      expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
