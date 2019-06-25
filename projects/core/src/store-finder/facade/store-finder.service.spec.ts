@@ -1,12 +1,10 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { StoresState } from '../store/store-finder-state';
-
-import * as fromStore from '../store';
-
-import { StoreFinderService } from './store-finder.service';
-import { WindowRef } from '../../window/window-ref';
+import { inject, TestBed } from '@angular/core/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { GeoPoint } from '../../model/misc.model';
+import { WindowRef } from '../../window/window-ref';
+import * as fromStore from '../store';
+import { StoresState } from '../store/store-finder-state';
+import { StoreFinderService } from './store-finder.service';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;

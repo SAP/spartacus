@@ -1,6 +1,6 @@
-import * as fromAction from './../actions';
-import { CartState } from '../cart-state';
 import { OrderEntry } from '../../../model/order.model';
+import * as fromAction from '../actions/index';
+import { CartState } from '../cart-state';
 
 export const initialState: CartState = {
   content: {},
@@ -44,12 +44,13 @@ export function reducer(
               In the case where the detailed once get resolved first, we merge the existing
               data with the new data from the response (to not delete existing detailed data).
               */
-              [entry.product.code]: state.entries[entry.product.code]
-                ? {
-                    ...state.entries[entry.product.code],
-                    ...entry,
-                  }
-                : entry,
+              [entry.product.code]:
+                state.entries && state.entries[entry.product.code]
+                  ? {
+                      ...state.entries[entry.product.code],
+                      ...entry,
+                    }
+                  : entry,
             };
           },
           {
@@ -72,6 +73,18 @@ export function reducer(
       return {
         ...state,
         refresh: true,
+      };
+    }
+
+    case fromAction.RESET_CART_DETAILS: {
+      return {
+        content: {
+          guid: state.content.guid,
+          code: state.content.code,
+        },
+        entries: {},
+        refresh: false,
+        cartMergeComplete: false,
       };
     }
   }

@@ -139,7 +139,7 @@ describe('LoginComponent', () => {
 
     it('should display greeting message when the user is logged in', () => {
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'login.userGreeting name:First Last'
+        'miniLogin.userGreeting name:First Last'
       );
     });
 
@@ -149,7 +149,7 @@ describe('LoginComponent', () => {
       fixture.detectChanges();
 
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'login.signInRegister'
+        'miniLogin.signInRegister'
       );
     });
   });

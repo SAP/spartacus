@@ -1,13 +1,13 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '@spartacus/core';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
 import * as fromCheckout from '../store/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
 
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
-  let cartData: CartDataService;
+  let cartData: CartDataServiceStub;
   let store: Store<fromCheckout.CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -16,18 +16,32 @@ describe('CheckoutPaymentService', () => {
     id: 'mockPaymentDetails',
   };
 
+  class CartDataServiceStub {
+    userId;
+    cart;
+    get cartId() {
+      return this.cart.code;
+    }
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckout.getReducers()),
       ],
-      providers: [CheckoutPaymentService, CartDataService],
+      providers: [
+        CheckoutPaymentService,
+        { provide: CartDataService, useClass: CartDataServiceStub },
+      ],
     });
 
     service = TestBed.get(CheckoutPaymentService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
+
+    cartData.userId = userId;
+    cartData.cart = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -78,9 +92,6 @@ describe('CheckoutPaymentService', () => {
   });
 
   it('should be able to create payment details', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.createPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -93,9 +104,6 @@ describe('CheckoutPaymentService', () => {
   });
 
   it('should set payment details', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.setPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(

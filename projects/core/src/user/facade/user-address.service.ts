@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import * as fromStore from '../store/index';
-import { map } from 'rxjs/operators';
+import { UsersSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -83,14 +84,14 @@ export class UserAddressService {
    * Returns addresses
    */
   getAddresses(): Observable<Address[]> {
-    return this.store.pipe(select(fromStore.getAddresses));
+    return this.store.pipe(select(UsersSelectors.getAddresses));
   }
 
   /**
    * Returns a loading flag for addresses
    */
   getAddressesLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getAddressesLoading));
+    return this.store.pipe(select(UsersSelectors.getAddressesLoading));
   }
 
   /**
@@ -104,7 +105,7 @@ export class UserAddressService {
    * Returns all delivery countries
    */
   getDeliveryCountries(): Observable<Country[]> {
-    return this.store.pipe(select(fromStore.getAllDeliveryCountries));
+    return this.store.pipe(select(UsersSelectors.getAllDeliveryCountries));
   }
 
   /**
@@ -112,7 +113,9 @@ export class UserAddressService {
    * @param isocode an isocode for a country
    */
   getCountry(isocode: string): Observable<Country> {
-    return this.store.pipe(select(fromStore.countrySelectorFactory(isocode)));
+    return this.store.pipe(
+      select(UsersSelectors.countrySelectorFactory(isocode))
+    );
   }
 
   /**
@@ -134,7 +137,8 @@ export class UserAddressService {
    * Returns all regions
    */
   getRegions(countryIsoCode: string): Observable<Region[]> {
-    return this.store.select(fromStore.getRegionsDataAndLoading).pipe(
+    return this.store.pipe(
+      select(UsersSelectors.getRegionsDataAndLoading),
       map(({ regions, country, loading, loaded }) => {
         if (!countryIsoCode && (loading || loaded)) {
           this.clearRegions();

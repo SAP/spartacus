@@ -1,24 +1,20 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { StoreModule } from '@ngrx/store';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-
-import { Observable, of } from 'rxjs';
-
+import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-
+import { Observable, of } from 'rxjs';
+import * as fromAuth from '../../../auth/store/index';
+import { Cart } from '../../../model/cart.model';
+import { OccConfig } from '../../../occ/config/occ-config';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import * as fromUser from '../../../user/store/index';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import * as fromActions from '../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
-import * as fromAuth from '../../../auth/store/index';
-import * as fromUser from '../../../user/store/index';
-
+import * as fromActions from '../actions/cart.action';
 import * as fromEffects from './cart.effect';
-import { OccConfig } from '@spartacus/core';
-import { Cart } from '../../../model/cart.model';
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
@@ -125,6 +121,20 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetCartDetailsOnSiteContextChange$', () => {
+    it('should reset cart details', () => {
+      const action = new fromSiteContextActions.LanguageChange();
+      const completion = new fromActions.ResetCartDetails();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
+        expected
+      );
     });
   });
 });
