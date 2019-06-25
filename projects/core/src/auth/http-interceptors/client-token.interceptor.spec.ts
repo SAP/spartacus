@@ -35,8 +35,10 @@ const MockAuthModuleConfig: OccConfig = {
       prefix: '/rest/v2/',
     },
   },
-  site: {
-    baseSite: 'electronics',
+  context: {
+    parameters: {
+      baseSite: { default: 'electronics' },
+    },
   },
 };
 

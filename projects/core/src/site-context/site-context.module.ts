@@ -7,6 +7,8 @@ import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
 import { siteContextParamsProviders } from './providers/site-context-params-providers';
 import { SiteContextStoreModule } from './store/site-context-store.module';
+import { provideConfigValidator } from '../config/utils/config-validator';
+import { baseSiteConfigValidator } from './config/base-site-config-validator';
 
 // @dynamic
 @NgModule({
@@ -25,6 +27,7 @@ export class SiteContextModule {
         ...contextServiceProviders,
         ...siteContextParamsProviders,
         { provide: SiteContextConfig, useExisting: Config },
+        provideConfigValidator(baseSiteConfigValidator),
       ],
     };
   }
