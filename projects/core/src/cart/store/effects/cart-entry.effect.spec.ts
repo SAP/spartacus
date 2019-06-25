@@ -1,11 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { OccConfig } from '../../../occ/index';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
-import * as fromActions from '../actions';
+import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-entry.effect';
 
 import createSpy = jasmine.createSpy;
@@ -27,7 +28,7 @@ class MockCartEntryConnector {
 
 describe('Cart effect', () => {
   let entryEffects: fromEffects.CartEntryEffects;
-  let actions$: Observable<any>;
+  let actions$: Observable<Action>;
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
@@ -48,13 +49,13 @@ describe('Cart effect', () => {
 
   describe('addEntry$', () => {
     it('should add an entry', () => {
-      const action = new fromActions.AddEntry({
+      const action = new CartActions.CartAddEntry({
         userId: userId,
         cartId: cartId,
         productCode: 'testProductCode',
         quantity: 1,
       });
-      const completion = new fromActions.AddEntrySuccess({
+      const completion = new CartActions.CartAddEntrySuccess({
         entry: 'testEntry',
         userId,
         cartId,
@@ -69,12 +70,15 @@ describe('Cart effect', () => {
 
   describe('removeEntry$', () => {
     it('should remove an entry', () => {
-      const action = new fromActions.RemoveEntry({
+      const action = new CartActions.CartRemoveEntry({
         userId: userId,
         cartId: cartId,
         entry: 'testEntryNumber',
       });
-      const completion = new fromActions.RemoveEntrySuccess({ userId, cartId });
+      const completion = new CartActions.CartRemoveEntrySuccess({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -85,13 +89,16 @@ describe('Cart effect', () => {
 
   describe('updateEntry$', () => {
     it('should update an entry', () => {
-      const action = new fromActions.UpdateEntry({
+      const action = new CartActions.CartUpdateEntry({
         userId: userId,
         cartId: cartId,
         entry: 'testEntryNumber',
         qty: 1,
       });
-      const completion = new fromActions.UpdateEntrySuccess({ userId, cartId });
+      const completion = new CartActions.CartUpdateEntrySuccess({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

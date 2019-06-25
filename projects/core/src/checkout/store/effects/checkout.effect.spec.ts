@@ -6,7 +6,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartDataService } from '../../../cart/facade/cart-data.service';
-import * as fromCartActions from '../../../cart/store/actions/index';
+import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
@@ -21,7 +21,6 @@ import { CheckoutDetails } from '../../models/checkout.model';
 import * as fromActions from '../actions/checkout.action';
 import * as fromIndexActions from '../actions/index';
 import * as fromEffects from './checkout.effect';
-
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
@@ -213,7 +212,7 @@ describe('Checkout effect', () => {
       const setDeliveryModeSuccess = new fromActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
-      const loadCart = new fromCartActions.LoadCart({
+      const loadCart = new CartActions.LoadCart({
         userId,
         cartId,
       });

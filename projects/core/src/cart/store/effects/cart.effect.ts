@@ -7,16 +7,15 @@ import * as fromSiteContextActions from '../../../site-context/store/actions/ind
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
-import * as fromEntryActions from '../actions/cart-entry.action';
-import * as fromActions from './../actions/cart.action';
+import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartEffects {
   @Effect()
   loadCart$: Observable<
-    fromActions.LoadCartFail | fromActions.LoadCartSuccess
+    CartActions.LoadCartFail | CartActions.LoadCartSuccess
   > = this.actions$.pipe(
-    ofType(fromActions.LOAD_CART),
+    ofType(CartActions.LOAD_CART),
     map(
       (action: {
         type: string;
@@ -30,16 +29,16 @@ export class CartEffects {
       };
 
       if (this.isMissingData(loadCartParams)) {
-        return of(new fromActions.LoadCartFail({}));
+        return of(new CartActions.LoadCartFail({}));
       }
       return this.cartConnector
         .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
           map((cart: Cart) => {
-            return new fromActions.LoadCartSuccess(cart);
+            return new CartActions.LoadCartSuccess(cart);
           }),
           catchError(error =>
-            of(new fromActions.LoadCartFail(makeErrorSerializable(error)))
+            of(new CartActions.LoadCartFail(makeErrorSerializable(error)))
           )
         );
     })
@@ -47,12 +46,12 @@ export class CartEffects {
 
   @Effect()
   createCart$: Observable<
-    | fromActions.MergeCartSuccess
-    | fromActions.CreateCartSuccess
-    | fromActions.CreateCartFail
+    | CartActions.MergeCartSuccess
+    | CartActions.CreateCartSuccess
+    | CartActions.CreateCartFail
   > = this.actions$.pipe(
-    ofType(fromActions.CREATE_CART),
-    map((action: fromActions.CreateCart) => action.payload),
+    ofType(CartActions.CREATE_CART),
+    map((action: CartActions.CreateCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
@@ -60,30 +59,30 @@ export class CartEffects {
           switchMap((cart: Cart) => {
             if (payload.oldCartId) {
               return [
-                new fromActions.CreateCartSuccess(cart),
-                new fromActions.MergeCartSuccess({
+                new CartActions.CreateCartSuccess(cart),
+                new CartActions.MergeCartSuccess({
                   userId: payload.userId,
                   cartId: cart.code,
                 }),
               ];
             }
-            return [new fromActions.CreateCartSuccess(cart)];
+            return [new CartActions.CreateCartSuccess(cart)];
           }),
           catchError(error =>
-            of(new fromActions.CreateCartFail(makeErrorSerializable(error)))
+            of(new CartActions.CreateCartFail(makeErrorSerializable(error)))
           )
         );
     })
   );
 
   @Effect()
-  mergeCart$: Observable<fromActions.CreateCart> = this.actions$.pipe(
-    ofType(fromActions.MERGE_CART),
-    map((action: fromActions.MergeCart) => action.payload),
+  mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
+    ofType(CartActions.MERGE_CART),
+    map((action: CartActions.MergeCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector.load(payload.userId, 'current').pipe(
         map(currentCart => {
-          return new fromActions.CreateCart({
+          return new CartActions.CreateCart({
             userId: payload.userId,
             oldCartId: payload.cartId,
             toMergeCartGuid: currentCart ? currentCart.guid : undefined,
@@ -94,25 +93,25 @@ export class CartEffects {
   );
 
   @Effect()
-  refresh$: Observable<fromActions.LoadCart> = this.actions$.pipe(
+  refresh$: Observable<CartActions.LoadCart> = this.actions$.pipe(
     ofType(
-      fromActions.MERGE_CART_SUCCESS,
-      fromEntryActions.ADD_ENTRY_SUCCESS,
-      fromEntryActions.UPDATE_ENTRY_SUCCESS,
-      fromEntryActions.REMOVE_ENTRY_SUCCESS
+      CartActions.MERGE_CART_SUCCESS,
+      CartActions.CART_ADD_ENTRY_SUCCESS,
+      CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_ENTRY_SUCCESS
     ),
     map(
       (
         action:
-          | fromActions.MergeCartSuccess
-          | fromEntryActions.AddEntrySuccess
-          | fromEntryActions.UpdateEntrySuccess
-          | fromEntryActions.RemoveEntrySuccess
+          | CartActions.MergeCartSuccess
+          | CartActions.CartAddEntrySuccess
+          | CartActions.CartUpdateEntrySuccess
+          | CartActions.CartRemoveEntrySuccess
       ) => action.payload
     ),
     map(
       payload =>
-        new fromActions.LoadCart({
+        new CartActions.LoadCart({
           userId: payload.userId,
           cartId: payload.cartId,
         })
@@ -121,13 +120,13 @@ export class CartEffects {
 
   @Effect()
   resetCartDetailsOnSiteContextChange$: Observable<
-    fromActions.ResetCartDetails
+    CartActions.ResetCartDetails
   > = this.actions$.pipe(
     ofType(
       fromSiteContextActions.LANGUAGE_CHANGE,
       fromSiteContextActions.CURRENCY_CHANGE
     ),
-    map(() => new fromActions.ResetCartDetails())
+    map(() => new CartActions.ResetCartDetails())
   );
 
   constructor(
@@ -136,7 +135,7 @@ export class CartEffects {
     private cartData: CartDataService
   ) {}
 
-  private isMissingData(payload) {
+  private isMissingData(payload: { userId: string; cartId: string }) {
     return payload.userId === undefined || payload.cartId === undefined;
   }
 }

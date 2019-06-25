@@ -12,7 +12,7 @@ import {
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import * as fromAction from '../store/actions/index';
+import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
@@ -79,14 +79,14 @@ export class CartService {
     // current cart and merge it into the existing cart
     if (!this.isCreated(this.cartData.cart)) {
       this.store.dispatch(
-        new fromAction.LoadCart({
+        new CartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: 'current',
         })
       );
     } else {
       this.store.dispatch(
-        new fromAction.MergeCart({
+        new CartActions.MergeCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.guid,
         })
@@ -97,14 +97,14 @@ export class CartService {
   private load(): void {
     if (this.cartData.userId !== ANONYMOUS_USERID) {
       this.store.dispatch(
-        new fromAction.LoadCart({
+        new CartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
         })
       );
     } else {
       this.store.dispatch(
-        new fromAction.LoadCart({
+        new CartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -119,7 +119,7 @@ export class CartService {
         tap(cartState => {
           if (!this.isCreated(cartState.value.content) && !cartState.loading) {
             this.store.dispatch(
-              new fromAction.CreateCart({ userId: this.cartData.userId })
+              new CartActions.CreateCart({ userId: this.cartData.userId })
             );
           }
         }),
@@ -128,7 +128,7 @@ export class CartService {
       )
       .subscribe(_ => {
         this.store.dispatch(
-          new fromAction.AddEntry({
+          new CartActions.CartAddEntry({
             userId: this.cartData.userId,
             cartId: this.cartData.cartId,
             productCode: productCode,
@@ -140,7 +140,7 @@ export class CartService {
 
   removeEntry(entry: OrderEntry): void {
     this.store.dispatch(
-      new fromAction.RemoveEntry({
+      new CartActions.CartRemoveEntry({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
         entry: entry.entryNumber,
@@ -151,7 +151,7 @@ export class CartService {
   updateEntry(entryNumber: string, quantity: number): void {
     if (quantity > 0) {
       this.store.dispatch(
-        new fromAction.UpdateEntry({
+        new CartActions.CartUpdateEntry({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           entry: entryNumber,
@@ -160,7 +160,7 @@ export class CartService {
       );
     } else {
       this.store.dispatch(
-        new fromAction.RemoveEntry({
+        new CartActions.CartRemoveEntry({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           entry: entryNumber,
