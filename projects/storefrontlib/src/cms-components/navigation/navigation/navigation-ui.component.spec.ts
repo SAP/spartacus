@@ -97,7 +97,7 @@ describe('Navigation UI Component', () => {
     }).compileComponents();
   });
 
-  describe('UI tests', () => {
+  fdescribe('UI tests', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(NavigationUIComponent);
       navigationComponent = fixture.debugElement.componentInstance;
@@ -221,39 +221,37 @@ describe('Navigation UI Component', () => {
       renderer2 = fixture.componentRef.injector.get<Renderer2>(
         Renderer2 as Type<Renderer2>
       );
+
       fixture.detectChanges();
 
-      // Get root nav elements
       const rootNavElements: DebugElement[] = element.queryAll(
         By.css('div.flyout > nav')
       );
       const first: HTMLElement = rootNavElements[0].nativeElement;
       const second: HTMLElement = rootNavElements[1].nativeElement;
 
-      console.log(first.parentElement);
-
       // First element should not focus when no element is focused
       expect(first).not.toBe(<HTMLElement>document.activeElement);
 
       // Listen for second element focus
       renderer2.listen(second, 'focus', () => {
-        // Second element should be focussed
+        // Second element should be focused
         expect(<HTMLElement>document.activeElement).toBe(second);
 
         // Hover mouse over first element
-        const mouseEvent = new MouseEvent('mouseenter', {
-          relatedTarget: first,
-        });
-        const resultDoc = navigationComponent.onMouseEnter(mouseEvent);
+        const result = navigationComponent.focusAfterPreviousClicked(
+          new MouseEvent('mouseenter', {
+            relatedTarget: first,
+          })
+        );
 
-        // First element should now be in focus
-        expect(resultDoc.activeElement).toBe(first);
+        // First element should become focused
+        expect(<HTMLElement>result.activeElement).toBe(first);
       });
 
       // Focus on second element
-      const focusEvent = new FocusEvent('focus', { relatedTarget: second });
       second.focus();
-      second.dispatchEvent(focusEvent);
+      second.dispatchEvent(new FocusEvent('focus', { relatedTarget: second }));
     });
   });
 });

@@ -101,8 +101,9 @@ export class NavigationUIComponent implements OnDestroy {
     this.updateClasses();
   }
 
-  onMouseEnter(event: UIEvent) {
+  onMouseEnter(event: MouseEvent) {
     this.alignWrapperToRightIfStickOut(<HTMLElement>event.currentTarget);
+    this.focusAfterPreviousClicked(event);
   }
 
   getDepth(node: NavigationNode, depth = 0): number {
@@ -113,8 +114,7 @@ export class NavigationUIComponent implements OnDestroy {
     }
   }
 
-  // Apply focus on dropdown element when another has already been clicked
-  onMouseEnter(event: MouseEvent) {
+  focusAfterPreviousClicked(event: MouseEvent) {
     const target: HTMLElement = event.target
       ? <HTMLElement>event.target
       : <HTMLElement>event.relatedTarget;
@@ -126,7 +126,7 @@ export class NavigationUIComponent implements OnDestroy {
     }
     return target.ownerDocument;
   }
-  
+
   ngOnDestroy() {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();
