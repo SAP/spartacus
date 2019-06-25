@@ -449,6 +449,14 @@ describe('CartService', () => {
         .subscribe(result => expect(result).toEqual(true))
         .unsubscribe();
     });
+
+    it('should dispatch a reset action', () => {
+      spyOn(store, 'dispatch').and.stub();
+      service.resetAddVoucherProcessingState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.ResetAddCartVoucher()
+      );
+    });
   });
 
   describe('remove Voucher', () => {

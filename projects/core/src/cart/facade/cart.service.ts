@@ -241,4 +241,8 @@ export class CartService {
       select(getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
+
+  resetAddVoucherProcessingState(): void {
+    this.store.dispatch(new fromAction.ResetAddCartVoucher());
+  }
 }

@@ -2,6 +2,7 @@ import { PROCESS_FEATURE } from 'projects/core/src/process';
 import {
   EntityFailAction,
   EntityLoadAction,
+  EntityResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import {
@@ -14,6 +15,7 @@ import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
 export const ADD_CART_VOUCHER = '[Cart] Add Cart Vouchers';
 export const ADD_CART_VOUCHER_FAIL = '[Cart] Add Cart Voucher Fail';
 export const ADD_CART_VOUCHER_SUCCESS = '[Cart] Add Cart Voucher Success';
+export const RESET_ADD_CART_VOUCHER = '[Cart] Reset Add Cart Voucher';
 
 export const REMOVE_CART_VOUCHER = '[Cart] Remove Cart Voucher';
 export const REMOVE_CART_VOUCHER_FAIL = '[Cart] Remove Cart Voucher Fail';
@@ -38,6 +40,13 @@ export class AddCartVoucherFail extends EntityFailAction {
 
 export class AddCartVoucherSuccess extends EntitySuccessAction {
   readonly type = ADD_CART_VOUCHER_SUCCESS;
+  constructor() {
+    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
+  }
+}
+
+export class ResetAddCartVoucher extends EntityResetAction {
+  readonly type = RESET_ADD_CART_VOUCHER;
   constructor() {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
@@ -72,6 +81,7 @@ export type CartVoucherAction =
   | AddCartVoucher
   | AddCartVoucherFail
   | AddCartVoucherSuccess
+  | ResetAddCartVoucher
   | RemoveCartVoucher
   | RemoveCartVoucherFail
   | RemoveCartVoucherSuccess;
