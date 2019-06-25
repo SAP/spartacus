@@ -125,7 +125,15 @@ describe('CartCouponComponent', () => {
 
   it('should call the internal onSuccess() method when the user was successfully apply voucher', () => {
     spyOn(component, 'onSuccess').and.stub();
+
     component.ngOnInit();
-    expect(component.onSuccess).toHaveBeenCalled();
+    expect(component.onSuccess).toHaveBeenCalledWith(true);
+  });
+
+  it('should NOT add a global message and NOT navigate to a url ', () => {
+    spyOn(component.form, 'reset').and.stub();
+
+    component.onSuccess(true);
+    expect(component.form.reset).not.toHaveBeenCalled();
   });
 });
