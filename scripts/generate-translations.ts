@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import { translations } from '../projects/assets/src/translations/index';
+import { translations } from '../projects/assets/src/translations/translations';
 
 const assetsDistDir = './dist/assets/';
 const translationsDistDir = assetsDistDir + 'i18n-assets/';

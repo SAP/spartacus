@@ -1,14 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  EventEmitter,
   HostBinding,
+  HostListener,
   Input,
   OnDestroy,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
 
@@ -44,21 +47,38 @@ export class NavigationUIComponent implements OnDestroy {
   @Input() @HostBinding('class.is-open') isOpen = false;
 
   private openNodes: HTMLElement[] = [];
+  private subscriptions = new Subscription();
+  private resize = new EventEmitter();
 
-  private subscription: Subscription;
+  @HostListener('window:resize')
+  onResize() {
+    this.resize.next();
+  }
 
-  constructor(private router: Router, private renderer: Renderer2) {
-    this.subscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => this.clear());
+  constructor(
+    private router: Router,
+    private renderer: Renderer2,
+    private elemRef: ElementRef
+  ) {
+    this.subscriptions.add(
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe(() => this.clear())
+    );
+    this.subscriptions.add(
+      this.resize.pipe(debounceTime(50)).subscribe(() => {
+        this.alignWrappersToRightIfStickOut();
+      })
+    );
   }
 
   toggleOpen(event: UIEvent): void {
-    if (this.openNodes.includes(<HTMLElement>event.currentTarget)) {
-      this.openNodes = this.openNodes.filter(n => n !== event.currentTarget);
-      this.renderer.removeClass(<HTMLElement>event.currentTarget, 'is-open');
+    const node = <HTMLElement>event.currentTarget;
+    if (this.openNodes.includes(node)) {
+      this.openNodes = this.openNodes.filter(n => n !== node);
+      this.renderer.removeClass(node, 'is-open');
     } else {
-      this.openNodes.push(<HTMLElement>event.currentTarget);
+      this.openNodes.push(node);
     }
 
     this.updateClasses();
@@ -81,6 +101,49 @@ export class NavigationUIComponent implements OnDestroy {
     this.updateClasses();
   }
 
+  onMouseEnter(event: UIEvent) {
+    this.alignWrapperToRightIfStickOut(<HTMLElement>event.currentTarget);
+  }
+
+  getDepth(node: NavigationNode, depth = 0): number {
+    if (node.children && node.children.length > 0) {
+      return Math.max(...node.children.map(n => this.getDepth(n, depth + 1)));
+    } else {
+      return depth;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
+  }
+
+  private alignWrapperToRightIfStickOut(node: HTMLElement) {
+    const wrapper = <HTMLElement>node.querySelector('.wrapper');
+    const navBar = <HTMLElement>this.elemRef.nativeElement;
+    if (wrapper) {
+      this.renderer.removeStyle(wrapper, 'margin-left');
+      if (
+        wrapper.offsetLeft + wrapper.offsetWidth >
+        navBar.offsetLeft + navBar.offsetWidth
+      ) {
+        this.renderer.setStyle(
+          wrapper,
+          'margin-left',
+          `${node.offsetWidth - wrapper.offsetWidth}px`
+        );
+      }
+    }
+  }
+
+  private alignWrappersToRightIfStickOut() {
+    const navs = <HTMLCollection>this.elemRef.nativeElement.childNodes;
+    Array.from(navs)
+      .filter(node => node.tagName === 'NAV')
+      .forEach(nav => this.alignWrapperToRightIfStickOut(<HTMLElement>nav));
+  }
+
   private updateClasses(): void {
     this.openNodes.forEach((node, i) => {
       if (i + 1 < this.openNodes.length) {
@@ -93,19 +156,5 @@ export class NavigationUIComponent implements OnDestroy {
     });
 
     this.isOpen = this.openNodes.length > 0;
-  }
-
-  getDepth(node: NavigationNode, depth = 0): number {
-    if (node.children && node.children.length > 0) {
-      return Math.max(...node.children.map(n => this.getDepth(n, depth + 1)));
-    } else {
-      return depth;
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }
