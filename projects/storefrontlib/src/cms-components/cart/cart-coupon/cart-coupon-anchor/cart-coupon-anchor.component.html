@@ -6,8 +6,7 @@
     >
       <ng-container *ngIf="vouchers && vouchers.length > 0; else noVouchers">
         {{
-          'voucher.anchor.vouchers'
-            | cxTranslate: { voucherNumber: vouchers.length }
+          'voucher.anchor.vouchers' | cxTranslate: { count: vouchers.length }
         }}
       </ng-container>
       <ng-template #noVouchers>

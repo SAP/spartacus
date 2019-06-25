@@ -9,14 +9,14 @@
       padding-bottom: 1rem;
     }
     &-tips {
-      @include type('8');
+      font-size: $small-font-size;
       font-weight: var(--cx-g-font-weight-normal);
     }
     &-link {
+      @include type('8');
       cursor: pointer;
       display: inline-block;
       font-weight: var(--cx-g-font-weight-blod);
-      font-size: var(--cx-font-siz);
       text-decoration: underline;
     }
   }
