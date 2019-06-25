@@ -3,6 +3,8 @@ import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { OccConfig } from '../config/occ-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { HttpParams } from '@angular/common/http';
+import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
+import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-service-map';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,8 @@ export class OccEndpointsService {
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
   ) {
-    this.activeBaseSite = (this.config.site && this.config.site.baseSite) || '';
+    this.activeBaseSite =
+      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID) || '';
 
     if (this.baseSiteService) {
       this.baseSiteService
