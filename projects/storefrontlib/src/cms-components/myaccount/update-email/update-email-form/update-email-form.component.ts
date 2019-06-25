@@ -12,7 +12,6 @@ import { CustomFormValidators } from '../../../../shared/utils/validators/custom
 @Component({
   selector: 'cx-update-email-form',
   templateUrl: './update-email-form.component.html',
-  styleUrls: ['./update-email-form.component.scss'],
 })
 export class UpdateEmailFormComponent {
   submited = false;

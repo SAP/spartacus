@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { User } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -7,7 +8,6 @@ import {
   EntitySuccessAction,
 } from '../../../state';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
-import { User } from '../../../model/misc.model';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
 export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';
