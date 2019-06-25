@@ -10,7 +10,7 @@ import * as fromSiteContextActions from '../../../site-context/store/actions/ind
 @Injectable()
 export class UserConsentsEffect {
   @Effect()
-  loadConsents$: Observable<
+  resetConsents$: Observable<
     fromActions.ResetLoadUserConsents
   > = this.actions$.pipe(
     ofType(fromSiteContextActions.LANGUAGE_CHANGE),

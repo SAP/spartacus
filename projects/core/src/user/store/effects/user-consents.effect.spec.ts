@@ -109,7 +109,7 @@ describe('User Consents effect', () => {
     });
   });
 
-  describe('loadConsents$', () => {
+  describe('resetConsents$', () => {
     it('should return ResetLoadUserConsents', () => {
       const action = new fromSiteContextActions.LanguageChange();
       const completion = new fromAction.ResetLoadUserConsents();
@@ -117,7 +117,7 @@ describe('User Consents effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(userConsentEffect.loadConsents$).toBeObservable(expected);
+      expect(userConsentEffect.resetConsents$).toBeObservable(expected);
     });
   });
 });
