@@ -39,7 +39,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  private onSuccess(success: boolean) {
+  onSuccess(success: boolean) {
     if (success) {
       this.form.reset();
     }
