@@ -25,20 +25,12 @@ export class CartDetailsComponent implements OnInit {
 
   getAllPromotionsForCart(cart: Cart): Cart[] {
     const potentialPromotions = [];
-    if (cart.potentialOrderPromotions) {
-      potentialPromotions.push(...cart.potentialOrderPromotions);
-    }
-    if (cart.potentialProductPromotions) {
-      potentialPromotions.push(...cart.potentialProductPromotions);
-    }
+    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
+    potentialPromotions.push(...(cart.potentialProductPromotions || []));
 
     const appliedPromotions = [];
-    if (cart.appliedOrderPromotions) {
-      appliedPromotions.push(...cart.appliedOrderPromotions);
-    }
-    if (cart.appliedProductPromotions) {
-      appliedPromotions.push(...cart.appliedProductPromotions);
-    }
+    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
+    appliedPromotions.push(...(cart.appliedProductPromotions || []));
 
     return [...potentialPromotions, ...appliedPromotions];
   }
