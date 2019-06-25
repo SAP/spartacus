@@ -584,7 +584,7 @@ describe('CartDetailsComponent', () => {
   describe('when cart has appliedProductPromotions is undefined and appliedOrderPromotions is defined', () => {
     it('should have one consumedEntries', () => {
       const mockedCart: Cart = {
-        gufid: '15',
+        guid: '15',
         appliedOrderPromotions: [
           {
             consumedEntries: [
