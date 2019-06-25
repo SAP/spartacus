@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Voucher } from '@spartacus/core';
+import { Component, OnInit } from '@angular/core';
 import { CartCouponAnchorService } from './cart-coupon-anchor.service';
 
 @Component({
@@ -7,9 +6,6 @@ import { CartCouponAnchorService } from './cart-coupon-anchor.service';
   templateUrl: './cart-coupon-anchor.component.html',
 })
 export class CartCouponAnchorComponent implements OnInit {
-  @Input()
-  vouchers: Voucher[];
-
   constructor(private cartCouponAnchorService: CartCouponAnchorService) {}
 
   ngOnInit() {}
