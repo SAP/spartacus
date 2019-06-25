@@ -153,6 +153,10 @@
     text-overflow: ellipsis;
     max-width: 203px;
 
+    @include media-breakpoint-only(lg) {
+      max-width: 159px;
+    }
+
     @include media-breakpoint-only(sm) {
       max-width: 100%;
     }
