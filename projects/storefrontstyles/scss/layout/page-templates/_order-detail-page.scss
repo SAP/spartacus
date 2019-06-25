@@ -1,6 +1,31 @@
 .AccountPageTemplate {
+  cx-page-slot {
+    padding: 3rem 0.625rem 0 0.625rem;
+
+    @include media-breakpoint-down(sm) {
+      padding-top: 1.875rem;
+    }
+  }
+
   cx-order-details-headline {
     order: 1;
+
+    @include media-breakpoint-down(sm) {
+      border: none;
+      padding: 0 20px;
+    }
+
+    .cx-header {
+      border: 1px solid;
+      border-color: var(--cx-border-color, var(--cx-color-light));
+      padding: 30px 30px 20px 30px;
+      margin-bottom: 30px;
+
+      @include media-breakpoint-down(sm) {
+        border: none;
+        padding: 0;
+      }
+    }
   }
 
   cx-order-details-items {
@@ -13,5 +38,74 @@
 
   cx-order-details-totals {
     order: 3;
+  }
+}
+
+.cx-detail {
+  padding-left: 15px;
+
+  @include media-breakpoint-down(sm) {
+    padding: 0;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding: 0 0 10px 15px;
+  }
+
+  &:first-child {
+    @include media-breakpoint-down(sm) {
+      padding: 0;
+    }
+  }
+}
+
+.cx-detail-placed,
+.cx-detail-order {
+  border-right: 1px solid var(--cx-border-color, var(--cx-color-light));
+  @include media-breakpoint-down(sm) {
+    border: none;
+  }
+}
+
+.cx-detail-order {
+  padding-left: 0;
+}
+
+.cx-detail-label {
+  font-size: $font-size-base * 1.125;
+  font-weight: bold;
+}
+
+.cx-list-header {
+  @include media-breakpoint-down(sm) {
+    padding: 0;
+  }
+}
+
+.cx-list-status {
+  padding: 15px 30px;
+  background-color: var(--cx-background-color, var(--cx-color-background));
+  font-size: $font-size-base * 1.125;
+  font-weight: bold;
+
+  @include media-breakpoint-down(sm) {
+    padding: 15px 40px;
+  }
+}
+
+.cx-account-summary {
+  background-color: var(--cx-background-color, var(--cx-color-background));
+
+  @include media-breakpoint-up(md) {
+    padding: 5px 18px 12px;
+  }
+
+  .cx-card-title {
+    font-size: $font-size-base * 1.125;
+    font-weight: bold;
+  }
+
+  .cx-card-label-bold {
+    font-weight: bold;
   }
 }

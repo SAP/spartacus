@@ -1,26 +1,34 @@
 <ng-container *ngIf="(order$ | async) as order">
-  <div class="cx-header row">
-    <div class="cx-detail col-sm-12 col-md-4">
-      <div class="cx-detail-label">
-        {{ 'orderDetails.orderId' | cxTranslate }}
+  <div class="cx-header">
+    <div class="row">
+      <div class="col-sm-12 col-md-4">
+        <div class="cx-detail cx-detail-order">
+          <div class="cx-detail-label">
+            {{ 'orderDetails.orderId' | cxTranslate }}
+          </div>
+          <div class="cx-detail-value">{{ order?.code }}</div>
+        </div>
       </div>
-      <div class="cx-detail-value">{{ order?.code }}</div>
-    </div>
-    <div class="cx-detail col-sm-12 col-md-4">
-      <div class="cx-detail-label">
-        {{ 'orderDetails.placed' | cxTranslate }}
+      <div class="col-sm-12 col-md-4">
+        <div class="cx-detail cx-detail-placed">
+          <div class="cx-detail-label">
+            {{ 'orderDetails.placed' | cxTranslate }}
+          </div>
+          <div class="cx-detail-value">{{ order?.created | cxDate }}</div>
+        </div>
       </div>
-      <div class="cx-detail-value">{{ order?.created | cxDate }}</div>
-    </div>
-    <div class="cx-detail col-sm-12 col-md-4">
-      <div class="cx-detail-label">
-        {{ 'orderDetails.status' | cxTranslate }}
-      </div>
-      <div class="cx-detail-value" *ngIf="order?.statusDisplay">
-        {{
-          'orderDetails.statusDisplay'
-            | cxTranslate: { context: order?.statusDisplay }
-        }}
+      <div class="col-sm-12 col-md-4">
+        <div class="cx-detail cx-detail-status">
+          <div class="cx-detail-label">
+            {{ 'orderDetails.status' | cxTranslate }}
+          </div>
+          <div class="cx-detail-value" *ngIf="order?.statusDisplay">
+            {{
+              'orderDetails.statusDisplay'
+                | cxTranslate: { context: order?.statusDisplay }
+            }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
