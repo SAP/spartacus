@@ -1,14 +1,13 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import * as fromEffects from './cart-entry.effect';
-import * as fromActions from '../actions';
 import { OccConfig } from '../../../occ/index';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import * as fromActions from '../actions';
+import * as fromEffects from './cart-entry.effect';
+
 import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
@@ -57,6 +56,8 @@ describe('Cart effect', () => {
       });
       const completion = new fromActions.AddEntrySuccess({
         entry: 'testEntry',
+        userId,
+        cartId,
       });
 
       actions$ = hot('-a', { a: action });
@@ -73,7 +74,7 @@ describe('Cart effect', () => {
         cartId: cartId,
         entry: 'testEntryNumber',
       });
-      const completion = new fromActions.RemoveEntrySuccess();
+      const completion = new fromActions.RemoveEntrySuccess({ userId, cartId });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -90,7 +91,7 @@ describe('Cart effect', () => {
         entry: 'testEntryNumber',
         qty: 1,
       });
-      const completion = new fromActions.UpdateEntrySuccess();
+      const completion = new fromActions.UpdateEntrySuccess({ userId, cartId });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
