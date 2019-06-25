@@ -1,15 +1,14 @@
 import { Action } from '@ngrx/store';
-
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
 import {
-  LoaderLoadAction,
   LoaderFailAction,
+  LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import { CHECKOUT_DETAILS } from '../checkout-state';
 import { CheckoutDetails } from '../../models/checkout.model';
-import { Address } from '../../../model/address.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
-import { PaymentDetails } from '../../../model/cart.model';
+import { CHECKOUT_DETAILS } from '../checkout-state';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -57,6 +56,8 @@ export const LOAD_CHECKOUT_DETAILS_FAIL =
   '[Checkout] Load Checkout Details Fail';
 export const LOAD_CHECKOUT_DETAILS_SUCCESS =
   '[Checkout] Load Checkout Details Success';
+
+export const CHECKOUT_CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
 
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
@@ -215,6 +216,10 @@ export class LoadCheckoutDetailsSuccess extends LoaderSuccessAction {
   }
 }
 
+export class CheckoutClearMiscsData implements Action {
+  readonly type = CHECKOUT_CLEAR_MISCS_DATA;
+}
+
 export type CheckoutAction =
   | AddDeliveryAddress
   | AddDeliveryAddressFail
@@ -242,4 +247,5 @@ export type CheckoutAction =
   | ClearCheckoutData
   | LoadCheckoutDetails
   | LoadCheckoutDetailsFail
-  | LoadCheckoutDetailsSuccess;
+  | LoadCheckoutDetailsSuccess
+  | CheckoutClearMiscsData;
