@@ -68,11 +68,15 @@ describe('CartCouponComponent', () => {
   });
 
   it('should call resetAddVoucherProcessingState in ngOnDestroy', () => {
+    const subscriptions = component['subscription'];
+    spyOn(subscriptions, 'unsubscribe').and.callThrough();
     component.ngOnDestroy();
+
+    expect(subscriptions.unsubscribe).toHaveBeenCalled();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
   });
 
-  it('should display cart coupon lebal and apply button disable by default', () => {
+  it('should display cart coupon label and apply button disable by default', () => {
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-cart-coupon-title'));
     const cartName = el.nativeElement.innerText;
@@ -117,5 +121,11 @@ describe('CartCouponComponent', () => {
     form.triggerEventHandler('submit', null);
     expect(mockCartService.addVoucher).toHaveBeenCalled();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+  });
+
+  it('should call the internal onSuccess() method when the user was successfully apply voucher', () => {
+    spyOn(component, 'onSuccess').and.stub();
+    component.ngOnInit();
+    expect(component.onSuccess).toHaveBeenCalled();
   });
 });
