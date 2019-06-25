@@ -6,7 +6,7 @@ import {
   CartDataService,
 } from '../../cart/facade/cart-data.service';
 import { Order } from '../../model/order.model';
-import * as fromCheckoutActions from '../store/actions/index';
+import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
@@ -23,7 +23,7 @@ export class CheckoutService {
   placeOrder(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutActions.PlaceOrder({
+        new CheckoutActions.PlaceOrder({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -35,7 +35,7 @@ export class CheckoutService {
    * Clear checkout data
    */
   clearCheckoutData(): void {
-    this.checkoutStore.dispatch(new fromCheckoutActions.ClearCheckoutData());
+    this.checkoutStore.dispatch(new CheckoutActions.ClearCheckoutData());
   }
 
   /**
@@ -44,13 +44,13 @@ export class CheckoutService {
    */
   clearCheckoutStep(stepNumber: number): void {
     this.checkoutStore.dispatch(
-      new fromCheckoutActions.ClearCheckoutStep(stepNumber)
+      new CheckoutActions.ClearCheckoutStep(stepNumber)
     );
   }
 
   loadCheckoutDetails(cartId: string) {
     this.checkoutStore.dispatch(
-      new fromCheckoutActions.LoadCheckoutDetails({
+      new CheckoutActions.LoadCheckoutDetails({
         userId: this.cartData.userId,
         cartId,
       })

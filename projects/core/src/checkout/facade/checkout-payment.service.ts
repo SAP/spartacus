@@ -6,7 +6,7 @@ import {
   CartDataService,
 } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
-import * as fromCheckoutActions from '../store/actions/index';
+import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
@@ -37,7 +37,7 @@ export class CheckoutPaymentService {
    * Load the supported card types
    */
   loadSupportedCardTypes(): void {
-    this.checkoutStore.dispatch(new fromCheckoutActions.LoadCardTypes());
+    this.checkoutStore.dispatch(new CheckoutActions.LoadCardTypes());
   }
 
   /**
@@ -47,7 +47,7 @@ export class CheckoutPaymentService {
   createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutActions.CreatePaymentDetails({
+        new CheckoutActions.CreatePaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           paymentDetails,
@@ -63,7 +63,7 @@ export class CheckoutPaymentService {
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutActions.SetPaymentDetails({
+        new CheckoutActions.SetPaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,
           paymentDetails: paymentDetails,

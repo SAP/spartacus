@@ -1,13 +1,12 @@
-import * as fromActions from '../actions/index';
-
-import * as fromReducer from './address-verification.reducer';
 import { AddressValidation } from '../../../model/address.model';
+import { CheckoutActions } from '../actions/index';
+import * as fromReducer from './address-verification.reducer';
 
 describe('Address Verification Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as fromActions.AddressVerificationActions;
+      const action = {} as CheckoutActions.AddressVerificationActions;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -22,7 +21,9 @@ describe('Address Verification Reducer', () => {
       };
 
       const { initialState } = fromReducer;
-      const action = new fromActions.VerifyAddressSuccess(addressValidation);
+      const action = new CheckoutActions.VerifyAddressSuccess(
+        addressValidation
+      );
       const state = fromReducer.reducer(initialState, action);
       expect(state.results).toEqual(addressValidation);
     });
@@ -31,7 +32,7 @@ describe('Address Verification Reducer', () => {
   describe('CLEAR_ADDRESS_VERIFICATION_RESULTS action', () => {
     it('should clear the address verification results data', () => {
       const { initialState } = fromReducer;
-      const action = new fromActions.ClearAddressVerificationResults();
+      const action = new CheckoutActions.ClearAddressVerificationResults();
       const state = fromReducer.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });
