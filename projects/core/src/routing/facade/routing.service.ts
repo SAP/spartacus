@@ -7,7 +7,7 @@ import { SemanticPathService } from '../configurable-routes/url-translation/sema
 import { UrlCommands } from '../configurable-routes/url-translation/url-command';
 import { PageContext } from '../models/page-context.model';
 import * as fromStore from '../store';
-import { RouterState } from '../store/roting-state';
+import { RouterState } from '../store/routing-state';
 import { RoutingSelector } from '../store/selectors/index';
 
 @Injectable({

@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SiteContextParamsService } from './site-context-params.service';
 import {
+  BASE_SITE_CONTEXT_ID,
   contextServiceMapProvider,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
@@ -14,21 +15,21 @@ import createSpy = jasmine.createSpy;
 
 describe('SiteContextParamsService', () => {
   const siteContextConfig: SiteContextConfig = {
-    siteContext: {
+    context: {
       parameters: {
         [LANGUAGE_CONTEXT_ID]: {
           persistence: 'route',
-          defaultValue: 'en',
+          default: 'en',
           values: ['en', 'de', 'ja', 'zh'],
         },
         [CURRENCY_CONTEXT_ID]: {
           persistence: 'route',
-          defaultValue: 'USD',
+          default: 'USD',
           values: ['USD', 'JPY'],
         },
-        site: {
+        [BASE_SITE_CONTEXT_ID]: {
           persistence: 'session',
-          defaultValue: 'electronics',
+          default: 'electronics',
           values: ['electronics', 'apparel-de'],
         },
       },
@@ -66,11 +67,11 @@ describe('SiteContextParamsService', () => {
   describe('getContextParameters', () => {
     it('should get all site context parameters', () => {
       const params = service.getContextParameters();
-      expect(params).toEqual(['LANGUAGE', 'CURRENCY', 'site']);
+      expect(params).toEqual(['language', 'currency', 'baseSite']);
     });
     it('should get context parameters by type', () => {
       const params = service.getContextParameters('route');
-      expect(params).toEqual(['LANGUAGE', 'CURRENCY']);
+      expect(params).toEqual(['language', 'currency']);
     });
   });
 

@@ -25,7 +25,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   ) {
     super();
     this.urlEncodingParameters =
-      this.config.siteContext.urlEncodingParameters || [];
+      (this.config.context && this.config.context.urlEncodingParameters) || [];
   }
 
   parse(url: string): UrlTreeWithSiteContext {
