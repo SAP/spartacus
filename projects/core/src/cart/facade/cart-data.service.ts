@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Cart } from '../../model/cart.model';
 import { StateWithCart } from '../store/cart-state';
-import * as fromSelector from '../store/selectors/index';
+import { CartSelectors } from '../store/selectors/index';
 
 export const ANONYMOUS_USERID = 'anonymous';
 
@@ -28,7 +28,7 @@ export class CartDataService {
         }
       });
 
-    this.store.pipe(select(fromSelector.getCartContent)).subscribe(cart => {
+    this.store.pipe(select(CartSelectors.getCartContent)).subscribe(cart => {
       this._cart = cart;
     });
   }

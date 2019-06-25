@@ -4,8 +4,9 @@ import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
-import * as fromStore from '../store';
+import * as fromStore from '../store/index';
 import { StateWithProduct } from '../store/product-state';
+import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
 
 describe('ProductSearchService', () => {
@@ -19,7 +20,7 @@ describe('ProductSearchService', () => {
     selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
   ) => {
     switch (selector) {
-      case fromStore.getSearchResults:
+      case ProductSelectors.getSearchResults:
         return () => of(mockSearchResults);
       default:
         return () => EMPTY;

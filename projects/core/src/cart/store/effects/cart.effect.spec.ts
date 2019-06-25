@@ -2,11 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { OccConfig } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import * as fromAuth from '../../../auth/store/index';
 import { Cart } from '../../../model/cart.model';
+import { OccConfig } from '../../../occ/config/occ-config';
 import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import * as fromUser from '../../../user/store/index';
 import { CartConnector } from '../../connectors/cart/cart.connector';
@@ -15,7 +15,6 @@ import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
 import * as fromActions from '../actions/cart.action';
 import * as fromEffects from './cart.effect';
-
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {

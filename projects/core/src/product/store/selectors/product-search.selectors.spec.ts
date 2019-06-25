@@ -1,17 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
-import * as fromReducers from '../reducers';
-import { SearchConfig } from '../../model/search-config';
-
-import * as fromSelectors from './product-search.selectors';
+import { select, Store, StoreModule } from '@ngrx/store';
 import {
   ProductSearchPage,
   Suggestion,
 } from '../../../model/product-search.model';
+import { SearchConfig } from '../../model/search-config';
+import * as fromActions from '../actions/index';
+import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
+import * as fromReducers from '../reducers/index';
+import { ProductSelectors } from '../selectors/index';
 
 describe('ProductSearch Selectors', () => {
   let store: Store<StateWithProduct>;
@@ -35,7 +32,7 @@ describe('ProductSearch Selectors', () => {
       let result: ProductSearchPage;
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
-        .pipe(select(fromSelectors.getSearchResults))
+        .pipe(select(ProductSelectors.getSearchResults))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -57,7 +54,7 @@ describe('ProductSearch Selectors', () => {
       let result: ProductSearchPage;
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
-        .pipe(select(fromSelectors.getAuxSearchResults))
+        .pipe(select(ProductSelectors.getAuxSearchResults))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -83,7 +80,7 @@ describe('ProductSearch Selectors', () => {
     it('should return the product suggestions', () => {
       let result: Suggestion[];
       store
-        .pipe(select(fromSelectors.getProductSuggestions))
+        .pipe(select(ProductSelectors.getProductSuggestions))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);

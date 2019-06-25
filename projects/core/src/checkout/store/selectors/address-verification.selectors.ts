@@ -1,13 +1,12 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { AddressValidation } from '../../../model/address.model';
 import {
-  CheckoutState,
   AddressVerificationState,
+  CheckoutState,
   StateWithCheckout,
 } from '../checkout-state';
 import * as fromReducer from './../reducers/address-verification.reducer';
 import { getCheckoutState } from './checkout.selectors';
-import { AddressValidation } from '../../../model/address.model';
 
 export const getAddressVerificationResultsState: MemoizedSelector<
   StateWithCheckout,

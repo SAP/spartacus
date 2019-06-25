@@ -1,5 +1,5 @@
 import { ConsentTemplate } from '../../../model/consent.model';
-import { PROCESS_FEATURE } from '../../../process';
+import { PROCESS_FEATURE } from '../../../process/index';
 import {
   entityFailMeta,
   entityLoadMeta,
