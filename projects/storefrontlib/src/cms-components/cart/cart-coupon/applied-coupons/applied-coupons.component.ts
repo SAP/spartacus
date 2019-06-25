@@ -13,13 +13,11 @@ export class AppliedCouponsComponent implements OnInit {
   cartIsLoading = false;
   @Input()
   isReadOnly = false;
-  
+
   iconTypes = ICON_TYPE;
-  
-  constructor(
-    private cartService: CartService
-  ) {}
-  
+
+  constructor(private cartService: CartService) {}
+
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];
     return this.vouchers.sort((a, b) => {
