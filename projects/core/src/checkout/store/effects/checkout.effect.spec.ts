@@ -4,8 +4,9 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import * as fromAuthActions from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { CartDataService } from '../../../cart/facade/cart-data.service';
+import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
@@ -19,9 +20,7 @@ import { CheckoutConnector } from '../../connectors/checkout';
 import { CheckoutDetails } from '../../models/checkout.model';
 import * as fromActions from '../actions/checkout.action';
 import * as fromIndexActions from '../actions/index';
-import * as fromCartActions from './../../../cart/store/actions/index';
 import * as fromEffects from './checkout.effect';
-
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
@@ -193,7 +192,7 @@ describe('Checkout effect', () => {
 
   describe('clearCheckoutDataOnLogout$', () => {
     it('should dispatch clear checkout data action on logout', () => {
-      const action = new fromAuthActions.Logout();
+      const action = new AuthActions.Logout();
       const completion = new fromIndexActions.ClearCheckoutData();
 
       actions$ = hot('-a', { a: action });
@@ -213,7 +212,7 @@ describe('Checkout effect', () => {
       const setDeliveryModeSuccess = new fromActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
-      const loadCart = new fromCartActions.LoadCart({
+      const loadCart = new CartActions.LoadCart({
         userId,
         cartId,
       });
