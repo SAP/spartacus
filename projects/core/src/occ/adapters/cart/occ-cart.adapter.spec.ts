@@ -41,8 +41,10 @@ const MockOccModuleConfig: OccConfig = {
       prefix: '',
     },
   },
-  site: {
-    baseSite: '',
+  context: {
+    parameters: {
+      baseSite: { default: '' },
+    },
   },
 };
 

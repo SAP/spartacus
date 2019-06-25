@@ -134,7 +134,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
 
   it('should contain a language select with number of options', () => {
     const selectBox = el.query(
-      By.css('cx-site-context-selector[context="LANGUAGE"] select')
+      By.css('cx-site-context-selector[context="language"] select')
     );
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockLanguages.length);
@@ -142,7 +142,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
 
   it('should contain a currency select with number of options', () => {
     const selectBox = el.query(
-      By.css('cx-site-context-selector[context="CURRENCY"] select')
+      By.css('cx-site-context-selector[context="currency"] select')
     );
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockCurrencies.length);
