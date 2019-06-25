@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Voucher } from '@spartacus/core';
+import { CartCouponAnchorService } from './cart-coupon-anchor.service';
 
 @Component({
   selector: 'cx-cart-coupon-anchor',
@@ -8,19 +9,12 @@ import { Voucher } from '@spartacus/core';
 export class CartCouponAnchorComponent implements OnInit {
   @Input()
   vouchers: Voucher[];
-  @Output()
-  anchor = new EventEmitter<string>();
 
-  constructor() {}
+  constructor(private cartCouponAnchorService: CartCouponAnchorService) {}
 
   ngOnInit() {}
-  scrollToAnchor(anchor: string) {
-    this.anchor.emit(anchor);
-    // const anchorElement = this.element.nativeElement.querySelector(anchor);
-    // console.log(anchorElement);
-    // console.log(this.element.nativeElement);
-    // if (anchorElement) {
-    //   anchorElement.scrollIntoView({ behavior: 'smooth' });
-    // }
+
+  sendScrollEvent(anchor: string) {
+    this.cartCouponAnchorService.eventEmit.emit(anchor);
   }
 }

@@ -1,12 +1,15 @@
 <div class="cx-cart-coupon-anchor">
   <ng-container *ngIf="vouchers && vouchers.length > 0; else noVouchers">
     <div class="cx-cart-coupon-anchor-title">
-      <button class="link" (click)="scrollToAnchor('#applyVoucher')">
+      <label
+        class="cx-cart-coupon-anchor-link"
+        (click)="sendScrollEvent('#applyVoucher')"
+      >
         {{
           'voucher.anchor.vouchers'
             | cxTranslate: { voucherNumber: vouchers.length }
         }}
-      </button>
+      </label>
     </div>
   </ng-container>
 
@@ -14,7 +17,7 @@
     <div class="cx-cart-coupon-anchor-title">
       <label
         class="cx-cart-coupon-anchor-link"
-        (click)="scrollToAnchor('cx-cart-coupon')"
+        (click)="sendScrollEvent('#applyVoucher')"
       >
         {{ 'voucher.anchor.noVouchers' | cxTranslate }}
       </label>
