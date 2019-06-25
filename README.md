@@ -6,7 +6,7 @@ Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud.
 
 - Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/).
 - Questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE).
-- For details on the 1.0 launch, see the [Release 1.0 Information page](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/Release-1.0-Information/) on our Spartacus documentation site.
+- For details on the 1.0 launch, see the [Release 1.0 Information page](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-1.0-information/) on our Spartacus documentation site.
 
 Spartacus is...
 
@@ -31,7 +31,7 @@ Spartacus provides core storefront features such as:
 - Checkout
 - Order history
 
-See the [Release 1.0 documentation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/Release-1.0-Information/) for more information.
+See the [Release 1.0 documentation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-1.0-information) for more information.
 
 
 
@@ -50,7 +50,7 @@ To get started with Spartacus, the recommended approach is to build your storefr
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. 
 
-For complete setup instructions, see the [Setup and Installation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/Setup-and-Installation/) guide.
+For complete setup instructions, see the [Setup and Installation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/setup-and-installation/) guide.
 
 
 
@@ -68,7 +68,7 @@ The documentation for customizing and extending Spartacus is still under develop
 
 # Limitations
 
-When 1.0 is released, it is recommended to use SAP Commerce 1905. Spartacus works with earlier versions of SAP Commerce Cloud, with limitations the farther back you go, mainly due to changes in OCC REST APIs. See the [Setup and Installation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/Setup-and-Installation/) guide for more information. 
+When 1.0 is released, it is recommended to use SAP Commerce 1905. Spartacus works with earlier versions of SAP Commerce Cloud, with limitations the farther back you go, mainly due to changes in OCC REST APIs. See the [Setup and Installation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/setup-and-installation/) guide for more information. 
 
 Spartacus is also being updated so that it works well with upcoming releases of SAP Commerce Cloud. This means that certain features of Spartacus may only work with unreleased future editions of SAP Commerce Cloud. This will be noted as we release new versions of Spartacus.
 
@@ -105,7 +105,7 @@ Team Spartacus welcomes feedback, ideas, requests, and especially code contribut
 
 # To Do
 
-Many improvements are coming! All tasks will be posted to our GitHub issue tracking system. As mentioned, some of the improvements will mean breaking changes. While we strive to avoid doing so, we cannot guarantee this will not happen before the first release.
+Many improvements are coming! All tasks will be posted to our GitHub issue tracking system. 
 
 
 
