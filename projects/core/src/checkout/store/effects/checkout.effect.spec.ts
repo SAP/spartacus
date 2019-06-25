@@ -1,32 +1,28 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/checkout.action';
-import * as fromIndexActions from '../actions/index';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { Observable, of } from 'rxjs';
 import * as fromAuthActions from '../../../auth/store/actions/index';
-import * as fromCartActions from './../../../cart/store/actions/index';
+import { CartDataService } from '../../../cart/facade/cart-data.service';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../../checkout/connectors';
-import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
-
-import * as fromEffects from './checkout.effect';
-import { CheckoutDetails } from '../../models/checkout.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 import { CheckoutConnector } from '../../connectors/checkout';
+import { CheckoutDetails } from '../../models/checkout.model';
+import * as fromActions from '../actions/checkout.action';
+import * as fromIndexActions from '../actions/index';
+import * as fromCartActions from './../../../cart/store/actions/index';
+import * as fromEffects from './checkout.effect';
+
 import createSpy = jasmine.createSpy;
-import { CartDataService } from 'projects/core/src/cart';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -167,38 +163,6 @@ describe('Checkout effect', () => {
     });
   });
 
-  describe('reloadSupportedDeliveryModesOnSiteContextChange$', () => {
-    it('should load all supported delivery on clear miscs data action', () => {
-      const action = new fromIndexActions.CheckoutClearMiscsData();
-      const completion = new fromActions.LoadSupportedDeliveryModes({
-        cartId: 'cartId',
-        userId: 'userId',
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(
-        entryEffects.reloadSupportedDeliveryModesOnSiteContextChange$
-      ).toBeObservable(expected);
-    });
-
-    it('should load all supported delivery on clear supported delivery modes action', () => {
-      const action = new fromActions.ClearSupportedDeliveryModes();
-      const completion = new fromActions.LoadSupportedDeliveryModes({
-        cartId: 'cartId',
-        userId: 'userId',
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(
-        entryEffects.reloadSupportedDeliveryModesOnSiteContextChange$
-      ).toBeObservable(expected);
-    });
-  });
-
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
       const action = new fromSiteContextActions.LanguageChange();
@@ -252,7 +216,6 @@ describe('Checkout effect', () => {
       const loadCart = new fromCartActions.LoadCart({
         userId,
         cartId,
-        details: true,
       });
 
       actions$ = hot('-a', { a: action });
