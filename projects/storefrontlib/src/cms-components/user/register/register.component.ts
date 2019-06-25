@@ -88,6 +88,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
               GlobalMessageType.MSG_TYPE_ERROR
             );
           }
+
+          /*
+           * For security reasons we should not display bad credentials message when email exists in database
+           * and user is trying to register account again using such email but with a wrong password.
+           */
+          if (
+            globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR].some(
+              message =>
+                message &&
+                message.key === 'httpHandlers.badRequestPleaseLoginAgain'
+            )
+          ) {
+            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+            this.globalMessageService.add(
+              { key: 'register.errorOccured' },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+          }
         })
     );
   }
