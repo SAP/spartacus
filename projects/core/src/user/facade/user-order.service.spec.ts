@@ -123,4 +123,31 @@ describe('UserOrderService', () => {
       new fromStore.ClearUserOrders()
     );
   });
+
+  it('should be able to get consignment tracking', () => {
+    store.dispatch(
+      new fromStore.LoadConsignmentTrackingSuccess({ trackingID: '1234567890' })
+    );
+    service
+      .getConsignmentTracking()
+      .subscribe(r => expect(r).toEqual({ trackingID: '1234567890' }))
+      .unsubscribe();
+  });
+
+  it('should be able to load consignment tracking', () => {
+    service.loadConsignmentTracking('orderCode', 'consignmentCode');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadConsignmentTracking({
+        orderCode: 'orderCode',
+        consignmentCode: 'consignmentCode',
+      })
+    );
+  });
+
+  it('should be able to clear consignment tracking', () => {
+    service.clearConsignmentTracking();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ClearConsignmentTracking()
+    );
+  });
 });

@@ -7,9 +7,11 @@ import {
   ConfigModule,
   I18nModule,
 } from '@spartacus/core';
+import { TrackingEventsComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/tracking-events.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CardModule } from '../../../../shared/components/card/card.module';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
@@ -54,10 +56,11 @@ const moduleComponents = [
         },
       },
     }),
+    SpinnerModule,
   ],
   providers: [OrderDetailsService],
-  declarations: [...moduleComponents],
+  declarations: [...moduleComponents, TrackingEventsComponent],
   exports: [...moduleComponents],
-  entryComponents: [...moduleComponents],
+  entryComponents: [...moduleComponents, TrackingEventsComponent],
 })
 export class OrderDetailsModule {}

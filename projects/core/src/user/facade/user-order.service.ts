@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
@@ -93,5 +94,33 @@ export class UserOrderService {
    */
   clearOrderList(): void {
     this.store.dispatch(new fromStore.ClearUserOrders());
+  }
+
+  /**
+   *  Returns a consignment tracking detail
+   */
+  getConsignmentTracking(): Observable<ConsignmentTracking> {
+    return this.store.pipe(select(fromStore.getConsignmentTracking));
+  }
+
+  /**
+   * Retrieves consignment tracking details
+   * @param orderCode an order code
+   * @param consignmentCode a consignment code
+   */
+  loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
+    this.store.dispatch(
+      new fromStore.LoadConsignmentTracking({
+        orderCode: orderCode,
+        consignmentCode: consignmentCode,
+      })
+    );
+  }
+
+  /**
+   * Cleaning consignment tracking
+   */
+  clearConsignmentTracking(): void {
+    this.store.dispatch(new fromStore.ClearConsignmentTracking());
   }
 }
