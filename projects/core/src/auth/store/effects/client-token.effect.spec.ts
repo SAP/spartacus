@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import * as fromStore from '../';
-import { ClientTokenAction } from '../actions';
+import { AuthActions } from '../actions/index';
 import { ClientToken } from './../../models/token-types.model';
 import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
 
@@ -21,7 +21,7 @@ class ClientAuthenticationTokenServiceMock {
 describe('ClientTokenEffect', () => {
   let clientTokenEffect: fromStore.ClientTokenEffect;
   let clientAuthenticationTokenService: ClientAuthenticationTokenService;
-  let actions$: Observable<ClientTokenAction>;
+  let actions$: Observable<AuthActions.ClientTokenAction>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,8 +48,8 @@ describe('ClientTokenEffect', () => {
 
   describe('loadClientToken$', () => {
     it('should load a client token', () => {
-      const action = new fromStore.LoadClientToken();
-      const completition = new fromStore.LoadClientTokenSuccess(testToken);
+      const action = new AuthActions.LoadClientToken();
+      const completition = new AuthActions.LoadClientTokenSuccess(testToken);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completition });
