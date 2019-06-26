@@ -41,7 +41,7 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     PersonalizationModule.forRoot(), // should be custom
 
     // opt-in explicitely
-    OccModule,
+    OccModule.forRoot(),
     ProductDetailsPageModule,
     ProductListingPageModule,
   ],
