@@ -68,6 +68,27 @@ describe('CmsService', () => {
     expect(service).toBeTruthy();
   }));
 
+  it('getComponentData should return empty observable', inject(
+    [CmsService],
+    (service: CmsService) => {
+      const obs = service.getComponentData(null);
+      expect(obs).toBeTruthy();
+
+      obs.subscribe(value => {
+        expect(value).toBeTruthy();
+        expect(value).toEqual({});
+      });
+
+      const obs2 = service.getComponentData(undefined);
+      expect(obs2).toBeTruthy();
+
+      obs2.subscribe(value => {
+        expect(value).toBeTruthy();
+        expect(value).toEqual({});
+      });
+    }
+  ));
+
   it('getComponentData should call the store and trigger component load', inject(
     [CmsService],
     (service: CmsService) => {

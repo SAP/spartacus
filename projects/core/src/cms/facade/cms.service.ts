@@ -68,7 +68,7 @@ export class CmsService {
    * @param uid : CMS componet uid
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
-    if (!this.components[uid]) {
+    if (uid !== null && uid !== undefined && !this.components[uid]) {
       this.components[uid] = combineLatest([
         this.routingService.isNavigating(),
         this.store.pipe(
@@ -93,9 +93,9 @@ export class CmsService {
         pluck('value'),
         shareReplay({ bufferSize: 1, refCount: true })
       );
+      return this.components[uid] as Observable<T>;
     }
-
-    return this.components[uid] as Observable<T>;
+    return of({}) as Observable<T>;
   }
 
   /**
