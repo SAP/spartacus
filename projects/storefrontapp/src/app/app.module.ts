@@ -49,7 +49,6 @@ if (!environment.production) {
               'apparel-de',
               'apparel-uk',
             ],
-            default: 'nouSite',
             persistence: 'route',
           },
         },
