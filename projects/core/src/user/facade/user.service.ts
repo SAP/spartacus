@@ -11,6 +11,7 @@ import {
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import * as fromStore from '../store/index';
+import { UsersSelectors } from '../store/selectors/index';
 import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
@@ -29,7 +30,7 @@ export class UserService {
    */
   get(): Observable<User> {
     return this.store.pipe(
-      select(fromStore.getDetails),
+      select(UsersSelectors.getDetails),
       tap(details => {
         if (Object.keys(details).length === 0) {
           this.load();
@@ -100,7 +101,7 @@ export class UserService {
    * Returns titles
    */
   getTitles(): Observable<Title[]> {
-    return this.store.pipe(select(fromStore.getAllTitles));
+    return this.store.pipe(select(UsersSelectors.getAllTitles));
   }
 
   /**
@@ -114,7 +115,7 @@ export class UserService {
    * Return whether user's password is successfully reset
    */
   isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getResetPassword));
+    return this.store.pipe(select(UsersSelectors.getResetPassword));
   }
 
   /**

@@ -5,7 +5,7 @@ import { loaderValueSelector } from '../../../state/utils/loader/loader.selector
 import { CmsState, ComponentState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
-export const getComponentEntitiesSelector = (state: ComponentState) =>
+const getComponentEntitiesSelector = (state: ComponentState): any =>
   Object.keys(state.entities).reduce((acc, cur) => {
     acc[cur] = state.entities[cur].value;
     return acc;

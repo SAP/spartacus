@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, select, StoreModule } from '@ngrx/store';
-
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Currency } from '../../../model/misc.model';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors/currencies.selectors';
-import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
-import { Currency } from '../../../model/misc.model';
+import { SiteContextSelectors } from '../selectors/index';
+import { SITE_CONTEXT_FEATURE, StateWithSiteContext } from '../state';
 
 describe('Currencies Selectors', () => {
   let store: Store<StateWithSiteContext>;
@@ -37,7 +36,7 @@ describe('Currencies Selectors', () => {
       let result: Currency;
 
       store
-        .pipe(select(fromSelectors.getCurrenciesEntities))
+        .pipe(select(SiteContextSelectors.getCurrenciesEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
@@ -52,7 +51,7 @@ describe('Currencies Selectors', () => {
       let result: string;
 
       store
-        .pipe(select(fromSelectors.getActiveCurrency))
+        .pipe(select(SiteContextSelectors.getActiveCurrency))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
@@ -67,7 +66,7 @@ describe('Currencies Selectors', () => {
       let result: Currency[];
 
       store
-        .pipe(select(fromSelectors.getAllCurrencies))
+        .pipe(select(SiteContextSelectors.getAllCurrencies))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);

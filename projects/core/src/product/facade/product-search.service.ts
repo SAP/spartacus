@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
 import * as fromStore from '../store/index';
+import { ProductSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class ProductSearchService {
@@ -19,7 +20,7 @@ export class ProductSearchService {
   }
 
   getResults(): Observable<ProductSearchPage> {
-    return this.store.pipe(select(fromStore.getSearchResults));
+    return this.store.pipe(select(ProductSelectors.getSearchResults));
   }
 
   clearResults(): void {
