@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { LoaderState } from '../../../state';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
-import * as fromActions from '../actions/open-id-token.action';
+import * as fromActions from '../actions/index';
 import { KYMA_FEATURE, StateWithKyma } from '../kyma-state';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors/open-id-token.selectors';
+import * as fromReducers from '../reducers/index';
+import { KymaSelectors } from '../selectors/index';
 
 const testToken = {
   access_token: 'xxx',
@@ -32,7 +32,7 @@ describe('Open ID Token Selectors', () => {
 
       let result: LoaderState<OpenIdToken>;
       store
-        .pipe(select(fromSelectors.getOpenIdTokenState))
+        .pipe(select(KymaSelectors.getOpenIdTokenState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -50,7 +50,7 @@ describe('Open ID Token Selectors', () => {
 
       let result: OpenIdToken;
       store
-        .pipe(select(fromSelectors.getOpenIdTokenValue))
+        .pipe(select(KymaSelectors.getOpenIdTokenValue))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -68,7 +68,7 @@ describe('Open ID Token Selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getOpenIdTokenLoading))
+        .pipe(select(KymaSelectors.getOpenIdTokenLoading))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -81,7 +81,7 @@ describe('Open ID Token Selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getOpenIdTokenSuccess))
+        .pipe(select(KymaSelectors.getOpenIdTokenSuccess))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -94,7 +94,7 @@ describe('Open ID Token Selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getOpenIdTokenError))
+        .pipe(select(KymaSelectors.getOpenIdTokenError))
         .subscribe(value => (result = value))
         .unsubscribe();
 

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import * as fromStore from '../store/index';
-import { Country } from '../../model/address.model';
+import { UsersSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -28,14 +29,14 @@ export class UserPaymentService {
    * Returns all user's payment methods
    */
   getPaymentMethods(): Observable<PaymentDetails[]> {
-    return this.store.pipe(select(fromStore.getPaymentMethods));
+    return this.store.pipe(select(UsersSelectors.getPaymentMethods));
   }
 
   /**
    * Returns a loading flag for payment methods
    */
   getPaymentMethodsLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getPaymentMethodsLoading));
+    return this.store.pipe(select(UsersSelectors.getPaymentMethodsLoading));
   }
 
   /**
@@ -69,7 +70,7 @@ export class UserPaymentService {
    * Returns all billing countries
    */
   getAllBillingCountries(): Observable<Country[]> {
-    return this.store.pipe(select(fromStore.getAllBillingCountries));
+    return this.store.pipe(select(UsersSelectors.getAllBillingCountries));
   }
 
   /**

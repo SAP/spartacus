@@ -1,12 +1,12 @@
-import * as fromAction from '../actions/card-types.action';
 import { CardType } from '../../../model/cart.model';
+import { CheckoutActions } from '../actions/index';
 
 describe('Card Types Actions', () => {
   describe('LoadCardTypes', () => {
     it('should create the action', () => {
-      const action = new fromAction.LoadCardTypes();
+      const action = new CheckoutActions.LoadCardTypes();
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_CARD_TYPES,
+        type: CheckoutActions.LOAD_CARD_TYPES,
       });
     });
   });
@@ -14,10 +14,10 @@ describe('Card Types Actions', () => {
   describe('LoadCardTypesFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.LoadCardTypesFail(error);
+      const action = new CheckoutActions.LoadCardTypesFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_CARD_TYPES_FAIL,
+        type: CheckoutActions.LOAD_CARD_TYPES_FAIL,
         payload: error,
       });
     });
@@ -35,9 +35,9 @@ describe('Card Types Actions', () => {
           name: 'Maestro',
         },
       ];
-      const action = new fromAction.LoadCardTypesSuccess(cardTypes);
+      const action = new CheckoutActions.LoadCardTypesSuccess(cardTypes);
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_CARD_TYPES_SUCCESS,
+        type: CheckoutActions.LOAD_CARD_TYPES_SUCCESS,
         payload: cardTypes,
       });
     });
