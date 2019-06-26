@@ -10,7 +10,10 @@ describe('Language switch - my-account pages', () => {
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES
   );
-
+  siteContextSelector.stub(
+    siteContextSelector.TITLE_REQUEST,
+    siteContextSelector.TITLES
+  );
   describe('order page', () => {
     const orderPath = siteContextSelector.ORDER_PATH;
     const deutschName = siteContextSelector.MONTH_DE;
@@ -103,7 +106,7 @@ describe('Language switch - my-account pages', () => {
     it('should change language in the page', () => {
       siteContextSelector.siteContextChange(
         personalDetailsPath,
-        siteContextSelector.LANGUAGES,
+        siteContextSelector.TITLES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );

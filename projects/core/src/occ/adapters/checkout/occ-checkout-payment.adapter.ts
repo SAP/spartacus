@@ -186,8 +186,10 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       paymentDetails.billingAddress.line2;
     params[mappingLabels['hybris_billTo_city']] =
       paymentDetails.billingAddress.town;
-    params[mappingLabels['hybris_billTo_region']] =
-      paymentDetails.billingAddress.region.isocodeShort;
+    if (paymentDetails.billingAddress.region) {
+      params[mappingLabels['hybris_billTo_region']] =
+        paymentDetails.billingAddress.region.isocodeShort;
+    }
     params[mappingLabels['hybris_billTo_postalcode']] =
       paymentDetails.billingAddress.postalCode;
     return params;
