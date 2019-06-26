@@ -1,1 +1,2 @@
-export * from './open-id-token.action';
+import * as KymaActions from './kyma-group.actions';
+export { KymaActions };

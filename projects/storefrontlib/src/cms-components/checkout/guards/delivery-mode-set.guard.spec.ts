@@ -1,11 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  RoutesConfig,
-  RoutingConfigService,
-  ServerConfig,
-} from '@spartacus/core';
+import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfigService } from '../checkout-config.service';
@@ -34,8 +30,6 @@ class MockCheckoutConfigService {
   getCheckoutStep() {}
 }
 
-const MockServerConfig: ServerConfig = { production: false };
-
 describe(`DeliveryModeSetGuard`, () => {
   let guard: DeliveryModeSetGuard;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
@@ -51,7 +45,6 @@ describe(`DeliveryModeSetGuard`, () => {
           provide: CheckoutDetailsService,
           useClass: MockCheckoutDetailsService,
         },
-        { provide: ServerConfig, useValue: MockServerConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],

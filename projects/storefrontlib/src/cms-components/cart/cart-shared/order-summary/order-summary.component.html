@@ -6,7 +6,7 @@
       {{ 'orderCost.subtotal' | cxTranslate }}
     </div>
     <div class="col-6 cx-summary-amount">
-      {{ cart.totalPrice?.formattedValue }}
+      {{ cart.subTotal?.formattedValue }}
     </div>
   </div>
   <div class="cx-summary-row">
@@ -48,5 +48,8 @@
 </div>
 
 <!--
-<cx-promotions [promotions]="cart.appliedOrderPromotions"></cx-promotions>
+<cx-promotions
+  *ngIf="cart"
+  [promotions]="cart.appliedOrderPromotions"
+></cx-promotions>
 -->

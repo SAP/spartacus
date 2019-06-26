@@ -1,13 +1,12 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { Title } from '../../../model/misc.model';
 import {
-  UserState,
-  TitlesState,
   StateWithUser,
   TitleEntities,
+  TitlesState,
+  UserState,
 } from '../user-state';
 import { getUserState } from './feature.selector';
-import { Title } from '../../../model/misc.model';
 
 export const getTitlesState: MemoizedSelector<
   StateWithUser,

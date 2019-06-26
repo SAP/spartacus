@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import {
+  RouterState,
   RouterStateSerializer,
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
@@ -12,7 +13,7 @@ import {
   reducerProvider,
   reducerToken,
 } from './store/reducers/router.reducer';
-import { ROUTING_FEATURE } from './store/state';
+import { ROUTING_FEATURE } from './store/routing-state';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ROUTING_FEATURE } from './store/state';
     StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
     StoreRouterConnectingModule.forRoot({
+      routerState: RouterState.Minimal,
       stateKey: ROUTING_FEATURE, // name of reducer key
     }),
   ],

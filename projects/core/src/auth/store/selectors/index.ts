@@ -1,3 +1,2 @@
-export * from './client-token.selectors';
-export * from './feature.selector';
-export * from './user-token.selectors';
+import * as AuthSelectors from './auth-group.selectors';
+export { AuthSelectors };

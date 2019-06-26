@@ -1,11 +1,11 @@
-import * as fromAction from './navigation-entry-item.action';
 import { CmsComponent } from '../../../model/cms.model';
-import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 import {
   entityFailMeta,
   entityLoadMeta,
   entitySuccessMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
+import { CmsActions } from './index';
 
 describe('Navigation Entry Item Actions', () => {
   describe('LoadNavigationItems Actions', () => {
@@ -16,9 +16,9 @@ describe('Navigation Entry Item Actions', () => {
           items: ['mockSuperType1', 'mockId1'],
         };
 
-        const action = new fromAction.LoadNavigationItems(payload);
+        const action = new CmsActions.LoadCmsNavigationItems(payload);
         expect({ ...action }).toEqual({
-          type: fromAction.LOAD_NAVIGATION_ITEMS,
+          type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS,
           payload,
           meta: entityLoadMeta(NAVIGATION_DETAIL_ENTITY, payload.nodeId),
         });
@@ -29,10 +29,13 @@ describe('Navigation Entry Item Actions', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
         const nodeId = 'test_uid';
-        const action = new fromAction.LoadNavigationItemsFail(nodeId, payload);
+        const action = new CmsActions.LoadCmsNavigationItemsFail(
+          nodeId,
+          payload
+        );
 
         expect({ ...action }).toEqual({
-          type: fromAction.LOAD_NAVIGATION_ITEMS_FAIL,
+          type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS_FAIL,
           payload,
           meta: entityFailMeta(NAVIGATION_DETAIL_ENTITY, nodeId, payload),
         });
@@ -48,10 +51,10 @@ describe('Navigation Entry Item Actions', () => {
 
         const payload = { nodeId: 'testId', components };
 
-        const action = new fromAction.LoadNavigationItemsSuccess(payload);
+        const action = new CmsActions.LoadCmsNavigationItemsSuccess(payload);
 
         expect({ ...action }).toEqual({
-          type: fromAction.LOAD_NAVIGATION_ITEMS_SUCCESS,
+          type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS_SUCCESS,
           payload,
           meta: entitySuccessMeta(NAVIGATION_DETAIL_ENTITY, payload.nodeId),
         });

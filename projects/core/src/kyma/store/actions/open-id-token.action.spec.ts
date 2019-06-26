@@ -1,7 +1,7 @@
 import { failMeta, loadMeta, successMeta } from '../../../state';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { OPEN_ID_TOKEN_DATA } from '../kyma-state';
-import * as fromUserToken from './open-id-token.action';
+import { KymaActions } from './index';
 
 const token = {
   access_token: 'xxx',
@@ -15,9 +15,9 @@ describe('Open ID Token Actions', () => {
         password: '1234',
       };
 
-      const action = new fromUserToken.LoadOpenIdToken(tokenRequest);
+      const action = new KymaActions.LoadOpenIdToken(tokenRequest);
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_OPEN_ID_TOKEN,
+        type: KymaActions.LOAD_OPEN_ID_TOKEN,
         payload: tokenRequest,
         meta: loadMeta(OPEN_ID_TOKEN_DATA),
       });
@@ -27,10 +27,10 @@ describe('Open ID Token Actions', () => {
   describe('LoadOpenIdTokenFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromUserToken.LoadOpenIdTokenFail(error);
+      const action = new KymaActions.LoadOpenIdTokenFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_OPEN_ID_TOKEN_FAIL,
+        type: KymaActions.LOAD_OPEN_ID_TOKEN_FAIL,
         payload: error,
         meta: failMeta(OPEN_ID_TOKEN_DATA, error),
       });
@@ -39,10 +39,10 @@ describe('Open ID Token Actions', () => {
 
   describe('LoadOpenIdTokenSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserToken.LoadOpenIdTokenSuccess(token);
+      const action = new KymaActions.LoadOpenIdTokenSuccess(token);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_OPEN_ID_TOKEN_SUCCESS,
+        type: KymaActions.LOAD_OPEN_ID_TOKEN_SUCCESS,
         payload: token,
         meta: successMeta(OPEN_ID_TOKEN_DATA),
       });

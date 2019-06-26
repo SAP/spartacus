@@ -1,4 +1,4 @@
-import * as fromAction from '../actions/index';
+import { CheckoutActions } from '../actions/index';
 import { AddressVerificationState } from '../checkout-state';
 
 export const initialState: AddressVerificationState = {
@@ -7,10 +7,10 @@ export const initialState: AddressVerificationState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.AddressVerificationActions
+  action: CheckoutActions.AddressVerificationActions
 ): AddressVerificationState {
   switch (action.type) {
-    case fromAction.VERIFY_ADDRESS_SUCCESS: {
+    case CheckoutActions.VERIFY_ADDRESS_SUCCESS: {
       const results = action.payload;
 
       return {
@@ -19,14 +19,14 @@ export function reducer(
       };
     }
 
-    case fromAction.VERIFY_ADDRESS_FAIL: {
+    case CheckoutActions.VERIFY_ADDRESS_FAIL: {
       return {
         ...state,
         results: 'FAIL',
       };
     }
 
-    case fromAction.CLEAR_ADDRESS_VERIFICATION_RESULTS: {
+    case CheckoutActions.CLEAR_ADDRESS_VERIFICATION_RESULTS: {
       return {
         ...state,
         results: {},

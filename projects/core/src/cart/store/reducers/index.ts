@@ -1,12 +1,9 @@
 import { InjectionToken, Provider } from '@angular/core';
-
-import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
-
-import { CartsState, CartState, CART_DATA } from './../cart-state';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { PLACE_ORDER_SUCCESS } from '../../../checkout/store/actions/checkout.action';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-
+import { CartsState, CartState, CART_DATA } from './../cart-state';
 import { reducer as cartReducer } from './cart.reducer';
 
 export function getReducers(): ActionReducerMap<CartsState> {

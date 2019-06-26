@@ -25,8 +25,4 @@ export const cart = {
     grossTax: 'The order total does not include tax of',
     total: 'Total:',
   },
-  miniCart: {
-    item: '{{count}} item currently in your cart',
-    item_plural: '{{count}} items currently in your cart',
-  },
 };
