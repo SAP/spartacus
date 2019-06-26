@@ -59,8 +59,10 @@ publish_snapshot() {
 
     cp $TMP_DIR/README.md $LIB_DIR/README.md
 
-    rm -rf $TMP_DIR
-    mkdir -p $TMP_DIR
+    (
+      cd $TMP_DIR && \
+      git rm -r -f .
+    )
 
     cp -R $LIB_DIR/* $TMP_DIR/
 
