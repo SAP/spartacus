@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../cart';
+import { CartService } from '..';
 import {
   CmsService,
   Page,
@@ -9,10 +9,10 @@ import {
   PageMetaService,
   PageRobotsMeta,
 } from '../../cms';
-import { CartPageMetaResolver } from './cart-page-meta.resolver';
-import { PageType } from '../../model/cms.model';
-import { Cart } from '../../model/cart.model';
 import { I18nTestingModule } from '../../i18n';
+import { Cart } from '../../model/cart.model';
+import { PageType } from '../../model/cms.model';
+import { CartPageMetaResolver } from './cart-page-meta.resolver';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
