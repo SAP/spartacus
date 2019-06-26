@@ -7,9 +7,7 @@ import { HttpErrorHandler } from './http-error.handler';
   providedIn: 'root',
 })
 export class UnknownErrorHandler extends HttpErrorHandler {
-  constructor(
-    protected globalMessageService: GlobalMessageService
-  ) {
+  constructor(protected globalMessageService: GlobalMessageService) {
     super(globalMessageService);
   }
   responseStatus = HttpResponseStatus.UNKNOWN;

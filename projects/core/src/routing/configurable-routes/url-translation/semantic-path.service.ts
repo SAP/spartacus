@@ -11,7 +11,7 @@ export class SemanticPathService {
 
   constructor(
     protected routingConfigService: RoutingConfigService,
-    protected urlParser: UrlParsingService,
+    protected urlParser: UrlParsingService
   ) {}
 
   /**

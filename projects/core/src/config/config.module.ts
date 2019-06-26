@@ -3,7 +3,8 @@ import {
   ModuleWithProviders,
   NgModule,
   Provider,
-  Optional, isDevMode,
+  Optional,
+  isDevMode,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { deepMerge } from './utils/deep-merge';
