@@ -4,8 +4,8 @@ import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 import { CmsActions } from './index';
 
 describe('Navigation Entry Item Actions', () => {
-  describe('LoadNavigationItems Actions', () => {
-    describe('LoadNavigationItems', () => {
+  describe('LoadCmsNavigationItems Actions', () => {
+    describe('LoadCmsNavigationItems', () => {
       it('should create an action', () => {
         const payload = {
           nodeId: 'test_uid',
@@ -24,7 +24,7 @@ describe('Navigation Entry Item Actions', () => {
       });
     });
 
-    describe('LoadNavigationItemsFail', () => {
+    describe('LoadCmsNavigationItemsFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
         const nodeId = 'test_uid';
@@ -45,7 +45,7 @@ describe('Navigation Entry Item Actions', () => {
       });
     });
 
-    describe('LoadNavigationItemsSuccess', () => {
+    describe('LoadCmsNavigationItemsSuccess', () => {
       it('should create an action', () => {
         const components: CmsComponent[] = [
           { uid: 'comp1', typeCode: 'SimpleBannerComponent1' },

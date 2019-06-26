@@ -6,8 +6,8 @@ import { CmsActions } from './index';
 describe('Cms Component Actions', () => {
   const test_uid = 'test_uid';
 
-  describe('LoadComponent Actions', () => {
-    describe('LoadComponent', () => {
+  describe('LoadCmsComponent Actions', () => {
+    describe('LoadCmsComponent', () => {
       it('should create an action', () => {
         const payload = test_uid;
         const action = new CmsActions.LoadCmsComponent(payload);
@@ -22,7 +22,7 @@ describe('Cms Component Actions', () => {
       });
     });
 
-    describe('LoadComponentFail', () => {
+    describe('LoadCmsComponentFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
         const action = new CmsActions.LoadCmsComponentFail(test_uid, payload);
@@ -39,7 +39,7 @@ describe('Cms Component Actions', () => {
       });
     });
 
-    describe('LoadComponentSuccess', () => {
+    describe('LoadCmsComponentSuccess', () => {
       it('should create an action', () => {
         const component: CmsComponent = {
           uid: 'comp1',
@@ -59,7 +59,7 @@ describe('Cms Component Actions', () => {
     });
   });
 
-  describe('GetComponentFromPage Action', () => {
+  describe('CmsGetComponentFromPage Action', () => {
     describe('Get Component from Page', () => {
       it('should create an action', () => {
         const component1: CmsComponent = { uid: 'uid1' };
