@@ -10,15 +10,5 @@
     "source.organizeImports": true
   },
   // Uses the project specific typescript version.
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#e0dffe",
-    "activityBar.foreground": "#15202b",
-    "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#fa6964",
-    "activityBarBadge.foreground": "#15202b",
-    "statusBar.background": "#b1adfd",
-    "statusBarItem.hoverBackground": "#827bfc",
-    "statusBar.foreground": "#15202b"
-  }
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
