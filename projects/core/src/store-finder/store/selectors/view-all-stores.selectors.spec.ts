@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromReducers from '../reducers';
-import * as fromActions from '../actions';
-import * as fromSelectors from './view-all-stores.selectors';
-import { StateWithStoreFinder } from '../store-finder-state';
+import { select, Store, StoreModule } from '@ngrx/store';
+import * as fromActions from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { StoreFinderSelectors } from '../selectors/index';
+import {
+  StateWithStoreFinder,
+  STORE_FINDER_FEATURE,
+} from '../store-finder-state';
 
 describe('ViewAllStores Selectors', () => {
   let store: Store<StateWithStoreFinder>;
@@ -15,7 +17,10 @@ describe('ViewAllStores Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.getReducers()),
+        StoreModule.forFeature(
+          STORE_FINDER_FEATURE,
+          fromReducers.getReducers()
+        ),
       ],
     });
     store = TestBed.get(Store);
@@ -24,12 +29,13 @@ describe('ViewAllStores Selectors', () => {
 
   describe('viewAllStores', () => {
     it('should return the stores search results', () => {
+      store.dispatch(new fromActions.ViewAllStoresSuccess(searchResult));
+
       let result;
       store
-        .pipe(select(fromSelectors.getViewAllStoresEntities))
-        .subscribe(value => (result = value));
-
-      store.dispatch(new fromActions.ViewAllStoresSuccess(searchResult));
+        .pipe(select(StoreFinderSelectors.getViewAllStoresEntities))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual(searchResult);
     });
@@ -37,9 +43,9 @@ describe('ViewAllStores Selectors', () => {
 
   describe('getViewAllStoresLoading', () => {
     it('should return isLoading flag', () => {
-      let result;
+      let result: boolean;
       store
-        .pipe(select(fromSelectors.getViewAllStoresLoading))
+        .pipe(select(StoreFinderSelectors.getViewAllStoresLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);

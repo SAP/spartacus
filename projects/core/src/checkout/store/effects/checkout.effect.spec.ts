@@ -1,32 +1,26 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/checkout.action';
-import * as fromIndexActions from '../actions/index';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
-import * as fromAuthActions from '../../../auth/store/actions/index';
-import * as fromCartActions from './../../../cart/store/actions/index';
+import { Observable, of } from 'rxjs';
+import { AuthActions } from '../../../auth/store/actions/index';
+import { CartDataService } from '../../../cart/facade/cart-data.service';
+import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
 } from '../../../checkout/connectors';
-import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
-
-import * as fromEffects from './checkout.effect';
-import { CheckoutDetails } from '../../models/checkout.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 import { CheckoutConnector } from '../../connectors/checkout';
+import { CheckoutDetails } from '../../models/checkout.model';
+import { CheckoutActions } from '../actions/index';
+import * as fromEffects from './checkout.effect';
 import createSpy = jasmine.createSpy;
-import { CartDataService } from 'projects/core/src/cart';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -110,14 +104,14 @@ describe('Checkout effect', () => {
 
   describe('addDeliveryAddress$', () => {
     it('should add delivery address to cart', () => {
-      const action = new fromActions.AddDeliveryAddress({
+      const action = new CheckoutActions.AddDeliveryAddress({
         userId: userId,
         cartId: cartId,
         address: address,
       });
 
       const completion1 = new LoadUserAddresses(userId);
-      const completion2 = new fromActions.SetDeliveryAddress({
+      const completion2 = new CheckoutActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
         address: address,
@@ -132,13 +126,13 @@ describe('Checkout effect', () => {
 
   describe('setDeliveryAddress$', () => {
     it('should set delivery address to cart', () => {
-      const action = new fromActions.SetDeliveryAddress({
+      const action = new CheckoutActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
         address: address,
       });
-      const completion = new fromActions.SetDeliveryAddressSuccess(address);
-      const completion2 = new fromActions.LoadSupportedDeliveryModes({
+      const completion = new CheckoutActions.SetDeliveryAddressSuccess(address);
+      const completion2 = new CheckoutActions.LoadSupportedDeliveryModes({
         userId,
         cartId,
       });
@@ -152,11 +146,11 @@ describe('Checkout effect', () => {
 
   describe('loadSupportedDeliveryModes$', () => {
     it('should load all supported delivery modes from cart', () => {
-      const action = new fromActions.LoadSupportedDeliveryModes({
+      const action = new CheckoutActions.LoadSupportedDeliveryModes({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new fromActions.LoadSupportedDeliveryModesSuccess(
+      const completion = new CheckoutActions.LoadSupportedDeliveryModesSuccess(
         modes
       );
 
@@ -167,42 +161,10 @@ describe('Checkout effect', () => {
     });
   });
 
-  describe('reloadSupportedDeliveryModesOnSiteContextChange$', () => {
-    it('should load all supported delivery on clear miscs data action', () => {
-      const action = new fromIndexActions.CheckoutClearMiscsData();
-      const completion = new fromActions.LoadSupportedDeliveryModes({
-        cartId: 'cartId',
-        userId: 'userId',
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(
-        entryEffects.reloadSupportedDeliveryModesOnSiteContextChange$
-      ).toBeObservable(expected);
-    });
-
-    it('should load all supported delivery on clear supported delivery modes action', () => {
-      const action = new fromActions.ClearSupportedDeliveryModes();
-      const completion = new fromActions.LoadSupportedDeliveryModes({
-        cartId: 'cartId',
-        userId: 'userId',
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(
-        entryEffects.reloadSupportedDeliveryModesOnSiteContextChange$
-      ).toBeObservable(expected);
-    });
-  });
-
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
       const action = new fromSiteContextActions.LanguageChange();
-      const completion = new fromIndexActions.CheckoutClearMiscsData();
+      const completion = new CheckoutActions.CheckoutClearMiscsData();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -216,7 +178,7 @@ describe('Checkout effect', () => {
   describe('clearDeliveryModesOnCurrencyChange$', () => {
     it('should dispatch clear supported delivery modes action on currency change', () => {
       const action = new fromSiteContextActions.CurrencyChange();
-      const completion = new fromIndexActions.ClearSupportedDeliveryModes();
+      const completion = new CheckoutActions.ClearSupportedDeliveryModes();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -229,8 +191,8 @@ describe('Checkout effect', () => {
 
   describe('clearCheckoutDataOnLogout$', () => {
     it('should dispatch clear checkout data action on logout', () => {
-      const action = new fromAuthActions.Logout();
-      const completion = new fromIndexActions.ClearCheckoutData();
+      const action = new AuthActions.Logout();
+      const completion = new CheckoutActions.ClearCheckoutData();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -241,18 +203,17 @@ describe('Checkout effect', () => {
 
   describe('setDeliveryMode$', () => {
     it('should set delivery mode for cart', () => {
-      const action = new fromActions.SetDeliveryMode({
+      const action = new CheckoutActions.SetDeliveryMode({
         userId: userId,
         cartId: cartId,
         selectedModeId: 'testSelectedModeId',
       });
-      const setDeliveryModeSuccess = new fromActions.SetDeliveryModeSuccess(
+      const setDeliveryModeSuccess = new CheckoutActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
-      const loadCart = new fromCartActions.LoadCart({
+      const loadCart = new CartActions.LoadCart({
         userId,
         cartId,
-        details: true,
       });
 
       actions$ = hot('-a', { a: action });
@@ -290,13 +251,13 @@ describe('Checkout effect', () => {
         },
       };
 
-      const action = new fromActions.CreatePaymentDetails({
+      const action = new CheckoutActions.CreatePaymentDetails({
         userId: userId,
         cartId: cartId,
         paymentDetails: mockPaymentDetails,
       });
       const completion1 = new LoadUserPaymentMethods(userId);
-      const completion2 = new fromActions.CreatePaymentDetailsSuccess(
+      const completion2 = new CheckoutActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
 
@@ -309,12 +270,12 @@ describe('Checkout effect', () => {
 
   describe('setPaymentDetails$', () => {
     it('should set payment details', () => {
-      const action = new fromActions.SetPaymentDetails({
+      const action = new CheckoutActions.SetPaymentDetails({
         userId: userId,
         cartId: cartId,
         paymentDetails,
       });
-      const completion = new fromActions.SetPaymentDetailsSuccess(
+      const completion = new CheckoutActions.SetPaymentDetailsSuccess(
         paymentDetails
       );
 
@@ -327,11 +288,11 @@ describe('Checkout effect', () => {
 
   describe('placeOrder$', () => {
     it('should place order', () => {
-      const action = new fromActions.PlaceOrder({
+      const action = new CheckoutActions.PlaceOrder({
         userId: userId,
         cartId: cartId,
       });
-      const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
+      const completion1 = new CheckoutActions.PlaceOrderSuccess(orderDetails);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(b)', { b: completion1 });
@@ -342,11 +303,13 @@ describe('Checkout effect', () => {
 
   describe('loadCheckoutDetails$', () => {
     it('should load checkout details from cart', () => {
-      const action = new fromActions.LoadCheckoutDetails({
+      const action = new CheckoutActions.LoadCheckoutDetails({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new fromActions.LoadCheckoutDetailsSuccess(details);
+      const completion = new CheckoutActions.LoadCheckoutDetailsSuccess(
+        details
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import {
   LayoutSlotConfig,
   SlotConfig,
 } from '../../../layout/config/layout-config';
-import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
+import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 
 @Injectable()
 export class PageLayoutService {
@@ -28,7 +28,7 @@ export class PageLayoutService {
   private logSlots = {};
 
   getSlots(section?: string): Observable<string[]> {
-    return combineLatest(this.page$, this.breakpointService.breakpoint$).pipe(
+    return combineLatest([this.page$, this.breakpointService.breakpoint$]).pipe(
       map(([page, breakpoint]) => {
         const pageTemplate = page.template;
         const slots = this.resolveSlots(page, section, breakpoint);
@@ -192,7 +192,7 @@ export class PageLayoutService {
    * in a format that can be copied / paste to the configuration.
    */
   private logMissingLayoutConfig(page: Page, section?: string): void {
-    if (this.config.production) {
+    if (!isDevMode()) {
       return;
     }
     if (!this.logSlots[page.template]) {

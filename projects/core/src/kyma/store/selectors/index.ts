@@ -1,2 +1,2 @@
-export * from './feature.selector';
-export * from './open-id-token.selectors';
+import * as KymaSelectors from './kyma-group.selectors';
+export { KymaSelectors };

@@ -1,26 +1,17 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
-import * as fromStore from '../store';
+import * as fromStore from '../store/index';
 import { StateWithProduct } from '../store/product-state';
+import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
-  let routerService: Router;
   let store: Store<fromStore.ProductsState>;
-  class MockRouter {
-    createUrlTree() {
-      return {};
-    }
-    navigateByUrl() {
-      return {};
-    }
-  }
   const mockSearchResults: ProductSearchPage = {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
@@ -29,7 +20,7 @@ describe('ProductSearchService', () => {
     selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
   ) => {
     switch (selector) {
-      case fromStore.getSearchResults:
+      case ProductSelectors.getSearchResults:
         return () => of(mockSearchResults);
       default:
         return () => EMPTY;
@@ -44,19 +35,11 @@ describe('ProductSearchService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('product', fromStore.getReducers()),
       ],
-      providers: [
-        ProductSearchService,
-        {
-          provide: Router,
-          useClass: MockRouter,
-        },
-      ],
+      providers: [ProductSearchService],
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(ProductSearchService);
-    routerService = TestBed.get(Router);
-    spyOn(routerService, 'navigateByUrl').and.callThrough();
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -91,7 +74,6 @@ describe('ProductSearchService', () => {
       const searchConfig: SearchConfig = {};
 
       service.search('test query', searchConfig);
-      expect(routerService.navigateByUrl).toHaveBeenCalledWith({});
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts({
           queryText: 'test query',

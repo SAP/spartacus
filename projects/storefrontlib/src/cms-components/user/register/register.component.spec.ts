@@ -1,7 +1,9 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -9,14 +11,10 @@ import {
   Title,
   UserService,
   UserToken,
-  AuthRedirectService,
 } from '@spartacus/core';
-
 import { Observable, of } from 'rxjs';
-
-import { Pipe, PipeTransform } from '@angular/core';
 import { RegisterComponent } from './register.component';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import createSpy = jasmine.createSpy;
 
 const mockTitlesList: Title[] = [
@@ -212,10 +210,36 @@ describe('RegisterComponent', () => {
     });
   });
 
+  describe('validate email before submitting', () => {
+    it('should make email lowercase', () => {
+      const upperCaseEmail = 'JohnDoe@thebest.JOHn.InTHEworld.com';
+      const lowerCaseEmail = upperCaseEmail.toLowerCase();
+
+      component.ngOnInit();
+
+      controls['email'].setValue(upperCaseEmail);
+      component.emailToLowerCase();
+      expect(component.userRegistrationForm.value.email).toEqual(
+        lowerCaseEmail
+      );
+    });
+
+    it('original form email value should NOT be changed', () => {
+      const upperCaseEmail = 'JohnDoe@thebest.JOHn.InTHEworld.com';
+
+      component.ngOnInit();
+
+      controls['email'].setValue(upperCaseEmail);
+      component.emailToLowerCase();
+      expect(controls['email'].value).toEqual(upperCaseEmail);
+    });
+  });
+
   describe('submit', () => {
     beforeEach(() => {
       spyOn(globalMessageService, 'remove').and.callThrough();
       spyOn(userService, 'register').and.stub();
+      component.ngOnInit();
       component.submit();
     });
 

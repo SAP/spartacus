@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
-  CartDataService,
   CartService,
   I18nTestingModule,
   OrderEntry,
@@ -65,6 +64,7 @@ describe('AddToCartComponent', () => {
   let service: CartService;
   let currentProductService: CurrentProductService;
   let modalInstance: any;
+  const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -76,7 +76,6 @@ describe('AddToCartComponent', () => {
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
-        CartDataService,
         { provide: ModalService, useValue: { open: () => {} } },
         { provide: CartService, useClass: MockCartService },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
@@ -102,7 +101,6 @@ describe('AddToCartComponent', () => {
   describe('Product code provided', () => {
     it('should call ngOnInit()', () => {
       addToCartComponent.productCode = productCode;
-      const mockCartEntry: OrderEntry = { entryNumber: 7 };
       spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
       addToCartComponent.ngOnInit();
       let result: OrderEntry;
@@ -139,6 +137,7 @@ describe('AddToCartComponent', () => {
     addToCartComponent.productCode = productCode;
     addToCartComponent.ngOnInit();
     spyOn(service, 'addEntry').and.callThrough();
+    spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.quantity = 1;
 
     addToCartComponent.addToCart();

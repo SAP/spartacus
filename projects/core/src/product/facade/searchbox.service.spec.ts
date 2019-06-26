@@ -8,8 +8,9 @@ import {
   Suggestion,
 } from '../../model/product-search.model';
 import { SearchConfig } from '../model';
-import * as fromStore from '../store';
+import * as fromStore from '../store/index';
 import { StateWithProduct } from '../store/product-state';
+import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
 import { SearchboxService } from './searchbox.service';
 
@@ -43,11 +44,11 @@ describe('SearchboxService', () => {
     selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
   ) => {
     switch (selector) {
-      case fromStore.getSearchResults:
+      case ProductSelectors.getSearchResults:
         return () => of(mockSearchResults);
-      case fromStore.getAuxSearchResults:
+      case ProductSelectors.getAuxSearchResults:
         return () => of(mockAuxSearchResults);
-      case fromStore.getProductSuggestions:
+      case ProductSelectors.getProductSuggestions:
         return () => of(mockSuggestions);
       default:
         return () => EMPTY;
