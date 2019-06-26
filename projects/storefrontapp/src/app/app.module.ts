@@ -35,6 +35,7 @@ if (!environment.production) {
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
+          prefix: environment.occPrefix,
           legacy: false,
         },
       },
@@ -48,6 +49,7 @@ if (!environment.production) {
               'apparel-de',
               'apparel-uk',
             ],
+            default: 'nouSite',
             persistence: 'route',
           },
         },

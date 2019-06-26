@@ -47,6 +47,11 @@ export class SearchPageMetaResolver extends PageMetaResolver
   }
 
   resolveTitle(total: number, query: string): Observable<string> {
+    if (total === 0) {
+      return this.translation.translate('pageMetaResolver.search.title_no_result', {
+        query: query,
+      });
+    }
     return this.translation.translate('pageMetaResolver.search.title', {
       count: total,
       query: query,

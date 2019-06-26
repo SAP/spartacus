@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: '',
+  occBaseUrl: 'https://localhost:9002',
+  occPrefix: '/noucommercewebservices/v2/',
 };
