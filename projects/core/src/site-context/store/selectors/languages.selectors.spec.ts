@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Language } from '../../../model/misc.model';
-import * as fromActions from '../actions/index';
+import { SiteContextActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { SiteContextSelectors } from '../selectors/index';
 import {
@@ -45,7 +45,7 @@ describe('Languages Selectors', () => {
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
+      store.dispatch(new SiteContextActions.LoadLanguagesSuccess(languages));
 
       expect(result).toEqual(entities);
     });
@@ -61,7 +61,7 @@ describe('Languages Selectors', () => {
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.SetActiveLanguage('zh'));
+      store.dispatch(new SiteContextActions.SetActiveLanguage('zh'));
 
       expect(result).toEqual('zh');
     });
@@ -77,7 +77,7 @@ describe('Languages Selectors', () => {
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
+      store.dispatch(new SiteContextActions.LoadLanguagesSuccess(languages));
 
       expect(result).toEqual(languages);
     });
