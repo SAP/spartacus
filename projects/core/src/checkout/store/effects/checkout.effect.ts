@@ -5,7 +5,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
-import { AddMessage } from '../../../global-message/index';
+import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 import * as fromUserActions from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -222,7 +222,7 @@ export class CheckoutEffects {
   @Effect()
   placeOrder$: Observable<
     | CheckoutActions.PlaceOrderSuccess
-    | AddMessage
+    | GlobalMessageActions.AddMessage
     | CheckoutActions.PlaceOrderFail
   > = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
