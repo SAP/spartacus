@@ -4,7 +4,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CartCouponAnchorComponent } from './cart-coupon-anchor.component';
 import { CartCouponAnchorService } from './cart-coupon-anchor.service';
 
-fdescribe('CartCouponAnchorComponent', () => {
+describe('CartCouponAnchorComponent', () => {
   let component: CartCouponAnchorComponent;
   let fixture: ComponentFixture<CartCouponAnchorComponent>;
 
@@ -24,9 +24,7 @@ fdescribe('CartCouponAnchorComponent', () => {
     component = fixture.componentInstance;
     cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
     spyEmitter = jasmine.createSpyObj('EventEmitter', ['emit']);
-    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(
-      spyEmitter
-    );
+    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(spyEmitter);
     spyOn(component, 'sendScrollEvent').and.callThrough();
     spyEmitter.emit.and.stub();
   });
@@ -36,16 +34,14 @@ fdescribe('CartCouponAnchorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display coupons anchor title', () => {
+  it('should display coupons anchor title and clickable', () => {
     fixture.detectChanges();
 
     const anchorTitle = fixture.debugElement.query(
       By.css('.cx-cart-coupon-anchor-link')
     ).nativeElement;
     anchorTitle.click();
-    expect(spyEmitter.emit).toHaveBeenCalledWith(
-      '#applyVoucher'
-    );
+    expect(spyEmitter.emit).toHaveBeenCalledWith('#applyVoucher');
     expect(anchorTitle.innerText).toContain('voucher.anchorLabel');
   });
 });
