@@ -1,10 +1,5 @@
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  entityFailMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
-} from '../../../state';
+import { StateEntityLoaderActions } from '../../../state/index';
 import { UPDATE_EMAIL_PROCESS_ID } from '../user-state';
 import * as fromAction from './update-email.action';
 
@@ -24,7 +19,10 @@ describe('Update Email Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.UPDATE_EMAIL,
         payload: { uid, password, newUid },
-        meta: entityLoadMeta(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID),
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          UPDATE_EMAIL_PROCESS_ID
+        ),
       });
     });
   });
@@ -37,7 +35,10 @@ describe('Update Email Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.UPDATE_EMAIL_SUCCESS,
         newUid,
-        meta: entitySuccessMeta(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID),
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          PROCESS_FEATURE,
+          UPDATE_EMAIL_PROCESS_ID
+        ),
         payload: undefined,
       });
     });
@@ -52,7 +53,11 @@ describe('Update Email Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.UPDATE_EMAIL_ERROR,
         payload: error,
-        meta: entityFailMeta(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID, error),
+        meta: StateEntityLoaderActions.entityFailMeta(
+          PROCESS_FEATURE,
+          UPDATE_EMAIL_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -63,7 +68,10 @@ describe('Update Email Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.RESET_EMAIL,
-        meta: entityResetMeta(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID),
+        meta: StateEntityLoaderActions.entityResetMeta(
+          PROCESS_FEATURE,
+          UPDATE_EMAIL_PROCESS_ID
+        ),
       });
     });
   });
