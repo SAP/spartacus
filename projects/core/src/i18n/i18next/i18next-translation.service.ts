@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslationService } from '../translation.service';
 import i18next from 'i18next';
@@ -64,11 +64,11 @@ export class I18nextTranslationService implements TranslationService {
    * @param key
    */
   protected getFallbackValue(key: string): string {
-    return this.config.production ? this.NON_BREAKING_SPACE : `[${key}]`;
+    return isDevMode() ? `[${key}]` : this.NON_BREAKING_SPACE;
   }
 
   private reportMissingKey(key: string, chunkName: string) {
-    if (!this.config.production) {
+    if (isDevMode()) {
       console.warn(
         `Translation key missing '${key}' in the chunk '${chunkName}'`
       );

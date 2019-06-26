@@ -52,7 +52,6 @@ Carry out the following steps before you build and launch.
 
    ```
    export const environment = {
-      production: false,
       occBaseUrl: 'https://custom-backend-url'
    };
    ```
@@ -87,7 +86,6 @@ $ yarn build:core:lib
 
    ```
    export const environment = {
-      production: false,
       occBaseUrl: 'https://custom-backend-url'
    };
    ```

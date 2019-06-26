@@ -1,13 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
-
-class MockServerConfig {
-  production = false;
-}
+import * as AngularCore from '@angular/core';
 
 class MockRoutingConfigService {
   getRouteConfig() {}
@@ -31,7 +27,6 @@ class MockUrlMatcherFactoryService {
 
 describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
-  let serverConfig: MockServerConfig;
   let router: Router;
   let routingConfigService: RoutingConfigService;
 
@@ -43,7 +38,6 @@ describe('ConfigurableRoutesService', () => {
           provide: RoutingConfigService,
           useClass: MockRoutingConfigService,
         },
-        { provide: ServerConfig, useClass: MockServerConfig },
         {
           provide: UrlMatcherFactoryService,
           useClass: MockUrlMatcherFactoryService,
@@ -56,7 +50,6 @@ describe('ConfigurableRoutesService', () => {
     });
 
     service = TestBed.get(ConfigurableRoutesService);
-    serverConfig = TestBed.get(ServerConfig);
     router = TestBed.get(Router);
     routingConfigService = TestBed.get(RoutingConfigService);
 
@@ -125,7 +118,6 @@ describe('ConfigurableRoutesService', () => {
     // tslint:disable-next-line:max-line-length
     it('should console.warn in non-production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
-      serverConfig.production = false;
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
@@ -135,7 +127,7 @@ describe('ConfigurableRoutesService', () => {
     // tslint:disable-next-line:max-line-length
     it('should NOT console.warn in production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
-      serverConfig.production = true;
+      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
