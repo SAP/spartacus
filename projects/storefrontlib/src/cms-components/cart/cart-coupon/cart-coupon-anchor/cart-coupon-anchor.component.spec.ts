@@ -24,9 +24,7 @@ describe('CartCouponAnchorComponent', () => {
     component = fixture.componentInstance;
     cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
     spyEmitter = jasmine.createSpyObj('EventEmitter', ['emit']);
-    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(
-      spyEmitter
-    );
+    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(spyEmitter);
     spyOn(component, 'sendScrollEvent').and.callThrough();
     spyEmitter.emit.and.stub();
   });
@@ -43,9 +41,7 @@ describe('CartCouponAnchorComponent', () => {
       By.css('.cx-cart-coupon-anchor-link')
     ).nativeElement;
     anchorTitle.click();
-    expect(spyEmitter.emit).toHaveBeenCalledWith(
-      '#applyVoucher'
-    );
+    expect(spyEmitter.emit).toHaveBeenCalledWith('#applyVoucher');
     expect(anchorTitle.innerText).toContain('voucher.anchorLabel');
   });
 });

@@ -10,7 +10,7 @@ export class CartCouponAnchorService {
     this.eventEmit = new EventEmitter<string>();
   }
 
-  public getEventEmit():EventEmitter<string>{
+  public getEventEmit(): EventEmitter<string> {
     return this.eventEmit;
   }
 }
