@@ -10,7 +10,6 @@ import {
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
-  ServerConfig,
 } from '@spartacus/core';
 import { HttpResponseStatus } from '../models/response-status.model';
 import {
@@ -30,7 +29,6 @@ describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
   let http: HttpClient;
-  const MockServerConfig: ServerConfig = { production: false };
 
   beforeEach(() => {
     mockMessageService = {
@@ -94,7 +92,6 @@ describe('HttpErrorInterceptor', () => {
           multi: true,
         },
         { provide: GlobalMessageService, useValue: mockMessageService },
-        { provide: ServerConfig, useValue: MockServerConfig },
       ],
     });
 
