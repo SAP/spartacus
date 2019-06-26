@@ -3,13 +3,14 @@ import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ProductReference } from '../../model/product.model';
-import * as fromStore from '../store/index';
-import { PRODUCT_FEATURE } from '../store/product-state';
+import { ProductActions } from '../store/actions/index';
+import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
+import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReferenceService } from './product-reference.service';
 
 describe('ReferenceService', () => {
   let service: ProductReferenceService;
-  let store: Store<fromStore.ProductsState>;
+  let store: Store<ProductsState>;
   const productCode = 'productCode';
   const product = {
     code: productCode,
@@ -24,7 +25,10 @@ describe('ReferenceService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(PRODUCT_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromStoreReducers.getReducers()
+        ),
       ],
       providers: [ProductReferenceService],
     });
@@ -64,7 +68,7 @@ describe('ReferenceService', () => {
         .unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.LoadProductReferences({
+        new ProductActions.LoadProductReferences({
           productCode: 'productCode',
           referenceType: undefined,
           pageSize: undefined,
