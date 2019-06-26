@@ -10,7 +10,7 @@ import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
-import * as fromActions from '../actions/index';
+import { GlobalMessageActions } from '../actions/index';
 import * as fromEffects from '../effects/global-message.effect';
 import {
   GLOBAL_MESSAGE_FEATURE,
@@ -34,7 +34,7 @@ const message: GlobalMessage = {
 };
 
 describe('GlobalMessage Effects', () => {
-  let actions$: Observable<fromActions.GlobalMessageAction>;
+  let actions$: Observable<GlobalMessageActions.GlobalMessageAction>;
   let effects: fromEffects.GlobalMessageEffect;
   let config: GlobalMessageConfig;
 
@@ -70,8 +70,8 @@ describe('GlobalMessage Effects', () => {
     it('should hide message after delay', () => {
       spyOnOperator(operators, 'delay').and.returnValue(data => data);
 
-      const action = new fromActions.AddMessage(message);
-      const completion = new fromActions.RemoveMessage({
+      const action = new GlobalMessageActions.AddMessage(message);
+      const completion = new GlobalMessageActions.RemoveMessage({
         type: message.type,
         index: 0,
       });

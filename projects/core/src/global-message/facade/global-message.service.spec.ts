@@ -1,12 +1,16 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import * as fromStore from '../store/index';
 import { GlobalMessageType } from '../models/global-message.model';
+import { GlobalMessageActions } from '../store/actions/index';
+import {
+  GlobalMessageState,
+  GLOBAL_MESSAGE_FEATURE,
+} from '../store/global-message-state';
+import * as fromStoreReducers from '../store/reducers/index';
 import { GlobalMessageService } from './global-message.service';
+import createSpy = jasmine.createSpy;
 
 const mockMessages = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
@@ -19,15 +23,15 @@ describe('GlobalMessageService', () => {
   );
 
   let service: GlobalMessageService;
-  let store: Store<fromStore.GlobalMessageState>;
+  let store: Store<GlobalMessageState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          fromStore.GLOBAL_MESSAGE_FEATURE,
-          fromStore.getReducers()
+          GLOBAL_MESSAGE_FEATURE,
+          fromStoreReducers.getReducers()
         ),
       ],
       providers: [GlobalMessageService],
@@ -55,7 +59,7 @@ describe('GlobalMessageService', () => {
   it('Should be able to add a message', () => {
     service.add('Test error message', GlobalMessageType.MSG_TYPE_ERROR);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage({
+      new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { raw: 'Test error message' },
       })
@@ -68,7 +72,7 @@ describe('GlobalMessageService', () => {
       GlobalMessageType.MSG_TYPE_ERROR
     );
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage({
+      new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { key: 'test.key', params: { param: 'value' } },
       })
@@ -78,7 +82,7 @@ describe('GlobalMessageService', () => {
   it('Should be able to remove a message', () => {
     service.remove(GlobalMessageType.MSG_TYPE_ERROR, 0);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.RemoveMessage({
+      new GlobalMessageActions.RemoveMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         index: 0,
       })
@@ -88,7 +92,9 @@ describe('GlobalMessageService', () => {
   it('should be able to remove messages by type', () => {
     service.remove(GlobalMessageType.MSG_TYPE_ERROR);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.RemoveMessagesByType(GlobalMessageType.MSG_TYPE_ERROR)
+      new GlobalMessageActions.RemoveMessagesByType(
+        GlobalMessageType.MSG_TYPE_ERROR
+      )
     );
   });
 });
