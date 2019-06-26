@@ -1,19 +1,18 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { of, Observable } from 'rxjs';
-
-import * as fromEffects from './languages.effect';
-import * as fromActions from '../actions/languages.action';
-import { OccModule } from '../../../occ/occ.module';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
 import { ConfigModule } from '../../../config/config.module';
 import { Language } from '../../../model/misc.model';
-import { SiteConnector } from '../../connectors/site.connector';
+import { OccModule } from '../../../occ/occ.module';
 import { SiteAdapter } from '../../connectors/site.adapter';
+import { SiteConnector } from '../../connectors/site.connector';
+import { SiteContextActions } from '../actions/index';
+import * as fromEffects from './languages.effect';
 
 describe('Languages Effects', () => {
-  let actions$: Observable<fromActions.LanguagesAction>;
+  let actions$: Observable<SiteContextActions.LanguagesAction>;
   let connector: SiteConnector;
   let effects: fromEffects.LanguagesEffects;
 
@@ -39,8 +38,8 @@ describe('Languages Effects', () => {
 
   describe('loadLanguages$', () => {
     it('should populate all languages from LoadLanguagesSuccess', () => {
-      const action = new fromActions.LoadLanguages();
-      const completion = new fromActions.LoadLanguagesSuccess(languages);
+      const action = new SiteContextActions.LoadLanguages();
+      const completion = new SiteContextActions.LoadLanguagesSuccess(languages);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -51,8 +50,8 @@ describe('Languages Effects', () => {
 
   describe('activateLanguage$', () => {
     it('should change the active language', () => {
-      const action = new fromActions.SetActiveLanguage('zh');
-      const completion = new fromActions.LanguageChange();
+      const action = new SiteContextActions.SetActiveLanguage('zh');
+      const completion = new SiteContextActions.LanguageChange();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

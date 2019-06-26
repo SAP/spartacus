@@ -1,7 +1,7 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { Product } from '../../../model/product.model';
-import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import { ProductsState, PRODUCT_DETAIL_ENTITY } from '../product-state';
 import * as fromProductReferences from './product-references.reducer';
@@ -30,7 +30,10 @@ export function clearProductsState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === CURRENCY_CHANGE || action.type === LANGUAGE_CHANGE) {
+    if (
+      action.type === SiteContextActions.CURRENCY_CHANGE ||
+      action.type === SiteContextActions.LANGUAGE_CHANGE
+    ) {
       state = undefined;
     }
     return reducer(state, action);

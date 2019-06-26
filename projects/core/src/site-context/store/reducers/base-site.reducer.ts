@@ -1,4 +1,4 @@
-import * as fromBaseSite from '../actions/base-site.action';
+import { SiteContextActions } from '../actions/index';
 import { BaseSiteState } from '../state';
 
 export const initialState: BaseSiteState = {
@@ -8,17 +8,17 @@ export const initialState: BaseSiteState = {
 
 export function reducer(
   state = initialState,
-  action: fromBaseSite.BaseSiteAction
+  action: SiteContextActions.BaseSiteAction
 ): BaseSiteState {
   switch (action.type) {
-    case fromBaseSite.LOAD_BASE_SITE_SUCCESS: {
+    case SiteContextActions.LOAD_BASE_SITE_SUCCESS: {
       return {
         ...state,
         details: action.payload,
       };
     }
 
-    case fromBaseSite.SET_ACTIVE_BASE_SITE: {
+    case SiteContextActions.SET_ACTIVE_BASE_SITE: {
       return {
         ...state,
         activeSite: action.payload,

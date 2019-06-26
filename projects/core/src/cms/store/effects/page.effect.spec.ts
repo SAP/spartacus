@@ -8,7 +8,7 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { PageType } from '../../../model/cms.model';
 import { PageContext, RoutingService } from '../../../routing/index';
-import { LanguageChange } from '../../../site-context/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel, Page } from '../../model/page.model';
 import { CmsActions } from '../actions/index';
@@ -156,7 +156,7 @@ describe('Page Effects', () => {
           of(mockRouterState)
         );
 
-        const action = new LanguageChange();
+        const action = new SiteContextActions.LanguageChange();
         const completion = new CmsActions.LoadCmsPageData(context);
 
         actions$ = hot('-a', { a: action });
