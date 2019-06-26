@@ -3,13 +3,9 @@ import {
   ModuleWithProviders,
   NgModule,
   Provider,
-  Optional,
+  Optional, isDevMode,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  defaultServerConfig,
-  ServerConfig,
-} from './server-config/server-config';
 import { deepMerge } from './utils/deep-merge';
 import {
   ConfigValidator,
@@ -64,7 +60,7 @@ export function configurationFactory(
   configValidators: ConfigValidator[]
 ) {
   const config = deepMerge({}, ...configChunks);
-  if (!config.production) {
+  if (isDevMode()) {
     validateConfig(config, configValidators || []);
   }
   return config;
@@ -112,8 +108,6 @@ export class ConfigModule {
     return {
       ngModule: ConfigModule,
       providers: [
-        { provide: ServerConfig, useExisting: Config },
-        provideConfig(defaultServerConfig),
         provideConfig(config),
         {
           provide: Config,
