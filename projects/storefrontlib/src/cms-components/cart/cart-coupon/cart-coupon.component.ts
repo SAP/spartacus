@@ -32,11 +32,19 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       this.enableBtn = this.form.valid;
     });
 
-    this.subscription.add(
-      this.cartService.getAddVoucherResultSuccess().subscribe(success => {
-        this.onSuccess(success);
-      })
-    );
+    this.subscription
+      .add(
+        this.cartService.getAddVoucherResultSuccess().subscribe(success => {
+          this.onSuccess(success);
+        })
+      )
+      .add(
+        this.cartService.getAddVoucherResultError().subscribe(error => {
+          if (error) {
+            this.enableBtn = true;
+          }
+        })
+      );
   }
 
   onSuccess(success: boolean) {
@@ -48,6 +56,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   applyVoucher(): void {
     this.cartService.addVoucher(this.form.value.couponCode);
     this.cartService.resetAddVoucherProcessingState();
+    this.enableBtn = false;
   }
 
   ngOnDestroy(): void {
