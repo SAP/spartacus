@@ -295,10 +295,6 @@
       // Show dropdowns via focus only once a nav is clicked
       &:focus-within {
         > nav {
-          > .wrapper {
-            @include hideWrapperDesktop();
-          }
-
           &:focus {
             > .wrapper {
               @include showWrapperDesktop();

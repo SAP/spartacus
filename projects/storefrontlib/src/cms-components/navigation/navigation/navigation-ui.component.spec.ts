@@ -97,7 +97,7 @@ describe('Navigation UI Component', () => {
     }).compileComponents();
   });
 
-  fdescribe('UI tests', () => {
+  describe('UI tests', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(NavigationUIComponent);
       navigationComponent = fixture.debugElement.componentInstance;
