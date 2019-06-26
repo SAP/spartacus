@@ -1,28 +1,47 @@
-<div
-  class="cx-cart-coupon-title"
-  *ngIf="isReadOnly && sortedVouchers.length === 1"
->
-  {{ 'voucher.coupon' | cxTranslate }}
-</div>
-<div
-  class="cx-cart-coupon-title"
-  *ngIf="isReadOnly && sortedVouchers.length > 1"
->
-  {{ 'voucher.coupons' | cxTranslate }}
-</div>
-<div *ngFor="let v of sortedVouchers" class="cx-coupon-code-pill" role="filter">
-  <span class="cx-coupon-code-pill-value">{{ v.code }}</span>
-  <button
-    *ngIf="!isReadOnly"
-    type="button"
-    class="close"
-    aria-label="Close"
-    (click)="removeVoucher(v.code)"
-    [disabled]="cartIsLoading"
-    [class.disabled]="cartIsLoading"
+<div>
+  <div
+    class="cx-applied-coupon-title"
+    *ngIf="isReadOnly && sortedVouchers.length === 1"
   >
-    <span aria-hidden="true">
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-    </span>
-  </button>
+    {{ 'voucher.coupon' | cxTranslate }}
+  </div>
+  <div
+    class="cx-applied-coupon-title"
+    *ngIf="isReadOnly && sortedVouchers.length > 1"
+  >
+    {{ 'voucher.coupons' | cxTranslate }}
+  </div>
+</div>
+
+<div *ngIf="isReadOnly">
+  <div
+    *ngFor="let v of sortedVouchers"
+    class="coupon-summary cx-coupon-card"
+    role="filter"
+  >
+    <span class="cx-applied-coupon-code">{{ v.code }}</span>
+  </div>
+</div>
+<div *ngIf="!isReadOnly" class="row">
+  <div
+    *ngFor="let v of sortedVouchers"
+    class="col-6 cx-coupon-card-grid"
+    role="filter"
+  >
+    <div class="cx-coupon-apply cx-coupon-card cx-coupon-list-wrap">
+      <span class="cx-cart-coupon-code ">{{ v.code }}</span>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="removeVoucher(v.code)"
+        [disabled]="cartIsLoading"
+        [class.disabled]="cartIsLoading"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+  </div>
 </div>

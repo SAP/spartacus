@@ -16,8 +16,8 @@
         <button
           class="btn btn-block btn-action"
           type="submit"
-          [disabled]="!enableBtn || cartIsLoading"
-          [class.disabled]="!enableBtn || cartIsLoading"
+          [disabled]="cartIsLoading"
+          [class.disabled]="cartIsLoading"
         >
           {{ 'voucher.apply' | cxTranslate }}
         </button>
