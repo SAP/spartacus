@@ -3,7 +3,7 @@ import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ProductReference } from '../../model/product.model';
-import * as fromStore from '../store';
+import * as fromStore from '../store/index';
 import { PRODUCT_FEATURE } from '../store/product-state';
 import { ProductReferenceService } from './product-reference.service';
 

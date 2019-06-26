@@ -1,2 +1,2 @@
 export * from './process-state';
-export * from './selectors';
+export * from './selectors/index';

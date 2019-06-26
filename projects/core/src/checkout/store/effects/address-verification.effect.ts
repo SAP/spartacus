@@ -4,21 +4,23 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import * as fromAction from '../actions/address-verification.action';
+import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class AddressVerificationEffect {
   @Effect()
   verifyAddress$: Observable<
-    fromAction.VerifyAddressSuccess | fromAction.VerifyAddressFail
+    CheckoutActions.VerifyAddressSuccess | CheckoutActions.VerifyAddressFail
   > = this.actions$.pipe(
-    ofType<fromAction.VerifyAddress>(fromAction.VERIFY_ADDRESS),
+    ofType<CheckoutActions.VerifyAddress>(CheckoutActions.VERIFY_ADDRESS),
     map(action => action.payload),
     mergeMap(payload =>
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
-        map(data => new fromAction.VerifyAddressSuccess(data)),
+        map(data => new CheckoutActions.VerifyAddressSuccess(data)),
         catchError(error =>
-          of(new fromAction.VerifyAddressFail(makeErrorSerializable(error)))
+          of(
+            new CheckoutActions.VerifyAddressFail(makeErrorSerializable(error))
+          )
         )
       )
     )

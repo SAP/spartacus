@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Country } from '../../../model/address.model';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { Country } from '../../../model/address.model';
 
 describe('Delivery Countries Selectors', () => {
   let store: Store<StateWithUser>;
@@ -26,18 +25,18 @@ describe('Delivery Countries Selectors', () => {
     it('should return all delivery countries', () => {
       const mockCountries: Country[] = [
         {
-          isocode: 'AL',
-          name: 'Albania',
-        },
-        {
           isocode: 'AD',
           name: 'Andorra',
         },
+        {
+          isocode: 'CA',
+          name: 'Canada',
+        },
       ];
 
-      let result;
+      let result: Country[];
       store
-        .pipe(select(fromSelectors.getAllDeliveryCountries))
+        .pipe(select(UsersSelectors.getAllDeliveryCountries))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -67,7 +66,7 @@ describe('Delivery Countries Selectors', () => {
       let result;
 
       store
-        .pipe(select(fromSelectors.countrySelectorFactory(isocode)))
+        .pipe(select(UsersSelectors.countrySelectorFactory(isocode)))
         .subscribe(value => (result = value));
 
       store.dispatch(

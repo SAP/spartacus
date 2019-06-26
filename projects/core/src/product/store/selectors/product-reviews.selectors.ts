@@ -1,13 +1,11 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
+import { Review } from '../../../model/product.model';
 import {
   ProductReviewsState,
   ProductsState,
   StateWithProduct,
 } from '../product-state';
-
 import { getProductsState } from './feature.selector';
-import { Review } from '../../../model/product.model';
 
 export const getProductReviewsState: MemoizedSelector<
   StateWithProduct,

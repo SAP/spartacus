@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Store, Action, select } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { GeoPoint } from '../../model/misc.model';
+import { WindowRef } from '../../window/window-ref';
+import * as fromStore from '../store/index';
+import { StoreFinderSelectors } from '../store/selectors/index';
 import {
-  StateWithStoreFinder,
   FindStoresState,
+  StateWithStoreFinder,
   ViewAllStoresState,
 } from '../store/store-finder-state';
-
-import * as fromStore from '../store/index';
 import { StoreFinderSearchConfig } from './../model/search-config';
-import { Observable } from 'rxjs';
-import { WindowRef } from '../../window/window-ref';
-import { GeoPoint } from '../../model/misc.model';
 
 @Injectable()
 export class StoreFinderService {
@@ -25,28 +25,32 @@ export class StoreFinderService {
    * Returns boolean observable for store's loading state
    */
   getStoresLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getStoresLoading));
+    return this.store.pipe(select(StoreFinderSelectors.getStoresLoading));
   }
 
   /**
    * Returns observable for store's entities
    */
   getFindStoresEntities(): Observable<FindStoresState> {
-    return this.store.pipe(select(fromStore.getFindStoresEntities));
+    return this.store.pipe(select(StoreFinderSelectors.getFindStoresEntities));
   }
 
   /**
    * Returns boolean observable for view all store's loading state
    */
   getViewAllStoresLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getViewAllStoresLoading));
+    return this.store.pipe(
+      select(StoreFinderSelectors.getViewAllStoresLoading)
+    );
   }
 
   /**
    * Returns observable for view all store's entities
    */
   getViewAllStoresEntities(): Observable<ViewAllStoresState> {
-    return this.store.pipe(select(fromStore.getViewAllStoresEntities));
+    return this.store.pipe(
+      select(StoreFinderSelectors.getViewAllStoresEntities)
+    );
   }
 
   /**

@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, select, StoreModule } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors/languages.selectors';
-import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { Language } from '../../../model/misc.model';
+import * as fromActions from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { SiteContextSelectors } from '../selectors/index';
+import {
+  LanguagesEntities,
+  SITE_CONTEXT_FEATURE,
+  StateWithSiteContext,
+} from '../state';
 
 describe('Languages Selectors', () => {
   let store: Store<StateWithSiteContext>;
@@ -34,10 +37,10 @@ describe('Languages Selectors', () => {
 
   describe('getLanguagesEntities', () => {
     it('should return Languages entities', () => {
-      let result;
+      let result: LanguagesEntities;
 
       store
-        .pipe(select(fromSelectors.getLanguagesEntities))
+        .pipe(select(SiteContextSelectors.getLanguagesEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
@@ -50,10 +53,10 @@ describe('Languages Selectors', () => {
 
   describe('getActiveLanguage', () => {
     it('should return the active language', () => {
-      let result;
+      let result: string;
 
       store
-        .pipe(select(fromSelectors.getActiveLanguage))
+        .pipe(select(SiteContextSelectors.getActiveLanguage))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
@@ -66,10 +69,10 @@ describe('Languages Selectors', () => {
 
   describe('getAllLanguages', () => {
     it('should return all languages', () => {
-      let result;
+      let result: Language[];
 
       store
-        .pipe(select(fromSelectors.getAllLanguages))
+        .pipe(select(SiteContextSelectors.getAllLanguages))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
