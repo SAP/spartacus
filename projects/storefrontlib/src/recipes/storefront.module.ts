@@ -1,5 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import {
   OccModule,
   PersonalizationModule,
@@ -18,6 +20,19 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
     }),
+
+    StoreModule.forRoot(
+      {},
+      {
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictStateSerializability: true,
+          strictActionImmutability: true,
+          strictActionSerializability: true,
+        },
+      }
+    ),
+    EffectsModule.forRoot([]),
 
     StorefrontFoundationModule,
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer

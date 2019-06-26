@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Title } from '../../../model/misc.model';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { Title } from '../../../model/misc.model';
 
 describe('Titles Selectors', () => {
   let store: Store<StateWithUser>;
@@ -37,7 +36,7 @@ describe('Titles Selectors', () => {
 
       let result: Title[];
       store
-        .pipe(select(fromSelectors.getAllTitles))
+        .pipe(select(UsersSelectors.getAllTitles))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -65,7 +64,7 @@ describe('Titles Selectors', () => {
       let result: Title;
 
       store
-        .pipe(select(fromSelectors.titleSelectorFactory(code)))
+        .pipe(select(UsersSelectors.titleSelectorFactory(code)))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadTitlesSuccess(mockTitles));

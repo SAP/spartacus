@@ -1,18 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from './../actions/index';
-
-import { AddressVerificationEffect } from './address-verification.effect';
+import { Observable, of } from 'rxjs';
 import { Address, AddressValidation } from '../../../model/address.model';
-import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
+import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
+import { CheckoutActions } from '../actions/index';
+import { AddressVerificationEffect } from './address-verification.effect';
 
 const addressValidation: AddressValidation = {
   decision: 'test address validation',
@@ -48,8 +43,8 @@ describe('Address Verification effect', () => {
         userId: 'userId',
         address,
       };
-      const action = new fromActions.VerifyAddress(payload);
-      const completion = new fromActions.VerifyAddressSuccess(
+      const action = new CheckoutActions.VerifyAddress(payload);
+      const completion = new CheckoutActions.VerifyAddressSuccess(
         addressValidation
       );
 
