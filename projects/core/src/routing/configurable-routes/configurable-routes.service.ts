@@ -1,13 +1,11 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, isDevMode } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
-import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
   constructor(
-    private config: ServerConfig,
     private injector: Injector,
     private routingConfigService: RoutingConfigService,
     private urlMatcherFactory: UrlMatcherFactoryService
@@ -102,7 +100,7 @@ export class ConfigurableRoutesService {
   }
 
   private warn(...args) {
-    if (!this.config.production) {
+    if (isDevMode()) {
       console.warn(...args);
     }
   }
