@@ -6,7 +6,6 @@
 
 ```json
 environment = {
-  production: true,
   occBaseUrl: 'https://[your_endpoint]',
 };
 ```
@@ -26,7 +25,6 @@ As soon as a service worker is installed, Spartacus version served is the cached
 
 ```json
 StorefrontModule.withConfig({
-      production: environment.production,
       backend: {
         occ: {
           baseUrl: 'https://[your_enpdoint],
