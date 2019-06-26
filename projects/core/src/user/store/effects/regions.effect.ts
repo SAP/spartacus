@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
-import { LoaderResetAction } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import * as fromActions from '../actions/index';
 import { CLEAR_MISCS_DATA } from '../actions/index';
@@ -38,7 +38,7 @@ export class RegionsEffects {
   resetRegions$: Observable<Action> = this.actions$.pipe(
     ofType(CLEAR_MISCS_DATA, fromActions.CLEAR_REGIONS),
     map(() => {
-      return new LoaderResetAction(REGIONS);
+      return new StateLoaderActions.LoaderResetAction(REGIONS);
     })
   );
 
