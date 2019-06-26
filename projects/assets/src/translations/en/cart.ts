@@ -29,10 +29,9 @@ export const cart = {
     item_plural: '{{count}} items currently in your cart',
   },
   voucher: {
-    coupon: 'Coupon:',
-    coupons: 'Coupons:',
+    coupon: 'Coupon code',
+    coupons: 'Coupon codes',
     apply: 'Apply',
-    couponLabel: 'Coupon',
     placeholder: 'Enter coupon code',
     applyVoucherSuccess: '{{voucherCode}} has been applied.',
     removeVoucherSuccess: '{{voucherCode}} has been removed.',
