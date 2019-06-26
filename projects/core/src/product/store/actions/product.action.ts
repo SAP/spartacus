@@ -1,10 +1,10 @@
-import { PRODUCT_DETAIL_ENTITY } from '../product-state';
+import { Product } from '../../../model/product.model';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { Product } from '../../../model/product.model';
+import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
