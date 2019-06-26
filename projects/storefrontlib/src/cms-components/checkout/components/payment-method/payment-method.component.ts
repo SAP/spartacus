@@ -168,9 +168,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     isNewPayment?: boolean;
   }): void {
     const details: PaymentDetails = { ...paymentDetails };
-    details.billingAddress = billingAddress
-      ? billingAddress
-      : this.deliveryAddress;
+    details.billingAddress = billingAddress || this.deliveryAddress;
 
     if (isNewPayment) {
       this.checkoutPaymentService.createPaymentDetails(details);

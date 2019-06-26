@@ -222,7 +222,10 @@ describe('PaymentMethodComponent', () => {
     });
     expect(
       mockCheckoutPaymentService.createPaymentDetails
-    ).toHaveBeenCalledWith(mockPaymentDetails);
+    ).toHaveBeenCalledWith({
+      ...mockPaymentDetails,
+      billingAddress: mockAddress,
+    });
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', done => {
