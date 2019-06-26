@@ -261,50 +261,46 @@ export function manipulateCartQuantity() {
   });
   miniCart.click();
 
-  getCartItem(product.name).within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
-    cy.get('.cx-counter-value').should('have.value', '1');
-    cy.get('.cx-total>.cx-value').should('contain', formatPrice(product.price));
-
-    cy.get('.cx-counter-action')
-      .contains('+')
-      .click();
-  });
+  checkCartItem(product, 1, true);
 
   cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
-  cy.get('cx-order-summary').within(() => {
-    cy.get('.cx-summary-row:first').contains('Subtotal');
-    cy.get('.cx-summary-amount').should('contain', '$208.24');
-  });
+  checkCartSummary('$208.24');
 
-  getCartItem(product.name).within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
-    cy.get('.cx-counter-value').should('have.value', '2');
-    cy.get('.cx-total>.cx-value').should(
-      'contain',
-      formatPrice(2 * product.price)
-    );
-
-    cy.get('.cx-counter-action')
-      .contains('+')
-      .click();
-  });
+  checkCartItem(product, 2, true);
 
   cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
+  checkCartSummary('$322.36');
+
+  checkCartItem(product, 3, false);
+}
+
+function checkCartSummary(subtotal: string) {
   cy.get('cx-order-summary').within(() => {
     cy.get('.cx-summary-row:first').contains('Subtotal');
-    cy.get('.cx-summary-amount').should('contain', '$322.36');
+    cy.get('.cx-summary-amount').should('contain', subtotal);
   });
+}
 
+function checkCartItem(
+  product: TestProduct,
+  numberOfItems: number,
+  increment: boolean
+) {
   getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
-    cy.get('.cx-counter-value').should('have.value', '3');
+    cy.get('.cx-counter-value').should('have.value', '' + numberOfItems);
     cy.get('.cx-total>.cx-value').should(
       'contain',
-      formatPrice(3 * product.price)
+      formatPrice(numberOfItems * product.price)
     );
+
+    if (increment) {
+      cy.get('.cx-counter-action')
+        .contains('+')
+        .click();
+    }
   });
 }
 
