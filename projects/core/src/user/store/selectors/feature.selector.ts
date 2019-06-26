@@ -1,5 +1,5 @@
-import { MemoizedSelector, createFeatureSelector } from '@ngrx/store';
-import { UserState, USER_FEATURE, StateWithUser } from '../user-state';
+import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
+import { StateWithUser, UserState, USER_FEATURE } from '../user-state';
 
 export const getUserState: MemoizedSelector<
   StateWithUser,

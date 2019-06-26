@@ -1,5 +1,5 @@
-export * from './reducers';
-export * from './actions';
-export * from './effects';
-export * from './selectors';
-export { getCmsState } from './selectors/feature.selectors';
+export * from './actions/index';
+export * from './cms-state';
+export * from './effects/index';
+export * from './reducers/index';
+export * from './selectors/index';

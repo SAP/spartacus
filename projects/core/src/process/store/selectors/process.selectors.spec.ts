@@ -4,7 +4,7 @@ import * as fromActions from '../../../state/utils/entity-loader/entity-loader.a
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { PROCESS_FEATURE, StateWithProcess } from '../process-state';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from './process.selectors';
+import { ProcessSelectors } from './index';
 
 const MOCK_PROCESS_ID = 'mock-process-id';
 
@@ -29,7 +29,7 @@ describe('Process selectors', () => {
 
       let result: LoaderState<void>;
       store
-        .pipe(select(fromSelectors.getProcessStateFactory(MOCK_PROCESS_ID)))
+        .pipe(select(ProcessSelectors.getProcessStateFactory(MOCK_PROCESS_ID)))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -50,7 +50,9 @@ describe('Process selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getProcessLoadingFactory(MOCK_PROCESS_ID)))
+        .pipe(
+          select(ProcessSelectors.getProcessLoadingFactory(MOCK_PROCESS_ID))
+        )
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -66,7 +68,9 @@ describe('Process selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getProcessSuccessFactory(MOCK_PROCESS_ID)))
+        .pipe(
+          select(ProcessSelectors.getProcessSuccessFactory(MOCK_PROCESS_ID))
+        )
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -82,7 +86,7 @@ describe('Process selectors', () => {
 
       let result = false;
       store
-        .pipe(select(fromSelectors.getProcessErrorFactory(MOCK_PROCESS_ID)))
+        .pipe(select(ProcessSelectors.getProcessErrorFactory(MOCK_PROCESS_ID)))
         .subscribe(value => (result = value))
         .unsubscribe();
 

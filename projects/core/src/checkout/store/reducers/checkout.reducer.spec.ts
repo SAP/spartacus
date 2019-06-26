@@ -1,10 +1,9 @@
-import * as fromActions from './../actions/index';
-
-import * as fromCheckout from './checkout.reducer';
-import { CheckoutDetails } from '../../models/checkout.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { CheckoutDetails } from '../../models/checkout.model';
+import { CheckoutActions } from './../actions/index';
+import * as fromCheckout from './checkout.reducer';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
@@ -32,7 +31,7 @@ describe('Checkout reducer', () => {
 
       const { initialState } = fromCheckout;
 
-      const addDeliveryAddressAction = new fromActions.AddDeliveryAddressSuccess(
+      const addDeliveryAddressAction = new CheckoutActions.AddDeliveryAddressSuccess(
         address
       );
       const addDeliveryAddressState = fromCheckout.reducer(
@@ -41,7 +40,7 @@ describe('Checkout reducer', () => {
       );
       expect(addDeliveryAddressState.address).toEqual(address);
 
-      const setDeliveryAddressAction = new fromActions.SetDeliveryAddressSuccess(
+      const setDeliveryAddressAction = new CheckoutActions.SetDeliveryAddressSuccess(
         address
       );
       const setDeliveryAddressState = fromCheckout.reducer(
@@ -63,7 +62,9 @@ describe('Checkout reducer', () => {
 
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.LoadSupportedDeliveryModesSuccess(modes);
+      const action = new CheckoutActions.LoadSupportedDeliveryModesSuccess(
+        modes
+      );
       const state = fromCheckout.reducer(initialState, action);
       expect(state.deliveryMode.supported).toEqual(entities);
     });
@@ -73,7 +74,7 @@ describe('Checkout reducer', () => {
     it('should set delivery mode for cart', () => {
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.SetDeliveryModeSuccess(
+      const action = new CheckoutActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
       const state = fromCheckout.reducer(initialState, action);
@@ -88,7 +89,7 @@ describe('Checkout reducer', () => {
         id: 'mockPaymentDetails',
       };
 
-      const createPaymentDetailsAction = new fromActions.CreatePaymentDetailsSuccess(
+      const createPaymentDetailsAction = new CheckoutActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
       const createPaymentDetailsState = fromCheckout.reducer(
@@ -97,7 +98,7 @@ describe('Checkout reducer', () => {
       );
       expect(createPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
 
-      const setPaymentDetailsAction = new fromActions.SetPaymentDetailsSuccess(
+      const setPaymentDetailsAction = new CheckoutActions.SetPaymentDetailsSuccess(
         paymentDetails
       );
       const setPaymentDetailsState = fromCheckout.reducer(
@@ -113,7 +114,7 @@ describe('Checkout reducer', () => {
       const { initialState } = fromCheckout;
       const errorPayload = { hasError: 'true' };
 
-      const action = new fromActions.CreatePaymentDetailsFail(errorPayload);
+      const action = new CheckoutActions.CreatePaymentDetailsFail(errorPayload);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.paymentDetails as any).toEqual(errorPayload);
     });
@@ -126,7 +127,7 @@ describe('Checkout reducer', () => {
         code: 'testOrder123',
       };
 
-      const action = new fromActions.PlaceOrderSuccess(orderDetails);
+      const action = new CheckoutActions.PlaceOrderSuccess(orderDetails);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.orderDetails).toEqual(orderDetails);
     });
@@ -136,7 +137,7 @@ describe('Checkout reducer', () => {
     it('should clear checkout data', () => {
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.ClearCheckoutData();
+      const action = new CheckoutActions.ClearCheckoutData();
       const state = fromCheckout.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });
@@ -146,7 +147,7 @@ describe('Checkout reducer', () => {
     it('should clear step number 1', () => {
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.ClearCheckoutStep(1);
+      const action = new CheckoutActions.ClearCheckoutStep(1);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.address).toEqual({});
     });
@@ -157,7 +158,7 @@ describe('Checkout reducer', () => {
       const { initialState } = fromCheckout;
       const delivMode = { supported: {}, selected: '' };
 
-      const action = new fromActions.ClearCheckoutStep(2);
+      const action = new CheckoutActions.ClearCheckoutStep(2);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.deliveryMode).toEqual(delivMode);
     });
@@ -168,7 +169,7 @@ describe('Checkout reducer', () => {
       const { initialState } = fromCheckout;
       const paymentDets = {};
 
-      const action = new fromActions.ClearCheckoutStep(3);
+      const action = new CheckoutActions.ClearCheckoutStep(3);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.paymentDetails).toEqual(paymentDets);
     });
@@ -178,7 +179,7 @@ describe('Checkout reducer', () => {
     it('should clear invalid step number', () => {
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.ClearCheckoutStep(4);
+      const action = new CheckoutActions.ClearCheckoutStep(4);
       const state = fromCheckout.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });
@@ -188,7 +189,7 @@ describe('Checkout reducer', () => {
     it('should clear supported delivery modes', () => {
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.ClearSupportedDeliveryModes();
+      const action = new CheckoutActions.ClearSupportedDeliveryModes();
       const state = fromCheckout.reducer(initialState, action);
       expect(state.deliveryMode).toEqual(initialState.deliveryMode);
     });
@@ -198,7 +199,7 @@ describe('Checkout reducer', () => {
     it('should clear mics data', () => {
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.CheckoutClearMiscsData();
+      const action = new CheckoutActions.CheckoutClearMiscsData();
       const state = fromCheckout.reducer(initialState, action);
       expect(state.deliveryMode).toEqual(initialState.deliveryMode);
     });
@@ -222,7 +223,7 @@ describe('Checkout reducer', () => {
         },
       };
 
-      const action = new fromActions.LoadCheckoutDetailsSuccess(details);
+      const action = new CheckoutActions.LoadCheckoutDetailsSuccess(details);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.address.firstName).toEqual(firstName);
       expect(state.deliveryMode.selected).toEqual(code);
