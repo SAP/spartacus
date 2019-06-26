@@ -29,17 +29,13 @@ describe('CartCouponComponent', () => {
   let form: DebugElement;
   let submit: DebugElement;
 
+  let cartCouponAnchorService;
+
   const mockCartService = jasmine.createSpyObj('CartService', [
     'addVoucher',
     'getAddVoucherResultSuccess',
     'resetAddVoucherProcessingState',
   ]);
-
-  const mockCartCouponAnchorService = {
-    getEventEmit(): EventEmitter<string> {
-      return new EventEmitter<string>();
-    },
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -51,10 +47,7 @@ describe('CartCouponComponent', () => {
       ],
       providers: [
         { provide: CartService, useValue: mockCartService },
-        {
-          provide: CartCouponAnchorService,
-          useValue: mockCartCouponAnchorService,
-        },
+        CartCouponAnchorService,
       ],
     }).compileComponents();
   }));
@@ -147,5 +140,16 @@ describe('CartCouponComponent', () => {
 
     component.ngOnInit();
     expect(component.onSuccess).toHaveBeenCalledWith(true);
+  });
+
+  it('should scroll to view when receive the event', () => {
+    cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
+    const emitter = new EventEmitter<string>();
+    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(emitter);
+    spyOn(component, 'scrollToView').and.stub();
+    component.ngOnInit();
+    cartCouponAnchorService.getEventEmit().emit('#applyVoucher');
+
+    expect(component.scrollToView).toHaveBeenCalledWith('#applyVoucher');
   });
 });

@@ -4,7 +4,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CartCouponAnchorComponent } from './cart-coupon-anchor.component';
 import { CartCouponAnchorService } from './cart-coupon-anchor.service';
 
-fdescribe('CartCouponAnchorComponent', () => {
+describe('CartCouponAnchorComponent', () => {
   let component: CartCouponAnchorComponent;
   let fixture: ComponentFixture<CartCouponAnchorComponent>;
 
@@ -36,7 +36,7 @@ fdescribe('CartCouponAnchorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display coupons anchor title', () => {
+  it('should display coupons anchor title and clickable', () => {
     fixture.detectChanges();
 
     const anchorTitle = fixture.debugElement.query(
