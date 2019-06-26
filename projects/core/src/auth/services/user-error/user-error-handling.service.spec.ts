@@ -1,13 +1,10 @@
+import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-
 import { Observable, of } from 'rxjs';
-
+import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';
-import { RoutingService } from '../../../routing/facade/routing.service';
-
 import { UserErrorHandlingService } from './user-error-handling.service';
 
 class MockHttpHandler extends HttpHandler {
@@ -84,6 +81,22 @@ describe('UserErrorHandlingService', () => {
         .subscribe()
         .unsubscribe();
 
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'login',
+      });
+    });
+
+    it('should logout and redirect to login if no refresh_token', () => {
+      spyOn(authService, 'logout').and.stub();
+      spyOn(authService, 'getUserToken').and.returnValue(
+        of({ access_token: 'xxx' })
+      );
+      service
+        .handleExpiredUserToken(httpRequest, httpHandler)
+        .subscribe()
+        .unsubscribe();
+
+      expect(authService.logout).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'login',
       });

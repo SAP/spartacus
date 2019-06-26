@@ -5,7 +5,9 @@ import { filter, take, tap } from 'rxjs/operators';
 import { Language } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
 import * as fromStore from '../store/index';
+import { SiteContextSelectors } from '../store/selectors/index';
 import { SiteContext } from './site-context.interface';
+
 /**
  * Facade that provides easy access to language state, actions and selectors.
  */
@@ -25,13 +27,13 @@ export class LanguageService implements SiteContext<Language> {
    */
   getAll(): Observable<Language[]> {
     return this.store.pipe(
-      select(fromStore.getAllLanguages),
+      select(SiteContextSelectors.getAllLanguages),
       tap(languages => {
         if (!languages) {
           this.store.dispatch(new fromStore.LoadLanguages());
         }
       }),
-      filter(Boolean)
+      filter(languages => Boolean(languages))
     );
   }
 
@@ -40,8 +42,8 @@ export class LanguageService implements SiteContext<Language> {
    */
   getActive(): Observable<string> {
     return this.store.pipe(
-      select(fromStore.getActiveLanguage),
-      filter(Boolean)
+      select(SiteContextSelectors.getActiveLanguage),
+      filter(active => Boolean(active))
     );
   }
 
@@ -51,7 +53,7 @@ export class LanguageService implements SiteContext<Language> {
   setActive(isocode: string) {
     return this.store
       .pipe(
-        select(fromStore.getActiveLanguage),
+        select(SiteContextSelectors.getActiveLanguage),
         take(1)
       )
       .subscribe(activeLanguage => {

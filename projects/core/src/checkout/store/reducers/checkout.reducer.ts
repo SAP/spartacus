@@ -1,7 +1,7 @@
-import { CheckoutStepsState } from '../checkout-state';
-import * as fromAction from './../actions/index';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { Address } from '../../../model/address.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { CheckoutStepsState } from '../checkout-state';
+import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
   address: {},
@@ -15,11 +15,13 @@ export const initialState: CheckoutStepsState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.CheckoutAction | fromAction.CheckoutClearMiscsData
+  action:
+    | CheckoutActions.CheckoutAction
+    | CheckoutActions.CheckoutClearMiscsData
 ): CheckoutStepsState {
   switch (action.type) {
-    case fromAction.ADD_DELIVERY_ADDRESS_SUCCESS:
-    case fromAction.SET_DELIVERY_ADDRESS_SUCCESS: {
+    case CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS:
+    case CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS: {
       const address: Address = action.payload;
 
       return {
@@ -28,7 +30,7 @@ export function reducer(
       };
     }
 
-    case fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
+    case CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
       const supportedModes = action.payload;
       if (!supportedModes) {
         return state;
@@ -55,7 +57,7 @@ export function reducer(
       };
     }
 
-    case fromAction.SET_DELIVERY_MODE_SUCCESS: {
+    case CheckoutActions.SET_DELIVERY_MODE_SUCCESS: {
       const selected = action.payload;
 
       return {
@@ -67,15 +69,15 @@ export function reducer(
       };
     }
 
-    case fromAction.CREATE_PAYMENT_DETAILS_SUCCESS:
-    case fromAction.SET_PAYMENT_DETAILS_SUCCESS: {
+    case CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS:
+    case CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS: {
       return {
         ...state,
         paymentDetails: action.payload,
       };
     }
 
-    case fromAction.CREATE_PAYMENT_DETAILS_FAIL: {
+    case CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL: {
       const paymentDetails = action.payload;
       if (paymentDetails['hasError']) {
         return {
@@ -87,7 +89,7 @@ export function reducer(
       return state;
     }
 
-    case fromAction.PLACE_ORDER_SUCCESS: {
+    case CheckoutActions.PLACE_ORDER_SUCCESS: {
       const orderDetails: Order = action.payload;
 
       return {
@@ -96,11 +98,11 @@ export function reducer(
       };
     }
 
-    case fromAction.CLEAR_CHECKOUT_DATA: {
+    case CheckoutActions.CLEAR_CHECKOUT_DATA: {
       return initialState;
     }
 
-    case fromAction.CLEAR_CHECKOUT_STEP: {
+    case CheckoutActions.CLEAR_CHECKOUT_STEP: {
       const stepNumber = action.payload;
       switch (stepNumber) {
         case 1: {
@@ -132,8 +134,8 @@ export function reducer(
       return state;
     }
 
-    case fromAction.CLEAR_SUPPORTED_DELIVERY_MODES:
-    case fromAction.CHECKOUT_CLEAR_MISCS_DATA: {
+    case CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES:
+    case CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA: {
       return {
         ...state,
         deliveryMode: {
@@ -142,7 +144,7 @@ export function reducer(
         },
       };
     }
-    case fromAction.LOAD_CHECKOUT_DETAILS_SUCCESS: {
+    case CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS: {
       return {
         ...state,
         address: action.payload.deliveryAddress,

@@ -1,12 +1,12 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { Country } from '../../../model/address.model';
 import {
-  UserState,
   BillingCountriesState,
-  StateWithUser,
   BillingCountryEntities,
+  StateWithUser,
+  UserState,
 } from '../user-state';
 import { getUserState } from './feature.selector';
-import { Country } from '../../../model/address.model';
 
 export const getBillingCountriesState: MemoizedSelector<
   StateWithUser,
