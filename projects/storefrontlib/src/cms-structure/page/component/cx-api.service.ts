@@ -1,16 +1,17 @@
 import { Injectable, Optional } from '@angular/core';
-
-import { AuthService } from '../auth/index';
-import { CmsService } from '../cms/index';
-import { RoutingService } from '../routing/index';
-import { LanguageService, CurrencyService } from '../site-context/index';
 import {
+  AuthService,
+  CmsService,
+  RoutingService,
+  CurrencyService,
+  LanguageService,
+  BaseSiteService,
   ProductService,
   ProductSearchService,
   ProductReviewService,
-} from '../product/index';
-import { UserService } from '../user/index';
-import { TranslationService } from '../i18n/index';
+  UserService,
+  TranslationService,
+} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,7 @@ export class CxApiService {
     // site context
     @Optional() public currency: CurrencyService,
     @Optional() public language: LanguageService,
+    @Optional() public baseSite: BaseSiteService,
     // product
     @Optional() public product: ProductService,
     @Optional() public productSearch: ProductSearchService,
