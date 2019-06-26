@@ -273,10 +273,10 @@ export function manipulateCartQuantity() {
 
   cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
-  cy.get('cx-order-summary')
-    .contains('.cx-summary-row', 'Subtotal:')
-    .get('.cx-summary-amount')
-    .should('contain', '$208.24');
+  cy.get('cx-order-summary').within(() => {
+    cy.get('.cx-summary-row:first').contains('Subtotal');
+    cy.get('.cx-summary-amount').should('contain', '$208.24');
+  });
 
   getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
@@ -293,10 +293,10 @@ export function manipulateCartQuantity() {
 
   cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
-  cy.get('cx-order-summary')
-    .contains('.cx-summary-row', 'Subtotal:')
-    .get('.cx-summary-amount')
-    .should('contain', '$322.36');
+  cy.get('cx-order-summary').within(() => {
+    cy.get('.cx-summary-row:first').contains('Subtotal');
+    cy.get('.cx-summary-amount').should('contain', '$322.36');
+  });
 
   getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
