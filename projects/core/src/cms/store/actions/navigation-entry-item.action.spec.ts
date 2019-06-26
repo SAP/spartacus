@@ -1,9 +1,5 @@
 import { CmsComponent } from '../../../model/cms.model';
-import {
-  entityFailMeta,
-  entityLoadMeta,
-  entitySuccessMeta,
-} from '../../../state/utils/entity-loader/entity-loader.action';
+import { StateEntityLoaderActions } from '../../../state/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 import { CmsActions } from './index';
 
@@ -20,7 +16,10 @@ describe('Navigation Entry Item Actions', () => {
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS,
           payload,
-          meta: entityLoadMeta(NAVIGATION_DETAIL_ENTITY, payload.nodeId),
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            NAVIGATION_DETAIL_ENTITY,
+            payload.nodeId
+          ),
         });
       });
     });
@@ -37,7 +36,11 @@ describe('Navigation Entry Item Actions', () => {
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS_FAIL,
           payload,
-          meta: entityFailMeta(NAVIGATION_DETAIL_ENTITY, nodeId, payload),
+          meta: StateEntityLoaderActions.entityFailMeta(
+            NAVIGATION_DETAIL_ENTITY,
+            nodeId,
+            payload
+          ),
         });
       });
     });
@@ -56,7 +59,10 @@ describe('Navigation Entry Item Actions', () => {
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS_SUCCESS,
           payload,
-          meta: entitySuccessMeta(NAVIGATION_DETAIL_ENTITY, payload.nodeId),
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            NAVIGATION_DETAIL_ENTITY,
+            payload.nodeId
+          ),
         });
       });
     });
