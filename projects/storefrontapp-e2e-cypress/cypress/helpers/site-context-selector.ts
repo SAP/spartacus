@@ -119,15 +119,13 @@ export function assertSiteContextChange(testPath: string): void {
 
 export function siteContextChange(
   pagePath: string,
-  alias: string | string[],
+  alias: string,
   selectedOption: string,
   label: string
 ): void {
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
 
-  for (const _alias of [].concat(alias)) {
-    cy.wait(`@${_alias}`);
-  }
+  cy.wait(`@${alias}`);
 
   cy.route('GET', `*${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);

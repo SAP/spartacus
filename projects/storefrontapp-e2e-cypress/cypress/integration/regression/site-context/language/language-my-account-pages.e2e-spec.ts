@@ -106,7 +106,7 @@ describe('Language switch - my-account pages', () => {
     it('should change language in the page', () => {
       siteContextSelector.siteContextChange(
         personalDetailsPath,
-        [siteContextSelector.LANGUAGES, siteContextSelector.TITLES],
+        siteContextSelector.TITLES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );
