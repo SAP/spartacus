@@ -31,7 +31,6 @@ if (!environment.production) {
     BrowserTransferStateModule,
 
     B2cStorefrontModule.withConfig({
-      production: environment.production,
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
