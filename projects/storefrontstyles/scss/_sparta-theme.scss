@@ -23,13 +23,14 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-order-confirmation-thank-you-message, cx-promotions,
   cx-order-detail-headline, cx-order-detail-items, cx-order-detail-shipping,
   cx-order-detail-totals, cx-product-view, cx-payment-method, cx-payment-methods,
-  cx-close-account, cx-store-finder-list-item, cx-store-finder-grid,
-  cx-store-finder, cx-store-finder-store-description,
+  cx-close-account, cx-close-account-modal, cx-store-finder-list-item,
+  cx-store-finder-grid, cx-store-finder, cx-store-finder-store-description,
   cx-store-finder-stores-count, cx-store-finder-search-result,
   cx-store-finder-list, cx-store-finder-search, cx-store-finder-schedule,
   cx-store-finder-map, cx-add-to-home-screen-banner, cx-item-counter,
   cx-star-rating, cx-spinner, cx-icon, cx-media, cx-tab-paragraph-container,
-  cx-add-to-cart, cx-global-message, cx-product-intro !default;
+  cx-add-to-cart, cx-global-message, cx-product-intro, cx-card,
+  cx-forgot-password !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut

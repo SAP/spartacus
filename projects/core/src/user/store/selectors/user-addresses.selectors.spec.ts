@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import { StateWithUser, USER_FEATURE } from '../user-state';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Address } from '../../../model/address.model';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { Address } from '../../../model/address.model';
+import { UsersSelectors } from '../selectors/index';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserAddresses: Address[] = [{ id: 'address1' }, { id: 'address2' }];
 
@@ -29,7 +28,7 @@ describe('User Addresses Selectors', () => {
     it('should return a user addresses loader state', () => {
       let result: LoaderState<Address[]>;
       store
-        .pipe(select(fromSelectors.getAddressesLoaderState))
+        .pipe(select(UsersSelectors.getAddressesLoaderState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -46,7 +45,7 @@ describe('User Addresses Selectors', () => {
     it('should return a user addresses', () => {
       let result: Address[];
       store
-        .pipe(select(fromSelectors.getAddresses))
+        .pipe(select(UsersSelectors.getAddresses))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -63,7 +62,7 @@ describe('User Addresses Selectors', () => {
     it('should return loading flag', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getAddressesLoading))
+        .pipe(select(UsersSelectors.getAddressesLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);

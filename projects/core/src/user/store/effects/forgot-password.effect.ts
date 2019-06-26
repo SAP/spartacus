@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
-
-import * as fromActions from '../actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
+import * as fromActions from '../actions/index';
 
 @Injectable()
 export class ForgotPasswordEffects {
@@ -33,7 +31,11 @@ export class ForgotPasswordEffects {
             }),
           ]),
           catchError(error =>
-            of(new fromActions.ForgotPasswordEmailRequestFail(error))
+            of(
+              new fromActions.ForgotPasswordEmailRequestFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })

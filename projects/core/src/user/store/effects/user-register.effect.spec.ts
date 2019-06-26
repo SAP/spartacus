@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { LoadUserToken, Logout } from '../../../auth/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
@@ -48,7 +48,7 @@ describe('UserRegister effect', () => {
   describe('registerUser$', () => {
     it('should register user', () => {
       const action = new fromStore.RegisterUser(user);
-      const loadUser = new LoadUserToken({
+      const loadUser = new AuthActions.LoadUserToken({
         userId: user.uid,
         password: user.password,
       });
@@ -67,7 +67,7 @@ describe('UserRegister effect', () => {
   describe('removeUser$', () => {
     it('should remove user', () => {
       const action = new fromStore.RemoveUser('testUserId');
-      const logout = new Logout();
+      const logout = new AuthActions.Logout();
       const completion = new fromStore.RemoveUserSuccess();
 
       actions$ = hot('-a', { a: action });

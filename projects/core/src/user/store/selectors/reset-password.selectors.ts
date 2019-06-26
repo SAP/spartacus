@@ -1,6 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
-import { UserState, StateWithUser } from '../user-state';
+import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
 export const getResetPassword: MemoizedSelector<

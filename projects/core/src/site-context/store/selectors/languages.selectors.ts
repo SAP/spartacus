@@ -1,13 +1,12 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import {
-  StateWithSiteContext,
-  LanguagesState,
-  LanguagesEntities,
-  SiteContextState,
-} from '../state';
-
-import { getSiteContextState } from './site-context.selector';
 import { Language } from '../../../model/misc.model';
+import {
+  LanguagesEntities,
+  LanguagesState,
+  SiteContextState,
+  StateWithSiteContext,
+} from '../state';
+import { getSiteContextState } from './site-context.selector';
 
 const activeLanguageSelector = (state: LanguagesState) => state.activeLanguage;
 const languagesEntitiesSelector = (state: LanguagesState) => state.entities;

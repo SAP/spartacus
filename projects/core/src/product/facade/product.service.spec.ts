@@ -2,10 +2,10 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';
+import { Product } from '../../model/product.model';
 import * as fromStore from '../store/index';
 import { ProductsState } from '../store/index';
 import { ProductService } from './product.service';
-import { Product } from '../../model/product.model';
 
 describe('ProductService', () => {
   let store: Store<ProductsState>;

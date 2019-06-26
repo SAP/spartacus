@@ -6,6 +6,7 @@ import { Order, OrderHistoryList } from '../../model/order.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import * as fromStore from '../store/index';
+import { UsersSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class UserOrderService {
    * Returns an order's detail
    */
   getOrderDetails(): Observable<Order> {
-    return this.store.pipe(select(fromStore.getOrderDetails));
+    return this.store.pipe(select(UsersSelectors.getOrderDetails));
   }
 
   /**
@@ -50,7 +51,7 @@ export class UserOrderService {
    */
   getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
-      select(fromStore.getOrdersState),
+      select(UsersSelectors.getOrdersState),
       tap(orderListState => {
         const attemptedLoad =
           orderListState.loading ||
@@ -68,7 +69,7 @@ export class UserOrderService {
    * Returns a loaded flag for order history list
    */
   getOrderHistoryListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getOrdersLoaded));
+    return this.store.pipe(select(UsersSelectors.getOrdersLoaded));
   }
 
   /**

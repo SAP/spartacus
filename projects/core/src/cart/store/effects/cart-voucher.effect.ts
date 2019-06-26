@@ -5,7 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
-import * as fromActions from './../actions/cart-voucher.action';
+import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartVoucherEffects {
@@ -17,10 +17,10 @@ export class CartVoucherEffects {
 
   @Effect()
   addCartVoucher$: Observable<
-    fromActions.CartVoucherAction
+    CartActions.CartVoucherAction
   > = this.actions$.pipe(
-    ofType(fromActions.ADD_CART_VOUCHER),
-    map((action: fromActions.AddCartVoucher) => action.payload),
+    ofType(CartActions.ADD_CART_VOUCHER),
+    map((action: CartActions.AddCartVoucher) => action.payload),
     mergeMap(payload => {
       return this.cartVoucherConnector
         .add(payload.userId, payload.cartId, payload.voucherId)
@@ -33,19 +33,19 @@ export class CartVoucherEffects {
               },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
-            return new fromActions.AddCartVoucherSuccess();
+            return new CartActions.AddCartVoucherSuccess();
           }),
-          catchError(error => of(new fromActions.AddCartVoucherFail(error)))
+          catchError(error => of(new CartActions.AddCartVoucherFail(error)))
         );
     })
   );
 
   @Effect()
   removeCartVoucher$: Observable<
-    fromActions.CartVoucherAction
+    CartActions.CartVoucherAction
   > = this.actions$.pipe(
-    ofType(fromActions.REMOVE_CART_VOUCHER),
-    map((action: fromActions.RemoveCartVoucher) => action.payload),
+    ofType(CartActions.REMOVE_CART_VOUCHER),
+    map((action: CartActions.RemoveCartVoucher) => action.payload),
     mergeMap(payload => {
       return this.cartVoucherConnector
         .remove(payload.userId, payload.cartId, payload.voucherId)
@@ -58,9 +58,9 @@ export class CartVoucherEffects {
               },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
-            return new fromActions.RemoveCartVoucherSuccess();
+            return new CartActions.RemoveCartVoucherSuccess();
           }),
-          catchError(error => of(new fromActions.RemoveCartVoucherFail(error)))
+          catchError(error => of(new CartActions.RemoveCartVoucherFail(error)))
         );
     })
   );

@@ -3,7 +3,7 @@
     display: block;
     border-width: 0 0 1px 0;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     margin: 0 0 25px 0;
 
     &:last-of-type {
@@ -17,7 +17,7 @@
 
   .cx-sorting {
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
 
     @include media-breakpoint-down(md) {
       border: none;
@@ -37,6 +37,10 @@
   .cx-pagination {
     display: inline-block;
     vertical-align: top;
+
+    .page-link:hover {
+      color: var(--cx-color-inverse);
+    }
   }
 
   .cx-sort-dropdown {

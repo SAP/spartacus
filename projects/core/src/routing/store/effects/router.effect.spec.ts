@@ -1,17 +1,14 @@
+import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { Action } from '@ngrx/store';
+import { AuthActions } from '@spartacus/core';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
-
-import * as fromEffects from './router.effect';
 import * as fromActions from '../actions/router.action';
-import { Action } from '@ngrx/store';
-import { Logout } from '@spartacus/core';
+import * as fromEffects from './router.effect';
 
 describe('Router Effects', () => {
   let actions$: Observable<Action>;
@@ -71,7 +68,7 @@ describe('Router Effects', () => {
 
   describe('clearCmsRoutes$', () => {
     it('should remove cms driven routes', () => {
-      const action = new Logout();
+      const action = new AuthActions.Logout();
 
       actions$ = hot('-a', { a: action });
 
