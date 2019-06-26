@@ -3,8 +3,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ConfigModule } from '../../config';
+import { ConfigModule } from '../../config/config.module';
 import { StateConfig, StorageSyncType } from '../../state/config/state-config';
+import { StateModule } from '../../state/state.module';
 import { CART_FEATURE } from './cart-state';
 import { effects } from './effects/index';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
@@ -27,6 +28,7 @@ export function cartStoreConfigFactory(): StateConfig {
   imports: [
     CommonModule,
     HttpClientModule,
+    StateModule,
     StoreModule.forFeature(CART_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
     ConfigModule.withConfigFactory(cartStoreConfigFactory),
