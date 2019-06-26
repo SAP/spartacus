@@ -17,7 +17,7 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
-import * as fromCmsActions from '../store/actions/index';
+import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
 import { CmsSelectors } from '../store/selectors/index';
 
@@ -84,7 +84,7 @@ export class CmsService {
               componentState.success ||
               componentState.error;
             if (!attemptedLoad && !isNavigating) {
-              this.store.dispatch(new fromCmsActions.LoadComponent(uid));
+              this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
             }
           }
         }),
@@ -135,7 +135,7 @@ export class CmsService {
     itemList: { id: string; superType: string }[]
   ): void {
     this.store.dispatch(
-      new fromCmsActions.LoadNavigationItems({
+      new CmsActions.LoadCmsNavigationItems({
         nodeId: rootUid,
         items: itemList,
       })
@@ -150,7 +150,7 @@ export class CmsService {
       .getPageContext()
       .pipe(take(1))
       .subscribe(pageContext =>
-        this.store.dispatch(new fromCmsActions.LoadPageData(pageContext))
+        this.store.dispatch(new CmsActions.LoadCmsPageData(pageContext))
       );
   }
 
@@ -160,7 +160,7 @@ export class CmsService {
    */
   refreshPageById(pageId: string): void {
     const pageContext: PageContext = { id: pageId };
-    this.store.dispatch(new fromCmsActions.LoadPageData(pageContext));
+    this.store.dispatch(new CmsActions.LoadCmsPageData(pageContext));
   }
 
   /**
@@ -168,7 +168,7 @@ export class CmsService {
    * @param uid : component uid
    */
   refreshComponent(uid: string): void {
-    this.store.dispatch(new fromCmsActions.LoadComponent(uid));
+    this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
   }
 
   /**
@@ -200,7 +200,7 @@ export class CmsService {
         const attemptedLoad = entity.loading || entity.success || entity.error;
         const shouldReload = forceReload && !entity.loading;
         if (!attemptedLoad || shouldReload) {
-          this.store.dispatch(new fromCmsActions.LoadPageData(pageContext));
+          this.store.dispatch(new CmsActions.LoadCmsPageData(pageContext));
           forceReload = false;
         }
       }),
@@ -224,8 +224,6 @@ export class CmsService {
   }
 
   setPageFailIndex(pageContext: PageContext, value: string): void {
-    this.store.dispatch(
-      new fromCmsActions.SetPageFailIndex(pageContext, value)
-    );
+    this.store.dispatch(new CmsActions.CmsSetPageFailIndex(pageContext, value));
   }
 }

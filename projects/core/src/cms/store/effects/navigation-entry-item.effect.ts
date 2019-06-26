@@ -5,17 +5,17 @@ import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
-import * as navigationItemActions from '../actions/navigation-entry-item.action';
+import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class NavigationEntryItemEffects {
   @Effect()
   loadNavigationItems$: Observable<
-    | navigationItemActions.LoadNavigationItemsSuccess
-    | navigationItemActions.LoadNavigationItemsFail
+    | CmsActions.LoadCmsNavigationItemsSuccess
+    | CmsActions.LoadCmsNavigationItemsFail
   > = this.actions$.pipe(
-    ofType(navigationItemActions.LOAD_NAVIGATION_ITEMS),
-    map((action: navigationItemActions.LoadNavigationItems) => action.payload),
+    ofType(CmsActions.LOAD_CMS_NAVIGATION_ITEMS),
+    map((action: CmsActions.LoadCmsNavigationItems) => action.payload),
     map(payload => {
       return {
         ids: this.getIdListByItemType(payload.items),
@@ -35,14 +35,14 @@ export class NavigationEntryItemEffects {
               .pipe(
                 map(
                   components =>
-                    new navigationItemActions.LoadNavigationItemsSuccess({
+                    new CmsActions.LoadCmsNavigationItemsSuccess({
                       nodeId: data.nodeId,
                       components: components,
                     })
                 ),
                 catchError(error =>
                   of(
-                    new navigationItemActions.LoadNavigationItemsFail(
+                    new CmsActions.LoadCmsNavigationItemsFail(
                       data.nodeId,
                       makeErrorSerializable(error)
                     )
@@ -59,7 +59,7 @@ export class NavigationEntryItemEffects {
         // send request to get list of media
       } else {
         return of(
-          new navigationItemActions.LoadNavigationItemsFail(
+          new CmsActions.LoadCmsNavigationItemsFail(
             data.nodeId,
             'navigation nodes are empty'
           )
