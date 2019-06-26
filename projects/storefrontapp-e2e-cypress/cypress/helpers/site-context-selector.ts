@@ -29,7 +29,7 @@ export const PAGE_REQUEST = `${Cypress.env(
 
 export const TITLE_REQUEST = `${Cypress.env(
   'API_URL'
-)}/rest/v2/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=ContentPage&pageLabelOrId=/my-account/update-profile&lang=de&curr=USD`;
+)}/rest/v2/${CONTENT_CATALOG}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
@@ -119,12 +119,16 @@ export function assertSiteContextChange(testPath: string): void {
 
 export function siteContextChange(
   pagePath: string,
-  alias: string,
+  alias: string | string[],
   selectedOption: string,
   label: string
 ): void {
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
-  cy.wait(`@${alias}`);
+
+  for (const _alias of [].concat(alias)) {
+    cy.wait(`@${_alias}`);
+  }
+
   cy.route('GET', `*${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
   cy.wait('@switchedContext');
