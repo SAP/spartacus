@@ -13,6 +13,7 @@ export * from './src/kyma/index';
 export * from './src/model/index';
 export * from './src/occ/index';
 export * from './src/personalization/index';
+export * from './src/process/index';
 export * from './src/product/index';
 export * from './src/routing/index';
 export * from './src/site-context/index';

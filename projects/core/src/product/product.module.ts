@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CmsModule } from '../cms/cms.module';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import {
   ProductReferenceService,
@@ -31,7 +30,7 @@ const pageTitleResolvers = [
 ];
 
 @NgModule({
-  imports: [ProductStoreModule, CmsModule],
+  imports: [ProductStoreModule],
   providers: [
     ProductService,
     ProductSearchService,

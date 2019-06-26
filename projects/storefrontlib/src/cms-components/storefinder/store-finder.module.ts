@@ -10,9 +10,9 @@ import {
   StoreFinderCoreModule,
   UrlModule,
 } from '@spartacus/core';
-import { CmsModule } from '../../cms-structure/cms.module';
 import { LayoutConfig } from '../../layout/config/layout-config';
 import { ListNavigationModule, SpinnerModule } from '../../shared/index';
+import { IconModule } from './../misc/icon/icon.module';
 import {
   ScheduleComponent,
   StoreFinderComponent,
@@ -27,12 +27,10 @@ import {
   StoreFinderStoreDescriptionComponent,
   StoreFinderStoresCountComponent,
 } from './components/index';
-import { IconModule } from './../misc/icon/icon.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    CmsModule,
     ReactiveFormsModule,
     RouterModule,
     ListNavigationModule,
