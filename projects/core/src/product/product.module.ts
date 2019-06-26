@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import {
   ProductReferenceService,
@@ -31,12 +31,18 @@ const pageTitleResolvers = [
 
 @NgModule({
   imports: [ProductStoreModule],
-  providers: [
-    ProductService,
-    ProductSearchService,
-    ProductReviewService,
-    ProductReferenceService,
-    ...pageTitleResolvers,
-  ],
 })
-export class ProductModule {}
+export class ProductModule {
+  static forRoot(): ModuleWithProviders<ProductModule> {
+    return {
+      ngModule: ProductModule,
+      providers: [
+        ProductService,
+        ProductSearchService,
+        ProductReviewService,
+        ProductReferenceService,
+        ...pageTitleResolvers,
+      ],
+    };
+  }
+}

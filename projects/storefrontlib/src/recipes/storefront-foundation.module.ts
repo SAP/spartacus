@@ -8,6 +8,7 @@ import {
   GlobalMessageModule,
   I18nModule,
   ProcessModule,
+  ProductModule,
   provideConfigFromMetaTags,
   StateModule,
   UserModule,
@@ -28,6 +29,7 @@ import { LayoutModule } from '../layout/layout.module';
     CartModule.forRoot(),
     CheckoutModule.forRoot(),
     UserModule.forRoot(),
+    ProductModule.forRoot(),
 
     LayoutModule,
   ],
