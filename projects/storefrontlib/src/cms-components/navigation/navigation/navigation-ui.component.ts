@@ -30,6 +30,7 @@ export class NavigationUIComponent implements OnDestroy {
    * The number of child nodes that must be wrapped.
    */
   @Input() wrapAfter: number;
+  @Input() allowAlignToRight = false;
 
   /**
    * the icon type that will be used for navigation nodes
@@ -134,19 +135,21 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   private alignWrapperToRightIfStickOut(node: HTMLElement) {
-    const wrapper = <HTMLElement>node.querySelector('.wrapper');
-    const navBar = <HTMLElement>this.elemRef.nativeElement;
-    if (wrapper) {
-      this.renderer.removeStyle(wrapper, 'margin-left');
-      if (
-        wrapper.offsetLeft + wrapper.offsetWidth >
-        navBar.offsetLeft + navBar.offsetWidth
-      ) {
-        this.renderer.setStyle(
-          wrapper,
-          'margin-left',
-          `${node.offsetWidth - wrapper.offsetWidth}px`
-        );
+    if (this.allowAlignToRight) {
+      const wrapper = <HTMLElement>node.querySelector('.wrapper');
+      const navBar = <HTMLElement>this.elemRef.nativeElement;
+      if (wrapper) {
+        this.renderer.removeStyle(wrapper, 'margin-left');
+        if (
+          wrapper.offsetLeft + wrapper.offsetWidth >
+          navBar.offsetLeft + navBar.offsetWidth
+        ) {
+          this.renderer.setStyle(
+            wrapper,
+            'margin-left',
+            `${node.offsetWidth - wrapper.offsetWidth}px`
+          );
+        }
       }
     }
   }
