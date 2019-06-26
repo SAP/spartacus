@@ -1,14 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors';
-import { StateWithUser, USER_FEATURE } from '../user-state';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { PaymentDetails } from '../../../model/cart.model';
 import { Occ } from '../../../occ/occ-models/occ.models';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import * as fromActions from '../actions';
+import * as fromReducers from '../reducers';
+import { UsersSelectors } from '../selectors/index';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserPaymentMethods: Occ.PaymentDetailsList = {
   payments: [{ id: 'payment1' }, { id: 'payment2' }],
@@ -33,7 +31,7 @@ describe('User Payment Methods Selectors', () => {
     it('should return a user payment methods loader', () => {
       let result: LoaderState<PaymentDetails[]>;
       store
-        .pipe(select(fromSelectors.getPaymentMethodsState))
+        .pipe(select(UsersSelectors.getPaymentMethodsState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -50,7 +48,7 @@ describe('User Payment Methods Selectors', () => {
     it('should return a user payment methods', () => {
       let result: PaymentDetails[];
       store
-        .pipe(select(fromSelectors.getPaymentMethods))
+        .pipe(select(UsersSelectors.getPaymentMethods))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -69,7 +67,7 @@ describe('User Payment Methods Selectors', () => {
     it('should return isLoading flag', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getPaymentMethodsLoading))
+        .pipe(select(UsersSelectors.getPaymentMethodsLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);

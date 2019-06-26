@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
-
 import { select, Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
-
-import * as fromStore from '../store';
-import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
-import { UrlCommands } from '../configurable-routes/url-translation/url-command';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
-import { RouterState } from '../store/reducers/router.reducer';
+import { UrlCommands } from '../configurable-routes/url-translation/url-command';
+import { PageContext } from '../models/page-context.model';
+import * as fromStore from '../store';
+import { RouterState } from '../store/routing-state';
+import { RoutingSelector } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -26,28 +24,28 @@ export class RoutingService {
    * Get the current router state
    */
   getRouterState(): Observable<RouterState> {
-    return this.store.pipe(select(fromStore.getRouterState));
+    return this.store.pipe(select(RoutingSelector.getRouterState));
   }
 
   /**
    * Get the `PageContext` from the state
    */
   getPageContext(): Observable<PageContext> {
-    return this.store.pipe(select(fromStore.getPageContext));
+    return this.store.pipe(select(RoutingSelector.getPageContext));
   }
 
   /**
    * Get the next `PageContext` from the state
    */
   getNextPageContext(): Observable<PageContext> {
-    return this.store.pipe(select(fromStore.getNextPageContext));
+    return this.store.pipe(select(RoutingSelector.getNextPageContext));
   }
 
   /**
    * Get the `isNavigating` info from the state
    */
   isNavigating(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.isNavigating));
+    return this.store.pipe(select(RoutingSelector.isNavigating));
   }
 
   /**

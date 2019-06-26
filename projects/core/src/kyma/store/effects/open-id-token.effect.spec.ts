@@ -4,11 +4,11 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import * as fromStore from '../';
 import { UserToken } from '../../../auth';
-import * as fromAuthStore from '../../../auth/store';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { KymaConfig } from '../../config/kyma-config';
+import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import { OpenIdTokenActions } from '../actions';
-import { OpenIdToken } from './../../models/kyma-token-types.model';
 
 const testToken = {
   access_token: 'xxx',
@@ -69,10 +69,10 @@ describe('Open ID Token Effect', () => {
       it('should trigger the retrieval of an open ID token', () => {
         mockConfig.authentication.kyma_enabled = true;
 
-        const loadUserTokenSuccess = new fromAuthStore.LoadUserTokenSuccess(
+        const loadUserTokenSuccess = new AuthActions.LoadUserTokenSuccess(
           mockUserToken
         );
-        const loadUserToken = new fromAuthStore.LoadUserToken({
+        const loadUserToken = new AuthActions.LoadUserToken({
           userId: 'xxx@xxx.xxx',
           password: 'pwd',
         });
@@ -94,10 +94,10 @@ describe('Open ID Token Effect', () => {
       it('should NOT trigger the retrieval of an open ID token', () => {
         mockConfig.authentication.kyma_enabled = false;
 
-        const loadUserTokenSuccess = new fromAuthStore.LoadUserTokenSuccess(
+        const loadUserTokenSuccess = new AuthActions.LoadUserTokenSuccess(
           mockUserToken
         );
-        const loadUserToken = new fromAuthStore.LoadUserToken({
+        const loadUserToken = new AuthActions.LoadUserToken({
           userId: 'xxx@xxx.xxx',
           password: 'pwd',
         });

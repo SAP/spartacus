@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { delay, filter, mergeMap, pluck, switchMap } from 'rxjs/operators';
-
-import * as GlobalMessageActions from '../actions/global-message.actions';
 import { GlobalMessageConfig } from '../../config/global-message-config';
-import { getGlobalMessageCountByType } from '../selectors/global-message.selectors';
-import {
-  GlobalMessage,
-  GlobalMessageType,
-} from '../../models/global-message.model';
+import { GlobalMessageType } from '../../models/global-message.model';
+import * as GlobalMessageActions from '../actions/global-message.actions';
+import { StateWithGlobalMessage } from '../global-message-state';
+import { GlobalMessageSelectors } from '../selectors/index';
 
 @Injectable()
 export class GlobalMessageEffect {
@@ -22,7 +19,8 @@ export class GlobalMessageEffect {
     pluck('payload', 'type'),
     mergeMap((type: GlobalMessageType) => {
       const config = this.config.globalMessages[type];
-      return this.store.select(getGlobalMessageCountByType(type)).pipe(
+      return this.store.pipe(
+        select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
         filter(
           (count: number) =>
             config && config.timeout !== undefined && count && count > 0
@@ -41,7 +39,7 @@ export class GlobalMessageEffect {
 
   constructor(
     private actions$: Actions,
-    private store: Store<GlobalMessage>,
+    private store: Store<StateWithGlobalMessage>,
     private config: GlobalMessageConfig
   ) {}
 }

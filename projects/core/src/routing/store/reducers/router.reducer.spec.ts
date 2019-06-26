@@ -9,6 +9,7 @@ import {
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
+import { RouterState } from '../routing-state';
 import * as fromReducer from './router.reducer';
 
 @Component({
@@ -117,7 +118,7 @@ describe('Router Reducer', () => {
         expect(state.state).toBe(action.payload.routerState);
       });
       it('should clear nextState', () => {
-        const initialState: fromReducer.RouterState = {
+        const initialState: RouterState = {
           ...fromReducer.initialState,
           nextState: {
             url: '',
@@ -242,66 +243,6 @@ describe('Router Reducer', () => {
         router.navigateByUrl('dynamically-created/sub-route')
       );
       expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
-    });
-  });
-
-  describe('getRouterFeatureState', () => {
-    it('should return the next page context', () => {
-      const { initialState } = fromReducer;
-      const mockState = { router: { router: initialState } };
-      const result = fromReducer.getRouterFeatureState(mockState);
-      expect(result).toEqual({ router: initialState });
-    });
-  });
-
-  describe('getRouterState;', () => {
-    it('should return the next page context', () => {
-      const { initialState } = fromReducer;
-      const mockState = { router: { router: initialState } };
-      const result = fromReducer.getRouterState(mockState);
-      expect(result).toEqual(initialState);
-    });
-  });
-
-  describe('getPageContext', () => {
-    it('should return the next page context', () => {
-      const context = {
-        id: 'testPageLabel',
-        type: PageType.CONTENT_PAGE,
-      };
-      const mockState = { router: { router: { state: { context } } } };
-      const result = fromReducer.getPageContext(mockState);
-      expect(result).toEqual(context);
-    });
-  });
-
-  describe('getNextPageContext', () => {
-    it('should return the next page context', () => {
-      const context = {
-        id: 'testPageLabel',
-        type: PageType.CONTENT_PAGE,
-      };
-      const mockState = { router: { router: { nextState: { context } } } };
-      const result = fromReducer.getNextPageContext(mockState);
-      expect(result).toEqual(context);
-    });
-  });
-
-  describe('isNavigating', () => {
-    it('should return true while nextState is set', () => {
-      const context = {
-        id: 'testPageLabel',
-        type: PageType.CONTENT_PAGE,
-      };
-      const mockState = { router: { router: { nextState: { context } } } };
-      const result = fromReducer.isNavigating(mockState);
-      expect(result).toBe(true);
-    });
-
-    it('should return false if  nextState is not set', () => {
-      const mockState = { router: { router: { nextState: undefined } } };
-      const result = fromReducer.isNavigating(mockState);
-      expect(result).toBe(false);
     });
   });
 });
