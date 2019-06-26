@@ -16,6 +16,7 @@ import { CategoryNavigationComponent } from './category-navigation.component';
 class MockNavigationComponent {
   @Input() node: NavigationNode;
   @Input() wrapAfter: number;
+  @Input() allowAlignToRight: number;
 }
 
 describe('CategoryNavigationComponent', () => {
