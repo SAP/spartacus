@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import {
   RouterState,
@@ -25,12 +25,18 @@ import { ROUTING_FEATURE } from './store/routing-state';
       stateKey: ROUTING_FEATURE, // name of reducer key
     }),
   ],
-  providers: [
-    reducerProvider,
-    {
-      provide: RouterStateSerializer,
-      useClass: CustomSerializer,
-    },
-  ],
 })
-export class RoutingModule {}
+export class RoutingModule {
+  static forRoot(): ModuleWithProviders<RoutingModule> {
+    return {
+      ngModule: RoutingModule,
+      providers: [
+        reducerProvider,
+        {
+          provide: RouterStateSerializer,
+          useClass: CustomSerializer,
+        },
+      ],
+    };
+  }
+}

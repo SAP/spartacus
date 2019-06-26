@@ -17,17 +17,17 @@ import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
-    StateModule,
+    StateModule.forRoot(),
     AuthModule.forRoot(),
     ConfigModule.forRoot(),
-    RoutingModule,
+    RoutingModule.forRoot(),
     I18nModule.forRoot(),
-    CmsModule,
+    CmsModule.forRoot(),
     GlobalMessageModule.forRoot(),
-    ProcessModule,
-    CartModule,
-    CheckoutModule,
-    UserModule,
+    ProcessModule.forRoot(),
+    CartModule.forRoot(),
+    CheckoutModule.forRoot(),
+    UserModule.forRoot(),
 
     LayoutModule,
   ],
