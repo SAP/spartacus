@@ -14,7 +14,7 @@ import {
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
 import { CheckoutConnector } from '../../connectors/checkout';
 import { CheckoutDetails } from '../../models/checkout.model';
@@ -163,7 +163,7 @@ describe('Checkout effect', () => {
 
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
-      const action = new fromSiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange();
       const completion = new CheckoutActions.CheckoutClearMiscsData();
 
       actions$ = hot('-a', { a: action });
@@ -177,7 +177,7 @@ describe('Checkout effect', () => {
 
   describe('clearDeliveryModesOnCurrencyChange$', () => {
     it('should dispatch clear supported delivery modes action on currency change', () => {
-      const action = new fromSiteContextActions.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange();
       const completion = new CheckoutActions.ClearSupportedDeliveryModes();
 
       actions$ = hot('-a', { a: action });

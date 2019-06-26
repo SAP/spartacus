@@ -1,12 +1,12 @@
-import * as fromLanguages from './languages.reducer';
-import * as fromActions from '../actions/languages.action';
 import { Currency, Language } from '../../../model/misc.model';
+import { SiteContextActions } from '../actions/index';
+import * as fromLanguages from './languages.reducer';
 
 describe('Languages Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromLanguages;
-      const action = {} as fromActions.LanguagesAction;
+      const action = {} as SiteContextActions.LanguagesAction;
       const state = fromLanguages.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -24,7 +24,7 @@ describe('Languages Reducer', () => {
       };
 
       const { initialState } = fromLanguages;
-      const action = new fromActions.LoadLanguagesSuccess(languages);
+      const action = new SiteContextActions.LoadLanguagesSuccess(languages);
       const state = fromLanguages.reducer(initialState, action);
       expect(state.entities).toEqual(entities);
     });
@@ -33,7 +33,7 @@ describe('Languages Reducer', () => {
   describe('SET_ACTIVE_LANGUAGE action', () => {
     it('should set active language', () => {
       const { initialState } = fromLanguages;
-      const action = new fromActions.SetActiveLanguage('zh');
+      const action = new SiteContextActions.SetActiveLanguage('zh');
       const state = fromLanguages.reducer(initialState, action);
 
       expect(state.activeLanguage).toEqual('zh');
