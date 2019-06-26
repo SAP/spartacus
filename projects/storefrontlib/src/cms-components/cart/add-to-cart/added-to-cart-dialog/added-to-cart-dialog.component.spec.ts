@@ -210,7 +210,8 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show increment dialog title message', () => {
-    component.entry$ = of(mockOrderEntry[1]);
+    component.entry$ = of(mockOrderEntry[0]);
+    component.increment = true;
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(

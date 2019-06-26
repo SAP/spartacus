@@ -5,88 +5,88 @@ import {
 } from '../../../state/utils/loader/loader.action';
 import { CART_DATA } from '../cart-state';
 
-export const ADD_ENTRY = '[Cart-entry] Add Entry';
-export const ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
-export const ADD_ENTRY_FAIL = '[Cart-entry] Add Entry Fail';
+export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
+export const CART_ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
+export const CART_ADD_ENTRY_FAIL = '[Cart-entry] Add Entry Fail';
 
-export const REMOVE_ENTRY = '[Cart-entry] Remove Entry';
-export const REMOVE_ENTRY_SUCCESS = '[Cart-entry] Remove Entry Success';
-export const REMOVE_ENTRY_FAIL = '[Cart-entry] Remove Entry Fail';
+export const CART_REMOVE_ENTRY = '[Cart-entry] Remove Entry';
+export const CART_REMOVE_ENTRY_SUCCESS = '[Cart-entry] Remove Entry Success';
+export const CART_REMOVE_ENTRY_FAIL = '[Cart-entry] Remove Entry Fail';
 
-export const UPDATE_ENTRY = '[Cart-entry] Update Entry';
-export const UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
-export const UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
+export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
+export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
+export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
-export class AddEntry extends LoaderLoadAction {
-  readonly type = ADD_ENTRY;
+export class CartAddEntry extends LoaderLoadAction {
+  readonly type = CART_ADD_ENTRY;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class AddEntrySuccess extends LoaderSuccessAction {
-  readonly type = ADD_ENTRY_SUCCESS;
+export class CartAddEntrySuccess extends LoaderSuccessAction {
+  readonly type = CART_ADD_ENTRY_SUCCESS;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class AddEntryFail extends LoaderFailAction {
-  readonly type = ADD_ENTRY_FAIL;
+export class CartAddEntryFail extends LoaderFailAction {
+  readonly type = CART_ADD_ENTRY_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class RemoveEntry extends LoaderLoadAction {
-  readonly type = REMOVE_ENTRY;
+export class CartRemoveEntry extends LoaderLoadAction {
+  readonly type = CART_REMOVE_ENTRY;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class RemoveEntrySuccess extends LoaderSuccessAction {
-  readonly type = REMOVE_ENTRY_SUCCESS;
+export class CartRemoveEntrySuccess extends LoaderSuccessAction {
+  readonly type = CART_REMOVE_ENTRY_SUCCESS;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class RemoveEntryFail extends LoaderFailAction {
-  readonly type = REMOVE_ENTRY_FAIL;
+export class CartRemoveEntryFail extends LoaderFailAction {
+  readonly type = CART_REMOVE_ENTRY_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class UpdateEntry extends LoaderLoadAction {
-  readonly type = UPDATE_ENTRY;
+export class CartUpdateEntry extends LoaderLoadAction {
+  readonly type = CART_UPDATE_ENTRY;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class UpdateEntrySuccess extends LoaderSuccessAction {
-  readonly type = UPDATE_ENTRY_SUCCESS;
+export class CartUpdateEntrySuccess extends LoaderSuccessAction {
+  readonly type = CART_UPDATE_ENTRY_SUCCESS;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class UpdateEntryFail extends LoaderFailAction {
-  readonly type = UPDATE_ENTRY_FAIL;
+export class CartUpdateEntryFail extends LoaderFailAction {
+  readonly type = CART_UPDATE_ENTRY_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
 export type CartEntryAction =
-  | AddEntry
-  | AddEntrySuccess
-  | AddEntryFail
-  | RemoveEntry
-  | RemoveEntrySuccess
-  | RemoveEntryFail
-  | UpdateEntry
-  | UpdateEntrySuccess
-  | UpdateEntryFail;
+  | CartAddEntry
+  | CartAddEntrySuccess
+  | CartAddEntryFail
+  | CartRemoveEntry
+  | CartRemoveEntrySuccess
+  | CartRemoveEntryFail
+  | CartUpdateEntry
+  | CartUpdateEntrySuccess
+  | CartUpdateEntryFail;

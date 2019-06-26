@@ -1,22 +1,20 @@
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromReducers from './../reducers/index';
-import * as fromSelectors from './../selectors/index';
-import * as fromActions from './../actions/index';
 import { TestBed } from '@angular/core/testing';
-
-import {
-  GlobalMessageType,
-  GlobalMessage,
-} from '../../models/global-message.model';
-import {
-  GLOBAL_MESSAGE_FEATURE,
-  StateWithGlobalMessage,
-  GlobalMessageState,
-  GlobalMessageEntities,
-} from '../global-message-state';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { Translatable } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import {
+  GlobalMessage,
+  GlobalMessageType,
+} from '../../models/global-message.model';
+import {
+  GlobalMessageEntities,
+  GlobalMessageState,
+  GLOBAL_MESSAGE_FEATURE,
+  StateWithGlobalMessage,
+} from '../global-message-state';
+import * as fromActions from './../actions/index';
+import * as fromReducers from './../reducers/index';
+import { GlobalMessageSelectors } from './../selectors/index';
 
 describe('Global Messages selectors', () => {
   let store: Store<StateWithGlobalMessage>;
@@ -59,7 +57,7 @@ describe('Global Messages selectors', () => {
     it('Should return the global Message active state', () => {
       let result: GlobalMessageState;
       sub = store
-        .pipe(select(fromSelectors.getGlobalMessageState))
+        .pipe(select(GlobalMessageSelectors.getGlobalMessageState))
         .subscribe(value => (result = value));
       expect(result).toEqual({ entities: {} });
     });
@@ -70,7 +68,7 @@ describe('Global Messages selectors', () => {
       let result: GlobalMessageEntities;
 
       sub = store
-        .pipe(select(fromSelectors.getGlobalMessageEntities))
+        .pipe(select(GlobalMessageSelectors.getGlobalMessageEntities))
         .subscribe(value => {
           result = value;
         });
@@ -92,7 +90,7 @@ describe('Global Messages selectors', () => {
       sub = store
         .pipe(
           select(
-            fromSelectors.getGlobalMessageEntitiesByType(
+            GlobalMessageSelectors.getGlobalMessageEntitiesByType(
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             )
           )
@@ -117,7 +115,7 @@ describe('Global Messages selectors', () => {
       sub = store
         .pipe(
           select(
-            fromSelectors.getGlobalMessageCountByType(
+            GlobalMessageSelectors.getGlobalMessageCountByType(
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             )
           )
