@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { UrlParsingService } from './url-parsing.service';
-import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteConfig, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
 import { UrlCommandRoute, UrlCommands, UrlCommand } from './url-command';
@@ -12,8 +11,7 @@ export class SemanticPathService {
 
   constructor(
     protected routingConfigService: RoutingConfigService,
-    protected urlParser: UrlParsingService,
-    protected config: ServerConfig
+    protected urlParser: UrlParsingService
   ) {}
 
   /**
@@ -169,7 +167,7 @@ export class SemanticPathService {
   }
 
   private warn(...args) {
-    if (!this.config.production) {
+    if (isDevMode()) {
       console.warn(...args);
     }
   }
