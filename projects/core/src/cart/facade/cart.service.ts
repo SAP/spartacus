@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { asyncScheduler, combineLatest, Observable } from 'rxjs';
-import { debounceTime, filter, map, shareReplay, take, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+  shareReplay,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import * as fromProcessStore from '../../process/store/process-state';
-import { getProcessErrorFactory, getProcessSuccessFactory } from '../../process/store/selectors/process.selectors';
+import {
+  getProcessErrorFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID, StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
@@ -194,7 +204,7 @@ export class CartService {
 
   addVoucher(voucherId: string): void {
     this.store.dispatch(
-      new CartActions.AddCartVoucher({
+      new CartActions.CartAddVoucher({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
         voucherId: voucherId,
@@ -204,7 +214,7 @@ export class CartService {
 
   removeVoucher(voucherId: string): void {
     this.store.dispatch(
-      new CartActions.RemoveCartVoucher({
+      new CartActions.CartRemoveVoucher({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
         voucherId: voucherId,
@@ -225,6 +235,6 @@ export class CartService {
   }
 
   resetAddVoucherProcessingState(): void {
-    this.store.dispatch(new CartActions.ResetAddCartVoucher());
+    this.store.dispatch(new CartActions.CartResetAddVoucher());
   }
 }

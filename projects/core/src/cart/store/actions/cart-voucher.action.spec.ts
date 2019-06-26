@@ -1,24 +1,15 @@
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  entityFailMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
-} from '../../../state/utils/entity-loader/entity-loader.action';
-import {
-  failMeta,
-  loadMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
+import { entityFailMeta, entityLoadMeta, entityResetMeta, entitySuccessMeta } from '../../../state/utils/entity-loader/entity-loader.action';
+import { failMeta, loadMeta, successMeta } from '../../../state/utils/loader/loader.action';
 import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
-import * as fromCartVoucher from './cart-voucher.action';
+import { CartActions } from './index';
 
 const userId = 'xxx@xxx.xxx';
 const cartId = 'testCartId';
 const voucherId = 'testVoucherId';
 
 describe('Cart-voucher Actions', () => {
-  describe('AddCartVoucher Actions', () => {
+  describe('CartAddVoucher Actions', () => {
     describe('AddVoucher', () => {
       it('should create the action', () => {
         const payload = {
@@ -26,9 +17,9 @@ describe('Cart-voucher Actions', () => {
           cartId: cartId,
           voucherId: voucherId,
         };
-        const action = new fromCartVoucher.AddCartVoucher(payload);
+        const action = new CartActions.CartAddVoucher(payload);
         expect({ ...action }).toEqual({
-          type: fromCartVoucher.ADD_CART_VOUCHER,
+          type: CartActions.CART_ADD_VOUCHER,
           payload: payload,
           meta: entityLoadMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
@@ -38,10 +29,10 @@ describe('Cart-voucher Actions', () => {
     describe('AddVoucherFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromCartVoucher.AddCartVoucherFail(error);
+        const action = new CartActions.CartAddVoucherFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromCartVoucher.ADD_CART_VOUCHER_FAIL,
+          type: CartActions.CART_ADD_VOUCHER_FAIL,
           payload: error,
           meta: entityFailMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, error),
         });
@@ -50,27 +41,30 @@ describe('Cart-voucher Actions', () => {
 
     describe('AddVoucherSuccess', () => {
       it('should create the action', () => {
-        const action = new fromCartVoucher.AddCartVoucherSuccess();
+        const action = new CartActions.CartAddVoucherSuccess({
+          userId: 'userId',
+          cartId: 'cartId',
+        });
         expect({ ...action }).toEqual({
-          type: fromCartVoucher.ADD_CART_VOUCHER_SUCCESS,
-          payload: undefined,
+          type: CartActions.CART_ADD_VOUCHER_SUCCESS,
+          payload:{userId: 'userId', cartId: 'cartId'},
           meta: entitySuccessMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
       });
     });
 
-    describe('ResetAddCartVoucher', () => {
+    describe('CartResetAddVoucher', () => {
       it('should create the action', () => {
-        const action = new fromCartVoucher.ResetAddCartVoucher();
+        const action = new CartActions.CartResetAddVoucher();
         expect({ ...action }).toEqual({
-          type: fromCartVoucher.RESET_ADD_CART_VOUCHER,
+          type: CartActions.CART_RESET_ADD_VOUCHER,
           meta: entityResetMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
       });
     });
   });
 
-  describe('RemoveCartVoucher Actions', () => {
+  describe('CartRemoveVoucher Actions', () => {
     describe('RemoveVoucher', () => {
       it('should create the action', () => {
         const payload = {
@@ -78,9 +72,9 @@ describe('Cart-voucher Actions', () => {
           cartId: cartId,
           voucherId: voucherId,
         };
-        const action = new fromCartVoucher.RemoveCartVoucher(payload);
+        const action = new CartActions.CartRemoveVoucher(payload);
         expect({ ...action }).toEqual({
-          type: fromCartVoucher.REMOVE_CART_VOUCHER,
+          type: CartActions.CART_REMOVE_VOUCHER,
           payload: payload,
           meta: loadMeta(CART_DATA),
         });
@@ -90,10 +84,10 @@ describe('Cart-voucher Actions', () => {
     describe('RemoveVoucherFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromCartVoucher.RemoveCartVoucherFail(error);
+        const action = new CartActions.CartRemoveVoucherFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromCartVoucher.REMOVE_CART_VOUCHER_FAIL,
+          type: CartActions.CART_REMOVE_VOUCHER_FAIL,
           payload: error,
           meta: failMeta(CART_DATA, error),
         });
@@ -102,9 +96,13 @@ describe('Cart-voucher Actions', () => {
 
     describe('RemoveVoucherSuccess', () => {
       it('should create the action', () => {
-        const action = new fromCartVoucher.RemoveCartVoucherSuccess();
+        const action = new CartActions.CartRemoveVoucherSuccess({
+          userId: 'userId',
+          cartId: 'cartId',
+        });
         expect({ ...action }).toEqual({
-          type: fromCartVoucher.REMOVE_CART_VOUCHER_SUCCESS,
+          type: CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+          payload:{userId: 'userId', cartId: 'cartId'},
           meta: successMeta(CART_DATA),
         });
       });

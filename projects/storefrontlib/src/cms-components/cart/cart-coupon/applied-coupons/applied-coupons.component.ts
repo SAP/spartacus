@@ -27,9 +27,6 @@ export class AppliedCouponsComponent implements OnInit {
 
   removeVoucher(voucherId: string) {
     this.cartService.removeVoucher(voucherId);
-    this.cartService.getActive().subscribe(cart => {
-      console.log(cart.appliedVouchers);
-    });
   }
 
   ngOnInit() {}

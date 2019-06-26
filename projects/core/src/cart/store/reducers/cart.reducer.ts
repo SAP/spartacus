@@ -70,9 +70,8 @@ export function reducer(
       };
     }
 
-    case CartActions.ADD_CART_VOUCHER_SUCCESS:
-    case CartActions.ADD_CART_VOUCHER_FAIL:
-    case CartActions.REMOVE_CART_VOUCHER_SUCCESS:
+    case CartActions.CART_ADD_VOUCHER_SUCCESS:
+    case CartActions.CART_REMOVE_VOUCHER_SUCCESS:
     case CartActions.CART_REMOVE_ENTRY_SUCCESS:
     case CartActions.CART_UPDATE_ENTRY_SUCCESS:
     case CartActions.CART_ADD_ENTRY_SUCCESS: {

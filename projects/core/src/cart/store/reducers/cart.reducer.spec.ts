@@ -80,11 +80,14 @@ describe('Cart reducer', () => {
     });
   });
 
-  describe('REMOVE_CART_VOUCHER_SUCCESS or ADD_CART_VOUCHER_SUCCESS action', () => {
+  describe('REMOVE_VOUCHER_SUCCESS or ADD_VOUCHER_SUCCESS action', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new CartActions.AddCartVoucherSuccess();
+      const action = new CartActions.CartAddVoucherSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+      });
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });

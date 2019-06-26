@@ -248,7 +248,7 @@ describe('CartService', () => {
       service.addVoucher(voucherId);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.AddCartVoucher({
+        new CartActions.CartAddVoucher({
           userId: userId,
           cartId: cart.code,
           voucherId: voucherId,
@@ -257,7 +257,7 @@ describe('CartService', () => {
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new CartActions.AddCartVoucherFail('error'));
+      store.dispatch(new CartActions.CartAddVoucherFail('error'));
       service
         .getAddVoucherResultError()
         .subscribe(result => expect(result).toEqual(true))
@@ -265,7 +265,12 @@ describe('CartService', () => {
     });
 
     it('should return the success flag', () => {
-      store.dispatch(new CartActions.AddCartVoucherSuccess());
+      store.dispatch(
+        new CartActions.CartAddVoucherSuccess({
+          userId: 'userId',
+          cartId: 'cartId',
+        })
+      );
       service
         .getAddVoucherResultSuccess()
         .subscribe(result => expect(result).toEqual(true))
@@ -276,7 +281,7 @@ describe('CartService', () => {
       spyOn(store, 'dispatch').and.stub();
       service.resetAddVoucherProcessingState();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.ResetAddCartVoucher()
+        new CartActions.CartResetAddVoucher()
       );
     });
   });
@@ -291,7 +296,7 @@ describe('CartService', () => {
       service.removeVoucher(voucherId);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.RemoveCartVoucher({
+        new CartActions.CartRemoveVoucher({
           userId: userId,
           cartId: cart.code,
           voucherId: voucherId,

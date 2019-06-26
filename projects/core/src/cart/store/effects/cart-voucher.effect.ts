@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 
@@ -19,8 +20,8 @@ export class CartVoucherEffects {
   addCartVoucher$: Observable<
     CartActions.CartVoucherAction
   > = this.actions$.pipe(
-    ofType(CartActions.ADD_CART_VOUCHER),
-    map((action: CartActions.AddCartVoucher) => action.payload),
+    ofType(CartActions.CART_ADD_VOUCHER),
+    map((action: CartActions.CartAddVoucher) => action.payload),
     mergeMap(payload => {
       return this.cartVoucherConnector
         .add(payload.userId, payload.cartId, payload.voucherId)
@@ -33,9 +34,14 @@ export class CartVoucherEffects {
               },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
-            return new CartActions.AddCartVoucherSuccess();
+            return new CartActions.CartAddVoucherSuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
-          catchError(error => of(new CartActions.AddCartVoucherFail(error)))
+          catchError(error =>
+            of(new CartActions.CartAddVoucherFail(makeErrorSerializable(error)))
+          )
         );
     })
   );
@@ -44,8 +50,8 @@ export class CartVoucherEffects {
   removeCartVoucher$: Observable<
     CartActions.CartVoucherAction
   > = this.actions$.pipe(
-    ofType(CartActions.REMOVE_CART_VOUCHER),
-    map((action: CartActions.RemoveCartVoucher) => action.payload),
+    ofType(CartActions.CART_REMOVE_VOUCHER),
+    map((action: CartActions.CartRemoveVoucher) => action.payload),
     mergeMap(payload => {
       return this.cartVoucherConnector
         .remove(payload.userId, payload.cartId, payload.voucherId)
@@ -58,9 +64,18 @@ export class CartVoucherEffects {
               },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
-            return new CartActions.RemoveCartVoucherSuccess();
+            return new CartActions.CartRemoveVoucherSuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
-          catchError(error => of(new CartActions.RemoveCartVoucherFail(error)))
+          catchError(error =>
+            of(
+              new CartActions.CartRemoveVoucherFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
         );
     })
   );

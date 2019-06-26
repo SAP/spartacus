@@ -12,18 +12,21 @@ import {
 } from '../../../state/utils/loader/loader.action';
 import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
 
-export const ADD_CART_VOUCHER = '[Cart] Add Cart Vouchers';
-export const ADD_CART_VOUCHER_FAIL = '[Cart] Add Cart Voucher Fail';
-export const ADD_CART_VOUCHER_SUCCESS = '[Cart] Add Cart Voucher Success';
-export const RESET_ADD_CART_VOUCHER = '[Cart] Reset Add Cart Voucher';
+export const CART_ADD_VOUCHER = '[Cart-voucher] Add Cart Vouchers';
+export const CART_ADD_VOUCHER_FAIL = '[Cart-voucher] Add Cart Voucher Fail';
+export const CART_ADD_VOUCHER_SUCCESS =
+  '[Cart-voucher] Add Cart Voucher Success';
+export const CART_RESET_ADD_VOUCHER = '[Cart-voucher] Reset Add Cart Voucher';
 
-export const REMOVE_CART_VOUCHER = '[Cart] Remove Cart Voucher';
-export const REMOVE_CART_VOUCHER_FAIL = '[Cart] Remove Cart Voucher Fail';
-export const REMOVE_CART_VOUCHER_SUCCESS = '[Cart] Remove Cart Voucher Success';
+export const CART_REMOVE_VOUCHER = '[Cart-voucher] Remove Cart Voucher';
+export const CART_REMOVE_VOUCHER_FAIL =
+  '[Cart-voucher] Remove Cart Voucher Fail';
+export const CART_REMOVE_VOUCHER_SUCCESS =
+  '[Cart-voucher] Remove Cart Voucher Success';
 
 // Adding cart voucher actions
-export class AddCartVoucher extends EntityLoadAction {
-  readonly type = ADD_CART_VOUCHER;
+export class CartAddVoucher extends EntityLoadAction {
+  readonly type = CART_ADD_VOUCHER;
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
   ) {
@@ -31,30 +34,30 @@ export class AddCartVoucher extends EntityLoadAction {
   }
 }
 
-export class AddCartVoucherFail extends EntityFailAction {
-  readonly type = ADD_CART_VOUCHER_FAIL;
+export class CartAddVoucherFail extends EntityFailAction {
+  readonly type = CART_ADD_VOUCHER_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload);
   }
 }
 
-export class AddCartVoucherSuccess extends EntitySuccessAction {
-  readonly type = ADD_CART_VOUCHER_SUCCESS;
-  constructor() {
+export class CartAddVoucherSuccess extends EntitySuccessAction {
+  readonly type = CART_ADD_VOUCHER_SUCCESS;
+  constructor(public payload: { userId: string; cartId: string }) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
 
-export class ResetAddCartVoucher extends EntityResetAction {
-  readonly type = RESET_ADD_CART_VOUCHER;
+export class CartResetAddVoucher extends EntityResetAction {
+  readonly type = CART_RESET_ADD_VOUCHER;
   constructor() {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
 
 // Deleting cart voucher
-export class RemoveCartVoucher extends LoaderLoadAction {
-  readonly type = REMOVE_CART_VOUCHER;
+export class CartRemoveVoucher extends LoaderLoadAction {
+  readonly type = CART_REMOVE_VOUCHER;
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
   ) {
@@ -62,26 +65,26 @@ export class RemoveCartVoucher extends LoaderLoadAction {
   }
 }
 
-export class RemoveCartVoucherFail extends LoaderFailAction {
-  readonly type = REMOVE_CART_VOUCHER_FAIL;
+export class CartRemoveVoucherFail extends LoaderFailAction {
+  readonly type = CART_REMOVE_VOUCHER_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class RemoveCartVoucherSuccess extends LoaderSuccessAction {
-  readonly type = REMOVE_CART_VOUCHER_SUCCESS;
-  constructor() {
+export class CartRemoveVoucherSuccess extends LoaderSuccessAction {
+  readonly type = CART_REMOVE_VOUCHER_SUCCESS;
+  constructor(public payload: { userId: string; cartId: string }) {
     super(CART_DATA);
   }
 }
 
 // action types
 export type CartVoucherAction =
-  | AddCartVoucher
-  | AddCartVoucherFail
-  | AddCartVoucherSuccess
-  | ResetAddCartVoucher
-  | RemoveCartVoucher
-  | RemoveCartVoucherFail
-  | RemoveCartVoucherSuccess;
+  | CartAddVoucher
+  | CartAddVoucherFail
+  | CartAddVoucherSuccess
+  | CartResetAddVoucher
+  | CartRemoveVoucher
+  | CartRemoveVoucherFail
+  | CartRemoveVoucherSuccess;
