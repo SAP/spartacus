@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { OpenIdToken } from '../models/kyma-token-types.model';
-import * as fromKymaStore from '../store';
+import { KymaActions } from '../store/actions/index';
+import * as fromKymaStore from '../store/index';
 import { KymaState, KYMA_FEATURE } from '../store/kyma-state';
 import { KymaService } from './kyma.service';
 
@@ -38,14 +39,14 @@ describe('KymaService', () => {
       const password = 'pwd';
       service.authorizeOpenId(username, password);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromKymaStore.LoadOpenIdToken({ username, password })
+        new KymaActions.LoadOpenIdToken({ username, password })
       );
     });
   });
 
   describe('getOpenIdToken', () => {
     it('should select the open ID token from the store', () => {
-      store.dispatch(new fromKymaStore.LoadOpenIdTokenSuccess(mockOpenIdToken));
+      store.dispatch(new KymaActions.LoadOpenIdTokenSuccess(mockOpenIdToken));
 
       let result: OpenIdToken;
       service

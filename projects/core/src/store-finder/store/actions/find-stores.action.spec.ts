@@ -1,12 +1,8 @@
-import * as fromActions from './find-stores.action';
-import { StoreFinderSearchConfig } from '../../model/search-config';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
-import { STORE_FINDER_DATA } from '../store-finder-state';
 import { GeoPoint } from '../../../model/misc.model';
+import { StateLoaderActions } from '../../../state/index';
+import { StoreFinderSearchConfig } from '../../model/search-config';
+import { STORE_FINDER_DATA } from '../store-finder-state';
+import * as fromActions from './find-stores.action';
 
 describe('Find Stores Actions', () => {
   describe('OnHold', () => {
@@ -14,7 +10,7 @@ describe('Find Stores Actions', () => {
       const action = new fromActions.OnHold();
       expect({ ...action }).toEqual({
         type: fromActions.ON_HOLD,
-        meta: loadMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -31,7 +27,7 @@ describe('Find Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES,
-        meta: loadMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
         payload,
       });
     });
@@ -49,7 +45,7 @@ describe('Find Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES,
         payload,
-        meta: loadMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -62,7 +58,7 @@ describe('Find Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES_FAIL,
         payload,
-        meta: failMeta(STORE_FINDER_DATA, payload),
+        meta: StateLoaderActions.failMeta(STORE_FINDER_DATA, payload),
       });
     });
   });
@@ -75,7 +71,7 @@ describe('Find Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES_SUCCESS,
         payload,
-        meta: successMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.successMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -91,7 +87,7 @@ describe('Find Stores Actions', () => {
       }).toEqual({
         type: fromActions.FIND_STORE_BY_ID,
         payload,
-        meta: loadMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -106,7 +102,7 @@ describe('Find Stores Actions', () => {
       }).toEqual({
         type: fromActions.FIND_STORE_BY_ID_FAIL,
         payload,
-        meta: failMeta(STORE_FINDER_DATA, payload),
+        meta: StateLoaderActions.failMeta(STORE_FINDER_DATA, payload),
       });
     });
   });
@@ -121,7 +117,7 @@ describe('Find Stores Actions', () => {
       }).toEqual({
         type: fromActions.FIND_STORE_BY_ID_SUCCESS,
         payload,
-        meta: successMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.successMeta(STORE_FINDER_DATA),
       });
     });
   });

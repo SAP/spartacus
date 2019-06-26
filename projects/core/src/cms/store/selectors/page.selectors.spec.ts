@@ -6,7 +6,7 @@ import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotComponentData } from '../../model/content-slot-component-data.model';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import * as fromActions from '../actions/index';
+import { CmsActions } from '../actions/index';
 import { IndexType, StateWithCms } from '../cms-state';
 import * as fromReducers from '../reducers/index';
 import { CmsSelectors } from '../selectors/index';
@@ -52,7 +52,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageStateIndex', () => {
     it('should return the index part of the state', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: IndexType;
       store
@@ -82,7 +82,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageStateIndexEntityLoaderState', () => {
     it('should return an index', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: EntityLoaderState<string>;
       store
@@ -122,7 +122,7 @@ describe('Cms PageData Selectors', () => {
     });
 
     it('should return an entity from an index', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: LoaderState<string>;
       store
@@ -141,7 +141,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageStateIndexValue', () => {
     it('should return index value', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: string;
       store
@@ -155,7 +155,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageEntities', () => {
     it('should return the entities', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: { [id: string]: Page };
       store
@@ -169,7 +169,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageData', () => {
     it('should return the page', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: Page;
       store
@@ -183,7 +183,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageComponentTypes', () => {
     it('should return components', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: string[];
       store
@@ -201,7 +201,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getCurrentSlotSelectorFactory', () => {
     it('should return current slot by position', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: ContentSlotData;
       store

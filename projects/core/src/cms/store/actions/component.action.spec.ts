@@ -1,11 +1,7 @@
-import * as fromComponent from './component.action';
 import { CmsComponent } from '../../../model/cms.model';
+import { StateEntityLoaderActions } from '../../../state/index';
 import { COMPONENT_ENTITY } from '../cms-state';
-import {
-  entityFailMeta,
-  entityLoadMeta,
-  entitySuccessMeta,
-} from '../../../state/utils/entity-loader/entity-loader.action';
+import { CmsActions } from './index';
 
 describe('Cms Component Actions', () => {
   const test_uid = 'test_uid';
@@ -14,11 +10,14 @@ describe('Cms Component Actions', () => {
     describe('LoadComponent', () => {
       it('should create an action', () => {
         const payload = test_uid;
-        const action = new fromComponent.LoadComponent(payload);
+        const action = new CmsActions.LoadCmsComponent(payload);
         expect({ ...action }).toEqual({
-          type: fromComponent.LOAD_COMPONENT,
+          type: CmsActions.LOAD_CMS_COMPONENT,
           payload: payload,
-          meta: entityLoadMeta(COMPONENT_ENTITY, test_uid),
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            COMPONENT_ENTITY,
+            test_uid
+          ),
         });
       });
     });
@@ -26,12 +25,16 @@ describe('Cms Component Actions', () => {
     describe('LoadComponentFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
-        const action = new fromComponent.LoadComponentFail(test_uid, payload);
+        const action = new CmsActions.LoadCmsComponentFail(test_uid, payload);
 
         expect({ ...action }).toEqual({
-          type: fromComponent.LOAD_COMPONENT_FAIL,
+          type: CmsActions.LOAD_CMS_COMPONENT_FAIL,
           payload,
-          meta: entityFailMeta(COMPONENT_ENTITY, test_uid, payload),
+          meta: StateEntityLoaderActions.entityFailMeta(
+            COMPONENT_ENTITY,
+            test_uid,
+            payload
+          ),
         });
       });
     });
@@ -42,12 +45,15 @@ describe('Cms Component Actions', () => {
           uid: 'comp1',
           typeCode: 'SimpleBannerComponent',
         };
-        const action = new fromComponent.LoadComponentSuccess(component);
+        const action = new CmsActions.LoadCmsComponentSuccess(component);
 
         expect({ ...action }).toEqual({
-          type: fromComponent.LOAD_COMPONENT_SUCCESS,
+          type: CmsActions.LOAD_CMS_COMPONENT_SUCCESS,
           payload: component,
-          meta: entitySuccessMeta(COMPONENT_ENTITY, 'comp1'),
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            COMPONENT_ENTITY,
+            'comp1'
+          ),
         });
       });
     });
@@ -58,14 +64,17 @@ describe('Cms Component Actions', () => {
       it('should create an action', () => {
         const component1: CmsComponent = { uid: 'uid1' };
         const component2: CmsComponent = { uid: 'uid2' };
-        const action = new fromComponent.GetComponentFromPage([
+        const action = new CmsActions.CmsGetComponentFromPage([
           component1,
           component2,
         ]);
         expect({ ...action }).toEqual({
-          type: fromComponent.GET_COMPONENET_FROM_PAGE,
+          type: CmsActions.CMS_GET_COMPONENET_FROM_PAGE,
           payload: [component1, component2],
-          meta: entitySuccessMeta(COMPONENT_ENTITY, ['uid1', 'uid2']),
+          meta: StateEntityLoaderActions.entitySuccessMeta(COMPONENT_ENTITY, [
+            'uid1',
+            'uid2',
+          ]),
         });
       });
     });

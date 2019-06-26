@@ -1,7 +1,6 @@
-import { ServerConfig } from '../../config';
 import { TranslationResources } from '../translation-resources';
 
-export abstract class I18nConfig extends ServerConfig {
+export abstract class I18nConfig {
   i18n?: {
     fallbackLang?: string | false;
     backend?: {

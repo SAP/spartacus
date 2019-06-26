@@ -4,14 +4,14 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageType } from '../../model/cms.model';
-import { PageContext, RoutingService } from '../../routing';
+import { PageContext, RoutingService } from '../../routing/index';
 import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
-import * as fromActions from '../store/actions';
+import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
-import * as fromReducers from '../store/reducers';
+import * as fromReducers from '../store/reducers/index';
 import { CmsService } from './cms.service';
 import createSpy = jasmine.createSpy;
 
@@ -86,7 +86,7 @@ describe('CmsService', () => {
       expect(mockSelect).toHaveBeenCalled();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.LoadComponent(testUid)
+        new CmsActions.LoadCmsComponent(testUid)
       );
     }
   ));
@@ -140,7 +140,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       service.loadNavigationItems('rootId', []);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.LoadNavigationItems({
+        new CmsActions.LoadCmsNavigationItems({
           nodeId: 'rootId',
           items: [],
         })
@@ -156,7 +156,7 @@ describe('CmsService', () => {
       );
 
       store.dispatch(
-        new fromActions.LoadPageDataSuccess(testPageContext, page)
+        new CmsActions.LoadCmsPageDataSuccess(testPageContext, page)
       );
 
       let result: Page;
@@ -180,7 +180,7 @@ describe('CmsService', () => {
 
       service.refreshLatestPage();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.LoadPageData(testPageContext)
+        new CmsActions.LoadCmsPageData(testPageContext)
       );
     }
   ));
@@ -190,7 +190,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       service.refreshPageById('testPageId');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.LoadPageData({ id: 'testPageId' })
+        new CmsActions.LoadCmsPageData({ id: 'testPageId' })
       );
     }
   ));
@@ -200,7 +200,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       service.refreshComponent('test_uid');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.LoadComponent('test_uid')
+        new CmsActions.LoadCmsComponent('test_uid')
       );
     }
   ));
@@ -213,7 +213,7 @@ describe('CmsService', () => {
         slots: {},
       };
       store.dispatch(
-        new fromActions.LoadPageDataSuccess(pageContext, pageData)
+        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData)
       );
 
       let result;
@@ -237,10 +237,10 @@ describe('CmsService', () => {
         },
       };
       store.dispatch(
-        new fromActions.LoadPageDataSuccess(pageContext, pageData)
+        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData)
       );
 
-      let result;
+      let result: string[];
       service
         .getPageComponentTypes(pageContext)
         .subscribe(res => (result = res));
@@ -264,7 +264,7 @@ describe('CmsService', () => {
           .unsubscribe();
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromActions.LoadPageData(testPageContext)
+          new CmsActions.LoadCmsPageData(testPageContext)
         );
       }
     ));
@@ -284,7 +284,7 @@ describe('CmsService', () => {
           .unsubscribe();
 
         expect(store.dispatch).not.toHaveBeenCalledWith(
-          new fromActions.LoadPageData(testPageContext)
+          new CmsActions.LoadCmsPageData(testPageContext)
         );
       }
     ));
@@ -305,7 +305,7 @@ describe('CmsService', () => {
             .unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
-            new fromActions.LoadPageData(testPageContext)
+            new CmsActions.LoadCmsPageData(testPageContext)
           );
         }
       ));
@@ -325,7 +325,7 @@ describe('CmsService', () => {
             .unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
-            new fromActions.LoadPageData(testPageContext)
+            new CmsActions.LoadCmsPageData(testPageContext)
           );
         }
       ));
@@ -383,7 +383,7 @@ describe('CmsService', () => {
         slots: {},
       };
       store.dispatch(
-        new fromActions.LoadPageDataSuccess(pageContext, pageData)
+        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData)
       );
 
       let result;
@@ -398,7 +398,7 @@ describe('CmsService', () => {
       const pageContext = { id: '/test', type: PageType.CONTENT_PAGE };
       service.setPageFailIndex(pageContext, 'test_uid');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.SetPageFailIndex(pageContext, 'test_uid')
+        new CmsActions.CmsSetPageFailIndex(pageContext, 'test_uid')
       );
     }
   ));

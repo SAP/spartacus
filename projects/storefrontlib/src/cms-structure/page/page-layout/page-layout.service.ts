@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
@@ -192,7 +192,7 @@ export class PageLayoutService {
    * in a format that can be copied / paste to the configuration.
    */
   private logMissingLayoutConfig(page: Page, section?: string): void {
-    if (this.config.production) {
+    if (!isDevMode()) {
       return;
     }
     if (!this.logSlots[page.template]) {
