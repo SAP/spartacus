@@ -68,6 +68,7 @@ describe('CartCouponComponent', () => {
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
     mockCartService.addVoucher.and.stub();
     mockCartService.resetAddVoucherProcessingState.and.stub();
+
     fixture.detectChanges();
   });
 
@@ -76,8 +77,13 @@ describe('CartCouponComponent', () => {
   });
 
   it('should call getAddVoucherResultSuccess in ngOnInit', () => {
+    spyOn(component.form, 'reset').and.stub();
+
     expect(mockCartService.getAddVoucherResultSuccess).toHaveBeenCalled();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+
+    component.onSuccess(true);
+    expect(component.form.reset).toHaveBeenCalled();
   });
 
   it('should call resetAddVoucherProcessingState in ngOnDestroy', () => {
@@ -93,7 +99,7 @@ describe('CartCouponComponent', () => {
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-cart-coupon-title'));
     const cartName = el.nativeElement.innerText;
-    expect(cartName).toEqual('voucher.couponLabel');
+    expect(cartName).toEqual('voucher.coupon');
     fixture.detectChanges();
     expect(component.form.valid).toBeFalsy();
     expect(submit.nativeElement.enabled).toBeFalsy();
@@ -141,12 +147,5 @@ describe('CartCouponComponent', () => {
 
     component.ngOnInit();
     expect(component.onSuccess).toHaveBeenCalledWith(true);
-  });
-
-  it('should call from rest for call onSuccess with true ', () => {
-    spyOn(component.form, 'reset').and.stub();
-
-    component.onSuccess(true);
-    expect(component.form.reset).toHaveBeenCalled();
   });
 });
