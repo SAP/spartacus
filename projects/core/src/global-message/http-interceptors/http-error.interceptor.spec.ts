@@ -29,7 +29,6 @@ describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
   let http: HttpClient;
-  const MockServerConfig: ServerConfig = { production: false };
 
   beforeEach(() => {
     mockMessageService = {
@@ -93,7 +92,6 @@ describe('HttpErrorInterceptor', () => {
           multi: true,
         },
         { provide: GlobalMessageService, useValue: mockMessageService },
-        { provide: ServerConfig, useValue: MockServerConfig },
       ],
     });
 
