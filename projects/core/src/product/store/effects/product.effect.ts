@@ -4,27 +4,27 @@ import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ProductConnector } from '../../connectors/product/product.connector';
-import * as actions from '../actions/index';
+import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductEffects {
   @Effect()
   loadProduct$: Observable<
-    actions.LoadProductSuccess | actions.LoadProductFail
+    ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
   > = this.actions$.pipe(
-    ofType(actions.LOAD_PRODUCT),
-    map((action: actions.LoadProduct) => action.payload),
+    ofType(ProductActions.LOAD_PRODUCT),
+    map((action: ProductActions.LoadProduct) => action.payload),
     groupBy(productCode => productCode),
     mergeMap(group =>
       group.pipe(
         switchMap(productCode => {
           return this.productConnector.get(productCode).pipe(
             map(product => {
-              return new actions.LoadProductSuccess(product);
+              return new ProductActions.LoadProductSuccess(product);
             }),
             catchError(error =>
               of(
-                new actions.LoadProductFail(
+                new ProductActions.LoadProductFail(
                   productCode,
                   makeErrorSerializable(error)
                 )

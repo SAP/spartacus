@@ -48,7 +48,6 @@ describe('TranslationChunkService', () => {
       const warnSpy = spyOn(console, 'warn');
       // @ts-ignore: 'mockService' is declared but its value is never read
       const mockService = new TranslationChunkService({
-        production: false,
         i18n: { chunks: mockChunksConfig },
       });
       expect(warnSpy).toHaveBeenCalled();
