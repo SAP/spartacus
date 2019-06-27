@@ -60,6 +60,7 @@ import { ProductListEmptyComponent } from './product-list-empty/product-list-emp
     ProductListComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
+    ProductViewComponent
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })
