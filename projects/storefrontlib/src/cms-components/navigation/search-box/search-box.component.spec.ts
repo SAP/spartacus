@@ -226,7 +226,7 @@ describe('SearchBoxComponent', () => {
       ).toBeTruthy();
     });
 
-    fdescribe('Arrow key tests', () => {
+    describe('Arrow key tests', () => {
       function getFocusedElement(): HTMLElement {
         return <HTMLElement>document.activeElement;
       }

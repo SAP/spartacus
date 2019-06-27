@@ -127,11 +127,11 @@ export class SearchBoxComponent {
 
   // Check if focus is on searchbox or result list elements
   private isSearchboxFocused(): boolean {
-    return this.getResultElements().indexOf(this.getFocusedElement()) === -1 &&
-      this.winRef.document.querySelector('input[aria-label="search"]') !==
+    return (
+      this.getResultElements().indexOf(this.getFocusedElement()) !== -1 ||
+      this.winRef.document.querySelector('input[aria-label="search"]') ===
         this.getFocusedElement()
-      ? false
-      : true;
+    );
   }
 
   /**
