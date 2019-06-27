@@ -8,7 +8,6 @@ import {
   I18nModule,
   NotAuthGuard,
   UrlModule,
-  UserModule,
 } from '@spartacus/core';
 import { LoginFormComponent } from './login-form.component';
 
@@ -18,7 +17,6 @@ import { LoginFormComponent } from './login-form.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    UserModule,
     UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
