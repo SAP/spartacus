@@ -14,8 +14,8 @@ import {
   UserModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
-import { StorefrontComponent } from '../layout';
 import { LayoutModule } from '../layout/layout.module';
+import { StorefrontComponent } from '../layout/main/storefront.component';
 
 @NgModule({
   imports: [
