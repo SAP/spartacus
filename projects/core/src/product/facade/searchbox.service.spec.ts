@@ -7,16 +7,17 @@ import {
   ProductSearchPage,
   Suggestion,
 } from '../../model/product-search.model';
-import { SearchConfig } from '../model';
-import * as fromStore from '../store/index';
-import { StateWithProduct } from '../store/product-state';
+import { SearchConfig } from '../model/index';
+import { ProductActions } from '../store/actions/index';
+import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
+import * as fromStoreReducers from '../store/reducers/index';
 import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
 import { SearchboxService } from './searchbox.service';
 
 describe('SearchboxService', () => {
   let service: SearchboxService;
-  let store: Store<fromStore.ProductsState>;
+  let store: Store<StateWithProduct>;
   class MockRouter {
     createUrlTree() {
       return {};
@@ -61,7 +62,10 @@ describe('SearchboxService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromStoreReducers.getReducers()
+        ),
       ],
       providers: [
         ProductSearchService,
@@ -89,7 +93,7 @@ describe('SearchboxService', () => {
   it('should be able to clear search results', () => {
     service.clearResults();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.ClearProductSearchResult({
+      new ProductActions.ClearProductSearchResult({
         clearSearchboxResults: true,
       })
     );
@@ -101,7 +105,7 @@ describe('SearchboxService', () => {
 
       service.search('test query', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SearchProducts(
+        new ProductActions.SearchProducts(
           {
             queryText: 'test query',
             searchConfig: searchConfig,
@@ -126,7 +130,7 @@ describe('SearchboxService', () => {
       const searchConfig: SearchConfig = {};
       service.searchSuggestions('test term', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.GetProductSuggestions({
+        new ProductActions.GetProductSuggestions({
           term: 'test term',
           searchConfig: searchConfig,
         })

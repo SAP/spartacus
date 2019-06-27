@@ -1,12 +1,7 @@
-import { USER_ADDRESSES } from '../user-state';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
-
-import * as fromUserAddressesAction from './user-addresses.action';
 import { Address } from '../../../model/address.model';
+import { StateLoaderActions } from '../../../state/index';
+import { USER_ADDRESSES } from '../user-state';
+import * as fromUserAddressesAction from './user-addresses.action';
 
 const userId = '123';
 const address: Address = {
@@ -21,7 +16,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES,
         payload: userId,
-        meta: loadMeta(USER_ADDRESSES),
+        meta: StateLoaderActions.loadMeta(USER_ADDRESSES),
       });
     });
   });
@@ -34,7 +29,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL,
         payload: error,
-        meta: failMeta(USER_ADDRESSES, error),
+        meta: StateLoaderActions.failMeta(USER_ADDRESSES, error),
       });
     });
   });
@@ -53,7 +48,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS,
         payload: mockUserAddresses,
-        meta: successMeta(USER_ADDRESSES),
+        meta: StateLoaderActions.successMeta(USER_ADDRESSES),
       });
     });
   });
@@ -68,7 +63,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.ADD_USER_ADDRESS,
         payload: { userId, address },
-        meta: loadMeta(USER_ADDRESSES),
+        meta: StateLoaderActions.loadMeta(USER_ADDRESSES),
       });
     });
   });
@@ -81,7 +76,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.ADD_USER_ADDRESS_FAIL,
         payload: error,
-        meta: failMeta(USER_ADDRESSES, error),
+        meta: StateLoaderActions.failMeta(USER_ADDRESSES, error),
       });
     });
   });
@@ -95,7 +90,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS,
         payload: payload,
-        meta: successMeta(USER_ADDRESSES),
+        meta: StateLoaderActions.successMeta(USER_ADDRESSES),
       });
     });
   });
@@ -115,7 +110,7 @@ describe('User Addresses Actions', () => {
           addressId: '1',
           address,
         },
-        meta: loadMeta(USER_ADDRESSES),
+        meta: StateLoaderActions.loadMeta(USER_ADDRESSES),
       });
     });
   });
@@ -128,7 +123,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.UPDATE_USER_ADDRESS_FAIL,
         payload: error,
-        meta: failMeta(USER_ADDRESSES, error),
+        meta: StateLoaderActions.failMeta(USER_ADDRESSES, error),
       });
     });
   });
@@ -144,7 +139,7 @@ describe('User Addresses Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS,
         payload: payload,
-        meta: successMeta(USER_ADDRESSES),
+        meta: StateLoaderActions.successMeta(USER_ADDRESSES),
       });
     });
   });

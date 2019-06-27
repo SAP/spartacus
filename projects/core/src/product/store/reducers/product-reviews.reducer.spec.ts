@@ -1,12 +1,12 @@
-import * as fromActions from './../actions/product-reviews.action';
-import * as fromReducer from './../reducers/product-reviews.reducer';
 import { Review } from '../../../model/product.model';
+import { ProductActions } from '../actions/index';
+import * as fromReducer from '../reducers/product-reviews.reducer';
 
 describe('Product Reviews reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as fromActions.ProductReviewsAction;
+      const action = {} as ProductActions.ProductReviewsAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -28,7 +28,7 @@ describe('Product Reviews reducer', () => {
       ];
 
       const { initialState } = fromReducer;
-      const action = new fromActions.LoadProductReviewsSuccess({
+      const action = new ProductActions.LoadProductReviewsSuccess({
         productCode,
         list: reviews,
       });

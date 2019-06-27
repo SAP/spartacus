@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
-import * as fromAction from './../actions/find-stores.action';
+import { StoreFinderActions } from '../actions/index';
 
 @Injectable()
 export class FindStoresEffect {
@@ -15,10 +15,10 @@ export class FindStoresEffect {
 
   @Effect()
   findStores$: Observable<
-    fromAction.FindStoresSuccess | fromAction.FindStoresFail
+    StoreFinderActions.FindStoresSuccess | StoreFinderActions.FindStoresFail
   > = this.actions$.pipe(
-    ofType(fromAction.FIND_STORES),
-    map((action: fromAction.FindStores) => action.payload),
+    ofType(StoreFinderActions.FIND_STORES),
+    map((action: StoreFinderActions.FindStores) => action.payload),
     mergeMap(payload =>
       this.storeFinderConnector
         .search(
@@ -35,10 +35,14 @@ export class FindStoresEffect {
               );
             }
 
-            return new fromAction.FindStoresSuccess(data);
+            return new StoreFinderActions.FindStoresSuccess(data);
           }),
           catchError(error =>
-            of(new fromAction.FindStoresFail(makeErrorSerializable(error)))
+            of(
+              new StoreFinderActions.FindStoresFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         )
     )
@@ -46,15 +50,20 @@ export class FindStoresEffect {
 
   @Effect()
   findStoreById$: Observable<
-    fromAction.FindStoreByIdSuccess | fromAction.FindStoreByIdFail
+    | StoreFinderActions.FindStoreByIdSuccess
+    | StoreFinderActions.FindStoreByIdFail
   > = this.actions$.pipe(
-    ofType(fromAction.FIND_STORE_BY_ID),
-    map((action: fromAction.FindStoreById) => action.payload),
+    ofType(StoreFinderActions.FIND_STORE_BY_ID),
+    map((action: StoreFinderActions.FindStoreById) => action.payload),
     switchMap(payload =>
       this.storeFinderConnector.get(payload.storeId).pipe(
-        map(data => new fromAction.FindStoreByIdSuccess(data)),
+        map(data => new StoreFinderActions.FindStoreByIdSuccess(data)),
         catchError(error =>
-          of(new fromAction.FindStoreByIdFail(makeErrorSerializable(error)))
+          of(
+            new StoreFinderActions.FindStoreByIdFail(
+              makeErrorSerializable(error)
+            )
+          )
         )
       )
     )

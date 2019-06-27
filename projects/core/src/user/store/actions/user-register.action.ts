@@ -1,14 +1,8 @@
 import { Action } from '@ngrx/store';
-
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntityResetAction,
-  EntitySuccessAction,
-} from '../../../state';
-import { REMOVE_USER_PROCESS_ID } from '../user-state';
 import { UserSignUp } from '../../../model/misc.model';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import { StateEntityLoaderActions } from '../../../state/index';
+import { REMOVE_USER_PROCESS_ID } from '../user-state';
 
 export const REGISTER_USER = '[User] Register User';
 export const REGISTER_USER_FAIL = '[User] Register User Fail';
@@ -34,28 +28,28 @@ export class RegisterUserSuccess implements Action {
   constructor() {}
 }
 
-export class RemoveUser extends EntityLoadAction {
+export class RemoveUser extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = REMOVE_USER;
   constructor(public payload: string) {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
   }
 }
 
-export class RemoveUserFail extends EntityFailAction {
+export class RemoveUserFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = REMOVE_USER_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID, payload);
   }
 }
 
-export class RemoveUserSuccess extends EntitySuccessAction {
+export class RemoveUserSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = REMOVE_USER_SUCCESS;
   constructor() {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
   }
 }
 
-export class RemoveUserReset extends EntityResetAction {
+export class RemoveUserReset extends StateEntityLoaderActions.EntityResetAction {
   readonly type = REMOVE_USER_RESET;
   constructor() {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
