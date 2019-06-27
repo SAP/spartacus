@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { UserSignUp } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { REMOVE_USER_PROCESS_ID } from '../user-state';
 
 export const REGISTER_USER = '[User] Register User';

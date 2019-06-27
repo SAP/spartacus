@@ -1,10 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { OrderHistoryList } from '../../../model/order.model';
+import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import {
-  loaderSuccessSelector,
-  loaderValueSelector,
-} from '../../../state/utils/loader/loader.selectors';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
@@ -21,7 +18,8 @@ export const getOrdersLoaded: MemoizedSelector<
   boolean
 > = createSelector(
   getOrdersState,
-  (state: LoaderState<OrderHistoryList>) => loaderSuccessSelector(state)
+  (state: LoaderState<OrderHistoryList>) =>
+    StateLoaderSelectors.loaderSuccessSelector(state)
 );
 
 export const getOrders: MemoizedSelector<
@@ -29,5 +27,6 @@ export const getOrders: MemoizedSelector<
   OrderHistoryList
 > = createSelector(
   getOrdersState,
-  (state: LoaderState<OrderHistoryList>) => loaderValueSelector(state)
+  (state: LoaderState<OrderHistoryList>) =>
+    StateLoaderSelectors.loaderValueSelector(state)
 );

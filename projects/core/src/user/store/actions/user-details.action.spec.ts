@@ -1,6 +1,6 @@
 import { User } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
 import { UserActions } from './index';
 

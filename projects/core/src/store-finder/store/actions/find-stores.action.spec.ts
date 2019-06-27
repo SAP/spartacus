@@ -1,5 +1,5 @@
 import { GeoPoint } from '../../../model/misc.model';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 import { StoreFinderActions } from './index';

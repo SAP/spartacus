@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { CHECKOUT_DETAILS } from '../checkout-state';
 
