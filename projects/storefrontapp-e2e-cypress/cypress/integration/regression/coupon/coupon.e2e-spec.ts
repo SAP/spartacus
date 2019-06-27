@@ -26,7 +26,7 @@ function verifyChecoutResults(couponCode: string, withCoupon: boolean) {
   cartCoupon.verifyCouponInOrderSummary(couponCode, withCoupon);
 }
 
-describe('Gift Product Coupon', () => {
+describe('Cart Coupon', () => {
   beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
@@ -56,4 +56,33 @@ describe('Gift Product Coupon', () => {
     cartCoupon.navigateToCartPage();
     cartCoupon.applyCoupon(couponCode1);
   });
+
+  it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
+    addProductToCart();
+    cartCoupon.navigateToCartPage();
+    cartCoupon.applyCoupon(couponCode2);
+    cartCoupon.verifyGiftProductCoupon(productCode);
+  });
+
+  it('should show the promotion, discount in price and success message when applied a coupon with cart total action successfully', () => {
+    addProductToCart();
+    cartCoupon.navigateToCartPage();
+    cartCoupon.applyCoupon(couponCode1);
+  })
+
+  it('should show error message when applied a wrong coupon', () => {
+    addProductToCart();
+    cartCoupon.navigateToCartPage();
+    cartCoupon.applyWrongCoupon();
+  });
+
+  it('should be able to place order with discount promotion and show applied coupon ' +
+    'in order confirmation and order history when applied coupon with cart total action', () => {
+      addProductToCart();
+      cartCoupon.navigateToCartPage();
+      cartCoupon.applyCoupon(couponCode1);
+      checkout();
+      verifyChecoutResults(couponCode1, true);
+    });
+
 });

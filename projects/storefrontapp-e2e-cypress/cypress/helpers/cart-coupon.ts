@@ -3,6 +3,13 @@ export function applyCoupon(couponCode: string) {
   cy.get('.col-md-4 > .btn').click();
   getCouponItemFromCart(couponCode).should('exist');
   getCouponItemOrderSummary(couponCode).should('exist');
+
+  cy.get('cx-global-message').should(
+    'contain',
+    `${couponCode} has been applied`
+  );
+  cy.get('.cx-promotions > :nth-child(1)').should('exist');
+  cy.get(':nth-child(1) > .cx-summary-amount').should('exist');
 }
 
 export function removeCoupon(couponCode: string) {
@@ -66,3 +73,13 @@ export function verifyGiftProductCoupon(productCode: string) {
       cy.get('.cx-total>.cx-value').should('contain', '$0.00');
     });
 }
+
+export function applyWrongCoupon() {
+  cy.get('cx-mini-cart > a').click();
+  cy.get('.form-control')
+    .clear()
+    .type('errorCode', { force: true });
+  cy.get('.col-md-4 > .btn').click();
+  cy.get('cx-global-message').should('contain', 'coupon.invalid.code.provided');
+}
+
