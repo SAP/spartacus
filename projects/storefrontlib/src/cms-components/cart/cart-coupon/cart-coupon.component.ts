@@ -1,7 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cart, CartService, Order } from '@spartacus/core';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -19,7 +20,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   constructor(
     private cartService: CartService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private element: ElementRef,
+    private cartCouponAnchorService: CartCouponAnchorService
   ) {}
 
   ngOnInit() {
@@ -44,7 +47,22 @@ export class CartCouponComponent implements OnInit, OnDestroy {
             this.enableBtn = true;
           }
         })
+      )
+      .add(
+        this.cartCouponAnchorService
+          .getEventEmit()
+          .subscribe((anchor: string) => {
+            this.scrollToView(anchor);
+          })
       );
+    }
+  
+  scrollToView(anchor: string) {
+      const anchorElement = this.element.nativeElement.querySelector(anchor);
+      if (anchorElement) {
+        anchorElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    
   }
 
   onSuccess(success: boolean) {
