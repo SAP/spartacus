@@ -1,5 +1,5 @@
+import { StoreFinderActions } from '../actions/index';
 import * as fromReducers from './view-all-stores.reducer';
-import * as fromActions from '../actions/view-all-stores.action';
 
 describe('View All Stores Reducer', () => {
   describe('Undefined action', () => {
@@ -16,10 +16,10 @@ describe('View All Stores Reducer', () => {
     it('should populate results after loading', () => {
       const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
-      const loadAction = new fromActions.ViewAllStores();
+      const loadAction = new StoreFinderActions.ViewAllStores();
 
       const loadingState = fromReducers.reducer(initialState, loadAction);
-      const resultAction = new fromActions.ViewAllStoresSuccess(results);
+      const resultAction = new StoreFinderActions.ViewAllStoresSuccess(results);
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.viewAllStoresEntities).toEqual(results);
