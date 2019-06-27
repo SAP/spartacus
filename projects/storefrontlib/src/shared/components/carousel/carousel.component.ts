@@ -43,7 +43,7 @@ export class CarouselComponent implements OnInit {
    * The items$ represent the carousel items. The items$ are
    * observables so that the itesm can be loaded on demand.
    */
-  @Input() items$: Observable<any>[];
+  @Input() items: Observable<any>[];
 
   /**
    * The template is rendered for each item, so that the actual

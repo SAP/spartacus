@@ -14,12 +14,11 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
-  private title$: Observable<string> = this.componentData.data$.pipe(
-    map(data => data.title)
-  );
-
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter(Boolean)
+  );
+  private title$: Observable<string> = this.componentData$.pipe(
+    map(data => data.title)
   );
 
   private items$: Observable<Observable<Product>[]> = this.componentData$.pipe(

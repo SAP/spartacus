@@ -1,8 +1,6 @@
-<!-- <cx-carousel [title]="title$ | async" [items]="items$ | async"> </cx-carousel> -->
-
 <cx-carousel
   [title]="getTitle() | async"
-  [items$]="getItems() | async"
+  [items]="getItems() | async"
   [template]="carouselItem"
 >
 </cx-carousel>

@@ -65,7 +65,7 @@ fdescribe('Carousel Component', () => {
     beforeEach(() => {
       spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
       component.title = 'test carousel with title';
-      component.items$ = [of(), of(), of(), of(), of()];
+      component.items = [of(), of(), of(), of(), of()];
       component.ngOnInit();
       fixture.detectChanges();
     });
