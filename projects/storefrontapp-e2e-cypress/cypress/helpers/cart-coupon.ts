@@ -15,14 +15,14 @@ export function removeCoupon(couponCode: string) {
 
 export function getCouponItemFromCart(couponCode: string) {
   return cy
-    .get('cx-cart-coupon > cx-applied-coupons')
-    .contains('.cx-coupon-code-pill', couponCode);
+    .get('cx-cart-coupon > cx-applied-coupons > .row')
+    .contains('.cx-coupon-apply', couponCode);
 }
 
 export function getCouponItemOrderSummary(couponCode: string) {
   return cy
     .get('cx-order-summary > cx-applied-coupons')
-    .contains('.cx-coupon-code-pill', couponCode);
+    .contains('.cx-applied-coupon-code', couponCode);
 }
 
 export function navigateToCartPage() {
