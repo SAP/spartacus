@@ -1,5 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  Pipe,
+  PipeTransform,
+  TemplateRef,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
@@ -12,12 +19,25 @@ import { ProductCarouselComponent } from './product-carousel.component';
 
 @Component({
   selector: 'cx-carousel',
-  template: '',
+  template: `
+    <ng-container *ngFor="let item$ of items">
+      <ng-container
+        *ngTemplateOutlet="template; context: { item: item$ | async }"
+      ></ng-container>
+    </ng-container>
+  `,
 })
 class MockCarouselComponent {
-  @Input() title;
-  @Input() template;
-  @Input() items$;
+  @Input() title: string;
+  @Input() template: TemplateRef<any>;
+  @Input() items: any[];
+}
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform(): any {}
 }
 
 @Component({
@@ -25,17 +45,33 @@ class MockCarouselComponent {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() format;
+  @Input() container: any;
+  @Input() format: string;
 }
 
-const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
+const productCodeArray: string[] = ['1', '2'];
 
-const mockProduct: Product = {
-  code: '111111',
-  name: 'Camera',
-  price: {
-    formattedValue: '$100.00',
+const mockProducts = {
+  1: {
+    code: '1',
+    name: 'product 1',
+    price: {
+      formattedValue: '$100.00',
+    },
+    images: {
+      PRIMARY: {
+        image: {
+          url: 'whatever.jpg',
+        },
+      },
+    },
+  },
+  2: {
+    code: '2',
+    name: 'product 2',
+    price: {
+      formattedValue: '$200.00',
+    },
   },
 };
 
@@ -56,13 +92,13 @@ const MockCmsProductCarouselComponent = <CmsComponentData<any>>{
 };
 
 class MockProductService {
-  get(): Observable<Product> {
-    return of(mockProduct);
+  get(code): Observable<Product> {
+    return of(mockProducts[code]);
   }
 }
 
 describe('ProductCarouselComponent', () => {
-  let productCarouselComponent: ProductCarouselComponent;
+  let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
 
   beforeEach(async(() => {
@@ -72,6 +108,7 @@ describe('ProductCarouselComponent', () => {
         ProductCarouselComponent,
         MockCarouselComponent,
         MockMediaComponent,
+        MockUrlPipe,
       ],
       providers: [
         {
@@ -88,11 +125,55 @@ describe('ProductCarouselComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
-    productCarouselComponent = fixture.componentInstance;
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should be created', async(() => {
-    expect(productCarouselComponent).toBeTruthy();
+    expect(component).toBeTruthy();
+  }));
+
+  it('should have 2 items', async(() => {
+    let items: Observable<Product>[];
+    component.items$.subscribe(i => (items = i));
+    expect(items.length).toBe(2);
+  }));
+
+  it('should have product code 111 in first product', async(() => {
+    let items: Observable<Product>[];
+    component.items$.subscribe(i => (items = i));
+    let product: Product;
+    items[0].subscribe(p => (product = p));
+
+    expect(product).toBe(mockProducts[1]);
+  }));
+
+  describe('UI test', () => {
+    it('should have 2 rendered templates', async(() => {
+      const el = fixture.debugElement.queryAll(By.css('a'));
+      expect(el.length).toEqual(2);
+    }));
+  });
+
+  it('should render product name in template', async(() => {
+    const el = fixture.debugElement.query(By.css('a:first-child h4'));
+    expect(el.nativeElement).toBeTruthy();
+    expect(el.nativeElement.innerText).toEqual('product 1');
+  }));
+
+  it('should render product price in template', async(() => {
+    const el = fixture.debugElement.query(By.css('a:last-child .price'));
+    expect(el.nativeElement).toBeTruthy();
+    expect(el.nativeElement.innerText).toEqual('$200.00');
+  }));
+
+  it('should render product primary image for the first item', async(() => {
+    const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
+    expect(el.nativeElement).toBeTruthy();
+  }));
+
+  it('should not render product primary image for the 2nd item', async(() => {
+    const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
+    expect(el).toBeNull();
   }));
 });

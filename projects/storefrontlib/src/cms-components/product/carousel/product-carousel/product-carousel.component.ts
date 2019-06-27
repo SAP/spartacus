@@ -17,11 +17,20 @@ export class ProductCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter(Boolean)
   );
-  private title$: Observable<string> = this.componentData$.pipe(
+
+  /**
+   * returns an Obervable string for the title.
+   */
+  title$: Observable<string> = this.componentData$.pipe(
     map(data => data.title)
   );
 
-  private items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
+  /**
+   * Obervable that holds an Array of Observables. This is done, so that
+   * the component UI could consider to lazy load the UI components when they're
+   * in the viewpoint.
+   */
+  items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
     map(data => data.productCodes.trim().split(' ')),
     map(codes => codes.map(code => this.productService.get(code)))
   );
@@ -30,20 +39,4 @@ export class ProductCarouselComponent {
     protected componentData: CmsComponentData<model>,
     protected productService: ProductService
   ) {}
-
-  /**
-   * returns an Obervable string for the title
-   */
-  getTitle(): Observable<string> {
-    return this.title$;
-  }
-
-  /**
-   * Returns an Obervable with an Array of Observables. This is done, so that
-   * the component UI could consider to lazy load the UI components when they're
-   * in the viewpoint.
-   */
-  getItems(): Observable<Observable<Product>[]> {
-    return this.items$;
-  }
 }
