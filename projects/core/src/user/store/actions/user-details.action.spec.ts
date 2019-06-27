@@ -2,7 +2,7 @@ import { User } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateEntityLoaderActions } from '../../../state/index';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
-import * as fromUserDetailsAction from './user-details.action';
+import { UserActions } from './index';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -15,12 +15,10 @@ const mockUserDetails: User = {
 describe('User Details Actions', () => {
   describe('LoadUserDetails Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserDetailsAction.LoadUserDetails(
-        mockUserDetails.name
-      );
+      const action = new UserActions.LoadUserDetails(mockUserDetails.name);
 
       expect({ ...action }).toEqual({
-        type: fromUserDetailsAction.LOAD_USER_DETAILS,
+        type: UserActions.LOAD_USER_DETAILS,
         payload: mockUserDetails.name,
       });
     });
@@ -29,10 +27,10 @@ describe('User Details Actions', () => {
   describe('LoadUserDetailsFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserDetailsAction.LoadUserDetailsFail(error);
+      const action = new UserActions.LoadUserDetailsFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserDetailsAction.LOAD_USER_DETAILS_FAIL,
+        type: UserActions.LOAD_USER_DETAILS_FAIL,
         payload: error,
       });
     });
@@ -40,12 +38,10 @@ describe('User Details Actions', () => {
 
   describe('LoadUserDetailsSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserDetailsAction.LoadUserDetailsSuccess(
-        mockUserDetails
-      );
+      const action = new UserActions.LoadUserDetailsSuccess(mockUserDetails);
 
       expect({ ...action }).toEqual({
-        type: fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS,
+        type: UserActions.LOAD_USER_DETAILS_SUCCESS,
         payload: mockUserDetails,
       });
     });
@@ -57,13 +53,13 @@ describe('User Details Actions', () => {
       const userDetails: User = {
         title: 'mr',
       };
-      const action = new fromUserDetailsAction.UpdateUserDetails({
+      const action = new UserActions.UpdateUserDetails({
         username,
         userDetails,
       });
 
       expect({ ...action }).toEqual({
-        type: fromUserDetailsAction.UPDATE_USER_DETAILS,
+        type: UserActions.UPDATE_USER_DETAILS,
         payload: { username, userDetails },
         meta: StateEntityLoaderActions.entityLoadMeta(
           PROCESS_FEATURE,
@@ -76,10 +72,10 @@ describe('User Details Actions', () => {
   describe('UpdateUserDetailsFail Action', () => {
     it('should create the action', () => {
       const error = 'error';
-      const action = new fromUserDetailsAction.UpdateUserDetailsFail(error);
+      const action = new UserActions.UpdateUserDetailsFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserDetailsAction.UPDATE_USER_DETAILS_FAIL,
+        type: UserActions.UPDATE_USER_DETAILS_FAIL,
         payload: error,
         meta: StateEntityLoaderActions.entityFailMeta(
           PROCESS_FEATURE,
@@ -95,12 +91,10 @@ describe('User Details Actions', () => {
       const userUpdates: User = {
         title: 'mr',
       };
-      const action = new fromUserDetailsAction.UpdateUserDetailsSuccess(
-        userUpdates
-      );
+      const action = new UserActions.UpdateUserDetailsSuccess(userUpdates);
 
       expect({ ...action }).toEqual({
-        type: fromUserDetailsAction.UPDATE_USER_DETAILS_SUCCESS,
+        type: UserActions.UPDATE_USER_DETAILS_SUCCESS,
         userUpdates,
         meta: StateEntityLoaderActions.entitySuccessMeta(
           PROCESS_FEATURE,
@@ -113,10 +107,10 @@ describe('User Details Actions', () => {
 
   describe('ResetUpdateUserDetails Action', () => {
     it('should create the action', () => {
-      const action = new fromUserDetailsAction.ResetUpdateUserDetails();
+      const action = new UserActions.ResetUpdateUserDetails();
 
       expect({ ...action }).toEqual({
-        type: fromUserDetailsAction.RESET_USER_DETAILS,
+        type: UserActions.RESET_USER_DETAILS,
         meta: StateEntityLoaderActions.entityResetMeta(
           PROCESS_FEATURE,
           UPDATE_USER_DETAILS_PROCESS_ID

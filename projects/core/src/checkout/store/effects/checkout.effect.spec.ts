@@ -15,7 +15,7 @@ import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
+import { UserActions } from '../../../user/store/actions/index';
 import { CheckoutConnector } from '../../connectors/checkout';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
@@ -110,7 +110,7 @@ describe('Checkout effect', () => {
         address: address,
       });
 
-      const completion1 = new LoadUserAddresses(userId);
+      const completion1 = new UserActions.LoadUserAddresses(userId);
       const completion2 = new CheckoutActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
@@ -256,7 +256,7 @@ describe('Checkout effect', () => {
         cartId: cartId,
         paymentDetails: mockPaymentDetails,
       });
-      const completion1 = new LoadUserPaymentMethods(userId);
+      const completion1 = new UserActions.LoadUserPaymentMethods(userId);
       const completion2 = new CheckoutActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
