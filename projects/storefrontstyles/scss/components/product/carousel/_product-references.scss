@@ -9,12 +9,15 @@
       text-decoration: underline;
     }
   }
+
   cx-media {
-    height: 20vmin;
+    align-self: center;
+    width: 80%;
 
     &.is-missing {
-      min-height: 20vmin;
-      background-size: 20vmin;
+      align-self: center;
+      width: 80%;
+      background-size: 80%;
     }
   }
 }
