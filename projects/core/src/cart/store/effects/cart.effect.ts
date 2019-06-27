@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
@@ -123,8 +123,8 @@ export class CartEffects {
     CartActions.ResetCartDetails
   > = this.actions$.pipe(
     ofType(
-      fromSiteContextActions.LANGUAGE_CHANGE,
-      fromSiteContextActions.CURRENCY_CHANGE
+      SiteContextActions.LANGUAGE_CHANGE,
+      SiteContextActions.CURRENCY_CHANGE
     ),
     map(() => new CartActions.ResetCartDetails())
   );

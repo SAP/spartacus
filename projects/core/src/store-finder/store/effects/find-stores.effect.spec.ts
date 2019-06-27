@@ -1,18 +1,14 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/find-stores.action';
-import { StoreFinderSearchConfig } from '../../model/search-config';
-
-import * as fromEffects from './find-stores.effect';
-import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { GeoPoint } from '../../../model/misc.model';
+import { StoreFinderConnector } from '../../connectors/store-finder.connector';
+import { StoreFinderSearchConfig } from '../../model/search-config';
+import { StoreFinderActions } from '../actions/index';
+import * as fromEffects from './find-stores.effect';
+
 import createSpy = jasmine.createSpy;
 
 const singleStoreResult = {};
@@ -48,11 +44,11 @@ describe('FindStores Effects', () => {
 
   describe('findStores$', () => {
     it('should return searchResult from FindStoresSuccess', () => {
-      const action = new fromActions.FindStores({
+      const action = new StoreFinderActions.FindStores({
         queryText: 'test',
         searchConfig,
       });
-      const completion = new fromActions.FindStoresSuccess(searchResult);
+      const completion = new StoreFinderActions.FindStoresSuccess(searchResult);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -63,8 +59,10 @@ describe('FindStores Effects', () => {
 
   describe('findStoreById$', () => {
     it('should return searchResult from FindStoreByIdSuccess', () => {
-      const action = new fromActions.FindStoreById({ storeId: 'testId' });
-      const completion = new fromActions.FindStoreByIdSuccess(
+      const action = new StoreFinderActions.FindStoreById({
+        storeId: 'testId',
+      });
+      const completion = new StoreFinderActions.FindStoreByIdSuccess(
         singleStoreResult
       );
 
@@ -77,12 +75,12 @@ describe('FindStores Effects', () => {
 
   describe('findStores$ with coordinates', () => {
     it('should return searchResult from FindStoresSuccess without queryText', () => {
-      const action = new fromActions.FindStores({
+      const action = new StoreFinderActions.FindStores({
         queryText: '',
         longitudeLatitude,
         searchConfig,
       });
-      const completion = new fromActions.FindStoresSuccess(searchResult);
+      const completion = new StoreFinderActions.FindStoresSuccess(searchResult);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

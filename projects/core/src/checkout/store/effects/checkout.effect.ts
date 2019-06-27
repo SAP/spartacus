@@ -6,7 +6,7 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import * as fromUserActions from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
@@ -109,7 +109,7 @@ export class CheckoutEffects {
   clearCheckoutMiscsDataOnLanguageChange$: Observable<
     CheckoutActions.CheckoutClearMiscsData
   > = this.actions$.pipe(
-    ofType(fromSiteContextActions.LANGUAGE_CHANGE),
+    ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() => new CheckoutActions.CheckoutClearMiscsData())
   );
 
@@ -117,7 +117,7 @@ export class CheckoutEffects {
   clearDeliveryModesOnCurrencyChange$: Observable<
     CheckoutActions.ClearSupportedDeliveryModes
   > = this.actions$.pipe(
-    ofType(fromSiteContextActions.CURRENCY_CHANGE),
+    ofType(SiteContextActions.CURRENCY_CHANGE),
     map(() => new CheckoutActions.ClearSupportedDeliveryModes())
   );
 

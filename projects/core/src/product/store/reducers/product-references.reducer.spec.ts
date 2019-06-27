@@ -1,6 +1,6 @@
 import { ProductReference } from '../../../model/product.model';
-import * as fromActions from './../actions/product-references.action';
-import * as fromReducer from './../reducers/product-references.reducer';
+import { ProductActions } from '../actions/index';
+import * as fromReducer from '../reducers/product-references.reducer';
 
 const productCode = 'productCode';
 const product = {
@@ -17,7 +17,7 @@ describe('Product references reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as fromActions.ProductReferencesAction;
+      const action = {} as ProductActions.ProductReferencesAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -27,7 +27,7 @@ describe('Product references reducer', () => {
   describe('LOAD_PRODUCT_REFERENCES_SUCCESS', () => {
     it('should populate product references', () => {
       const { initialState } = fromReducer;
-      const action = new fromActions.LoadProductReferencesSuccess({
+      const action = new ProductActions.LoadProductReferencesSuccess({
         productCode,
         list,
       });

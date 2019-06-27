@@ -1,13 +1,13 @@
-import { Action } from '@ngrx/store';
 import { NavigationExtras } from '@angular/router';
+import { Action } from '@ngrx/store';
 
-export const GO = '[Router] Go';
-export const GO_BY_URL = '[Router] Go By Url';
-export const BACK = '[Router] Back';
-export const FORWARD = '[Router] Forward';
+export const ROUTER_GO = '[Router] Go';
+export const ROUTER_GO_BY_URL = '[Router] Go By Url';
+export const ROUTER_BACK = '[Router] Back';
+export const ROUTER_FORWARD = '[Router] Forward';
 
-export class Go implements Action {
-  readonly type = GO;
+export class RouteGoAction implements Action {
+  readonly type = ROUTER_GO;
   constructor(
     public payload: {
       path: string[];
@@ -17,17 +17,21 @@ export class Go implements Action {
   ) {}
 }
 
-export class GoByUrl implements Action {
-  readonly type = GO_BY_URL;
+export class RouteGoByUrlAction implements Action {
+  readonly type = ROUTER_GO_BY_URL;
   constructor(public payload: string) {}
 }
 
-export class Back implements Action {
-  readonly type = BACK;
+export class RouteBackAction implements Action {
+  readonly type = ROUTER_BACK;
 }
 
-export class Forward implements Action {
-  readonly type = FORWARD;
+export class RouteForwardAction implements Action {
+  readonly type = ROUTER_FORWARD;
 }
 
-export type Actions = Go | GoByUrl | Back | Forward;
+export type RoutingAction =
+  | RouteGoAction
+  | RouteGoByUrlAction
+  | RouteBackAction
+  | RouteForwardAction;
