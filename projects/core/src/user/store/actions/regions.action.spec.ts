@@ -1,10 +1,6 @@
-import * as fromAction from './regions.action';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/index';
 import { REGIONS } from '../user-state';
+import * as fromAction from './regions.action';
 
 const country = 'CA';
 
@@ -15,7 +11,7 @@ describe('Regions Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS,
         payload: country,
-        meta: loadMeta(REGIONS),
+        meta: StateLoaderActions.loadMeta(REGIONS),
       });
     });
   });
@@ -28,7 +24,7 @@ describe('Regions Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS_FAIL,
         payload: error,
-        meta: failMeta(REGIONS, error),
+        meta: StateLoaderActions.failMeta(REGIONS, error),
       });
     });
   });
@@ -55,7 +51,7 @@ describe('Regions Actions', () => {
           entities: regions,
           country,
         },
-        meta: successMeta(REGIONS),
+        meta: StateLoaderActions.successMeta(REGIONS),
       });
     });
   });

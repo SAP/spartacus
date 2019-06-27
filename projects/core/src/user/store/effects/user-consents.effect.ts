@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
 import * as fromActions from '../actions/user-consents.action';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
 
 @Injectable()
 export class UserConsentsEffect {
@@ -13,7 +13,7 @@ export class UserConsentsEffect {
   resetConsents$: Observable<
     fromActions.ResetLoadUserConsents
   > = this.actions$.pipe(
-    ofType(fromSiteContextActions.LANGUAGE_CHANGE),
+    ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() => new fromActions.ResetLoadUserConsents())
   );
 

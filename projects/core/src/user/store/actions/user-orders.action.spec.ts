@@ -1,9 +1,5 @@
 import { OrderHistoryList } from '../../../model/order.model';
-import {
-  failMeta,
-  loadMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/index';
 import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersAction from './user-orders.action';
 
@@ -35,7 +31,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS,
         payload: mockUserOrder,
-        meta: loadMeta(USER_ORDERS),
+        meta: StateLoaderActions.loadMeta(USER_ORDERS),
       });
     });
   });
@@ -48,7 +44,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS_FAIL,
         payload: error,
-        meta: failMeta(USER_ORDERS, error),
+        meta: StateLoaderActions.failMeta(USER_ORDERS, error),
       });
     });
   });
@@ -62,7 +58,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS,
         payload: mockUserOrders,
-        meta: successMeta(USER_ORDERS),
+        meta: StateLoaderActions.successMeta(USER_ORDERS),
       });
     });
   });

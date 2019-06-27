@@ -5,34 +5,43 @@ import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
-import * as actions from '../actions/currencies.action';
+import { SiteContextActions } from '../actions/index';
 
 @Injectable()
 export class CurrenciesEffects {
   @Effect()
   loadCurrencies$: Observable<
-    actions.LoadCurrenciesSuccess | actions.LoadCurrenciesFail
+    | SiteContextActions.LoadCurrenciesSuccess
+    | SiteContextActions.LoadCurrenciesFail
   > = this.actions$.pipe(
-    ofType(actions.LOAD_CURRENCIES),
+    ofType(SiteContextActions.LOAD_CURRENCIES),
     exhaustMap(() => {
       return this.siteConnector.getCurrencies().pipe(
-        map(currencies => new actions.LoadCurrenciesSuccess(currencies)),
+        map(
+          currencies => new SiteContextActions.LoadCurrenciesSuccess(currencies)
+        ),
         catchError(error =>
-          of(new actions.LoadCurrenciesFail(makeErrorSerializable(error)))
+          of(
+            new SiteContextActions.LoadCurrenciesFail(
+              makeErrorSerializable(error)
+            )
+          )
         )
       );
     })
   );
 
   @Effect()
-  activateCurrency$: Observable<actions.CurrencyChange> = this.actions$.pipe(
-    ofType(actions.SET_ACTIVE_CURRENCY),
-    tap((action: actions.SetActiveCurrency) => {
+  activateCurrency$: Observable<
+    SiteContextActions.CurrencyChange
+  > = this.actions$.pipe(
+    ofType(SiteContextActions.SET_ACTIVE_CURRENCY),
+    tap((action: SiteContextActions.SetActiveCurrency) => {
       if (this.winRef.sessionStorage) {
         this.winRef.sessionStorage.setItem('currency', action.payload);
       }
     }),
-    map(() => new actions.CurrencyChange())
+    map(() => new SiteContextActions.CurrencyChange())
   );
 
   constructor(
