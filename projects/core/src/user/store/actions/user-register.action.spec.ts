@@ -1,6 +1,6 @@
 import { UserSignUp } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { REMOVE_USER_PROCESS_ID } from '../user-state';
 import { UserActions } from './index';
 

@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { Region } from '../../../model/index';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { UserActions } from '../actions/index';
 import { REGIONS } from '../user-state';
 import { RegionsEffects } from './regions.effect';
