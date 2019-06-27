@@ -265,30 +265,16 @@ export function manipulateCartQuantity() {
 
   cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
-<<<<<<< HEAD
-  cy.get('cx-order-summary')
-    .contains('.cx-summary-row', 'Subtotal')
-    .get('.cx-summary-amount')
-    .should('contain', '$208.24');
-=======
   checkCartSummary('$208.24');
->>>>>>> develop
 
   checkCartItem(product, 2, true);
 
   cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
 
-<<<<<<< HEAD
-  cy.get('cx-order-summary')
-    .contains('.cx-summary-row', 'Subtotal')
-    .get('.cx-summary-amount')
-    .should('contain', '$322.36');
-=======
   checkCartSummary('$322.36');
 
   checkCartItem(product, 3, false);
 }
->>>>>>> develop
 
 function checkCartSummary(subtotal: string) {
   cy.get('cx-order-summary').within(() => {
