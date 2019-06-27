@@ -1,5 +1,6 @@
 import * as cartCoupon from '../../../helpers/cart-coupon';
 import * as bigHappyPath from '../../../helpers/checkout-flow';
+import * as login from '../../../helpers/login';
 
 export const couponCode1 = 'BUYMORE16';
 export const couponCode2 = 'QingyuCoupon';
@@ -41,6 +42,7 @@ describe('Cart Coupon', () => {
 
     checkout();
     verifyChecoutResults(couponCode2, true);
+    login.signOutUser();
   });
 
   it('should remove the coupon when back to cart and place order without coupon', () => {
@@ -55,6 +57,7 @@ describe('Cart Coupon', () => {
     addProductToCart();
     cartCoupon.navigateToCartPage();
     cartCoupon.applyCoupon(couponCode1);
+    login.signOutUser();
   });
 
   it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
@@ -62,18 +65,21 @@ describe('Cart Coupon', () => {
     cartCoupon.navigateToCartPage();
     cartCoupon.applyCoupon(couponCode2);
     cartCoupon.verifyGiftProductCoupon(productCode);
+    login.signOutUser();
   });
 
   it('should show the promotion, discount in price and success message when applied a coupon with cart total action successfully', () => {
     addProductToCart();
     cartCoupon.navigateToCartPage();
     cartCoupon.applyCoupon(couponCode1);
+    login.signOutUser();
   });
 
   it('should show error message when applied a wrong coupon', () => {
     addProductToCart();
     cartCoupon.navigateToCartPage();
     cartCoupon.applyWrongCoupon();
+    login.signOutUser();
   });
 
   it(
@@ -85,6 +91,7 @@ describe('Cart Coupon', () => {
       cartCoupon.applyCoupon(couponCode1);
       checkout();
       verifyChecoutResults(couponCode1, true);
+      login.signOutUser();
     }
   );
 });
