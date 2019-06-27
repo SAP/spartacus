@@ -21,15 +21,13 @@
     }
   }
   cx-media {
-    // height: 35vmin;
     align-self: center;
-    width: 80%;
+    width: 60%;
 
     &.is-missing {
       align-self: center;
-      width: 80%;
-      // min-height: 35vmin;
-      background-size: 80%;
+      width: 60%;
+      background-size: 60%;
     }
   }
 }
