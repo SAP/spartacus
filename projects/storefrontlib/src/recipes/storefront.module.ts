@@ -47,7 +47,7 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     ProductDetailsPageModule,
     ProductListingPageModule,
   ],
-  exports: [MainModule],
+  exports: [MainModule, StorefrontFoundationModule],
 })
 export class StorefrontModule {
   static withConfig(

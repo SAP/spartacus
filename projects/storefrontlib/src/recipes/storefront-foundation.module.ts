@@ -33,6 +33,7 @@ import { LayoutModule } from '../layout/layout.module';
 
     LayoutModule,
   ],
+  exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],
 })
 export class StorefrontFoundationModule {}
