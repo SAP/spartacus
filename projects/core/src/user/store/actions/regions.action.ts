@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Region } from '../../../model/address.model';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { REGIONS } from '../user-state';
 
 export const LOAD_REGIONS = '[User] Load Regions';

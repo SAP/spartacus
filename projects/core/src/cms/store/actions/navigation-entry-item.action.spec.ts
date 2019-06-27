@@ -1,5 +1,5 @@
 import { CmsComponent } from '../../../model/cms.model';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 import { CmsActions } from './index';
 
