@@ -1,16 +1,17 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
+import {
+  AuthService,
+  CmsService,
+  CurrencyService,
+  LanguageService,
+  ProductReviewService,
+  ProductSearchService,
+  ProductService,
+  RoutingService,
+  TranslationService,
+} from '@spartacus/core';
 
 import { CxApiService } from './cx-api.service';
-import { AuthService } from '../auth/index';
-import { CmsService } from '../cms/index';
-import { RoutingService } from '../routing/index';
-import { LanguageService, CurrencyService } from '../site-context/index';
-import {
-  ProductService,
-  ProductSearchService,
-  ProductReviewService,
-} from '../product/index';
-import { TranslationService } from '../i18n/translation.service';
 
 class MockAuthService {}
 class MockCmsService {}
