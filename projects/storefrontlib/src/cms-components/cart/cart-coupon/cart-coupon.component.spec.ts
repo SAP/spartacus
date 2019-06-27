@@ -1,4 +1,4 @@
-import { Component, DebugElement, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -23,13 +23,13 @@ export class MockCxIconComponent {
   @Input() type;
 }
 
-describe('CartCouponComponent', () => {
+fdescribe('CartCouponComponent', () => {
   let component: CartCouponComponent;
   let fixture: ComponentFixture<CartCouponComponent>;
-  let form: DebugElement;
-  let submit: DebugElement;
-
   let cartCouponAnchorService;
+  let submit;
+  let input: HTMLInputElement;
+  const emitter = new EventEmitter<string>();
 
   const mockCartService = jasmine.createSpyObj('CartService', [
     'addVoucher',
@@ -57,110 +57,132 @@ describe('CartCouponComponent', () => {
     fixture = TestBed.createComponent(CartCouponComponent);
     component = fixture.componentInstance;
     component.cart = cart;
-    form = fixture.debugElement.query(By.css('form'));
-    submit = fixture.debugElement.query(By.css('button'));
-    mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
-    mockCartService.getAddVoucherResultError.and.returnValue(of(true));
+
+    cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
+    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(emitter);
+
+    submit = fixture.debugElement.query(By.css('button')).nativeElement;
+    input = fixture.debugElement.query(By.css('input')).nativeElement;
+    mockCartService.getAddVoucherResultSuccess.and.returnValue(of());
+    mockCartService.getAddVoucherResultError.and.returnValue(of());
     mockCartService.addVoucher.and.stub();
     mockCartService.resetAddVoucherProcessingState.and.stub();
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should call getAddVoucherResultSuccess in ngOnInit', () => {
-    spyOn(component.form, 'reset').and.stub();
-
+    mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
+    fixture.detectChanges();
     expect(mockCartService.getAddVoucherResultSuccess).toHaveBeenCalled();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
-
-    component.onSuccess(true);
-    expect(component.form.reset).toHaveBeenCalled();
   });
 
   it('should call resetAddVoucherProcessingState in ngOnDestroy', () => {
-    const subscriptions = component['subscription'];
-    spyOn(subscriptions, 'unsubscribe').and.callThrough();
+    fixture.detectChanges();
     component.ngOnDestroy();
-
-    expect(subscriptions.unsubscribe).toHaveBeenCalled();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
   });
 
   it('should display cart coupon label and apply button disable by default', () => {
     fixture.detectChanges();
-    const el = fixture.debugElement.query(By.css('.cx-cart-coupon-title'));
-    const cartName = el.nativeElement.innerText;
-    expect(cartName).toEqual('voucher.coupon');
-    fixture.detectChanges();
-    expect(component.form.valid).toBeFalsy();
-    expect(submit.nativeElement.enabled).toBeFalsy();
+    const title = fixture.debugElement.query(By.css('.cx-cart-coupon-title'))
+      .nativeElement.innerText;
+
+    expect(title).toEqual('voucher.coupon');
+    expect(submit.disabled).toBe(true);
   });
 
-  it('should submit button be disabled when form input is empty', () => {
-    const input = component.form.controls['couponCode'];
-    input.setValue('');
-    component.cartIsLoading = false;
-    const el = fixture.debugElement.query(By.css('button'));
-
+  it('should disable button when applied voucher successfully and cart is loading', () => {
     fixture.detectChanges();
-    expect(component.form.valid).toBeFalsy();
-    expect(el.nativeElement.enabled).toBeFalsy();
-  });
+    expect(submit.disabled).toBe(true);
 
-  it('should submit button be disabled when cart is loading', () => {
-    const input = component.form.controls['couponCode'];
-    input.setValue('asds');
+    mockCartService.addVoucher.and.callFake(() => {
+      component.onSuccess(true);
+    });
+    input.value = 'couponCode1';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(submit.disabled).toBe(false);
+
+    submit.click();
     component.cartIsLoading = true;
     fixture.detectChanges();
-    expect(component.form.valid).toBeTruthy();
-    expect(submit.nativeElement.enabled).toBeFalsy();
-  });
-
-  it('should submit button be enabled when form input is not empty and cart loaded', () => {
-    const input = component.form.controls['couponCode'];
-    input.setValue('couponCode1');
-    component.cartIsLoading = false;
-    fixture.detectChanges();
-
-    expect(component.form.invalid).toBeFalsy();
-    expect(submit.nativeElement.disbaled).toBeFalsy();
-  });
-
-  it('should call applyVoucher() method on submit when submit button is disabled', () => {
-    const input = component.form.controls['couponCode'];
-    component.cartIsLoading = false;
-    input.setValue('couponCode1');
-    fixture.detectChanges();
-
-    form.triggerEventHandler('submit', null);
+    expect(input.value).toBe('');
     expect(mockCartService.addVoucher).toHaveBeenCalled();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
-  
-    expect(submit.nativeElement.disabled).toBeFalsy();
+    expect(submit.disabled).toBe(true);
   });
 
-  it('should call the internal onSuccess() method when the user was successfully apply voucher', () => {
-    spyOn(component, 'onSuccess').and.stub();
-    const subscriptions = component['subscription'];
-    spyOn(subscriptions, 'add').and.callThrough();
+  it('should disable button when applied voucher successfully and cart is loaded', () => {
+    fixture.detectChanges();
+    expect(submit.disabled).toBe(true);
 
-    component.ngOnInit();
-    expect(component.onSuccess).toHaveBeenCalledWith(true);
-    expect(subscriptions.add).toHaveBeenCalled();
+    mockCartService.addVoucher.and.callFake(() => {
+      component.onSuccess(true);
+    });
+    input.value = 'couponCode1';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(submit.disabled).toBe(false);
+
+    submit.click();
+    fixture.detectChanges();
+    expect(input.value).toBe('');
+    expect(mockCartService.addVoucher).toHaveBeenCalled();
+    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(submit.disabled).toBe(true);
+  });
+
+  it('should disable button when applied voucher failed and cart is loading', () => {
+    fixture.detectChanges();
+    expect(submit.disabled).toBe(true);
+
+    mockCartService.addVoucher.and.callFake(() => {
+      component.onError(true);
+    });
+    input.value = 'couponCode1';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(submit.disabled).toBe(false);
+
+    submit.click();
+    component.cartIsLoading = true;
+    fixture.detectChanges();
+    expect(input.value).toBe('couponCode1');
+    expect(mockCartService.addVoucher).toHaveBeenCalled();
+    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(submit.disabled).toBe(true);
+  });
+
+  it('should enable button when applied voucher failed and cart is loaded', () => {
+    fixture.detectChanges();
+    expect(submit.disabled).toBe(true);
+
+    mockCartService.addVoucher.and.callFake(() => {
+      component.onError(true);
+    });
+    input.value = 'couponCode1';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(submit.disabled).toBe(false);
+
+    submit.click();
+    fixture.detectChanges();
+    expect(input.value).toBe('couponCode1');
+    expect(mockCartService.addVoucher).toHaveBeenCalled();
+    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(submit.disabled).toBe(false);
   });
 
   it('should scroll to view when receive the event', () => {
-    cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
-    const emitter = new EventEmitter<string>();
-    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(emitter);
     spyOn(component, 'scrollToView').and.stub();
-    component.ngOnInit();
-    cartCouponAnchorService.getEventEmit().emit('#applyVoucher');
+    fixture.detectChanges();
 
+    cartCouponAnchorService.getEventEmit().emit('#applyVoucher');
     expect(component.scrollToView).toHaveBeenCalledWith('#applyVoucher');
   });
 });
