@@ -1,6 +1,15 @@
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { entityFailMeta, entityLoadMeta, entityResetMeta, entitySuccessMeta } from '../../../state/utils/entity-loader/entity-loader.action';
-import { failMeta, loadMeta, successMeta } from '../../../state/utils/loader/loader.action';
+import {
+  entityFailMeta,
+  entityLoadMeta,
+  entityResetMeta,
+  entitySuccessMeta,
+} from '../../../state/utils/entity-loader/entity-loader.action';
+import {
+  failMeta,
+  loadMeta,
+  successMeta,
+} from '../../../state/utils/loader/loader.action';
 import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
 import { CartActions } from './index';
 
@@ -47,7 +56,7 @@ describe('Cart-voucher Actions', () => {
         });
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_VOUCHER_SUCCESS,
-          payload:{userId: 'userId', cartId: 'cartId'},
+          payload: { userId: 'userId', cartId: 'cartId' },
           meta: entitySuccessMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
       });
@@ -102,7 +111,7 @@ describe('Cart-voucher Actions', () => {
         });
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_VOUCHER_SUCCESS,
-          payload:{userId: 'userId', cartId: 'cartId'},
+          payload: { userId: 'userId', cartId: 'cartId' },
           meta: successMeta(CART_DATA),
         });
       });
