@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { CART_DATA } from '../cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';

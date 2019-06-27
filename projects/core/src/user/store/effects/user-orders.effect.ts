@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderHistoryList } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';

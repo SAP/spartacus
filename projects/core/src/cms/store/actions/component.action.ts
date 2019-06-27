@@ -1,5 +1,5 @@
 import { CmsComponent } from '../../../model/cms.model';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { COMPONENT_ENTITY } from '../cms-state';
 
 export const LOAD_CMS_COMPONENT = '[Cms] Load Component';

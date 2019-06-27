@@ -6,7 +6,7 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryList } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
