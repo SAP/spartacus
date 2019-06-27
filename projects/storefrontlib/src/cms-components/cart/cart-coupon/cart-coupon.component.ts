@@ -63,7 +63,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onError(error: boolean) {
+  onError(error: boolean) {
     if (error) {
       this.enableBtn = true;
     }

@@ -1,5 +1,6 @@
 import * as cartCoupon from '../../../helpers/cart-coupon';
 import * as bigHappyPath from '../../../helpers/checkout-flow';
+import * as login from '../../../helpers/login';
 
 export const couponCode1 = 'BUYMORE16';
 export const couponCode2 = 'QingyuCoupon';
@@ -26,7 +27,7 @@ function verifyChecoutResults(couponCode: string, withCoupon: boolean) {
   cartCoupon.verifyCouponInOrderSummary(couponCode, withCoupon);
 }
 
-describe('Gift Product Coupon', () => {
+describe('Cart Coupon', () => {
   beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
@@ -41,6 +42,7 @@ describe('Gift Product Coupon', () => {
 
     checkout();
     verifyChecoutResults(couponCode2, true);
+    login.signOutUser();
   });
 
   it('should remove the coupon when back to cart and place order without coupon', () => {
@@ -55,5 +57,41 @@ describe('Gift Product Coupon', () => {
     addProductToCart();
     cartCoupon.navigateToCartPage();
     cartCoupon.applyCoupon(couponCode1);
+    login.signOutUser();
   });
+
+  it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
+    addProductToCart();
+    cartCoupon.navigateToCartPage();
+    cartCoupon.applyCoupon(couponCode2);
+    cartCoupon.verifyGiftProductCoupon(productCode);
+    login.signOutUser();
+  });
+
+  it('should show the promotion, discount in price and success message when applied a coupon with cart total action successfully', () => {
+    addProductToCart();
+    cartCoupon.navigateToCartPage();
+    cartCoupon.applyCoupon(couponCode1);
+    login.signOutUser();
+  });
+
+  it('should show error message when applied a wrong coupon', () => {
+    addProductToCart();
+    cartCoupon.navigateToCartPage();
+    cartCoupon.applyWrongCoupon();
+    login.signOutUser();
+  });
+
+  it(
+    'should be able to place order with discount promotion and show applied coupon ' +
+      'in order confirmation and order history when applied coupon with cart total action',
+    () => {
+      addProductToCart();
+      cartCoupon.navigateToCartPage();
+      cartCoupon.applyCoupon(couponCode1);
+      checkout();
+      verifyChecoutResults(couponCode1, true);
+      login.signOutUser();
+    }
+  );
 });
