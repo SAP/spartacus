@@ -1,0 +1,18 @@
+@import '../../../theme';
+
+%cx-cart-coupon-anchor {
+  .cx-cart-coupon-anchor {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+    padding-top: 2rem;
+    @include type('5');
+
+    &-link {
+      @include type('8');
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: underline;
+    }
+  }
+}
