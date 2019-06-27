@@ -7,12 +7,13 @@ import {
   ProductSearchService,
   RoutingService,
   SearchConfig,
+  ActivatedRouterStateSnapshot,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  map,
+  pluck,
   shareReplay,
   tap,
 } from 'rxjs/operators';
@@ -54,7 +55,9 @@ export class ProductListComponentService {
     .getResults()
     .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
 
-  private searchByRouting$: Observable<any> = combineLatest([
+  private searchByRouting$: Observable<
+    ActivatedRouterStateSnapshot
+  > = combineLatest([
     this.routing.getRouterState().pipe(
       distinctUntilChanged((x, y) => {
         // router emits new value also when the anticipated `nextState` changes
@@ -66,7 +69,8 @@ export class ProductListComponentService {
     this.languageService.getActive(),
     this.currencyService.getActive(),
   ]).pipe(
-    tap(([{ state }]) => {
+    pluck(0, 'state'),
+    tap((state: ActivatedRouterStateSnapshot) => {
       const criteria = this.getCriteriaFromRoute(
         state.params,
         state.queryParams
@@ -88,7 +92,7 @@ export class ProductListComponentService {
     this.searchResults$,
     this.searchByRouting$
   ).pipe(
-    map(([searchResults]) => searchResults),
+    pluck(0),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
