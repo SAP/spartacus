@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  CurrencyService,
+  LanguageService,
   ProductSearchPage,
   ProductSearchService,
   RoutingService,
@@ -41,6 +43,8 @@ export class ProductListComponentService {
     protected productSearchService: ProductSearchService,
     protected routing: RoutingService,
     protected activatedRoute: ActivatedRoute,
+    protected currencyService: CurrencyService,
+    protected languageService: LanguageService,
     protected router: Router
   ) {}
 
@@ -50,15 +54,19 @@ export class ProductListComponentService {
     .getResults()
     .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
 
-  private searchByRouting$: Observable<
-    any
-  > = this.routing.getRouterState().pipe(
-    distinctUntilChanged((x, y) => {
-      // router emits new value also when the anticipated `nextState` changes
-      // but we want to perform search only when current url changes
-      return x.state.url === y.state.url;
-    }),
-    tap(({ state }) => {
+  private searchByRouting$: Observable<any> = combineLatest([
+    this.routing.getRouterState().pipe(
+      distinctUntilChanged((x, y) => {
+        // router emits new value also when the anticipated `nextState` changes
+        // but we want to perform search only when current url changes
+        return x.state.url === y.state.url;
+      })
+    ),
+    // also trigger search on site context changes
+    this.languageService.getActive(),
+    this.currencyService.getActive(),
+  ]).pipe(
+    tap(([{ state }]) => {
       const criteria = this.getCriteriaFromRoute(
         state.params,
         state.queryParams
