@@ -9,8 +9,7 @@ import { OrderHistoryList } from '../../../model/order.model';
 import { StateLoaderActions } from '../../../state/index';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import { CLEAR_MISCS_DATA } from '../actions';
-import * as fromUserOrdersAction from '../actions/user-orders.action';
+import { UserActions } from '../actions/index';
 import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersEffect from './user-orders.effect';
 
@@ -43,14 +42,12 @@ describe('User Orders effect', () => {
   describe('loadUserOrders$', () => {
     it('should load user Orders', () => {
       spyOn(orderConnector, 'getHistory').and.returnValue(of(mockUserOrders));
-      const action = new fromUserOrdersAction.LoadUserOrders({
+      const action = new UserActions.LoadUserOrders({
         userId: 'test@sap.com',
         pageSize: 5,
       });
 
-      const completion = new fromUserOrdersAction.LoadUserOrdersSuccess(
-        mockUserOrders
-      );
+      const completion = new UserActions.LoadUserOrdersSuccess(mockUserOrders);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -61,12 +58,12 @@ describe('User Orders effect', () => {
     it('should handle failures for load user Orders', () => {
       spyOn(orderConnector, 'getHistory').and.returnValue(throwError('Error'));
 
-      const action = new fromUserOrdersAction.LoadUserOrders({
+      const action = new UserActions.LoadUserOrders({
         userId: 'test@sap.com',
         pageSize: 5,
       });
 
-      const completion = new fromUserOrdersAction.LoadUserOrdersFail('Error');
+      const completion = new UserActions.LoadUserOrdersFail('Error');
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -78,7 +75,7 @@ describe('User Orders effect', () => {
   describe('resetUserOrders$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: CLEAR_MISCS_DATA,
+        type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
       const completion = new StateLoaderActions.LoaderResetAction(USER_ORDERS);

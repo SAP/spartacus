@@ -1,13 +1,13 @@
-import * as fromAction from '../actions/reset-password.action';
+import { UserActions } from '../actions/index';
 
 export const initialState = false;
 
 export function reducer(
   state = initialState,
-  action: fromAction.ResetPasswordAction
+  action: UserActions.ResetPasswordAction
 ): boolean {
   switch (action.type) {
-    case fromAction.RESET_PASSWORD_SUCCESS: {
+    case UserActions.RESET_PASSWORD_SUCCESS: {
       return true;
     }
   }

@@ -6,7 +6,7 @@ import { GlobalMessageType } from '../../../global-message/models/global-message
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromActions from './../actions';
+import { UserActions } from '../actions/index';
 import { ResetPasswordEffects } from './reset-password.effect';
 
 describe('', () => {
@@ -31,11 +31,11 @@ describe('', () => {
 
   describe('resetPassword$', () => {
     it('should be able to reset password', () => {
-      const action = new fromActions.ResetPassword({
+      const action = new UserActions.ResetPassword({
         token: 'teset token',
         password: 'test password',
       });
-      const completion1 = new fromActions.ResetPasswordSuccess();
+      const completion1 = new UserActions.ResetPasswordSuccess();
       const completion2 = new GlobalMessageActions.AddMessage({
         text: { key: 'forgottenPassword.passwordResetSuccess' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
