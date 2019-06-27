@@ -37,12 +37,11 @@ export class WindowRef {
     if (!this.nativeWindow) {
       return of(null);
     } else {
-      return fromEvent(this.nativeWindow, 'resize')
-        .pipe(debounceTime(300))
-        .pipe(
-          startWith({ target: this.nativeWindow }),
-          distinctUntilChanged()
-        );
+      return fromEvent(this.nativeWindow, 'resize').pipe(
+        debounceTime(300),
+        startWith({ target: this.nativeWindow }),
+        distinctUntilChanged()
+      );
     }
   }
 }
