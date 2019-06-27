@@ -1,8 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config, provideConfig } from '../config/index';
+import { Config, provideConfig } from '../config/config.module';
+import { CmsConfig } from './config/cms-config';
 import { CmsStructureConfig } from './config/cms-structure.config';
-import { CmsConfig, defaultCmsModuleConfig } from './config/index';
-import { CmsService } from './facade/index';
+import { defaultCmsModuleConfig } from './config/default-cms-config';
+import { CmsService } from './facade/cms.service';
 import { CmsPageTitleModule } from './page/page.module';
 import { CmsStoreModule } from './store/cms-store.module';
 

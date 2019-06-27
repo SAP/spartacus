@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService } from '..';
+import { CartService } from '../facade/cart.service';
 import {
   CmsService,
   Page,

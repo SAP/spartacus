@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { provideConfigValidator } from '../config';
+import { provideConfigValidator } from '../config/utils/config-validator';
 import { Config, provideConfig } from '../config/config.module';
 import { CartOccModule } from './adapters/cart/cart-occ.module';
 import { CheckoutOccModule } from './adapters/checkout/checkout-occ.module';

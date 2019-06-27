@@ -14,7 +14,7 @@ import { OrderConfirmationOverviewComponent } from './components/order-confirmat
 // tslint:disable-next-line
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
-import { OrderConfirmationGuard } from './guards/index';
+import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
 
 const orderConfirmationComponents = [
   OrderConfirmationItemsComponent,

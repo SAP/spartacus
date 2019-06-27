@@ -1,11 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
-import {
-  ProductReferenceService,
-  ProductReviewService,
-  ProductSearchService,
-  ProductService,
-} from './facade/index';
+import { ProductReferenceService } from './facade/product-reference.service';
+import { ProductReviewService } from './facade/product-review.service';
+import { ProductSearchService } from './facade/product-search.service';
+import { ProductService } from './facade/product.service';
 import { CategoryPageMetaResolver } from './services/category-page-meta.resolver';
 import { ProductPageMetaResolver } from './services/product-page-meta.resolver';
 import { SearchPageMetaResolver } from './services/search-page-meta.resolver';

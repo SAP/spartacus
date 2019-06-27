@@ -8,7 +8,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
+import { CartNotEmptyGuard } from '../../../cart/cart-not-empty.guard';
 import { PlaceOrderComponent } from './place-order.component';
 
 @NgModule({
