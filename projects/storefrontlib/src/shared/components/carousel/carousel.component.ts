@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
+  isDevMode,
   OnInit,
-  Output,
   TemplateRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -69,8 +68,6 @@ export class CarouselComponent implements OnInit {
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
 
-  @Output() open = new EventEmitter<Observable<any>>();
-
   /** Indicates the current active item in carousel (if any)  */
   // @Input() activeItem: number;
 
@@ -79,18 +76,15 @@ export class CarouselComponent implements OnInit {
 
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
-  test() {
-    console.log('t', this.title);
-    console.log('i', this.items$);
-  }
   ngOnInit() {
+    if (!this.template && isDevMode()) {
+      console.error(
+        'No template reference provided to render the carousel items for the `cx-carousel`'
+      );
+      return;
+    }
     this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));
-  }
-
-  onOpen(slide: number, itemIndex: number): void {
-    this.activeSlide = slide;
-    this.open.emit(this.items$[slide + itemIndex]);
   }
 }
