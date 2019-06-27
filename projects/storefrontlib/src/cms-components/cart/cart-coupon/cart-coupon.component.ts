@@ -54,14 +54,13 @@ export class CartCouponComponent implements OnInit, OnDestroy {
           this.scrollToView(anchor);
         })
     );
-    }
-  
+  }
+
   scrollToView(anchor: string) {
-      const anchorElement = this.element.nativeElement.querySelector(anchor);
-      if (anchorElement) {
-        anchorElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    
+    const anchorElement = this.element.nativeElement.querySelector(anchor);
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   private onError(error: boolean) {
