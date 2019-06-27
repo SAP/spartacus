@@ -36,10 +36,16 @@
       @include media-breakpoint-down(md) {
         --cx-flex-basis: 50%;
         justify-content: flex-end;
+        align-items: flex-end;
 
         cx-checkout-order-summary {
           max-width: 50%;
           padding-top: 1rem;
+          cx-order-summary {
+            @include media-breakpoint-down(md) {
+              padding: 1rem 3.5rem 1rem 0;
+            }
+          }
         }
         cx-place-order {
           max-width: 50%;
