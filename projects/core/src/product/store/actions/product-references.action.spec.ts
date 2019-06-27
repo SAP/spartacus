@@ -1,6 +1,6 @@
 import { ErrorModel } from '../../../model/misc.model';
 import { ProductReference } from '../../../model/product.model';
-import * as fromActions from './product-references.action';
+import { ProductActions } from './index';
 
 const productCode = 'productCode';
 const product = {
@@ -12,9 +12,11 @@ describe('Product References Actions', () => {
   describe('LoadProductReferences Actions', () => {
     describe('LOAD_PRODUCT_REFERENCES', () => {
       it('should create the action', () => {
-        const action = new fromActions.LoadProductReferences({ productCode });
+        const action = new ProductActions.LoadProductReferences({
+          productCode,
+        });
         expect({ ...action }).toEqual({
-          type: fromActions.LOAD_PRODUCT_REFERENCES,
+          type: ProductActions.LOAD_PRODUCT_REFERENCES,
           payload: { productCode },
         });
       });
@@ -23,9 +25,9 @@ describe('Product References Actions', () => {
     describe('LOAD_PRODUCT_REFERENCES_FAIL', () => {
       it('should create the action', () => {
         const payload: ErrorModel = { message: 'Load Error' };
-        const action = new fromActions.LoadProductReferencesFail(payload);
+        const action = new ProductActions.LoadProductReferencesFail(payload);
         expect({ ...action }).toEqual({
-          type: fromActions.LOAD_PRODUCT_REFERENCES_FAIL,
+          type: ProductActions.LOAD_PRODUCT_REFERENCES_FAIL,
           payload,
         });
       });
@@ -44,12 +46,12 @@ describe('Product References Actions', () => {
           },
         ];
 
-        const action = new fromActions.LoadProductReferencesSuccess({
+        const action = new ProductActions.LoadProductReferencesSuccess({
           productCode,
           list,
         });
         expect({ ...action }).toEqual({
-          type: fromActions.LOAD_PRODUCT_REFERENCES_SUCCESS,
+          type: ProductActions.LOAD_PRODUCT_REFERENCES_SUCCESS,
           payload: { productCode, list },
         });
       });

@@ -6,27 +6,22 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PaymentDetails } from '../../../model/cart.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
-import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
   @Effect()
   loadUserPaymentMethods$: Observable<Action> = this.actions$.pipe(
-    ofType(fromUserPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS),
-    map(
-      (action: fromUserPaymentMethodsAction.LoadUserPaymentMethods) =>
-        action.payload
-    ),
+    ofType(UserActions.LOAD_USER_PAYMENT_METHODS),
+    map((action: UserActions.LoadUserPaymentMethods) => action.payload),
     mergeMap(payload => {
       return this.userPaymentMethodConnector.getAll(payload).pipe(
         map((payments: PaymentDetails[]) => {
-          return new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
-            payments
-          );
+          return new UserActions.LoadUserPaymentMethodsSuccess(payments);
         }),
         catchError(error =>
           of(
-            new fromUserPaymentMethodsAction.LoadUserPaymentMethodsFail(
+            new UserActions.LoadUserPaymentMethodsFail(
               makeErrorSerializable(error)
             )
           )
@@ -37,26 +32,19 @@ export class UserPaymentMethodsEffects {
 
   @Effect()
   setDefaultUserPaymentMethod$: Observable<Action> = this.actions$.pipe(
-    ofType(fromUserPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD),
-    map(
-      (action: fromUserPaymentMethodsAction.SetDefaultUserPaymentMethod) =>
-        action.payload
-    ),
+    ofType(UserActions.SET_DEFAULT_USER_PAYMENT_METHOD),
+    map((action: UserActions.SetDefaultUserPaymentMethod) => action.payload),
     mergeMap(payload => {
       return this.userPaymentMethodConnector
         .setDefault(payload.userId, payload.paymentMethodId)
         .pipe(
           switchMap(data => [
-            new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodSuccess(
-              data
-            ),
-            new fromUserPaymentMethodsAction.LoadUserPaymentMethods(
-              payload.userId
-            ),
+            new UserActions.SetDefaultUserPaymentMethodSuccess(data),
+            new UserActions.LoadUserPaymentMethods(payload.userId),
           ]),
           catchError(error =>
             of(
-              new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodFail(
+              new UserActions.SetDefaultUserPaymentMethodFail(
                 makeErrorSerializable(error)
               )
             )
@@ -66,26 +54,19 @@ export class UserPaymentMethodsEffects {
   );
   @Effect()
   deleteUserPaymentMethod$: Observable<Action> = this.actions$.pipe(
-    ofType(fromUserPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD),
-    map(
-      (action: fromUserPaymentMethodsAction.DeleteUserPaymentMethod) =>
-        action.payload
-    ),
+    ofType(UserActions.DELETE_USER_PAYMENT_METHOD),
+    map((action: UserActions.DeleteUserPaymentMethod) => action.payload),
     mergeMap(payload => {
       return this.userPaymentMethodConnector
         .delete(payload.userId, payload.paymentMethodId)
         .pipe(
           switchMap(data => [
-            new fromUserPaymentMethodsAction.DeleteUserPaymentMethodSuccess(
-              data
-            ),
-            new fromUserPaymentMethodsAction.LoadUserPaymentMethods(
-              payload.userId
-            ),
+            new UserActions.DeleteUserPaymentMethodSuccess(data),
+            new UserActions.LoadUserPaymentMethods(payload.userId),
           ]),
           catchError(error =>
             of(
-              new fromUserPaymentMethodsAction.DeleteUserPaymentMethodFail(
+              new UserActions.DeleteUserPaymentMethodFail(
                 makeErrorSerializable(error)
               )
             )

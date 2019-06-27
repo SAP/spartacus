@@ -1,7 +1,7 @@
 import { Address } from '../../../model/address.model';
 import { StateLoaderActions } from '../../../state/index';
 import { USER_ADDRESSES } from '../user-state';
-import * as fromUserAddressesAction from './user-addresses.action';
+import { UserActions } from './index';
 
 const userId = '123';
 const address: Address = {
@@ -11,10 +11,10 @@ const address: Address = {
 describe('User Addresses Actions', () => {
   describe('LoadUserAddresses Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserAddressesAction.LoadUserAddresses(userId);
+      const action = new UserActions.LoadUserAddresses(userId);
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.LOAD_USER_ADDRESSES,
+        type: UserActions.LOAD_USER_ADDRESSES,
         payload: userId,
         meta: StateLoaderActions.loadMeta(USER_ADDRESSES),
       });
@@ -24,10 +24,10 @@ describe('User Addresses Actions', () => {
   describe('LoadUserAddressesFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserAddressesAction.LoadUserAddressesFail(error);
+      const action = new UserActions.LoadUserAddressesFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL,
+        type: UserActions.LOAD_USER_ADDRESSES_FAIL,
         payload: error,
         meta: StateLoaderActions.failMeta(USER_ADDRESSES, error),
       });
@@ -41,12 +41,12 @@ describe('User Addresses Actions', () => {
     ];
 
     it('should create the action', () => {
-      const action = new fromUserAddressesAction.LoadUserAddressesSuccess(
+      const action = new UserActions.LoadUserAddressesSuccess(
         mockUserAddresses
       );
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS,
+        type: UserActions.LOAD_USER_ADDRESSES_SUCCESS,
         payload: mockUserAddresses,
         meta: StateLoaderActions.successMeta(USER_ADDRESSES),
       });
@@ -55,13 +55,13 @@ describe('User Addresses Actions', () => {
 
   describe('AddUserAddress Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserAddressesAction.AddUserAddress({
+      const action = new UserActions.AddUserAddress({
         userId,
         address,
       });
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.ADD_USER_ADDRESS,
+        type: UserActions.ADD_USER_ADDRESS,
         payload: { userId, address },
         meta: StateLoaderActions.loadMeta(USER_ADDRESSES),
       });
@@ -71,10 +71,10 @@ describe('User Addresses Actions', () => {
   describe('AddUserAddressFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserAddressesAction.AddUserAddressFail(error);
+      const action = new UserActions.AddUserAddressFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.ADD_USER_ADDRESS_FAIL,
+        type: UserActions.ADD_USER_ADDRESS_FAIL,
         payload: error,
         meta: StateLoaderActions.failMeta(USER_ADDRESSES, error),
       });
@@ -85,10 +85,10 @@ describe('User Addresses Actions', () => {
     const payload = 'success';
 
     it('should create the action', () => {
-      const action = new fromUserAddressesAction.AddUserAddressSuccess(payload);
+      const action = new UserActions.AddUserAddressSuccess(payload);
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS,
+        type: UserActions.ADD_USER_ADDRESS_SUCCESS,
         payload: payload,
         meta: StateLoaderActions.successMeta(USER_ADDRESSES),
       });
@@ -97,14 +97,14 @@ describe('User Addresses Actions', () => {
 
   describe('UpdateUserAddress Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserAddressesAction.UpdateUserAddress({
+      const action = new UserActions.UpdateUserAddress({
         userId,
         addressId: '1',
         address,
       });
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.UPDATE_USER_ADDRESS,
+        type: UserActions.UPDATE_USER_ADDRESS,
         payload: {
           userId,
           addressId: '1',
@@ -118,10 +118,10 @@ describe('User Addresses Actions', () => {
   describe('UpdateUserAddressFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserAddressesAction.UpdateUserAddressFail(error);
+      const action = new UserActions.UpdateUserAddressFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.UPDATE_USER_ADDRESS_FAIL,
+        type: UserActions.UPDATE_USER_ADDRESS_FAIL,
         payload: error,
         meta: StateLoaderActions.failMeta(USER_ADDRESSES, error),
       });
@@ -132,12 +132,10 @@ describe('User Addresses Actions', () => {
     const payload = 'success';
 
     it('should create the action', () => {
-      const action = new fromUserAddressesAction.UpdateUserAddressSuccess(
-        payload
-      );
+      const action = new UserActions.UpdateUserAddressSuccess(payload);
 
       expect({ ...action }).toEqual({
-        type: fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS,
+        type: UserActions.UPDATE_USER_ADDRESS_SUCCESS,
         payload: payload,
         meta: StateLoaderActions.successMeta(USER_ADDRESSES),
       });
