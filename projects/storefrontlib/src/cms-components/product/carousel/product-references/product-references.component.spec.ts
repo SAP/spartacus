@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CmsProductReferencesComponent, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { CarouselItem } from '../../../../shared/components/carousel/carousel.model';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductCarouselService } from '../product-carousel.service';
 import { ProductReferencesComponent } from './product-references.component';
@@ -14,7 +13,7 @@ import { ProductReferencesComponent } from './product-references.component';
   template: '',
 })
 class MockCarouselComponent {
-  @Input() items: CarouselItem[];
+  @Input() items: any[];
   @Input() title: string;
 }
 

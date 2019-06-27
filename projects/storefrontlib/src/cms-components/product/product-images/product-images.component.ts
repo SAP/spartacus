@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
-import { CarouselItem } from '../../../shared/components/carousel/index';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -23,7 +22,7 @@ export class ProductImagesComponent {
     )
   );
 
-  private thumbs$: Observable<CarouselItem[]> = this.product$.pipe(
+  private thumbs$: Observable<any[]> = this.product$.pipe(
     map(product => this.createCarouselItems(product))
   );
 
@@ -34,7 +33,7 @@ export class ProductImagesComponent {
 
   constructor(private currentProductService: CurrentProductService) {}
 
-  getThumbs(): Observable<CarouselItem[]> {
+  getThumbs(): Observable<any[]> {
     return this.thumbs$;
   }
 
@@ -62,7 +61,7 @@ export class ProductImagesComponent {
   }
 
   /** find the index of the main media in the list of media */
-  getActive(thumbs: CarouselItem[]): Observable<number> {
+  getActive(thumbs: any[]): Observable<number> {
     return this.mainMediaContainer.pipe(
       filter(Boolean),
       map((container: any) => {

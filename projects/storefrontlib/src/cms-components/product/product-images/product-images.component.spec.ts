@@ -9,7 +9,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CarouselItem } from '../../../shared/components/carousel/index';
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
 
@@ -124,7 +123,7 @@ describe('ProductImagesComponent', () => {
     });
 
     it('should have 2 thumbs', () => {
-      let result: CarouselItem[];
+      let result: any[];
       component
         .getThumbs()
         .subscribe(value => (result = value))

@@ -74,27 +74,19 @@ export class CarouselComponent implements OnInit {
   /** Indicates the current active item in carousel (if any)  */
   // @Input() activeItem: number;
 
-  private _activeSlide: number;
-  private _size$: Observable<number>;
+  activeSlide: number;
+  size$: Observable<number>;
 
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
+  test() {
+    console.log('t', this.title);
+    console.log('i', this.items$);
+  }
   ngOnInit() {
-    this._size$ = this.service
+    this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));
-  }
-
-  get size$(): Observable<number> {
-    return this._size$;
-  }
-
-  get activeSlide() {
-    return this._activeSlide;
-  }
-
-  set activeSlide(slide) {
-    this._activeSlide = slide;
   }
 
   onOpen(slide: number, itemIndex: number): void {

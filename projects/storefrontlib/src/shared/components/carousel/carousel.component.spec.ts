@@ -1,5 +1,6 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -7,26 +8,12 @@ import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
 
 class MockCarouselService {
-  getSize(_nativeElement: HTMLElement, _itemWidth: number): Observable<number> {
+  getItemsPerSlide(
+    _nativeElement: HTMLElement,
+    _itemWidth: number
+  ): Observable<number> {
     return of();
   }
-}
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
-@Component({
-  template: '',
-  selector: 'cx-media',
-})
-class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: string;
-  @Input() alt: string;
 }
 
 @Component({
@@ -37,7 +24,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('Carousel Component', () => {
+fdescribe('Carousel Component', () => {
   let component: CarouselComponent;
   let fixture: ComponentFixture<CarouselComponent>;
   let service: CarouselService;
@@ -45,12 +32,7 @@ describe('Carousel Component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        CarouselComponent,
-        MockCxIconComponent,
-        MockMediaComponent,
-        MockUrlPipe,
-      ],
+      declarations: [CarouselComponent, MockCxIconComponent],
       providers: [{ provide: CarouselService, useClass: MockCarouselService }],
     }).compileComponents();
   }));
@@ -61,21 +43,54 @@ describe('Carousel Component', () => {
 
     service = TestBed.get(CarouselService);
 
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get the size', () => {
-    spyOn(service, 'getSize').and.returnValue(of(4));
-
-    let results: number;
+  it('should have a size$ of 4 items per slide', () => {
+    spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
 
     component.ngOnInit();
+    let results: number;
+
     component.size$.subscribe(value => (results = value)).unsubscribe();
 
     expect(results).toEqual(4);
+  });
+
+  describe('UI Tests for 5 items divided by 2 slides', () => {
+    beforeEach(() => {
+      spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+      component.title = 'test carousel with title';
+      component.items$ = [of(), of(), of(), of(), of()];
+      component.ngOnInit();
+      fixture.detectChanges();
+    });
+    it('should have h3 with title', () => {
+      const h3 = fixture.debugElement.query(By.css('h3'));
+      expect(h3).toBeTruthy();
+      expect(h3.nativeElement).toBeTruthy();
+
+      expect((<HTMLElement>h3.nativeElement).innerText).toEqual(
+        'test carousel with title'
+      );
+    });
+
+    // it('should have previous button', () => {
+    //   expect(
+    //     fixture.debugElement.query(By.css('button.previous'))
+    //   ).toBeTruthy();
+    // });
+
+    it('should have a size class', () => {});
+
+    it('should have next button', () => {});
+
+    it('should have 3 indicators', () => {});
+
+    it('should not have indicators', () => {});
   });
 });
