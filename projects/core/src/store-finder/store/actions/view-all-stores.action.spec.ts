@@ -1,10 +1,6 @@
-import * as fromActions from './view-all-stores.action';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/index';
 import { STORE_FINDER_DATA } from '../store-finder-state';
+import * as fromActions from './view-all-stores.action';
 
 describe('View All Stores Actions', () => {
   describe('ViewAllStores', () => {
@@ -13,7 +9,7 @@ describe('View All Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromActions.VIEW_ALL_STORES,
-        meta: loadMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -26,7 +22,7 @@ describe('View All Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.VIEW_ALL_STORES_FAIL,
         payload,
-        meta: failMeta(STORE_FINDER_DATA, payload),
+        meta: StateLoaderActions.failMeta(STORE_FINDER_DATA, payload),
       });
     });
   });
@@ -39,7 +35,7 @@ describe('View All Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.VIEW_ALL_STORES_SUCCESS,
         payload,
-        meta: successMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.successMeta(STORE_FINDER_DATA),
       });
     });
   });

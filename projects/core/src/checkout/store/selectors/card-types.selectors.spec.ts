@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { CardType } from '../../../model/cart.model';
-import * as fromActions from '../actions/index';
+import { CheckoutActions } from '../actions/index';
 import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';
 import { CheckoutSelectors } from '../selectors/index';
@@ -41,7 +41,7 @@ describe('Card Types Selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadCardTypesSuccess(cardTypes));
+      store.dispatch(new CheckoutActions.LoadCardTypesSuccess(cardTypes));
 
       expect(result).toEqual(cardTypes);
     });

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
-import * as fromActions from '../actions/index';
+import { KymaActions } from '../actions/index';
 import { KYMA_FEATURE, StateWithKyma } from '../kyma-state';
 import * as fromReducers from '../reducers/index';
 import { KymaSelectors } from '../selectors/index';
@@ -28,7 +28,7 @@ describe('Open ID Token Selectors', () => {
 
   describe('getOpenIdTokenState', () => {
     it('should return the state', () => {
-      store.dispatch(new fromActions.LoadOpenIdTokenSuccess(testToken));
+      store.dispatch(new KymaActions.LoadOpenIdTokenSuccess(testToken));
 
       let result: LoaderState<OpenIdToken>;
       store
@@ -46,7 +46,7 @@ describe('Open ID Token Selectors', () => {
   });
   describe('getOpenIdTokenValue', () => {
     it('should return the value', () => {
-      store.dispatch(new fromActions.LoadOpenIdTokenSuccess(testToken));
+      store.dispatch(new KymaActions.LoadOpenIdTokenSuccess(testToken));
 
       let result: OpenIdToken;
       store
@@ -60,7 +60,7 @@ describe('Open ID Token Selectors', () => {
   describe('getOpenIdTokenLoading', () => {
     it('should return the loading flag', () => {
       store.dispatch(
-        new fromActions.LoadOpenIdToken({
+        new KymaActions.LoadOpenIdToken({
           username: 'xxx@xxx.xxx',
           password: 'pwd',
         })
@@ -77,7 +77,7 @@ describe('Open ID Token Selectors', () => {
   });
   describe('getOpenIdTokenSuccess', () => {
     it('should return the success flag', () => {
-      store.dispatch(new fromActions.LoadOpenIdTokenSuccess(testToken));
+      store.dispatch(new KymaActions.LoadOpenIdTokenSuccess(testToken));
 
       let result = false;
       store
@@ -90,7 +90,7 @@ describe('Open ID Token Selectors', () => {
   });
   describe('getOpenIdTokenError', () => {
     it('should return the error flag', () => {
-      store.dispatch(new fromActions.LoadOpenIdTokenFail('error'));
+      store.dispatch(new KymaActions.LoadOpenIdTokenFail('error'));
 
       let result = false;
       store

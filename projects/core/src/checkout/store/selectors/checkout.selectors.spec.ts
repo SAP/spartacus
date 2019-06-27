@@ -3,7 +3,7 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
-import * as fromActions from '../actions/index';
+import { CheckoutActions } from '../actions/index';
 import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';
 import { CheckoutSelectors } from '../selectors/index';
@@ -43,7 +43,7 @@ describe('Checkout Selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.AddDeliveryAddressSuccess(address));
+      store.dispatch(new CheckoutActions.AddDeliveryAddressSuccess(address));
 
       expect(result).toEqual(address);
     });
@@ -73,7 +73,9 @@ describe('Checkout Selectors', () => {
 
       expect(result).toEqual(emptyEntities);
 
-      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
+      store.dispatch(
+        new CheckoutActions.LoadSupportedDeliveryModesSuccess(modes)
+      );
 
       expect(result).toEqual(entities);
     });
@@ -90,7 +92,9 @@ describe('Checkout Selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
+      store.dispatch(
+        new CheckoutActions.LoadSupportedDeliveryModesSuccess(modes)
+      );
 
       expect(result).toEqual(modes);
     });
@@ -107,8 +111,10 @@ describe('Checkout Selectors', () => {
 
       expect(result).toEqual(undefined);
 
-      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
-      store.dispatch(new fromActions.SetDeliveryModeSuccess('code1'));
+      store.dispatch(
+        new CheckoutActions.LoadSupportedDeliveryModesSuccess(modes)
+      );
+      store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('code1'));
 
       expect(result).toEqual(modes[0]);
     });
@@ -125,8 +131,10 @@ describe('Checkout Selectors', () => {
 
       expect(result).toEqual('');
 
-      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
-      store.dispatch(new fromActions.SetDeliveryModeSuccess('code1'));
+      store.dispatch(
+        new CheckoutActions.LoadSupportedDeliveryModesSuccess(modes)
+      );
+      store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('code1'));
 
       expect(result).toEqual('code1');
     });
@@ -146,7 +154,7 @@ describe('Checkout Selectors', () => {
       expect(result).toEqual({});
 
       store.dispatch(
-        new fromActions.CreatePaymentDetailsSuccess(paymentDetails)
+        new CheckoutActions.CreatePaymentDetailsSuccess(paymentDetails)
       );
 
       expect(result).toEqual(paymentDetails);
@@ -166,7 +174,7 @@ describe('Checkout Selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.PlaceOrderSuccess(orderDetails));
+      store.dispatch(new CheckoutActions.PlaceOrderSuccess(orderDetails));
 
       expect(result).toEqual(orderDetails);
     });
