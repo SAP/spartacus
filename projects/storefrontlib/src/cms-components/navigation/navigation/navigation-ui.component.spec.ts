@@ -102,6 +102,9 @@ describe('Navigation UI Component', () => {
       fixture = TestBed.createComponent(NavigationUIComponent);
       navigationComponent = fixture.debugElement.componentInstance;
       element = fixture.debugElement;
+      renderer2 = fixture.componentRef.injector.get<Renderer2>(
+        Renderer2 as Type<Renderer2>
+      );
 
       navigationComponent.node = mockNode;
     });
@@ -218,10 +221,6 @@ describe('Navigation UI Component', () => {
     });
 
     it('should focus hovered element when another is focused', () => {
-      renderer2 = fixture.componentRef.injector.get<Renderer2>(
-        Renderer2 as Type<Renderer2>
-      );
-
       fixture.detectChanges();
 
       const rootNavElements: DebugElement[] = element.queryAll(
@@ -233,20 +232,23 @@ describe('Navigation UI Component', () => {
       // First element should not focus when no element is focused
       expect(first).not.toBe(<HTMLElement>document.activeElement);
 
-      // Listen for second element focus
       renderer2.listen(second, 'focus', () => {
         // Second element should be focused
         expect(<HTMLElement>document.activeElement).toBe(second);
 
         // Hover mouse over first element
-        const result = navigationComponent.focusAfterPreviousClicked(
+        navigationComponent.focusAfterPreviousClicked(
           new MouseEvent('mouseenter', {
             relatedTarget: first,
           })
         );
 
+        first.dispatchEvent(new FocusEvent('focus', { relatedTarget: first }));
+      });
+
+      renderer2.listen(first, 'focus', () => {
         // First element should become focused
-        expect(<HTMLElement>result.activeElement).toBe(first);
+        expect(<HTMLElement>document.activeElement).toBe(first);
       });
 
       // Focus on second element
