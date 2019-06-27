@@ -82,4 +82,3 @@ export function applyWrongCoupon() {
   cy.get('.col-md-4 > .btn').click();
   cy.get('cx-global-message').should('contain', 'coupon.invalid.code.provided');
 }
-

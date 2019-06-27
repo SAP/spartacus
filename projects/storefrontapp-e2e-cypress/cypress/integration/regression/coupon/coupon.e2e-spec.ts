@@ -68,7 +68,7 @@ describe('Cart Coupon', () => {
     addProductToCart();
     cartCoupon.navigateToCartPage();
     cartCoupon.applyCoupon(couponCode1);
-  })
+  });
 
   it('should show error message when applied a wrong coupon', () => {
     addProductToCart();
@@ -76,13 +76,15 @@ describe('Cart Coupon', () => {
     cartCoupon.applyWrongCoupon();
   });
 
-  it('should be able to place order with discount promotion and show applied coupon ' +
-    'in order confirmation and order history when applied coupon with cart total action', () => {
+  it(
+    'should be able to place order with discount promotion and show applied coupon ' +
+      'in order confirmation and order history when applied coupon with cart total action',
+    () => {
       addProductToCart();
       cartCoupon.navigateToCartPage();
       cartCoupon.applyCoupon(couponCode1);
       checkout();
       verifyChecoutResults(couponCode1, true);
-    });
-
+    }
+  );
 });

@@ -139,7 +139,7 @@ describe('CartCouponComponent', () => {
     form.triggerEventHandler('submit', null);
     expect(mockCartService.addVoucher).toHaveBeenCalled();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
-  
+
     expect(submit.nativeElement.disabled).toBeFalsy();
   });
 
