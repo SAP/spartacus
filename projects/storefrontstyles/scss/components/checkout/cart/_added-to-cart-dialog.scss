@@ -39,6 +39,23 @@
     @include media-breakpoint-down(sm) {
       padding: 2rem;
     }
+
+    .cx-compact {
+      .cx-price,
+      .cx-quantity,
+      .cx-total {
+        .cx-label {
+          font-weight: var(--cx-font-weight-normal);
+        }
+      }
+
+      .cx-actions {
+        button.link {
+          font-weight: var(--cx-font-weight-normal);
+          text-decoration: underline;
+        }
+      }
+    }
   }
 
   .cx-dialog-separator {
