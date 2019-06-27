@@ -147,16 +147,14 @@ export class SearchBoxComponent {
 
   // Return result list as HTMLElement array
   private getResultElements(): HTMLElement[] {
-    const suggestions = this.winRef.document.querySelectorAll(
-      'div.suggestions > a'
+    const suggestions: HTMLElement[] = Array.from(
+      this.winRef.document.querySelectorAll('div.suggestions > a')
     );
-    const products = this.winRef.document.querySelectorAll('div.products > a');
-    const results = [];
+    const products: HTMLElement[] = Array.from(
+      this.winRef.document.querySelectorAll('div.products > a')
+    );
 
-    suggestions.forEach(suggestion => results.push(suggestion));
-    products.forEach(item => results.push(item));
-
-    return <HTMLElement[]>results;
+    return [...suggestions, ...products];
   }
 
   // Return focused element as HTMLElement
