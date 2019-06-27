@@ -18,6 +18,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { Card } from '../../../../shared/components/card/card.component';
+import { ICON_TYPE } from '../../../misc/index';
 import { CheckoutConfigService } from '../../checkout-config.service';
 import {
   CheckoutStep,
@@ -30,8 +31,8 @@ import createSpy = jasmine.createSpy;
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 const mockPaymentDetails: PaymentDetails = {
@@ -214,14 +215,17 @@ describe('PaymentMethodComponent', () => {
 
   it('should call addPaymentInfo() with new created payment info', () => {
     component['deliveryAddress'] = mockAddress;
-    component.addPaymentInfo({
-      payment: mockPaymentDetails,
-      newPayment: true,
+    component.setPaymentDetails({
+      paymentDetails: mockPaymentDetails,
+      isNewPayment: true,
       billingAddress: null,
     });
     expect(
       mockCheckoutPaymentService.createPaymentDetails
-    ).toHaveBeenCalledWith(mockPaymentDetails);
+    ).toHaveBeenCalledWith({
+      ...mockPaymentDetails,
+      billingAddress: mockAddress,
+    });
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', done => {
@@ -269,26 +273,13 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call next() to submit request', () => {
-    spyOn(component, 'addPaymentInfo');
+    spyOn(component, 'setPaymentDetails');
     component.selectedPayment = mockPaymentDetails;
     component.next();
 
-    expect(component.addPaymentInfo).toHaveBeenCalledWith({
-      payment: mockPaymentDetails,
-      newPayment: false,
-    });
-  });
-
-  it('should call addNewPaymentMethod()', () => {
-    spyOn(component, 'addPaymentInfo');
-    component.addNewPaymentMethod({
+    expect(component.setPaymentDetails).toHaveBeenCalledWith({
       paymentDetails: mockPaymentDetails,
-      billingAddress: null,
-    });
-    expect(component.addPaymentInfo).toHaveBeenCalledWith({
-      payment: mockPaymentDetails,
-      billingAddress: null,
-      newPayment: true,
+      isNewPayment: false,
     });
   });
 
