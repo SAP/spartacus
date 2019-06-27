@@ -16,14 +16,24 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductReferencesComponent {
-  private title$ = this.component.data$.pipe(map(d => d.title));
+  /**
+   * returns an Obervable string for the title
+   */
+  title$ = this.component.data$.pipe(map(d => d.title));
 
-  currentProductCode$: Observable<string> = this.current.getProduct().pipe(
+  private currentProductCode$: Observable<
+    string
+  > = this.current.getProduct().pipe(
     filter(Boolean),
     map((p: Product) => p.code)
   );
 
-  private items$: Observable<Observable<Product>[]> = combineLatest([
+  /**
+   * Obervable with an Array of Observables. This is done, so that
+   * the component UI could consider to lazy load the UI components when they're
+   * in the viewpoint.
+   */
+  items$: Observable<Observable<Product>[]> = combineLatest([
     this.currentProductCode$,
     this.component.data$,
   ]).pipe(
@@ -37,22 +47,6 @@ export class ProductReferencesComponent {
     protected current: CurrentProductService,
     protected referenceService: ProductReferenceService
   ) {}
-
-  /**
-   * returns an Obervable string for the title
-   */
-  getTitle(): Observable<string> {
-    return this.title$;
-  }
-
-  /**
-   * Returns an Obervable with an Array of Observables. This is done, so that
-   * the component UI could consider to lazy load the UI components when they're
-   * in the viewpoint.
-   */
-  getItems(): Observable<Observable<ProductReference>[]> {
-    return this.items$;
-  }
 
   private getProductReferences(
     code: string,
