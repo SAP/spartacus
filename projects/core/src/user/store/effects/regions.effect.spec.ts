@@ -7,7 +7,7 @@ import { Region } from '../../../model/index';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { StateLoaderActions } from '../../../state/index';
-import * as fromActions from '../actions/index';
+import { UserActions } from '../actions/index';
 import { REGIONS } from '../user-state';
 import { RegionsEffects } from './regions.effect';
 
@@ -46,8 +46,8 @@ describe('', () => {
 
   describe('loadRegions$', () => {
     it('should load regions', () => {
-      const action = new fromActions.LoadRegions('CA');
-      const completion = new fromActions.LoadRegionsSuccess({
+      const action = new UserActions.LoadRegions('CA');
+      const completion = new UserActions.LoadRegionsSuccess({
         entities: mockRegions,
         country,
       });
@@ -62,7 +62,7 @@ describe('', () => {
   describe('resetRegions$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: fromActions.CLEAR_MISCS_DATA,
+        type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
       const completion = new StateLoaderActions.LoaderResetAction(REGIONS);

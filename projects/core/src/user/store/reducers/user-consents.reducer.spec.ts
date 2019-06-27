@@ -1,5 +1,5 @@
 import { ConsentTemplate } from '../../../model/consent.model';
-import * as fromAction from '../actions/user-consents.action';
+import { UserActions } from '../actions/index';
 import * as fromReducer from './user-consents.reducer';
 
 const consentId = 'xxx';
@@ -9,7 +9,7 @@ describe('User Consents Reducer', () => {
   describe('undefined state', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as fromAction.LoadUserConsentsSuccess;
+      const action = {} as UserActions.LoadUserConsentsSuccess;
       const result = fromReducer.reducer(undefined, action);
       expect(result).toEqual(initialState);
     });
@@ -17,7 +17,7 @@ describe('User Consents Reducer', () => {
   describe('LOAD_USER_CONSENTS_SUCCESS', () => {
     it('should return consents from the payload', () => {
       const { initialState } = fromReducer;
-      const action = new fromAction.LoadUserConsentsSuccess(consents);
+      const action = new UserActions.LoadUserConsentsSuccess(consents);
       const result = fromReducer.reducer(initialState, action);
       expect(result).toEqual(consents);
     });
@@ -29,7 +29,7 @@ describe('User Consents Reducer', () => {
         description: 'updated description',
       };
 
-      const action = new fromAction.GiveUserConsentSuccess(
+      const action = new UserActions.GiveUserConsentSuccess(
         consentGivenTemplate
       );
       const result = fromReducer.reducer(consents, action);

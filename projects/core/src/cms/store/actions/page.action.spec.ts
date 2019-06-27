@@ -10,8 +10,8 @@ describe('Cms Page Actions', () => {
     type: PageType.CONTENT_PAGE,
   };
 
-  describe('LoadPageData Actions', () => {
-    describe('LoadPageData', () => {
+  describe('LoadCmsPageData Actions', () => {
+    describe('LoadCmsPageData', () => {
       it('should create the action', () => {
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
@@ -26,7 +26,7 @@ describe('Cms Page Actions', () => {
       });
     });
 
-    describe('LoadPageDataFail', () => {
+    describe('LoadCmsPageDataFail', () => {
       it('should create the action', () => {
         const payload = 'error';
         const action = new CmsActions.LoadCmsPageDataFail(pageContext, payload);
@@ -42,7 +42,7 @@ describe('Cms Page Actions', () => {
       });
     });
 
-    describe('SetPageFailIndex', () => {
+    describe('CmsSetPageFailIndex', () => {
       it('should create the action', () => {
         const newIndex = 'index';
         const action = new CmsActions.CmsSetPageFailIndex(
@@ -61,7 +61,7 @@ describe('Cms Page Actions', () => {
       });
     });
 
-    describe('LoadPageDataSuccess', () => {
+    describe('LoadCmsPageDataSuccess', () => {
       it('should create the action', () => {
         const page: Page = <Page>{
           pageId: 'test',
