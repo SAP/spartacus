@@ -24,5 +24,6 @@ import { ProductImagesComponent } from './product-images.component';
   ],
   declarations: [ProductImagesComponent],
   entryComponents: [ProductImagesComponent],
+  exports: [ProductImagesComponent],
 })
 export class ProductImagesModule {}
