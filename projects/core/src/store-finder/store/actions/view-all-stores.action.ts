@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 
 export const VIEW_ALL_STORES = '[StoreFinder] View All Stores';

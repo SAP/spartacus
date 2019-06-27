@@ -1,5 +1,5 @@
 import { OrderHistoryList } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { USER_ORDERS } from '../user-state';
 import { UserActions } from './index';
 

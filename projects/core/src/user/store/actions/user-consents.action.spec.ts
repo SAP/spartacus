@@ -3,7 +3,7 @@ import { PROCESS_FEATURE } from '../../../process/index';
 import {
   StateEntityLoaderActions,
   StateLoaderActions,
-} from '../../../state/index';
+} from '../../../state/utils/index';
 import { GIVE_CONSENT_PROCESS_ID, USER_CONSENTS } from '../user-state';
 import { UserActions } from './index';
 

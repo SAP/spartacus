@@ -1,5 +1,5 @@
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { UPDATE_EMAIL_PROCESS_ID } from '../user-state';
 
 export const UPDATE_EMAIL = '[User] Update Email';
