@@ -35,26 +35,34 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       this.enableBtn = this.form.valid;
     });
 
-    this.subscription.add(
-      this.cartService.getAddVoucherResultSuccess().subscribe(success => {
-        this.onSuccess(success);
-      })
-    );
-
-    this.subscription.add(
-      this.cartCouponAnchorService
-        .getEventEmit()
-        .subscribe((anchor: string) => {
-          this.scrollToView(anchor);
+    this.subscription
+      .add(
+        this.cartService.getAddVoucherResultSuccess().subscribe(success => {
+          this.onSuccess(success);
         })
-    );
-  }
-
-  scrollToView(anchor: string) {
-    const anchorElement = this.element.nativeElement.querySelector(anchor);
-    if (anchorElement) {
-      anchorElement.scrollIntoView({ behavior: 'smooth' });
+      )
+      .add(
+        this.cartService.getAddVoucherResultError().subscribe(error => {
+          if (error) {
+            this.enableBtn = true;
+          }
+        })
+      )
+      .add(
+        this.cartCouponAnchorService
+          .getEventEmit()
+          .subscribe((anchor: string) => {
+            this.scrollToView(anchor);
+          })
+      );
     }
+  
+  scrollToView(anchor: string) {
+      const anchorElement = this.element.nativeElement.querySelector(anchor);
+      if (anchorElement) {
+        anchorElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    
   }
 
   onSuccess(success: boolean) {
@@ -66,6 +74,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   applyVoucher(): void {
     this.cartService.addVoucher(this.form.value.couponCode);
     this.cartService.resetAddVoucherProcessingState();
+    this.enableBtn = false;
   }
 
   ngOnDestroy(): void {

@@ -7,7 +7,7 @@ import { GlobalMessageService } from '../../../global-message/facade/global-mess
 import { OccConfig } from '../../../occ/index';
 import { CartVoucherAdapter } from '../../connectors';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
-import * as fromActions from '../actions';
+import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-voucher.effect';
 import createSpy = jasmine.createSpy;
 
@@ -24,13 +24,13 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
-describe('Cart effect', () => {
+describe('Cart Voucher effect', () => {
   let voucherEffects: fromEffects.CartVoucherEffects;
   let actions$: Observable<any>;
   let cartVoucherConnector: CartVoucherConnector;
 
-  const userId = 'testUserId';
-  const cartId = 'testCartId';
+  const userId = 'userId';
+  const cartId = 'cartId';
   const voucherId = 'testVoucherId';
 
   beforeEach(() => {
@@ -54,12 +54,15 @@ describe('Cart effect', () => {
 
   describe('addCartVoucher$', () => {
     it('should add a voucher', () => {
-      const action = new fromActions.AddCartVoucher({
+      const action = new CartActions.CartAddVoucher({
         userId: userId,
         cartId: cartId,
         voucherId: voucherId,
       });
-      const completion = new fromActions.AddCartVoucherSuccess();
+      const completion = new CartActions.CartAddVoucherSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -70,12 +73,15 @@ describe('Cart effect', () => {
 
   describe('removeCartVoucher$', () => {
     it('should remove voucher', () => {
-      const action = new fromActions.RemoveCartVoucher({
+      const action = new CartActions.CartRemoveVoucher({
         userId: userId,
         cartId: cartId,
         voucherId: voucherId,
       });
-      const completion = new fromActions.RemoveCartVoucherSuccess();
+      const completion = new CartActions.CartRemoveVoucherSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

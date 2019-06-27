@@ -9,7 +9,7 @@
 
 .cx-section-title {
   @include type('4');
-  font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi));
+  font-weight: var(--cx-font-weight, var(--cx-font-weight-semi));
   margin-bottom: var(--cx-margin-bottom, 25px);
   text-transform: var(--cx-text-transform, none);
 }

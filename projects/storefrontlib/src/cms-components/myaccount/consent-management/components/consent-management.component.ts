@@ -24,11 +24,11 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loading$ = combineLatest(
+    this.loading$ = combineLatest([
       this.userConsentService.getConsentsResultLoading(),
       this.userConsentService.getGiveConsentResultLoading(),
-      this.userConsentService.getWithdrawConsentResultLoading()
-    ).pipe(
+      this.userConsentService.getWithdrawConsentResultLoading(),
+    ]).pipe(
       map(
         ([consentLoading, giveConsentLoading, withdrawConsentLoading]) =>
           consentLoading || giveConsentLoading || withdrawConsentLoading

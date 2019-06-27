@@ -1,3 +1,2 @@
-export * from './cart-entry.action';
-export * from './cart-voucher.action';
-export * from './cart.action';
+import * as CartActions from './cart-group.actions';
+export { CartActions };

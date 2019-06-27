@@ -20,7 +20,7 @@ export class AppliedCouponsComponent implements OnInit {
 
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];
-    return this.vouchers.sort((a, b) => {
+    return this.vouchers.slice().sort((a, b) => {
       return a.code.localeCompare(b.code);
     });
   }

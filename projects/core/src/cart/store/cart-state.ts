@@ -1,3 +1,4 @@
+import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 
@@ -14,7 +15,7 @@ export interface CartsState {
 }
 
 export interface CartState {
-  content: any;
+  content: Cart;
   entries: { [code: string]: OrderEntry };
   refresh: boolean;
   cartMergeComplete: boolean;

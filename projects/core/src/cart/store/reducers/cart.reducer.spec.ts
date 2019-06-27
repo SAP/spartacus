@@ -1,5 +1,5 @@
 import { Cart } from '../../../model/cart.model';
-import * as fromActions from './../actions';
+import { CartActions } from '../actions/index';
 import * as fromCart from './cart.reducer';
 
 describe('Cart reducer', () => {
@@ -30,7 +30,7 @@ describe('Cart reducer', () => {
       };
       const { initialState } = fromCart;
 
-      const action = new fromActions.CreateCartSuccess(testCart);
+      const action = new CartActions.CreateCartSuccess(testCart);
       const state = fromCart.reducer(initialState, action);
 
       expect(state.content).toEqual(testCart);
@@ -57,7 +57,7 @@ describe('Cart reducer', () => {
 
       const { initialState } = fromCart;
 
-      const action = new fromActions.LoadCartSuccess(testCart);
+      const action = new CartActions.LoadCartSuccess(testCart);
       const state = fromCart.reducer(initialState, action);
 
       delete testCart['entries'];
@@ -74,17 +74,20 @@ describe('Cart reducer', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new fromActions.AddEntrySuccess({});
+      const action = new CartActions.CartAddEntrySuccess({});
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });
   });
 
-  describe('REMOVE_CART_VOUCHER_SUCCESS or ADD_CART_VOUCHER_SUCCESS action', () => {
+  describe('REMOVE_VOUCHER_SUCCESS or ADD_VOUCHER_SUCCESS action', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new fromActions.AddCartVoucherSuccess();
+      const action = new CartActions.CartAddVoucherSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+      });
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });

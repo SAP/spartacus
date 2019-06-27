@@ -49,10 +49,10 @@ describe('AppliedCouponsComponent', () => {
       component.vouchers = [];
       fixture.detectChanges();
       const elTitle = fixture.debugElement.query(
-        By.css('.cx-cart-coupon-title')
+        By.css('.cx-applied-coupon-title')
       );
       const elValue = fixture.debugElement.query(
-        By.css('.cx-coupon-code-pill-value')
+        By.css('.cx-applied-coupon-code')
       );
       const elButton = fixture.debugElement.query(By.css('button'));
 
@@ -66,31 +66,29 @@ describe('AppliedCouponsComponent', () => {
       component.isReadOnly = true;
       fixture.detectChanges();
       const elTitle = fixture.debugElement.query(
-        By.css('.cx-cart-coupon-title')
+        By.css('.cx-applied-coupon-title')
       );
       const elValue = fixture.debugElement.query(
-        By.css('.cx-coupon-code-pill-value')
+        By.css('.cx-applied-coupon-code')
       );
       const elButton = fixture.debugElement.query(By.css('button'));
 
       expect(elValue).toBeNull();
       expect(elTitle).toBeNull();
       expect(elButton).toBeNull();
-      expect(component.sortedVouchers.length === 0);
     });
 
     it('should singular coupon tile  with one coupon for ready only', () => {
       component.isReadOnly = true;
       component.vouchers = [coupon1];
       fixture.detectChanges();
-
       const elTitle = fixture.debugElement.query(
-        By.css('.cx-cart-coupon-title')
+        By.css('.cx-applied-coupon-title')
+      );
+      const elValue = fixture.debugElement.query(
+        By.css('.cx-applied-coupon-code')
       );
       const couponTitle = elTitle.nativeElement.innerText;
-      const elValue = fixture.debugElement.query(
-        By.css('.cx-coupon-code-pill-value')
-      );
       const couponCode = elValue.context;
       expect(coupon1.code === couponCode);
       expect(couponTitle).toEqual('voucher.coupon');
@@ -101,12 +99,12 @@ describe('AppliedCouponsComponent', () => {
       component.vouchers = [coupon2, coupon1];
       fixture.detectChanges();
       const elTitle = fixture.debugElement.query(
-        By.css('.cx-cart-coupon-title')
+        By.css('.cx-applied-coupon-title')
+      );
+      const elValue = fixture.debugElement.query(
+        By.css('.cx-applied-coupon-code')
       );
       const couponTitle = elTitle.nativeElement.innerText;
-      const elValue = fixture.debugElement.query(
-        By.css('.cx-coupon-code-pill-value')
-      );
       const couponCode = elValue.context;
       const elButton = fixture.debugElement.query(By.css('button'));
 
@@ -128,7 +126,7 @@ describe('AppliedCouponsComponent', () => {
         By.css('.cx-cart-coupon-title')
       );
       const elValue = fixture.debugElement.query(
-        By.css('.cx-coupon-code-pill-value')
+        By.css('.cx-cart-coupon-code')
       );
       const elButton = fixture.debugElement.query(By.css('button'));
 
@@ -147,7 +145,7 @@ describe('AppliedCouponsComponent', () => {
         By.css('.cx-cart-coupon-title')
       );
       const elValue = fixture.debugElement.query(
-        By.css('.cx-coupon-code-pill-value')
+        By.css('.cx-cart-coupon-code')
       );
       const elButton = fixture.debugElement.query(By.css('button'));
 

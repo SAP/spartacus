@@ -16,7 +16,12 @@ export function authStoreConfigFactory(): StateConfig {
     state: {
       storageSync: {
         keys: {
-          'auth.userToken.token': StorageSyncType.LOCAL_STORAGE,
+          'auth.userToken.token.access_token': StorageSyncType.LOCAL_STORAGE,
+          'auth.userToken.token.token_type': StorageSyncType.LOCAL_STORAGE,
+          'auth.userToken.token.expires_in': StorageSyncType.LOCAL_STORAGE,
+          'auth.userToken.token.expiration_time': StorageSyncType.LOCAL_STORAGE,
+          'auth.userToken.token.scope': StorageSyncType.LOCAL_STORAGE,
+          'auth.userToken.token.userId': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },

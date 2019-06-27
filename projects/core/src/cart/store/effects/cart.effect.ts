@@ -2,62 +2,56 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
-import * as fromActions from './../actions/cart.action';
-import { CartDataService } from '../../facade/cart-data.service';
-import { CartConnector } from '../../connectors/cart/cart.connector';
 import { Cart } from '../../../model/cart.model';
+import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { CartConnector } from '../../connectors/cart/cart.connector';
+import { CartDataService } from '../../facade/cart-data.service';
+import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartEffects {
   @Effect()
   loadCart$: Observable<
-    fromActions.LoadCartFail | fromActions.LoadCartSuccess
+    CartActions.LoadCartFail | CartActions.LoadCartSuccess
   > = this.actions$.pipe(
-    ofType(fromActions.LOAD_CART, LANGUAGE_CHANGE, CURRENCY_CHANGE),
+    ofType(CartActions.LOAD_CART),
     map(
       (action: {
         type: string;
-        payload?: { userId: string; cartId: string; details?: boolean };
+        payload?: { userId: string; cartId: string };
       }) => action.payload
     ),
     mergeMap(payload => {
       const loadCartParams = {
         userId: (payload && payload.userId) || this.cartData.userId,
         cartId: (payload && payload.cartId) || this.cartData.cartId,
-        details:
-          payload && payload.details !== undefined
-            ? payload.details
-            : this.cartData.getDetails,
       };
 
       if (this.isMissingData(loadCartParams)) {
-        return of(new fromActions.LoadCartFail({}));
+        return of(new CartActions.LoadCartFail({}));
       }
-
       return this.cartConnector
-        .load(
-          loadCartParams.userId,
-          loadCartParams.cartId,
-          loadCartParams.details
-        )
+        .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
           map((cart: Cart) => {
-            return new fromActions.LoadCartSuccess(cart);
+            return new CartActions.LoadCartSuccess(cart);
           }),
-          catchError(error => of(new fromActions.LoadCartFail(error)))
+          catchError(error =>
+            of(new CartActions.LoadCartFail(makeErrorSerializable(error)))
+          )
         );
     })
   );
 
   @Effect()
   createCart$: Observable<
-    | fromActions.MergeCartSuccess
-    | fromActions.CreateCartSuccess
-    | fromActions.CreateCartFail
+    | CartActions.MergeCartSuccess
+    | CartActions.CreateCartSuccess
+    | CartActions.CreateCartFail
   > = this.actions$.pipe(
-    ofType(fromActions.CREATE_CART),
-    map((action: fromActions.CreateCart) => action.payload),
+    ofType(CartActions.CREATE_CART),
+    map((action: CartActions.CreateCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
@@ -65,28 +59,30 @@ export class CartEffects {
           switchMap((cart: Cart) => {
             if (payload.oldCartId) {
               return [
-                new fromActions.CreateCartSuccess(cart),
-                new fromActions.MergeCartSuccess({
+                new CartActions.CreateCartSuccess(cart),
+                new CartActions.MergeCartSuccess({
                   userId: payload.userId,
                   cartId: cart.code,
                 }),
               ];
             }
-            return [new fromActions.CreateCartSuccess(cart)];
+            return [new CartActions.CreateCartSuccess(cart)];
           }),
-          catchError(error => of(new fromActions.CreateCartFail(error)))
+          catchError(error =>
+            of(new CartActions.CreateCartFail(makeErrorSerializable(error)))
+          )
         );
     })
   );
 
   @Effect()
-  mergeCart$: Observable<fromActions.CreateCart> = this.actions$.pipe(
-    ofType(fromActions.MERGE_CART),
-    map((action: fromActions.MergeCart) => action.payload),
+  mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
+    ofType(CartActions.MERGE_CART),
+    map((action: CartActions.MergeCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector.load(payload.userId, 'current').pipe(
         map(currentCart => {
-          return new fromActions.CreateCart({
+          return new CartActions.CreateCart({
             userId: payload.userId,
             oldCartId: payload.cartId,
             toMergeCartGuid: currentCart ? currentCart.guid : undefined,
@@ -96,13 +92,54 @@ export class CartEffects {
     })
   );
 
+  @Effect()
+  refresh$: Observable<CartActions.LoadCart> = this.actions$.pipe(
+    ofType(
+      CartActions.MERGE_CART_SUCCESS,
+      CartActions.CART_ADD_ENTRY_SUCCESS,
+      CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.CART_ADD_VOUCHER_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+    ),
+    map(
+      (
+        action:
+          | CartActions.MergeCartSuccess
+          | CartActions.CartAddEntrySuccess
+          | CartActions.CartUpdateEntrySuccess
+          | CartActions.CartRemoveEntrySuccess
+          | CartActions.CartAddVoucherSuccess
+          | CartActions.CartRemoveVoucherSuccess
+      ) => action.payload
+    ),
+    map(
+      payload =>
+        new CartActions.LoadCart({
+          userId: payload.userId,
+          cartId: payload.cartId,
+        })
+    )
+  );
+
+  @Effect()
+  resetCartDetailsOnSiteContextChange$: Observable<
+    CartActions.ResetCartDetails
+  > = this.actions$.pipe(
+    ofType(
+      fromSiteContextActions.LANGUAGE_CHANGE,
+      fromSiteContextActions.CURRENCY_CHANGE
+    ),
+    map(() => new CartActions.ResetCartDetails())
+  );
+
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
     private cartData: CartDataService
   ) {}
 
-  private isMissingData(payload) {
+  private isMissingData(payload: { userId: string; cartId: string }) {
     return payload.userId === undefined || payload.cartId === undefined;
   }
 }
