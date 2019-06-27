@@ -1,6 +1,6 @@
-import { DeliveryCountriesState } from '../user-state';
-import * as fromAction from '../actions/index';
 import { Country } from '../../../model/address.model';
+import { UserActions } from '../actions/index';
+import { DeliveryCountriesState } from '../user-state';
 
 export const initialState: DeliveryCountriesState = {
   entities: {},
@@ -8,10 +8,10 @@ export const initialState: DeliveryCountriesState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.DeliveryCountriesAction | fromAction.ClearMiscsData
+  action: UserActions.DeliveryCountriesAction | UserActions.ClearUserMiscsData
 ): DeliveryCountriesState {
   switch (action.type) {
-    case fromAction.LOAD_DELIVERY_COUNTRIES_SUCCESS: {
+    case UserActions.LOAD_DELIVERY_COUNTRIES_SUCCESS: {
       const deliveryCountries = action.payload;
       const entities = deliveryCountries.reduce(
         (countryEntities: { [isocode: string]: Country }, country: Country) => {
@@ -31,7 +31,7 @@ export function reducer(
       };
     }
 
-    case fromAction.CLEAR_MISCS_DATA: {
+    case UserActions.CLEAR_USER_MISCS_DATA: {
       return initialState;
     }
   }

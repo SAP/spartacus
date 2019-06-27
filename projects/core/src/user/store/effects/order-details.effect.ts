@@ -5,27 +5,23 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { Order } from '../../../model/order.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import * as fromOrderDetailsAction from '../actions/order-details.action';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class OrderDetailsEffect {
   @Effect()
   loadOrderDetails$: Observable<
-    fromOrderDetailsAction.OrderDetailsAction
+    UserActions.OrderDetailsAction
   > = this.actions$.pipe(
-    ofType(fromOrderDetailsAction.LOAD_ORDER_DETAILS),
-    map((action: fromOrderDetailsAction.LoadOrderDetails) => action.payload),
+    ofType(UserActions.LOAD_ORDER_DETAILS),
+    map((action: UserActions.LoadOrderDetails) => action.payload),
     switchMap(payload => {
       return this.orderConnector.get(payload.userId, payload.orderCode).pipe(
         map((order: Order) => {
-          return new fromOrderDetailsAction.LoadOrderDetailsSuccess(order);
+          return new UserActions.LoadOrderDetailsSuccess(order);
         }),
         catchError(error =>
-          of(
-            new fromOrderDetailsAction.LoadOrderDetailsFail(
-              makeErrorSerializable(error)
-            )
-          )
+          of(new UserActions.LoadOrderDetailsFail(makeErrorSerializable(error)))
         )
       );
     })

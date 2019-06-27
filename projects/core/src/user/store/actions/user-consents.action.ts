@@ -131,6 +131,7 @@ export type UserConsentsAction =
   | GiveUserConsent
   | GiveUserConsentFail
   | GiveUserConsentSuccess
+  | ResetGiveUserConsentProcess
   | WithdrawUserConsent
   | WithdrawUserConsentFail
   | WithdrawUserConsentSuccess
