@@ -170,7 +170,7 @@ describe('PaymentFormComponent', () => {
       billingAddress: component.billingAddress.controls,
     };
 
-    spyOn(component.addPaymentInfo, 'emit').and.callThrough();
+    spyOn(component.setPaymentDetails, 'emit').and.callThrough();
     spyOn(component.closeForm, 'emit').and.callThrough();
 
     showSameAsShippingAddressCheckboxSpy = spyOn(
@@ -244,7 +244,7 @@ describe('PaymentFormComponent', () => {
 
   it('should call next()', () => {
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+    expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
       paymentDetails: component.payment.value,
       billingAddress: null,
     });
