@@ -1,7 +1,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import {
+  StateEntityLoaderSelectors,
+  StateLoaderSelectors,
+} from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { loaderValueSelector } from '../../../state/utils/loader/loader.selectors';
 import { CmsState, ComponentState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
@@ -37,7 +39,7 @@ export const componentStateSelectorFactory = (
       if (Object.keys(entities.entities).length === 0) {
         return undefined;
       } else {
-        return entityStateSelector(entities, uid);
+        return StateEntityLoaderSelectors.entityStateSelector(entities, uid);
       }
     }
   );
@@ -50,7 +52,7 @@ export const componentSelectorFactory = (
     componentStateSelectorFactory(uid),
     state => {
       if (state) {
-        return loaderValueSelector(state);
+        return StateLoaderSelectors.loaderValueSelector(state);
       } else {
         return undefined;
       }

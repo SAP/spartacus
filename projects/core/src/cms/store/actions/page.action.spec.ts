@@ -1,6 +1,6 @@
 import { PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';
 import { CmsActions } from './index';
 

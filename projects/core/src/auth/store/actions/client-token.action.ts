@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { ClientToken } from '../../models/token-types.model';
 import { CLIENT_TOKEN_DATA } from '../auth-state';
 

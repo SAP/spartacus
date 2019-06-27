@@ -1,5 +1,5 @@
 import { PageContext } from '../../../routing/index';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';
 
 export const LOAD_CMS_PAGE_DATA = '[Cms] Load Page Data';
