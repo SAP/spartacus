@@ -2,14 +2,14 @@ import { GeoPoint } from '../../../model/misc.model';
 import { StateLoaderActions } from '../../../state/index';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 import { STORE_FINDER_DATA } from '../store-finder-state';
-import * as fromActions from './find-stores.action';
+import { StoreFinderActions } from './index';
 
 describe('Find Stores Actions', () => {
   describe('OnHold', () => {
     it('should create OnHold action', () => {
-      const action = new fromActions.OnHold();
+      const action = new StoreFinderActions.FindStoresOnHold();
       expect({ ...action }).toEqual({
-        type: fromActions.ON_HOLD,
+        type: StoreFinderActions.FIND_STORES_ON_HOLD,
         meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
     });
@@ -23,10 +23,10 @@ describe('Find Stores Actions', () => {
         latitude: 20.2,
       };
       const payload = { queryText: 'test', longitudeLatitude, searchConfig };
-      const action = new fromActions.FindStores(payload);
+      const action = new StoreFinderActions.FindStores(payload);
 
       expect({ ...action }).toEqual({
-        type: fromActions.FIND_STORES,
+        type: StoreFinderActions.FIND_STORES,
         meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
         payload,
       });
@@ -40,10 +40,10 @@ describe('Find Stores Actions', () => {
         latitude: 20.2,
       };
       const payload = { queryText: '', longitudeLatitude };
-      const action = new fromActions.FindStores(payload);
+      const action = new StoreFinderActions.FindStores(payload);
 
       expect({ ...action }).toEqual({
-        type: fromActions.FIND_STORES,
+        type: StoreFinderActions.FIND_STORES,
         payload,
         meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
@@ -53,10 +53,10 @@ describe('Find Stores Actions', () => {
   describe('FindStoresFail', () => {
     it('should create FindStoresFail action', () => {
       const payload = { errorMessage: 'Error' };
-      const action = new fromActions.FindStoresFail(payload);
+      const action = new StoreFinderActions.FindStoresFail(payload);
 
       expect({ ...action }).toEqual({
-        type: fromActions.FIND_STORES_FAIL,
+        type: StoreFinderActions.FIND_STORES_FAIL,
         payload,
         meta: StateLoaderActions.failMeta(STORE_FINDER_DATA, payload),
       });
@@ -66,10 +66,10 @@ describe('Find Stores Actions', () => {
   describe('FindStoresSuccess', () => {
     it('should create FindStoresSuccess action', () => {
       const payload = [{ stores: ['test'] }];
-      const action = new fromActions.FindStoresSuccess(payload);
+      const action = new StoreFinderActions.FindStoresSuccess(payload);
 
       expect({ ...action }).toEqual({
-        type: fromActions.FIND_STORES_SUCCESS,
+        type: StoreFinderActions.FIND_STORES_SUCCESS,
         payload,
         meta: StateLoaderActions.successMeta(STORE_FINDER_DATA),
       });
@@ -80,12 +80,12 @@ describe('Find Stores Actions', () => {
     it('should create FindStoreById action', () => {
       const storeId = 'shop_los_angeles_1';
       const payload = { storeId };
-      const action = new fromActions.FindStoreById(payload);
+      const action = new StoreFinderActions.FindStoreById(payload);
 
       expect({
         ...action,
       }).toEqual({
-        type: fromActions.FIND_STORE_BY_ID,
+        type: StoreFinderActions.FIND_STORE_BY_ID,
         payload,
         meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
@@ -95,12 +95,12 @@ describe('Find Stores Actions', () => {
   describe('FindStoreByIdFail', () => {
     it('should create FindStoreByIdFail action', () => {
       const payload = { errorMessage: 'Error' };
-      const action = new fromActions.FindStoreByIdFail(payload);
+      const action = new StoreFinderActions.FindStoreByIdFail(payload);
 
       expect({
         ...action,
       }).toEqual({
-        type: fromActions.FIND_STORE_BY_ID_FAIL,
+        type: StoreFinderActions.FIND_STORE_BY_ID_FAIL,
         payload,
         meta: StateLoaderActions.failMeta(STORE_FINDER_DATA, payload),
       });
@@ -110,12 +110,12 @@ describe('Find Stores Actions', () => {
   describe('FindStoreByIdSuccess', () => {
     it('should create FindStoreByIdSuccess action', () => {
       const payload = { name: 'storeName' };
-      const action = new fromActions.FindStoreByIdSuccess(payload);
+      const action = new StoreFinderActions.FindStoreByIdSuccess(payload);
 
       expect({
         ...action,
       }).toEqual({
-        type: fromActions.FIND_STORE_BY_ID_SUCCESS,
+        type: StoreFinderActions.FIND_STORE_BY_ID_SUCCESS,
         payload,
         meta: StateLoaderActions.successMeta(STORE_FINDER_DATA),
       });

@@ -4,25 +4,22 @@ import { Observable } from 'rxjs';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
-import * as fromStore from '../store/index';
+import { StateWithProcess } from '../../process/store/process-state';
+import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
+import { StateWithUser } from '../store/user-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserPaymentService {
-  constructor(
-    protected store: Store<
-      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.store.dispatch(new fromStore.LoadUserPaymentMethods(USERID_CURRENT));
+    this.store.dispatch(new UserActions.LoadUserPaymentMethods(USERID_CURRENT));
   }
 
   /**
@@ -45,7 +42,7 @@ export class UserPaymentService {
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
     this.store.dispatch(
-      new fromStore.SetDefaultUserPaymentMethod({
+      new UserActions.SetDefaultUserPaymentMethod({
         userId: USERID_CURRENT,
         paymentMethodId,
       })
@@ -59,7 +56,7 @@ export class UserPaymentService {
    */
   deletePaymentMethod(paymentMethodId: string): void {
     this.store.dispatch(
-      new fromStore.DeleteUserPaymentMethod({
+      new UserActions.DeleteUserPaymentMethod({
         userId: USERID_CURRENT,
         paymentMethodId,
       })
@@ -77,6 +74,6 @@ export class UserPaymentService {
    * Retrieves billing countries
    */
   loadBillingCountries(): void {
-    this.store.dispatch(new fromStore.LoadBillingCountries());
+    this.store.dispatch(new UserActions.LoadBillingCountries());
   }
 }

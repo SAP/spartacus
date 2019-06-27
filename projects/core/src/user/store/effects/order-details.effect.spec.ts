@@ -1,14 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
-import * as fromOrderDetailsEffect from './order-details.effect';
-import * as fromOrderDetailsAction from '../actions/order-details.action';
-import { Observable, of, throwError } from 'rxjs';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
+import { Observable, of, throwError } from 'rxjs';
 import { Order } from '../../../model/order.model';
-import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
+import * as fromOrderDetailsEffect from './order-details.effect';
 
 const mockOrderDetails: Order = {};
 
@@ -40,11 +40,9 @@ describe('Order Details effect', () => {
   describe('loadOrderDetails$', () => {
     it('should load order details', () => {
       spyOn(orderConnector, 'get').and.returnValue(of(mockOrderDetails));
-      const action = new fromOrderDetailsAction.LoadOrderDetails(
-        mockOrderDetailsParams
-      );
+      const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
 
-      const completion = new fromOrderDetailsAction.LoadOrderDetailsSuccess(
+      const completion = new UserActions.LoadOrderDetailsSuccess(
         mockOrderDetails
       );
 
@@ -57,13 +55,9 @@ describe('Order Details effect', () => {
     it('should handle failures for load order details', () => {
       spyOn(orderConnector, 'get').and.returnValue(throwError('Error'));
 
-      const action = new fromOrderDetailsAction.LoadOrderDetails(
-        mockOrderDetailsParams
-      );
+      const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
 
-      const completion = new fromOrderDetailsAction.LoadOrderDetailsFail(
-        'Error'
-      );
+      const completion = new UserActions.LoadOrderDetailsFail('Error');
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

@@ -11,9 +11,9 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { RoutingService } from '../../../routing/index';
-import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
@@ -23,7 +23,11 @@ import { CmsActions } from '../actions/index';
 export class PageEffects {
   @Effect()
   refreshPage$: Observable<Action> = this.actions$.pipe(
-    ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
+    ofType(
+      SiteContextActions.LANGUAGE_CHANGE,
+      AuthActions.LOGOUT,
+      AuthActions.LOGIN
+    ),
     switchMap(_ =>
       this.routingService.getRouterState().pipe(
         take(1),

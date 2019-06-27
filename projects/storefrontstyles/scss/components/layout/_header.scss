@@ -27,10 +27,10 @@ $space: 0.5rem;
     .navigation {
       position: absolute;
       width: 100%;
-      z-index: 2;
+      z-index: 3;
     }
     .PreHeader {
-      z-index: 2;
+      z-index: 4;
     }
 
     @include media-breakpoint-down(md) {
@@ -43,7 +43,7 @@ $space: 0.5rem;
         top: 0;
         left: 0;
         background-color: rgba(black, 0.75);
-        z-index: 1;
+        z-index: 2;
       }
     }
   }

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import * as fromActions from '../actions/index';
+import { StoreFinderActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { StoreFinderSelectors } from '../selectors/index';
 import {
@@ -29,7 +29,7 @@ describe('ViewAllStores Selectors', () => {
 
   describe('viewAllStores', () => {
     it('should return the stores search results', () => {
-      store.dispatch(new fromActions.ViewAllStoresSuccess(searchResult));
+      store.dispatch(new StoreFinderActions.ViewAllStoresSuccess(searchResult));
 
       let result;
       store
@@ -50,7 +50,7 @@ describe('ViewAllStores Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.ViewAllStores());
+      store.dispatch(new StoreFinderActions.ViewAllStores());
 
       expect(result).toEqual(true);
     });

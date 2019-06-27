@@ -3,7 +3,7 @@ import { StateLoaderActions } from '../../../state/index';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 
-export const ON_HOLD = '[StoreFinder] On Hold';
+export const FIND_STORES_ON_HOLD = '[StoreFinder] On Hold';
 export const FIND_STORES = '[StoreFinder] Find Stores';
 export const FIND_STORES_FAIL = '[StoreFinder] Find Stores Fail';
 export const FIND_STORES_SUCCESS = '[StoreFinder] Find Stores Success';
@@ -13,8 +13,8 @@ export const FIND_STORE_BY_ID_FAIL = '[StoreFinder] Find a Store by Id Fail';
 export const FIND_STORE_BY_ID_SUCCESS =
   '[StoreFinder] Find a Store by Id Success';
 
-export class OnHold extends StateLoaderActions.LoaderLoadAction {
-  readonly type = ON_HOLD;
+export class FindStoresOnHold extends StateLoaderActions.LoaderLoadAction {
+  readonly type = FIND_STORES_ON_HOLD;
   constructor() {
     super(STORE_FINDER_DATA);
   }
@@ -71,7 +71,7 @@ export class FindStoreByIdSuccess extends StateLoaderActions.LoaderSuccessAction
 }
 
 export type FindStoresAction =
-  | OnHold
+  | FindStoresOnHold
   | FindStores
   | FindStoresFail
   | FindStoresSuccess
