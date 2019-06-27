@@ -14,6 +14,7 @@ import {
   UserModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
+import { StorefrontComponent } from '../layout';
 import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
@@ -34,5 +35,6 @@ import { LayoutModule } from '../layout/layout.module';
     LayoutModule,
   ],
   providers: [...provideConfigFromMetaTags()],
+  exports: [StorefrontComponent],
 })
 export class StorefrontFoundationModule {}
