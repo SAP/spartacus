@@ -21,11 +21,11 @@
     }
   }
   cx-media {
-    height: 20vmin;
+    height: 35vmin;
 
     &.is-missing {
-      min-height: 20vmin;
-      background-size: 20vmin;
+      min-height: 35vmin;
+      background-size: 35vmin;
     }
   }
 }

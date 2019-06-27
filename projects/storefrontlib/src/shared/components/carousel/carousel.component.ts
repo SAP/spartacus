@@ -1,10 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   TemplateRef,
 } from '@angular/core';
@@ -13,42 +13,56 @@ import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CarouselService } from './carousel.service';
 
+/**
+ * Generic carousel component that can be used to render any carousel items,
+ * such as products, images, banners, or any component. Carousel items are
+ * rendered in so-called carousel slides, and the previous/next buttons as well as
+ * the indicator-buttons can used to navigate the slides.
+ *
+ * The component uses an array of Observables (`items$`) as an input, to allow
+ * for lazy loading of items.
+ *
+ * The number of items per slide is calculated with the `itemWidth`, which can given
+ * in pixels or percentage.
+ *
+ * To allow for flexible rendering of items, the rendering is delegated to the
+ * given `template`. This allows for maximum flexibility.
+ */
 @Component({
   selector: 'cx-carousel',
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarouselComponent implements AfterViewInit {
+export class CarouselComponent implements OnInit {
   /**
-   * Optional title that will be rendered as a heading
-   * at the start of the carousel.
+   * The title is rendered as the carousel heading.
    */
   @Input() title: string;
 
   /**
-   * Array of Observables that can contain any data.
+   * The items$ represent the carousel items. The items$ are
+   * observables so that the itesm can be loaded on demand.
    */
   @Input() items$: Observable<any>[];
 
-  // TODO: drop after we refactored to Observables
-  @Input() items: any[];
-  @Input() minItemPixelSize = 300;
-
-  /** Indicates the current active item in carousel (if any)  */
-  @Input() activeItem: number;
+  /**
+   * The template is rendered for each item, so that the actual
+   * view can be given by the compoent that uses the `CarouselComponent`.
+   */
+  @Input() template: TemplateRef<any>;
 
   /**
-   * Specifies the min pixel used per product. This value is used
-   * to calculate the amount of items we can fit into the available with
-   * of the host element. The number of items is not related the breakpoints,
-   * which means that a carousel can be placed in different layouts,
-   * regardless of the overall size.
+   * Specifies the minimum size of the carousel item, either in px or %.
+   * This value is used for the calculation of numbers per carousel, so that
+   * the number of carousel items is dynamic. The calculation uses the `itemWidth`
+   * and the host element `clientWidth`, so that the carousel is reusable in
+   * different layouts (for example in a 50% grid).
    */
   @Input() itemWidth = '300px';
 
-  /** Mandatory template responsible for rndering the carousel item */
-  @Input() template: TemplateRef<any>;
-
+  /**
+   * Indicates whether the visual indicators are used.
+   */
   @Input() hideIndicators = false;
 
   @Input() indicatorIcon = ICON_TYPE.CIRCLE;
@@ -57,31 +71,34 @@ export class CarouselComponent implements AfterViewInit {
 
   @Output() open = new EventEmitter<Observable<any>>();
 
-  /**
-   * The group with items which is currently active.
-   */
-  activeSlide;
+  /** Indicates the current active item in carousel (if any)  */
+  // @Input() activeItem: number;
 
-  /**
-   * The number of items that should be rendered in the carousel.
-   */
-  size$: Observable<number>;
+  private _activeSlide: number;
+  private _size$: Observable<number>;
+
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
-  ngAfterViewInit() {
-    this.size$ = this.service
+  ngOnInit() {
+    this._size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
-      .pipe(tap(() => this.select()));
+      .pipe(tap(() => (this.activeSlide = 0)));
   }
 
-  select(slide = 0) {
-    if (this.activeSlide !== slide) {
-      this.activeSlide = slide;
-    }
+  get size$(): Observable<number> {
+    return this._size$;
   }
 
-  onOpen(groupIndex: number, itemIndex: number): void {
-    this.select(groupIndex);
-    this.open.emit(this.items$[groupIndex + itemIndex]);
+  get activeSlide() {
+    return this._activeSlide;
+  }
+
+  set activeSlide(slide) {
+    this._activeSlide = slide;
+  }
+
+  onOpen(slide: number, itemIndex: number): void {
+    this.activeSlide = slide;
+    this.open.emit(this.items$[slide + itemIndex]);
   }
 }

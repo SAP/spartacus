@@ -7,15 +7,15 @@
     <button
       *ngIf="size < items$.length"
       class="previous"
-      (click)="select(activeSlide - size)"
+      (click)="activeSlide = activeSlide - size"
       [disabled]="activeSlide === 0"
     >
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
 
-    <div class="groups">
+    <div class="slides">
       <ng-container *ngFor="let _ of items$; let i = index">
-        <div class="group" *ngIf="i % size === 0">
+        <div class="slide" *ngIf="i % size === 0">
           <ng-container
             *ngFor="let item of (items$ | slice: i:i + size); let j = index"
           >
@@ -36,7 +36,7 @@
     <button
       *ngIf="size < items$.length"
       class="next"
-      (click)="select(activeSlide + size)"
+      (click)="activeSlide = activeSlide + size"
       tabindex="0"
       [disabled]="activeSlide > items$.length - size - 1"
     >
@@ -48,7 +48,7 @@
     <ng-container *ngFor="let _ of items$; let i = index">
       <button
         *ngIf="i % size === 0"
-        (focus)="select(i)"
+        (focus)="activeSlide = i"
         [disabled]="i === activeSlide"
         tabindex="0"
       >
