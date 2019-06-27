@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Address } from '../../../model/address.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import * as fromActions from '../actions/index';
+import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
@@ -51,7 +51,7 @@ describe('User Addresses Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new fromActions.LoadUserAddressesSuccess(mockUserAddresses)
+        new UserActions.LoadUserAddressesSuccess(mockUserAddresses)
       );
 
       expect(result).toEqual(mockUserAddresses);
@@ -67,7 +67,7 @@ describe('User Addresses Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadUserAddresses('userId'));
+      store.dispatch(new UserActions.LoadUserAddresses('userId'));
 
       expect(result).toEqual(true);
     });
