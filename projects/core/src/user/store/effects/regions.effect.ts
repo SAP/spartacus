@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserActions } from '../actions/index';
 import { REGIONS } from '../user-state';

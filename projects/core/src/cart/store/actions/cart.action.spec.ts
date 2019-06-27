@@ -1,5 +1,5 @@
 import { Cart } from '../../../model/cart.model';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { CART_DATA } from '../cart-state';
 import { CartActions } from './index';
 
