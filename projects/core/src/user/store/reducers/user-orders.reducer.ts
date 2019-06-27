@@ -1,5 +1,5 @@
-import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { OrderHistoryList } from '../../../model/order.model';
+import { UserActions } from '../actions/index';
 
 export const initialState: OrderHistoryList = {
   orders: [],
@@ -9,13 +9,13 @@ export const initialState: OrderHistoryList = {
 
 export function reducer(
   state = initialState,
-  action: fromUserOrdersAction.UserOrdersAction
+  action: UserActions.UserOrdersAction
 ): OrderHistoryList {
   switch (action.type) {
-    case fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS: {
+    case UserActions.LOAD_USER_ORDERS_SUCCESS: {
       return action.payload ? action.payload : initialState;
     }
-    case fromUserOrdersAction.LOAD_USER_ORDERS_FAIL: {
+    case UserActions.LOAD_USER_ORDERS_FAIL: {
       return initialState;
     }
   }

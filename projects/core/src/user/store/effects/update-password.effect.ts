@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromActions from '../actions/update-password.action';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UpdatePasswordEffects {
@@ -15,10 +15,10 @@ export class UpdatePasswordEffects {
 
   @Effect()
   updatePassword$: Observable<
-    fromActions.UpdatePasswordSuccess | fromActions.UpdatePasswordFail
+    UserActions.UpdatePasswordSuccess | UserActions.UpdatePasswordFail
   > = this.actions$.pipe(
-    ofType(fromActions.UPDATE_PASSWORD),
-    map((action: fromActions.UpdatePassword) => action.payload),
+    ofType(UserActions.UPDATE_PASSWORD),
+    map((action: UserActions.UpdatePassword) => action.payload),
     concatMap(payload =>
       this.userAccountConnector
         .updatePassword(
@@ -27,9 +27,9 @@ export class UpdatePasswordEffects {
           payload.newPassword
         )
         .pipe(
-          map(_ => new fromActions.UpdatePasswordSuccess()),
+          map(_ => new UserActions.UpdatePasswordSuccess()),
           catchError(error =>
-            of(new fromActions.UpdatePasswordFail(makeErrorSerializable(error)))
+            of(new UserActions.UpdatePasswordFail(makeErrorSerializable(error)))
           )
         )
     )
