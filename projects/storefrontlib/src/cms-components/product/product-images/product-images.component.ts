@@ -22,24 +22,15 @@ export class ProductImagesComponent {
     )
   );
 
-  private thumbs$: Observable<any[]> = this.product$.pipe(
-    map(product => this.createCarouselItems(product))
+  thumbs$: Observable<any[]> = this.product$.pipe(
+    map(product => this.createThumbs(product))
   );
 
-  private mainImage$ = combineLatest([
-    this.product$,
-    this.mainMediaContainer,
-  ]).pipe(map(([_, container]) => container));
+  mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
+    map(([_, container]) => container)
+  );
 
   constructor(private currentProductService: CurrentProductService) {}
-
-  getThumbs(): Observable<any[]> {
-    return this.thumbs$;
-  }
-
-  getMain(): Observable<any> {
-    return this.mainImage$;
-  }
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
@@ -82,7 +73,7 @@ export class ProductImagesComponent {
    * Return an array of CarouselItems for the product thumbnails.
    * In case there are less then 2 thumbs, we return null.
    */
-  private createCarouselItems(product: Product): any[] {
+  private createThumbs(product: Product): Observable<any>[] {
     if (
       !product.images ||
       !product.images.GALLERY ||

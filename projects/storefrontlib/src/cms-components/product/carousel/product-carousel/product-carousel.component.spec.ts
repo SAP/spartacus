@@ -153,27 +153,27 @@ describe('ProductCarouselComponent', () => {
       const el = fixture.debugElement.queryAll(By.css('a'));
       expect(el.length).toEqual(2);
     }));
+
+    it('should render product name in template', async(() => {
+      const el = fixture.debugElement.query(By.css('a:first-child h4'));
+      expect(el.nativeElement).toBeTruthy();
+      expect(el.nativeElement.innerText).toEqual('product 1');
+    }));
+
+    it('should render product price in template', async(() => {
+      const el = fixture.debugElement.query(By.css('a:last-child .price'));
+      expect(el.nativeElement).toBeTruthy();
+      expect(el.nativeElement.innerText).toEqual('$200.00');
+    }));
+
+    it('should render product primary image for the first item', async(() => {
+      const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
+      expect(el.nativeElement).toBeTruthy();
+    }));
+
+    it('should not render product primary image for the 2nd item', async(() => {
+      const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
+      expect(el).toBeNull();
+    }));
   });
-
-  it('should render product name in template', async(() => {
-    const el = fixture.debugElement.query(By.css('a:first-child h4'));
-    expect(el.nativeElement).toBeTruthy();
-    expect(el.nativeElement.innerText).toEqual('product 1');
-  }));
-
-  it('should render product price in template', async(() => {
-    const el = fixture.debugElement.query(By.css('a:last-child .price'));
-    expect(el.nativeElement).toBeTruthy();
-    expect(el.nativeElement.innerText).toEqual('$200.00');
-  }));
-
-  it('should render product primary image for the first item', async(() => {
-    const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
-    expect(el.nativeElement).toBeTruthy();
-  }));
-
-  it('should not render product primary image for the 2nd item', async(() => {
-    const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-    expect(el).toBeNull();
-  }));
 });

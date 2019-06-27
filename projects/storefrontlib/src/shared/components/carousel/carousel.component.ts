@@ -68,9 +68,6 @@ export class CarouselComponent implements OnInit {
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
 
-  /** Indicates the current active item in carousel (if any)  */
-  // @Input() activeItem: number;
-
   activeSlide: number;
   size$: Observable<number>;
 
