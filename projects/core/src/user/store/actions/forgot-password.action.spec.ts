@@ -1,13 +1,13 @@
-import * as fromAction from './forgot-password.action';
+import { UserActions } from './index';
 
 describe('Forgot Password Actions', () => {
   describe('ForgotPasswordEmailRequest', () => {
     it('should create the action', () => {
-      const action = new fromAction.ForgotPasswordEmailRequest(
+      const action = new UserActions.ForgotPasswordEmailRequest(
         'email@example.com'
       );
       expect({ ...action }).toEqual({
-        type: fromAction.FORGOT_PASSWORD_EMAIL_REQUEST,
+        type: UserActions.FORGOT_PASSWORD_EMAIL_REQUEST,
         payload: 'email@example.com',
       });
     });
@@ -16,10 +16,10 @@ describe('Forgot Password Actions', () => {
   describe('ForgotPasswordEmailRequestFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.ForgotPasswordEmailRequestFail(error);
+      const action = new UserActions.ForgotPasswordEmailRequestFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.FORGOT_PASSWORD_EMAIL_REQUEST_FAIL,
+        type: UserActions.FORGOT_PASSWORD_EMAIL_REQUEST_FAIL,
         payload: error,
       });
     });
@@ -27,9 +27,9 @@ describe('Forgot Password Actions', () => {
 
   describe('ForgotPasswordEmailRequestSuccess', () => {
     it('should create the action', () => {
-      const action = new fromAction.ForgotPasswordEmailRequestSuccess();
+      const action = new UserActions.ForgotPasswordEmailRequestSuccess();
       expect({ ...action }).toEqual({
-        type: fromAction.FORGOT_PASSWORD_EMAIL_REQUEST_SUCCESS,
+        type: UserActions.FORGOT_PASSWORD_EMAIL_REQUEST_SUCCESS,
       });
     });
   });

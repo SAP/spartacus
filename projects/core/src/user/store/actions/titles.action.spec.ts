@@ -1,11 +1,11 @@
-import * as fromAction from '../actions/titles.action';
+import { UserActions } from './index';
 
 describe('Titles Actions', () => {
   describe('LoadTitles', () => {
     it('should create the action', () => {
-      const action = new fromAction.LoadTitles();
+      const action = new UserActions.LoadTitles();
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_TITLES,
+        type: UserActions.LOAD_TITLES,
       });
     });
   });
@@ -13,10 +13,10 @@ describe('Titles Actions', () => {
   describe('LoadTitlesFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.LoadTitlesFail(error);
+      const action = new UserActions.LoadTitlesFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_TITLES_FAIL,
+        type: UserActions.LOAD_TITLES_FAIL,
         payload: error,
       });
     });
@@ -34,9 +34,9 @@ describe('Titles Actions', () => {
           name: 'Mrs.',
         },
       ];
-      const action = new fromAction.LoadTitlesSuccess(titles);
+      const action = new UserActions.LoadTitlesSuccess(titles);
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_TITLES_SUCCESS,
+        type: UserActions.LOAD_TITLES_SUCCESS,
         payload: titles,
       });
     });
