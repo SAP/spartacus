@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Translatable } from '../../i18n/translatable';
 import { GlobalMessageType } from '../models/global-message.model';
-import * as fromGlobalMessageActions from '../store/actions/index';
+import { GlobalMessageActions } from '../store/actions/index';
 import {
   GlobalMessageEntities,
   StateWithGlobalMessage,
@@ -32,7 +32,7 @@ export class GlobalMessageService {
    */
   add(text: string | Translatable, type: GlobalMessageType): void {
     this.store.dispatch(
-      new fromGlobalMessageActions.AddMessage({
+      new GlobalMessageActions.AddMessage({
         text: typeof text === 'string' ? { raw: text } : text,
         type,
       })
@@ -48,11 +48,11 @@ export class GlobalMessageService {
   remove(type: GlobalMessageType, index?: number): void {
     this.store.dispatch(
       index !== undefined
-        ? new fromGlobalMessageActions.RemoveMessage({
+        ? new GlobalMessageActions.RemoveMessage({
             type: type,
             index: index,
           })
-        : new fromGlobalMessageActions.RemoveMessagesByType(type)
+        : new GlobalMessageActions.RemoveMessagesByType(type)
     );
   }
 }

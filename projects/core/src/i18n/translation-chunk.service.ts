@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { I18nConfig } from './config/i18n-config';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class TranslationChunkService {
         }
       });
     });
-    if (Object.keys(this.duplicates).length > 0 && !this.config.production) {
+    if (Object.keys(this.duplicates).length > 0 && isDevMode()) {
       this.warnDuplicates(this.duplicates);
     }
   }

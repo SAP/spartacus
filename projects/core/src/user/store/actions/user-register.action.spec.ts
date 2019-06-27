@@ -1,13 +1,8 @@
+import { UserSignUp } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  entityFailMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
-} from '../../../state';
+import { StateEntityLoaderActions } from '../../../state/index';
 import { REMOVE_USER_PROCESS_ID } from '../user-state';
 import * as fromUserRegister from './user-register.action';
-import { UserSignUp } from '@spartacus/core';
 
 describe('User Register Actions', () => {
   describe('RegisterUser Action', () => {
@@ -58,7 +53,10 @@ describe('Remove User Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserRegister.REMOVE_USER,
         payload: 'testUserId',
-        meta: entityLoadMeta(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID),
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          REMOVE_USER_PROCESS_ID
+        ),
       });
     });
   });
@@ -71,7 +69,11 @@ describe('Remove User Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserRegister.REMOVE_USER_FAIL,
         payload: error,
-        meta: entityFailMeta(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID, error),
+        meta: StateEntityLoaderActions.entityFailMeta(
+          PROCESS_FEATURE,
+          REMOVE_USER_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -82,7 +84,10 @@ describe('Remove User Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserRegister.REMOVE_USER_SUCCESS,
-        meta: entitySuccessMeta(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID),
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          PROCESS_FEATURE,
+          REMOVE_USER_PROCESS_ID
+        ),
         payload: undefined,
       });
     });
@@ -94,7 +99,10 @@ describe('Remove User Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserRegister.REMOVE_USER_RESET,
-        meta: entityResetMeta(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID),
+        meta: StateEntityLoaderActions.entityResetMeta(
+          PROCESS_FEATURE,
+          REMOVE_USER_PROCESS_ID
+        ),
       });
     });
   });

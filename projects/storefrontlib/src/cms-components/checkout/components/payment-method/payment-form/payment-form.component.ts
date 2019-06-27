@@ -61,7 +61,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   closeForm = new EventEmitter<any>();
 
   @Output()
-  addPaymentInfo = new EventEmitter<any>();
+  setPaymentDetails = new EventEmitter<any>();
 
   payment: FormGroup = this.fb.group({
     defaultPayment: [false],
@@ -261,7 +261,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    this.addPaymentInfo.emit({
+    this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
         ? null

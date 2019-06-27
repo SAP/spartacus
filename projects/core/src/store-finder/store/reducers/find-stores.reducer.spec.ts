@@ -1,6 +1,6 @@
-import * as fromReducers from './find-stores.reducer';
-import * as fromActions from '../actions/find-stores.action';
 import { StoreFinderSearchConfig } from '../../model/search-config';
+import { StoreFinderActions } from '../actions/index';
+import * as fromReducers from './find-stores.reducer';
 
 describe('Find Stores Reducer', () => {
   describe('Undefined action', () => {
@@ -18,13 +18,13 @@ describe('Find Stores Reducer', () => {
       const searchConfig: StoreFinderSearchConfig = { pageSize: 10 };
       const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
-      const loadAction = new fromActions.FindStores({
+      const loadAction = new StoreFinderActions.FindStores({
         queryText: 'test',
         searchConfig,
       });
 
       const loadingState = fromReducers.reducer(initialState, loadAction);
-      const resultAction = new fromActions.FindStoresSuccess(results);
+      const resultAction = new StoreFinderActions.FindStoresSuccess(results);
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.findStoresEntities).toEqual(results);
@@ -35,10 +35,12 @@ describe('Find Stores Reducer', () => {
     it('should populate results after loading', () => {
       const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
-      const loadAction = new fromActions.FindStoreById({ storeId: 'testId' });
+      const loadAction = new StoreFinderActions.FindStoreById({
+        storeId: 'testId',
+      });
 
       const loadingState = fromReducers.reducer(initialState, loadAction);
-      const resultAction = new fromActions.FindStoreByIdSuccess(results);
+      const resultAction = new StoreFinderActions.FindStoreByIdSuccess(results);
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.findStoresEntities).toEqual(results);
