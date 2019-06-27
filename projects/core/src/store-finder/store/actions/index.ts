@@ -1,2 +1,2 @@
-export * from './find-stores.action';
-export * from './view-all-stores.action';
+import * as StoreFinderActions from './store-finder-group.actions';
+export { StoreFinderActions };

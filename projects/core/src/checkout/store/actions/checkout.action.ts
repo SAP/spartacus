@@ -2,11 +2,7 @@ import { Action } from '@ngrx/store';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
-import {
-  LoaderFailAction,
-  LoaderLoadAction,
-  LoaderSuccessAction,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { CHECKOUT_DETAILS } from '../checkout-state';
 
@@ -195,21 +191,21 @@ export class ClearCheckoutData implements Action {
   readonly type = CLEAR_CHECKOUT_DATA;
 }
 
-export class LoadCheckoutDetails extends LoaderLoadAction {
+export class LoadCheckoutDetails extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_CHECKOUT_DETAILS;
   constructor(public payload: { userId: string; cartId: string }) {
     super(CHECKOUT_DETAILS);
   }
 }
 
-export class LoadCheckoutDetailsFail extends LoaderFailAction {
+export class LoadCheckoutDetailsFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_CHECKOUT_DETAILS_FAIL;
   constructor(public payload: any) {
     super(CHECKOUT_DETAILS, payload);
   }
 }
 
-export class LoadCheckoutDetailsSuccess extends LoaderSuccessAction {
+export class LoadCheckoutDetailsSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_CHECKOUT_DETAILS_SUCCESS;
   constructor(public payload: CheckoutDetails) {
     super(CHECKOUT_DETAILS);

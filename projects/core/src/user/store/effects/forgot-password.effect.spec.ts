@@ -6,7 +6,7 @@ import { GlobalMessageType } from '../../../global-message/models/global-message
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromActions from '../actions/index';
+import { UserActions } from '../actions/index';
 import { ForgotPasswordEffects } from './forgot-password.effect';
 
 describe('', () => {
@@ -31,10 +31,10 @@ describe('', () => {
 
   describe('requestForgotPasswordEmail$', () => {
     it('should be able to request a forgot password email', () => {
-      const action = new fromActions.ForgotPasswordEmailRequest(
+      const action = new UserActions.ForgotPasswordEmailRequest(
         'test@test.com'
       );
-      const completion1 = new fromActions.ForgotPasswordEmailRequestSuccess();
+      const completion1 = new UserActions.ForgotPasswordEmailRequestSuccess();
       const completion2 = new GlobalMessageActions.AddMessage({
         text: { key: 'forgottenPassword.passwordResetEmailSent' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,

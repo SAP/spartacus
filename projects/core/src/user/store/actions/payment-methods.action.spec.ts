@@ -1,27 +1,19 @@
-import { USER_PAYMENT_METHODS } from '../user-state';
-
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
-
-import * as fromUserPaymentMethodsAction from './payment-methods.action';
 import { Occ } from '../../../occ/occ-models/occ.models';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { USER_PAYMENT_METHODS } from '../user-state';
+import { UserActions } from './index';
 
 const userId = '123';
 
 describe('User Payment Methods Actions', () => {
   describe('LoadUserPaymentMethods Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserPaymentMethodsAction.LoadUserPaymentMethods(
-        userId
-      );
+      const action = new UserActions.LoadUserPaymentMethods(userId);
 
       expect({ ...action }).toEqual({
-        type: fromUserPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS,
+        type: UserActions.LOAD_USER_PAYMENT_METHODS,
         payload: userId,
-        meta: loadMeta(USER_PAYMENT_METHODS),
+        meta: StateLoaderActions.loadMeta(USER_PAYMENT_METHODS),
       });
     });
   });
@@ -29,14 +21,12 @@ describe('User Payment Methods Actions', () => {
   describe('LoadUserPaymentMethodsFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserPaymentMethodsAction.LoadUserPaymentMethodsFail(
-        error
-      );
+      const action = new UserActions.LoadUserPaymentMethodsFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_FAIL,
+        type: UserActions.LOAD_USER_PAYMENT_METHODS_FAIL,
         payload: error,
-        meta: failMeta(USER_PAYMENT_METHODS, error),
+        meta: StateLoaderActions.failMeta(USER_PAYMENT_METHODS, error),
       });
     });
   });
@@ -47,93 +37,80 @@ describe('User Payment Methods Actions', () => {
     };
 
     it('should create the action', () => {
-      const action = new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
+      const action = new UserActions.LoadUserPaymentMethodsSuccess(
         mockUserPaymentMethods.payments
       );
 
       expect({ ...action }).toEqual({
-        type: fromUserPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS,
+        type: UserActions.LOAD_USER_PAYMENT_METHODS_SUCCESS,
         payload: mockUserPaymentMethods.payments,
-        meta: successMeta(USER_PAYMENT_METHODS),
+        meta: StateLoaderActions.successMeta(USER_PAYMENT_METHODS),
       });
     });
   });
 
   describe('SetDefaultUserPaymentMethod Action', () => {
     it('should create the action', () => {
-      const action = new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethod(
-        false
-      );
+      const action = new UserActions.SetDefaultUserPaymentMethod(false);
       expect({ ...action }).toEqual({
-        type: fromUserPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD,
+        type: UserActions.SET_DEFAULT_USER_PAYMENT_METHOD,
         payload: false,
-        meta: loadMeta(USER_PAYMENT_METHODS),
+        meta: StateLoaderActions.loadMeta(USER_PAYMENT_METHODS),
       });
     });
   });
 
   describe('SetDefaultUserPaymentMethodFail Action', () => {
     it('should create the action', () => {
-      const action = new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodFail(
-        false
-      );
+      const action = new UserActions.SetDefaultUserPaymentMethodFail(false);
       expect({ ...action }).toEqual({
-        type: fromUserPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD_FAIL,
+        type: UserActions.SET_DEFAULT_USER_PAYMENT_METHOD_FAIL,
         payload: false,
-        meta: failMeta(USER_PAYMENT_METHODS),
+        meta: StateLoaderActions.failMeta(USER_PAYMENT_METHODS),
       });
     });
   });
 
   describe('SetDefaultUserPaymentMethodSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodSuccess(
-        false
-      );
+      const action = new UserActions.SetDefaultUserPaymentMethodSuccess(false);
       expect({ ...action }).toEqual({
-        type:
-          fromUserPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS,
+        type: UserActions.SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS,
         payload: false,
-        meta: successMeta(USER_PAYMENT_METHODS),
+        meta: StateLoaderActions.successMeta(USER_PAYMENT_METHODS),
       });
     });
   });
 
   describe('DeleteUserPaymentMethod Action', () => {
     it('should create the action', () => {
-      const action = new fromUserPaymentMethodsAction.DeleteUserPaymentMethod(
-        false
-      );
+      const action = new UserActions.DeleteUserPaymentMethod(false);
       expect({ ...action }).toEqual({
-        type: fromUserPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD,
+        type: UserActions.DELETE_USER_PAYMENT_METHOD,
         payload: false,
-        meta: loadMeta(USER_PAYMENT_METHODS),
+        meta: StateLoaderActions.loadMeta(USER_PAYMENT_METHODS),
       });
     });
   });
 
   describe('DeleteUserPaymentMethodFail Action', () => {
     it('should create the action', () => {
-      const action = new fromUserPaymentMethodsAction.DeleteUserPaymentMethodFail(
-        false
-      );
+      const action = new UserActions.DeleteUserPaymentMethodFail(false);
       expect({ ...action }).toEqual({
-        type: fromUserPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_FAIL,
+        type: UserActions.DELETE_USER_PAYMENT_METHOD_FAIL,
         payload: false,
-        meta: failMeta(USER_PAYMENT_METHODS),
+        meta: StateLoaderActions.failMeta(USER_PAYMENT_METHODS),
       });
     });
   });
 
   describe('DeleteUserPaymentMethodSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserPaymentMethodsAction.DeleteUserPaymentMethodSuccess(
-        false
-      );
+      const action = new UserActions.DeleteUserPaymentMethodSuccess(false);
       expect({ ...action }).toEqual({
-        type: fromUserPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_SUCCESS,
+        type: UserActions.DELETE_USER_PAYMENT_METHOD_SUCCESS,
         payload: false,
-        meta: successMeta(USER_PAYMENT_METHODS),
+        meta: StateLoaderActions.successMeta(USER_PAYMENT_METHODS),
       });
     });
   });

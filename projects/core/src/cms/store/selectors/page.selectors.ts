@@ -1,12 +1,12 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
 import {
-  EntityLoaderState,
-  entityStateSelector,
-  LoaderState,
-  loaderValueSelector,
-} from '../../../state';
+  StateEntityLoaderSelectors,
+  StateLoaderSelectors,
+} from '../../../state/utils/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { CmsState, IndexType, PageState, StateWithCms } from '../cms-state';
@@ -77,7 +77,8 @@ export const getPageStateIndexLoaderState = (
 ): MemoizedSelector<StateWithCms, LoaderState<string>> =>
   createSelector(
     getPageStateIndexEntityLoaderState(pageContext),
-    indexState => entityStateSelector(indexState, pageContext.id)
+    indexState =>
+      StateEntityLoaderSelectors.entityStateSelector(indexState, pageContext.id)
   );
 
 export const getPageStateIndexValue = (
@@ -85,7 +86,7 @@ export const getPageStateIndexValue = (
 ): MemoizedSelector<StateWithCms, string> =>
   createSelector(
     getPageStateIndexLoaderState(pageContext),
-    entity => loaderValueSelector<string>(entity)
+    entity => StateLoaderSelectors.loaderValueSelector<string>(entity)
   );
 
 export const getPageEntities: MemoizedSelector<
