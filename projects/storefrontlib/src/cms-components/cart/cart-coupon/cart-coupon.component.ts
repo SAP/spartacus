@@ -45,14 +45,15 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         this.cartService.getAddVoucherResultError().subscribe(error => {
           this.onError(error);
         })
-      )
-      .add(
-        this.cartCouponAnchorService
-          .getEventEmit()
-          .subscribe((anchor: string) => {
-            this.scrollToView(anchor);
-          })
       );
+
+    this.subscription.add(
+      this.cartCouponAnchorService
+        .getEventEmit()
+        .subscribe((anchor: string) => {
+          this.scrollToView(anchor);
+        })
+    );
     }
   
   scrollToView(anchor: string) {
