@@ -35,6 +35,7 @@ describe('CartCouponComponent', () => {
     'addVoucher',
     'getAddVoucherResultSuccess',
     'resetAddVoucherProcessingState',
+    'getAddVoucherResultError',
   ]);
 
   beforeEach(async(() => {
@@ -57,8 +58,9 @@ describe('CartCouponComponent', () => {
     component = fixture.componentInstance;
     component.cart = cart;
     form = fixture.debugElement.query(By.css('form'));
-    submit = fixture.debugElement.query(By.css('[type="submit"]'));
+    submit = fixture.debugElement.query(By.css('button'));
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
+    mockCartService.getAddVoucherResultError.and.returnValue(of(true));
     mockCartService.addVoucher.and.stub();
     mockCartService.resetAddVoucherProcessingState.and.stub();
 
@@ -102,9 +104,11 @@ describe('CartCouponComponent', () => {
     const input = component.form.controls['couponCode'];
     input.setValue('');
     component.cartIsLoading = false;
+    const el = fixture.debugElement.query(By.css('button'));
+
     fixture.detectChanges();
     expect(component.form.valid).toBeFalsy();
-    expect(submit.nativeElement.enabled).toBeFalsy();
+    expect(el.nativeElement.enabled).toBeFalsy();
   });
 
   it('should submit button be disabled when cart is loading', () => {
@@ -121,25 +125,32 @@ describe('CartCouponComponent', () => {
     input.setValue('couponCode1');
     component.cartIsLoading = false;
     fixture.detectChanges();
+
     expect(component.form.invalid).toBeFalsy();
-    expect(submit.nativeElement.disabled).toBeFalsy();
+    expect(submit.nativeElement.disbaled).toBeFalsy();
   });
 
-  it('should call applyVoucher() method on submit when submit button is enabled', () => {
+  it('should call applyVoucher() method on submit when submit button is disabled', () => {
     const input = component.form.controls['couponCode'];
     component.cartIsLoading = false;
     input.setValue('couponCode1');
     fixture.detectChanges();
+
     form.triggerEventHandler('submit', null);
     expect(mockCartService.addVoucher).toHaveBeenCalled();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+  
+    expect(submit.nativeElement.disabled).toBeFalsy();
   });
 
   it('should call the internal onSuccess() method when the user was successfully apply voucher', () => {
     spyOn(component, 'onSuccess').and.stub();
+    const subscriptions = component['subscription'];
+    spyOn(subscriptions, 'add').and.callThrough();
 
     component.ngOnInit();
     expect(component.onSuccess).toHaveBeenCalledWith(true);
+    expect(subscriptions.add).toHaveBeenCalled();
   });
 
   it('should scroll to view when receive the event', () => {

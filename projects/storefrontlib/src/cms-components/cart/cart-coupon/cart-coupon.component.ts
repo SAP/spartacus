@@ -43,26 +43,30 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       )
       .add(
         this.cartService.getAddVoucherResultError().subscribe(error => {
-          if (error) {
-            this.enableBtn = true;
-          }
+          this.onError(error);
         })
-      )
-      .add(
-        this.cartCouponAnchorService
-          .getEventEmit()
-          .subscribe((anchor: string) => {
-            this.scrollToView(anchor);
-          })
       );
-    }
-  
+
+    this.subscription.add(
+      this.cartCouponAnchorService
+        .getEventEmit()
+        .subscribe((anchor: string) => {
+          this.scrollToView(anchor);
+        })
+    );
+  }
+
   scrollToView(anchor: string) {
-      const anchorElement = this.element.nativeElement.querySelector(anchor);
-      if (anchorElement) {
-        anchorElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    
+    const anchorElement = this.element.nativeElement.querySelector(anchor);
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  private onError(error: boolean) {
+    if (error) {
+      this.enableBtn = true;
+    }
   }
 
   onSuccess(success: boolean) {
