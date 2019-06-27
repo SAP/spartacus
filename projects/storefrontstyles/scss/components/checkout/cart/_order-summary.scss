@@ -1,7 +1,12 @@
 %cx-order-summary {
   display: block;
-  padding: 1rem;
-  margin: 0 0 1.5rem 0;
+  padding: 1rem 2.5rem 0;
+  margin: 0;
+
+  h4 {
+    text-transform: uppercase;
+    font-weight: var(--cx-font-weight-semi);
+  }
 
   .cx-summary-label {
     text-align: start;

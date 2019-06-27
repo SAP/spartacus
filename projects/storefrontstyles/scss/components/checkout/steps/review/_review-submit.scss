@@ -100,6 +100,12 @@ cx-checkout-order-summary {
 }
 
 cx-place-order {
-  --cx-flex-basis: auto;
-  padding: var(--cx-padding, 1rem);
+  @include media-breakpoint-down(lg) {
+    --cx-flex-basis: 45%;
+  }
+  padding: 0 2.5rem 0;
+
+  .cx-place-order-form {
+    @include type('7');
+  }
 }
