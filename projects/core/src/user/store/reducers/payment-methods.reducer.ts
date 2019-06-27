@@ -1,18 +1,18 @@
-import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
 import { PaymentDetails } from '../../../model/cart.model';
+import { UserActions } from '../actions/index';
 
 export const initialState: PaymentDetails[] = [];
 
 export function reducer(
   state = initialState,
-  action: fromPaymentMethodsAction.UserPaymentMethodsAction
+  action: UserActions.UserPaymentMethodsAction
 ): PaymentDetails[] {
   switch (action.type) {
-    case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS: {
+    case UserActions.LOAD_USER_PAYMENT_METHODS_SUCCESS: {
       return action.payload ? action.payload : initialState;
     }
 
-    case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_FAIL: {
+    case UserActions.LOAD_USER_PAYMENT_METHODS_FAIL: {
       return initialState;
     }
   }

@@ -3,8 +3,8 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { PaymentDetails } from '../../../model/cart.model';
 import { Occ } from '../../../occ/occ-models/occ.models';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
+import { UserActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 
@@ -54,7 +54,7 @@ describe('User Payment Methods Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new fromActions.LoadUserPaymentMethodsSuccess(
+        new UserActions.LoadUserPaymentMethodsSuccess(
           mockUserPaymentMethods.payments
         )
       );
@@ -72,7 +72,7 @@ describe('User Payment Methods Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadUserPaymentMethods('userId'));
+      store.dispatch(new UserActions.LoadUserPaymentMethods('userId'));
 
       expect(result).toEqual(true);
     });
