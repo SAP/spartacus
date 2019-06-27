@@ -40,11 +40,15 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       )
       .add(
         this.cartService.getAddVoucherResultError().subscribe(error => {
-          if (error) {
-            this.enableBtn = true;
-          }
+          this.onError(error);
         })
       );
+  }
+
+  private onError(error: boolean) {
+    if (error) {
+      this.enableBtn = true;
+    }
   }
 
   onSuccess(success: boolean) {
