@@ -1,5 +1,5 @@
 import { Product } from '../../../model/product.model';
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import * as fromProduct from './product.action';
 

@@ -1,4 +1,4 @@
-import { StateEntityLoaderActions } from '../../../state/index';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 
 export const LOAD_CMS_NAVIGATION_ITEMS = '[Cms] Load NavigationEntry items';

@@ -1,5 +1,5 @@
 import { Occ } from '../../../occ/occ-models/occ.models';
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { USER_PAYMENT_METHODS } from '../user-state';
 import { UserActions } from './index';
 

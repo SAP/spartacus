@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/index';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { OPEN_ID_TOKEN_DATA } from '../kyma-state';
 import { KymaActions } from './index';
