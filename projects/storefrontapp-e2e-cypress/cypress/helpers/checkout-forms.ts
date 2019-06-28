@@ -56,7 +56,9 @@ export function fillShippingAddress(shippingAddressData: ShippingAddress) {
 export function fillBillingAddress(billingAddressData: ShippingAddress) {
   cy.get('.cx-payment-form-billing').within(() => {
     cy.get('input[type="checkbox"]').click();
-    cy.get('[bindvalue="isocode"]').ngSelect(billingAddressData.address.country);
+    cy.get('[bindvalue="isocode"]').ngSelect(
+      billingAddressData.address.country
+    );
     cy.get('[formcontrolname="firstName"]').type(billingAddressData.firstName);
     cy.get('[formcontrolname="lastName"]').type(billingAddressData.lastName);
     cy.get('[formcontrolname="line1"]').type(billingAddressData.address.line1);
