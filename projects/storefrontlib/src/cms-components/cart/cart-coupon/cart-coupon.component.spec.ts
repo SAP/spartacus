@@ -48,6 +48,7 @@ describe('CartCouponComponent', () => {
     'getAddVoucherResultSuccess',
     'resetAddVoucherProcessingState',
     'getAddVoucherResultError',
+    'getAddVoucherResultLoading',
   ]);
 
   beforeEach(async(() => {
@@ -77,6 +78,7 @@ describe('CartCouponComponent', () => {
     input = fixture.debugElement.query(By.css('input')).nativeElement;
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartService.getAddVoucherResultError.and.returnValue(of());
+    mockCartService.getAddVoucherResultLoading.and.returnValue(of());
     mockCartService.addVoucher.and.stub();
     mockCartService.resetAddVoucherProcessingState.and.stub();
   });
@@ -162,7 +164,7 @@ describe('CartCouponComponent', () => {
     expect(submit.disabled).toBe(true);
 
     mockCartService.addVoucher.and.callFake(() => {
-      component.onError(true);
+      component.setEnabelbtn(true);
     });
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
@@ -183,7 +185,7 @@ describe('CartCouponComponent', () => {
     expect(submit.disabled).toBe(true);
 
     mockCartService.addVoucher.and.callFake(() => {
-      component.onError(true);
+      component.setEnabelbtn(true);
     });
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
