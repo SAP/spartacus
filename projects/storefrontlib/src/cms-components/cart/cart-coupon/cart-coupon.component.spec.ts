@@ -48,6 +48,7 @@ fdescribe('CartCouponComponent', () => {
     'getAddVoucherResultSuccess',
     'resetAddVoucherProcessingState',
     'getAddVoucherResultError',
+    'getAddVoucherResultLoading',
   ]);
 
   beforeEach(async(() => {
@@ -77,6 +78,7 @@ fdescribe('CartCouponComponent', () => {
     input = fixture.debugElement.query(By.css('input')).nativeElement;
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartService.getAddVoucherResultError.and.returnValue(of());
+    mockCartService.getAddVoucherResultLoading.and.returnValue(of());
     mockCartService.addVoucher.and.stub();
     mockCartService.resetAddVoucherProcessingState.and.stub();
   });
