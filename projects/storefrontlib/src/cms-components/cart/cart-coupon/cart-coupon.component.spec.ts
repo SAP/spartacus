@@ -162,7 +162,7 @@ fdescribe('CartCouponComponent', () => {
     expect(submit.disabled).toBe(true);
 
     mockCartService.addVoucher.and.callFake(() => {
-      component.onError(true);
+      component.setEnabelbtn(true);
     });
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
@@ -183,7 +183,7 @@ fdescribe('CartCouponComponent', () => {
     expect(submit.disabled).toBe(true);
 
     mockCartService.addVoucher.and.callFake(() => {
-      component.onError(true);
+      component.setEnabelbtn(true);
     });
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));

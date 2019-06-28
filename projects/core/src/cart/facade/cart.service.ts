@@ -15,6 +15,7 @@ import { OrderEntry } from '../../model/order.model';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
+  getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { CartActions } from '../store/actions/index';
@@ -231,6 +232,12 @@ export class CartService {
   getAddVoucherResultSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
+    );
+  }
+
+  getAddVoucherResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
