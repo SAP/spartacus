@@ -16,7 +16,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-fdescribe('AppliedCouponsComponent', () => {
+describe('AppliedCouponsComponent', () => {
   let component: AppliedCouponsComponent;
   let fixture: ComponentFixture<AppliedCouponsComponent>;
 
