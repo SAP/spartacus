@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpErrorModel } from '../model';
+import { LoaderMeta } from '../state/utils/loader/loader.action';
 import { makeErrorSerializable } from './serialization-utils';
 
 describe('serialization-utils', () => {
@@ -43,6 +44,41 @@ describe('serialization-utils', () => {
           statusText: mockError.statusText,
           url: mockError.url,
         } as HttpErrorModel);
+      });
+    });
+
+    describe('when a complext object is provided with an error deeply nested in it', () => {
+      it('should make it serializable', () => {
+        const mockError = new HttpErrorResponse({
+          error: 'error',
+          headers: new HttpHeaders().set('xxx', 'xxx'),
+          status: 500,
+          statusText: 'Unknown error',
+          url: '/xxx',
+        });
+        const loaderMeta: LoaderMeta = {
+          entityType: 'xxx',
+          loader: {
+            error: mockError,
+            load: false,
+            success: true,
+          },
+        };
+
+        const result = makeErrorSerializable(loaderMeta);
+        expect(result).toEqual({
+          ...loaderMeta,
+          loader: {
+            ...loaderMeta.loader,
+            error: {
+              message: mockError.message,
+              error: mockError.error,
+              status: mockError.status,
+              statusText: mockError.statusText,
+              url: mockError.url,
+            },
+          },
+        });
       });
     });
   });

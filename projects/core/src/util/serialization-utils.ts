@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { isObject } from '../config/utils/deep-merge';
 import { ErrorModel, HttpErrorModel } from '../model/misc.model';
 
 export function makeErrorSerializable(
@@ -22,5 +23,18 @@ export function makeErrorSerializable(
     } as HttpErrorModel;
   }
 
-  return error;
+  if (!isObject(error)) {
+    return error;
+  }
+
+  const serialized = {};
+  for (const property of Object.keys(error)) {
+    let serializedValue = error[property];
+    if (isObject(error[property])) {
+      serializedValue = makeErrorSerializable(error[property]);
+    }
+    serialized[property] = serializedValue;
+  }
+
+  return serialized;
 }
