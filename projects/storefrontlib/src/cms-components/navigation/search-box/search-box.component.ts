@@ -128,7 +128,7 @@ export class SearchBoxComponent {
   // Check if focus is on searchbox or result list elements
   private isSearchboxFocused(): boolean {
     return (
-      this.getResultElements().indexOf(this.getFocusedElement()) !== -1 ||
+      this.getResultElements().includes(this.getFocusedElement()) ||
       this.winRef.document.querySelector('input[aria-label="search"]') ===
         this.getFocusedElement()
     );
@@ -147,14 +147,9 @@ export class SearchBoxComponent {
 
   // Return result list as HTMLElement array
   private getResultElements(): HTMLElement[] {
-    const suggestions: HTMLElement[] = Array.from(
-      this.winRef.document.querySelectorAll('div.suggestions > a')
+    return Array.from(
+      this.winRef.document.querySelectorAll('.products > a, .suggestions > a')
     );
-    const products: HTMLElement[] = Array.from(
-      this.winRef.document.querySelectorAll('div.products > a')
-    );
-
-    return [...suggestions, ...products];
   }
 
   // Return focused element as HTMLElement
@@ -162,12 +157,17 @@ export class SearchBoxComponent {
     return <HTMLElement>this.winRef.document.activeElement;
   }
 
+  private getFocusedIndex(): number {
+    return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
   // Focus on previous item in results list
   focusPreviousChild(event) {
     event.preventDefault(); // Negate normal keyscroll
-    const results = this.getResultElements();
-    const focusedIndex = results.indexOf(this.getFocusedElement());
-
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
     // Focus on last index moving to first
     if (results.length) {
       if (focusedIndex < 1) {
@@ -181,9 +181,10 @@ export class SearchBoxComponent {
   // Focus on next item in results list
   focusNextChild(event) {
     event.preventDefault(); // Negate normal keyscroll
-    const results = this.getResultElements();
-    const focusedIndex = results.indexOf(this.getFocusedElement());
-
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
     // Focus on first index moving to last
     if (results.length) {
       if (focusedIndex >= results.length - 1) {
@@ -200,7 +201,7 @@ export class SearchBoxComponent {
    * TODO: if there's a singe product match, we could open the PDP.
    */
   launchSearchResult(event: UIEvent, query: string): void {
-    this.close(event);
+    this.close(event, true);
     this.searchBoxComponentService.launchSearchPage(query);
   }
 
