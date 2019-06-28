@@ -52,7 +52,7 @@ if (!environment.production) {
         },
       },
 
-      // special routing confiuration for e2e testing
+      // custom routing configuration for e2e testing
       routing: {
         routes: {
           product: {
@@ -60,12 +60,11 @@ if (!environment.production) {
           },
         },
       },
-
       // we  bring in static translations to be up and running soon right away
-      // but adding
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
+        fallbackLang: 'en',
       },
     }),
 
