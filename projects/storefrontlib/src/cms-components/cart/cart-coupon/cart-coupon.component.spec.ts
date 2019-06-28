@@ -163,9 +163,6 @@ describe('CartCouponComponent', () => {
     fixture.detectChanges();
     expect(submit.disabled).toBe(true);
 
-    mockCartService.addVoucher.and.callFake(() => {
-      component.setEnabelbtn(true);
-    });
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
@@ -184,9 +181,6 @@ describe('CartCouponComponent', () => {
     fixture.detectChanges();
     expect(submit.disabled).toBe(true);
 
-    mockCartService.addVoucher.and.callFake(() => {
-      component.setEnabelbtn(true);
-    });
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();

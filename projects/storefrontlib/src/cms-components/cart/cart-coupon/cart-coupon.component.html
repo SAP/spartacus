@@ -17,8 +17,8 @@
         <button
           class="btn btn-block btn-action "
           type="submit"
-          [disabled]="cartIsLoading || !enableBtn"
-          [class.disabled]="cartIsLoading || !enableBtn"
+          [disabled]="cartIsLoading || !(btnEnabled | async)"
+          [class.disabled]="cartIsLoading || !(btnEnabled | async)"
         >
           {{ 'voucher.apply' | cxTranslate }}
         </button>
@@ -31,4 +31,5 @@
   [vouchers]="cart.appliedVouchers"
   [cartIsLoading]="cartIsLoading"
   [isReadOnly]="false"
-></cx-applied-coupons>
+>
+</cx-applied-coupons>
