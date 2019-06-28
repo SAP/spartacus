@@ -1,15 +1,17 @@
-export interface ShippingAddress {
+export interface Address {
+  line1: string;
+  line2?: string;
+  country: string;
+  state?: string;
+  postal: string;
+  city: string;
+}
+
+export interface AddressData {
   firstName: string;
   lastName: string;
   phone: string;
-  address: {
-    line1: string;
-    line2: string;
-    country: string;
-    state?: string;
-    postal: string;
-    city: string;
-  };
+  address: Address;
 }
 
 export interface PaymentDetails {
@@ -25,63 +27,57 @@ export interface PaymentDetails {
   };
 }
 
-export function fillShippingAddress(shippingAddressData: ShippingAddress) {
+export function fillShippingAddress(shippingAddress: AddressData) {
   cy.get('cx-address-form').within(() => {
     cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
-      shippingAddressData.address.country
+      shippingAddress.address.country
     );
     cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
-    cy.get('[formcontrolname="firstName"]').type(shippingAddressData.firstName);
-    cy.get('[formcontrolname="lastName"]').type(shippingAddressData.lastName);
-    cy.get('[formcontrolname="line1"]').type(shippingAddressData.address.line1);
-    if (shippingAddressData.address.line2) {
-      cy.get('[formcontrolname="line2"]').type(
-        shippingAddressData.address.line2
-      );
+    cy.get('[formcontrolname="firstName"]').type(shippingAddress.firstName);
+    cy.get('[formcontrolname="lastName"]').type(shippingAddress.lastName);
+    cy.get('[formcontrolname="line1"]').type(shippingAddress.address.line1);
+    if (shippingAddress.address.line2) {
+      cy.get('[formcontrolname="line2"]').type(shippingAddress.address.line2);
     }
-    cy.get('[formcontrolname="town"]').type(shippingAddressData.address.city);
-    if (shippingAddressData.address.state) {
+    cy.get('[formcontrolname="town"]').type(shippingAddress.address.city);
+    if (shippingAddress.address.state) {
       cy.get('.region-select[formcontrolname="isocode"]').ngSelect(
-        shippingAddressData.address.state
+        shippingAddress.address.state
       );
     }
     cy.get('[formcontrolname="postalCode"]').type(
-      shippingAddressData.address.postal
+      shippingAddress.address.postal
     );
-    cy.get('[formcontrolname="phone"]').type(shippingAddressData.phone);
+    cy.get('[formcontrolname="phone"]').type(shippingAddress.phone);
     cy.get('button.btn-primary').click();
   });
 }
 
-export function fillBillingAddress(billingAddressData: ShippingAddress) {
+export function fillBillingAddress(billingAddress: AddressData) {
   cy.get('.cx-payment-form-billing').within(() => {
     cy.get('input[type="checkbox"]').click();
-    cy.get('[bindvalue="isocode"]').ngSelect(
-      billingAddressData.address.country
-    );
-    cy.get('[formcontrolname="firstName"]').type(billingAddressData.firstName);
-    cy.get('[formcontrolname="lastName"]').type(billingAddressData.lastName);
-    cy.get('[formcontrolname="line1"]').type(billingAddressData.address.line1);
-    if (billingAddressData.address.line2) {
-      cy.get('[formcontrolname="line2"]').type(
-        billingAddressData.address.line2
-      );
+    cy.get('[bindvalue="isocode"]').ngSelect(billingAddress.address.country);
+    cy.get('[formcontrolname="firstName"]').type(billingAddress.firstName);
+    cy.get('[formcontrolname="lastName"]').type(billingAddress.lastName);
+    cy.get('[formcontrolname="line1"]').type(billingAddress.address.line1);
+    if (billingAddress.address.line2) {
+      cy.get('[formcontrolname="line2"]').type(billingAddress.address.line2);
     }
-    cy.get('[formcontrolname="town"]').type(billingAddressData.address.city);
-    if (billingAddressData.address.state) {
+    cy.get('[formcontrolname="town"]').type(billingAddress.address.city);
+    if (billingAddress.address.state) {
       cy.get('[formcontrolname="isocodeShort"]').ngSelect(
-        billingAddressData.address.state
+        billingAddress.address.state
       );
     }
     cy.get('[formcontrolname="postalCode"]').type(
-      billingAddressData.address.postal
+      billingAddress.address.postal
     );
   });
 }
 
 export function fillPaymentDetails(
   paymentDetails: PaymentDetails,
-  billingAddress?: ShippingAddress
+  billingAddress?: AddressData
 ) {
   cy.get('cx-payment-form').within(() => {
     cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);

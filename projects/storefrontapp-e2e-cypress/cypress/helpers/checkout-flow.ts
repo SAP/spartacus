@@ -4,7 +4,7 @@ import {
   fillPaymentDetails,
   fillShippingAddress,
   PaymentDetails,
-  ShippingAddress,
+  AddressData,
 } from './checkout-forms';
 
 export function signOut() {
@@ -60,7 +60,7 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-export function fillAddressForm(shippingAddressData: ShippingAddress = user) {
+export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
@@ -84,7 +84,7 @@ export function chooseDeliveryMethod() {
 
 export function fillPaymentForm(
   paymentDetailsData: PaymentDetails = user,
-  billingAddress?: ShippingAddress
+  billingAddress?: AddressData
 ) {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')

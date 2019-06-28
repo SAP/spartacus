@@ -1,7 +1,8 @@
 import * as checkout from '../../helpers/checkout-flow';
 import { user } from '../../sample-data/checkout-flow';
+import { Address } from '../../helpers/checkout-forms';
 
-const usaAddress = {
+const usaAddress: Address = {
   city: 'Los Angeles',
   line1: '340 Main Street',
   line2: '',
@@ -10,7 +11,7 @@ const usaAddress = {
   state: 'California',
 };
 
-const canadaAddress = {
+const canadaAddress: Address = {
   city: 'Montreal',
   line1: '111 Boulevard Robert-Bourassa',
   line2: '',
@@ -19,7 +20,7 @@ const canadaAddress = {
   state: 'Quebec',
 };
 
-const polandAddress = {
+const polandAddress: Address = {
   city: 'Wrocław',
   line1: 'Dmowskiego 17',
   line2: '',
