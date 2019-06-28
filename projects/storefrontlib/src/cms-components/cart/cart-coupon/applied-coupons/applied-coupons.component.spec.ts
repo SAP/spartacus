@@ -16,7 +16,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('AppliedCouponsComponent', () => {
+fdescribe('AppliedCouponsComponent', () => {
   let component: AppliedCouponsComponent;
   let fixture: ComponentFixture<AppliedCouponsComponent>;
 
@@ -36,123 +36,127 @@ describe('AppliedCouponsComponent', () => {
     fixture = TestBed.createComponent(AppliedCouponsComponent);
     component = fixture.componentInstance;
     mockCartService.removeVoucher.and.stub();
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  describe('test the component for the ready only way', () => {
-    it('should show no coupon list for empty list', () => {
+  it('should sort conpons', () => {
+    component.vouchers = [coupon2, coupon1];
+    fixture.detectChanges();
+    const elValue = fixture.debugElement.queryAll(
+      By.css('.cx-cart-coupon-code')
+    );
+    expect(elValue.length).toBe(2);
+    expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
+    expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
+    expect([coupon1, coupon2] === component.sortedVouchers);
+  });
+
+  describe('test applied coupons in "ReadOnly" mode', () => {
+    beforeEach(() => {
       component.isReadOnly = true;
+    });
+    it('should not show coupon list when no coupons applied', () => {
       component.vouchers = [];
       fixture.detectChanges();
-      const elTitle = fixture.debugElement.query(
+      const elTitle = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-title')
       );
-      const elValue = fixture.debugElement.query(
+      const elValue = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-code')
       );
       const elButton = fixture.debugElement.query(By.css('button'));
 
-      expect(elValue).toBeNull();
-      expect(elTitle).toBeNull();
+      expect(elTitle.length).toBe(0);
+      expect(elValue.length).toBe(0);
       expect(elButton).toBeNull();
       expect(component.sortedVouchers.length === 0);
     });
 
-    it('should show no coupon list for undefined list', () => {
-      component.isReadOnly = true;
+    it('should not show coupon list when undefined list', () => {
       fixture.detectChanges();
-      const elTitle = fixture.debugElement.query(
+      const elTitle = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-title')
       );
-      const elValue = fixture.debugElement.query(
+      const elValue = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-code')
       );
       const elButton = fixture.debugElement.query(By.css('button'));
 
-      expect(elValue).toBeNull();
-      expect(elTitle).toBeNull();
+      expect(elTitle.length).toBe(0);
+      expect(elValue.length).toBe(0);
       expect(elButton).toBeNull();
+      expect(component.sortedVouchers.length === 0);
     });
 
-    it('should singular coupon tile  with one coupon for ready only', () => {
-      component.isReadOnly = true;
+    it('should show singular coupon tile when 1 coupon applied', () => {
       component.vouchers = [coupon1];
       fixture.detectChanges();
-      const elTitle = fixture.debugElement.query(
+      const couponTitle = fixture.debugElement.query(
         By.css('.cx-applied-coupon-title')
-      );
-      const elValue = fixture.debugElement.query(
+      ).nativeElement.innerText;
+      const elValue = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-code')
       );
-      const couponTitle = elTitle.nativeElement.innerText;
-      const couponCode = elValue.context;
-      expect(coupon1.code === couponCode);
-      expect(couponTitle).toEqual('voucher.coupon');
+      expect(elValue.length).toBe(1);
+      expect(couponTitle).toContain('voucher.coupon');
+      expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
     });
 
-    it('should show the coupon list for ready only', () => {
-      component.isReadOnly = true;
+    it('should show plural coupon tile when more than 1 coupons applied', () => {
       component.vouchers = [coupon2, coupon1];
       fixture.detectChanges();
-      const elTitle = fixture.debugElement.query(
+
+      const couponTitle = fixture.debugElement.query(
         By.css('.cx-applied-coupon-title')
-      );
-      const elValue = fixture.debugElement.query(
+      ).nativeElement.innerText;
+      const elValue = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-code')
       );
-      const couponTitle = elTitle.nativeElement.innerText;
-      const couponCode = elValue.context;
-      const elButton = fixture.debugElement.query(By.css('button'));
-
-      expect(couponTitle).toEqual('voucher.coupons');
-      expect(component.sortedVouchers.length > 0);
-      component.sortedVouchers.forEach(coupon =>
-        expect(coupon.code === couponCode)
-      );
-
-      expect(elButton).toBeNull();
+      expect(elValue.length).toBe(2);
+      expect(couponTitle).toContain('voucher.coupons');
+      expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
+      expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
     });
   });
 
-  describe('test the component for the only ready only way', () => {
-    it('should show coupon list for not ready only', () => {
-      component.vouchers = [coupon1, coupon2];
-      fixture.detectChanges();
-      const elTitle = fixture.debugElement.query(
-        By.css('.cx-cart-coupon-title')
-      );
-      const elValue = fixture.debugElement.query(
-        By.css('.cx-cart-coupon-code')
-      );
-      const elButton = fixture.debugElement.query(By.css('button'));
-
-      const couponCode = elValue.context;
-      component.sortedVouchers.forEach(coupon =>
-        expect(coupon.code === couponCode)
-      );
-      expect(elTitle).toBeNull();
-      expect(elButton).toBeDefined();
-    });
-
-    it('should show no coupon list for not ready only', () => {
+  describe('test applied coupons in "Editable" mode', () => {
+    it('should not show coupon list when no coupons applied', () => {
       component.vouchers = [];
       fixture.detectChanges();
-      const elTitle = fixture.debugElement.query(
+      const elTitle = fixture.debugElement.queryAll(
         By.css('.cx-cart-coupon-title')
       );
-      const elValue = fixture.debugElement.query(
+      const elValue = fixture.debugElement.queryAll(
         By.css('.cx-cart-coupon-code')
       );
       const elButton = fixture.debugElement.query(By.css('button'));
 
-      expect(elValue).toBeNull();
-      expect(elTitle).toBeNull();
+      expect(elTitle.length).toBe(0);
+      expect(elValue.length).toBe(0);
       expect(elButton).toBeNull();
       expect(component.sortedVouchers.length === 0);
+    });
+
+    it('should show applied coupons', () => {
+      component.vouchers = [coupon2, coupon1];
+      fixture.detectChanges();
+      const elTitle = fixture.debugElement.query(
+        By.css('.cx-cart-coupon-title')
+      );
+      const elValue = fixture.debugElement.queryAll(
+        By.css('.cx-cart-coupon-code')
+      );
+      const elButton = fixture.debugElement.queryAll(By.css('button'));
+
+      expect(elTitle).toBeNull();
+      expect(elButton.length).toBe(2);
+      expect(elValue.length).toBe(2);
+      expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
+      expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
     });
 
     it('should call remove for remove button not ready only', () => {
