@@ -18,10 +18,10 @@ import {
   CmsComponent,
   CmsService,
   CmsConfig,
-  CxApiService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
+import { CxApiService } from './cx-api.service';
 
 const testText = 'test text';
 

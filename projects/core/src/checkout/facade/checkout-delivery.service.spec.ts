@@ -1,18 +1,28 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '@spartacus/core';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
 import { DeliveryMode } from '../../model/order.model';
-import * as fromCheckout from '../store/index';
+import { CheckoutActions } from '../store/actions/index';
+import { CheckoutState } from '../store/checkout-state';
+import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
-  let cartData: CartDataService;
-  let store: Store<fromCheckout.CheckoutState>;
+  let cartData: CartDataServiceStub;
+  let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
+
+  class CartDataServiceStub {
+    userId;
+    cart;
+    get cartId() {
+      return this.cart.code;
+    }
+  }
 
   const address: Address = {
     firstName: 'John',
@@ -28,14 +38,20 @@ describe('CheckoutDeliveryService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
       ],
-      providers: [CheckoutDeliveryService, CartDataService],
+      providers: [
+        CheckoutDeliveryService,
+        { provide: CartDataService, useClass: CartDataServiceStub },
+      ],
     });
 
     service = TestBed.get(CheckoutDeliveryService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
+
+    cartData.userId = userId;
+    cartData.cart = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -47,9 +63,9 @@ describe('CheckoutDeliveryService', () => {
     }
   ));
 
-  it('should be able to get supported delivery modes', () => {
+  it('should be able to get supported delivery modes if data exists', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+      new CheckoutActions.LoadSupportedDeliveryModesSuccess([
         { code: 'mode1' },
         { code: 'mode2' },
       ])
@@ -65,14 +81,29 @@ describe('CheckoutDeliveryService', () => {
     expect(deliveryModes).toEqual([{ code: 'mode1' }, { code: 'mode2' }]);
   });
 
-  it('should be able to get selected delivery mode', () => {
+  it('should be able to get supported delivery modes after trigger data loading when they do not exist', () => {
+    spyOn(service, 'loadSupportedDeliveryModes').and.callThrough();
+
+    let deliveryModes: DeliveryMode[];
+    service
+      .getSupportedDeliveryModes()
+      .subscribe(data => {
+        deliveryModes = data;
+      })
+      .unsubscribe();
+
+    expect(deliveryModes).toEqual([]);
+    expect(service.loadSupportedDeliveryModes).toHaveBeenCalled();
+  });
+
+  it('should be able to get selected delivery mode if data exist', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+      new CheckoutActions.LoadSupportedDeliveryModesSuccess([
         { code: 'mode1' },
         { code: 'mode2' },
       ])
     );
-    store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
+    store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('mode1'));
 
     let selectedMode: DeliveryMode;
     service.getSelectedDeliveryMode().subscribe(data => {
@@ -83,12 +114,12 @@ describe('CheckoutDeliveryService', () => {
 
   it('should be able to get the code of selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+      new CheckoutActions.LoadSupportedDeliveryModesSuccess([
         { code: 'mode1' },
         { code: 'mode2' },
       ])
     );
-    store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
+    store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('mode1'));
 
     let selectedModeCode: string;
     service.getSelectedDeliveryModeCode().subscribe(data => {
@@ -98,7 +129,7 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to get the delivery address', () => {
-    store.dispatch(new fromCheckout.SetDeliveryAddressSuccess(address));
+    store.dispatch(new CheckoutActions.SetDeliveryAddressSuccess(address));
 
     let deliveryAddress: Address;
     service
@@ -112,7 +143,7 @@ describe('CheckoutDeliveryService', () => {
 
   it('should be able to get the address verification result', () => {
     store.dispatch(
-      new fromCheckout.VerifyAddressSuccess({ decision: 'DECLINE' })
+      new CheckoutActions.VerifyAddressSuccess({ decision: 'DECLINE' })
     );
 
     let result: AddressValidation | string;
@@ -126,13 +157,10 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to create and set address to cart', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.createAndSetAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.AddDeliveryAddress({
+      new CheckoutActions.AddDeliveryAddress({
         userId: userId,
         cartId: cart.code,
         address: address,
@@ -141,13 +169,10 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to load the supported delivery modes', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.loadSupportedDeliveryModes();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.LoadSupportedDeliveryModes({
+      new CheckoutActions.LoadSupportedDeliveryModes({
         userId: userId,
         cartId: cart.code,
       })
@@ -155,14 +180,11 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to set the delivery mode', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     const modeId = 'testId';
     service.setDeliveryMode(modeId);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.SetDeliveryMode({
+      new CheckoutActions.SetDeliveryMode({
         userId: userId,
         cartId: cart.code,
         selectedModeId: modeId,
@@ -171,13 +193,10 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should load address verification results', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
-
     service.verifyAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.VerifyAddress({
+      new CheckoutActions.VerifyAddress({
         userId: userId,
         address,
       })
@@ -185,12 +204,10 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should set delivery address', () => {
-    cartData.userId = userId;
-    cartData.cart = cart;
     service.setDeliveryAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.SetDeliveryAddress({
+      new CheckoutActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartData.cart.code,
         address: address,
@@ -201,7 +218,7 @@ describe('CheckoutDeliveryService', () => {
   it('should be able to clear address verification result', () => {
     service.clearAddressVerificationResults();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.ClearAddressVerificationResults()
+      new CheckoutActions.ClearAddressVerificationResults()
     );
   });
 });

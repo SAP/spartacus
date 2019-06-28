@@ -23,7 +23,7 @@ export class CustomFormValidators {
   static passwordValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.value as string;
     return password.match(
-      '^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_+{};:.,]).{6,}$'
+      /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_\-+{};:.,]).{6,}$/
     )
       ? null
       : { InvalidPassword: true };

@@ -1,15 +1,10 @@
 import { Action } from '@ngrx/store';
-
-import {
-  LoaderLoadAction,
-  LoaderFailAction,
-  LoaderSuccessAction,
-} from '../../../state/utils/loader/loader.action';
-import { CHECKOUT_DETAILS } from '../checkout-state';
-import { CheckoutDetails } from '../../models/checkout.model';
 import { Address } from '../../../model/address.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { CheckoutDetails } from '../../models/checkout.model';
+import { CHECKOUT_DETAILS } from '../checkout-state';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -57,6 +52,8 @@ export const LOAD_CHECKOUT_DETAILS_FAIL =
   '[Checkout] Load Checkout Details Fail';
 export const LOAD_CHECKOUT_DETAILS_SUCCESS =
   '[Checkout] Load Checkout Details Success';
+
+export const CHECKOUT_CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
 
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
@@ -194,25 +191,29 @@ export class ClearCheckoutData implements Action {
   readonly type = CLEAR_CHECKOUT_DATA;
 }
 
-export class LoadCheckoutDetails extends LoaderLoadAction {
+export class LoadCheckoutDetails extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_CHECKOUT_DETAILS;
   constructor(public payload: { userId: string; cartId: string }) {
     super(CHECKOUT_DETAILS);
   }
 }
 
-export class LoadCheckoutDetailsFail extends LoaderFailAction {
+export class LoadCheckoutDetailsFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_CHECKOUT_DETAILS_FAIL;
   constructor(public payload: any) {
     super(CHECKOUT_DETAILS, payload);
   }
 }
 
-export class LoadCheckoutDetailsSuccess extends LoaderSuccessAction {
+export class LoadCheckoutDetailsSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_CHECKOUT_DETAILS_SUCCESS;
   constructor(public payload: CheckoutDetails) {
     super(CHECKOUT_DETAILS);
   }
+}
+
+export class CheckoutClearMiscsData implements Action {
+  readonly type = CHECKOUT_CLEAR_MISCS_DATA;
 }
 
 export type CheckoutAction =
@@ -242,4 +243,5 @@ export type CheckoutAction =
   | ClearCheckoutData
   | LoadCheckoutDetails
   | LoadCheckoutDetailsFail
-  | LoadCheckoutDetailsSuccess;
+  | LoadCheckoutDetailsSuccess
+  | CheckoutClearMiscsData;

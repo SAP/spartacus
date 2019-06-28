@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
-import * as fromAction from './../actions/view-all-stores.action';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
+import { StoreFinderActions } from '../actions/index';
 
 @Injectable()
 export class ViewAllStoresEffect {
@@ -15,12 +14,21 @@ export class ViewAllStoresEffect {
   ) {}
 
   @Effect()
-  viewAllStores$: Observable<any> = this.actions$.pipe(
-    ofType(fromAction.VIEW_ALL_STORES),
+  viewAllStores$: Observable<
+    | StoreFinderActions.ViewAllStoresSuccess
+    | StoreFinderActions.ViewAllStoresFail
+  > = this.actions$.pipe(
+    ofType(StoreFinderActions.VIEW_ALL_STORES),
     switchMap(() => {
       return this.storeFinderConnector.getCounts().pipe(
-        map(data => new fromAction.ViewAllStoresSuccess(data)),
-        catchError(error => of(new fromAction.ViewAllStoresFail(error)))
+        map(data => new StoreFinderActions.ViewAllStoresSuccess(data)),
+        catchError(error =>
+          of(
+            new StoreFinderActions.ViewAllStoresFail(
+              makeErrorSerializable(error)
+            )
+          )
+        )
       );
     })
   );

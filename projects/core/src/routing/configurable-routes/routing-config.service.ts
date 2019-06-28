@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { RouteConfig } from './routes-config';
 import { RoutingConfig } from './config/routing-config';
 
@@ -18,7 +18,7 @@ export class RoutingConfigService {
   }
 
   private warn(...args) {
-    if (!this.config.production) {
+    if (isDevMode()) {
       console.warn(...args);
     }
   }

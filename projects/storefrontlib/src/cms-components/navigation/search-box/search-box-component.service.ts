@@ -60,11 +60,11 @@ export class SearchBoxComponentService {
    * rules can be applied.
    */
   getResults(config: SearchBoxConfig): Observable<SearchResults> {
-    return combineLatest(
+    return combineLatest([
       this.getProductResults(config),
       this.getProductSuggestions(config),
-      this.getSearchMessage(config)
-    ).pipe(
+      this.getSearchMessage(config),
+    ]).pipe(
       map(([productResults, suggestions, message]) => {
         return {
           products: productResults ? productResults.products : null,

@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { StateEntityLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderErrorSelector,
@@ -14,7 +14,8 @@ export function getProcessStateFactory<T>(
 ): MemoizedSelector<StateWithProcess<T>, LoaderState<T>> {
   return createSelector(
     getProcessState(),
-    entityState => entityStateSelector(entityState, processId)
+    entityState =>
+      StateEntityLoaderSelectors.entityStateSelector(entityState, processId)
   );
 }
 

@@ -3,7 +3,9 @@ import { login, register } from './auth-forms';
 import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
 
 export function signOut() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
 }
 
 export function registerUser() {
@@ -58,7 +60,7 @@ export function fillAddressForm() {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
-    .should('contain', '$2,623.08');
+    .should('contain', cart.total);
 
   fillShippingAddress(user);
 }
@@ -79,7 +81,7 @@ export function fillPaymentForm() {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cart.total);
+    .should('contain', cart.totalAndShipping);
 
   fillPaymentDetails(user);
 }
@@ -100,13 +102,24 @@ export function placeOrder() {
     .within(() => {
       cy.getByText('Standard Delivery');
     });
+
+  cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
+    .eq(0)
+    .should('contain', cart.total);
+  cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
+    .eq(1)
+    .should('contain', cart.estimatedShipping);
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
-    cart.total
+    cart.totalAndShipping
   );
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
-    .should('have.attr', 'href', '/electronics-spa/en/USD/termsAndConditions');
+    .should(
+      'have.attr',
+      'href',
+      '/electronics-spa/en/USD/terms-and-conditions'
+    );
   cy.get('.form-check-input').check();
   cy.get('cx-place-order button.btn-primary').click();
 }
@@ -128,14 +141,19 @@ export function verifyOrderConfirmationPage() {
     });
   });
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
-  cy.get('cx-order-summary .cx-summary-amount').should('contain', cart.total);
+  cy.get('cx-order-summary .cx-summary-amount').should(
+    'contain',
+    cart.totalAndShipping
+  );
 }
 
 export function viewOrderHistory() {
-  cy.selectUserMenuOption('Order History');
+  cy.selectUserMenuOption({
+    option: 'Order History',
+  });
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cart.total);
+    .should('contain', cart.totalAndShipping);
 }

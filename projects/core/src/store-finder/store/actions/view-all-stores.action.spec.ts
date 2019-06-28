@@ -1,19 +1,15 @@
-import * as fromActions from './view-all-stores.action';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { STORE_FINDER_DATA } from '../store-finder-state';
+import { StoreFinderActions } from './index';
 
 describe('View All Stores Actions', () => {
   describe('ViewAllStores', () => {
     it('should create ViewAllStores action', () => {
-      const action = new fromActions.ViewAllStores();
+      const action = new StoreFinderActions.ViewAllStores();
 
       expect({ ...action }).toEqual({
-        type: fromActions.VIEW_ALL_STORES,
-        meta: loadMeta(STORE_FINDER_DATA),
+        type: StoreFinderActions.VIEW_ALL_STORES,
+        meta: StateLoaderActions.loadMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -21,12 +17,12 @@ describe('View All Stores Actions', () => {
   describe('ViewAllStoresFail', () => {
     it('should create ViewAllStoresFail action', () => {
       const payload = { errorMessage: 'Error' };
-      const action = new fromActions.ViewAllStoresFail(payload);
+      const action = new StoreFinderActions.ViewAllStoresFail(payload);
 
       expect({ ...action }).toEqual({
-        type: fromActions.VIEW_ALL_STORES_FAIL,
+        type: StoreFinderActions.VIEW_ALL_STORES_FAIL,
         payload,
-        meta: failMeta(STORE_FINDER_DATA, payload),
+        meta: StateLoaderActions.failMeta(STORE_FINDER_DATA, payload),
       });
     });
   });
@@ -34,12 +30,12 @@ describe('View All Stores Actions', () => {
   describe('ViewAllStoresSuccess', () => {
     it('should create ViewAllStoresSuccess action', () => {
       const payload = [{ country: ['Canada'] }];
-      const action = new fromActions.ViewAllStoresSuccess(payload);
+      const action = new StoreFinderActions.ViewAllStoresSuccess(payload);
 
       expect({ ...action }).toEqual({
-        type: fromActions.VIEW_ALL_STORES_SUCCESS,
+        type: StoreFinderActions.VIEW_ALL_STORES_SUCCESS,
         payload,
-        meta: successMeta(STORE_FINDER_DATA),
+        meta: StateLoaderActions.successMeta(STORE_FINDER_DATA),
       });
     });
   });

@@ -1,6 +1,5 @@
+import { UserActions } from '../actions/index';
 import { BillingCountriesState } from '../user-state';
-import * as fromAction from '../actions/billing-countries.action';
-import { CLEAR_MISCS_DATA, ClearMiscsData } from '../actions/index';
 
 export const initialState: BillingCountriesState = {
   entities: {},
@@ -8,10 +7,10 @@ export const initialState: BillingCountriesState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.BillingCountriesAction | ClearMiscsData
+  action: UserActions.BillingCountriesAction | UserActions.ClearUserMiscsData
 ): BillingCountriesState {
   switch (action.type) {
-    case fromAction.LOAD_BILLING_COUNTRIES_SUCCESS: {
+    case UserActions.LOAD_BILLING_COUNTRIES_SUCCESS: {
       const billingCountries = action.payload;
       const entities = billingCountries.reduce(
         (countryEntities: { [isocode: string]: any }, name: any) => {
@@ -31,7 +30,7 @@ export function reducer(
       };
     }
 
-    case CLEAR_MISCS_DATA: {
+    case UserActions.CLEAR_USER_MISCS_DATA: {
       return initialState;
     }
   }

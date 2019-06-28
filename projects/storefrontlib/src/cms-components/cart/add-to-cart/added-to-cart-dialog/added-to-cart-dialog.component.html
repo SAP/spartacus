@@ -4,7 +4,7 @@
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{
-          (showItemIncrLabel
+          (increment
             ? 'addToCart.itemsIncrementedInYourCart'
             : 'addToCart.itemsAddedToYourCart') | cxTranslate
         }}
@@ -48,7 +48,7 @@
                   | cxTranslate: { count: cart.deliveryItemsQuantity }
               }}
             </div>
-            <div>{{ cart.totalPrice.formattedValue }}</div>
+            <div>{{ cart.totalPrice?.formattedValue }}</div>
           </div>
           <!-- Actions -->
           <div class="cx-dialog-buttons">

@@ -10,7 +10,10 @@ describe('Language switch - my-account pages', () => {
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES
   );
-
+  siteContextSelector.stub(
+    siteContextSelector.TITLE_REQUEST,
+    siteContextSelector.TITLES
+  );
   describe('order page', () => {
     const orderPath = siteContextSelector.ORDER_PATH;
     const deutschName = siteContextSelector.MONTH_DE;
@@ -39,9 +42,7 @@ describe('Language switch - my-account pages', () => {
 
       cy.get(
         'cx-order-history .cx-order-history-placed .cx-order-history-value'
-      )
-        .invoke('text')
-        .should('contains', deutschName);
+      ).should('contain', deutschName);
     });
   });
 
@@ -102,22 +103,13 @@ describe('Language switch - my-account pages', () => {
       );
     });
 
-    beforeEach(() => {
-      siteContextSelector.createGerericQuery(
-        siteContextSelector.TITLE_REQUEST,
-        siteContextSelector.TITLES
-      );
-    });
-
     it('should change language in the page', () => {
       siteContextSelector.siteContextChange(
         personalDetailsPath,
-        siteContextSelector.LANGUAGES,
+        siteContextSelector.TITLES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );
-
-      cy.wait(`@${siteContextSelector.TITLES}`);
 
       cy.get('cx-update-profile-form select')
         .select(deutschName)

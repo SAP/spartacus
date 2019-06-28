@@ -1,19 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
-  CartDataService,
   CartService,
   I18nTestingModule,
-  PromotionResult,
   OrderEntry,
+  PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
-import { By } from '@angular/platform-browser';
 
 class MockCartService {
   removeEntry(): void {}
@@ -51,10 +50,7 @@ describe('CartDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
       declarations: [CartDetailsComponent, MockCartItemListComponent],
-      providers: [
-        CartDataService,
-        { provide: CartService, useClass: MockCartService },
-      ],
+      providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));
 
@@ -67,6 +63,7 @@ describe('CartDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  // potentialOrderPromotions and appliedOrderPromotions tests
   describe('when cart has potentialOrderPromotions and appliedOrderPromotions are defined', () => {
     it('should have two consumedEntries', () => {
       const mockedCart: Cart = {
@@ -78,10 +75,198 @@ describe('CartDetailsComponent', () => {
                 orderEntryNumber: 1,
               },
             ],
-            description: 'test applied product promotion',
+            description: 'test applied order promotion',
           },
         ],
         appliedOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 2,
+              },
+            ],
+            description: 'test potential order promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 1,
+            },
+          ],
+          description: 'test applied order promotion',
+        },
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test potential order promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when cart has potentialOrderPromotions is empty and appliedOrderPromotions is defined', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '2',
+        potentialOrderPromotions: [],
+        appliedOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 2,
+              },
+            ],
+            description: 'test potential order promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test potential order promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when cart has potentialOrderPromotions is defined and appliedOrderPromotions is empty', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '3',
+        potentialOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 1,
+              },
+            ],
+            description: 'test applied order promotion',
+          },
+        ],
+        appliedOrderPromotions: [],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 1,
+            },
+          ],
+          description: 'test applied order promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when cart has potentialOrderPromotions is defined and appliedOrderPromotions is undefined', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '4',
+        potentialOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 1,
+              },
+            ],
+            description: 'test applied order promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 1,
+            },
+          ],
+          description: 'test applied order promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when cart has potentialOrderPromotions is undefined and appliedOrderPromotions is defined', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '5',
+        appliedOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 2,
+              },
+            ],
+            description: 'test potential order promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test potential order promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  it('should display cart text with cart number', () => {
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('.cx-total'));
+    const cartName = el.nativeElement.innerText;
+    expect(cartName).toEqual('cartDetails.cartName code:123');
+  });
+
+  // potentialProductPromotions and appliedProductPromotions tests
+  describe('when cart has potentialProductPromotions and appliedProductPromotions are defined', () => {
+    it('should have two consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '6',
+        potentialProductPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 1,
+              },
+            ],
+            description: 'test applied product promotion',
+          },
+        ],
+        appliedProductPromotions: [
           {
             consumedEntries: [
               {
@@ -117,19 +302,19 @@ describe('CartDetailsComponent', () => {
     });
   });
 
-  describe('when cart has potentialOrderPromotions is empty and appliedOrderPromotions is defined', () => {
-    it('should have two consumedEntries', () => {
+  describe('when cart has potentialProductPromotions is empty and appliedProductPromotions is defined', () => {
+    it('should have one consumedEntries', () => {
       const mockedCart: Cart = {
-        guid: '2',
-        potentialOrderPromotions: [],
-        appliedOrderPromotions: [
+        guid: '7',
+        potentialProductPromotions: [],
+        appliedProductPromotions: [
           {
             consumedEntries: [
               {
                 orderEntryNumber: 2,
               },
             ],
-            description: 'test potential product promotion',
+            description: 'test applied product promotion',
           },
         ],
       };
@@ -141,6 +326,39 @@ describe('CartDetailsComponent', () => {
               orderEntryNumber: 2,
             },
           ],
+          description: 'test applied product promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when cart has potentialProductPromotions is defined and appliedProductPromotions is empty', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '8',
+        potentialProductPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 1,
+              },
+            ],
+            description: 'test potential product promotion',
+          },
+        ],
+        appliedProductPromotions: [],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 1,
+            },
+          ],
           description: 'test potential product promotion',
         },
       ];
@@ -150,11 +368,159 @@ describe('CartDetailsComponent', () => {
     });
   });
 
-  describe('when cart has potentialOrderPromotions is defined and appliedOrderPromotions is empty', () => {
+  describe('when cart has potentialProductPromotions is defined and appliedProductPromotions is undefined', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '9',
+        potentialOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 1,
+              },
+            ],
+            description: 'test potential product promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 1,
+            },
+          ],
+          description: 'test potential product promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when cart has potentialProductPromotions is undefined and appliedProductPromotions is defined', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '10',
+        appliedProductPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 2,
+              },
+            ],
+            description: 'test applied product promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test applied product promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  // appliedProductPromotions and appliedOrderPromotion tests
+  describe('when cart has appliedProductPromotions and appliedOrderPromotions both defined', () => {
     it('should have two consumedEntries', () => {
       const mockedCart: Cart = {
-        guid: '3',
-        potentialOrderPromotions: [
+        guid: '11',
+        appliedOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 1,
+              },
+            ],
+            description: 'test applied order promotion',
+          },
+        ],
+        appliedProductPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 2,
+              },
+            ],
+            description: 'test applied product promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 1,
+            },
+          ],
+          description: 'test applied order promotion',
+        },
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test applied product promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when cart has appliedProductPromotions is empty and appliedOrderPromotions is defined', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '12',
+        appliedProductPromotions: [],
+        appliedOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 2,
+              },
+            ],
+            description: 'test applied order promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test applied order promotion',
+        },
+      ];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when cart has appliedProductPromotions is defined and appliedOrderPromotions is empty', () => {
+    it('should have one consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '13',
+        appliedProductPromotions: [
           {
             consumedEntries: [
               {
@@ -183,11 +549,11 @@ describe('CartDetailsComponent', () => {
     });
   });
 
-  describe('when cart has potentialOrderPromotions is defined and appliedOrderPromotions is undefined', () => {
-    it('should have two consumedEntries', () => {
+  describe('when cart has appliedProductPromotions is defined and appliedOrderPromotions is undefined', () => {
+    it('should have one consumedEntries', () => {
       const mockedCart: Cart = {
-        guid: '4',
-        potentialOrderPromotions: [
+        guid: '14',
+        appliedProductPromotions: [
           {
             consumedEntries: [
               {
@@ -215,10 +581,10 @@ describe('CartDetailsComponent', () => {
     });
   });
 
-  describe('when cart has potentialOrderPromotions is undefined and appliedOrderPromotions is defined', () => {
-    it('should have two consumedEntries', () => {
+  describe('when cart has appliedProductPromotions is undefined and appliedOrderPromotions is defined', () => {
+    it('should have one consumedEntries', () => {
       const mockedCart: Cart = {
-        guid: '5',
+        guid: '15',
         appliedOrderPromotions: [
           {
             consumedEntries: [
@@ -226,7 +592,7 @@ describe('CartDetailsComponent', () => {
                 orderEntryNumber: 2,
               },
             ],
-            description: 'test potential product promotion',
+            description: 'test applied order promotion',
           },
         ],
       };
@@ -238,7 +604,7 @@ describe('CartDetailsComponent', () => {
               orderEntryNumber: 2,
             },
           ],
-          description: 'test potential product promotion',
+          description: 'test applied order promotion',
         },
       ];
 
@@ -247,10 +613,34 @@ describe('CartDetailsComponent', () => {
     });
   });
 
-  it('should display cart text with cart number', () => {
-    fixture.detectChanges();
-    const el = fixture.debugElement.query(By.css('.cx-total'));
-    const cartName = el.nativeElement.innerText;
-    expect(cartName).toEqual('cartDetails.cartName code:123');
+  // All promotions
+  describe('when all promotions are empty', () => {
+    it('should have zero consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '16',
+        appliedOrderPromotions: [],
+        appliedProductPromotions: [],
+        potentialOrderPromotions: [],
+        potentialProductPromotions: [],
+      };
+
+      const expectedResult: PromotionResult[] = [];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
+  });
+
+  describe('when all promotions are undefined', () => {
+    it('should have zero consumedEntries', () => {
+      const mockedCart: Cart = {
+        guid: '17',
+      };
+
+      const expectedResult: PromotionResult[] = [];
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual(expectedResult);
+    });
   });
 });

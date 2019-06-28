@@ -18,14 +18,11 @@ export const cart = {
   },
   orderCost: {
     orderSummary: 'Order Summary',
-    subtotal: 'Subtotal:',
+    subtotal: 'Subtotal after discounts:',
     estimatedShipping: 'Estimated shipping:',
-    discount: 'Discount:',
+    discount: 'You saved:',
     salesTax: 'Sales Tax:',
+    grossTax: 'The order total does not include tax of',
     total: 'Total:',
-  },
-  miniCart: {
-    item: '{{count}} item currently in your cart',
-    item_plural: '{{count}} items currently in your cart',
   },
 };

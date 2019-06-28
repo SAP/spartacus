@@ -2,46 +2,51 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { LoadUserToken, Logout } from '../../../auth/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromActions from '../actions/user-register.action';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserRegisterEffects {
   @Effect()
   registerUser$: Observable<
-    fromActions.UserRegisterOrRemoveAction | LoadUserToken
+    UserActions.UserRegisterOrRemoveAction | AuthActions.LoadUserToken
   > = this.actions$.pipe(
-    ofType(fromActions.REGISTER_USER),
-    map((action: fromActions.RegisterUser) => action.payload),
+    ofType(UserActions.REGISTER_USER),
+    map((action: UserActions.RegisterUser) => action.payload),
     mergeMap((user: UserSignUp) =>
       this.userConnector.register(user).pipe(
         switchMap(_result => [
-          new LoadUserToken({
+          new AuthActions.LoadUserToken({
             userId: user.uid,
             password: user.password,
           }),
-          new fromActions.RegisterUserSuccess(),
+          new UserActions.RegisterUserSuccess(),
         ]),
-        catchError(error => of(new fromActions.RegisterUserFail(error)))
+        catchError(error =>
+          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+        )
       )
     )
   );
 
   @Effect()
   removeUser$: Observable<
-    fromActions.UserRegisterOrRemoveAction | Logout
+    UserActions.UserRegisterOrRemoveAction | AuthActions.Logout
   > = this.actions$.pipe(
-    ofType(fromActions.REMOVE_USER),
-    map((action: fromActions.RemoveUser) => action.payload),
+    ofType(UserActions.REMOVE_USER),
+    map((action: UserActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
         switchMap(_result => [
-          new fromActions.RemoveUserSuccess(),
-          new Logout(),
+          new UserActions.RemoveUserSuccess(),
+          new AuthActions.Logout(),
         ]),
-        catchError(error => of(new fromActions.RemoveUserFail(error)))
+        catchError(error =>
+          of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
+        )
       );
     })
   );

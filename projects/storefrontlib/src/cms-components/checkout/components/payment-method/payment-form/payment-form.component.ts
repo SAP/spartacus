@@ -12,8 +12,8 @@ import {
   Address,
   AddressValidation,
   CardType,
-  CheckoutPaymentService,
   CheckoutDeliveryService,
+  CheckoutPaymentService,
   Country,
   GlobalMessageService,
   GlobalMessageType,
@@ -61,7 +61,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   closeForm = new EventEmitter<any>();
 
   @Output()
-  addPaymentInfo = new EventEmitter<any>();
+  setPaymentDetails = new EventEmitter<any>();
 
   payment: FormGroup = this.fb.group({
     defaultPayment: [false],
@@ -81,8 +81,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     line1: ['', Validators.required],
     line2: [''],
     town: ['', Validators.required],
+    region: this.fb.group({
+      isocodeShort: [null, Validators.required],
+    }),
     country: this.fb.group({
-      isocode: ['', Validators.required],
+      isocode: [null, Validators.required],
     }),
     postalCode: ['', Validators.required],
   });
@@ -191,7 +194,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
    * @memberof PaymentFormComponent
    */
   showSameAsShippingAddressCheckbox(): Observable<boolean> {
-    return combineLatest(this.countries$, this.shippingAddress$).pipe(
+    return combineLatest([this.countries$, this.shippingAddress$]).pipe(
       map(([countries, address]) => {
         return !!countries.filter(
           (country: Country): boolean =>
@@ -258,7 +261,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    this.addPaymentInfo.emit({
+    this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
         ? null

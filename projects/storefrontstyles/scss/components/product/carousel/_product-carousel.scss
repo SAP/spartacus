@@ -1,10 +1,33 @@
 %cx-product-carousel {
+  display: flex;
+  a {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    color: var(--cx-color-text);
+    outline: none;
+    h4 {
+      font-size: 0.9rem;
+      height: 30px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    &:hover,
+    &:focus {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+    }
+  }
   cx-media {
-    height: 20vmin;
+    align-self: center;
+    width: 60%;
 
     &.is-missing {
-      min-height: 20vmin;
-      background-size: 20vmin;
+      align-self: center;
+      width: 60%;
+      background-size: 60%;
     }
   }
 }

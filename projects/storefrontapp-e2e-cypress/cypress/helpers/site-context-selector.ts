@@ -29,7 +29,7 @@ export const PAGE_REQUEST = `${Cypress.env(
 
 export const TITLE_REQUEST = `${Cypress.env(
   'API_URL'
-)}/rest/v2/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=ContentPage&pageLabelOrId=/my-account/update-profile&lang=de&curr=USD`;
+)}/rest/v2/${CONTENT_CATALOG}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
@@ -124,8 +124,12 @@ export function siteContextChange(
   label: string
 ): void {
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+
   cy.wait(`@${alias}`);
+
+  cy.route('GET', `*${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
+  cy.wait('@switchedContext');
 }
 
 export function verifySiteContextChangeUrl(
