@@ -1,6 +1,5 @@
 import { isPlatformServer } from '@angular/common';
 import {
-  ChangeDetectorRef,
   ComponentRef,
   Directive,
   Inject,
@@ -39,7 +38,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private cmsService: CmsService,
     private dynamicAttributeService: DynamicAttributeService,
     private renderer: Renderer2,
-    private cd: ChangeDetectorRef,
     private config: CmsConfig,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
@@ -75,8 +73,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         undefined,
         this.getInjectorForComponent()
       );
-
-      this.cd.detectChanges();
 
       if (this.cmsService.isLaunchInSmartEdit()) {
         this.addSmartEditContract(this.cmpRef.location.nativeElement);

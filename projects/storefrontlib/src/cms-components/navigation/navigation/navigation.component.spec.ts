@@ -2,11 +2,12 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsNavigationComponent } from '@spartacus/core';
-import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/index';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
+
 import createSpy = jasmine.createSpy;
 
 @Component({
