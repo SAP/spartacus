@@ -46,8 +46,11 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         if (loading) {
           return false;
         }
-        if ((valid && !loading) || error) {
+        if (valid && !loading) {
           return true;
+        }
+        if (!valid && error) {
+          return false;
         }
         return false;
       })
