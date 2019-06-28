@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Cart, CartService, I18nTestingModule, Voucher } from '@spartacus/core';
 import { of } from 'rxjs';
-import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 import { CartCouponComponent } from './cart-coupon.component';
 
@@ -21,6 +20,19 @@ const cart: Cart = {
 })
 export class MockCxIconComponent {
   @Input() type;
+}
+
+@Component({
+  selector: 'cx-applied-coupons',
+  template: '',
+})
+export class MockAppliedCouponsComponent {
+  @Input()
+  vouchers: Voucher[];
+  @Input()
+  cartIsLoading = false;
+  @Input()
+  isReadOnly = false;
 }
 
 fdescribe('CartCouponComponent', () => {
@@ -43,7 +55,7 @@ fdescribe('CartCouponComponent', () => {
       imports: [I18nTestingModule, ReactiveFormsModule],
       declarations: [
         CartCouponComponent,
-        AppliedCouponsComponent,
+        MockAppliedCouponsComponent,
         MockCxIconComponent,
       ],
       providers: [
@@ -74,6 +86,23 @@ fdescribe('CartCouponComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should display applied coupons', () => {
+    fixture.detectChanges();
+    const appliedCoupons = fixture.debugElement.nativeElement.querySelectorAll(
+      'cx-applied-coupons'
+    );
+    expect(appliedCoupons.length).toBe(1);
+  });
+
+  it('should display cart coupon label and apply button disable by default', () => {
+    fixture.detectChanges();
+    const title = fixture.debugElement.query(By.css('.cx-cart-coupon-title'))
+      .nativeElement.innerText;
+
+    expect(title).toEqual('voucher.coupon');
+    expect(submit.disabled).toBe(true);
+  });
+
   it('should call getAddVoucherResultSuccess in ngOnInit', () => {
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
     fixture.detectChanges();
@@ -85,15 +114,6 @@ fdescribe('CartCouponComponent', () => {
     fixture.detectChanges();
     component.ngOnDestroy();
     expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
-  });
-
-  it('should display cart coupon label and apply button disable by default', () => {
-    fixture.detectChanges();
-    const title = fixture.debugElement.query(By.css('.cx-cart-coupon-title'))
-      .nativeElement.innerText;
-
-    expect(title).toEqual('voucher.coupon');
-    expect(submit.disabled).toBe(true);
   });
 
   it('should disable button when applied voucher successfully and cart is loading', () => {
