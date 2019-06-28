@@ -12,7 +12,7 @@ import { CmsStructureModel } from '../model/page.model';
 /**
  * Service that provides access to CMS structure from a static
  * configuration or configuration file. This class uses static
- * configuration is designed in async fashion so that configurations
+ * configuration and is designed in async fashion so that configurations
  * can be loaded from a file or stream.
  *
  * The intent of the `CmsStructureConfigService` however is to provide
@@ -27,7 +27,7 @@ export abstract class CmsStructureConfigService {
   /**
    * Merge the cms structure to the pageStructure. The page structure
    * can either hold complete page structures or global structures that
-   * might apply to all pages (such has header coponents).
+   * might apply to all pages (such has header components).
    */
   mergePageStructure(
     pageId: string,
@@ -114,8 +114,8 @@ export abstract class CmsStructureConfigService {
 
   /**
    * Adds any pre-configured slots for pages that do not use them.
-   * If pages have a slot for the given position, the configiuration
-   * is ingored. Even if the slot does not have inner structure (such as
+   * If pages have a slot for the given position, the configuration
+   * is ignored. Even if the slot does not have inner structure (such as
    * components), so that the cms structure is able to override the (static)
    * configuration.
    */
