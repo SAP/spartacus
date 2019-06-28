@@ -83,7 +83,7 @@ context('Payment billing address', () => {
     checkout.clickAddNewPayment();
   });
 
-  it('should fill in payment form with different billing address (with states)', () => {
+  it('should fill in payment form with different billing address (country with states)', () => {
     checkout.fillPaymentForm(user, { ...user, address: canadaAddress });
   });
 
