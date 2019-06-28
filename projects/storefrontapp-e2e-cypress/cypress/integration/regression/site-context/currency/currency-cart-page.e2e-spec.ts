@@ -14,15 +14,15 @@ describe('Language switch - cart page', () => {
   });
 
   siteContextSelector.stub(
-    siteContextSelector.CURRENCY_REQUEST,
-    siteContextSelector.CURRENCIES
+    siteContextSelector.CART_REQUEST,
+    siteContextSelector.CART_REQUEST_ALIAS
   );
 
   describe('cart page', () => {
     it('should change currency in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         cartPath,
-        siteContextSelector.CURRENCIES,
+        siteContextSelector.CART_REQUEST_ALIAS,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,
         siteContextSelector.FULL_BASE_URL_EN_JPY + cartPath
@@ -32,7 +32,7 @@ describe('Language switch - cart page', () => {
     it('should change currency for price per item in the page', () => {
       siteContextSelector.siteContextChange(
         cartPath,
-        siteContextSelector.CURRENCIES,
+        siteContextSelector.CART_REQUEST_ALIAS,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL
       );
@@ -46,7 +46,7 @@ describe('Language switch - cart page', () => {
     it('should change currency for total price in the page', () => {
       siteContextSelector.siteContextChange(
         cartPath,
-        siteContextSelector.CURRENCIES,
+        siteContextSelector.CART_REQUEST_ALIAS,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL
       );
