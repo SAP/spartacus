@@ -100,7 +100,8 @@ export class CartEffects {
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_ADD_VOUCHER_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_FAIL
     ),
     map(
       (
@@ -111,6 +112,7 @@ export class CartEffects {
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartAddVoucherSuccess
           | CartActions.CartRemoveVoucherSuccess
+          | CartActions.CartRemoveVoucherFail
       ) => action.payload
     ),
     map(

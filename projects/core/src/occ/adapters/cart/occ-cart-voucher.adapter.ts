@@ -27,9 +27,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    const params = new HttpParams({
-      fromString: 'voucherId=' + voucherId,
-    });
+    const params: HttpParams = new HttpParams().set('voucherId', voucherId);
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
       catchError((error: any) => throwError(error.json())),
