@@ -232,7 +232,9 @@ describe('Navigation UI Component', () => {
       // First element should not focus when no element is focused
       expect(first).not.toBe(<HTMLElement>document.activeElement);
 
-      renderer2.listen(second, 'focus', () => {
+      const listenFocusSecond = renderer2.listen(second, 'focus', () => {
+        listenFocusSecond();
+
         // Second element should be focused
         expect(<HTMLElement>document.activeElement).toBe(second);
 
@@ -246,7 +248,9 @@ describe('Navigation UI Component', () => {
         first.dispatchEvent(new FocusEvent('focus', { relatedTarget: first }));
       });
 
-      renderer2.listen(first, 'focus', () => {
+      const listenFocusFirst = renderer2.listen(first, 'focus', () => {
+        listenFocusFirst();
+
         // First element should become focused
         expect(<HTMLElement>document.activeElement).toBe(first);
       });
