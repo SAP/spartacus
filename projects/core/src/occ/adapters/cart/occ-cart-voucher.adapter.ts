@@ -36,7 +36,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   }
 
   remove(userId: string, cartId: string, voucherId: string): Observable<{}> {
-    const url = this.getCartVoucherEndpoint(userId, cartId) + '/' + voucherId;
+    const url = this.getCartVoucherEndpoint(userId, cartId) + '/' + encodeURIComponent(voucherId) ;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
