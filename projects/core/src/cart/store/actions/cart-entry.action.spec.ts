@@ -1,8 +1,4 @@
-import {
-  failMeta,
-  loadMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { CART_DATA } from '../cart-state';
 import { CartActions } from './index';
 
@@ -25,7 +21,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_ENTRY,
           payload: payload,
-          meta: loadMeta(CART_DATA),
+          meta: StateLoaderActions.loadMeta(CART_DATA),
         });
       });
     });
@@ -38,7 +34,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_ENTRY_FAIL,
           payload: error,
-          meta: failMeta(CART_DATA, error),
+          meta: StateLoaderActions.failMeta(CART_DATA, error),
         });
       });
     });
@@ -49,7 +45,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_ENTRY_SUCCESS,
           payload: {},
-          meta: successMeta(CART_DATA),
+          meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
     });
@@ -63,7 +59,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_ENTRY,
           payload: payload,
-          meta: loadMeta(CART_DATA),
+          meta: StateLoaderActions.loadMeta(CART_DATA),
         });
       });
     });
@@ -76,7 +72,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_ENTRY_FAIL,
           payload: error,
-          meta: failMeta(CART_DATA, error),
+          meta: StateLoaderActions.failMeta(CART_DATA, error),
         });
       });
     });
@@ -87,7 +83,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_ENTRY_SUCCESS,
           payload: {},
-          meta: successMeta(CART_DATA),
+          meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
     });
@@ -106,7 +102,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_UPDATE_ENTRY,
           payload: payload,
-          meta: loadMeta(CART_DATA),
+          meta: StateLoaderActions.loadMeta(CART_DATA),
         });
       });
     });
@@ -119,7 +115,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_UPDATE_ENTRY_FAIL,
           payload: error,
-          meta: failMeta(CART_DATA, error),
+          meta: StateLoaderActions.failMeta(CART_DATA, error),
         });
       });
     });
@@ -130,7 +126,7 @@ describe('Cart-entry Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_UPDATE_ENTRY_SUCCESS,
           payload: {},
-          meta: successMeta(CART_DATA),
+          meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
     });

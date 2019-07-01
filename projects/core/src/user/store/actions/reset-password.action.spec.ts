@@ -1,14 +1,14 @@
-import * as fromAction from './reset-password.action';
+import { UserActions } from './index';
 
 describe('ResetPassword Actions', () => {
   describe('ResetPassword', () => {
     it('should create the action', () => {
-      const action = new fromAction.ResetPassword({
+      const action = new UserActions.ResetPassword({
         token: 'test token',
         password: 'test password',
       });
       expect({ ...action }).toEqual({
-        type: fromAction.RESET_PASSWORD,
+        type: UserActions.RESET_PASSWORD,
         payload: { token: 'test token', password: 'test password' },
       });
     });
@@ -17,10 +17,10 @@ describe('ResetPassword Actions', () => {
   describe('ResetPasswordFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.ResetPasswordFail(error);
+      const action = new UserActions.ResetPasswordFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.RESET_PASSWORD_FAIL,
+        type: UserActions.RESET_PASSWORD_FAIL,
         payload: error,
       });
     });
@@ -28,9 +28,9 @@ describe('ResetPassword Actions', () => {
 
   describe('ResetPasswordSuccess', () => {
     it('should create the action', () => {
-      const action = new fromAction.ResetPasswordSuccess();
+      const action = new UserActions.ResetPasswordSuccess();
       expect({ ...action }).toEqual({
-        type: fromAction.RESET_PASSWORD_SUCCESS,
+        type: UserActions.RESET_PASSWORD_SUCCESS,
       });
     });
   });

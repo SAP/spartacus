@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { OpenIdToken } from '../models/kyma-token-types.model';
-import * as fromKymaActions from '../store/actions/index';
+import { KymaActions } from '../store/actions/index';
 import { StateWithKyma } from '../store/kyma-state';
 import { KymaSelectors } from '../store/selectors/index';
 
@@ -20,7 +20,7 @@ export class KymaService {
    */
   authorizeOpenId(username: string, password: string): void {
     this.store.dispatch(
-      new fromKymaActions.LoadOpenIdToken({ username, password })
+      new KymaActions.LoadOpenIdToken({ username, password })
     );
   }
 

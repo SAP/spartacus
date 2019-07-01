@@ -1,3 +1,14 @@
 %cx-cart-totals {
-  padding: 2rem 1rem;
+  padding: 2rem 3rem;
+
+  @include media-breakpoint-down(md) {
+    padding: 0 3rem 2rem 3rem;
+  }
+  cx-order-summary {
+    padding: 2rem 0 1rem;
+
+    @include media-breakpoint-down(md) {
+      padding: 0 0 2rem;
+    }
+  }
 }

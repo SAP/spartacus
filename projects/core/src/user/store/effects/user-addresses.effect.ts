@@ -11,28 +11,24 @@ import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
-import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserAddressesEffects {
   @Effect()
   loadUserAddresses$: Observable<
-    fromUserAddressesAction.UserAddressesAction
+    UserActions.UserAddressesAction
   > = this.actions$.pipe(
-    ofType(fromUserAddressesAction.LOAD_USER_ADDRESSES),
-    map((action: fromUserAddressesAction.LoadUserAddresses) => action.payload),
+    ofType(UserActions.LOAD_USER_ADDRESSES),
+    map((action: UserActions.LoadUserAddresses) => action.payload),
     mergeMap(payload => {
       return this.userAddressConnector.getAll(payload).pipe(
         map((addresses: Address[]) => {
-          return new fromUserAddressesAction.LoadUserAddressesSuccess(
-            addresses
-          );
+          return new UserActions.LoadUserAddressesSuccess(addresses);
         }),
         catchError(error =>
           of(
-            new fromUserAddressesAction.LoadUserAddressesFail(
-              makeErrorSerializable(error)
-            )
+            new UserActions.LoadUserAddressesFail(makeErrorSerializable(error))
           )
         )
       );
@@ -41,23 +37,19 @@ export class UserAddressesEffects {
 
   @Effect()
   addUserAddress$: Observable<
-    fromUserAddressesAction.UserAddressesAction
+    UserActions.UserAddressesAction
   > = this.actions$.pipe(
-    ofType(fromUserAddressesAction.ADD_USER_ADDRESS),
-    map((action: fromUserAddressesAction.AddUserAddress) => action.payload),
+    ofType(UserActions.ADD_USER_ADDRESS),
+    map((action: UserActions.AddUserAddress) => action.payload),
     mergeMap(payload => {
       return this.userAddressConnector
         .add(payload.userId, payload.address)
         .pipe(
           map((data: any) => {
-            return new fromUserAddressesAction.AddUserAddressSuccess(data);
+            return new UserActions.AddUserAddressSuccess(data);
           }),
           catchError(error =>
-            of(
-              new fromUserAddressesAction.AddUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.AddUserAddressFail(makeErrorSerializable(error)))
           )
         );
     })
@@ -65,10 +57,10 @@ export class UserAddressesEffects {
 
   @Effect()
   updateUserAddress$: Observable<
-    fromUserAddressesAction.UserAddressesAction
+    UserActions.UserAddressesAction
   > = this.actions$.pipe(
-    ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS),
-    map((action: fromUserAddressesAction.UpdateUserAddress) => action.payload),
+    ofType(UserActions.UPDATE_USER_ADDRESS),
+    map((action: UserActions.UpdateUserAddress) => action.payload),
     mergeMap(payload => {
       return this.userAddressConnector
         .update(payload.userId, payload.addressId, payload.address)
@@ -80,16 +72,14 @@ export class UserAddressesEffects {
               Object.keys(payload.address).length === 1 &&
               payload.address.defaultAddress
             ) {
-              return new fromUserAddressesAction.LoadUserAddresses(
-                USERID_CURRENT
-              );
+              return new UserActions.LoadUserAddresses(USERID_CURRENT);
             } else {
-              return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
+              return new UserActions.UpdateUserAddressSuccess(data);
             }
           }),
           catchError(error =>
             of(
-              new fromUserAddressesAction.UpdateUserAddressFail(
+              new UserActions.UpdateUserAddressFail(
                 makeErrorSerializable(error)
               )
             )
@@ -100,20 +90,20 @@ export class UserAddressesEffects {
 
   @Effect()
   deleteUserAddress$: Observable<
-    fromUserAddressesAction.UserAddressesAction
+    UserActions.UserAddressesAction
   > = this.actions$.pipe(
-    ofType(fromUserAddressesAction.DELETE_USER_ADDRESS),
-    map((action: fromUserAddressesAction.DeleteUserAddress) => action.payload),
+    ofType(UserActions.DELETE_USER_ADDRESS),
+    map((action: UserActions.DeleteUserAddress) => action.payload),
     mergeMap(payload => {
       return this.userAddressConnector
         .delete(payload.userId, payload.addressId)
         .pipe(
           map(data => {
-            return new fromUserAddressesAction.DeleteUserAddressSuccess(data);
+            return new UserActions.DeleteUserAddressSuccess(data);
           }),
           catchError(error =>
             of(
-              new fromUserAddressesAction.DeleteUserAddressFail(
+              new UserActions.DeleteUserAddressFail(
                 makeErrorSerializable(error)
               )
             )
@@ -127,7 +117,7 @@ export class UserAddressesEffects {
    */
   @Effect({ dispatch: false })
   showGlobalMessageOnAddSuccess$ = this.actions$.pipe(
-    ofType(fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS),
+    ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
       this.showGlobalMessage('addressForm.userAddressAddSuccess');
@@ -139,7 +129,7 @@ export class UserAddressesEffects {
    */
   @Effect({ dispatch: false })
   showGlobalMessageOnUpdateSuccess$ = this.actions$.pipe(
-    ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS),
+    ofType(UserActions.UPDATE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
       this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
@@ -151,7 +141,7 @@ export class UserAddressesEffects {
    */
   @Effect({ dispatch: false })
   showGlobalMessageOnDeleteSuccess$ = this.actions$.pipe(
-    ofType(fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS),
+    ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
       this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
