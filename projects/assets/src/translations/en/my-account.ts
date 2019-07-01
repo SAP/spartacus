@@ -16,7 +16,7 @@ export const myAccount = {
     statusDisplay_error: 'Pending',
     statusDisplay_Error: 'Pending',
     statusDisplay_open: 'Open',
-    statusDisplay_processing: 'In Process',
+    statusDisplay_processing: 'In Progress',
   },
   orderHistory: {
     orderHistory: 'Order history',
