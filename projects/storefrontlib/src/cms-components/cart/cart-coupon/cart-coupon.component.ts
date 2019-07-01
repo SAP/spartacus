@@ -34,7 +34,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
-    this.form.valueChanges.subscribe(() => (this.btnEnabled = this.form.valid));
 
     this.addVoucherIsLoading$ = this.cartService.getAddVoucherResultLoading();
 
@@ -44,13 +43,19 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.subscription.add(
-      this.cartCouponAnchorService
-        .getEventEmit()
-        .subscribe((anchor: string) => {
-          this.scrollToView(anchor);
-        })
-    );
+    this.subscription
+      .add(
+        this.cartCouponAnchorService
+          .getEventEmit()
+          .subscribe((anchor: string) => {
+            this.scrollToView(anchor);
+          })
+      )
+      .add(
+        this.form.valueChanges.subscribe(
+          () => (this.btnEnabled = this.form.valid)
+        )
+      );
   }
 
   scrollToView(anchor: string) {

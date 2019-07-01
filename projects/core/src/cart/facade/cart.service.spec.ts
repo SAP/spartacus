@@ -277,6 +277,23 @@ describe('CartService', () => {
         .unsubscribe();
     });
 
+    it('should return the loading flag', () => {
+      store.dispatch(
+        new CartActions.CartAddVoucher({
+          userId: 'userId',
+          cartId: 'cartId',
+          voucherId: voucherId,
+        })
+      );
+      let result = false;
+      service
+        .getAddVoucherResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
     it('should dispatch a reset action', () => {
       spyOn(store, 'dispatch').and.stub();
       service.resetAddVoucherProcessingState();
