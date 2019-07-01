@@ -1,9 +1,8 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cart, CartService, Order } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { map } from 'rxjs/operators';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 
 @Component({
@@ -12,7 +11,8 @@ import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  btnEnabled: Observable<boolean>;
+  btnEnabled: boolean;
+  addVoucherIsLoading$: Observable<boolean>;
 
   @Input()
   cart: Cart | Order;
@@ -34,27 +34,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
+    this.form.valueChanges.subscribe(() => (this.btnEnabled = this.form.valid));
 
-    this.btnEnabled = combineLatest([
-      this.form.valueChanges.pipe(map(() => this.form.valid)),
-      this.cartService
-        .getAddVoucherResultLoading()
-        .pipe(map(loading => loading)),
-      this.cartService.getAddVoucherResultError().pipe(map(error => error)),
-    ]).pipe(
-      map(([valid, loading, error]) => {
-        if (loading) {
-          return false;
-        }
-        if (valid && !loading) {
-          return true;
-        }
-        if (!valid && error) {
-          return false;
-        }
-        return false;
-      })
-    );
+    this.addVoucherIsLoading$ = this.cartService.getAddVoucherResultLoading();
 
     this.subscription.add(
       this.cartService.getAddVoucherResultSuccess().subscribe(success => {
