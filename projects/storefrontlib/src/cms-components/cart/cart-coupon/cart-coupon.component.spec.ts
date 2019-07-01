@@ -47,7 +47,6 @@ describe('CartCouponComponent', () => {
     'addVoucher',
     'getAddVoucherResultSuccess',
     'resetAddVoucherProcessingState',
-    'getAddVoucherResultError',
     'getAddVoucherResultLoading',
   ]);
 
@@ -77,10 +76,10 @@ describe('CartCouponComponent', () => {
     submit = fixture.debugElement.query(By.css('button')).nativeElement;
     input = fixture.debugElement.query(By.css('input')).nativeElement;
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of());
-    mockCartService.getAddVoucherResultError.and.returnValue(of());
     mockCartService.getAddVoucherResultLoading.and.returnValue(of());
     mockCartService.addVoucher.and.stub();
     mockCartService.resetAddVoucherProcessingState.and.stub();
+    mockCartService.resetAddVoucherProcessingState.calls.reset();
   });
 
   it('should create', () => {
@@ -106,16 +105,21 @@ describe('CartCouponComponent', () => {
   });
 
   it('should call getAddVoucherResultSuccess in ngOnInit', () => {
-    mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
     fixture.detectChanges();
+    expect(
+      mockCartService.resetAddVoucherProcessingState
+    ).toHaveBeenCalledTimes(1);
+    expect(mockCartService.getAddVoucherResultLoading).toHaveBeenCalled();
     expect(mockCartService.getAddVoucherResultSuccess).toHaveBeenCalled();
-    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(cartCouponAnchorService.getEventEmit).toHaveBeenCalled();
   });
 
   it('should call resetAddVoucherProcessingState in ngOnDestroy', () => {
     fixture.detectChanges();
     component.ngOnDestroy();
-    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(
+      mockCartService.resetAddVoucherProcessingState
+    ).toHaveBeenCalledTimes(2);
   });
 
   it('should disable button when applied voucher successfully and cart is loading', () => {
@@ -134,8 +138,10 @@ describe('CartCouponComponent', () => {
     component.cartIsLoading = true;
     fixture.detectChanges();
     expect(input.value).toBe('');
-    expect(mockCartService.addVoucher).toHaveBeenCalled();
-    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(mockCartService.addVoucher).toHaveBeenCalledWith('couponCode1');
+    expect(
+      mockCartService.resetAddVoucherProcessingState
+    ).toHaveBeenCalledTimes(2);
     expect(submit.disabled).toBe(true);
   });
 
@@ -154,14 +160,20 @@ describe('CartCouponComponent', () => {
     submit.click();
     fixture.detectChanges();
     expect(input.value).toBe('');
-    expect(mockCartService.addVoucher).toHaveBeenCalled();
-    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(mockCartService.addVoucher).toHaveBeenCalledWith('couponCode1');
+    expect(
+      mockCartService.resetAddVoucherProcessingState
+    ).toHaveBeenCalledTimes(2);
     expect(submit.disabled).toBe(true);
   });
 
   it('should disable button when applied voucher failed and cart is loading', () => {
     fixture.detectChanges();
     expect(submit.disabled).toBe(true);
+
+    mockCartService.addVoucher.and.callFake(() => {
+      component.onSuccess(false);
+    });
 
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
@@ -172,14 +184,20 @@ describe('CartCouponComponent', () => {
     component.cartIsLoading = true;
     fixture.detectChanges();
     expect(input.value).toBe('couponCode1');
-    expect(mockCartService.addVoucher).toHaveBeenCalled();
-    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(mockCartService.addVoucher).toHaveBeenCalledWith('couponCode1');
+    expect(
+      mockCartService.resetAddVoucherProcessingState
+    ).toHaveBeenCalledTimes(1);
     expect(submit.disabled).toBe(true);
   });
 
   it('should enable button when applied voucher failed and cart is loaded', () => {
     fixture.detectChanges();
     expect(submit.disabled).toBe(true);
+
+    mockCartService.addVoucher.and.callFake(() => {
+      component.onSuccess(false);
+    });
 
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
@@ -190,7 +208,9 @@ describe('CartCouponComponent', () => {
     fixture.detectChanges();
     expect(input.value).toBe('couponCode1');
     expect(mockCartService.addVoucher).toHaveBeenCalled();
-    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(
+      mockCartService.resetAddVoucherProcessingState
+    ).toHaveBeenCalledTimes(1);
     expect(submit.disabled).toBe(false);
   });
 
