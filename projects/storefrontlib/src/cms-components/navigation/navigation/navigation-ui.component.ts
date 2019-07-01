@@ -116,9 +116,9 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   focusAfterPreviousClicked(event: MouseEvent) {
-    const target: HTMLElement = event.target
-      ? <HTMLElement>event.target
-      : <HTMLElement>event.relatedTarget;
+    const target: HTMLElement = <HTMLElement>(
+      (event.target || event.relatedTarget)
+    );
     if (
       target.ownerDocument.activeElement.matches('nav[tabindex]') &&
       target.parentElement.matches('.flyout')
