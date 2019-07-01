@@ -6,7 +6,7 @@ context('Currency change', () => {
 
   beforeEach(() => {
     cy.server();
-    siteContextSelector.createGerericQuery(
+    siteContextSelector.createRoute(
       siteContextSelector.CURRENCY_REQUEST,
       siteContextSelector.CURRENCIES
     );

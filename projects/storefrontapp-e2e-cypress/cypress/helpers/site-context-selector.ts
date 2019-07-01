@@ -15,6 +15,7 @@ export const CURRENCY_USD = 'USD';
 export const CURRENCY_JPY = 'JPY';
 export const LANGUAGE_EN = 'en';
 export const LANGUAGE_DE = 'de';
+export const CART_REQUEST_ALIAS = 'cart_request_alias';
 
 export const LANGUAGE_REQUEST = `${Cypress.env(
   'API_URL'
@@ -22,6 +23,10 @@ export const LANGUAGE_REQUEST = `${Cypress.env(
 export const CURRENCY_REQUEST = `${Cypress.env(
   'API_URL'
 )}/rest/v2/${CONTENT_CATALOG}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+
+export const CART_REQUEST = `${Cypress.env(
+  'API_URL'
+)}/rest/v2/${CONTENT_CATALOG}/users/current/carts/*`;
 
 export const PAGE_REQUEST = `${Cypress.env(
   'API_URL'
@@ -97,7 +102,7 @@ export function paymentDetailsNextStep() {
   cy.get('cx-payment-method .btn-primary').click({ force: true });
 }
 
-export function createGerericQuery(request: string, alias: string): void {
+export function createRoute(request: string, alias: string): void {
   cy.route(request).as(alias);
 }
 
@@ -105,7 +110,7 @@ export function stub(request: string, alias: string): void {
   beforeEach(() => {
     cy.restoreLocalStorage();
     cy.server();
-    createGerericQuery(request, alias);
+    createRoute(request, alias);
   });
 
   afterEach(() => {
