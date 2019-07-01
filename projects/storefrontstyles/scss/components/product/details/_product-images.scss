@@ -18,6 +18,8 @@ $productThumbSize: 75px !default;
   }
 
   cx-media {
+    outline: none;
+
     &.is-missing {
       min-height: 30vh;
     }
@@ -52,21 +54,16 @@ $productThumbSize: 75px !default;
   }
 
   .thumbs {
-    a {
-      outline: none;
-    }
     cx-media {
       margin: 0.5vw;
       padding: 0.5vw;
 
+      cursor: pointer;
+
       border: 2px solid var(--cx-color-light);
 
+      &.is-active,
       &:hover {
-        border-color: var(--cx-color-primary);
-      }
-    }
-    .activeItem {
-      cx-media {
         border-color: var(--cx-color-primary);
       }
     }

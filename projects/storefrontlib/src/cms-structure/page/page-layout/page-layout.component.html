@@ -1,4 +1,3 @@
-<!-- ???? {{ layoutName$ | async }} -->
 <ng-template
   [cxOutlet]="layoutName$ | async"
   [cxOutletContext]="{
@@ -9,7 +8,6 @@
 >
   <ng-content></ng-content>
 
-  <!-- {{ slots$ | async }} -->
   <cx-page-slot
     *ngFor="let slot of (slots$ | async)"
     [position]="slot"

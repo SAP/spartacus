@@ -5,10 +5,10 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ProductReference } from '../../../model/product.model';
-import { OccConfig } from '../../../occ/config/occ-config';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
+import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
-import * as fromActions from '../actions/product-references.action';
+import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-references.effect';
 
 import createSpy = jasmine.createSpy;
@@ -60,8 +60,8 @@ describe('Product references effect', () => {
 
   describe('loadProductReferences$', () => {
     it('should return specified product references', () => {
-      const action = new fromActions.LoadProductReferences({ productCode });
-      const completion = new fromActions.LoadProductReferencesSuccess({
+      const action = new ProductActions.LoadProductReferences({ productCode });
+      const completion = new ProductActions.LoadProductReferencesSuccess({
         productCode,
         list,
       });

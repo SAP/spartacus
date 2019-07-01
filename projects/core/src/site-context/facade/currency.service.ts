@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { Currency } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
-import * as fromStore from '../store/index';
+import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
+import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 
 /**
@@ -15,10 +16,7 @@ import { SiteContext } from './site-context.interface';
 export class CurrencyService implements SiteContext<Currency> {
   private sessionStorage: Storage;
 
-  constructor(
-    protected store: Store<fromStore.StateWithSiteContext>,
-    winRef: WindowRef
-  ) {
+  constructor(protected store: Store<StateWithSiteContext>, winRef: WindowRef) {
     this.sessionStorage = winRef.sessionStorage;
   }
 
@@ -30,7 +28,7 @@ export class CurrencyService implements SiteContext<Currency> {
       select(SiteContextSelectors.getAllCurrencies),
       tap(currencies => {
         if (!currencies) {
-          this.store.dispatch(new fromStore.LoadCurrencies());
+          this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
       filter(currenies => Boolean(currenies))
@@ -58,7 +56,9 @@ export class CurrencyService implements SiteContext<Currency> {
       )
       .subscribe(activeCurrency => {
         if (activeCurrency !== isocode) {
-          this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
+          this.store.dispatch(
+            new SiteContextActions.SetActiveCurrency(isocode)
+          );
         }
       });
   }

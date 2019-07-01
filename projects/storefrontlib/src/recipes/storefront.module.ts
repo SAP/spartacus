@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { ProductDetailsPageModule } from '../cms-pages/product-details-page/product-details-page.module';
 import { ProductListingPageModule } from '../cms-pages/product-listing-page/product-listing-page.module';
+import { MainModule } from '../layout/main/main.module';
 import { StorefrontConfig } from '../storefront-config';
 import { StorefrontFoundationModule } from './storefront-foundation.module';
 
@@ -35,16 +36,18 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     EffectsModule.forRoot([]),
 
     StorefrontFoundationModule,
+    MainModule,
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
 
     SmartEditModule.forRoot(), // should be custom
     PersonalizationModule.forRoot(), // should be custom
 
     // opt-in explicitely
-    OccModule,
+    OccModule.forRoot(),
     ProductDetailsPageModule,
     ProductListingPageModule,
   ],
+  exports: [MainModule, StorefrontFoundationModule],
 })
 export class StorefrontModule {
   static withConfig(

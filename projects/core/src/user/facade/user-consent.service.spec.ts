@@ -4,19 +4,20 @@ import { ConsentTemplate } from '../../model/consent.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import * as fromStore from '../store/index';
-import { USER_FEATURE } from '../store/user-state';
+import { UserActions } from '../store/actions/index';
+import * as fromStoreReducers from '../store/reducers/index';
+import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserConsentService } from './user-consent.service';
 
 describe('UserConsentService', () => {
   let service: UserConsentService;
-  let store: Store<fromStore.UserState>;
+  let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
           fromProcessReducers.getReducers()
@@ -45,14 +46,14 @@ describe('UserConsentService', () => {
       it('should dispatch an action', () => {
         service.loadConsents();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromStore.LoadUserConsents(userId)
+          new UserActions.LoadUserConsents(userId)
         );
       });
     });
     describe('getConsents', () => {
       it('should return the consent template list', () => {
         store.dispatch(
-          new fromStore.LoadUserConsentsSuccess(consentTemplateListMock)
+          new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
         );
 
         let result: ConsentTemplate[];
@@ -65,7 +66,7 @@ describe('UserConsentService', () => {
     });
     describe('getConsentsResultLoading', () => {
       it('should return the loading flag', () => {
-        store.dispatch(new fromStore.LoadUserConsents(userId));
+        store.dispatch(new UserActions.LoadUserConsents(userId));
 
         let result = false;
         service
@@ -79,7 +80,7 @@ describe('UserConsentService', () => {
     describe('getConsentsResultSuccess', () => {
       it('should return the success flag', () => {
         store.dispatch(
-          new fromStore.LoadUserConsentsSuccess(consentTemplateListMock)
+          new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
         );
 
         let result = false;
@@ -93,7 +94,7 @@ describe('UserConsentService', () => {
     });
     describe('getConsentsResultError', () => {
       it('should return the error flag', () => {
-        store.dispatch(new fromStore.LoadUserConsentsFail('an error'));
+        store.dispatch(new UserActions.LoadUserConsentsFail('an error'));
 
         let result = false;
         service
@@ -108,7 +109,7 @@ describe('UserConsentService', () => {
       it('should dispatch the reset action', () => {
         service.resetConsentsProcessState();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromStore.ResetLoadUserConsents()
+          new UserActions.ResetLoadUserConsents()
         );
       });
     });
@@ -122,7 +123,7 @@ describe('UserConsentService', () => {
       it('should dispatch an action', () => {
         service.giveConsent(consentTemplateId, consentTemplateVersion);
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromStore.GiveUserConsent({
+          new UserActions.GiveUserConsent({
             userId,
             consentTemplateId,
             consentTemplateVersion,
@@ -133,7 +134,7 @@ describe('UserConsentService', () => {
     describe('getGiveConsentResultLoading', () => {
       it('should return the loading flag', () => {
         store.dispatch(
-          new fromStore.GiveUserConsent({
+          new UserActions.GiveUserConsent({
             userId,
             consentTemplateId,
             consentTemplateVersion,
@@ -151,7 +152,7 @@ describe('UserConsentService', () => {
     });
     describe('getGiveConsentResultSuccess', () => {
       it('should return the success flag', () => {
-        store.dispatch(new fromStore.GiveUserConsentSuccess({}));
+        store.dispatch(new UserActions.GiveUserConsentSuccess({}));
 
         let result = false;
         service
@@ -164,7 +165,7 @@ describe('UserConsentService', () => {
     });
     describe('getGiveConsentResultError', () => {
       it('should return the error flag', () => {
-        store.dispatch(new fromStore.GiveUserConsentFail('an error'));
+        store.dispatch(new UserActions.GiveUserConsentFail('an error'));
 
         let result = false;
         service
@@ -179,7 +180,7 @@ describe('UserConsentService', () => {
       it('should dispatch the reset action', () => {
         service.resetGiveConsentProcessState();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromStore.ResetGiveUserConsentProcess()
+          new UserActions.ResetGiveUserConsentProcess()
         );
       });
     });
@@ -191,7 +192,7 @@ describe('UserConsentService', () => {
         const consentCode = 'xxx';
         service.withdrawConsent(consentCode);
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromStore.WithdrawUserConsent({
+          new UserActions.WithdrawUserConsent({
             userId,
             consentCode,
           })
@@ -201,7 +202,7 @@ describe('UserConsentService', () => {
     describe('getWithdrawConsentResultLoading', () => {
       it('should return the loading flag', () => {
         store.dispatch(
-          new fromStore.WithdrawUserConsent({ userId, consentCode: 'xxx' })
+          new UserActions.WithdrawUserConsent({ userId, consentCode: 'xxx' })
         );
 
         let result = false;
@@ -215,7 +216,7 @@ describe('UserConsentService', () => {
     });
     describe('getWithdrawConsentResultSuccess', () => {
       it('should return the success flag', () => {
-        store.dispatch(new fromStore.WithdrawUserConsentSuccess());
+        store.dispatch(new UserActions.WithdrawUserConsentSuccess());
 
         let result = false;
         service
@@ -228,7 +229,7 @@ describe('UserConsentService', () => {
     });
     describe('getWithdrawConsentResultError', () => {
       it('should return the error flag', () => {
-        store.dispatch(new fromStore.WithdrawUserConsentFail('an error'));
+        store.dispatch(new UserActions.WithdrawUserConsentFail('an error'));
 
         let result = false;
         service
@@ -243,7 +244,7 @@ describe('UserConsentService', () => {
       it('should dispatch the reset action', () => {
         service.resetWithdrawConsentProcessState();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromStore.ResetWithdrawUserConsentProcess()
+          new UserActions.ResetWithdrawUserConsentProcess()
         );
       });
     });

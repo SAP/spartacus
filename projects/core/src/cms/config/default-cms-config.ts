@@ -12,4 +12,5 @@ export const defaultCmsModuleConfig: CmsConfig = {
       legacy: false,
     },
   },
+  cmsComponents: {},
 };

@@ -5,7 +5,7 @@ import {
   ActionReducerMap,
   MetaReducer,
 } from '@ngrx/store';
-import { LOGOUT } from '../../../auth/store/actions/login-logout.action';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { KymaState, OPEN_ID_TOKEN_DATA } from '../kyma-state';
@@ -29,7 +29,7 @@ export function clearKymaState(
   reducer: ActionReducer<KymaState, Action>
 ): ActionReducer<KymaState, Action> {
   return function(state, action) {
-    if (action.type === LOGOUT) {
+    if (action.type === AuthActions.LOGOUT) {
       state = {
         ...state,
         openIdToken: undefined,
