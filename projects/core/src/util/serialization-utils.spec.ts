@@ -6,7 +6,7 @@ import { makeErrorSerializable } from './serialization-utils';
 
 describe('serialization-utils', () => {
   describe('makeErrorSerializable', () => {
-    fdescribe('when running in production mode', () => {
+    describe('when running in production mode', () => {
       it('should not serialize the provided object', () => {
         spyOnProperty(fromAngularCore, 'isDevMode').and.returnValue(
           () => false
