@@ -25,7 +25,7 @@
       }
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       --cx-flex-basis: 100%;
 
       cx-cart-totals {
