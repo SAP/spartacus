@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -13,23 +11,26 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-
-import * as componentActions from '../actions/component.action';
-import * as pageActions from '../actions/page.action';
-
+import { AuthActions } from '../../../auth/store/actions/index';
 import { RoutingService } from '../../../routing/index';
-import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
-import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
-import { CmsStructureModel } from '../../model/page.model';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
+import { CmsStructureModel } from '../../model/page.model';
+import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class PageEffects {
   @Effect()
   refreshPage$: Observable<Action> = this.actions$.pipe(
-    ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
+    ofType(
+      SiteContextActions.LANGUAGE_CHANGE,
+      AuthActions.LOGOUT,
+      AuthActions.LOGIN
+    ),
     switchMap(_ =>
       this.routingService.getRouterState().pipe(
+        take(1),
         filter(
           routerState =>
             routerState &&
@@ -38,37 +39,39 @@ export class PageEffects {
             !routerState.nextState
         ),
         map(routerState => routerState.state.context),
-        take(1),
-        mergeMap(context => of(new pageActions.LoadPageData(context)))
+        mergeMap(context => of(new CmsActions.LoadCmsPageData(context)))
       )
     )
   );
 
   @Effect()
   loadPageData$: Observable<Action> = this.actions$.pipe(
-    ofType(pageActions.LOAD_PAGE_DATA),
-    map((action: pageActions.LoadPageData) => action.payload),
+    ofType(CmsActions.LOAD_CMS_PAGE_DATA),
+    map((action: CmsActions.LoadCmsPageData) => action.payload),
     groupBy(pageContext => pageContext.type + pageContext.id),
     mergeMap(group =>
       group.pipe(
-        switchMap(pageContext => {
-          return this.cmsPageConnector.get(pageContext).pipe(
+        switchMap(pageContext =>
+          this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
               return [
-                new componentActions.GetComponentFromPage(
-                  cmsStructure.components
-                ),
-                new pageActions.LoadPageDataSuccess(
+                new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
+                new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
                 ),
               ];
             }),
-            catchError(error => {
-              return of(new pageActions.LoadPageDataFail(pageContext, error));
-            })
-          );
-        })
+            catchError(error =>
+              of(
+                new CmsActions.LoadCmsPageDataFail(
+                  pageContext,
+                  makeErrorSerializable(error)
+                )
+              )
+            )
+          )
+        )
       )
     )
   );

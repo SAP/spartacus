@@ -1,13 +1,12 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { CardType } from '../../../model/cart.model';
 import {
-  CheckoutState,
   CardTypesState,
+  CheckoutState,
   StateWithCheckout,
 } from '../checkout-state';
 import * as fromReducer from './../reducers/card-types.reducer';
 import { getCheckoutState } from './checkout.selectors';
-import { CardType } from '../../../model/cart.model';
 
 export const getCardTypesState: MemoizedSelector<
   StateWithCheckout,

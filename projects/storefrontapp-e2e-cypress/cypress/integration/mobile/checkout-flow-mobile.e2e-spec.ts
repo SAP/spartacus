@@ -1,6 +1,6 @@
-import { formats } from '../../sample-data/viewports';
-import * as bigHappyPath from '../../helpers/checkout-flow';
+import * as checkout from '../../helpers/checkout-flow';
 import { checkBanner } from '../../helpers/homepage';
+import { formats } from '../../sample-data/viewports';
 
 function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
@@ -25,45 +25,46 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   it('should register successfully', () => {
     waitForHomePage();
 
-    bigHappyPath.registerUser();
+    checkout.registerUser();
 
     waitForHomePage();
 
-    bigHappyPath.signOutUser();
+    checkout.signOutUser();
   });
 
   it('should go to product page from category page', () => {
-    bigHappyPath.goToProductDetailsPage();
+    checkout.goToProductDetailsPage();
   });
 
   it('should add product to cart and go to checkout', () => {
-    bigHappyPath.addProductToCart();
+    checkout.addProductToCart();
+    checkout.loginUser();
   });
 
   it('should fill in address form', () => {
-    bigHappyPath.fillAddressForm();
+    checkout.fillAddressForm();
   });
 
   it('should choose delivery', () => {
-    bigHappyPath.chooseDeliveryMethod();
+    checkout.chooseDeliveryMethod();
   });
 
   it('should fill in payment form', () => {
-    bigHappyPath.fillPaymentForm();
+    checkout.fillPaymentForm();
   });
 
   it('should review and place order', () => {
-    bigHappyPath.placeOrder();
+    checkout.placeOrder();
   });
 
   it('should display summary page', () => {
-    bigHappyPath.verifyOrderConfirmationPage();
+    checkout.verifyOrderConfirmationPage();
   });
 
   it('should be able to check order in order history', () => {
     clickHamburger();
-    bigHappyPath.viewOrderHistory();
+    checkout.viewOrderHistory();
     clickHamburger();
-    bigHappyPath.signOut();
+    checkout.signOut();
   });
 });

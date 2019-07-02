@@ -3,15 +3,17 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ConsentTemplate } from '../../model/consent.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
+import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
-import * as fromStore from '../store/index';
+import { UserActions } from '../store/actions/index';
+import { UsersSelectors } from '../store/selectors/index';
 import {
   GIVE_CONSENT_PROCESS_ID,
+  StateWithUser,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
 
@@ -19,52 +21,48 @@ import {
   providedIn: 'root',
 })
 export class UserConsentService {
-  constructor(
-    protected store: Store<
-      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.store.dispatch(new fromStore.LoadUserConsents(USERID_CURRENT));
+    this.store.dispatch(new UserActions.LoadUserConsents(USERID_CURRENT));
   }
 
   /**
    * Returns all consents
    */
   getConsents(): Observable<ConsentTemplate[]> {
-    return this.store.pipe(select(fromStore.getConsentsValue));
+    return this.store.pipe(select(UsersSelectors.getConsentsValue));
   }
 
   /**
    * Returns the consents loading flag
    */
   getConsentsResultLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getConsentsLoading));
+    return this.store.pipe(select(UsersSelectors.getConsentsLoading));
   }
 
   /**
    * Returns the consents success flag
    */
   getConsentsResultSuccess(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getConsentsSuccess));
+    return this.store.pipe(select(UsersSelectors.getConsentsSuccess));
   }
 
   /**
    * Returns the consents error flag
    */
   getConsentsResultError(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getConsentsError));
+    return this.store.pipe(select(UsersSelectors.getConsentsError));
   }
 
   /**
    * Resets the processing state for consent retrieval
    */
   resetConsentsProcessState(): void {
-    this.store.dispatch(new fromStore.ResetLoadUserConsents());
+    this.store.dispatch(new UserActions.ResetLoadUserConsents());
   }
 
   /**
@@ -74,7 +72,7 @@ export class UserConsentService {
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
     this.store.dispatch(
-      new fromStore.GiveUserConsent({
+      new UserActions.GiveUserConsent({
         userId: USERID_CURRENT,
         consentTemplateId,
         consentTemplateVersion,
@@ -113,7 +111,7 @@ export class UserConsentService {
    * Resents the give consent process flags
    */
   resetGiveConsentProcessState(): void {
-    return this.store.dispatch(new fromStore.ResetGiveUserConsentProcess());
+    return this.store.dispatch(new UserActions.ResetGiveUserConsentProcess());
   }
 
   /**
@@ -122,7 +120,10 @@ export class UserConsentService {
    */
   withdrawConsent(consentCode: string): void {
     this.store.dispatch(
-      new fromStore.WithdrawUserConsent({ userId: USERID_CURRENT, consentCode })
+      new UserActions.WithdrawUserConsent({
+        userId: USERID_CURRENT,
+        consentCode,
+      })
     );
   }
 
@@ -157,6 +158,8 @@ export class UserConsentService {
    * Resets the process flags for withdraw consent
    */
   resetWithdrawConsentProcessState(): void {
-    return this.store.dispatch(new fromStore.ResetWithdrawUserConsentProcess());
+    return this.store.dispatch(
+      new UserActions.ResetWithdrawUserConsentProcess()
+    );
   }
 }

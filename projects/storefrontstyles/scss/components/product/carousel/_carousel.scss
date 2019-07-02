@@ -4,10 +4,6 @@
   --cx-speed: 0.5;
   flex-direction: column;
 
-  @include media-breakpoint-down(md) {
-    padding: 1rem;
-  }
-
   > h3 {
     @include type('3');
     font-weight: bold;
@@ -27,16 +23,16 @@
     // We generate 10 sizes in case there are a lot of carousel items displayed
     // on a single slide.
     @for $i from 1 through 10 {
-      &.size-#{$i} .product {
+      &.size-#{$i} .item {
         flex: 0 0 calc((100 / #{$i}) * 1%);
       }
     }
 
-    .groups {
+    .slides {
       flex: auto;
       position: relative;
 
-      .group {
+      .slide {
         transition: 0.6s all;
         width: 100%;
         display: flex;
@@ -44,51 +40,24 @@
         justify-content: flex-start;
 
         &:not(:last-child) {
-          // we keep the last group non-absolute, so the height
+          // we keep the last slide non-absolute, so the height
           //  of the parent size is based on contetn
           position: absolute;
         }
 
-        .product {
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-          justify-content: space-between;
-          padding-bottom: 10px;
-          color: var(--cx-g-color-text);
-          cx-media {
-            height: 20vmin;
-
-            &.is-missing {
-              min-height: 20vmin;
-              background-size: 20vmin;
-            }
-          }
+        .item {
           opacity: 0;
           z-index: -1;
           &.active {
             opacity: 1;
             z-index: 1;
           }
+          transition: 0.4s all;
 
-          transition: 0.6s all;
           // we add a transition delay so that items are nicely animated in a sequence
           @for $i from 1 through 4 {
             &:nth-child(#{$i}) {
               transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
-            }
-          }
-
-          h4 {
-            font-size: 0.9rem;
-            height: 30px;
-            font-weight: bold;
-            margin-top: 5px;
-          }
-          &:hover {
-            text-decoration: none;
-            h4 {
-              color: var(--cx-g-color-primary);
             }
           }
         }
@@ -100,7 +69,7 @@
     &:focus {
       outline: none;
     }
-    color: var(--cx-g-color-light);
+    color: var(--cx-color-light);
     &:not(:disabled) {
       cursor: pointer;
     }
@@ -117,10 +86,10 @@
       transition: 0.6s all;
       background-color: transparent;
       &[disabled] {
-        color: var(--cx-g-color-primary);
+        color: var(--cx-color-primary);
       }
       &:not(:disabled):hover {
-        color: var(--cx-g-color-secondary);
+        color: var(--cx-color-secondary);
       }
     }
 
@@ -140,7 +109,7 @@
     }
 
     &:not(:disabled):hover {
-      color: var(--cx-g-color-primary);
+      color: var(--cx-color-primary);
     }
   }
 }

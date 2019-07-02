@@ -1,7 +1,7 @@
-import { MemoizedSelector, createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
 import {
-  PRODUCT_FEATURE,
   ProductsState,
+  PRODUCT_FEATURE,
   StateWithProduct,
 } from '../product-state';
 

@@ -12,7 +12,7 @@ $caretSize: 7px;
     }
     &:not(:first-child) {
       padding-left: 16px;
-      border-left: 1px solid var(--cx-g-color-secondary);
+      border-left: 1px solid var(--cx-color-secondary);
     }
   }
   label {

@@ -1,3 +1,2 @@
-export * from './page.action';
-export * from './component.action';
-export * from './navigation-entry-item.action';
+import * as CmsActions from './cms-group.actions';
+export { CmsActions };

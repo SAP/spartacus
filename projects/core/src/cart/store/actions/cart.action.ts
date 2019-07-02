@@ -1,9 +1,5 @@
 import { Action } from '@ngrx/store';
-import {
-  LoaderLoadAction,
-  LoaderFailAction,
-  LoaderSuccessAction,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { CART_DATA } from '../cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -17,44 +13,44 @@ export const LOAD_CART_SUCCESS = '[Cart] Load Cart Success';
 export const MERGE_CART = '[Cart] Merge Cart';
 export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
 
-export class CreateCart extends LoaderLoadAction {
+export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
+
+export class CreateCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CART;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class CreateCartFail extends LoaderFailAction {
+export class CreateCartFail extends StateLoaderActions.LoaderFailAction {
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class CreateCartSuccess extends LoaderSuccessAction {
+export class CreateCartSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CREATE_CART_SUCCESS;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class LoadCart extends LoaderLoadAction {
+export class LoadCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_CART;
-  constructor(
-    public payload: { userId: string; cartId: string; details?: boolean }
-  ) {
+  constructor(public payload: { userId: string; cartId: string }) {
     super(CART_DATA);
   }
 }
 
-export class LoadCartFail extends LoaderFailAction {
+export class LoadCartFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_CART_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class LoadCartSuccess extends LoaderSuccessAction {
+export class LoadCartSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_CART_SUCCESS;
   constructor(public payload: any) {
     super(CART_DATA);
@@ -71,6 +67,11 @@ export class MergeCartSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class ResetCartDetails implements Action {
+  readonly type = RESET_CART_DETAILS;
+  constructor() {}
+}
+
 export type CartAction =
   | CreateCart
   | CreateCartFail
@@ -79,4 +80,5 @@ export type CartAction =
   | LoadCartFail
   | LoadCartSuccess
   | MergeCart
-  | MergeCartSuccess;
+  | MergeCartSuccess
+  | ResetCartDetails;

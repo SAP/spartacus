@@ -8,7 +8,7 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { translations } from '@spartacus/assets';
+import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
@@ -31,30 +31,28 @@ if (!environment.production) {
     BrowserTransferStateModule,
 
     B2cStorefrontModule.withConfig({
-      production: environment.production,
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
           legacy: false,
         },
       },
-      siteContext: {
-        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
+      context: {
+        urlEncodingParameters: ['baseSite', 'language', 'currency'],
         parameters: {
-          BASE_SITE: {
+          baseSite: {
             values: [
               'electronics-spa',
               'electronics',
               'apparel-de',
               'apparel-uk',
             ],
-            defaultValue: 'electronics-spa',
             persistence: 'route',
           },
         },
       },
 
-      // special routing confiuration for e2e testing
+      // custom routing configuration for e2e testing
       routing: {
         routes: {
           product: {
@@ -62,11 +60,11 @@ if (!environment.production) {
           },
         },
       },
-
       // we  bring in static translations to be up and running soon right away
-      // but adding
       i18n: {
         resources: translations,
+        chunks: translationChunksConfig,
+        fallbackLang: 'en',
       },
     }),
 

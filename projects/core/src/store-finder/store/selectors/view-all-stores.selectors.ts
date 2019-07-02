@@ -1,15 +1,12 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { StateLoaderSelectors } from '../../../state/utils/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
-  StoresState,
   StateWithStoreFinder,
+  StoresState,
   ViewAllStoresState,
 } from '../store-finder-state';
 import { getStoreFinderState } from './feature.selector';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import {
-  loaderLoadingSelector,
-  loaderValueSelector,
-} from '../../../state/utils/loader/loader.selectors';
 
 export const getViewAllStoresState: MemoizedSelector<
   StateWithStoreFinder,
@@ -24,7 +21,7 @@ export const getViewAllStoresEntities: MemoizedSelector<
   ViewAllStoresState
 > = createSelector(
   getViewAllStoresState,
-  state => loaderValueSelector(state)
+  state => StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getViewAllStoresLoading: MemoizedSelector<
@@ -32,5 +29,5 @@ export const getViewAllStoresLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getViewAllStoresState,
-  state => loaderLoadingSelector(state)
+  state => StateLoaderSelectors.loaderLoadingSelector(state)
 );

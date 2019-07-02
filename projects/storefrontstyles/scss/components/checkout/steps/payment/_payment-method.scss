@@ -15,11 +15,11 @@
 
   .cx-payment-card-inner {
     height: 100%;
-    background-color: var(--cx-g-color-inverse);
+    background-color: var(--cx-color-inverse);
     cursor: pointer;
 
     @include media-breakpoint-down(md) {
-      background-color: var(--cx-g-color-inverse);
+      background-color: var(--cx-color-inverse);
     }
   }
 

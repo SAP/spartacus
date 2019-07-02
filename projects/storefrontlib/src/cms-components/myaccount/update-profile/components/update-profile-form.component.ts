@@ -6,7 +6,6 @@ import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 @Component({
   selector: 'cx-update-profile-form',
   templateUrl: './update-profile-form.component.html',
-  styleUrls: ['./update-profile-form.component.scss'],
 })
 export class UpdateProfileFormComponent implements OnInit {
   @Input()

@@ -34,6 +34,7 @@ const mockBillingAddress: Address = {
   town: 'Montreal',
   postalCode: 'H3A',
   country: { isocode: 'CA' },
+  region: { isocodeShort: 'QC' },
 };
 
 const mockAddress: Address = {
@@ -169,7 +170,7 @@ describe('PaymentFormComponent', () => {
       billingAddress: component.billingAddress.controls,
     };
 
-    spyOn(component.addPaymentInfo, 'emit').and.callThrough();
+    spyOn(component.setPaymentDetails, 'emit').and.callThrough();
     spyOn(component.closeForm, 'emit').and.callThrough();
 
     showSameAsShippingAddressCheckboxSpy = spyOn(
@@ -243,7 +244,7 @@ describe('PaymentFormComponent', () => {
 
   it('should call next()', () => {
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+    expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
       paymentDetails: component.payment.value,
       billingAddress: null,
     });
@@ -328,6 +329,9 @@ describe('PaymentFormComponent', () => {
       controls.billingAddress['town'].setValue(mockBillingAddress.town);
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
+      );
+      controls.billingAddress.region['controls'].isocodeShort.setValue(
+        mockBillingAddress.region
       );
       controls.billingAddress['postalCode'].setValue(
         mockBillingAddress.postalCode
@@ -416,6 +420,10 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
+      );
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls.billingAddress.region['controls'].isocodeShort.setValue(
+        mockBillingAddress.region
       );
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress['postalCode'].setValue(

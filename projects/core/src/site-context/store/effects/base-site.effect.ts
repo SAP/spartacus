@@ -1,21 +1,28 @@
-import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { map, catchError, exhaustMap } from 'rxjs/operators';
-
-import * as actions from '../actions/base-site.action';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { SiteConnector } from '../../connectors/site.connector';
+import { SiteContextActions } from '../actions/index';
 
 @Injectable()
 export class BaseSiteEffects {
   @Effect()
-  loadBaseSite$: Observable<any> = this.actions$.pipe(
-    ofType(actions.LOAD_BASE_SITE),
+  loadBaseSite$: Observable<
+    SiteContextActions.LoadBaseSiteSuccess | SiteContextActions.LoadBaseSiteFail
+  > = this.actions$.pipe(
+    ofType(SiteContextActions.LOAD_BASE_SITE),
     exhaustMap(() => {
       return this.siteConnector.getBaseSite().pipe(
-        map(baseSite => new actions.LoadBaseSiteSuccess(baseSite)),
-        catchError(error => of(new actions.LoadBaseSiteFail(error)))
+        map(baseSite => new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
+        catchError(error =>
+          of(
+            new SiteContextActions.LoadBaseSiteFail(
+              makeErrorSerializable(error)
+            )
+          )
+        )
       );
     })
   );

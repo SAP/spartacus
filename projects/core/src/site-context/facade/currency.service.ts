@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
-import * as fromStore from '../store/index';
 import { filter, take, tap } from 'rxjs/operators';
-
-import { WindowRef } from '../../window/window-ref';
-import { SiteContext } from './site-context.interface';
 import { Currency } from '../../model/misc.model';
+import { WindowRef } from '../../window/window-ref';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextSelectors } from '../store/selectors/index';
+import { StateWithSiteContext } from '../store/state';
+import { SiteContext } from './site-context.interface';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
@@ -18,10 +16,7 @@ import { Currency } from '../../model/misc.model';
 export class CurrencyService implements SiteContext<Currency> {
   private sessionStorage: Storage;
 
-  constructor(
-    protected store: Store<fromStore.StateWithSiteContext>,
-    winRef: WindowRef
-  ) {
+  constructor(protected store: Store<StateWithSiteContext>, winRef: WindowRef) {
     this.sessionStorage = winRef.sessionStorage;
   }
 
@@ -30,13 +25,13 @@ export class CurrencyService implements SiteContext<Currency> {
    */
   getAll(): Observable<Currency[]> {
     return this.store.pipe(
-      select(fromStore.getAllCurrencies),
+      select(SiteContextSelectors.getAllCurrencies),
       tap(currencies => {
         if (!currencies) {
-          this.store.dispatch(new fromStore.LoadCurrencies());
+          this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter(Boolean)
+      filter(currenies => Boolean(currenies))
     );
   }
 
@@ -45,8 +40,8 @@ export class CurrencyService implements SiteContext<Currency> {
    */
   getActive(): Observable<string> {
     return this.store.pipe(
-      select(fromStore.getActiveCurrency),
-      filter(Boolean)
+      select(SiteContextSelectors.getActiveCurrency),
+      filter(active => Boolean(active))
     );
   }
 
@@ -56,12 +51,14 @@ export class CurrencyService implements SiteContext<Currency> {
   setActive(isocode: string) {
     return this.store
       .pipe(
-        select(fromStore.getActiveCurrency),
+        select(SiteContextSelectors.getActiveCurrency),
         take(1)
       )
       .subscribe(activeCurrency => {
         if (activeCurrency !== isocode) {
-          this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
+          this.store.dispatch(
+            new SiteContextActions.SetActiveCurrency(isocode)
+          );
         }
       });
   }

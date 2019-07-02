@@ -1,27 +1,39 @@
 import { NgModule } from '@angular/core';
 import {
   AuthModule,
+  CartModule,
+  CheckoutModule,
+  CmsModule,
   ConfigModule,
+  GlobalMessageModule,
   I18nModule,
+  ProcessModule,
+  ProductModule,
   provideConfigFromMetaTags,
-  SiteContextModule,
   StateModule,
+  UserModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
-    StateModule,
+    StateModule.forRoot(),
     AuthModule.forRoot(),
     ConfigModule.forRoot(),
-    RoutingModule,
+    RoutingModule.forRoot(),
     I18nModule.forRoot(),
-
-    SiteContextModule.forRoot(),
+    CmsModule.forRoot(),
+    GlobalMessageModule.forRoot(),
+    ProcessModule.forRoot(),
+    CartModule.forRoot(),
+    CheckoutModule.forRoot(),
+    UserModule.forRoot(),
+    ProductModule.forRoot(),
 
     LayoutModule,
   ],
+  exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],
 })
 export class StorefrontFoundationModule {}

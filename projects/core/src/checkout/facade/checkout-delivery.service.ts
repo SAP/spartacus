@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { ANONYMOUS_USERID, CartDataService } from '../../cart/index';
+import { filter, shareReplay, tap } from 'rxjs/operators';
+import {
+  ANONYMOUS_USERID,
+  CartDataService,
+} from '../../cart/facade/cart-data.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
-import * as fromCheckoutStore from '../store/index';
+import { CheckoutActions } from '../store/actions/index';
+import { StateWithCheckout } from '../store/checkout-state';
+import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutDeliveryService {
   constructor(
-    protected checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
+    protected checkoutStore: Store<StateWithCheckout>,
     protected cartData: CartDataService
   ) {}
 
@@ -21,7 +26,13 @@ export class CheckoutDeliveryService {
    */
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getSupportedDeliveryModes)
+      select(CheckoutSelectors.getSupportedDeliveryModes),
+      tap(deliveryModes => {
+        if (Object.keys(deliveryModes).length === 0) {
+          this.loadSupportedDeliveryModes();
+        }
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
@@ -30,7 +41,7 @@ export class CheckoutDeliveryService {
    */
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getSelectedDeliveryMode)
+      select(CheckoutSelectors.getSelectedDeliveryMode)
     );
   }
 
@@ -38,7 +49,9 @@ export class CheckoutDeliveryService {
    * Get selected delivery mode code
    */
   getSelectedDeliveryModeCode(): Observable<string> {
-    return this.checkoutStore.pipe(select(fromCheckoutStore.getSelectedCode));
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getSelectedDeliveryModeCode)
+    );
   }
 
   /**
@@ -46,7 +59,7 @@ export class CheckoutDeliveryService {
    */
   getDeliveryAddress(): Observable<Address> {
     return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getDeliveryAddress)
+      select(CheckoutSelectors.getDeliveryAddress)
     );
   }
 
@@ -55,7 +68,7 @@ export class CheckoutDeliveryService {
    */
   getAddressVerificationResults(): Observable<AddressValidation | string> {
     return this.checkoutStore.pipe(
-      select(fromCheckoutStore.getAddressVerificationResults),
+      select(CheckoutSelectors.getAddressVerificationResults),
       filter(results => Object.keys(results).length !== 0)
     );
   }
@@ -67,7 +80,7 @@ export class CheckoutDeliveryService {
   createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutStore.AddDeliveryAddress({
+        new CheckoutActions.AddDeliveryAddress({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           address: address,
@@ -82,7 +95,7 @@ export class CheckoutDeliveryService {
   loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutStore.LoadSupportedDeliveryModes({
+        new CheckoutActions.LoadSupportedDeliveryModes({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -97,7 +110,7 @@ export class CheckoutDeliveryService {
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutStore.SetDeliveryMode({
+        new CheckoutActions.SetDeliveryMode({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           selectedModeId: mode,
@@ -113,7 +126,7 @@ export class CheckoutDeliveryService {
   verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutStore.VerifyAddress({
+        new CheckoutActions.VerifyAddress({
           userId: this.cartData.userId,
           address,
         })
@@ -128,7 +141,7 @@ export class CheckoutDeliveryService {
   setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
-        new fromCheckoutStore.SetDeliveryAddress({
+        new CheckoutActions.SetDeliveryAddress({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,
           address: address,
@@ -142,7 +155,7 @@ export class CheckoutDeliveryService {
    */
   clearAddressVerificationResults(): void {
     this.checkoutStore.dispatch(
-      new fromCheckoutStore.ClearAddressVerificationResults()
+      new CheckoutActions.ClearAddressVerificationResults()
     );
   }
 

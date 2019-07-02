@@ -1,20 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from './../actions';
-
-import { RegionsEffects } from './regions.effect';
-import { CLEAR_MISCS_DATA } from '../actions/index';
-import { REGIONS } from '../user-state';
-import { Region, LoaderResetAction } from '@spartacus/core';
-import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { Observable, of } from 'rxjs';
+import { Region } from '../../../model/index';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { UserActions } from '../actions/index';
+import { REGIONS } from '../user-state';
+import { RegionsEffects } from './regions.effect';
 
 const mockRegions: Region[] = [
   {
@@ -51,8 +46,8 @@ describe('', () => {
 
   describe('loadRegions$', () => {
     it('should load regions', () => {
-      const action = new fromActions.LoadRegions('CA');
-      const completion = new fromActions.LoadRegionsSuccess({
+      const action = new UserActions.LoadRegions('CA');
+      const completion = new UserActions.LoadRegionsSuccess({
         entities: mockRegions,
         country,
       });
@@ -67,10 +62,10 @@ describe('', () => {
   describe('resetRegions$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: CLEAR_MISCS_DATA,
+        type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
-      const completion = new LoaderResetAction(REGIONS);
+      const completion = new StateLoaderActions.LoaderResetAction(REGIONS);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

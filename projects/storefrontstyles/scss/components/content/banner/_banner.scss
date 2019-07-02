@@ -3,4 +3,19 @@
     width: 100%;
     margin: var(--cx-margin);
   }
+
+  p {
+    font-size: 4vw;
+    line-height: 5vw;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    position: absolute;
+    z-index: 10;
+    padding: 5vw;
+    color: #fff;
+
+    width: 100%;
+    text-align: center;
+    margin: 0;
+  }
 }

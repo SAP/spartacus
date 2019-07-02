@@ -2,22 +2,25 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import * as fromAction from '../actions/titles.action';
 import { Title } from '../../../model/misc.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class TitlesEffects {
   @Effect()
-  loadTitles$: Observable<fromAction.TitlesAction> = this.actions$.pipe(
-    ofType(fromAction.LOAD_TITLES),
+  loadTitles$: Observable<UserActions.TitlesAction> = this.actions$.pipe(
+    ofType(UserActions.LOAD_TITLES),
     switchMap(() => {
       return this.userAccountConnector.getTitles().pipe(
         map(titles => {
           const sortedTitles = this.sortTitles(titles);
-          return new fromAction.LoadTitlesSuccess(sortedTitles);
+          return new UserActions.LoadTitlesSuccess(sortedTitles);
         }),
-        catchError(error => of(new fromAction.LoadTitlesFail(error)))
+        catchError(error =>
+          of(new UserActions.LoadTitlesFail(makeErrorSerializable(error)))
+        )
       );
     })
   );

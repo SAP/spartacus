@@ -14,12 +14,47 @@ export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
 }
 
+export function assertFirstProduct() {
+  cy.get(productNameSelector)
+    .first()
+    .invoke('text')
+    .should('match', /\w+/);
+}
+
 export function checkDistinctProductName(firstProduct: string) {
   cy.get(productNameSelector)
     .first()
     .invoke('text')
     .should('match', /\w+/)
     .should('not.be.eq', firstProduct);
+}
+
+export function verifyProductSearch(
+  productAlias: string,
+  sortingAlias: string,
+  sortBy: string
+): void {
+  cy.get(productNameSelector)
+    .first()
+    .invoke('text')
+    .should('match', /\w+/)
+    .then(firstProduct => {
+      // Navigate to next page
+      cy.get('.page-item:last-of-type .page-link:first').click();
+      cy.get('.page-item.active > .page-link').should('contain', '2');
+
+      cy.wait(productAlias);
+
+      checkDistinctProductName(firstProduct);
+
+      cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
+
+      cy.wait(sortingAlias);
+
+      cy.get('.page-item.active > .page-link').should('contain', '2');
+
+      checkDistinctProductName(firstProduct);
+    });
 }
 
 export function searchResult() {

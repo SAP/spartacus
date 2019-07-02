@@ -1,15 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
-import { Action } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { Action } from '@ngrx/store';
+import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import { ClearMiscsData } from '../actions/index';
-import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
-
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { UserActions } from '../actions/index';
 import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
 
 describe('ClearMiscsDataEffect', () => {
@@ -27,10 +22,10 @@ describe('ClearMiscsDataEffect', () => {
   describe('clearMiscsData$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: LANGUAGE_CHANGE,
+        type: SiteContextActions.LANGUAGE_CHANGE,
       };
 
-      const completion = new ClearMiscsData();
+      const completion = new UserActions.ClearUserMiscsData();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
