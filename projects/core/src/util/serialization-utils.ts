@@ -20,11 +20,12 @@ export function makeErrorSerializable(
   }
 
   if (error instanceof HttpErrorResponse) {
+    const statusText = error.statusText;
     return {
       message: error.message,
-      error: error.error,
+      error: statusText === 'Unknown Error' ? null : error,
       status: error.status,
-      statusText: error.statusText,
+      statusText,
       url: error.url,
     } as HttpErrorModel;
   }
