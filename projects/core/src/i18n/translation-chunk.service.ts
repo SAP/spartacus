@@ -6,7 +6,7 @@ export class TranslationChunkService {
   protected duplicates: { [key: string]: string[] } = {};
   protected chunks: { [key: string]: string } = {};
   constructor(protected config: I18nConfig) {
-    const chunks = config.i18n && config.i18n.chunks || [];
+    const chunks = (config.i18n && config.i18n.chunks) || {};
     Object.keys(chunks).forEach(chunk => {
       chunks[chunk].forEach(key => {
         if (this.chunks.hasOwnProperty(key)) {
