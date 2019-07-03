@@ -1,41 +1,25 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import { of } from 'rxjs';
-import {
-  AuthService,
-  UserToken,
-  PageMetaService,
-  PageMeta,
-  PageRobotsMeta,
-  UserService,
-  I18nTestingModule,
-  BasicNotificationPreferenceList,
-} from '@spartacus/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NotificationPreferenceComponent } from './notification-preference.component';
+import {
+  I18nTestingModule,
+  UserService,
+  AuthService,
+  PageMetaService,
+  UserToken,
+  BasicNotificationPreferenceList,
+  PageMeta,
+} from '@spartacus/core';
+import { SpinnerModule } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { Component } from '@angular/core';
-import { delay } from 'rxjs/operators';
-
-@Component({
-  selector: 'cx-spinner',
-  template: '',
-})
-class MockSpinnerComponent {}
 
 describe('NotificationPreferenceComponent', () => {
   let component: NotificationPreferenceComponent;
   let fixture: ComponentFixture<NotificationPreferenceComponent>;
-  let initialNotificationPreferenceList: BasicNotificationPreferenceList = {
-    preferences: [],
-  };
-  const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
+  let el: DebugElement;
 
-  let userService = jasmine.createSpyObj('UserService', [
+  const userService = jasmine.createSpyObj('UserService', [
     'getNotificationPreferences',
     'loadNotificationPreferences',
     'updateNotificationPreferences',
@@ -43,236 +27,110 @@ describe('NotificationPreferenceComponent', () => {
   const authService = jasmine.createSpyObj('AuthService', ['getUserToken']);
   const pageMetaService = jasmine.createSpyObj('PageMetaService', ['getMeta']);
 
-  userService.getNotificationPreferences.and.returnValue(
-    of(initialNotificationPreferenceList)
-  );
-  authService.getUserToken.and.returnValue(of({ userId: 'test' } as UserToken));
-  pageMetaService.getMeta.and.returnValue(
-    of(<PageMeta>{
-      title: 'Test title',
-      description: 'Test description',
-      robots: [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW],
-    })
-  );
+  const userToken: UserToken = {
+    userId: 'test.user',
+    access_token: '',
+    token_type: '',
+    refresh_token: '',
+    expires_in: null,
+    scope: [],
+  };
+
+  const notificationPreference: BasicNotificationPreferenceList = {
+    preferences: [
+      {
+        channel: 'EMAIL',
+        enabled: true,
+        value: 'test.user@sap.com',
+        visible: true,
+      },
+      {
+        channel: 'SMS',
+        enabled: false,
+        value: '01234567890',
+        visible: true,
+      },
+    ],
+  };
+
+  const pageMeta: PageMeta = {
+    title: 'Notification Preference',
+    heading: 'Notification Preference',
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [NotificationPreferenceComponent, MockSpinnerComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, SpinnerModule],
+      declarations: [NotificationPreferenceComponent],
       providers: [
+        { provide: UserService, useValue: userService },
         { provide: AuthService, useValue: authService },
         { provide: PageMetaService, useValue: pageMetaService },
-        {
-          provide: UserService,
-          useValue: userService,
-        },
       ],
     }).compileComponents();
-    userService = TestBed.get(UserService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationPreferenceComponent);
+    el = fixture.debugElement;
     component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    userService.loadNotificationPreferences.and.stub();
+    userService.updateNotificationPreferences.and.stub();
+    authService.getUserToken.and.returnValue(of(userToken));
+    pageMetaService.getMeta.and.returnValue(of(pageMeta));
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be able to show page title', () => {
-    let title: string;
-    component.title$
-      .subscribe(value => {
-        title = value;
-      })
-      .unsubscribe();
-    const h3: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      'h3'
-    );
-    expect(title).toEqual('Test title');
-    expect(h3.textContent).toContain(title);
-  });
-
-  it('should be able to show notification preferences when data not exist', () => {
-    let notificationPreferences: BasicNotificationPreferenceList;
-    let span: HTMLElement;
+  it('should show channels', () => {
     userService.getNotificationPreferences.and.returnValue(
-      of(initialNotificationPreferenceList)
+      of(notificationPreference)
     );
-
     fixture.detectChanges();
-    component.basicNotificationPreferenceList$
-      .subscribe(value => {
-        notificationPreferences = value;
-      })
-      .unsubscribe();
-    span = fixture.debugElement.nativeElement.querySelector(
-      '.cx-notification-preference-span'
-    );
-    expect(notificationPreferences).toEqual(initialNotificationPreferenceList);
-    expect(span).toBeNull();
+    expect(
+      el.queryAll(By.css('[data-channel="text"]')).length ===
+        notificationPreference.preferences.length
+    ).toBeTruthy();
   });
 
-  it('should be able to show notification preferences when data exist', () => {
-    initialNotificationPreferenceList = {
-      preferences: [
-        {
-          channel: 'EMAIL',
-          enabled: true,
-          value: 'test@sap.com',
-          visible: true,
-        },
-        {
-          channel: 'SMS',
-          enabled: false,
-          value: '13800000831',
-          visible: true,
-        },
-      ],
-    };
-    let notificationPreferences: BasicNotificationPreferenceList;
+  it('should show notes', () => {
     userService.getNotificationPreferences.and.returnValue(
-      of(initialNotificationPreferenceList)
+      of(notificationPreference)
     );
-    component.ngOnInit();
     fixture.detectChanges();
-    const spans = fixture.debugElement.queryAll(
-      By.css('.cx-notification-preference-span')
-    );
-    const inputs = fixture.debugElement.queryAll(By.css('.form-check-input'));
-    component.basicNotificationPreferenceList$
-      .subscribe(value => (notificationPreferences = value))
-      .unsubscribe();
-    expect(notificationPreferences).toEqual(initialNotificationPreferenceList);
-    expect(spans.length).toBe(2);
-    expect(spans[0].nativeElement.textContent).toContain(
-      'notificationProference.EMAIL test@sap.com '
-    );
-    expect(spans[1].nativeElement.textContent).toContain(
-      'notificationProference.SMS 13800000831 '
-    );
-    expect(inputs.length).toBe(2);
-    expect(inputs[0].nativeElement.checked).toEqual(true);
-    expect(inputs[1].nativeElement.checked).toEqual(false);
+    expect(el.query(By.css('[data-channel="notes"]'))).toBeTruthy();
   });
 
-  it('should be able to update notification preferences', () => {
-    initialNotificationPreferenceList = {
-      preferences: [
-        {
-          channel: 'EMAIL',
-          enabled: true,
-          value: 'test@sap.com',
-          visible: true,
-        },
-        {
-          channel: 'SMS',
-          enabled: false,
-          value: '13800000831',
-          visible: true,
-        },
-      ],
-    };
-    let notificationPreferences: BasicNotificationPreferenceList;
+  it('should show spinner when loading', () => {
+    userService.getNotificationPreferences.and.returnValue(of());
+    fixture.detectChanges();
+    expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
+  });
+
+  it('should be able to enable or disable a channel', () => {
     userService.getNotificationPreferences.and.returnValue(
-      of(initialNotificationPreferenceList)
+      of(notificationPreference)
     );
-    userService.updateNotificationPreferences.and.callFake(
-      (_userId: string, preference: BasicNotificationPreferenceList) => {
-        component.basicNotificationPreferenceList = preference;
-      }
-    );
-    component.ngOnInit();
+    const updatedPrefs = { ...notificationPreference };
     fixture.detectChanges();
-
-    const spans = fixture.debugElement.queryAll(
-      By.css('.cx-notification-preference-span')
-    );
-    component.basicNotificationPreferenceList$
-      .subscribe(value => (notificationPreferences = value))
-      .unsubscribe();
-    expect(notificationPreferences).toEqual(initialNotificationPreferenceList);
-    fixture.detectChanges();
-    expect(spans.length).toBe(2);
-    expect(spans[0].nativeElement.textContent).toContain(
-      'notificationProference.EMAIL test@sap.com '
-    );
-    expect(spans[1].nativeElement.textContent).toContain(
-      'notificationProference.SMS 13800000831 '
-    );
-    const inputs = fixture.debugElement.queryAll(By.css('.form-check-input'));
-    inputs[0].nativeElement.click();
-    inputs[1].nativeElement.click();
-    expect(
-      component.basicNotificationPreferenceList.preferences[0].enabled
-    ).toEqual(false);
-    expect(
-      component.basicNotificationPreferenceList.preferences[1].enabled
-    ).toEqual(true);
+    const channelEls = el.queryAll(By.css('[data-channel="channel"]'));
+    for (let i = 0; i < channelEls.length; i++) {
+      const channelEl = channelEls[i];
+      channelEl.nativeElement.click();
+      expect(
+        channelEl.nativeElement.checked ===
+          !notificationPreference.preferences[i].enabled
+      ).toBeTruthy();
+      updatedPrefs.preferences[i].enabled = !notificationPreference.preferences[
+        i
+      ].enabled;
+      expect(userService.updateNotificationPreferences).toHaveBeenCalledWith(
+        userToken.userId,
+        updatedPrefs
+      );
+    }
   });
-
-  it('should be able to update notification preferences by multiple clicking', () => {
-    initialNotificationPreferenceList = {
-      preferences: [
-        {
-          channel: 'EMAIL',
-          enabled: true,
-          value: 'test@sap.com',
-          visible: true,
-        },
-      ],
-    };
-    userService.getNotificationPreferences.and.returnValue(
-      of(initialNotificationPreferenceList)
-    );
-    userService.updateNotificationPreferences.and.callFake(
-      (_userId: string, preference: BasicNotificationPreferenceList) => {
-        component.basicNotificationPreferenceList = preference;
-      }
-    );
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    const inputs = fixture.debugElement.queryAll(By.css('.form-check-input'));
-    expect(inputs.length).toBe(1);
-
-    inputs[0].nativeElement.click();
-    fixture.detectChanges();
-    expect(
-      component.basicNotificationPreferenceList.preferences[0].enabled
-    ).toEqual(false);
-    inputs[0].nativeElement.click();
-    fixture.detectChanges();
-    expect(
-      component.basicNotificationPreferenceList.preferences[0].enabled
-    ).toEqual(true);
-    inputs[0].nativeElement.click();
-    fixture.detectChanges();
-    expect(
-      component.basicNotificationPreferenceList.preferences[0].enabled
-    ).toEqual(false);
-    inputs[0].nativeElement.click();
-    fixture.detectChanges();
-    expect(
-      component.basicNotificationPreferenceList.preferences[0].enabled
-    ).toEqual(true);
-    inputs[0].nativeElement.click();
-    fixture.detectChanges();
-    expect(
-      component.basicNotificationPreferenceList.preferences[0].enabled
-    ).toEqual(false);
-  });
-
-  it('should render "Spinner" when notification preferences are loading', fakeAsync(() => {
-    component.basicNotificationPreferenceList$ = of(
-      initialNotificationPreferenceList
-    ).pipe(delay(10000));
-    fixture.detectChanges();
-    expect(getSpinner()).toBeTruthy();
-    tick(10000);
-    fixture.detectChanges();
-    expect(getSpinner()).toBeFalsy();
-  }));
 });
