@@ -38,11 +38,9 @@ export class MockOccModuleConfig {
     occPrefix: '',
   };
   context = {
-    parameters: {
-      baseSite: { default: 'test-site' },
-      language: { default: '' },
-      currency: { default: '' },
-    },
+    baseSite: { default: 'test-site' },
+    language: { default: '' },
+    currency: { default: '' },
   };
 }
 

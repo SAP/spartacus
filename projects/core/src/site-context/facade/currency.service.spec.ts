@@ -20,11 +20,7 @@ const mockActiveCurr = 'USD';
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
-    parameters: {
-      currency: {
-        values: ['USD'],
-      },
-    },
+    currency: ['USD'],
   },
 };
 

@@ -10,7 +10,7 @@ import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 import { SiteContextConfig } from '../config/site-context-config';
 import {
-  getContextParameter,
+  getContextParameterValues,
   getContextParameterDefault,
 } from '../config/context-config-utils';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
@@ -84,7 +84,7 @@ export class CurrencyService implements SiteContext<Currency> {
     if (
       sessionCurrency &&
       (
-        getContextParameter(this.config, CURRENCY_CONTEXT_ID).values || []
+        getContextParameterValues(this.config, CURRENCY_CONTEXT_ID) || []
       ).includes(sessionCurrency)
     ) {
       this.setActive(sessionCurrency);

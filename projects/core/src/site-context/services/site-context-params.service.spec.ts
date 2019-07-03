@@ -18,18 +18,10 @@ import createSpy = jasmine.createSpy;
 describe('SiteContextParamsService', () => {
   const siteContextConfig: SiteContextConfig = {
     context: {
-      parameters: {
-        [LANGUAGE_CONTEXT_ID]: {
-          values: ['en', 'de', 'ja', 'zh'],
-        },
-        [CURRENCY_CONTEXT_ID]: {
-          values: ['USD', 'JPY'],
-        },
-        [BASE_SITE_CONTEXT_ID]: {
-          values: ['electronics', 'apparel-de'],
-        },
-      },
-      urlEncodingParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID],
+      [LANGUAGE_CONTEXT_ID]: ['en', 'de', 'ja', 'zh'],
+      [CURRENCY_CONTEXT_ID]: ['USD', 'JPY'],
+      [BASE_SITE_CONTEXT_ID]: ['electronics', 'apparel-de'],
+      urlParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID],
     },
   };
 

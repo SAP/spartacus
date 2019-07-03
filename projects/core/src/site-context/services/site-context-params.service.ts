@@ -1,13 +1,10 @@
 import { Injectable, Injector } from '@angular/core';
-import {
-  ContextParameter,
-  SiteContextConfig,
-} from '../config/site-context-config';
+import { SiteContextConfig } from '../config/site-context-config';
 import { SiteContext } from '../facade/site-context.interface';
 import { ContextServiceMap } from '../providers/context-service-map';
 import {
-  getContextParameter,
   getContextParameterDefault,
+  getContextParameterValues,
 } from '../config/context-config-utils';
 
 @Injectable()
@@ -19,25 +16,20 @@ export class SiteContextParamsService {
   ) {}
 
   getContextParameters(): string[] {
-    const contextConfig = this.config.context && this.config.context.parameters;
-    if (contextConfig) {
-      return Object.keys(contextConfig);
+    if (this.config.context) {
+      return Object.keys(this.config.context).filter(
+        param => param !== 'urlParameters'
+      );
     }
     return [];
   }
 
-  getParameter(param: string): ContextParameter {
-    return getContextParameter(this.config, param);
-  }
-
   getUrlEncodingParameters(): string[] {
-    return (
-      (this.config.context && this.config.context.urlEncodingParameters) || []
-    );
+    return (this.config.context && this.config.context.urlParameters) || [];
   }
 
   getParamValues(param: string): string[] {
-    return this.getParameter(param).values || [];
+    return getContextParameterValues(this.config, param);
   }
 
   getParamDefaultValue(param: string): string {

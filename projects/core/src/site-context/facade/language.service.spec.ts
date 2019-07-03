@@ -20,11 +20,7 @@ const mockActiveLang = 'ja';
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
-    parameters: {
-      language: {
-        values: ['ja'],
-      },
-    },
+    language: ['ja'],
   },
 };
 

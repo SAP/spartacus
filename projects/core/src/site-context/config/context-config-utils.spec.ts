@@ -1,28 +1,24 @@
-import { ContextParameter, SiteContextConfig } from './site-context-config';
+import { SiteContextConfig } from './site-context-config';
 import {
-  getContextParameter,
+  getContextParameterValues,
   getContextParameterDefault,
 } from './context-config-utils';
 
 describe('Context Config Utils', () => {
-  describe('getContextParameter', () => {
+  describe('getContextParameterValues', () => {
     it('should return correct context paramter from the config', () => {
-      const testParam: ContextParameter = {
-        values: ['default'],
-      };
+      const testParam = ['default'];
       const config: SiteContextConfig = {
         context: {
-          parameters: {
-            test: testParam,
-          },
+          test: testParam,
         },
       };
-      expect(getContextParameter(config, 'test')).toBe(testParam);
+      expect(getContextParameterValues(config, 'test')).toBe(testParam);
     });
 
     it('should return empty object if no config is provided', () => {
       const config: SiteContextConfig = {};
-      expect(getContextParameter(config, 'test')).toEqual({});
+      expect(getContextParameterValues(config, 'test')).toEqual([]);
     });
   });
 
@@ -30,11 +26,7 @@ describe('Context Config Utils', () => {
     it('should return first value from values as default', () => {
       const config: SiteContextConfig = {
         context: {
-          parameters: {
-            test: {
-              values: ['a', 'b'],
-            },
-          },
+          test: ['a', 'b'],
         },
       };
       expect(getContextParameterDefault(config, 'test')).toEqual('a');
@@ -43,11 +35,7 @@ describe('Context Config Utils', () => {
     it('should return undefined if there is no values', () => {
       const config: SiteContextConfig = {
         context: {
-          parameters: {
-            baseSite: {
-              values: [],
-            },
-          },
+          baseSite: [],
         },
       };
       expect(getContextParameterDefault(config, 'test')).toBe(undefined);

@@ -11,7 +11,7 @@ import { SiteContext } from './site-context.interface';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
 import { SiteContextConfig } from '../config/site-context-config';
 import {
-  getContextParameter,
+  getContextParameterValues,
   getContextParameterDefault,
 } from '../config/context-config-utils';
 
@@ -84,7 +84,7 @@ export class LanguageService implements SiteContext<Language> {
     if (
       sessionLanguage &&
       (
-        getContextParameter(this.config, LANGUAGE_CONTEXT_ID).values || []
+        getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID) || []
       ).includes(sessionLanguage)
     ) {
       this.setActive(sessionLanguage);
