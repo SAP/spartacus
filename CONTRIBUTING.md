@@ -184,7 +184,7 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
 1. Commit and push your changes using the [squash and merge](https://help.github.com/articles/about-pull-request-merges/) feature in GitHub.
 
-    That you should also use the squash and merge feature when additional changes are required after code review.
+    You should also use the squash and merge feature when additional changes are required after code review.
 
 1. In the commit message, please follow the conventions described in [Committing Code to Spartacus](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/commit-guidelines/).
 
