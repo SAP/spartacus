@@ -20,15 +20,12 @@ describe('SiteContextParamsService', () => {
     context: {
       parameters: {
         [LANGUAGE_CONTEXT_ID]: {
-          default: 'en',
           values: ['en', 'de', 'ja', 'zh'],
         },
         [CURRENCY_CONTEXT_ID]: {
-          default: 'USD',
           values: ['USD', 'JPY'],
         },
         [BASE_SITE_CONTEXT_ID]: {
-          default: 'electronics',
           values: ['electronics', 'apparel-de'],
         },
       },

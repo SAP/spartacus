@@ -6,8 +6,8 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
-  CountryType,
   COUNTRY_NORMALIZER,
+  CountryType,
   OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
@@ -28,9 +28,9 @@ const MockOccModuleConfig: OccConfig = {
 
   context: {
     parameters: {
-      baseSite: { default: 'test-site' },
-      language: { default: '' },
-      currency: { default: '' },
+      baseSite: { values: ['test-site'] },
+      language: { values: [''] },
+      currency: { values: [''] },
     },
   },
 };

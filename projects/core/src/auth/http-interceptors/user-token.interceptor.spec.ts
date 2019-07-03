@@ -1,4 +1,4 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -35,9 +35,9 @@ const MockAuthConfig: OccConfig = {
   },
   context: {
     parameters: {
-      baseSite: { default: 'test-site' },
-      language: { default: '' },
-      currency: { default: '' },
+      baseSite: { values: ['test-site'] },
+      language: { values: [''] },
+      currency: { values: [''] },
     },
   },
 };

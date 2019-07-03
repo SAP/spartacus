@@ -1,5 +1,4 @@
 export interface ContextParameter {
-  default?: string;
   values?: string[];
 }
 
