@@ -6,7 +6,7 @@ import {
 
 describe('Context Config Utils', () => {
   describe('getContextParameterValues', () => {
-    it('should return correct context paramter from the config', () => {
+    it('should return correct values from the config', () => {
       const testParam = ['default'];
       const config: SiteContextConfig = {
         context: {
@@ -16,7 +16,7 @@ describe('Context Config Utils', () => {
       expect(getContextParameterValues(config, 'test')).toBe(testParam);
     });
 
-    it('should return empty object if no config is provided', () => {
+    it('should return empty array if no config is provided', () => {
       const config: SiteContextConfig = {};
       expect(getContextParameterValues(config, 'test')).toEqual([]);
     });

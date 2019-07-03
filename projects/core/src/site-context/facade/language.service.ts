@@ -83,9 +83,9 @@ export class LanguageService implements SiteContext<Language> {
       this.sessionStorage && this.sessionStorage.getItem('language');
     if (
       sessionLanguage &&
-      (
-        getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID) || []
-      ).includes(sessionLanguage)
+      getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID).includes(
+        sessionLanguage
+      )
     ) {
       this.setActive(sessionLanguage);
     } else {
