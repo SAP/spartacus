@@ -28,7 +28,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock = false;
   quantity = 1;
   increment = false;
-  isLoaded = false;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -62,8 +61,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           } else {
             this.hasStock = false;
           }
-
-          this.isLoaded = true;
 
           this.cartEntry$ = this.cartService.getEntry(this.productCode);
 
