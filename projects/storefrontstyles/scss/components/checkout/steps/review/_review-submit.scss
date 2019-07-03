@@ -95,15 +95,10 @@
   }
 }
 
-cx-checkout-order-summary {
-  flex-grow: 0;
-}
-
 cx-place-order {
   @include media-breakpoint-down(lg) {
     --cx-flex-basis: 45%;
   }
-  padding: 0 2.5rem 0;
 
   .cx-place-order-form {
     @include type('7');
