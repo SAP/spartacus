@@ -10,7 +10,6 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
       parameters: {
         [LANGUAGE_CONTEXT_ID]: {
           persistence: ContextPersistence.ROUTE,
-          default: 'en',
           values: [
             'en',
             'de',
@@ -33,7 +32,6 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
         },
         [CURRENCY_CONTEXT_ID]: {
           persistence: ContextPersistence.ROUTE,
-          default: 'USD',
           values: [
             'USD',
             'EUR',
