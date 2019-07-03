@@ -36,9 +36,7 @@ const MockAuthModuleConfig: OccConfig = {
     },
   },
   context: {
-    parameters: {
-      baseSite: { values: ['electronics'] },
-    },
+    baseSite: ['electronics'],
   },
 };
 

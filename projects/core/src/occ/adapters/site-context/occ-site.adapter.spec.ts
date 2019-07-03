@@ -27,9 +27,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 
   context: {
-    parameters: {
-      baseSite: { values: ['test-site'] },
-    },
+    baseSite: ['test-site'],
   },
 };
 

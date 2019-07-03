@@ -12,11 +12,7 @@ describe('baseSiteConfigValidator', () => {
   it('should not warn about undefined baseSite', () => {
     const config: SiteContextConfig = {
       context: {
-        parameters: {
-          baseSite: {
-            values: ['default'],
-          },
-        },
+        baseSite: ['default'],
       },
     };
     expect(baseSiteConfigValidator(config)).toBeFalsy();
