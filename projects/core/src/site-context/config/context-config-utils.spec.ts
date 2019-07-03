@@ -8,7 +8,7 @@ describe('Context Config Utils', () => {
   describe('getContextParameter', () => {
     it('should return correct context paramter from the config', () => {
       const testParam: ContextParameter = {
-        default: 'default',
+        values: ['default'],
       };
       const config: SiteContextConfig = {
         context: {
@@ -27,23 +27,7 @@ describe('Context Config Utils', () => {
   });
 
   describe('getContextParameterDefault', () => {
-    it('should return default value', () => {
-      const config: SiteContextConfig = {
-        context: {
-          parameters: {
-            test: {
-              default: 'defaultValue',
-              values: ['a', 'b'],
-            },
-          },
-        },
-      };
-      expect(getContextParameterDefault(config, 'test')).toEqual(
-        'defaultValue'
-      );
-    });
-
-    it('should return first value from values if there is no default', () => {
+    it('should return first value from values as default', () => {
       const config: SiteContextConfig = {
         context: {
           parameters: {
@@ -56,7 +40,7 @@ describe('Context Config Utils', () => {
       expect(getContextParameterDefault(config, 'test')).toEqual('a');
     });
 
-    it('should return undefined if there is no default or values', () => {
+    it('should return undefined if there is no values', () => {
       const config: SiteContextConfig = {
         context: {
           parameters: {

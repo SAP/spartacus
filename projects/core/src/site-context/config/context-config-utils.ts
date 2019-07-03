@@ -29,8 +29,5 @@ export function getContextParameterDefault(
   parameter: string
 ): string {
   const param = getContextParameter(config, parameter);
-  if (param.default !== undefined) {
-    return param.default;
-  }
   return param.values && param.values.length ? param.values[0] : undefined;
 }
