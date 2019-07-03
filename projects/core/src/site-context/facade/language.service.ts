@@ -8,6 +8,12 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
 import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
+import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
+import { SiteContextConfig } from '../config/site-context-config';
+import {
+  getContextParameter,
+  getContextParameterDefault,
+} from '../config/context-config-utils';
 
 /**
  * Facade that provides easy access to language state, actions and selectors.
@@ -16,7 +22,11 @@ import { SiteContext } from './site-context.interface';
 export class LanguageService implements SiteContext<Language> {
   private sessionStorage: Storage;
 
-  constructor(protected store: Store<StateWithSiteContext>, winRef: WindowRef) {
+  constructor(
+    protected store: Store<StateWithSiteContext>,
+    winRef: WindowRef,
+    protected config: SiteContextConfig
+  ) {
     this.sessionStorage = winRef.sessionStorage;
   }
 
@@ -68,11 +78,20 @@ export class LanguageService implements SiteContext<Language> {
    * by the last visit (stored in session storage) or by the
    * default session language of the store.
    */
-  initialize(defaultLanguage: string) {
-    if (this.sessionStorage && !!this.sessionStorage.getItem('language')) {
-      this.setActive(this.sessionStorage.getItem('language'));
+  initialize() {
+    const sessionLanguage =
+      this.sessionStorage && this.sessionStorage.getItem('language');
+    if (
+      sessionLanguage &&
+      (
+        getContextParameter(this.config, LANGUAGE_CONTEXT_ID).values || []
+      ).includes(sessionLanguage)
+    ) {
+      this.setActive(sessionLanguage);
     } else {
-      this.setActive(defaultLanguage);
+      this.setActive(
+        getContextParameterDefault(this.config, LANGUAGE_CONTEXT_ID)
+      );
     }
   }
 }

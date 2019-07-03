@@ -5,11 +5,7 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { BaseSiteService } from '../facade/base-site.service';
 import { SiteContextConfig } from '../config/site-context-config';
 import { getContextParameterDefault } from '../config/context-config-utils';
-import {
-  BASE_SITE_CONTEXT_ID,
-  CURRENCY_CONTEXT_ID,
-  LANGUAGE_CONTEXT_ID,
-} from './context-ids';
+import { BASE_SITE_CONTEXT_ID } from './context-ids';
 
 export function inititializeContext(
   config: SiteContextConfig,
@@ -21,12 +17,8 @@ export function inititializeContext(
     baseSiteService.initialize(
       getContextParameterDefault(config, BASE_SITE_CONTEXT_ID)
     );
-    langService.initialize(
-      getContextParameterDefault(config, LANGUAGE_CONTEXT_ID)
-    );
-    currService.initialize(
-      getContextParameterDefault(config, CURRENCY_CONTEXT_ID)
-    );
+    langService.initialize();
+    currService.initialize();
   };
 }
 
