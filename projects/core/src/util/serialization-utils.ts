@@ -23,7 +23,7 @@ export function makeErrorSerializable(
     const statusText = error.statusText;
     return {
       message: error.message,
-      error: statusText === 'Unknown Error' ? null : error,
+      error: statusText === 'Unknown Error' ? null : error.error,
       status: error.status,
       statusText,
       url: error.url,
