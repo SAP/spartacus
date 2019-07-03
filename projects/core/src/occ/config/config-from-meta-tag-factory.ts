@@ -1,6 +1,6 @@
 import { Provider } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { provideConfigFactory } from '../../config';
+import { provideConfigFactory } from '../../config/config.module';
 import { OccConfig } from './occ-config';
 
 export const OCC_BASE_URL_META_TAG_NAME = 'occ-backend-base-url';
@@ -25,6 +25,7 @@ export function mediaServerConfigFromMetaTagFactory(meta: Meta): OccConfig {
 
 function getMetaTagContent(name: string, meta: Meta) {
   const metaTag = meta.getTag(`name="${name}"`);
+  console.log('meta', name, metaTag, metaTag && metaTag.content);
   return metaTag && metaTag.content;
 }
 
