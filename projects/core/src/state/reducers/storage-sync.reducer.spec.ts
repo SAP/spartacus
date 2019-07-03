@@ -224,6 +224,13 @@ describe('storage-sync-reducer', () => {
       dj: StorageSyncType.NO_STORAGE,
     };
 
+    describe('when null is provided instead of keys', () => {
+      it('should return an empty array', () => {
+        const result = getKeysForStorage(null, StorageSyncType.NO_STORAGE);
+        expect(result).toEqual([]);
+      });
+    });
+
     it('should return two keys for local storage', () => {
       const result = getKeysForStorage(keys, StorageSyncType.LOCAL_STORAGE);
       expect(result).toEqual(['a', 'g']);
