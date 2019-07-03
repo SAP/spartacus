@@ -36,8 +36,6 @@ const MockAuthConfig: OccConfig = {
   context: {
     parameters: {
       baseSite: { values: ['test-site'] },
-      language: { values: [''] },
-      currency: { values: [''] },
     },
   },
 };
