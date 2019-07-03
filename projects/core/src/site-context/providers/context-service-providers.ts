@@ -9,7 +9,7 @@ import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
-} from './context-service-map';
+} from './context-ids';
 
 export function inititializeContext(
   config: SiteContextConfig,
