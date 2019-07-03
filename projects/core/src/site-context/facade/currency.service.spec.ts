@@ -9,6 +9,7 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
+import { SiteContextConfig } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockCurrencies: Currency[] = [
@@ -16,6 +17,16 @@ const mockCurrencies: Currency[] = [
 ];
 
 const mockActiveCurr = 'USD';
+
+const mockSiteContextConfig: SiteContextConfig = {
+  context: {
+    parameters: {
+      currency: {
+        values: ['USD'],
+      },
+    },
+  },
+};
 
 class MockSiteConnector {
   getCurrencies() {
@@ -49,6 +60,7 @@ describe('CurrencyService', () => {
       providers: [
         CurrencyService,
         { provide: SiteConnector, useClass: MockSiteConnector },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
       ],
     });
 

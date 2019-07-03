@@ -2,15 +2,17 @@ import { TestBed } from '@angular/core/testing';
 
 import { SiteContextParamsService } from './site-context-params.service';
 import {
-  BASE_SITE_CONTEXT_ID,
   contextServiceMapProvider,
-  CURRENCY_CONTEXT_ID,
-  LANGUAGE_CONTEXT_ID,
   LanguageService,
   SiteContext,
   SiteContextConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import {
+  BASE_SITE_CONTEXT_ID,
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID,
+} from '../providers/context-ids';
 import createSpy = jasmine.createSpy;
 
 describe('SiteContextParamsService', () => {

@@ -1,8 +1,8 @@
+import { ContextPersistence, SiteContextConfig } from './site-context-config';
 import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
-} from '../providers/context-service-map';
-import { ContextPersistence, SiteContextConfig } from './site-context-config';
+} from '../providers/context-ids';
 
 export function defaultSiteContextConfigFactory(): SiteContextConfig {
   return {
