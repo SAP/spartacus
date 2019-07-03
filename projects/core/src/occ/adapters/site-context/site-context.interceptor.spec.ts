@@ -42,9 +42,9 @@ export class MockSiteContextModuleConfig {
   };
 
   context = {
-    baseSite: { default: 'electronics' },
-    language: { default: '' },
-    currency: { default: '' },
+    baseSite: ['electronics'],
+    language: [''],
+    currency: [''],
   };
 }
 

@@ -83,9 +83,9 @@ export class CurrencyService implements SiteContext<Currency> {
       this.sessionStorage && this.sessionStorage.getItem('currency');
     if (
       sessionCurrency &&
-      (
-        getContextParameterValues(this.config, CURRENCY_CONTEXT_ID) || []
-      ).includes(sessionCurrency)
+      getContextParameterValues(this.config, CURRENCY_CONTEXT_ID).includes(
+        sessionCurrency
+      )
     ) {
       this.setActive(sessionCurrency);
     } else {
