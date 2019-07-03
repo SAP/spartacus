@@ -85,6 +85,16 @@ describe('NotificationPreferenceComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should show page header', () => {
+    userService.getNotificationPreferences.and.returnValue(
+      of(notificationPreference)
+    );
+    fixture.detectChanges();
+    expect(el.query(By.css('h3')).nativeElement.innerHTML).toEqual(
+      pageMeta.heading
+    );
+  });
+
   it('should show channels', () => {
     userService.getNotificationPreferences.and.returnValue(
       of(notificationPreference)
