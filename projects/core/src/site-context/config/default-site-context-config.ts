@@ -1,4 +1,4 @@
-import { ContextPersistence, SiteContextConfig } from './site-context-config';
+import { SiteContextConfig } from './site-context-config';
 import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
@@ -9,7 +9,6 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
     context: {
       parameters: {
         [LANGUAGE_CONTEXT_ID]: {
-          persistence: ContextPersistence.ROUTE,
           values: [
             'en',
             'de',
@@ -31,7 +30,6 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
           ],
         },
         [CURRENCY_CONTEXT_ID]: {
-          persistence: ContextPersistence.ROUTE,
           values: [
             'USD',
             'EUR',

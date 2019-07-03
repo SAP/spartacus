@@ -20,17 +20,14 @@ describe('SiteContextParamsService', () => {
     context: {
       parameters: {
         [LANGUAGE_CONTEXT_ID]: {
-          persistence: 'route',
           default: 'en',
           values: ['en', 'de', 'ja', 'zh'],
         },
         [CURRENCY_CONTEXT_ID]: {
-          persistence: 'route',
           default: 'USD',
           values: ['USD', 'JPY'],
         },
         [BASE_SITE_CONTEXT_ID]: {
-          persistence: 'session',
           default: 'electronics',
           values: ['electronics', 'apparel-de'],
         },
@@ -70,10 +67,6 @@ describe('SiteContextParamsService', () => {
     it('should get all site context parameters', () => {
       const params = service.getContextParameters();
       expect(params).toEqual(['language', 'currency', 'baseSite']);
-    });
-    it('should get context parameters by type', () => {
-      const params = service.getContextParameters('route');
-      expect(params).toEqual(['language', 'currency']);
     });
   });
 

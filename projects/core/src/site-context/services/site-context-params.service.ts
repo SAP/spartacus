@@ -1,7 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import {
   ContextParameter,
-  ContextPersistence,
   SiteContextConfig,
 } from '../config/site-context-config';
 import { SiteContext } from '../facade/site-context.interface';
@@ -19,23 +18,22 @@ export class SiteContextParamsService {
     private serviceMap: ContextServiceMap
   ) {}
 
-  getContextParameters(persistence?: ContextPersistence | string): string[] {
+  getContextParameters(): string[] {
     const contextConfig = this.config.context && this.config.context.parameters;
     if (contextConfig) {
-      const params = Object.keys(contextConfig);
-      if (persistence) {
-        return params.filter(
-          key => contextConfig[key].persistence === persistence
-        );
-      } else {
-        return params;
-      }
+      return Object.keys(contextConfig);
     }
     return [];
   }
 
   getParameter(param: string): ContextParameter {
     return getContextParameter(this.config, param);
+  }
+
+  getUrlEncodingParameters(): string[] {
+    return (
+      (this.config.context && this.config.context.urlEncodingParameters) || []
+    );
   }
 
   getParamValues(param: string): string[] {
