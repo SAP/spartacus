@@ -47,7 +47,6 @@ if (!environment.production) {
               'apparel-de',
               'apparel-uk',
             ],
-            persistence: 'route',
           },
         },
       },
