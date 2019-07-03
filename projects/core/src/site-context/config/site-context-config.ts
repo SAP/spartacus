@@ -1,14 +1,4 @@
-export enum ContextPersistence {
-  NONE = 'none',
-  ROUTE = 'route',
-  // possible future values:
-  // SESSION = 'session',
-  // DOMAIN = 'domain',
-  // COOKIE = 'cookie'
-}
-
 export interface ContextParameter {
-  persistence?: ContextPersistence | string;
   default?: string;
   values?: string[];
 }
