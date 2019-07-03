@@ -9,7 +9,10 @@ import { SiteContextSelectors } from '../store/selectors/index';
 import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 import { SiteContextConfig } from '../config/site-context-config';
-import { getContextParameter } from '../config/context-config-utils';
+import {
+  getContextParameter,
+  getContextParameterDefault,
+} from '../config/context-config-utils';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 
 /**
@@ -75,7 +78,7 @@ export class CurrencyService implements SiteContext<Currency> {
    * by the last visit (stored in session storage) or by the
    * default session currency of the store.
    */
-  initialize(defaultCurrency: string) {
+  initialize() {
     const sessionCurrency =
       this.sessionStorage && this.sessionStorage.getItem('currency');
     if (
@@ -84,9 +87,11 @@ export class CurrencyService implements SiteContext<Currency> {
         getContextParameter(this.config, CURRENCY_CONTEXT_ID).values || []
       ).includes(sessionCurrency)
     ) {
-      this.setActive(this.sessionStorage.getItem('currency'));
+      this.setActive(sessionCurrency);
     } else {
-      this.setActive(defaultCurrency);
+      this.setActive(
+        getContextParameterDefault(this.config, CURRENCY_CONTEXT_ID)
+      );
     }
   }
 }

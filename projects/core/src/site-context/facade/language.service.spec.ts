@@ -9,6 +9,7 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
+import { SiteContextConfig } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockLanguages: Language[] = [
@@ -16,6 +17,16 @@ const mockLanguages: Language[] = [
 ];
 
 const mockActiveLang = 'ja';
+
+const mockSiteContextConfig: SiteContextConfig = {
+  context: {
+    parameters: {
+      language: {
+        values: ['ja'],
+      },
+    },
+  },
+};
 
 class MockSiteConnector {
   getCurrencies() {
@@ -48,6 +59,7 @@ describe('LanguageService', () => {
       providers: [
         LanguageService,
         { provide: SiteConnector, useClass: MockSiteConnector },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
       ],
     });
 
