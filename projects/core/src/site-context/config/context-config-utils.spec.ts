@@ -1,69 +1,41 @@
-import { ContextParameter, SiteContextConfig } from './site-context-config';
+import { SiteContextConfig } from './site-context-config';
 import {
-  getContextParameter,
+  getContextParameterValues,
   getContextParameterDefault,
 } from './context-config-utils';
 
 describe('Context Config Utils', () => {
-  describe('getContextParameter', () => {
-    it('should return correct context paramter from the config', () => {
-      const testParam: ContextParameter = {
-        default: 'default',
-      };
+  describe('getContextParameterValues', () => {
+    it('should return correct values from the config', () => {
+      const testParam = ['default'];
       const config: SiteContextConfig = {
         context: {
-          parameters: {
-            test: testParam,
-          },
+          test: testParam,
         },
       };
-      expect(getContextParameter(config, 'test')).toBe(testParam);
+      expect(getContextParameterValues(config, 'test')).toBe(testParam);
     });
 
-    it('should return empty object if no config is provided', () => {
+    it('should return empty array if no config is provided', () => {
       const config: SiteContextConfig = {};
-      expect(getContextParameter(config, 'test')).toEqual({});
+      expect(getContextParameterValues(config, 'test')).toEqual([]);
     });
   });
 
   describe('getContextParameterDefault', () => {
-    it('should return default value', () => {
+    it('should return first value from values as default', () => {
       const config: SiteContextConfig = {
         context: {
-          parameters: {
-            test: {
-              default: 'defaultValue',
-              values: ['a', 'b'],
-            },
-          },
-        },
-      };
-      expect(getContextParameterDefault(config, 'test')).toEqual(
-        'defaultValue'
-      );
-    });
-
-    it('should return first value from values if there is no default', () => {
-      const config: SiteContextConfig = {
-        context: {
-          parameters: {
-            test: {
-              values: ['a', 'b'],
-            },
-          },
+          test: ['a', 'b'],
         },
       };
       expect(getContextParameterDefault(config, 'test')).toEqual('a');
     });
 
-    it('should return undefined if there is no default or values', () => {
+    it('should return undefined if there is no values', () => {
       const config: SiteContextConfig = {
         context: {
-          parameters: {
-            baseSite: {
-              values: [],
-            },
-          },
+          baseSite: [],
         },
       };
       expect(getContextParameterDefault(config, 'test')).toBe(undefined);
