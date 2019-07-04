@@ -17,9 +17,11 @@ export function authStoreConfigFactory(): StateConfig {
       storageSync: {
         keys: {
           'auth.userToken.token': StorageSyncType.LOCAL_STORAGE,
+          user: StorageSyncType.SESSION_STORAGE,
         },
         excludeKeys: {
           'auth.userToken.token.refresh_token': StorageSyncType.LOCAL_STORAGE,
+          'user.account.details.currency.name': StorageSyncType.SESSION_STORAGE,
         },
       },
     },

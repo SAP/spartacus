@@ -28,14 +28,8 @@ export function createShellObject<T, E>(
     const currentKey = keySplit[i];
     // last iteration
     if (i === keySplit.length - 1) {
-      const excludeResult = shouldExclude(key, excludeKeys);
-      let finalValue = value;
-      if (excludeResult.exclude) {
-        finalValue = {
-          ...value,
-        };
-        delete finalValue[excludeResult.excludeProperty];
-      }
+      // TODO:#3527 - check does it need to be deleted. This can also be moved in `xxx()`
+      const finalValue = handleExclusions(key, excludeKeys, value);
       tempNewObject = tempNewObject[currentKey] = finalValue;
     } else {
       tempNewObject = tempNewObject[currentKey] = {};
@@ -43,6 +37,39 @@ export function createShellObject<T, E>(
   }
 
   return newObject as E;
+}
+
+export function handleExclusions<T>(
+  key: string,
+  excludeKeys: string[],
+  value: T
+): T {
+  const { exclude, exclusionKey } = shouldExclude(key, excludeKeys);
+  if (!exclude) {
+    return value;
+  }
+
+  const exclusionChunksSplit = exclusionKey
+    .substring(key.length + 1, exclusionKey.length)
+    .split(OBJECT_SEPARATOR);
+
+  const finalValue = deepMerge({}, value);
+  let nestedTemp = finalValue;
+  for (let i = 0; i < exclusionChunksSplit.length; i++) {
+    const currentChunk = exclusionChunksSplit[i];
+
+    // last iteration
+    if (i === exclusionChunksSplit.length - 1) {
+      delete nestedTemp[currentChunk];
+    } else {
+      nestedTemp = nestedTemp[currentChunk];
+      if (!nestedTemp || Object.keys(nestedTemp).length === 0) {
+        return value;
+      }
+    }
+  }
+
+  return finalValue;
 }
 
 export function getStateSlice<T, E>(
@@ -69,47 +96,17 @@ export function shouldExclude(
   excludeKeys: string[]
 ): {
   exclude: boolean;
-  excludeProperty: string;
+  exclusionKey: string;
 } {
   if (!key || !excludeKeys) {
-    return { exclude: false, excludeProperty: '' };
+    return { exclude: false, exclusionKey: '' };
   }
 
   for (const exclusionKey of excludeKeys) {
-    const { firstPart, lastPart } = splitExclusionKey(exclusionKey);
-    if (key === firstPart) {
-      return { exclude: true, excludeProperty: lastPart };
+    if (exclusionKey.includes(key)) {
+      return { exclude: true, exclusionKey: exclusionKey };
     }
   }
 
-  return { exclude: false, excludeProperty: '' };
-}
-
-export function splitExclusionKey(
-  exclusionKey: string
-): { firstPart: string; lastPart: string } {
-  if (!exclusionKey) {
-    return {
-      firstPart: '',
-      lastPart: '',
-    };
-  }
-
-  const lastDotIndex = exclusionKey.lastIndexOf(OBJECT_SEPARATOR);
-  if (lastDotIndex === -1) {
-    return {
-      firstPart: '',
-      lastPart: '',
-    };
-  }
-
-  const firstPart = exclusionKey.substring(0, lastDotIndex);
-  const lastPart = exclusionKey.substring(
-    lastDotIndex + 1,
-    exclusionKey.length
-  );
-  return {
-    firstPart,
-    lastPart,
-  };
+  return { exclude: false, exclusionKey: '' };
 }
