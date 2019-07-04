@@ -23,6 +23,7 @@ describe('NotificationPreferenceComponent', () => {
     'getNotificationPreferences',
     'loadNotificationPreferences',
     'updateNotificationPreferences',
+    'getUpdateNotificationPreferencesLoading',
   ]);
   const authService = jasmine.createSpyObj('AuthService', ['getUserToken']);
   const pageMetaService = jasmine.createSpyObj('PageMetaService', ['getMeta']);
@@ -79,68 +80,57 @@ describe('NotificationPreferenceComponent', () => {
     userService.updateNotificationPreferences.and.stub();
     authService.getUserToken.and.returnValue(of(userToken));
     pageMetaService.getMeta.and.returnValue(of(pageMeta));
+    userService.getNotificationPreferences.and.returnValue(
+      of(notificationPreference)
+    );
+    userService.getUpdateNotificationPreferencesLoading.and.returnValue(
+      of(false)
+    );
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show page header', () => {
-    userService.getNotificationPreferences.and.returnValue(
-      of(notificationPreference)
-    );
-    fixture.detectChanges();
-    expect(el.query(By.css('h3')).nativeElement.innerHTML).toEqual(
-      pageMeta.heading
-    );
-  });
-
-  it('should show channels', () => {
-    userService.getNotificationPreferences.and.returnValue(
-      of(notificationPreference)
-    );
+  fit('should show channels', () => {
     fixture.detectChanges();
     expect(
-      el.queryAll(By.css('[data-channel="text"]')).length ===
+      el.query(By.css('[data-test="header"]')).nativeElement.textContent
+    ).toEqual(pageMeta.heading);
+    expect(el.query(By.css('[data-test="notes"]'))).toBeTruthy();
+    expect(
+      el.queryAll(By.css('[data-test="preflabel"]')).length ===
         notificationPreference.preferences.length
     ).toBeTruthy();
   });
 
-  it('should show notes', () => {
-    userService.getNotificationPreferences.and.returnValue(
-      of(notificationPreference)
-    );
-    fixture.detectChanges();
-    expect(el.query(By.css('[data-channel="notes"]'))).toBeTruthy();
-  });
-
-  it('should show spinner when loading', () => {
+  fit('should show spinner when loading', () => {
     userService.getNotificationPreferences.and.returnValue(of());
     fixture.detectChanges();
     expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
   });
 
-  it('should be able to enable or disable a channel', () => {
-    userService.getNotificationPreferences.and.returnValue(
-      of(notificationPreference)
-    );
-    const updatedPrefs = { ...notificationPreference };
+  fit('should be able to enable or disable a channel', () => {
     fixture.detectChanges();
-    const channelEls = el.queryAll(By.css('[data-channel="channel"]'));
-    for (let i = 0; i < channelEls.length; i++) {
-      const channelEl = channelEls[i];
-      channelEl.nativeElement.click();
-      expect(
-        channelEl.nativeElement.checked ===
-          !notificationPreference.preferences[i].enabled
-      ).toBeTruthy();
-      updatedPrefs.preferences[i].enabled = !notificationPreference.preferences[
-        i
-      ].enabled;
-      expect(userService.updateNotificationPreferences).toHaveBeenCalledWith(
-        userToken.userId,
-        updatedPrefs
-      );
-    }
+    let cheboxies = el.queryAll(By.css('[data-test="checkbox"]'));
+    expect(cheboxies.length).toEqual(notificationPreference.preferences.length);
+
+    userService.updateNotificationPreferences.and.callFake(() => {
+      component.updateLoading$ = of(true);
+    });
+
+    cheboxies[0].nativeElement.click();
+    const updatedPrefs = { ...notificationPreference };
+    updatedPrefs.preferences[0].enabled = !notificationPreference.preferences[0]
+      .enabled;
+    expect(userService.updateNotificationPreferences).toHaveBeenCalledWith(
+      userToken.userId,
+      updatedPrefs
+    );
+
+    fixture.detectChanges();
+    cheboxies = el.queryAll(By.css('[data-test="checkbox"]'));
+    console.log(cheboxies[0].nativeElement.disabled);
+    expect(cheboxies[0].nativeElement.disabled).toEqual(true);
   });
 });
