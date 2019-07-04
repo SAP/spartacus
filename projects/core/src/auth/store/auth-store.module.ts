@@ -22,6 +22,8 @@ export function authStoreConfigFactory(): StateConfig {
         excludeKeys: {
           'auth.userToken.token.refresh_token': StorageSyncType.LOCAL_STORAGE,
           'user.account.details.currency.name': StorageSyncType.SESSION_STORAGE,
+          'user.account.details.currency.symbol':
+            StorageSyncType.SESSION_STORAGE,
         },
       },
     },

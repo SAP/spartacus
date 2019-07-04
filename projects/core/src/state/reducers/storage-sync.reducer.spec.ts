@@ -44,6 +44,8 @@ const winRef = {
   },
 } as WindowRef;
 
+// TODO:#3527 - add a test for exclusion mechanism
+
 describe('storage-sync-reducer', () => {
   describe('getStorageSyncReducer', () => {
     let nextReducer: ActionReducer<Object, Action>;

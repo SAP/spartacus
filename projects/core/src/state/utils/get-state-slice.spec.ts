@@ -1,13 +1,12 @@
-import { UserToken } from '../../auth/models/token-types.model';
 import {
   createShellObject,
   getStateSlice,
   getStateSliceValue,
+  handleExclusions,
   shouldExclude,
-  splitExclusionKey,
 } from './get-state-slice';
 
-describe('state slice functions', () => {
+fdescribe('state slice functions', () => {
   describe('getStateSliceValue', () => {
     it('should return an undefined value when a the provided key does not exist', () => {
       const state = {
@@ -101,17 +100,14 @@ describe('state slice functions', () => {
         });
       });
     });
-
     describe('when exclusion keys are provided', () => {
       it('should exclude the specified properties', () => {
-        const key = 'auth.userToken.token';
         const value = {
           access_token: 'xxx',
           refresh_token: 'yyy',
-        } as UserToken;
-
+        };
         const result = createShellObject(
-          key,
+          'auth.userToken.token',
           ['auth.userToken.token.refresh_token'],
           value
         );
@@ -119,11 +115,11 @@ describe('state slice functions', () => {
           auth: {
             userToken: {
               token: {
-                access_token: value.access_token,
+                access_token: 'xxx',
               },
             },
           },
-        });
+        } as any);
       });
     });
   });
@@ -280,77 +276,126 @@ describe('state slice functions', () => {
     });
   });
 
-  describe('splitExclusionKey', () => {
-    describe('when no exclusionKey is provided', () => {
-      it('should return an empty string as firstPart and lastPart', () => {
-        const result = splitExclusionKey(null);
-        expect(result).toEqual({
-          firstPart: '',
-          lastPart: '',
-        });
+  describe('handleExclusions', () => {
+    const value = {
+      auth: {
+        userToken: {
+          token: {
+            access_token: 'xxx',
+            refresh_token: 'yyy',
+          },
+        },
+      },
+    };
+    describe('when there is nothing to exclude', () => {
+      it('should return the provided value', () => {
+        const result = handleExclusions(
+          'auth.userToken.token',
+          ['cart.token'],
+          value
+        );
+        expect(result).toEqual(value);
       });
     });
-    describe(`when path with no '.' is provided`, () => {
-      it('should return an empty string as firstPart and lastPart', () => {
-        const result = splitExclusionKey('auth');
+    describe('when the removal condition is met', () => {
+      it('should remove the property that is one level deep', () => {
+        const result = handleExclusions(
+          'auth.userToken.token',
+          ['auth.userToken.token.refresh_token'],
+          value
+        );
         expect(result).toEqual({
-          firstPart: '',
-          lastPart: '',
-        });
+          auth: {
+            userToken: {
+              token: {
+                access_token: 'xxx',
+              },
+            },
+          },
+        } as any);
       });
-    });
-    describe('when a complex path is provided', () => {
-      it('should split to the last part and the rest', () => {
-        const result = splitExclusionKey('auth.userToken.token.refresh_token');
+
+      it('should remove the property that is a couple of levels deep', () => {
+        const userValue = {
+          user: {
+            account: {
+              details: {
+                currency: {
+                  symbol: '$',
+                  name: 'cad',
+                },
+              },
+            },
+            addresses: {
+              loading: false,
+            },
+          },
+        };
+        const result = handleExclusions(
+          'user',
+          ['user.account.details.currency.name'],
+          userValue
+        );
         expect(result).toEqual({
-          firstPart: 'auth.userToken.token',
-          lastPart: 'refresh_token',
-        });
+          user: {
+            account: {
+              details: {
+                currency: {
+                  symbol: '$',
+                },
+              },
+            },
+            addresses: {
+              loading: false,
+            },
+          },
+        } as any);
       });
     });
   });
 
   describe('shouldExclude', () => {
     describe('when an invalid input is provided', () => {
-      it('should return a default object with exclude=false and excludeProperty=empty string', () => {
-        const expectedResult: { exclude: boolean; excludeProperty: string } = {
-          exclude: false,
-          excludeProperty: '',
-        };
-        let result: { exclude: boolean; excludeProperty: string };
+      it('should return an empty array', () => {
+        let result: string[];
 
         result = shouldExclude(null, []);
-        expect(result).toEqual(expectedResult);
+        expect(result).toEqual([]);
 
         result = shouldExclude('', null);
-        expect(result).toEqual(expectedResult);
+        expect(result).toEqual([]);
 
         result = shouldExclude('', []);
-        expect(result).toEqual(expectedResult);
+        expect(result).toEqual([]);
       });
     });
 
-    describe('when the provided key is equal to the firstPart', () => {
-      it('should return the lastPart and the exclude set to true', () => {
-        const result = shouldExclude('auth.userToken.token', [
-          'auth.userToken.token.refresh_token',
-        ]);
-        expect(result).toEqual({
-          exclude: true,
-          excludeProperty: 'refresh_token',
-        });
-      });
-    });
-
-    describe('when the provided key is NOT equal to the firstPart', () => {
-      it('should return an empty string as the lastPart and the exclude set to false', () => {
+    describe('when the provided key is NOT in at least one exclusion', () => {
+      it('should return an empty array', () => {
         const result = shouldExclude('cart.token', [
           'auth.userToken.token.refresh_token',
         ]);
-        expect(result).toEqual({
-          exclude: false,
-          excludeProperty: '',
-        });
+        expect(result).toEqual([]);
+      });
+    });
+    describe('when the provided key is matched with one exclusion', () => {
+      it('should return one exclusion key', () => {
+        const result = shouldExclude('auth.userToken.token', [
+          'auth.userToken.token.refresh_token',
+        ]);
+        expect(result).toEqual(['auth.userToken.token.refresh_token']);
+      });
+    });
+    describe('when the provided key is matched with multiple exclusions', () => {
+      it('should return one exclusion key', () => {
+        const result = shouldExclude('auth.userToken.token', [
+          'auth.userToken.token.access_token',
+          'auth.userToken.token.refresh_token',
+        ]);
+        expect(result).toEqual([
+          'auth.userToken.token.access_token',
+          'auth.userToken.token.refresh_token',
+        ]);
       });
     });
   });

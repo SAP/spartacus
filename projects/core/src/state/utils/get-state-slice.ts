@@ -2,7 +2,7 @@ import { deepMerge } from '../../config/utils/deep-merge';
 
 const OBJECT_SEPARATOR = '.';
 
-export function getStateSliceValue<T, E>(keys: string, state: T): E {
+export function getStateSliceValue(keys: string, state: any): any {
   return keys
     .split(OBJECT_SEPARATOR)
     .reduce(
@@ -11,74 +11,30 @@ export function getStateSliceValue<T, E>(keys: string, state: T): E {
     );
 }
 
-export function createShellObject<T, E>(
+export function createShellObject(
   key: string,
   excludeKeys: string[],
-  value: T
-): E {
+  value: any
+): any {
   if (!key || !value || Object.keys(value).length === 0) {
-    return {} as E;
+    return {};
   }
 
-  const keySplit = key.split(OBJECT_SEPARATOR);
-  const newObject = {};
-  let tempNewObject = newObject;
+  const shell = key.split(OBJECT_SEPARATOR).reduceRight((acc, previous) => {
+    return { [previous]: acc };
+  }, value);
 
-  for (let i = 0; i < keySplit.length; i++) {
-    const currentKey = keySplit[i];
-    // last iteration
-    if (i === keySplit.length - 1) {
-      // TODO:#3527 - check does it need to be deleted. This can also be moved in `xxx()`
-      const finalValue = handleExclusions(key, excludeKeys, value);
-      tempNewObject = tempNewObject[currentKey] = finalValue;
-    } else {
-      tempNewObject = tempNewObject[currentKey] = {};
-    }
-  }
-
-  return newObject as E;
-}
-
-export function handleExclusions<T>(
-  key: string,
-  excludeKeys: string[],
-  value: T
-): T {
-  const { exclude, exclusionKey } = shouldExclude(key, excludeKeys);
-  if (!exclude) {
-    return value;
-  }
-
-  const exclusionChunksSplit = exclusionKey
-    .substring(key.length + 1, exclusionKey.length)
-    .split(OBJECT_SEPARATOR);
-
-  const finalValue = deepMerge({}, value);
-  let nestedTemp = finalValue;
-  for (let i = 0; i < exclusionChunksSplit.length; i++) {
-    const currentChunk = exclusionChunksSplit[i];
-
-    // last iteration
-    if (i === exclusionChunksSplit.length - 1) {
-      delete nestedTemp[currentChunk];
-    } else {
-      nestedTemp = nestedTemp[currentChunk];
-      if (!nestedTemp || Object.keys(nestedTemp).length === 0) {
-        return value;
-      }
-    }
-  }
-
+  const finalValue = handleExclusions(key, excludeKeys, shell);
   return finalValue;
 }
 
-export function getStateSlice<T, E>(
+export function getStateSlice(
   keys: string[],
   excludeKeys: string[],
-  state: T
-): E {
+  state: any
+): any {
   if (keys && keys.length === 0) {
-    return {} as E;
+    return {};
   }
 
   let stateSlices = {};
@@ -88,25 +44,53 @@ export function getStateSlice<T, E>(
     stateSlices = deepMerge(stateSlices, shell);
   }
 
-  return stateSlices as E;
+  return stateSlices;
 }
 
-export function shouldExclude(
+export function handleExclusions(
   key: string,
-  excludeKeys: string[]
-): {
-  exclude: boolean;
-  exclusionKey: string;
-} {
-  if (!key || !excludeKeys) {
-    return { exclude: false, exclusionKey: '' };
+  excludeKeys: string[],
+  value: any
+): any {
+  const exclusionKeys = shouldExclude(key, excludeKeys);
+  if (exclusionKeys.length === 0) {
+    return value;
   }
 
-  for (const exclusionKey of excludeKeys) {
-    if (exclusionKey.includes(key)) {
-      return { exclude: true, exclusionKey: exclusionKey };
+  const finalValue = deepMerge({}, value);
+  for (const currentExclusionKey of exclusionKeys) {
+    const exclusionChunksSplit = currentExclusionKey.split(OBJECT_SEPARATOR);
+
+    let nestedTemp = finalValue;
+    for (let i = 0; i < exclusionChunksSplit.length; i++) {
+      const currentChunk = exclusionChunksSplit[i];
+
+      // last iteration
+      if (i === exclusionChunksSplit.length - 1) {
+        delete nestedTemp[currentChunk];
+      } else {
+        nestedTemp = nestedTemp[currentChunk];
+        if (!nestedTemp || Object.keys(nestedTemp).length === 0) {
+          return value;
+        }
+      }
     }
   }
 
-  return { exclude: false, exclusionKey: '' };
+  return finalValue;
+}
+
+export function shouldExclude(key: string, excludeKeys: string[]): string[] {
+  if (!key || !excludeKeys) {
+    return [];
+  }
+
+  const keysToExclude: string[] = [];
+  for (const exclusionKey of excludeKeys) {
+    if (exclusionKey.includes(key)) {
+      keysToExclude.push(exclusionKey);
+    }
+  }
+
+  return keysToExclude;
 }
