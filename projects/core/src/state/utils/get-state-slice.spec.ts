@@ -1,12 +1,12 @@
 import {
   createShellObject,
+  getExclusionKeys,
   getStateSlice,
   getStateSliceValue,
   handleExclusions,
-  shouldExclude,
 } from './get-state-slice';
 
-fdescribe('state slice functions', () => {
+describe('state slice functions', () => {
   describe('getStateSliceValue', () => {
     it('should return an undefined value when a the provided key does not exist', () => {
       const state = {
@@ -119,7 +119,7 @@ fdescribe('state slice functions', () => {
               },
             },
           },
-        } as any);
+        });
       });
     });
   });
@@ -312,7 +312,7 @@ fdescribe('state slice functions', () => {
               },
             },
           },
-        } as any);
+        });
       });
 
       it('should remove the property that is a couple of levels deep', () => {
@@ -354,25 +354,25 @@ fdescribe('state slice functions', () => {
     });
   });
 
-  describe('shouldExclude', () => {
+  describe('getExclusionKeys', () => {
     describe('when an invalid input is provided', () => {
       it('should return an empty array', () => {
         let result: string[];
 
-        result = shouldExclude(null, []);
+        result = getExclusionKeys(null, []);
         expect(result).toEqual([]);
 
-        result = shouldExclude('', null);
+        result = getExclusionKeys('', null);
         expect(result).toEqual([]);
 
-        result = shouldExclude('', []);
+        result = getExclusionKeys('', []);
         expect(result).toEqual([]);
       });
     });
 
     describe('when the provided key is NOT in at least one exclusion', () => {
       it('should return an empty array', () => {
-        const result = shouldExclude('cart.token', [
+        const result = getExclusionKeys('cart.token', [
           'auth.userToken.token.refresh_token',
         ]);
         expect(result).toEqual([]);
@@ -380,7 +380,7 @@ fdescribe('state slice functions', () => {
     });
     describe('when the provided key is matched with one exclusion', () => {
       it('should return one exclusion key', () => {
-        const result = shouldExclude('auth.userToken.token', [
+        const result = getExclusionKeys('auth.userToken.token', [
           'auth.userToken.token.refresh_token',
         ]);
         expect(result).toEqual(['auth.userToken.token.refresh_token']);
@@ -388,7 +388,7 @@ fdescribe('state slice functions', () => {
     });
     describe('when the provided key is matched with multiple exclusions', () => {
       it('should return one exclusion key', () => {
-        const result = shouldExclude('auth.userToken.token', [
+        const result = getExclusionKeys('auth.userToken.token', [
           'auth.userToken.token.access_token',
           'auth.userToken.token.refresh_token',
         ]);

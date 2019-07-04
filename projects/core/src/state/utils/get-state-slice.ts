@@ -23,9 +23,7 @@ export function createShellObject(
   const shell = key.split(OBJECT_SEPARATOR).reduceRight((acc, previous) => {
     return { [previous]: acc };
   }, value);
-
-  const finalValue = handleExclusions(key, excludeKeys, shell);
-  return finalValue;
+  return handleExclusions(key, excludeKeys, shell);
 }
 
 export function getStateSlice(
@@ -52,7 +50,7 @@ export function handleExclusions(
   excludeKeys: string[],
   value: any
 ): any {
-  const exclusionKeys = shouldExclude(key, excludeKeys);
+  const exclusionKeys = getExclusionKeys(key, excludeKeys);
   if (exclusionKeys.length === 0) {
     return value;
   }
@@ -67,12 +65,11 @@ export function handleExclusions(
 
       // last iteration
       if (i === exclusionChunksSplit.length - 1) {
-        delete nestedTemp[currentChunk];
+        if (nestedTemp && nestedTemp[currentChunk]) {
+          delete nestedTemp[currentChunk];
+        }
       } else {
         nestedTemp = nestedTemp[currentChunk];
-        if (!nestedTemp || Object.keys(nestedTemp).length === 0) {
-          return value;
-        }
       }
     }
   }
@@ -80,17 +77,17 @@ export function handleExclusions(
   return finalValue;
 }
 
-export function shouldExclude(key: string, excludeKeys: string[]): string[] {
+export function getExclusionKeys(key: string, excludeKeys: string[]): string[] {
   if (!key || !excludeKeys) {
     return [];
   }
 
-  const keysToExclude: string[] = [];
+  const exclusionKeys: string[] = [];
   for (const exclusionKey of excludeKeys) {
     if (exclusionKey.includes(key)) {
-      keysToExclude.push(exclusionKey);
+      exclusionKeys.push(exclusionKey);
     }
   }
 
-  return keysToExclude;
+  return exclusionKeys;
 }
