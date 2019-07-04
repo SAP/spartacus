@@ -92,7 +92,7 @@ describe('NotificationPreferenceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should show channels', () => {
+  it('should show channels', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('[data-test="header"]')).nativeElement.textContent
@@ -104,15 +104,15 @@ describe('NotificationPreferenceComponent', () => {
     ).toBeTruthy();
   });
 
-  fit('should show spinner when loading', () => {
+  it('should show spinner when loading', () => {
     userService.getNotificationPreferences.and.returnValue(of());
     fixture.detectChanges();
     expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
   });
 
-  fit('should be able to enable or disable a channel', () => {
+  it('should be able to enable or disable a channel', () => {
     fixture.detectChanges();
-    let cheboxies = el.queryAll(By.css('[data-test="checkbox"]'));
+    const cheboxies = el.queryAll(By.css('[data-test="checkbox"]'));
     expect(cheboxies.length).toEqual(notificationPreference.preferences.length);
 
     userService.updateNotificationPreferences.and.callFake(() => {
@@ -129,8 +129,6 @@ describe('NotificationPreferenceComponent', () => {
     );
 
     fixture.detectChanges();
-    cheboxies = el.queryAll(By.css('[data-test="checkbox"]'));
-    console.log(cheboxies[0].nativeElement.disabled);
     expect(cheboxies[0].nativeElement.disabled).toEqual(true);
   });
 });
