@@ -45,29 +45,36 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
       this.hasStock = true;
     } else {
-      this.subscription = this.currentProductService
-        .getProduct()
-        .pipe(filter(Boolean))
-        .subscribe(product => {
-          this.productCode = product.code;
-          this.quantity = 1;
-
-          if (
-            product.stock &&
-            product.stock.stockLevelStatus !== 'outOfStock' &&
-            product.stock.stockLevel > 0
-          ) {
-            this.maxQuantity = product.stock.stockLevel;
-            this.hasStock = true;
-          } else {
-            this.hasStock = false;
-          }
-
-          this.cartEntry$ = this.cartService.getEntry(this.productCode);
-
-          this.cd.markForCheck();
-        });
+      this.getProductDetails();
     }
+  }
+
+  /**
+   * Uses the product code found in the URL params to retrieve the product details
+   */
+  getProductDetails(): void {
+    this.subscription = this.currentProductService
+      .getProduct()
+      .pipe(filter(Boolean))
+      .subscribe(product => {
+        this.productCode = product.code;
+        this.quantity = 1;
+
+        if (
+          product.stock &&
+          product.stock.stockLevelStatus !== 'outOfStock' &&
+          product.stock.stockLevel > 0
+        ) {
+          this.maxQuantity = product.stock.stockLevel;
+          this.hasStock = true;
+        } else {
+          this.hasStock = false;
+        }
+
+        this.cartEntry$ = this.cartService.getEntry(this.productCode);
+
+        this.cd.markForCheck();
+      });
   }
 
   updateCount(value: number): void {

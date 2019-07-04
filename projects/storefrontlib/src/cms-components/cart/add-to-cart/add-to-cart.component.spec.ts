@@ -21,6 +21,11 @@ const mockProduct: Product = {
   code: 'code1',
   stock: { stockLevelStatus: 'inStock', stockLevel: 20 },
 };
+const mockProduct2: Product = {
+  name: 'mockPrduct2',
+  code: 'code2',
+  stock: { stockLevelStatus: 'inStock', stockLevel: 12 },
+};
 
 const mockNoStockProduct: Product = {
   name: 'mockProduct',
@@ -56,6 +61,7 @@ class MockItemCounterComponent {
   @Input() min;
   @Input() max;
   @Input() cartIsLoading;
+  @Input() value;
 }
 
 describe('AddToCartComponent', () => {
@@ -120,6 +126,23 @@ describe('AddToCartComponent', () => {
         mockProduct.stock.stockLevel
       );
       expect(addToCartComponent.hasStock).toEqual(true);
+    });
+
+    it('should reset counter value when changing product', () => {
+      //Product 1
+      let spy = spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct)
+      );
+      addToCartComponent.getProductDetails();
+      expect(addToCartComponent.productCode).toEqual(mockProduct.code);
+      addToCartComponent.quantity = 5;
+
+      //Product 2
+      spy.and.returnValue(of(mockProduct2));
+      addToCartComponent.getProductDetails();
+      expect(addToCartComponent.productCode).toEqual(mockProduct2.code);
+      //Quantity is expected to be reset to 1 since it is a new product page
+      expect(addToCartComponent.quantity).toEqual(1);
     });
 
     it('should disable input when the product has no stock', () => {
