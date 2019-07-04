@@ -1,6 +1,6 @@
 import { Provider } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { provideConfigFactory } from '../../config';
+import { provideConfigFactory } from '../../config/config.module';
 import { OccConfig } from './occ-config';
 
 export const OCC_BASE_URL_META_TAG_NAME = 'occ-backend-base-url';

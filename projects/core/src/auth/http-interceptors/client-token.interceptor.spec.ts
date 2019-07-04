@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../facade/auth.service';
 import { ClientToken } from './../models/token-types.model';
@@ -36,9 +36,7 @@ const MockAuthModuleConfig: OccConfig = {
     },
   },
   context: {
-    parameters: {
-      baseSite: { default: 'electronics' },
-    },
+    baseSite: ['electronics'],
   },
 };
 
