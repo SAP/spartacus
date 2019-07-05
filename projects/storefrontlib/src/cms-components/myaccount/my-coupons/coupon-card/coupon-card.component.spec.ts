@@ -4,7 +4,7 @@ import { CouponCardComponent } from './coupon-card.component';
 import { I18nTestingModule, CustomerCoupon } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { ModalService } from '../../../../shared/components/modal/index';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 const mockCoupon: CustomerCoupon = {
@@ -28,6 +28,7 @@ class MockUrlPipe implements PipeTransform {
 describe('CouponCardComponent', () => {
   let component: CouponCardComponent;
   let fixture: ComponentFixture<CouponCardComponent>;
+  let el: DebugElement;
   const modalService = jasmine.createSpyObj('ModalService', ['open']);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,6 +40,7 @@ describe('CouponCardComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CouponCardComponent);
+    el = fixture.debugElement;
     component = fixture.componentInstance;
     component.coupon = mockCoupon;
     component.couponLoading = false;
@@ -50,82 +52,36 @@ describe('CouponCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display coupon information', () => {
+  it('should show coupon details', () => {
     fixture.detectChanges();
-    const couponName = fixture.debugElement.query(
-      By.css('.cx-coupon-card-name')
-    ).nativeElement.textContent;
-    expect(couponName).toContain('CustomerCoupon:name');
-
-    const couponStatus = fixture.debugElement.query(By.css('.cx-coupon-status'))
-      .nativeElement.textContent;
-    expect(couponStatus).toContain('myCoupons.Effective');
-
-    const couponEffectiveDateTitle = fixture.debugElement.query(
-      By.css('.cx-coupon-card-date p')
-    ).nativeElement.textContent;
-    expect(couponEffectiveDateTitle).toContain('myCoupons.effectiveTitle');
-    const couponStartDate = fixture.debugElement.query(
-      By.css('.cx-coupon-date-start')
-    ).nativeElement.textContent;
-    expect(couponStartDate).toContain('Jan 1, 1970, 8:00:00 AM');
-    const couponEndDate = fixture.debugElement.query(
-      By.css('.cx-coupon-date-end')
-    ).nativeElement.textContent;
-    expect(couponEndDate).toContain('Dec 31, 2019, 7:59:59 AM');
-
-    const readMoreLink = fixture.debugElement.query(By.css('a')).nativeElement
-      .textContent;
-    expect(readMoreLink).toContain('myCoupons.readMore');
-
-    const couponNotificationCheckbox = fixture.debugElement.queryAll(
-      By.css('.form-check-input')
-    );
-    expect(couponNotificationCheckbox.length).toBe(1);
-    const couponNotificationLabel = fixture.debugElement.query(
-      By.css('.form-check-label')
-    ).nativeElement.textContent;
-    expect(couponNotificationLabel).toContain('myCoupons.notification');
-
-    const findProductBtn = fixture.debugElement.query(By.css('button'))
-      .nativeElement.textContent;
-    expect(findProductBtn).toContain('myCoupons.findProducts');
+    expect(el.query(By.css('[data-test]="coupon-name"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="coupon-status"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="date-start"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="date-end"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="read-more"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="notify-checkbox"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="find-button"'))).toBeTruthy();
   });
 
-  it('should be able to open coupon detail dialog', () => {
+  it('should be able to open "read more" dialog', () => {
     fixture.detectChanges();
-    const readMoreLink = fixture.debugElement.query(By.css('a'));
-    readMoreLink.nativeElement.click();
+    el.query(By.css('[data-test]="read-more"')).nativeElement.click();
     expect(modalService.open).toHaveBeenCalled();
   });
 
-  it('should be able to subscribe/unsubscribe coupon notification', () => {
+  it('should be able to subscribe/unsubscribe notification', () => {
     spyOn(component.notificationChanged, 'emit').and.callThrough();
     fixture.detectChanges();
-    const couponNotificationCheckbox = fixture.debugElement.query(
-      By.css('.form-check-input')
-    );
-    couponNotificationCheckbox.nativeElement.click();
+    const chx = el.query(By.css('[data-test]="notify-checkbox"')).nativeElement;
+    chx.click();
+    expect(component.notificationChanged.emit).toHaveBeenCalled();
 
-    expect(component.notificationChanged.emit).toHaveBeenCalledWith({
-      notification: true,
-      couponId: 'CustomerCoupon',
-    });
-  });
+    component.couponLoading = true;
+    fixture.detectChanges();
+    expect(chx.disabled).toEqual(true);
 
-  it('should be able to show correct notification status', () => {
+    component.couponLoading = false;
     fixture.detectChanges();
-    let couponNotificationCheckbox = fixture.debugElement.queryAll(
-      By.css('.form-check-input')
-    );
-    expect(couponNotificationCheckbox.length).toBe(1);
-    expect(couponNotificationCheckbox[0].nativeElement.checked).toBeFalsy();
-    component.coupon.notificationOn = true;
-    fixture.detectChanges();
-    couponNotificationCheckbox = fixture.debugElement.queryAll(
-      By.css('.form-check-input')
-    );
-    expect(couponNotificationCheckbox.length).toBe(1);
-    expect(couponNotificationCheckbox[0].nativeElement.checked).toBeTruthy();
+    expect(chx.disabled).toEqual(false);
   });
 });

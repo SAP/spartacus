@@ -3,7 +3,7 @@ import { CouponDialogComponent } from './coupon-dialog.component';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { By } from '@angular/platform-browser';
 import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
-import { Input, Component } from '@angular/core';
+import { Input, Component, DebugElement } from '@angular/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 
 const mockCoupon: CustomerCoupon = {
@@ -28,6 +28,7 @@ class MockCxIconComponent {
 describe('CouponDialogComponent', () => {
   let component: CouponDialogComponent;
   let fixture: ComponentFixture<CouponDialogComponent>;
+  let el: DebugElement;
   const modalService = jasmine.createSpyObj('ModalService', [
     'dismissActiveModal',
   ]);
@@ -41,9 +42,10 @@ describe('CouponDialogComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CouponDialogComponent);
+    el = fixture.debugElement;
     component = fixture.componentInstance;
-    modalService.dismissActiveModal.and.stub();
     component.coupon = mockCoupon;
+    modalService.dismissActiveModal.and.stub();
   });
 
   it('should create', () => {
@@ -51,44 +53,20 @@ describe('CouponDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be able to show coupon information', () => {
+  it('should show coupon details', () => {
     fixture.detectChanges();
-    const dialogTitle = fixture.debugElement.query(By.css('.cx-dialog-title'))
-      .nativeElement.textContent;
-    expect(dialogTitle).toContain('myCoupons.dialogTitle');
-
-    const closeBtn = fixture.debugElement.query(By.css('button'));
-    expect(closeBtn).toBeTruthy();
-
-    const couponDescription = fixture.debugElement.query(
-      By.css('.cx-coupon-description')
-    ).nativeElement.textContent;
-    expect(couponDescription).toContain('CustomerCouponDescription');
-
-    const couponEffectiveTitle = fixture.debugElement.query(
-      By.css('.cx-coupon-dialog-date p')
-    ).nativeElement.textContent;
-    expect(couponEffectiveTitle).toContain('myCoupons.effectiveTitle');
-    const couponEffectiveDate = fixture.debugElement.query(
-      By.css('.cx-coupon-date')
-    ).nativeElement.textContent;
-    expect(couponEffectiveDate).toContain(
-      'Jan 1, 1970, 8:00:00 AM - Dec 31, 2019, 7:59:59 AM'
-    );
-
-    const couponStatusTitle = fixture.debugElement.query(
-      By.css('.cx-coupon-dialog-status p')
-    ).nativeElement.textContent;
-    expect(couponStatusTitle).toContain('myCoupons.status');
-    const couponStatus = fixture.debugElement.query(By.css('.cx-coupon-status'))
-      .nativeElement.textContent;
-    expect(couponStatus).toContain('myCoupons.Effective');
+    expect(el.query(By.css('[data-test]="coupon-name"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="coupon-status"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="date-start"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="date-end"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="header"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="description"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="btn-close"'))).toBeTruthy();
   });
 
   it('should be able to close dialog', () => {
     fixture.detectChanges();
-    const closeBtn = fixture.debugElement.query(By.css('button'));
-    closeBtn.nativeElement.click();
+    el.query(By.css('[data-test]="btn-close"')).nativeElement.click();
     expect(modalService.dismissActiveModal).toHaveBeenCalled();
   });
 });

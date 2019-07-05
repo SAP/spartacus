@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CouponClaimComponent } from './coupon-claim.component'
+import { CouponClaimComponent } from './coupon-claim.component';
 import {
   UserService,
   RoutingService,
