@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyCouponsComponent } from './my-coupons.component';
-import { Component, Input } from '@angular/core';
+import { Component, Input, DebugElement } from '@angular/core';
 import {
   I18nTestingModule,
   CustomerCouponSearchResult,
@@ -11,6 +11,7 @@ import {
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { ListNavigationModule } from '@spartacus/storefront';
+import { user } from 'projects/storefrontapp-e2e-cypress/cypress/sample-data/checkout-flow';
 
 const emptyCouponResult: CustomerCouponSearchResult = {
   coupons: [],
@@ -73,6 +74,7 @@ class MockCouponCardComponent {
 describe('MyCouponsComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
+  let el: DebugElement;
   const userService = jasmine.createSpyObj('UserService', [
     'getCustomerCoupons',
     'getCustomerCouponsLoading',
@@ -97,7 +99,9 @@ describe('MyCouponsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);
+    el = fixture.debugElement;
     component = fixture.componentInstance;
+
     userService.getCustomerCoupons.and.returnValue(of(emptyCouponResult));
     userService.getCustomerCouponsLoading.and.returnValue(of(false));
     userService.loadCustomerCoupons.and.stub();
@@ -114,69 +118,45 @@ describe('MyCouponsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be able to show message when there is no coupon', () => {
+  it('should show loading spinner when data is loading', () => {
+    userService.getCustomerCouponsLoading.and.returnValue(of(true));
     fixture.detectChanges();
-    const message = fixture.debugElement.query(By.css('.cx-section-msg'))
-      .nativeElement.textContent;
-    expect(message).toContain('myCoupons.noCouponsMessage');
+    expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
-  it('should be able to show coupons', () => {
+  it('should show message when no data', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('[data-test="noexist-msg"]'))).toBeTruthy();
+  });
+
+  it('should show coupons list', () => {
     userService.getCustomerCoupons.and.returnValue(of(couponResult));
     fixture.detectChanges();
 
-    const message = fixture.debugElement.queryAll(By.css('.cx-section-msg'));
-    expect(message.length).toBe(0);
-
-    const sortComponent = fixture.debugElement.nativeElement.querySelectorAll(
-      'cx-sorting'
+    expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
+    expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
+    expect(el.queryAll(By.css('cx-coupon-card')).length).toEqual(
+      couponResult.coupons.length
     );
-    expect(sortComponent.length).toBe(2);
-
-    const paginationComponent = fixture.debugElement.nativeElement.querySelectorAll(
-      'cx-pagination'
-    );
-    expect(paginationComponent.length).toBe(2);
-    const couponCardComponent = fixture.debugElement.nativeElement.querySelectorAll(
-      'cx-coupon-card'
-    );
-    expect(couponCardComponent.length).toBe(2);
   });
-  it('should be able to change sort', () => {
-    userService.getCustomerCoupons.and.returnValue(of(couponResult));
+
+  it('should be able to change page/sort', () => {
     fixture.detectChanges();
-    component.sortChange('byStartDateAsc');
-    expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
-      10,
-      0,
-      'startDate:asc'
-    );
-  });
-  it('should be able to change page', () => {
-    userService.getCustomerCoupons.and.returnValue(of(couponResult));
-    component.pageChange(1);
-    fixture.detectChanges();
-    expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
-      10,
-      1,
-      'startDate:asc'
-    );
+
+    component.sortChange('sort');
+    expect(userService.loadCustomerCoupons).toHaveBeenCalled();
+
+    component.pageChange(2);
+    expect(userService.loadCustomerCoupons).toHaveBeenCalled();
   });
 
-  it('should be able to change coupon notification', () => {
-    component.onNotificationChange({
-      notification: true,
-      couponId: 'CustomerCoupon1',
-    });
-    expect(userService.subscribeCustomerCoupon).toHaveBeenCalledWith(
-      'CustomerCoupon1'
-    );
-    component.onNotificationChange({
-      notification: false,
-      couponId: 'CustomerCoupon1',
-    });
-    expect(userService.unsubscribeCustomerCoupon).toHaveBeenCalledWith(
-      'CustomerCoupon1'
-    );
+  it('should be able to trun of/off notification for a coupon', () => {
+    fixture.detectChanges();
+
+    component.onNotificationChange({ couponId: '123', notification: true });
+    expect(userService.subscribeCustomerCoupon).toHaveBeenCalledWith('123');
+
+    component.onNotificationChange({ couponId: '123', notification: false });
+    expect(userService.unsubscribeCustomerCoupon).toHaveBeenCalledWith('123');
   });
 });
