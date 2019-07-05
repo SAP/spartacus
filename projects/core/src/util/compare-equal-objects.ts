@@ -57,3 +57,12 @@ export function deepEqualObjects(objA: object, objB: object): boolean {
     return true;
   }
 }
+
+export function countOfDeepEqualObjects(obj: any, arr: Array<any>) {
+  return arr.reduce((acc, curr) => {
+    if (deepEqualObjects(obj, curr)) {
+      acc++;
+    }
+    return acc;
+  }, 0);
+}
