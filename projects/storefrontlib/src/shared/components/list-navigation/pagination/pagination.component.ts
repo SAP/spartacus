@@ -107,8 +107,6 @@ export class PaginationComponent {
   }
 
   hidePagination() {
-    console.log(this.pagination.totalPages);
-    console.log(this.hideOnSinglePage && this.pagination.totalPages <= 1);
     return this.hideOnSinglePage && this.pagination.totalPages <= 1;
   }
 }
