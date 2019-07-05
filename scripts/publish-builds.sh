@@ -13,7 +13,7 @@ get_version() {
   echo `head $1/package.json | awk '/version/ { gsub(/"/, "", $2); gsub(/,/, "", $2);print $2 }'`
 }
 
-build_styles() {
+pack_styles() {
   local styles_path=projects/storefrontstyles
   local styles_dist_path=dist/styles
 
@@ -81,8 +81,8 @@ publish_snapshot() {
 }
 
 publish_snapshot "core" "dist/core"
-build_styles
+pack_styles
 publish_snapshot "styles" "dist/styles"
 publish_snapshot "storefront" "dist/storefrontlib"
 
-echo "Finished publishing build artifacts"
+echo "Finished publishing snapshot build artifacts"
