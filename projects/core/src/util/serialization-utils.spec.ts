@@ -1,29 +1,10 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import * as fromAngularCore from '@angular/core';
 import { HttpErrorModel } from '../model';
 import { LoaderMeta } from '../state/utils/loader/loader.action';
 import { makeErrorSerializable } from './serialization-utils';
 
 describe('serialization-utils', () => {
   describe('makeErrorSerializable', () => {
-    describe('when running in production mode', () => {
-      it('should not serialize the provided object', () => {
-        spyOnProperty(fromAngularCore, 'isDevMode').and.returnValue(
-          () => false
-        );
-        const mockError = new HttpErrorResponse({
-          error: 'error',
-          headers: new HttpHeaders().set('xxx', 'xxx'),
-          status: 500,
-          statusText: 'Unknown error',
-          url: '/xxx',
-        });
-
-        const result = makeErrorSerializable(mockError);
-        expect(result).toEqual(mockError);
-      });
-    });
-
     describe(`when the provided argument is not an instance of Error nor of HttpErrorResponse`, () => {
       it('should return the same value as provided', () => {
         const error = 'xxx';
