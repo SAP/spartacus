@@ -17,7 +17,9 @@ import { CartActions } from '../actions/index';
 export class CartEffects {
   @Effect()
   loadCart$: Observable<
-    CartActions.LoadCartFail | CartActions.LoadCartSuccess
+    | CartActions.LoadCartFail
+    | CartActions.LoadCartSuccess
+    | CartActions.ClearCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map(
