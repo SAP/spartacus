@@ -1,5 +1,4 @@
 import { Translatable } from '../../../i18n/translatable';
-// import { deepEqualObjects } from '../../../util/compare-equal-objects';
 import {
   GlobalMessage,
   GlobalMessageType,

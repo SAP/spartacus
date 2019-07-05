@@ -11,6 +11,7 @@ import {
   map,
   withLatestFrom,
 } from 'rxjs/operators';
+
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
   GlobalMessage,
@@ -23,7 +24,7 @@ import {
   countOfDeepEqualObjects,
   indexOfFirstOccurrence,
 } from '../../../util/compare-equal-objects';
-import { Translatable } from '@spartacus/core';
+import { Translatable } from '../../../i18n/translatable';
 
 @Injectable()
 export class GlobalMessageEffect {
