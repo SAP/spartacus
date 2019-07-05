@@ -33,8 +33,8 @@ export const product = {
 
 export const cart = {
   estimatedShipping: '$11.99',
-  total: '$2,623.08',
-  totalAndShipping: '$2,635.07', // $2,623.08 + $11.99
+  total: '$2,643.08',
+  totalAndShipping: '$2,655.07',
 };
 
 export const delivery = {
