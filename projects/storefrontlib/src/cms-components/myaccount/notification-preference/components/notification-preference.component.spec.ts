@@ -111,7 +111,7 @@ describe('NotificationPreferenceComponent', () => {
     expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
   });
 
-  fit('should be able to enable or disable a channel', () => {
+  it('should be able to enable or disable a channel', () => {
     userService.getUpdateNotificationPreferencesLoading.and.returnValue(
       cold('-a|', { a: true })
     );
