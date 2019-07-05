@@ -66,3 +66,11 @@ export function countOfDeepEqualObjects(obj: any, arr: Array<any>) {
     return acc;
   }, 0);
 }
+
+export function indexOfFirstOccurrence(obj: any, arr: Array<any>) {
+  for (let index = 0; index < arr.length; index++) {
+    if (deepEqualObjects(arr[index], obj)) {
+      return index;
+    }
+  }
+}

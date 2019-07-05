@@ -21,8 +21,9 @@ import { StateWithGlobalMessage } from '../global-message-state';
 import { GlobalMessageSelectors } from '../selectors/index';
 import {
   countOfDeepEqualObjects,
-  deepEqualObjects,
+  indexOfFirstOccurrence,
 } from '../../../util/compare-equal-objects';
+import { Translatable } from '@spartacus/core';
 
 @Injectable()
 export class GlobalMessageEffect {
@@ -32,8 +33,8 @@ export class GlobalMessageEffect {
   > = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload'),
-    switchMap((message: GlobalMessage) => {
-      return of(message.text).pipe(
+    switchMap((message: GlobalMessage) =>
+      of(message.text).pipe(
         withLatestFrom(
           this.store.pipe(
             select(
@@ -44,26 +45,18 @@ export class GlobalMessageEffect {
           )
         ),
         filter(
-          ([text, messages]: [any, any[]]) =>
+          ([text, messages]: [Translatable, Translatable[]]) =>
             countOfDeepEqualObjects(text, messages) > 1
         ),
-        map(([text, messages]: [any, any[]]) => {
-          if (countOfDeepEqualObjects(text, messages) > 1) {
-            let indexOfDuplicate;
-            for (let index = 0; index < messages.length; index++) {
-              if (deepEqualObjects(messages[index], text)) {
-                indexOfDuplicate = index;
-                break;
-              }
-            }
-            return new GlobalMessageActions.RemoveMessage({
+        map(
+          ([text, messages]: [Translatable, Translatable[]]) =>
+            new GlobalMessageActions.RemoveMessage({
               type: message.type,
-              index: indexOfDuplicate,
-            });
-          }
-        })
-      );
-    })
+              index: indexOfFirstOccurrence(text, messages),
+            })
+        )
+      )
+    )
   );
 
   @Effect()
