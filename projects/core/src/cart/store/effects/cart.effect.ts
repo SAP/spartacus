@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from 'projects/core/src/global-message';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
@@ -37,9 +41,24 @@ export class CartEffects {
           map((cart: Cart) => {
             return new CartActions.LoadCartSuccess(cart);
           }),
-          catchError(error =>
-            of(new CartActions.LoadCartFail(makeErrorSerializable(error)))
-          )
+          catchError(error => {
+            if (error && error.error && error.error.errors) {
+              const cartNotFoundErrors = error.error.errors.filter(
+                err => err.reason === 'notFound'
+              );
+              if (cartNotFoundErrors.length > 0) {
+                // inform user about change with cart
+                this.globalMessageService.add(
+                  { key: 'httpHandlers.cartRefreshed' },
+                  GlobalMessageType.MSG_TYPE_INFO
+                );
+                return of(new CartActions.ClearCart());
+              }
+            }
+            return of(
+              new CartActions.LoadCartFail(makeErrorSerializable(error))
+            );
+          })
         );
     })
   );
@@ -132,7 +151,8 @@ export class CartEffects {
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
-    private cartData: CartDataService
+    private cartData: CartDataService,
+    private globalMessageService: GlobalMessageService
   ) {}
 
   private isMissingData(payload: { userId: string; cartId: string }) {

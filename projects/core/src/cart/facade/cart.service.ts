@@ -33,16 +33,23 @@ export class CartService {
       this.store.select(CartSelectors.getCartContent),
       this.store.select(CartSelectors.getCartLoading),
       this.authService.getUserToken(),
+      this.store.select(CartSelectors.getCartLoaded),
     ]).pipe(
       // combineLatest emits multiple times on each property update instead of one emit
       // additionally dispatching actions that changes selectors used here needs to happen in order
       // for this asyncScheduler is used here
       debounceTime(1, asyncScheduler),
       filter(([, loading]) => !loading),
-      tap(([cart, , userToken]) => {
+      tap(([cart, , userToken, loaded]) => {
         if (this.isJustLoggedIn(userToken.userId)) {
           this.loadOrMerge();
         } else if (this.isCreated(cart) && this.isIncomplete(cart)) {
+          this.load();
+        } else if (
+          typeof userToken.userId !== 'undefined' &&
+          !this.isCreated(cart) &&
+          !loaded
+        ) {
           this.load();
         }
 

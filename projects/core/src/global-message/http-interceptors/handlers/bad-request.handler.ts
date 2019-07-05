@@ -1,10 +1,10 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Translatable } from '../../../i18n/translatable';
+import { ErrorModel } from '../../../model/misc.model';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 import { HttpErrorHandler } from './http-error.handler';
-import { ErrorModel } from '../../../model/misc.model';
-import { Translatable } from '../../../i18n/translatable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -50,7 +50,8 @@ export class BadRequestHandler extends HttpErrorHandler {
             error.subjectType === 'cart' &&
             error.reason === 'notFound'
           ) {
-            errorMessage = { key: 'httpHandlers.cartNotFound' };
+            // for cart not found we provide better message in cart effects
+            return;
           } else if (error.type === 'ValidationError') {
             // build translation key in case of backend field validation error
             errorMessage = {

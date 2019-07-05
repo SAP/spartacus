@@ -88,6 +88,7 @@ export const common = {
       },
     },
     cartNotFound: 'Cart not found.',
+    cartRefreshed: 'Cart refreshed.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
