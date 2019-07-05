@@ -1,4 +1,2 @@
-export * from './client-token.action';
-export * from './login-logout.action';
-export * from './open-id-token.action';
-export * from './user-token.action';
+import * as AuthActions from './auth-group.actions';
+export { AuthActions };

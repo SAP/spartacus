@@ -12,11 +12,12 @@ import {
   Address,
   AddressValidation,
   CardType,
-  CheckoutService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
   Country,
   GlobalMessageService,
   GlobalMessageType,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -60,7 +61,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   closeForm = new EventEmitter<any>();
 
   @Output()
-  addPaymentInfo = new EventEmitter<any>();
+  setPaymentDetails = new EventEmitter<any>();
 
   payment: FormGroup = this.fb.group({
     defaultPayment: [false],
@@ -80,15 +81,19 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     line1: ['', Validators.required],
     line2: [''],
     town: ['', Validators.required],
+    region: this.fb.group({
+      isocodeShort: [null, Validators.required],
+    }),
     country: this.fb.group({
-      isocode: ['', Validators.required],
+      isocode: [null, Validators.required],
     }),
     postalCode: ['', Validators.required],
   });
 
   constructor(
-    protected checkoutService: CheckoutService,
-    protected userService: UserService,
+    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private modalService: ModalService
@@ -96,24 +101,24 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expMonthAndYear();
-    this.countries$ = this.userService.getAllBillingCountries().pipe(
+    this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap(countries => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
-          this.userService.loadBillingCountries();
+          this.userPaymentService.loadBillingCountries();
         }
       })
     );
 
-    this.cardTypes$ = this.checkoutService.getCardTypes().pipe(
+    this.cardTypes$ = this.checkoutPaymentService.getCardTypes().pipe(
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
-          this.checkoutService.loadSupportedCardTypes();
+          this.checkoutPaymentService.loadSupportedCardTypes();
         }
       })
     );
 
-    this.shippingAddress$ = this.checkoutService.getDeliveryAddress();
+    this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
 
     this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
@@ -123,11 +128,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.checkoutService
+    this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
         if (results === 'FAIL') {
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.next();
         } else if (results.decision === 'REJECT') {
@@ -135,7 +140,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
             { key: 'addressForm.invalidAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
         }
@@ -189,7 +194,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
    * @memberof PaymentFormComponent
    */
   showSameAsShippingAddressCheckbox(): Observable<boolean> {
-    return combineLatest(this.countries$, this.shippingAddress$).pipe(
+    return combineLatest([this.countries$, this.shippingAddress$]).pipe(
       map(([countries, address]) => {
         return !!countries.filter(
           (country: Country): boolean =>
@@ -228,12 +233,12 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
         .then(() => {
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
           this.suggestedAddressModalRef = null;
         })
         .catch(() => {
           // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.checkoutService.clearAddressVerificationResults();
+          this.checkoutDeliveryService.clearAddressVerificationResults();
           this.suggestedAddressModalRef = null;
         });
     }
@@ -251,12 +256,12 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     if (this.sameAsShippingAddress) {
       this.next();
     } else {
-      this.checkoutService.verifyAddress(this.billingAddress.value);
+      this.checkoutDeliveryService.verifyAddress(this.billingAddress.value);
     }
   }
 
   next(): void {
-    this.addPaymentInfo.emit({
+    this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
         ? null

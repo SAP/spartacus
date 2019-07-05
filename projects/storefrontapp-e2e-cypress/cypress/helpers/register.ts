@@ -10,18 +10,24 @@ export function registerUser(user) {
   register(user);
 }
 
-export function checkTermsAndConditions() {
-  const termsLink = '/electronics-spa/en/USD/termsAndConditions';
+export function navigateToTermsAndConditions() {
+  const termsLink = '/electronics-spa/en/USD/terms-and-conditions';
   cy.visit('/login/register');
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
     .should('have.attr', 'href', termsLink);
   cy.visit(termsLink);
+  checkTermsAndConditions();
+}
+
+export function checkTermsAndConditions() {
   cy.get('.title_holder h2').should('contain', 'Terms and Conditions');
 }
 
 export function signOut() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
   cy.visit('/');
 }
 

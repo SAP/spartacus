@@ -1,18 +1,22 @@
-import { Injectable, Inject } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { Page, PageMeta } from '../model/page.model';
-import { CmsService } from './cms.service';
 import { PageMetaResolver } from '../page/page-meta.resolver';
+import { CmsService } from './cms.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PageMetaService {
   constructor(
-    @Inject(PageMetaResolver) protected resolvers: PageMetaResolver[],
+    @Optional()
+    @Inject(PageMetaResolver)
+    protected resolvers: PageMetaResolver[],
     protected cms: CmsService
-  ) {}
+  ) {
+    this.resolvers = this.resolvers || [];
+  }
 
   getMeta(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
@@ -34,7 +38,7 @@ export class PageMetaService {
    * title resovers can by default match on PageType and page template
    * but custom match comparisors can be implemented.
    */
-  protected getMetaResolver(page: Page) {
+  protected getMetaResolver(page: Page): PageMetaResolver {
     const matchingResolvers = this.resolvers.filter(
       resolver => resolver.getScore(page) > 0
     );

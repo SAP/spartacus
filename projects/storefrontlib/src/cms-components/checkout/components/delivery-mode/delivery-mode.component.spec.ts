@@ -1,22 +1,19 @@
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
+import { ActivatedRoute } from '@angular/router';
 import {
+  CheckoutDeliveryService,
   DeliveryMode,
-  CheckoutService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { CheckoutConfigService } from '../../checkout-config.service';
+import { DeliveryModeComponent } from './delivery-mode.component';
 
 import createSpy = jasmine.createSpy;
-
-import { DeliveryModeComponent } from './delivery-mode.component';
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CheckoutConfigService } from '../../checkout-config.service';
 
 @Component({
   selector: 'cx-spinner',
@@ -24,7 +21,7 @@ import { CheckoutConfigService } from '../../checkout-config.service';
 })
 class MockSpinnerComponent {}
 
-class MockCheckoutService {
+class MockCheckoutDeliveryService {
   loadSupportedDeliveryModes = createSpy();
   setDeliveryMode = createSpy();
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
@@ -76,23 +73,28 @@ const mockStepUrl = 'test url';
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
-  let mockCheckoutService: MockCheckoutService;
+  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
   let mockRoutingService: MockRoutingService;
+  let mockCheckoutConfigService: MockCheckoutConfigService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [DeliveryModeComponent, MockSpinnerComponent],
       providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
-    mockCheckoutService = TestBed.get(CheckoutService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
     mockRoutingService = TestBed.get(RoutingService);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
   }));
 
   beforeEach(() => {
@@ -104,16 +106,11 @@ describe('DeliveryModeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load supported delivery modes', () => {
-    component.ngOnInit();
-
-    expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
-  });
-
   it('should get supported delivery modes', () => {
-    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
-      of(mockSupportedDeliveryModes)
-    );
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getSupportedDeliveryModes'
+    ).and.returnValue(of(mockSupportedDeliveryModes));
     component.ngOnInit();
 
     component.supportedDeliveryModes$.subscribe(modes => {
@@ -121,16 +118,27 @@ describe('DeliveryModeComponent', () => {
     });
   });
 
-  it('should change step after invoking next()', () => {
+  it('should set delivery mode and change step after invoking next()', () => {
     component.changedOption = true;
-    component.checkoutStepUrlNext = mockStepUrl;
     component.currentDeliveryModeId = mockDeliveryMode1.code;
-    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
-      of(mockDeliveryMode1)
+    spyOn(mockCheckoutConfigService, 'getNextCheckoutStepUrl').and.returnValue(
+      mockStepUrl
     );
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getSelectedDeliveryMode'
+    ).and.returnValue(of(mockDeliveryMode1));
 
+    component.ngOnInit();
     component.next();
 
+    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
+  });
+
+  it('should change step after invoking next()', () => {
+    component.changedOption = false;
+    component.checkoutStepUrlNext = mockStepUrl;
+    component.next();
     expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
   });
 

@@ -7,20 +7,15 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-import { ClientToken, OpenIdToken } from '../../models/token-types.model';
-import { LOGOUT } from '../actions/login-logout.action';
-import {
-  AuthState,
-  CLIENT_TOKEN_DATA,
-  OPEN_ID_TOKEN_DATA,
-} from '../auth-state';
+import { ClientToken } from '../../models/token-types.model';
+import { AuthActions } from '../actions/index';
+import { AuthState, CLIENT_TOKEN_DATA } from '../auth-state';
 import * as fromUserTokenReducer from './user-token.reducer';
 
 export function getReducers(): ActionReducerMap<AuthState> {
   return {
     userToken: combineReducers({ token: fromUserTokenReducer.reducer }),
     clientToken: loaderReducer<ClientToken>(CLIENT_TOKEN_DATA),
-    openIdToken: loaderReducer<OpenIdToken>(OPEN_ID_TOKEN_DATA),
   };
 }
 
@@ -37,11 +32,10 @@ export function clearAuthState(
   reducer: ActionReducer<AuthState, Action>
 ): ActionReducer<AuthState, Action> {
   return function(state, action) {
-    if (action.type === LOGOUT) {
+    if (action.type === AuthActions.LOGOUT) {
       state = {
         ...state,
         userToken: undefined,
-        openIdToken: undefined,
       };
     }
     return reducer(state, action);

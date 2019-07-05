@@ -3,9 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/index';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationComponent } from './navigation.component';
-import { NavigationComponentService } from './navigation.component.service';
+import { NavigationService } from './navigation.service';
+
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -19,17 +21,20 @@ class MockNavigationUIComponent {
   node: NavigationNode;
 }
 
+const mockCmsComponentData = <CmsNavigationComponent>{
+  styleClass: 'footer-styling',
+};
+
+const MockCmsNavigationComponent = <CmsComponentData<any>>{
+  data$: of(mockCmsComponentData),
+};
+
 describe('CmsNavigationComponent', () => {
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
   let element: DebugElement;
 
-  const mockCmsComponentData = <CmsNavigationComponent>{
-    styleClass: 'footer-styling',
-  };
-
   const mockNavigationService = {
-    getComponentData: createSpy().and.returnValue(of(mockCmsComponentData)),
     createNavigation: createSpy().and.returnValue(of(null)),
   };
 
@@ -37,8 +42,12 @@ describe('CmsNavigationComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: NavigationComponentService,
+          provide: NavigationService,
           useValue: mockNavigationService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsNavigationComponent,
         },
       ],
       declarations: [NavigationComponent, MockNavigationUIComponent],

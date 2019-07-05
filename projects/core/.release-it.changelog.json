@@ -10,8 +10,8 @@
     "publishPath": "./../../dist/core",
     "tag": "latest"
   },
-  "scripts": {
-    "afterBump": "cd ../.. && yarn build:core:lib"
+  "hooks": {
+    "after:git:bump": "cd ../.. && ng build core"
   },
   "github": {
     "release": true,

@@ -1,25 +1,31 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
-import * as fromAction from '../actions/billing-countries.action';
-import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { CountryType } from '../../../model/address.model';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class BillingCountriesEffect {
   @Effect()
   loadBillingCountries$: Observable<
-    fromAction.BillingCountriesAction
+    UserActions.BillingCountriesAction
   > = this.actions$.pipe(
-    ofType(fromAction.LOAD_BILLING_COUNTRIES),
+    ofType(UserActions.LOAD_BILLING_COUNTRIES),
     switchMap(() => {
       return this.siteConnector.getCountries(CountryType.BILLING).pipe(
-        map(countries => new fromAction.LoadBillingCountriesSuccess(countries)),
-        catchError(error => of(new fromAction.LoadBillingCountriesFail(error)))
+        map(
+          countries => new UserActions.LoadBillingCountriesSuccess(countries)
+        ),
+        catchError(error =>
+          of(
+            new UserActions.LoadBillingCountriesFail(
+              makeErrorSerializable(error)
+            )
+          )
+        )
       );
     })
   );

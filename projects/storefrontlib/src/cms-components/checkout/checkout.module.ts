@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CheckoutModule } from '@spartacus/core';
-import { CartComponentModule } from '../cart/cart.module';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutOrchestratorModule } from './components/checkout-orchestrator/checkout-orchestrator.module';
 import { CheckoutOrderSummaryModule } from './components/checkout-order-summary/checkout-order-summary.module';
@@ -11,7 +9,6 @@ import { CheckoutProgressMobileBottomModule } from './components/checkout-progre
 import { CheckoutProgressMobileTopModule } from './components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CheckoutProgressModule } from './components/checkout-progress/checkout-progress.module';
 import { DeliveryModeModule } from './components/delivery-mode/delivery-mode.module';
-import { OrderConfirmationModule } from './components/order-confirmation/order-confirmation.module';
 import { PaymentMethodModule } from './components/payment-method/payment-method.module';
 import { PlaceOrderModule } from './components/place-order/place-order.module';
 import { PromotionsModule } from './components/promotions/promotions.module';
@@ -21,15 +18,12 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
 @NgModule({
   imports: [
     CommonModule,
-    CartComponentModule,
-    CheckoutModule,
     CheckoutOrchestratorModule,
     CheckoutOrderSummaryModule,
     CheckoutProgressModule,
     CheckoutProgressMobileTopModule,
     CheckoutProgressMobileBottomModule,
     DeliveryModeModule,
-    OrderConfirmationModule,
     PaymentMethodModule,
     PlaceOrderModule,
     PromotionsModule,

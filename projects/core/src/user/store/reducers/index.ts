@@ -5,17 +5,20 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { LOGOUT } from '../../../auth/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { ConsentTemplate } from '../../../model/consent.model';
 import { OrderHistoryList } from '../../../model/order.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
+  REGIONS,
+  RegionsState,
+  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  UserState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
@@ -28,7 +31,6 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import { ConsentTemplate } from '../../../model/consent.model';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -55,7 +57,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     order: fromOrderDetailsReducer.reducer,
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,
-    regions: fromRegionsReducer.reducer,
+    regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
   };
 }
@@ -73,7 +75,7 @@ export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === LOGOUT) {
+    if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }
 

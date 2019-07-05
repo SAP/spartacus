@@ -10,11 +10,11 @@ import {
   PageImageResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
+import { TranslationService } from '../../i18n/translation.service';
+import { PageType } from '../../model/cms.model';
+import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
-import { Product } from '../../model/product.model';
-import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +46,9 @@ export class ProductPageMetaResolver extends PageMetaResolver
           this.resolveHeading(p),
           this.resolveTitle(p),
           this.resolveDescription(p),
-          this.resolveBreadcrumbs(p),
+          this.resolveBreadcrumbLabel().pipe(
+            switchMap(label => this.resolveBreadcrumbs(p, label))
+          ),
           this.resolveImage(p),
         ])
       ),
@@ -82,13 +84,20 @@ export class ProductPageMetaResolver extends PageMetaResolver
     });
   }
 
-  resolveBreadcrumbs(product: Product): Observable<any[]> {
+  resolveBreadcrumbLabel(): Observable<string> {
+    return this.translation.translate('common.home');
+  }
+
+  resolveBreadcrumbs(
+    product: Product,
+    breadcrumbLabel: string
+  ): Observable<any[]> {
     const breadcrumbs = [];
-    breadcrumbs.push({ label: 'Home', link: '/' });
-    for (const c of product.categories) {
+    breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
+    for (const { name, code, url } of product.categories) {
       breadcrumbs.push({
-        label: c.name || c.code,
-        link: '/c/' + c.code,
+        label: name || code,
+        link: url,
       });
     }
     return of(breadcrumbs);

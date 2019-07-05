@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   PaymentDetails,
   TranslationService,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card/card.component';
 
@@ -12,20 +12,18 @@ import { Card } from '../../../shared/components/card/card.component';
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
 })
-export class PaymentMethodsComponent implements OnInit, OnDestroy {
+export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
   loading$: Observable<boolean>;
 
-  userServiceSub: Subscription;
-
   constructor(
-    private userService: UserService,
+    private userPaymentService: UserPaymentService,
     private translation: TranslationService
   ) {}
 
   ngOnInit(): void {
-    this.paymentMethods$ = this.userService.getPaymentMethods().pipe(
+    this.paymentMethods$ = this.userPaymentService.getPaymentMethods().pipe(
       tap(paymentDetails => {
         // Set first payment method to DEFAULT if none is set
         if (
@@ -38,8 +36,8 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     );
 
     this.editCard = null;
-    this.loading$ = this.userService.getPaymentMethodsLoading();
-    this.userService.loadPaymentMethods();
+    this.loading$ = this.userPaymentService.getPaymentMethodsLoading();
+    this.userPaymentService.loadPaymentMethods();
   }
 
   getCardContent({
@@ -87,7 +85,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userService.deletePaymentMethod(paymentMethod.id);
+    this.userPaymentService.deletePaymentMethod(paymentMethod.id);
     this.editCard = null;
   }
 
@@ -100,12 +98,6 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userService.setPaymentMethodAsDefault(paymentMethod.id);
-  }
-
-  ngOnDestroy(): void {
-    if (this.userServiceSub) {
-      this.userServiceSub.unsubscribe();
-    }
+    this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
   }
 }

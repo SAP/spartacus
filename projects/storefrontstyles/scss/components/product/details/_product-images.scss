@@ -18,6 +18,8 @@ $productThumbSize: 75px !default;
   }
 
   cx-media {
+    outline: none;
+
     &.is-missing {
       min-height: 30vh;
     }
@@ -52,56 +54,17 @@ $productThumbSize: 75px !default;
   }
 
   .thumbs {
-    display: flex;
-    &.hidden {
-      display: none;
-    }
-    justify-content: flex-start;
-
     cx-media {
-      width: $productThumbSize;
-      height: $productThumbSize;
-
-      &.is-missing {
-        min-height: $productThumbSize;
-        background-size: $productThumbSize;
-      }
-
-      transition: all var(--cx-g-transition-duration);
-
-      &:not(.active) {
-        cursor: pointer;
-      }
-      overflow: hidden;
-      position: relative;
-
-      border: 2px solid var(--cx-g-color-light);
-
       margin: 0.5vw;
       padding: 0.5vw;
 
-      &:hover,
-      &.active {
-        border-color: var(--cx-g-color-primary);
-      }
-      outline: none;
+      cursor: pointer;
 
-      @if $zoomThumbOnHover == true {
-        &:hover:not(.active) {
-          --cx-zoom: 1.3;
-        }
-      }
+      border: 2px solid var(--cx-color-light);
 
-      @if $overlayWhileLoading == true {
-        &.is-initialized:before {
-          @extend %overlay !optional;
-        }
-        // the effects run always, but are made visible only when loading or waiting
-        // this is done so we can slowly fadein/out the effect
-        &.is-loading:before,
-        &.is-waiting:before {
-          --cx-opacity: 1;
-        }
+      &.is-active,
+      &:hover {
+        border-color: var(--cx-color-primary);
       }
     }
   }

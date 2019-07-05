@@ -13,12 +13,13 @@ import {
 import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
-import { LoaderState } from '../../state';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
-import * as fromStore from '../store';
+import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
+import { CmsSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +58,7 @@ export class CmsService {
       .getPageContext()
       .pipe(
         switchMap(pageContext =>
-          this.store.select(fromStore.getPageData(pageContext))
+          this.store.select(CmsSelectors.getPageData(pageContext))
         )
       );
   }
@@ -68,21 +69,27 @@ export class CmsService {
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     if (!this.components[uid]) {
-      this.components[uid] = combineLatest(
+      this.components[uid] = combineLatest([
         this.routingService.isNavigating(),
-        this.store.pipe(select(fromStore.componentStateSelectorFactory(uid)))
-      ).pipe(
+        this.store.pipe(
+          select(CmsSelectors.componentStateSelectorFactory(uid))
+        ),
+      ]).pipe(
         tap(([isNavigating, componentState]) => {
-          const attemptedLoad =
-            componentState.loading ||
-            componentState.success ||
-            componentState.error;
-          if (!attemptedLoad && !isNavigating) {
-            this.store.dispatch(new fromStore.LoadComponent(uid));
+          // componentState is undefined when the whole components entities are empty.
+          // In this case, we don't load component one by one, but extract component data from cms page
+          if (componentState !== undefined) {
+            const attemptedLoad =
+              componentState.loading ||
+              componentState.success ||
+              componentState.error;
+            if (!attemptedLoad && !isNavigating) {
+              this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
+            }
           }
         }),
         pluck(1),
-        filter(componentState => componentState.success),
+        filter(componentState => componentState && componentState.success),
         pluck('value'),
         shareReplay({ bufferSize: 1, refCount: true })
       );
@@ -99,7 +106,9 @@ export class CmsService {
     return this.routingService.getPageContext().pipe(
       switchMap(pageContext =>
         this.store.pipe(
-          select(fromStore.currentSlotSelectorFactory(pageContext, position)),
+          select(
+            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
+          ),
           filter(Boolean)
         )
       )
@@ -112,7 +121,7 @@ export class CmsService {
    */
   getNavigationEntryItems(navigationNodeUid: string): Observable<NodeItem> {
     return this.store.pipe(
-      select(fromStore.itemsSelectorFactory(navigationNodeUid))
+      select(CmsSelectors.getNavigationEntryItems(navigationNodeUid))
     );
   }
 
@@ -126,7 +135,7 @@ export class CmsService {
     itemList: { id: string; superType: string }[]
   ): void {
     this.store.dispatch(
-      new fromStore.LoadNavigationItems({
+      new CmsActions.LoadCmsNavigationItems({
         nodeId: rootUid,
         items: itemList,
       })
@@ -141,7 +150,7 @@ export class CmsService {
       .getPageContext()
       .pipe(take(1))
       .subscribe(pageContext =>
-        this.store.dispatch(new fromStore.LoadPageData(pageContext))
+        this.store.dispatch(new CmsActions.LoadCmsPageData(pageContext))
       );
   }
 
@@ -151,7 +160,7 @@ export class CmsService {
    */
   refreshPageById(pageId: string): void {
     const pageContext: PageContext = { id: pageId };
-    this.store.dispatch(new fromStore.LoadPageData(pageContext));
+    this.store.dispatch(new CmsActions.LoadCmsPageData(pageContext));
   }
 
   /**
@@ -159,7 +168,7 @@ export class CmsService {
    * @param uid : component uid
    */
   refreshComponent(uid: string): void {
-    this.store.dispatch(new fromStore.LoadComponent(uid));
+    this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
   }
 
   /**
@@ -167,7 +176,7 @@ export class CmsService {
    * @param pageContext
    */
   getPageState(pageContext: PageContext): Observable<Page> {
-    return this.store.pipe(select(fromStore.getPageData(pageContext)));
+    return this.store.pipe(select(CmsSelectors.getPageData(pageContext)));
   }
 
   /**
@@ -176,7 +185,7 @@ export class CmsService {
    */
   getPageComponentTypes(pageContext: PageContext): Observable<string[]> {
     return this.store.pipe(
-      select(fromStore.getPageComponentTypes(pageContext))
+      select(CmsSelectors.getPageComponentTypes(pageContext))
     );
   }
 
@@ -186,25 +195,35 @@ export class CmsService {
    */
   hasPage(pageContext: PageContext, forceReload = false): Observable<boolean> {
     return this.store.pipe(
-      select(fromStore.getIndexEntity(pageContext)),
+      select(CmsSelectors.getPageStateIndexLoaderState(pageContext)),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
         const shouldReload = forceReload && !entity.loading;
         if (!attemptedLoad || shouldReload) {
-          this.store.dispatch(new fromStore.LoadPageData(pageContext));
+          this.store.dispatch(new CmsActions.LoadCmsPageData(pageContext));
+          forceReload = false;
         }
       }),
-      filter(entity => entity.success || entity.error),
+      filter(entity => {
+        if (!entity.hasOwnProperty('value')) {
+          // if we have incomplete state from srr failed load transfer state,
+          // we should wait for reload and actual value
+          return false;
+        }
+        return entity.success || (entity.error && !entity.loading);
+      }),
       pluck('success'),
       catchError(() => of(false))
     );
   }
 
   getPageIndex(pageContext: PageContext): Observable<string> {
-    return this.store.pipe(select(fromStore.getIndexValue(pageContext)));
+    return this.store.pipe(
+      select(CmsSelectors.getPageStateIndexValue(pageContext))
+    );
   }
 
   setPageFailIndex(pageContext: PageContext, value: string): void {
-    this.store.dispatch(new fromStore.SetPageFailIndex(pageContext, value));
+    this.store.dispatch(new CmsActions.CmsSetPageFailIndex(pageContext, value));
   }
 }

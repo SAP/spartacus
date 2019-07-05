@@ -6,7 +6,6 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
-  UserModule,
 } from '@spartacus/core';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import { LoginComponent } from './login.component';
@@ -15,13 +14,12 @@ import { LoginComponent } from './login.component';
   imports: [
     CommonModule,
     RouterModule,
-    UserModule,
     UrlModule,
     PageSlotModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         LoginComponent: {
-          selector: 'cx-login',
+          component: LoginComponent,
         },
       },
     }),

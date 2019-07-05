@@ -31,10 +31,14 @@ export class SiteContextComponentService {
       switchMap(items =>
         this.getContext(context).pipe(
           switchMap(ctx => {
-            items.forEach(item => {
-              return (item.label = this.getOptionLabel(item, ctx));
-            });
-            return of(items);
+            const itemsCopy = [];
+            for (const item of items) {
+              itemsCopy.push({
+                ...item,
+                label: this.getOptionLabel(item, ctx),
+              });
+            }
+            return of(itemsCopy);
           })
         )
       )
@@ -76,7 +80,19 @@ export class SiteContextComponentService {
     if (context) {
       return of(context);
     } else if (this.componentData) {
-      return this.componentData.data$.pipe(map(data => data.context));
+      return this.componentData.data$.pipe(
+        map(data => data.context),
+        map(ctx => {
+          switch (ctx) {
+            case 'LANGUAGE':
+              return LANGUAGE_CONTEXT_ID;
+            case 'CURRENCY':
+              return CURRENCY_CONTEXT_ID;
+            default:
+              return ctx;
+          }
+        })
+      );
     }
   }
 

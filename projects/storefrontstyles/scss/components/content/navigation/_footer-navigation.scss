@@ -1,7 +1,10 @@
 %cx-footer-navigation {
   a {
-    text-decoration: underline;
-    font-size: var(--cx-g-font-small, 0.8rem);
+    font-size: var(--cx-font-small, 0.8rem);
+    &:hover {
+      color: var(--cx-color-inverse);
+      text-decoration: underline;
+    }
   }
 
   cx-navigation-ui {
@@ -28,7 +31,7 @@
     padding: 32px 0;
     text-align: center;
     @include type();
-    color: var(--cx-g-color-dark);
-    background-color: var(--cx-g-color-inverse);
+    color: var(--cx-color-dark);
+    background-color: var(--cx-color-inverse);
   }
 }

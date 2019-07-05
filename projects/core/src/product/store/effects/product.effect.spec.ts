@@ -1,18 +1,18 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
-import * as fromActions from '../actions/product.action';
-import { ProductConnector } from '../../connectors/product/product.connector';
+import { Observable, of } from 'rxjs';
+import { PageType } from '../../../model/cms.model';
+import { Product } from '../../../model/product.model';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { ProductConnector } from '../../connectors/product/product.connector';
+import { ProductActions } from '../actions/index';
 import * as fromEffects from './product.effect';
-import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import createSpy = jasmine.createSpy;
-import { Product } from '../../../model/product.model';
-import { PageType } from '../../../model/cms.model';
 
 const router = {
   state: {
@@ -39,7 +39,7 @@ class MockProductConnector {
 }
 
 describe('Product Effects', () => {
-  let actions$: Observable<fromActions.ProductAction>;
+  let actions$: Observable<ProductActions.ProductAction>;
   let effects: fromEffects.ProductEffects;
 
   const mockProductState = {
@@ -70,8 +70,8 @@ describe('Product Effects', () => {
 
   describe('loadProduct$', () => {
     it('should return loadProductStart action if product not loaded', () => {
-      const action = new fromActions.LoadProduct(productCode);
-      const completion = new fromActions.LoadProductSuccess(product);
+      const action = new ProductActions.LoadProduct(productCode);
+      const completion = new ProductActions.LoadProductSuccess(product);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

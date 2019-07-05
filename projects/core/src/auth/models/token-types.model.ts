@@ -5,7 +5,7 @@ export interface UserToken {
   expires_in: number;
   scope: string[];
   userId: string;
-  expiration_time?: Date;
+  expiration_time?: string;
 }
 
 export interface ClientToken {
@@ -15,8 +15,4 @@ export interface ClientToken {
   scope: string;
 }
 
-export interface OpenIdToken extends UserToken {
-  id_token: string;
-}
-
-export type AuthenticationToken = UserToken | ClientToken | OpenIdToken;
+export type AuthenticationToken = UserToken | ClientToken;

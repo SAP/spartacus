@@ -1,19 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { LoginModule } from '../login/login.module';
-import { RegisterComponent } from './register.component';
+import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
   I18nModule,
   NotAuthGuard,
   UrlModule,
-  UserModule,
 } from '@spartacus/core';
+import { LoginModule } from '../login/login.module';
+import { RegisterComponent } from './register.component';
 
 @NgModule({
   imports: [
@@ -21,12 +18,11 @@ import {
     LoginModule,
     ReactiveFormsModule,
     RouterModule,
-    UserModule,
     UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {
-          selector: 'cx-register',
+          component: RegisterComponent,
           guards: [NotAuthGuard],
         },
       },

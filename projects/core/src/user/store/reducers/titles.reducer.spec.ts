@@ -1,13 +1,12 @@
-import * as fromActions from '../actions/';
-
-import * as fromReducer from './titles.reducer';
 import { Title } from '../../../model/misc.model';
+import { UserActions } from '../actions/index';
+import * as fromReducer from './titles.reducer';
 
 describe('Titles Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as fromActions.TitlesAction;
+      const action = {} as UserActions.TitlesAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -33,7 +32,7 @@ describe('Titles Reducer', () => {
       };
 
       const { initialState } = fromReducer;
-      const action = new fromActions.LoadTitlesSuccess(mockTitles);
+      const action = new UserActions.LoadTitlesSuccess(mockTitles);
       const state = fromReducer.reducer(initialState, action);
       expect(state.entities).toEqual(mockTitlesList);
     });
@@ -42,7 +41,7 @@ describe('Titles Reducer', () => {
   describe('CLEAR_MISCS_DATA action', () => {
     it('should clear the mics data', () => {
       const { initialState } = fromReducer;
-      const action = new fromActions.ClearMiscsData();
+      const action = new UserActions.ClearUserMiscsData();
       const state = fromReducer.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });

@@ -4,6 +4,7 @@ export * from './add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component
 export * from './cart-details/cart-details.component';
 export * from './cart-details/cart-details.module';
 export * from './cart-not-empty.guard';
+export * from './cart-page-layout-handler';
 export * from './cart-shared/index';
 export * from './cart-totals/cart-totals.component';
 export * from './cart-totals/cart-totals.module';

@@ -4,12 +4,9 @@ import {
   NgModule,
   Provider,
   Optional,
+  isDevMode,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  defaultServerConfig,
-  ServerConfig,
-} from './server-config/server-config';
 import { deepMerge } from './utils/deep-merge';
 import {
   ConfigValidator,
@@ -64,7 +61,7 @@ export function configurationFactory(
   configValidators: ConfigValidator[]
 ) {
   const config = deepMerge({}, ...configChunks);
-  if (!config.production) {
+  if (isDevMode()) {
     validateConfig(config, configValidators || []);
   }
   return config;
@@ -80,7 +77,7 @@ export class ConfigModule {
    *
    * @param config Config object to merge with the global configuration
    */
-  static withConfig(config: object): ModuleWithProviders {
+  static withConfig(config: object): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
       providers: [provideConfig(config)],
@@ -96,7 +93,7 @@ export class ConfigModule {
   static withConfigFactory(
     configFactory: Function,
     deps?: any[]
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
       providers: [provideConfigFactory(configFactory, deps)],
@@ -108,12 +105,10 @@ export class ConfigModule {
    *
    * @param config
    */
-  static forRoot(config: any = {}): ModuleWithProviders {
+  static forRoot(config: any = {}): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
       providers: [
-        { provide: ServerConfig, useExisting: Config },
-        provideConfig(defaultServerConfig),
         provideConfig(config),
         {
           provide: Config,

@@ -1,4 +1,5 @@
 import { BillingCountriesEffect } from './billing-countries.effect';
+import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
 import { ForgotPasswordEffects } from './forgot-password.effect';
 import { OrderDetailsEffect } from './order-details.effect';
@@ -15,6 +16,7 @@ import { UserOrdersEffect } from './user-orders.effect';
 import { UserRegisterEffects } from './user-register.effect';
 
 export const effects: any[] = [
+  ClearMiscsDataEffect,
   DeliveryCountriesEffects,
   RegionsEffects,
   TitlesEffects,
@@ -44,3 +46,4 @@ export * from './user-consents.effect';
 export * from './user-details.effect';
 export * from './user-orders.effect';
 export * from './user-register.effect';
+export * from './clear-miscs-data.effect';

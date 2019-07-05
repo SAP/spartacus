@@ -1,5 +1,5 @@
 export interface CmsComponent {
-  modifiedtime?: Date;
+  modifiedTime?: Date;
   name?: string;
   otherProperties?: any;
   typeCode?: string;
@@ -41,7 +41,6 @@ export interface CmsSearchBoxComponent extends CmsComponent {
 export interface CmsParagraphComponent extends CmsComponent {
   content?: string;
   container?: string;
-  modifiedTime?: string;
   title?: string;
 }
 
@@ -71,6 +70,18 @@ export interface CmsBannerComponent extends CmsComponent {
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
   external?: string;
+}
+
+export enum CmsBannerCarouselEffect {
+  FADE = 'FADE',
+  ZOOM = 'ZOOM',
+  CURTAIN = 'CURTAINX',
+  TURNDOWN = 'TURNDOWN',
+}
+
+export interface CmsBannerCarouselComponent extends CmsComponent {
+  banners?: string;
+  effect?: CmsBannerCarouselEffect;
 }
 
 export interface CmsProductCarouselComponent extends CmsComponent {

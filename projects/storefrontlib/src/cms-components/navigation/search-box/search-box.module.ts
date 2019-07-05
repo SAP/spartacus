@@ -5,10 +5,9 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  ProductModule,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/index';
+import { IconModule } from '../../misc/icon/icon.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
@@ -17,11 +16,10 @@ import { SearchBoxComponent } from './search-box.component';
     CommonModule,
     RouterModule,
     MediaModule,
-    ProductModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SearchBoxComponent: {
-          selector: 'cx-searchbox',
+          component: SearchBoxComponent,
         },
       },
     }),

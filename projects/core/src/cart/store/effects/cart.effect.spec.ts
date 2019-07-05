@@ -1,24 +1,23 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { StoreModule } from '@ngrx/store';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-
-import { Observable, of } from 'rxjs';
-
+import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-
+import { Observable, of } from 'rxjs';
+import { AUTH_FEATURE } from '../../../auth/store/auth-state';
+import * as fromAuthReducers from '../../../auth/store/reducers/index';
+import { Cart } from '../../../model/cart.model';
+import { OccConfig } from '../../../occ/config/occ-config';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import * as fromUserReducers from '../../../user/store/reducers/index';
+import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import * as fromActions from '../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
-import * as fromCart from '../../store/index';
-import * as fromAuth from '../../../auth/store/index';
-import * as fromUser from '../../../user/store/index';
-
+import * as fromCartReducers from '../../store/reducers/index';
+import { CartActions } from '../actions/index';
+import { CART_FEATURE } from '../cart-state';
 import * as fromEffects from './cart.effect';
-import { OccConfig } from '@spartacus/core';
-import { Cart } from '../../../model/cart.model';
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
@@ -61,9 +60,9 @@ describe('Cart effect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
-        StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers()),
+        StoreModule.forFeature(CART_FEATURE, fromCartReducers.getReducers()),
+        StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
+        StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
       ],
 
       providers: [
@@ -84,8 +83,8 @@ describe('Cart effect', () => {
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new fromActions.CreateCart(userId);
-      const completion = new fromActions.CreateCartSuccess(testCart);
+      const action = new CartActions.CreateCart(userId);
+      const completion = new CartActions.CreateCartSuccess(testCart);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -96,11 +95,11 @@ describe('Cart effect', () => {
 
   describe('loadCart$', () => {
     it('should load a cart', () => {
-      const action = new fromActions.LoadCart({
+      const action = new CartActions.LoadCart({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new fromActions.LoadCartSuccess(testCart);
+      const completion = new CartActions.LoadCartSuccess(testCart);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -111,11 +110,11 @@ describe('Cart effect', () => {
 
   describe('mergeCart$', () => {
     it('should merge old cart into the session cart', () => {
-      const action = new fromActions.MergeCart({
+      const action = new CartActions.MergeCart({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new fromActions.CreateCart({
+      const completion = new CartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',
@@ -125,6 +124,20 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetCartDetailsOnSiteContextChange$', () => {
+    it('should reset cart details', () => {
+      const action = new SiteContextActions.LanguageChange();
+      const completion = new CartActions.ResetCartDetails();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
+        expected
+      );
     });
   });
 });

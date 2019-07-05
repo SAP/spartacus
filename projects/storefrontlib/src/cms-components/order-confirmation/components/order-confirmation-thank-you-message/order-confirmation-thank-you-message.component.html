@@ -1,0 +1,16 @@
+<header class="cx-page-header" *ngIf="(order$ | async) as order">
+  <h1 class="cx-page-title">
+    {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
+    {{ order.code }}
+  </h1>
+</header>
+
+<div class="cx-order-confirmation-message">
+  <h2>{{ 'checkoutOrderConfirmation.thankYou' | cxTranslate }}</h2>
+  <p>
+    {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
+  </p>
+  <!-- <a href="#" class="btn-link">Print Page</a> -->
+</div>
+
+<cx-add-to-home-screen-banner></cx-add-to-home-screen-banner>

@@ -53,9 +53,7 @@ describe('ContentPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual(
-      'pageMetaResolver.content.title content:Page title'
-    );
+    expect(result.title).toEqual('Page title');
   });
 
   it('should resolve one breadcrumb', () => {
@@ -77,6 +75,6 @@ describe('ContentPageMetaResolver', () => {
         result = meta;
       })
       .unsubscribe();
-    expect(result.breadcrumbs[0].label).toEqual('Home');
+    expect(result.breadcrumbs[0].label).toEqual('common.home');
   });
 });

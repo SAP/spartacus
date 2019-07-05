@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
-import { defaultLayoutConfig, LayoutConfig } from '../../../layout';
+import { LayoutConfig } from '../../../layout';
 import { MediaService } from './media.service';
 
 const MockConfig: OccConfig = {
@@ -22,6 +22,7 @@ const mockMediaContainer = {
     url: 'desktopUrl',
     altText: 'alt text',
   },
+  wide: {},
 };
 
 const mockMedia = {
@@ -36,7 +37,8 @@ describe('MediaService', () => {
       providers: [
         MediaService,
         { provide: OccConfig, useValue: MockConfig },
-        { provide: LayoutConfig, useValue: defaultLayoutConfig },
+
+        { provide: LayoutConfig, useValue: {} },
       ],
     });
     mediaService = TestBed.get(MediaService);
@@ -72,6 +74,10 @@ describe('MediaService', () => {
     expect(mediaService.getMedia(mockMediaContainer, 'desktop').alt).toBe(
       'alt text'
     );
+  });
+
+  it('should return null if the media container has no url', () => {
+    expect(mediaService.getMedia(mockMediaContainer, 'wide').src).toBeFalsy();
   });
 
   it('should not return alt text from media object when alt ', () => {

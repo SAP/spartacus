@@ -16,12 +16,11 @@ export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
+  increment: boolean;
 
   quantity = 0;
-  firstUpdate = true;
-  showItemIncrLabel: boolean;
 
-  @ViewChild('dialog', { read: ElementRef })
+  @ViewChild('dialog', { static: false, read: ElementRef })
   dialog: ElementRef;
 
   form: FormGroup = this.fb.group({});
@@ -44,11 +43,6 @@ export class AddedToCartDialogComponent implements OnInit {
             entryForm.controls.quantity.setValue(entry.quantity);
           }
           this.form.markAsPristine();
-
-          // Announce in header if Add To Cart button has incremented product
-          this.showItemIncrLabel = this.firstUpdate && entry.quantity > 1;
-          // Any updates after the first will be flagged as false
-          this.firstUpdate = false;
         }
       })
     );

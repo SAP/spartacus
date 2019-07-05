@@ -6,11 +6,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Address,
   CardType,
-  CheckoutService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
   Country,
   GlobalMessageService,
   I18nTestingModule,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
@@ -33,6 +34,7 @@ const mockBillingAddress: Address = {
   town: 'Montreal',
   postalCode: 'H3A',
   country: { isocode: 'CA' },
+  region: { isocodeShort: 'QC' },
 };
 
 const mockAddress: Address = {
@@ -86,11 +88,13 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockCheckoutService {
+class MockCheckoutPaymentService {
   loadSupportedCardTypes = createSpy();
   getCardTypes(): Observable<CardType[]> {
     return of();
   }
+}
+class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<Address> {
     return of(null);
   }
@@ -99,7 +103,7 @@ class MockCheckoutService {
   }
 }
 
-class MockUserService {
+class MockUserPaymentService {
   loadBillingCountries = createSpy();
   getAllBillingCountries(): Observable<Country[]> {
     return new BehaviorSubject(mockBillingCountries);
@@ -113,8 +117,9 @@ class MockGlobalMessageService {
 describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
-  let mockCheckoutService: MockCheckoutService;
-  let mockUserService: MockUserService;
+  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
+  let mockCheckoutPaymentService: MockCheckoutPaymentService;
+  let mockUserPaymentService: MockUserPaymentService;
   let mockGlobalMessageService: MockGlobalMessageService;
   let showSameAsShippingAddressCheckboxSpy: jasmine.Spy;
 
@@ -124,8 +129,9 @@ describe('PaymentFormComponent', () => {
   };
 
   beforeEach(async(() => {
-    mockCheckoutService = new MockCheckoutService();
-    mockUserService = new MockUserService();
+    mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
+    mockCheckoutPaymentService = new MockCheckoutPaymentService();
+    mockUserPaymentService = new MockUserPaymentService();
     mockGlobalMessageService = new MockGlobalMessageService();
 
     TestBed.configureTestingModule({
@@ -138,8 +144,15 @@ describe('PaymentFormComponent', () => {
       ],
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
-        { provide: CheckoutService, useValue: mockCheckoutService },
-        { provide: UserService, useValue: mockUserService },
+        {
+          provide: CheckoutPaymentService,
+          useValue: mockCheckoutPaymentService,
+        },
+        {
+          provide: CheckoutDeliveryService,
+          useValue: mockCheckoutDeliveryService,
+        },
+        { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
       ],
     })
@@ -157,7 +170,7 @@ describe('PaymentFormComponent', () => {
       billingAddress: component.billingAddress.controls,
     };
 
-    spyOn(component.addPaymentInfo, 'emit').and.callThrough();
+    spyOn(component.setPaymentDetails, 'emit').and.callThrough();
     spyOn(component.closeForm, 'emit').and.callThrough();
 
     showSameAsShippingAddressCheckboxSpy = spyOn(
@@ -171,7 +184,7 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get billing countries', () => {
-    spyOn(mockUserService, 'getAllBillingCountries').and.returnValue(
+    spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
       of(mockBillingCountries)
     );
     component.ngOnInit();
@@ -181,16 +194,18 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get supported card types if they do not exist', done => {
-    spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(of([]));
+    spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(of([]));
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
-      expect(mockCheckoutService.loadSupportedCardTypes).toHaveBeenCalled();
+      expect(
+        mockCheckoutPaymentService.loadSupportedCardTypes
+      ).toHaveBeenCalled();
       done();
     });
   });
 
   it('should call ngOnInit to get supported card types if they exist', () => {
-    spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
+    spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
       of(mockCardTypes)
     );
     component.ngOnInit();
@@ -200,10 +215,10 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
-    spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
+    spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
       of(mockCardTypes)
     );
-    spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
+    spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
       of(mockAddress)
     );
     component.ngOnInit();
@@ -229,7 +244,7 @@ describe('PaymentFormComponent', () => {
 
   it('should call next()', () => {
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+    expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
       paymentDetails: component.payment.value,
       billingAddress: null,
     });
@@ -274,13 +289,13 @@ describe('PaymentFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "next" function when being clicked and when form is valid - with billing address', () => {
-      spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
+      spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
         of(mockCardTypes)
       );
-      spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
+      spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
         of(mockAddress)
       );
-      spyOn(mockUserService, 'getAllBillingCountries').and.returnValue(
+      spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
         of(mockBillingCountries)
       );
       spyOn(component, 'next');
@@ -315,6 +330,9 @@ describe('PaymentFormComponent', () => {
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
       );
+      controls.billingAddress.region['controls'].isocodeShort.setValue(
+        mockBillingAddress.region
+      );
       controls.billingAddress['postalCode'].setValue(
         mockBillingAddress.postalCode
       );
@@ -325,13 +343,13 @@ describe('PaymentFormComponent', () => {
     });
 
     it('should call "next" function when being clicked and when form is valid - without billing address', () => {
-      spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
+      spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
         of(mockCardTypes)
       );
-      spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
+      spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
         of(mockAddress)
       );
-      spyOn(mockUserService, 'getAllBillingCountries').and.returnValue(
+      spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
         of(mockBillingCountries)
       );
       spyOn(component, 'next');
@@ -402,6 +420,10 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
+      );
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls.billingAddress.region['controls'].isocodeShort.setValue(
+        mockBillingAddress.region
       );
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress['postalCode'].setValue(

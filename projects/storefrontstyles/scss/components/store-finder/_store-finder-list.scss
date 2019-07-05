@@ -34,17 +34,17 @@
   .cx-list-items {
     border-width: 1px 0 0 0;
     border-style: solid;
-    border-color: var(--cx-g-color-light);
+    border-color: var(--cx-color-light);
     padding: 1rem 1.5rem;
 
     &:hover {
-      background-color: var(--cx-g-color-background);
+      background-color: var(--cx-color-background);
     }
 
     &.cx-selected-item {
-      background-color: var(--cx-g-color-light);
+      background-color: var(--cx-color-light);
       &:hover {
-        background-color: var(--cx-g-color-light);
+        background-color: var(--cx-color-light);
       }
     }
   }
@@ -62,5 +62,30 @@
     @include type('4');
     text-align: center;
     padding: 3rem 0;
+  }
+
+  .cx-store,
+  .cx-feature-item {
+    @include media-breakpoint-up(md) {
+      max-width: 100%;
+      flex: 100%;
+    }
+
+    &.cx-feature-item {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .cx-feature {
+    margin-bottom: 0.5rem;
+  }
+
+  .cx-back {
+    cursor: pointer;
+    font-weight: 600;
+
+    &:hover {
+      color: var(--cx-color-primary);
+    }
   }
 }

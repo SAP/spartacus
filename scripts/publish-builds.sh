@@ -57,6 +57,13 @@ publish_snapshot() {
        rm $LIB_DIR/README.md
     fi
 
+    cp $TMP_DIR/README.md $LIB_DIR/README.md
+
+    (
+      cd $TMP_DIR && \
+      git rm -r -f .
+    )
+
     cp -R $LIB_DIR/* $TMP_DIR/
 
     echo `date` > $TMP_DIR/BUILD_INFO

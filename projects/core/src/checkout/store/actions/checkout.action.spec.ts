@@ -1,7 +1,7 @@
-import * as fromAction from '../actions/checkout.action';
-import { DeliveryMode, Order } from '../../../model/order.model';
-import { PaymentDetails } from '../../../model/cart.model';
 import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { CheckoutActions } from '../actions/index';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -35,9 +35,9 @@ describe('Checkout Actions', () => {
         address: address,
       };
 
-      const action = new fromAction.AddDeliveryAddress(payload);
+      const action = new CheckoutActions.AddDeliveryAddress(payload);
       expect({ ...action }).toEqual({
-        type: fromAction.ADD_DELIVERY_ADDRESS,
+        type: CheckoutActions.ADD_DELIVERY_ADDRESS,
         payload: payload,
       });
     });
@@ -46,10 +46,10 @@ describe('Checkout Actions', () => {
   describe('AddDeliveryAddressFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.AddDeliveryAddressFail(error);
+      const action = new CheckoutActions.AddDeliveryAddressFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.ADD_DELIVERY_ADDRESS_FAIL,
+        type: CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL,
         payload: error,
       });
     });
@@ -57,9 +57,9 @@ describe('Checkout Actions', () => {
 
   describe('AddDeliveryAddressSuccess', () => {
     it('should create the action', () => {
-      const action = new fromAction.AddDeliveryAddressSuccess(address);
+      const action = new CheckoutActions.AddDeliveryAddressSuccess(address);
       expect({ ...action }).toEqual({
-        type: fromAction.ADD_DELIVERY_ADDRESS_SUCCESS,
+        type: CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS,
         payload: address,
       });
     });
@@ -73,9 +73,9 @@ describe('Checkout Actions', () => {
         address: address,
       };
 
-      const action = new fromAction.SetDeliveryAddress(payload);
+      const action = new CheckoutActions.SetDeliveryAddress(payload);
       expect({ ...action }).toEqual({
-        type: fromAction.SET_DELIVERY_ADDRESS,
+        type: CheckoutActions.SET_DELIVERY_ADDRESS,
         payload: payload,
       });
     });
@@ -84,10 +84,10 @@ describe('Checkout Actions', () => {
   describe('SetDeliveryAddressFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.SetDeliveryAddressFail(error);
+      const action = new CheckoutActions.SetDeliveryAddressFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.SET_DELIVERY_ADDRESS_FAIL,
+        type: CheckoutActions.SET_DELIVERY_ADDRESS_FAIL,
         payload: error,
       });
     });
@@ -95,9 +95,9 @@ describe('Checkout Actions', () => {
 
   describe('SetDeliveryAddressSuccess', () => {
     it('should create the action', () => {
-      const action = new fromAction.SetDeliveryAddressSuccess(address);
+      const action = new CheckoutActions.SetDeliveryAddressSuccess(address);
       expect({ ...action }).toEqual({
-        type: fromAction.SET_DELIVERY_ADDRESS_SUCCESS,
+        type: CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS,
         payload: address,
       });
     });
@@ -111,9 +111,9 @@ describe('Checkout Actions', () => {
           cartId: cartId,
         };
 
-        const action = new fromAction.LoadSupportedDeliveryModes(payload);
+        const action = new CheckoutActions.LoadSupportedDeliveryModes(payload);
         expect({ ...action }).toEqual({
-          type: fromAction.LOAD_SUPPORTED_DELIVERY_MODES,
+          type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES,
           payload: payload,
         });
       });
@@ -122,10 +122,12 @@ describe('Checkout Actions', () => {
     describe('LoadSupportedDeliveryModesFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromAction.LoadSupportedDeliveryModesFail(error);
+        const action = new CheckoutActions.LoadSupportedDeliveryModesFail(
+          error
+        );
 
         expect({ ...action }).toEqual({
-          type: fromAction.LOAD_SUPPORTED_DELIVERY_MODES_FAIL,
+          type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL,
           payload: error,
         });
       });
@@ -133,9 +135,11 @@ describe('Checkout Actions', () => {
 
     describe('LoadSupportedDeliveryModesSuccess', () => {
       it('should create the action', () => {
-        const action = new fromAction.LoadSupportedDeliveryModesSuccess(modes);
+        const action = new CheckoutActions.LoadSupportedDeliveryModesSuccess(
+          modes
+        );
         expect({ ...action }).toEqual({
-          type: fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS,
+          type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS,
           payload: modes,
         });
       });
@@ -151,9 +155,9 @@ describe('Checkout Actions', () => {
           selectedModeId: selectedModeId,
         };
 
-        const action = new fromAction.SetDeliveryMode(payload);
+        const action = new CheckoutActions.SetDeliveryMode(payload);
         expect({ ...action }).toEqual({
-          type: fromAction.SET_DELIVERY_MODE,
+          type: CheckoutActions.SET_DELIVERY_MODE,
           payload: payload,
         });
       });
@@ -162,10 +166,10 @@ describe('Checkout Actions', () => {
     describe('SetDeliveryModeFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromAction.SetDeliveryModeFail(error);
+        const action = new CheckoutActions.SetDeliveryModeFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromAction.SET_DELIVERY_MODE_FAIL,
+          type: CheckoutActions.SET_DELIVERY_MODE_FAIL,
           payload: error,
         });
       });
@@ -173,9 +177,11 @@ describe('Checkout Actions', () => {
 
     describe('SetDeliveryModeSuccess', () => {
       it('should create the action', () => {
-        const action = new fromAction.SetDeliveryModeSuccess(selectedModeId);
+        const action = new CheckoutActions.SetDeliveryModeSuccess(
+          selectedModeId
+        );
         expect({ ...action }).toEqual({
-          type: fromAction.SET_DELIVERY_MODE_SUCCESS,
+          type: CheckoutActions.SET_DELIVERY_MODE_SUCCESS,
           payload: selectedModeId,
         });
       });
@@ -191,9 +197,9 @@ describe('Checkout Actions', () => {
           paymentDetails: paymentDetails,
         };
 
-        const action = new fromAction.CreatePaymentDetails(payload);
+        const action = new CheckoutActions.CreatePaymentDetails(payload);
         expect({ ...action }).toEqual({
-          type: fromAction.CREATE_PAYMENT_DETAILS,
+          type: CheckoutActions.CREATE_PAYMENT_DETAILS,
           payload: payload,
         });
       });
@@ -202,10 +208,10 @@ describe('Checkout Actions', () => {
     describe('CreatePaymentDetailsFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromAction.CreatePaymentDetailsFail(error);
+        const action = new CheckoutActions.CreatePaymentDetailsFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromAction.CREATE_PAYMENT_DETAILS_FAIL,
+          type: CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL,
           payload: error,
         });
       });
@@ -213,11 +219,11 @@ describe('Checkout Actions', () => {
 
     describe('CreatePaymentDetailsSuccess', () => {
       it('should create the action', () => {
-        const action = new fromAction.CreatePaymentDetailsSuccess(
+        const action = new CheckoutActions.CreatePaymentDetailsSuccess(
           paymentDetails
         );
         expect({ ...action }).toEqual({
-          type: fromAction.CREATE_PAYMENT_DETAILS_SUCCESS,
+          type: CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS,
           payload: paymentDetails,
         });
       });
@@ -233,9 +239,9 @@ describe('Checkout Actions', () => {
           paymentDetails: paymentDetails,
         };
 
-        const action = new fromAction.SetPaymentDetails(payload);
+        const action = new CheckoutActions.SetPaymentDetails(payload);
         expect({ ...action }).toEqual({
-          type: fromAction.SET_PAYMENT_DETAILS,
+          type: CheckoutActions.SET_PAYMENT_DETAILS,
           payload: payload,
         });
       });
@@ -244,10 +250,10 @@ describe('Checkout Actions', () => {
     describe('SetPaymentDetailsFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromAction.SetPaymentDetailsFail(error);
+        const action = new CheckoutActions.SetPaymentDetailsFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromAction.SET_PAYMENT_DETAILS_FAIL,
+          type: CheckoutActions.SET_PAYMENT_DETAILS_FAIL,
           payload: error,
         });
       });
@@ -255,9 +261,11 @@ describe('Checkout Actions', () => {
 
     describe('SetPaymentDetailsSuccess', () => {
       it('should create the action', () => {
-        const action = new fromAction.SetPaymentDetailsSuccess(paymentDetails);
+        const action = new CheckoutActions.SetPaymentDetailsSuccess(
+          paymentDetails
+        );
         expect({ ...action }).toEqual({
-          type: fromAction.SET_PAYMENT_DETAILS_SUCCESS,
+          type: CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS,
           payload: paymentDetails,
         });
       });
@@ -272,9 +280,9 @@ describe('Checkout Actions', () => {
           cartId: cartId,
         };
 
-        const action = new fromAction.PlaceOrder(payload);
+        const action = new CheckoutActions.PlaceOrder(payload);
         expect({ ...action }).toEqual({
-          type: fromAction.PLACE_ORDER,
+          type: CheckoutActions.PLACE_ORDER,
           payload: payload,
         });
       });
@@ -283,10 +291,10 @@ describe('Checkout Actions', () => {
     describe('PlaceOrderFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new fromAction.PlaceOrderFail(error);
+        const action = new CheckoutActions.PlaceOrderFail(error);
 
         expect({ ...action }).toEqual({
-          type: fromAction.PLACE_ORDER_FAIL,
+          type: CheckoutActions.PLACE_ORDER_FAIL,
           payload: error,
         });
       });
@@ -294,9 +302,9 @@ describe('Checkout Actions', () => {
 
     describe('PlaceOrderSuccess', () => {
       it('should create the action', () => {
-        const action = new fromAction.PlaceOrderSuccess(orderDetails);
+        const action = new CheckoutActions.PlaceOrderSuccess(orderDetails);
         expect({ ...action }).toEqual({
-          type: fromAction.PLACE_ORDER_SUCCESS,
+          type: CheckoutActions.PLACE_ORDER_SUCCESS,
           payload: orderDetails,
         });
       });
@@ -306,9 +314,9 @@ describe('Checkout Actions', () => {
   describe('Clear Checkout Step', () => {
     describe('ClearCheckoutStep', () => {
       it('should create the action', () => {
-        const action = new fromAction.ClearCheckoutStep(2);
+        const action = new CheckoutActions.ClearCheckoutStep(2);
         expect({ ...action }).toEqual({
-          type: fromAction.CLEAR_CHECKOUT_STEP,
+          type: CheckoutActions.CLEAR_CHECKOUT_STEP,
           payload: 2,
         });
       });
@@ -318,9 +326,9 @@ describe('Checkout Actions', () => {
   describe('Clear Checkout Data', () => {
     describe('ClearCheckoutData', () => {
       it('should create the action', () => {
-        const action = new fromAction.ClearCheckoutData();
+        const action = new CheckoutActions.ClearCheckoutData();
         expect({ ...action }).toEqual({
-          type: fromAction.CLEAR_CHECKOUT_DATA,
+          type: CheckoutActions.CLEAR_CHECKOUT_DATA,
         });
       });
     });
@@ -329,9 +337,9 @@ describe('Checkout Actions', () => {
   describe('Clear Supported Delivery Modes Data', () => {
     describe('ClearSupportedDeliveryModes', () => {
       it('should create the action', () => {
-        const action = new fromAction.ClearSupportedDeliveryModes();
+        const action = new CheckoutActions.ClearSupportedDeliveryModes();
         expect({ ...action }).toEqual({
-          type: fromAction.CLEAR_SUPPORTED_DELIVERY_MODES,
+          type: CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES,
         });
       });
     });

@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-
-import { BaseSiteService } from './base-site.service';
-import { SiteConnector, StateWithSiteContext } from '@spartacus/core';
+import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { SiteContextStoreModule } from '../store/site-context-store.module';
+import {
+  SiteConnector,
+  SiteContextConfig,
+  StateWithSiteContext,
+} from '@spartacus/core';
 import { of } from 'rxjs';
-import * as fromStore from '../store';
 import { SiteAdapter } from '../connectors/site.adapter';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextStoreModule } from '../store/site-context-store.module';
+import { BaseSiteService } from './base-site.service';
 import createSpy = jasmine.createSpy;
 
 describe('BaseSiteService', () => {
@@ -35,10 +38,11 @@ describe('BaseSiteService', () => {
           provide: SiteAdapter,
           useValue: {},
         },
+        { provide: SiteContextConfig, useValue: {} },
       ],
     });
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    spyOn(store, 'dispatch').and.stub();
     service = TestBed.get(BaseSiteService);
   });
 
@@ -70,7 +74,7 @@ describe('BaseSiteService', () => {
       spyOn(connector, 'getBaseSite').and.returnValue(of({}));
       service.setActive('my-base-site');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SetActiveBaseSite('my-base-site')
+        new SiteContextActions.SetActiveBaseSite('my-base-site')
       );
     });
 
@@ -81,7 +85,7 @@ describe('BaseSiteService', () => {
     });
   });
 
-  it('getActive should return active baseSite details', () => {
+  it('getBaseSiteData should return active baseSite details', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(
       mockBaseSiteDetailsSelect
     );
@@ -89,5 +93,16 @@ describe('BaseSiteService', () => {
     let result;
     service.getBaseSiteData().subscribe(res => (result = res));
     expect(result).toEqual({ uid: 'test-basesite' });
+  });
+
+  it('getBaseSiteData should load base site data if it does not exist', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(
+      createSpy('select').and.returnValue(() => of({}))
+    );
+
+    service.getBaseSiteData().subscribe();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new SiteContextActions.LoadBaseSite()
+    );
   });
 });

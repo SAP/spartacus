@@ -8,7 +8,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  FormComponentsModule,
+  ItemCounterModule,
   ListNavigationModule,
   MediaModule,
   StarRatingModule,
@@ -26,15 +26,21 @@ import { ProductViewComponent } from './product-view/product-view.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSProductListComponent: { selector: 'cx-product-list' },
-        SearchResultsListComponent: { selector: 'cx-product-list' },
-        ProductRefinementComponent: { selector: 'cx-product-facet-navigation' },
+        CMSProductListComponent: {
+          component: ProductListComponent,
+        },
+        SearchResultsListComponent: {
+          component: ProductListComponent,
+        },
+        ProductRefinementComponent: {
+          component: ProductFacetNavigationComponent,
+        },
       },
     }),
     RouterModule,
     MediaModule,
     AddToCartModule,
-    FormComponentsModule,
+    ItemCounterModule,
     ListNavigationModule,
     UrlModule,
     I18nModule,

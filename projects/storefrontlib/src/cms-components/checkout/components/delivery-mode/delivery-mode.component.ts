@@ -1,16 +1,18 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
-import { DeliveryMode, CheckoutService, RoutingService } from '@spartacus/core';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import {
+  CheckoutDeliveryService,
+  DeliveryMode,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
 import { CheckoutConfigService } from '../../checkout-config.service';
 
 @Component({
@@ -34,7 +36,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private checkoutService: CheckoutService,
+    private checkoutDeliveryService: CheckoutDeliveryService,
     private routingService: RoutingService,
     private checkoutConfigService: CheckoutConfigService,
     private activatedRoute: ActivatedRoute
@@ -49,21 +51,22 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     );
     this.changedOption = false;
 
-    this.supportedDeliveryModes$ = this.checkoutService.getSupportedDeliveryModes();
-    this.selectedDeliveryMode$ = this.checkoutService.getSelectedDeliveryMode();
+    this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
 
-    this.checkoutService.loadSupportedDeliveryModes();
-
-    this.selectedDeliveryMode$
+    this.deliveryModeSub = this.checkoutDeliveryService
+      .getSelectedDeliveryMode()
       .pipe(
         map((deliveryMode: DeliveryMode) =>
           deliveryMode && deliveryMode.code ? deliveryMode.code : null
         )
       )
       .subscribe(code => {
+        if (!!code && code === this.currentDeliveryModeId) {
+          this.routingService.go(this.checkoutStepUrlNext);
+        }
+        this.currentDeliveryModeId = code;
         if (code) {
           this.mode.controls['deliveryModeId'].setValue(code);
-          this.currentDeliveryModeId = code;
         }
       });
   }
@@ -77,16 +80,10 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   next(): void {
     if (this.changedOption) {
-      this.checkoutService.setDeliveryMode(this.currentDeliveryModeId);
+      this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
+    } else {
+      this.routingService.go(this.checkoutStepUrlNext);
     }
-
-    this.deliveryModeSub = this.checkoutService
-      .getSelectedDeliveryMode()
-      .subscribe(data => {
-        if (data && data.code === this.currentDeliveryModeId) {
-          this.routingService.go(this.checkoutStepUrlNext);
-        }
-      });
   }
 
   back(): void {

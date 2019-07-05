@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 import { HttpErrorHandler } from './http-error.handler';
+import { ErrorModel } from '../../../model/misc.model';
+import { Translatable } from '../../../i18n/translatable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -15,49 +17,58 @@ export class BadRequestHandler extends HttpErrorHandler {
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     if (
       response.url.includes(OAUTH_ENDPOINT) &&
-      response.error.error === 'invalid_grant'
+      response.error &&
+      response.error.error === 'invalid_grant' &&
+      request.body.get('grant_type') === 'password'
     ) {
-      if (request.body.get('grant_type') === 'password') {
-        this.globalMessageService.add(
-          {
-            key: 'httpHandlers.badRequestPleaseLoginAgain',
-            params: { errorMessage: this.getErrorMessage(response) },
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-        this.globalMessageService.remove(
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      }
-    } else if (response.error.errors[0].type === 'PasswordMismatchError') {
-      // uses en translation error message instead of backend exception error
-      // @todo: this condition could be removed if backend gives better message
       this.globalMessageService.add(
-        { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
+        {
+          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          params: {
+            errorMessage:
+              response.error.error_description || response.message || '',
+          },
+        },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      // text: customError.customError.passwordMismatch,
+      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     } else {
-      // this is currently showing up in case we have a page not found. It should be a 404.
-      // see https://jira.hybris.com/browse/CMSX-8516
-      const errorMessage = this.getErrorMessage(response);
-      const textObj = errorMessage
-        ? { raw: errorMessage }
-        : { key: 'httpHandlers.unknownError' };
-      this.globalMessageService.add(textObj, GlobalMessageType.MSG_TYPE_ERROR);
-    }
-  }
-
-  protected getErrorMessage(resp: HttpErrorResponse): string {
-    let errMsg = resp.message;
-    if (resp.error) {
-      if (resp.error.errors && resp.error.errors instanceof Array) {
-        errMsg = resp.error.errors[0].message;
-      } else if (resp.error.error_description) {
-        errMsg = resp.error.error_description;
+      if (
+        response.error &&
+        response.error.errors &&
+        response.error.errors instanceof Array
+      ) {
+        response.error.errors.forEach((error: ErrorModel) => {
+          let errorMessage: Translatable;
+          if (error.type === 'PasswordMismatchError') {
+            // uses en translation error message instead of backend exception error
+            // @todo: this condition could be removed if backend gives better message
+            errorMessage = {
+              key: 'httpHandlers.badRequestOldPasswordIncorrect',
+            };
+          } else if (
+            error.subjectType === 'cart' &&
+            error.reason === 'notFound'
+          ) {
+            errorMessage = { key: 'httpHandlers.cartNotFound' };
+          } else if (error.type === 'ValidationError') {
+            // build translation key in case of backend field validation error
+            errorMessage = {
+              key: `httpHandlers.validationErrors.${error.reason}.${
+                error.subject
+              }`,
+            };
+          } else {
+            // this is currently showing up in case we have a page not found. It should be a 404.
+            // see https://jira.hybris.com/browse/CMSX-8516
+            errorMessage = { raw: error.message || '' };
+          }
+          this.globalMessageService.add(
+            errorMessage,
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        });
       }
     }
-
-    return errMsg || '';
   }
 }

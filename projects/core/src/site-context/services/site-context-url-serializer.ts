@@ -1,7 +1,6 @@
 import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { SiteContextParamsService } from './site-context-params.service';
-import { SiteContextConfig } from '../config/site-context-config';
 
 export interface ParamValuesMap {
   [name: string]: string;
@@ -19,13 +18,9 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     return this.urlEncodingParameters.length > 0;
   }
 
-  constructor(
-    private siteContextParams: SiteContextParamsService,
-    private config: SiteContextConfig
-  ) {
+  constructor(private siteContextParams: SiteContextParamsService) {
     super();
-    this.urlEncodingParameters =
-      this.config.siteContext.urlEncodingParameters || [];
+    this.urlEncodingParameters = this.siteContextParams.getUrlEncodingParameters();
   }
 
   parse(url: string): UrlTreeWithSiteContext {

@@ -1,10 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
-import {
-  ContextParamPersistence,
-  SiteContextConfig,
-} from '../config/site-context-config';
+import { SiteContextConfig } from '../config/site-context-config';
 import { SiteContext } from '../facade/site-context.interface';
 import { ContextServiceMap } from '../providers/context-service-map';
+import {
+  getContextParameterDefault,
+  getContextParameterValues,
+} from '../config/context-config-utils';
 
 @Injectable()
 export class SiteContextParamsService {
@@ -14,33 +15,25 @@ export class SiteContextParamsService {
     private serviceMap: ContextServiceMap
   ) {}
 
-  getContextParameters(persistence?: ContextParamPersistence): string[] {
-    const contextConfig = this.config.siteContext.parameters;
-    if (contextConfig) {
-      const params = Object.keys(contextConfig);
-      if (persistence) {
-        return params.filter(
-          key => contextConfig[key].persistence === persistence
-        );
-      } else {
-        return params;
-      }
+  getContextParameters(): string[] {
+    if (this.config.context) {
+      return Object.keys(this.config.context).filter(
+        param => param !== 'urlParameters'
+      );
     }
     return [];
   }
 
+  getUrlEncodingParameters(): string[] {
+    return (this.config.context && this.config.context.urlParameters) || [];
+  }
+
   getParamValues(param: string): string[] {
-    return this.config.siteContext.parameters &&
-      this.config.siteContext.parameters[param]
-      ? this.config.siteContext.parameters[param].values
-      : undefined;
+    return getContextParameterValues(this.config, param);
   }
 
   getParamDefaultValue(param: string): string {
-    return this.config.siteContext.parameters &&
-      this.config.siteContext.parameters[param]
-      ? this.config.siteContext.parameters[param].defaultValue
-      : undefined;
+    return getContextParameterDefault(this.config, param);
   }
 
   getSiteContextService(param: string): SiteContext<any> {

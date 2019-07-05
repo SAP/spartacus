@@ -16,15 +16,9 @@ export const common = {
       title: '{{count}} result for {{query}}',
       title_plural: '{{count}} results for {{query}}',
     },
-    content: {
-      title: '{{content}}',
-    },
     checkout: {
       title: 'Checkout {{count}} item',
       title_plural: 'Checkout {{count}} items',
-    },
-    cart: {
-      title: '{{title}} ({{code}})',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
@@ -38,12 +32,6 @@ export const common = {
   },
   spinner: {
     loading: 'Loading...',
-  },
-  header: {
-    skipToNavigation: 'Skip to navigation',
-    skipToShoppingCart: 'Skip to shopping cart',
-    skipToMainContent: 'Skip to main content',
-    skipToFooter: 'Skip to Footer',
   },
   navigation: {
     shopAll: 'Shop all {{ navNode}} >',
@@ -68,6 +56,45 @@ export const common = {
     conflict: 'Already exists',
     forbidden: 'You are not authorized to perform this action.',
     gatewayTimeout: 'The server did not responded, please try again later.',
-    unknownError: 'An unknown error occured',
+    unknownError: 'An unknown error occurred',
+    validationErrors: {
+      missing: {
+        card_cardType:
+          'The credit card selected is not supported. Please select another.',
+        card_accountNumber: 'The credit card number entered is not valid.',
+        card_cvNumber: 'The security code entered is not valid.',
+        card_expirationMonth:
+          'The credit card expiration date entered is not valid.',
+        card_expirationYear:
+          'The credit card expiration date entered is not valid.',
+        billTo_firstName: 'The first name entered is not valid.',
+        billTo_lastName: 'The last name entered is not valid.',
+        billTo_street1: 'The address entered is not valid.',
+        billTo_street2: 'The address entered is not valid.',
+        billTo_city: 'The city entered is not valid for this credit card.',
+        billTo_state:
+          'The state/province entered is not valid for this credit card.',
+        billTo_country:
+          'The country entered is not valid for this credit card.',
+        billTo_postalCode:
+          'The zip/postal code is not valid for this credit card.',
+        country: {
+          isocode: 'Missing country',
+        },
+      },
+      invalid: {
+        card_expirationMonth:
+          'The credit card expiration date entered is not valid.',
+      },
+    },
+    cartNotFound: 'Cart not found.',
+  },
+  miniCart: {
+    item: '{{count}} item currently in your cart',
+    item_plural: '{{count}} items currently in your cart',
+  },
+  miniLogin: {
+    userGreeting: 'Hi, {{name}}',
+    signInRegister: 'Sign In / Register',
   },
 };
