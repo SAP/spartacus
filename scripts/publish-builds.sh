@@ -10,7 +10,7 @@ COMMITTER_USER_EMAIL=`git --no-pager show -s --format='%cE' HEAD`
 SHORT_SHA=`git rev-parse --short HEAD`
 
 get_version() {
-    echo `head package.json | awk '/version/ { gsub(/"/, "", $2); gsub(/,/, "", $2);print $2 }'`
+    echo `head $1/package.json | awk '/version/ { gsub(/"/, "", $2); gsub(/,/, "", $2);print $2 }'`
 }
 
 build_styles() {
@@ -31,7 +31,7 @@ publish_snapshot() {
     local LIB_DIR=$2
     local REPO_URL="https://${GITHUB_TOKEN}@github.com/${REPO_OWNER}/${PROJECT_NAME}-${LIB}-builds.git"
     local PUBLISH_BRANCH='master'
-    local VERSION=$(get_version)
+    local VERSION=$(get_version ${LIB_DIR})
     local BUILD_ID="${LIB}-${VERSION}+${SHORT_SHA}"
 
     echo "Publishing ${LIB} to ${REPO_URL} with ID ${BUILD_ID}"
