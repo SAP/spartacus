@@ -7,10 +7,16 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
 import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
+import { SiteContextConfig } from '../config/site-context-config';
+import { getContextParameterDefault } from '../config/context-config-utils';
+import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
 
 @Injectable()
 export class BaseSiteService implements SiteContext<string> {
-  constructor(protected store: Store<StateWithSiteContext>) {}
+  constructor(
+    protected store: Store<StateWithSiteContext>,
+    protected config: SiteContextConfig
+  ) {}
 
   /**
    * Represents the current baseSite uid.
@@ -47,8 +53,10 @@ export class BaseSiteService implements SiteContext<string> {
   /**
    * Initializes the active baseSite.
    */
-  initialize(defaultBaseSite: string): void {
-    this.setActive(defaultBaseSite);
+  initialize(): void {
+    this.setActive(
+      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
+    );
   }
 
   /**

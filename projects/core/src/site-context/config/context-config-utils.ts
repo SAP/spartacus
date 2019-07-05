@@ -1,4 +1,4 @@
-import { ContextParameter, SiteContextConfig } from './site-context-config';
+import { SiteContextConfig } from './site-context-config';
 
 /**
  * Helper function for safely getting context parameter config
@@ -6,16 +6,11 @@ import { ContextParameter, SiteContextConfig } from './site-context-config';
  * @param config
  * @param parameter
  */
-export function getContextParameter(
+export function getContextParameterValues(
   config: SiteContextConfig,
   parameter: string
-): ContextParameter {
-  return (
-    (config.context &&
-      config.context.parameters &&
-      config.context.parameters[parameter]) ||
-    {}
-  );
+): string[] {
+  return (config.context && config.context[parameter]) || [];
 }
 
 /**
@@ -28,9 +23,6 @@ export function getContextParameterDefault(
   config: SiteContextConfig,
   parameter: string
 ): string {
-  const param = getContextParameter(config, parameter);
-  if (param.default !== undefined) {
-    return param.default;
-  }
-  return param.values && param.values.length ? param.values[0] : undefined;
+  const param = getContextParameterValues(config, parameter);
+  return param && param.length ? param[0] : undefined;
 }
