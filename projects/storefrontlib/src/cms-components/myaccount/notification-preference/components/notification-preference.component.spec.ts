@@ -13,6 +13,7 @@ import { SpinnerModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { cold, getTestScheduler } from 'jasmine-marbles';
 
 describe('NotificationPreferenceComponent', () => {
   let component: NotificationPreferenceComponent;
@@ -110,25 +111,21 @@ describe('NotificationPreferenceComponent', () => {
     expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
   });
 
-  it('should be able to enable or disable a channel', () => {
+  fit('should be able to enable or disable a channel', () => {
+    userService.getUpdateNotificationPreferencesLoading.and.returnValue(
+      cold('-a|', { a: true })
+    );
     fixture.detectChanges();
     const cheboxies = el.queryAll(By.css('[data-test="checkbox"]'));
     expect(cheboxies.length).toEqual(notificationPreference.preferences.length);
 
-    userService.updateNotificationPreferences.and.callFake(() => {
-      component.updateLoading$ = of(true);
-    });
-
-    cheboxies[0].nativeElement.click();
-    const updatedPrefs = { ...notificationPreference };
-    updatedPrefs.preferences[0].enabled = !notificationPreference.preferences[0]
-      .enabled;
-    expect(userService.updateNotificationPreferences).toHaveBeenCalledWith(
-      userToken.userId,
-      updatedPrefs
-    );
-
+    const chx = cheboxies[0].nativeElement;
+    chx.click();
     fixture.detectChanges();
-    expect(cheboxies[0].nativeElement.disabled).toEqual(true);
+    expect(userService.updateNotificationPreferences).toHaveBeenCalled();
+
+    getTestScheduler().flush();
+    fixture.detectChanges();
+    expect(chx.disabled).toEqual(true);
   });
 });
