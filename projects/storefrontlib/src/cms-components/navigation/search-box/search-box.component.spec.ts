@@ -138,6 +138,7 @@ describe('SearchBoxComponent', () => {
       ) as any;
 
       spyOn(searchBoxComponent, 'search').and.callThrough();
+      spyOn(searchBoxComponent, 'launchSearchResult').and.callThrough();
     });
 
     it('should be created', () => {
@@ -157,10 +158,23 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should launch the search page', () => {
+      const inputValue = 'test input';
       const input = fixture.debugElement.query(By.css('input'));
+      input.nativeElement.value = inputValue;
       input.triggerEventHandler('keydown.enter', {});
       fixture.detectChanges();
-      expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
+      expect(searchBoxComponent.launchSearchResult).toHaveBeenCalledWith({}, inputValue);
+      expect(serviceSpy.launchSearchPage).toHaveBeenCalledWith(inputValue);
+    });
+
+    it('should not navigate to search result page if input is empty', () => {
+      const inputValue = '';
+      const input = fixture.debugElement.query(By.css('input'));
+      input.nativeElement.value = inputValue;
+      input.triggerEventHandler('keydown.enter', {});
+      fixture.detectChanges();
+      expect(searchBoxComponent.launchSearchResult).toHaveBeenCalled();
+      expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
     });
 
     describe('UI tests', () => {
