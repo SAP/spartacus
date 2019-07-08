@@ -2,7 +2,7 @@ import { Action, ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
-import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
+import { getStateSlice } from '../utils/get-state-slice';
 
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
@@ -19,14 +19,6 @@ export function getStorageSyncReducer<T>(
   }
 
   const storageSyncConfig = config.state.storageSync;
-  const localStorageKeys = filterKeysByType(
-    storageSyncConfig.keys,
-    StorageSyncType.LOCAL_STORAGE
-  );
-  const sessionStorageKeys = filterKeysByType(
-    storageSyncConfig.keys,
-    StorageSyncType.SESSION_STORAGE
-  );
 
   return (reducer: ActionReducer<T, Action>): ActionReducer<T, Action> => {
     return (state, action): T => {
@@ -39,8 +31,17 @@ export function getStorageSyncReducer<T>(
 
       if (action.type !== INIT) {
         // handle local storage
+        const localStorageKeys = getKeysForStorage(
+          storageSyncConfig.keys,
+          StorageSyncType.LOCAL_STORAGE
+        );
+        const localStorageExclusionKeys = getKeysForStorage(
+          storageSyncConfig.excludeKeys,
+          StorageSyncType.LOCAL_STORAGE
+        );
         const localStorageStateSlices = getStateSlice(
           localStorageKeys,
+          localStorageExclusionKeys,
           newState
         );
         persistToStorage(
@@ -50,8 +51,17 @@ export function getStorageSyncReducer<T>(
         );
 
         // handle session storage
+        const sessionStorageKeys = getKeysForStorage(
+          storageSyncConfig.keys,
+          StorageSyncType.SESSION_STORAGE
+        );
+        const sessionStorageExclusionKeys = getKeysForStorage(
+          storageSyncConfig.excludeKeys,
+          StorageSyncType.SESSION_STORAGE
+        );
         const sessionStorageStateSlices = getStateSlice(
           sessionStorageKeys,
+          sessionStorageExclusionKeys,
           newState
         );
         persistToStorage(
@@ -64,6 +74,16 @@ export function getStorageSyncReducer<T>(
       return newState;
     };
   };
+}
+
+export function getKeysForStorage(
+  keys: { [key: string]: StorageSyncType },
+  storageType: StorageSyncType
+): string[] {
+  if (!keys) {
+    return [];
+  }
+  return Object.keys(keys).filter(key => keys[key] === storageType);
 }
 
 export function rehydrate<T>(config: StateConfig, winRef: WindowRef): T {
