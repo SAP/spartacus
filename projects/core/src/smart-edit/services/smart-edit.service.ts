@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { filter, takeWhile } from 'rxjs/operators';
+import { filter, take, takeWhile } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page } from '../../cms/model/page.model';
 import { PageType } from '../../model/cms.model';
@@ -27,7 +27,6 @@ export class SmartEditService {
     protected winRef: WindowRef
   ) {
     this.getCmsTicket();
-    this.addPageContract();
 
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
@@ -61,51 +60,53 @@ export class SmartEditService {
           this._cmsTicketId = routerState.nextState.queryParams['cmsTicketId'];
           if (this._cmsTicketId) {
             this.cmsService.launchInSmartEdit = true;
+            this.getDefaultPreviewCode();
           }
         }
       });
   }
 
-  protected addPageContract() {
-    combineLatest([
-      this.cmsService.getCurrentPage(),
-      this.baseSiteService.getBaseSiteData(),
-    ])
-      .pipe(filter(([, site]) => Object.keys(site).length !== 0))
-      .subscribe(([cmsPage, site]) => {
-        if (
-          this.defaultPreviewCategoryCode !== site.defaultPreviewCategoryCode
-        ) {
-          this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
-        }
-        if (this.defaultPreviewProductCode !== site.defaultPreviewProductCode) {
-          this.defaultPreviewProductCode = site.defaultPreviewProductCode;
-        }
+  protected getDefaultPreviewCode() {
+    this.baseSiteService
+      .getBaseSiteData()
+      .pipe(
+        filter(site => Object.keys(site).length !== 0),
+        take(1)
+      )
+      .subscribe(site => {
+        this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
+        this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
-        if (cmsPage && this._cmsTicketId) {
-          this._currentPageId = cmsPage.pageId;
-
-          // before adding contract to page, we need redirect to that page
-          this.goToPreviewPage(cmsPage);
-
-          // remove old page contract
-          const previousContract = [];
-          Array.from(this.winRef.document.body.classList).forEach(attr =>
-            previousContract.push(attr)
-          );
-          previousContract.forEach(attr =>
-            this.winRef.document.body.classList.remove(attr)
-          );
-
-          // add new page contract
-          if (cmsPage.properties && cmsPage.properties.smartedit) {
-            const seClasses = cmsPage.properties.smartedit.classes.split(' ');
-            seClasses.forEach(classItem => {
-              this.winRef.document.body.classList.add(classItem);
-            });
-          }
-        }
+        this.addPageContract();
       });
+  }
+
+  protected addPageContract() {
+    this.cmsService.getCurrentPage().subscribe(cmsPage => {
+      if (cmsPage && this._cmsTicketId) {
+        this._currentPageId = cmsPage.pageId;
+
+        // before adding contract to page, we need redirect to that page
+        this.goToPreviewPage(cmsPage);
+
+        // remove old page contract
+        const previousContract = [];
+        Array.from(this.winRef.document.body.classList).forEach(attr =>
+          previousContract.push(attr)
+        );
+        previousContract.forEach(attr =>
+          this.winRef.document.body.classList.remove(attr)
+        );
+
+        // add new page contract
+        if (cmsPage.properties && cmsPage.properties.smartedit) {
+          const seClasses = cmsPage.properties.smartedit.classes.split(' ');
+          seClasses.forEach(classItem => {
+            this.winRef.document.body.classList.add(classItem);
+          });
+        }
+      }
+    });
   }
 
   protected goToPreviewPage(cmsPage: Page) {
