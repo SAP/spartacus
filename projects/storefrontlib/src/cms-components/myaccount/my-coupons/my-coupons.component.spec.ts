@@ -11,7 +11,6 @@ import {
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { ListNavigationModule } from '@spartacus/storefront';
-import { user } from 'projects/storefrontapp-e2e-cypress/cypress/sample-data/checkout-flow';
 
 const emptyCouponResult: CustomerCouponSearchResult = {
   coupons: [],
@@ -150,7 +149,7 @@ describe('MyCouponsComponent', () => {
     expect(userService.loadCustomerCoupons).toHaveBeenCalled();
   });
 
-  it('should be able to trun of/off notification for a coupon', () => {
+  it('should be able to trun on/off notification for a coupon', () => {
     fixture.detectChanges();
 
     component.onNotificationChange({ couponId: '123', notification: true });
