@@ -54,15 +54,23 @@ export class SmartEditService {
       this.cmsService.getCurrentPage(),
       this.routingService.getRouterState(),
     ])
-      .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
-      .subscribe(([, routerState]) => {
-        if (routerState.nextState && !this._cmsTicketId) {
-          this._cmsTicketId = routerState.nextState.queryParams['cmsTicketId'];
-          if (this._cmsTicketId) {
-            this.cmsService.launchInSmartEdit = true;
-            this.getDefaultPreviewCode();
+      .pipe(
+        takeWhile(([cmsPage]) => cmsPage === undefined),
+        filter(([, routerState]) => {
+          if (routerState.nextState && !this._cmsTicketId) {
+            this._cmsTicketId =
+              routerState.nextState.queryParams['cmsTicketId'];
+            if (this._cmsTicketId) {
+              return true;
+            }
           }
-        }
+          return false;
+        }),
+        take(1)
+      )
+      .subscribe(_ => {
+        this.cmsService.launchInSmartEdit = true;
+        this.getDefaultPreviewCode();
       });
   }
 
