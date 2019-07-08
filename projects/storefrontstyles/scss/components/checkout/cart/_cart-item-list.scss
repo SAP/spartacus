@@ -26,6 +26,22 @@
     }
   }
 
+  .cx-item-list-price {
+    @include media-breakpoint-only(l) {
+      padding: 0px 30px 0 0;
+    }
+  }
+
+  .cx-item-list-qty {
+    @include media-breakpoint-up(xl) {
+      padding: 0 0 0 20px;
+    }
+
+    @include media-breakpoint-only(l) {
+      padding: 0 24px 0 0px;
+    }
+  }
+
   .cx-item-list-total {
     text-align: right;
     padding: 0;
