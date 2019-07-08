@@ -127,7 +127,6 @@ describe('SmartEditService', () => {
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(
         document.body.classList.contains('smartedit-page-uid-testPageId')
       ).toBeTruthy();
@@ -160,7 +159,6 @@ describe('SmartEditService', () => {
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).not.toHaveBeenCalled();
     });
 
@@ -186,7 +184,6 @@ describe('SmartEditService', () => {
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
         params: { code: 'test product code' },
@@ -215,7 +212,6 @@ describe('SmartEditService', () => {
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'category',
         params: { code: 'test category code' },
