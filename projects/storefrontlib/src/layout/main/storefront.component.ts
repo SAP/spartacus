@@ -28,6 +28,12 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       });
   }
 
+  collapseMenuIfClickOutside(event: MouseEvent) {
+    if ((<HTMLElement>event.target).className.includes('is-expanded')) {
+      this.collapseMenu();
+    }
+  }
+
   collapseMenu(): void {
     this.hamburgerMenuService.toggle(true);
   }
