@@ -13,7 +13,9 @@ import { CartActions } from '../actions/index';
 export class CartEffects {
   @Effect()
   loadCart$: Observable<
-    CartActions.LoadCartFail | CartActions.LoadCartSuccess
+    | CartActions.LoadCartFail
+    | CartActions.LoadCartSuccess
+    | CartActions.ClearCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map(
@@ -37,9 +39,20 @@ export class CartEffects {
           map((cart: Cart) => {
             return new CartActions.LoadCartSuccess(cart);
           }),
-          catchError(error =>
-            of(new CartActions.LoadCartFail(makeErrorSerializable(error)))
-          )
+          catchError(error => {
+            of(new CartActions.LoadCartFail(makeErrorSerializable(error)));
+            if (error && error.error && error.error.errors) {
+              const cartNotFoundErrors = error.error.errors.filter(
+                err => err.reason === 'notFound'
+              );
+              if (cartNotFoundErrors.length > 0) {
+                return of(new CartActions.ClearCart());
+              }
+            }
+            return of(
+              new CartActions.LoadCartFail(makeErrorSerializable(error))
+            );
+          })
         );
     })
   );
