@@ -38,7 +38,7 @@ describe('SiteContextRoutesHandlerService', () => {
     };
 
     mockSiteContextParamsService = {
-      getContextParameters: () => ['language'],
+      getUrlEncodingParameters: () => ['language'],
       getSiteContextService: () => mockLanguageService,
       getParamValues: () => ['en', 'de'],
       setValue: createSpy('setValue'),
