@@ -2,7 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { SiteConnector, StateWithSiteContext } from '@spartacus/core';
+import {
+  SiteConnector,
+  SiteContextConfig,
+  StateWithSiteContext,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { SiteAdapter } from '../connectors/site.adapter';
 import { SiteContextActions } from '../store/actions/index';
@@ -34,6 +38,7 @@ describe('BaseSiteService', () => {
           provide: SiteAdapter,
           useValue: {},
         },
+        { provide: SiteContextConfig, useValue: {} },
       ],
     });
     store = TestBed.get(Store);
