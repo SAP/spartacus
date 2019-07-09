@@ -15,6 +15,8 @@ export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
 
 export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
+export const CLEAR_CART = '[Cart] Clear Cart';
+
 export class CreateCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CART;
   constructor(public payload: any) {
@@ -72,6 +74,13 @@ export class ResetCartDetails implements Action {
   constructor() {}
 }
 
+export class ClearCart extends StateLoaderActions.LoaderResetAction {
+  readonly type = CLEAR_CART;
+  constructor() {
+    super(CART_DATA);
+  }
+}
+
 export type CartAction =
   | CreateCart
   | CreateCartFail
@@ -81,4 +90,5 @@ export type CartAction =
   | LoadCartSuccess
   | MergeCart
   | MergeCartSuccess
-  | ResetCartDetails;
+  | ResetCartDetails
+  | ClearCart;
