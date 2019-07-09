@@ -95,23 +95,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           });
         }
       ),
-      tap(cardsWithAddresses => {
-        if (cardsWithAddresses.length) {
-          const selected = cardsWithAddresses.find(
-            cardWithAddress => cardWithAddress.card.header === 'Selected'
-          );
-
-          const defaultSelection = cardsWithAddresses.find(
-            cardWithAddress => cardWithAddress.address.defaultAddress
-          );
-
-          if (!selected && defaultSelection) {
-            setTimeout(() =>
-              this.selectedAddress$.next(defaultSelection.address)
-            );
-          }
-        }
-      })
+      tap(cardsWithAddresses =>
+        this.selectDefaultAddressWhenNoneSelected(cardsWithAddresses)
+      )
     );
 
     this.userAddressService.loadAddresses();
@@ -129,6 +115,24 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.selectedAddressSub = this.selectedAddress$.subscribe(address => {
       this.selectedAddress = address;
     });
+  }
+
+  private selectDefaultAddressWhenNoneSelected(
+    cardsWithAddresses: CardWithAddress[]
+  ) {
+    if (cardsWithAddresses.length) {
+      const selected = cardsWithAddresses.find(
+        cardWithAddress => cardWithAddress.card.header === 'Selected'
+      );
+
+      const defaultSelection = cardsWithAddresses.find(
+        cardWithAddress => cardWithAddress.address.defaultAddress
+      );
+
+      if (!selected && defaultSelection) {
+        setTimeout(() => this.selectedAddress$.next(defaultSelection.address));
+      }
+    }
   }
 
   getCardContent(
