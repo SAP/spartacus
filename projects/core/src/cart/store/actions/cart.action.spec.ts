@@ -113,5 +113,38 @@ describe('Cart Actions', () => {
         });
       });
     });
+    describe('MergeCartSuccess', () => {
+      it('should create the action', () => {
+        const userId = 'xxx@xxx.xxx';
+        const cartId = 'testCartId';
+        const action = new CartActions.MergeCartSuccess({
+          userId: userId,
+          cartId: cartId,
+        });
+        expect({ ...action }).toEqual({
+          type: CartActions.MERGE_CART_SUCCESS,
+          payload: { userId, cartId },
+        });
+      });
+    });
+  });
+
+  describe('ResetCartDetails', () => {
+    it('should create the action', () => {
+      const action = new CartActions.ResetCartDetails();
+      expect({ ...action }).toEqual({
+        type: CartActions.RESET_CART_DETAILS,
+      });
+    });
+  });
+
+  describe('ClearCart', () => {
+    it('should create the action', () => {
+      const action = new CartActions.ClearCart();
+      expect({ ...action }).toEqual({
+        type: CartActions.CLEAR_CART,
+        meta: StateLoaderActions.resetMeta(CART_DATA),
+      });
+    });
   });
 });
