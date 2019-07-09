@@ -1,11 +1,11 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpErrorModel } from '../model';
-import { LoaderMeta } from '../state/utils/loader/loader.action';
-import { makeErrorSerializable } from './serialization-utils';
+import { StateEntityLoaderActions, StateLoaderActions } from '../state/index';
+import { makeErrorSerializable, UNKNOWN_ERROR } from './serialization-utils';
 
 describe('serialization-utils', () => {
   describe('makeErrorSerializable', () => {
-    describe(`when the provided argument is not an instance of Error nor of HttpErrorResponse`, () => {
+    describe(`when the provided argument is of a simple type`, () => {
       it('should return the same value as provided', () => {
         const error = 'xxx';
         const result = makeErrorSerializable(error);
@@ -47,7 +47,7 @@ describe('serialization-utils', () => {
       });
     });
 
-    describe('when a complext object is provided with an error deeply nested in it', () => {
+    describe('when the provided error is an instance of LoaderFailAction', () => {
       it('should make it serializable', () => {
         const mockError = new HttpErrorResponse({
           error: 'error',
@@ -56,29 +56,72 @@ describe('serialization-utils', () => {
           statusText: 'Unknown error',
           url: '/xxx',
         });
-        const loaderMeta: LoaderMeta = {
-          entityType: 'xxx',
-          loader: {
-            error: mockError,
-            load: false,
-            success: true,
+        const errorAction = new StateLoaderActions.LoaderFailAction(
+          'xxx',
+          mockError
+        );
+
+        const result = makeErrorSerializable(errorAction);
+        expect(result).toEqual({
+          type: errorAction.type,
+          entityType: errorAction.meta.entityType,
+          id: undefined,
+          error: {
+            message: mockError.message,
+            error: mockError.error,
+            status: mockError.status,
+            statusText: mockError.statusText,
+            url: mockError.url,
+          } as HttpErrorModel,
+        });
+      });
+    });
+
+    describe('when the provided error is an instance of EntityFailAction', () => {
+      it('should make it serializable', () => {
+        const mockError = new HttpErrorResponse({
+          error: 'error',
+          headers: new HttpHeaders().set('xxx', 'xxx'),
+          status: 500,
+          statusText: 'Unknown error',
+          url: '/xxx',
+        });
+        const errorAction = new StateEntityLoaderActions.EntityFailAction(
+          'xxx',
+          'xxx',
+          mockError
+        );
+
+        const result = makeErrorSerializable(errorAction);
+        expect(result).toEqual({
+          type: errorAction.type,
+          entityType: errorAction.meta.entityType,
+          id: errorAction.meta.entityId,
+          error: {
+            message: mockError.message,
+            error: mockError.error,
+            status: mockError.status,
+            statusText: mockError.statusText,
+            url: mockError.url,
+          } as HttpErrorModel,
+        });
+      });
+    });
+
+    describe('when an unknown error object is provided', () => {
+      it('should return a generic error', () => {
+        const error = {
+          map: new Map(),
+          set: new Set<string>('xxx'),
+          some: {
+            nested: {
+              obj: () => 'xxx',
+            },
           },
         };
 
-        const result = makeErrorSerializable(loaderMeta);
-        expect(result).toEqual({
-          ...loaderMeta,
-          loader: {
-            ...loaderMeta.loader,
-            error: {
-              message: mockError.message,
-              error: mockError.error,
-              status: mockError.status,
-              statusText: mockError.statusText,
-              url: mockError.url,
-            },
-          },
-        });
+        const result = makeErrorSerializable(error);
+        expect(result).toEqual(UNKNOWN_ERROR);
       });
     });
   });
