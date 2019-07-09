@@ -115,7 +115,7 @@ describe('AddToCartComponent', () => {
     });
   });
 
-  describe('Product from page', () => {
+  fdescribe('Product from page', () => {
     it('should load product from service', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct)
@@ -133,13 +133,14 @@ describe('AddToCartComponent', () => {
       let spy = spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct)
       );
-      addToCartComponent.getProductDetails();
+      addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
       addToCartComponent.quantity = 5;
 
       //Product 2
+      addToCartComponent.productCode = undefined;
       spy.and.returnValue(of(mockProduct2));
-      addToCartComponent.getProductDetails();
+      addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct2.code);
       //Quantity is expected to be reset to 1 since it is a new product page
       expect(addToCartComponent.quantity).toEqual(1);
