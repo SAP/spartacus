@@ -115,7 +115,7 @@ describe('AddToCartComponent', () => {
     });
   });
 
-  fdescribe('Product from page', () => {
+  describe('Product from page', () => {
     it('should load product from service', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct)
