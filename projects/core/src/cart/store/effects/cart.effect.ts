@@ -40,7 +40,6 @@ export class CartEffects {
             return new CartActions.LoadCartSuccess(cart);
           }),
           catchError(error => {
-            of(new CartActions.LoadCartFail(makeErrorSerializable(error)));
             if (error && error.error && error.error.errors) {
               const cartNotFoundErrors = error.error.errors.filter(
                 err => err.reason === 'notFound'

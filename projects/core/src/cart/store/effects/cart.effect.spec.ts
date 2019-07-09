@@ -34,16 +34,10 @@ const testCart: Cart = {
   },
 };
 
-const loadMock = createSpy().and.returnValue(of(testCart));
-
-class MockCartConnector {
-  create = createSpy().and.returnValue(of(testCart));
-  load = loadMock;
-}
-
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
+  let loadMock: jasmine.Spy;
 
   const MockOccModuleConfig: OccConfig = {
     backend: {
@@ -58,6 +52,13 @@ describe('Cart effect', () => {
   const cartId = 'testCartId';
 
   beforeEach(() => {
+    loadMock = createSpy().and.returnValue(of(testCart));
+
+    class MockCartConnector {
+      create = createSpy().and.returnValue(of(testCart));
+      load = loadMock;
+    }
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -125,8 +126,6 @@ describe('Cart effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(cartEffects.loadCart$).toBeObservable(expected);
-      // restore previous mock
-      loadMock.and.returnValue(of(testCart));
     });
   });
 
