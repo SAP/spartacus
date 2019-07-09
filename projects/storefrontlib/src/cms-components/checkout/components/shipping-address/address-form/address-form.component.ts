@@ -8,9 +8,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
-
 import {
   Address,
   AddressValidation,
@@ -23,11 +20,13 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   ModalRef,
   ModalService,
 } from '../../../../../shared/components/modal/index';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
   selector: 'cx-address-form',
@@ -166,6 +165,16 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       if (this.addressData.region) {
         this.regionSelected(this.addressData.region);
       }
+    } else {
+      this.userService
+        .get()
+        .subscribe(data => {
+          this.address.patchValue({
+            firstName: data.firstName,
+            lastName: data.lastName,
+          });
+        })
+        .unsubscribe();
     }
   }
 
