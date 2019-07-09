@@ -17,3 +17,8 @@
 .cx-section-title-alt {
   text-transform: var(--cx-text-transform, none);
 }
+
+.cx-section-title-close {
+  margin-top: var(--cx-margin-bottom, 25px);
+  margin-bottom: var(--cx-margin-bottom, 0px);
+}
