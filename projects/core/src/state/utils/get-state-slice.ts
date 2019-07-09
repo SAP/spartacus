@@ -1,47 +1,93 @@
 import { deepMerge } from '../../config/utils/deep-merge';
 
-export function getStateSliceValue<T, E>(keys: string, state: T): E {
+const OBJECT_SEPARATOR = '.';
+
+export function getStateSliceValue(keys: string, state: any): any {
   return keys
-    .split('.')
+    .split(OBJECT_SEPARATOR)
     .reduce(
       (previous, current) => (previous ? previous[current] : undefined),
       state
     );
 }
 
-export function createShellObject<T, E>(key: string, value: T): E {
+export function createShellObject(
+  key: string,
+  excludeKeys: string[],
+  value: any
+): any {
   if (!key || !value || Object.keys(value).length === 0) {
-    return {} as E;
+    return {};
   }
 
-  const keySplit = key.split('.');
-  const newObject = {};
-  let tempNewObject = newObject;
-
-  for (let i = 0; i < keySplit.length; i++) {
-    const currentKey = keySplit[i];
-    // last iteration
-    if (i === keySplit.length - 1) {
-      tempNewObject = tempNewObject[currentKey] = value;
-    } else {
-      tempNewObject = tempNewObject[currentKey] = {};
-    }
-  }
-
-  return newObject as E;
+  const shell = key.split(OBJECT_SEPARATOR).reduceRight((acc, previous) => {
+    return { [previous]: acc };
+  }, value);
+  return handleExclusions(key, excludeKeys, shell);
 }
 
-export function getStateSlice<T, E>(keys: string[], state: T): E {
+export function getStateSlice(
+  keys: string[],
+  excludeKeys: string[],
+  state: any
+): any {
   if (keys && keys.length === 0) {
-    return {} as E;
+    return {};
   }
 
   let stateSlices = {};
   for (const currentKey of keys) {
     const stateValue = getStateSliceValue(currentKey, state);
-    const shell = createShellObject(currentKey, stateValue);
+    const shell = createShellObject(currentKey, excludeKeys, stateValue);
     stateSlices = deepMerge(stateSlices, shell);
   }
 
-  return stateSlices as E;
+  return stateSlices;
+}
+
+export function handleExclusions(
+  key: string,
+  excludeKeys: string[],
+  value: any
+): any {
+  const exclusionKeys = getExclusionKeys(key, excludeKeys);
+  if (exclusionKeys.length === 0) {
+    return value;
+  }
+
+  const finalValue = deepMerge({}, value);
+  for (const currentExclusionKey of exclusionKeys) {
+    const exclusionChunksSplit = currentExclusionKey.split(OBJECT_SEPARATOR);
+
+    let nestedTemp = finalValue;
+    for (let i = 0; i < exclusionChunksSplit.length; i++) {
+      const currentChunk = exclusionChunksSplit[i];
+
+      // last iteration
+      if (i === exclusionChunksSplit.length - 1) {
+        if (nestedTemp && nestedTemp[currentChunk]) {
+          delete nestedTemp[currentChunk];
+        }
+      } else {
+        nestedTemp = nestedTemp[currentChunk];
+      }
+    }
+  }
+
+  return finalValue;
+}
+
+export function getExclusionKeys(key: string, excludeKeys: string[]): string[] {
+  if (!key || !excludeKeys) {
+    return [];
+  }
+
+  const exclusionKeys: string[] = [];
+  for (const exclusionKey of excludeKeys) {
+    if (exclusionKey.includes(key)) {
+      exclusionKeys.push(exclusionKey);
+    }
+  }
+
+  return exclusionKeys;
 }
