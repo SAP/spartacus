@@ -4,7 +4,7 @@ import { OccConfig } from '../config/occ-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { HttpParams } from '@angular/common/http';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
-import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-service-map';
+import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
 
 @Injectable({
   providedIn: 'root',

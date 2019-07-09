@@ -8,6 +8,12 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
 import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
+import { SiteContextConfig } from '../config/site-context-config';
+import {
+  getContextParameterValues,
+  getContextParameterDefault,
+} from '../config/context-config-utils';
+import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
@@ -16,7 +22,11 @@ import { SiteContext } from './site-context.interface';
 export class CurrencyService implements SiteContext<Currency> {
   private sessionStorage: Storage;
 
-  constructor(protected store: Store<StateWithSiteContext>, winRef: WindowRef) {
+  constructor(
+    protected store: Store<StateWithSiteContext>,
+    winRef: WindowRef,
+    protected config: SiteContextConfig
+  ) {
     this.sessionStorage = winRef.sessionStorage;
   }
 
@@ -68,11 +78,20 @@ export class CurrencyService implements SiteContext<Currency> {
    * by the last visit (stored in session storage) or by the
    * default session currency of the store.
    */
-  initialize(defaultCurrency: string) {
-    if (this.sessionStorage && !!this.sessionStorage.getItem('currency')) {
-      this.setActive(this.sessionStorage.getItem('currency'));
+  initialize() {
+    const sessionCurrency =
+      this.sessionStorage && this.sessionStorage.getItem('currency');
+    if (
+      sessionCurrency &&
+      getContextParameterValues(this.config, CURRENCY_CONTEXT_ID).includes(
+        sessionCurrency
+      )
+    ) {
+      this.setActive(sessionCurrency);
     } else {
-      this.setActive(defaultCurrency);
+      this.setActive(
+        getContextParameterDefault(this.config, CURRENCY_CONTEXT_ID)
+      );
     }
   }
 }
