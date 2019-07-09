@@ -14,7 +14,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
 import { CheckoutStepType } from '../../model/checkout-step.model';
@@ -94,7 +94,24 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
             };
           });
         }
-      )
+      ),
+      tap(cardsWithAddresses => {
+        if (cardsWithAddresses.length) {
+          const selected = cardsWithAddresses.find(
+            cardWithAddress => cardWithAddress.card.header === 'Selected'
+          );
+
+          const defaultSelection = cardsWithAddresses.find(
+            cardWithAddress => cardWithAddress.address.defaultAddress
+          );
+
+          if (!selected && defaultSelection) {
+            setTimeout(() =>
+              this.selectedAddress$.next(defaultSelection.address)
+            );
+          }
+        }
+      })
     );
 
     this.userAddressService.loadAddresses();
