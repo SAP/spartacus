@@ -43,11 +43,6 @@ const MockOccModuleConfig: OccConfig = {
       legacy: false,
     },
   },
-  context: {
-    parameters: {
-      baseSite: { default: '' },
-    },
-  },
 };
 
 describe('CmsComponentConnector', () => {
