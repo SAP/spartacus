@@ -100,4 +100,12 @@ describe('NotificationDialogComponent', () => {
     el.query(By.css('[data-test]="okay-button"')).nativeElement.click();
     expect(ngbActiveModal.dismiss).toHaveBeenCalled();
   });
+
+  it('should be able to unsubscribe/rest in destory', () => {
+    fixture.detectChanges();
+
+    component.ngOnDestroy();
+
+    expect(productInterestService.resetCreateState).toHaveBeenCalled();
+  });
 });
