@@ -74,6 +74,7 @@ describe('StockNotificationComponent', () => {
       'createBackInStock',
       'resetBackInStock',
       'getDeleteBackInStockSuccess',
+      'getDeleteBackInStockFail',
       'getDeleteBackInStockLoading',
       'getCreateBackInStockSuccess',
       'resetDeleteState',
@@ -153,16 +154,7 @@ describe('StockNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show notify me button', () => {
-    fixture.detectChanges();
-
-    expect(
-      el.query(By.css('[data-test]="stocknotify-button"')).nativeElement
-    ).toBeTruthy();
-  });
-
-  it('should show disabled button link for login customr without channel set', () => {
-    authService.getUserToken.and.returnValue(of(userToken));
+  it('should show disabled button and link for login custom without channel set', () => {
     userService.getNotificationPreferences.and.returnValue(of([]));
     fixture.detectChanges();
 
@@ -170,17 +162,7 @@ describe('StockNotificationComponent', () => {
       el.query(By.css('[data-test]="stocknotify-link"')).nativeElement
     ).toBeTruthy();
     expect(
-      el.query(By.css('[data-test]="stocknotify-button"')).nativeElement
-        .disabled
-    ).toEqual(true);
-  });
-
-  it('should show disabled button link for anonymous', () => {
-    authService.getUserToken.and.returnValue(of({}));
-    fixture.detectChanges();
-
-    expect(
-      el.query(By.css('[data-test]="stocknotify-link"')).nativeElement
+      el.query(By.css('[data-test]="stocknotify-note"')).nativeElement
     ).toBeTruthy();
     expect(
       el.query(By.css('[data-test]="stocknotify-button"')).nativeElement
@@ -188,37 +170,73 @@ describe('StockNotificationComponent', () => {
     ).toEqual(true);
   });
 
-  it('should be able to stop notify', () => {
+  it('should show disabled button and link for anonymous', () => {
+    authService.getUserToken.and.returnValue(of({}));
+    fixture.detectChanges();
+
+    expect(
+      el.query(By.css('[data-test]="stocknotify-link"')).nativeElement
+    ).toBeTruthy();
+    expect(
+      el.query(By.css('[data-test]="stocknotify-note"')).nativeElement
+    ).toBeTruthy();
+    expect(
+      el.query(By.css('[data-test]="stocknotify-button"')).nativeElement
+        .disabled
+    ).toEqual(true);
+  });
+
+  it('should show loading when delete stock notification', () => {
     productInterestService.getBackInStockSubscribed.and.returnValue(of(true));
     productInterestService.getDeleteBackInStockLoading.and.returnValue(
       cold('-a|', { a: true })
     );
     fixture.detectChanges();
-
     const button = el.query(By.css('[data-test="stocknotify-button"]'))
       .nativeElement;
     button.click();
+
+    getTestScheduler().flush();
+
+    expect(button.disabled).toEqual(true);
+    expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
+  });
+
+  it('should show global message when delete stock notification', () => {
+    productInterestService.getBackInStockSubscribed.and.returnValue(of(true));
+    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
+      cold('-b|', { a: true })
+    );
     fixture.detectChanges();
+    const button = el.query(By.css('[data-test="stocknotify-button"]'))
+      .nativeElement;
+    button.click();
 
     expect(productInterestService.deleteBackInStock).toHaveBeenCalled();
 
     getTestScheduler().flush();
-    fixture.detectChanges();
-
-    expect(button.disabled).toEqual(true);
-    expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
-
-    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
-      cold('-b|', { a: true })
-    );
-    getTestScheduler().flush();
-    fixture.detectChanges();
 
     expect(ngbModal.open).not.toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
   });
 
-  it('should be able to notify', () => {
+  it('should show global message when delete stock notification success', () => {
+    productInterestService.getBackInStockSubscribed.and.returnValue(of(true));
+    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
+      cold('-b|', { a: true })
+    );
+    fixture.detectChanges();
+    const button = el.query(By.css('[data-test="stocknotify-button"]'))
+      .nativeElement;
+    button.click();
+
+    getTestScheduler().flush();
+
+    expect(ngbModal.open).not.toHaveBeenCalled();
+    expect(globalMessageService.add).toHaveBeenCalled();
+  });
+
+  it('should be able to show dialog and global message for create stock notification', () => {
     fixture.detectChanges();
 
     const button = el.query(By.css('[data-test="stocknotify-button"]'))
