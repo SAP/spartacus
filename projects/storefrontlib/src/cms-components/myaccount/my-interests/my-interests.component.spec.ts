@@ -204,6 +204,7 @@ describe('MyInterestsComponent', () => {
     userService.deleteProdutInterest.and.stub();
     fixture.detectChanges();
     el.query(By.css('button')).nativeElement.click();
+    fixture.detectChanges();
 
     expect(userService.deleteProdutInterest).toHaveBeenCalled();
   });
