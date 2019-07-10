@@ -115,7 +115,7 @@ describe('AddToCartComponent', () => {
     });
   });
 
-  fdescribe('Product from page', () => {
+  describe('Product from page', () => {
     it('should load product from service', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct)
@@ -129,7 +129,8 @@ describe('AddToCartComponent', () => {
     });
 
     it('should reset counter value when changing product', () => {
-      const currentProduct = new BehaviorSubject(mockProduct);
+      const currentProduct = new BehaviorSubject<Product>(mockProduct);
+
       //Product 1
       spyOn(currentProductService, 'getProduct').and.returnValue(
         currentProduct
