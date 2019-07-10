@@ -132,7 +132,7 @@ const userToken = {
   userId: 'xxx',
 };
 
-fdescribe('MyInterestsComponent', () => {
+describe('MyInterestsComponent', () => {
   let component: MyInterestsComponent;
   let fixture: ComponentFixture<MyInterestsComponent>;
   let el: DebugElement;
