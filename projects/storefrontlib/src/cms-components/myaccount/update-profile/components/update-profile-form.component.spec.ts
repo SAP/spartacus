@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, User } from '@spartacus/core';
 import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 import { UpdateProfileFormComponent } from './update-profile-form.component';
@@ -20,7 +21,7 @@ describe('UpdateProfileFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, NgSelectModule],
       declarations: [UpdateProfileFormComponent],
     }).compileComponents();
   }));

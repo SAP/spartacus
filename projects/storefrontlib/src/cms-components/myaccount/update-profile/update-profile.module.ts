@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
@@ -26,6 +27,7 @@ import { UpdateProfileComponent } from './update-profile.component';
     ReactiveFormsModule,
     SpinnerModule,
     I18nModule,
+    NgSelectModule,
   ],
   declarations: [UpdateProfileComponent, UpdateProfileFormComponent],
   exports: [UpdateProfileComponent],
