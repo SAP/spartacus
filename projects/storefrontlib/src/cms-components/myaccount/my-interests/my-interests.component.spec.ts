@@ -132,7 +132,7 @@ const userToken = {
   userId: 'xxx',
 };
 
-describe('MyInterestsComponent', () => {
+fdescribe('MyInterestsComponent', () => {
   let component: MyInterestsComponent;
   let fixture: ComponentFixture<MyInterestsComponent>;
   let el: DebugElement;
@@ -174,9 +174,15 @@ describe('MyInterestsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should show loading spinner when data is loading', () => {
+    userService.getProdutInterestsLoaded.and.returnValue(of(true));
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+  });
+
   it('should display message when no interest', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('.cx-product-interests-header'))).toBeTruthy();
+    expect(el.query(By.css('[data-test="noInterestMessage"]'))).toBeTruthy();
   });
 
   it('should show interests list', () => {
@@ -186,39 +192,28 @@ describe('MyInterestsComponent', () => {
 
     expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
     expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
-    expect(el.queryAll(By.css('tr')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productItem"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productLink"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="deleteButton"]')).length).toEqual(2);
   });
 
   it('should be able to change page/sort', () => {
     fixture.detectChanges();
 
     component.sortChange('sort');
-    expect(userService.getProdutInterests).toHaveBeenCalled();
+    expect(userService.loadProductInterests).toHaveBeenCalled();
 
     component.pageChange(2);
-    expect(userService.getProdutInterests).toHaveBeenCalled();
+    expect(userService.loadProductInterests).toHaveBeenCalled();
   });
 
   it('should be able to delete an interest item', () => {
     userService.getProdutInterests.and.returnValue(of(mockedInterests));
     userService.deleteProdutInterest.and.stub();
     fixture.detectChanges();
-    el.query(By.css('button')).nativeElement.click();
+    el.query(By.css('[data-test="deleteButton"]')).nativeElement.click();
     fixture.detectChanges();
 
     expect(userService.deleteProdutInterest).toHaveBeenCalled();
-  });
-
-  it('should reset value when the component is destroy', () => {
-    userService.clearProductInterests.and.stub();
-    component.ngOnDestroy();
-    expect(userService.clearProductInterests).toHaveBeenCalled();
-  });
-
-  it('should show products hyperlinks', () => {
-    userService.getProdutInterests.and.returnValue(of(mockedInterests));
-    fixture.detectChanges();
-
-    expect(el.queryAll(By.css('[data-test="productLink"]')).length).toEqual(2);
   });
 });
