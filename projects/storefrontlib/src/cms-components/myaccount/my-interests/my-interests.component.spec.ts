@@ -208,15 +208,6 @@ fdescribe('MyInterestsComponent', () => {
     expect(userService.deleteProdutInterest).toHaveBeenCalled();
   });
 
-  it('should be able to delete an interest item', () => {
-    userService.getProdutInterests.and.returnValue(of(mockedInterests));
-    userService.deleteProdutInterest.and.stub();
-    fixture.detectChanges();
-    el.query(By.css('button')).nativeElement.click();
-
-    expect(userService.deleteProdutInterest).toHaveBeenCalled();
-  });
-
   it('should reset value when the component is destroy', () => {
     userService.clearProductInterests.and.stub();
     component.ngOnDestroy();
