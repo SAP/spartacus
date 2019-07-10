@@ -33,7 +33,7 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-forgot-password, cx-banner-carousel, cx-update-password !default;
 
 // future theme's, can be introduced during minors
-$theme: ''; // calydon
+$theme: 'calydon'; // calydon
 
   // sampe of theme specific
   @each $selector in $selectors {
