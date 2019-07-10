@@ -10,6 +10,9 @@
     "publishPath": "./../../dist/core",
     "tag": "latest"
   },
+  "hooks": {
+    "after:git:bump": "cd ../.. && ng build core"
+  },
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],

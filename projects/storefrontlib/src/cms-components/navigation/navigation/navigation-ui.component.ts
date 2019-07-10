@@ -102,8 +102,9 @@ export class NavigationUIComponent implements OnDestroy {
     this.updateClasses();
   }
 
-  onMouseEnter(event: UIEvent) {
+  onMouseEnter(event: MouseEvent) {
     this.alignWrapperToRightIfStickOut(<HTMLElement>event.currentTarget);
+    this.focusAfterPreviousClicked(event);
   }
 
   getDepth(node: NavigationNode, depth = 0): number {
@@ -112,6 +113,19 @@ export class NavigationUIComponent implements OnDestroy {
     } else {
       return depth;
     }
+  }
+
+  focusAfterPreviousClicked(event: MouseEvent) {
+    const target: HTMLElement = <HTMLElement>(
+      (event.target || event.relatedTarget)
+    );
+    if (
+      target.ownerDocument.activeElement.matches('nav[tabindex]') &&
+      target.parentElement.matches('.flyout')
+    ) {
+      target.focus();
+    }
+    return target.ownerDocument;
   }
 
   ngOnDestroy() {
