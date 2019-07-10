@@ -14,7 +14,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
 import { CheckoutStepType } from '../../model/checkout-step.model';
@@ -80,6 +80,14 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           textShipToThisAddress,
           textSelected,
         ]) => {
+          // Select default address if none selected
+          if (!addresses.includes(selected)) {
+            const defaultAddress = addresses.find(
+              address => address.defaultAddress
+            );
+            selected = defaultAddress;
+          }
+
           return addresses.map(address => {
             const card = this.getCardContent(
               address,
@@ -94,15 +102,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
             };
           });
         }
-      ),
-      tap(cardsWithAddresses => {
-        const addressB = this.selectDefaultAddressWhenNoneSelected(
-          cardsWithAddresses
-        );
-        if (addressB) {
-          this.selectedAddress$.next(addressB);
-        }
-      })
+      )
     );
 
     this.userAddressService.loadAddresses();
@@ -120,23 +120,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.selectedAddressSub = this.selectedAddress$.subscribe(address => {
       this.selectedAddress = address;
     });
-  }
-
-  selectDefaultAddressWhenNoneSelected(cardsWithAddresses: CardWithAddress[]) {
-    if (cardsWithAddresses.length) {
-      const selected = cardsWithAddresses.find(
-        cardWithAddress => cardWithAddress.card.header === 'Selected'
-      );
-
-      const defaultSelection = cardsWithAddresses.find(
-        cardWithAddress => cardWithAddress.address.defaultAddress
-      );
-
-      if (!selected && defaultSelection) {
-        return defaultSelection.address;
-      }
-    }
-    return null;
   }
 
   getCardContent(
