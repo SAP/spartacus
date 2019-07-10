@@ -9,7 +9,7 @@ import {
   OrderEntry,
   Product,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';
@@ -115,7 +115,7 @@ describe('AddToCartComponent', () => {
     });
   });
 
-  describe('Product from page', () => {
+  fdescribe('Product from page', () => {
     it('should load product from service', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct)
@@ -129,18 +129,17 @@ describe('AddToCartComponent', () => {
     });
 
     it('should reset counter value when changing product', () => {
+      const currentProduct = new BehaviorSubject(mockProduct);
       //Product 1
-      let spy = spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        currentProduct
       );
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
       addToCartComponent.quantity = 5;
 
       //Product 2
-      addToCartComponent.productCode = undefined;
-      spy.and.returnValue(of(mockProduct2));
-      addToCartComponent.ngOnInit();
+      currentProduct.next(mockProduct2);
       expect(addToCartComponent.productCode).toEqual(mockProduct2.code);
       //Quantity is expected to be reset to 1 since it is a new product page
       expect(addToCartComponent.quantity).toEqual(1);
