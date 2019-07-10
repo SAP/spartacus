@@ -78,7 +78,21 @@ const mockAddress2: Address = {
   country: { isocode: 'JP' },
 };
 
-const mockAddresses: Address[] = [mockAddress1, mockAddress2];
+const mockAddress3: Address = {
+  firstName: 'Alice',
+  lastName: 'Smith',
+  titleCode: 'mrs',
+  line1: 'other first line',
+  line2: 'other second line',
+  town: 'other town',
+  id: 'id2',
+  region: { isocode: 'JP-27' },
+  postalCode: 'other zip',
+  country: { isocode: 'JP' },
+  defaultAddress: true,
+};
+
+const mockAddresses: Address[] = [mockAddress1, mockAddress2, mockAddress3];
 
 const mockActivatedRoute = {
   snapshot: {
@@ -113,7 +127,7 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
-describe('ShippingAddressComponent', () => {
+fdescribe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
@@ -232,6 +246,30 @@ describe('ShippingAddressComponent', () => {
     expect(mockCheckoutDeliveryService.setDeliveryAddress).toHaveBeenCalledWith(
       mockAddress1
     );
+  });
+
+  it('should select default when no address is selected', () => {
+    spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+      of(false)
+    );
+    spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+      of(mockAddresses)
+    );
+    component.ngOnInit();
+    let address: Address[];
+    component.existingAddresses$
+      .subscribe(data => {
+        console.log(data);
+        address = data;
+      })
+      .unsubscribe();
+    expect(address).toBe(mockAddresses);
+    component.cards$
+      .subscribe(cards => {
+        console.log(cards);
+        expect(cards.length).toEqual(2);
+      })
+      .unsubscribe();
   });
 
   describe('UI continue button', () => {

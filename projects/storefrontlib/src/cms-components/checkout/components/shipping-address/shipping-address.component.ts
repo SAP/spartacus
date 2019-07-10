@@ -95,9 +95,14 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           });
         }
       ),
-      tap(cardsWithAddresses =>
-        this.selectDefaultAddressWhenNoneSelected(cardsWithAddresses)
-      )
+      tap(cardsWithAddresses => {
+        const addressB = this.selectDefaultAddressWhenNoneSelected(
+          cardsWithAddresses
+        );
+        if (addressB) {
+          this.selectedAddress$.next(addressB);
+        }
+      })
     );
 
     this.userAddressService.loadAddresses();
@@ -117,9 +122,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  private selectDefaultAddressWhenNoneSelected(
-    cardsWithAddresses: CardWithAddress[]
-  ) {
+  selectDefaultAddressWhenNoneSelected(cardsWithAddresses: CardWithAddress[]) {
     if (cardsWithAddresses.length) {
       const selected = cardsWithAddresses.find(
         cardWithAddress => cardWithAddress.card.header === 'Selected'
@@ -130,9 +133,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       );
 
       if (!selected && defaultSelection) {
-        setTimeout(() => this.selectedAddress$.next(defaultSelection.address));
+        return defaultSelection.address;
       }
     }
+    return null;
   }
 
   getCardContent(
