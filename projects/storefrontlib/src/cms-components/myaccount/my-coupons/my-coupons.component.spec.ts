@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyCouponsComponent } from './my-coupons.component';
-import { Component, Input, DebugElement } from '@angular/core';
+import {
+  Component,
+  Input,
+  DebugElement,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import {
   I18nTestingModule,
   CustomerCouponSearchResult,
@@ -63,11 +69,26 @@ class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-coupon-card',
-  template: '',
+  template: `
+    <input
+      type="checkbox"
+      class="card-check-box"
+      (change)="onNotificationChange()"
+    />
+  `,
 })
 class MockCouponCardComponent {
   @Input() coupon: CustomerCoupon;
-  @Input() couponLoading = true;
+  @Input() couponLoading = false;
+  @Output()
+  notificationChanged = new EventEmitter<{
+    couponId: string;
+    notification: boolean;
+  }>();
+
+  onNotificationChange(): void {
+    this.notificationChanged.emit({ couponId: '123', notification: false });
+  }
 }
 
 describe('MyCouponsComponent', () => {
@@ -140,22 +161,29 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to change page/sort', () => {
+    userService.getCustomerCoupons.and.returnValue(of(couponResult));
     fixture.detectChanges();
 
-    component.sortChange('sort');
-    expect(userService.loadCustomerCoupons).toHaveBeenCalled();
+    component.sortChange('byStartDateAsc');
+    expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
+      10,
+      0,
+      'startDate:asc'
+    );
 
     component.pageChange(2);
-    expect(userService.loadCustomerCoupons).toHaveBeenCalled();
+    expect(userService.loadCustomerCoupons).toHaveBeenCalledWith(
+      10,
+      2,
+      'startDate:asc'
+    );
   });
 
   it('should be able to trun on/off notification for a coupon', () => {
+    userService.getCustomerCoupons.and.returnValue(of(couponResult));
     fixture.detectChanges();
 
-    component.onNotificationChange({ couponId: '123', notification: true });
-    expect(userService.subscribeCustomerCoupon).toHaveBeenCalledWith('123');
-
-    component.onNotificationChange({ couponId: '123', notification: false });
+    el.query(By.css('.card-check-box')).nativeElement.click();
     expect(userService.unsubscribeCustomerCoupon).toHaveBeenCalledWith('123');
   });
 });

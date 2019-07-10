@@ -1,11 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CouponCardComponent } from './coupon-card.component';
-import { I18nTestingModule, CustomerCoupon } from '@spartacus/core';
+import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
-import { ModalService } from '../../../../shared/components/modal/index';
-import { Pipe, PipeTransform, DebugElement } from '@angular/core';
+import {
+  Pipe,
+  PipeTransform,
+  DebugElement,
+  Component,
+  ViewChild,
+} from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ModalService } from '@spartacus/storefront';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -25,26 +31,55 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+class MockParm {
+  couponId: string;
+  notification: boolean;
+}
+
+@Component({
+  template: `
+    <cx-coupon-card
+      [coupon]="coupon"
+      [couponLoading]="loading"
+      (notificationChanged)="onNotificationChange($event)"
+    >
+    </cx-coupon-card>
+  `,
+})
+class MockedMyCouponsComponent {
+  coupon = mockCoupon;
+  loading = false;
+
+  @ViewChild(CouponCardComponent)
+  card: CouponCardComponent;
+
+  onNotificationChange(_parm: MockParm): void {
+    this.loading = true;
+  }
+}
+
 describe('CouponCardComponent', () => {
-  let component: CouponCardComponent;
-  let fixture: ComponentFixture<CouponCardComponent>;
+  let component: MockedMyCouponsComponent;
+  let fixture: ComponentFixture<MockedMyCouponsComponent>;
   let el: DebugElement;
   const modalService = jasmine.createSpyObj('ModalService', ['open']);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CouponCardComponent, MockUrlPipe],
+      declarations: [
+        CouponCardComponent,
+        MockUrlPipe,
+        MockedMyCouponsComponent,
+      ],
       imports: [I18nTestingModule, RouterTestingModule],
       providers: [{ provide: ModalService, useValue: modalService }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CouponCardComponent);
+    fixture = TestBed.createComponent(MockedMyCouponsComponent);
     el = fixture.debugElement;
     component = fixture.componentInstance;
     component.coupon = mockCoupon;
-    component.couponLoading = false;
-    modalService.open.and.stub();
   });
 
   it('should create', () => {
@@ -65,23 +100,16 @@ describe('CouponCardComponent', () => {
 
   it('should be able to open "read more" dialog', () => {
     fixture.detectChanges();
-    el.query(By.css('[data-test]="read-more"')).nativeElement.click();
+    el.query(By.css('.cx-card-read-more')).nativeElement.click();
     expect(modalService.open).toHaveBeenCalled();
   });
 
   it('should be able to subscribe/unsubscribe notification', () => {
-    spyOn(component.notificationChanged, 'emit').and.callThrough();
     fixture.detectChanges();
-    const chx = el.query(By.css('[data-test]="notify-checkbox"')).nativeElement;
-    chx.click();
-    expect(component.notificationChanged.emit).toHaveBeenCalled();
-
-    component.couponLoading = true;
-    fixture.detectChanges();
-    expect(chx.disabled).toEqual(true);
-
-    component.couponLoading = false;
-    fixture.detectChanges();
+    const chx = el.query(By.css('.form-check-input')).nativeElement;
     expect(chx.disabled).toEqual(false);
+
+    chx.click();
+    expect(component.loading).toEqual(true);
   });
 });

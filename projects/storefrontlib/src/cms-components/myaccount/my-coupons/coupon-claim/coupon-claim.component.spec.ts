@@ -62,18 +62,15 @@ describe('CouponClaimComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should add global message', () => {
-      userService.getClaimCustomerCouponResultSuccess.and.returnValue(of(true));
-      routingService.getRouterState.and.returnValue(of(mockRouterState));
-      routingService.go.and.stub();
-      component.ngOnInit();
-      fixture.detectChanges();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'myCoupons.claimCustomerCoupon' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-      expect(routingService.go).toHaveBeenCalledWith('/my-account/coupons');
-    });
+  it('should be able to add global message', () => {
+    userService.getClaimCustomerCouponResultSuccess.and.returnValue(of(true));
+    routingService.getRouterState.and.returnValue(of(mockRouterState));
+    routingService.go.and.stub();
+    fixture.detectChanges();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'myCoupons.claimCustomerCoupon' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    expect(routingService.go).toHaveBeenCalledWith('/my-account/coupons');
   });
 });
