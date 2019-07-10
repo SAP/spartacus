@@ -25,7 +25,7 @@ export class CouponCardComponent implements OnInit {
 
   notification = false;
 
-  constructor(protected modalService: ModalService) { }
+  constructor(protected modalService: ModalService) {}
 
   ngOnInit() {
     this.notification = this.coupon.notificationOn;

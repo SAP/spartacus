@@ -72,7 +72,7 @@ class MockSpinnerComponent {}
   template: `
     <input
       type="checkbox"
-      class="card-check-box"
+      data-test="card-checkbox"
       (change)="onNotificationChange()"
     />
   `,
@@ -183,7 +183,7 @@ describe('MyCouponsComponent', () => {
     userService.getCustomerCoupons.and.returnValue(of(couponResult));
     fixture.detectChanges();
 
-    el.query(By.css('.card-check-box')).nativeElement.click();
+    el.query(By.css('[data-test]="card-checkbox"')).nativeElement.click();
     expect(userService.unsubscribeCustomerCoupon).toHaveBeenCalledWith('123');
   });
 });

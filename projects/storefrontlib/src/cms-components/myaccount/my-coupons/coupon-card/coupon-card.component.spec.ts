@@ -50,9 +50,6 @@ class MockedMyCouponsComponent {
   coupon = mockCoupon;
   loading = false;
 
-  @ViewChild(CouponCardComponent)
-  card: CouponCardComponent;
-
   onNotificationChange(_parm: MockParm): void {
     this.loading = true;
   }
@@ -100,13 +97,13 @@ describe('CouponCardComponent', () => {
 
   it('should be able to open "read more" dialog', () => {
     fixture.detectChanges();
-    el.query(By.css('.cx-card-read-more')).nativeElement.click();
+    el.query(By.css('[data-test]="read-more"')).nativeElement.click();
     expect(modalService.open).toHaveBeenCalled();
   });
 
   it('should be able to subscribe/unsubscribe notification', () => {
     fixture.detectChanges();
-    const chx = el.query(By.css('.form-check-input')).nativeElement;
+    const chx = el.query(By.css('[data-test]="notify-checkbox"')).nativeElement;
     expect(chx.disabled).toEqual(false);
 
     chx.click();
