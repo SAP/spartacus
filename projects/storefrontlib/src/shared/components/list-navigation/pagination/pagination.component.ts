@@ -106,7 +106,7 @@ export class PaginationComponent {
     this.viewPageEvent.emit(page - 1);
   }
 
-  hidePagination() {
-    return this.hideOnSinglePage && this.pagination.totalPages <= 1;
+  showPagination() {
+    return !(this.hideOnSinglePage && this.pagination.totalPages <= 1);
   }
 }

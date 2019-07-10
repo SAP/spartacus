@@ -190,7 +190,7 @@ describe('PaginationComponent', () => {
     });
   });
 
-  describe('hidePagination()', () => {
+  describe('showPagination()', () => {
     beforeEach(() => {
       pagination = {
         currentPage: 1,
@@ -200,15 +200,15 @@ describe('PaginationComponent', () => {
     });
 
     it('should NOT hide pagination', () => {
-      component.hidePagination();
-      expect(component.hidePagination()).toBeFalsy();
+      component.showPagination();
+      expect(component.showPagination()).toBeTruthy();
     });
 
     it('should hide pagination', () => {
       component.hideOnSinglePage = true;
 
-      component.hidePagination();
-      expect(component.hidePagination()).toBeTruthy();
+      component.showPagination();
+      expect(component.showPagination()).toBeFalsy();
     });
   });
 });
