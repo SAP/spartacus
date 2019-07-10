@@ -27,6 +27,10 @@ const mockTitlesList: Title[] = [
     name: 'Mrs.',
   },
 ];
+const expectedTitles: Title[] = [
+  { code: '', name: 'Title' },
+  ...mockTitlesList,
+];
 
 @Pipe({
   name: 'cxUrl',
@@ -120,7 +124,7 @@ describe('RegisterComponent', () => {
           titleList = data;
         })
         .unsubscribe();
-      expect(titleList).toEqual(mockTitlesList);
+      expect(titleList).toEqual(expectedTitles);
     });
 
     it('should fetch titles if the state is empty', done => {
