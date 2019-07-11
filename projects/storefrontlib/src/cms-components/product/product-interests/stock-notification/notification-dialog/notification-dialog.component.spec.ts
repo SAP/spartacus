@@ -1,12 +1,33 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationDialogComponent } from './notification-dialog.component';
-import { Pipe, PipeTransform, Component } from '@angular/core';
+import { Pipe, PipeTransform, Component, DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
+import {
+  I18nTestingModule,
+  ProductInterestService,
+  BasicNotificationPreferenceList,
+} from '@spartacus/core';
 import { of } from 'rxjs';
-import { I18nTestingModule, ProductInterestService } from '@spartacus/core';
+
+const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
+  preferences: [
+    {
+      channel: 'EMAIL',
+      enabled: true,
+      value: 'test@sap.com',
+      visible: true,
+    },
+    {
+      channel: 'SITE_MESSAGE',
+      enabled: true,
+      value: '',
+      visible: true,
+    },
+  ],
+};
 
 @Pipe({
   name: 'cxUrl',
@@ -24,7 +45,7 @@ class MockCxSpinnerComponent {}
 describe('NotificationDialogComponent', () => {
   let component: NotificationDialogComponent;
   let fixture: ComponentFixture<NotificationDialogComponent>;
-  let selectedChannels: any[];
+  let el: DebugElement;
 
   const productInterestService = jasmine.createSpyObj(
     'ProductInterestService',
@@ -59,61 +80,51 @@ describe('NotificationDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationDialogComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    component.subscribeSuccess$ = of(true);
+    component.selectedChannels = basicNotificationPreferenceList.preferences;
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should show selected channels when selectedChannels are exist', () => {
-    selectedChannels = [
-      {
-        channel: 'EMAIL',
-        value: 'test@sap.com',
-      },
-      {
-        channel: 'SMS',
-        value: '13800000831',
-      },
-    ];
-    component.subscribeSuccess$ = of(true);
-    component.selectedChannels = selectedChannels;
+  it('should show notification dialog', () => {
     fixture.detectChanges();
-    const plist = fixture.debugElement.queryAll(By.css('p'));
-    expect(plist.length).toEqual(6);
-    expect(plist[1].nativeElement.textContent).toContain('EMAIL: test@sap.com');
-    expect(plist[2].nativeElement.textContent).toContain('SMS: 13800000831');
+
+    expect(el.query(By.css('[data-test]="title"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="btn-close"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="list-channel"'))).toBeTruthy();
+    expect(el.queryAll(By.css('[data-test]="link-setchannel"'))).toBeTruthy();
+    expect(el.queryAll(By.css('[data-test]="link-myinterest"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="btn-ok"'))).toBeTruthy();
   });
 
-  it('should show manage channels link and manage subscriptions link', () => {
-    component.subscribeSuccess$ = of(true);
-    fixture.detectChanges();
-    const alist = fixture.debugElement.queryAll(By.css('a'));
-    expect(alist[0].nativeElement.textContent).toContain(
-      'stockNotification.subscriptionDialog.manageChannelsLink'
-    );
-    expect(alist[1].nativeElement.textContent).toContain(
-      'stockNotification.subscriptionDialog.manageSubscriptionsLink'
-    );
-  });
-
-  it('should show loading template when data is not ready', () => {
-    selectedChannels = [];
-    component.selectedChannels = selectedChannels;
+  it('should show spinner when loading', () => {
     component.subscribeSuccess$ = of(false);
+
     fixture.detectChanges();
-    const notificationPreference = fixture.debugElement.queryAll(
-      By.css('.cx-notification-preference-span')
-    );
-    expect(notificationPreference.length).toEqual(0);
+
+    expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
   });
 
-  it('should be able to close dialog', () => {
-    component.subscribeSuccess$ = of(true);
+  it('should be able to close dialog by close button', () => {
     fixture.detectChanges();
-    fixture.debugElement.queryAll(By.css('button'))[0].nativeElement.click();
-    expect(ngbActiveModal.dismiss).toHaveBeenCalledWith('Cross click');
+
+    el.query(By.css('[data-test]="btn-close"')).nativeElement.click();
+    expect(ngbActiveModal.dismiss).toHaveBeenCalled();
+  });
+
+  it('should be able to close dialog by OK button', () => {
+    fixture.detectChanges();
+
+    el.query(By.css('[data-test]="btn-ok"')).nativeElement.click();
+    expect(ngbActiveModal.dismiss).toHaveBeenCalled();
+  });
+
+  it('should able to reset the state in destory', () => {
+    component.ngOnDestroy();
+
     expect(productInterestService.resetCreateState).toHaveBeenCalled();
   });
 });

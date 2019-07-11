@@ -9,13 +9,19 @@ import {
   OccConfig,
   BasicNotificationPreferenceList,
 } from '@spartacus/core';
-import { Pipe, PipeTransform, Component } from '@angular/core';
+import {
+  Pipe,
+  PipeTransform,
+  Component,
+  DebugElement,
+  ViewChild,
+} from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StockNotificationComponent } from './stock-notification.component';
 import { of } from 'rxjs';
 import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
+import { cold, getTestScheduler } from 'jasmine-marbles';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -42,21 +48,36 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxSpinnerComponent {}
 
-describe('StockNotificationComponent', () => {
-  let component: StockNotificationComponent;
-  let fixture: ComponentFixture<StockNotificationComponent>;
+@Component({
+  template: `
+    <cx-stock-notification
+      [productStockLevelStatus]="outOfStock"
+      [productCode]="product?.code"
+    >
+    </cx-stock-notification>
+  `,
+})
+class MockedProductSummaryComponent {
+  productStockLevelStatus = 'outOfStock';
+  productCode = '123';
 
-  const MockNgbActiveModal = jasmine.createSpyObj('NgbActiveModal', [
-    'dismiss',
-    'close',
-  ]);
+  @ViewChild('StockNotificationComponent', { static: false })
+  stockNotificationComponent: StockNotificationComponent;
+}
+
+describe('StockNotificationComponent', () => {
+  let component: MockedProductSummaryComponent;
+  let fixture: ComponentFixture<MockedProductSummaryComponent>;
+  let el: DebugElement;
+  let modalInstance: any;
+
+  const ngbModal = jasmine.createSpyObj('NgbModal', ['open']);
   const userService = jasmine.createSpyObj('UserService', [
     'getNotificationPreferences',
   ]);
   const translationService = jasmine.createSpyObj('TranslationService', [
     'translate',
   ]);
-  translationService.translate.and.returnValue(of('test'));
   const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
     'add',
   ]);
@@ -76,6 +97,7 @@ describe('StockNotificationComponent', () => {
       'createBackInStock',
       'resetBackInStock',
       'getDeleteBackInStockSuccess',
+      'getDeleteBackInStockFail',
       'getDeleteBackInStockLoading',
       'getCreateBackInStockSuccess',
       'resetDeleteState',
@@ -108,15 +130,6 @@ describe('StockNotificationComponent', () => {
     userId: 'xxx',
   };
 
-  const userNotExist = {
-    access_token: '',
-    token_type: '',
-    refresh_token: '',
-    expires_in: 1000,
-    scope: [''],
-    userId: '',
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
@@ -125,6 +138,7 @@ describe('StockNotificationComponent', () => {
         MockUrlPipe,
         MockCxSpinnerComponent,
         NotificationDialogComponent,
+        MockedProductSummaryComponent,
       ],
       providers: [
         { provide: AuthService, useValue: authService },
@@ -143,39 +157,21 @@ describe('StockNotificationComponent', () => {
           provide: NotificationDialogComponent,
           useValue: notificationDialogComponent,
         },
-        {
-          provide: NgbActiveModal,
-          useValue: MockNgbActiveModal,
-        },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     authService.getUserToken.and.returnValue(of({ userToken }));
-    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
-      of(true)
-    );
-    productInterestService.loadBackInStockSubscribed.and.stub();
     userService.getNotificationPreferences.and.returnValue(
       of(basicNotificationPreferenceList)
     );
     productInterestService.getBackInStockSubscribed.and.returnValue(of(false));
-    productInterestService.getCreateBackInStockSuccess.and.returnValue(
-      of(false)
-    );
-    productInterestService.getDeleteBackInStockLoading.and.returnValue(
-      of(false)
-    );
-    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
-      of(true)
-    );
-    spyOn(
-      StockNotificationComponent.prototype as any,
-      'onUnsubscribeSuccess'
-    ).and.stub();
-    fixture = TestBed.createComponent(StockNotificationComponent);
+    ngbModal.open.and.returnValue(of(modalInstance));
+
+    fixture = TestBed.createComponent(MockedProductSummaryComponent);
     component = fixture.componentInstance;
+    component.productStockLevelStatus = 'outOfStock';
   });
 
   it('should create', () => {
@@ -183,129 +179,103 @@ describe('StockNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not load stock notificaiton data, when customer is not login', () => {
+  it('should not show element expcept out of stock product', () => {
+    component.productOutOfStock = 'inStock';
+    fixture.detectChanges();
+
+    expect(el.query(By.css('.cx-stock-notification')).children).toBeNull();
+  });
+
+  it('should show component for anonymous', () => {
     authService.getUserToken.and.returnValue(of({}));
     fixture.detectChanges();
-    component.logged$.subscribe(x => expect(x).toBeFalsy());
+
+    expect(
+      el.query(By.css('[data-test]="link-setchannel"')).nativeElement
+    ).toBeTruthy();
+    expect(
+      el.query(By.css('[data-test]="btn-note-setchannel"')).nativeElement
+    ).toBeTruthy();
+    expect(
+      el.query(By.css('[data-test]="btn-notify"')).nativeElement.disabled
+    ).toEqual(true);
   });
 
-  it('should load stock notification data , when customer is login', () => {
-    authService.getUserToken.and.returnValue(of(userToken));
+  it('should show component for login customer without setting notification channel', () => {
+    userService.getNotificationPreferences.and.returnValue(of([]));
     fixture.detectChanges();
-    component.logged$.subscribe(x => expect(x).toBeTruthy());
+
+    expect(
+      el.query(By.css('[data-test]="link-setchannel"')).nativeElement
+    ).toBeTruthy();
+    expect(
+      el.query(By.css('[data-test]="btn-note-setchannel"')).nativeElement
+    ).toBeTruthy();
+    expect(
+      el.query(By.css('[data-test]="btn-notify"')).nativeElement.disabled
+    ).toEqual(true);
   });
 
-  it('should create the product notification', () => {
-    const notificationComponent = TestBed.createComponent(
-      NotificationDialogComponent
-    );
-    notificationComponent.componentInstance.subscribeSuccess$ = of(true);
-    notificationComponent.componentInstance.selectedChannels = [
-      {
-        channel: 'EMAIL',
-        value: 'test@sap.com',
-      },
-      {
-        channel: 'SMS',
-        value: '13800000831',
-      },
-    ];
-    spyOn(component['ngbModal'], 'open').and.returnValue(notificationComponent);
-    component.notify();
+  it('should be able to show dialog for create stock notification for login user with channel set', () => {
+    fixture.detectChanges();
+
+    expect(
+      el.query(By.css('[data-test]="btn-note-notify"')).nativeElement
+    ).toBeTruthy();
+    const button = el.query(By.css('[data-test="btn-notify"]')).nativeElement;
+    button.click();
+
     expect(productInterestService.createBackInStock).toHaveBeenCalled();
+    expect(ngbModal.open).toHaveBeenCalled();
   });
 
-  it('should delete the product notification', () => {
-    component.stopNotify();
-    expect(productInterestService.deleteBackInStock).toHaveBeenCalled();
-  });
-
-  it('should return the notification preferences endpoint URL', () => {
-    component.userId = 'test@sap.com';
-    expect(component.notificationPrefUrl).toEqual(
-      '/users/test@sap.com/notificationpreferences'
-    );
-  });
-
-  it('should call the methods unsubscribe and reset the processing states', () => {
-    spyOn(component['subscription'], 'unsubscribe').and.stub();
-    component.ngOnDestroy();
-    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
-    expect(productInterestService.resetBackInStock).toHaveBeenCalled();
-  });
-
-  it('should show notify me, when logged$ is true, subscribed$ is false, channelEnabled$ is true', () => {
-    authService.getUserToken.and.returnValue(of(userToken));
-    productInterestService.getBackInStockSubscribed.and.returnValue(of(false));
-    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
-      of(true)
-    );
-
-    userService.getNotificationPreferences.and.returnValue(
-      of(basicNotificationPreferenceList)
-    );
-    fixture.detectChanges();
-
-    component.logged$.subscribe(x => expect(x).toEqual(true));
-    component.subscribed$.subscribe(x => expect(x).toEqual(false));
-    component.channelEnabled$.subscribe(x => expect(x).toEqual(true));
-
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    expect(buttons[0].nativeElement.textContent).toContain(
-      'stockNotification.notifyMe'
-    );
-  });
-
-  it('should show active channel link, when logged$ is true, subscribed$ is false, channelEnabled$ is false', () => {
-    authService.getUserToken.and.returnValue(of(userToken));
-    productInterestService.getBackInStockSubscribed.and.returnValue(of(false));
-    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
-      of(true)
-    );
-    const emptyNotificationPreferenceList: BasicNotificationPreferenceList = {
-      preferences: [],
-    };
-    userService.getNotificationPreferences.and.returnValue(
-      of(emptyNotificationPreferenceList)
-    );
-    fixture.detectChanges();
-
-    component.logged$.subscribe(x => expect(x).toEqual(true));
-    component.subscribed$.subscribe(x => expect(x).toEqual(false));
-    component.channelEnabled$.subscribe(x => expect(x).toEqual(false));
-    const ahrefs = fixture.debugElement.queryAll(By.css('a'));
-    expect(ahrefs[0].nativeElement.textContent).toContain(
-      'stockNotification.channelsLink'
-    );
-  });
-
-  it('should show stop notify me, when logged$ is true, subscribed$ is true', () => {
-    authService.getUserToken.and.returnValue(of(userToken));
+  it('should show loading when delete stock notification for login user with channel set', () => {
     productInterestService.getBackInStockSubscribed.and.returnValue(of(true));
     productInterestService.getDeleteBackInStockLoading.and.returnValue(
-      of(false)
+      cold('-a|', { a: true })
     );
     fixture.detectChanges();
 
-    component.logged$.subscribe(x => expect(x).toEqual(true));
-    component.subscribed$.subscribe(x => expect(x).toEqual(true));
-    component.unsubscribeLoading$.subscribe(x => expect(x).toEqual(false));
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    expect(buttons[0].nativeElement.textContent).toContain(
-      'stockNotification.stopNotify'
-    );
+    expect(
+      el.query(By.css('[data-test]="btn-note-stopnotify"')).nativeElement
+    ).toBeTruthy();
+    const button = el.query(By.css('[data-test="btn-stopnotify"]'))
+      .nativeElement;
+    button.click();
+
+    getTestScheduler().flush();
+    fixture.detectChanges();
+
+    expect(button.disabled).toEqual(true);
+    expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
   });
 
-  it('should show active channel link, when logged$ is false', () => {
-    authService.getUserToken.and.returnValue(of({ userNotExist }));
+  it('should show global message when delete stock notification success for login user with channel set', () => {
+    productInterestService.getBackInStockSubscribed.and.returnValue(of(true));
+    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
+      cold('-b|', { a: true })
+    );
     fixture.detectChanges();
 
-    component.logged$.subscribe(x => {
-      expect(x).toEqual(false);
-    });
-    const ahrefs = fixture.debugElement.queryAll(By.css('a'));
-    expect(ahrefs[0].nativeElement.textContent).toContain(
-      'stockNotification.channelsLink'
-    );
+    expect(
+      el.query(By.css('[data-test]="btn-note-stopnotify"')).nativeElement
+    ).toBeTruthy();
+    const button = el.query(By.css('[data-test="btn-stopnotify"]'))
+      .nativeElement;
+
+    button.click();
+    getTestScheduler().flush();
+    fixture.detectChanges();
+
+    expect(globalMessageService.add).toHaveBeenCalled();
+  });
+
+  it('should be able to unsubscribe and reset the state in destory', () => {
+    const subscriptions = component.stockNotificationComponent['subscription'];
+
+    component.stockNotificationComponent.ngOnDestroy();
+
+    expect(subscriptions.unsubscribe).toHaveBeenCalled();
+    expect(productInterestService.resetBackInStock).toHaveBeenCalled();
   });
 });
