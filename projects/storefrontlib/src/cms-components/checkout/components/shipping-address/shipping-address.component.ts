@@ -1,18 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  Address,
-  CartService,
-  CheckoutDeliveryService,
-  RoutingService,
-  TranslationService,
-  UserAddressService,
-} from '@spartacus/core';
+import { Address, CartService, CheckoutDeliveryService, RoutingService, TranslationService, UserAddressService } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
@@ -86,6 +74,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
               address => address.defaultAddress
             );
             selected = defaultAddress;
+            this.selectedAddress = defaultAddress;
           }
 
           return addresses.map(address => {

@@ -250,6 +250,7 @@ fdescribe('ShippingAddressComponent', () => {
         of(mockAddresses)
       );
 
+      mockAddress2.defaultAddress = false;
       component.selectedAddress = null;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(true);
