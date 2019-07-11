@@ -2,6 +2,13 @@
 @import '~bootstrap/scss/pagination';
 
 .page-item {
+  &.active {
+    .page-link {
+      background-color: var(--cx-color-primary);
+      border-color: var(--cx-color-primary);
+    }
+  }
+
   .page-link {
     @include type(4);
     padding: 12px 17px 12px 17px;
