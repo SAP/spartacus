@@ -32,6 +32,12 @@ export class CartDetailsComponent implements OnInit {
     appliedPromotions.push(...(cart.appliedOrderPromotions || []));
     appliedPromotions.push(...(cart.appliedProductPromotions || []));
 
-    return [...potentialPromotions, ...appliedPromotions];
+    let promotions = [...potentialPromotions, ...appliedPromotions];
+    promotions = promotions.filter((p, i, a) => {
+      const b = a.map(el => JSON.stringify(el));
+      return i === b.indexOf(JSON.stringify(p));
+    });
+
+    return promotions;
   }
 }
