@@ -262,7 +262,6 @@ describe('StockNotificationComponent', () => {
     ).toBeTruthy();
     const button = el.query(By.css('[data-test="btn-stopnotify"]'))
       .nativeElement;
-    button.click();
 
     button.click();
     getTestScheduler().flush();
@@ -271,7 +270,7 @@ describe('StockNotificationComponent', () => {
     expect(globalMessageService.add).toHaveBeenCalled();
   });
 
-  it('should be able to unsubscribeand reset the state in destory', () => {
+  it('should be able to unsubscribe and reset the state in destory', () => {
     const subscriptions = component.stockNotificationComponent['subscription'];
 
     component.stockNotificationComponent.ngOnDestroy();
