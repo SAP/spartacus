@@ -32,6 +32,7 @@ import { suffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/suff
             marker: 'c',
             paramName: 'categoryCode',
           },
+          cxSuffixRoute: 'category',
         },
       },
     ]),

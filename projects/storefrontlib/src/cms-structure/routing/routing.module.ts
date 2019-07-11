@@ -5,9 +5,10 @@ import {
 } from '@spartacus/core';
 import { CmsRouteModule } from './cms-route/cms-route.module';
 import { defaultRoutingConfig } from './default-routing-config';
+import { SuffixRoutesModule } from './suffix-routes/suffix-routes.module';
 
 @NgModule({
-  imports: [CoreRoutingModule.forRoot(), CmsRouteModule],
+  imports: [CoreRoutingModule.forRoot(), CmsRouteModule, SuffixRoutesModule],
 })
 export class RoutingModule {
   static forRoot(): ModuleWithProviders<RoutingModule> {

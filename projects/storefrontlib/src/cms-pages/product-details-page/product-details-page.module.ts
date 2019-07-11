@@ -22,6 +22,7 @@ import { suffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/suff
             marker: 'p',
             paramName: 'productCode',
           },
+          cxSuffixRoute: 'product',
         },
       },
     ]),
