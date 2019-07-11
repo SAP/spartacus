@@ -5,8 +5,29 @@ import { Pipe, PipeTransform, Component, DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, ProductInterestService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductInterestService,
+  BasicNotificationPreferenceList,
+} from '@spartacus/core';
 import { of } from 'rxjs';
+
+const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
+  preferences: [
+    {
+      channel: 'EMAIL',
+      enabled: true,
+      value: 'test@sap.com',
+      visible: true,
+    },
+    {
+      channel: 'SITE_MESSAGE',
+      enabled: true,
+      value: '',
+      visible: true,
+    },
+  ],
+};
 
 @Pipe({
   name: 'cxUrl',
@@ -58,8 +79,9 @@ describe('NotificationDialogComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationDialogComponent);
-    component = fixture.componentInstance;
     component.subscribeSuccess$ = of(true);
+    component.selectedChannels = basicNotificationPreferenceList.preferences;
+    component = fixture.componentInstance;
   });
 
   it('should create', () => {
