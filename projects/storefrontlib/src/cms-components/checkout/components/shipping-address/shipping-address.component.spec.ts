@@ -76,6 +76,7 @@ const mockAddress2: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'other zip',
   country: { isocode: 'JP' },
+  defaultAddress: true,
 };
 
 const mockAddresses: Address[] = [mockAddress1, mockAddress2];
@@ -196,6 +197,7 @@ describe('ShippingAddressComponent', () => {
     component.cards$
       .subscribe(cards => {
         expect(cards.length).toEqual(2);
+        expect(cards[1].card.header).toBe('addressCard.selected');
       })
       .unsubscribe();
   });
@@ -248,6 +250,7 @@ describe('ShippingAddressComponent', () => {
         of(mockAddresses)
       );
 
+      mockAddress2.defaultAddress = false;
       component.selectedAddress = null;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(true);
