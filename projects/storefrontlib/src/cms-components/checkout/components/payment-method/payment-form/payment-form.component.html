@@ -45,10 +45,11 @@
             'paymentForm.cardNumber' | cxTranslate
           }}</span>
           <input
-            type="text"
-            class="form-control"
+            type="number"
+            class="form-control cx-input-number"
             required
             formControlName="cardNumber"
+            pattern="\d*"
           />
         </label>
       </div>
@@ -100,11 +101,12 @@
               ></cx-icon>
             </span>
             <input
-              type="text"
-              class="form-control"
+              type="number"
+              class="form-control cx-input-number"
               id="cVVNumber"
               required
               formControlName="cvn"
+              pattern="\d*"
             />
           </label>
         </div>
