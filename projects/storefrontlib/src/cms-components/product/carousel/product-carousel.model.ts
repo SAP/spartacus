@@ -1,4 +1,4 @@
-export interface CarouselItem {
+export interface ProductCarouselItem {
   title?: string;
   media?: { container: any; format?: string };
   price?: any;

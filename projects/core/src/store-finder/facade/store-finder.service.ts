@@ -3,7 +3,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { GeoPoint } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
-import * as fromStore from '../store/index';
+import { StoreFinderActions } from '../store/actions/index';
 import { StoreFinderSelectors } from '../store/selectors/index';
 import {
   FindStoresState,
@@ -67,7 +67,7 @@ export class StoreFinderService {
     countryIsoCode?: string
   ) {
     this.store.dispatch(
-      new fromStore.FindStores({
+      new StoreFinderActions.FindStores({
         queryText: queryText,
         longitudeLatitude: longitudeLatitude,
         searchConfig: searchConfig,
@@ -80,7 +80,7 @@ export class StoreFinderService {
    * View all stores
    */
   viewAllStores() {
-    this.clearWatchGeolocation(new fromStore.ViewAllStores());
+    this.clearWatchGeolocation(new StoreFinderActions.ViewAllStores());
   }
 
   /**
@@ -88,7 +88,9 @@ export class StoreFinderService {
    * @param storeId store id
    */
   viewStoreById(storeId: string) {
-    this.clearWatchGeolocation(new fromStore.FindStoreById({ storeId }));
+    this.clearWatchGeolocation(
+      new StoreFinderActions.FindStoreById({ storeId })
+    );
   }
 
   /**
@@ -98,7 +100,7 @@ export class StoreFinderService {
    */
   findStores(queryText: string, useMyLocation?: boolean) {
     if (useMyLocation && this.winRef.nativeWindow) {
-      this.clearWatchGeolocation(new fromStore.OnHold());
+      this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
       this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
         (pos: Position) => {
           const longitudeLatitude: GeoPoint = {
@@ -106,12 +108,14 @@ export class StoreFinderService {
             latitude: pos.coords.latitude,
           };
           this.clearWatchGeolocation(
-            new fromStore.FindStores({ queryText, longitudeLatitude })
+            new StoreFinderActions.FindStores({ queryText, longitudeLatitude })
           );
         }
       );
     } else {
-      this.clearWatchGeolocation(new fromStore.FindStores({ queryText }));
+      this.clearWatchGeolocation(
+        new StoreFinderActions.FindStores({ queryText })
+      );
     }
   }
 

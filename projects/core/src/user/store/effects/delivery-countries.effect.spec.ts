@@ -1,17 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from './../actions';
-
-import { DeliveryCountriesEffects } from './delivery-countries.effect';
+import { Observable, of } from 'rxjs';
 import { Country, CountryType } from '../../../model/address.model';
-import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { UserActions } from '../actions/index';
+import { DeliveryCountriesEffects } from './delivery-countries.effect';
 
 const mockCountries: Country[] = [
   {
@@ -46,8 +41,8 @@ describe('Delivery Countries effect', () => {
 
   describe('loadDeliveryCountries$', () => {
     it('should load the delivery countries', () => {
-      const action = new fromActions.LoadDeliveryCountries();
-      const completion = new fromActions.LoadDeliveryCountriesSuccess(
+      const action = new UserActions.LoadDeliveryCountries();
+      const completion = new UserActions.LoadDeliveryCountriesSuccess(
         mockCountries
       );
 

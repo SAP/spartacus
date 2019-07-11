@@ -1,6 +1,11 @@
 import { cart, product, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
-import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
+import {
+  fillPaymentDetails,
+  fillShippingAddress,
+  PaymentDetails,
+  AddressData,
+} from './checkout-forms';
 
 export function signOut() {
   cy.selectUserMenuOption({
@@ -55,14 +60,14 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-export function fillAddressForm() {
+export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('contain', cart.total);
 
-  fillShippingAddress(user);
+  fillShippingAddress(shippingAddressData);
 }
 
 export function chooseDeliveryMethod() {
@@ -77,17 +82,24 @@ export function chooseDeliveryMethod() {
   cy.wait('@getPaymentPage');
 }
 
-export function fillPaymentForm() {
+export function fillPaymentForm(
+  paymentDetailsData: PaymentDetails = user,
+  billingAddress?: AddressData
+) {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cart.totalAndShipping);
 
-  fillPaymentDetails(user);
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+}
+
+export function verifyReviewOrderPage() {
+  cy.get('.cx-review-title').should('contain', 'Review');
 }
 
 export function placeOrder() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
@@ -156,4 +168,12 @@ export function viewOrderHistory() {
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
     .should('contain', cart.totalAndShipping);
+}
+
+export function goToPaymentDetails() {
+  cy.get('cx-checkout-progress li:nth-child(3) > a').click();
+}
+
+export function clickAddNewPayment() {
+  cy.getByText('Add New Payment').click();
 }

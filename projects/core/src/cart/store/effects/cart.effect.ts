@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
@@ -13,7 +13,9 @@ import { CartActions } from '../actions/index';
 export class CartEffects {
   @Effect()
   loadCart$: Observable<
-    CartActions.LoadCartFail | CartActions.LoadCartSuccess
+    | CartActions.LoadCartFail
+    | CartActions.LoadCartSuccess
+    | CartActions.ClearCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map(
@@ -37,9 +39,19 @@ export class CartEffects {
           map((cart: Cart) => {
             return new CartActions.LoadCartSuccess(cart);
           }),
-          catchError(error =>
-            of(new CartActions.LoadCartFail(makeErrorSerializable(error)))
-          )
+          catchError(error => {
+            if (error && error.error && error.error.errors) {
+              const cartNotFoundErrors = error.error.errors.filter(
+                err => err.reason === 'notFound'
+              );
+              if (cartNotFoundErrors.length > 0) {
+                return of(new CartActions.ClearCart());
+              }
+            }
+            return of(
+              new CartActions.LoadCartFail(makeErrorSerializable(error))
+            );
+          })
         );
     })
   );
@@ -123,8 +135,8 @@ export class CartEffects {
     CartActions.ResetCartDetails
   > = this.actions$.pipe(
     ofType(
-      fromSiteContextActions.LANGUAGE_CHANGE,
-      fromSiteContextActions.CURRENCY_CHANGE
+      SiteContextActions.LANGUAGE_CHANGE,
+      SiteContextActions.CURRENCY_CHANGE
     ),
     map(() => new CartActions.ResetCartDetails())
   );

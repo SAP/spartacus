@@ -1,10 +1,10 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpErrorModel } from '../model';
-import { makeErrorSerializable } from './serialization-utils';
+import { makeErrorSerializable, UNKNOWN_ERROR } from './serialization-utils';
 
 describe('serialization-utils', () => {
   describe('makeErrorSerializable', () => {
-    describe(`when the provided argument is not an instance of Error nor of HttpErrorResponse`, () => {
+    describe(`when the provided argument is of a simple type`, () => {
       it('should return the same value as provided', () => {
         const error = 'xxx';
         const result = makeErrorSerializable(error);
@@ -43,6 +43,23 @@ describe('serialization-utils', () => {
           statusText: mockError.statusText,
           url: mockError.url,
         } as HttpErrorModel);
+      });
+    });
+
+    describe('when an unknown error object is provided', () => {
+      it('should return a generic error', () => {
+        const error = {
+          map: new Map(),
+          set: new Set<string>('xxx'),
+          some: {
+            nested: {
+              obj: () => 'xxx',
+            },
+          },
+        };
+
+        const result = makeErrorSerializable(error);
+        expect(result).toEqual(UNKNOWN_ERROR);
       });
     });
   });

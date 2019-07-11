@@ -15,6 +15,7 @@ export const CURRENCY_USD = 'USD';
 export const CURRENCY_JPY = 'JPY';
 export const LANGUAGE_EN = 'en';
 export const LANGUAGE_DE = 'de';
+export const CART_REQUEST_ALIAS = 'cart_request_alias';
 
 export const LANGUAGE_REQUEST = `${Cypress.env(
   'API_URL'
@@ -23,13 +24,17 @@ export const CURRENCY_REQUEST = `${Cypress.env(
   'API_URL'
 )}/rest/v2/${CONTENT_CATALOG}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
+export const CART_REQUEST = `${Cypress.env(
+  'API_URL'
+)}/rest/v2/${CONTENT_CATALOG}/users/current/carts/*`;
+
 export const PAGE_REQUEST = `${Cypress.env(
   'API_URL'
 )}/rest/v2/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
 
 export const TITLE_REQUEST = `${Cypress.env(
   'API_URL'
-)}/rest/v2/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=ContentPage&pageLabelOrId=/my-account/update-profile&lang=de&curr=USD`;
+)}/rest/v2/${CONTENT_CATALOG}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
@@ -42,7 +47,9 @@ export const PRODUCT_NAME_DETAILS_DE = 'Stativ mit Fernbedienung';
 export const PRODUCT_NAME_SEARCH_DE =
   'FUN Einwegkamera mit Blitz, 27+12 Bilder';
 export const TITLE_DE = 'Herr';
-export const MONTH_DE = 'Juni';
+export const MONTH_DE = new Date().toLocaleDateString('de-DE', {
+  month: 'long',
+});
 
 export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
 export const PRODUCT_PATH_2 = `/product/${PRODUCT_ID_2}`;
@@ -97,7 +104,7 @@ export function paymentDetailsNextStep() {
   cy.get('cx-payment-method .btn-primary').click({ force: true });
 }
 
-export function createGerericQuery(request: string, alias: string): void {
+export function createRoute(request: string, alias: string): void {
   cy.route(request).as(alias);
 }
 
@@ -105,7 +112,7 @@ export function stub(request: string, alias: string): void {
   beforeEach(() => {
     cy.restoreLocalStorage();
     cy.server();
-    createGerericQuery(request, alias);
+    createRoute(request, alias);
   });
 
   afterEach(() => {
@@ -124,7 +131,9 @@ export function siteContextChange(
   label: string
 ): void {
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+
   cy.wait(`@${alias}`);
+
   cy.route('GET', `*${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
   cy.wait('@switchedContext');

@@ -3,17 +3,20 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-import * as fromAuth from '../../../auth/store/index';
+import { Observable, of, throwError } from 'rxjs';
+import { AUTH_FEATURE } from '../../../auth/store/auth-state';
+import * as fromAuthReducers from '../../../auth/store/reducers/index';
 import { Cart } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/config/occ-config';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
-import * as fromUser from '../../../user/store/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import * as fromUserReducers from '../../../user/store/reducers/index';
+import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
+import { CART_FEATURE } from '../cart-state';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
 
@@ -31,14 +34,10 @@ const testCart: Cart = {
   },
 };
 
-class MockCartConnector {
-  create = createSpy().and.returnValue(of(testCart));
-  load = createSpy().and.returnValue(of(testCart));
-}
-
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
+  let loadMock: jasmine.Spy;
 
   const MockOccModuleConfig: OccConfig = {
     backend: {
@@ -53,13 +52,20 @@ describe('Cart effect', () => {
   const cartId = 'testCartId';
 
   beforeEach(() => {
+    loadMock = createSpy().and.returnValue(of(testCart));
+
+    class MockCartConnector {
+      create = createSpy().and.returnValue(of(testCart));
+      load = loadMock;
+    }
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCartReducers.getReducers()),
-        StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers()),
+        StoreModule.forFeature(CART_FEATURE, fromCartReducers.getReducers()),
+        StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
+        StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
       ],
 
       providers: [
@@ -103,6 +109,24 @@ describe('Cart effect', () => {
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
+
+    it('should clear cart on "Cart not found" error', () => {
+      const action = new CartActions.LoadCart({
+        userId,
+        cartId,
+      });
+      loadMock.and.returnValue(
+        throwError({
+          error: {
+            errors: [{ reason: 'notFound' }],
+          },
+        })
+      );
+      const completion = new CartActions.ClearCart();
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
   });
 
   describe('mergeCart$', () => {
@@ -126,7 +150,7 @@ describe('Cart effect', () => {
 
   describe('resetCartDetailsOnSiteContextChange$', () => {
     it('should reset cart details', () => {
-      const action = new fromSiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange();
       const completion = new CartActions.ResetCartDetails();
 
       actions$ = hot('-a', { a: action });

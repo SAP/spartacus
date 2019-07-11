@@ -1,10 +1,6 @@
-import { USER_PAYMENT_METHODS } from '../user-state';
-import {
-  LoaderLoadAction,
-  LoaderFailAction,
-  LoaderSuccessAction,
-} from '../../../state/utils/loader/loader.action';
 import { PaymentDetails } from '../../../model/cart.model';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { USER_PAYMENT_METHODS } from '../user-state';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =
@@ -25,63 +21,63 @@ export const DELETE_USER_PAYMENT_METHOD_FAIL =
 export const DELETE_USER_PAYMENT_METHOD_SUCCESS =
   '[User] Delete User  Payment Method Success';
 
-export class LoadUserPaymentMethods extends LoaderLoadAction {
+export class LoadUserPaymentMethods extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_USER_PAYMENT_METHODS;
   constructor(public payload: string) {
     super(USER_PAYMENT_METHODS);
   }
 }
 
-export class LoadUserPaymentMethodsFail extends LoaderFailAction {
+export class LoadUserPaymentMethodsFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_USER_PAYMENT_METHODS_FAIL;
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS, payload);
   }
 }
 
-export class LoadUserPaymentMethodsSuccess extends LoaderSuccessAction {
+export class LoadUserPaymentMethodsSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_USER_PAYMENT_METHODS_SUCCESS;
   constructor(public payload: PaymentDetails[]) {
     super(USER_PAYMENT_METHODS);
   }
 }
 
-export class SetDefaultUserPaymentMethod extends LoaderLoadAction {
+export class SetDefaultUserPaymentMethod extends StateLoaderActions.LoaderLoadAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD;
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS);
   }
 }
 
-export class SetDefaultUserPaymentMethodFail extends LoaderFailAction {
+export class SetDefaultUserPaymentMethodFail extends StateLoaderActions.LoaderFailAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_FAIL;
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS, payload);
   }
 }
 
-export class SetDefaultUserPaymentMethodSuccess extends LoaderSuccessAction {
+export class SetDefaultUserPaymentMethodSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS;
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS);
   }
 }
 
-export class DeleteUserPaymentMethod extends LoaderLoadAction {
+export class DeleteUserPaymentMethod extends StateLoaderActions.LoaderLoadAction {
   readonly type = DELETE_USER_PAYMENT_METHOD;
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS);
   }
 }
 
-export class DeleteUserPaymentMethodFail extends LoaderFailAction {
+export class DeleteUserPaymentMethodFail extends StateLoaderActions.LoaderFailAction {
   readonly type = DELETE_USER_PAYMENT_METHOD_FAIL;
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS, payload);
   }
 }
 
-export class DeleteUserPaymentMethodSuccess extends LoaderSuccessAction {
+export class DeleteUserPaymentMethodSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = DELETE_USER_PAYMENT_METHOD_SUCCESS;
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS);

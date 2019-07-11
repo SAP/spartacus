@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, isDevMode, NgModule } from '@angular/core';
 import {
   ServiceWorkerModule,
   SwRegistrationOptions,
@@ -13,7 +13,7 @@ import { AddToHomeScreenService } from './services/add-to-home-screen.service';
 export function pwaConfigurationFactory(
   pwaConfig: PWAModuleConfig
 ): SwRegistrationOptions {
-  return { enabled: (pwaConfig.production && pwaConfig.pwa.enabled) || false };
+  return { enabled: (!isDevMode() && pwaConfig.pwa.enabled) || false };
 }
 
 export function pwaFactory(addToHomeScreenService): any {

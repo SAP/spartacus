@@ -1,4 +1,4 @@
-import { failMeta, loadMeta, successMeta } from '../../../state';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { OPEN_ID_TOKEN_DATA } from '../kyma-state';
 import { KymaActions } from './index';
@@ -19,7 +19,7 @@ describe('Open ID Token Actions', () => {
       expect({ ...action }).toEqual({
         type: KymaActions.LOAD_OPEN_ID_TOKEN,
         payload: tokenRequest,
-        meta: loadMeta(OPEN_ID_TOKEN_DATA),
+        meta: StateLoaderActions.loadMeta(OPEN_ID_TOKEN_DATA),
       });
     });
   });
@@ -32,7 +32,7 @@ describe('Open ID Token Actions', () => {
       expect({ ...action }).toEqual({
         type: KymaActions.LOAD_OPEN_ID_TOKEN_FAIL,
         payload: error,
-        meta: failMeta(OPEN_ID_TOKEN_DATA, error),
+        meta: StateLoaderActions.failMeta(OPEN_ID_TOKEN_DATA, error),
       });
     });
   });
@@ -44,7 +44,7 @@ describe('Open ID Token Actions', () => {
       expect({ ...action }).toEqual({
         type: KymaActions.LOAD_OPEN_ID_TOKEN_SUCCESS,
         payload: token,
-        meta: successMeta(OPEN_ID_TOKEN_DATA),
+        meta: StateLoaderActions.successMeta(OPEN_ID_TOKEN_DATA),
       });
     });
   });

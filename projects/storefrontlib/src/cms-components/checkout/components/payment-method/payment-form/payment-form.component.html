@@ -45,8 +45,10 @@
             'paymentForm.cardNumber' | cxTranslate
           }}</span>
           <input
-            type="text"
+            type="number"
             class="form-control"
+            cxOnlyNumber
+            inputmode="numeric"
             required
             formControlName="cardNumber"
           />
@@ -59,33 +61,33 @@
             <span class="label-content">{{
               'paymentForm.expirationDate' | cxTranslate
             }}</span>
-            <div class="cx-payment-form-exp-date row">
-              <div class="col-sm-6 col-md-5">
-                <ng-select
-                  [searchable]="false"
-                  [clearable]="false"
-                  [items]="months"
-                  bindLabel="name"
-                  bindValue="expiryMonth"
-                  placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
-                  (change)="monthSelected($event)"
-                >
-                </ng-select>
-              </div>
-              <div class="col-sm-6 col-md-7">
-                <ng-select
-                  [searchable]="false"
-                  [clearable]="false"
-                  [items]="years"
-                  bindLabel="name"
-                  bindValue="expiryYear"
-                  placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
-                  (change)="yearSelected($event)"
-                >
-                </ng-select>
-              </div>
-            </div>
           </label>
+          <div class="cx-payment-form-exp-date row">
+            <div class="col-sm-6 col-md-5">
+              <ng-select
+                [searchable]="false"
+                [clearable]="false"
+                [items]="months"
+                bindLabel="name"
+                bindValue="expiryMonth"
+                placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
+                (change)="monthSelected($event)"
+              >
+              </ng-select>
+            </div>
+            <div class="col-sm-6 col-md-7">
+              <ng-select
+                [searchable]="false"
+                [clearable]="false"
+                [items]="years"
+                bindLabel="name"
+                bindValue="expiryYear"
+                placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
+                (change)="yearSelected($event)"
+              >
+              </ng-select>
+            </div>
+          </div>
         </div>
         <div class="form-group col-md-6">
           <label>
@@ -100,9 +102,11 @@
               ></cx-icon>
             </span>
             <input
-              type="text"
+              type="number"
               class="form-control"
+              cxOnlyNumber
               id="cVVNumber"
+              inputmode="numeric"
               required
               formControlName="cvn"
             />

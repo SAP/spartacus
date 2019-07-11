@@ -1,6 +1,6 @@
-import { fillShippingAddress, ShippingAddressData } from './checkout-forms';
+import { fillShippingAddress, AddressData } from './checkout-forms';
 
-export const newAddress: ShippingAddressData = {
+export const newAddress: AddressData = {
   firstName: 'Foo',
   lastName: 'Bar',
   phone: '1234567',
@@ -13,13 +13,13 @@ export const newAddress: ShippingAddressData = {
     state: 'Quebec',
   },
 };
-export const editedAddress: ShippingAddressData = {
+export const editedAddress: AddressData = {
   ...newAddress,
   firstName: 'Baz',
   lastName: 'Qux',
 };
 
-export const assertAddressForm = (address: ShippingAddressData): void => {
+export const assertAddressForm = (address: AddressData): void => {
   cy.get('cx-address-card .card-header').contains('✓ DEFAULT');
   cy.get('cx-address-card .card-body').within(_ => {
     cy.get('.cx-address-card-label-name').should(
