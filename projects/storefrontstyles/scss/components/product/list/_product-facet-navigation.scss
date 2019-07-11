@@ -1,4 +1,5 @@
-%cx-product-facet-navigation {
+%cx-product-facet-navigation,
+.cx-facet-modal-body {
   .cx-search-facet {
     @include media-breakpoint-down(md) {
       display: none;
