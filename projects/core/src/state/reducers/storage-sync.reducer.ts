@@ -35,7 +35,15 @@ export function getStorageSyncReducer<T>(
           storageSyncConfig.keys,
           StorageSyncType.LOCAL_STORAGE
         );
-        const localStorageStateSlices = getStateSlice(localStorageKeys, state);
+        const localStorageExclusionKeys = getKeysForStorage(
+          storageSyncConfig.excludeKeys,
+          StorageSyncType.LOCAL_STORAGE
+        );
+        const localStorageStateSlices = getStateSlice(
+          localStorageKeys,
+          localStorageExclusionKeys,
+          state
+        );
         persistToStorage(
           config.state.storageSync.localStorageKeyName,
           localStorageStateSlices,
@@ -47,8 +55,13 @@ export function getStorageSyncReducer<T>(
           storageSyncConfig.keys,
           StorageSyncType.SESSION_STORAGE
         );
+        const sessionStorageExclusionKeys = getKeysForStorage(
+          storageSyncConfig.excludeKeys,
+          StorageSyncType.SESSION_STORAGE
+        );
         const sessionStorageStateSlices = getStateSlice(
           sessionStorageKeys,
+          sessionStorageExclusionKeys,
           state
         );
         persistToStorage(
@@ -67,6 +80,9 @@ export function getKeysForStorage(
   keys: { [key: string]: StorageSyncType },
   storageType: StorageSyncType
 ): string[] {
+  if (!keys) {
+    return [];
+  }
   return Object.keys(keys).filter(key => keys[key] === storageType);
 }
 

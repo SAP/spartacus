@@ -1,13 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { takeWhile, take, filter } from 'rxjs/operators';
-
-import { RoutingService } from '../../routing/facade/routing.service';
+import { filter, take, takeWhile } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { Page } from '../../cms/model/page.model';
-import { WindowRef } from '../../window/window-ref';
 import { PageType } from '../../model/cms.model';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +27,6 @@ export class SmartEditService {
     protected winRef: WindowRef
   ) {
     this.getCmsTicket();
-    this.addPageContract();
 
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
@@ -56,15 +54,23 @@ export class SmartEditService {
       this.cmsService.getCurrentPage(),
       this.routingService.getRouterState(),
     ])
-      .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
-      .subscribe(([, routerState]) => {
-        if (routerState.nextState && !this._cmsTicketId) {
-          this._cmsTicketId = routerState.nextState.queryParams['cmsTicketId'];
-          if (this._cmsTicketId) {
-            this.cmsService.launchInSmartEdit = true;
-            this.getDefaultPreviewCode();
+      .pipe(
+        takeWhile(([cmsPage]) => cmsPage === undefined),
+        filter(([, routerState]) => {
+          if (routerState.nextState && !this._cmsTicketId) {
+            this._cmsTicketId =
+              routerState.nextState.queryParams['cmsTicketId'];
+            if (this._cmsTicketId) {
+              return true;
+            }
           }
-        }
+          return false;
+        }),
+        take(1)
+      )
+      .subscribe(_ => {
+        this.cmsService.launchInSmartEdit = true;
+        this.getDefaultPreviewCode();
       });
   }
 
@@ -78,6 +84,8 @@ export class SmartEditService {
       .subscribe(site => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
+
+        this.addPageContract();
       });
   }
 

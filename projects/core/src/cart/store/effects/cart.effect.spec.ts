@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { AUTH_FEATURE } from '../../../auth/store/auth-state';
 import * as fromAuthReducers from '../../../auth/store/reducers/index';
 import { Cart } from '../../../model/cart.model';
@@ -34,14 +34,10 @@ const testCart: Cart = {
   },
 };
 
-class MockCartConnector {
-  create = createSpy().and.returnValue(of(testCart));
-  load = createSpy().and.returnValue(of(testCart));
-}
-
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
+  let loadMock: jasmine.Spy;
 
   const MockOccModuleConfig: OccConfig = {
     backend: {
@@ -56,6 +52,13 @@ describe('Cart effect', () => {
   const cartId = 'testCartId';
 
   beforeEach(() => {
+    loadMock = createSpy().and.returnValue(of(testCart));
+
+    class MockCartConnector {
+      create = createSpy().and.returnValue(of(testCart));
+      load = loadMock;
+    }
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -104,6 +107,24 @@ describe('Cart effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('should clear cart on "Cart not found" error', () => {
+      const action = new CartActions.LoadCart({
+        userId,
+        cartId,
+      });
+      loadMock.and.returnValue(
+        throwError({
+          error: {
+            errors: [{ reason: 'notFound' }],
+          },
+        })
+      );
+      const completion = new CartActions.ClearCart();
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
   });
