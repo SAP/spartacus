@@ -1,6 +1,7 @@
 <header
   [class.is-expanded]="isExpanded$ | async"
   (keydown.escape)="collapseMenu()"
+  (click)="collapseMenuIfClickOutside($event)"
 >
   <cx-page-layout section="header"></cx-page-layout>
   <cx-page-layout section="navigation"></cx-page-layout>

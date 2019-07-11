@@ -1,12 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Observable, of } from 'rxjs';
-
 import { CmsService, Page } from '../../cms/index';
+import { BaseSite } from '../../model/misc.model';
 import { RoutingService } from '../../routing';
 import { BaseSiteService } from '../../site-context';
-import { BaseSite } from '../../model/misc.model';
-
 import { SmartEditService } from './smart-edit.service';
 
 class MockCmsService {
@@ -123,8 +120,13 @@ describe('SmartEditService', () => {
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewProductCode: 'test product code',
+          defaultPreviewCategoryCode: 'test category code',
+        })
+      );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(
         document.body.classList.contains('smartedit-page-uid-testPageId')
       ).toBeTruthy();
@@ -157,7 +159,6 @@ describe('SmartEditService', () => {
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).not.toHaveBeenCalled();
     });
 
@@ -183,7 +184,6 @@ describe('SmartEditService', () => {
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
         params: { code: 'test product code' },
@@ -212,7 +212,6 @@ describe('SmartEditService', () => {
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'category',
         params: { code: 'test category code' },
