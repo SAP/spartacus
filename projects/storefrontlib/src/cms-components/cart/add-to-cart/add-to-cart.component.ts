@@ -50,6 +50,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .pipe(filter(Boolean))
         .subscribe(product => {
           this.productCode = product.code;
+          this.quantity = 1;
 
           if (
             product.stock &&
