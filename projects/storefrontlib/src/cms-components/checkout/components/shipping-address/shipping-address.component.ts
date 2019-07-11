@@ -111,7 +111,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.setAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()
       .subscribe(address => {
-        this.setAddress = address;
         this.selectedAddress$.next(address);
         if (this.goTo) {
           this.goNext();
@@ -173,11 +172,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.goTo = CheckoutStepType.DELIVERY_MODE;
       return;
     }
-    if (
-      this.setAddress &&
-      this.selectedAddress &&
-      this.setAddress.id === this.selectedAddress.id
-    ) {
+    if (this.selectedAddress) {
       this.goNext();
     } else {
       this.goTo = CheckoutStepType.DELIVERY_MODE;
