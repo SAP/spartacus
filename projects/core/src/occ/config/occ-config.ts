@@ -1,5 +1,5 @@
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
-import { OccEndpoints } from './occ-endpoints.model';
+import { OccEndpoints } from '../occ-models/occ-endpoints.model';
 
 export abstract class OccConfig extends SiteContextConfig {
   backend?: {
