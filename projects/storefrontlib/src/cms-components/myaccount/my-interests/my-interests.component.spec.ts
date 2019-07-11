@@ -116,6 +116,16 @@ const mockedInterests: ProductInterestList = {
           interestType: 'BACK_IN_STOCK',
         },
       ],
+      variantOptionQualifiers: [
+        {
+          name: 'color',
+          value: 'red',
+        },
+        {
+          name: 'size',
+          value: 'XL',
+        },
+      ],
     },
   ],
 };
@@ -195,6 +205,20 @@ fdescribe('MyInterestsComponent', () => {
     expect(el.queryAll(By.css('[data-test="productItem"]')).length).toEqual(2);
     expect(el.queryAll(By.css('[data-test="productLink"]')).length).toEqual(2);
     expect(el.queryAll(By.css('[data-test="deleteButton"]')).length).toEqual(2);
+
+    expect(el.queryAll(By.css('[data-test="variantName"]'))[0].context).toEqual(
+      'color'
+    );
+    expect(el.queryAll(By.css('[data-test="variantName"]'))[1].context).toEqual(
+      'size'
+    );
+
+    expect(
+      el.queryAll(By.css('[data-test="variantValue"]'))[0].context
+    ).toEqual('red');
+    expect(
+      el.queryAll(By.css('[data-test="variantValue"]'))[1].context
+    ).toEqual('XL');
   });
 
   it('should be able to change page/sort', () => {
