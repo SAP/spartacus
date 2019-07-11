@@ -194,7 +194,7 @@ describe('StockNotificationComponent', () => {
       el.query(By.css('[data-test]="link-setchannel"')).nativeElement
     ).toBeTruthy();
     expect(
-      el.query(By.css('[data-test]="note-setchannel')).nativeElement
+      el.query(By.css('[data-test]="btn-note-setchannel"')).nativeElement
     ).toBeTruthy();
     expect(
       el.query(By.css('[data-test]="btn-notify"')).nativeElement.disabled
@@ -209,7 +209,7 @@ describe('StockNotificationComponent', () => {
       el.query(By.css('[data-test]="link-setchannel"')).nativeElement
     ).toBeTruthy();
     expect(
-      el.query(By.css('[data-test]="note-setchannel"')).nativeElement
+      el.query(By.css('[data-test]="btn-note-setchannel"')).nativeElement
     ).toBeTruthy();
     expect(
       el.query(By.css('[data-test]="btn-notify"')).nativeElement.disabled
@@ -219,6 +219,9 @@ describe('StockNotificationComponent', () => {
   it('should be able to show dialog for create stock notification for login user with channel set', () => {
     fixture.detectChanges();
 
+    expect(
+      el.query(By.css('[data-test]="btn-note-notify"')).nativeElement
+    ).toBeTruthy();
     const button = el.query(By.css('[data-test="btn-notify"]')).nativeElement;
     button.click();
 
@@ -232,7 +235,11 @@ describe('StockNotificationComponent', () => {
       cold('-a|', { a: true })
     );
     fixture.detectChanges();
-    const button = el.query(By.css('[data-test="btn-notnotify"]'))
+
+    expect(
+      el.query(By.css('[data-test]="btn-note-stopnotify"')).nativeElement
+    ).toBeTruthy();
+    const button = el.query(By.css('[data-test="btn-stopnotify"]'))
       .nativeElement;
     button.click();
 
@@ -250,8 +257,13 @@ describe('StockNotificationComponent', () => {
     );
     fixture.detectChanges();
 
-    const button = el.query(By.css('[data-test="btn-notnotify"]'))
+    expect(
+      el.query(By.css('[data-test]="btn-note-stopnotify"')).nativeElement
+    ).toBeTruthy();
+    const button = el.query(By.css('[data-test="btn-stopnotify"]'))
       .nativeElement;
+    button.click();
+
     button.click();
     getTestScheduler().flush();
     fixture.detectChanges();
