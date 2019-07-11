@@ -28,7 +28,7 @@ describe('NotificationDialogComponent', () => {
 
   const productInterestService = jasmine.createSpyObj(
     'ProductInterestService',
-    ['resetCreateState', 'createBackInStock']
+    ['resetCreateState']
   );
   const ngbActiveModal = jasmine.createSpyObj('NgbActiveModal', ['dismiss']);
 
@@ -60,50 +60,47 @@ describe('NotificationDialogComponent', () => {
     fixture = TestBed.createComponent(NotificationDialogComponent);
     component = fixture.componentInstance;
     component.subscribeSuccess$ = of(true);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should show notification dialog', () => {
     fixture.detectChanges();
 
-    expect(el.query(By.css('[data-test]="notifydialog-title"'))).toBeTruthy();
-    expect(el.query(By.css('[data-test]="close-button"'))).toBeTruthy();
-    expect(el.query(By.css('[data-test]="notify-channel"'))).toBeTruthy();
-    expect(
-      el.queryAll(By.css('[data-test]="notifydialog-link"')).length
-    ).toEqual(2);
-    expect(el.query(By.css('[data-test]="ok-button"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="title"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="btn-close"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="list-channel"'))).toBeTruthy();
+    expect(el.queryAll(By.css('[data-test]="link-setchannel"'))).toBeTruthy();
+    expect(el.queryAll(By.css('[data-test]="link-myinterest"'))).toBeTruthy();
+    expect(el.query(By.css('[data-test]="btn-ok"'))).toBeTruthy();
   });
 
   it('should show spinner when loading', () => {
     component.subscribeSuccess$ = of(false);
-    productInterestService.createBackInStock.and.returnValue({});
+
     fixture.detectChanges();
 
     expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
   });
 
-  it('should be able to close dialog', () => {
+  it('should be able to close dialog by close button', () => {
     fixture.detectChanges();
 
-    el.query(By.css('[data-test]="close-button"')).nativeElement.click();
+    el.query(By.css('[data-test]="btn-close"')).nativeElement.click();
     expect(ngbActiveModal.dismiss).toHaveBeenCalled();
   });
 
-  it('should be able to close dialog', () => {
+  it('should be able to close dialog by OK button', () => {
     fixture.detectChanges();
 
-    el.query(By.css('[data-test]="okay-button"')).nativeElement.click();
+    el.query(By.css('[data-test]="btn-ok"')).nativeElement.click();
     expect(ngbActiveModal.dismiss).toHaveBeenCalled();
   });
 
-  it('should be able to unsubscribe/rest in destory', () => {
-    fixture.detectChanges();
-
+  it('should able to reset the state in destory', () => {
     component.ngOnDestroy();
 
     expect(productInterestService.resetCreateState).toHaveBeenCalled();

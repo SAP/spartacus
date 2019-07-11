@@ -9,7 +9,13 @@ import {
   OccConfig,
   BasicNotificationPreferenceList,
 } from '@spartacus/core';
-import { Pipe, PipeTransform, Component, DebugElement } from '@angular/core';
+import {
+  Pipe,
+  PipeTransform,
+  Component,
+  DebugElement,
+  ViewChild,
+} from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StockNotificationComponent } from './stock-notification.component';
 import { of } from 'rxjs';
@@ -42,9 +48,26 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxSpinnerComponent {}
 
+@Component({
+  template: `
+    <cx-stock-notification
+      [productStockLevelStatus]="outOfStock"
+      [productCode]="product?.code"
+    >
+    </cx-stock-notification>
+  `,
+})
+class MockedProductSummaryComponent {
+  productStockLevelStatus = 'outOfStock';
+  productCode = '123';
+
+  @ViewChild('StockNotificationComponent', { static: false })
+  stockNotificationComponent: StockNotificationComponent;
+}
+
 describe('StockNotificationComponent', () => {
-  let component: StockNotificationComponent;
-  let fixture: ComponentFixture<StockNotificationComponent>;
+  let component: MockedProductSummaryComponent;
+  let fixture: ComponentFixture<MockedProductSummaryComponent>;
   let el: DebugElement;
   let modalInstance: any;
 
@@ -115,6 +138,7 @@ describe('StockNotificationComponent', () => {
         MockUrlPipe,
         MockCxSpinnerComponent,
         NotificationDialogComponent,
+        MockedProductSummaryComponent,
       ],
       providers: [
         { provide: AuthService, useValue: authService },
@@ -145,7 +169,8 @@ describe('StockNotificationComponent', () => {
     productInterestService.getBackInStockSubscribed.and.returnValue(of(false));
     ngbModal.open.and.returnValue(of(modalInstance));
 
-    fixture = TestBed.createComponent(StockNotificationComponent);
+    fixture = TestBed.createComponent(MockedProductSummaryComponent);
+    component.productStockLevelStatus = 'outOfStock';
     component = fixture.componentInstance;
   });
 
@@ -154,106 +179,90 @@ describe('StockNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show disabled button and link for login custom without channel set', () => {
-    userService.getNotificationPreferences.and.returnValue(of([]));
+  it('should not show element for out of stock product', () => {
+    component.productOutOfStock = 'inStock';
     fixture.detectChanges();
 
-    expect(
-      el.query(By.css('[data-test]="stocknotify-link"')).nativeElement
-    ).toBeTruthy();
-    expect(
-      el.query(By.css('[data-test]="stocknotify-note"')).nativeElement
-    ).toBeTruthy();
-    expect(
-      el.query(By.css('[data-test]="stocknotify-button"')).nativeElement
-        .disabled
-    ).toEqual(true);
+    expect(el.query(By.css('.cx-stock-notification')).children).toBeNull();
   });
 
-  it('should show disabled button and link for anonymous', () => {
+  it('should show component for anonymous', () => {
     authService.getUserToken.and.returnValue(of({}));
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('[data-test]="stocknotify-link"')).nativeElement
+      el.query(By.css('[data-test]="link-setchannel"')).nativeElement
     ).toBeTruthy();
     expect(
-      el.query(By.css('[data-test]="stocknotify-note"')).nativeElement
+      el.query(By.css('[data-test]="note-setchannel')).nativeElement
     ).toBeTruthy();
     expect(
-      el.query(By.css('[data-test]="stocknotify-button"')).nativeElement
-        .disabled
+      el.query(By.css('[data-test]="btn-notify"')).nativeElement.disabled
     ).toEqual(true);
   });
 
-  it('should show loading when delete stock notification', () => {
+  it('should show component for login customer without setting notification channel', () => {
+    userService.getNotificationPreferences.and.returnValue(of([]));
+    fixture.detectChanges();
+
+    expect(
+      el.query(By.css('[data-test]="link-setchannel"')).nativeElement
+    ).toBeTruthy();
+    expect(
+      el.query(By.css('[data-test]="note-setchannel"')).nativeElement
+    ).toBeTruthy();
+    expect(
+      el.query(By.css('[data-test]="btn-notify"')).nativeElement.disabled
+    ).toEqual(true);
+  });
+
+  it('should be able to show dialog for create stock notification for login user with channel set', () => {
+    fixture.detectChanges();
+
+    const button = el.query(By.css('[data-test="btn-notify"]')).nativeElement;
+    button.click();
+
+    expect(productInterestService.createBackInStock).toHaveBeenCalled();
+    expect(ngbModal.open).toHaveBeenCalled();
+  });
+
+  it('should show loading when delete stock notification for login user with channel set', () => {
     productInterestService.getBackInStockSubscribed.and.returnValue(of(true));
     productInterestService.getDeleteBackInStockLoading.and.returnValue(
       cold('-a|', { a: true })
     );
     fixture.detectChanges();
-    const button = el.query(By.css('[data-test="stocknotify-button"]'))
+    const button = el.query(By.css('[data-test="btn-notnotify"]'))
       .nativeElement;
     button.click();
 
     getTestScheduler().flush();
+    fixture.detectChanges();
 
     expect(button.disabled).toEqual(true);
     expect(el.query(By.css('.cx-spinner'))).toBeTruthy();
   });
 
-  it('should show global message when delete stock notification', () => {
+  it('should show global message when delete stock notification success for login user with channel set', () => {
     productInterestService.getBackInStockSubscribed.and.returnValue(of(true));
     productInterestService.getDeleteBackInStockSuccess.and.returnValue(
       cold('-b|', { a: true })
     );
     fixture.detectChanges();
-    const button = el.query(By.css('[data-test="stocknotify-button"]'))
+
+    const button = el.query(By.css('[data-test="btn-notnotify"]'))
       .nativeElement;
     button.click();
-
-    expect(productInterestService.deleteBackInStock).toHaveBeenCalled();
-
     getTestScheduler().flush();
+    fixture.detectChanges();
 
-    expect(ngbModal.open).not.toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
   });
 
-  it('should show global message when delete stock notification success', () => {
-    productInterestService.getBackInStockSubscribed.and.returnValue(of(true));
-    productInterestService.getDeleteBackInStockSuccess.and.returnValue(
-      cold('-b|', { a: true })
-    );
-    fixture.detectChanges();
-    const button = el.query(By.css('[data-test="stocknotify-button"]'))
-      .nativeElement;
-    button.click();
+  it('should be able to unsubscribeand reset the state in destory', () => {
+    const subscriptions = component.stockNotificationComponent['subscription'];
 
-    getTestScheduler().flush();
-
-    expect(ngbModal.open).not.toHaveBeenCalled();
-    expect(globalMessageService.add).toHaveBeenCalled();
-  });
-
-  it('should be able to show dialog and global message for create stock notification', () => {
-    fixture.detectChanges();
-
-    const button = el.query(By.css('[data-test="stocknotify-button"]'))
-      .nativeElement;
-    button.click();
-    fixture.detectChanges();
-
-    expect(productInterestService.createBackInStock).toHaveBeenCalled();
-    expect(ngbModal.open).toHaveBeenCalled();
-    expect(globalMessageService.add).not.toHaveBeenCalled();
-  });
-
-  it('should be able to unsubscribe/rest in destory', () => {
-    const subscriptions = component['subscription'];
-    fixture.detectChanges();
-
-    component.ngOnDestroy();
+    component.stockNotificationComponent.ngOnDestroy();
 
     expect(subscriptions.unsubscribe).toHaveBeenCalled();
     expect(productInterestService.resetBackInStock).toHaveBeenCalled();
