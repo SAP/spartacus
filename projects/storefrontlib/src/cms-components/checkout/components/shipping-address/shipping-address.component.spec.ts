@@ -212,10 +212,10 @@ describe('ShippingAddressComponent', () => {
     expect(component.newAddressFormManuallyOpened).toEqual(false);
   });
 
-  it('should call back()', () => {
+  it('should call goPrevious()', () => {
     const mockPreviousStepUrl = 'cart';
     component.checkoutStepUrlPrevious = mockPreviousStepUrl;
-    component.back();
+    component.goPrevious();
     expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
   });
 
@@ -263,7 +263,7 @@ describe('ShippingAddressComponent', () => {
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
         of(mockAddresses)
       );
-      component.addressSelected(mockAddress1);
+      component.selectAddress(mockAddress1);
       component.selectedAddress$.subscribe(() => {
         fixture.detectChanges();
       });
@@ -280,7 +280,7 @@ describe('ShippingAddressComponent', () => {
         of(mockAddresses)
       );
 
-      component.addressSelected(mockAddress1);
+      component.selectAddress(mockAddress1);
       component.selectedAddress$.subscribe(() => {
         fixture.detectChanges();
       });
@@ -299,7 +299,7 @@ describe('ShippingAddressComponent', () => {
         .queryAll(By.css('.btn-action'))
         .find(el => el.nativeElement.innerText === 'checkout.backToCart');
 
-    it('should call "back" function after being clicked', () => {
+    it('should call "goPrevious" function after being clicked', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
       );
@@ -308,9 +308,9 @@ describe('ShippingAddressComponent', () => {
       );
 
       fixture.detectChanges();
-      spyOn(component, 'back');
+      spyOn(component, 'goPrevious');
       getBackBtn().nativeElement.click();
-      expect(component.back).toHaveBeenCalled();
+      expect(component.goPrevious).toHaveBeenCalled();
     });
   });
 

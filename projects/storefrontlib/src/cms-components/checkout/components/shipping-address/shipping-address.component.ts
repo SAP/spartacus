@@ -153,7 +153,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     return card;
   }
 
-  addressSelected(address: Address): void {
+  selectAddress(address: Address): void {
     this.selectedAddress$.next(address);
   }
 
@@ -193,10 +193,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.newAddressFormManuallyOpened = true;
   }
 
-  hideNewAddressForm(goBack: boolean = false): void {
+  hideNewAddressForm(goPrevious: boolean = false): void {
     this.newAddressFormManuallyOpened = false;
-    if (goBack) {
-      this.back();
+    if (goPrevious) {
+      this.goPrevious();
     }
   }
 
@@ -204,7 +204,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.routingService.go(this.checkoutStepUrlNext);
   }
 
-  back(): void {
+  goPrevious(): void {
     this.routingService.go(this.checkoutStepUrlPrevious);
   }
 
