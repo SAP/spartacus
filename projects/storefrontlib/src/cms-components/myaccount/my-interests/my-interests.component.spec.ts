@@ -142,7 +142,7 @@ const userToken = {
   userId: 'xxx',
 };
 
-fdescribe('MyInterestsComponent', () => {
+describe('MyInterestsComponent', () => {
   let component: MyInterestsComponent;
   let fixture: ComponentFixture<MyInterestsComponent>;
   let el: DebugElement;
@@ -185,7 +185,7 @@ fdescribe('MyInterestsComponent', () => {
   });
 
   it('should show loading spinner when data is loading', () => {
-    userService.getProdutInterestsLoaded.and.returnValue(of(true));
+    userService.getProdutInterestsLoaded.and.returnValue(of(false));
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
@@ -203,22 +203,24 @@ fdescribe('MyInterestsComponent', () => {
     expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
     expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
     expect(el.queryAll(By.css('[data-test="productItem"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('cx-media')).length).toEqual(2);
+    expect(
+      el.queryAll(By.css('[data-test="productImageLink"]')).length
+    ).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productName"]')).length).toEqual(2);
     expect(el.queryAll(By.css('[data-test="productLink"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productCode"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="variantName"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="variantValue"]')).length).toEqual(2);
+    expect(
+      el.queryAll(By.css('[data-test="stockLevelStatus"]')).length
+    ).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productPrice"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="interestType"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="expirationDate"]')).length).toEqual(
+      2
+    );
     expect(el.queryAll(By.css('[data-test="deleteButton"]')).length).toEqual(2);
-
-    expect(el.queryAll(By.css('[data-test="variantName"]'))[0].context).toEqual(
-      'color'
-    );
-    expect(el.queryAll(By.css('[data-test="variantName"]'))[1].context).toEqual(
-      'size'
-    );
-
-    expect(
-      el.queryAll(By.css('[data-test="variantValue"]'))[0].context
-    ).toEqual('red');
-    expect(
-      el.queryAll(By.css('[data-test="variantValue"]'))[1].context
-    ).toEqual('XL');
   });
 
   it('should be able to change page/sort', () => {
