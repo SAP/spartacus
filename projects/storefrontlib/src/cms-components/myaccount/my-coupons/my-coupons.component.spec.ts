@@ -69,26 +69,13 @@ class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-coupon-card',
-  template: `
-    <input
-      type="checkbox"
-      data-test="card-checkbox"
-      (change)="onNotificationChange()"
-    />
-  `,
+  template: '',
 })
 class MockCouponCardComponent {
   @Input() coupon: CustomerCoupon;
   @Input() couponLoading = false;
   @Output()
-  notificationChanged = new EventEmitter<{
-    couponId: string;
-    notification: boolean;
-  }>();
-
-  onNotificationChange(): void {
-    this.notificationChanged.emit({ couponId: '123', notification: false });
-  }
+  notificationChanged = new EventEmitter();
 }
 
 describe('MyCouponsComponent', () => {
@@ -146,7 +133,7 @@ describe('MyCouponsComponent', () => {
 
   it('should show message when no data', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('[data-test="noexist-msg"]'))).toBeTruthy();
+    expect(el.query(By.css('[data-test="notexist-msg"]'))).toBeTruthy();
   });
 
   it('should show coupons list', () => {
@@ -180,10 +167,12 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to trun on/off notification for a coupon', () => {
-    userService.getCustomerCoupons.and.returnValue(of(couponResult));
     fixture.detectChanges();
 
-    el.query(By.css('[data-test]="card-checkbox"')).nativeElement.click();
+    component.onNotificationChange({ couponId: '123', notification: true });
+    expect(userService.subscribeCustomerCoupon).toHaveBeenCalledWith('123');
+
+    component.onNotificationChange({ couponId: '123', notification: false });
     expect(userService.unsubscribeCustomerCoupon).toHaveBeenCalledWith('123');
   });
 });
