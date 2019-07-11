@@ -170,8 +170,8 @@ describe('StockNotificationComponent', () => {
     ngbModal.open.and.returnValue(of(modalInstance));
 
     fixture = TestBed.createComponent(MockedProductSummaryComponent);
-    component.productStockLevelStatus = 'outOfStock';
     component = fixture.componentInstance;
+    component.productStockLevelStatus = 'outOfStock';
   });
 
   it('should create', () => {
@@ -179,7 +179,7 @@ describe('StockNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not show element for out of stock product', () => {
+  it('should not show element expcept out of stock product', () => {
     component.productOutOfStock = 'inStock';
     fixture.detectChanges();
 

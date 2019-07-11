@@ -79,9 +79,9 @@ describe('NotificationDialogComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationDialogComponent);
+    component = fixture.componentInstance;
     component.subscribeSuccess$ = of(true);
     component.selectedChannels = basicNotificationPreferenceList.preferences;
-    component = fixture.componentInstance;
   });
 
   it('should create', () => {
