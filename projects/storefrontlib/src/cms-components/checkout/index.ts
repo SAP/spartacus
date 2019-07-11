@@ -1,4 +1,3 @@
-export * from './checkout-config.service';
 export * from './checkout.module';
 export * from './components/index';
 export * from './config/index';

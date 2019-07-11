@@ -16,8 +16,8 @@ import {
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../checkout-config.service';
 import { CheckoutStepType } from '../../model/checkout-step.model';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 export interface CardWithAddress {
   card: Card;
