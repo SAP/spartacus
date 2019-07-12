@@ -239,11 +239,11 @@ describe('ShippingAddressComponent', () => {
     //mockAddresses array contains an address that is default so it will be selected
     component.cards$
       .subscribe(cards => {
+        expect(component.selectedAddress).toEqual(mockAddress2);
         expect(cards.length).toEqual(2);
         expect(cards[1].card.header).toBe('addressCard.selected');
       })
       .unsubscribe();
-    expect(component.selectedAddress).toEqual(mockAddress2);
   });
 
   it('should NOT automatically select default shipping address when there is a current selection', () => {
@@ -268,11 +268,11 @@ describe('ShippingAddressComponent', () => {
     //The logic in the card$ subscription should keep the current selection
     component.cards$
       .subscribe(cards => {
+        expect(component.selectedAddress).toEqual(mockAddress1);
         expect(cards.length).toEqual(2);
         expect(cards[0].card.header).toBe('addressCard.selected');
       })
       .unsubscribe();
-    expect(component.selectedAddress).toEqual(mockAddress1);
   });
 
   it('should set newly created address', () => {
