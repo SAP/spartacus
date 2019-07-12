@@ -19,8 +19,10 @@
     }
 
     &[format='thumbnail'] {
-      min-height: 96px;
-      background-size: 96px;
+      min-height: 33px;
+      min-width: 33px;
+      width: 100%;
+      height: 100%;
     }
   }
 }
