@@ -9,6 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
+import { KymaModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
@@ -31,9 +32,13 @@ if (!environment.production) {
     BrowserTransferStateModule,
 
     B2cStorefrontModule.withConfig({
+      authentication: {
+        kyma_enabled: true,
+      },
+
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
           legacy: false,
         },
       },
@@ -62,6 +67,8 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
     }),
+
+    KymaModule,
 
     ...devImports,
   ],
