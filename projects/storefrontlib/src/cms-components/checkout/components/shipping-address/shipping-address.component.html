@@ -55,7 +55,7 @@
           <button
             class="cx-btn btn btn-block btn-primary"
             [disabled]="!selectedAddress || !selectedAddress.id"
-            (click)="next()"
+            (click)="goNext()"
           >
             {{ 'common.continue' | cxTranslate }}
           </button>
@@ -68,7 +68,7 @@
         <cx-address-form
           showTitleCode="true"
           (backToAddress)="hideNewAddressForm(false)"
-          (submitAddress)="addNewAddress($event)"
+          (submitAddress)="addAddress($event)"
         ></cx-address-form>
       </ng-container>
       <ng-template #initialAddressForm>
@@ -76,7 +76,7 @@
           showTitleCode="true"
           cancelBtnLabel="{{ 'checkout.backToCart' | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
-          (submitAddress)="addNewAddress($event)"
+          (submitAddress)="addAddress($event)"
         ></cx-address-form>
       </ng-template>
     </ng-template>

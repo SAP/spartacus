@@ -156,32 +156,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.selectedAddress$.next(address);
   }
 
-  next(): void {
-    this.addAddress({ address: this.selectedAddress, newAddress: false });
-  }
-
-  addAddress({
-    newAddress,
-    address,
-  }: {
-    newAddress: boolean;
-    address: Address;
-  }): void {
-    if (newAddress) {
-      this.checkoutDeliveryService.createAndSetAddress(address);
-      this.goTo = CheckoutStepType.DELIVERY_MODE;
-      return;
-    }
-    if (this.selectedAddress) {
-      this.goNext();
-    } else {
-      this.goTo = CheckoutStepType.DELIVERY_MODE;
-      this.checkoutDeliveryService.setDeliveryAddress(address);
-    }
-  }
-
-  addNewAddress(address: Address): void {
-    this.addAddress({ address, newAddress: true });
+  addAddress(address: Address): void {
+    this.checkoutDeliveryService.createAndSetAddress(address);
+    this.goTo = CheckoutStepType.DELIVERY_MODE;
   }
 
   showNewAddressForm(): void {
