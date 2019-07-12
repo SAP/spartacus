@@ -12,7 +12,7 @@ export interface OccEndpoints {
    */
   productReviews?: string;
   /**
-   * Get a product reference
+   * Get a list of product references
    *
    * @member {string} [productReferences]
    */
@@ -30,13 +30,13 @@ export interface OccEndpoints {
    */
   productSuggestions?: string;
   /**
-   * Get component data
+   * Get CMS component details
    *
    * @member {string} [component]
    */
   component?: string;
   /**
-   * Find component data by id(s)
+   * Get a list of CMS component details
    *
    * @member {string} [components]
    */
