@@ -2,7 +2,7 @@ context('Reset Password Page', () => {
   beforeEach(() => {
     // Clear the session to make sure no user is authenticated.
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/login/reset-password');
+    cy.visit('/login/pw/change');
   });
 
   it('should not submit an empty form', () => {
@@ -12,7 +12,7 @@ context('Reset Password Page', () => {
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('button[type="submit"]').click();
     });
-    cy.url().should('match', /\/login\/reset-password$/);
+    cy.url().should('match', /\/login\/pw\/change$/);
     cy.get('cx-global-message .alert').should('not.exist');
   });
 
@@ -24,7 +24,7 @@ context('Reset Password Page', () => {
       cy.get('[formcontrolname="repassword"]').type('N3wPassword!');
       cy.get('button[type="submit"]').click();
     });
-    cy.url().should('match', /\/login\/reset-password$/);
+    cy.url().should('match', /\/login\/pw\/change$/);
     cy.get('cx-global-message .alert-danger').should('exist');
   });
 
