@@ -1,9 +1,9 @@
 workflow "API extractor" {
-  resolves = ["Hello World"]
+  resolves = ["Breaking change detection bot"]
   on = "pull_request"
 }
 
-action "Hello World" {
+action "Breaking change detection bot" {
   uses = "./.github/api-extractor-action"
   secrets = ["GITHUB_TOKEN"]
 }
