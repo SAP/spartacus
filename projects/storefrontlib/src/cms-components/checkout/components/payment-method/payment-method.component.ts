@@ -126,6 +126,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             img: this.getCardIcon(payment.cardType.code),
             actions: [{ name: textUseThisPayment, event: 'send' }],
           };
+          if (!this.selectedPayment && payment.defaultPayment) {
+            this.selectedPayment = payment;
+          }
           if (this.selectedPayment && this.selectedPayment.id === payment.id) {
             card.header = textSelected;
           }
