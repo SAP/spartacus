@@ -5,7 +5,8 @@ LABEL "com.github.actions.description"="Looks for breaking changes in library AP
 LABEL "com.github.actions.icon"="lock"
 LABEL "com.github.actions.color"="red"
 
-COPY package*.json /
+COPY package.json /
+COPY yarn.lock /
 COPY . .
 
 RUN yarn
