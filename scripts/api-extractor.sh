@@ -5,6 +5,9 @@ set -e
 yarn
 yarn build:core:lib
 
+rm -rf etc
+mkdir etc
+
 npm i -g @microsoft/api-extractor
 
 # @spartacus/assets
