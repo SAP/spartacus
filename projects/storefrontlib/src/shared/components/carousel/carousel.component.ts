@@ -44,7 +44,7 @@ export class CarouselComponent implements OnInit {
    */
   items: Observable<any>[];
   @Input('items')
-  set in(inputItems: Observable<any>[]) {
+  set setItems(inputItems: Observable<any>[]) {
     this.items = inputItems;
     //Reset slider when changing products
     this.activeSlide = 0;
