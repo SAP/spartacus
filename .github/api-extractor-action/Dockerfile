@@ -8,6 +8,6 @@ LABEL "com.github.actions.color"="red"
 COPY package*.json /
 COPY . .
 
-RUN npm ci
+RUN yarn
 
 ENTRYPOINT ["node", "/index.js"]
