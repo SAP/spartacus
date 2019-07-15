@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
@@ -13,11 +8,10 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
-import { CheckoutStepType } from '../../model/checkout-step.model';
 
 export interface CardWithAddress {
   card: Card;
@@ -29,22 +23,15 @@ export interface CardWithAddress {
   templateUrl: './shipping-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShippingAddressComponent implements OnInit, OnDestroy {
+export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
-  cards: Card[] = [];
   isLoading$: Observable<boolean>;
   selectedAddress: Address;
-  goTo: CheckoutStepType;
-  setAddress: Address;
-  setAddressSub: Subscription;
-  selectedAddressSub: Subscription;
   selectedAddress$: BehaviorSubject<Address> = new BehaviorSubject<Address>(
     null
   );
   cards$: Observable<CardWithAddress[]>;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -57,12 +44,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.goTo = null;
-    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-    this.checkoutStepUrlPrevious = 'cart';
-
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
     this.cards$ = combineLatest([
@@ -82,9 +63,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         ]) => {
           // Select default address if none selected
           if (!addresses.includes(selected)) {
-            const defaultAddress = addresses.find(
-              address => address.defaultAddress
-            );
+            const defaultAddress = this.getDefaultAddress(addresses);
             selected = defaultAddress;
             this.selectedAddress = defaultAddress;
           }
@@ -107,19 +86,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     );
 
     this.userAddressService.loadAddresses();
+  }
 
-    this.setAddressSub = this.checkoutDeliveryService
-      .getDeliveryAddress()
-      .subscribe(address => {
-        this.selectedAddress$.next(address);
-        if (this.goTo) {
-          this.goNext();
-          this.goTo = null;
-        }
-      });
-    this.selectedAddressSub = this.selectedAddress$.subscribe(address => {
-      this.selectedAddress = address;
-    });
+  private getDefaultAddress(addresses: Address[]): Address {
+    return addresses.find(address => address.defaultAddress);
   }
 
   getCardContent(
@@ -130,10 +100,12 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     textSelected: string
   ): Card {
     let region = '';
+
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
-    const card: Card = {
+
+    return {
       title: address.defaultAddress ? textDefaultShippingAddress : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
@@ -146,19 +118,17 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
     };
-
-    this.cards.push(card);
-
-    return card;
   }
 
   selectAddress(address: Address): void {
+    this.selectedAddress = address;
     this.selectedAddress$.next(address);
   }
 
   addAddress(address: Address): void {
+    this.selectedAddress = address;
     this.checkoutDeliveryService.createAndSetAddress(address);
-    this.goTo = CheckoutStepType.DELIVERY_MODE;
+    this.goNext();
   }
 
   showNewAddressForm(): void {
@@ -173,19 +143,14 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   goNext(): void {
-    this.routingService.go(this.checkoutStepUrlNext);
+    this.routingService.go(
+      this.checkoutConfigService.getNextCheckoutStepUrl(this.activatedRoute)
+    );
   }
 
   goPrevious(): void {
-    this.routingService.go(this.checkoutStepUrlPrevious);
-  }
-
-  ngOnDestroy(): void {
-    if (this.setAddressSub) {
-      this.setAddressSub.unsubscribe();
-    }
-    if (this.selectedAddressSub) {
-      this.selectedAddressSub.unsubscribe();
-    }
+    this.routingService.go(
+      this.checkoutConfigService.getPreviousCheckoutStepUrl(this.activatedRoute)
+    );
   }
 }

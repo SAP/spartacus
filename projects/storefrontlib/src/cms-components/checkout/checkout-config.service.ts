@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CheckoutConfig } from './config/checkout-config';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutStep, CheckoutStepType } from './model/checkout-step.model';
 import { RoutingConfigService } from '@spartacus/core';
+import { CheckoutConfig } from './config/checkout-config';
+import { CheckoutStep, CheckoutStepType } from './model/checkout-step.model';
 
 @Injectable()
 export class CheckoutConfigService {
@@ -30,7 +30,7 @@ export class CheckoutConfigService {
 
     return stepIndex >= 0 && this.steps[stepIndex - 1]
       ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].routeName)
-      : null;
+      : 'cart';
   }
 
   getCurrentStepIndex(activatedRoute: ActivatedRoute) {
