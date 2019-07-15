@@ -73,7 +73,7 @@
           [formGroup]="parent"
         >
           <cx-item-counter
-            isValueChangeable="true"
+            [isValueChangeable]="item.updateable"
             [step]="1"
             [min]="1"
             [max]="item.product.stock?.stockLevel || 1000"
@@ -106,7 +106,7 @@
     <!-- Promotion -->
     <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly" class="cx-actions col-12">
+    <div *ngIf="!isReadOnly && item.updateable" class="cx-actions col-12">
       <button
         class="link"
         [class.disabled]="cartIsLoading"
