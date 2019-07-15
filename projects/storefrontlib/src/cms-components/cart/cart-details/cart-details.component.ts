@@ -23,7 +23,7 @@ export class CartDetailsComponent implements OnInit {
     this.cartLoaded$ = this.cartService.getLoaded();
   }
 
-  getAllPromotionsForCart(cart: Cart): Cart[] {
+  getAllPromotionsForCart(cart: Cart): any[] {
     const potentialPromotions = [];
     potentialPromotions.push(...(cart.potentialOrderPromotions || []));
     potentialPromotions.push(...(cart.potentialProductPromotions || []));

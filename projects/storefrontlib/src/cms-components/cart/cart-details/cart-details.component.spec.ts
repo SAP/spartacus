@@ -643,4 +643,42 @@ describe('CartDetailsComponent', () => {
       expect(promotions).toEqual(expectedResult);
     });
   });
+
+  describe('when there are duplicated promotions in the cart', () => {
+    it('should not display duplicated one', () => {
+      const mockedCart: Cart = {
+        guid: '17',
+        appliedOrderPromotions: [
+          {
+            consumedEntries: [],
+            description: 'Buy over $200.00 get $20.00 discount on cart',
+            promotion: {
+              code: 'order_threshold_fixed_discount_main',
+              promotionType: 'Rule Based Promotion',
+            },
+          },
+          {
+            consumedEntries: [],
+            description: 'Buy over $200.00 get $20.00 discount on cart',
+            promotion: {
+              code: 'order_threshold_fixed_discount_main',
+              promotionType: 'Rule Based Promotion',
+            },
+          },
+        ],
+      };
+
+      const promotions = component.getAllPromotionsForCart(mockedCart);
+      expect(promotions).toEqual([
+        {
+          consumedEntries: [],
+          description: 'Buy over $200.00 get $20.00 discount on cart',
+          promotion: {
+            code: 'order_threshold_fixed_discount_main',
+            promotionType: 'Rule Based Promotion',
+          },
+        },
+      ]);
+    });
+  });
 });
