@@ -9,7 +9,7 @@ describe('OccEndpointsService', () => {
         baseUrl: 'test-baseUrl',
         prefix: '/test-occPrefix',
         endpoints: {
-          endpoint1: 'configured-endpoint1/${test}?fields=abc',
+          product: 'configured-endpoint1/${test}?fields=abc',
         },
       },
     },
@@ -45,7 +45,7 @@ describe('OccEndpointsService', () => {
 
   describe('getUrl', () => {
     it('should return endpoint from config', () => {
-      const url = service.getUrl('endpoint1');
+      const url = service.getUrl('product');
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
@@ -53,7 +53,7 @@ describe('OccEndpointsService', () => {
     });
 
     it('should apply parameters to configured endpoint', () => {
-      const url = service.getUrl('endpoint1', { test: 'test-value' });
+      const url = service.getUrl('product', { test: 'test-value' });
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/test-value?fields=abc'
@@ -62,7 +62,7 @@ describe('OccEndpointsService', () => {
 
     it('should add query parameters to configured endpoint', () => {
       const url = service.getUrl(
-        'endpoint1',
+        'product',
         { test: 'test-value' },
         { param: 'test-param' }
       );
@@ -75,7 +75,7 @@ describe('OccEndpointsService', () => {
 
     it('should allow to redefine preconfigured query parameters', () => {
       const url = service.getUrl(
-        'endpoint1',
+        'product',
         { test: 'test-value' },
         { fields: 'xyz' }
       );
@@ -87,7 +87,7 @@ describe('OccEndpointsService', () => {
 
     it('should allow to remove preconfigured query parameters', () => {
       const url = service.getUrl(
-        'endpoint1',
+        'product',
         { test: 'test-value' },
         { fields: null }
       );
