@@ -1,14 +1,14 @@
 import {
   async,
   ComponentFixture,
+  fakeAsync,
   TestBed,
   tick,
-  fakeAsync,
 } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { ItemCounterComponent } from './item-counter.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ItemCounterComponent } from './item-counter.component';
 
 class MockEvent {
   code: string;
@@ -234,7 +234,7 @@ describe('ItemCounterComponent', () => {
     });
   });
 
-  it('should not display input when isValueChangeable is not passed', () => {
+  it('should not display input when isValueChangeable is false', () => {
     itemCounterComponent.isValueChangeable = false;
     fixture.detectChanges();
 
@@ -246,7 +246,7 @@ describe('ItemCounterComponent', () => {
     ).toBeTruthy();
   });
 
-  it('should display input when isValueChangeable is passed', () => {
+  it('should display input when isValueChangeable is true', () => {
     itemCounterComponent.isValueChangeable = true;
     fixture.detectChanges();
 
@@ -310,5 +310,13 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.ngOnChanges();
     fixture.detectChanges();
     expect(itemCounterComponent.inputValue.disabled).toBeFalsy();
+  });
+
+  it('should not display decrement or increment button when isValueChangeable is false', () => {
+    itemCounterComponent.isValueChangeable = false;
+    itemCounterComponent.ngOnChanges();
+    fixture.detectChanges();
+    expect(itemCounterComponent.decrementBtn).toBeUndefined();
+    expect(itemCounterComponent.incrementBtn).toBeUndefined();
   });
 });
