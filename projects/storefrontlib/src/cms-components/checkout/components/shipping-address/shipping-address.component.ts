@@ -80,6 +80,17 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           textShipToThisAddress,
           textSelected,
         ]) => {
+          // Select default address if none selected
+          if (selected && Object.keys(selected).length > 0) {
+            this.selectedAddress = selected;
+          } else {
+            const defaultAddress = addresses.find(
+              address => address.defaultAddress
+            );
+            selected = defaultAddress;
+            this.selectedAddress = defaultAddress;
+          }
+
           return addresses.map(address => {
             const card = this.getCardContent(
               address,
