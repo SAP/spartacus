@@ -8,7 +8,7 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../checkout-config.service';
@@ -27,10 +27,7 @@ export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   isLoading$: Observable<boolean>;
-  selectedAddress: Address;
-  selectedAddress$: BehaviorSubject<Address> = new BehaviorSubject<Address>(
-    null
-  );
+  selectedAddress$: Observable<Address>;
   cards$: Observable<CardWithAddress[]>;
 
   constructor(
@@ -46,9 +43,10 @@ export class ShippingAddressComponent implements OnInit {
   ngOnInit() {
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
+    this.selectedAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.cards$ = combineLatest([
       this.existingAddresses$,
-      this.selectedAddress$.asObservable(),
+      this.selectedAddress$,
       this.translation.translate('checkoutAddress.defaultShippingAddress'),
       this.translation.translate('checkoutAddress.shipToThisAddress'),
       this.translation.translate('addressCard.selected'),
@@ -62,14 +60,16 @@ export class ShippingAddressComponent implements OnInit {
           textSelected,
         ]) => {
           // Select default address if none selected
-          if (selected && Object.keys(selected).length > 0) {
-            this.selectedAddress = selected;
-          } else {
+          if (
+            addresses.length &&
+            selected &&
+            Object.keys(selected).length === 0
+          ) {
             const defaultAddress = addresses.find(
               address => address.defaultAddress
             );
             selected = defaultAddress;
-            this.selectedAddress = defaultAddress;
+            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
           }
 
           return addresses.map(address => {
@@ -90,10 +90,6 @@ export class ShippingAddressComponent implements OnInit {
     );
 
     this.userAddressService.loadAddresses();
-  }
-
-  private getDefaultAddress(addresses: Address[]): Address {
-    return addresses.find(address => address.defaultAddress);
   }
 
   getCardContent(
@@ -125,12 +121,10 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   selectAddress(address: Address): void {
-    this.selectedAddress = address;
-    this.selectedAddress$.next(address);
+    this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
   addAddress(address: Address): void {
-    this.selectedAddress = address;
     this.checkoutDeliveryService.createAndSetAddress(address);
     this.goNext();
   }
