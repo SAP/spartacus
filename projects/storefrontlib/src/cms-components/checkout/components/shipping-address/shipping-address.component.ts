@@ -62,8 +62,12 @@ export class ShippingAddressComponent implements OnInit {
           textSelected,
         ]) => {
           // Select default address if none selected
-          if (!addresses.includes(selected)) {
-            const defaultAddress = this.getDefaultAddress(addresses);
+          if (selected && Object.keys(selected).length > 0) {
+            this.selectedAddress = selected;
+          } else {
+            const defaultAddress = addresses.find(
+              address => address.defaultAddress
+            );
             selected = defaultAddress;
             this.selectedAddress = defaultAddress;
           }
