@@ -58,6 +58,7 @@ export class CheckoutDetailsService {
   }
 
   getSomeNewData(): string {
+    this.getSelectedDeliveryModeCode();
     return 'test';
   }
 
