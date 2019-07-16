@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import {
   Address,
   CartService,
-  CheckoutService,
-  PaymentDetails,
   CheckoutDeliveryService,
   CheckoutPaymentService,
+  CheckoutService,
+  PaymentDetails,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
+  filter,
   map,
   shareReplay,
   skipWhile,
   switchMap,
   tap,
-  filter,
 } from 'rxjs/operators';
 
 @Injectable({
@@ -49,12 +49,16 @@ export class CheckoutDetailsService {
     );
   }
 
-  getSelectedDeliveryModeCode(): Observable<string> {
+  private getSelectedDeliveryModeCode(): Observable<string> {
     return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() =>
         this.checkoutDeliveryService.getSelectedDeliveryModeCode()
       )
     );
+  }
+
+  getSomeNewData(): string {
+    return 'test';
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
