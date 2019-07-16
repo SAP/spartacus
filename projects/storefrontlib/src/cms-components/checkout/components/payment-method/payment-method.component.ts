@@ -1,22 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  Address,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
-  GlobalMessageService,
-  GlobalMessageType,
-  PaymentDetails,
-  RoutingService,
-  TranslationService,
-  UserPaymentService,
-} from '@spartacus/core';
+import { Address, CheckoutDeliveryService, CheckoutPaymentService, CheckoutService, GlobalMessageService, GlobalMessageType, PaymentDetails, RoutingService, TranslationService, UserPaymentService } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
@@ -126,6 +110,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             img: this.getCardIcon(payment.cardType.code),
             actions: [{ name: textUseThisPayment, event: 'send' }],
           };
+          if (!this.selectedPayment && payment.defaultPayment) {
+            this.selectedPayment = payment;
+          }
           if (this.selectedPayment && this.selectedPayment.id === payment.id) {
             card.header = textSelected;
           }

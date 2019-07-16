@@ -81,7 +81,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           textSelected,
         ]) => {
           // Select default address if none selected
-          if (!addresses.includes(selected)) {
+          if (selected && Object.keys(selected).length > 0) {
+            this.selectedAddress = selected;
+          } else {
             const defaultAddress = addresses.find(
               address => address.defaultAddress
             );
