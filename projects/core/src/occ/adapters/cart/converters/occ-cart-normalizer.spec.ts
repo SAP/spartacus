@@ -3,16 +3,22 @@ import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/conve
 import { ConverterService } from '../../../../util/converter.service';
 import { OccCartNormalizer } from './occ-cart-normalizer';
 
+class MockConverterService {
+  convert() {}
+}
 describe('OccCartNormalizer', () => {
-  let service: OccCartNormalizer;
-  let converter: ConverterService;
+  let occCartNormalizer: OccCartNormalizer;
+  let converter: MockConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OccCartNormalizer],
+      providers: [
+        OccCartNormalizer,
+        { provide: ConverterService, useClass: MockConverterService },
+      ],
     });
 
-    service = TestBed.get(OccCartNormalizer);
+    occCartNormalizer = TestBed.get(OccCartNormalizer);
     converter = TestBed.get(ConverterService);
     spyOn(converter, 'convert').and.callFake(product => ({
       ...product,
@@ -21,7 +27,7 @@ describe('OccCartNormalizer', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(occCartNormalizer).toBeTruthy();
   });
 
   it('should convert cart entries', () => {
@@ -29,7 +35,7 @@ describe('OccCartNormalizer', () => {
     const cart = {
       entries: [{ product }],
     };
-    const result = service.convert(cart);
+    const result = occCartNormalizer.convert(cart);
     expect(result.entries[0].product.code).toBe('test1converted');
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
   });
@@ -56,7 +62,7 @@ describe('OccCartNormalizer', () => {
         },
       ],
     };
-    const result = service.convert(cart);
+    const result = occCartNormalizer.convert(cart);
     expect(result.appliedOrderPromotions.length).toEqual(1);
     expect(result.appliedOrderPromotions).toEqual([
       {
