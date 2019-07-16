@@ -1,4 +1,4 @@
-<ul class="pagination">
+<ul class="pagination" *ngIf="showPagination()">
   <!-- Previous -->
   <li class="page-item" [ngClass]="{ disabled: onFirstPage() || !hasPages() }">
     <a class="page-link" (click)="clickPageNo(getPagePrevious())">«</a>
