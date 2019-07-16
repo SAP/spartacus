@@ -62,6 +62,10 @@ export class CheckoutDetailsService {
     return 'test';
   }
 
+  getSomeOtherNewData(): string {
+    return 'test';
+  }
+
   getPaymentDetails(): Observable<PaymentDetails> {
     return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutPaymentService.getPaymentDetails())
