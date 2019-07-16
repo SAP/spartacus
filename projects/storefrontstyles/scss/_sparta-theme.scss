@@ -34,12 +34,7 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-forgot-password, cx-banner-carousel, cx-update-password !default;
 
 // future theme's, can be introduced during minors
-$theme: ''; // conconut
-
-// sampe of theme specific
-%cx-mini-cart-conconut a svg {
-  fill: blue;
-}
+$theme: '' !default;
 
 @each $selector in $selectors {
   #{$selector} {
