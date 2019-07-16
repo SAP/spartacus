@@ -77,5 +77,8 @@ export interface UserDetailsState {
 }
 
 export interface ConsignmentTrackingState {
+  error: any;
+  success: any;
+  loading: any;
   tracking?: ConsignmentTracking;
 }

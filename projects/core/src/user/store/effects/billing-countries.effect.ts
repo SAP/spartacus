@@ -5,21 +5,23 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { CountryType } from '../../../model/address.model';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import * as fromAction from '../actions/billing-countries.action';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class BillingCountriesEffect {
   @Effect()
   loadBillingCountries$: Observable<
-    fromAction.BillingCountriesAction
+    UserActions.BillingCountriesAction
   > = this.actions$.pipe(
-    ofType(fromAction.LOAD_BILLING_COUNTRIES),
+    ofType(UserActions.LOAD_BILLING_COUNTRIES),
     switchMap(() => {
       return this.siteConnector.getCountries(CountryType.BILLING).pipe(
-        map(countries => new fromAction.LoadBillingCountriesSuccess(countries)),
+        map(
+          countries => new UserActions.LoadBillingCountriesSuccess(countries)
+        ),
         catchError(error =>
           of(
-            new fromAction.LoadBillingCountriesFail(
+            new UserActions.LoadBillingCountriesFail(
               makeErrorSerializable(error)
             )
           )

@@ -1,30 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { SiteContext } from './site-context.interface';
 import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import {
-  getActiveBaseSite,
-  getBaseSiteData,
-} from '../store/selectors/base-site.selectors';
-import { StateWithSiteContext } from '../store/state';
-import {
-  SetActiveBaseSite,
-  LoadBaseSite,
-} from '../store/actions/base-site.action';
 import { BaseSite } from '../../model/misc.model';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextSelectors } from '../store/selectors/index';
+import { StateWithSiteContext } from '../store/state';
+import { SiteContext } from './site-context.interface';
+import { SiteContextConfig } from '../config/site-context-config';
+import { getContextParameterDefault } from '../config/context-config-utils';
+import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
 
 @Injectable()
 export class BaseSiteService implements SiteContext<string> {
-  constructor(protected store: Store<StateWithSiteContext>) {}
+  constructor(
+    protected store: Store<StateWithSiteContext>,
+    protected config: SiteContextConfig
+  ) {}
 
   /**
    * Represents the current baseSite uid.
    */
   getActive(): Observable<string> {
     return this.store.pipe(
-      select(getActiveBaseSite),
-      filter(Boolean)
+      select(SiteContextSelectors.getActiveBaseSite),
+      filter(active => Boolean(active))
     );
   }
 
@@ -35,15 +35,17 @@ export class BaseSiteService implements SiteContext<string> {
     return this.getActive().pipe(map(baseSite => [baseSite]));
   }
 
-  setActive(baseSite: string) {
+  setActive(baseSite: string): Subscription {
     return this.store
       .pipe(
-        select(getActiveBaseSite),
+        select(SiteContextSelectors.getActiveBaseSite),
         take(1)
       )
       .subscribe(activeBaseSite => {
         if (baseSite && activeBaseSite !== baseSite) {
-          this.store.dispatch(new SetActiveBaseSite(baseSite));
+          this.store.dispatch(
+            new SiteContextActions.SetActiveBaseSite(baseSite)
+          );
         }
       });
   }
@@ -51,8 +53,10 @@ export class BaseSiteService implements SiteContext<string> {
   /**
    * Initializes the active baseSite.
    */
-  initialize(defaultBaseSite: string) {
-    this.setActive(defaultBaseSite);
+  initialize(): void {
+    this.setActive(
+      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
+    );
   }
 
   /**
@@ -60,10 +64,10 @@ export class BaseSiteService implements SiteContext<string> {
    */
   getBaseSiteData(): Observable<BaseSite> {
     return this.store.pipe(
-      select(getBaseSiteData),
+      select(SiteContextSelectors.getBaseSiteData),
       tap(baseSite => {
         if (Object.keys(baseSite).length === 0) {
-          this.store.dispatch(new LoadBaseSite());
+          this.store.dispatch(new SiteContextActions.LoadBaseSite());
         }
       })
     );

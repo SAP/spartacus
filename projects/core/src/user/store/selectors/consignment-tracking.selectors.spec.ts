@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import * as fromSelectors from '.';
 import { ConsignmentTracking } from '../../../model/index';
 import * as fromReducers from '../reducers';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 
 describe('Consignment Tracking Selectors', () => {
@@ -23,7 +23,7 @@ describe('Consignment Tracking Selectors', () => {
     it('should return the consignment tracking state from the store', () => {
       let result: ConsignmentTracking;
       store
-        .pipe(select(fromSelectors.getConsignmentTracking))
+        .pipe(select(UsersSelectors.getConsignmentTracking))
         .subscribe(value => (result = value));
       expect(result).not.toBeNull();
     });

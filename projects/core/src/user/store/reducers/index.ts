@@ -5,7 +5,7 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { LOGOUT } from '../../../auth/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
@@ -77,7 +77,7 @@ export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === LOGOUT) {
+    if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }
 

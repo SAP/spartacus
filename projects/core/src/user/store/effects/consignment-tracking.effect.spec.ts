@@ -25,10 +25,6 @@ const MockOccModuleConfig: OccConfig = {
       prefix: '',
     },
   },
-
-  site: {
-    baseSite: '',
-  },
 };
 
 describe('Consignment Tracking effect', () => {

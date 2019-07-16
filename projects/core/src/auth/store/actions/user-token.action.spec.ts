@@ -1,5 +1,5 @@
 import { UserToken } from '../../models/token-types.model';
-import * as fromUserToken from './../actions/user-token.action';
+import { AuthActions } from './index';
 
 const token: UserToken = {
   access_token: 'xxx',
@@ -18,9 +18,9 @@ describe('User Token Actions', () => {
         password: '1234',
       };
 
-      const action = new fromUserToken.LoadUserToken(tokenRequest);
+      const action = new AuthActions.LoadUserToken(tokenRequest);
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_USER_TOKEN,
+        type: AuthActions.LOAD_USER_TOKEN,
         payload: tokenRequest,
       });
     });
@@ -29,10 +29,10 @@ describe('User Token Actions', () => {
   describe('LoadUserTokenFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromUserToken.LoadUserTokenFail(error);
+      const action = new AuthActions.LoadUserTokenFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_USER_TOKEN_FAIL,
+        type: AuthActions.LOAD_USER_TOKEN_FAIL,
         payload: error,
       });
     });
@@ -40,10 +40,10 @@ describe('User Token Actions', () => {
 
   describe('LoadUserTokenSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserToken.LoadUserTokenSuccess(token);
+      const action = new AuthActions.LoadUserTokenSuccess(token);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_USER_TOKEN_SUCCESS,
+        type: AuthActions.LOAD_USER_TOKEN_SUCCESS,
         payload: token,
       });
     });
@@ -55,9 +55,9 @@ describe('User Token Actions', () => {
         refreshToken: '1234',
       };
 
-      const action = new fromUserToken.RefreshUserToken(refreshTokenRequest);
+      const action = new AuthActions.RefreshUserToken(refreshTokenRequest);
       expect({ ...action }).toEqual({
-        type: fromUserToken.REFRESH_USER_TOKEN,
+        type: AuthActions.REFRESH_USER_TOKEN,
         payload: refreshTokenRequest,
       });
     });
@@ -66,10 +66,10 @@ describe('User Token Actions', () => {
   describe('RefreshUserTokenFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromUserToken.RefreshUserTokenFail(error);
+      const action = new AuthActions.RefreshUserTokenFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.REFRESH_USER_TOKEN_FAIL,
+        type: AuthActions.REFRESH_USER_TOKEN_FAIL,
         payload: error,
       });
     });
@@ -77,10 +77,10 @@ describe('User Token Actions', () => {
 
   describe('LoadUserTokenSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserToken.RefreshUserTokenSuccess(token);
+      const action = new AuthActions.RefreshUserTokenSuccess(token);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.REFRESH_USER_TOKEN_SUCCESS,
+        type: AuthActions.REFRESH_USER_TOKEN_SUCCESS,
         payload: token,
       });
     });

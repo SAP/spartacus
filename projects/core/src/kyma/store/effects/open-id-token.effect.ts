@@ -2,32 +2,32 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { iif, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, withLatestFrom } from 'rxjs/operators';
-import {
-  LoadUserToken,
-  LOAD_USER_TOKEN,
-  LOAD_USER_TOKEN_SUCCESS,
-} from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
-import * as fromActions from '../actions/open-id-token.action';
+import { KymaActions } from '../actions/index';
 
 @Injectable()
 export class OpenIdTokenEffect {
   @Effect()
-  triggerOpenIdTokenLoading$: Observable<fromActions.LoadOpenIdToken> = iif<
-    fromActions.LoadOpenIdToken,
-    fromActions.LoadOpenIdToken
+  triggerOpenIdTokenLoading$: Observable<KymaActions.LoadOpenIdToken> = iif<
+    KymaActions.LoadOpenIdToken,
+    KymaActions.LoadOpenIdToken
   >(
     () => this.config.authentication && this.config.authentication.kyma_enabled,
     this.actions$.pipe(
-      ofType<fromActions.LoadOpenIdTokenSuccess>(LOAD_USER_TOKEN_SUCCESS),
+      ofType<KymaActions.LoadOpenIdTokenSuccess>(
+        AuthActions.LOAD_USER_TOKEN_SUCCESS
+      ),
       withLatestFrom(
-        this.actions$.pipe(ofType<LoadUserToken>(LOAD_USER_TOKEN))
+        this.actions$.pipe(
+          ofType<AuthActions.LoadUserToken>(AuthActions.LOAD_USER_TOKEN)
+        )
       ),
       map(
         ([, loginAction]) =>
-          new fromActions.LoadOpenIdToken({
+          new KymaActions.LoadOpenIdToken({
             username: loginAction.payload.userId,
             password: loginAction.payload.password,
           })
@@ -37,18 +37,18 @@ export class OpenIdTokenEffect {
 
   @Effect()
   loadOpenIdToken$: Observable<
-    fromActions.OpenIdTokenActions
+    KymaActions.OpenIdTokenActions
   > = this.actions$.pipe(
-    ofType(fromActions.LOAD_OPEN_ID_TOKEN),
-    map((action: fromActions.LoadOpenIdToken) => action.payload),
+    ofType(KymaActions.LOAD_OPEN_ID_TOKEN),
+    map((action: KymaActions.LoadOpenIdToken) => action.payload),
     exhaustMap(payload =>
       this.openIdTokenService
         .loadOpenIdAuthenticationToken(payload.username, payload.password)
         .pipe(
-          map(token => new fromActions.LoadOpenIdTokenSuccess(token)),
+          map(token => new KymaActions.LoadOpenIdTokenSuccess(token)),
           catchError(error =>
             of(
-              new fromActions.LoadOpenIdTokenFail(makeErrorSerializable(error))
+              new KymaActions.LoadOpenIdTokenFail(makeErrorSerializable(error))
             )
           )
         )

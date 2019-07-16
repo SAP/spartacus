@@ -1,17 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from './../actions';
-
-import { ResetPasswordEffects } from './reset-password.effect';
-import { GlobalMessageType, AddMessage } from '../../../global-message/index';
-import { UserConnector } from '../../connectors/user/user.connector';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import { UserAdapter } from '../../connectors/user/user.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
+import { ResetPasswordEffects } from './reset-password.effect';
 
 describe('', () => {
   let service: UserConnector;
@@ -35,12 +31,12 @@ describe('', () => {
 
   describe('resetPassword$', () => {
     it('should be able to reset password', () => {
-      const action = new fromActions.ResetPassword({
+      const action = new UserActions.ResetPassword({
         token: 'teset token',
         password: 'test password',
       });
-      const completion1 = new fromActions.ResetPasswordSuccess();
-      const completion2 = new AddMessage({
+      const completion1 = new UserActions.ResetPasswordSuccess();
+      const completion2 = new GlobalMessageActions.AddMessage({
         text: { key: 'forgottenPassword.passwordResetSuccess' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });

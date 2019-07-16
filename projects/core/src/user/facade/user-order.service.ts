@@ -5,24 +5,22 @@ import { map, tap } from 'rxjs/operators';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
-import * as fromStore from '../store/index';
+import { StateWithProcess } from '../../process/store/process-state';
+import { UserActions } from '../store/actions/index';
+import { UsersSelectors } from '../store/selectors/index';
+import { StateWithUser } from '../store/user-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserOrderService {
-  constructor(
-    protected store: Store<
-      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Returns an order's detail
    */
   getOrderDetails(): Observable<Order> {
-    return this.store.pipe(select(fromStore.getOrderDetails));
+    return this.store.pipe(select(UsersSelectors.getOrderDetails));
   }
 
   /**
@@ -32,7 +30,7 @@ export class UserOrderService {
    */
   loadOrderDetails(orderCode: string): void {
     this.store.dispatch(
-      new fromStore.LoadOrderDetails({
+      new UserActions.LoadOrderDetails({
         userId: USERID_CURRENT,
         orderCode: orderCode,
       })
@@ -43,7 +41,7 @@ export class UserOrderService {
    * Clears order's details
    */
   clearOrderDetails(): void {
-    this.store.dispatch(new fromStore.ClearOrderDetails());
+    this.store.dispatch(new UserActions.ClearOrderDetails());
   }
 
   /**
@@ -51,7 +49,7 @@ export class UserOrderService {
    */
   getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
-      select(fromStore.getOrdersState),
+      select(UsersSelectors.getOrdersState),
       tap(orderListState => {
         const attemptedLoad =
           orderListState.loading ||
@@ -69,7 +67,7 @@ export class UserOrderService {
    * Returns a loaded flag for order history list
    */
   getOrderHistoryListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getOrdersLoaded));
+    return this.store.pipe(select(UsersSelectors.getOrdersLoaded));
   }
 
   /**
@@ -80,7 +78,7 @@ export class UserOrderService {
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
-      new fromStore.LoadUserOrders({
+      new UserActions.LoadUserOrders({
         userId: USERID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
@@ -93,14 +91,14 @@ export class UserOrderService {
    * Cleaning order list
    */
   clearOrderList(): void {
-    this.store.dispatch(new fromStore.ClearUserOrders());
+    this.store.dispatch(new UserActions.ClearUserOrders());
   }
 
   /**
    *  Returns a consignment tracking detail
    */
   getConsignmentTracking(): Observable<ConsignmentTracking> {
-    return this.store.pipe(select(fromStore.getConsignmentTracking));
+    return this.store.pipe(select(UsersSelectors.getConsignmentTracking));
   }
 
   /**
@@ -110,7 +108,7 @@ export class UserOrderService {
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
     this.store.dispatch(
-      new fromStore.LoadConsignmentTracking({
+      new UserActions.LoadConsignmentTracking({
         orderCode: orderCode,
         consignmentCode: consignmentCode,
       })
@@ -121,6 +119,6 @@ export class UserOrderService {
    * Cleaning consignment tracking
    */
   clearConsignmentTracking(): void {
-    this.store.dispatch(new fromStore.ClearConsignmentTracking());
+    this.store.dispatch(new UserActions.ClearConsignmentTracking());
   }
 }

@@ -1,11 +1,11 @@
-import {
-  cart,
-  product,
-  user,
-  cartTotalAndShipping,
-} from '../sample-data/checkout-flow';
+import { cart, product, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
-import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
+import {
+  fillPaymentDetails,
+  fillShippingAddress,
+  PaymentDetails,
+  AddressData,
+} from './checkout-forms';
 
 export function signOut() {
   cy.selectUserMenuOption({
@@ -60,14 +60,14 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-export function fillAddressForm() {
+export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('contain', cart.total);
 
-  fillShippingAddress(user);
+  fillShippingAddress(shippingAddressData);
 }
 
 export function chooseDeliveryMethod() {
@@ -82,17 +82,24 @@ export function chooseDeliveryMethod() {
   cy.wait('@getPaymentPage');
 }
 
-export function fillPaymentForm() {
+export function fillPaymentForm(
+  paymentDetailsData: PaymentDetails = user,
+  billingAddress?: AddressData
+) {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cartTotalAndShipping);
+    .should('contain', cart.totalAndShipping);
 
-  fillPaymentDetails(user);
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+}
+
+export function verifyReviewOrderPage() {
+  cy.get('.cx-review-title').should('contain', 'Review');
 }
 
 export function placeOrder() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
@@ -107,9 +114,16 @@ export function placeOrder() {
     .within(() => {
       cy.getByText('Standard Delivery');
     });
+
+  cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
+    .eq(0)
+    .should('contain', cart.total);
+  cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
+    .eq(1)
+    .should('contain', cart.estimatedShipping);
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
-    cartTotalAndShipping
+    cart.totalAndShipping
   );
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -141,7 +155,7 @@ export function verifyOrderConfirmationPage() {
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
   cy.get('cx-order-summary .cx-summary-amount').should(
     'contain',
-    cartTotalAndShipping
+    cart.totalAndShipping
   );
 }
 
@@ -153,5 +167,13 @@ export function viewOrderHistory() {
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cartTotalAndShipping);
+    .should('contain', cart.totalAndShipping);
+}
+
+export function goToPaymentDetails() {
+  cy.get('cx-checkout-progress li:nth-child(3) > a').click();
+}
+
+export function clickAddNewPayment() {
+  cy.getByText('Add New Payment').click();
 }

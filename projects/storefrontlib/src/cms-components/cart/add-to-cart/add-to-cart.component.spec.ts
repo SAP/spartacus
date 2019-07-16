@@ -9,7 +9,7 @@ import {
   OrderEntry,
   Product,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';
@@ -20,6 +20,11 @@ const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'inStock', stockLevel: 20 },
+};
+const mockProduct2: Product = {
+  name: 'mockPrduct2',
+  code: 'code2',
+  stock: { stockLevelStatus: 'inStock', stockLevel: 12 },
 };
 
 const mockNoStockProduct: Product = {
@@ -56,6 +61,7 @@ class MockItemCounterComponent {
   @Input() min;
   @Input() max;
   @Input() cartIsLoading;
+  @Input() value;
 }
 
 describe('AddToCartComponent', () => {
@@ -64,6 +70,7 @@ describe('AddToCartComponent', () => {
   let service: CartService;
   let currentProductService: CurrentProductService;
   let modalInstance: any;
+  const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -100,7 +107,6 @@ describe('AddToCartComponent', () => {
   describe('Product code provided', () => {
     it('should call ngOnInit()', () => {
       addToCartComponent.productCode = productCode;
-      const mockCartEntry: OrderEntry = { entryNumber: 7 };
       spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
       addToCartComponent.ngOnInit();
       let result: OrderEntry;
@@ -122,6 +128,24 @@ describe('AddToCartComponent', () => {
       expect(addToCartComponent.hasStock).toEqual(true);
     });
 
+    it('should reset counter value when changing product', () => {
+      const currentProduct = new BehaviorSubject<Product>(mockProduct);
+
+      //Product 1
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        currentProduct
+      );
+      addToCartComponent.ngOnInit();
+      expect(addToCartComponent.productCode).toEqual(mockProduct.code);
+      addToCartComponent.quantity = 5;
+
+      //Product 2
+      currentProduct.next(mockProduct2);
+      expect(addToCartComponent.productCode).toEqual(mockProduct2.code);
+      //Quantity is expected to be reset to 1 since it is a new product page
+      expect(addToCartComponent.quantity).toEqual(1);
+    });
+
     it('should disable input when the product has no stock', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockNoStockProduct)
@@ -137,6 +161,7 @@ describe('AddToCartComponent', () => {
     addToCartComponent.productCode = productCode;
     addToCartComponent.ngOnInit();
     spyOn(service, 'addEntry').and.callThrough();
+    spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.quantity = 1;
 
     addToCartComponent.addToCart();

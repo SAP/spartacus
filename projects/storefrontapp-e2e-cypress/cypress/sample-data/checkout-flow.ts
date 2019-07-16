@@ -31,11 +31,12 @@ export const product = {
   code: '1446509',
 };
 
+// usa shipping cost
 export const cart = {
+  estimatedShipping: '$11.99',
   total: '$2,623.08',
+  totalAndShipping: '$2,635.07', // $2,623.08 + $11.99
 };
-
-export const cartTotalAndShipping = '$2,635.07'; // $2,623.08 + $11.99
 
 export const delivery = {
   mode: 'standard-gross',
