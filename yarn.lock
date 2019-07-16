@@ -404,17 +404,17 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ng-bootstrap/ng-bootstrap@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-4.1.0.tgz#84c542e7dbb1e03944c87a2615199edc39c3d6c7"
-  integrity sha512-7THBEgwDW9bs3R6JQ3glDXAxyihrUqM8p71Es2GpN21xLs2fcxUUcLO4ioRcWGGlR6QKwamzNVAHNUDB5IMY+Q==
+"@ng-bootstrap/ng-bootstrap@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.0.0.tgz#93abf17b9d10680ca89b9dae3d50113df6f0fa3e"
+  integrity sha512-B3jLrJ2Fm6cP3IghG9PJQQw0J8BDXx1zh2XFHmm3S1K19UXKQTtL8Ta0TMfjSsIHqEeZmQ1gtlMBGk/+ucbYzg==
   dependencies:
     tslib "^1.9.0"
 
-"@ng-select/ng-select@^2.13.2":
-  version "2.20.0"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-2.20.0.tgz#72fa57b7149f2c4854888cd8918e304d0df4393d"
-  integrity sha512-ltzV25GrgUr2smI7Qn22EO77dfPF/FeNEmGJBSODW5VfL2UItc7GxWjnFqozj5GX/1N7nm5atpFQgHRQR5dPlg==
+"@ng-select/ng-select@^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-3.0.1.tgz#697b750378708ad4906282b46857a9a2f2ceceb3"
+  integrity sha512-f2hFHOIMa/52P05slAdTG0r/ZEXo8MNdKIhwQGicWBAzHrpyNxL5tC3RPPAH6yA1BBdfiyH0CCYR4ea9VQ77JQ==
   dependencies:
     tslib "^1.9.0"
 
