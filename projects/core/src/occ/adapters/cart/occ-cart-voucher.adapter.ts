@@ -6,10 +6,7 @@ import { CartVoucherAdapter } from '../../../cart/connectors/voucher/cart-vouche
 import { CART_VOUCHER_NORMALIZER } from '../../../cart/connectors/voucher/converters';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN,
-} from '../../utils/interceptor-util';
+
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
   constructor(
@@ -27,10 +24,9 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     const url = this.getCartVoucherEndpoint(userId, cartId);
 
     const toAdd = JSON.stringify({});
-    let headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     const params: HttpParams = new HttpParams().set('voucherId', voucherId);
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
@@ -40,14 +36,10 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   }
 
   remove(userId: string, cartId: string, voucherId: string): Observable<{}> {
-    const url =
-      this.getCartVoucherEndpoint(userId, cartId) +
-      '/' +
-      encodeURIComponent(voucherId);
-    let headers = new HttpHeaders({
+    const url = this.getCartVoucherEndpoint(userId, cartId) + '/' + encodeURIComponent(voucherId) ;
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
     return this.http
       .delete(url, { headers })
