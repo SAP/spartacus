@@ -16,7 +16,11 @@ export function kymaStoreConfigFactory(): StateConfig {
     state: {
       storageSync: {
         keys: {
-          'kyma.openIdToken.value': StorageSyncType.LOCAL_STORAGE,
+          'kyma.openIdToken.value.id_token': StorageSyncType.LOCAL_STORAGE,
+          'kyma.openIdToken.value.access_token': StorageSyncType.LOCAL_STORAGE,
+          'kyma.openIdToken.value.token_type': StorageSyncType.LOCAL_STORAGE,
+          'kyma.openIdToken.value.expires_in': StorageSyncType.LOCAL_STORAGE,
+          'kyma.openIdToken.value.scope': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
