@@ -41,7 +41,7 @@ describe('Language switch - registration page', () => {
 
         cy.get('[formcontrolname="titleCode"]')
           .get('.ng-value span.ng-value-label')
-          .should('have.text', 'Herr');
+          .should('have.text', deutschName);
       });
     });
   });
