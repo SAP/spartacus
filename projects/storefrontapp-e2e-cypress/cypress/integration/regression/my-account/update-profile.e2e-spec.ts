@@ -64,7 +64,7 @@ describe('Update profile', () => {
       cy.get('cx-update-profile-form').within(() => {
         cy.get('[formcontrolname="titleCode"]')
           .get('.ng-value .ng-value-label')
-          .contains(newTitle);
+          .should('have.text', newTitle);
         cy.get('[formcontrolname="firstName"]').should(
           'have.value',
           newFirstName
