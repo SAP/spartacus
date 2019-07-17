@@ -46,10 +46,10 @@ class MockRoutingService {
 
 class MockCheckoutConfigService {
   getNextCheckoutStepUrl(): string {
-    return '';
+    return 'checkout/delivery-mode';
   }
   getPreviousCheckoutStepUrl(): string {
-    return '';
+    return 'cart';
   }
 }
 
@@ -227,6 +227,12 @@ fdescribe('ShippingAddressComponent', () => {
     expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
   });
 
+  it('should call goNext()', () => {
+    const mockPreviousStepUrl = 'checkout/delivery-mode';
+    component.goNext();
+    expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
+  });
+
   it('should automatically select default shipping address when there is no current selection', () => {
     spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
       of(false)
@@ -300,15 +306,23 @@ fdescribe('ShippingAddressComponent', () => {
     ).toHaveBeenCalledWith(mockAddress1);
   });
 
-  // it('should call addAddress() with address selected from existing addresses', () => {
-  //   component.addAddress(mockAddress1);
-  //   expect(
-  //     mockCheckoutDeliveryService.createAndSetAddress
-  //   ).not.toHaveBeenCalledWith(mockAddress1);
-  //   expect(mockCheckoutDeliveryService.setDeliveryAddress).toHaveBeenCalledWith(
-  //     mockAddress1
-  //   );
-  // });
+  it('should call addAddress() with address selected from existing addresses', () => {
+    component.addAddress(mockAddress1);
+    expect(
+      mockCheckoutDeliveryService.createAndSetAddress
+    ).toHaveBeenCalledWith(mockAddress1);
+
+    component.existingAddresses$
+      .subscribe(() => {
+        expect(
+          mockCheckoutDeliveryService.createAndSetAddress
+        ).not.toHaveBeenCalledWith(mockAddress1);
+        expect(
+          mockCheckoutDeliveryService.setDeliveryAddress
+        ).toHaveBeenCalledWith(mockAddress1);
+      })
+      .unsubscribe();
+  });
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
@@ -326,7 +340,6 @@ fdescribe('ShippingAddressComponent', () => {
 
       mockAddress2.defaultAddress = false;
       component.ngOnInit();
-      // component.selectAddress(null);
 
       component.selectedAddress$
         .subscribe(selectedAddress => {
@@ -344,13 +357,16 @@ fdescribe('ShippingAddressComponent', () => {
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
         of(mockAddresses)
       );
+
       component.selectAddress(mockAddress1);
-      component.selectedAddress$.subscribe(() => {
-        fixture.detectChanges();
-      });
-      // component.selectedAddress = mockAddress1;
-      fixture.detectChanges();
-      expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+
+      component.selectedAddress$
+        .subscribe(selectedAddress => {
+          fixture.detectChanges();
+          expect(selectedAddress).not.toBeNull();
+          expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+        })
+        .unsubscribe();
     });
 
     it('should call "next" function after being clicked', () => {
@@ -365,12 +381,12 @@ fdescribe('ShippingAddressComponent', () => {
       component.selectedAddress$.subscribe(() => {
         fixture.detectChanges();
       });
-      // component.selectedAddress = mockAddress1;
+
       fixture.detectChanges();
-      // spyOn(component, 'next');
+      spyOn(component, 'goNext');
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
-      // expect(component.next).toHaveBeenCalled();
+      expect(component.goNext).toHaveBeenCalled();
     });
   });
 
