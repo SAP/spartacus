@@ -60,17 +60,17 @@ export class ShippingAddressComponent implements OnInit {
           textSelected,
         ]) => {
           // Select default address if none selected
-          if (
-            addresses.length &&
-            selected &&
-            Object.keys(selected).length === 0
-          ) {
-            const defaultAddress = addresses.find(
-              address => address.defaultAddress
-            );
-            selected = defaultAddress;
-            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
-          }
+          // if (
+          //   addresses.length &&
+          //   selected &&
+          //   Object.keys(selected).length === 0
+          // ) {
+          //   const defaultAddress = addresses.find(
+          //     address => address.defaultAddress
+          //   );
+          //   selected = defaultAddress;
+          //   this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
+          // }
 
           return addresses.map(address => {
             const card = this.getCardContent(
