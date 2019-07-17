@@ -58,4 +58,8 @@ export class UpdateProfileFormComponent implements OnInit {
   onCancel(): void {
     this.cancelled.emit();
   }
+
+  titleSelected(title: Title): void {
+    this.form['controls'].titleCode.setValue(title.code);
+  }
 }
