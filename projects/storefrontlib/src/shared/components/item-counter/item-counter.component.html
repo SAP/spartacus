@@ -15,9 +15,11 @@
       class="cx-counter-action"
       (click)="decrement()"
       [disabled]="cartIsLoading || value <= min"
+      *ngIf="isValueChangeable"
     >
       -
     </button>
+
     <input
       #itemCounterInput
       class="cx-counter-value"
@@ -37,6 +39,7 @@
       class="cx-counter-action"
       (click)="increment()"
       [disabled]="cartIsLoading || value >= max"
+      *ngIf="isValueChangeable"
     >
       +
     </button>
