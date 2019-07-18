@@ -485,7 +485,6 @@ describe('OccCheckoutPaymentAdapter', () => {
           parametersSentByBackend,
           labelsMap
         );
-        console.log('params: ', JSON.stringify(params));
         expect(params['billTo_country']).toEqual(
           paymentDetails.billingAddress.country.isocode
         );
@@ -507,7 +506,6 @@ describe('OccCheckoutPaymentAdapter', () => {
           parametersSentByBackend,
           labelsMap
         );
-        console.log('params: ', JSON.stringify(params));
         expect(params['billTo_country']).toEqual(
           paymentDetails.billingAddress.country.isocode
         );
