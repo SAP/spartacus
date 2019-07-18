@@ -115,7 +115,7 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
-fdescribe('ShippingAddressComponent', () => {
+describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
@@ -307,12 +307,11 @@ fdescribe('ShippingAddressComponent', () => {
   });
 
   it('should call addAddress() with address selected from existing addresses', () => {
+    component.ngOnInit();
     component.addAddress(mockAddress1);
-    expect(
-      mockCheckoutDeliveryService.createAndSetAddress
-    ).toHaveBeenCalledWith(mockAddress1);
 
     component.existingAddresses$
+      .pipe(takeWhile(addresses => addresses.length > 0))
       .subscribe(() => {
         expect(
           mockCheckoutDeliveryService.createAndSetAddress
@@ -358,9 +357,11 @@ fdescribe('ShippingAddressComponent', () => {
         of(mockAddresses)
       );
 
+      component.ngOnInit();
       component.selectAddress(mockAddress1);
 
       component.selectedAddress$
+        .pipe(takeWhile(selectedAddress => selectedAddress !== null))
         .subscribe(selectedAddress => {
           fixture.detectChanges();
           expect(selectedAddress).not.toBeNull();
@@ -376,17 +377,20 @@ fdescribe('ShippingAddressComponent', () => {
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
         of(mockAddresses)
       );
-
-      component.selectAddress(mockAddress1);
-      component.selectedAddress$.subscribe(() => {
-        fixture.detectChanges();
-      });
-
-      fixture.detectChanges();
       spyOn(component, 'goNext');
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
-      expect(component.goNext).toHaveBeenCalled();
+
+      component.ngOnInit();
+      component.selectAddress(mockAddress1);
+
+      component.selectedAddress$
+        .pipe(takeWhile(selectedAddress => selectedAddress !== null))
+        .subscribe(() => {
+          fixture.detectChanges();
+          getContinueBtn().nativeElement.click();
+          fixture.detectChanges();
+          expect(component.goNext).toHaveBeenCalled();
+        })
+        .unsubscribe();
     });
   });
 
