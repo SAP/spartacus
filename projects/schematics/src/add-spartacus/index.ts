@@ -14,7 +14,6 @@ import { Schema as SpartacusOptions } from './schema';
 import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
 import { appendHtmlElementToHead, getProjectStyleFile, getProjectTargetOptions } from '@angular/cdk/schematics';
 import { italic, red } from '@angular-devkit/core/src/terminal';
-import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 
 function getWorkspace(
   host: Tree,
@@ -274,7 +273,7 @@ function updateAppModule(options: any): Rule {
   };
 }
 
-function installStyles(project: WorkspaceProject): Rule {
+function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
   return (host: Tree) => {
     const styleFilePath = getProjectStyleFile(project);
 
@@ -314,14 +313,36 @@ function installStyles(project: WorkspaceProject): Rule {
   };
 }
 
-function updateMainComponent(): Rule {
+function updateMainComponent(project: experimental.workspace.WorkspaceProject): Rule {
   return (host: Tree, _context: SchematicContext) => {
+
+    const filePath = project.sourceRoot + '/app/app.component.html';
+
+    const buffer = host.read(filePath);
+
+    if (!buffer) {
+      console.warn(red(`Could not read app.component.html file.`));
+      return;
+    }
+
+    const htmlContent = buffer.toString();
+    const insertion = '\n' +
+      `<cx-storefront></cx-storefront>\n`;
+
+    if (htmlContent.includes(insertion)) {
+      return;
+    }
+
+    const recorder = host.beginUpdate(filePath);
+
+    recorder.insertLeft(htmlContent.length, insertion);
+    host.commitUpdate(recorder);
 
     return host;
   }
 }
 
-export function getIndexHtmlPath(project: WorkspaceProject): string {
+export function getIndexHtmlPath(project: experimental.workspace.WorkspaceProject): string {
   const buildOptions = getProjectTargetOptions(project, 'build');
 
   if (!buildOptions.index) {
@@ -332,12 +353,10 @@ export function getIndexHtmlPath(project: WorkspaceProject): string {
 }
 
 
-function updateIndexFile(project: WorkspaceProject): Rule {
+function updateIndexFile(project: experimental.workspace.WorkspaceProject): Rule {
   return (host: Tree) => {
 
     const projectIndexHtmlPath = getIndexHtmlPath(project);
-
-    console.log('updateing file', projectIndexHtmlPath);
 
     const metaTags = [
       '<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />',
@@ -475,9 +494,9 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       addPackageJsonDependencies(options),
       installPackageJsonDependencies(),
       updateAppModule(options),
-      installStyles(project as WorkspaceProject),
-      updateMainComponent(),
-      updateIndexFile(project as WorkspaceProject),
+      installStyles(project),
+      updateMainComponent(project),
+      updateIndexFile(project),
       // ...[...indexFiles].map(path => updateIndexFile(path)),
     ])(tree, context);
 
