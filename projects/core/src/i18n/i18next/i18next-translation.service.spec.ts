@@ -54,7 +54,6 @@ describe('I18nextTranslationService', () => {
 
       it('should emit result of i18next.t', () => {
         spyOn(i18next, 't').and.returnValue('value');
-
         let result;
         service
           .translate(testKey, testOptions)
