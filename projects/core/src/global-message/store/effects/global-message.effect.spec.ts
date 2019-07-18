@@ -90,10 +90,10 @@ describe('GlobalMessage Effects', () => {
       );
     });
   });
-  // TODO: Test is not passing
-  xdescribe('removeDuplicated$', () => {
+  describe('removeDuplicated$', () => {
     it('should remove message if already exist', () => {
-      spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(2);
+      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(2);
+      spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
 
       const action = new GlobalMessageActions.AddMessage(message2);
       const completion = new GlobalMessageActions.RemoveMessage({
@@ -103,12 +103,13 @@ describe('GlobalMessage Effects', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
+
+      expect(effects.removeDuplicated$).toBeObservable(expected);
       expect(utils.indexOfFirstOccurrence).toHaveBeenCalledWith(message2.text, [
         {
           key: 'test',
         },
       ]);
-      expect(effects.removeDuplicated$).toBeObservable(expected);
     });
   });
 });
