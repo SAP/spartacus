@@ -1,0 +1,17 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "add-spartacus": {
+      "description": "A blank schematic.",
+      "factory": "./add-spartacus/index#addSpartacus",
+      "schema": "./add-spartacus/schema.json"
+    },
+    "ng-add": {
+      "factory": "./ng-add/index",
+      "description": "Add schematic and configure",
+      "schema": "./add-spartacus/schema.json",
+      "private": true,
+      "hidden": true
+    }
+  }
+}
