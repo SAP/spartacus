@@ -11,7 +11,7 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../checkout-config.service';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 export interface CardWithAddress {
   card: Card;

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingConfigService } from '@spartacus/core';
-import { CheckoutConfig } from './config/checkout-config';
-import { CheckoutStep, CheckoutStepType } from './model/checkout-step.model';
+import { CheckoutConfig } from '../config/checkout-config';
+import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutConfigService {
   steps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
 
