@@ -1,7 +1,7 @@
 import { user } from '../sample-data/checkout-flow';
 import {
-  fillShippingAddress,
   fillPaymentDetails,
+  fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
 
@@ -47,9 +47,9 @@ export function paymentDetailCard() {
   // add product to cart and go to checkout
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
-    .click();
+    .click({ force: true });
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.getByText(/proceed to checkout/i).click();
+    cy.getByText(/proceed to checkout/i).click({ force: true });
   });
 
   // go to shipping address
@@ -57,7 +57,7 @@ export function paymentDetailCard() {
 
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').click({ force: true });
 
   // fill in payment method
   fillPaymentDetails(user);
@@ -79,21 +79,21 @@ export function addSecondaryPaymentCard() {
   // add product to cart and go to checkout
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
-    .click();
+    .click({ force: true });
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.getByText(/proceed to checkout/i).click();
+    cy.getByText(/proceed to checkout/i).click({ force: true });
   });
 
   // select shipping address
-  cy.getByText(/Ship to this address/i).click();
-  cy.get('button.btn-primary').click();
+  cy.getByText(/Ship to this address/i).click({ force: true });
+  cy.get('button.btn-primary').click({ force: true });
 
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').click({ force: true });
 
   // fill in payment method
-  cy.getByText('Add New Payment').click();
+  cy.getByText('Add New Payment').click({ force: true });
   fillPaymentDetails(secondPayment);
 
   // go to payment details page
@@ -104,7 +104,7 @@ export function addSecondaryPaymentCard() {
 }
 
 export function setSecondPaymentToDefault() {
-  cy.getByText('Set as default').click();
+  cy.getByText('Set as default').click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
   firstCard.should('contain', 'Default Payment Method');
@@ -115,7 +115,7 @@ export function setSecondPaymentToDefault() {
 export function deletePayment() {
   cy.getByText('Delete')
     .first()
-    .click();
+    .click({ force: true });
   // cy.get('.card-link').click({ force: true });
 
   // should see confirmation message
@@ -126,7 +126,7 @@ export function deletePayment() {
 
   // click cancel
   cy.get('.btn-secondary').should('contain', 'Cancel');
-  cy.get('.btn-secondary').click();
+  cy.get('.btn-secondary').click({ force: true });
   cy.get('.cx-card-body__delete-ms').should(
     'not.contain',
     'Are you sure you want to delete this payment method?'
@@ -135,9 +135,9 @@ export function deletePayment() {
   // delete the payment
   cy.getByText('Delete')
     .first()
-    .click();
+    .click({ force: true });
   cy.get('.btn-primary').should('contain', 'Delete');
-  cy.get('.btn-primary').click();
+  cy.get('.btn-primary').click({ force: true });
   cy.get('.cx-payment-card').should('have.length', 1);
 
   // verify remaining address is now the default one
