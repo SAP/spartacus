@@ -24,14 +24,18 @@ describe('Update profile', () => {
       cy.saveLocalStorage();
     });
 
-    const newTitle = 'dr';
+    const newTitle = 'Dr.';
     const newFirstName = 'N';
     const newLastName = 'Z';
 
     it('should be able to update its profile', () => {
       // update the data
       cy.get('cx-update-profile-form').within(() => {
-        cy.get('[formcontrolname="titleCode"]').select(newTitle);
+        cy.get('[formcontrolname="titleCode"]')
+          .click()
+          .within(() => {
+            cy.get('.ng-dropdown-panel .ng-option:nth-child(6)').click();
+          });
         cy.get('[formcontrolname="firstName"]')
           .clear()
           .type(newFirstName);
@@ -59,8 +63,8 @@ describe('Update profile', () => {
       // check where the user's details updated in the previous test
       cy.get('cx-update-profile-form').within(() => {
         cy.get('[formcontrolname="titleCode"]')
-          .find(':selected')
-          .should('have.value', newTitle);
+          .get('.ng-value .ng-value-label')
+          .should('have.text', newTitle);
         cy.get('[formcontrolname="firstName"]').should(
           'have.value',
           newFirstName
