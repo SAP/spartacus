@@ -111,17 +111,11 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGE_LABEL
       );
 
-      cy.get('cx-update-profile-form').within(() => {
-        cy.get('[formcontrolname="titleCode"]')
-          .click()
-          .within(() => {
-            cy.get('.ng-dropdown-panel .ng-option:nth-child(2)').click();
-          });
+      cy.get('[formcontrolname="titleCode"]').ngSelect(deutschName);
 
-        cy.get('[formcontrolname="titleCode"]')
-          .get('.ng-value .ng-value-label')
-          .should('have.text', deutschName);
-      });
+      cy.get('[formcontrolname="titleCode"]')
+        .get('.ng-value .ng-value-label')
+        .should('have.text', deutschName);
     });
   });
 
