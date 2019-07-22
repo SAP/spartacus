@@ -118,7 +118,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (success) {
       this.router.go('login');
       this.globalMessageService.add(
-        'Please log in with your new credentials.',
+        { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_INFO
       );
     }
