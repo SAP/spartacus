@@ -1,11 +1,7 @@
+import { clickHamburger, waitForHomePage } from '../../helpers/homepage';
 import * as register from '../../helpers/register';
-import { formats } from '../../sample-data/viewports';
-import {
-  waitForHomePage,
-  clickHamburger,
-  checkBanner,
-} from '../../helpers/homepage';
 import { user } from '../../sample-data/checkout-flow';
+import { formats } from '../../sample-data/viewports';
 
 describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
   beforeEach(() => {
