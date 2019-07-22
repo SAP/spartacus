@@ -53,13 +53,9 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       this.authService.logout();
-<<<<<<< Updated upstream
-      this.routingService.go({ cxRoute: 'home' });
-=======
       this.routingService.go({ cxRoute: 'login' }, undefined, {
         state: { redirectUrl: '/' },
       });
->>>>>>> Stashed changes
     }
   }
 
