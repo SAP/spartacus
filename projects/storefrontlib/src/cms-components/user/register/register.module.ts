@@ -10,6 +10,7 @@ import {
   NotAuthGuard,
   UrlModule,
 } from '@spartacus/core';
+import { SpinnerModule } from 'projects/storefrontlib/src/shared';
 import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
 
@@ -30,6 +31,7 @@ import { RegisterComponent } from './register.component';
     }),
     I18nModule,
     NgSelectModule,
+    SpinnerModule,
   ],
   declarations: [RegisterComponent],
   exports: [RegisterComponent],

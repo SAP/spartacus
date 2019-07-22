@@ -1,4 +1,7 @@
-<section class="cx-page-section container">
+<section
+  class="cx-page-section container"
+  *ngIf="!(loading$ | async); else loading"
+>
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
@@ -66,8 +69,9 @@
               <input
                 class="form-control"
                 [class.is-invalid]="
-                  (userRegistrationForm.get('email').errors?.email ||
-                    userRegistrationForm.get('email').errors?.InvalidEmail) &&
+                  userRegistrationForm.get('email').errors &&
+                  (userRegistrationForm.get('email').errors['email'] ||
+                    userRegistrationForm.get('email').errors['InvalidEmail']) &&
                   userRegistrationForm.get('email').dirty
                 "
                 type="email"
@@ -199,3 +203,7 @@
     </div>
   </div>
 </section>
+
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>
