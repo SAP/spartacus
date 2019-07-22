@@ -15,7 +15,12 @@ export function register({
   password,
 }: RegisterUser) {
   cy.get('cx-register form').within(() => {
-    cy.get('[formcontrolname="titleCode"]').select('mr');
+    // cy.get('[formcontrolname="titleCode"]').select('mr');
+    cy.get('[formcontrolname="titleCode"]')
+      .click()
+      .within(() => {
+        cy.get('.ng-dropdown-panel .ng-option:nth-child(2)').click();
+      });
     cy.get('[formcontrolname="firstName"]').type(firstName);
     cy.get('[formcontrolname="lastName"]').type(lastName);
     cy.get('[formcontrolname="email"]').type(email);
