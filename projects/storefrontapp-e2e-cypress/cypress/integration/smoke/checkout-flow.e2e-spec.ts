@@ -12,16 +12,16 @@ context('Checkout flow', () => {
   });
 
   it('should go to product page from category page', () => {
-    checkout.goToProductDetailsPage();
+    checkout.goToCheapProductDetailsPage();
   });
 
   it('should add product to cart and go to checkout', () => {
-    checkout.addProductToCart();
+    checkout.addCheapProductToCart();
     checkout.loginUser();
   });
 
   it('should fill in address form', () => {
-    checkout.fillAddressForm();
+    checkout.fillAddressFormWithCheapProduct();
   });
 
   it('should choose delivery', () => {
@@ -29,19 +29,19 @@ context('Checkout flow', () => {
   });
 
   it('should fill in payment form', () => {
-    checkout.fillPaymentForm();
+    checkout.fillPaymentFormWithCheapProduct();
   });
 
   it('should review and place order', () => {
-    checkout.placeOrder();
+    checkout.placeOrderWithCheapProduct();
   });
 
   it('should display summary page', () => {
-    checkout.verifyOrderConfirmationPage();
+    checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
   it('should be able to check order in order history', () => {
-    checkout.viewOrderHistory();
+    checkout.viewOrderHistoryWithCheapProduct();
     checkout.signOut();
   });
 });
