@@ -121,9 +121,15 @@ export function selectShippingAddress() {
 }
 
 export function selectDeliveryMethod() {
+  cy.server();
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
+  ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click();
+  cy.wait('@getPaymentPage');
 }
 
 export function selectPaymentMethod() {
