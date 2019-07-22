@@ -46,11 +46,12 @@
           }}</span>
           <input
             type="number"
-            class="form-control"
+            class="form-control cx-input-number"
             cxOnlyNumber
             inputmode="numeric"
             required
             formControlName="cardNumber"
+            pattern="\d*"
           />
         </label>
       </div>
@@ -103,12 +104,13 @@
             </span>
             <input
               type="number"
-              class="form-control"
+              class="form-control cx-input-number"
               cxOnlyNumber
               id="cVVNumber"
               inputmode="numeric"
               required
               formControlName="cvn"
+              pattern="\d*"
             />
           </label>
         </div>
