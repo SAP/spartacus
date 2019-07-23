@@ -3,7 +3,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
-import { AuthService, GlobalMessage, GlobalMessageService, GlobalMessageType, RoutingService, UrlCommands, User, UserService } from '@spartacus/core';
+import {
+  AuthService,
+  GlobalMessage,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  UrlCommands,
+  User,
+  UserService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UpdateEmailComponent } from './update-email.component';
 
@@ -176,7 +185,11 @@ describe('UpdateEmailComponent', () => {
 
         expect(authService.logout).toHaveBeenCalled();
 
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' }, undefined, {state : { redirectUrl: '/'}});
+        expect(routingService.go).toHaveBeenCalledWith(
+          { cxRoute: 'login' },
+          undefined,
+          { state: { redirectUrl: '/' } }
+        );
       });
     });
 

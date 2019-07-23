@@ -49,7 +49,7 @@ describe('AuthRedirectService', () => {
         spyOn(router, 'getCurrentNavigation').and.returnValue({
           id: 1,
           finalUrl: '/login',
-          extras: {state: undefined}
+          extras: { state: undefined },
         });
         service.reportNotAuthGuard();
 
@@ -64,8 +64,8 @@ describe('AuthRedirectService', () => {
     describe('when just opened sequentially two urls with NotAuthGuard', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/login', extras: {state: undefined} },
-          { id: 2, finalUrl: '/register', extras: {state: undefined} }
+          { id: 1, finalUrl: '/login', extras: { state: undefined } },
+          { id: 2, finalUrl: '/register', extras: { state: undefined } }
         );
 
         router['url' as any] = '/test';
@@ -84,8 +84,8 @@ describe('AuthRedirectService', () => {
     describe('when AuthGuard just blocked url and redirected to url with NotAuthGuard', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/my-account', extras: {state: undefined} },
-          { id: 2, finalUrl: '/register', extras: {state: undefined} }
+          { id: 1, finalUrl: '/my-account', extras: { state: undefined } },
+          { id: 2, finalUrl: '/register', extras: { state: undefined } }
         );
         router['url' as any] = '/test';
         service.reportAuthGuard();
@@ -102,8 +102,8 @@ describe('AuthRedirectService', () => {
     describe('when AuthGuard blocked url, then opened manually different url, and then opened url with NotAuthGuard', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/my-account', extras: {state: undefined} },
-          { id: 3, finalUrl: '/register', extras: {state: undefined} } // id 3 matters here
+          { id: 1, finalUrl: '/my-account', extras: { state: undefined } },
+          { id: 3, finalUrl: '/register', extras: { state: undefined } } // id 3 matters here
         );
 
         router['url' as any] = '/test';
@@ -124,16 +124,16 @@ describe('AuthRedirectService', () => {
         spyOn(router, 'getCurrentNavigation').and.returnValue({
           id: 1,
           finalUrl: '/login',
-          extras: { state : {redirectUrl: '/test2'}}
+          extras: { state: { redirectUrl: '/test2' } },
         });
         router['url' as any] = '/test';
         service.reportNotAuthGuard();
         service.redirect();
       });
 
-        it('should redirect to the previous url', () => {
-          expect(routingService.goByUrl).toHaveBeenCalledWith('/test2');
-        });
+      it('should redirect to the previous url', () => {
+        expect(routingService.goByUrl).toHaveBeenCalledWith('/test2');
+      });
     });
   });
 });
