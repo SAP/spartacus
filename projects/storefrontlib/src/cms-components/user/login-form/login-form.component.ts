@@ -5,6 +5,7 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -21,13 +22,20 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService
+    private authRedirectService: AuthRedirectService,
+    private routingService: RoutingService
   ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required],
+    });
+
+    this.routingService.getRouterState().subscribe(state => {
+      if (state.state.queryParams.newUid) {
+        this.form.patchValue({ userId: state.state.queryParams.newUid });
+      }
     });
   }
 
