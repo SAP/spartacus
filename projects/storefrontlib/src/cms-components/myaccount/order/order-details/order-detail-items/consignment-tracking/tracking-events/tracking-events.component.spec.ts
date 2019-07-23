@@ -8,7 +8,7 @@ import {
   UserOrderService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
+import { SpinnerModule } from '../../../../../../../shared/components/spinner/spinner.module';
 import { TrackingEventsComponent } from './tracking-events.component';
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
@@ -57,7 +57,7 @@ describe('TrackingEventsComponent', () => {
   it('should show loading spinner', () => {
     component.tracking$ = of();
     fixture.detectChanges();
-    expect(el.query(By.css('.tracking-loading'))).toBeTruthy();
+    expect(el.query(By.css('[data-test="loading-track"]'))).toBeTruthy();
   });
 
   it('should show no tracking', () => {
@@ -65,7 +65,7 @@ describe('TrackingEventsComponent', () => {
       trackingID: '1234567890',
     });
     fixture.detectChanges();
-    expect(el.query(By.css('.no-tracking-heading'))).toBeTruthy();
+    expect(el.query(By.css('[data-test="head-notrack"]'))).toBeTruthy();
   });
 
   it('should show tracking info', () => {
@@ -98,13 +98,13 @@ describe('TrackingEventsComponent', () => {
       ],
     });
     fixture.detectChanges();
-    expect(el.query(By.css('.shipment-heading'))).toBeTruthy();
-    expect(el.queryAll(By.css('.event-body')).length).toBe(3);
+    expect(el.query(By.css('[data-test="head-track"]'))).toBeTruthy();
+    expect(el.queryAll(By.css('[data-test="body-event"]')).length).toBe(3);
   });
 
   it('should be able to close dialog', () => {
     fixture.detectChanges();
-    el.query(By.css('button')).nativeElement.click();
+    el.query(By.css('[data-test="btn-dismiss"')).nativeElement.click();
     expect(ngbActiveModal.dismiss).toHaveBeenCalledWith('Cross click');
     expect(userOrderService.clearConsignmentTracking).toHaveBeenCalled();
   });
