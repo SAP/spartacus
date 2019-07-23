@@ -36,6 +36,7 @@ export function login(username: string, password: string) {
     cy.get('[formcontrolname="userId"]')
       .clear()
       .type(username);
+      console.log('test');
     cy.get('[formcontrolname="password"]')
       .clear()
       .type(password);
