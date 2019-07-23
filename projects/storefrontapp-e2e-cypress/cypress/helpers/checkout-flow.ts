@@ -196,6 +196,7 @@ export function clickAddNewPayment() {
 }
 
 export function goToCheapProductDetailsPage() {
+  visitHomePage();
   const productCode = 'ProductPage&code=280916';
   const productPage = waitForPage(productCode, 'getProductPage');
   cy.get('.Section4 cx-banner')
