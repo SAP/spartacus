@@ -13,7 +13,9 @@ import { CartActions } from '../actions/index';
 export class CartEffects {
   @Effect()
   loadCart$: Observable<
-    CartActions.LoadCartFail | CartActions.LoadCartSuccess
+    | CartActions.LoadCartFail
+    | CartActions.LoadCartSuccess
+    | CartActions.ClearExpiredCoupons
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map(
@@ -37,9 +39,18 @@ export class CartEffects {
           map((cart: Cart) => {
             return new CartActions.LoadCartSuccess(cart);
           }),
-          catchError(error =>
-            of(new CartActions.LoadCartFail(makeErrorSerializable(error)))
-          )
+          catchError(error => {
+            const couponExpiredErrors = error.error.errors.filter(
+              err => err.reason === 'invalid'
+            );
+            if (couponExpiredErrors.length > 0) {
+              return of(new CartActions.ClearExpiredCoupons({}));
+            }
+
+            return of(
+              new CartActions.LoadCartFail(makeErrorSerializable(error))
+            );
+          })
         );
     })
   );
@@ -101,7 +112,8 @@ export class CartEffects {
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_ADD_VOUCHER_SUCCESS,
       CartActions.CART_REMOVE_VOUCHER_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_FAIL
+      CartActions.CART_REMOVE_VOUCHER_FAIL,
+      CartActions.CLEAR_EXPIRED_COUPONS
     ),
     map(
       (
@@ -113,6 +125,7 @@ export class CartEffects {
           | CartActions.CartAddVoucherSuccess
           | CartActions.CartRemoveVoucherSuccess
           | CartActions.CartRemoveVoucherFail
+          | CartActions.ClearExpiredCoupons
       ) => action.payload
     ),
     map(
