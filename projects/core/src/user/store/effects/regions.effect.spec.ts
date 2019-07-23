@@ -38,8 +38,8 @@ describe('', () => {
       ],
     });
 
-    effect = TestBed.get(RegionsEffects);
-    service = TestBed.get(SiteConnector);
+    effect = TestBed.get(RegionsEffects as Type<RegionsEffects>);
+    service = TestBed.get(SiteConnector as Type<SiteConnector>);
 
     spyOn(service, 'getRegions').and.returnValue(of(mockRegions));
   });

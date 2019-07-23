@@ -1,13 +1,6 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  CmsComponent,
-  ProductSearchPage,
-  RoutingService,
-  SearchboxService,
-  Suggestion,
-  TranslationService,
-  WindowRef,
-} from '@spartacus/core';
+import { CmsComponent, ProductSearchPage, RoutingService, SearchboxService, Suggestion, TranslationService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -93,8 +86,10 @@ describe('SearchBoxComponentService', () => {
         WindowRef,
       ],
     });
-    service = TestBed.get(SearchBoxComponentService);
-    searchBoxservice = TestBed.get(SearchboxService);
+    service = TestBed.get(SearchBoxComponentService as Type<
+      SearchBoxComponentService
+    >);
+    searchBoxservice = TestBed.get(SearchboxService as Type<SearchboxService>);
   });
 
   it('should be created', () => {

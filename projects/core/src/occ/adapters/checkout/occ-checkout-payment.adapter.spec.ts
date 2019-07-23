@@ -2,6 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CARD_TYPE_NORMALIZER,
@@ -181,10 +182,13 @@ describe('OccCheckoutPaymentAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-
-    service = TestBed.get(OccCheckoutPaymentAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    service = TestBed.get(OccCheckoutPaymentAdapter as Type<
+      OccCheckoutPaymentAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();

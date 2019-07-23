@@ -1,10 +1,11 @@
+import * as AngularCore from '@angular/core';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { I18nextTranslationService } from './i18next-translation.service';
 import i18next from 'i18next';
 import { first, take } from 'rxjs/operators';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
-import * as AngularCore from '@angular/core';
+import { I18nextTranslationService } from './i18next-translation.service';
 
 const testKey = 'testKey';
 const testOptions = 'testOptions';
@@ -31,7 +32,9 @@ describe('I18nextTranslationService', () => {
       ],
     });
 
-    service = TestBed.get(I18nextTranslationService);
+    service = TestBed.get(I18nextTranslationService as Type<
+      I18nextTranslationService
+    >);
   });
 
   describe('loadChunks', () => {

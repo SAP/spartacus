@@ -33,8 +33,10 @@ describe('Delivery Countries effect', () => {
       ],
     });
 
-    effect = TestBed.get(DeliveryCountriesEffects);
-    service = TestBed.get(SiteConnector);
+    effect = TestBed.get(DeliveryCountriesEffects as Type<
+      DeliveryCountriesEffects
+    >);
+    service = TestBed.get(SiteConnector as Type<SiteConnector>);
 
     spyOn(service, 'getCountries').and.returnValue(of(mockCountries));
   });

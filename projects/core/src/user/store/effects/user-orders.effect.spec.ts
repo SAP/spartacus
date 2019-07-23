@@ -35,8 +35,14 @@ describe('User Orders effect', () => {
     });
 
     actions$ = TestBed.get(Actions);
-    userOrdersEffect = TestBed.get(fromUserOrdersEffect.UserOrdersEffect);
-    orderConnector = TestBed.get(UserOrderConnector);
+    userOrdersEffect = TestBed.get(
+      fromUserOrdersEffect.UserOrdersEffect as Type<
+        fromUserOrdersEffect.UserOrdersEffect
+      >
+    );
+    orderConnector = TestBed.get(UserOrderConnector as Type<
+      UserOrderConnector
+    >);
   });
 
   describe('loadUserOrders$', () => {

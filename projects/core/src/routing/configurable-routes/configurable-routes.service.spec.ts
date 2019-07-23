@@ -1,4 +1,5 @@
 import * as AngularCore from '@angular/core';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, Routes } from '@angular/router';
 import { ConfigurableRoutesService } from './configurable-routes.service';
@@ -49,9 +50,13 @@ describe('ConfigurableRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ConfigurableRoutesService);
-    router = TestBed.get(Router);
-    routingConfigService = TestBed.get(RoutingConfigService);
+    service = TestBed.get(ConfigurableRoutesService as Type<
+      ConfigurableRoutesService
+    >);
+    router = TestBed.get(Router as Type<Router>);
+    routingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
 
     router.config = [];
   });

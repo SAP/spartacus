@@ -1,10 +1,11 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { UrlSegmentGroup, UrlTree } from '@angular/router';
+import { SiteContextParamsService } from './site-context-params.service';
 import {
   SiteContextUrlSerializer,
   UrlTreeWithSiteContext,
 } from './site-context-url-serializer';
-import { SiteContextParamsService } from './site-context-params.service';
-import { UrlSegmentGroup, UrlTree } from '@angular/router';
 
 describe('SiteContextUrlSerializer', () => {
   const mockSiteContextParamsService = {
@@ -38,7 +39,9 @@ describe('SiteContextUrlSerializer', () => {
       },
     });
 
-    service = TestBed.get(SiteContextUrlSerializer);
+    service = TestBed.get(SiteContextUrlSerializer as Type<
+      SiteContextUrlSerializer
+    >);
   });
 
   it('should be created', () => {

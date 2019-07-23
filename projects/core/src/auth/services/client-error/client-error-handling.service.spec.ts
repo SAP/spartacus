@@ -1,12 +1,10 @@
+import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
-
 import { Observable, of } from 'rxjs';
-
 import { AuthService } from '../../facade/auth.service';
 import { ClientToken } from '../../models/token-types.model';
-
 import { ClientErrorHandlingService } from './client-error-handling.service';
 
 class MockHttpHandler extends HttpHandler {
@@ -57,9 +55,11 @@ describe('ClientErrorHandlingService', () => {
       ],
     });
 
-    service = TestBed.get(ClientErrorHandlingService);
-    httpHandler = TestBed.get(HttpHandler);
-    authService = TestBed.get(AuthService);
+    service = TestBed.get(ClientErrorHandlingService as Type<
+      ClientErrorHandlingService
+    >);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    httpHandler = TestBed.get(HttpHandler as Type<HttpHandler>);
 
     spyOn(httpHandler, 'handle').and.callThrough();
   });

@@ -4,6 +4,7 @@ import {
   NgModule,
   PLATFORM_ID,
   Renderer2,
+  Type,
 } from '@angular/core';
 import {
   async,
@@ -12,15 +13,15 @@ import {
   TestModuleMetadata,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CmsComponentData } from '../model/cms-component-data';
 import {
   CmsComponent,
-  CmsService,
   CmsConfig,
+  CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
+import { CmsComponentData } from '../model/cms-component-data';
+import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CxApiService } from './cx-api.service';
 
 const testText = 'test text';
@@ -125,9 +126,11 @@ describe('ComponentWrapperDirective', () => {
 
     describe('with angular component', () => {
       beforeEach(() => {
-        fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.get(CmsService);
-        cmsConfig = TestBed.get(CmsConfig);
+        fixture = TestBed.createComponent(TestWrapperComponent as Type<
+          TestWrapperComponent
+        >);
+        cmsService = TestBed.get(CmsService as Type<CmsService>);
+        cmsConfig = TestBed.get(CmsConfig as Type<CmsConfig>);
       });
 
       it('should instantiate the found component if it was enabled for SSR', () => {
@@ -156,8 +159,10 @@ describe('ComponentWrapperDirective', () => {
     describe('with angular component', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.get(CmsService);
-        dynamicAttributeService = TestBed.get(DynamicAttributeService);
+        cmsService = TestBed.get(CmsService as Type<CmsService>);
+        dynamicAttributeService = TestBed.get(DynamicAttributeService as Type<
+          DynamicAttributeService
+        >);
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
