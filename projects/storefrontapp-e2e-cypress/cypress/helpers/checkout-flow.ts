@@ -29,7 +29,6 @@ export function registerUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
-
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
@@ -92,7 +91,6 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 export function chooseDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').check({ force: true });
-
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'
@@ -205,7 +203,6 @@ export function goToCheapProductDetailsPage() {
     .find('img')
     .click({ force: true });
   cy.wait(`@${productPage}`);
-
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', cheapProduct.code);
   });
@@ -221,11 +218,9 @@ export function addCheapProductToCartAndLogin() {
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', cheapProduct.name);
   });
-
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
-
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
@@ -242,7 +237,6 @@ export function fillAddressFormWithCheapProduct(
     .first()
     .find('.cx-summary-amount')
     .should('contain', cartWithCheapProduct.total);
-
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -259,7 +253,6 @@ export function fillPaymentFormWithCheapProduct(
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cartWithCheapProduct.totalAndShipping);
-
   const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
   cy.wait(`@${reivewPage}`);
@@ -300,7 +293,6 @@ export function placeOrderWithCheapProduct() {
       '/electronics-spa/en/USD/terms-and-conditions'
     );
   cy.get('.form-check-input').check();
-
   const orderConfirmationPage = waitForPage(
     '/order-confirmation',
     'getOrderConfirmationPage'
@@ -341,7 +333,6 @@ export function viewOrderHistoryWithCheapProduct() {
     option: 'Order History',
   });
   cy.wait(`@${orderHistoryPage}`);
-
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
