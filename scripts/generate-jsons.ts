@@ -29,11 +29,13 @@ const jsons = new Map();
 const files = fs.readdirSync('./lang/properties');
 if (files) {
   files.forEach(file => {
-    const path = './lang/properties/' + file;
-    const properties = fs.readFileSync(path, 'utf8').split('\n');
-    const json = propertiesToJson(properties);
-    const key = file.substring(0, file.indexOf('.'));
-    jsons.set(key, json);
+    if (file.endsWith('.properties')) {
+      const path = './lang/properties/' + file;
+      const properties = fs.readFileSync(path, 'utf8').split('\n');
+      const json = propertiesToJson(properties);
+      const key = file.substring(0, file.indexOf('.'));
+      jsons.set(key, json);
+    }
   });
 }
 
