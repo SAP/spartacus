@@ -8,7 +8,7 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
-import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component'
+import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CardModule } from '../../../../shared/components/card/card.module';
@@ -60,8 +60,16 @@ const moduleComponents = [
     SpinnerModule,
   ],
   providers: [OrderDetailsService],
-  declarations: [...moduleComponents, TrackingEventsComponent, ConsignmentTrackingComponent],
+  declarations: [
+    ...moduleComponents,
+    TrackingEventsComponent,
+    ConsignmentTrackingComponent,
+  ],
   exports: [...moduleComponents],
-  entryComponents: [...moduleComponents, TrackingEventsComponent, ConsignmentTrackingComponent],
+  entryComponents: [
+    ...moduleComponents,
+    TrackingEventsComponent,
+    ConsignmentTrackingComponent,
+  ],
 })
 export class OrderDetailsModule {}

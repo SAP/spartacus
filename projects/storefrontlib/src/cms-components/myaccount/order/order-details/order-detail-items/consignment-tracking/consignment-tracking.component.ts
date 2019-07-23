@@ -5,7 +5,10 @@ import {
   ConsignmentTracking,
 } from '@spartacus/core';
 import { TrackingEventsComponent } from './tracking-events/tracking-events.component';
-import { ModalRef, ModalService } from '../../../../../../shared/components/modal/index';
+import {
+  ModalRef,
+  ModalService,
+} from '../../../../../../shared/components/modal/index';
 
 import { Observable } from 'rxjs';
 
@@ -31,7 +34,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
 
   constructor(
     private userOrderService: UserOrderService,
-    private modalService: ModalService,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {

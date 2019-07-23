@@ -24,7 +24,7 @@ const mockConsignment: Consignment = {
   code: 'a00000341',
   statusDate: new Date('2019-02-11T13:05:12+0000'),
   entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
-}
+};
 
 @Pipe({
   name: 'cxTranslateUrl',
@@ -51,7 +51,8 @@ describe('ConsignmentTrackingComponent', () => {
     return equals;
   };
   const userOrderService = jasmine.createSpyObj('UserOrderService', [
-    'loadConsignmentTracking', 'getConsignmentTracking'
+    'loadConsignmentTracking',
+    'getConsignmentTracking',
   ]);
 
   beforeEach(async(() => {
@@ -78,9 +79,11 @@ describe('ConsignmentTrackingComponent', () => {
     el = fixture.debugElement;
     component = fixture.componentInstance;
     component.consignment = mockConsignment;
-    component.orderCode = "test_order_id";
-    
-    userOrderService.getConsignmentTracking.and.returnValue(of(mockConsignment));
+    component.orderCode = 'test_order_id';
+
+    userOrderService.getConsignmentTracking.and.returnValue(
+      of(mockConsignment)
+    );
   });
 
   it('should create', () => {
@@ -94,7 +97,7 @@ describe('ConsignmentTrackingComponent', () => {
       fixture.detectChanges();
       expect(el.query(By.css('[data-test="btn-events"]'))).toBeTruthy();
     });
-    
+
     expect(
       arrayEqyals(consignmentStatus, component.consignmentStatus)
     ).toBeTruthy();
@@ -122,6 +125,5 @@ describe('ConsignmentTrackingComponent', () => {
       mockConsignment.code
     );
     expect(modalInstance.open).toHaveBeenCalled();
-
   });
 });
