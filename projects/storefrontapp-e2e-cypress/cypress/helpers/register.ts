@@ -25,9 +25,12 @@ export function checkTermsAndConditions() {
 }
 
 export function signOut() {
+  cy.server();
+  cy.route('GET', '/rest/v2/electronics-spa/cms/pages?*/logout*').as('logOut');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.wait('@logOut');
   cy.visit('/');
 }
 
