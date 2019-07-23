@@ -7,6 +7,7 @@ import {
   Input,
   OnInit,
   Output,
+  Renderer2,
 } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 
@@ -36,7 +37,7 @@ export class StarRatingComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.setRate(this.rating, true);
@@ -44,9 +45,10 @@ export class StarRatingComponent implements OnInit {
 
   setRate(value: number, force?: boolean): void {
     if (!this.disabled || force) {
-      this.el.nativeElement.style.setProperty(
-        '--star-fill',
-        value || this.initialRate
+      this.renderer.setAttribute(
+        this.el.nativeElement,
+        'style',
+        `--star-fill:${value || this.initialRate};`
       );
     }
   }
