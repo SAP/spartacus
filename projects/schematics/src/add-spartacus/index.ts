@@ -1,4 +1,11 @@
-import { chain, Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
+import {
+  chain,
+  ExecutionOptions,
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Tree,
+} from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   addPackageJsonDependency,
@@ -7,18 +14,28 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { addSymbolToNgModuleMetadata, insertImport, isImported } from '@schematics/angular/utility/ast-utils';
+import {
+  addSymbolToNgModuleMetadata,
+  insertImport,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 import { Schema as SpartacusOptions } from './schema';
 import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
-import { appendHtmlElementToHead, getProjectStyleFile, getProjectTargetOptions } from '@angular/cdk/schematics';
+import {
+  appendHtmlElementToHead,
+  getProjectStyleFile,
+  getProjectTargetOptions,
+} from '@angular/cdk/schematics';
 import { italic, red } from '@angular-devkit/core/src/terminal';
+import { branch } from '@angular-devkit/schematics/src/tree/static';
+import { of } from 'rxjs';
 
 function getWorkspace(
-  host: Tree,
-): { path: string, workspace: experimental.workspace.WorkspaceSchema } {
-  const possibleFiles = [ '/angular.json', '/.angular.json' ];
+  host: Tree
+): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
+  const possibleFiles = ['/angular.json', '/.angular.json'];
   const path = possibleFiles.filter(filePath => host.exists(filePath))[0];
 
   if (!path) {
@@ -33,15 +50,14 @@ function getWorkspace(
 
   return {
     path,
-    workspace: parseJson(
+    workspace: (parseJson(
       content,
-      JsonParseMode.Loose,
-    ) as {} as experimental.workspace.WorkspaceSchema,
+      JsonParseMode.Loose
+    ) as {}) as experimental.workspace.WorkspaceSchema,
   };
 }
 
-
-function addPackageJsonDependencies(_options: any): Rule {
+function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
       {
@@ -220,6 +236,77 @@ function getStorefrontConfig(options: SpartacusOptions): string {
     }`;
 }
 
+function getLineFromTSFile(
+  host: Tree,
+  modulePath: string,
+  position: number
+): [number, number] {
+  const tsFile = getTsSourceFile(host, modulePath);
+
+  const lac = tsFile.getLineAndCharacterOfPosition(position);
+  const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
+  const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
+
+  return [lineStart, nextLineStart - lineStart];
+}
+
+function removeServiceWorkerSetup(host: Tree, modulePath: string) {
+  const buffer = host.read(modulePath);
+
+  if (!buffer) {
+    return;
+  }
+
+  let fileContent = buffer.toString();
+
+  const serviceWorkerImport = `import { ServiceWorkerModule } from '@angular/service-worker';`;
+  const serviceWorkerModuleImport = `ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })`;
+  if (!fileContent.includes(serviceWorkerModuleImport)) {
+    return;
+  }
+  if (!fileContent.includes(serviceWorkerImport)) {
+    return;
+  }
+
+  const recorder = host.beginUpdate(modulePath);
+
+  recorder.remove(
+    ...getLineFromTSFile(
+      host,
+      modulePath,
+      fileContent.indexOf(serviceWorkerImport)
+    )
+  );
+
+  recorder.remove(
+    ...getLineFromTSFile(
+      host,
+      modulePath,
+      fileContent.indexOf(serviceWorkerModuleImport)
+    )
+  );
+
+  host.commitUpdate(recorder);
+
+  // clean up environment import
+  fileContent = (host.read(modulePath) || {}).toString();
+
+  const environmentImport = `import { environment } from '../environments/environment';`;
+  if (fileContent.includes(environmentImport)) {
+    const importPos =
+      fileContent.indexOf(environmentImport) + environmentImport.length;
+
+    // check if it's not needed
+    if (
+      !fileContent.includes('environment', importPos + environmentImport.length)
+    ) {
+      const envRecorder = host.beginUpdate(modulePath);
+      envRecorder.remove(...getLineFromTSFile(host, modulePath, importPos));
+      host.commitUpdate(envRecorder);
+    }
+  }
+}
+
 function updateAppModule(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     context.logger.debug('Updating appmodule');
@@ -258,16 +345,7 @@ function updateAppModule(options: any): Rule {
       `ConfigModule.withConfigFactory(defaultCmsContentConfig)`
     );
 
-    // const project = getProjectFromWorkspace(workspace, options.project);
-
-    // addModuleImportToRootModule(host, `B2cStorefrontModule.withConfig(${getStorefrontConfig()})`,
-    //   '@spartacus/storefront', project);
-    // addModuleImportToRootModule(
-    //   host,
-    //   `ConfigModule.withConfigFactory(defaultCmsContentConfig)`,
-    //   '@spartacus/core',
-    //   project
-    // );
+    removeServiceWorkerSetup(host, modulePath);
 
     return host;
   };
@@ -278,29 +356,40 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
     const styleFilePath = getProjectStyleFile(project);
 
     if (!styleFilePath) {
-      console.warn(red(`Could not find the default style file for this project.`));
+      console.warn(
+        red(`Could not find the default style file for this project.`)
+      );
       console.warn(red(`Please consider manually setting up spartacus styles`));
       return;
     }
 
     if (styleFilePath.split('.').pop() !== 'scss') {
-      console.warn(red(`Could not find the default SCSS style file for this project. `));
-      console.warn(red(`Please make sure your project is configured with SCSS and consider manually setting up spartacus styles.`));
+      console.warn(
+        red(`Could not find the default SCSS style file for this project. `)
+      );
+      console.warn(
+        red(
+          `Please make sure your project is configured with SCSS and consider manually setting up spartacus styles.`
+        )
+      );
       return;
     }
 
     const buffer = host.read(styleFilePath);
 
     if (!buffer) {
-      console.warn(red(`Could not read the default style file within the project ` +
-        `(${italic(styleFilePath)})`));
+      console.warn(
+        red(
+          `Could not read the default style file within the project ` +
+            `(${italic(styleFilePath)})`
+        )
+      );
       console.warn(red(`Please consider manually setting up the Robot font.`));
       return;
     }
 
     const htmlContent = buffer.toString();
-    const insertion = '\n' +
-      `@import "~@spartacus/styles/index";\n`;
+    const insertion = '\n' + `@import "~@spartacus/styles/index";\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -313,9 +402,10 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
   };
 }
 
-function updateMainComponent(project: experimental.workspace.WorkspaceProject): Rule {
+function updateMainComponent(
+  project: experimental.workspace.WorkspaceProject
+): Rule {
   return (host: Tree, _context: SchematicContext) => {
-
     const filePath = project.sourceRoot + '/app/app.component.html';
 
     const buffer = host.read(filePath);
@@ -326,8 +416,7 @@ function updateMainComponent(project: experimental.workspace.WorkspaceProject): 
     }
 
     const htmlContent = buffer.toString();
-    const insertion = '\n' +
-      `<cx-storefront></cx-storefront>\n`;
+    const insertion = '\n' + `<cx-storefront></cx-storefront>\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -339,23 +428,27 @@ function updateMainComponent(project: experimental.workspace.WorkspaceProject): 
     host.commitUpdate(recorder);
 
     return host;
-  }
+  };
 }
 
-export function getIndexHtmlPath(project: experimental.workspace.WorkspaceProject): string {
+export function getIndexHtmlPath(
+  project: experimental.workspace.WorkspaceProject
+): string {
   const buildOptions = getProjectTargetOptions(project, 'build');
 
   if (!buildOptions.index) {
-    throw new SchematicsException('No project "index.html" file could be found.');
+    throw new SchematicsException(
+      'No project "index.html" file could be found.'
+    );
   }
 
   return buildOptions.index;
 }
 
-
-function updateIndexFile(project: experimental.workspace.WorkspaceProject): Rule {
+function updateIndexFile(
+  project: experimental.workspace.WorkspaceProject
+): Rule {
   return (host: Tree) => {
-
     const projectIndexHtmlPath = getIndexHtmlPath(project);
 
     const metaTags = [
@@ -368,70 +461,33 @@ function updateIndexFile(project: experimental.workspace.WorkspaceProject): Rule
     });
 
     return host;
+  };
+}
 
-
-
-    // const buffer = host.read(path);
-    // if (buffer === null) {
-    //   throw new SchematicsException(`Could not read index file: ${path}`);
-    // }
-    //
-    // const rewriter = new RewritingStream();
-
-    // let needsNoScript = true;
-    // rewriter.on('startTag', (startTag: { tagName: string }) => {
-    //   if (startTag.tagName === 'noscript') {
-    //     needsNoScript = false;
-    //   }
-    //
-    //   rewriter.emitStartTag(startTag);
-    // });
-    //
-    // rewriter.on('endTag', (endTag: { tagName: string }) => {
-    //   if (endTag.tagName === 'head') {
-    //     rewriter.emitRaw('  <link rel="manifest" href="manifest.json">\n');
-    //     rewriter.emitRaw('  <meta name="theme-color" content="#1976d2">\n');
-    //   } else if (endTag.tagName === 'body' && needsNoScript) {
-    //     rewriter.emitRaw(
-    //       '  <noscript>Please enable JavaScript to continue using this application.</noscript>\n',
-    //     );
-    //   }
-    //
-    //   rewriter.emitEndTag(endTag);
-    // });
-
-    // return new Observable<Tree>(obs => {
-    //   const input = new Readable({
-    //     encoding: 'utf8',
-    //     read(): void {
-    //       this.push(buffer);
-    //       this.push(null);
-    //     },
-    //   });
-    //
-    //   const chunks: Array<Buffer> = [];
-    //   const output = new Writable({
-    //     write(chunk: string | Buffer, encoding: string, callback: Function): void {
-    //       chunks.push(typeof chunk === 'string' ? Buffer.from(chunk, encoding) : chunk);
-    //       callback();
-    //     },
-    //     final(callback: (error?: Error) => void): void {
-    //       const full = Buffer.concat(chunks);
-    //       host.overwrite(path, full.toString());
-    //       callback();
-    //       obs.next(host);
-    //       obs.complete();
-    //     },
-    //   });
-    //
-    //   input.pipe(rewriter).pipe(output);
-    // });
-    return host;
+function myExternalSchematic<OptionT extends object>(
+  collectionName: string,
+  schematicName: string,
+  options: OptionT,
+  executionOptions?: Partial<ExecutionOptions>
+): Rule {
+  return (input: Tree, context: SchematicContext) => {
+    const collection = context.engine.createCollection(collectionName);
+    const schematic = collection.createSchematic(schematicName, true);
+    return schematic.call(
+      options,
+      of(branch(input)),
+      context,
+      executionOptions
+    );
   };
 }
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
+
+    console.log('options', options);
+
+
     const { workspace } = getWorkspace(tree);
 
     if (!options.project) {
@@ -451,55 +507,14 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       );
     }
 
-    // Find all the relevant targets for the project
-    // const projectTargets = project.targets || project.architect;
-    // if (!projectTargets || Object.keys(projectTargets).length === 0) {
-    //   throw new SchematicsException(`Targets are not defined for this project.`);
-    // }
-    //
-    // const buildTargets = [];
-    // const testTargets = [];
-    // for (const targetName in projectTargets) {
-    //   const target = projectTargets[targetName];
-    //   if (!target) {
-    //     continue;
-    //   }
-    //
-    //   if (target.builder === '@angular-devkit/build-angular:browser') {
-    //     buildTargets.push(target);
-    //   } else if (target.builder === '@angular-devkit/build-angular:karma') {
-    //     testTargets.push(target);
-    //   }
-    // }
-    //
-    // // Find all index.html files in build targets
-    // const indexFiles = new Set<string>();
-    // for (const target of buildTargets) {
-    //   if (target.options && target.options.index) {
-    //     indexFiles.add(target.options.index);
-    //   }
-    //
-    //   if (!target.configurations) {
-    //     continue;
-    //   }
-    //   for (const configName in target.configurations) {
-    //     const configuration = target.configurations[configName];
-    //     if (configuration && configuration.index) {
-    //       indexFiles.add(configuration.index);
-    //     }
-    //   }
-    // }
-
     return chain([
-      addPackageJsonDependencies(options),
-      installPackageJsonDependencies(),
+      addPackageJsonDependencies(),
+      myExternalSchematic('@angular/pwa', 'ng-add', {}),
       updateAppModule(options),
       installStyles(project),
       updateMainComponent(project),
       updateIndexFile(project),
-      // ...[...indexFiles].map(path => updateIndexFile(path)),
+      installPackageJsonDependencies(),
     ])(tree, context);
-
-    return tree;
   };
 }

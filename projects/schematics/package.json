@@ -1,6 +1,6 @@
 {
   "name": "schematics",
-  "version": "0.2.2",
+  "version": "0.4.5",
   "description": "Spartacus schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -16,6 +16,7 @@
     "@angular-devkit/core": "^8.1.1",
     "@angular-devkit/schematics": "^8.1.1",
     "@angular/cdk": "^8.1.1",
+    "@angular/pwa": "^0.801.2",
     "@schematics/angular": "^8.1.1",
     "@types/jasmine": "^3.3.9",
     "@types/node": "^8.0.31",
