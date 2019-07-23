@@ -65,10 +65,7 @@ describe('Update email', () => {
   describe('when a user can login with the new email', () => {
     it('should be able to login with its new email', () => {
       login(newUid, password);
-
-      // TODO: uncomment below component and remove update-email assertion when #1957 is implemented
-      cy.get('cx-update-email').should('exist');
-      // checkBanner();
+      checkBanner();
     });
   });
 });
