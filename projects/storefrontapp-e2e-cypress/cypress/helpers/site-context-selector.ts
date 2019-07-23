@@ -5,6 +5,7 @@ export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
 export const PAGES = 'pages';
 export const TITLES = 'titles';
+export const CART = 'cart';
 
 export const LANGUAGE_LABEL = 'Language';
 export const CURRENCY_LABEL = 'Currency';

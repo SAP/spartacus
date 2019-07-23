@@ -21,7 +21,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/icon';
-import { CheckoutConfigService } from '../../checkout-config.service';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 @Component({
   selector: 'cx-payment-method',
@@ -126,6 +126,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             img: this.getCardIcon(payment.cardType.code),
             actions: [{ name: textUseThisPayment, event: 'send' }],
           };
+          if (!this.selectedPayment && payment.defaultPayment) {
+            this.selectedPayment = payment;
+          }
           if (this.selectedPayment && this.selectedPayment.id === payment.id) {
             card.header = textSelected;
           }

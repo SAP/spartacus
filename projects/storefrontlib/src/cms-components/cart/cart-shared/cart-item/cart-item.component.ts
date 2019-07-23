@@ -6,6 +6,7 @@ export interface Item {
   quantity?: any;
   basePrice?: any;
   totalPrice?: any;
+  updateable?: boolean;
 }
 
 @Component({
