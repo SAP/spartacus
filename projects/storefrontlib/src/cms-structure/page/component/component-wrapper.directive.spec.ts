@@ -243,7 +243,7 @@ describe('ComponentWrapperDirective', () => {
       let scriptEl;
 
       beforeEach(() => {
-        const cmsMapping = TestBed.get(CmsConfig) as CmsConfig;
+        const cmsMapping = TestBed.get(CmsConfig as Type<CmsConfig>);
         cmsMapping.cmsComponents.CMSTestComponent.component =
           'path/to/file.js#cms-component';
         fixture = TestBed.createComponent(TestWrapperComponent);

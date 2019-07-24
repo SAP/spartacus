@@ -3,7 +3,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
+import { ErrorHandler, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ErrorModel,
@@ -113,7 +113,7 @@ describe('HttpErrorInterceptor', () => {
           return req.method === 'GET';
         });
 
-        const handler = TestBed.get(handlerClass);
+        const handler = TestBed.get(handlerClass as Type<ErrorHandler>);
 
         spyOn(handler, 'handleError');
         mockReq.flush({}, { status: responseStatus, statusText: '' });
