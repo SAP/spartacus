@@ -6,7 +6,6 @@ describe('Order History with no orders', () => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
     loginHelper.registerUser();
-    loginHelper.signOutUser();
   });
 
   orderHistoryTest.checkRedirectNotLoggedInUser();

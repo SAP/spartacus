@@ -14,6 +14,8 @@ describe(`${formats.mobile.width +
 
     loginHelper.registerUser();
 
+    loginHelper.loginUser();
+
     waitForHomePage();
 
     loginHelper.signOutUser();

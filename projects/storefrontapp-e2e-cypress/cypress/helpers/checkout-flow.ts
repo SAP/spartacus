@@ -12,6 +12,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { verifyGlobalMessageAfterRegistration } from './register';
 
 export function signOut() {
   cy.selectUserMenuOption({
@@ -23,7 +24,7 @@ export function registerUser() {
   cy.getByText(/Sign in \/ Register/i).click();
   cy.getByText('Register').click();
   register(user);
-  cy.get('.cx-login-greet').should('contain', user.fullName);
+  verifyGlobalMessageAfterRegistration();
 }
 
 export function signOutUser() {
