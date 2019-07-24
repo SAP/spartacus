@@ -9,7 +9,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 
@@ -127,6 +127,7 @@ export class ShippingAddressComponent implements OnInit {
   addAddress(address: Address): void {
     this.userAddressService
       .getAddresses()
+      .pipe(take(1))
       .subscribe(addresses => {
         if (addresses.includes(address)) {
           this.checkoutDeliveryService.setDeliveryAddress(address);
@@ -134,8 +135,7 @@ export class ShippingAddressComponent implements OnInit {
           this.checkoutDeliveryService.createAndSetAddress(address);
         }
         this.goNext();
-      })
-      .unsubscribe();
+      });
   }
 
   showNewAddressForm(): void {
