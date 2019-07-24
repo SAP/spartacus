@@ -465,5 +465,56 @@ describe('OccCheckoutPaymentAdapter', () => {
       httpMock.expectOne('/cardtypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(CARD_TYPE_NORMALIZER);
     });
+
+    describe('getParamsForPaymentProvider() function ', () => {
+      const parametersSentByBackend = [
+        { key: 'billTo_country', value: 'CA' },
+        { key: 'billTo_state', value: 'QC' },
+      ];
+      const labelsMap = {
+        hybris_billTo_country: 'billTo_country',
+        hybris_billTo_region: 'billTo_state',
+      };
+
+      it('should support billing address in a different country than the default/shipping address.', () => {
+        const paymentDetails: PaymentDetails = {
+          cardType: { code: 'visa' },
+          billingAddress: {
+            country: { isocode: 'US' },
+            region: { isocodeShort: 'RG' },
+          },
+        };
+        const params = service['getParamsForPaymentProvider'](
+          paymentDetails,
+          parametersSentByBackend,
+          labelsMap
+        );
+        expect(params['billTo_country']).toEqual(
+          paymentDetails.billingAddress.country.isocode
+        );
+        expect(params['billTo_state']).toEqual(
+          paymentDetails.billingAddress.region.isocodeShort
+        );
+      });
+
+      it('should support billing address different than shipping when billing country has no region.', () => {
+        const paymentDetails: PaymentDetails = {
+          cardType: { code: 'visa' },
+          billingAddress: {
+            country: { isocode: 'PL' },
+          },
+        };
+
+        const params = service['getParamsForPaymentProvider'](
+          paymentDetails,
+          parametersSentByBackend,
+          labelsMap
+        );
+        expect(params['billTo_country']).toEqual(
+          paymentDetails.billingAddress.country.isocode
+        );
+        expect(params['billTo_state']).toEqual('');
+      });
+    });
   });
 });
