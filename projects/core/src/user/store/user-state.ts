@@ -1,9 +1,10 @@
+import { NotificationPreference } from '../../model';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { ConsentTemplate } from '../../model/consent.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { LoaderState } from '../../state';
-import { ConsentTemplate } from '../../model/consent.model';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
@@ -12,12 +13,15 @@ export const UPDATE_USER_DETAILS_PROCESS_ID = 'updateUserDetails';
 export const REMOVE_USER_PROCESS_ID = 'removeUser';
 export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
 export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
+export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID =
+  'updateNotificationPreferences';
 
 export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
 export const REGIONS = '[User] Regions';
+export const NOTIFICATION_PREFERENCES = '[User] Notification Preferences';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -35,6 +39,7 @@ export interface UserState {
   titles: TitlesState;
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
+  notificationPreferences: LoaderState<NotificationPreference[]>;
 }
 
 export interface OrderDetailsState {

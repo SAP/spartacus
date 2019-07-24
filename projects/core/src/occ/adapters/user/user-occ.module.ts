@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
-import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
-import { OccUserOrderAdapter } from './occ-user-order.adapter';
+import { NgModule } from '@angular/core';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
-import { OccUserAddressAdapter } from './occ-user-address.adapter';
-import { UserAdapter } from '../../../user/connectors/user/user.adapter';
-import { OccUserAdapter } from './occ-user.adapter';
-import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
-import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
-import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
+import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference';
+import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
+import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
+import { UserAdapter } from '../../../user/connectors/user/user.adapter';
+import { OccUserAddressAdapter } from './occ-user-address.adapter';
+import { OccUserConsentAdapter } from './occ-user-consent.adapter';
+import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
+import { OccUserOrderAdapter } from './occ-user-order.adapter';
+import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
+import { OccUserAdapter } from './occ-user.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -24,6 +25,10 @@ import { UserConsentAdapter } from '../../../user/connectors/consent/user-consen
       useClass: OccUserPaymentAdapter,
     },
     { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
+    {
+      provide: UserNotificationPreferenceAdapter,
+      useClass: OccUserNotificationPreferenceAdapter,
+    },
   ],
 })
 export class UserOccModule {}

@@ -96,4 +96,14 @@ export const myAccount = {
       },
     },
   },
+  notificationProference: {
+    title: 'Notification Preference',
+    message: 'Select your preferred notification channels',
+    note: 'Note: ',
+    noteMessage:
+      'If you deactivate all channels you will not be able to receive any further notifications.',
+    EMAIL: 'Email:',
+    SMS: 'SMS:',
+    SITE_MESSAGE: 'SiteMessage',
+  },
 };

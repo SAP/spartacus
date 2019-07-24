@@ -40,6 +40,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orders: {
     paths: ['my-account/orders'],
   },
+  notificationPreference: {
+    paths: ['my-account/notification-preference'],
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

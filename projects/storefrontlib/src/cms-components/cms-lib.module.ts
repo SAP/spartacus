@@ -15,6 +15,7 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  NotificationPreferenceModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
@@ -80,6 +81,7 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    NotificationPreferenceModule,
   ],
 })
 export class CmsLibModule {}
