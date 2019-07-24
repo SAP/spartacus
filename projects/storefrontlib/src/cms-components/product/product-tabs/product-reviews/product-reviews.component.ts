@@ -12,6 +12,7 @@ import { CurrentProductService } from '../../current-product.service';
 })
 export class ProductReviewsComponent {
   isWritingReview = false;
+  displayThankYou = false;
 
   // TODO: configurable
   initialMaxListItems = 5;
@@ -37,6 +38,7 @@ export class ProductReviewsComponent {
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
+    this.displayThankYou = false;
   }
 
   cancelWriteReview(): void {
@@ -60,6 +62,7 @@ export class ProductReviewsComponent {
     this.reviewService.add(product.code, review);
 
     this.isWritingReview = false;
+    this.displayThankYou = true;
     this.resetReviewForm();
   }
 

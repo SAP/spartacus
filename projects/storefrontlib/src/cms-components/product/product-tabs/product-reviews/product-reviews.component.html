@@ -16,6 +16,12 @@
     </div>
 
     <ng-container *ngIf="!isWritingReview; else writeReview">
+      <ng-container *ngIf="displayThankYou">
+        <h3>{{ 'productReview.thankYou' | cxTranslate }}</h3>
+        <div>
+          {{ 'productReview.mayRequireReview' | cxTranslate }}
+        </div>
+      </ng-container>
       <ng-container *ngIf="(reviews$ | async) as reviews">
         <div
           class="review"

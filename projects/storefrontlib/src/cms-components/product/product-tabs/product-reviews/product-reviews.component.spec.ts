@@ -3,13 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   I18nTestingModule,
-  ProductReviewService,
   Product,
+  ProductReviewService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ItemCounterModule } from '../../../../shared';
-import { ProductReviewsComponent } from './product-reviews.component';
 import { CurrentProductService } from '../../current-product.service';
+import { ProductReviewsComponent } from './product-reviews.component';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -92,6 +92,7 @@ describe('ProductReviewsComponent in product', () => {
   describe('Logic on displaying review submission form', () => {
     it('should be initiated to hide the form', () => {
       expect(productReviewsComponent.isWritingReview).toBe(false);
+      expect(productReviewsComponent.displayThankYou).toBe(false);
     });
 
     it('should display form on initiateWriteReview()', () => {
@@ -107,6 +108,11 @@ describe('ProductReviewsComponent in product', () => {
     it('should hide form on submitReview()', () => {
       productReviewsComponent.submitReview(product);
       expect(productReviewsComponent.isWritingReview).toBe(false);
+    });
+
+    it('should display thankYou after submitReview()', () => {
+      productReviewsComponent.submitReview(product);
+      expect(productReviewsComponent.displayThankYou).toBe(true);
     });
   });
 });
