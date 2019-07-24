@@ -1,5 +1,4 @@
 import * as AngularCore from '@angular/core';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import i18next from 'i18next';
 import { first, take } from 'rxjs/operators';
@@ -32,7 +31,7 @@ describe('I18nextTranslationService', () => {
       ],
     });
 
-    service = TestBed.get(I18nextTranslationService as Type<
+    service = TestBed.get(I18nextTranslationService as AngularCore.Type<
       I18nextTranslationService
     >);
   });
@@ -52,6 +51,7 @@ describe('I18nextTranslationService', () => {
     describe(', when key exists,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValue(true);
+        i18next.isInitialized = true;
       });
 
       it('should emit result of i18next.t', () => {
