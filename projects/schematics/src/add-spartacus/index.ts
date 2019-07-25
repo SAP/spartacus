@@ -1,6 +1,7 @@
 import {
   chain,
   ExecutionOptions,
+  noop,
   Rule,
   SchematicContext,
   SchematicsException,
@@ -56,6 +57,28 @@ function getWorkspace(
     ) as {}) as experimental.workspace.WorkspaceSchema,
   };
 }
+
+const defaultAppComponentTemplate = `<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+</div>
+<h2>Here are some links to help you start: </h2>
+<ul>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
+  </li>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
+  </li>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
+  </li>
+</ul>
+
+`;
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -212,13 +235,14 @@ function importModule(host: Tree, modulePath: string, importText: string) {
 
 function getStorefrontConfig(options: SpartacusOptions): string {
   const baseUrl = options.baseUrl || 'https://localhost:9002';
+  const baseUrlPart = `
+          baseUrl: '${baseUrl}',`;
   const baseSite = options.baseSite || 'electronics';
   return `{
       backend: {
-        occ: {
-          baseUrl: '${baseUrl}',
-            prefix: '/rest/v2/',
-            legacy: false
+        occ: {${options.useMetaTags ? '' : baseUrlPart}
+          prefix: '/rest/v2/',
+          legacy: false
         }
       },
       authentication: {
@@ -424,7 +448,17 @@ function updateMainComponent(
 
     const recorder = host.beginUpdate(filePath);
 
-    recorder.insertLeft(htmlContent.length, insertion);
+    const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
+    if (
+      htmlContent.replace(newLineRegEx, '') ===
+      defaultAppComponentTemplate.replace(newLineRegEx, '')
+    ) {
+      recorder.remove(0, htmlContent.length);
+      recorder.insertLeft(0, insertion);
+    } else {
+      recorder.insertLeft(htmlContent.length, insertion);
+    }
+
     host.commitUpdate(recorder);
 
     return host;
@@ -446,14 +480,17 @@ export function getIndexHtmlPath(
 }
 
 function updateIndexFile(
-  project: experimental.workspace.WorkspaceProject
+  project: experimental.workspace.WorkspaceProject,
+  options: SpartacusOptions
 ): Rule {
   return (host: Tree) => {
     const projectIndexHtmlPath = getIndexHtmlPath(project);
 
+    const baseUrl = options.baseUrl || 'OCC_BACKEND_BASE_URL_VALUE';
+
     const metaTags = [
-      '<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />',
-      '<meta name="media-backend-base-url" content="MEDIA_BACKEND_BASE_URL_VALUE" />',
+      `<meta name="occ-backend-base-url" content="${baseUrl}" />`,
+      `<meta name="media-backend-base-url" content="MEDIA_BACKEND_BASE_URL_VALUE" />`,
     ];
 
     metaTags.forEach(metaTag => {
@@ -464,6 +501,10 @@ function updateIndexFile(
   };
 }
 
+/**
+ * We have to use our custom function because pwa schematics is currently private
+ * so it's not possible to reuse it via standard externalSchematics
+ */
 function myExternalSchematic<OptionT extends object>(
   collectionName: string,
   schematicName: string,
@@ -484,10 +525,6 @@ function myExternalSchematic<OptionT extends object>(
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-
-    console.log('options', options);
-
-
     const { workspace } = getWorkspace(tree);
 
     if (!options.project) {
@@ -509,11 +546,13 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(),
-      myExternalSchematic('@angular/pwa', 'ng-add', {}),
+      myExternalSchematic('@angular/pwa', 'ng-add', {
+        project: options.project,
+      }),
       updateAppModule(options),
       installStyles(project),
       updateMainComponent(project),
-      updateIndexFile(project),
+      options.useMetaTags ? updateIndexFile(project, options) : noop(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };

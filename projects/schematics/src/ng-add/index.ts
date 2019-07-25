@@ -2,7 +2,6 @@ import { chain, Rule, schematic, SchematicContext, Tree, } from '@angular-devkit
 
 export default function (options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-    console.log('options in add', options);
     return chain([
       schematic('add-spartacus', options)
     ])(host, context);
