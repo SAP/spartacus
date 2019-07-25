@@ -1,6 +1,8 @@
-import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import * as path from "path";
-
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
+import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -32,12 +34,27 @@ describe('Spartacus Schematics: ng-add', () => {
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions).toPromise();
-    appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree).toPromise();
+    appTree = await schematicRunner
+      .runExternalSchematicAsync(
+        '@schematics/angular',
+        'workspace',
+        workspaceOptions
+      )
+      .toPromise();
+    appTree = await schematicRunner
+      .runExternalSchematicAsync(
+        '@schematics/angular',
+        'application',
+        appOptions,
+        appTree
+      )
+      .toPromise();
   });
 
   it('should add spartacus deps', async () => {
-    const tree = await schematicRunner.runSchematicAsync('add-spartacus', defaultOptions, appTree).toPromise();
+    const tree = await schematicRunner
+      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+      .toPromise();
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
@@ -45,5 +62,4 @@ describe('Spartacus Schematics: ng-add', () => {
     expect(depPackageList.includes('@spartacus/storefront')).toBe(true);
     expect(depPackageList.includes('@spartacus/styles')).toBe(true);
   });
-
 });

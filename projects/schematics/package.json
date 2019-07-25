@@ -7,7 +7,8 @@
     "test": "npm run build && jasmine src/**/*_spec.js"
   },
   "keywords": [
-    "spartacus","schematics"
+    "spartacus",
+    "schematics"
   ],
   "author": "",
   "license": "MIT",

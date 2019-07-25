@@ -1,9 +1,13 @@
-import { chain, Rule, schematic, SchematicContext, Tree, } from '@angular-devkit/schematics';
+import {
+  chain,
+  Rule,
+  schematic,
+  SchematicContext,
+  Tree,
+} from '@angular-devkit/schematics';
 
-export default function (options: any): Rule {
+export default function(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-    return chain([
-      schematic('add-spartacus', options)
-    ])(host, context);
+    return chain([schematic('add-spartacus', options)])(host, context);
   };
 }
