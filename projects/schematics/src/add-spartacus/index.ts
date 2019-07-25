@@ -408,7 +408,7 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
             `(${italic(styleFilePath)})`
         )
       );
-      console.warn(red(`Please consider manually setting up the Robot font.`));
+      console.warn(red(`Please consider manually importing spartacus styles.`));
       return;
     }
 
