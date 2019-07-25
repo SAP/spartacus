@@ -1,15 +1,12 @@
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
+import * as path from "path";
+
+
+const collectionPath = path.join(__dirname, '../collection.json');
 
 // tslint:disable:max-line-length
 describe('Spartacus Schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner(
-    'schematics',
-    path.join(__dirname, './../collection.json'),
-  );
-
-  // const defaultOptions: any = {
-  // };
+  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
 
@@ -20,12 +17,18 @@ describe('Spartacus Schematics: ng-add', () => {
   };
 
   const appOptions: any = {
-    name: 'authtest',
+    name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'css',
+    style: 'scss',
     skipTests: false,
+  };
+
+  const defaultOptions = {
+    project: 'schematics-test',
+    target: 'build',
+    configuration: 'production',
   };
 
   beforeEach(async () => {
@@ -33,26 +36,14 @@ describe('Spartacus Schematics: ng-add', () => {
     appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree).toPromise();
   });
 
-  // it('should create home component files', (done) => {
-  //   const files = ['home.component.css', 'home.component.html', 'home.component.spec.ts', 'home.component.ts'];
-  //   const homePath = '/projects/authtest/src/app/home/';
-  //   schematicRunner.runSchematicAsync('ng-add', defaultOptions, appTree).toPromise().then(tree => {
-  //     files.forEach(f => {
-  //       const path = `${homePath}${f}`;
-  //       expect(tree.exists(path)).toEqual(true);
-  //     });
-  //     done();
-  //   }, done.fail);
-  // });
-  //
-  // it('should set the issuer & clientId in app and oidc modules', (done) => {
-  //   schematicRunner.runSchematicAsync('ng-add', defaultOptions, appTree).toPromise().then(tree => {
-  //     const appModule = tree.readContent('/projects/authtest/src/app/app.module.ts');
-  //     expect(appModule).toMatch(/AuthRoutingModule/);
-  //     const authModule = tree.readContent('/projects/authtest/src/app/auth-routing.module.ts');
-  //     expect(authModule).toContain(`issuer: '${defaultOptions.issuer}'`);
-  //     expect(authModule).toContain(`clientId: '${defaultOptions.clientId}'`);
-  //     done();
-  //   }, done.fail);
-  // });
+  it('should add spartacus deps', async () => {
+    const tree = await schematicRunner.runSchematicAsync('add-spartacus', defaultOptions, appTree).toPromise();
+    const packageJson = tree.readContent('/package.json');
+    const packageObj = JSON.parse(packageJson);
+    const depPackageList = Object.keys(packageObj.dependencies);
+    expect(depPackageList.includes('@spartacus/core')).toBe(true);
+    expect(depPackageList.includes('@spartacus/storefront')).toBe(true);
+    expect(depPackageList.includes('@spartacus/styles')).toBe(true);
+  });
+
 });
