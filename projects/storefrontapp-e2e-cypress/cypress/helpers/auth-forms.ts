@@ -15,7 +15,12 @@ export function register({
   password,
 }: RegisterUser) {
   cy.get('cx-register form').within(() => {
-    cy.get('[formcontrolname="titleCode"]').select('mr');
+    // cy.get('[formcontrolname="titleCode"]').select('mr');
+    cy.get('[formcontrolname="titleCode"]')
+      .click()
+      .within(() => {
+        cy.get('.ng-dropdown-panel .ng-option:nth-child(2)').click();
+      });
     cy.get('[formcontrolname="firstName"]').type(firstName);
     cy.get('[formcontrolname="lastName"]').type(lastName);
     cy.get('[formcontrolname="email"]').type(email);
@@ -28,8 +33,12 @@ export function register({
 
 export function login(username: string, password: string) {
   cy.get('cx-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]').type(username);
-    cy.get('[formcontrolname="password"]').type(password);
+    cy.get('[formcontrolname="userId"]')
+      .clear()
+      .type(username);
+    cy.get('[formcontrolname="password"]')
+      .clear()
+      .type(password);
     cy.get('button[type=submit]').click();
   });
 }
