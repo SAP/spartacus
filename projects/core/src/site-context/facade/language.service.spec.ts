@@ -1,23 +1,38 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { Store, StoreModule } from '@ngrx/store';
+import { inject, TestBed } from '@angular/core/testing';
+import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-import * as fromStore from '../store';
+import { Language } from '../../model/misc.model';
+import { SiteConnector } from '../connectors/site.connector';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
-import { OccConfig } from '../../occ/config/occ-config';
-import { defaultOccConfig } from '../../occ/config/default-occ-config';
-import { Language } from '../../occ/occ-models/occ.models';
-import { EffectsModule } from '@ngrx/effects';
-import { SiteContextStoreModule } from '../store/site-context-store.module';
+import { SiteContextConfig } from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 
 const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' },
 ];
 
 const mockActiveLang = 'ja';
+
+const mockSiteContextConfig: SiteContextConfig = {
+  context: {
+    language: ['ja'],
+  },
+};
+
+class MockSiteConnector {
+  getCurrencies() {
+    return of([]);
+  }
+
+  getLanguages() {
+    return of([]);
+  }
+}
 
 describe('LanguageService', () => {
   const mockSelect1 = createSpy('select').and.returnValue(() =>
@@ -38,8 +53,9 @@ describe('LanguageService', () => {
         SiteContextStoreModule,
       ],
       providers: [
-        { provide: OccConfig, useValue: defaultOccConfig },
         LanguageService,
+        { provide: SiteConnector, useClass: MockSiteConnector },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
       ],
     });
 
@@ -77,7 +93,7 @@ describe('LanguageService', () => {
     it('shouldselect active language', () => {
       service.setActive('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SetActiveLanguage('ja')
+        new SiteContextActions.SetActiveLanguage('ja')
       );
     });
   });

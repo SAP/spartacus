@@ -1,27 +1,38 @@
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromReducers from './../reducers/index';
-import * as fromSelectors from './../selectors/index';
-import * as fromActions from './../actions/index';
 import { TestBed } from '@angular/core/testing';
-
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Translatable } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
 import {
+  GlobalMessageEntities,
+  GlobalMessageState,
   GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
-  GlobalMessageState,
-  GlobalMessageEntities,
 } from '../global-message-state';
+import { GlobalMessageActions } from './../actions/index';
+import * as fromReducers from './../reducers/index';
+import { GlobalMessageSelectors } from './../selectors/index';
 
 describe('Global Messages selectors', () => {
   let store: Store<StateWithGlobalMessage>;
+  let sub: Subscription;
 
-  const testMessage: GlobalMessage = {
-    text: 'test',
+  const testMessageConfirmation: GlobalMessage = {
+    text: { raw: 'testConf' },
     type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+  };
+
+  const testMessageConfirmation2: GlobalMessage = {
+    text: { raw: 'testConf2' },
+    type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+  };
+
+  const testMessageError: GlobalMessage = {
+    text: { raw: 'testError' },
+    type: GlobalMessageType.MSG_TYPE_ERROR,
   };
 
   beforeEach(() => {
@@ -35,6 +46,9 @@ describe('Global Messages selectors', () => {
       ],
     });
 
+    if (sub) {
+      sub.unsubscribe();
+    }
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -42,8 +56,8 @@ describe('Global Messages selectors', () => {
   describe('getGlobalMessagesActiveState', () => {
     it('Should return the global Message active state', () => {
       let result: GlobalMessageState;
-      store
-        .pipe(select(fromSelectors.getGlobalMessageState))
+      sub = store
+        .pipe(select(GlobalMessageSelectors.getGlobalMessageState))
         .subscribe(value => (result = value));
       expect(result).toEqual({ entities: {} });
     });
@@ -53,19 +67,79 @@ describe('Global Messages selectors', () => {
     it('Should return the list of global messages', () => {
       let result: GlobalMessageEntities;
 
-      store
-        .pipe(select(fromSelectors.getGlobalMessageEntities))
+      sub = store
+        .pipe(select(GlobalMessageSelectors.getGlobalMessageEntities))
         .subscribe(value => {
           result = value;
         });
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.AddMessage(testMessage));
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+      );
 
       expect(result).toEqual({
-        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test'],
+        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'testConf' }],
       });
+    });
+  });
+
+  describe('getGlobalMessageEntitiesByType', () => {
+    it('Should return the list of global messages by type', () => {
+      let result: Translatable[];
+
+      sub = store
+        .pipe(
+          select(
+            GlobalMessageSelectors.getGlobalMessageEntitiesByType(
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            )
+          )
+        )
+        .subscribe(value => {
+          result = value;
+        });
+
+      store.dispatch(new GlobalMessageActions.AddMessage(testMessageError));
+      expect(result).toEqual(undefined);
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+      );
+      expect(result).toEqual([{ raw: 'testConf' }]);
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation2)
+      );
+      expect(result).toEqual([{ raw: 'testConf' }, { raw: 'testConf2' }]);
+    });
+  });
+
+  describe('getGlobalMessageCountByType', () => {
+    it('Should return count of global messages by type', () => {
+      let result: number;
+
+      sub = store
+        .pipe(
+          select(
+            GlobalMessageSelectors.getGlobalMessageCountByType(
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            )
+          )
+        )
+        .subscribe(value => {
+          result = value;
+        });
+
+      store.dispatch(new GlobalMessageActions.AddMessage(testMessageError));
+      expect(result).toBe(undefined);
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+      );
+      expect(result).toBe(1);
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation2)
+      );
+      expect(result).toBe(2);
     });
   });
 });

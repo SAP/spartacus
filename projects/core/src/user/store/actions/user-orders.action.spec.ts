@@ -1,12 +1,7 @@
+import { OrderHistoryList } from '../../../model/order.model';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { USER_ORDERS } from '../user-state';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
-
-import * as fromUserOrdersAction from './user-orders.action';
+import { UserActions } from './index';
 
 const mockUserOrder: {
   userId: string;
@@ -31,12 +26,12 @@ const mockUserOrders: OrderHistoryList = {
 describe('User Orders Actions', () => {
   describe('LoadUserOrders Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserOrdersAction.LoadUserOrders(mockUserOrder);
+      const action = new UserActions.LoadUserOrders(mockUserOrder);
 
       expect({ ...action }).toEqual({
-        type: fromUserOrdersAction.LOAD_USER_ORDERS,
+        type: UserActions.LOAD_USER_ORDERS,
         payload: mockUserOrder,
-        meta: loadMeta(USER_ORDERS),
+        meta: StateLoaderActions.loadMeta(USER_ORDERS),
       });
     });
   });
@@ -44,26 +39,24 @@ describe('User Orders Actions', () => {
   describe('LoadUserOrdersFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromUserOrdersAction.LoadUserOrdersFail(error);
+      const action = new UserActions.LoadUserOrdersFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserOrdersAction.LOAD_USER_ORDERS_FAIL,
+        type: UserActions.LOAD_USER_ORDERS_FAIL,
         payload: error,
-        meta: failMeta(USER_ORDERS, error),
+        meta: StateLoaderActions.failMeta(USER_ORDERS, error),
       });
     });
   });
 
   describe('LoadUserOrdersSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserOrdersAction.LoadUserOrdersSuccess(
-        mockUserOrders
-      );
+      const action = new UserActions.LoadUserOrdersSuccess(mockUserOrders);
 
       expect({ ...action }).toEqual({
-        type: fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS,
+        type: UserActions.LOAD_USER_ORDERS_SUCCESS,
         payload: mockUserOrders,
-        meta: successMeta(USER_ORDERS),
+        meta: StateLoaderActions.successMeta(USER_ORDERS),
       });
     });
   });

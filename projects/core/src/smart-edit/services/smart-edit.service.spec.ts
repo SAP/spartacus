@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
-import { of, Observable } from 'rxjs';
-
+import { Observable, of } from 'rxjs';
 import { CmsService, Page } from '../../cms/index';
+import { BaseSite } from '../../model/misc.model';
 import { RoutingService } from '../../routing';
-
+import { BaseSiteService } from '../../site-context';
 import { SmartEditService } from './smart-edit.service';
 
 class MockCmsService {
@@ -12,6 +11,7 @@ class MockCmsService {
     return of();
   }
   refreshLatestPage() {}
+  refreshPageById() {}
   refreshComponent() {}
 }
 class MockRoutingService {
@@ -20,10 +20,16 @@ class MockRoutingService {
   }
   go() {}
 }
+class MockBaseSiteService {
+  getBaseSiteData(): Observable<BaseSite> {
+    return of();
+  }
+}
 describe('SmartEditService', () => {
   let service: SmartEditService;
   let cmsService: CmsService;
   let routingService: RoutingService;
+  let baseSiteService: BaseSiteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,12 +37,14 @@ describe('SmartEditService', () => {
         SmartEditService,
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
       ],
     });
 
     service = TestBed.get(SmartEditService);
     cmsService = TestBed.get(CmsService);
     routingService = TestBed.get(RoutingService);
+    baseSiteService = TestBed.get(BaseSiteService);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -50,7 +58,7 @@ describe('SmartEditService', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(undefined));
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
@@ -66,7 +74,7 @@ describe('SmartEditService', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of({}));
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
@@ -79,7 +87,7 @@ describe('SmartEditService', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(undefined));
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: {},
           },
@@ -106,14 +114,19 @@ describe('SmartEditService', () => {
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewProductCode: 'test product code',
+          defaultPreviewCategoryCode: 'test category code',
+        })
+      );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(
         document.body.classList.contains('smartedit-page-uid-testPageId')
       ).toBeTruthy();
@@ -139,14 +152,13 @@ describe('SmartEditService', () => {
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).not.toHaveBeenCalled();
     });
 
@@ -160,16 +172,21 @@ describe('SmartEditService', () => {
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewProductCode: 'test product code',
+        })
+      );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
-        route: [{ name: 'product', params: { code: 2053367 } }],
+        cxRoute: 'product',
+        params: { code: 'test product code' },
       });
     });
 
@@ -183,22 +200,33 @@ describe('SmartEditService', () => {
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewCategoryCode: 'test category code',
+        })
+      );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
-        route: [{ name: 'category', params: { code: 575 } }],
+        cxRoute: 'category',
+        params: { code: 'test category code' },
       });
     });
   });
 
   describe('should render cms components', () => {
-    it('should render a slot', () => {
+    it('should render a slot (refresh page by Id)', () => {
+      spyOn(cmsService, 'refreshPageById').and.stub();
+      service['_currentPageId'] = 'testPageId';
+      service['renderComponent']('test-slot');
+      expect(cmsService.refreshPageById).toHaveBeenCalledWith('testPageId');
+    });
+    it('should render a slot (refresh latest page)', () => {
       spyOn(cmsService, 'refreshLatestPage').and.stub();
       service['renderComponent']('test-slot');
       expect(cmsService.refreshLatestPage).toHaveBeenCalled();

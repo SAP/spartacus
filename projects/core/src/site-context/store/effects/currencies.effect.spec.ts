@@ -1,47 +1,47 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { of, Observable } from 'rxjs';
-
-import { OccSiteService } from '../../occ/index';
-import * as fromEffects from './currencies.effect';
-import * as fromActions from '../actions/currencies.action';
-import { OccModule } from '../../../occ/occ.module';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
 import { ConfigModule } from '../../../config/config.module';
-import { Currency } from '../../../occ/occ-models/occ.models';
+import { Currency } from '../../../model/misc.model';
+import { OccModule } from '../../../occ/occ.module';
+import { SiteAdapter } from '../../connectors/site.adapter';
+import { SiteConnector } from '../../connectors/site.connector';
+import { SiteContextActions } from '../actions/index';
+import * as fromEffects from './currencies.effect';
 
 describe('Currencies Effects', () => {
-  let actions$: Observable<fromActions.CurrenciesAction>;
-  let service: OccSiteService;
+  let actions$: Observable<SiteContextActions.CurrenciesAction>;
+  let connector: SiteConnector;
   let effects: fromEffects.CurrenciesEffects;
 
   const currencies: Currency[] = [
     { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   ];
 
-  const data = { currencies };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
       providers: [
-        OccSiteService,
         fromEffects.CurrenciesEffects,
+        { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    service = TestBed.get(OccSiteService);
+    connector = TestBed.get(SiteConnector);
     effects = TestBed.get(fromEffects.CurrenciesEffects);
 
-    spyOn(service, 'loadCurrencies').and.returnValue(of(data));
+    spyOn(connector, 'getCurrencies').and.returnValue(of(currencies));
   });
 
   describe('loadCurrencies$', () => {
     it('should populate all currencies from LoadCurrenciesSuccess', () => {
-      const action = new fromActions.LoadCurrencies();
-      const completion = new fromActions.LoadCurrenciesSuccess(data.currencies);
+      const action = new SiteContextActions.LoadCurrencies();
+      const completion = new SiteContextActions.LoadCurrenciesSuccess(
+        currencies
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -52,8 +52,8 @@ describe('Currencies Effects', () => {
 
   describe('activateCurrency$', () => {
     it('should change the active currency', () => {
-      const action = new fromActions.SetActiveCurrency('USD');
-      const completion = new fromActions.CurrencyChange();
+      const action = new SiteContextActions.SetActiveCurrency('USD');
+      const completion = new SiteContextActions.CurrencyChange();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

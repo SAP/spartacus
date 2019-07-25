@@ -17,6 +17,6 @@ describe('Login', () => {
   });
 
   it('login should fail if password is wrong', () => {
-    login.loginWithBathCredentials();
+    login.loginWithBadCredentials();
   });
 });

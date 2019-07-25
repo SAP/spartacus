@@ -1,16 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from './../actions/index';
-import { AddressValidation, Address } from '../../../occ';
-import { OccUserService } from '../../../user';
-
+import { Observable, of } from 'rxjs';
+import { Address, AddressValidation } from '../../../model/address.model';
+import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
+import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
+import { CheckoutActions } from '../actions/index';
 import { AddressVerificationEffect } from './address-verification.effect';
 
 const addressValidation: AddressValidation = {
@@ -18,28 +14,24 @@ const addressValidation: AddressValidation = {
   suggestedAddresses: [{ id: 'address1' }],
 };
 
-class MockUserService {
-  verifyAddress(_userId: string, _address: Address) {}
-}
-
 describe('Address Verification effect', () => {
   let effect: AddressVerificationEffect;
-  let service: OccUserService;
+  let service: UserAddressConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AddressVerificationEffect,
-        { provide: OccUserService, useClass: MockUserService },
+        { provide: UserAddressAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(AddressVerificationEffect);
-    service = TestBed.get(OccUserService);
+    service = TestBed.get(UserAddressConnector);
 
-    spyOn(service, 'verifyAddress').and.returnValue(of(addressValidation));
+    spyOn(service, 'verify').and.returnValue(of(addressValidation));
   });
 
   describe('verifyAddress$', () => {
@@ -51,8 +43,8 @@ describe('Address Verification effect', () => {
         userId: 'userId',
         address,
       };
-      const action = new fromActions.VerifyAddress(payload);
-      const completion = new fromActions.VerifyAddressSuccess(
+      const action = new CheckoutActions.VerifyAddress(payload);
+      const completion = new CheckoutActions.VerifyAddressSuccess(
         addressValidation
       );
 

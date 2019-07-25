@@ -1,5 +1,5 @@
-import * as fromOrderDetailsAction from './order-details.action';
-import { Order } from '../../../occ/occ-models/index';
+import { Order } from '../../../model/order.model';
+import { UserActions } from './index';
 
 const mockOrderDetails: Order = { code: '123' };
 
@@ -11,12 +11,10 @@ const mockOrderDetailsParams = {
 describe('Order Details Actions', () => {
   describe('LoadOrderDetails Action', () => {
     it('should create the action', () => {
-      const action = new fromOrderDetailsAction.LoadOrderDetails(
-        mockOrderDetailsParams
-      );
+      const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
 
       expect({ ...action }).toEqual({
-        type: fromOrderDetailsAction.LOAD_ORDER_DETAILS,
+        type: UserActions.LOAD_ORDER_DETAILS,
         payload: mockOrderDetailsParams,
       });
     });
@@ -25,10 +23,10 @@ describe('Order Details Actions', () => {
   describe('LoadOrderDetailsFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new fromOrderDetailsAction.LoadOrderDetailsFail(error);
+      const action = new UserActions.LoadOrderDetailsFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromOrderDetailsAction.LOAD_ORDER_DETAILS_FAIL,
+        type: UserActions.LOAD_ORDER_DETAILS_FAIL,
         payload: error,
       });
     });
@@ -36,12 +34,10 @@ describe('Order Details Actions', () => {
 
   describe('LoadOrderDetailsSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromOrderDetailsAction.LoadOrderDetailsSuccess(
-        mockOrderDetails
-      );
+      const action = new UserActions.LoadOrderDetailsSuccess(mockOrderDetails);
 
       expect({ ...action }).toEqual({
-        type: fromOrderDetailsAction.LOAD_ORDER_DETAILS_SUCCESS,
+        type: UserActions.LOAD_ORDER_DETAILS_SUCCESS,
         payload: mockOrderDetails,
       });
     });
@@ -49,10 +45,10 @@ describe('Order Details Actions', () => {
 
   describe('ClearOrderDetails Action', () => {
     it('should create the action', () => {
-      const action = new fromOrderDetailsAction.ClearOrderDetails();
+      const action = new UserActions.ClearOrderDetails();
 
       expect({ ...action }).toEqual({
-        type: fromOrderDetailsAction.CLEAR_ORDER_DETAILS,
+        type: UserActions.CLEAR_ORDER_DETAILS,
       });
     });
   });

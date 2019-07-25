@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { SiteContextRoutesHandler } from './site-context-routes-handler';
-import { SiteContextParamsService } from '../facade/site-context-params.service';
+import { SiteContextParamsService } from './site-context-params.service';
 import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -38,7 +38,7 @@ describe('SiteContextRoutesHandlerService', () => {
     };
 
     mockSiteContextParamsService = {
-      getContextParameters: () => ['language'],
+      getUrlEncodingParameters: () => ['language'],
       getSiteContextService: () => mockLanguageService,
       getParamValues: () => ['en', 'de'],
       setValue: createSpy('setValue'),

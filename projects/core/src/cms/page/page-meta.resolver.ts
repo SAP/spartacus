@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { PageType } from '../../occ';
 import { Page, PageMeta } from '../model/page.model';
+import { PageType } from '../../model/cms.model';
 
 export abstract class PageMetaResolver {
   pageType: PageType;

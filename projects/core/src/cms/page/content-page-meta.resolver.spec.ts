@@ -1,11 +1,11 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { PageType } from '../../occ/occ-models/occ.models';
+import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { Page, PageMetaResolver, CmsService } from '..';
-import { ContentPageMetaResolver } from './content-page-meta.resolver';
+import { CmsService, Page, PageMetaResolver } from '..';
 import { PageMetaService } from '../facade';
 import { PageMeta } from '../model/page.model';
+import { ContentPageMetaResolver } from './content-page-meta.resolver';
+import { PageType } from '../../model/cms.model';
+import { I18nTestingModule } from '../../i18n';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -19,12 +19,12 @@ class MockCmsService {
   }
 }
 
-describe('ContentPageTitleResolver', () => {
-  let service: PageMetaService;
+describe('ContentPageMetaResolver', () => {
+  let service: ContentPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CmsService, useClass: MockCmsService },
@@ -36,23 +36,45 @@ describe('ContentPageTitleResolver', () => {
       ],
     });
 
-    service = TestBed.get(PageMetaService);
+    service = TestBed.get(ContentPageMetaResolver);
   });
 
-  it('PageTitleService should be created', inject(
-    [PageMetaService],
-    (pageTitleService: PageMetaService) => {
-      expect(pageTitleService).toBeTruthy();
-    }
-  ));
+  it('should inject service', () => {
+    expect(service).toBeTruthy();
+  });
 
   it('should resolve content page title', () => {
     let result: PageMeta;
-    const subscription = service.getMeta().subscribe(value => {
-      result = value;
-    });
-    subscription.unsubscribe();
+
+    service
+      .resolve()
+      .subscribe(meta => {
+        result = meta;
+      })
+      .unsubscribe();
 
     expect(result.title).toEqual('Page title');
+  });
+
+  it('should resolve one breadcrumb', () => {
+    let result: PageMeta;
+    service
+      .resolve()
+      .subscribe(meta => {
+        result = meta;
+      })
+      .unsubscribe();
+    expect(result.breadcrumbs.length).toEqual(1);
+  });
+
+  it('should resolve home breadcrumb', () => {
+    let result: PageMeta;
+    service
+      .resolve()
+      .subscribe(meta => {
+        result = meta;
+      })
+      .unsubscribe();
+    expect(result.breadcrumbs[0].label).toEqual('common.home');
   });
 });

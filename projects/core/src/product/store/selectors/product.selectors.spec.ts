@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromActions from '../actions';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Product } from '../../../model/product.model';
+import { ProductActions } from '../actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
-import * as fromReducers from '../reducers';
-import { Product } from '../../../occ/occ-models/occ.models';
-
-import * as fromSelectors from './product.selectors';
+import * as fromReducers from '../reducers/index';
+import { ProductSelectors } from '../selectors/index';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithProduct>;
@@ -41,10 +38,10 @@ describe('Cms Component Selectors', () => {
     it('should return product by code', () => {
       let result: Product[];
       store
-        .pipe(select(fromSelectors.getSelectedProductsFactory(['testCode'])))
+        .pipe(select(ProductSelectors.getSelectedProductsFactory(['testCode'])))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
 
       expect(result).toEqual([entities['testCode'].value]);
     });
@@ -54,12 +51,12 @@ describe('Cms Component Selectors', () => {
     it('should return product codes as an array', () => {
       let result: string[];
       store
-        .pipe(select(fromSelectors.getAllProductCodes))
+        .pipe(select(ProductSelectors.getAllProductCodes))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
 
       expect(result).toEqual(['testCode']);
     });
@@ -69,10 +66,10 @@ describe('Cms Component Selectors', () => {
     it('should return a single product by productCode', () => {
       let result: Product;
       store
-        .pipe(select(fromSelectors.getSelectedProductFactory(code)))
+        .pipe(select(ProductSelectors.getSelectedProductFactory(code)))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
       expect(result).toEqual(product);
     });
   });
@@ -82,13 +79,13 @@ describe('Cms Component Selectors', () => {
       let result: boolean;
 
       store
-        .pipe(select(fromSelectors.getSelectedProductLoadingFactory(code)))
+        .pipe(select(ProductSelectors.getSelectedProductLoadingFactory(code)))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadProduct(product.code));
+      store.dispatch(new ProductActions.LoadProduct(product.code));
       expect(result).toBeTruthy();
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
       expect(result).toBeFalsy();
     });
   });
@@ -98,12 +95,12 @@ describe('Cms Component Selectors', () => {
       let result: boolean;
 
       store
-        .pipe(select(fromSelectors.getSelectedProductSuccessFactory(code)))
+        .pipe(select(ProductSelectors.getSelectedProductSuccessFactory(code)))
         .subscribe(value => (result = value));
 
       expect(result).toBeFalsy();
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
       expect(result).toBeTruthy();
     });
   });
@@ -113,12 +110,12 @@ describe('Cms Component Selectors', () => {
       let result: boolean;
 
       store
-        .pipe(select(fromSelectors.getSelectedProductErrorFactory(code)))
+        .pipe(select(ProductSelectors.getSelectedProductErrorFactory(code)))
         .subscribe(value => (result = value));
 
       expect(result).toBeFalsy();
 
-      store.dispatch(new fromActions.LoadProductFail(code, undefined));
+      store.dispatch(new ProductActions.LoadProductFail(code, undefined));
       expect(result).toBeTruthy();
     });
   });

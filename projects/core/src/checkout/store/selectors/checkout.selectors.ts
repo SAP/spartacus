@@ -1,44 +1,70 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-
-import { CheckoutState, CheckoutStepsState } from '../checkout-state';
-import * as fromReducer from './../reducers/checkout.reducer';
-import * as fromFeature from './../reducers/index';
 import {
-  DeliveryMode,
-  Address,
-  Order,
-  PaymentDetails,
-} from '../../../occ/occ-models/index';
+  createFeatureSelector,
+  createSelector,
+  MemoizedSelector,
+} from '@ngrx/store';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { StateLoaderSelectors } from '../../../state/utils/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import {
+  CheckoutState,
+  CheckoutStepsState,
+  CHECKOUT_FEATURE,
+  StateWithCheckout,
+} from '../checkout-state';
+
+const getDeliveryAddressSelector = (state: CheckoutStepsState) => state.address;
+const getDeliveryModeSelector = (state: CheckoutStepsState) =>
+  state.deliveryMode;
+const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
+  state.paymentDetails;
+const getOrderDetailsSelector = (state: CheckoutStepsState) =>
+  state.orderDetails;
+
+export const getCheckoutState: MemoizedSelector<
+  StateWithCheckout,
+  CheckoutState
+> = createFeatureSelector<CheckoutState>(CHECKOUT_FEATURE);
 
 export const getCheckoutStepsState: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
+  LoaderState<CheckoutStepsState>
+> = createSelector(
+  getCheckoutState,
+  (checkoutState: CheckoutState) => checkoutState.steps
+);
+
+export const getCheckoutSteps: MemoizedSelector<
+  StateWithCheckout,
   CheckoutStepsState
 > = createSelector(
-  fromFeature.getCheckoutState,
-  (state: CheckoutState) => state.steps
+  getCheckoutStepsState,
+  state => StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getDeliveryAddress: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   Address
 > = createSelector(
-  getCheckoutStepsState,
-  fromReducer.getDeliveryAddress
+  getCheckoutSteps,
+  getDeliveryAddressSelector
 );
 
 export const getDeliveryMode: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   {
     supported: { [code: string]: DeliveryMode };
     selected: string;
   }
 > = createSelector(
-  getCheckoutStepsState,
-  fromReducer.getDeliveryMode
+  getCheckoutSteps,
+  getDeliveryModeSelector
 );
 
 export const getSupportedDeliveryModes: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   DeliveryMode[]
 > = createSelector(
   getDeliveryMode,
@@ -49,8 +75,8 @@ export const getSupportedDeliveryModes: MemoizedSelector<
   }
 );
 
-export const getSelectedCode: MemoizedSelector<
-  CheckoutState,
+export const getSelectedDeliveryModeCode: MemoizedSelector<
+  StateWithCheckout,
   string
 > = createSelector(
   getDeliveryMode,
@@ -60,7 +86,7 @@ export const getSelectedCode: MemoizedSelector<
 );
 
 export const getSelectedDeliveryMode: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   DeliveryMode
 > = createSelector(
   getDeliveryMode,
@@ -75,17 +101,27 @@ export const getSelectedDeliveryMode: MemoizedSelector<
 );
 
 export const getPaymentDetails: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   PaymentDetails
 > = createSelector(
-  getCheckoutStepsState,
-  fromReducer.getPaymentDetails
+  getCheckoutSteps,
+  getPaymentDetailsSelector
 );
 
 export const getCheckoutOrderDetails: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   Order
 > = createSelector(
+  getCheckoutSteps,
+  getOrderDetailsSelector
+);
+
+export const getCheckoutDetailsLoaded: MemoizedSelector<
+  StateWithCheckout,
+  boolean
+> = createSelector(
   getCheckoutStepsState,
-  fromReducer.getOrderDetails
+  state =>
+    StateLoaderSelectors.loaderSuccessSelector(state) &&
+    !StateLoaderSelectors.loaderLoadingSelector(state)
 );

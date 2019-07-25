@@ -1,38 +1,66 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
-
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, catchError, switchMap } from 'rxjs/operators';
-
-import * as productsSearchActions from '../actions/product-search.action';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
-import { ProductSearchLoaderService } from '../../occ/product-search.service';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
+import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductsSearchEffects {
   @Effect()
   searchProducts$: Observable<
-    | productsSearchActions.SearchProductsSuccess
-    | productsSearchActions.SearchProductsFail
+    ProductActions.SearchProductsSuccess | ProductActions.SearchProductsFail
   > = this.actions$.pipe(
-    ofType(productsSearchActions.SEARCH_PRODUCTS),
-    switchMap((action: productsSearchActions.SearchProducts) => {
-      return this.occProductSearchService
-        .loadSearch(action.payload.queryText, action.payload.searchConfig)
-        .pipe(
-          map(data => {
-            this.productImageConverter.convertList(data.products);
-            return new productsSearchActions.SearchProductsSuccess(
-              data,
-              action.auxiliary
+    ofType(ProductActions.SEARCH_PRODUCTS),
+    groupBy((action: ProductActions.SearchProducts) => action.auxiliary),
+    mergeMap(group =>
+      group.pipe(
+        switchMap((action: ProductActions.SearchProducts) => {
+          return this.productSearchConnector
+            .search(action.payload.queryText, action.payload.searchConfig)
+            .pipe(
+              map(data => {
+                return new ProductActions.SearchProductsSuccess(
+                  data,
+                  action.auxiliary
+                );
+              }),
+              catchError(error =>
+                of(
+                  new ProductActions.SearchProductsFail(
+                    makeErrorSerializable(error),
+                    action.auxiliary
+                  )
+                )
+              )
             );
+        })
+      )
+    )
+  );
+
+  @Effect()
+  getProductSuggestions$: Observable<
+    | ProductActions.GetProductSuggestionsSuccess
+    | ProductActions.GetProductSuggestionsFail
+  > = this.actions$.pipe(
+    ofType(ProductActions.GET_PRODUCT_SUGGESTIONS),
+    map((action: ProductActions.GetProductSuggestions) => action.payload),
+    switchMap(payload => {
+      return this.productSearchConnector
+        .getSuggestions(payload.term, payload.searchConfig.pageSize)
+        .pipe(
+          map(suggestions => {
+            if (suggestions === undefined) {
+              return new ProductActions.GetProductSuggestionsSuccess([]);
+            }
+            return new ProductActions.GetProductSuggestionsSuccess(suggestions);
           }),
           catchError(error =>
             of(
-              new productsSearchActions.SearchProductsFail(
-                error,
-                action.auxiliary
+              new ProductActions.GetProductSuggestionsFail(
+                makeErrorSerializable(error)
               )
             )
           )
@@ -40,37 +68,8 @@ export class ProductsSearchEffects {
     })
   );
 
-  @Effect()
-  getProductSuggestions$: Observable<
-    | productsSearchActions.GetProductSuggestionsSuccess
-    | productsSearchActions.GetProductSuggestionsFail
-  > = this.actions$.pipe(
-    ofType(productsSearchActions.GET_PRODUCT_SUGGESTIONS),
-    map(
-      (action: productsSearchActions.GetProductSuggestions) => action.payload
-    ),
-    switchMap(payload => {
-      return this.occProductSearchService
-        .loadSuggestions(payload.term, payload.searchConfig.pageSize)
-        .pipe(
-          map(data => {
-            if (data.suggestions === undefined) {
-              return new productsSearchActions.GetProductSuggestionsSuccess([]);
-            }
-            return new productsSearchActions.GetProductSuggestionsSuccess(
-              data.suggestions
-            );
-          }),
-          catchError(error =>
-            of(new productsSearchActions.GetProductSuggestionsFail(error))
-          )
-        );
-    })
-  );
-
   constructor(
     private actions$: Actions,
-    private occProductSearchService: ProductSearchLoaderService,
-    private productImageConverter: ProductImageConverterService
+    private productSearchConnector: ProductSearchConnector
   ) {}
 }

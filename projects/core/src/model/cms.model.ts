@@ -1,0 +1,144 @@
+export interface CmsComponent {
+  modifiedTime?: Date;
+  name?: string;
+  otherProperties?: any;
+  typeCode?: string;
+  uid?: string;
+}
+
+export enum PageType {
+  CONTENT_PAGE = 'ContentPage',
+  PRODUCT_PAGE = 'ProductPage',
+  CATEGORY_PAGE = 'CategoryPage',
+  CATALOG_PAGE = 'CatalogPage',
+}
+
+export interface CmsLinkComponent extends CmsComponent {
+  url?: string;
+  container?: boolean;
+  external?: boolean;
+  contentPage?: string;
+  contentPageLabelOrId?: string;
+  linkName?: string;
+  target?: boolean;
+}
+
+export interface CmsSiteContextSelectorComponent extends CmsComponent {
+  context?: string;
+}
+
+export interface CmsSearchBoxComponent extends CmsComponent {
+  container?: boolean;
+  maxSuggestions?: number;
+  maxProducts?: number;
+  displaySuggestions?: boolean;
+  displayProducts?: boolean;
+  displayProductImages?: boolean;
+  waitTimeBeforeRequest?: number;
+  minCharactersBeforeRequest?: number;
+}
+
+export interface CmsParagraphComponent extends CmsComponent {
+  content?: string;
+  container?: string;
+  title?: string;
+}
+
+export interface CMSTabParagraphContainer extends CmsComponent {
+  container?: string;
+  components?: string;
+}
+
+export interface CmsBannerComponentMedia {
+  altText?: string;
+  code?: string;
+  mime?: string;
+  url?: string;
+}
+
+export interface CmsResponsiveBannerComponentMedia {
+  desktop?: CmsBannerComponentMedia;
+  mobile?: CmsBannerComponentMedia;
+  tablet?: CmsBannerComponentMedia;
+  widescreen?: CmsBannerComponentMedia;
+}
+
+export interface CmsBannerComponent extends CmsComponent {
+  headline?: string;
+  content?: string;
+  container?: string;
+  media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  urlLink?: string;
+  external?: string;
+}
+
+export enum CmsBannerCarouselEffect {
+  FADE = 'FADE',
+  ZOOM = 'ZOOM',
+  CURTAIN = 'CURTAINX',
+  TURNDOWN = 'TURNDOWN',
+}
+
+export interface CmsBannerCarouselComponent extends CmsComponent {
+  banners?: string;
+  effect?: CmsBannerCarouselEffect;
+}
+
+export interface CmsProductCarouselComponent extends CmsComponent {
+  title?: string;
+  productCodes?: string;
+  container?: string;
+  popup?: string;
+  scroll?: string;
+}
+
+export interface CmsProductReferencesComponent extends CmsComponent {
+  title?: string;
+  displayProductTitles?: string;
+  displayProductPrices?: string;
+  maximumNumberProducts?: number;
+  productReferenceTypes?: string;
+  container?: string;
+}
+
+export interface CmsMiniCartComponent extends CmsComponent {
+  container?: string;
+  shownProductCount?: string;
+  title?: string;
+  totalDisplay?: string;
+  lightboxBannerComponent?: CmsBannerComponent;
+}
+
+// TODO: Upgrade model when Breadcrumbs will be finally used in project
+export interface CmsBreadcrumbsComponent extends CmsComponent {
+  container?: string;
+}
+
+export interface CmsNavigationNode {
+  uid?: string;
+  title?: string;
+  children?: Array<CmsNavigationNode>;
+  entries?: Array<CmsNavigationEntry>;
+}
+
+export interface CmsNavigationEntry {
+  itemId?: string;
+  itemSuperType?: string;
+  itemType?: string;
+}
+
+export interface CmsNavigationComponent extends CmsComponent {
+  container?: string;
+  styleClass?: string;
+  wrapAfter?: string;
+  notice?: string;
+  showLanguageCurrency?: string;
+  navigationNode?: CmsNavigationNode;
+}
+
+export interface CmsProductFacetNavigationComponent extends CmsComponent {
+  container?: string;
+  activeFacetValueCode?: string;
+  searchResult?: string;
+  minPerFacet?: string;
+}

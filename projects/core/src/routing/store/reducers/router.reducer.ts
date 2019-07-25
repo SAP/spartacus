@@ -1,27 +1,17 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { RouterStateSnapshot, Params } from '@angular/router';
-
-import {
-  createSelector,
-  createFeatureSelector,
-  ActionReducerMap,
-  MemoizedSelector,
-} from '@ngrx/store';
+import { RouterStateSnapshot } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
-
-import * as fromActions from '../actions';
-import { ROUTING_FEATURE } from '../../state';
-import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
+import { ActionReducerMap } from '@ngrx/store';
+import { PageType } from '../../../model/cms.model';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
-
-export interface RouterState
-  extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
-  redirectUrl: string;
-}
+import { PageContext } from '../../models/page-context.model';
+import {
+  ActivatedRouterStateSnapshot,
+  RouterState,
+  State,
+} from '../routing-state';
 
 export const initialState: RouterState = {
-  redirectUrl: '',
   navigationId: 0,
   state: {
     url: '',
@@ -32,19 +22,8 @@ export const initialState: RouterState = {
     },
     cmsRequired: false,
   },
+  nextState: undefined,
 };
-
-export interface ActivatedRouterStateSnapshot {
-  url: string;
-  queryParams: Params;
-  params: Params;
-  context: PageContext;
-  cmsRequired: boolean;
-}
-
-export interface State {
-  router: RouterState;
-}
 
 export function getReducers(): ActionReducerMap<State> {
   return {
@@ -57,44 +36,30 @@ export function reducer(
   action: any
 ): RouterState {
   switch (action.type) {
-    case fromActions.SAVE_REDIRECT_URL: {
+    case fromNgrxRouter.ROUTER_NAVIGATION: {
       return {
         ...state,
-        redirectUrl: action.payload,
-      };
-    }
-    case fromActions.CLEAR_REDIRECT_URL: {
-      return {
-        ...state,
-        redirectUrl: '',
-      };
-    }
-    case fromNgrxRouter.ROUTER_NAVIGATION:
-    case fromNgrxRouter.ROUTER_ERROR:
-    case fromNgrxRouter.ROUTER_CANCEL: {
-      const currentUrl = action.payload.routerState
-        ? action.payload.routerState.url
-        : '';
-      const contextId = action.payload.routerState
-        ? action.payload.routerState.context.id
-        : '';
-      let redirectUrl;
-      if (
-        contextId === 'login' ||
-        contextId === 'register' ||
-        currentUrl === state.redirectUrl
-      ) {
-        redirectUrl = state.redirectUrl;
-      } else {
-        redirectUrl = '';
-      }
-
-      return {
-        redirectUrl: redirectUrl,
-        state: action.payload.routerState,
+        nextState: action.payload.routerState,
         navigationId: action.payload.event.id,
       };
     }
+
+    case fromNgrxRouter.ROUTER_ERROR:
+    case fromNgrxRouter.ROUTER_CANCEL: {
+      return {
+        ...state,
+        nextState: undefined,
+      };
+    }
+
+    case fromNgrxRouter.ROUTER_NAVIGATED: {
+      return {
+        state: action.payload.routerState,
+        navigationId: action.payload.event.id,
+        nextState: undefined,
+      };
+    }
+
     default: {
       return state;
     }
@@ -109,31 +74,6 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
-
-export const getRouterFeatureState: MemoizedSelector<
-  any,
-  any
-> = createFeatureSelector<
-  fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot>
->(ROUTING_FEATURE);
-
-export const getRouterState: MemoizedSelector<any, any> = createSelector(
-  getRouterFeatureState,
-  (state: any) => state[ROUTING_FEATURE]
-);
-
-export const getPageContext: MemoizedSelector<
-  any,
-  PageContext
-> = createSelector(
-  getRouterState,
-  (routingState: any) => routingState.state.context
-);
-
-export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
-  getRouterState,
-  state => state.redirectUrl
-);
 
 /* The serializer is there to parse the RouterStateSnapshot,
 and to reduce the amount of properties to be passed to the reducer.
@@ -186,8 +126,6 @@ export class CustomSerializer
         context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
       } else if (params['brandCode']) {
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-      } else if (params['query']) {
-        context = { id: 'search', type: PageType.CONTENT_PAGE };
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {

@@ -1,44 +1,46 @@
 import { PRODUCT_LISTING } from './data-configuration';
+import {
+  assertFirstProduct,
+  clickSearchIcon,
+  createProductQuery,
+  createProductSortQuery,
+  verifyProductSearch,
+} from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
-export const tabsHeaderList = 'cx-product-tabs .details > h3';
+export const tabsHeaderList = 'cx-tab-paragraph-container > h3';
+
+const productSelector = 'cx-product-list-item';
 
 export function productRatingFlow(mobile?: string) {
-  // Search for a product
-  cy.get('cx-searchbox input').type('DSC-N1{enter}');
+  cy.server();
+  createProductQuery('productQuery');
+  createProductSortQuery('topRated', 'query-topRated');
 
-  cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
+  clickSearchIcon();
+  const productName = 'DSC-N1';
+  cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-  cy.get('cx-product-list-item').should(
+  cy.get(resultsTitle).should('contain', `21 results for "${productName}"`);
+
+  cy.get(productSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', 'Li-Ion f Series G');
-
-  // Navigate to next page
-  cy.get('.page-item:last-of-type .page-link:first').click();
-  cy.get('.page-item.active > .page-link').should('contain', '2');
-
-  cy.get('cx-product-list-item:nth-child(1)').should('contain', 'DSC-W180');
-
-  // Sort by top rated
-  cy.get('cx-sorting .ng-select:first').ngSelect(
+  verifyProductSearch(
+    '@productQuery',
+    '@query-topRated',
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
-  cy.get('.page-item.active > .page-link').should('contain', '2');
-  cy.get('cx-product-list-item:first').should('contain', 'DSC-WX1');
 
   // Navigate to previous page
   cy.get('.page-item:first-of-type .page-link:first').click();
+  cy.wait('@query-topRated');
+
   cy.get('.page-item.active > .page-link').should('contain', '1');
 
-  cy.get('cx-product-list-item:nth-child(1)').should(
-    'contain',
-    'Cyber-shot DSC-W55'
-  );
+  assertFirstProduct();
 
   // Filter by category
   cy.get('.cx-facet-header')
@@ -50,10 +52,10 @@ export function productRatingFlow(mobile?: string) {
         .click({ force: true });
     });
 
+  cy.wait('@productQuery');
+
   cy.get(resultsTitle).should('contain', '20 results for "DSC-N1"');
-  cy.get('cx-product-list-item:first')
-    .first()
-    .should('contain', 'Cyber-shot DSC-W55');
+  assertFirstProduct();
 
   if (mobile) {
     cy.get(
@@ -64,6 +66,7 @@ export function productRatingFlow(mobile?: string) {
       'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
     ).click();
   }
+  cy.wait('@productQuery');
 
   cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
 

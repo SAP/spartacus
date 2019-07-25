@@ -1,4 +1,4 @@
-import * as bigHappyPath from '../../helpers/checkout-flow';
+import * as checkout from '../../helpers/checkout-flow';
 
 context('Checkout flow', () => {
   before(() => {
@@ -7,40 +7,41 @@ context('Checkout flow', () => {
   });
 
   it('should register successfully', () => {
-    bigHappyPath.registerUser();
-    bigHappyPath.signOutUser();
+    checkout.registerUser();
+    checkout.signOutUser();
   });
 
   it('should go to product page from category page', () => {
-    bigHappyPath.goToProductDetailsPage();
+    checkout.goToCheapProductDetailsPage();
   });
 
   it('should add product to cart and go to checkout', () => {
-    bigHappyPath.addProductToCart();
+    checkout.addCheapProductToCart();
+    checkout.loginUser();
   });
 
   it('should fill in address form', () => {
-    bigHappyPath.fillAddressForm();
+    checkout.fillAddressFormWithCheapProduct();
   });
 
   it('should choose delivery', () => {
-    bigHappyPath.chooseDeliveryMethod();
+    checkout.chooseDeliveryMethod();
   });
 
   it('should fill in payment form', () => {
-    bigHappyPath.fillPaymentForm();
+    checkout.fillPaymentFormWithCheapProduct();
   });
 
   it('should review and place order', () => {
-    bigHappyPath.placeOrder();
+    checkout.placeOrderWithCheapProduct();
   });
 
   it('should display summary page', () => {
-    bigHappyPath.verifyOrderConfirmationPage();
+    checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
   it('should be able to check order in order history', () => {
-    bigHappyPath.viewOrderHistory();
-    bigHappyPath.signOut();
+    checkout.viewOrderHistoryWithCheapProduct();
+    checkout.signOut();
   });
 });

@@ -1,0 +1,67 @@
+$gutterSize: 15px;
+
+%cx-product-reviews {
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+
+    border-bottom: 1px solid var(--cx-color-light);
+
+    padding: 0 $gutterSize $gutterSize;
+    margin: 0 -#{$gutterSize} 40px -#{$gutterSize};
+
+    button {
+      margin: 0 0 0 auto;
+    }
+    .rating {
+      flex-basis: 100%;
+    }
+  }
+
+  .review {
+    display: grid;
+    grid-template-columns: auto auto 10vw;
+    grid-template-rows: repeat(3, minmax(10px, auto)) auto;
+    grid-column-gap: 1vw;
+    margin: 4vh 0 2vh;
+
+    // layout
+    cx-star-rating,
+    .title,
+    .text {
+      grid-column: 1 / span 2;
+    }
+    @include media-breakpoint-down(md) {
+      .text {
+        grid-column: 1 / span 3;
+      }
+    }
+    .date {
+      grid-column: 1 / span 1;
+    }
+    .name {
+      grid-column: 1 / span 1;
+    }
+    .text {
+      grid-row: 0;
+    }
+
+    // formatting
+    .title {
+      font-weight: bold;
+    }
+    .text {
+      margin: 0.5vh 0;
+    }
+    .name,
+    .date {
+      text-align: left;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .btn-secondary {
+      margin: 0 0 1rem;
+    }
+  }
+}

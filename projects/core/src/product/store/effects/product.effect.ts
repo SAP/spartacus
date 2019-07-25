@@ -1,33 +1,34 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { of, Observable } from 'rxjs';
-import { map, catchError, mergeMap, switchMap, groupBy } from 'rxjs/operators';
-
-import * as actions from '../actions/index';
-import * as converters from '../converters/index';
-import { ProductLoaderService } from '../../occ/product.service';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { ProductConnector } from '../../connectors/product/product.connector';
+import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductEffects {
   @Effect()
   loadProduct$: Observable<
-    actions.LoadProductSuccess | actions.LoadProductFail
+    ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
   > = this.actions$.pipe(
-    ofType(actions.LOAD_PRODUCT),
-    map((action: actions.LoadProduct) => action.payload),
+    ofType(ProductActions.LOAD_PRODUCT),
+    map((action: ProductActions.LoadProduct) => action.payload),
     groupBy(productCode => productCode),
     mergeMap(group =>
       group.pipe(
         switchMap(productCode => {
-          return this.occProductService.load(productCode).pipe(
+          return this.productConnector.get(productCode).pipe(
             map(product => {
-              this.productImageConverter.convertProduct(product);
-              this.productReferenceConverterService.convertProduct(product);
-              return new actions.LoadProductSuccess(product);
+              return new ProductActions.LoadProductSuccess(product);
             }),
             catchError(error =>
-              of(new actions.LoadProductFail(productCode, error))
+              of(
+                new ProductActions.LoadProductFail(
+                  productCode,
+                  makeErrorSerializable(error)
+                )
+              )
             )
           );
         })
@@ -37,8 +38,6 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductService: ProductLoaderService,
-    private productImageConverter: converters.ProductImageConverterService,
-    private productReferenceConverterService: converters.ProductReferenceConverterService
+    private productConnector: ProductConnector
   ) {}
 }

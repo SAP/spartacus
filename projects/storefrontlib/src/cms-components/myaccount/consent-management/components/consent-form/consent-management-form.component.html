@@ -1,0 +1,13 @@
+<div class="form-check">
+  <label>
+    <input
+      type="checkbox"
+      class="form-check-input"
+      [checked]="consentGiven"
+      (change)="onConsentChange()"
+    />
+    <span class="form-check-label">
+      {{ consentTemplate?.description }}
+    </span>
+  </label>
+</div>

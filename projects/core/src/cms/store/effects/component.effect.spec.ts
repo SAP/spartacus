@@ -3,10 +3,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CmsComponent, PageType } from '../../../occ/occ-models/index';
+import { CmsComponent, PageType } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
-import { CmsComponentLoader } from '../../services/cms-component.loader';
-import * as fromActions from '../actions/component.action';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import { CmsActions } from '../actions/index';
 import * as fromEffects from './component.effect';
 
 const router = {
@@ -25,7 +25,7 @@ class MockRoutingService {
   }
 }
 
-class MockCmsComponentLoader {
+class MockCmsComponentConnector {
   get(_uid, _pageContext): Observable<any> {
     return of({});
   }
@@ -33,7 +33,7 @@ class MockCmsComponentLoader {
 
 describe('Component Effects', () => {
   let actions$: Observable<any>;
-  let service: CmsComponentLoader<any>;
+  let service: CmsComponentConnector;
   let effects: fromEffects.ComponentEffects;
 
   const component: CmsComponent = {
@@ -45,21 +45,21 @@ describe('Component Effects', () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
-        { provide: CmsComponentLoader, useClass: MockCmsComponentLoader },
+        { provide: CmsComponentConnector, useClass: MockCmsComponentConnector },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
-    service = TestBed.get(CmsComponentLoader);
+    service = TestBed.get(CmsComponentConnector);
     effects = TestBed.get(fromEffects.ComponentEffects);
   });
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
-      const action = new fromActions.LoadComponent('comp1');
-      const completion = new fromActions.LoadComponentSuccess(component);
+      const action = new CmsActions.LoadCmsComponent('comp1');
+      const completion = new CmsActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'get').and.returnValue(of(component));
 
       actions$ = hot('-a', { a: action });
@@ -69,8 +69,8 @@ describe('Component Effects', () => {
     });
 
     it('should process only one ongoing request for multiple load component dispatches for the same uid', () => {
-      const action = new fromActions.LoadComponent('comp1');
-      const completion = new fromActions.LoadComponentSuccess(component);
+      const action = new CmsActions.LoadCmsComponent('comp1');
+      const completion = new CmsActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'get').and.returnValue(cold('---c', { c: component }));
 
       actions$ = hot('-aaa------a', { a: action });

@@ -1,6 +1,7 @@
-import * as fromProductSearch from './product-search.action';
-import { Suggestion, ProductList, ErrorModel } from '../../../occ/occ-models';
+import { ErrorModel } from '../../../model/misc.model';
+import { ClearSearch, Suggestion } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
+import * as fromProductSearch from './product-search.action';
 
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;
@@ -51,7 +52,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductsSuccess', () => {
       it('should create an action', () => {
-        const payload: ProductList = { products: [{ code: '123' }] };
+        const payload = { products: [{ code: '123' }] };
         const action = new fromProductSearch.SearchProductsSuccess(payload);
 
         expect({ ...action }).toEqual({
@@ -107,9 +108,17 @@ describe('Product Search Actions', () => {
   describe('CleanProductSearchState Action', () => {
     describe('Clean ProductSearch State', () => {
       it('should create an action', () => {
-        const action = new fromProductSearch.CleanProductSearchState();
+        const payload: ClearSearch = {
+          clearPageResults: true,
+          clearSearchboxResults: false,
+        };
+        const action = new fromProductSearch.ClearProductSearchResult({
+          clearPageResults: true,
+          clearSearchboxResults: false,
+        });
         expect({ ...action }).toEqual({
-          type: fromProductSearch.CLEAN_PRODUCT_SEARCH,
+          type: fromProductSearch.CLEAR_PRODUCT_SEARCH_RESULT,
+          payload,
         });
       });
     });

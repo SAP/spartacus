@@ -1,15 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { UserTokenEffects } from './user-token.effect';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { UserToken } from '../../models/token-types.model';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from './../actions';
-import { UserAuthenticationTokenService } from './../../services/user-authentication/user-authentication-token.service';
-import { UserTokenAction } from './../actions';
+import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
+import { AuthActions } from '../actions/index';
+import { UserTokenEffects } from './user-token.effect';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -33,7 +29,7 @@ class UserAuthenticationTokenServiceMock {
 describe('UserToken effect', () => {
   let userTokenService: UserAuthenticationTokenService;
   let userTokenEffect: UserTokenEffects;
-  let actions$: Observable<UserTokenAction>;
+  let actions$: Observable<AuthActions.UserTokenAction>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,11 +52,11 @@ describe('UserToken effect', () => {
 
   describe('loadUserToken$', () => {
     it('should load a user token', () => {
-      const action = new fromActions.LoadUserToken({
+      const action = new AuthActions.LoadUserToken({
         userId: 'xxx',
         password: 'xxx',
       });
-      const completion = new fromActions.LoadUserTokenSuccess(testToken);
+      const completion = new AuthActions.LoadUserTokenSuccess(testToken);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -71,11 +67,10 @@ describe('UserToken effect', () => {
 
   describe('refreshUserToken$', () => {
     it('should refresh a user token', () => {
-      const action = new fromActions.RefreshUserToken({
-        userId: 'xxx',
+      const action = new AuthActions.RefreshUserToken({
         refreshToken: '123',
       });
-      const completion = new fromActions.RefreshUserTokenSuccess(testToken);
+      const completion = new AuthActions.RefreshUserTokenSuccess(testToken);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

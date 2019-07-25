@@ -1,0 +1,12 @@
+<div class="cx-product-layout" (click)="changeMode()">
+  <div [ngClass]="buttonClass">
+    <cx-icon
+      *ngIf="viewMode === iconTypes.GRID"
+      [type]="iconTypes.GRID"
+    ></cx-icon>
+    <cx-icon
+      *ngIf="viewMode === iconTypes.LIST"
+      [type]="iconTypes.LIST"
+    ></cx-icon>
+  </div>
+</div>

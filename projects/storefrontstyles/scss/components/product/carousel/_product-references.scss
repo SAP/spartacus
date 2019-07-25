@@ -1,0 +1,23 @@
+%cx-product-references {
+  padding-bottom: 50px;
+  a {
+    outline: none;
+    color: var(--cx-color-text);
+
+    &:focus {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+    }
+  }
+
+  cx-media {
+    align-self: center;
+    width: 60%;
+
+    &.is-missing {
+      align-self: center;
+      width: 60%;
+      background-size: 60%;
+    }
+  }
+}

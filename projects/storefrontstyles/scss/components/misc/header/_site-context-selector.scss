@@ -1,0 +1,45 @@
+$caretSize: 7px;
+
+%cx-site-context-selector {
+  position: relative;
+  margin: 14px 8px 14px 0;
+
+  @include media-breakpoint-down(md) {
+    display: inline-block;
+
+    &:first-child {
+      margin-left: 0;
+    }
+    &:not(:first-child) {
+      padding-left: 16px;
+      border-left: 1px solid var(--cx-color-secondary);
+    }
+  }
+  label {
+    display: flex;
+    margin: 0;
+    span {
+      @include sr-only();
+    }
+  }
+  cx-icon {
+    margin-left: -10px;
+  }
+
+  select {
+    color: inherit;
+    background-color: transparent;
+    border: 0;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    padding-right: $caretSize * 2;
+
+    outline: none;
+
+    position: relative;
+    z-index: 1;
+  }
+}

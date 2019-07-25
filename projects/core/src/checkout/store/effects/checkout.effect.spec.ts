@@ -1,101 +1,117 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/checkout.action';
-import { OccCartService } from '../../../cart';
-import { AddMessage, GlobalMessageType } from '../../../global-message';
+import { AuthActions } from '../../../auth/store/actions/index';
+import { CartDataService } from '../../../cart/facade/cart-data.service';
+import { CartActions } from '../../../cart/store/actions/index';
 import {
-  OccConfig,
-  DeliveryModeList,
-  PaymentDetails,
-  Address,
-  Order,
-} from '../../../occ';
-import { ProductImageConverterService } from '../../../product';
-import {
-  OccOrderService,
-  LoadUserPaymentMethods,
-  LoadUserAddresses,
-} from '../../../user';
-
+  CheckoutDeliveryConnector,
+  CheckoutPaymentConnector,
+} from '../../../checkout/connectors';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { UserActions } from '../../../user/store/actions/index';
+import { CheckoutConnector } from '../../connectors/checkout';
+import { CheckoutDetails } from '../../models/checkout.model';
+import { CheckoutActions } from '../actions/index';
 import * as fromEffects from './checkout.effect';
+import createSpy = jasmine.createSpy;
 
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
+const userId = 'testUserId';
+const cartId = 'testCartId';
+const address: Address = {
+  id: 'testAddressId',
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  town: 'Montreal',
+  postalCode: 'L6M1P9',
+  country: { isocode: 'CA' },
+};
+const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
+const orderDetails: Order = { entries: [] };
+
+const details: CheckoutDetails = {
+  deliveryAddress: address,
+};
+
+const paymentDetails: PaymentDetails = {
+  accountHolderName: 'test',
+  defaultPayment: false,
+  billingAddress: {
+    line1: '123 Montreal',
   },
 };
 
+class MockCheckoutDeliveryConnector {
+  createAddress = createSpy().and.returnValue(of(address));
+  setAddress = createSpy().and.returnValue(of({}));
+  getSupportedModes = createSpy().and.returnValue(of(modes));
+  setMode = createSpy().and.returnValue(of({}));
+}
+
+class MockCartDataService {
+  cartId = 'cartId';
+  userId = 'userId';
+}
+
+class MockCheckoutPaymentConnector {
+  set = createSpy().and.returnValue(of({}));
+  create = createSpy().and.returnValue(of(paymentDetails));
+}
+
+class MockCheckoutConnector {
+  loadCheckoutDetails = createSpy().and.returnValue(of(details));
+  placeOrder = () => of({});
+}
+
 describe('Checkout effect', () => {
-  let cartService: OccCartService;
-  let orderService: OccOrderService;
+  let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
-  let productImageConverter: ProductImageConverterService;
-
-  const userId = 'testUserId';
-  const cartId = 'testCartId';
-  const address: Address = {
-    id: 'testAddressId',
-    firstName: 'John',
-    lastName: 'Doe',
-    titleCode: 'mr',
-    line1: 'Toyosaki 2 create on cart',
-    town: 'Montreal',
-    postalCode: 'L6M1P9',
-    country: { isocode: 'CA' },
-  };
-  const modes: DeliveryModeList = {
-    deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-  };
-  const orderDetails: Order = { entries: [] };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCartService,
-        OccOrderService,
-        ProductImageConverterService,
+        CheckoutPaymentConnector,
+        {
+          provide: CheckoutDeliveryConnector,
+          useClass: MockCheckoutDeliveryConnector,
+        },
+        {
+          provide: CheckoutPaymentConnector,
+          useClass: MockCheckoutPaymentConnector,
+        },
+        { provide: CheckoutConnector, useClass: MockCheckoutConnector },
+        { provide: CartDataService, useClass: MockCartDataService },
         fromEffects.CheckoutEffects,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
       ],
     });
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
-    cartService = TestBed.get(OccCartService);
-    orderService = TestBed.get(OccOrderService);
-    productImageConverter = TestBed.get(ProductImageConverterService);
+    checkoutConnector = TestBed.get(CheckoutConnector);
 
-    spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
-    spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
-    spyOn(cartService, 'getSupportedDeliveryModes').and.returnValue(of(modes));
-    spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
-    spyOn(cartService, 'setDeliveryMode').and.returnValue(of({}));
-    spyOn(cartService, 'setPaymentDetails').and.returnValue(of({}));
+    spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
 
   describe('addDeliveryAddress$', () => {
     it('should add delivery address to cart', () => {
-      const action = new fromActions.AddDeliveryAddress({
+      const action = new CheckoutActions.AddDeliveryAddress({
         userId: userId,
         cartId: cartId,
         address: address,
       });
 
-      const completion1 = new LoadUserAddresses(userId);
-      const completion2 = new fromActions.SetDeliveryAddress({
+      const completion1 = new UserActions.LoadUserAddresses(userId);
+      const completion2 = new CheckoutActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
         address: address,
@@ -110,15 +126,19 @@ describe('Checkout effect', () => {
 
   describe('setDeliveryAddress$', () => {
     it('should set delivery address to cart', () => {
-      const action = new fromActions.SetDeliveryAddress({
+      const action = new CheckoutActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
         address: address,
       });
-      const completion = new fromActions.SetDeliveryAddressSuccess(address);
+      const completion = new CheckoutActions.SetDeliveryAddressSuccess(address);
+      const completion2 = new CheckoutActions.LoadSupportedDeliveryModes({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion, c: completion2 });
 
       expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
@@ -126,11 +146,11 @@ describe('Checkout effect', () => {
 
   describe('loadSupportedDeliveryModes$', () => {
     it('should load all supported delivery modes from cart', () => {
-      const action = new fromActions.LoadSupportedDeliveryModes({
+      const action = new CheckoutActions.LoadSupportedDeliveryModes({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new fromActions.LoadSupportedDeliveryModesSuccess(
+      const completion = new CheckoutActions.LoadSupportedDeliveryModesSuccess(
         modes
       );
 
@@ -141,19 +161,66 @@ describe('Checkout effect', () => {
     });
   });
 
+  describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
+    it('should dispatch checkout clear miscs data action on language change', () => {
+      const action = new SiteContextActions.LanguageChange();
+      const completion = new CheckoutActions.CheckoutClearMiscsData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(
+        entryEffects.clearCheckoutMiscsDataOnLanguageChange$
+      ).toBeObservable(expected);
+    });
+  });
+
+  describe('clearDeliveryModesOnCurrencyChange$', () => {
+    it('should dispatch clear supported delivery modes action on currency change', () => {
+      const action = new SiteContextActions.CurrencyChange();
+      const completion = new CheckoutActions.ClearSupportedDeliveryModes();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearDeliveryModesOnCurrencyChange$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('clearCheckoutDataOnLogout$', () => {
+    it('should dispatch clear checkout data action on logout', () => {
+      const action = new AuthActions.Logout();
+      const completion = new CheckoutActions.ClearCheckoutData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDataOnLogout$).toBeObservable(expected);
+    });
+  });
+
   describe('setDeliveryMode$', () => {
     it('should set delivery mode for cart', () => {
-      const action = new fromActions.SetDeliveryMode({
+      const action = new CheckoutActions.SetDeliveryMode({
         userId: userId,
         cartId: cartId,
         selectedModeId: 'testSelectedModeId',
       });
-      const completion = new fromActions.SetDeliveryModeSuccess(
+      const setDeliveryModeSuccess = new CheckoutActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
+      const loadCart = new CartActions.LoadCart({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: setDeliveryModeSuccess,
+        c: loadCart,
+      });
 
       expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
     });
@@ -167,6 +234,7 @@ describe('Checkout effect', () => {
         cardType: {
           code: 'visa',
         },
+        defaultPayment: false,
         expiryMonth: '01',
         expiryYear: '2019',
         cvn: '123',
@@ -183,148 +251,13 @@ describe('Checkout effect', () => {
         },
       };
 
-      const paymentProviderInfo = {
-        mappingLabels: {
-          entry: [
-            {
-              key: 'hybris_sop_amount',
-              value: 'amount',
-            },
-            {
-              key: 'hybris_sop_currency',
-              value: '',
-            },
-            {
-              key: 'hybris_billTo_country',
-              value: 'billTo_country',
-            },
-            {
-              key: 'hybris_card_type',
-              value: 'card_type',
-            },
-            {
-              key: 'hybris_card_expiration_year',
-              value: 'card_expirationYear',
-            },
-            {
-              key: 'hybris_sop_reason_code',
-              value: 'reason_code',
-            },
-            {
-              key: 'hybris_combined_expiry_date',
-              value: 'false',
-            },
-            {
-              key: 'hybris_sop_decision',
-              value: 'decision',
-            },
-            {
-              key: 'hybris_card_expiry_date',
-              value: 'card_expirationDate',
-            },
-            {
-              key: 'hybris_card_expiration_month',
-              value: 'card_expirationMonth',
-            },
-            {
-              key: 'hybris_billTo_street1',
-              value: 'billTo_street1',
-            },
-            {
-              key: 'hybris_sop_card_number',
-              value: 'card_accountNumber',
-            },
-            {
-              key: 'hybris_separator_expiry_date',
-              value: '',
-            },
-            {
-              key: 'hybris_account_holder_name',
-              value: 'mockup_account_holder',
-            },
-            {
-              key: 'hybris_sop_uses_public_signature',
-              value: 'false',
-            },
-            {
-              key: 'hybris_card_number',
-              value: 'card_accountNumber',
-            },
-            {
-              key: 'hybris_card_cvn',
-              value: 'card_cvNumber',
-            },
-            {
-              key: 'hybris_billTo_lastname',
-              value: 'billTo_lastName',
-            },
-            {
-              key: 'hybris_billTo_city',
-              value: 'billTo_city',
-            },
-            {
-              key: 'hybris_billTo_firstname',
-              value: 'billTo_firstName',
-            },
-            {
-              key: 'hybris_billTo_postalcode',
-              value: 'billTo_postalCode',
-            },
-          ],
-        },
-        parameters: {
-          entry: [],
-        },
-        postUrl: 'https://testurl',
-      };
-
-      const paymentDetails: PaymentDetails = {
-        accountHolderName: 'test',
-        billingAddress: {
-          line1: '123 Montreal',
-        },
-      };
-
-      const html =
-        '<form id="silentOrderPostForm" name="silentOrderPostForm" action="javascript:false;" method="post">' +
-        '<div id="postFormItems">' +
-        '<dl>' +
-        '<input type="hidden" id="billTo_city" name="billTo_city" value="MainCity" />' +
-        '<input type="hidden" id="amount" name="amount" value="0" />' +
-        '<input type="hidden" id="decision_publicSignature" name="decision_publicSignature" value="mEhlMRLCsuPimhp50ElrY94zFyc=" />' +
-        '<input type="hidden" id="decision" name="decision" value="ACCEPT" />' +
-        '<input type="hidden" id="billTo_country" name="billTo_country" value="US" />' +
-        '<input type="hidden" id="billTo_lastName" name="billTo_lastName" value="test" />' +
-        '<input type="hidden" id="ccAuthReply_cvCode" name="ccAuthReply_cvCode" value="M" />' +
-        '<input type="hidden" id="billTo_postalCode" name="billTo_postalCode" value="12345" />' +
-        '<input type="hidden" id="billTo_street1" name="billTo_street1" value="999 de Maisonneuve" />' +
-        '<input type="hidden" id="billTo_firstName" name="billTo_firstName" value="test" />' +
-        '<input type="hidden" id="card_cardType" name="card_cardType" value="visa" />' +
-        '<input type="hidden" id="card_expirationMonth" name="card_expirationMonth" value="12" />' +
-        '<input type="hidden" id="card_expirationYear" name="card_expirationYear" value="2020" />' +
-        '<input type="hidden" id="reasonCode" name="reasonCode" value="100" />' +
-        '<input type="hidden" id="card_accountNumber" name="card_accountNumber" value="************1111" />' +
-        '</dl>' +
-        '</div>' +
-        '</form>';
-
-      spyOn(cartService, 'getPaymentProviderSubInfo').and.returnValue(
-        of(paymentProviderInfo)
-      );
-      spyOn(cartService, 'createSubWithPaymentProvider').and.returnValue(
-        of(html)
-      );
-      spyOn(cartService, 'createPaymentDetails').and.returnValue(
-        of(paymentDetails)
-      );
-
-      const action = new fromActions.CreatePaymentDetails({
+      const action = new CheckoutActions.CreatePaymentDetails({
         userId: userId,
         cartId: cartId,
         paymentDetails: mockPaymentDetails,
       });
-      const completion1 = new LoadUserPaymentMethods(userId);
-      const completion2 = new fromActions.CreatePaymentDetailsSuccess(
+      const completion1 = new UserActions.LoadUserPaymentMethods(userId);
+      const completion2 = new CheckoutActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
 
@@ -337,21 +270,12 @@ describe('Checkout effect', () => {
 
   describe('setPaymentDetails$', () => {
     it('should set payment details', () => {
-      const paymentDetails: PaymentDetails = {
-        id: '123',
-        billingAddress: {
-          town: 'MainCity',
-          country: { isocode: 'US' },
-          lastName: 'test',
-        },
-      };
-
-      const action = new fromActions.SetPaymentDetails({
+      const action = new CheckoutActions.SetPaymentDetails({
         userId: userId,
         cartId: cartId,
         paymentDetails,
       });
-      const completion = new fromActions.SetPaymentDetailsSuccess(
+      const completion = new CheckoutActions.SetPaymentDetailsSuccess(
         paymentDetails
       );
 
@@ -364,24 +288,33 @@ describe('Checkout effect', () => {
 
   describe('placeOrder$', () => {
     it('should place order', () => {
-      spyOn(productImageConverter, 'convertProduct').and.returnValue(
-        orderDetails
-      );
-
-      const action = new fromActions.PlaceOrder({
+      const action = new CheckoutActions.PlaceOrder({
         userId: userId,
         cartId: cartId,
       });
-      const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
-      const completion2 = new AddMessage({
-        text: 'Order placed successfully',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      });
+      const completion1 = new CheckoutActions.PlaceOrderSuccess(orderDetails);
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+      const expected = cold('-(b)', { b: completion1 });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadCheckoutDetails$', () => {
+    it('should load checkout details from cart', () => {
+      const action = new CheckoutActions.LoadCheckoutDetails({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new CheckoutActions.LoadCheckoutDetailsSuccess(
+        details
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.loadCheckoutDetails$).toBeObservable(expected);
     });
   });
 });

@@ -10,41 +10,50 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-import { CmsComponent } from '../../../occ/occ-models/cms-component.models';
+import { CmsComponent } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
-import { CmsComponentLoader } from '../../services/cms-component.loader';
-import * as componentActions from '../actions/component.action';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class ComponentEffects {
   constructor(
     private actions$: Actions,
-    private cmsComponentLoader: CmsComponentLoader<CmsComponent>,
+    private cmsComponentLoader: CmsComponentConnector,
     private routingService: RoutingService
   ) {}
 
   @Effect()
-  loadComponent$: Observable<any> = this.actions$.pipe(
-    ofType(componentActions.LOAD_COMPONENT),
-    map((action: componentActions.LoadComponent) => action.payload),
+  loadComponent$: Observable<
+    | CmsActions.LoadCmsComponentSuccess<CmsComponent>
+    | CmsActions.LoadCmsComponentFail
+  > = this.actions$.pipe(
+    ofType(CmsActions.LOAD_CMS_COMPONENT),
+    map((action: CmsActions.LoadCmsComponent) => action.payload),
     groupBy(uid => uid),
     mergeMap(group =>
       group.pipe(
-        switchMap(uid => {
-          return this.routingService.getRouterState().pipe(
+        switchMap(uid =>
+          this.routingService.getRouterState().pipe(
             filter(routerState => routerState !== undefined),
             map(routerState => routerState.state.context),
             take(1),
             mergeMap(pageContext =>
               this.cmsComponentLoader.get(uid, pageContext).pipe(
-                map(data => new componentActions.LoadComponentSuccess(data)),
+                map(data => new CmsActions.LoadCmsComponentSuccess(data, uid)),
                 catchError(error =>
-                  of(new componentActions.LoadComponentFail(uid, error))
+                  of(
+                    new CmsActions.LoadCmsComponentFail(
+                      uid,
+                      makeErrorSerializable(error)
+                    )
+                  )
                 )
               )
             )
-          );
-        })
+          )
+        )
       )
     )
   );

@@ -1,0 +1,65 @@
+<div
+  *ngIf="flyout && node?.children.length > 1"
+  class="back is-open"
+  (click)="back()"
+>
+  <h5>
+    <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+    {{ 'common.back' | cxTranslate }}
+  </h5>
+</div>
+
+<ng-container *ngFor="let child of node?.children">
+  <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+  </ng-container>
+</ng-container>
+
+<!-- we generate links in a recursive manner -->
+<ng-template #nav let-node="node">
+  <nav
+    tabindex="0"
+    (click)="toggleOpen($event)"
+    (mouseenter)="onMouseEnter($event)"
+  >
+    <cx-generic-link
+      *ngIf="
+        node.url && (!node.children || node.children?.length === 0);
+        else heading
+      "
+      [url]="node.url"
+    >
+      {{ node.title }}
+      <cx-icon
+        *ngIf="flyout && node.children?.length > 0"
+        [type]="iconType.CARET_DOWN"
+      ></cx-icon>
+    </cx-generic-link>
+
+    <ng-template #heading>
+      <h5 [attr.aria-label]="node.title">
+        {{ node.title }}
+        <cx-icon
+          *ngIf="flyout && node.children?.length > 0"
+          [type]="iconType.CARET_DOWN"
+        ></cx-icon>
+      </h5>
+    </ng-template>
+
+    <!-- we add a wrapper to allow for better layout handling in CSS -->
+    <div class="wrapper" *ngIf="node.children?.length > 0">
+      <cx-generic-link *ngIf="node.url" [url]="node.url" class="all">
+        {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}
+      </cx-generic-link>
+      <div
+        class="childs"
+        [attr.depth]="getDepth(node)"
+        [attr.wrap-after]="node.children?.length > wrapAfter ? wrapAfter : null"
+      >
+        <ng-container *ngFor="let child of node.children">
+          <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </nav>
+</ng-template>

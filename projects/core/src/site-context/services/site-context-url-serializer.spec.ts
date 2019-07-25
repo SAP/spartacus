@@ -3,21 +3,15 @@ import {
   SiteContextUrlSerializer,
   UrlTreeWithSiteContext,
 } from './site-context-url-serializer';
-import { SiteContextParamsService } from '../facade/site-context-params.service';
+import { SiteContextParamsService } from './site-context-params.service';
 import { UrlSegmentGroup, UrlTree } from '@angular/router';
-import { SiteContextConfig } from '@spartacus/core';
 
 describe('SiteContextUrlSerializer', () => {
   const mockSiteContextParamsService = {
+    getUrlEncodingParameters: () => ['language', 'currency'],
     getParamValues: param =>
       ({ language: ['en', 'de'], currency: ['usd', 'pln'] }[param]),
     getValue: param => ({ language: 'de', currency: 'usd' }[param]),
-  };
-
-  const mockSiteContextConfig: SiteContextConfig = {
-    siteContext: {
-      urlEncodingParameters: ['language', 'currency'],
-    },
   };
 
   let mockUrlTree: UrlTreeWithSiteContext;
@@ -31,7 +25,6 @@ describe('SiteContextUrlSerializer', () => {
           provide: SiteContextParamsService,
           useValue: mockSiteContextParamsService,
         },
-        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
       ],
     });
 

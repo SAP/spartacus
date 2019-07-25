@@ -1,4 +1,5 @@
 export const apiUrl = Cypress.env('API_URL');
+export const USERID_CURRENT = 'current';
 export const config = {
   tokenUrl: `${apiUrl}/authorizationserver/oauth/token`,
   newUserUrl: `${apiUrl}/rest/v2/electronics-spa/users/?lang=en&curr=USD`,
@@ -30,16 +31,24 @@ export function login(
 export function setSessionData(data) {
   const authData = {
     userToken: {
-      token: data,
-    },
-    clientToken: {
-      loading: false,
-      error: false,
-      success: false,
+      token: { ...data, userId: USERID_CURRENT },
     },
   };
   cy.window().then(win => {
-    win.sessionStorage.setItem('auth', JSON.stringify(authData));
+    const storageKey = 'spartacus-local-data';
+    let state;
+    try {
+      state = JSON.parse(win.localStorage.getItem(storageKey));
+      if (state === null) {
+        state = {};
+      }
+    } catch (e) {
+      state = {};
+    }
+    state.auth = authData;
+    win.localStorage.setItem(storageKey, JSON.stringify(state));
+    cy.log('storing session state key: ', storageKey);
+    cy.log('storing session state value:', JSON.stringify(state));
   });
   return data;
 }

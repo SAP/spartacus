@@ -1,12 +1,7 @@
+import { StateLoaderActions } from '../../../state/utils/index';
 import { CLIENT_TOKEN_DATA } from '../auth-state';
 import { ClientToken } from './../../models/token-types.model';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-} from '../../../state/utils/loader/loader.action';
-
-import * as fromAuthActions from './';
+import { AuthActions } from './index';
 
 const clientToken: ClientToken = {
   access_token: 'xxx',
@@ -18,10 +13,10 @@ const clientToken: ClientToken = {
 describe('Client Token Actions', () => {
   describe('LoadClientToken', () => {
     it('should create the action', () => {
-      const action = new fromAuthActions.LoadClientToken();
+      const action = new AuthActions.LoadClientToken();
       expect({ ...action }).toEqual({
-        type: fromAuthActions.LOAD_CLIENT_TOKEN,
-        meta: loadMeta(CLIENT_TOKEN_DATA),
+        type: AuthActions.LOAD_CLIENT_TOKEN,
+        meta: StateLoaderActions.loadMeta(CLIENT_TOKEN_DATA),
       });
     });
   });
@@ -29,23 +24,23 @@ describe('Client Token Actions', () => {
   describe('LoadClientTokenFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAuthActions.LoadClientTokenFail(error);
+      const action = new AuthActions.LoadClientTokenFail(error);
       expect({ ...action }).toEqual({
-        type: fromAuthActions.LOAD_CLIENT_TOKEN_FAIL,
+        type: AuthActions.LOAD_CLIENT_TOKEN_FAIL,
         payload: error,
-        meta: failMeta(CLIENT_TOKEN_DATA, error),
+        meta: StateLoaderActions.failMeta(CLIENT_TOKEN_DATA, error),
       });
     });
   });
 
   describe('LoadClientTokenSuccess', () => {
     it('should create the action', () => {
-      const action = new fromAuthActions.LoadClientTokenSuccess(clientToken);
+      const action = new AuthActions.LoadClientTokenSuccess(clientToken);
 
       expect({ ...action }).toEqual({
-        type: fromAuthActions.LOAD_CLIENT_TOKEN_SUCCESS,
+        type: AuthActions.LOAD_CLIENT_TOKEN_SUCCESS,
         payload: clientToken,
-        meta: successMeta(CLIENT_TOKEN_DATA),
+        meta: StateLoaderActions.successMeta(CLIENT_TOKEN_DATA),
       });
     });
   });

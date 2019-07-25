@@ -1,14 +1,13 @@
-import { Country } from '../../../occ/occ-models/index';
-
-import * as fromAction from './billing-countries.action';
+import { Country } from '../../../model/address.model';
+import { UserActions } from './index';
 
 describe('Billing Countries Actions', () => {
   describe('LoadBillingCountries', () => {
     it('should create the action', () => {
-      const action = new fromAction.LoadBillingCountries();
+      const action = new UserActions.LoadBillingCountries();
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_BILLING_COUNTRIES,
+        type: UserActions.LOAD_BILLING_COUNTRIES,
       });
     });
   });
@@ -16,10 +15,10 @@ describe('Billing Countries Actions', () => {
   describe('LoadBillingCountriesFail', () => {
     it('should create the action', () => {
       const sampleError = 'sample error';
-      const action = new fromAction.LoadBillingCountriesFail(sampleError);
+      const action = new UserActions.LoadBillingCountriesFail(sampleError);
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_BILLING_COUNTRIES_FAIL,
+        type: UserActions.LOAD_BILLING_COUNTRIES_FAIL,
         payload: sampleError,
       });
     });
@@ -37,9 +36,9 @@ describe('Billing Countries Actions', () => {
           name: 'Andorra',
         },
       ];
-      const action = new fromAction.LoadBillingCountriesSuccess(countries);
+      const action = new UserActions.LoadBillingCountriesSuccess(countries);
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_BILLING_COUNTRIES_SUCCESS,
+        type: UserActions.LOAD_BILLING_COUNTRIES_SUCCESS,
         payload: countries,
       });
     });

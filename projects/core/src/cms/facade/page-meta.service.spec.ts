@@ -1,12 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 import { PageMetaService } from './page-meta.service';
 import { PageMetaResolver } from '../page';
 import { Injectable } from '@angular/core';
-import { PageType } from '../../occ/occ-models/occ.models';
 import { Observable, of } from 'rxjs';
 import { Page, PageMeta } from '../model/page.model';
 import { CmsService } from './cms.service';
+import { PageType } from '../../model/cms.model';
 
 const mockPage: Page = {
   type: PageType.CONTENT_PAGE,

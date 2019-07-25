@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
-import {
-  Address,
-  DeliveryModeList,
-  PaymentDetails,
-  Order,
-} from '../../../occ/occ-models/index';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { CheckoutDetails } from '../../models/checkout.model';
+import { CHECKOUT_DETAILS } from '../checkout-state';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -46,6 +46,14 @@ export const PLACE_ORDER_SUCCESS = '[Checkout] Place Order Success';
 
 export const CLEAR_CHECKOUT_STEP = '[Checkout] Clear One Checkout Step';
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
+
+export const LOAD_CHECKOUT_DETAILS = '[Checkout] Load Checkout Details';
+export const LOAD_CHECKOUT_DETAILS_FAIL =
+  '[Checkout] Load Checkout Details Fail';
+export const LOAD_CHECKOUT_DETAILS_SUCCESS =
+  '[Checkout] Load Checkout Details Success';
+
+export const CHECKOUT_CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
 
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
@@ -93,7 +101,7 @@ export class LoadSupportedDeliveryModesFail implements Action {
 
 export class LoadSupportedDeliveryModesSuccess implements Action {
   readonly type = LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS;
-  constructor(public payload: DeliveryModeList) {}
+  constructor(public payload: DeliveryMode[]) {}
 }
 
 export class SetDeliveryMode implements Action {
@@ -183,6 +191,31 @@ export class ClearCheckoutData implements Action {
   readonly type = CLEAR_CHECKOUT_DATA;
 }
 
+export class LoadCheckoutDetails extends StateLoaderActions.LoaderLoadAction {
+  readonly type = LOAD_CHECKOUT_DETAILS;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(CHECKOUT_DETAILS);
+  }
+}
+
+export class LoadCheckoutDetailsFail extends StateLoaderActions.LoaderFailAction {
+  readonly type = LOAD_CHECKOUT_DETAILS_FAIL;
+  constructor(public payload: any) {
+    super(CHECKOUT_DETAILS, payload);
+  }
+}
+
+export class LoadCheckoutDetailsSuccess extends StateLoaderActions.LoaderSuccessAction {
+  readonly type = LOAD_CHECKOUT_DETAILS_SUCCESS;
+  constructor(public payload: CheckoutDetails) {
+    super(CHECKOUT_DETAILS);
+  }
+}
+
+export class CheckoutClearMiscsData implements Action {
+  readonly type = CHECKOUT_CLEAR_MISCS_DATA;
+}
+
 export type CheckoutAction =
   | AddDeliveryAddress
   | AddDeliveryAddressFail
@@ -207,4 +240,8 @@ export type CheckoutAction =
   | PlaceOrderFail
   | PlaceOrderSuccess
   | ClearCheckoutStep
-  | ClearCheckoutData;
+  | ClearCheckoutData
+  | LoadCheckoutDetails
+  | LoadCheckoutDetailsFail
+  | LoadCheckoutDetailsSuccess
+  | CheckoutClearMiscsData;

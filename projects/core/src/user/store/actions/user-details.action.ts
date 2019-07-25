@@ -1,12 +1,7 @@
 import { Action } from '@ngrx/store';
-import { User } from '../../../occ/occ-models/index';
+import { User } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntityResetAction,
-  EntitySuccessAction,
-} from '../../../state';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
@@ -33,28 +28,28 @@ export class LoadUserDetailsSuccess implements Action {
   constructor(public payload: User) {}
 }
 
-export class UpdateUserDetails extends EntityLoadAction {
+export class UpdateUserDetails extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = UPDATE_USER_DETAILS;
   constructor(public payload: { username: string; userDetails: User }) {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);
   }
 }
 
-export class UpdateUserDetailsFail extends EntityFailAction {
+export class UpdateUserDetailsFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = UPDATE_USER_DETAILS_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID, payload);
   }
 }
 
-export class UpdateUserDetailsSuccess extends EntitySuccessAction {
+export class UpdateUserDetailsSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = UPDATE_USER_DETAILS_SUCCESS;
   constructor(public userUpdates: User) {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);
   }
 }
 
-export class ResetUpdateUserDetails extends EntityResetAction {
+export class ResetUpdateUserDetails extends StateEntityLoaderActions.EntityResetAction {
   readonly type = RESET_USER_DETAILS;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);

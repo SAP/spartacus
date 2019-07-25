@@ -1,24 +1,18 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, Action } from '@ngrx/store';
-
+import { Action, StoreModule } from '@ngrx/store';
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from '../actions';
-import { Logout, Login } from '../../../auth';
-import { PageContext, RoutingService } from '../../../routing';
-import { LanguageChange } from '../../../site-context';
-
-import { Page, CmsStructureModel } from '../../model/page.model';
-import { PageType } from '../../../occ/occ-models';
+import { AuthActions } from '../../../auth/store/actions/index';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-
+import { PageType } from '../../../model/cms.model';
+import { PageContext, RoutingService } from '../../../routing/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
+import { CmsStructureModel, Page } from '../../model/page.model';
+import { CmsActions } from '../actions/index';
 import * as fromEffects from './page.effect';
-import { CmsPageLoader } from '../../services';
 
 export function mockDateNow(): number {
   return 1000000000000;
@@ -76,7 +70,7 @@ const pageStructure: CmsStructureModel = {
   components: componentsMock,
 };
 
-class CmsPageLoaderMock {
+class MockCmsPageConnector {
   get(): Observable<any> {
     return of(pageStructure);
   }
@@ -90,7 +84,7 @@ class RoutingServiceMock {
 
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
-  let cmsPageLoader: CmsPageLoader<any>;
+  let cmsPageConnector: CmsPageConnector;
   let effects: fromEffects.PageEffects;
   let routingService: RoutingService;
 
@@ -103,13 +97,13 @@ describe('Page Effects', () => {
       ],
       providers: [
         { provide: RoutingService, useClass: RoutingServiceMock },
-        { provide: CmsPageLoader, useClass: CmsPageLoaderMock },
+        { provide: CmsPageConnector, useClass: MockCmsPageConnector },
         fromEffects.PageEffects,
         provideMockActions(() => actions$),
       ],
     });
 
-    cmsPageLoader = TestBed.get(CmsPageLoader);
+    cmsPageConnector = TestBed.get(CmsPageConnector);
     effects = TestBed.get(fromEffects.PageEffects);
     routingService = TestBed.get(RoutingService);
     Date.now = mockDateNow;
@@ -118,15 +112,15 @@ describe('Page Effects', () => {
   describe('loadPageData$', () => {
     describe('when LoadPageData is dispatched', () => {
       it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
-        spyOn(cmsPageLoader, 'get').and.returnValue(of(pageStructure));
-        const action = new fromActions.LoadPageData(context);
+        spyOn(cmsPageConnector, 'get').and.returnValue(of(pageStructure));
+        const action = new CmsActions.LoadCmsPageData(context);
 
-        const completion1 = new fromActions.LoadPageDataSuccess(
+        const completion1 = new CmsActions.CmsGetComponentFromPage(
+          componentsMock
+        );
+        const completion2 = new CmsActions.LoadCmsPageDataSuccess(
           context,
           pageMock
-        );
-        const completion2 = new fromActions.GetComponentFromPage(
-          componentsMock
         );
 
         actions$ = hot('-a', { a: action });
@@ -140,10 +134,10 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = 'error';
-        spyOn<any>(cmsPageLoader, 'get').and.returnValue(throwError(error));
-        const action = new fromActions.LoadPageData(context);
+        spyOn<any>(cmsPageConnector, 'get').and.returnValue(throwError(error));
+        const action = new CmsActions.LoadCmsPageData(context);
 
-        const completion = new fromActions.LoadPageDataFail(context, error);
+        const completion = new CmsActions.LoadCmsPageDataFail(context, error);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
@@ -162,8 +156,8 @@ describe('Page Effects', () => {
           of(mockRouterState)
         );
 
-        const action = new LanguageChange();
-        const completion = new fromActions.LoadPageData(context);
+        const action = new SiteContextActions.LanguageChange();
+        const completion = new CmsActions.LoadCmsPageData(context);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });
@@ -177,8 +171,8 @@ describe('Page Effects', () => {
           of(mockRouterState)
         );
 
-        const action = new Logout();
-        const completion = new fromActions.LoadPageData(context);
+        const action = new AuthActions.Logout();
+        const completion = new CmsActions.LoadCmsPageData(context);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });
@@ -192,8 +186,8 @@ describe('Page Effects', () => {
           of(mockRouterState)
         );
 
-        const action = new Login();
-        const completion = new fromActions.LoadPageData(context);
+        const action = new AuthActions.Login();
+        const completion = new CmsActions.LoadCmsPageData(context);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });

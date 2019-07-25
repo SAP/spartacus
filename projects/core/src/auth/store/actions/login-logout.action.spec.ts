@@ -1,22 +1,22 @@
-import * as fromAction from './login-logout.action';
+import { AuthActions } from './index';
 
 describe('Login and Logout Actions', () => {
   describe('Logout Action', () => {
     it('should create the action', () => {
-      const action = new fromAction.Logout();
+      const action = new AuthActions.Logout();
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOGOUT,
+        type: AuthActions.LOGOUT,
       });
     });
   });
 
   describe('Login Action', () => {
     it('should create the action', () => {
-      const action = new fromAction.Login();
+      const action = new AuthActions.Login();
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOGIN,
+        type: AuthActions.LOGIN,
       });
     });
   });

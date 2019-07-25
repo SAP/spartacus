@@ -1,0 +1,23 @@
+%cx-icon {
+  align-self: center;
+  line-height: normal;
+
+  &.small {
+    &:before {
+      font-size: 0.9rem;
+    }
+  }
+
+  svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
+
+  &.small {
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

@@ -1,8 +1,7 @@
-import * as fromActions from '../actions/page.action';
-import { PageType } from '../../../occ';
+import { PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
 import { Page } from '../../model/page.model';
-
+import { CmsActions } from '../actions/index';
 import * as fromPage from './page-index.reducer';
 
 const pageContext: PageContext = {
@@ -14,7 +13,7 @@ describe('Cms Page Index Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromPage;
-      const action = {} as fromActions.LoadPageDataSuccess;
+      const action = {} as CmsActions.LoadCmsPageDataSuccess;
 
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(undefined, action);
 
@@ -30,7 +29,7 @@ describe('Cms Page Index Reducer', () => {
       } as Page;
 
       const { initialState } = fromPage;
-      const action = new fromActions.LoadPageDataSuccess(pageContext, page);
+      const action = new CmsActions.LoadCmsPageDataSuccess(pageContext, page);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(
         initialState,
         action
@@ -44,13 +43,27 @@ describe('Cms Page Index Reducer', () => {
     it('should return the initial state', () => {
       const error = 'error';
       const { initialState } = fromPage;
-      const action = new fromActions.LoadPageDataFail(pageContext, error);
+      const action = new CmsActions.LoadCmsPageDataFail(pageContext, error);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(
         initialState,
         action
       );
 
       expect(state).toEqual(initialState);
+    });
+  });
+
+  describe('SET_PAGE_FAIL_INDEX action', () => {
+    it('should return index', () => {
+      const newIndex = 'index';
+      const { initialState } = fromPage;
+      const action = new CmsActions.CmsSetPageFailIndex(pageContext, newIndex);
+      const state = fromPage.reducer(PageType.CONTENT_PAGE)(
+        initialState,
+        action
+      );
+
+      expect(state).toEqual('index');
     });
   });
 });

@@ -21,6 +21,6 @@ declare global {
 Cypress.Commands.add('login', (username: string, password: string) => {
   cy.server();
   login(username, password).then(res => {
-    setSessionData({ ...res.body, userId: username });
+    setSessionData(res.body);
   });
 });

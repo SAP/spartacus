@@ -2,7 +2,7 @@ context('Forgot Password Page', () => {
   beforeEach(() => {
     // Clear the session to make sure no user is athenticated.
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/forgot-password');
+    cy.visit('/login/forgot-password');
   });
 
   it('should request password reset email on submit', () => {
@@ -13,7 +13,7 @@ context('Forgot Password Page', () => {
     // After requesting a reset password email, we should be taken back to the login page
     cy.url().should('match', /\/login/);
     // ... and display a success message.
-    cy.get('cx-global-message .alert-info').should(
+    cy.get('cx-global-message .alert-success').should(
       'contain',
       'An email has been sent to you with information on how to reset your password.'
     );

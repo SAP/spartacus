@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
-
-import { RoutingService } from '../../routing/facade/routing.service';
+import { filter, take, takeWhile } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
-import { PageType } from '../../occ/occ-models/index';
 import { Page } from '../../cms/model/page.model';
+import { PageType } from '../../model/cms.model';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
@@ -13,15 +13,20 @@ import { WindowRef } from '../../window/window-ref';
 })
 export class SmartEditService {
   private _cmsTicketId: string;
-  private getPreviewPage = false;
+  private isPreviewPage = false;
+  private _currentPageId: string;
+
+  private defaultPreviewProductCode: string;
+  private defaultPreviewCategoryCode: string;
 
   constructor(
-    private cmsService: CmsService,
-    private routingService: RoutingService,
-    winRef: WindowRef
+    protected cmsService: CmsService,
+    protected routingService: RoutingService,
+    protected baseSiteService: BaseSiteService,
+    protected zone: NgZone,
+    protected winRef: WindowRef
   ) {
     this.getCmsTicket();
-    this.addPageContract();
 
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
@@ -45,57 +50,92 @@ export class SmartEditService {
   }
 
   protected getCmsTicket() {
-    combineLatest(
+    combineLatest([
       this.cmsService.getCurrentPage(),
-      this.routingService.getRouterState()
-    )
-      .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
-      .subscribe(([, routerState]) => {
-        if (routerState.state && !this._cmsTicketId) {
-          this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
-          if (this._cmsTicketId) {
-            this.cmsService.launchInSmartEdit = true;
+      this.routingService.getRouterState(),
+    ])
+      .pipe(
+        takeWhile(([cmsPage]) => cmsPage === undefined),
+        filter(([, routerState]) => {
+          if (routerState.nextState && !this._cmsTicketId) {
+            this._cmsTicketId =
+              routerState.nextState.queryParams['cmsTicketId'];
+            if (this._cmsTicketId) {
+              return true;
+            }
           }
-        }
+          return false;
+        }),
+        take(1)
+      )
+      .subscribe(_ => {
+        this.cmsService.launchInSmartEdit = true;
+        this.getDefaultPreviewCode();
+      });
+  }
+
+  protected getDefaultPreviewCode() {
+    this.baseSiteService
+      .getBaseSiteData()
+      .pipe(
+        filter(site => Object.keys(site).length !== 0),
+        take(1)
+      )
+      .subscribe(site => {
+        this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
+        this.defaultPreviewProductCode = site.defaultPreviewProductCode;
+
+        this.addPageContract();
       });
   }
 
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
       if (cmsPage && this._cmsTicketId) {
-        // before adding contract, we need redirect to preview page
+        this._currentPageId = cmsPage.pageId;
+
+        // before adding contract to page, we need redirect to that page
         this.goToPreviewPage(cmsPage);
 
         // remove old page contract
         const previousContract = [];
-        Array.from(document.body.classList).forEach(attr =>
+        Array.from(this.winRef.document.body.classList).forEach(attr =>
           previousContract.push(attr)
         );
-        previousContract.forEach(attr => document.body.classList.remove(attr));
+        previousContract.forEach(attr =>
+          this.winRef.document.body.classList.remove(attr)
+        );
 
         // add new page contract
         if (cmsPage.properties && cmsPage.properties.smartedit) {
           const seClasses = cmsPage.properties.smartedit.classes.split(' ');
           seClasses.forEach(classItem => {
-            document.body.classList.add(classItem);
+            this.winRef.document.body.classList.add(classItem);
           });
         }
       }
     });
   }
 
-  private goToPreviewPage(cmsPage: Page) {
-    // the first page is the smartedit preview page
-    if (!this.getPreviewPage) {
-      this.getPreviewPage = true;
-
-      if (cmsPage.type === PageType.PRODUCT_PAGE) {
+  protected goToPreviewPage(cmsPage: Page) {
+    // only the first page is the smartedit preview page
+    if (!this.isPreviewPage) {
+      this.isPreviewPage = true;
+      if (
+        cmsPage.type === PageType.PRODUCT_PAGE &&
+        this.defaultPreviewProductCode
+      ) {
         this.routingService.go({
-          route: [{ name: 'product', params: { code: 2053367 } }],
+          cxRoute: 'product',
+          params: { code: this.defaultPreviewProductCode },
         });
-      } else if (cmsPage.type === PageType.CATEGORY_PAGE) {
+      } else if (
+        cmsPage.type === PageType.CATEGORY_PAGE &&
+        this.defaultPreviewCategoryCode
+      ) {
         this.routingService.go({
-          route: [{ name: 'category', params: { code: 575 } }],
+          cxRoute: 'category',
+          params: { code: this.defaultPreviewCategoryCode },
         });
       }
     }
@@ -107,12 +147,18 @@ export class SmartEditService {
     parentId?: string
   ): boolean {
     if (componentId) {
-      // without parentId, it is slot
-      if (!parentId) {
-        this.cmsService.refreshLatestPage();
-      } else if (componentType) {
-        this.cmsService.refreshComponent(componentId);
-      }
+      this.zone.run(() => {
+        // without parentId, it is slot
+        if (!parentId) {
+          if (this._currentPageId) {
+            this.cmsService.refreshPageById(this._currentPageId);
+          } else {
+            this.cmsService.refreshLatestPage();
+          }
+        } else if (componentType) {
+          this.cmsService.refreshComponent(componentId);
+        }
+      });
     }
 
     return true;

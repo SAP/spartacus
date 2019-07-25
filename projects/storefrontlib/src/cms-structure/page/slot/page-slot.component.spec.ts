@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Renderer2 } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-
-import { PageSlotComponent } from './page-slot.component';
+import { Observable, of } from 'rxjs';
+import { OutletDirective } from '../../outlet';
+import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
-import { OutletDirective } from '../../../lib/outlet';
-import { CmsMappingService } from '@spartacus/storefront';
+import { PageSlotComponent } from './page-slot.component';
 
 class MockCmsService {
   getContentSlot(): Observable<ContentSlotData> {

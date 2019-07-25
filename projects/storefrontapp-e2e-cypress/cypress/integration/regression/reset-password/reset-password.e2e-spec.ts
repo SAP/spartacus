@@ -37,7 +37,7 @@ context('Reset Password Page', () => {
       status: 202,
       response: {},
     }).as('postResetPassword');
-    cy.get('cx-global-message .alert-info').should('not.exist');
+    cy.get('cx-global-message .alert-success').should('not.exist');
 
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
@@ -45,7 +45,7 @@ context('Reset Password Page', () => {
       cy.get('button[type="submit"]').click();
     });
     cy.url().should('match', /\/login$/);
-    cy.get('cx-global-message .alert-info').should(
+    cy.get('cx-global-message .alert-success').should(
       'contain',
       'Success! You can now login using your new password.'
     );

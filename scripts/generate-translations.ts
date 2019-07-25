@@ -1,36 +1,34 @@
-import * as fs from 'fs';
-import * as rimraf from 'rimraf';
-import { translations } from '../projects/storefrontlib/src/translations/index';
+import * as fs from 'fs-extra';
+import { translations } from '../projects/assets/src/translations/translations';
 
-const libDist = './dist/storefrontlib/';
-const translationsDist = libDist + 'i18n-assets/';
+const assetsDistDir = './dist/assets/';
+const translationsDistDir = assetsDistDir + 'i18n-assets/';
 function createDir(dir) {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
 }
-const getLangDir = lang => `${translationsDist}${lang}/`;
-const getFileName = (lang, namespace) =>
-  `${getLangDir(lang)}${namespace}.${lang}.json`;
+const getLangDir = lang => `${translationsDistDir}${lang}/`;
+const getFileName = (lang, chunk) => `${getLangDir(lang)}${chunk}.json`;
 
-if (!fs.existsSync(libDist)) {
+if (!fs.existsSync(assetsDistDir)) {
   console.log(
-    `Cannot generate translations. Directory '${libDist}' does not exist.`
+    `Cannot generate translations. Directory '${assetsDistDir}' does not exist.`
   );
 } else {
   // clear translations dist
-  rimraf.sync(translationsDist);
-  createDir(translationsDist);
+  fs.removeSync(translationsDistDir);
+  createDir(translationsDistDir);
 
   // generate files
   Object.keys(translations).forEach(lang => {
     createDir(getLangDir(lang));
-    Object.keys(translations[lang]).forEach(namespace => {
-      const obj = translations[lang][namespace];
+    Object.keys(translations[lang]).forEach(chunk => {
+      const obj = translations[lang][chunk];
       const json = JSON.stringify(obj, null, 2);
-      const fileName = getFileName(lang, namespace);
+      const fileName = getFileName(lang, chunk);
       fs.writeFileSync(fileName, json, 'utf8');
     });
   });
-  console.log(`Translations generated in '${libDist}'`);
+  console.log(`Translations generated in '${assetsDistDir}'`);
 }

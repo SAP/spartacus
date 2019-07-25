@@ -1,15 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import { CHECKOUT_FEATURE, CheckoutState } from '../checkout-state';
-import * as fromActions from '../actions/index';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { AddressValidation } from '../../../model/address.model';
+import { CheckoutActions } from '../actions/index';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
-import { AddressValidation } from '../../../occ';
+import { CheckoutSelectors } from '../selectors/index';
 
 describe('Address Verification Selectors', () => {
-  let store: Store<CheckoutState>;
+  let store: Store<StateWithCheckout>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,12 +30,14 @@ describe('Address Verification Selectors', () => {
 
       let result: string | AddressValidation;
       store
-        .pipe(select(fromSelectors.getAddressVerificationResults))
+        .pipe(select(CheckoutSelectors.getAddressVerificationResults))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.VerifyAddressSuccess(addressValidation));
+      store.dispatch(
+        new CheckoutActions.VerifyAddressSuccess(addressValidation)
+      );
 
       expect(result).toEqual(addressValidation);
     });

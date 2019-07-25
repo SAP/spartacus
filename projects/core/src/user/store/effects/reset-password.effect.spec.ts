@@ -1,25 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from './../actions';
-import { OccUserService } from '../../occ/user.service';
-
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { GlobalMessageActions } from '../../../global-message/store/actions/index';
+import { UserAdapter } from '../../connectors/user/user.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 import { ResetPasswordEffects } from './reset-password.effect';
-import { GlobalMessageType, AddMessage } from '../../../global-message/index';
-
-class MockOccUserService {
-  resetPassword(): Observable<{}> {
-    return of();
-  }
-}
 
 describe('', () => {
-  let service: OccUserService;
+  let service: UserConnector;
   let effect: ResetPasswordEffects;
   let actions$: Observable<any>;
 
@@ -27,26 +18,26 @@ describe('', () => {
     TestBed.configureTestingModule({
       providers: [
         ResetPasswordEffects,
-        { provide: OccUserService, useClass: MockOccUserService },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.get(ResetPasswordEffects);
-    service = TestBed.get(OccUserService);
+    service = TestBed.get(UserConnector);
 
     spyOn(service, 'resetPassword').and.returnValue(of({}));
   });
 
   describe('resetPassword$', () => {
     it('should be able to reset password', () => {
-      const action = new fromActions.ResetPassword({
+      const action = new UserActions.ResetPassword({
         token: 'teset token',
         password: 'test password',
       });
-      const completion1 = new fromActions.ResetPasswordSuccess();
-      const completion2 = new AddMessage({
-        text: 'Success! You can now login using your new password.',
+      const completion1 = new UserActions.ResetPasswordSuccess();
+      const completion2 = new GlobalMessageActions.AddMessage({
+        text: { key: 'forgottenPassword.passwordResetSuccess' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 

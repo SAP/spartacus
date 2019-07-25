@@ -2,32 +2,35 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { OccUserService } from '../../occ/index';
-import * as fromActions from '../actions/update-password.action';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UpdatePasswordEffects {
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAccountConnector: UserConnector
   ) {}
 
   @Effect()
   updatePassword$: Observable<
-    fromActions.UpdatePasswordSuccess | fromActions.UpdatePasswordFail
+    UserActions.UpdatePasswordSuccess | UserActions.UpdatePasswordFail
   > = this.actions$.pipe(
-    ofType(fromActions.UPDATE_PASSWORD),
-    map((action: fromActions.UpdatePassword) => action.payload),
+    ofType(UserActions.UPDATE_PASSWORD),
+    map((action: UserActions.UpdatePassword) => action.payload),
     concatMap(payload =>
-      this.occUserService
+      this.userAccountConnector
         .updatePassword(
           payload.userId,
           payload.oldPassword,
           payload.newPassword
         )
         .pipe(
-          map(_ => new fromActions.UpdatePasswordSuccess()),
-          catchError(error => of(new fromActions.UpdatePasswordFail(error)))
+          map(_ => new UserActions.UpdatePasswordSuccess()),
+          catchError(error =>
+            of(new UserActions.UpdatePasswordFail(makeErrorSerializable(error)))
+          )
         )
     )
   );

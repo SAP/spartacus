@@ -1,41 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-import {
-  GlobalMessage,
-  GlobalMessageType,
-} from '../models/global-message.model';
+import { Translatable } from '../../i18n/translatable';
+import { GlobalMessageType } from '../models/global-message.model';
+import { GlobalMessageActions } from '../store/actions/index';
 import {
   GlobalMessageEntities,
   StateWithGlobalMessage,
-  getGlobalMessageEntities,
-  AddMessage,
-  RemoveMessage,
-  RemoveMessagesByType,
-} from '../store/index';
+} from '../store/global-message-state';
+import { GlobalMessageSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class GlobalMessageService {
-  constructor(private store: Store<StateWithGlobalMessage>) {}
+  constructor(protected store: Store<StateWithGlobalMessage>) {}
 
   /**
    * Get all global messages
    */
   get(): Observable<GlobalMessageEntities> {
     return this.store.pipe(
-      select(getGlobalMessageEntities),
+      select(GlobalMessageSelectors.getGlobalMessageEntities),
       filter(data => data !== undefined)
     );
   }
 
   /**
    * Add one message into store
-   * @param message: GlobalMessage object
+   * @param text: string | Translatable
+   * @param type: GlobalMessageType object
    */
-  add(message: GlobalMessage): void {
-    this.store.dispatch(new AddMessage(message));
+  add(text: string | Translatable, type: GlobalMessageType): void {
+    this.store.dispatch(
+      new GlobalMessageActions.AddMessage({
+        text: typeof text === 'string' ? { raw: text } : text,
+        type,
+      })
+    );
   }
 
   /**
@@ -45,15 +46,13 @@ export class GlobalMessageService {
    * message will be removed from list by index.
    */
   remove(type: GlobalMessageType, index?: number): void {
-    if (index !== undefined) {
-      this.store.dispatch(
-        new RemoveMessage({
-          type: type,
-          index: index,
-        })
-      );
-    } else {
-      this.store.dispatch(new RemoveMessagesByType(type));
-    }
+    this.store.dispatch(
+      index !== undefined
+        ? new GlobalMessageActions.RemoveMessage({
+            type: type,
+            index: index,
+          })
+        : new GlobalMessageActions.RemoveMessagesByType(type)
+    );
   }
 }

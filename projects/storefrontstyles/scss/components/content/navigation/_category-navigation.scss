@@ -1,0 +1,22 @@
+%cx-category-navigation {
+  // all ategory headings in desktop have uppercase text, as
+  // well as the root category links
+  h5,
+  cx-navigation-ui > nav > cx-generic-link {
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  // we hide the categories in flyout mode on mobile
+  cx-navigation-ui.flyout {
+    @include media-breakpoint-down(md) {
+      &.is-open {
+        nav.is-open {
+          > h5 {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

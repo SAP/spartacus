@@ -1,42 +1,41 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
-
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
-
-import * as fromActions from '../actions/index';
-import { OccUserService } from '../../occ/user.service';
-import { GlobalMessageType, AddMessage } from '../../../global-message/index';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { GlobalMessageActions } from '../../../global-message/store/actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ResetPasswordEffects {
   @Effect()
   resetPassword$: Observable<
-    | fromActions.ResetPasswordSuccess
-    | AddMessage
-    | fromActions.ResetPasswordFail
+    | UserActions.ResetPasswordSuccess
+    | GlobalMessageActions.AddMessage
+    | UserActions.ResetPasswordFail
   > = this.actions$.pipe(
-    ofType(fromActions.RESET_PASSWORD),
-    map((action: fromActions.ResetPassword) => {
-      return action.payload;
-    }),
+    ofType(UserActions.RESET_PASSWORD),
+    map((action: UserActions.ResetPassword) => action.payload),
     switchMap(({ token, password }) => {
-      return this.occUserService.resetPassword(token, password).pipe(
+      return this.userAccountConnector.resetPassword(token, password).pipe(
         switchMap(() => [
-          new fromActions.ResetPasswordSuccess(),
-          new AddMessage({
-            text: 'Success! You can now login using your new password.',
+          new UserActions.ResetPasswordSuccess(),
+          new GlobalMessageActions.AddMessage({
+            text: { key: 'forgottenPassword.passwordResetSuccess' },
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
           }),
         ]),
-        catchError(error => of(new fromActions.ResetPasswordFail(error)))
+        catchError(error =>
+          of(new UserActions.ResetPasswordFail(makeErrorSerializable(error)))
+        )
       );
     })
   );
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userAccountConnector: UserConnector
   ) {}
 }

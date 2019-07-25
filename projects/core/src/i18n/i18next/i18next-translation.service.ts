@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TranslationService } from '../translation.service';
+import { Injectable, isDevMode } from '@angular/core';
 import i18next from 'i18next';
+import { Observable } from 'rxjs';
 import { I18nConfig } from '../config/i18n-config';
-import { TranslationNamespaceService } from '../translation-namespace.service';
+import { TranslationChunkService } from '../translation-chunk.service';
+import { TranslationService } from '../translation.service';
 
 @Injectable()
 export class I18nextTranslationService implements TranslationService {
@@ -12,7 +12,7 @@ export class I18nextTranslationService implements TranslationService {
 
   constructor(
     protected config: I18nConfig,
-    protected translationNamespace: TranslationNamespaceService
+    protected translationChunk: TranslationChunkService
   ) {}
 
   translate(
@@ -20,27 +20,30 @@ export class I18nextTranslationService implements TranslationService {
     options: any = {},
     whitespaceUntilLoaded: boolean = false
   ): Observable<string> {
-    // If we've already loaded the namespace (or failed to load), we should immediately emit the value
+    // If we've already loaded the chunk (or failed to load), we should immediately emit the value
     // (or the fallback value in case the key is missing).
 
     // Moreover, we SHOULD emit a value (or a fallback value) synchronously (not in a promise/setTimeout).
     // Otherwise, we the will trigger additional deferred change detection in a view that consumes the returned observable,
     // which together with `switchMap` operator may lead to an infinite loop.
 
-    const namespace = this.translationNamespace.getNamespace(key);
-    const namespacedKey = this.getNamespacedKey(key, namespace);
+    const chunkName = this.translationChunk.getChunkNameForKey(key);
+    const namespacedKey = this.getNamespacedKey(key, chunkName);
 
     return new Observable<string>(subscriber => {
       const translate = () => {
+        if (!i18next.isInitialized) {
+          return;
+        }
         if (i18next.exists(namespacedKey, options)) {
           subscriber.next(i18next.t(namespacedKey, options));
         } else {
           if (whitespaceUntilLoaded) {
             subscriber.next(this.NON_BREAKING_SPACE);
           }
-          i18next.loadNamespaces(namespace, () => {
+          i18next.loadNamespaces(chunkName, () => {
             if (!i18next.exists(namespacedKey, options)) {
-              this.reportMissingKey(namespacedKey);
+              this.reportMissingKey(key, chunkName);
               subscriber.next(this.getFallbackValue(namespacedKey));
             } else {
               subscriber.next(i18next.t(namespacedKey, options));
@@ -55,8 +58,8 @@ export class I18nextTranslationService implements TranslationService {
     });
   }
 
-  loadNamespaces(namespaces: string | string[]): Promise<any> {
-    return i18next.loadNamespaces(namespaces);
+  loadChunks(chunkNames: string | string[]): Promise<any> {
+    return i18next.loadNamespaces(chunkNames);
   }
 
   /**
@@ -64,16 +67,18 @@ export class I18nextTranslationService implements TranslationService {
    * @param key
    */
   protected getFallbackValue(key: string): string {
-    return this.config.production ? this.NON_BREAKING_SPACE : `[${key}]`;
+    return isDevMode() ? `[${key}]` : this.NON_BREAKING_SPACE;
   }
 
-  private reportMissingKey(key: string) {
-    if (!this.config.production) {
-      console.warn(`Translation key missing '${key}'`);
+  private reportMissingKey(key: string, chunkName: string) {
+    if (isDevMode()) {
+      console.warn(
+        `Translation key missing '${key}' in the chunk '${chunkName}'`
+      );
     }
   }
 
-  private getNamespacedKey(key: string, namespace: string): string {
-    return namespace + this.NAMESPACE_SEPARATOR + key;
+  private getNamespacedKey(key: string, chunk: string): string {
+    return chunk + this.NAMESPACE_SEPARATOR + key;
   }
 }

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '../../occ/occ-models/index';
+import { select, Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import { Cart } from '../../model/cart.model';
+import { StateWithCart } from '../store/cart-state';
+import { CartSelectors } from '../store/selectors/index';
 
 export const ANONYMOUS_USERID = 'anonymous';
 
@@ -7,24 +12,29 @@ export const ANONYMOUS_USERID = 'anonymous';
 export class CartDataService {
   private _userId = ANONYMOUS_USERID;
   private _cart: Cart;
-  private _getDetails = false;
 
-  constructor() {}
+  constructor(
+    protected store: Store<StateWithCart>,
+    protected authService: AuthService
+  ) {
+    this.authService
+      .getUserToken()
+      .pipe(filter(userToken => this.userId !== userToken.userId))
+      .subscribe(userToken => {
+        if (Object.keys(userToken).length !== 0) {
+          this._userId = userToken.userId;
+        } else {
+          this._userId = ANONYMOUS_USERID;
+        }
+      });
+
+    this.store.pipe(select(CartSelectors.getCartContent)).subscribe(cart => {
+      this._cart = cart;
+    });
+  }
 
   get hasCart(): boolean {
     return !!this._cart;
-  }
-
-  set userId(val) {
-    this._userId = val;
-  }
-
-  set cart(val) {
-    this._cart = val;
-  }
-
-  set getDetails(val) {
-    this._getDetails = val;
   }
 
   get userId(): string {
@@ -33,10 +43,6 @@ export class CartDataService {
 
   get cart(): Cart {
     return this._cart;
-  }
-
-  get getDetails() {
-    return this._getDetails;
   }
 
   get cartId(): string {

@@ -1,6 +1,6 @@
-import * as fromLanguages from '../actions/languages.action';
+import { Language } from '../../../model/misc.model';
+import { SiteContextActions } from '../actions/index';
 import { LanguagesState } from '../state';
-import { Language } from '../../../occ/occ-models/occ.models';
 
 export const initialState: LanguagesState = {
   entities: null,
@@ -9,10 +9,10 @@ export const initialState: LanguagesState = {
 
 export function reducer(
   state = initialState,
-  action: fromLanguages.LanguagesAction
+  action: SiteContextActions.LanguagesAction
 ): LanguagesState {
   switch (action.type) {
-    case fromLanguages.LOAD_LANGUAGES_SUCCESS: {
+    case SiteContextActions.LOAD_LANGUAGES_SUCCESS: {
       const languages: Language[] = action.payload;
       const entities = languages.reduce(
         (langEntities: { [isocode: string]: Language }, language: Language) => {
@@ -32,7 +32,7 @@ export function reducer(
       };
     }
 
-    case fromLanguages.SET_ACTIVE_LANGUAGE: {
+    case SiteContextActions.SET_ACTIVE_LANGUAGE: {
       const isocode = action.payload;
 
       return {

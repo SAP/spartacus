@@ -1,21 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import { CHECKOUT_FEATURE, CheckoutState } from '../checkout-state';
-import * as fromActions from '../actions/index';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { CheckoutActions } from '../actions/index';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
-import {
-  PaymentDetails,
-  Order,
-  Address,
-  DeliveryModeList,
-  DeliveryMode,
-} from '../../../occ/occ-models/index';
+import { CheckoutSelectors } from '../selectors/index';
 
 describe('Checkout Selectors', () => {
-  let store: Store<CheckoutState>;
+  let store: Store<StateWithCheckout>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,12 +38,12 @@ describe('Checkout Selectors', () => {
 
       let result: Address;
       store
-        .pipe(select(fromSelectors.getDeliveryAddress))
+        .pipe(select(CheckoutSelectors.getDeliveryAddress))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.AddDeliveryAddressSuccess(address));
+      store.dispatch(new CheckoutActions.AddDeliveryAddressSuccess(address));
 
       expect(result).toEqual(address);
     });
@@ -57,9 +51,7 @@ describe('Checkout Selectors', () => {
 
   describe('getDeliveryMode', () => {
     it('should return the cart delivery mode', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       const emptyEntities = {
         supported: {},
@@ -68,20 +60,22 @@ describe('Checkout Selectors', () => {
 
       const entities = {
         supported: {
-          code1: modes.deliveryModes[0],
-          code2: modes.deliveryModes[1],
+          code1: modes[0],
+          code2: modes[1],
         },
         selected: '',
       };
 
       let result;
       store
-        .pipe(select(fromSelectors.getDeliveryMode))
+        .pipe(select(CheckoutSelectors.getDeliveryMode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(emptyEntities);
 
-      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
+      store.dispatch(
+        new CheckoutActions.LoadSupportedDeliveryModesSuccess(modes)
+      );
 
       expect(result).toEqual(entities);
     });
@@ -89,58 +83,58 @@ describe('Checkout Selectors', () => {
 
   describe('getSupportedDeliveryModes', () => {
     it('should return all supported cart delivery modes', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: DeliveryMode[];
       store
-        .pipe(select(fromSelectors.getSupportedDeliveryModes))
+        .pipe(select(CheckoutSelectors.getSupportedDeliveryModes))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
+      store.dispatch(
+        new CheckoutActions.LoadSupportedDeliveryModesSuccess(modes)
+      );
 
-      expect(result).toEqual(modes.deliveryModes);
+      expect(result).toEqual(modes);
     });
   });
 
   describe('getSelectedDeliveryMode', () => {
     it('should return selected cart delivery mode', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: DeliveryMode;
       store
-        .pipe(select(fromSelectors.getSelectedDeliveryMode))
+        .pipe(select(CheckoutSelectors.getSelectedDeliveryMode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(undefined);
 
-      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
-      store.dispatch(new fromActions.SetDeliveryModeSuccess('code1'));
+      store.dispatch(
+        new CheckoutActions.LoadSupportedDeliveryModesSuccess(modes)
+      );
+      store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('code1'));
 
-      expect(result).toEqual(modes.deliveryModes[0]);
+      expect(result).toEqual(modes[0]);
     });
   });
 
-  describe('getSelectedCode', () => {
+  describe('getSelectedDeliveryModeCode', () => {
     it('should return selected delivery mode code', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       let result: string;
       store
-        .pipe(select(fromSelectors.getSelectedCode))
+        .pipe(select(CheckoutSelectors.getSelectedDeliveryModeCode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual('');
 
-      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
-      store.dispatch(new fromActions.SetDeliveryModeSuccess('code1'));
+      store.dispatch(
+        new CheckoutActions.LoadSupportedDeliveryModesSuccess(modes)
+      );
+      store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('code1'));
 
       expect(result).toEqual('code1');
     });
@@ -154,13 +148,13 @@ describe('Checkout Selectors', () => {
       };
 
       store
-        .pipe(select(fromSelectors.getPaymentDetails))
+        .pipe(select(CheckoutSelectors.getPaymentDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
       store.dispatch(
-        new fromActions.CreatePaymentDetailsSuccess(paymentDetails)
+        new CheckoutActions.CreatePaymentDetailsSuccess(paymentDetails)
       );
 
       expect(result).toEqual(paymentDetails);
@@ -175,12 +169,12 @@ describe('Checkout Selectors', () => {
       };
 
       store
-        .pipe(select(fromSelectors.getCheckoutOrderDetails))
+        .pipe(select(CheckoutSelectors.getCheckoutOrderDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.PlaceOrderSuccess(orderDetails));
+      store.dispatch(new CheckoutActions.PlaceOrderSuccess(orderDetails));
 
       expect(result).toEqual(orderDetails);
     });

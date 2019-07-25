@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { PageType } from '../../occ/occ-models/occ.models';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { CartService } from '../../cart/facade/cart.service';
+import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
-  PageTitleResolver,
   PageRobotsResolver,
+  PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
-
-import { Cart } from '../../occ/occ-models/index';
+import { Cart } from '../../model/cart.model';
+import { PageType } from '../../model/cms.model';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +18,8 @@ import { Cart } from '../../occ/occ-models/index';
 export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   constructor(
-    protected routingService: RoutingService,
-    protected cartService: CartService
+    protected cartService: CartService,
+    protected translation: TranslationService
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -29,20 +28,20 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
 
   resolve(): Observable<PageMeta> {
     return this.cartService.getActive().pipe(
-      map(cart => {
-        return {
-          title: this.resolveTitle(cart),
-          robots: this.resolveRobots(),
-        };
-      })
+      switchMap(cart =>
+        combineLatest([this.resolveTitle(cart), this.resolveRobots()])
+      ),
+      map(([title, robots]) => ({ title, robots }))
     );
   }
 
-  resolveTitle(cart: Cart) {
-    return `Checkout ${cart.totalItems} items`;
+  resolveTitle(cart: Cart): Observable<string> {
+    return this.translation.translate('pageMetaResolver.checkout.title', {
+      count: cart.totalItems,
+    });
   }
 
-  resolveRobots(): PageRobotsMeta[] {
-    return [PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX];
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
   }
 }
