@@ -1,28 +1,21 @@
-# Getting Started With Schematics
+# Getting Started With Spartacus Schematics
 
-This repository is a basic Schematic implementation that serves as a starting point to create and publish Schematics to NPM.
+## 1. To add Spartacus to your Angular project simply just do:
 
-### Testing
+`ng add @spartacus/schematics`
 
-To test locally, install `@angular-devkit/schematics-cli` globally and use the `schematics` command line tool. That tool acts the same as the `generate` command of the Angular CLI, but also has a debug mode.
 
-Check the documentation with
-```bash
-schematics --help
-```
+### Available options:
 
-### Unit Testing
+- `baseUrl`: provide baseUrl of your OCC backend
+- `baseSite`: provide baseSite
+- `useMetaTags`: configure baseUrl via meta tags in `index.html`
 
-`npm run test` will run the unit tests, using Jasmine as a runner and test framework.
+### What will this schematics do to my project? 
 
-### Publishing
-
-To publish, simply do:
-
-```bash
-npm run build
-npm publish
-```
-
-That's it!
- 
+1. Add required dependencies
+2. Add PWA/ServiceWorker support for your project
+3. Import Spartacus modules in app.module and setup default configuration
+4. Import Spartacus styles to main.scss
+5. Add `cx-storefront` component to your app.component
+6. (Optionally) update index.html with Spartacus meta tags
