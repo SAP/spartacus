@@ -1,21 +1,24 @@
-# Getting Started With Spartacus Schematics
+# Getting Started
 
-## 1. To add Spartacus to your Angular project simply just do:
+Spartacus schematics allows you to install Spartacus libraries in your project
+
+## Adding Spartacus libraries to your Angular project
+
+Run the following command from your project root:
 
 `ng add @spartacus/schematics`
 
+### Available options
 
-### Available options:
+- `baseUrl`: Base url of your CX OCC backend
+- `baseSite`: Name of your base site
+- `useMetaTags`: Whether or not to configure baseUrl and mediaUrl in the meta tags from `index.html`
 
-- `baseUrl`: provide baseUrl of your OCC backend
-- `baseSite`: provide baseSite
-- `useMetaTags`: configure baseUrl via meta tags in `index.html`
-
-### What will this schematics do to my project? 
+## Steps performed by Spartacus schematics
 
 1. Add required dependencies
 2. Add PWA/ServiceWorker support for your project
 3. Import Spartacus modules in app.module and setup default configuration
 4. Import Spartacus styles to main.scss
 5. Add `cx-storefront` component to your app.component
-6. (Optionally) update index.html with Spartacus meta tags
+6. (Optionally) update index.html with Spartacus URL endpoints in meta tags
