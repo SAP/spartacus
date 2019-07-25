@@ -9,6 +9,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   login: { paths: ['login'] },
   logout: { paths: ['logout'] },
   register: { paths: ['login/register'] },
+  checkoutLogin: { paths: ['checkout-login'] },
   forgotPassword: { paths: ['login/forgot-password'] },
 
   checkout: { paths: ['checkout'] },

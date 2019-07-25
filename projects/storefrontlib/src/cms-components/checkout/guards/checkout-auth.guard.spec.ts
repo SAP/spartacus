@@ -1,19 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
   NavigationExtras,
+  RouterStateSnapshot,
 } from '@angular/router';
-
-import { of, Observable } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
   RoutingService,
   TranslateUrlOptions,
   UserToken,
 } from '@spartacus/core';
-import { CheckoutGuard } from './checkout.guard';
+import { Observable, of } from 'rxjs';
+import { CheckoutAuthGuard } from './checkout.guard';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -41,7 +40,7 @@ class RoutingServiceStub {
 }
 
 describe('CheckoutGuard', () => {
-  let checkoutGuard: CheckoutGuard;
+  let checkoutGuard: CheckoutAuthGuard;
   let service: RoutingService;
   let authService: AuthService;
   let activatedRouteSnapshot: ActivatedRouteSnapshot;
@@ -50,7 +49,7 @@ describe('CheckoutGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CheckoutGuard,
+        CheckoutAuthGuard,
         {
           provide: RoutingService,
           useClass: RoutingServiceStub,
@@ -70,7 +69,7 @@ describe('CheckoutGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    checkoutGuard = TestBed.get(CheckoutGuard);
+    checkoutGuard = TestBed.get(CheckoutAuthGuard);
     service = TestBed.get(RoutingService);
     activatedRouteSnapshot = TestBed.get(ActivatedRouteSnapshot);
     routerStateSnapshot = TestBed.get(RouterStateSnapshot);
