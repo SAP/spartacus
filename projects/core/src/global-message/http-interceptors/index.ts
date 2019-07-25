@@ -1,15 +1,15 @@
-import { Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
-import { HttpErrorInterceptor } from './http-error.interceptor';
-import { HttpErrorHandler } from './handlers/http-error.handler';
-import { UnknownErrorHandler } from './handlers/unknown-error.handler';
+import { Provider } from '@angular/core';
 import { BadGatewayHandler } from './handlers/bad-gateway.handler';
 import { BadRequestHandler } from './handlers/bad-request.handler';
 import { ConflictHandler } from './handlers/conflict.handler';
 import { ForbiddenHandler } from './handlers/forbidden.handler';
 import { GatewayTimeoutHandler } from './handlers/gateway-timeout.handler';
+import { HttpErrorHandler } from './handlers/http-error.handler';
+import { InternalServerErrorHandler } from './handlers/internal-server-error.handler';
 import { NotFoundHandler } from './handlers/not-found.handler';
+import { UnknownErrorHandler } from './handlers/unknown-error.handler';
+import { HttpErrorInterceptor } from './http-error.interceptor';
 
 export const errorHandlers: Provider[] = [
   {
@@ -40,6 +40,11 @@ export const errorHandlers: Provider[] = [
   {
     provide: HttpErrorHandler,
     useExisting: GatewayTimeoutHandler,
+    multi: true,
+  },
+  {
+    provide: HttpErrorHandler,
+    useExisting: InternalServerErrorHandler,
     multi: true,
   },
   {
