@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "0.6.8",
+  "version": "0.1.0",
   "description": "Spartacus schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json",
