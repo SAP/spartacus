@@ -1,24 +1,32 @@
 <form>
   <div class="form-group">
     <label>
-      <span class="label-content">Email address</span>
+      <span class="label-content">{{
+        'checkoutLogin.emailAddress.label' | cxTranslate
+      }}</span>
       <input
         type="email"
         class="form-control"
         formControlName="userId"
-        placeholder="Enter email"
+        placeholder="{{
+          'checkoutLogin.emailAddress.placeholder' | cxTranslate
+        }}"
       />
     </label>
   </div>
 
   <div class="form-group">
     <label>
-      <span class="label-content">Confirm Email address</span>
+      <span class="label-content">{{
+        'checkoutLogin.confirmEmail.label' | cxTranslate
+      }}</span>
       <input
         type="email"
         class="form-control"
         formControlName="userIdConf"
-        placeholder="Confirm email"
+        placeholder="{{
+          'checkoutLogin.confirmEmail.placeholder' | cxTranslate
+        }}"
       />
     </label>
   </div>
@@ -32,9 +40,9 @@
           formControlName="termsandconditions"
         />
         <span class="form-check-label">
-          I am confirming that I have read and agreed with the
+          {{ 'checkoutLogin.confirmThatRead' | cxTranslate }}
           <a href="#" target="_blank">
-            Terms & Conditions
+            {{ 'checkoutLogin.termsAndConditions' | cxTranslate }}
           </a>
         </span>
       </label>
@@ -42,6 +50,6 @@
   </div>
 
   <button type="submit" class="btn btn-block btn-primary">
-    Continue
+    {{ 'checkoutLogin.continue' | cxTranslate }}
   </button>
 </form>
