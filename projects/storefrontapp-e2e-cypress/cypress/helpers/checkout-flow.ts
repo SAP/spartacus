@@ -341,7 +341,7 @@ export function viewOrderHistoryWithCheapProduct() {
     .should('contain', cartWithCheapProduct.totalAndShipping);
 }
 
-function waitForPage(page: string, alias: string): string {
+export function waitForPage(page: string, alias: string): string {
   cy.server();
   cy.route('GET', `/rest/v2/electronics-spa/cms/pages?*${page}*`).as(alias);
   return alias;

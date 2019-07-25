@@ -1,4 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForPage } from './checkout-flow';
 import {
   fillPaymentDetails,
   fillShippingAddress,
@@ -23,12 +24,6 @@ export function accessPageAsAnonymous() {
   cy.location('pathname').should('contain', '/login');
 }
 
-export function verifySpinner() {
-  cy.get('cx-payment-methods .cx-body').then(() =>
-    cy.get('cx-spinner').should('exist')
-  );
-}
-
 export function verifyText() {
   cy.get('cx-payment-methods').within(() => {
     cy.get('.cx-payment .cx-header').should('contain', 'Payment methods');
@@ -40,6 +35,8 @@ export function verifyText() {
 }
 
 export function paymentDetailCard() {
+  const request = requestPages();
+
   // go to product page
   const productId = '3595723';
   cy.visit(`/product/${productId}`);
@@ -52,12 +49,18 @@ export function paymentDetailCard() {
     cy.getByText(/proceed to checkout/i).click({ force: true });
   });
 
+  cy.wait(`@${request.shippingPage}`);
+
   // go to shipping address
   fillShippingAddress(user);
+
+  cy.wait(`@${request.deliveryPage}`);
 
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
+
+  cy.wait(`@${request.paymentPage}`);
 
   // fill in payment method
   fillPaymentDetails(user);
@@ -72,6 +75,8 @@ export function paymentDetailCard() {
 }
 
 export function addSecondaryPaymentCard() {
+  const request = requestPages();
+
   // go to product page
   const productId = '3595723';
   cy.visit(`/product/${productId}`);
@@ -84,13 +89,19 @@ export function addSecondaryPaymentCard() {
     cy.getByText(/proceed to checkout/i).click({ force: true });
   });
 
+  cy.wait(`@${request.shippingPage}`);
+
   // select shipping address
   cy.getByText(/Ship to this address/i).click({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
+  cy.wait(`@${request.deliveryPage}`);
+
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
+
+  cy.wait(`@${request.paymentPage}`);
 
   // fill in payment method
   cy.getByText('Add New Payment').click({ force: true });
@@ -144,4 +155,23 @@ export function deletePayment() {
   const defaultCard = cy.get('.cx-payment-card');
   defaultCard.should('contain', 'Default Payment Method');
   defaultCard.should('contain', 'Winston Rumfoord');
+}
+
+function requestPages() {
+  const shippingPage = waitForPage(
+    '/checkout/shipping-address',
+    'getShippingPage'
+  );
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+
+  const paymentPage = waitForPage(
+    '/checkout/payment-details',
+    'getPaymentPage'
+  );
+
+  return { shippingPage, deliveryPage, paymentPage };
 }

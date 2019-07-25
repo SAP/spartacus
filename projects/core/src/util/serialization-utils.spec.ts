@@ -44,6 +44,32 @@ describe('serialization-utils', () => {
           url: mockError.url,
         } as HttpErrorModel);
       });
+
+      describe('and when an object with a circular dependency is provided', () => {
+        it('should be able to serialize it', () => {
+          const circular = {
+            xxx: 'xxx',
+          };
+          circular['myself'] = circular;
+
+          const mockError = new HttpErrorResponse({
+            error: circular,
+            headers: new HttpHeaders().set('xxx', 'xxx'),
+            status: 500,
+            statusText: 'Unknown error',
+            url: '/xxx',
+          });
+
+          const result = makeErrorSerializable(mockError as HttpErrorResponse);
+          expect(result).toEqual({
+            message: mockError.message,
+            error: '{"xxx":"xxx"}',
+            status: mockError.status,
+            statusText: mockError.statusText,
+            url: mockError.url,
+          } as HttpErrorModel);
+        });
+      });
     });
 
     describe('when an unknown error object is provided', () => {
