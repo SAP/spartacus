@@ -11,6 +11,7 @@ import { of } from 'rxjs';
 import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
 import { ModalService } from '@spartacus/storefront';
+import { ModuleConfig } from '../../../../../../recipes/config/module-config/module-config';
 
 const consignmentStatus: string[] = [
   'DELIVERING',
@@ -62,6 +63,10 @@ describe('ConsignmentTrackingComponent', () => {
       providers: [
         { provide: NgbActiveModal, useValue: { open: () => {} } },
         { provide: UserOrderService, useValue: userOrderService },
+        {
+          provide: ModuleConfig,
+          useValue: { consignmentTracking: { enabled: true } },
+        },
       ],
     }).compileComponents();
   }));

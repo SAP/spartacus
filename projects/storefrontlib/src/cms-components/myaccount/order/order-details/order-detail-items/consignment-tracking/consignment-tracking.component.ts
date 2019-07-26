@@ -1,16 +1,16 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   Consignment,
-  UserOrderService,
   ConsignmentTracking,
+  UserOrderService,
 } from '@spartacus/core';
-import { TrackingEventsComponent } from './tracking-events/tracking-events.component';
+import { Observable } from 'rxjs';
+import { ModuleConfig } from '../../../../../../recipes/config/module-config/module-config';
 import {
   ModalRef,
   ModalService,
 } from '../../../../../../shared/components/modal/index';
-
-import { Observable } from 'rxjs';
+import { TrackingEventsComponent } from './tracking-events/tracking-events.component';
 
 @Component({
   selector: 'cx-consignment-tracking',
@@ -34,7 +34,8 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
 
   constructor(
     private userOrderService: UserOrderService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    protected config: ModuleConfig
   ) {}
 
   ngOnInit() {

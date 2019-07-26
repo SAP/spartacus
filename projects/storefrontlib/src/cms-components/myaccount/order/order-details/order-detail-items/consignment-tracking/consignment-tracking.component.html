@@ -1,4 +1,9 @@
-<div *ngIf="consignmentStatus.includes(consignment.status)">
+<div
+  *ngIf="
+    config.moduleConfig.consignmentTracking &&
+    consignmentStatus.includes(consignment.status)
+  "
+>
   <button
     (click)="openTrackingDialog(consignment)"
     class="btn btn-action"
