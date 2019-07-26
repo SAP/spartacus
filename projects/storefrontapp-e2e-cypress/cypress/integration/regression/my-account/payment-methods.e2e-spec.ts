@@ -8,10 +8,6 @@ const checkAnonymous = () => {
 };
 
 const paymentMethodsTest = () => {
-  it('should see spinner when loading', () => {
-    paymentMethods.verifySpinner();
-  });
-
   it('should see title and some messages', () => {
     paymentMethods.verifyText();
   });
