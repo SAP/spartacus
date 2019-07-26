@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
-import { CmsComponentData } from '@spartacus/storefront';
+import { CmsComponentData } from 'projects/storefrontlib/public_api';
 import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
 
 describe('CmsParagraphComponent in CmsLib', () => {

@@ -6,7 +6,7 @@ import {
 // import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 
 import { AppModule } from './app.module';
-import { StorefrontComponent } from '@spartacus/storefront';
+import { StorefrontComponent } from 'projects/storefrontlib/public_api';
 
 @NgModule({
   imports: [
