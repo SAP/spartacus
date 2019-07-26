@@ -26,6 +26,7 @@ export const user = {
       placeholder: 'Password',
     },
     wrongEmailFormat: 'This is not a valid email format.',
+    guestCheckout: 'Guest Checkout',
   },
   register: {
     confirmPassword: {
