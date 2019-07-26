@@ -64,7 +64,7 @@
   <ng-container *ngIf="!loginAsGuest">
     <a
       [routerLink]="{ cxRoute: 'register' } | cxUrl"
-      class="btn btn-block btn-secondary"
+      class="btn btn-block btn-secondary btn-register"
       >{{ 'loginForm.register' | cxTranslate }}</a
     >
   </ng-container>
@@ -73,7 +73,7 @@
     <a
       [routerLink]="{ cxRoute: 'checkoutLogin' } | cxUrl"
       class="btn btn-block btn-secondary btn-guest"
-      >Guest Checkout</a
+      >{{ 'loginForm.guestCheckout' | cxTranslate }}</a
     >
   </ng-container>
 </div>

@@ -1,5 +1,6 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { CheckoutLoginComponent } from './checkout-login.component';
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
@@ -7,6 +8,7 @@ describe('CheckoutLoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [CheckoutLoginComponent],
     }).compileComponents();
   }));

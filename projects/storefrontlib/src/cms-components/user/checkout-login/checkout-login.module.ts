@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { CheckoutLoginComponent } from './checkout-login.component';
-import { ConfigModule, CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         GuestCheckoutLoginComponent: {
-          selector: 'cx-checkout-login',
+          component: CheckoutLoginComponent,
         },
       },
     }),

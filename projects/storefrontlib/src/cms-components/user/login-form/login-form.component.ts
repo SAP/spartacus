@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import {
   AuthRedirectService,
   AuthService,
@@ -22,7 +23,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService
+    private authRedirectService: AuthRedirectService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -30,6 +32,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required],
     });
+
+    this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
   }
 
   login(): void {
