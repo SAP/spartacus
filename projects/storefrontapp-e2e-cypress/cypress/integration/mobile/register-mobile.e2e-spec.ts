@@ -5,11 +5,13 @@ import { formats } from '../../sample-data/viewports';
 import * as login from '../../helpers/login';
 
 describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
-  beforeEach(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
-    cy.viewport(formats.mobile.width, formats.mobile.height);
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
+  });
+
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
   it('should register and redirect to login page', () => {
@@ -18,7 +20,8 @@ describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
     register.verifyGlobalMessageAfterRegistration();
   });
 
-  it('should be redirect to login page when trying to register with the same email and password', () => {
+  it('should contain error when trying to register with the same email and different password', () => {
+    cy.visit('/');
     waitForHomePage();
     register.registerUser(user);
     register.verifyGlobalMessageAfterRegistration();

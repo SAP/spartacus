@@ -3,9 +3,8 @@ import * as login from '../../helpers/login';
 import { user } from '../../sample-data/checkout-flow';
 
 describe('Register', () => {
-  beforeEach(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
   });
 

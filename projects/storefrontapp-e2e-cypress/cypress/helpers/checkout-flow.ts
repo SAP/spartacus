@@ -14,6 +14,12 @@ import {
 } from './checkout-forms';
 import { verifyGlobalMessageAfterRegistration } from './register';
 
+export function visitHomePage() {
+  const homePage = waitForPage('homepage', 'getHomePage');
+  cy.visit('/');
+  cy.wait(`@${homePage}`);
+}
+
 export function signOut() {
   cy.selectUserMenuOption({
     option: 'Sign Out',
@@ -21,14 +27,20 @@ export function signOut() {
 }
 
 export function registerUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
+  cy.wait(`@${loginPage}`);
+  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
+  cy.wait(`@${registerPage}`);
   register(user);
   verifyGlobalMessageAfterRegistration();
 }
 
 export function signOutUser() {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
+  cy.wait(`@${logoutPage}`);
   cy.get('.cx-login-greet').should('not.contain', user.fullName);
 }
 
@@ -78,15 +90,14 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 }
 
 export function chooseDeliveryMethod() {
-  cy.server();
-  cy.route(
-    'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
-  ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').check({ force: true });
+  const paymentPage = waitForPage(
+    '/checkout/payment-details',
+    'getPaymentPage'
+  );
   cy.get('button.btn-primary').click();
-  cy.wait('@getPaymentPage');
+  cy.wait(`@${paymentPage}`);
 }
 
 export function fillPaymentForm(
@@ -186,11 +197,14 @@ export function clickAddNewPayment() {
 }
 
 export function goToCheapProductDetailsPage() {
-  cy.visit('/');
+  visitHomePage();
+  const productCode = 'ProductPage&code=280916';
+  const productPage = waitForPage(productCode, 'getProductPage');
   cy.get('.Section4 cx-banner')
     .first()
     .find('img')
     .click({ force: true });
+  cy.wait(`@${productPage}`);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', cheapProduct.code);
   });
@@ -199,14 +213,22 @@ export function goToCheapProductDetailsPage() {
   });
 }
 
-export function addCheapProductToCart() {
+export function addCheapProductToCartAndLogin() {
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', cheapProduct.name);
-    cy.getByText(/proceed to checkout/i).click();
   });
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.getByText(/proceed to checkout/i).click();
+  cy.wait(`@${loginPage}`);
+  const shippingPage = waitForPage(
+    '/checkout/shipping-address',
+    'getShippingPage'
+  );
+  loginUser();
+  cy.wait(`@${shippingPage}`);
 }
 
 export function fillAddressFormWithCheapProduct(
@@ -217,8 +239,12 @@ export function fillAddressFormWithCheapProduct(
     .first()
     .find('.cx-summary-amount')
     .should('contain', cartWithCheapProduct.total);
-
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
   fillShippingAddress(shippingAddressData);
+  cy.wait(`@${deliveryPage}`);
 }
 
 export function fillPaymentFormWithCheapProduct(
@@ -229,8 +255,9 @@ export function fillPaymentFormWithCheapProduct(
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cartWithCheapProduct.totalAndShipping);
-
+  const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.wait(`@${reivewPage}`);
 }
 
 export function placeOrderWithCheapProduct() {
@@ -268,7 +295,12 @@ export function placeOrderWithCheapProduct() {
       '/electronics-spa/en/USD/terms-and-conditions'
     );
   cy.get('.form-check-input').check();
+  const orderConfirmationPage = waitForPage(
+    '/order-confirmation',
+    'getOrderConfirmationPage'
+  );
   cy.get('cx-place-order button.btn-primary').click();
+  cy.wait(`@${orderConfirmationPage}`);
 }
 
 export function verifyOrderConfirmationPageWithCheapProduct() {
@@ -295,12 +327,23 @@ export function verifyOrderConfirmationPageWithCheapProduct() {
 }
 
 export function viewOrderHistoryWithCheapProduct() {
+  const orderHistoryPage = waitForPage(
+    '/my-account/orders',
+    'getOrderHistoryPage'
+  );
   cy.selectUserMenuOption({
     option: 'Order History',
   });
+  cy.wait(`@${orderHistoryPage}`);
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
     .should('contain', cartWithCheapProduct.totalAndShipping);
+}
+
+export function waitForPage(page: string, alias: string): string {
+  cy.server();
+  cy.route('GET', `/rest/v2/electronics-spa/cms/pages?*${page}*`).as(alias);
+  return alias;
 }

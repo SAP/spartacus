@@ -15,7 +15,7 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.visit('/');
+    checkout.visitHomePage();
   });
 
   beforeEach(() => {
@@ -39,8 +39,7 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   });
 
   it('should add product to cart and go to checkout', () => {
-    checkout.addCheapProductToCart();
-    checkout.loginUser();
+    checkout.addCheapProductToCartAndLogin();
   });
 
   it('should fill in address form', () => {
