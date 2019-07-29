@@ -28,6 +28,8 @@
     "generate:changelog": "ts-node ./scripts/changelog.ts",
     "generate:docs": "npx compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:translations": "ts-node ./scripts/generate-translations",
+    "generate:localization:properties": "ts-node ./scripts/generate-properties",
+    "generate:localization:jsons": "ts-node ./scripts/generate-jsons && prettier './projects/assets/src/translations/**/*.ts' --write",
     "lint": "ng lint",
     "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/src/**/*.html",
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
