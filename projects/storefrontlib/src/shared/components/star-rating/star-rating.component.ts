@@ -37,7 +37,7 @@ export class StarRatingComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
-  // TODO(issue:#3803) Replace after 1.0.2
+  // TODO(issue:#3803) deprecated since 1.0.2
   /**
    * @deprecated since version 1.0.2
    */
@@ -51,7 +51,7 @@ export class StarRatingComponent implements OnInit {
 
   setRate(value: number, force?: boolean): void {
     if (!this.disabled || force) {
-      // TODO(issue:#3803) Replace after 1.0.2
+      // TODO(issue:#3803) deprecated since 1.0.2
       if (this.renderer) {
         this.renderer.setAttribute(
           this.el.nativeElement,
