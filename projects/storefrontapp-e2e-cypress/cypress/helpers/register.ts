@@ -38,3 +38,11 @@ export function verifyFailedRegistration() {
   );
   cy.url().should('match', /\/login\/register/);
 }
+
+export function verifyGlobalMessageAfterRegistration() {
+  cy.get('cx-global-message .alert-warning').should(
+    'contain',
+    'Please log in with your new credentials.'
+  );
+  cy.url().should('match', /\/login/);
+}

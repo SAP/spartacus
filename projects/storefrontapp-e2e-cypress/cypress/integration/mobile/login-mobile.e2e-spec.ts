@@ -11,10 +11,6 @@ describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
     waitForHomePage();
 
     login.registerUser();
-
-    waitForHomePage();
-
-    login.signOutUser();
   });
 
   beforeEach(() => {
@@ -22,8 +18,6 @@ describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
   });
 
   it('should login successfully with correct credentials', () => {
-    clickHamburger();
-
     login.loginUser();
 
     waitForHomePage();

@@ -12,7 +12,7 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
-} from '@spartacus/storefront';
+} from 'projects/storefrontlib/public_api';
 import { environment } from '../environments/environment';
 
 registerLocaleData(localeDe);
