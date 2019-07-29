@@ -4,7 +4,7 @@
   "description": "Spartacus schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js"
+    "test": "yarn build && jasmine src/**/*_spec.js"
   },
   "keywords": [
     "spartacus",
