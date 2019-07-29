@@ -1,3 +1,5 @@
+import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
+import { italic, red } from '@angular-devkit/core/src/terminal';
 import {
   chain,
   ExecutionOptions,
@@ -7,31 +9,29 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
+import { branch } from '@angular-devkit/schematics/src/tree/static';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
-  addPackageJsonDependency,
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import { getProjectTargets } from '@schematics/angular/utility/project-targets';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
+  appendHtmlElementToHead,
+  getProjectStyleFile,
+  getProjectTargetOptions,
+} from '@angular/cdk/schematics';
 import {
   addSymbolToNgModuleMetadata,
   insertImport,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
+import {
+  addPackageJsonDependency,
+  NodeDependency,
+  NodeDependencyType,
+} from '@schematics/angular/utility/dependencies';
+import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
+import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+import { of } from 'rxjs';
 import * as ts from 'typescript';
 import { Schema as SpartacusOptions } from './schema';
-import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
-import {
-  appendHtmlElementToHead,
-  getProjectStyleFile,
-  getProjectTargetOptions,
-} from '@angular/cdk/schematics';
-import { italic, red } from '@angular-devkit/core/src/terminal';
-import { branch } from '@angular-devkit/schematics/src/tree/static';
-import { of } from 'rxjs';
 
 function getWorkspace(
   host: Tree
@@ -333,7 +333,7 @@ function removeServiceWorkerSetup(host: Tree, modulePath: string) {
 
 function updateAppModule(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-    context.logger.debug('Updating appmodule');
+    context.logger.debug('Updating main module');
 
     // find app module
     const projectTargets = getProjectTargets(host, options.project);
@@ -344,7 +344,7 @@ function updateAppModule(options: any): Rule {
 
     const mainPath = projectTargets.build.options.main;
     const modulePath = getAppModulePath(host, mainPath);
-    context.logger.debug(`module path: ${modulePath}`);
+    context.logger.debug(`main module path: ${modulePath}`);
 
     // add imports
     addImport(host, modulePath, 'translations', '@spartacus/assets');
@@ -471,9 +471,7 @@ export function getIndexHtmlPath(
   const buildOptions = getProjectTargetOptions(project, 'build');
 
   if (!buildOptions.index) {
-    throw new SchematicsException(
-      'No project "index.html" file could be found.'
-    );
+    throw new SchematicsException('"index.html" file not found.');
   }
 
   return buildOptions.index;
