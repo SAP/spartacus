@@ -78,13 +78,13 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
     .getByText(/Add To Cart/i)
     .first()
     .click({ force: true });
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
     cy.get('.count').should('contain', 1);
   });
-  miniCart.click();
+  miniCart.click({ force: true });
 
   getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
@@ -101,13 +101,13 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
     .getByText(/Add To Cart/i)
     .click({ force: true });
 
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
     cy.get('.count').should('contain', 2);
   });
-  miniCart.click();
+  miniCart.click({ force: true });
 
   getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
@@ -160,7 +160,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
     'contain',
     'Cart total (1 item)'
   );
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
 
 export function logOutAndNavigateToEmptyCart() {
@@ -196,7 +196,7 @@ export function addProductAsAnonymous() {
     'Cart total (1 item)'
   );
 
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
 
 export function verifyMergedCartWhenLoggedIn() {
@@ -215,7 +215,7 @@ export function verifyMergedCartWhenLoggedIn() {
   miniCart.within(() => {
     cy.get('.count').should('contain', 2);
   });
-  miniCart.click();
+  miniCart.click({ force: true });
 
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
@@ -253,13 +253,13 @@ export function manipulateCartQuantity() {
     'contain',
     'Cart total (1 item)'
   );
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
     cy.get('.count').should('contain', 1);
   });
-  miniCart.click();
+  miniCart.click({ force: true });
 
   checkCartItem(product, 1, true);
 
