@@ -52,7 +52,9 @@ describe('User Addresses effect', () => {
       ],
     });
 
-    userAddressesEffect = TestBed.get(fromUserAddressesEffect.UserAddressesEffects);
+    userAddressesEffect = TestBed.get(
+      fromUserAddressesEffect.UserAddressesEffects
+    );
     userAddressConnector = TestBed.get(UserAddressConnector as Type<
       UserAddressConnector
     >);
