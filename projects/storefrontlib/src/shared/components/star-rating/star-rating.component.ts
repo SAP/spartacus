@@ -37,12 +37,13 @@ export class StarRatingComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
+  // TODO(issue:#3803) Replace after 1.0.2
   /**
    * @deprecated since version 1.0.2
    */
   constructor(el: ElementRef);
   constructor(el: ElementRef, renderer: Renderer2); // tslint:disable-line
-  constructor(private el: ElementRef, private renderer?: Renderer2) {}
+  constructor(protected el: ElementRef, protected renderer?: Renderer2) {}
 
   ngOnInit(): void {
     this.setRate(this.rating, true);
@@ -50,16 +51,7 @@ export class StarRatingComponent implements OnInit {
 
   setRate(value: number, force?: boolean): void {
     if (!this.disabled || force) {
-      // deprecate after v1.0.2 / ticket: #xxxx
-      // replace with:
-      /* 
-          this.renderer.setAttribute(
-            this.el.nativeElement,
-            'style',
-            `--star-fill:${value || this.initialRate};`
-          );
-      */
-      // replace block start
+      // TODO(issue:#3803) Replace after 1.0.2
       if (this.renderer) {
         this.renderer.setAttribute(
           this.el.nativeElement,
@@ -72,7 +64,6 @@ export class StarRatingComponent implements OnInit {
           value || this.initialRate
         );
       }
-      // replace block end
     }
   }
 
