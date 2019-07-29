@@ -1,27 +1,25 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
-import * as fromStore from '../store/index';
-import { map } from 'rxjs/operators';
+import { StateWithProcess } from '../../process/store/process-state';
+import { UserActions } from '../store/actions/index';
+import { UsersSelectors } from '../store/selectors/index';
+import { StateWithUser } from '../store/user-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserAddressService {
-  constructor(
-    protected store: Store<
-      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.store.dispatch(new fromStore.LoadUserAddresses(USERID_CURRENT));
+    this.store.dispatch(new UserActions.LoadUserAddresses(USERID_CURRENT));
   }
 
   /**
@@ -30,7 +28,7 @@ export class UserAddressService {
    */
   addUserAddress(address: Address): void {
     this.store.dispatch(
-      new fromStore.AddUserAddress({
+      new UserActions.AddUserAddress({
         userId: USERID_CURRENT,
         address: address,
       })
@@ -43,7 +41,7 @@ export class UserAddressService {
    */
   setAddressAsDefault(addressId: string): void {
     this.store.dispatch(
-      new fromStore.UpdateUserAddress({
+      new UserActions.UpdateUserAddress({
         userId: USERID_CURRENT,
         addressId: addressId,
         address: { defaultAddress: true },
@@ -58,7 +56,7 @@ export class UserAddressService {
    */
   updateUserAddress(addressId: string, address: Address): void {
     this.store.dispatch(
-      new fromStore.UpdateUserAddress({
+      new UserActions.UpdateUserAddress({
         userId: USERID_CURRENT,
         addressId: addressId,
         address: address,
@@ -72,7 +70,7 @@ export class UserAddressService {
    */
   deleteUserAddress(addressId: string): void {
     this.store.dispatch(
-      new fromStore.DeleteUserAddress({
+      new UserActions.DeleteUserAddress({
         userId: USERID_CURRENT,
         addressId: addressId,
       })
@@ -83,28 +81,28 @@ export class UserAddressService {
    * Returns addresses
    */
   getAddresses(): Observable<Address[]> {
-    return this.store.pipe(select(fromStore.getAddresses));
+    return this.store.pipe(select(UsersSelectors.getAddresses));
   }
 
   /**
    * Returns a loading flag for addresses
    */
   getAddressesLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getAddressesLoading));
+    return this.store.pipe(select(UsersSelectors.getAddressesLoading));
   }
 
   /**
    * Retrieves delivery countries
    */
   loadDeliveryCountries(): void {
-    this.store.dispatch(new fromStore.LoadDeliveryCountries());
+    this.store.dispatch(new UserActions.LoadDeliveryCountries());
   }
 
   /**
    * Returns all delivery countries
    */
   getDeliveryCountries(): Observable<Country[]> {
-    return this.store.pipe(select(fromStore.getAllDeliveryCountries));
+    return this.store.pipe(select(UsersSelectors.getAllDeliveryCountries));
   }
 
   /**
@@ -112,7 +110,9 @@ export class UserAddressService {
    * @param isocode an isocode for a country
    */
   getCountry(isocode: string): Observable<Country> {
-    return this.store.pipe(select(fromStore.countrySelectorFactory(isocode)));
+    return this.store.pipe(
+      select(UsersSelectors.countrySelectorFactory(isocode))
+    );
   }
 
   /**
@@ -120,21 +120,22 @@ export class UserAddressService {
    * @param countryIsoCode
    */
   loadRegions(countryIsoCode: string): void {
-    this.store.dispatch(new fromStore.LoadRegions(countryIsoCode));
+    this.store.dispatch(new UserActions.LoadRegions(countryIsoCode));
   }
 
   /**
    * Clear regions in store - useful when changing country
    */
   clearRegions(): void {
-    this.store.dispatch(new fromStore.ClearRegions());
+    this.store.dispatch(new UserActions.ClearRegions());
   }
 
   /**
    * Returns all regions
    */
   getRegions(countryIsoCode: string): Observable<Region[]> {
-    return this.store.select(fromStore.getRegionsDataAndLoading).pipe(
+    return this.store.pipe(
+      select(UsersSelectors.getRegionsDataAndLoading),
       map(({ regions, country, loading, loaded }) => {
         if (!countryIsoCode && (loading || loaded)) {
           this.clearRegions();

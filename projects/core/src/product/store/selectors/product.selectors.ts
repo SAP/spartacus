@@ -1,16 +1,13 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ProductsState, StateWithProduct } from '../product-state';
-import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import {
-  loaderErrorSelector,
-  loaderLoadingSelector,
-  loaderSuccessSelector,
-  loaderValueSelector,
-} from '../../../state/utils/loader/loader.selectors';
-import { getProductsState } from './feature.selector';
 import { Product } from '../../../model/product.model';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
+import {
+  StateEntityLoaderSelectors,
+  StateLoaderSelectors,
+} from '../../../state/utils/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { ProductsState, StateWithProduct } from '../product-state';
+import { getProductsState } from './feature.selector';
 
 export const getProductState: MemoizedSelector<
   StateWithProduct,
@@ -40,7 +37,7 @@ export const getSelectedProductStateFactory = (
 ): MemoizedSelector<StateWithProduct, LoaderState<Product>> => {
   return createSelector(
     getProductState,
-    details => entityStateSelector(details, code)
+    details => StateEntityLoaderSelectors.entityStateSelector(details, code)
   );
 };
 
@@ -49,7 +46,7 @@ export const getSelectedProductFactory = (
 ): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code),
-    productState => loaderValueSelector(productState)
+    productState => StateLoaderSelectors.loaderValueSelector(productState)
   );
 };
 
@@ -58,7 +55,7 @@ export const getSelectedProductLoadingFactory = (
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code),
-    productState => loaderLoadingSelector(productState)
+    productState => StateLoaderSelectors.loaderLoadingSelector(productState)
   );
 };
 
@@ -67,7 +64,7 @@ export const getSelectedProductSuccessFactory = (
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code),
-    productState => loaderSuccessSelector(productState)
+    productState => StateLoaderSelectors.loaderSuccessSelector(productState)
   );
 };
 
@@ -76,7 +73,7 @@ export const getSelectedProductErrorFactory = (
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code),
-    productState => loaderErrorSelector(productState)
+    productState => StateLoaderSelectors.loaderErrorSelector(productState)
   );
 };
 

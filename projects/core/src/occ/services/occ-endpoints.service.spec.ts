@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-
-import { OccEndpointsService } from './occ-endpoints.service';
 import { OccConfig } from '@spartacus/core';
+import { OccEndpointsService } from './occ-endpoints.service';
 
 describe('OccEndpointsService', () => {
   const mockOccConfig: OccConfig = {
@@ -14,8 +13,8 @@ describe('OccEndpointsService', () => {
         },
       },
     },
-    site: {
-      baseSite: '/test-baseSite',
+    context: {
+      baseSite: ['/test-baseSite'],
     },
   };
 

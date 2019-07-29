@@ -4,16 +4,9 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
-import { LoadClientToken } from '../store/actions/client-token.action';
-import { Logout } from '../store/actions/login-logout.action';
-import {
-  LoadUserToken,
-  LoadUserTokenSuccess,
-  RefreshUserToken,
-} from '../store/actions/user-token.action';
+import { AuthActions } from '../store/actions/index';
 import { StateWithAuth } from '../store/auth-state';
-import { getClientTokenState } from '../store/selectors/client-token.selectors';
-import { getUserToken } from '../store/selectors/user-token.selectors';
+import { AuthSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +21,7 @@ export class AuthService {
    */
   authorize(userId: string, password: string): void {
     this.store.dispatch(
-      new LoadUserToken({
+      new AuthActions.LoadUserToken({
         userId: userId,
         password: password,
       })
@@ -39,7 +32,7 @@ export class AuthService {
    * Returns the user's token
    */
   getUserToken(): Observable<UserToken> {
-    return this.store.pipe(select(getUserToken));
+    return this.store.pipe(select(AuthSelectors.getUserToken));
   }
 
   /**
@@ -48,7 +41,7 @@ export class AuthService {
    */
   refreshUserToken(token: UserToken): void {
     this.store.dispatch(
-      new RefreshUserToken({
+      new AuthActions.RefreshUserToken({
         refreshToken: token.refresh_token,
       })
     );
@@ -58,14 +51,14 @@ export class AuthService {
    * Store the provided token
    */
   authorizeWithToken(token: UserToken): void {
-    this.store.dispatch(new LoadUserTokenSuccess(token));
+    this.store.dispatch(new AuthActions.LoadUserTokenSuccess(token));
   }
 
   /**
    * Logout
    */
   logout(): void {
-    this.store.dispatch(new Logout());
+    this.store.dispatch(new AuthActions.Logout());
   }
 
   /**
@@ -74,13 +67,13 @@ export class AuthService {
    */
   getClientToken(): Observable<ClientToken> {
     return this.store.pipe(
-      select(getClientTokenState),
+      select(AuthSelectors.getClientTokenState),
       filter((state: LoaderState<ClientToken>) => {
         if (this.isClientTokenLoaded(state)) {
           return true;
         } else {
           if (!state.loading) {
-            this.store.dispatch(new LoadClientToken());
+            this.store.dispatch(new AuthActions.LoadClientToken());
           }
           return false;
         }
@@ -94,10 +87,10 @@ export class AuthService {
    * The new clientToken is returned.
    */
   refreshClientToken(): Observable<ClientToken> {
-    this.store.dispatch(new LoadClientToken());
+    this.store.dispatch(new AuthActions.LoadClientToken());
 
     return this.store.pipe(
-      select(getClientTokenState),
+      select(AuthSelectors.getClientTokenState),
       filter((state: LoaderState<ClientToken>) =>
         this.isClientTokenLoaded(state)
       ),

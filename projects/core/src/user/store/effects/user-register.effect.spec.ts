@@ -3,11 +3,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { LoadUserToken, Logout } from '../../../auth/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromStore from '../index';
+import { UserActions } from '../actions/index';
+import * as fromStoreReducers from '../reducers/index';
 import { UserRegisterEffects } from './user-register.effect';
 
 const user: UserSignUp = {
@@ -27,8 +28,8 @@ describe('UserRegister effect', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers()),
+          ...fromStoreReducers.getReducers(),
+          user: combineReducers(fromStoreReducers.getReducers()),
         }),
       ],
       providers: [
@@ -47,12 +48,12 @@ describe('UserRegister effect', () => {
 
   describe('registerUser$', () => {
     it('should register user', () => {
-      const action = new fromStore.RegisterUser(user);
-      const loadUser = new LoadUserToken({
+      const action = new UserActions.RegisterUser(user);
+      const loadUser = new AuthActions.LoadUserToken({
         userId: user.uid,
         password: user.password,
       });
-      const completion = new fromStore.RegisterUserSuccess();
+      const completion = new UserActions.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -66,9 +67,9 @@ describe('UserRegister effect', () => {
 
   describe('removeUser$', () => {
     it('should remove user', () => {
-      const action = new fromStore.RemoveUser('testUserId');
-      const logout = new Logout();
-      const completion = new fromStore.RemoveUserSuccess();
+      const action = new UserActions.RemoveUser('testUserId');
+      const logout = new AuthActions.Logout();
+      const completion = new UserActions.RemoveUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {

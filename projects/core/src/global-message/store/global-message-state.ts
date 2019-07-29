@@ -6,10 +6,10 @@ export interface StateWithGlobalMessage {
   [GLOBAL_MESSAGE_FEATURE]: GlobalMessageState;
 }
 
-export interface GlobalMessageEntities {
-  [messageType: string]: Translatable[];
-}
-
 export interface GlobalMessageState {
   entities: GlobalMessageEntities;
+}
+
+export interface GlobalMessageEntities {
+  [messageType: string]: Translatable[];
 }

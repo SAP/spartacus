@@ -1,4 +1,5 @@
-%cx-product-facet-navigation {
+%cx-product-facet-navigation,
+.cx-facet-modal-body {
   .cx-search-facet {
     @include media-breakpoint-down(md) {
       display: none;
@@ -152,6 +153,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 203px;
+
+    @include media-breakpoint-only(lg) {
+      max-width: 159px;
+    }
 
     @include media-breakpoint-only(sm) {
       max-width: 100%;

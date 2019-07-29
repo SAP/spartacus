@@ -35,13 +35,13 @@ describe('Currency switch - checkout page', () => {
       siteContextSelector.addressBookNextStep();
     });
 
-    it('should change currency in the checkoutDelvieryPath url', () => {
+    it('should change currency in the checkoutDeliveryPath url', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath
       );
     });
 
-    it('should change currency in the checkoutDelvieryPath page', () => {
+    it('should change currency in the checkoutDeliveryPath page', () => {
       cy.get('cx-delivery-mode .cx-delivery-price:first').should(
         'have.text',
         ' ¥80 '

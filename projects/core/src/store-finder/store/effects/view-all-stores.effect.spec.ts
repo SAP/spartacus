@@ -1,19 +1,14 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/view-all-stores.action';
-import { OccConfig } from '../../../occ';
-
-import * as fromEffects from './view-all-stores.effect';
-import { StoreFinderConnector } from '../../connectors/store-finder.connector';
-import createSpy = jasmine.createSpy;
 import { StoreCount } from '../../../model/store-finder.model';
+import { OccConfig } from '../../../occ';
+import { StoreFinderConnector } from '../../connectors/store-finder.connector';
+import { StoreFinderActions } from '../actions/index';
+import * as fromEffects from './view-all-stores.effect';
+import createSpy = jasmine.createSpy;
 
 const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -55,8 +50,8 @@ describe('ViewAllStores Effects', () => {
 
   describe('viewAllStores$', () => {
     it('should return searchResult from ViewAllStoresSuccess', () => {
-      const action = new fromActions.ViewAllStores();
-      const completion = new fromActions.ViewAllStoresSuccess(
+      const action = new StoreFinderActions.ViewAllStores();
+      const completion = new StoreFinderActions.ViewAllStoresSuccess(
         storesCountResult
       );
 

@@ -2,12 +2,8 @@ import { NgModule } from '@angular/core';
 import { HamburgerMenuModule } from '../layout/index';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
-import {
-  BannerModule,
-  CmsParagraphModule,
-  LinkModule,
-  // TabParagraphContainerModule,
-} from './content/index';
+import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
+import { BannerModule, CmsParagraphModule, LinkModule } from './content/index';
 import { SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
@@ -40,6 +36,7 @@ import {
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
 import { ProductVariantSelectorModule } from './product/product-variant-selector/product-variant-selector.module';
+import { UserComponentModule } from './user/user.module';
 
 @NgModule({
   imports: [
@@ -78,6 +75,8 @@ import { ProductVariantSelectorModule } from './product/product-variant-selector
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
+    BannerCarouselModule,
+    UserComponentModule,
   ],
 })
 export class CmsLibModule {}

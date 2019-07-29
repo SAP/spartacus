@@ -1,7 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductSearchService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
+import {
+  CurrencyService,
+  LanguageService,
+  ProductSearchService,
+  RoutingService,
+} from '@spartacus/core';
 import { ProductListComponentService } from './product-list-component.service';
 
 export class MockRouter {
@@ -14,6 +19,17 @@ export class MockProductSearchService {
     .and.returnValue(of({ products: [] }));
   search = jasmine.createSpy('search');
   clearResults = jasmine.createSpy('clearResults');
+}
+
+class MockCurrencyService {
+  getActive() {
+    return of(true);
+  }
+}
+class MockLanguageService {
+  getActive() {
+    return of(true);
+  }
 }
 
 describe('ProductListComponentService', () => {
@@ -50,6 +66,8 @@ describe('ProductListComponentService', () => {
         { provide: Router, useClass: MockRouter },
         { provide: ActivatedRoute, useValue: 'ActivatedRoute' },
         { provide: ProductSearchService, useClass: MockProductSearchService },
+        { provide: CurrencyService, useClass: MockCurrencyService },
+        { provide: LanguageService, useClass: MockLanguageService },
       ],
     });
 

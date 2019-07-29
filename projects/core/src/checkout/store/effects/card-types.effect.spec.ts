@@ -1,20 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
-import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from './../actions/index';
-
-import { CardTypesEffects } from '.';
 import {
   CardType,
   CheckoutPaymentAdapter,
   CheckoutPaymentConnector,
 } from '@spartacus/core';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import { CheckoutActions } from '../actions/index';
+import { CardTypesEffects } from './card-types.effect';
 
 const mockCardTypes: CardType[] = [
   {
@@ -49,8 +44,10 @@ describe('Card Types effect', () => {
 
   describe('loadCardTypes$', () => {
     it('should load the card types', () => {
-      const action = new fromActions.LoadCardTypes();
-      const completion = new fromActions.LoadCardTypesSuccess(mockCardTypes);
+      const action = new CheckoutActions.LoadCardTypes();
+      const completion = new CheckoutActions.LoadCardTypesSuccess(
+        mockCardTypes
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

@@ -1,19 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { ProductReviewsConnector } from '@spartacus/core';
-
 import { cold, hot } from 'jasmine-marbles';
-
 import { Observable, of } from 'rxjs';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
-import * as fromActions from '../actions/product-reviews.action';
-import * as fromEffects from '../effects/product-reviews.effect';
-import createSpy = jasmine.createSpy;
 import { Review } from '../../../model/product.model';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
+import { OccConfig } from '../../../occ/config/occ-config';
+import { ProductActions } from '../actions/index';
+import * as fromEffects from '../effects/product-reviews.effect';
+
+import createSpy = jasmine.createSpy;
 
 const reviewData: Review[] = [
   {
@@ -63,8 +61,8 @@ describe('Product reviews effect', () => {
   describe('loadProductReveiws$', () => {
     it('should return specified product reviews', () => {
       const productCode = '12345';
-      const action = new fromActions.LoadProductReviews(productCode);
-      const completion = new fromActions.LoadProductReviewsSuccess({
+      const action = new ProductActions.LoadProductReviews(productCode);
+      const completion = new ProductActions.LoadProductReviewsSuccess({
         productCode,
         list: reviewData,
       });

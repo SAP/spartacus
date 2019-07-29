@@ -1,17 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
-
-import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/billing-countries.action';
-
-import { BillingCountriesEffect } from './billing-countries.effect';
+import { Observable, of } from 'rxjs';
 import { Country, CountryType } from '../../../model/address.model';
-import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { UserActions } from '../actions/index';
+import { BillingCountriesEffect } from './billing-countries.effect';
 
 const mockCountries: Country[] = [
   {
@@ -46,8 +41,8 @@ describe('Billing Countries effect', () => {
 
   describe('loadBillingCountries$', () => {
     it('should load the billing countries', () => {
-      const action = new fromActions.LoadBillingCountries();
-      const completion = new fromActions.LoadBillingCountriesSuccess(
+      const action = new UserActions.LoadBillingCountries();
+      const completion = new UserActions.LoadBillingCountriesSuccess(
         mockCountries
       );
 

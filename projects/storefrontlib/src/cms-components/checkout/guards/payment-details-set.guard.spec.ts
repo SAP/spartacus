@@ -1,16 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Order,
-  RoutesConfig,
-  RoutingConfigService,
-  ServerConfig,
-} from '@spartacus/core';
+import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
-import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { PaymentDetailsSetGuard } from './payment-details-set.guard';
 
@@ -33,8 +28,6 @@ class MockCheckoutConfigService {
   getCheckoutStep() {}
 }
 
-const MockServerConfig: ServerConfig = { production: false };
-
 describe(`PaymentDetailsSetGuard`, () => {
   let guard: PaymentDetailsSetGuard;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
@@ -50,7 +43,6 @@ describe(`PaymentDetailsSetGuard`, () => {
           useClass: MockCheckoutDetailsService,
         },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
-        { provide: ServerConfig, useValue: MockServerConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],

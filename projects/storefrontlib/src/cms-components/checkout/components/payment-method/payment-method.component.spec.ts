@@ -18,11 +18,12 @@ import {
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../checkout-config.service';
+import { ICON_TYPE } from '../../../misc/index';
 import {
   CheckoutStep,
   CheckoutStepType,
 } from '../../model/checkout-step.model';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { PaymentMethodComponent } from './payment-method.component';
 import createSpy = jasmine.createSpy;
 
@@ -30,8 +31,8 @@ import createSpy = jasmine.createSpy;
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 const mockPaymentDetails: PaymentDetails = {
@@ -214,14 +215,17 @@ describe('PaymentMethodComponent', () => {
 
   it('should call addPaymentInfo() with new created payment info', () => {
     component['deliveryAddress'] = mockAddress;
-    component.addPaymentInfo({
-      payment: mockPaymentDetails,
-      newPayment: true,
+    component.setPaymentDetails({
+      paymentDetails: mockPaymentDetails,
+      isNewPayment: true,
       billingAddress: null,
     });
     expect(
       mockCheckoutPaymentService.createPaymentDetails
-    ).toHaveBeenCalledWith(mockPaymentDetails);
+    ).toHaveBeenCalledWith({
+      ...mockPaymentDetails,
+      billingAddress: mockAddress,
+    });
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', done => {
@@ -251,16 +255,19 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call getCardContent() to get payment method card data', () => {
-    component.getCardContent(mockPaymentDetails).subscribe(card => {
-      expect(card.title).toEqual('');
-      expect(card.textBold).toEqual('Name');
-      expect(card.text).toEqual([
-        '123456789',
-        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
-          mockPaymentDetails.expiryYear
-        }`,
-      ]);
-    });
+    component
+      .getCardContent(mockPaymentDetails)
+      .subscribe(card => {
+        expect(card.title).toEqual('');
+        expect(card.textBold).toEqual('Name');
+        expect(card.text).toEqual([
+          '123456789',
+          `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
+            mockPaymentDetails.expiryYear
+          }`,
+        ]);
+      })
+      .unsubscribe();
   });
 
   it('should call paymentMethodSelected(paymentDetails)', () => {
@@ -269,26 +276,13 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call next() to submit request', () => {
-    spyOn(component, 'addPaymentInfo');
+    spyOn(component, 'setPaymentDetails');
     component.selectedPayment = mockPaymentDetails;
     component.next();
 
-    expect(component.addPaymentInfo).toHaveBeenCalledWith({
-      payment: mockPaymentDetails,
-      newPayment: false,
-    });
-  });
-
-  it('should call addNewPaymentMethod()', () => {
-    spyOn(component, 'addPaymentInfo');
-    component.addNewPaymentMethod({
+    expect(component.setPaymentDetails).toHaveBeenCalledWith({
       paymentDetails: mockPaymentDetails,
-      billingAddress: null,
-    });
-    expect(component.addPaymentInfo).toHaveBeenCalledWith({
-      payment: mockPaymentDetails,
-      billingAddress: null,
-      newPayment: true,
+      isNewPayment: false,
     });
   });
 
@@ -312,6 +306,40 @@ describe('PaymentMethodComponent', () => {
     expect(mockRoutingService.go).toHaveBeenCalledWith(
       component['checkoutStepUrlPrevious']
     );
+  });
+
+  it('should automatically select default payment when there is no current selection', () => {
+    const mockDefaultPaymentDetails = {
+      ...mockPaymentDetails,
+      defaultPayment: true,
+    };
+
+    component
+      .getCardContent(mockDefaultPaymentDetails)
+      .subscribe(() => {
+        expect(component.selectedPayment).toBeTruthy();
+        expect(component.selectedPayment).toEqual(mockDefaultPaymentDetails);
+      })
+      .unsubscribe();
+  });
+
+  it('should NOT automatically select default payment when there is a current selection', () => {
+    component.selectedPayment = mockPaymentDetails;
+    const mockDefaultPaymentDetails = {
+      ...mockPaymentDetails,
+      defaultPayment: true,
+    };
+
+    component
+      .getCardContent(mockDefaultPaymentDetails)
+      .subscribe(() => {
+        expect(component.selectedPayment).toBeTruthy();
+        expect(component.selectedPayment).not.toEqual(
+          mockDefaultPaymentDetails
+        );
+        expect(component.selectedPayment).toEqual(mockPaymentDetails);
+      })
+      .unsubscribe();
   });
 
   describe('UI continue button', () => {

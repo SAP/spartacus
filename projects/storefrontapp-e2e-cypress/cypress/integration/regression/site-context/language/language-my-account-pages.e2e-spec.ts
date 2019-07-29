@@ -10,7 +10,10 @@ describe('Language switch - my-account pages', () => {
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES
   );
-
+  siteContextSelector.stub(
+    siteContextSelector.TITLE_REQUEST,
+    siteContextSelector.TITLES
+  );
   describe('order page', () => {
     const orderPath = siteContextSelector.ORDER_PATH;
     const deutschName = siteContextSelector.MONTH_DE;
@@ -103,14 +106,16 @@ describe('Language switch - my-account pages', () => {
     it('should change language in the page', () => {
       siteContextSelector.siteContextChange(
         personalDetailsPath,
-        siteContextSelector.LANGUAGES,
+        siteContextSelector.TITLES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );
 
-      cy.get('cx-update-profile-form select')
-        .select(deutschName)
-        .should('have.value', 'mr');
+      cy.get('[formcontrolname="titleCode"]').ngSelect(deutschName);
+
+      cy.get('[formcontrolname="titleCode"]')
+        .get('.ng-value .ng-value-label')
+        .should('have.text', deutschName);
     });
   });
 

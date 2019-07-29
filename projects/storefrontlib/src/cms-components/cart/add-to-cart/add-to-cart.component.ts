@@ -27,6 +27,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock = false;
   quantity = 1;
+  increment = false;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -49,6 +50,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .pipe(filter(Boolean))
         .subscribe(product => {
           this.productCode = product.code;
+          this.quantity = 1;
 
           if (
             product.stock &&
@@ -76,8 +78,19 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
-    this.openModal();
-    this.cartService.addEntry(this.productCode, this.quantity);
+    // check item is already present in the cart
+    // so modal will have proper header text displayed
+    this.cartService
+      .getEntry(this.productCode)
+      .subscribe(entry => {
+        if (entry) {
+          this.increment = true;
+        }
+        this.openModal();
+        this.cartService.addEntry(this.productCode, this.quantity);
+        this.increment = false;
+      })
+      .unsubscribe();
   }
 
   private openModal() {
@@ -92,6 +105,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalInstance.cart$ = this.cartService.getActive();
     modalInstance.loaded$ = this.cartService.getLoaded();
     modalInstance.quantity = this.quantity;
+    modalInstance.increment = this.increment;
   }
 
   ngOnDestroy() {

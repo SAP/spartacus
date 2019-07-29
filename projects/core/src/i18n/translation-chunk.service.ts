@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { I18nConfig } from './config/i18n-config';
 
 @Injectable()
@@ -6,8 +6,9 @@ export class TranslationChunkService {
   protected duplicates: { [key: string]: string[] } = {};
   protected chunks: { [key: string]: string } = {};
   constructor(protected config: I18nConfig) {
-    Object.keys(config.i18n.chunks).forEach(chunk => {
-      config.i18n.chunks[chunk].forEach(key => {
+    const chunks = (config.i18n && config.i18n.chunks) || {};
+    Object.keys(chunks).forEach(chunk => {
+      chunks[chunk].forEach(key => {
         if (this.chunks.hasOwnProperty(key)) {
           if (!this.duplicates[key]) {
             this.duplicates[key] = [this.chunks[key]];
@@ -18,7 +19,7 @@ export class TranslationChunkService {
         }
       });
     });
-    if (Object.keys(this.duplicates).length > 0 && !this.config.production) {
+    if (Object.keys(this.duplicates).length > 0 && isDevMode()) {
       this.warnDuplicates(this.duplicates);
     }
   }

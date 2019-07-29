@@ -1,16 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Order,
-  RoutesConfig,
-  RoutingConfigService,
-  ServerConfig,
-} from '@spartacus/core';
+import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
-import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 
@@ -32,7 +27,6 @@ class MockCheckoutConfigService {
 }
 
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
-const MockServerConfig: ServerConfig = { production: false };
 
 describe(`ShippingAddressSetGuard`, () => {
   let guard: ShippingAddressSetGuard;
@@ -49,7 +43,6 @@ describe(`ShippingAddressSetGuard`, () => {
           useClass: MockCheckoutDetailsService,
         },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
-        { provide: ServerConfig, useValue: MockServerConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],

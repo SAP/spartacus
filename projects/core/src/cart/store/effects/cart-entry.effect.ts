@@ -4,16 +4,16 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
-import * as fromActions from './../actions/index';
+import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartEntryEffects {
   @Effect()
   addEntry$: Observable<
-    fromActions.AddEntrySuccess | fromActions.AddEntryFail
+    CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
-    ofType(fromActions.ADD_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+    ofType(CartActions.CART_ADD_ENTRY),
+    map((action: CartActions.CartAddEntry) => action.payload),
     mergeMap(payload =>
       this.cartEntryConnector
         .add(
@@ -23,9 +23,16 @@ export class CartEntryEffects {
           payload.quantity
         )
         .pipe(
-          map(entry => new fromActions.AddEntrySuccess(entry)),
+          map(
+            (entry: any) =>
+              new CartActions.CartAddEntrySuccess({
+                ...entry,
+                userId: payload.userId,
+                cartId: payload.cartId,
+              })
+          ),
           catchError(error =>
-            of(new fromActions.AddEntryFail(makeErrorSerializable(error)))
+            of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
           )
         )
     )
@@ -33,19 +40,24 @@ export class CartEntryEffects {
 
   @Effect()
   removeEntry$: Observable<
-    fromActions.RemoveEntrySuccess | fromActions.RemoveEntryFail
+    CartActions.CartRemoveEntrySuccess | CartActions.CartRemoveEntryFail
   > = this.actions$.pipe(
-    ofType(fromActions.REMOVE_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+    ofType(CartActions.CART_REMOVE_ENTRY),
+    map((action: CartActions.CartAddEntry) => action.payload),
     mergeMap(payload =>
       this.cartEntryConnector
         .remove(payload.userId, payload.cartId, payload.entry)
         .pipe(
           map(() => {
-            return new fromActions.RemoveEntrySuccess();
+            return new CartActions.CartRemoveEntrySuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
           catchError(error =>
-            of(new fromActions.RemoveEntryFail(makeErrorSerializable(error)))
+            of(
+              new CartActions.CartRemoveEntryFail(makeErrorSerializable(error))
+            )
           )
         )
     )
@@ -53,19 +65,24 @@ export class CartEntryEffects {
 
   @Effect()
   updateEntry$: Observable<
-    fromActions.UpdateEntrySuccess | fromActions.UpdateEntryFail
+    CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail
   > = this.actions$.pipe(
-    ofType(fromActions.UPDATE_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+    ofType(CartActions.CART_UPDATE_ENTRY),
+    map((action: CartActions.CartAddEntry) => action.payload),
     mergeMap(payload =>
       this.cartEntryConnector
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
           map(() => {
-            return new fromActions.UpdateEntrySuccess();
+            return new CartActions.CartUpdateEntrySuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
           catchError(error =>
-            of(new fromActions.UpdateEntryFail(makeErrorSerializable(error)))
+            of(
+              new CartActions.CartUpdateEntryFail(makeErrorSerializable(error))
+            )
           )
         )
     )

@@ -4,32 +4,32 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
+import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
-import * as fromStore from '../store/index';
+import { UserActions } from '../store/actions/index';
+import { UsersSelectors } from '../store/selectors/index';
 import {
+  REMOVE_USER_PROCESS_ID,
+  StateWithUser,
   UPDATE_EMAIL_PROCESS_ID,
+  UPDATE_PASSWORD_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-state';
 
 @Injectable()
 export class UserService {
-  constructor(
-    protected store: Store<
-      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Returns a user
    */
   get(): Observable<User> {
     return this.store.pipe(
-      select(fromStore.getDetails),
+      select(UsersSelectors.getDetails),
       tap(details => {
         if (Object.keys(details).length === 0) {
           this.load();
@@ -42,7 +42,7 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.store.dispatch(new fromStore.LoadUserDetails(USERID_CURRENT));
+    this.store.dispatch(new UserActions.LoadUserDetails(USERID_CURRENT));
   }
 
   /**
@@ -51,14 +51,14 @@ export class UserService {
    * @param submitFormData as UserRegisterFormData
    */
   register(userRegisterFormData: UserSignUp): void {
-    this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
+    this.store.dispatch(new UserActions.RegisterUser(userRegisterFormData));
   }
 
   /**
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.store.dispatch(new fromStore.RemoveUser(USERID_CURRENT));
+    this.store.dispatch(new UserActions.RemoveUser(USERID_CURRENT));
   }
 
   /**
@@ -66,7 +66,7 @@ export class UserService {
    */
   getRemoveUserResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(fromStore.REMOVE_USER_PROCESS_ID))
+      select(getProcessLoadingFactory(REMOVE_USER_PROCESS_ID))
     );
   }
 
@@ -75,7 +75,7 @@ export class UserService {
    */
   getRemoveUserResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessErrorFactory(fromStore.REMOVE_USER_PROCESS_ID))
+      select(getProcessErrorFactory(REMOVE_USER_PROCESS_ID))
     );
   }
 
@@ -84,7 +84,7 @@ export class UserService {
    */
   getRemoveUserResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(fromStore.REMOVE_USER_PROCESS_ID))
+      select(getProcessSuccessFactory(REMOVE_USER_PROCESS_ID))
     );
   }
 
@@ -93,28 +93,28 @@ export class UserService {
    * concludes, regardless if it's a success or an error
    */
   resetRemoveUserProcessState(): void {
-    this.store.dispatch(new fromStore.RemoveUserReset());
+    this.store.dispatch(new UserActions.RemoveUserReset());
   }
 
   /**
    * Returns titles
    */
   getTitles(): Observable<Title[]> {
-    return this.store.pipe(select(fromStore.getAllTitles));
+    return this.store.pipe(select(UsersSelectors.getAllTitles));
   }
 
   /**
    * Retrieves titles
    */
   loadTitles(): void {
-    this.store.dispatch(new fromStore.LoadTitles());
+    this.store.dispatch(new UserActions.LoadTitles());
   }
 
   /**
    * Return whether user's password is successfully reset
    */
   isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getResetPassword));
+    return this.store.pipe(select(UsersSelectors.getResetPassword));
   }
 
   /**
@@ -123,7 +123,10 @@ export class UserService {
    */
   updatePersonalDetails(userDetails: User): void {
     this.store.dispatch(
-      new fromStore.UpdateUserDetails({ username: USERID_CURRENT, userDetails })
+      new UserActions.UpdateUserDetails({
+        username: USERID_CURRENT,
+        userDetails,
+      })
     );
   }
 
@@ -158,7 +161,7 @@ export class UserService {
    * Resets the update user details processing state
    */
   resetUpdatePersonalDetailsProcessingState(): void {
-    this.store.dispatch(new fromStore.ResetUpdateUserDetails());
+    this.store.dispatch(new UserActions.ResetUpdateUserDetails());
   }
 
   /**
@@ -167,7 +170,7 @@ export class UserService {
    * @param password
    */
   resetPassword(token: string, password: string): void {
-    this.store.dispatch(new fromStore.ResetPassword({ token, password }));
+    this.store.dispatch(new UserActions.ResetPassword({ token, password }));
   }
 
   /*
@@ -175,7 +178,7 @@ export class UserService {
    */
   requestForgotPasswordEmail(userEmailAddress: string): void {
     this.store.dispatch(
-      new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
+      new UserActions.ForgotPasswordEmailRequest(userEmailAddress)
     );
   }
 
@@ -184,7 +187,11 @@ export class UserService {
    */
   updateEmail(password: string, newUid: string): void {
     this.store.dispatch(
-      new fromStore.UpdateEmailAction({ uid: USERID_CURRENT, password, newUid })
+      new UserActions.UpdateEmailAction({
+        uid: USERID_CURRENT,
+        password,
+        newUid,
+      })
     );
   }
 
@@ -219,7 +226,7 @@ export class UserService {
    * Resets the update user's email processing state
    */
   resetUpdateEmailResultState(): void {
-    this.store.dispatch(new fromStore.ResetUpdateEmailAction());
+    this.store.dispatch(new UserActions.ResetUpdateEmailAction());
   }
 
   /**
@@ -229,7 +236,7 @@ export class UserService {
    */
   updatePassword(oldPassword: string, newPassword: string): void {
     this.store.dispatch(
-      new fromStore.UpdatePassword({
+      new UserActions.UpdatePassword({
         userId: USERID_CURRENT,
         oldPassword,
         newPassword,
@@ -242,7 +249,7 @@ export class UserService {
    */
   getUpdatePasswordResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessLoadingFactory(UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 
@@ -251,7 +258,7 @@ export class UserService {
    */
   getUpdatePasswordResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessErrorFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessErrorFactory(UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 
@@ -260,7 +267,7 @@ export class UserService {
    */
   getUpdatePasswordResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessSuccessFactory(UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 
@@ -269,6 +276,6 @@ export class UserService {
    * concludes, regardless if it's a success or an error
    */
   resetUpdatePasswordProcessState(): void {
-    this.store.dispatch(new fromStore.UpdatePasswordReset());
+    this.store.dispatch(new UserActions.UpdatePasswordReset());
   }
 }

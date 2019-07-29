@@ -1,28 +1,25 @@
 import { InjectionToken, Provider } from '@angular/core';
-
 import {
+  Action,
   ActionReducer,
   ActionReducerMap,
-  MetaReducer,
-  Action,
   combineReducers,
+  MetaReducer,
 } from '@ngrx/store';
-
+import { AuthActions } from '../../../auth/store/actions/index';
+import { PageType } from '../../../model/cms.model';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
+import { NodeItem } from '../../model/node-item.model';
 import {
   CmsState,
   COMPONENT_ENTITY,
   NAVIGATION_DETAIL_ENTITY,
   StateWithCms,
 } from '../cms-state';
-import { NodeItem } from '../../model/node-item.model';
-import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
-import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
-import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
-
 import * as fromNavigation from './navigation-entry-item.reducer';
 import * as fromPageReducer from './page-data.reducer';
 import * as fromPageIndexReducer from './page-index.reducer';
-import { PageType } from '../../../model/cms.model';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
@@ -69,9 +66,9 @@ export function clearCmsState(
 ): ActionReducer<StateWithCms, Action> {
   return function(state, action) {
     if (
-      action.type === LANGUAGE_CHANGE ||
-      action.type === LOGOUT ||
-      action.type === LOGIN
+      action.type === SiteContextActions.LANGUAGE_CHANGE ||
+      action.type === AuthActions.LOGOUT ||
+      action.type === AuthActions.LOGIN
     ) {
       state = undefined;
     }
