@@ -247,15 +247,15 @@ function getStorefrontConfig(options: SpartacusOptions): string {
       },
       authentication: {
         client_id: 'mobile_android',
-          client_secret: 'secret'
+        client_secret: 'secret'
       },
       context: {
         baseSite: ['${baseSite}']
       },
       i18n: {
         resources: translations,
-          chunks: translationChunksConfig,
-          fallbackLang: 'en'
+        chunks: translationChunksConfig,
+        fallbackLang: 'en'
       }
     }`;
 }
