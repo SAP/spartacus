@@ -1,5 +1,6 @@
 import { login } from '../../../helpers/auth-forms';
 import * as helper from '../../../helpers/login';
+import { checkBanner } from '../../../helpers/homepage';
 
 describe('My Account - Update Password', () => {
   const PAGE_TITLE_UPDATE_PASSWORD = 'Update Password';
@@ -24,6 +25,8 @@ describe('My Account - Update Password', () => {
       });
       cy.visit('/');
       user = helper.registerUser();
+      helper.loginUser();
+      checkBanner();
     });
 
     beforeEach(() => {

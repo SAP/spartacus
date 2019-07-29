@@ -6,11 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  AuthRedirectService,
-  AuthService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
   Title,
   UserService,
   UserSignUp,
@@ -25,7 +24,7 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
-
+  loading$: Observable<boolean>;
   private subscription = new Subscription();
 
   userRegistrationForm: FormGroup = this.fb.group(
@@ -46,10 +45,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    private auth: AuthService,
-    private authRedirectService: AuthRedirectService,
     private userService: UserService,
     private globalMessageService: GlobalMessageService,
+    private router: RoutingService,
     private fb: FormBuilder
   ) {}
 
@@ -62,25 +60,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.subscription.add(
-      this.auth.getUserToken().subscribe(data => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      })
-    );
+    this.loading$ = this.userService.getRegisterUserResultLoading();
+
+    this.registerUserProcessInit();
 
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.subscription.add(
       this.globalMessageService
         .get()
-        .pipe(filter(data => Object.keys(data).length > 0))
+        .pipe(filter(messages => !!Object.keys(messages).length))
         .subscribe((globalMessageEntities: GlobalMessageEntities) => {
+          const messages =
+            globalMessageEntities &&
+            globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR];
+
           if (
-            globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR].some(
-              message => message === 'This field is required.'
-            )
+            messages &&
+            messages.some(message => message === 'This field is required.')
           ) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             this.globalMessageService.add(
@@ -93,22 +89,44 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.emailToLowerCase();
-    const {
+    this.userService.register(
+      this.collectDataFromRegisterForm(this.userRegistrationForm.value)
+    );
+  }
+
+  titleSelected(title: Title): void {
+    this.userRegistrationForm['controls'].titleCode.setValue(title.code);
+  }
+
+  collectDataFromRegisterForm(formData: any): UserSignUp {
+    const { firstName, lastName, email, password, titleCode } = formData;
+
+    return {
       firstName,
       lastName,
-      email,
-      password,
-      titleCode,
-    } = this.userRegistrationForm.value;
-    const userRegisterFormData: UserSignUp = {
-      firstName,
-      lastName,
-      uid: email,
+      uid: email.toLowerCase(),
       password,
       titleCode,
     };
-    this.userService.register(userRegisterFormData);
+  }
+
+  private onRegisterUserSuccess(success: boolean): void {
+    if (success) {
+      this.router.go('login');
+      this.globalMessageService.add(
+        { key: 'register.postRegisterMessage' },
+        GlobalMessageType.MSG_TYPE_INFO
+      );
+    }
+  }
+
+  private registerUserProcessInit(): void {
+    this.userService.resetRegisterUserProcessState();
+    this.subscription.add(
+      this.userService.getRegisterUserResultSuccess().subscribe(success => {
+        this.onRegisterUserSuccess(success);
+      })
+    );
   }
 
   private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
@@ -117,15 +135,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*
-   * Change the inputed email to lowercase because
-   * the backend only accepts lowercase emails
-   */
-  emailToLowerCase(): void {
-    this.userRegistrationForm.value.email = this.userRegistrationForm.value.email.toLowerCase();
-  }
-
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.userService.resetRegisterUserProcessState();
   }
 }

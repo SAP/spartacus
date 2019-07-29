@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { PageLayoutService } from './page-layout.service';
-import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+import { PAGE_LAYOUT_HANDLER } from 'projects/storefrontlib/public_api';
 
 const PAGE_TITLE = 'The page title will be returned if `showTitle` enabled';
 

@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of, Observable } from 'rxjs';
 
-import { CmsComponentData } from '@spartacus/storefront';
+import { CmsComponentData } from 'projects/storefrontlib/public_api';
 import { PageMetaService, PageMeta, I18nTestingModule } from '@spartacus/core';
 
 import { BreadcrumbComponent } from './breadcrumb.component';

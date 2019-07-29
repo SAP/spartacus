@@ -1,11 +1,8 @@
 import * as register from '../../helpers/register';
 import { formats } from '../../sample-data/viewports';
-import {
-  waitForHomePage,
-  clickHamburger,
-  checkBanner,
-} from '../../helpers/homepage';
+import { waitForHomePage, clickHamburger } from '../../helpers/homepage';
 import { user } from '../../sample-data/checkout-flow';
+import * as login from '../../helpers/login';
 
 describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
   beforeEach(() => {
@@ -15,8 +12,7 @@ describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
     cy.visit('/');
   });
 
-  // Behavior changed to automatic login.
-  it('should login when trying to register with the same email and correct password', () => {
+  it('should register and redirect to login page', () => {
     waitForHomePage();
     register.registerUser(user);
     waitForHomePage();
@@ -26,16 +22,20 @@ describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
     clickHamburger();
     register.registerUser(user);
     register.checkTermsAndConditions();
+    register.verifyGlobalMessageAfterRegistration();
   });
 
   it('should contain error when trying to register with the same email and different password', () => {
     cy.visit('/');
     waitForHomePage();
     register.registerUser(user);
-    waitForHomePage();
+    register.verifyGlobalMessageAfterRegistration();
+    login.loginUser();
     register.signOut();
+    register.navigateToTermsAndConditions();
+    register.checkTermsAndConditions();
     clickHamburger();
-    register.registerUser({ ...user, password: 'Different123.' });
-    register.verifyFailedRegistration();
+    register.registerUser(user);
+    register.verifyGlobalMessageAfterRegistration();
   });
 });

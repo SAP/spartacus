@@ -1,7 +1,7 @@
-import { formats } from '../../../sample-data/viewports';
-import { user } from '../../../sample-data/checkout-flow';
-import { register } from '../../../helpers/auth-forms';
+import { waitForHomePage } from '../../../helpers/homepage';
+import * as loginHelper from '../../../helpers/login';
 import { orderHistoryTest } from '../../../helpers/order-history';
+import { formats } from '../../../sample-data/viewports';
 
 describe(`${formats.mobile.width +
   1}p resolution - Order History with no orders`, () => {
@@ -11,11 +11,13 @@ describe(`${formats.mobile.width +
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
 
-    cy.get(loginLink).click();
-    cy.get('cx-page-layout')
-      .getByText('Register')
-      .click();
-    register(user);
+    waitForHomePage();
+
+    loginHelper.registerUser();
+
+    loginHelper.loginUser();
+
+    waitForHomePage();
 
     cy.selectUserMenuOption('Sign Out');
   });
