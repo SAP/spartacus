@@ -23,32 +23,23 @@ Run the following command from your project root:
 5. Add `cx-storefront` component to your app.component
 6. (Optionally) update index.html with Spartacus URL endpoints in meta tags
 
-## Spartacus developers
+## Building and using Spartacus Schematics from source
 
-This section is for Spartacus developers and anybody else who develops Spartacus libraries.
+This section is for Spartacus developers and anybody else who works with Spartacus soruce code.
 
-### Prerequisits
+### Prerequisites
 
 Install angular schematics globally: `npm install -g @angular-devkit/schematics-cli`
 
-### Running schematics
+### Building and testing schematics
 
-To run schematics you first need to build them with `yarn build`. After that run the following commands:
+1. To build schematics use `yarn build`
+2. To run tests use `yarn test`
 
-```shell
-cd projects/schematics
-npm pack
-```
+### Running schematics on separate / new project
 
-Next:
-
-- Copy the path to the created `spartacus-schematics-*.tgz` file.
-- Generate a new angular app (using `ng new`)
-- paste `"@spartacus/schematics": "/Users/i864078/workspaces/spa-gh-work/schematics-spartacus/projects/schematics/spartacus-schematics-0.1.0.tgz",` to the `devDependencies` section of the `package.json`.
-
-Navigate to the newly generated in your temrinal, and run:
-
-```shell
-yarn
-ng add @spartacus/schematics
-```
+1. Run `npm pack` in schematics directory. It will generate the `spartacus-schematics-x.x.x.tgz` file.
+2. Generate a new Angular app (using `ng new` command) or choose an existing one
+3. Install and run schematics in your app using either:
+ - `ng add path-to-file/spartacus-schematics-x.x.x.tgz` (it will execute default schematics)
+ - `yarn add path-to-file/spartacus-schematics-x.x.x.tgz` and `ng g @spartacus/schematics:add-spartacus`
