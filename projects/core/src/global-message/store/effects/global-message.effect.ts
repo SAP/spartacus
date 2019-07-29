@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import {
   delay,
   filter,
-  mergeMap,
   pluck,
+  concatMap,
   switchMap,
   map,
   withLatestFrom,
@@ -66,7 +66,7 @@ export class GlobalMessageEffect {
   > = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload', 'type'),
-    mergeMap((type: GlobalMessageType) => {
+    concatMap((type: GlobalMessageType) => {
       const config = this.config.globalMessages[type];
       return this.store.pipe(
         select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
