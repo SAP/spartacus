@@ -15,9 +15,6 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-const COUNTRIES_ENDPOINT = 'countries';
-const REGIONS_ENDPOINT = 'regions';
-
 @Injectable()
 export class OccSiteAdapter implements SiteAdapter {
   constructor(
@@ -28,7 +25,7 @@ export class OccSiteAdapter implements SiteAdapter {
 
   loadLanguages(): Observable<Language[]> {
     return this.http
-      .get<Occ.LanguageList>(this.occEndpoints.getEndpoint('languages'))
+      .get<Occ.LanguageList>(this.occEndpoints.getUrl('languages'))
       .pipe(
         map(languageList => languageList.languages),
         this.converter.pipeableMany(LANGUAGE_NORMALIZER)
@@ -37,7 +34,7 @@ export class OccSiteAdapter implements SiteAdapter {
 
   loadCurrencies(): Observable<Currency[]> {
     return this.http
-      .get<Occ.CurrencyList>(this.occEndpoints.getEndpoint('currencies'))
+      .get<Occ.CurrencyList>(this.occEndpoints.getUrl('currencies'))
       .pipe(
         map(currencyList => currencyList.currencies),
         this.converter.pipeableMany(CURRENCY_NORMALIZER)
@@ -45,16 +42,14 @@ export class OccSiteAdapter implements SiteAdapter {
   }
 
   loadCountries(type?: CountryType): Observable<Country[]> {
-    let params;
-
-    if (type) {
-      params = new HttpParams().set('type', type);
-    }
-
     return this.http
-      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(COUNTRIES_ENDPOINT), {
-        params,
-      })
+      .get<Occ.CountryList>(
+        this.occEndpoints.getUrl(
+          'countries',
+          undefined,
+          type ? { type } : undefined
+        )
+      )
       .pipe(
         map(countryList => countryList.countries),
         this.converter.pipeableMany(COUNTRY_NORMALIZER)
@@ -62,9 +57,10 @@ export class OccSiteAdapter implements SiteAdapter {
   }
 
   loadRegions(countryIsoCode: string): Observable<Region[]> {
-    const regionsEndpoint = `${COUNTRIES_ENDPOINT}/${countryIsoCode}/${REGIONS_ENDPOINT}?fields=regions(name,isocode,isocodeShort)`;
     return this.http
-      .get<Occ.RegionList>(this.occEndpoints.getEndpoint(regionsEndpoint))
+      .get<Occ.RegionList>(
+        this.occEndpoints.getUrl('regions', { isoCode: countryIsoCode })
+      )
       .pipe(
         map(regionList => regionList.regions),
         this.converter.pipeableMany(REGION_NORMALIZER)

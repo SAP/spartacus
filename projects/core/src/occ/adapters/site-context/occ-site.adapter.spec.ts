@@ -6,8 +6,8 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
-  COUNTRY_NORMALIZER,
   CountryType,
+  COUNTRY_NORMALIZER,
   OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
@@ -17,6 +17,7 @@ import {
 } from '../../../site-context/connectors/converters';
 import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -31,24 +32,46 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+class MockOccEndpointsService {
+  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+    return this.getEndpoint(endpoint);
+  }
+  getEndpoint(url: string) {
+    return url;
+  }
+  getBaseEndpoint() {
+    return (
+      MockOccModuleConfig.backend.occ.baseUrl +
+      MockOccModuleConfig.backend.occ.prefix +
+      MockOccModuleConfig.context.baseSite
+    );
+  }
+}
+
 describe('OccSiteAdapter', () => {
   let service: OccSiteAdapter;
   let converter: ConverterService;
   let httpMock: HttpTestingController;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
 
     service = TestBed.get(OccSiteAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+    occEnpointsService = TestBed.get(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -67,17 +90,18 @@ describe('OccSiteAdapter', () => {
 
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'base-url/rest/v2/test-site/languages',
+        url: 'languages',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('languages');
       mockReq.flush(languages);
     });
 
     it('should use converter', () => {
       service.loadLanguages().subscribe();
-      httpMock.expectOne('base-url/rest/v2/test-site/languages').flush([]);
+      httpMock.expectOne('languages').flush([]);
       expect(converter.pipeableMany).toHaveBeenCalledWith(LANGUAGE_NORMALIZER);
     });
   });
@@ -93,17 +117,18 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'base-url/rest/v2/test-site/currencies',
+        url: 'currencies',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('currencies');
       mockReq.flush(currencies);
     });
 
     it('should use converter', () => {
       service.loadCurrencies().subscribe();
-      httpMock.expectOne('base-url/rest/v2/test-site/currencies').flush([]);
+      httpMock.expectOne('currencies').flush([]);
       expect(converter.pipeableMany).toHaveBeenCalledWith(CURRENCY_NORMALIZER);
     });
   });
@@ -128,9 +153,7 @@ describe('OccSiteAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne(
-        req =>
-          req.method === 'GET' &&
-          req.url === 'base-url/rest/v2/test-site/countries'
+        req => req.method === 'GET' && req.url === 'countries'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -141,24 +164,25 @@ describe('OccSiteAdapter', () => {
     it('should take type into account', () => {
       service.loadCountries(CountryType.BILLING).subscribe();
       httpMock
-        .expectOne(
-          req =>
-            req.method === 'GET' &&
-            req.url === 'base-url/rest/v2/test-site/countries' &&
-            req.params.get('type') === CountryType.BILLING
-        )
+        .expectOne(req => req.method === 'GET' && req.url === 'countries')
         .flush({});
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'countries',
+        undefined,
+        { type: CountryType.BILLING }
+      );
     });
 
     it('should use converter', () => {
       service.loadCountries().subscribe();
-      httpMock.expectOne('base-url/rest/v2/test-site/countries').flush({});
+      httpMock.expectOne('countries').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(COUNTRY_NORMALIZER);
     });
   });
 
   describe('loadRegions', () => {
     it('should return regions', () => {
+      const countryIsoCode = 'CA';
       const regions: Occ.RegionList = {
         regions: [
           {
@@ -176,29 +200,25 @@ describe('OccSiteAdapter', () => {
         ],
       };
 
-      service.loadRegions('CA').subscribe(result => {
+      service.loadRegions(countryIsoCode).subscribe(result => {
         expect(result).toEqual(regions.regions);
       });
 
       const mockReq = httpMock.expectOne(
-        req =>
-          req.method === 'GET' &&
-          req.url ===
-            'base-url/rest/v2/test-site/countries/CA/regions?fields=regions(name,isocode,isocodeShort)'
+        req => req.method === 'GET' && req.url === 'regions'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('regions', {
+        isoCode: countryIsoCode,
+      });
       mockReq.flush(regions);
     });
 
     it('should use converter', () => {
       service.loadRegions('CA').subscribe();
-      httpMock
-        .expectOne(
-          'base-url/rest/v2/test-site/countries/CA/regions?fields=regions(name,isocode,isocodeShort)'
-        )
-        .flush({});
+      httpMock.expectOne('regions').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(REGION_NORMALIZER);
     });
   });
