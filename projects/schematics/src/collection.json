@@ -8,7 +8,7 @@
     },
     "ng-add": {
       "factory": "./ng-add/index",
-      "description": "Add spartacus and configure",
+      "description": "Install and configure spartacus",
       "schema": "./add-spartacus/schema.json",
       "private": true,
       "hidden": true

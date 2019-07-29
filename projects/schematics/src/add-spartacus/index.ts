@@ -81,38 +81,30 @@ const defaultAppComponentTemplate = `<!--The content below is only a placeholder
 `;
 
 function addPackageJsonDependencies(): Rule {
+  const spartacusVersion = '~1.0.0';
+  const ngrxVersion = '^8.0.0';
+
   return (tree: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
-        version: '~1.0.0',
+        version: spartacusVersion,
         name: '@spartacus/core',
       },
       {
         type: NodeDependencyType.Default,
-        version: '~1.0.0',
+        version: spartacusVersion,
         name: '@spartacus/storefront',
       },
       {
         type: NodeDependencyType.Default,
-        version: '~1.0.0',
+        version: spartacusVersion,
         name: '@spartacus/assets',
       },
       {
         type: NodeDependencyType.Default,
-        version: '~1.0.0',
+        version: spartacusVersion,
         name: '@spartacus/styles',
-      },
-
-      {
-        type: NodeDependencyType.Default,
-        version: '^0.800.0',
-        name: '@angular/pwa',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: '^8.0.0',
-        name: '@angular/service-worker',
       },
 
       {
@@ -128,17 +120,17 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: '^8.0.0',
+        version: ngrxVersion,
         name: '@ngrx/store',
       },
       {
         type: NodeDependencyType.Default,
-        version: '^8.0.0',
+        version: ngrxVersion,
         name: '@ngrx/effects',
       },
       {
         type: NodeDependencyType.Default,
-        version: '^8.0.0',
+        version: ngrxVersion,
         name: '@ngrx/router-store',
       },
 
@@ -413,7 +405,7 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
     }
 
     const htmlContent = buffer.toString();
-    const insertion = '\n' + `@import "~@spartacus/styles/index";\n`;
+    const insertion = '\n' + `@import '~@spartacus/styles/index';\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -503,7 +495,7 @@ function updateIndexFile(
  * We have to use our custom function because pwa schematics is currently private
  * so it's not possible to reuse it via standard externalSchematics
  */
-function myExternalSchematic<OptionT extends object>(
+function privateExternalSchematic<OptionT extends object>(
   collectionName: string,
   schematicName: string,
   options: OptionT,
@@ -544,7 +536,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(),
-      myExternalSchematic('@angular/pwa', 'ng-add', {
+      privateExternalSchematic('@angular/pwa', 'ng-add', {
         project: options.project,
       }),
       updateAppModule(options),
