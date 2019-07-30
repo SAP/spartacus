@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UserSignUp } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
@@ -28,8 +29,8 @@ describe('UserConnector', () => {
       providers: [{ provide: UserAdapter, useClass: MockUserAdapter }],
     });
 
-    service = TestBed.get(UserConnector);
-    adapter = TestBed.get(UserAdapter);
+    service = TestBed.get(UserConnector as Type<UserConnector>);
+    adapter = TestBed.get(UserAdapter as Type<UserAdapter>);
   });
 
   it('should be created', () => {

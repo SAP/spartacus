@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -124,7 +124,9 @@ describe('SearchBoxComponent', () => {
 
   describe('Default config', () => {
     beforeEach(() => {
-      cmsComponentData = TestBed.get(CmsComponentData);
+      cmsComponentData = TestBed.get(CmsComponentData as Type<
+        CmsComponentData<CmsSearchBoxComponent>
+      >);
 
       spyOnProperty(cmsComponentData, 'data$').and.returnValue(
         of(mockSearchBoxComponentData)
@@ -288,7 +290,9 @@ describe('SearchBoxComponent', () => {
   describe('Searchbox config ', () => {
     describe('displayProductImages=false', () => {
       beforeEach(() => {
-        cmsComponentData = TestBed.get(CmsComponentData);
+        cmsComponentData = TestBed.get(CmsComponentData as Type<
+          CmsComponentData<CmsSearchBoxComponent>
+        >);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
           of({
@@ -323,7 +327,9 @@ describe('SearchBoxComponent', () => {
 
     describe('displaySuggestions=false', () => {
       beforeEach(() => {
-        cmsComponentData = TestBed.get(CmsComponentData);
+        cmsComponentData = TestBed.get(CmsComponentData as Type<
+          CmsComponentData<CmsSearchBoxComponent>
+        >);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
           of({
