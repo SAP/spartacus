@@ -8,7 +8,6 @@ export function switchLanguage(lang: string, isMobile?: boolean) {
   }
 
   cy.get('.SiteContext label')
-    .should('be.visible')
     .contains('Language')
     .parent()
     .children('select')
