@@ -1,6 +1,6 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../facade/cart.service';
 import {
   CmsService,
   Page,
@@ -12,6 +12,7 @@ import {
 import { I18nTestingModule } from '../../i18n';
 import { Cart } from '../../model/cart.model';
 import { PageType } from '../../model/cms.model';
+import { CartService } from '../facade/cart.service';
 import { CartPageMetaResolver } from './cart-page-meta.resolver';
 
 const mockContentPage: Page = {
@@ -55,7 +56,7 @@ describe('CartPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(CartPageMetaResolver);
+    service = TestBed.get(CartPageMetaResolver as Type<CartPageMetaResolver>);
   });
 
   it('should inject service', () => {

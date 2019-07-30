@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -51,7 +52,9 @@ describe('AddressBookComponentService', () => {
       ],
     });
 
-    service = TestBed.get(AddressBookComponentService);
+    service = TestBed.get(AddressBookComponentService as Type<
+      AddressBookComponentService
+    >);
   });
 
   it('should service be created', () => {

@@ -1,7 +1,9 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Currency } from '../../model/misc.model';
 import { SiteConnector } from '../connectors/site.connector';
@@ -9,7 +11,6 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
-import { SiteContextConfig } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockCurrencies: Currency[] = [
@@ -60,9 +61,9 @@ describe('CurrencyService', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(CurrencyService);
+    service = TestBed.get(CurrencyService as Type<CurrencyService>);
   });
 
   it('should CurrencyService is injected', inject(

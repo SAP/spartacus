@@ -1,4 +1,5 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
@@ -64,10 +65,12 @@ describe('UserErrorHandlingService', () => {
       ],
     });
 
-    routingService = TestBed.get(RoutingService);
-    service = TestBed.get(UserErrorHandlingService);
-    httpHandler = TestBed.get(HttpHandler);
-    authService = TestBed.get(AuthService);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    service = TestBed.get(UserErrorHandlingService as Type<
+      UserErrorHandlingService
+    >);
+    httpHandler = TestBed.get(HttpHandler as Type<HttpHandler>);
+    authService = TestBed.get(AuthService as Type<AuthService>);
 
     spyOn(routingService, 'go').and.stub();
     spyOn(httpHandler, 'handle').and.callThrough();

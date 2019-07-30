@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -51,11 +52,17 @@ describe(`DeliveryModeSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(DeliveryModeSetGuard);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
+    guard = TestBed.get(DeliveryModeSetGuard as Type<DeliveryModeSetGuard>);
+    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
+      CheckoutDetailsService
+    >);
+    mockCheckoutConfig = TestBed.get(CheckoutConfig as Type<CheckoutConfig>);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
+      CheckoutConfigService
+    >);
   });
 
   it('should redirect to deliveryMode page when no modes selected', done => {

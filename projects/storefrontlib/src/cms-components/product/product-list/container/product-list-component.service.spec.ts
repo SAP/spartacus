@@ -1,12 +1,13 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, of } from 'rxjs';
 import {
   CurrencyService,
   LanguageService,
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
 export class MockRouter {
@@ -71,10 +72,14 @@ describe('ProductListComponentService', () => {
       ],
     });
 
-    service = TestBed.get(ProductListComponentService);
-    router = TestBed.get(Router);
-    activatedRoute = TestBed.get(ActivatedRoute);
-    productSearchService = TestBed.get(ProductSearchService);
+    service = TestBed.get(ProductListComponentService as Type<
+      ProductListComponentService
+    >);
+    router = TestBed.get(Router as Type<Router>);
+    activatedRoute = TestBed.get(ActivatedRoute as Type<ActivatedRoute>);
+    productSearchService = TestBed.get(ProductSearchService as Type<
+      ProductSearchService
+    >);
   });
 
   it('setQuery should set query param "query" in the url and reset "currentPage"', () => {
