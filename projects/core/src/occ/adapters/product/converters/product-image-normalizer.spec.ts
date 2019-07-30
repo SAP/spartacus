@@ -1,9 +1,10 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../../config/occ-config';
-import { ProductImageNormalizer } from './product-image-normalizer';
 import { ImageType } from '../../../../model/image.model';
-import { Occ } from '../../../occ-models/occ.models';
 import { Product } from '../../../../model/product.model';
+import { OccConfig } from '../../../config/occ-config';
+import { Occ } from '../../../occ-models/occ.models';
+import { ProductImageNormalizer } from './product-image-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -100,7 +101,9 @@ describe('ProductImageNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(ProductImageNormalizer);
+    service = TestBed.get(ProductImageNormalizer as Type<
+      ProductImageNormalizer
+    >);
   });
 
   it('should inject ProductImageConverterService', inject(

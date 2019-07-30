@@ -3,12 +3,13 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { Order } from '../../../model/order.model';
 import { ConverterService, OccUserOrderAdapter } from '@spartacus/core';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { Order } from '../../../model/order.model';
+import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import { OccConfig } from '../../config/occ-config';
 
 const userId = '123';
 
@@ -47,10 +48,12 @@ describe('OccUserOrderAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
+    service = TestBed.get(OccUserOrderAdapter as Type<OccUserOrderAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
-    service = TestBed.get(OccUserOrderAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeable').and.callThrough();
   });
 

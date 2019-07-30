@@ -3,7 +3,7 @@ import * as checkout from '../../helpers/checkout-flow';
 context('Checkout flow', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/');
+    checkout.visitHomePage();
   });
 
   it('should register successfully', () => {
@@ -16,8 +16,7 @@ context('Checkout flow', () => {
   });
 
   it('should add product to cart and go to checkout', () => {
-    checkout.addCheapProductToCart();
-    checkout.loginUser();
+    checkout.addCheapProductToCartAndLogin();
   });
 
   it('should fill in address form', () => {

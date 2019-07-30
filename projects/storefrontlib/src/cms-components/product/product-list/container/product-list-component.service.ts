@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  ActivatedRouterStateSnapshot,
   CurrencyService,
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
   RoutingService,
   SearchConfig,
-  ActivatedRouterStateSnapshot,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
@@ -88,10 +88,10 @@ export class ProductListComponentService {
    * When a user leaves the PLP route, the PLP component unsubscribes from this stream
    * so no longer the search is performed on route change.
    */
-  readonly model$: Observable<ProductSearchPage> = combineLatest(
+  readonly model$: Observable<ProductSearchPage> = combineLatest([
     this.searchResults$,
-    this.searchByRouting$
-  ).pipe(
+    this.searchByRouting$,
+  ]).pipe(
     pluck(0),
     shareReplay({ bufferSize: 1, refCount: true })
   );

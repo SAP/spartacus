@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
@@ -39,8 +40,8 @@ describe('UserRegister effect', () => {
       ],
     });
 
-    effect = TestBed.get(UserRegisterEffects);
-    userService = TestBed.get(UserConnector);
+    effect = TestBed.get(UserRegisterEffects as Type<UserRegisterEffects>);
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
 
     spyOn(userService, 'register').and.returnValue(of({}));
     spyOn(userService, 'remove').and.returnValue(of({}));
