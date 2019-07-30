@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
@@ -15,11 +15,6 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint = 'users/' + userId + '/carts/';
-    return this.occEndpoints.getEndpoint(cartEndpoint);
-  }
-
   public add(
     userId: string,
     cartId: string,
@@ -28,10 +23,11 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   ): Observable<CartModification> {
     const toAdd = JSON.stringify({});
 
-    const url = this.getCartEndpoint(userId) + cartId + '/entries';
-
-    const params = new HttpParams({
-      fromString: 'code=' + productCode + '&qty=' + quantity,
+    const url = this.occEndpoints.getUrl('addEntries', {
+      userId,
+      cartId,
+      productCode,
+      quantity,
     });
 
     const headers = new HttpHeaders({
@@ -39,7 +35,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     return this.http
-      .post<CartModification>(url, toAdd, { headers, params })
+      .post<CartModification>(url, toAdd, { headers })
       .pipe(this.converter.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
@@ -50,23 +46,23 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     qty: number,
     pickupStore?: string
   ): Observable<CartModification> {
-    const url =
-      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
-
-    let queryString = 'qty=' + qty;
+    let params = {};
     if (pickupStore) {
-      queryString = queryString + '&pickupStore=' + pickupStore;
+      params = { pickupStore };
     }
-    const params = new HttpParams({
-      fromString: queryString,
-    });
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
+    const url = this.occEndpoints.getUrl(
+      'updateEntries',
+      { userId, cartId, entryNumber, quantity: qty },
+      params
+    );
+
     return this.http
-      .patch<CartModification>(url, {}, { headers, params })
+      .patch<CartModification>(url, {}, { headers })
       .pipe(this.converter.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
@@ -75,8 +71,11 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     cartId: string,
     entryNumber: string
   ): Observable<any> {
-    const url =
-      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
+    const url = this.occEndpoints.getUrl('removeEntries', {
+      userId,
+      cartId,
+      entryNumber,
+    });
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

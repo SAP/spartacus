@@ -18,7 +18,6 @@ export class OccCartAdapter implements CartAdapter {
   ) {}
 
   public loadAll(userId: string): Observable<Cart[]> {
-    console.log('all');
     return this.http
       .get<Occ.CartList>(this.occEndpoints.getUrl('carts', { userId }))
       .pipe(
@@ -42,7 +41,6 @@ export class OccCartAdapter implements CartAdapter {
         })
       );
     } else {
-      console.log('one');
       return this.http
         .get<Occ.Cart>(this.occEndpoints.getUrl('cart', { userId, cartId }))
         .pipe(this.converter.pipeable(CART_NORMALIZER));
@@ -54,7 +52,6 @@ export class OccCartAdapter implements CartAdapter {
     oldCartId?: string,
     toMergeCartGuid?: string
   ): Observable<Cart> {
-    console.log('create');
     const toAdd = JSON.stringify({});
     let params = {};
 
