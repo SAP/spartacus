@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, CartService, RoutingService } from '@spartacus/core';
@@ -39,9 +40,11 @@ describe('CartNotEmptyGuard', () => {
       imports: [RouterTestingModule],
     });
 
-    cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard);
-    routingService = TestBed.get(RoutingService);
-    cartService = TestBed.get(CartService);
+    cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard as Type<
+      CartNotEmptyGuard
+    >);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    cartService = TestBed.get(CartService as Type<CartService>);
   });
 
   describe('canActivate:', () => {

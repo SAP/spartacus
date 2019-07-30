@@ -1,19 +1,19 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { Occ, OccConfig } from '../../index';
-import { StoreFinderSearchConfig } from '../../../store-finder/model/search-config';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { GeoPoint } from '../../../model/misc.model';
-import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
-import { ConverterService } from '../../../util/converter.service';
 import {
   POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
 } from '../../../store-finder/connectors';
+import { StoreFinderSearchConfig } from '../../../store-finder/model/search-config';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ, OccConfig } from '../../index';
+import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
@@ -57,10 +57,12 @@ describe('OccStoreFinderAdapter', () => {
         { provide: OccConfig, useClass: MockOccModuleConfig },
       ],
     });
+    adapter = TestBed.get(OccStoreFinderAdapter as Type<OccStoreFinderAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
-    adapter = TestBed.get(OccStoreFinderAdapter);
-    converter = TestBed.get(ConverterService);
-    httpMock = TestBed.get(HttpTestingController);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
   });
