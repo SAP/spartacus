@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
@@ -103,9 +104,11 @@ describe('Page Effects', () => {
       ],
     });
 
-    cmsPageConnector = TestBed.get(CmsPageConnector);
-    effects = TestBed.get(fromEffects.PageEffects);
-    routingService = TestBed.get(RoutingService);
+    cmsPageConnector = TestBed.get(CmsPageConnector as Type<CmsPageConnector>);
+    effects = TestBed.get(fromEffects.PageEffects as Type<
+      fromEffects.PageEffects
+    >);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
     Date.now = mockDateNow;
   });
 
