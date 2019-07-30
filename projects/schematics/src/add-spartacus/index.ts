@@ -233,8 +233,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
-          prefix: '/rest/v2/',
-          legacy: false
+          prefix: '/rest/v2/'
         }
       },
       authentication: {
