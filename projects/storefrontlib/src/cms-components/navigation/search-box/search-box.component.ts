@@ -51,11 +51,25 @@ export class SearchBoxComponent {
    * The component data is optional, so that this component
    * can be reused without CMS integration.
    */
+  // TODO(issue:#3827) deprecated since 1.0.2
+  /**
+   * @deprecated since v1.0.2
+   */
+  constructor(
+    searchBoxComponentService: SearchBoxComponentService,
+    componentData: CmsComponentData<CmsSearchBoxComponent>,
+  );
+  constructor(
+    searchBoxComponentService: SearchBoxComponentService,
+    componentData: CmsComponentData<CmsSearchBoxComponent>,
+    // tslint:disable-next-line
+    winRef: WindowRef
+  );
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
-    protected winRef: WindowRef
+    protected winRef?: WindowRef
   ) {}
 
   results$: Observable<SearchResults> = this.config$.pipe(
@@ -110,9 +124,23 @@ export class SearchBoxComponent {
    * Closes the typehead searchbox.
    */
   close(event: UIEvent, force?: boolean): void {
-    // Use timeout to detect changes
-    setTimeout(() => {
-      if ((!this.ignoreCloseEvent && !this.isSearchboxFocused()) || force) {
+    // TODO(issue:#3827) deprecated since 1.0.2
+    if (this.winRef) {
+      // Use timeout to detect changes
+      setTimeout(() => {
+        if ((!this.ignoreCloseEvent && !this.isSearchboxFocused()) || force) {
+          this.searchBoxComponentService.toggleBodyClass(
+            'searchbox-is-active',
+            false
+          );
+          if (event && event.target) {
+            (<HTMLElement>event.target).blur();
+          }
+        }
+        this.ignoreCloseEvent = false;
+      }, 0);
+    } else {
+      if (!this.ignoreCloseEvent || force) {
         this.searchBoxComponentService.toggleBodyClass(
           'searchbox-is-active',
           false
@@ -120,9 +148,9 @@ export class SearchBoxComponent {
         if (event && event.target) {
           (<HTMLElement>event.target).blur();
         }
+        this.ignoreCloseEvent = false;
       }
-      this.ignoreCloseEvent = false;
-    }, 0);
+    }
   }
 
   // Check if focus is on searchbox or result list elements
@@ -154,7 +182,11 @@ export class SearchBoxComponent {
 
   // Return focused element as HTMLElement
   private getFocusedElement(): HTMLElement {
-    return <HTMLElement>this.winRef.document.activeElement;
+    // TODO(issue:#3827) deprecated since 1.0.2
+    if (this.winRef) {
+      return <HTMLElement>this.winRef.document.activeElement;
+    }
+    return null;
   }
 
   private getFocusedIndex(): number {
