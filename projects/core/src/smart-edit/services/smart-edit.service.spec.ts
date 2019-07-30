@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CmsService, Page } from '../../cms/index';
@@ -41,10 +42,10 @@ describe('SmartEditService', () => {
       ],
     });
 
-    service = TestBed.get(SmartEditService);
-    cmsService = TestBed.get(CmsService);
-    routingService = TestBed.get(RoutingService);
-    baseSiteService = TestBed.get(BaseSiteService);
+    service = TestBed.get(SmartEditService as Type<SmartEditService>);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    baseSiteService = TestBed.get(BaseSiteService as Type<BaseSiteService>);
 
     spyOn(routingService, 'go').and.stub();
   });

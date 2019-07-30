@@ -2,17 +2,18 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { Address, AddressValidation } from '../../../model/address.model';
-import { Occ } from '../../occ-models/occ.models';
-import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import {
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
   ADDRESS_VALIDATION_NORMALIZER,
   ConverterService,
 } from '@spartacus/core';
+import { Address, AddressValidation } from '../../../model/address.model';
+import { OccConfig } from '../../config/occ-config';
+import { Occ } from '../../occ-models/occ.models';
+import { OccUserAddressAdapter } from './occ-user-address.adapter';
 
 const username = 'mockUsername';
 
@@ -46,10 +47,12 @@ describe('OccUserAddressAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
+    service = TestBed.get(OccUserAddressAdapter as Type<OccUserAddressAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
-    service = TestBed.get(OccUserAddressAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();

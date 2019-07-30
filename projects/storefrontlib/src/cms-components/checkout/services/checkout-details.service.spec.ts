@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Address,
@@ -84,11 +85,17 @@ describe('CheckoutDetailsService', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutDetailsService);
-    checkoutService = TestBed.get(CheckoutService);
-    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService);
-    checkoutPaymentService = TestBed.get(CheckoutPaymentService);
-    cartService = TestBed.get(CartService);
+    service = TestBed.get(CheckoutDetailsService as Type<
+      CheckoutDetailsService
+    >);
+    checkoutService = TestBed.get(CheckoutService as Type<CheckoutService>);
+    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
+    >);
+    checkoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
+      CheckoutPaymentService
+    >);
+    cartService = TestBed.get(CartService as Type<CartService>);
   });
 
   it('should be created', () => {

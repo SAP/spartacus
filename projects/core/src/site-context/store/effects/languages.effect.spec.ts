@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -30,8 +31,10 @@ describe('Languages Effects', () => {
       ],
     });
 
-    connector = TestBed.get(SiteConnector);
-    effects = TestBed.get(fromEffects.LanguagesEffects);
+    connector = TestBed.get(SiteConnector as Type<SiteConnector>);
+    effects = TestBed.get(fromEffects.LanguagesEffects as Type<
+      fromEffects.LanguagesEffects
+    >);
 
     spyOn(connector, 'getLanguages').and.returnValue(of(languages));
   });
