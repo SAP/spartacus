@@ -6,8 +6,8 @@ import { TestBed } from '@angular/core/testing';
 import { Cart } from '../../../model/cart.model';
 import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
 import { ConverterService } from '../../../util/converter.service';
-import { OccConfig } from '../../index';
 import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services';
 import { OccCartAdapter } from './occ-cart.adapter';
 
 const userId = '123';
@@ -24,32 +24,20 @@ const mergedCart: Cart = {
   name: 'mergedCart',
 };
 
-const usersEndpoint = '/users';
-const cartsEndpoint = 'carts';
-
-const DETAILS_PARAMS =
-  'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
-  'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue),updateable),' +
-  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),' +
-  'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
-  'appliedVouchers,productDiscounts(formattedValue)';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-  context: {
-    baseSite: [''],
-  },
-};
+class MockOccEndpointsService {
+  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+    return this.getEndpoint(endpoint);
+  }
+  getEndpoint(url: string) {
+    return url;
+  }
+}
 
 describe('OccCartAdapter', () => {
   let service: OccCartAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let occEndpointService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,16 +45,18 @@ describe('OccCartAdapter', () => {
       providers: [
         OccCartAdapter,
         ProductImageNormalizer,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
     service = TestBed.get(OccCartAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+    occEndpointService = TestBed.get(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(occEndpointService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -79,17 +69,14 @@ describe('OccCartAdapter', () => {
       service.loadAll(userId).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
-        );
+        return req.method === 'GET' && req.url === 'carts';
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'carts(' + DETAILS_PARAMS + ',saveTime)'
-      );
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('carts', {
+        userId,
+      });
       mockReq.flush(cartDataList);
       expect(result).toEqual(cartDataList.carts);
     });
@@ -101,15 +88,15 @@ describe('OccCartAdapter', () => {
       service.load(userId, cartId).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
-        );
+        return req.method === 'GET' && req.url === 'cart';
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('cart', {
+        userId,
+        cartId,
+      });
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
     });
@@ -119,17 +106,14 @@ describe('OccCartAdapter', () => {
       service.load(userId, 'current').subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
-        );
+        return req.method === 'GET' && req.url === 'carts';
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'carts(' + DETAILS_PARAMS + ',saveTime)'
-      );
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('carts', {
+        userId,
+      });
       mockReq.flush({ carts: [cartData] });
       expect(result).toEqual(cartData);
     });
@@ -141,16 +125,16 @@ describe('OccCartAdapter', () => {
       service.create(userId).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
-        );
+        return req.method === 'POST' && req.url === 'createCart';
       });
-
-      expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+        'createCart',
+        { userId },
+        {}
+      );
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
     });
@@ -164,19 +148,14 @@ describe('OccCartAdapter', () => {
         .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
-        );
+        return req.method === 'POST' && req.url === 'createCart';
       });
 
-      expect(mockReq.request.params.get('oldCartId')).toEqual(cartId);
-
-      expect(mockReq.request.params.get('toMergeCartGuid')).toEqual(
-        toMergeCart.guid
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+        'createCart',
+        { userId },
+        { oldCartId: cartId, toMergeCartGuid: toMergeCart.guid }
       );
-
-      expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

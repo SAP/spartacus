@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
@@ -9,13 +9,6 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-const DETAILS_PARAMS =
-  'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
-  'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue),updateable),' +
-  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),' +
-  'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
-  'appliedVouchers,productDiscounts(formattedValue)';
-
 @Injectable()
 export class OccCartAdapter implements CartAdapter {
   constructor(
@@ -24,29 +17,17 @@ export class OccCartAdapter implements CartAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint = `users/${userId}/carts/`;
-    return this.occEndpoints.getEndpoint(cartEndpoint);
-  }
-
   public loadAll(userId: string): Observable<Cart[]> {
-    const url = this.getCartEndpoint(userId);
-    const params = new HttpParams({
-      fromString: `fields=carts(${DETAILS_PARAMS},saveTime)`,
-    });
-
-    return this.http.get<Occ.CartList>(url, { params: params }).pipe(
-      pluck('carts'),
-      this.converter.pipeableMany(CART_NORMALIZER)
-    );
+    console.log('all');
+    return this.http
+      .get<Occ.CartList>(this.occEndpoints.getUrl('carts', { userId }))
+      .pipe(
+        pluck('carts'),
+        this.converter.pipeableMany(CART_NORMALIZER)
+      );
   }
 
   public load(userId: string, cartId: string): Observable<Cart> {
-    const url = this.getCartEndpoint(userId) + cartId;
-    const params = new HttpParams({
-      fromString: `fields=${DETAILS_PARAMS}`,
-    });
-
     if (cartId === 'current') {
       return this.loadAll(userId).pipe(
         map(carts => {
@@ -61,8 +42,9 @@ export class OccCartAdapter implements CartAdapter {
         })
       );
     } else {
+      console.log('one');
       return this.http
-        .get<Occ.Cart>(url, { params: params })
+        .get<Occ.Cart>(this.occEndpoints.getUrl('cart', { userId, cartId }))
         .pipe(this.converter.pipeable(CART_NORMALIZER));
     }
   }
@@ -72,22 +54,22 @@ export class OccCartAdapter implements CartAdapter {
     oldCartId?: string,
     toMergeCartGuid?: string
   ): Observable<Cart> {
-    const url = this.getCartEndpoint(userId);
+    console.log('create');
     const toAdd = JSON.stringify({});
-    let queryString = `fields=${DETAILS_PARAMS}`;
+    let params = {};
 
     if (oldCartId) {
-      queryString = `${queryString}&oldCartId=${oldCartId}`;
+      params = { oldCartId: oldCartId };
     }
     if (toMergeCartGuid) {
-      queryString = `${queryString}&toMergeCartGuid=${toMergeCartGuid}`;
+      params['toMergeCartGuid'] = toMergeCartGuid;
     }
-    const params = new HttpParams({
-      fromString: queryString,
-    });
 
     return this.http
-      .post<Occ.Cart>(url, toAdd, { params: params })
+      .post<Occ.Cart>(
+        this.occEndpoints.getUrl('createCart', { userId }, params),
+        toAdd
+      )
       .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 }

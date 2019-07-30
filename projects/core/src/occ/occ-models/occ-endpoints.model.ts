@@ -53,4 +53,22 @@ export interface OccEndpoints {
    * @member {string} [page]
    */
   page?: string;
+  /**
+   * Get all carts
+   *
+   * @member {string} [page]
+   */
+  carts?: string;
+  /**
+   * Get a cart with a given identifier
+   *
+   * @member {string} [page]
+   */
+  cart?: string;
+  /**
+   * Creates or restore a cart for a user
+   *
+   * @member {string} [page]
+   */
+  createCart?: string;
 }
