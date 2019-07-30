@@ -1,4 +1,4 @@
-import { Renderer2 } from '@angular/core';
+import { Renderer2, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsService,
@@ -70,8 +70,10 @@ describe('PageSlotComponent', () => {
     pageSlotComponent = fixture.componentInstance;
     pageSlotComponent.position = 'left';
 
-    cmsService = TestBed.get(CmsService);
-    dynamicAttributeService = TestBed.get(DynamicAttributeService);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    dynamicAttributeService = TestBed.get(DynamicAttributeService as Type<
+      DynamicAttributeService
+    >);
     renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as any);
   });
 

@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -81,8 +81,10 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderStoreDescriptionComponent);
     component = fixture.componentInstance;
-    route = TestBed.get(ActivatedRoute);
-    storeFinderService = TestBed.get(StoreFinderService);
+    route = TestBed.get(ActivatedRoute as Type<ActivatedRoute>);
+    storeFinderService = TestBed.get(StoreFinderService as Type<
+      StoreFinderService
+    >);
 
     spyOn(storeFinderService, 'viewStoreById');
   });

@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HighlightPipe } from './highlight.pipe';
 
@@ -8,7 +9,7 @@ describe('HighlightPipe', () => {
     TestBed.configureTestingModule({
       providers: [HighlightPipe],
     });
-    pipe = TestBed.get(HighlightPipe);
+    pipe = TestBed.get(HighlightPipe as Type<HighlightPipe>);
   });
 
   describe('transform', () => {
