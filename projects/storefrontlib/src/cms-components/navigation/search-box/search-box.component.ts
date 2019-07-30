@@ -57,7 +57,7 @@ export class SearchBoxComponent {
    */
   constructor(
     searchBoxComponentService: SearchBoxComponentService,
-    componentData: CmsComponentData<CmsSearchBoxComponent>,
+    componentData: CmsComponentData<CmsSearchBoxComponent>
   );
   constructor(
     searchBoxComponentService: SearchBoxComponentService,
