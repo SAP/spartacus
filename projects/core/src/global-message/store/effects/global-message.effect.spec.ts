@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -62,8 +63,10 @@ describe('GlobalMessage Effects', () => {
         },
       ],
     });
-    effects = TestBed.get(fromEffects.GlobalMessageEffect);
-    config = TestBed.get(GlobalMessageConfig);
+    effects = TestBed.get(fromEffects.GlobalMessageEffect as Type<
+      fromEffects.GlobalMessageEffect
+    >);
+    config = TestBed.get(GlobalMessageConfig as Type<GlobalMessageConfig>);
   });
 
   describe('hideAfterDelay$', () => {

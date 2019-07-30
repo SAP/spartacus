@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
@@ -7,11 +8,11 @@ import {
   PageMetaResolver,
   PageMetaService,
 } from '../../cms';
+import { I18nTestingModule } from '../../i18n';
+import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
-import { PageType } from '../../model/cms.model';
-import { I18nTestingModule } from '../../i18n';
 
 const mockProductPage: Page = {
   type: PageType.PRODUCT_PAGE,
@@ -80,7 +81,7 @@ describe('ProductPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(PageMetaService);
+    service = TestBed.get(PageMetaService as Type<PageMetaService>);
   });
 
   it('ProductTitleService should be created', inject(

@@ -3,7 +3,7 @@ import { register } from './auth-forms';
 export const loginLink = 'cx-login [role="link"]';
 
 export function registerUser(user) {
-  cy.get(loginLink).click();
+  cy.getByText(/Sign in \/ Register/i).click();
   cy.get('cx-page-layout')
     .getByText('Register')
     .click();

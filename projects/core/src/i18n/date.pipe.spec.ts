@@ -1,10 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { CxDatePipe } from './date.pipe';
-import { LanguageService } from '../site-context';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { LanguageService } from '../site-context';
 import { I18nConfig } from './config/i18n-config';
+import { CxDatePipe } from './date.pipe';
 
 const mockDate = '2017-01-11T10:14:39+0000';
 const mockDateFormat = 'longDate';
@@ -26,8 +27,8 @@ describe('DatePipe', () => {
       ],
     });
 
-    pipe = TestBed.get(CxDatePipe);
-    languageService = TestBed.get(LanguageService);
+    pipe = TestBed.get(CxDatePipe as Type<CxDatePipe>);
+    languageService = TestBed.get(LanguageService as Type<LanguageService>);
   });
 
   describe('transform', () => {

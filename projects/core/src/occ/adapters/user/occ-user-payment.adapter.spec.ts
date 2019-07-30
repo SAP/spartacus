@@ -2,12 +2,13 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
+import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
 import { PaymentDetails } from '../../../model/cart.model';
+import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
-import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
 
 const username = 'mockUsername';
 
@@ -40,10 +41,12 @@ describe('OccUserPaymentAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
+    service = TestBed.get(OccUserPaymentAdapter as Type<OccUserPaymentAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
-    service = TestBed.get(OccUserPaymentAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
