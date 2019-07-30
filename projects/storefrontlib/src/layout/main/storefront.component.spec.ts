@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService } from '@spartacus/core';
@@ -71,7 +71,7 @@ describe('StorefrontComponent', () => {
     fixture = TestBed.createComponent(StorefrontComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    routingService = TestBed.get(RoutingService);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   });
 
   it('should create', () => {

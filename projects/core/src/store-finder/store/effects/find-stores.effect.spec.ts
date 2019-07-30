@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -38,7 +39,9 @@ describe('FindStores Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.FindStoresEffect);
+    effects = TestBed.get(fromEffects.FindStoresEffect as Type<
+      fromEffects.FindStoresEffect
+    >);
     searchConfig = { pageSize: 10 };
   });
 

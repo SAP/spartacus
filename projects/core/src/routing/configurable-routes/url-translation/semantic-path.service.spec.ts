@@ -1,11 +1,12 @@
+import * as AngularCore from '@angular/core';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UrlParsingService } from './url-parsing.service';
-import { SemanticPathService } from './semantic-path.service';
 import { RouteConfig } from '../routes-config';
-import { UrlCommands } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
-import * as AngularCore from '@angular/core';
+import { SemanticPathService } from './semantic-path.service';
+import { UrlCommands } from './url-command';
+import { UrlParsingService } from './url-parsing.service';
 
 const mockRoutingConfigService = {
   getRouteConfig: () => {},
@@ -28,8 +29,10 @@ describe('SemanticPathService', () => {
       ],
     });
 
-    service = TestBed.get(SemanticPathService);
-    routingConfigService = TestBed.get(RoutingConfigService);
+    service = TestBed.get(SemanticPathService as Type<SemanticPathService>);
+    routingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
   });
 
   describe('get', () => {

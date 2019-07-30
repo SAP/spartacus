@@ -1,15 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { HttpErrorResponse } from '@angular/common/http';
-
-import { UserAuthenticationTokenService } from './user-authentication-token.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { AuthConfig } from '../../config/auth-config';
-
 import { UserToken } from '../../models/token-types.model';
+import { UserAuthenticationTokenService } from './user-authentication-token.service';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -52,8 +51,12 @@ describe('UserAuthenticationTokenService', () => {
       ],
     });
 
-    service = TestBed.get(UserAuthenticationTokenService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.get(UserAuthenticationTokenService as Type<
+      UserAuthenticationTokenService
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
   });
 
   afterEach(() => {

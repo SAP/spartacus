@@ -1,6 +1,7 @@
-import { UrlSegmentGroup, UrlSegment, Route } from '@angular/router';
-import { UrlMatcherFactoryService } from './url-matcher-factory.service';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Route, UrlSegment, UrlSegmentGroup } from '@angular/router';
+import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 describe('UrlMatcherFactoryService', () => {
   describe('create', () => {
@@ -16,7 +17,9 @@ describe('UrlMatcherFactoryService', () => {
         providers: [UrlMatcherFactoryService],
       });
 
-      factory = TestBed.get(UrlMatcherFactoryService);
+      factory = TestBed.get(UrlMatcherFactoryService as Type<
+        UrlMatcherFactoryService
+      >);
     });
 
     it('should match simple path', () => {
