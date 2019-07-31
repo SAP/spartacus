@@ -1,7 +1,8 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+import { Product } from '../../../../model/product.model';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
-import { Product } from '../../../../model/product.model';
 import { ProductNameNormalizer } from './product-name-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
@@ -38,7 +39,7 @@ describe('ProductNameNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(ProductNameNormalizer);
+    service = TestBed.get(ProductNameNormalizer as Type<ProductNameNormalizer>);
   });
 
   it('should inject ProductNameNormalizer', inject(

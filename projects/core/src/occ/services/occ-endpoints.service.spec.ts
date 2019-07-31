@@ -1,7 +1,7 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { OccEndpointsService } from './occ-endpoints.service';
 import { OccConfig } from '@spartacus/core';
+import { OccEndpointsService } from './occ-endpoints.service';
 
 describe('OccEndpointsService', () => {
   const mockOccConfig: OccConfig = {
@@ -27,7 +27,7 @@ describe('OccEndpointsService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: OccConfig, useValue: mockOccConfig }],
     });
-    service = TestBed.get(OccEndpointsService);
+    service = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
   });
 
   it('should be created', () => {

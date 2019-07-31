@@ -4,10 +4,12 @@ import {
   EventEmitter,
   Input,
   Output,
+  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessage,
   GlobalMessageService,
@@ -80,6 +82,18 @@ class GlobalMessageServiceMock {
   add(_message: GlobalMessage): void {}
 }
 
+const mockTitlesList: Title[] = [
+  {
+    code: 'mr',
+    name: 'Mr.',
+  },
+  {
+    code: 'mrs',
+    name: 'Mrs.',
+  },
+];
+const expectedTitles: Title[] = [{ code: '', name: 'None' }, ...mockTitlesList];
+
 describe('UpdateProfileComponent', () => {
   let component: UpdateProfileComponent;
   let fixture: ComponentFixture<UpdateProfileComponent>;
@@ -91,6 +105,7 @@ describe('UpdateProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [NgSelectModule],
       declarations: [
         UpdateProfileComponent,
         MockUpdateProfileFormComponent,
@@ -118,9 +133,11 @@ describe('UpdateProfileComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserService);
-    routingService = TestBed.get(RoutingService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    userService = TestBed.get(UserService as Type<UserService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
 
     fixture.detectChanges();
   });
@@ -212,5 +229,19 @@ describe('UpdateProfileComponent', () => {
     component.ngOnInit();
     component.ngOnDestroy();
     expect(subscriptions.unsubscribe).toHaveBeenCalled();
+  });
+
+  it('should load titles', () => {
+    spyOn(userService, 'getTitles').and.returnValue(of(mockTitlesList));
+
+    component.ngOnInit();
+
+    let titleList: Title[];
+    component.titles$
+      .subscribe(data => {
+        titleList = data;
+      })
+      .unsubscribe();
+    expect(titleList).toEqual(expectedTitles);
   });
 });

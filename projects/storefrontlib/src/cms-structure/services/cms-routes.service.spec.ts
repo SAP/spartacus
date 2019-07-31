@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { CmsRoute, PageType } from '@spartacus/core';
@@ -46,7 +47,8 @@ describe('CmsRoutesService', () => {
         { provide: CmsMappingService, useValue: mockCmsMapping },
       ],
     });
-    service = TestBed.get(CmsRoutesService);
+
+    service = TestBed.get(CmsRoutesService as Type<CmsRoutesService>);
   });
 
   it('should be created', () => {

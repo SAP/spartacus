@@ -1,7 +1,8 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthRedirectService,
   AuthService,
@@ -26,6 +27,10 @@ const mockTitlesList: Title[] = [
     code: 'mrs',
     name: 'Mrs.',
   },
+];
+const expectedTitles: Title[] = [
+  { code: '', name: 'Select title' },
+  ...mockTitlesList,
 ];
 
 @Pipe({
@@ -79,7 +84,12 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        NgSelectModule,
+      ],
       declarations: [RegisterComponent, MockUrlPipe],
       providers: [
         {
@@ -95,9 +105,13 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    authRedirectService = TestBed.get(AuthRedirectService);
-    userService = TestBed.get(UserService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    authRedirectService = TestBed.get(AuthRedirectService as Type<
+      AuthRedirectService
+    >);
+    userService = TestBed.get(UserService as Type<UserService>);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -120,7 +134,7 @@ describe('RegisterComponent', () => {
           titleList = data;
         })
         .unsubscribe();
-      expect(titleList).toEqual(mockTitlesList);
+      expect(titleList).toEqual(expectedTitles);
     });
 
     it('should fetch titles if the state is empty', done => {

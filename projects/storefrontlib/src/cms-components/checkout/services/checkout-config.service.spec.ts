@@ -1,12 +1,13 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../cms-structure/routing/default-routing-config';
+import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
+import { CheckoutConfig } from '../config/checkout-config';
+import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutStep } from '../model';
 import { CheckoutConfigService } from './checkout-config.service';
-import { CheckoutConfig } from './config/checkout-config';
-import { defaultCheckoutConfig } from './config/default-checkout-config';
-import { CheckoutStep } from './model';
 
 const mockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 
@@ -38,8 +39,10 @@ describe('CheckoutConfigService', () => {
       ],
     });
 
-    activatedRoute = TestBed.get(ActivatedRoute);
-    routingConfigService = TestBed.get(RoutingConfigService);
+    activatedRoute = TestBed.get(ActivatedRoute as Type<ActivatedRoute>);
+    routingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
 
     service = new CheckoutConfigService(
       mockCheckoutConfig,

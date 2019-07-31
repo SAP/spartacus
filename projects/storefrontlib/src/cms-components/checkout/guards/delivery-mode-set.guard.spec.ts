@@ -1,12 +1,13 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
-import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 
@@ -51,11 +52,17 @@ describe(`DeliveryModeSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(DeliveryModeSetGuard);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
+    guard = TestBed.get(DeliveryModeSetGuard as Type<DeliveryModeSetGuard>);
+    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
+      CheckoutDetailsService
+    >);
+    mockCheckoutConfig = TestBed.get(CheckoutConfig as Type<CheckoutConfig>);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
+      CheckoutConfigService
+    >);
   });
 
   it('should redirect to deliveryMode page when no modes selected', done => {

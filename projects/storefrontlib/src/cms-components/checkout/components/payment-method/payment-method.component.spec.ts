@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -19,11 +19,11 @@ import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/index';
-import { CheckoutConfigService } from '../../checkout-config.service';
 import {
   CheckoutStep,
   CheckoutStepType,
 } from '../../model/checkout-step.model';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { PaymentMethodComponent } from './payment-method.component';
 import createSpy = jasmine.createSpy;
 
@@ -198,10 +198,16 @@ describe('PaymentMethodComponent', () => {
       ],
     }).compileComponents();
 
-    mockUserPaymentService = TestBed.get(UserPaymentService);
-    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService);
-    mockRoutingService = TestBed.get(RoutingService);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
+    mockUserPaymentService = TestBed.get(UserPaymentService as Type<
+      UserPaymentService
+    >);
+    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
+      CheckoutPaymentService
+    >);
+    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
   }));
 
   beforeEach(() => {
