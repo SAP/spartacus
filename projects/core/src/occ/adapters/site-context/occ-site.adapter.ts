@@ -19,32 +19,32 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 export class OccSiteAdapter implements SiteAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected occEndpointsService: OccEndpointsService,
+    protected converterService: ConverterService
   ) {}
 
   loadLanguages(): Observable<Language[]> {
     return this.http
-      .get<Occ.LanguageList>(this.occEndpoints.getUrl('languages'))
+      .get<Occ.LanguageList>(this.occEndpointsService.getUrl('languages'))
       .pipe(
         map(languageList => languageList.languages),
-        this.converter.pipeableMany(LANGUAGE_NORMALIZER)
+        this.converterService.pipeableMany(LANGUAGE_NORMALIZER)
       );
   }
 
   loadCurrencies(): Observable<Currency[]> {
     return this.http
-      .get<Occ.CurrencyList>(this.occEndpoints.getUrl('currencies'))
+      .get<Occ.CurrencyList>(this.occEndpointsService.getUrl('currencies'))
       .pipe(
         map(currencyList => currencyList.currencies),
-        this.converter.pipeableMany(CURRENCY_NORMALIZER)
+        this.converterService.pipeableMany(CURRENCY_NORMALIZER)
       );
   }
 
   loadCountries(type?: CountryType): Observable<Country[]> {
     return this.http
       .get<Occ.CountryList>(
-        this.occEndpoints.getUrl(
+        this.occEndpointsService.getUrl(
           'countries',
           undefined,
           type ? { type } : undefined
@@ -52,23 +52,23 @@ export class OccSiteAdapter implements SiteAdapter {
       )
       .pipe(
         map(countryList => countryList.countries),
-        this.converter.pipeableMany(COUNTRY_NORMALIZER)
+        this.converterService.pipeableMany(COUNTRY_NORMALIZER)
       );
   }
 
   loadRegions(countryIsoCode: string): Observable<Region[]> {
     return this.http
       .get<Occ.RegionList>(
-        this.occEndpoints.getUrl('regions', { isoCode: countryIsoCode })
+        this.occEndpointsService.getUrl('regions', { isoCode: countryIsoCode })
       )
       .pipe(
         map(regionList => regionList.regions),
-        this.converter.pipeableMany(REGION_NORMALIZER)
+        this.converterService.pipeableMany(REGION_NORMALIZER)
       );
   }
 
   loadBaseSite(): Observable<BaseSite> {
-    const baseUrl = this.occEndpoints.getBaseEndpoint();
+    const baseUrl = this.occEndpointsService.getBaseEndpoint();
     const urlSplits = baseUrl.split('/');
     const activeSite = urlSplits.pop();
     const url = urlSplits.join('/') + '/basesites';

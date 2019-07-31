@@ -49,10 +49,10 @@ class MockOccEndpointsService {
 }
 
 describe('OccSiteAdapter', () => {
-  let service: OccSiteAdapter;
-  let converter: ConverterService;
+  let occSiteAdapter: OccSiteAdapter;
+  let converterService: ConverterService;
   let httpMock: HttpTestingController;
-  let occEnpointsService: OccEndpointsService;
+  let occEndpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,12 +66,12 @@ describe('OccSiteAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccSiteAdapter);
+    occSiteAdapter = TestBed.get(OccSiteAdapter);
     httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
-    occEnpointsService = TestBed.get(OccEndpointsService);
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    converterService = TestBed.get(ConverterService);
+    occEndpointsService = TestBed.get(OccEndpointsService);
+    spyOn(converterService, 'pipeableMany').and.callThrough();
+    spyOn(occEndpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -84,25 +84,27 @@ describe('OccSiteAdapter', () => {
         languages: [{ isocode: 'en' }, { isocode: 'de' }],
       };
 
-      service.loadLanguages().subscribe(result => {
+      occSiteAdapter.loadLanguages().subscribe(result => {
         expect(result).toEqual(languages.languages);
       });
 
-      const mockReq: TestRequest = httpMock.expectOne({
+      const mockRequest: TestRequest = httpMock.expectOne({
         method: 'GET',
         url: 'languages',
       });
 
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('languages');
-      mockReq.flush(languages);
+      expect(mockRequest.cancelled).toBeFalsy();
+      expect(mockRequest.request.responseType).toEqual('json');
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('languages');
+      mockRequest.flush(languages);
     });
 
     it('should use converter', () => {
-      service.loadLanguages().subscribe();
+      occSiteAdapter.loadLanguages().subscribe();
       httpMock.expectOne('languages').flush([]);
-      expect(converter.pipeableMany).toHaveBeenCalledWith(LANGUAGE_NORMALIZER);
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
+        LANGUAGE_NORMALIZER
+      );
     });
   });
 
@@ -112,7 +114,7 @@ describe('OccSiteAdapter', () => {
         currencies: [{ isocode: 'USD' }, { isocode: 'JPY' }],
       };
 
-      service.loadCurrencies().subscribe(result => {
+      occSiteAdapter.loadCurrencies().subscribe(result => {
         expect(result).toEqual(currencies.currencies);
       });
       const mockReq: TestRequest = httpMock.expectOne({
@@ -122,14 +124,16 @@ describe('OccSiteAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('currencies');
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('currencies');
       mockReq.flush(currencies);
     });
 
     it('should use converter', () => {
-      service.loadCurrencies().subscribe();
+      occSiteAdapter.loadCurrencies().subscribe();
       httpMock.expectOne('currencies').flush([]);
-      expect(converter.pipeableMany).toHaveBeenCalledWith(CURRENCY_NORMALIZER);
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
+        CURRENCY_NORMALIZER
+      );
     });
   });
 
@@ -148,7 +152,7 @@ describe('OccSiteAdapter', () => {
         ],
       };
 
-      service.loadCountries().subscribe(result => {
+      occSiteAdapter.loadCountries().subscribe(result => {
         expect(result).toEqual(countryList.countries);
       });
 
@@ -162,11 +166,11 @@ describe('OccSiteAdapter', () => {
     });
 
     it('should take type into account', () => {
-      service.loadCountries(CountryType.BILLING).subscribe();
+      occSiteAdapter.loadCountries(CountryType.BILLING).subscribe();
       httpMock
         .expectOne(req => req.method === 'GET' && req.url === 'countries')
         .flush({});
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
         'countries',
         undefined,
         { type: CountryType.BILLING }
@@ -174,9 +178,11 @@ describe('OccSiteAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.loadCountries().subscribe();
+      occSiteAdapter.loadCountries().subscribe();
       httpMock.expectOne('countries').flush({});
-      expect(converter.pipeableMany).toHaveBeenCalledWith(COUNTRY_NORMALIZER);
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
+        COUNTRY_NORMALIZER
+      );
     });
   });
 
@@ -200,7 +206,7 @@ describe('OccSiteAdapter', () => {
         ],
       };
 
-      service.loadRegions(countryIsoCode).subscribe(result => {
+      occSiteAdapter.loadRegions(countryIsoCode).subscribe(result => {
         expect(result).toEqual(regions.regions);
       });
 
@@ -210,16 +216,18 @@ describe('OccSiteAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('regions', {
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('regions', {
         isoCode: countryIsoCode,
       });
       mockReq.flush(regions);
     });
 
     it('should use converter', () => {
-      service.loadRegions('CA').subscribe();
+      occSiteAdapter.loadRegions('CA').subscribe();
       httpMock.expectOne('regions').flush({});
-      expect(converter.pipeableMany).toHaveBeenCalledWith(REGION_NORMALIZER);
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
+        REGION_NORMALIZER
+      );
     });
   });
 
@@ -231,7 +239,7 @@ describe('OccSiteAdapter', () => {
         defaultPreviewProductCode: 'test product code',
       };
 
-      service.loadBaseSite().subscribe(result => {
+      occSiteAdapter.loadBaseSite().subscribe(result => {
         expect(result).toEqual(baseSite);
       });
       const mockReq: TestRequest = httpMock.expectOne({
