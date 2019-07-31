@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -e
-set -x
 
 BRANCH=develop
 if [ "$1" != "" ] ; then
