@@ -71,4 +71,28 @@ export interface OccEndpoints {
    * @member {string} [page]
    */
   storescounts?: string;
+  /**
+   * Get a list of available languages
+   *
+   * @member {string} [languages]
+   */
+  languages?: string;
+  /**
+   * Get a list of available currencies
+   *
+   * @member {string} [currencies]
+   */
+  currencies?: string;
+  /**
+   * Get a list of countries
+   *
+   * @member {string} [countries]
+   */
+  countries?: string;
+  /**
+   * Fetch the list of regions for the provided country
+   *
+   * @member {string} [regions]
+   */
+  regions?: string;
 }
