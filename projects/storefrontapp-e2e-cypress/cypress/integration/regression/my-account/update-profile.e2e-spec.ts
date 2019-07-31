@@ -31,7 +31,11 @@ describe('Update profile', () => {
     it('should be able to update its profile', () => {
       // update the data
       cy.get('cx-update-profile-form').within(() => {
-        cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
+        cy.get('[formcontrolname="titleCode"]')
+          .click()
+          .within(() => {
+            cy.get('.ng-dropdown-panel .ng-option:nth-child(6)').click();
+          });
         cy.get('[formcontrolname="firstName"]')
           .clear()
           .type(newFirstName);
