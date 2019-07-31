@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
 import { CardModule } from '../../../../../shared/components/card/card.module';
-import { OnlyNumberDirectiveModule } from '../../../../../shared/directives/only-number/only-number.directive.module';
 import { IconModule } from '../../../../misc/icon/icon.module';
 import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
 import { PaymentFormComponent } from './payment-form.component';
@@ -18,7 +17,6 @@ import { PaymentFormComponent } from './payment-form.component';
     BillingAddressFormModule,
     I18nModule,
     IconModule,
-    OnlyNumberDirectiveModule,
   ],
   declarations: [PaymentFormComponent],
   entryComponents: [PaymentFormComponent],
