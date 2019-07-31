@@ -3,7 +3,7 @@ import { register } from './auth-forms';
 export const loginLink = 'cx-login [role="link"]';
 
 export function registerUser(user) {
-  cy.get(loginLink).click();
+  cy.getByText(/Sign in \/ Register/i).click();
   cy.get('cx-page-layout')
     .getByText('Register')
     .click();
@@ -25,9 +25,12 @@ export function checkTermsAndConditions() {
 }
 
 export function signOut() {
+  cy.server();
+  cy.route('GET', '/rest/v2/electronics-spa/cms/pages?*/logout*').as('logOut');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.wait('@logOut');
   cy.visit('/');
 }
 

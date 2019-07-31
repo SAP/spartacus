@@ -31,7 +31,9 @@ describe('I18nextTranslationService', () => {
       ],
     });
 
-    service = TestBed.get(I18nextTranslationService);
+    service = TestBed.get(I18nextTranslationService as AngularCore.Type<
+      I18nextTranslationService
+    >);
   });
 
   describe('loadChunks', () => {

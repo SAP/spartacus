@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -33,8 +34,10 @@ describe('ReferenceService', () => {
       providers: [ProductReferenceService],
     });
 
-    store = TestBed.get(Store);
-    service = TestBed.get(ProductReferenceService);
+    store = TestBed.get(Store as Type<Store<ProductsState>>);
+    service = TestBed.get(ProductReferenceService as Type<
+      ProductReferenceService
+    >);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
