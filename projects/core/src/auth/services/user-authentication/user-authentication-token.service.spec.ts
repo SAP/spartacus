@@ -23,10 +23,9 @@ const token: UserToken = {
   scope: ['mock', 'scope'],
   userId: 'dsfk32df34',
 };
-const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
 describe('UserAuthenticationTokenService', () => {
-  let service: UserAuthenticationTokenService;
+  let authTokenService: UserAuthenticationTokenService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -52,7 +51,7 @@ describe('UserAuthenticationTokenService', () => {
       ],
     });
 
-    service = TestBed.get(UserAuthenticationTokenService);
+    authTokenService = TestBed.get(UserAuthenticationTokenService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -61,12 +60,12 @@ describe('UserAuthenticationTokenService', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(authTokenService).toBeTruthy();
   });
 
   describe('load user token', () => {
     it('should load user token for given username and password', () => {
-      service.loadToken(username, password).subscribe(result => {
+      authTokenService.loadToken(username, password).subscribe(result => {
         expect(result).toEqual(token);
       });
 
@@ -82,7 +81,7 @@ describe('UserAuthenticationTokenService', () => {
 
   describe('refresh user token', () => {
     it('should refresh user token for a given refresh_token', () => {
-      service.refreshToken(refreshToken).subscribe(result => {
+      authTokenService.refreshToken(refreshToken).subscribe(result => {
         expect(result).toEqual(token);
       });
 
@@ -96,7 +95,7 @@ describe('UserAuthenticationTokenService', () => {
     });
 
     it('should catch refresh error', () => {
-      service.refreshToken('invalid token').subscribe(
+      authTokenService.refreshToken('invalid token').subscribe(
         _result => {},
         (error: HttpErrorResponse) => {
           expect(error.status).toBe(400);
