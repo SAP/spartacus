@@ -1,6 +1,6 @@
 workflow "API extractor" {
   resolves = ["Breaking change detection bot"]
-  on = "pull_request"
+  on = "push"
 }
 
 action "Breaking change detection bot" {

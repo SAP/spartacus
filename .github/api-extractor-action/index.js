@@ -4,10 +4,25 @@ const normalizeNewline = require('normalize-newline');
 
 Toolkit.run(
   async tools => {
-    const issueNumber = tools.context.payload.pull_request.number;
     const owner = tools.context.payload.repository.owner.login;
     const repo = tools.context.payload.repository.name;
-    const targetBranch = tools.context.payload.pull_request.base.ref;
+
+    const response = await tools.github.pulls.list({
+      owner,
+      repo,
+      head: tools.context.payload.ref.replace('refs/heads/', ''),
+    });
+
+    const relatedPullRequests = response.data;
+
+    if (relatedPullRequests.length === 0) {
+      return;
+    }
+
+    const relatedPR = relatedPullRequests[0];
+
+    const issueNumber = relatedPR.number;
+    const targetBranch = relatedPR.base.ref;
     const reportHeader = 'Public API change detection bot';
 
     function extractSnippetFromFile(filename) {
@@ -17,10 +32,11 @@ Toolkit.run(
         .trim();
     }
 
-    await tools.runInWorkspace('sh', ['./scripts/api-extractor.sh']);
+    await tools.runInWorkspace('sh', ['./scripts/api-extractor-for-branch.sh']);
     await tools.runInWorkspace('sh', [
       './scripts/api-extractor-for-branch.sh',
       targetBranch,
+      'target',
     ]);
 
     const libraries = ['assets', 'storefront'];
@@ -92,7 +108,7 @@ Toolkit.run(
     printReport(generateCommentBody(libsDiffs));
   },
   {
-    event: ['pull_request.opened', 'pull_request.synchronize'],
+    event: ['push'],
     secrets: ['GITHUB_TOKEN'],
   }
 );
