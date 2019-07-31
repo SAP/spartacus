@@ -31,19 +31,19 @@ yarn build:core:lib
 rm -rf etc
 mkdir etc
 
-ASSETS_CONFIG_PATH="./../api/api-extractor-assets.json"
+ASSETS_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-assets.json"
 if [ "$DIR" = "self" ] ; then
-  ASSETS_CONFIG_PATH="./api/api-extractor-assets.json"
+  ASSETS_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-assets.json"
 fi
 
-CORE_CONFIG_PATH="./../api/api-extractor-core.json"
+CORE_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-core.json"
 if [ "$DIR" = "self" ] ; then
-  CORE_CONFIG_PATH="./api/api-extractor-core.json"
+  CORE_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-core.json"
 fi
 
-STOREFRONT_CONFIG_PATH="./../api/api-extractor-storefrontlib.json"
+STOREFRONT_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-storefrontlib.json"
 if [ "$DIR" = "self" ] ; then
-  STOREFRONT_CONFIG_PATH="./api/api-extractor-storefrontlib.json"
+  STOREFRONT_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-storefrontlib.json"
 fi
 
 # @spartacus/assets
