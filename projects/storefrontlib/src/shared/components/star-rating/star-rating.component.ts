@@ -37,9 +37,11 @@ export class StarRatingComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
-  // TODO(issue:#3803) deprecated since 1.0.2
   /**
    * @deprecated since version 1.0.2
+   *  Use constructor(el: ElementRef, renderer: Renderer2) instead
+   *
+   *  TODO(issue:#3803) deprecated since 1.0.2
    */
   constructor(el: ElementRef);
   constructor(el: ElementRef, renderer: Renderer2); // tslint:disable-line
