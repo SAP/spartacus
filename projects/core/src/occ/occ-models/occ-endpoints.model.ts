@@ -82,5 +82,5 @@ export interface OccEndpoints {
    *
    * @member {string} [userLoad]
    */
-  userLoad?: string;
+  user?: string;
 }

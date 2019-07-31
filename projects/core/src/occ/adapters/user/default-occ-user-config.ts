@@ -4,7 +4,7 @@ export const defaultOccUserConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        userLoad: 'users/${userId}',
+        user: 'users/${userId}',
       },
     },
   },

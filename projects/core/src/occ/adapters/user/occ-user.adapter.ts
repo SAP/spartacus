@@ -39,14 +39,14 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   load(userId: string): Observable<User> {
-    const url = this.occEndpoints.getUrl('userLoad', { userId });
+    const url = this.occEndpoints.getUrl('user', { userId });
     return this.http
       .get<Occ.User>(url)
       .pipe(this.converter.pipeable(USER_NORMALIZER));
   }
 
   update(userId: string, user: User): Observable<{}> {
-    const url = this.getUserEndpoint(userId);
+    const url = this.occEndpoints.getUrl('user', { userId });
     user = this.converter.convert(user, USER_SERIALIZER);
     return this.http.patch(url, user);
   }

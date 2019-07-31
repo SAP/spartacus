@@ -100,7 +100,7 @@ describe('OccUserAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('userLoad', {
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
         userId: user.customerId,
       });
       expect(mockReq.cancelled).toBeFalsy();
@@ -127,10 +127,10 @@ describe('OccUserAdapter', () => {
       service.update(username, userUpdates).subscribe(_ => _);
 
       const mockReq = httpMock.expectOne(req => {
-        console.log('actual url: ', req.url);
-        return (
-          req.method === 'PATCH' && req.url === usersEndpoint + `/${username}`
-        );
+        return req.method === 'PATCH';
+      });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
+        userId: user.customerId,
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -145,7 +145,11 @@ describe('OccUserAdapter', () => {
       };
 
       service.update(username, userUpdates).subscribe();
-      httpMock.expectOne(usersEndpoint + `/${username}`).flush(userUpdates);
+      httpMock
+        .expectOne(req => {
+          return req.method === 'PATCH';
+        })
+        .flush(userUpdates);
       expect(converter.convert).toHaveBeenCalledWith(
         userUpdates,
         USER_SERIALIZER
