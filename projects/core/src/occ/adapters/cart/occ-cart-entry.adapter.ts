@@ -11,8 +11,8 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 export class OccCartEntryAdapter implements CartEntryAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected occEndpointsService: OccEndpointsService,
+    protected converterService: ConverterService
   ) {}
 
   public add(
@@ -23,7 +23,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   ): Observable<CartModification> {
     const toAdd = JSON.stringify({});
 
-    const url = this.occEndpoints.getUrl('addEntries', {
+    const url = this.occEndpointsService.getUrl('addEntries', {
       userId,
       cartId,
       productCode,
@@ -36,7 +36,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     return this.http
       .post<CartModification>(url, toAdd, { headers })
-      .pipe(this.converter.pipeable(CART_MODIFICATION_NORMALIZER));
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
   public update(
@@ -55,7 +55,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    const url = this.occEndpoints.getUrl(
+    const url = this.occEndpointsService.getUrl(
       'updateEntries',
       { userId, cartId, entryNumber, quantity: qty },
       params
@@ -63,7 +63,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     return this.http
       .patch<CartModification>(url, {}, { headers })
-      .pipe(this.converter.pipeable(CART_MODIFICATION_NORMALIZER));
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
   public remove(
@@ -71,7 +71,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     cartId: string,
     entryNumber: string
   ): Observable<any> {
-    const url = this.occEndpoints.getUrl('removeEntries', {
+    const url = this.occEndpointsService.getUrl('removeEntries', {
       userId,
       cartId,
       entryNumber,

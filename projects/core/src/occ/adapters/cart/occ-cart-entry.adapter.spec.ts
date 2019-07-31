@@ -29,9 +29,9 @@ class MockOccEndpointsService {
 }
 
 describe('OccCartEntryAdapter', () => {
-  let service: OccCartEntryAdapter;
+  let occCartEntryAdapter: OccCartEntryAdapter;
   let httpMock: HttpTestingController;
-  let converter: ConverterService;
+  let converterService: ConverterService;
   let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
@@ -43,12 +43,12 @@ describe('OccCartEntryAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccCartEntryAdapter);
+    occCartEntryAdapter = TestBed.get(OccCartEntryAdapter);
     httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    converterService = TestBed.get(ConverterService);
     occEnpointsService = TestBed.get(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
@@ -59,7 +59,9 @@ describe('OccCartEntryAdapter', () => {
   describe('add entry to cart', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
       let result;
-      service.add(userId, cartId, '147852', 5).subscribe(res => (result = res));
+      occCartEntryAdapter
+        .add(userId, cartId, '147852', 5)
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
 
@@ -78,7 +80,7 @@ describe('OccCartEntryAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartModified);
       expect(result).toEqual(cartModified);
-      expect(converter.pipeable).toHaveBeenCalledWith(
+      expect(converterService.pipeable).toHaveBeenCalledWith(
         CART_MODIFICATION_NORMALIZER
       );
     });
@@ -87,7 +89,7 @@ describe('OccCartEntryAdapter', () => {
   describe('update entry in a cart', () => {
     it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
       let result;
-      service
+      occCartEntryAdapter
         .update(userId, cartId, '12345', 5)
         .subscribe(res => (result = res));
 
@@ -114,7 +116,7 @@ describe('OccCartEntryAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartModified);
       expect(result).toEqual(cartModified);
-      expect(converter.pipeable).toHaveBeenCalledWith(
+      expect(converterService.pipeable).toHaveBeenCalledWith(
         CART_MODIFICATION_NORMALIZER
       );
     });
@@ -122,7 +124,7 @@ describe('OccCartEntryAdapter', () => {
     it(`should handle 'pickupStore'`, () => {
       const pickupStore =
         'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France';
-      service
+      occCartEntryAdapter
         .update(userId, cartId, '12345', 5, pickupStore)
         .subscribe()
         .unsubscribe();
@@ -148,7 +150,9 @@ describe('OccCartEntryAdapter', () => {
   describe('remove an entry from cart', () => {
     it('should remove entry from cart for given user id, cart id and entry number', () => {
       let result;
-      service.remove(userId, cartId, '147852').subscribe(res => (result = res));
+      occCartEntryAdapter
+        .remove(userId, cartId, '147852')
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne({
         method: 'DELETE',

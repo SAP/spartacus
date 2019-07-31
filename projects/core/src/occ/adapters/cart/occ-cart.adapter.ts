@@ -13,16 +13,16 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 export class OccCartAdapter implements CartAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected occEndpointsService: OccEndpointsService,
+    protected converterService: ConverterService
   ) {}
 
   public loadAll(userId: string): Observable<Cart[]> {
     return this.http
-      .get<Occ.CartList>(this.occEndpoints.getUrl('carts', { userId }))
+      .get<Occ.CartList>(this.occEndpointsService.getUrl('carts', { userId }))
       .pipe(
         pluck('carts'),
-        this.converter.pipeableMany(CART_NORMALIZER)
+        this.converterService.pipeableMany(CART_NORMALIZER)
       );
   }
 
@@ -42,8 +42,10 @@ export class OccCartAdapter implements CartAdapter {
       );
     } else {
       return this.http
-        .get<Occ.Cart>(this.occEndpoints.getUrl('cart', { userId, cartId }))
-        .pipe(this.converter.pipeable(CART_NORMALIZER));
+        .get<Occ.Cart>(
+          this.occEndpointsService.getUrl('cart', { userId, cartId })
+        )
+        .pipe(this.converterService.pipeable(CART_NORMALIZER));
     }
   }
 
@@ -64,9 +66,9 @@ export class OccCartAdapter implements CartAdapter {
 
     return this.http
       .post<Occ.Cart>(
-        this.occEndpoints.getUrl('createCart', { userId }, params),
+        this.occEndpointsService.getUrl('createCart', { userId }, params),
         toAdd
       )
-      .pipe(this.converter.pipeable(CART_NORMALIZER));
+      .pipe(this.converterService.pipeable(CART_NORMALIZER));
   }
 }
