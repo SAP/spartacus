@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TranslationChunkService, TranslationService } from '@spartacus/core';
 import { CmsI18nService } from './cms-i18n.service';
@@ -33,8 +34,8 @@ describe('CmsI18nService', () => {
         },
       ],
     });
-    service = TestBed.get(CmsI18nService);
-    translation = TestBed.get(TranslationService);
+    service = TestBed.get(CmsI18nService as Type<CmsI18nService>);
+    translation = TestBed.get(TranslationService as Type<TranslationService>);
   });
 
   it('should be created', () => {

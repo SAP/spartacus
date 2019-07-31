@@ -3,12 +3,13 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { Order } from '../../../model/order.model';
 import { CheckoutDetails, ConverterService } from '@spartacus/core';
-import { OccCheckoutAdapter } from './occ-checkout.adapter';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { Order } from '../../../model/order.model';
+import { OccConfig } from '../../config/occ-config';
+import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 const userId = '123';
 const cartId = '456';
@@ -56,10 +57,12 @@ describe('OccCheckoutAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
+    service = TestBed.get(OccCheckoutAdapter as Type<OccCheckoutAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
-    service = TestBed.get(OccCheckoutAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeable').and.callThrough();
   });
 

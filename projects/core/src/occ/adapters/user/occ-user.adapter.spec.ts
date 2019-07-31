@@ -2,9 +2,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { OccUserAdapter } from './occ-user.adapter';
 import {
   ConverterService,
   Occ,
@@ -13,6 +12,8 @@ import {
   USER_NORMALIZER,
   USER_SERIALIZER,
 } from '@spartacus/core';
+import { OccConfig } from '../../config/occ-config';
+import { OccUserAdapter } from './occ-user.adapter';
 
 const endpoint = '/users';
 const forgotPasswordEndpoint = '/forgottenpasswordtokens';
@@ -54,10 +55,12 @@ describe('OccUserAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
+    service = TestBed.get(OccUserAdapter as Type<OccUserAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
-    service = TestBed.get(OccUserAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
