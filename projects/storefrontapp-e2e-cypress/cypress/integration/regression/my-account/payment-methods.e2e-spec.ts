@@ -1,4 +1,7 @@
+import * as login from '../../../helpers/login';
 import * as paymentMethods from '../../../helpers/payment-methods';
+import { generateMail } from '../../../helpers/user';
+import { standardUser } from '../../../sample-data/shared-users';
 import { formats } from '../../../sample-data/viewports';
 
 const checkAnonymous = () => {
@@ -39,7 +42,9 @@ describe('Payment Methods', () => {
 
   describe('should go to payment details page for login user', () => {
     before(() => {
-      cy.requireLoggedIn();
+      standardUser.registrationData.email = generateMail('desktop', true);
+      cy.requireLoggedIn(standardUser);
+      cy.reload();
       cy.visit('/');
       cy.selectUserMenuOption({
         option: 'Payment Details',
@@ -54,6 +59,10 @@ describe('Payment Methods', () => {
 
     afterEach(() => {
       cy.saveLocalStorage();
+    });
+
+    after(() => {
+      login.signOutUser();
     });
   });
 });
@@ -73,7 +82,9 @@ describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
 
   describe('should go to payment details page for login user', () => {
     before(() => {
-      cy.requireLoggedIn();
+      standardUser.registrationData.email = generateMail('mobile', true);
+      cy.requireLoggedIn(standardUser);
+      cy.reload();
       cy.visit('/');
       cy.selectUserMenuOption({
         option: 'Payment Details',
@@ -89,6 +100,10 @@ describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
 
     afterEach(() => {
       cy.saveLocalStorage();
+    });
+
+    after(() => {
+      login.signOutUser();
     });
   });
 });
