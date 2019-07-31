@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
@@ -49,11 +50,19 @@ describe(`ShippingAddressSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(ShippingAddressSetGuard);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
+    guard = TestBed.get(ShippingAddressSetGuard as Type<
+      ShippingAddressSetGuard
+    >);
+    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
+      CheckoutDetailsService
+    >);
+    mockCheckoutConfig = TestBed.get(CheckoutConfig as Type<CheckoutConfig>);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
+      CheckoutConfigService
+    >);
   });
 
   describe(`when there is NO shipping address present`, () => {
