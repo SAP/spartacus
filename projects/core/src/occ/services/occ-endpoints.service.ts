@@ -26,6 +26,17 @@ export class OccEndpointsService {
     }
   }
 
+  getRawEndpoint(endpoint: string): string {
+    if (!this.config || !this.config.backend || !this.config.backend.occ) {
+      return '';
+    }
+
+    return (
+      this.config.backend.occ.baseUrl +
+      this.config.backend.occ.endpoints[endpoint]
+    );
+  }
+
   getBaseEndpoint(): string {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return '';
