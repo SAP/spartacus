@@ -4,23 +4,20 @@
       <div class="cx-section">
         <form [formGroup]="userRegistrationForm">
           <div class="form-group">
-            <label aria-required="true">
+            <label>
               <span class="label-content">{{
                 'register.title' | cxTranslate
               }}</span>
-              <ng-container *ngIf="(titles$ | async) as titles">
-                <ng-select
-                  class="title-select"
-                  formControlName="titleCode"
-                  [searchable]="false"
-                  [clearable]="false"
-                  [items]="titles"
-                  bindLabel="name"
-                  bindValue="code"
-                  (change)="titleSelected($event)"
+              <select formControlName="titleCode" class="form-control">
+                <option selected value="" disabled>{{
+                  'register.selectTitle' | cxTranslate
+                }}</option>
+                <option
+                  *ngFor="let title of (titles$ | async)"
+                  [value]="title.code"
+                  >{{ title.name }}</option
                 >
-                </ng-select>
-              </ng-container>
+              </select>
             </label>
           </div>
 
