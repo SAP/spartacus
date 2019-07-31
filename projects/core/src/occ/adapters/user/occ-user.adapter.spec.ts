@@ -57,7 +57,7 @@ const user: User = {
   displayUid: password,
 };
 
-fdescribe('OccUserAdapter', () => {
+describe('OccUserAdapter', () => {
   let service: OccUserAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
