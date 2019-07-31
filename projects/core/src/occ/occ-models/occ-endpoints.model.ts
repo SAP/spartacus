@@ -53,4 +53,10 @@ export interface OccEndpoints {
    * @member {string} [page]
    */
   page?: string;
+  /**
+   * Get user details
+   *
+   * @member {string} [userLoad]
+   */
+  userLoad?: string;
 }
