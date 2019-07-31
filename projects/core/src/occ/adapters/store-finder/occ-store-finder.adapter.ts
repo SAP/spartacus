@@ -23,8 +23,8 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 export class OccStoreFinderAdapter implements StoreFinderAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected occEndpointsService: OccEndpointsService,
+    protected converterService: ConverterService
   ) {}
 
   search(
@@ -33,25 +33,27 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     longitudeLatitude?: GeoPoint
   ): Observable<StoreFinderSearchPage> {
     return this.callOccFindStores(query, searchConfig, longitudeLatitude).pipe(
-      this.converter.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER)
+      this.converterService.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER)
     );
   }
 
   loadCounts(): Observable<StoreCount[]> {
     return this.http
-      .get<Occ.StoreCountList>(this.occEndpoints.getUrl('storescounts'))
+      .get<Occ.StoreCountList>(this.occEndpointsService.getUrl('storescounts'))
       .pipe(
         map(
           ({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount
         ),
-        this.converter.pipeableMany(STORE_COUNT_NORMALIZER)
+        this.converterService.pipeableMany(STORE_COUNT_NORMALIZER)
       );
   }
 
   load(storeId: string): Observable<PointOfService> {
     return this.http
-      .get<Occ.PointOfService>(this.occEndpoints.getUrl('store', { storeId }))
-      .pipe(this.converter.pipeable(POINT_OF_SERVICE_NORMALIZER));
+      .get<Occ.PointOfService>(
+        this.occEndpointsService.getUrl('store', { storeId })
+      )
+      .pipe(this.converterService.pipeable(POINT_OF_SERVICE_NORMALIZER));
   }
 
   protected callOccFindStores(
@@ -78,7 +80,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     }
 
     return this.http.get<Occ.StoreFinderSearchPage>(
-      this.occEndpoints.getUrl('stores', undefined, params)
+      this.occEndpointsService.getUrl('stores', undefined, params)
     );
   }
 }

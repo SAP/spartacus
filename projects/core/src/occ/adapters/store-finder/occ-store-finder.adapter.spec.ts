@@ -42,8 +42,8 @@ class MockOccEndpointsService {
 }
 
 describe('OccStoreFinderAdapter', () => {
-  let adapter: OccStoreFinderAdapter;
-  let converter: ConverterService;
+  let occStoreFinderAdapter: OccStoreFinderAdapter;
+  let converterService: ConverterService;
   let httpMock: HttpTestingController;
   let occEndpointsService: OccEndpointsService;
 
@@ -56,12 +56,12 @@ describe('OccStoreFinderAdapter', () => {
       ],
     });
 
-    adapter = TestBed.get(OccStoreFinderAdapter);
-    converter = TestBed.get(ConverterService);
+    occStoreFinderAdapter = TestBed.get(OccStoreFinderAdapter);
+    converterService = TestBed.get(ConverterService);
     httpMock = TestBed.get(HttpTestingController);
     occEndpointsService = TestBed.get(OccEndpointsService);
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
   });
 
@@ -72,7 +72,7 @@ describe('OccStoreFinderAdapter', () => {
   describe('search', () => {
     describe('with text query', () => {
       it('should return search results for given query text', () => {
-        adapter
+        occStoreFinderAdapter
           .search(queryText, mockSearchConfig)
           .subscribe()
           .unsubscribe();
@@ -92,7 +92,7 @@ describe('OccStoreFinderAdapter', () => {
 
     describe('with longitudeLatitude', () => {
       it('should return search results for given longitudeLatitude', () => {
-        adapter
+        occStoreFinderAdapter
           .search('', mockSearchConfig, longitudeLatitude)
           .subscribe()
           .unsubscribe();
@@ -115,9 +115,9 @@ describe('OccStoreFinderAdapter', () => {
     });
 
     it('should use converter', () => {
-      adapter.search('', mockSearchConfig).subscribe();
+      occStoreFinderAdapter.search('', mockSearchConfig).subscribe();
       httpMock.expectOne({});
-      expect(converter.pipeable).toHaveBeenCalledWith(
+      expect(converterService.pipeable).toHaveBeenCalledWith(
         STORE_FINDER_SEARCH_PAGE_NORMALIZER
       );
     });
@@ -125,7 +125,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('loadCounts', () => {
     it('should request stores count', () => {
-      adapter.loadCounts().subscribe(result => {
+      occStoreFinderAdapter.loadCounts().subscribe(result => {
         expect(result).toEqual([
           { count: 1, name: 'name1' },
           { count: 2, name: 'name2' },
@@ -140,9 +140,9 @@ describe('OccStoreFinderAdapter', () => {
     });
 
     it('should use converter', () => {
-      adapter.loadCounts().subscribe();
+      occStoreFinderAdapter.loadCounts().subscribe();
       httpMock.expectOne({});
-      expect(converter.pipeableMany).toHaveBeenCalledWith(
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
         STORE_COUNT_NORMALIZER
       );
     });
@@ -150,7 +150,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('load', () => {
     it('should request stores by store id', () => {
-      adapter.load(storeId).subscribe(result => {
+      occStoreFinderAdapter.load(storeId).subscribe(result => {
         expect(result).toEqual(searchResults.stores[0]);
       });
 
@@ -167,9 +167,9 @@ describe('OccStoreFinderAdapter', () => {
     });
 
     it('should use converter', () => {
-      adapter.load(storeId).subscribe();
+      occStoreFinderAdapter.load(storeId).subscribe();
       httpMock.expectOne({});
-      expect(converter.pipeable).toHaveBeenCalledWith(
+      expect(converterService.pipeable).toHaveBeenCalledWith(
         POINT_OF_SERVICE_NORMALIZER
       );
     });
