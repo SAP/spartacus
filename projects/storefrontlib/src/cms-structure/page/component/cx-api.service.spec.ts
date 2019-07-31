@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   AuthService,
@@ -10,7 +11,6 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-
 import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}
@@ -50,15 +50,21 @@ describe('CxApiService', () => {
       ],
     });
 
-    authService = TestBed.get(AuthService);
-    cmsService = TestBed.get(CmsService);
-    routingService = TestBed.get(RoutingService);
-    currencyService = TestBed.get(CurrencyService);
-    languageService = TestBed.get(LanguageService);
-    productService = TestBed.get(ProductService);
-    productSearchService = TestBed.get(ProductSearchService);
-    productReviewService = TestBed.get(ProductReviewService);
-    translationService = TestBed.get(TranslationService);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    currencyService = TestBed.get(CurrencyService as Type<CurrencyService>);
+    languageService = TestBed.get(LanguageService as Type<LanguageService>);
+    productService = TestBed.get(ProductService as Type<ProductService>);
+    productSearchService = TestBed.get(ProductSearchService as Type<
+      ProductSearchService
+    >);
+    productReviewService = TestBed.get(ProductReviewService as Type<
+      ProductReviewService
+    >);
+    translationService = TestBed.get(TranslationService as Type<
+      TranslationService
+    >);
   });
 
   it('should be created', inject([CxApiService], (service: CxApiService) => {

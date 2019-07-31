@@ -1,17 +1,14 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 import { RoutingService } from '../../routing/facade/routing.service';
-
-import { of, Observable } from 'rxjs';
-
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
-
-import { NotAuthGuard } from './not-auth.guard';
-import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 import { AuthRedirectService } from './auth-redirect.service';
+import { NotAuthGuard } from './not-auth.guard';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -54,10 +51,12 @@ describe('NotAuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    authService = TestBed.get(AuthService);
-    guard = TestBed.get(NotAuthGuard);
-    routing = TestBed.get(RoutingService);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    guard = TestBed.get(NotAuthGuard as Type<NotAuthGuard>);
+    routing = TestBed.get(RoutingService as Type<RoutingService>);
+    authRedirectService = TestBed.get(AuthRedirectService as Type<
+      AuthRedirectService
+    >);
   });
 
   describe(', when user is authorized,', () => {

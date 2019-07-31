@@ -1,14 +1,14 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { OccConfig } from '../../index';
-import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
-import { ConverterService } from '../../../util/converter.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
 import { Cart, CartModification } from '../../../model/cart.model';
+import { ConverterService } from '../../../util/converter.service';
+import { OccConfig } from '../../index';
+import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 
 const userId = '123';
 const cartId = '456';
@@ -49,9 +49,11 @@ describe('OccCartEntryAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccCartEntryAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    service = TestBed.get(OccCartEntryAdapter as Type<OccCartEntryAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
     spyOn(converter, 'pipeable').and.callThrough();
   });

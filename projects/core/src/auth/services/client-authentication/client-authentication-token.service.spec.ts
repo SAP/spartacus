@@ -1,12 +1,13 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { ClientAuthenticationTokenService } from './client-authentication-token.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
+import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 
 const token: ClientToken = {
   access_token: 'mockToken',
@@ -42,8 +43,12 @@ describe('ClientAuthenticationTokenService', () => {
       ],
     });
 
-    service = TestBed.get(ClientAuthenticationTokenService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.get(ClientAuthenticationTokenService as Type<
+      ClientAuthenticationTokenService
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
   });
 
   afterEach(() => {

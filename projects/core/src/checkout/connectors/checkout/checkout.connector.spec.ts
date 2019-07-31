@@ -1,8 +1,9 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { CheckoutConnector } from './checkout.connector';
 import { of } from 'rxjs/internal/observable/of';
 import { CheckoutAdapter } from './checkout.adapter';
+import { CheckoutConnector } from './checkout.connector';
+
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements CheckoutAdapter {
@@ -23,8 +24,8 @@ describe('OrderConnector', () => {
       providers: [{ provide: CheckoutAdapter, useClass: MockOrderAdapter }],
     });
 
-    service = TestBed.get(CheckoutConnector);
-    adapter = TestBed.get(CheckoutAdapter);
+    service = TestBed.get(CheckoutConnector as Type<CheckoutConnector>);
+    adapter = TestBed.get(CheckoutAdapter as Type<CheckoutAdapter>);
   });
 
   it('should be created', () => {
