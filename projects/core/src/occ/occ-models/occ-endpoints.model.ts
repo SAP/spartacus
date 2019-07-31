@@ -1,5 +1,11 @@
 export interface OccEndpoints {
   /**
+   * Client login (get authorization token)
+   *
+   * @member {string} [login]
+   */
+  login?: string;
+  /**
    * Get product details
    *
    * @member {string} [product]
