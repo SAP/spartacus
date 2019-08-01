@@ -119,4 +119,16 @@ export interface OccEndpoints {
    * @member {string}
    */
   userUpdatePassword?: string;
+  /**
+   * Payment details root endpoint.
+   *
+   * @member {string}
+   */
+  paymentDetailsAll?: string;
+  /**
+   * Endpoint for a specific payment method.
+   *
+   * @member {string}
+   */
+  paymentDetail?: string;
 }

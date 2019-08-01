@@ -3,15 +3,16 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { PaymentDetails } from '../../../model/cart.model';
-import { Occ } from '../../occ-models/occ.models';
-import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
+import { PaymentDetails } from '../../../model/cart.model';
+import { OccConfig } from '../../config/occ-config';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services';
+import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 
 const username = 'mockUsername';
 
-const endpoint = '/users';
+const usersEndpoint = '/users';
 const paymentDetailsEndpoint = '/paymentdetails';
 
 const MockOccModuleConfig: OccConfig = {
@@ -27,10 +28,26 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+class MockOccEndpointsService {
+  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
+    return this.getEndpoint(endpointKey);
+  }
+  getEndpoint(endpoint: string) {
+    if (!endpoint.startsWith('/')) {
+      endpoint = '/' + endpoint;
+    }
+    return endpoint;
+  }
+  getBaseEndpoint() {
+    return '';
+  }
+}
+
 describe('OccUserPaymentAdapter', () => {
   let service: OccUserPaymentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,13 +55,19 @@ describe('OccUserPaymentAdapter', () => {
       providers: [
         OccUserPaymentAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
 
     service = TestBed.get(OccUserPaymentAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+    occEnpointsService = TestBed.get(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -68,13 +91,15 @@ describe('OccUserPaymentAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}?saved=true`
-        );
+        return req.method === 'GET';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'paymentDetailsAll',
+        {
+          userId: username,
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserPaymentMethods);
@@ -83,9 +108,9 @@ describe('OccUserPaymentAdapter', () => {
     it('should use converter', () => {
       service.loadAll(username).subscribe();
       httpMock
-        .expectOne(
-          `${endpoint}/${username}${paymentDetailsEndpoint}?saved=true`
-        )
+        .expectOne(req => {
+          return req.method === 'GET';
+        })
         .flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         PAYMENT_DETAILS_NORMALIZER
@@ -109,7 +134,9 @@ describe('OccUserPaymentAdapter', () => {
           req.method === 'PATCH' &&
           req.body.defaultPayment === true &&
           req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}/${mockPayment.id}`
+            `${usersEndpoint}/${username}${paymentDetailsEndpoint}/${
+              mockPayment.id
+            }`
         );
       });
 
@@ -133,7 +160,9 @@ describe('OccUserPaymentAdapter', () => {
         return (
           req.method === 'DELETE' &&
           req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}/${mockPayment.id}`
+            `${usersEndpoint}/${username}${paymentDetailsEndpoint}/${
+              mockPayment.id
+            }`
         );
       });
 

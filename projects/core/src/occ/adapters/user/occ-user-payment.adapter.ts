@@ -26,7 +26,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   }
 
   loadAll(userId: string): Observable<PaymentDetails[]> {
-    const url = this.getPaymentDetailsEndpoint(userId) + '?saved=true';
+    const url = this.occEndpoints.getUrl('paymentDetailsAll', { userId }) + '?saved=true';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
