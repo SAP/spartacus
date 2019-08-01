@@ -9,9 +9,6 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-const USER_ENDPOINT = 'users/';
-const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
-
 @Injectable()
 export class OccUserPaymentAdapter implements UserPaymentAdapter {
   constructor(
@@ -19,11 +16,6 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
-
-  private getPaymentDetailsEndpoint(userId: string): string {
-    const endpoint = `${USER_ENDPOINT}${userId}${PAYMENT_DETAILS_ENDPOINT}`;
-    return this.occEndpoints.getEndpoint(endpoint);
-  }
 
   loadAll(userId: string): Observable<PaymentDetails[]> {
     const url =
@@ -54,7 +46,11 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   }
 
   setDefault(userId: string, paymentMethodID: string): Observable<{}> {
-    const url = this.getPaymentDetailsEndpoint(userId) + `/${paymentMethodID}`;
+    const url = this.occEndpoints.getUrl('paymentDetail', {
+      userId,
+      paymentDetailId: paymentMethodID,
+    });
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
