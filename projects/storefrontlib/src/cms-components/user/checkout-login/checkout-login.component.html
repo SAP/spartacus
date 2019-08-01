@@ -1,17 +1,12 @@
-<form>
+<form [formGroup]="checkoutEmailForm">
   <div class="form-group">
     <label>
       <span class="label-content">{{
         'checkoutLogin.emailAddress.label' | cxTranslate
       }}</span>
-      <input
-        type="email"
-        class="form-control"
-        formControlName="userId"
-        placeholder="{{
+      <input type="email" class="form-control" formControlName="email" placeholder="{{
           'checkoutLogin.emailAddress.placeholder' | cxTranslate
-        }}"
-      />
+        }}" />
     </label>
   </div>
 
@@ -20,25 +15,16 @@
       <span class="label-content">{{
         'checkoutLogin.confirmEmail.label' | cxTranslate
       }}</span>
-      <input
-        type="email"
-        class="form-control"
-        formControlName="userIdConf"
-        placeholder="{{
+      <input type="email" class="form-control" formControlName="emailConfirmation" placeholder="{{
           'checkoutLogin.confirmEmail.placeholder' | cxTranslate
-        }}"
-      />
+        }}" />
     </label>
   </div>
 
   <div class="form-group">
     <div class="form-check">
       <label>
-        <input
-          type="checkbox"
-          name="termsandconditions"
-          formControlName="termsandconditions"
-        />
+        <input type="checkbox" name="termsAndConditions" formControlName="termsAndConditions" />
         <span class="form-check-label">
           {{ 'checkoutLogin.confirmThatRead' | cxTranslate }}
           <a href="#" target="_blank">
@@ -49,7 +35,7 @@
     </div>
   </div>
 
-  <button type="submit" class="btn btn-block btn-primary">
+  <button type="submit" (click)="checkout()" class="btn btn-block btn-primary" [disabled]="checkoutEmailForm.invalid">
     {{ 'checkoutLogin.continue' | cxTranslate }}
   </button>
 </form>
