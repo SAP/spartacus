@@ -9,15 +9,14 @@ import {
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
-  FeaturesConfig,
 } from '@spartacus/core';
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { LayoutConfig } from './layout/config/layout-config';
+import { FeatureToggles } from './feature-toggles';
 
 export type StorefrontConfig =
-  | FeaturesConfig
   | AuthConfig
   | CmsConfig
   | OccConfig
@@ -31,4 +30,5 @@ export type StorefrontConfig =
   | IconConfig
   | CheckoutConfig
   | KymaConfig
-  | GlobalMessageConfig;
+  | GlobalMessageConfig
+  | FeatureToggles;

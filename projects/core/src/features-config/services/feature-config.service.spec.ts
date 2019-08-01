@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { FeatureConfigService } from './feature-config.service';
-import { FeaturesConfig } from '@spartacus/core';
+import { Config, FeaturesConfig } from '@spartacus/core';
 
 describe('FeatureConfigService', () => {
   const mockFeaturesConfig: FeaturesConfig = {
     features: {
-      level: '1.3',
-      feature1_1: '1.1',
-      feature1_5: '1.5',
-      featureOn: true,
-      featureOff: false,
+      level: '1.3', // feature level
+      feature1_1: '1.1', // feature enabled by default for feature levels 1.1 and above
+      feature1_5: '1.5', // feature enabled by default for for feature levels 1.5 and above
+      featureOn: true, // feature explicitly enabled
+      featureOff: false, // feature explicitly disabled
     },
   };
 
@@ -18,7 +18,7 @@ describe('FeatureConfigService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: FeaturesConfig, useValue: mockFeaturesConfig }],
+      providers: [{ provide: Config, useValue: mockFeaturesConfig }],
     });
     service = TestBed.get(FeatureConfigService);
   });

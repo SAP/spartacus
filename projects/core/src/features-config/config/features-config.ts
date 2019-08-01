@@ -1,6 +1,5 @@
-export class FeaturesConfig {
+export interface FeaturesConfig {
   features?: {
-    level?: string;
     [featureToggle: string]: string | boolean;
   };
 }
