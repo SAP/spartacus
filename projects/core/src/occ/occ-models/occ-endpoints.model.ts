@@ -90,6 +90,24 @@ export interface OccEndpoints {
    */
   removeEntries?: string;
   /**
+   * Get a store location
+   *
+   * @member {string} [page]
+   */
+  store?: string;
+  /**
+   * Get a list of store locations
+   *
+   * @member {string} [page]
+   */
+  stores?: string;
+  /**
+   * Gets a store location count per country and regions
+   *
+   * @member {string} [page]
+   */
+  storescounts?: string;
+  /**
    * Get a list of available languages
    *
    * @member {string} [languages]
