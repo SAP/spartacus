@@ -19,7 +19,6 @@ import {
 } from '../../utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
-const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
 const TITLES_ENDPOINT = 'titles';
 
@@ -90,7 +89,7 @@ export class OccUserAdapter implements UserAdapter {
     currentPassword: string,
     newUserId: string
   ): Observable<{}> {
-    const url = this.getUserEndpoint(userId) + UPDATE_EMAIL_ENDPOINT;
+    const url = this.occEndpoints.getUrl('userUpdateLoginId', { userId });
     const httpParams: HttpParams = new HttpParams()
       .set('password', currentPassword)
       .set('newLogin', newUserId);

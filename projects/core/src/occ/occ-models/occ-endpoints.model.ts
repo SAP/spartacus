@@ -101,4 +101,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   userResetPassword?: string;
+  /**
+   * Update the user id with which the user authenticates.
+   *
+   * @member {string}
+   */
+  userUpdateLoginId?: string;
 }

@@ -16,7 +16,6 @@ import { OccEndpointsService } from '../../services';
 import { OccUserAdapter } from './occ-user.adapter';
 
 const usersEndpoint = '/users';
-const updateEmailEndpoint = '/login';
 const updatePasswordEndpoint = '/password';
 
 const MockOccModuleConfig: OccConfig = {
@@ -236,12 +235,15 @@ describe('OccUserAdapter', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'PUT' &&
-          req.url === `${usersEndpoint}/${userId}${updateEmailEndpoint}` &&
           req.serializeBody() ===
             `password=${currentPassword}&newLogin=${newUserId}`
         );
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'userUpdateLoginId',
+        { userId }
+      );
       expect(mockReq.cancelled).toBeFalsy();
 
       mockReq.flush('');
