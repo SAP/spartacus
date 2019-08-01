@@ -19,7 +19,6 @@ import {
 } from '../../utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
-const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
 const TITLES_ENDPOINT = 'titles';
@@ -77,7 +76,7 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   resetPassword(token: string, newPassword: string): Observable<{}> {
-    const url = this.occEndpoints.getEndpoint(RESET_PASSWORD_ENDPOINT);
+    const url = this.occEndpoints.getUrl('userResetPassword');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

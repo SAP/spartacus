@@ -16,7 +16,6 @@ import { OccEndpointsService } from '../../services';
 import { OccUserAdapter } from './occ-user.adapter';
 
 const usersEndpoint = '/users';
-const resetPasswordEndpoint = '/resetpassword';
 const updateEmailEndpoint = '/login';
 const updatePasswordEndpoint = '/password';
 
@@ -188,9 +187,12 @@ describe('OccUserAdapter', () => {
         .subscribe(result => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === `${resetPasswordEndpoint}`;
+        return req.method === 'POST';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'userResetPassword'
+      );
       expect(mockReq.request.headers.get('cx-use-client-token')).toBeTruthy();
       expect(mockReq.request.body).toEqual({
         token: 'test token',
