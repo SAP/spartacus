@@ -18,7 +18,6 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
 
-const USER_ENDPOINT = 'users/';
 const TITLES_ENDPOINT = 'titles';
 
 @Injectable()
@@ -28,11 +27,6 @@ export class OccUserAdapter implements UserAdapter {
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
-
-  private getUserEndpoint(userId?: string): string {
-    const endpoint = userId ? `${USER_ENDPOINT}${userId}` : USER_ENDPOINT;
-    return this.occEndpoints.getEndpoint(endpoint);
-  }
 
   load(userId: string): Observable<User> {
     const url = this.occEndpoints.getUrl('user', { userId });
@@ -114,7 +108,7 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   remove(userId: string): Observable<{}> {
-    const url = this.getUserEndpoint(userId);
+    const url = this.occEndpoints.getUrl('user', { userId });
     return this.http.delete<User>(url);
   }
 

@@ -15,8 +15,6 @@ import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
 import { OccUserAdapter } from './occ-user.adapter';
 
-const usersEndpoint = '/users';
-
 const MockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
@@ -209,11 +207,12 @@ describe('OccUserAdapter', () => {
         .subscribe(result => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'DELETE' && req.url === `${usersEndpoint}/testUserId`
-        );
+        return req.method === 'DELETE';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
+        userId: 'testUserId',
+      });
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
