@@ -26,6 +26,7 @@ export const user = {
       placeholder: 'Password',
     },
     wrongEmailFormat: 'This is not a valid email format.',
+    guestCheckout: 'Guest Checkout',
   },
   register: {
     confirmPassword: {
@@ -67,5 +68,18 @@ export const user = {
       'Password must be six characters minimum, with one uppercase letter, one number, one symbol',
     bothPasswordMustMatch: 'Both password must match',
     titleRequired: 'Title is required.',
+  },
+  checkoutLogin: {
+    emailAddress: {
+      label: 'Email address',
+      placeholder: 'Enter email',
+    },
+    confirmEmail: {
+      label: 'Confirm email',
+      placeholder: 'Confirm email',
+    },
+    confirmThatRead: 'I am confirming that I have read and agreed with the',
+    termsAndConditions: 'Terms & Conditions',
+    continue: 'Continue',
   },
 };
