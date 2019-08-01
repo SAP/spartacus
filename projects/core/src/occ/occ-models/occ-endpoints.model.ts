@@ -131,4 +131,16 @@ export interface OccEndpoints {
    * @member {string}
    */
   paymentDetail?: string;
+  /**
+   * Endpoint for the list of one user's orders
+   *
+   * @member {string}
+   */
+  orderHistory?: string;
+  /**
+   * Endpoint for the details of one user's order
+   *
+   * @member {string}
+   */
+  orderDetail?: string;
 }

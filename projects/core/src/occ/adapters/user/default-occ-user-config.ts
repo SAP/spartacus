@@ -13,6 +13,8 @@ export const defaultOccUserConfig: OccConfig = {
         titles: 'titles',
         paymentDetailsAll: 'users/${userId}/paymentdetails',
         paymentDetail: 'users/${userId}/paymentdetails/${paymentDetailId}',
+        orderHistory: 'users/${userId}/orders',
+        orderDetail: 'users/${userId}/orders/${orderId}',
       },
     },
   },

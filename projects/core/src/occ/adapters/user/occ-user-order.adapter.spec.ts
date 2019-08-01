@@ -4,11 +4,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { Order } from '../../../model/order.model';
 import { ConverterService, OccUserOrderAdapter } from '@spartacus/core';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { Order } from '../../../model/order.model';
+import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import { OccConfig } from '../../config/occ-config';
+import { OccEndpointsService } from '../../services';
 
 const userId = '123';
 
@@ -17,9 +18,6 @@ const orderData: Order = {
   calculated: true,
   code: '00001004',
 };
-
-const usersEndpoint = '/users';
-const orderEndpoint = '/orders';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -34,10 +32,26 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccUserOrderAdapter', () => {
+class MockOccEndpointsService {
+  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
+    return this.getEndpoint(endpointKey);
+  }
+  getEndpoint(endpoint: string) {
+    if (!endpoint.startsWith('/')) {
+      endpoint = '/' + endpoint;
+    }
+    return endpoint;
+  }
+  getBaseEndpoint() {
+    return '';
+  }
+}
+
+fdescribe('OccUserOrderAdapter', () => {
   let service: OccUserOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,13 +59,19 @@ describe('OccUserOrderAdapter', () => {
       providers: [
         OccUserOrderAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
 
     service = TestBed.get(OccUserOrderAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+    occEnpointsService = TestBed.get(OccEndpointsService);
     spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -63,11 +83,11 @@ describe('OccUserOrderAdapter', () => {
       const PAGE_SIZE = 5;
       service.loadHistory(userId, PAGE_SIZE).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
-        return (
-          req.url === usersEndpoint + `/${userId}` + orderEndpoint &&
-          req.method === 'GET'
-        );
+        return req.method === 'GET';
       }, `GET method and url`);
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('orderHistory', {
+        userId,
+      });
     }));
 
     it('should fetch user Orders with defined options', async(() => {
@@ -77,11 +97,11 @@ describe('OccUserOrderAdapter', () => {
 
       service.loadHistory(userId, PAGE_SIZE, currentPage, sort).subscribe();
       const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
-        return (
-          req.url === usersEndpoint + `/${userId}` + orderEndpoint &&
-          req.method === 'GET'
-        );
-      }, `GET method and url`);
+        return req.method === 'GET';
+      }, `GET method`);
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('orderHistory', {
+        userId,
+      });
       expect(mockReq.request.params.get('pageSize')).toEqual(
         PAGE_SIZE.toString()
       );
@@ -94,7 +114,9 @@ describe('OccUserOrderAdapter', () => {
     it('should use converter', () => {
       service.loadHistory(userId).subscribe();
       httpMock
-        .expectOne(usersEndpoint + `/${userId}` + orderEndpoint)
+        .expectOne((req: HttpRequest<any>) => {
+          return req.method === 'GET';
+        }, `GET method`)
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_HISTORY_NORMALIZER);
     });
@@ -104,30 +126,17 @@ describe('OccUserOrderAdapter', () => {
     it('should fetch a single order', async(() => {
       service.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
-        return (
-          req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              orderEndpoint +
-              '/' +
-              orderData.code && req.method === 'GET'
-        );
+        return req.method === 'GET';
       }, `GET a single order`);
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('orderDetail', {
+        userId,
+        orderId: orderData.code,
+      });
     }));
 
     it('should use converter', () => {
       service.load(userId, orderData.code).subscribe();
-      httpMock
-        .expectOne(
-          req =>
-            req.url ===
-              usersEndpoint +
-                `/${userId}` +
-                orderEndpoint +
-                '/' +
-                orderData.code && req.method === 'GET'
-        )
-        .flush({});
+      httpMock.expectOne(req => req.method === 'GET').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
   });
