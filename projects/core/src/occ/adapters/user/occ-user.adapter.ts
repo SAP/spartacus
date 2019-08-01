@@ -52,7 +52,7 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   register(user: UserSignUp): Observable<User> {
-    const url: string = this.getUserEndpoint();
+    const url: string = this.occEndpoints.getUrl('userRegister');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

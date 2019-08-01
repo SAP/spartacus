@@ -80,7 +80,13 @@ export interface OccEndpoints {
   /**
    * Get user details
    *
-   * @member {string} [userLoad]
+   * @member {string} [user]
    */
   user?: string;
+  /**
+   * Register a new user.
+   *
+   * @member {string} [userRegister]
+   */
+  userRegister?: string;
 }

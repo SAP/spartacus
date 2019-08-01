@@ -5,6 +5,7 @@ export const defaultOccUserConfig: OccConfig = {
     occ: {
       endpoints: {
         user: 'users/${userId}',
+        userRegister: 'users',
       },
     },
   },
