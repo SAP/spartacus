@@ -47,7 +47,7 @@ class MockOccEndpointsService {
   }
 }
 
-fdescribe('OccUserOrderAdapter', () => {
+describe('OccUserOrderAdapter', () => {
   let service: OccUserOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
