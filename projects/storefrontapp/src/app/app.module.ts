@@ -14,6 +14,7 @@ import {
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
+import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -33,7 +34,7 @@ if (!environment.production) {
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
           legacy: false,
         },
       },
@@ -62,6 +63,8 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
     }),
+
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     ...devImports,
   ],
