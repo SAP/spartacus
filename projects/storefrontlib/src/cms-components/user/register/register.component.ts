@@ -16,7 +16,7 @@ import {
   UserSignUp,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
 @Component({
@@ -59,10 +59,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
-      }),
-      map(titles => {
-        const noneTitle = { code: '', name: 'Select title' };
-        return [noneTitle, ...titles];
       })
     );
 
@@ -131,9 +127,5 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  titleSelected(title: Title): void {
-    this.userRegistrationForm['controls'].titleCode.setValue(title.code);
   }
 }

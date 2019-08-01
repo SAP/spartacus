@@ -2,7 +2,6 @@ import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthRedirectService,
   AuthService,
@@ -27,10 +26,6 @@ const mockTitlesList: Title[] = [
     code: 'mrs',
     name: 'Mrs.',
   },
-];
-const expectedTitles: Title[] = [
-  { code: '', name: 'Select title' },
-  ...mockTitlesList,
 ];
 
 @Pipe({
@@ -84,12 +79,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        NgSelectModule,
-      ],
+      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockUrlPipe],
       providers: [
         {
@@ -134,7 +124,7 @@ describe('RegisterComponent', () => {
           titleList = data;
         })
         .unsubscribe();
-      expect(titleList).toEqual(expectedTitles);
+      expect(titleList).toEqual(mockTitlesList);
     });
 
     it('should fetch titles if the state is empty', done => {
