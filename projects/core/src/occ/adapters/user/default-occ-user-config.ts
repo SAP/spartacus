@@ -9,6 +9,7 @@ export const defaultOccUserConfig: OccConfig = {
         userForgotPassword: 'forgottenpasswordtokens',
         userResetPassword: 'resetpassword',
         userUpdateLoginId: 'users/${userId}/login',
+        userUpdatePassword: 'users/${userId}/password',
       },
     },
   },

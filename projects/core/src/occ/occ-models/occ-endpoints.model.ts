@@ -107,4 +107,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   userUpdateLoginId?: string;
+  /**
+   * Update the user's password
+   *
+   * @member {string}
+   */
+  userUpdatePassword?: string;
 }
