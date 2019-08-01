@@ -12,8 +12,7 @@ const STORES = [
   },
 ];
 
-// TODO:#2811 - remove `.skip` to enable the test
-context.skip('Store finder', () => {
+context('Store finder', () => {
   const googleMap = 'cx-store-finder-map .cx-store-map .gm-style';
   const searchResults = 'cx-store-finder-list .cx-columns .cx-list-items';
   const resultListItem = 'cx-store-finder-list-item';
