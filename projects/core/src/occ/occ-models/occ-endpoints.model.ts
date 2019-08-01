@@ -54,6 +54,42 @@ export interface OccEndpoints {
    */
   page?: string;
   /**
+   * Get all carts
+   *
+   * @member {string} [carts]
+   */
+  carts?: string;
+  /**
+   * Get a cart with a given identifier
+   *
+   * @member {string} [cart]
+   */
+  cart?: string;
+  /**
+   * Creates or restore a cart for a user
+   *
+   * @member {string} [createCart]
+   */
+  createCart?: string;
+  /**
+   * Adds a product to the cart
+   *
+   * @member {string} [addEntries]
+   */
+  addEntries?: string;
+  /**
+   * Update quantity and store the details of a cart entry
+   *
+   * @member {string} [updateEntries]
+   */
+  updateEntries?: string;
+  /**
+   * Deletes cart entry
+   *
+   * @member {string} [removeEntries]
+   */
+  removeEntries?: string;
+  /**
    * Get a store location
    *
    * @member {string} [page]
