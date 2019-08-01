@@ -19,7 +19,6 @@ import {
 } from '../../utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
-const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
@@ -65,7 +64,7 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
-    const url = this.occEndpoints.getEndpoint(FORGOT_PASSWORD_ENDPOINT);
+    const url = this.occEndpoints.getUrl('userForgotPassword');
     const httpParams: HttpParams = new HttpParams().set(
       'userId',
       userEmailAddress

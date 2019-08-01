@@ -89,4 +89,16 @@ export interface OccEndpoints {
    * @member {string} [userRegister]
    */
   userRegister?: string;
+  /**
+   * Request an email to reset the password
+   *
+   * @member {string} [userForgotPassword]
+   */
+  userForgotPassword?: string;
+  /**
+   * Reset the password once the email is recieved.
+   *
+   * @member {string} [userResetPassword]
+   */
+  userResetPassword?: string;
 }
