@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { IconLoaderService } from './icon-loader.service';
 import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
@@ -32,7 +33,7 @@ describe('IconLoaderService', () => {
       providers: [{ provide: IconConfig, useValue: MockFontIconConfig }],
     });
 
-    service = TestBed.get(IconLoaderService);
+    service = TestBed.get(IconLoaderService as Type<IconLoaderService>);
   });
 
   describe('Font Awesome icons', () => {

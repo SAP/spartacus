@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -41,8 +42,8 @@ describe('Titles effect', () => {
       ],
     });
 
-    effect = TestBed.get(TitlesEffects);
-    service = TestBed.get(UserConnector);
+    effect = TestBed.get(TitlesEffects as Type<TitlesEffects>);
+    service = TestBed.get(UserConnector as Type<UserConnector>);
 
     spyOn(service, 'getTitles').and.returnValue(of(mockTitles));
   });
