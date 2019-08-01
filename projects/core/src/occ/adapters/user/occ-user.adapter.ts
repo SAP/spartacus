@@ -17,9 +17,6 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-
-const TITLES_ENDPOINT = 'titles';
-
 @Injectable()
 export class OccUserAdapter implements UserAdapter {
   constructor(
@@ -113,11 +110,10 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   loadTitles(): Observable<Title[]> {
-    return this.http
-      .get<Occ.TitleList>(this.occEndpoints.getEndpoint(TITLES_ENDPOINT))
-      .pipe(
-        map(titleList => titleList.titles),
-        this.converter.pipeableMany(TITLE_NORMALIZER)
-      );
+    const url = this.occEndpoints.getUrl('titles');
+    return this.http.get<Occ.TitleList>(url).pipe(
+      map(titleList => titleList.titles),
+      this.converter.pipeableMany(TITLE_NORMALIZER)
+    );
   }
 }

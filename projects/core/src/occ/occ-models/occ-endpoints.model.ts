@@ -78,6 +78,12 @@ export interface OccEndpoints {
    */
   regions?: string;
   /**
+   * Titles used for user's personal info.
+   *
+   * @member {string}
+   */
+  titles?: string;
+  /**
    * Get user details
    *
    * @member {string}
