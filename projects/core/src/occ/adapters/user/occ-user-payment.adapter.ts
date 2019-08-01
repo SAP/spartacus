@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Occ } from '../../occ-models/occ.models';
-import { PaymentDetails } from '../../../model/cart.model';
-import { ConverterService } from '../../../util/converter.service';
 import { PAYMENT_DETAILS_NORMALIZER } from '../../../checkout/connectors/payment/converters';
+import { PaymentDetails } from '../../../model/cart.model';
+import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const USER_ENDPOINT = 'users/';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
@@ -26,7 +26,8 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   }
 
   loadAll(userId: string): Observable<PaymentDetails[]> {
-    const url = this.occEndpoints.getUrl('paymentDetailsAll', { userId }) + '?saved=true';
+    const url =
+      this.occEndpoints.getUrl('paymentDetailsAll', { userId }) + '?saved=true';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -39,7 +40,10 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   }
 
   delete(userId: string, paymentMethodID: string): Observable<{}> {
-    const url = this.getPaymentDetailsEndpoint(userId) + `/${paymentMethodID}`;
+    const url = this.occEndpoints.getUrl('paymentDetail', {
+      userId,
+      paymentDetailId: paymentMethodID,
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

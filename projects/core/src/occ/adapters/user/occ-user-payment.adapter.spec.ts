@@ -157,15 +157,13 @@ describe('OccUserPaymentAdapter', () => {
         .subscribe(result => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'DELETE' &&
-          req.url ===
-            `${usersEndpoint}/${username}${paymentDetailsEndpoint}/${
-              mockPayment.id
-            }`
-        );
+        return req.method === 'DELETE';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('paymentDetail', {
+        userId: username,
+        paymentDetailId: mockPayment.id,
+      });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');
