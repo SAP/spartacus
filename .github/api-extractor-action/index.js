@@ -19,6 +19,9 @@ Toolkit.run(
       return;
     }
 
+    // ## check what PR's are related
+    console.log(relatedPullRequests);
+
     const relatedPR = relatedPullRequests[0];
 
     const issueNumber = relatedPR.number;
