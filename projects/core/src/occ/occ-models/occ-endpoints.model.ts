@@ -161,4 +161,22 @@ export interface OccEndpoints {
    * @member {string}
    */
   consentDetail?: string;
+  /**
+   * Endpoint for a user's addresses
+   *
+   * @member {string}
+   */
+  addresses?: string;
+  /**
+   * Endpoint for a user's specific address
+   *
+   * @member {string}
+   */
+  addressDetail?: string;
+  /**
+   * Endpoint for address verification
+   *
+   * @member {string}
+   */
+  addressVerification?: string;
 }
