@@ -22,7 +22,7 @@ import {
 const username = 'mockUsername';
 
 describe('OccUserAddressAdapter', () => {
-  let service: OccUserAddressAdapter;
+  let occUserAddressAdapter: OccUserAddressAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
@@ -40,7 +40,7 @@ describe('OccUserAddressAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccUserAddressAdapter);
+    occUserAddressAdapter = TestBed.get(OccUserAddressAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     occEnpointsService = TestBed.get(OccEndpointsService);
@@ -64,7 +64,7 @@ describe('OccUserAddressAdapter', () => {
         suggestedAddresses: [address],
       };
 
-      service.verify(username, address).subscribe(result => {
+      occUserAddressAdapter.verify(username, address).subscribe(result => {
         expect(result).toEqual(suggestedAddresses);
       });
 
@@ -89,7 +89,7 @@ describe('OccUserAddressAdapter', () => {
         defaultAddress: true,
       };
 
-      service.verify(username, address).subscribe();
+      occUserAddressAdapter.verify(username, address).subscribe();
       httpMock
         .expectOne(req => {
           return req.method === 'POST';
@@ -118,7 +118,7 @@ describe('OccUserAddressAdapter', () => {
         addresses: [mockAddress1, mockAddress2],
       };
 
-      service.loadAll(username).subscribe(result => {
+      occUserAddressAdapter.loadAll(username).subscribe(result => {
         expect(result).toEqual(mockUserAddresses.addresses);
       });
 
@@ -135,7 +135,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.loadAll(username).subscribe();
+      occUserAddressAdapter.loadAll(username).subscribe();
       httpMock
         .expectOne(req => {
           return req.method === 'GET';

@@ -24,7 +24,7 @@ const orderData: Order = {
 };
 
 describe('OccUserOrderAdapter', () => {
-  let service: OccUserOrderAdapter;
+  let occUserOrderAdapter: OccUserOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
@@ -42,7 +42,7 @@ describe('OccUserOrderAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccUserOrderAdapter);
+    occUserOrderAdapter = TestBed.get(OccUserOrderAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     occEnpointsService = TestBed.get(OccEndpointsService);
@@ -57,7 +57,7 @@ describe('OccUserOrderAdapter', () => {
   describe('getUserOrders', () => {
     it('should fetch user Orders with default options', async(() => {
       const PAGE_SIZE = 5;
-      service.loadHistory(userId, PAGE_SIZE).subscribe();
+      occUserOrderAdapter.loadHistory(userId, PAGE_SIZE).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
       }, `GET method and url`);
@@ -71,7 +71,7 @@ describe('OccUserOrderAdapter', () => {
       const currentPage = 1;
       const sort = 'byDate';
 
-      service.loadHistory(userId, PAGE_SIZE, currentPage, sort).subscribe();
+      occUserOrderAdapter.loadHistory(userId, PAGE_SIZE, currentPage, sort).subscribe();
       const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
       }, `GET method`);
@@ -88,7 +88,7 @@ describe('OccUserOrderAdapter', () => {
     }));
 
     it('should use converter', () => {
-      service.loadHistory(userId).subscribe();
+      occUserOrderAdapter.loadHistory(userId).subscribe();
       httpMock
         .expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
@@ -100,7 +100,7 @@ describe('OccUserOrderAdapter', () => {
 
   describe('getOrder', () => {
     it('should fetch a single order', async(() => {
-      service.load(userId, orderData.code).subscribe();
+      occUserOrderAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
       }, `GET a single order`);
@@ -111,7 +111,7 @@ describe('OccUserOrderAdapter', () => {
     }));
 
     it('should use converter', () => {
-      service.load(userId, orderData.code).subscribe();
+      occUserOrderAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne(req => req.method === 'GET').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });

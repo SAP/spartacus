@@ -28,7 +28,7 @@ const user: User = {
 };
 
 describe('OccUserAdapter', () => {
-  let service: OccUserAdapter;
+  let occUserAdapter: OccUserAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
@@ -46,7 +46,7 @@ describe('OccUserAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccUserAdapter);
+    occUserAdapter = TestBed.get(OccUserAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     occEnpointsService = TestBed.get(OccEndpointsService);
@@ -62,7 +62,7 @@ describe('OccUserAdapter', () => {
 
   describe('load user details', () => {
     it('should load user details for given username and access token', () => {
-      service.load(username).subscribe(result => {
+      occUserAdapter.load(username).subscribe(result => {
         expect(result).toEqual(user);
       });
 
@@ -79,7 +79,7 @@ describe('OccUserAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.load(username).subscribe();
+      occUserAdapter.load(username).subscribe();
       httpMock
         .expectOne(req => {
           return req.method === 'GET';
@@ -94,7 +94,7 @@ describe('OccUserAdapter', () => {
       const userUpdates: User = {
         title: 'mr',
       };
-      service.update(username, userUpdates).subscribe(_ => _);
+      occUserAdapter.update(username, userUpdates).subscribe(_ => _);
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'PATCH';
@@ -114,7 +114,7 @@ describe('OccUserAdapter', () => {
         title: 'mr',
       };
 
-      service.update(username, userUpdates).subscribe();
+      occUserAdapter.update(username, userUpdates).subscribe();
       httpMock
         .expectOne(req => {
           return req.method === 'PATCH';
@@ -130,7 +130,7 @@ describe('OccUserAdapter', () => {
   describe('forgot password: ', () => {
     it('should request a forgot password email for userId', () => {
       const testUserId = 'test@test.com';
-      service
+      occUserAdapter
         .requestForgotPasswordEmail(testUserId)
         .subscribe(result => expect(result).toEqual(''));
 
@@ -154,7 +154,7 @@ describe('OccUserAdapter', () => {
       const token = 'test token';
       const newPassword = 'new password';
 
-      service
+      occUserAdapter
         .resetPassword(token, newPassword)
         .subscribe(result => expect(result).toEqual(''));
 
@@ -178,7 +178,7 @@ describe('OccUserAdapter', () => {
 
   describe('remove user account: ', () => {
     it('should be able to close user account', () => {
-      service
+      occUserAdapter
         .remove('testUserId')
         .subscribe(result => expect(result).toEqual(''));
 
@@ -202,7 +202,7 @@ describe('OccUserAdapter', () => {
 
       let result: Object;
 
-      service
+      occUserAdapter
         .updateEmail(userId, currentPassword, newUserId)
         .subscribe(value => (result = value));
 
@@ -233,7 +233,7 @@ describe('OccUserAdapter', () => {
 
       let result: Object;
 
-      service
+      occUserAdapter
         .updatePassword(userId, oldPassword, newPassword)
         .subscribe(value => (result = value));
 
@@ -270,7 +270,7 @@ describe('OccUserAdapter', () => {
         ],
       };
 
-      service.loadTitles().subscribe(result => {
+      occUserAdapter.loadTitles().subscribe(result => {
         expect(result).toEqual(titlesList.titles);
       });
 
@@ -285,7 +285,7 @@ describe('OccUserAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.loadTitles().subscribe();
+      occUserAdapter.loadTitles().subscribe();
       httpMock.expectOne('/titles').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(TITLE_NORMALIZER);
     });

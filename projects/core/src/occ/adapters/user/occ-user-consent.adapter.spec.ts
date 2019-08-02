@@ -18,7 +18,7 @@ import {
 } from './unit-test.helper';
 
 describe('OccUserConsentAdapter', () => {
-  let service: OccUserConsentAdapter;
+  let occUserConsentAdapter: OccUserConsentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
@@ -36,7 +36,7 @@ describe('OccUserConsentAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccUserConsentAdapter);
+    occUserConsentAdapter = TestBed.get(OccUserConsentAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     occEnpointsService = TestBed.get(OccEndpointsService);
@@ -56,7 +56,7 @@ describe('OccUserConsentAdapter', () => {
         consentTemplates: [{ id: 'xxx' }],
       };
 
-      service.loadConsents(userId).subscribe(result => {
+      occUserConsentAdapter.loadConsents(userId).subscribe(result => {
         expect(result).toEqual(mockConsentTemplateList.consentTemplates);
       });
 
@@ -77,7 +77,7 @@ describe('OccUserConsentAdapter', () => {
 
     it('should use converter', () => {
       const userId = 'xxx@xxx.xxx';
-      service.loadConsents(userId).subscribe();
+      occUserConsentAdapter.loadConsents(userId).subscribe();
       httpMock
         .expectOne(req => {
           return req.method === 'GET';
@@ -102,7 +102,7 @@ describe('OccUserConsentAdapter', () => {
           consentGivenDate: new Date(),
         },
       };
-      service
+      occUserConsentAdapter
         .giveConsent(userId, consentTemplateId, consentTemplateVersion)
         .subscribe(result => expect(result).toEqual(expectedConsentTemplate));
 
@@ -126,7 +126,7 @@ describe('OccUserConsentAdapter', () => {
     it('should use converter', () => {
       const userId = 'xxx@xxx.xxx';
 
-      service.giveConsent(userId, 'xxx', 1).subscribe();
+      occUserConsentAdapter.giveConsent(userId, 'xxx', 1).subscribe();
       httpMock.expectOne(req => req.method === 'POST').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(
         CONSENT_TEMPLATE_NORMALIZER
@@ -136,7 +136,7 @@ describe('OccUserConsentAdapter', () => {
 
   describe('withdrawConsent', () => {
     it('should withdraw the user consent', () => {
-      service
+      occUserConsentAdapter
         .withdrawConsent('xxx@xxx.xxx', 'xxx')
         .subscribe(result => expect(result).toEqual(''));
 

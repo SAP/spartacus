@@ -17,7 +17,7 @@ import {
 const username = 'mockUsername';
 
 describe('OccUserPaymentAdapter', () => {
-  let service: OccUserPaymentAdapter;
+  let occUserPaymentAdapter: OccUserPaymentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
@@ -35,7 +35,7 @@ describe('OccUserPaymentAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccUserPaymentAdapter);
+    occUserPaymentAdapter = TestBed.get(OccUserPaymentAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     occEnpointsService = TestBed.get(OccEndpointsService);
@@ -59,7 +59,7 @@ describe('OccUserPaymentAdapter', () => {
         payments: [mockPayment1, mockPayment2],
       };
 
-      service.loadAll(username).subscribe(result => {
+      occUserPaymentAdapter.loadAll(username).subscribe(result => {
         expect(result).toEqual(mockUserPaymentMethods.payments);
       });
 
@@ -79,7 +79,7 @@ describe('OccUserPaymentAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.loadAll(username).subscribe();
+      occUserPaymentAdapter.loadAll(username).subscribe();
       httpMock
         .expectOne(req => {
           return req.method === 'GET';
@@ -98,7 +98,7 @@ describe('OccUserPaymentAdapter', () => {
         id: '123',
       };
 
-      service.setDefault(username, mockPayment.id).subscribe(result => {
+      occUserPaymentAdapter.setDefault(username, mockPayment.id).subscribe(result => {
         expect(result).toEqual('');
       });
 
@@ -122,7 +122,7 @@ describe('OccUserPaymentAdapter', () => {
         id: '123',
       };
 
-      service
+      occUserPaymentAdapter
         .delete(username, mockPayment.id)
         .subscribe(result => expect(result).toEqual(''));
 
