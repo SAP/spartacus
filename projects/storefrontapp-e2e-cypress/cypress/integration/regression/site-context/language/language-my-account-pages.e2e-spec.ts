@@ -81,7 +81,8 @@ describe('Language switch - my-account pages', () => {
 
       cy.get(
         'cx-address-form .ng-select[formcontrolname="titleCode"]'
-      ).ngSelect(deutschName);
+      )
+      .ngSelect(deutschName);
 
       cy.get(
         'cx-address-form .ng-select[formcontrolname="titleCode"] .ng-value-label'
@@ -111,10 +112,10 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGE_LABEL
       );
 
-      cy.get('[formcontrolname="titleCode"]').ngSelect(deutschName);
+      cy.get('[formcontrolname="titleCode"]').select(deutschName);
 
       cy.get('[formcontrolname="titleCode"]')
-        .get('.ng-value .ng-value-label')
+        .find(':selected')
         .should('have.text', deutschName);
     });
   });
