@@ -44,28 +44,33 @@ describe('Cart', () => {
   it('should be saved in browser and restored on refresh', () => {
     cart.addProductAsAnonymous();
     cy.reload();
-    cart.verifyCartNotEmpty()
-  })
+    cart.verifyCartNotEmpty();
+  });
 
   it('should be loaded after logging in', () => {
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     cart.logOutAndNavigateToEmptyCart();
     cart.loginRegisteredUser();
-    cart.verifyCartNotEmpty()
-  })
+    cart.verifyCartNotEmpty();
+  });
 
   it('should be loaded for logged user after "cart not found" error', () => {
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     cy.window().then(window => {
-      const storage = JSON.parse(window.localStorage.getItem('spartacus-local-data'));
+      const storage = JSON.parse(
+        window.localStorage.getItem('spartacus-local-data')
+      );
       const cartCode = storage.cart.active.value.content.code;
       storage.cart.active.value.content.code = 'incorrect-code';
-      window.localStorage.setItem('spartacus-local-data', JSON.stringify(storage));
+      window.localStorage.setItem(
+        'spartacus-local-data',
+        JSON.stringify(storage)
+      );
       cy.visit('/cart');
       alerts.getErrorAlert().should('contain', 'Cart not found');
       cy.get('.cart-details-wrapper .cx-total').contains(`Cart #${cartCode}`);
-    })
-  })
+    });
+  });
 });
