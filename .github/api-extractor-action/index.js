@@ -10,7 +10,7 @@ Toolkit.run(
     const response = await tools.github.pulls.list({
       owner,
       repo,
-      head: tools.context.payload.ref.replace('refs/heads/', ''),
+      head: 'SAP:' + tools.context.payload.ref.replace('refs/heads/', ''),
     });
 
     const relatedPullRequests = response.data;
