@@ -42,19 +42,19 @@ const MockAuthConfig: AuthConfig = {
   },
 };
 
+class MockOccEndpointsService {
+  getRawEndpoint(endpoint: string) {
+    return (
+      MockAuthConfig.backend.occ.baseUrl +
+      MockAuthConfig.backend.occ.endpoints[endpoint]
+    );
+  }
+}
+
 describe('UserAuthenticationTokenService', () => {
   let authTokenService: UserAuthenticationTokenService;
   let httpMock: HttpTestingController;
   let occEndpointsService: OccEndpointsService;
-
-  class MockOccEndpointsService {
-    getRawEndpoint(endpoint: string) {
-      return (
-        MockAuthConfig.backend.occ.baseUrl +
-        MockAuthConfig.backend.occ.endpoints[endpoint]
-      );
-    }
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -2,7 +2,7 @@ export interface OccEndpoints {
   /**
    * Client login (get authorization token)
    *
-   * @member {string} [login]
+   * @member {string}
    */
   login?: string;
   /**
