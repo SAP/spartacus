@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FeaturesConfig } from './config/features-config';
-import { provideConfig } from '../config/config.module';
+import { Config, provideConfig } from '../config/config.module';
 import { FeatureLevelDirective } from './directives/feature-level.directive';
 import { FeatureDirective } from './directives/feature.directive';
 
@@ -20,6 +20,10 @@ export class FeaturesConfigModule {
             level: defaultLevel || 'next',
           },
         }),
+        {
+          provide: FeaturesConfig,
+          useExisting: Config,
+        },
       ],
     };
   }

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { FeatureConfigService } from './feature-config.service';
-import { Config, FeaturesConfig } from '@spartacus/core';
+import { FeaturesConfig } from '@spartacus/core';
 
 describe('FeatureConfigService', () => {
   const mockFeaturesConfig: FeaturesConfig = {
@@ -18,7 +18,7 @@ describe('FeatureConfigService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: Config, useValue: mockFeaturesConfig }],
+      providers: [{ provide: FeaturesConfig, useValue: mockFeaturesConfig }],
     });
     service = TestBed.get(FeatureConfigService);
   });
