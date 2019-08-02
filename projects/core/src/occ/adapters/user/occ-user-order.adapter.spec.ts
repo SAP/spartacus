@@ -71,7 +71,9 @@ describe('OccUserOrderAdapter', () => {
       const currentPage = 1;
       const sort = 'byDate';
 
-      occUserOrderAdapter.loadHistory(userId, PAGE_SIZE, currentPage, sort).subscribe();
+      occUserOrderAdapter
+        .loadHistory(userId, PAGE_SIZE, currentPage, sort)
+        .subscribe();
       const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
       }, `GET method`);

@@ -98,9 +98,11 @@ describe('OccUserPaymentAdapter', () => {
         id: '123',
       };
 
-      occUserPaymentAdapter.setDefault(username, mockPayment.id).subscribe(result => {
-        expect(result).toEqual('');
-      });
+      occUserPaymentAdapter
+        .setDefault(username, mockPayment.id)
+        .subscribe(result => {
+          expect(result).toEqual('');
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'PATCH' && req.body.defaultPayment === true;
