@@ -14,36 +14,12 @@ import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
+import {
+  MockOccEndpointsService,
+  mockOccModuleConfig,
+} from './unit-test.helper';
 
 const username = 'mockUsername';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  context: {
-    baseSite: [''],
-  },
-};
-
-class MockOccEndpointsService {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpointKey);
-  }
-  getEndpoint(endpoint: string) {
-    if (!endpoint.startsWith('/')) {
-      endpoint = '/' + endpoint;
-    }
-    return endpoint;
-  }
-  getBaseEndpoint() {
-    return '';
-  }
-}
 
 describe('OccUserAddressAdapter', () => {
   let service: OccUserAddressAdapter;
@@ -56,7 +32,7 @@ describe('OccUserAddressAdapter', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccUserAddressAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,

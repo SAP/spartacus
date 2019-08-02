@@ -10,6 +10,10 @@ import { Order } from '../../../model/order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
+import {
+  MockOccEndpointsService,
+  mockOccModuleConfig,
+} from './unit-test.helper';
 
 const userId = '123';
 
@@ -18,34 +22,6 @@ const orderData: Order = {
   calculated: true,
   code: '00001004',
 };
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  context: {
-    baseSite: [''],
-  },
-};
-
-class MockOccEndpointsService {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpointKey);
-  }
-  getEndpoint(endpoint: string) {
-    if (!endpoint.startsWith('/')) {
-      endpoint = '/' + endpoint;
-    }
-    return endpoint;
-  }
-  getBaseEndpoint() {
-    return '';
-  }
-}
 
 describe('OccUserOrderAdapter', () => {
   let service: OccUserOrderAdapter;
@@ -58,7 +34,7 @@ describe('OccUserOrderAdapter', () => {
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
         OccUserOrderAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,

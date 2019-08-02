@@ -9,36 +9,12 @@ import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
+import {
+  MockOccEndpointsService,
+  mockOccModuleConfig,
+} from './unit-test.helper';
 
 const username = 'mockUsername';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  context: {
-    baseSite: [''],
-  },
-};
-
-class MockOccEndpointsService {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpointKey);
-  }
-  getEndpoint(endpoint: string) {
-    if (!endpoint.startsWith('/')) {
-      endpoint = '/' + endpoint;
-    }
-    return endpoint;
-  }
-  getBaseEndpoint() {
-    return '';
-  }
-}
 
 describe('OccUserPaymentAdapter', () => {
   let service: OccUserPaymentAdapter;
@@ -51,7 +27,7 @@ describe('OccUserPaymentAdapter', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccUserPaymentAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,

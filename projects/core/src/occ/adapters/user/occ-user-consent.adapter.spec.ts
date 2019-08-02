@@ -12,34 +12,10 @@ import { ConsentTemplate } from '../../../model/consent.model';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
 import { OccUserConsentAdapter } from './occ-user-consent.adapter';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  context: {
-    baseSite: [''],
-  },
-};
-
-class MockOccEndpointsService {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpointKey);
-  }
-  getEndpoint(endpoint: string) {
-    if (!endpoint.startsWith('/')) {
-      endpoint = '/' + endpoint;
-    }
-    return endpoint;
-  }
-  getBaseEndpoint() {
-    return '';
-  }
-}
+import {
+  MockOccEndpointsService,
+  mockOccModuleConfig,
+} from './unit-test.helper';
 
 describe('OccUserConsentAdapter', () => {
   let service: OccUserConsentAdapter;
@@ -52,7 +28,7 @@ describe('OccUserConsentAdapter', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccUserConsentAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
