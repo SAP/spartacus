@@ -1,4 +1,5 @@
 import { fillShippingAddress, AddressData } from './checkout-forms';
+import * as alerts from './global-message';
 
 export const newAddress: AddressData = {
   firstName: 'Foo',
@@ -127,7 +128,7 @@ export function deleteExistingAddress() {
   firstCard = cy.get('cx-address-card').first();
   firstCard.find('.delete').click();
   cy.get('.cx-address-card-delete button.btn-primary').click();
-  cy.get('cx-global-message').contains('Address deleted successfully!');
+  alerts.getSuccessAlert().contains('Address deleted successfully!');
 
   cy.get('cx-address-card').should('have.length', 1);
 
