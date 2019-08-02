@@ -20,7 +20,8 @@ Toolkit.run(
     }
 
     // ## check what PR's are related
-    console.log(relatedPullRequests);
+    console.log(tools.context.payload.ref.replace('refs/heads/', ''))
+    console.log(relatedPullRequests.map(pr => pr.head));
 
     const relatedPR = relatedPullRequests[0];
 
