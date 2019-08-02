@@ -37,6 +37,7 @@ export class StarRatingComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
+  constructor(el: ElementRef, renderer: Renderer2); // tslint:disable-line
   /**
    * @deprecated since version 1.0.2
    *  Use constructor(el: ElementRef, renderer: Renderer2) instead
@@ -44,7 +45,6 @@ export class StarRatingComponent implements OnInit {
    *  TODO(issue:#3803) deprecated since 1.0.2
    */
   constructor(el: ElementRef);
-  constructor(el: ElementRef, renderer: Renderer2); // tslint:disable-line
   constructor(protected el: ElementRef, protected renderer?: Renderer2) {}
 
   ngOnInit(): void {
