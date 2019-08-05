@@ -2,11 +2,12 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
+import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
-import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
 import { OccProductReferencesAdapter } from './occ-product-references.adapter';
 import createSpy = jasmine.createSpy;
 
@@ -54,11 +55,14 @@ describe('OccProductReferencesAdapter', () => {
         { provide: ConverterService, useClass: MockConvertService },
       ],
     });
-
-    service = TestBed.get(OccProductReferencesAdapter);
-    endpoints = TestBed.get(OccEndpointsService);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    service = TestBed.get(OccProductReferencesAdapter as Type<
+      OccProductReferencesAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    endpoints = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
   });
 
   afterEach(() => {

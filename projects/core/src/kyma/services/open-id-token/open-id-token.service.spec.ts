@@ -2,6 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
@@ -44,8 +45,12 @@ describe('loadOpenIdAuthenticationToken', () => {
       ],
     });
 
-    service = TestBed.get(OpenIdAuthenticationTokenService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.get(OpenIdAuthenticationTokenService as Type<
+      OpenIdAuthenticationTokenService
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
   });
 
   afterEach(() => {

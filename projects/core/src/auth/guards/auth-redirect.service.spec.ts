@@ -1,8 +1,9 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthRedirectService } from './auth-redirect.service';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { Router } from '@angular/router';
 
 class MockRoutingService {
   go = jasmine.createSpy('go');
@@ -32,9 +33,9 @@ describe('AuthRedirectService', () => {
       ],
       imports: [RouterTestingModule],
     });
-    service = TestBed.get(AuthRedirectService);
-    routingService = TestBed.get(RoutingService);
-    router = TestBed.get(Router);
+    service = TestBed.get(AuthRedirectService as Type<AuthRedirectService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    router = TestBed.get(Router as Type<Router>);
   });
 
   describe('redirect', () => {
@@ -43,13 +44,12 @@ describe('AuthRedirectService', () => {
       expect(routingService.go).toHaveBeenCalledWith('/');
     });
 
-    describe('when just opened url with NotAuthGuard', () => {
+    describe(', when just opened url with NotAuthGuard,', () => {
       beforeEach(() => {
         router['url' as any] = '/test';
         spyOn(router, 'getCurrentNavigation').and.returnValue({
           id: 1,
           finalUrl: '/login',
-          extras: { state: undefined },
         });
         service.reportNotAuthGuard();
 
@@ -61,11 +61,11 @@ describe('AuthRedirectService', () => {
       });
     });
 
-    describe('when just opened sequentially two urls with NotAuthGuard', () => {
+    describe(', when just opened sequentially two urls with NotAuthGuard,', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/login', extras: { state: undefined } },
-          { id: 2, finalUrl: '/register', extras: { state: undefined } }
+          { id: 1, finalUrl: '/login' },
+          { id: 2, finalUrl: '/register' }
         );
 
         router['url' as any] = '/test';
@@ -81,11 +81,11 @@ describe('AuthRedirectService', () => {
       });
     });
 
-    describe('when AuthGuard just blocked url and redirected to url with NotAuthGuard', () => {
+    describe(', when AuthGuard just blocked url and redirected to url with NotAuthGuard,', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/my-account', extras: { state: undefined } },
-          { id: 2, finalUrl: '/register', extras: { state: undefined } }
+          { id: 1, finalUrl: '/my-account' },
+          { id: 2, finalUrl: '/register' }
         );
         router['url' as any] = '/test';
         service.reportAuthGuard();
@@ -99,11 +99,11 @@ describe('AuthRedirectService', () => {
       });
     });
 
-    describe('when AuthGuard blocked url, then opened manually different url, and then opened url with NotAuthGuard', () => {
+    describe(', when AuthGuard blocked url, then opened manually different url, and then opened url with NotAuthGuard,', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/my-account', extras: { state: undefined } },
-          { id: 3, finalUrl: '/register', extras: { state: undefined } } // id 3 matters here
+          { id: 1, finalUrl: '/my-account' },
+          { id: 3, finalUrl: '/register' } // id 3 matters here
         );
 
         router['url' as any] = '/test';
@@ -111,23 +111,6 @@ describe('AuthRedirectService', () => {
         router['url' as any] = '/test2';
         service.reportNotAuthGuard();
 
-        service.redirect();
-      });
-
-      it('should redirect to the previous url', () => {
-        expect(routingService.goByUrl).toHaveBeenCalledWith('/test2');
-      });
-    });
-
-    describe('when user is logged in and updates his email, and gets redirected to login', () => {
-      beforeEach(() => {
-        spyOn(router, 'getCurrentNavigation').and.returnValue({
-          id: 1,
-          finalUrl: '/login',
-          extras: { state: { redirectUrl: '/test2' } },
-        });
-        router['url' as any] = '/test';
-        service.reportNotAuthGuard();
         service.redirect();
       });
 

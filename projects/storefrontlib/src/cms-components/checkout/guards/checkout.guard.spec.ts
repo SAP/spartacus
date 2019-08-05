@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
@@ -26,8 +27,11 @@ describe(`CheckoutGuard`, () => {
       ],
       imports: [RouterTestingModule],
     });
-    guard = TestBed.get(CheckoutGuard);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
+
+    guard = TestBed.get(CheckoutGuard as Type<CheckoutGuard>);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
   });
 
   it(`should redirect to first checkout step`, done => {

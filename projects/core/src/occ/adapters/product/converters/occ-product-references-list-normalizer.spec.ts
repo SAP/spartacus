@@ -1,7 +1,8 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ProductReference } from '../../../../model/product.model';
-import { Occ } from '../../../occ-models/occ.models';
 import { ConverterService } from '../../../../util/converter.service';
+import { Occ } from '../../../occ-models/occ.models';
 import { OccProductReferencesListNormalizer } from './occ-product-references-list-normalizer';
 import createSpy = jasmine.createSpy;
 
@@ -39,7 +40,9 @@ describe('OccProductReferencesListNormalizer', () => {
       ],
     });
 
-    normalizer = TestBed.get(OccProductReferencesListNormalizer);
+    normalizer = TestBed.get(OccProductReferencesListNormalizer as Type<
+      OccProductReferencesListNormalizer
+    >);
   });
 
   it('should inject ProductImageConverterService', () => {
@@ -47,7 +50,7 @@ describe('OccProductReferencesListNormalizer', () => {
   });
 
   it('should apply product image normalizer to products', () => {
-    const converter = TestBed.get(ConverterService);
+    const converter = TestBed.get(ConverterService as Type<ConverterService>);
     const result = normalizer.convert(mockSource, mockTarget);
     const expected = [{ target: { images: ['images'] } }] as any;
 
