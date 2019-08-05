@@ -10,10 +10,12 @@ import { UserAuthenticationTokenService } from './user-authentication-token.serv
 import { AuthConfig } from '../../config/auth-config';
 
 import { UserToken } from '../../models/token-types.model';
+import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 
 const username = 'mockUsername';
 const password = '1234';
 const refreshToken = '5678';
+const loginEndpoint = '/authorizationserver/oauth/token';
 
 const token: UserToken = {
   access_token: 'mockToken',
@@ -23,37 +25,54 @@ const token: UserToken = {
   scope: ['mock', 'scope'],
   userId: 'dsfk32df34',
 };
-const mockOauthEndpoint = '/authorizationserver/oauth/token';
+
+const MockAuthConfig: AuthConfig = {
+  authentication: {
+    client_id: '',
+    client_secret: '',
+  },
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+      endpoints: {
+        login: loginEndpoint,
+      },
+    },
+  },
+};
+
+class MockOccEndpointsService {
+  getRawEndpoint(endpoint: string) {
+    return (
+      MockAuthConfig.backend.occ.baseUrl +
+      MockAuthConfig.backend.occ.endpoints[endpoint]
+    );
+  }
+}
 
 describe('UserAuthenticationTokenService', () => {
-  let service: UserAuthenticationTokenService;
+  let authTokenService: UserAuthenticationTokenService;
   let httpMock: HttpTestingController;
+  let occEndpointsService: OccEndpointsService;
 
   beforeEach(() => {
-    const mockAuthConfig: AuthConfig = {
-      backend: {
-        occ: {
-          baseUrl: '',
-          prefix: '',
-        },
-      },
-
-      authentication: {
-        client_id: '',
-        client_secret: '',
-      },
-    };
-
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         UserAuthenticationTokenService,
-        { provide: AuthConfig, useValue: mockAuthConfig },
+        { provide: AuthConfig, useValue: MockAuthConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
 
-    service = TestBed.get(UserAuthenticationTokenService);
+    authTokenService = TestBed.get(UserAuthenticationTokenService);
     httpMock = TestBed.get(HttpTestingController);
+    occEndpointsService = TestBed.get(OccEndpointsService);
+    spyOn(occEndpointsService, 'getRawEndpoint').and.callThrough();
   });
 
   afterEach(() => {
@@ -61,42 +80,43 @@ describe('UserAuthenticationTokenService', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(authTokenService).toBeTruthy();
   });
 
   describe('load user token', () => {
     it('should load user token for given username and password', () => {
-      service.loadToken(username, password).subscribe(result => {
+      authTokenService.loadToken(username, password).subscribe(result => {
         expect(result).toEqual(token);
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
+        return req.method === 'POST' && req.url === loginEndpoint;
       });
 
+      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('login');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(token);
     });
   });
 
   describe('refresh user token', () => {
     it('should refresh user token for a given refresh_token', () => {
-      service.refreshToken(refreshToken).subscribe(result => {
+      authTokenService.refreshToken(refreshToken).subscribe(result => {
         expect(result).toEqual(token);
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
+        return req.method === 'POST' && req.url === loginEndpoint;
       });
 
+      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('login');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(token);
     });
 
     it('should catch refresh error', () => {
-      service.refreshToken('invalid token').subscribe(
+      authTokenService.refreshToken('invalid token').subscribe(
         _result => {},
         (error: HttpErrorResponse) => {
           expect(error.status).toBe(400);
@@ -105,9 +125,10 @@ describe('UserAuthenticationTokenService', () => {
       );
 
       const mockReq: TestRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
+        return req.method === 'POST' && req.url === loginEndpoint;
       });
 
+      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('login');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(

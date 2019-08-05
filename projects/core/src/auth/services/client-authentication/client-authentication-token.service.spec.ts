@@ -7,6 +7,7 @@ import {
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
+import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 
 const token: ClientToken = {
   access_token: 'mockToken',
@@ -15,12 +16,15 @@ const token: ClientToken = {
   scope: 'user',
 };
 
-const mockOauthEndpoint = '/authorizationserver/oauth/token';
+const loginEndpoint = '/authorizationserver/oauth/token';
 
 const MockAuthConfig: AuthConfig = {
   backend: {
     occ: {
       baseUrl: '',
+      endpoints: {
+        login: loginEndpoint,
+      },
     },
   },
   authentication: {
@@ -29,9 +33,19 @@ const MockAuthConfig: AuthConfig = {
   },
 };
 
+class MockOccEndpointsService {
+  getRawEndpoint(endpoint: string) {
+    return (
+      MockAuthConfig.backend.occ.baseUrl +
+      MockAuthConfig.backend.occ.endpoints[endpoint]
+    );
+  }
+}
+
 describe('ClientAuthenticationTokenService', () => {
   let service: ClientAuthenticationTokenService;
   let httpMock: HttpTestingController;
+  let occEndpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,11 +53,17 @@ describe('ClientAuthenticationTokenService', () => {
       providers: [
         ClientAuthenticationTokenService,
         { provide: AuthConfig, useValue: MockAuthConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
 
     service = TestBed.get(ClientAuthenticationTokenService);
     httpMock = TestBed.get(HttpTestingController);
+    occEndpointsService = TestBed.get(OccEndpointsService);
+    spyOn(occEndpointsService, 'getRawEndpoint').and.callThrough();
   });
 
   afterEach(() => {
@@ -57,8 +77,10 @@ describe('ClientAuthenticationTokenService', () => {
       });
 
       const mockReq: TestRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
+        return req.method === 'POST' && req.url === loginEndpoint;
       });
+
+      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('login');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(token);

@@ -3,15 +3,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
-
-const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
+import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 
 @Injectable()
 export class ClientAuthenticationTokenService {
-  constructor(protected config: AuthConfig, protected http: HttpClient) {}
+  constructor(
+    protected config: AuthConfig,
+    protected http: HttpClient,
+    protected occEndpointsService: OccEndpointsService
+  ) {}
 
   loadClientAuthenticationToken(): Observable<ClientToken> {
-    const url: string = this.getOAuthEndpoint();
+    const url: string = this.occEndpointsService.getRawEndpoint('login');
     const params = new HttpParams()
       .set(
         'client_id',
@@ -27,9 +30,5 @@ export class ClientAuthenticationTokenService {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
     return this.http.post<ClientToken>(url, params, { headers });
-  }
-
-  protected getOAuthEndpoint(): string {
-    return (this.config.backend.occ.baseUrl || '') + OAUTH_ENDPOINT;
   }
 }

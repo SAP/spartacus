@@ -9,6 +9,7 @@ describe('OccEndpointsService', () => {
         baseUrl: 'test-baseUrl',
         prefix: '/test-occPrefix',
         endpoints: {
+          login: '/authorizationserver/oauth/token',
           product: 'configured-endpoint1/${test}?fields=abc',
         },
       },
@@ -33,13 +34,20 @@ describe('OccEndpointsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getBaseEndpoint should return base endpoint', () => {
+  it('should return base endpoint', () => {
     expect(service.getBaseEndpoint()).toEqual(baseEndpoint);
   });
 
-  it('getEndpoint should return base endpoint + added endpoint', () => {
+  it('should return base endpoint + added endpoint', () => {
     expect(service.getEndpoint('test-endpoint')).toEqual(
       baseEndpoint + '/test-endpoint'
+    );
+  });
+
+  it('should return raw endpoint', () => {
+    const occ = mockOccConfig.backend.occ;
+    expect(service.getRawEndpoint('login')).toEqual(
+      occ.baseUrl + occ.endpoints['login']
     );
   });
 
