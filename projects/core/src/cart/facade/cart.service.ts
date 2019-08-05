@@ -186,7 +186,7 @@ export class CartService {
     );
   }
 
-  getUser(): Observable<User> {
+  getAssignedUser(): Observable<User> {
     return this.store.pipe(select(CartSelectors.getCartUser));
   }
 
