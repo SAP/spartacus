@@ -1,35 +1,41 @@
 import { Component } from '@angular/core';
-import {
-  AbstractControl,
-  FormGroup,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
+import { AbstractControl, Validators, FormBuilder } from '@angular/forms';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
 @Component({
   selector: 'cx-checkout-login',
   templateUrl: './checkout-login.component.html',
 })
 export class CheckoutLoginComponent {
-  checkoutEmailForm: FormGroup = this.formBuilder.group(
+  form = this.formBuilder.group(
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       emailConfirmation: [
         '',
-        Validators.required,
-        CustomFormValidators.emailValidator,
+        [Validators.required, CustomFormValidators.emailValidator],
       ],
       termsAndConditions: ['', Validators.required],
     },
     { validator: this.emailsMatch }
   );
+  private submitClicked = false;
 
   constructor(private formBuilder: FormBuilder) {}
 
-  checkout() {
-    const userId = this.checkoutEmailForm.controls.email.value.toLowerCase();
-    return userId;
+  isNotValid(formControlName: string): boolean {
+    return FormUtils.isNotValidField(
+      this.form,
+      formControlName,
+      this.submitClicked
+    );
+  }
+
+  onSubmit() {
+    this.submitClicked = true;
+    if (this.form.invalid) {
+      return;
+    }
   }
 
   private emailsMatch(abstractControl: AbstractControl): { NotEqual: boolean } {
@@ -39,5 +45,6 @@ export class CheckoutLoginComponent {
     ) {
       return { NotEqual: true };
     }
+    return null;
   }
 }
