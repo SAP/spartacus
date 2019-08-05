@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { GeoPoint } from '../../model/misc.model';
@@ -49,9 +50,9 @@ describe('StoreFinderService', () => {
       ],
     });
 
-    service = TestBed.get(StoreFinderService);
-    store = TestBed.get(Store);
-    winRef = TestBed.get(WindowRef);
+    service = TestBed.get(StoreFinderService as Type<StoreFinderService>);
+    store = TestBed.get(Store as Type<Store<StoresState>>);
+    winRef = TestBed.get(WindowRef as Type<WindowRef>);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(

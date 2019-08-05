@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Currency } from '../../../model/misc.model';
@@ -27,7 +28,8 @@ describe('Currencies Selectors', () => {
         ),
       ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

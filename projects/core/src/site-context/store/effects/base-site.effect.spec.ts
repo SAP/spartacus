@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -28,8 +29,10 @@ describe('BaseSite Effects', () => {
       ],
     });
 
-    connector = TestBed.get(SiteConnector);
-    effects = TestBed.get(fromEffects.BaseSiteEffects);
+    connector = TestBed.get(SiteConnector as Type<SiteConnector>);
+    effects = TestBed.get(fromEffects.BaseSiteEffects as Type<
+      fromEffects.BaseSiteEffects
+    >);
 
     spyOn(connector, 'getBaseSite').and.returnValue(of(baseSite));
   });

@@ -1,7 +1,13 @@
-import { Component, NgModule, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { TestBed, inject } from '@angular/core/testing';
-import { ComponentMapperService } from './component-mapper.service';
+import {
+  Component,
+  NgModule,
+  PLATFORM_ID,
+  Renderer2,
+  Type,
+} from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import { CmsConfig } from '@spartacus/core';
+import { ComponentMapperService } from './component-mapper.service';
 
 const createSpy = jasmine.createSpy;
 
@@ -39,7 +45,9 @@ describe('ComponentMapperService', () => {
       ],
     });
 
-    mapperService = TestBed.get(ComponentMapperService);
+    mapperService = TestBed.get(ComponentMapperService as Type<
+      ComponentMapperService
+    >);
   });
 
   it('should ComponentMapperService is injected', inject(
