@@ -10,6 +10,10 @@ export const LOAD_CART = '[Cart] Load Cart';
 export const LOAD_CART_FAIL = '[Cart] Load Cart Fail';
 export const LOAD_CART_SUCCESS = '[Cart] Load Cart Success';
 
+export const ADD_EMAIL_TO_CART = '[Cart] Add Email to Cart';
+export const ADD_EMAIL_TO_CART_FAIL = '[Cart] Add Email to Cart Fail';
+export const ADD_EMAIL_TO_CART_SUCCESS = '[Cart] Add Email to Cart Success';
+
 export const MERGE_CART = '[Cart] Merge Cart';
 export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
 
@@ -33,6 +37,29 @@ export class CreateCartFail extends StateLoaderActions.LoaderFailAction {
 
 export class CreateCartSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CREATE_CART_SUCCESS;
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
+}
+
+export class AddEmailToCart extends StateLoaderActions.LoaderLoadAction {
+  readonly type = ADD_EMAIL_TO_CART;
+  constructor(
+    public payload: { userId: string; cartId: string; email: string }
+  ) {
+    super(CART_DATA);
+  }
+}
+
+export class AddEmailToCartFail extends StateLoaderActions.LoaderFailAction {
+  readonly type = ADD_EMAIL_TO_CART_FAIL;
+  constructor(public payload: any) {
+    super(CART_DATA, payload);
+  }
+}
+
+export class AddEmailToCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+  readonly type = ADD_EMAIL_TO_CART_SUCCESS;
   constructor(public payload: any) {
     super(CART_DATA);
   }
@@ -91,4 +118,7 @@ export type CartAction =
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails
-  | ClearCart;
+  | ClearCart
+  | AddEmailToCart
+  | AddEmailToCartFail
+  | AddEmailToCartSuccess;

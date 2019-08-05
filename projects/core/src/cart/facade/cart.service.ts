@@ -175,6 +175,16 @@ export class CartService {
     );
   }
 
+  addEmail(email: string): void {
+    this.store.dispatch(
+      new CartActions.AddEmailToCart({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+        email: email,
+      })
+    );
+  }
+
   private isCreated(cart: Cart): boolean {
     return cart && typeof cart.guid !== 'undefined';
   }
