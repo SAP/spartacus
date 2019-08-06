@@ -80,7 +80,6 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
       this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
     }
     this.routingService.go(this.checkoutStepUrlNext);
-
   }
 
   back(): void {
