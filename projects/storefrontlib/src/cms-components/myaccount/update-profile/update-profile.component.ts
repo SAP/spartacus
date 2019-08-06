@@ -8,7 +8,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-update-profile',
@@ -37,10 +37,6 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
-      }),
-      map(titles => {
-        const noneTitle = { code: '', name: 'None' };
-        return [noneTitle, ...titles];
       })
     );
     this.loading$ = this.userService.getUpdatePersonalDetailsResultLoading();
