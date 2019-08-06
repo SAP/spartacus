@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
+import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
 import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
@@ -173,6 +174,20 @@ export class CartService {
     return this.store.pipe(
       select(CartSelectors.getCartEntrySelectorFactory(productCode))
     );
+  }
+
+  addEmail(email: string): void {
+    this.store.dispatch(
+      new CartActions.AddEmailToCart({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+        email: email,
+      })
+    );
+  }
+
+  getAssignedUser(): Observable<User> {
+    return this.store.pipe(select(CartSelectors.getCartUser));
   }
 
   private isCreated(cart: Cart): boolean {
