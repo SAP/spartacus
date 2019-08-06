@@ -27,7 +27,6 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   checkoutStepUrlNext: string;
   checkoutStepUrlPrevious: string;
 
-  changedOption: boolean;
   deliveryModeSub: Subscription;
 
   mode: FormGroup = this.fb.group({
@@ -49,7 +48,6 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
       this.activatedRoute
     );
-    this.changedOption = false;
 
     this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
 
@@ -73,17 +71,16 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   changeMode(code: string): void {
     if (code !== this.currentDeliveryModeId) {
-      this.changedOption = true;
       this.currentDeliveryModeId = code;
     }
   }
 
   next(): void {
-    if (this.changedOption) {
+    if (this.mode.touched) {
       this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
-    } else {
-      this.routingService.go(this.checkoutStepUrlNext);
     }
+    this.routingService.go(this.checkoutStepUrlNext);
+
   }
 
   back(): void {
