@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './test-outlet-template.component.html',
 })
 export class TestOutletTemplateComponent {
-  testTemplate = 'ContentPage1Template'
+  testTemplate = 'ContentPage1Template';
 }

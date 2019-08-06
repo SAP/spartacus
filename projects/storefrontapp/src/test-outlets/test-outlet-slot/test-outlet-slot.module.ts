@@ -1,9 +1,12 @@
-import { NgModule } from "@angular/core";
-import { PageLayoutModule, OutletRefModule, CmsPageGuard } from "@spartacus/storefront";
-import { CommonModule } from "@angular/common";
-import { TestOutletSlotComponent } from "./test-outlet-slot.component";
-import { RouterModule } from "@angular/router";
-
+import { NgModule } from '@angular/core';
+import {
+  PageLayoutModule,
+  OutletRefModule,
+  CmsPageGuard,
+} from '@spartacus/storefront';
+import { CommonModule } from '@angular/common';
+import { TestOutletSlotComponent } from './test-outlet-slot.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -15,10 +18,9 @@ import { RouterModule } from "@angular/router";
         path: 'test/outlet/slot',
         component: TestOutletSlotComponent,
         canActivate: [CmsPageGuard],
-        data: { pageLabel: '/sale' }
       },
-    ])
+    ]),
   ],
-  declarations: [TestOutletSlotComponent]
+  declarations: [TestOutletSlotComponent],
 })
 export class TestOutletSlotModule {}
