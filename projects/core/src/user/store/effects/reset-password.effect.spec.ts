@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -23,8 +24,8 @@ describe('', () => {
       ],
     });
 
-    effect = TestBed.get(ResetPasswordEffects);
-    service = TestBed.get(UserConnector);
+    effect = TestBed.get(ResetPasswordEffects as Type<ResetPasswordEffects>);
+    service = TestBed.get(UserConnector as Type<UserConnector>);
 
     spyOn(service, 'resetPassword').and.returnValue(of({}));
   });

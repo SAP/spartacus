@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -92,9 +92,13 @@ describe('DeliveryModeComponent', () => {
       ],
     }).compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
-    mockRoutingService = TestBed.get(RoutingService);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
+    >);
+    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
+      CheckoutConfigService
+    >);
   }));
 
   beforeEach(() => {
@@ -119,7 +123,6 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should set delivery mode and change step after invoking next()', () => {
-    component.changedOption = true;
     component.currentDeliveryModeId = mockDeliveryMode1.code;
     spyOn(mockCheckoutConfigService, 'getNextCheckoutStepUrl').and.returnValue(
       mockStepUrl
@@ -136,7 +139,6 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should change step after invoking next()', () => {
-    component.changedOption = false;
     component.checkoutStepUrlNext = mockStepUrl;
     component.next();
     expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);

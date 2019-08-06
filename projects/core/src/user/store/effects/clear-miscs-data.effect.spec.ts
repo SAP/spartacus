@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -16,7 +17,7 @@ describe('ClearMiscsDataEffect', () => {
       providers: [ClearMiscsDataEffect, provideMockActions(() => actions$)],
     });
 
-    effect = TestBed.get(ClearMiscsDataEffect);
+    effect = TestBed.get(ClearMiscsDataEffect as Type<ClearMiscsDataEffect>);
   });
 
   describe('clearMiscsData$', () => {

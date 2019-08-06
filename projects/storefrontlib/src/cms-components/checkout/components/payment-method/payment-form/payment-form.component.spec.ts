@@ -311,13 +311,13 @@ describe('PaymentFormComponent', () => {
 
       // set values for payment form
       controls.payment['accountHolderName'].setValue('test accountHolderName');
-      controls.payment['cardNumber'].setValue(4157926981434979);
+      controls.payment['cardNumber'].setValue('test cardNumber');
       controls.payment.cardType['controls'].code.setValue(
         'test card type code'
       );
       controls.payment['expiryMonth'].setValue('test expiryMonth');
       controls.payment['expiryYear'].setValue('test expiryYear');
-      controls.payment['cvn'].setValue(873);
+      controls.payment['cvn'].setValue('test cvn');
 
       // set values for billing address form
       controls.billingAddress['firstName'].setValue(
@@ -363,13 +363,13 @@ describe('PaymentFormComponent', () => {
 
       // set values for payment form
       controls.payment['accountHolderName'].setValue('test accountHolderName');
-      controls.payment['cardNumber'].setValue(4157926981434979);
+      controls.payment['cardNumber'].setValue('test cardNumber');
       controls.payment.cardType['controls'].code.setValue(
         'test card type code'
       );
       controls.payment['expiryMonth'].setValue('test expiryMonth');
       controls.payment['expiryYear'].setValue('test expiryYear');
-      controls.payment['cvn'].setValue(873);
+      controls.payment['cvn'].setValue('test cvn');
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
@@ -392,7 +392,7 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.payment['accountHolderName'].setValue('test accountHolderName');
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cardNumber'].setValue(4157926981434979);
+      controls.payment['cardNumber'].setValue('test cardNumber');
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.payment.cardType['controls'].code.setValue(
         'test card type code'
@@ -402,7 +402,7 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.payment['expiryYear'].setValue('test expiryYear');
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cvn'].setValue(873);
+      controls.payment['cvn'].setValue('test cvn');
 
       // set values for billing address form
       expect(isContinueBtnDisabled()).toBeTruthy();
@@ -448,7 +448,7 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.payment['accountHolderName'].setValue('test accountHolderName');
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cardNumber'].setValue(4157926981434979);
+      controls.payment['cardNumber'].setValue('test cardNumber');
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.payment.cardType['controls'].code.setValue(
         'test card type code'
@@ -458,7 +458,7 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.payment['expiryYear'].setValue('test expiryYear');
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cvn'].setValue(873);
+      controls.payment['cvn'].setValue('test cvn');
 
       fixture.detectChanges();
 

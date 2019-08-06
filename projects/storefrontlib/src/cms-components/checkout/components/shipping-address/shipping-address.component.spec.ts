@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -148,14 +148,18 @@ describe('ShippingAddressComponent', () => {
       })
       .compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
-    mockRoutingService = TestBed.get(RoutingService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
+    >);
+    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShippingAddressComponent);
     component = fixture.componentInstance;
-    mockUserAddressService = TestBed.get(UserAddressService);
+    mockUserAddressService = TestBed.get(UserAddressService as Type<
+      UserAddressService
+    >);
 
     spyOn(component, 'addAddress').and.callThrough();
   });
