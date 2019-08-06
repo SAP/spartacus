@@ -2,7 +2,7 @@ import { CheckoutStep } from '../model/checkout-step.model';
 
 export enum DeliveryModePreferences {
   FREE = 'FREE',
-  LEAST_EXPENSIVE = 'LEAST_EXPENSIVE',
+  LEAST_EXPENSIVE = 'LEAST_EXPENSIVE', // but not free
   MOST_EXPENSIVE = 'MOST_EXPENSIVE',
 }
 
