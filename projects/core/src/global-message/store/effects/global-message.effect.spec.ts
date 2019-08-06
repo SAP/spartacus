@@ -17,6 +17,7 @@ import {
   GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
+import * as utils from '../../../util/compare-equal-objects';
 
 function spyOnOperator(obj: any, prop: string): any {
   const oldProp: Function = obj[prop];
@@ -31,6 +32,11 @@ function spyOnOperator(obj: any, prop: string): any {
 
 const message: GlobalMessage = {
   text: { raw: 'Test message' },
+  type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+};
+
+const message2: GlobalMessage = {
+  text: { key: 'test' },
   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
 };
 
@@ -85,6 +91,28 @@ describe('GlobalMessage Effects', () => {
       expect(operators.delay).toHaveBeenCalledWith(
         config.globalMessages[message.type].timeout
       );
+    });
+  });
+  describe('removeDuplicated$', () => {
+    it('should remove message if already exist', () => {
+      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(2);
+      spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
+
+      const action = new GlobalMessageActions.AddMessage(message2);
+      const completion = new GlobalMessageActions.RemoveMessage({
+        type: message.type,
+        index: 0,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.removeDuplicated$).toBeObservable(expected);
+      expect(utils.indexOfFirstOccurrence).toHaveBeenCalledWith(message2.text, [
+        {
+          key: 'test',
+        },
+      ]);
     });
   });
 });
