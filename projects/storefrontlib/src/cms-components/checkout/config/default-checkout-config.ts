@@ -30,6 +30,6 @@ export const defaultCheckoutConfig: CheckoutConfig = {
       },
     ],
     express: false,
-    defaultDeliveryMode: DeliveryModePreferences.FREE,
+    defaultDeliveryMode: [DeliveryModePreferences.FREE],
   },
 };

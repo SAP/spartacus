@@ -14,11 +14,8 @@ export abstract class CheckoutConfig {
      */
     express?: boolean;
     /**
-     * Pre-selected delivery mode. Allowed value is contained in enum DeliveryModePreferences, delivery code, or array of codes / DeliveryModePreferences.
+     * Pre-selected delivery mode. Allowed value is an array of DeliveryModePreferences or delivery codes.
      */
-    defaultDeliveryMode?:
-      | DeliveryModePreferences
-      | string
-      | Array<DeliveryModePreferences | string>;
+    defaultDeliveryMode?: Array<DeliveryModePreferences | string>;
   };
 }
