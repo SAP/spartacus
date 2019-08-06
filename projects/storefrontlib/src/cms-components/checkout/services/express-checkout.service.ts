@@ -11,6 +11,7 @@ import {
   DeliveryMode,
 } from '@spartacus/core';
 import { CheckoutDetailsService } from './checkout-details.service';
+import { CheckoutConfigService } from './checkout-config.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,8 @@ export class ExpressCheckoutService {
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userPaymentService: UserPaymentService,
-    protected checkoutDetailsService: CheckoutDetailsService
+    protected checkoutDetailsService: CheckoutDetailsService,
+    protected checkoutConfigService: CheckoutConfigService
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
@@ -101,28 +103,13 @@ export class ExpressCheckoutService {
                   Boolean(deliveryModes.length)
                 ),
                 map((deliveryModes: DeliveryMode[]) => {
-                  deliveryModes.sort((deliveryMode1, deliveryMode2) => {
-                    if (
-                      deliveryMode1.deliveryCost > deliveryMode2.deliveryCost
-                    ) {
-                      return 1;
-                    } else if (
-                      deliveryMode1.deliveryCost < deliveryMode2.deliveryCost
-                    ) {
-                      return -1;
-                    } else {
-                      return 0;
-                    }
-                  });
-                  return deliveryModes[0].code;
+                  return this.checkoutConfigService.getPreferredDeliveryMode(
+                    deliveryModes
+                  );
                 })
               );
           }
         })
       );
   }
-
-  // private setPreferredDeliveryMode() {
-  //
-  // }
 }
