@@ -29,6 +29,6 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         type: [CheckoutStepType.REVIEW_ORDER],
       },
     ],
-    deliveryMode: deliveryModeOptions.LEAST_EXPENSIVE,
+    deliveryMode: deliveryModeOptions.FREE,
   },
 };
