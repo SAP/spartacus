@@ -1,14 +1,17 @@
 import { CheckoutStep } from '../model/checkout-step.model';
 
-export enum deliveryModeOptions {
-  FREE = 'free',
-  LEAST_EXPENSIVE = 'least expensive',
-  MOST_EXPENSIVE = 'most expensive',
+export enum DeliveryModePreferences {
+  FREE = 'FREE',
+  LEAST_EXPENSIVE = 'LEAST_EXPENSIVE',
+  MOST_EXPENSIVE = 'MOST_EXPENSIVE',
 }
 
 export abstract class CheckoutConfig {
   checkout?: {
     steps: Array<CheckoutStep>;
-    deliveryMode?: deliveryModeOptions | string;
+    /**
+     * Pre-selected delivery mode. Allowed value is contained in enum DeliveryModePreferences, delivery code, or array of codes / DeliveryModePreferences.
+     */
+    defaultDeliveryMode?: DeliveryModePreferences | string | Array<DeliveryModePreferences | string>;
   };
 }
