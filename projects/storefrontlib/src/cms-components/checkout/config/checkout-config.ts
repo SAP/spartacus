@@ -14,7 +14,7 @@ export abstract class CheckoutConfig {
      */
     express?: boolean;
     /**
-     * Pre-selected delivery mode. Allowed value is an array of DeliveryModePreferences or delivery codes.
+     * Default delivery mode for i.a. express checkout. Set preferences in order with general preferences (eg. DeliveryModePreferences.LEAST_EXPENSIVE) or specific delivery codes.
      */
     defaultDeliveryMode?: Array<DeliveryModePreferences | string>;
   };
