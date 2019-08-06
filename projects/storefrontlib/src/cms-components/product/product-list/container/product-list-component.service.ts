@@ -156,6 +156,23 @@ export class ProductListComponentService {
     this.setQueryParams({ currentPage: pageNumber });
   }
 
+  scrollPage(pageNumber: number): void {
+    this.routing
+      .getRouterState()
+      .subscribe(result => {
+        const routeCriteria = this.getCriteriaFromRoute(
+          result.state.params,
+          result.state.queryParams
+        );
+        const criteria = {
+          ...routeCriteria,
+          currentPage: pageNumber,
+        };
+        this.search(criteria);
+      })
+      .unsubscribe();
+  }
+
   sort(sortCode: string): void {
     this.setQueryParams({ sortCode });
   }

@@ -12,6 +12,7 @@ import {
   ListNavigationModule,
   MediaModule,
   StarRatingModule,
+  SpinnerModule,
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
@@ -46,6 +47,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     I18nModule,
     StarRatingModule,
     IconModule,
+    SpinnerModule,
   ],
   declarations: [
     ProductListComponent,
