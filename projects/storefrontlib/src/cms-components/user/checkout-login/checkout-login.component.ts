@@ -31,6 +31,14 @@ export class CheckoutLoginComponent {
     );
   }
 
+  isEmailConfirmInvalid(): boolean {
+    return (
+      this.form.hasError('NotEqual') &&
+      (this.form.get('emailConfirmation').touched &&
+        this.form.get('emailConfirmation').dirty)
+    );
+  }
+
   onSubmit() {
     this.submitClicked = true;
     if (this.form.invalid) {

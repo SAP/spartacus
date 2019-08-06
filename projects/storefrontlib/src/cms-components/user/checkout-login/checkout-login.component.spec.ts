@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { CheckoutLoginComponent } from './checkout-login.component';
-import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 
-fdescribe('CheckoutLoginComponent', () => {
+describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
 
@@ -31,39 +31,54 @@ fdescribe('CheckoutLoginComponent', () => {
     expect(controls['termsAndConditions'].value).toBe('');
   });
 
-  ['email', 'emailConfirmation'].forEach(field => {
-    describe(`${field} form field`, () => {
-      let control: AbstractControl;
+  describe('Error messages without submit', () => {
+    ['email', 'emailConfirmation'].forEach(field => {
+      describe(`${field} form field inline validation`, () => {
+        let control: AbstractControl;
 
-      beforeEach(() => {
-        control = component.form.controls[field];
+        beforeEach(() => {
+          control = component.form.controls[field];
+        });
+
+        it('should not be valid when empty', () => {
+          control.setValue('');
+          expect(control.valid).toBeFalsy();
+        });
+
+        it('should be invalid with an invalid email', () => {
+          control.setValue('with space@email.com');
+          expect(control.valid).toBeFalsy();
+
+          control.setValue('without.domain@');
+          expect(control.valid).toBeFalsy();
+
+          control.setValue('without.at.com');
+          expect(control.valid).toBeFalsy();
+
+          control.setValue('@without.username.com');
+          expect(control.valid).toBeFalsy();
+        });
+
+        it('should be valid with a valid email', () => {
+          control.setValue('valid@email.com');
+          expect(control.valid).toBeTruthy();
+
+          control.setValue('valid123@example.email.com');
+          expect(control.valid).toBeTruthy();
+        });
       });
 
-      it('should not be valid when empty', () => {
-        control.setValue('');
-        expect(control.valid).toBeFalsy();
-      });
+      it('should display when emails are not the same', () => {
+        const controls = component.form.controls;
+        controls['email'].setValue('a@b.com');
+        controls['emailConfirmation'].setValue('a@bc.com');
 
-      it('should be invalid with an invalid email', () => {
-        control.setValue('with space@email.com');
-        expect(control.valid).toBeFalsy();
+        fixture.detectChanges();
 
-        control.setValue('without.domain@');
-        expect(control.valid).toBeFalsy();
-
-        control.setValue('without.at.com');
-        expect(control.valid).toBeFalsy();
-
-        control.setValue('@without.username.com');
-        expect(control.valid).toBeFalsy();
-      });
-
-      it('should be valid with a valid email', () => {
-        control.setValue('valid@email.com');
-        expect(control.valid).toBeTruthy();
-
-        control.setValue('valid123@example.email.com');
-        expect(control.valid).toBeTruthy();
+        fixture.whenStable().then(() => {
+          expect(component.form.valid).toBeFalsy();
+          // expect(controls['emailConfirmation'].valid).toBeFalsy();
+        });
       });
     });
   });
