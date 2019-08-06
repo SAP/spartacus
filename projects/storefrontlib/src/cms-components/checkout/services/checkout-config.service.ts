@@ -72,6 +72,7 @@ export class CheckoutConfigService {
   }
 
   private findMatchingDeliveryMode(deliveryModes: DeliveryMode[], index = 0) {
+    const lastMode = this.defaultDeliveryMode.length - 1 === index;
     switch (this.defaultDeliveryMode[index]) {
       case DeliveryModePreferences.FREE:
         return deliveryModes[0].code;
@@ -85,7 +86,7 @@ export class CheckoutConfigService {
       default:
         return deliveryModes.find(
           deliveryMode => deliveryMode.code === this.defaultDeliveryMode[index]
-        ) || this.defaultDeliveryMode.length - 1 === index
+        ) || lastMode
           ? deliveryModes[0].code
           : this.findMatchingDeliveryMode(deliveryModes, index + 1);
     }
