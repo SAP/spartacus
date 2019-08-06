@@ -30,13 +30,13 @@
         >
           <div
             class="cx-shipping-address-card-inner"
-            (click)="selectAddress(card.address)"
+            (click)="addressSelected(card.address)"
           >
             <cx-card
               [border]="true"
               [fitToContainer]="true"
               [content]="card.card"
-              (sendCard)="selectAddress(card.address)"
+              (sendCard)="addressSelected(card.address)"
             ></cx-card>
           </div>
         </div>
@@ -46,7 +46,7 @@
         <div class="col-md-12 col-lg-6">
           <button
             class="cx-btn btn btn-block btn-action"
-            (click)="goPrevious()"
+            (click)="back()"
           >
             {{ 'checkout.backToCart' | cxTranslate }}
           </button>
@@ -55,7 +55,7 @@
           <button
             class="cx-btn btn btn-block btn-primary"
             [disabled]="!(selectedAddress$ | async)?.id"
-            (click)="goNext()"
+            (click)="next()"
           >
             {{ 'common.continue' | cxTranslate }}
           </button>

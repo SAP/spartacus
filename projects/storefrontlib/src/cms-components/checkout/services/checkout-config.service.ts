@@ -32,7 +32,7 @@ export class CheckoutConfigService {
 
     return stepIndex >= 0 && this.steps[stepIndex - 1]
       ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].routeName)
-      : 'cart';
+      : null;
   }
 
   getCurrentStepIndex(activatedRoute: ActivatedRoute) {
