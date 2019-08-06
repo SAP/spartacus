@@ -29,5 +29,6 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         type: [CheckoutStepType.REVIEW_ORDER],
       },
     ],
+    expressCheckout: false,
   },
 };
