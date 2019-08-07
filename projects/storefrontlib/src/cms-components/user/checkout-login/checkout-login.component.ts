@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AbstractControl, Validators, FormBuilder } from '@angular/forms';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
+import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-checkout-login',
@@ -15,7 +15,7 @@ export class CheckoutLoginComponent {
         '',
         [Validators.required, CustomFormValidators.emailValidator],
       ],
-      termsAndConditions: ['', Validators.required],
+      termsAndConditions: ['', []],
     },
     { validator: this.emailsMatch }
   );

@@ -68,7 +68,7 @@ describe('CheckoutLoginComponent', () => {
         });
       });
 
-      it('should display when emails are not the same', () => {
+      it('should display error message when emails are not the same', () => {
         const controls = component.form.controls;
         controls['email'].setValue('a@b.com');
         controls['emailConfirmation'].setValue('a@bc.com');
@@ -77,7 +77,18 @@ describe('CheckoutLoginComponent', () => {
 
         fixture.whenStable().then(() => {
           expect(component.form.valid).toBeFalsy();
-          // expect(controls['emailConfirmation'].valid).toBeFalsy();
+        });
+      });
+
+      it('should not display error message when emails are the same', () => {
+        const controls = component.form.controls;
+        controls['email'].setValue('john@acme.com');
+        controls['emailConfirmation'].setValue('john@acme.com');
+
+        fixture.detectChanges();
+
+        fixture.whenStable().then(() => {
+          expect(component.form.valid).toBeTruthy();
         });
       });
     });
