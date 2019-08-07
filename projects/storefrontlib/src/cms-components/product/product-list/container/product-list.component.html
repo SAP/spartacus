@@ -51,6 +51,9 @@
                     class="col-12 col-sm-6 col-md-4"
                   ></cx-product-grid-item>
                 </div>
+                <div *ngIf="isLoadingItems" class="cx-spinner">
+                  <cx-spinner></cx-spinner>
+                </div>
               </div>
             </ng-container>
 
