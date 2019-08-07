@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, of } from 'rxjs';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import {
   Address,
