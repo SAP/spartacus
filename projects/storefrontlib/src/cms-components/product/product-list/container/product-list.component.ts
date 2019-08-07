@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ProductSearchPage } from '@spartacus/core';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewModes } from '../product-view/product-view.component';
@@ -17,7 +17,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   isLoadingItems = false;
   isAppendProducts = false;
 
-  observeScroll = new Subject();
   private subscription = new Subscription();
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
@@ -32,30 +31,35 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productListComponentService.clearSearchResults();
 
-    this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
-      this.viewMode$.next(
-        template === 'ProductGridPageTemplate' ? ViewModes.Grid : ViewModes.List
-      );
+    this.subscription.add(
+      this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
+        this.viewMode$.next(
+          template === 'ProductGridPageTemplate'
+            ? ViewModes.Grid
+            : ViewModes.List
+        );
+      })
+    );
 
-      this.subscription.add(
-        this.productListComponentService.model$.subscribe(subModel => {
-          if (this.isSameList(this.model, subModel)) {
-            return;
-          }
+    this.subscription.add(
+      this.productListComponentService.model$.subscribe(subModel => {
+        if (this.isSameList(this.model, subModel)) {
+          return;
+        }
 
-          this.model = this.isAppendProducts
-            ? {
-                ...subModel,
-                products: this.model.products.concat(subModel.products),
-              }
-            : subModel;
-
-          this.isLoadingItems = false;
+        if (this.isAppendProducts) {
+          this.model = {
+            ...subModel,
+            products: this.model.products.concat(subModel.products),
+          };
           this.isAppendProducts = false;
-          this.ref.markForCheck();
-        })
-      );
-    });
+          this.isLoadingItems = false;
+        } else {
+          this.model = subModel;
+        }
+        this.ref.markForCheck();
+      })
+    );
   }
 
   isSameList(model: any, subModel: any): boolean {

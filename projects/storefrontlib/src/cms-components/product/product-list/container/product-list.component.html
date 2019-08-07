@@ -46,7 +46,7 @@
               >
                 <div class="row">
                   <cx-product-grid-item
-                    *ngFor="let product of model.products"
+                    *ngFor="let product of model?.products"
                     [product]="product"
                     class="col-12 col-sm-6 col-md-4"
                   ></cx-product-grid-item>
@@ -65,7 +65,7 @@
                 (scrolled)="scrollPage(model.pagination.currentPage)"
               >
                 <cx-product-list-item
-                  *ngFor="let product of model.products"
+                  *ngFor="let product of model?.products"
                   [product]="product"
                   class="cx-product-search-list"
                 ></cx-product-list-item>
