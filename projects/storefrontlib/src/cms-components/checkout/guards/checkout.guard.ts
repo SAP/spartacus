@@ -5,42 +5,42 @@ import { CheckoutConfig } from '../config/checkout-config';
 import { Observable, of } from 'rxjs';
 import { RoutingConfigService } from '@spartacus/core';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
-import { map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutGuard implements CanActivate {
-  firstStep$ = of(
-    this.router.parseUrl(
-      this.routingConfigService.getRouteConfig(
-        this.config.checkout.steps[0].routeName
-      ).paths[0]
-    )
-  );
+  firstStep$: Observable<UrlTree>;
 
   constructor(
     private router: Router,
     private config: CheckoutConfig,
     private routingConfigService: RoutingConfigService,
     private expressCheckoutService: ExpressCheckoutService
-  ) {}
+  ) {
+    this.firstStep$ = of(
+      this.router.parseUrl(
+        this.routingConfigService.getRouteConfig(
+          this.config.checkout.steps[0].routeName
+        ).paths[0]
+      )
+    );
+  }
 
   canActivate(): Observable<boolean | UrlTree> {
     if (this.config.checkout.express) {
       return this.expressCheckoutService.isExpressCheckoutPossible().pipe(
-        map(expressCheckoutPossible => {
-          if (expressCheckoutPossible) {
-            return of(
-              this.router.parseUrl(
-                this.routingConfigService.getRouteConfig(
-                  this.config.checkout.steps[3].routeName
-                ).paths[0]
+        switchMap((expressCheckoutPossible: boolean) => {
+          return expressCheckoutPossible
+            ? of(
+                this.router.parseUrl(
+                  this.routingConfigService.getRouteConfig(
+                    this.config.checkout.steps[3].routeName
+                  ).paths[0]
+                )
               )
-            );
-          } else {
-            return this.firstStep$;
-          }
+            : this.firstStep$;
         })
       );
     } else {
