@@ -159,10 +159,10 @@ export class ProductListComponentService {
   scrollPage(pageNumber: number): void {
     this.routing
       .getRouterState()
-      .subscribe(result => {
+      .subscribe(route => {
         const routeCriteria = this.getCriteriaFromRoute(
-          result.state.params,
-          result.state.queryParams
+          route.state.params,
+          route.state.queryParams
         );
         const criteria = {
           ...routeCriteria,
