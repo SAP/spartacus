@@ -62,6 +62,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
       this.activatedRoute
     );
+
     this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
       this.activatedRoute
     );
@@ -138,7 +139,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     );
   }
 
-  paymentMethodSelected(paymentDetails: PaymentDetails) {
+  selectPaymentMethod(paymentDetails: PaymentDetails): void {
     this.selectedPayment = paymentDetails;
   }
 
@@ -148,17 +149,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   hideNewPaymentForm(): void {
     this.newPaymentFormManuallyOpened = false;
-  }
-
-  next(): void {
-    this.setPaymentDetails({
-      paymentDetails: this.selectedPayment,
-      isNewPayment: false,
-    });
-  }
-
-  back(): void {
-    this.routingService.go(this.checkoutStepUrlPrevious);
   }
 
   setPaymentDetails({
@@ -203,5 +193,43 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     }
 
     return ccIcon;
+  }
+
+  goNext(): void {
+    this.setPaymentDetails({
+      paymentDetails: this.selectedPayment,
+      isNewPayment: false,
+    });
+  }
+
+  goPrevious(): void {
+    this.routingService.go(this.checkoutStepUrlPrevious);
+  }
+
+  /**
+   * @deprecated since version 1.0.3
+   * This method will no longer be in use. Use goNext() instead.
+   * TODO(issue:#2291) deprecated since 1.0.3
+   */
+  next(): void {
+    this.goNext();
+  }
+
+  /**
+   * @deprecated since version 1.0.3
+   * This method will no longer be in use. Use goPrevious() instead.
+   * TODO(issue:#2291) deprecated since 1.0.3
+   */
+  back(): void {
+    this.goPrevious();
+  }
+
+  /**
+   * @deprecated since version 1.0.3
+   * This method will no longer be in use. Use selectPaymentMethod() instead.
+   * TODO(issue:#2291) deprecated since 1.0.3
+   */
+  paymentMethodSelected(paymentDetails: PaymentDetails): void {
+    this.selectPaymentMethod(paymentDetails);
   }
 }
