@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Product, PaginationModel, SortModel } from '@spartacus/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewModes } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
-import { ScrollService } from '../../infinite-scroll/infinite-scroll.component.service';
 
 @Component({
   selector: 'cx-product-list',
@@ -16,6 +15,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   pagination: PaginationModel;
   sorts: SortModel[] = [];
 
+  resultThing: any;
+
+  isPagination = false;
   isLoaded = false;
   isMaxProducts = false;
   isLoadingItems = false;
@@ -30,7 +32,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
-    private scrollService: ScrollService,
     private ref: ChangeDetectorRef
   ) {}
 
@@ -44,8 +45,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
       this.subscription.add(
         this.productListComponentService.model$.subscribe(result => {
-          console.log(result);
-          console.log(this.scrollService.scrollPercent);
+          this.resultThing = result;
           if (result.products) {
             this.products = this.isAppendProducts
               ? this.products.concat(result.products)
@@ -62,17 +62,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
           }
         })
       );
-
-      this.subscription.add(
-        this.scrollService.onScrolledDown$
-          .pipe(takeUntil(this.observeScroll))
-          .subscribe(() => {
-            console.log('test');
-            if (!this.isMaxProducts) {
-              this.scrollEvent();
-            }
-          })
-      );
     });
   }
 
@@ -81,6 +70,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   scrollEvent() {
+    if (this.isMaxProducts) {
+      return;
+    }
     this.isAppendProducts = true;
     this.isLoadingItems = true;
     this.ref.markForCheck();
@@ -96,11 +88,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   setViewMode(mode: ViewModes): void {
-    if (mode === ViewModes.List) {
-      this.scrollService.scrollPercent = 70;
-    } else {
-      this.scrollService.scrollPercent = 50;
-    }
     this.viewMode$.next(mode);
   }
 

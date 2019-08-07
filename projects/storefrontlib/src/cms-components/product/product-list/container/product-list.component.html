@@ -2,7 +2,7 @@
   <section class="cx-page-section">
     <div class="container">
       <div class="row">
-        <div class="col-12 col-lg-12" *ngIf="(viewMode$ | async) as viewMode">
+        <div class="col-12 col-lg-12" *ngIf="viewMode$ | async as viewMode">
           <div class="cx-sorting top">
             <div class="row">
               <div class="col-12 col-lg-4 mr-auto">
@@ -17,7 +17,7 @@
                   ></cx-sorting>
                 </div>
               </div>
-              <div class="col-auto">
+              <div *ngIf="isPagination" class="col-auto">
                 <div
                   class="cx-pagination"
                   aria-label="product search pagination"
@@ -38,23 +38,37 @@
           </div>
           <div class="cx-product-container">
             <ng-container *ngIf="viewMode === ViewModes.Grid">
-              <div class="row">
-                <cx-product-grid-item
-                  *ngFor="let product of products"
-                  [product]="product"
-                  class="col-12 col-sm-6 col-md-4"
-                ></cx-product-grid-item>
+              <div
+                cxInfiniteScroll
+                [infiniteScrollDistance]="4"
+                [infiniteScrollThrottle]="50"
+                (scrolled)="scrollEvent()"
+              >
+                <div class="row">
+                  <cx-product-grid-item
+                    *ngFor="let product of products"
+                    [product]="product"
+                    class="col-12 col-sm-6 col-md-4"
+                  ></cx-product-grid-item>
+                </div>
               </div>
             </ng-container>
 
             <ng-container *ngIf="viewMode === ViewModes.List">
-              <cx-product-list-item
-                *ngFor="let product of products"
-                [product]="product"
-                class="cx-product-search-list"
-              ></cx-product-list-item>
-              <div *ngIf="isLoadingItems" class="cx-spinner">
-                <cx-spinner></cx-spinner>
+              <div
+                cxInfiniteScroll
+                [infiniteScrollDistance]="3"
+                [infiniteScrollThrottle]="50"
+                (scrolled)="scrollEvent()"
+              >
+                <cx-product-list-item
+                  *ngFor="let product of products"
+                  [product]="product"
+                  class="cx-product-search-list"
+                ></cx-product-list-item>
+                <div *ngIf="isLoadingItems" class="cx-spinner">
+                  <cx-spinner></cx-spinner>
+                </div>
               </div>
             </ng-container>
           </div>
@@ -72,7 +86,11 @@
                   ></cx-sorting>
                 </div>
               </div>
-              <div class="col-auto" aria-label="product search pagination">
+              <div
+                *ngIf="isPagination"
+                class="col-auto"
+                aria-label="product search pagination"
+              >
                 <div class="cx-pagination">
                   <cx-pagination
                     [pagination]="pagination"
