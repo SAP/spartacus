@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import {
@@ -40,7 +40,6 @@ export class ExpressCheckoutService {
       .pipe(
         filter(Boolean),
         switchMap(() => this.userAddressService.getAddresses()),
-        // shareReplay(1),
         map((addresses: Address[]) => {
           const defaultAddress =
             addresses.find(address => address.defaultAddress) || addresses[0];
@@ -104,6 +103,19 @@ export class ExpressCheckoutService {
           return of(false);
         }
       })
+    );
+  }
+
+  protected isExpressCheckoutPossible() {
+    return combineLatest([
+      this.shippingAddress$,
+      this.deliveryMode$,
+      this.paymentMethod$,
+    ]).pipe(
+      map(
+        ([shippingAddressSet, deliveryModeSet, paymentMethodSet]) =>
+          shippingAddressSet && deliveryModeSet && paymentMethodSet
+      )
     );
   }
 }
