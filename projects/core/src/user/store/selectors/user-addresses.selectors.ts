@@ -30,3 +30,12 @@ export const getAddressesLoading: MemoizedSelector<
   (state: LoaderState<Address[]>) =>
     StateLoaderSelectors.loaderLoadingSelector(state)
 );
+
+export const getAddressesSuccessLoaded: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getAddressesLoaderState,
+  (state: LoaderState<Address[]>) =>
+    StateLoaderSelectors.loaderSuccessSelector(state)
+);

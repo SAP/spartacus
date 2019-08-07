@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
 
 import {
   Address,
@@ -9,6 +9,7 @@ import {
   UserPaymentService,
   PaymentDetails,
   DeliveryMode,
+  CheckoutPaymentService,
 } from '@spartacus/core';
 import { CheckoutDetailsService } from './checkout-details.service';
 import { CheckoutConfigService } from './checkout-config.service';
@@ -24,13 +25,14 @@ export class ExpressCheckoutService {
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
     protected userPaymentService: UserPaymentService,
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService
   ) {
     this.setShippingAddress();
-    this.setDeliveryMode();
     this.setPaymentMethod();
+    this.setDeliveryMode();
   }
 
   private setShippingAddress() {
@@ -39,20 +41,25 @@ export class ExpressCheckoutService {
       .pipe(
         switchMap((deliveryAddress: Address) => {
           if (deliveryAddress && Object.keys(deliveryAddress).length) {
-            return of(deliveryAddress);
+            return of(true);
           } else {
-            return this.userAddressService.getAddresses().pipe(
-              tap(
-                (addresses: Address[]) =>
-                  !Boolean(addresses.length) &&
-                  this.userAddressService.loadAddresses()
+            return of(false).pipe(
+              tap(() => this.userAddressService.loadAddresses()),
+              switchMap(() =>
+                this.userAddressService.getAddressesSuccessLoaded()
               ),
-              filter((addresses: Address[]) => Boolean(addresses.length)),
+              skipWhile(success => !success),
+              switchMap(() => this.userAddressService.getAddresses()),
               map((addresses: Address[]) => {
-                return (
+                const defaultAddress =
                   addresses.find(address => address.defaultAddress) ||
-                  addresses[0]
-                );
+                  addresses[0];
+                if (defaultAddress) {
+                  this.checkoutDeliveryService.setDeliveryAddress(
+                    defaultAddress
+                  );
+                }
+                return Boolean(defaultAddress);
               })
             );
           }
@@ -64,23 +71,24 @@ export class ExpressCheckoutService {
     this.paymentMethod$ = this.checkoutDetailsService.getPaymentDetails().pipe(
       switchMap((cartPaymentMethod: PaymentDetails) => {
         if (cartPaymentMethod && Object.keys(cartPaymentMethod).length) {
-          return of(cartPaymentMethod);
+          return of(true);
         } else {
-          return this.userPaymentService.getPaymentMethods().pipe(
-            tap(
-              (paymentMethods: PaymentDetails[]) =>
-                !Boolean(paymentMethods.length) &&
-                this.userPaymentService.loadPaymentMethods()
+          return of(false).pipe(
+            tap(() => this.userPaymentService.loadPaymentMethods()),
+            switchMap(() =>
+              this.userPaymentService.getPaymentMethodsLoadedSuccess()
             ),
-            filter((paymentMethods: PaymentDetails[]) =>
-              Boolean(paymentMethods.length)
-            ),
+            skipWhile(success => !success),
+            switchMap(() => this.userPaymentService.getPaymentMethods()),
             map((paymentMethods: PaymentDetails[]) => {
-              return (
+              const defaultPayment =
                 paymentMethods.find(
                   paymentMethod => paymentMethod.defaultPayment
-                ) || paymentMethods[0]
-              );
+                ) || paymentMethods[0];
+              if (defaultPayment) {
+                this.checkoutPaymentService.setPaymentDetails(defaultPayment);
+              }
+              return Boolean(defaultPayment);
             })
           );
         }
