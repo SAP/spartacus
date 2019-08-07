@@ -71,24 +71,33 @@ export class CheckoutConfigService {
     }
   }
 
-  private findMatchingDeliveryMode(deliveryModes: DeliveryMode[], index = 0) {
+  private getFirstCodeOrGoToNextMode(deliveryModes: DeliveryMode[], index) {
     const lastMode = this.defaultDeliveryMode.length - 1 === index;
+    return lastMode
+      ? deliveryModes[0].code
+      : this.findMatchingDeliveryMode(deliveryModes, index + 1);
+  }
+
+  private findMatchingDeliveryMode(deliveryModes: DeliveryMode[], index = 0) {
     switch (this.defaultDeliveryMode[index]) {
       case DeliveryModePreferences.FREE:
-        return deliveryModes[0].code;
+        return deliveryModes[0].deliveryCost === 0
+          ? deliveryModes[0].code
+          : this.getFirstCodeOrGoToNextMode(deliveryModes, index);
       case DeliveryModePreferences.LEAST_EXPENSIVE:
         return (
           deliveryModes.find(deliveryMode => deliveryMode.deliveryCost !== 0)
-            .code || deliveryModes[0].code
+            .code || this.getFirstCodeOrGoToNextMode(deliveryModes, index)
         );
       case DeliveryModePreferences.MOST_EXPENSIVE:
         return deliveryModes[deliveryModes.length - 1].code;
       default:
-        return deliveryModes.find(
-          deliveryMode => deliveryMode.code === this.defaultDeliveryMode[index]
-        ) || lastMode
-          ? deliveryModes[0].code
-          : this.findMatchingDeliveryMode(deliveryModes, index + 1);
+        return (
+          deliveryModes.find(
+            deliveryMode =>
+              deliveryMode.code === this.defaultDeliveryMode[index]
+          ) || this.getFirstCodeOrGoToNextMode(deliveryModes, index)
+        );
     }
   }
 
