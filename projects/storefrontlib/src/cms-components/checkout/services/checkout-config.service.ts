@@ -61,7 +61,7 @@ export class CheckoutConfigService {
     return stepIndex >= 0 ? stepIndex : null;
   }
 
-  private sortDeliveryModes(deliveryMode1, deliveryMode2) {
+  protected sortDeliveryModes(deliveryMode1, deliveryMode2) {
     if (deliveryMode1.deliveryCost > deliveryMode2.deliveryCost) {
       return 1;
     } else if (deliveryMode1.deliveryCost < deliveryMode2.deliveryCost) {
@@ -71,14 +71,14 @@ export class CheckoutConfigService {
     }
   }
 
-  private getFirstCodeOrGoToNextMode(deliveryModes: DeliveryMode[], index) {
+  protected getFirstCodeOrGoToNextMode(deliveryModes: DeliveryMode[], index) {
     const lastMode = this.defaultDeliveryMode.length - 1 === index;
     return lastMode
       ? deliveryModes[0].code
       : this.findMatchingDeliveryMode(deliveryModes, index + 1);
   }
 
-  private findMatchingDeliveryMode(deliveryModes: DeliveryMode[], index = 0) {
+  protected findMatchingDeliveryMode(deliveryModes: DeliveryMode[], index = 0) {
     switch (this.defaultDeliveryMode[index]) {
       case DeliveryModePreferences.FREE:
         return deliveryModes[0].deliveryCost === 0
