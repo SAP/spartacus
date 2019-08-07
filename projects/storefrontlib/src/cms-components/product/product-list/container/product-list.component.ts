@@ -11,13 +11,13 @@ import { ProductListComponentService } from './product-list-component.service';
   templateUrl: './product-list.component.html',
 })
 export class ProductListComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+
   model: ProductSearchPage;
 
   isPagination = false;
-  isLoadingItems = false;
   isAppendProducts = false;
-
-  private subscription = new Subscription();
+  isLoadingItems = false;
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
@@ -62,7 +62,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     );
   }
 
-  isSameList(model: any, subModel: any): boolean {
+  isSameList(model: ProductSearchPage, subModel: ProductSearchPage): boolean {
     //If the lists are not meant to be appended and they are the same
     //Do not replace the lists
     if (!this.isAppendProducts && model) {
