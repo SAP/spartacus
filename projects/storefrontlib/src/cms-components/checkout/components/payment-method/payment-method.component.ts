@@ -89,13 +89,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         } else {
           Object.keys(paymentInfo).forEach(key => {
             if (key.startsWith('InvalidField')) {
-              this.globalMessageService.add(
-                {
-                  key: 'paymentMethods.invalidField',
-                  params: { field: paymentInfo[key] },
-                },
-                GlobalMessageType.MSG_TYPE_ERROR
-              );
+              this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
             }
           });
           this.checkoutService.clearCheckoutStep(3);
@@ -104,6 +98,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   getCardContent(payment: PaymentDetails): Observable<Card> {
+    if (!this.selectedPayment && payment.defaultPayment) {
+      this.selectedPayment = payment;
+    }
+
     return combineLatest([
       this.translation.translate('paymentCard.expires', {
         month: payment.expiryMonth,
@@ -120,20 +118,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
           textDefaultPaymentMethod,
           textSelected,
         ]) => {
-          const card: Card = {
-            title: payment.defaultPayment ? textDefaultPaymentMethod : '',
-            textBold: payment.accountHolderName,
-            text: [payment.cardNumber, textExpires],
-            img: this.getCardIcon(payment.cardType.code),
-            actions: [{ name: textUseThisPayment, event: 'send' }],
-          };
-          if (!this.selectedPayment && payment.defaultPayment) {
-            this.selectedPayment = payment;
-          }
-          if (this.selectedPayment && this.selectedPayment.id === payment.id) {
-            card.header = textSelected;
-          }
-          return card;
+          return this.createCard(payment, {
+            textExpires,
+            textUseThisPayment,
+            textDefaultPaymentMethod,
+            textSelected,
+          });
         }
       )
     );
@@ -193,6 +183,32 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     }
 
     return ccIcon;
+  }
+
+  protected sendPaymentMethodFailGlobalMessage(msg: string) {
+    this.globalMessageService.add(
+      {
+        key: 'paymentMethods.invalidField',
+        params: { field: msg },
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  }
+
+  protected createCard(paymentDetails, cardLabels) {
+    return {
+      title: paymentDetails.defaultPayment
+        ? cardLabels.textDefaultPaymentMethod
+        : '',
+      textBold: paymentDetails.accountHolderName,
+      text: [paymentDetails.cardNumber, cardLabels.textExpires],
+      img: this.getCardIcon(paymentDetails.cardType.code),
+      actions: [{ name: cardLabels.textUseThisPayment, event: 'send' }],
+      header:
+        this.selectedPayment && this.selectedPayment.id === paymentDetails.id
+          ? cardLabels.textSelected
+          : undefined,
+    };
   }
 
   goNext(): void {
