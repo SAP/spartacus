@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import {
   Address,
@@ -11,7 +11,6 @@ import {
   DeliveryMode,
   CheckoutPaymentService,
 } from '@spartacus/core';
-import { CheckoutDetailsService } from './checkout-details.service';
 import { CheckoutConfigService } from './checkout-config.service';
 
 @Injectable({
@@ -27,97 +26,84 @@ export class ExpressCheckoutService {
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userPaymentService: UserPaymentService,
-    protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService
   ) {
     this.setShippingAddress();
-    this.setPaymentMethod();
     this.setDeliveryMode();
+    this.setPaymentMethod();
   }
 
-  private setShippingAddress() {
-    this.shippingAddress$ = this.checkoutDetailsService
-      .getDeliveryAddress()
+  protected setShippingAddress() {
+    this.userAddressService.loadAddresses();
+    this.shippingAddress$ = this.userAddressService
+      .getAddressesLoadedSuccess()
       .pipe(
-        switchMap((deliveryAddress: Address) => {
-          if (deliveryAddress && Object.keys(deliveryAddress).length) {
-            return of(true);
-          } else {
-            return of(false).pipe(
-              tap(() => this.userAddressService.loadAddresses()),
-              switchMap(() =>
-                this.userAddressService.getAddressesSuccessLoaded()
-              ),
-              skipWhile(success => !success),
-              switchMap(() => this.userAddressService.getAddresses()),
-              map((addresses: Address[]) => {
-                const defaultAddress =
-                  addresses.find(address => address.defaultAddress) ||
-                  addresses[0];
-                if (defaultAddress) {
-                  this.checkoutDeliveryService.setDeliveryAddress(
-                    defaultAddress
-                  );
-                }
-                return Boolean(defaultAddress);
-              })
-            );
+        filter(Boolean),
+        switchMap(() => this.userAddressService.getAddresses()),
+        // shareReplay(1),
+        map((addresses: Address[]) => {
+          const defaultAddress =
+            addresses.find(address => address.defaultAddress) || addresses[0];
+          if (defaultAddress) {
+            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
           }
+          return Boolean(defaultAddress);
         })
       );
   }
 
-  private setPaymentMethod() {
-    this.paymentMethod$ = this.checkoutDetailsService.getPaymentDetails().pipe(
-      switchMap((cartPaymentMethod: PaymentDetails) => {
-        if (cartPaymentMethod && Object.keys(cartPaymentMethod).length) {
-          return of(true);
-        } else {
-          return of(false).pipe(
-            tap(() => this.userPaymentService.loadPaymentMethods()),
-            switchMap(() =>
-              this.userPaymentService.getPaymentMethodsLoadedSuccess()
+  protected setPaymentMethod() {
+    this.userPaymentService.loadPaymentMethods();
+    this.paymentMethod$ = this.userPaymentService
+      .getPaymentMethodsLoadedSuccess()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => this.userPaymentService.getPaymentMethods()),
+        map((paymentMethods: PaymentDetails[]) => {
+          const defaultPayment =
+            paymentMethods.find(
+              paymentMethod => paymentMethod.defaultPayment
+            ) || paymentMethods[0];
+          if (defaultPayment) {
+            this.checkoutPaymentService.setPaymentDetails(defaultPayment);
+          }
+          return Boolean(defaultPayment);
+        })
+      );
+  }
+
+  protected setDeliveryMode() {
+    this.deliveryMode$ = this.shippingAddress$.pipe(
+      switchMap(addressAvailable => {
+        if (addressAvailable) {
+          return this.checkoutDeliveryService.getSupportedDeliveryModes().pipe(
+            withLatestFrom(
+              this.checkoutDeliveryService.getSelectedDeliveryModeCode()
             ),
-            skipWhile(success => !success),
-            switchMap(() => this.userPaymentService.getPaymentMethods()),
-            map((paymentMethods: PaymentDetails[]) => {
-              const defaultPayment =
-                paymentMethods.find(
-                  paymentMethod => paymentMethod.defaultPayment
-                ) || paymentMethods[0];
-              if (defaultPayment) {
-                this.checkoutPaymentService.setPaymentDetails(defaultPayment);
+            filter(([deliveryModes]: [DeliveryMode[], string]) =>
+              Boolean(deliveryModes.length)
+            ),
+            tap(([deliveryModes, code]: [DeliveryMode[], string]) =>
+              console.log('d,c,', deliveryModes, code)
+            ),
+            map(([deliveryModes, code]: [DeliveryMode[], string]) => {
+              if (deliveryModes.length) {
+                const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
+                  deliveryModes
+                );
+                if (code !== preferredDeliveryMode) {
+                  this.checkoutDeliveryService.setDeliveryMode(
+                    preferredDeliveryMode
+                  );
+                }
               }
-              return Boolean(defaultPayment);
+              return Boolean(deliveryModes.length);
             })
           );
+        } else {
+          return of(false);
         }
       })
     );
-  }
-
-  private setDeliveryMode() {
-    this.deliveryMode$ = this.checkoutDetailsService
-      .getSelectedDeliveryModeCode()
-      .pipe(
-        switchMap((code: string) => {
-          if (code && code.length) {
-            return of(code);
-          } else {
-            return this.checkoutDeliveryService
-              .getSupportedDeliveryModes()
-              .pipe(
-                filter((deliveryModes: DeliveryMode[]) =>
-                  Boolean(deliveryModes.length)
-                ),
-                map((deliveryModes: DeliveryMode[]) => {
-                  return this.checkoutConfigService.getPreferredDeliveryMode(
-                    deliveryModes
-                  );
-                })
-              );
-          }
-        })
-      );
   }
 }
