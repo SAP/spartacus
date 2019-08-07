@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Product, PaginationModel, SortModel } from '@spartacus/core';
+import { ProductSearchPage } from '@spartacus/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
@@ -11,15 +11,9 @@ import { ProductListComponentService } from './product-list-component.service';
   templateUrl: './product-list.component.html',
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  products: Product[] = [];
-  pagination: PaginationModel;
-  sorts: SortModel[] = [];
-
-  resultThing: any;
+  model: ProductSearchPage;
 
   isPagination = false;
-  isLoaded = false;
-  isMaxProducts = false;
   isLoadingItems = false;
   isAppendProducts = false;
 
@@ -44,43 +38,55 @@ export class ProductListComponent implements OnInit, OnDestroy {
       );
 
       this.subscription.add(
-        this.productListComponentService.model$.subscribe(result => {
-          this.resultThing = result;
-          if (result.products) {
-            this.products = this.isAppendProducts
-              ? this.products.concat(result.products)
-              : result.products;
-            this.pagination = result.pagination;
-            this.sorts = result.sorts;
-
-            this.isMaxProducts =
-              this.products.length === result.pagination.totalResults;
-            this.isLoadingItems = false;
-            this.isAppendProducts = false;
-            this.isLoaded = true;
-            this.ref.markForCheck();
+        this.productListComponentService.model$.subscribe(subModel => {
+          if (this.isSameList(this.model, subModel)) {
+            return;
           }
+
+          this.model = this.isAppendProducts
+            ? {
+                ...subModel,
+                products: this.model.products.concat(subModel.products),
+              }
+            : subModel;
+
+          this.isLoadingItems = false;
+          this.isAppendProducts = false;
+          this.ref.markForCheck();
         })
       );
     });
+  }
+
+  isSameList(model: any, subModel: any): boolean {
+    //If the lists are not meant to be appended and they are the same
+    //Do not replace the lists
+    if (!this.isAppendProducts && model) {
+      return (
+        model.breadcrumbs[0].removeQuery.query.value ===
+        subModel.breadcrumbs[0].removeQuery.query.value
+      );
+    }
+    return false;
   }
 
   viewPage(pageNumber: number): void {
     this.productListComponentService.viewPage(pageNumber);
   }
 
-  scrollEvent() {
-    if (this.isMaxProducts) {
+  scrollPage(page: number): void {
+    const isMaxProducts =
+      this.model.products.length === this.model.pagination.totalResults;
+    const nextPage = page + 1;
+
+    if (isMaxProducts) {
       return;
     }
+
     this.isAppendProducts = true;
     this.isLoadingItems = true;
     this.ref.markForCheck();
-    this.scrollPage(this.pagination.currentPage + 1);
-  }
-
-  scrollPage(page: number): void {
-    this.productListComponentService.scrollPage(page);
+    this.productListComponentService.scrollPage(nextPage);
   }
 
   sortList(sortCode: string): void {

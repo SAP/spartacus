@@ -1,16 +1,16 @@
-<div class="cx-page" *ngIf="isLoaded">
+<div class="cx-page" *ngIf="model">
   <section class="cx-page-section">
     <div class="container">
       <div class="row">
-        <div class="col-12 col-lg-12" *ngIf="viewMode$ | async as viewMode">
+        <div class="col-12 col-lg-12" *ngIf="(viewMode$ | async) as viewMode">
           <div class="cx-sorting top">
             <div class="row">
               <div class="col-12 col-lg-4 mr-auto">
                 <div class="form-group cx-sort-dropdown">
                   <cx-sorting
-                    [sortOptions]="sorts"
+                    [sortOptions]="model.sorts"
                     (sortListEvent)="sortList($event)"
-                    [selectedOption]="pagination.sort"
+                    [selectedOption]="model.pagination.sort"
                     placeholder="{{
                       'productList.sortByRelevance' | cxTranslate
                     }}"
@@ -23,7 +23,7 @@
                   aria-label="product search pagination"
                 >
                   <cx-pagination
-                    [pagination]="pagination"
+                    [pagination]="model.pagination"
                     (viewPageEvent)="viewPage($event)"
                   ></cx-pagination>
                 </div>
@@ -39,14 +39,14 @@
           <div class="cx-product-container">
             <ng-container *ngIf="viewMode === ViewModes.Grid">
               <div
-                cxInfiniteScroll
+                infiniteScroll
                 [infiniteScrollDistance]="4"
                 [infiniteScrollThrottle]="50"
-                (scrolled)="scrollEvent()"
+                (scrolled)="scrollPage(model.pagination.currentPage)"
               >
                 <div class="row">
                   <cx-product-grid-item
-                    *ngFor="let product of products"
+                    *ngFor="let product of model.products"
                     [product]="product"
                     class="col-12 col-sm-6 col-md-4"
                   ></cx-product-grid-item>
@@ -56,13 +56,13 @@
 
             <ng-container *ngIf="viewMode === ViewModes.List">
               <div
-                cxInfiniteScroll
+                infiniteScroll
                 [infiniteScrollDistance]="3"
                 [infiniteScrollThrottle]="50"
-                (scrolled)="scrollEvent()"
+                (scrolled)="scrollPage(model.pagination.currentPage)"
               >
                 <cx-product-list-item
-                  *ngFor="let product of products"
+                  *ngFor="let product of model.products"
                   [product]="product"
                   class="cx-product-search-list"
                 ></cx-product-list-item>
@@ -77,9 +77,9 @@
               <div class="col-12 col-lg-4 mr-auto">
                 <div class="form-group cx-sort-dropdown">
                   <cx-sorting
-                    [sortOptions]="sorts"
+                    [sortOptions]="model.sorts"
                     (sortListEvent)="sortList($event)"
-                    [selectedOption]="pagination.sort"
+                    [selectedOption]="model.pagination.sort"
                     placeholder="{{
                       'productList.sortByRelevance' | cxTranslate
                     }}"
@@ -93,7 +93,7 @@
               >
                 <div class="cx-pagination">
                   <cx-pagination
-                    [pagination]="pagination"
+                    [pagination]="model.pagination"
                     (viewPageEvent)="viewPage($event)"
                   ></cx-pagination>
                 </div>
