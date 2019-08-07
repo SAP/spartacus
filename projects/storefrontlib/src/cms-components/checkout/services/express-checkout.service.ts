@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, of } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import {
   Address,
@@ -82,9 +82,6 @@ export class ExpressCheckoutService {
             filter(([deliveryModes]: [DeliveryMode[], string]) =>
               Boolean(deliveryModes.length)
             ),
-            tap(([deliveryModes, code]: [DeliveryMode[], string]) =>
-              console.log('d,c,', deliveryModes, code)
-            ),
             map(([deliveryModes, code]: [DeliveryMode[], string]) => {
               if (deliveryModes.length) {
                 const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
@@ -106,7 +103,7 @@ export class ExpressCheckoutService {
     );
   }
 
-  protected isExpressCheckoutPossible() {
+  public isExpressCheckoutPossible() {
     return combineLatest([
       this.shippingAddress$,
       this.deliveryMode$,
