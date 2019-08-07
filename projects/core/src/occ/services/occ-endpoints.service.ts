@@ -1,10 +1,10 @@
-import { Injectable, Optional } from '@angular/core';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { OccConfig } from '../config/occ-config';
-import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { HttpParams } from '@angular/common/http';
+import { Injectable, Optional } from '@angular/core';
+import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
+import { OccConfig } from '../config/occ-config';
 
 @Injectable({
   providedIn: 'root',
@@ -34,11 +34,14 @@ export class OccEndpointsService {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return '';
     }
+    console.log(this.config);
+    endpoint = this.config.backend.occ.endpoints[endpoint];
 
-    return (
-      this.config.backend.occ.baseUrl +
-      this.config.backend.occ.endpoints[endpoint]
-    );
+    if (!endpoint.startsWith('/')) {
+      endpoint = '/' + endpoint;
+    }
+
+    return this.config.backend.occ.baseUrl + endpoint;
   }
 
   /**
