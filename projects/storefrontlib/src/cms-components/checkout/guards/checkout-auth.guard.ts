@@ -5,6 +5,8 @@ import {
   AuthService,
   CartService,
   RoutingService,
+  User,
+  UserToken,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,16 +23,13 @@ export class CheckoutAuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return combineLatest(
+    return combineLatest([
       this.authService.getUserToken(),
-      this.cartService.getAssignedUser()
-    ).pipe(
-      map(([token, user]) => {
+      this.cartService.getAssignedUser(),
+    ]).pipe(
+      map(([token, user]: [UserToken, User]) => {
         if (!token.access_token) {
-          console.log('out', user);
-
           if (user && user.name === 'guest') {
-            console.log('in', user);
             return Boolean(user);
           }
           this.routingService.go({ cxRoute: 'login' }, { forced: true });
