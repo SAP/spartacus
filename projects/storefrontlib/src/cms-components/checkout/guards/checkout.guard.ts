@@ -30,7 +30,7 @@ export class CheckoutGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     if (this.config.checkout.express) {
-      return this.expressCheckoutService.isExpressCheckoutPossible().pipe(
+      return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
         switchMap((expressCheckoutPossible: boolean) => {
           return expressCheckoutPossible
             ? of(
