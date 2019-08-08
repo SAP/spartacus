@@ -36,5 +36,6 @@ describe('Language switch - registration page', () => {
         .select(deutschName)
         .should('have.value', 'mr');
     });
+    console.log('test');
   });
 });
