@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, of } from 'rxjs';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import {
   Address,
@@ -12,6 +12,7 @@ import {
   CheckoutPaymentService,
 } from '@spartacus/core';
 import { CheckoutConfigService } from './checkout-config.service';
+import { CheckoutDetailsService } from './checkout-details.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class ExpressCheckoutService {
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userPaymentService: UserPaymentService,
     protected checkoutConfigService: CheckoutConfigService
@@ -36,14 +38,16 @@ export class ExpressCheckoutService {
       .pipe(
         filter(Boolean),
         switchMap(() => this.userAddressService.getAddresses()),
-        map((addresses: Address[]) => {
-          const defaultAddress =
-            addresses.find(address => address.defaultAddress) || addresses[0];
-          if (defaultAddress) {
-            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
-          }
-          return Boolean(defaultAddress);
-        })
+        map(
+          (addresses: Address[]) =>
+            addresses.find(address => address.defaultAddress) || addresses[0]
+        ),
+        filter(Boolean),
+        tap(defaultAddress =>
+          this.checkoutDeliveryService.setDeliveryAddress(defaultAddress)
+        ),
+        switchMap(() => this.checkoutDetailsService.getDeliveryAddress()),
+        map(Boolean)
       );
   }
 
@@ -107,6 +111,7 @@ export class ExpressCheckoutService {
       this.deliveryModeSet$,
       this.paymentMethodSet$,
     ]).pipe(
+      tap(console.log),
       map(
         ([shippingAddressSet, deliveryModeSet, paymentMethodSet]) =>
           shippingAddressSet && deliveryModeSet && paymentMethodSet
