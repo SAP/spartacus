@@ -97,7 +97,7 @@ export class ExpressCheckoutService {
     );
   }
 
-  public checkoutDetailsSet() {
+  public trySetDefaultCheckoutDetails() {
     this.setShippingAddress();
     this.setDeliveryMode();
     this.setPaymentMethod();
