@@ -17,7 +17,7 @@
                   ></cx-sorting>
                 </div>
               </div>
-              <div *ngIf="isPagination" class="col-auto">
+              <div *ngIf="!isInfiniteScroll" class="col-auto">
                 <div
                   class="cx-pagination"
                   aria-label="product search pagination"
@@ -42,7 +42,8 @@
                 infiniteScroll
                 [infiniteScrollDistance]="4"
                 [infiniteScrollThrottle]="50"
-                (scrolled)="scrollPage(model.pagination.currentPage)"
+                [infiniteScrollDisabled]="!isInfiniteScroll"
+                (scrolled)="scrollPage(model.pagination.currentPage + 1)"
               >
                 <div class="row">
                   <cx-product-grid-item
@@ -62,7 +63,8 @@
                 infiniteScroll
                 [infiniteScrollDistance]="3"
                 [infiniteScrollThrottle]="50"
-                (scrolled)="scrollPage(model.pagination.currentPage)"
+                [infiniteScrollDisabled]="!isInfiniteScroll"
+                (scrolled)="scrollPage(model.pagination.currentPage + 1)"
               >
                 <cx-product-list-item
                   *ngFor="let product of model?.products"
@@ -90,7 +92,7 @@
                 </div>
               </div>
               <div
-                *ngIf="isPagination"
+                *ngIf="!isInfiniteScroll"
                 class="col-auto"
                 aria-label="product search pagination"
               >

@@ -6,7 +6,7 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { Config } from '../config/config.module';
+import { Config, provideConfig } from '../config/config.module';
 import { RoutingConfig } from './configurable-routes/config/routing-config';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
 import { effects } from './store/effects/index';
@@ -16,6 +16,8 @@ import {
   reducerToken,
 } from './store/reducers/router.reducer';
 import { ROUTING_FEATURE } from './store/routing-state';
+import { PaginationConfig } from 'projects/storefrontlib/src/cms-components/product/config/pagination-config';
+import { defaultPaginationConfig } from 'projects/storefrontlib/src/cms-components/product/config/default-pagination-config';
 
 export function initConfigurableRoutes(
   service: ConfigurableRoutesService
@@ -51,6 +53,8 @@ export class RoutingModule {
           multi: true,
         },
         { provide: RoutingConfig, useExisting: Config },
+        provideConfig(defaultPaginationConfig),
+        { provide: PaginationConfig, useExisting: Config },
       ],
     };
   }

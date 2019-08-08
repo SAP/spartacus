@@ -156,7 +156,7 @@ export class ProductListComponentService {
     this.setQueryParams({ currentPage: pageNumber });
   }
 
-  scrollPage(pageNumber: number): void {
+  getPageItems(pageNumber: number): void {
     this.routing
       .getRouterState()
       .subscribe(route => {

@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewModes } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
+import { PaginationConfig } from '../../config/pagination-config';
 
 @Component({
   selector: 'cx-product-list',
@@ -15,9 +16,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   model: ProductSearchPage;
 
-  isPagination = false;
+  isInfiniteScroll: boolean;
   isAppendProducts = false;
   isLoadingItems = false;
+  isViewChange = false;
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
@@ -25,10 +27,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private paginationConfig: PaginationConfig
   ) {}
 
   ngOnInit(): void {
+    this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll;
+
     this.productListComponentService.clearSearchResults();
 
     this.subscription.add(
@@ -43,31 +48,44 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.productListComponentService.model$.subscribe(subModel => {
-        if (this.isSameList(this.model, subModel)) {
-          return;
-        }
-
-        if (this.isAppendProducts) {
-          this.model = {
-            ...subModel,
-            products: this.model.products.concat(subModel.products),
-          };
-          this.isAppendProducts = false;
-          this.isLoadingItems = false;
+        if (this.isInfiniteScroll) {
+          this.infiniteScrollOperations(subModel);
         } else {
-          this.model = subModel;
+          this.paginationOperations(subModel);
         }
         this.ref.markForCheck();
       })
     );
   }
 
-  isSameList(model: ProductSearchPage, subModel: ProductSearchPage): boolean {
-    //If the lists are not meant to be appended and they are the same
-    //Do not replace the lists
-    if (!this.isAppendProducts && model) {
+  infiniteScrollOperations(subModel: ProductSearchPage) {
+    if (this.isSamePage(subModel)) {
+      return;
+    }
+
+    if (this.isAppendProducts) {
+      this.model = {
+        ...subModel,
+        products: this.model.products.concat(subModel.products),
+      };
+      this.isAppendProducts = false;
+      this.isLoadingItems = false;
+      this.isViewChange = false;
+    } else {
+      this.model = subModel;
+    }
+  }
+
+  paginationOperations(subModel: ProductSearchPage) {
+    this.model = subModel;
+  }
+
+  isSamePage(subModel: ProductSearchPage): boolean {
+    //Do not replace lists if we are on the same page and aren't meant to be append items
+    //This prevents flickering issues when using filters
+    if (!this.isViewChange && !this.isAppendProducts && this.model) {
       return (
-        model.breadcrumbs[0].removeQuery.query.value ===
+        this.model.breadcrumbs[0].removeQuery.query.value ===
         subModel.breadcrumbs[0].removeQuery.query.value
       );
     }
@@ -81,7 +99,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   scrollPage(page: number): void {
     const isMaxProducts =
       this.model.products.length === this.model.pagination.totalResults;
-    const nextPage = page + 1;
 
     if (isMaxProducts) {
       return;
@@ -90,7 +107,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.isAppendProducts = true;
     this.isLoadingItems = true;
     this.ref.markForCheck();
-    this.productListComponentService.scrollPage(nextPage);
+    this.productListComponentService.getPageItems(page);
   }
 
   sortList(sortCode: string): void {
@@ -98,6 +115,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   setViewMode(mode: ViewModes): void {
+    if (this.isInfiniteScroll) {
+      this.isViewChange = true;
+      this.productListComponentService.getPageItems(0);
+    }
     this.viewMode$.next(mode);
   }
 
