@@ -61,13 +61,11 @@ export class CheckoutConfigService {
     return stepIndex >= 0 ? stepIndex : null;
   }
 
-  protected sortDeliveryModes(deliveryMode1, deliveryMode2) {
+  protected compareDeliveryCost(deliveryMode1, deliveryMode2) {
     if (deliveryMode1.deliveryCost > deliveryMode2.deliveryCost) {
       return 1;
     } else if (deliveryMode1.deliveryCost < deliveryMode2.deliveryCost) {
       return -1;
-    } else {
-      return 0;
     }
   }
 
@@ -102,7 +100,7 @@ export class CheckoutConfigService {
   }
 
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]) {
-    deliveryModes.sort(this.sortDeliveryModes);
+    deliveryModes.sort(this.compareDeliveryCost);
     return this.findMatchingDeliveryMode(deliveryModes);
   }
 

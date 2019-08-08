@@ -17,9 +17,9 @@ import { CheckoutConfigService } from './checkout-config.service';
   providedIn: 'root',
 })
 export class ExpressCheckoutService {
-  shippingAddress$;
-  deliveryMode$;
-  paymentMethod$;
+  shippingAddressSet$;
+  deliveryModeSet$;
+  paymentMethodSet$;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -27,15 +27,11 @@ export class ExpressCheckoutService {
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userPaymentService: UserPaymentService,
     protected checkoutConfigService: CheckoutConfigService
-  ) {
-    this.setShippingAddress();
-    this.setDeliveryMode();
-    this.setPaymentMethod();
-  }
+  ) {}
 
   protected setShippingAddress() {
     this.userAddressService.loadAddresses();
-    this.shippingAddress$ = this.userAddressService
+    this.shippingAddressSet$ = this.userAddressService
       .getAddressesLoadedSuccess()
       .pipe(
         filter(Boolean),
@@ -53,7 +49,7 @@ export class ExpressCheckoutService {
 
   protected setPaymentMethod() {
     this.userPaymentService.loadPaymentMethods();
-    this.paymentMethod$ = this.userPaymentService
+    this.paymentMethodSet$ = this.userPaymentService
       .getPaymentMethodsLoadedSuccess()
       .pipe(
         filter(Boolean),
@@ -72,7 +68,7 @@ export class ExpressCheckoutService {
   }
 
   protected setDeliveryMode() {
-    this.deliveryMode$ = this.shippingAddress$.pipe(
+    this.deliveryModeSet$ = this.shippingAddressSet$.pipe(
       switchMap(addressAvailable => {
         if (addressAvailable) {
           return this.checkoutDeliveryService.getSupportedDeliveryModes().pipe(
@@ -83,15 +79,13 @@ export class ExpressCheckoutService {
               Boolean(deliveryModes.length)
             ),
             map(([deliveryModes, code]: [DeliveryMode[], string]) => {
-              if (deliveryModes.length) {
-                const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
-                  deliveryModes
+              const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
+                deliveryModes
+              );
+              if (code !== preferredDeliveryMode) {
+                this.checkoutDeliveryService.setDeliveryMode(
+                  preferredDeliveryMode
                 );
-                if (code !== preferredDeliveryMode) {
-                  this.checkoutDeliveryService.setDeliveryMode(
-                    preferredDeliveryMode
-                  );
-                }
               }
               return Boolean(deliveryModes.length);
             })
@@ -103,11 +97,15 @@ export class ExpressCheckoutService {
     );
   }
 
-  public isExpressCheckoutPossible() {
+  public checkoutDetailsSet() {
+    this.setShippingAddress();
+    this.setDeliveryMode();
+    this.setPaymentMethod();
+
     return combineLatest([
-      this.shippingAddress$,
-      this.deliveryMode$,
-      this.paymentMethod$,
+      this.shippingAddressSet$,
+      this.deliveryModeSet$,
+      this.paymentMethodSet$,
     ]).pipe(
       map(
         ([shippingAddressSet, deliveryModeSet, paymentMethodSet]) =>
