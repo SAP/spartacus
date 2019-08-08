@@ -18,7 +18,9 @@ export class UserRegisterEffects {
     map((action: UserActions.RegisterUser) => action.payload),
     mergeMap((user: UserSignUp) =>
       this.userConnector.register(user).pipe(
-        switchMap(_result => [new UserActions.RegisterUserSuccess()]),
+        map(() => {
+          return new UserActions.RegisterUserSuccess();
+        }),
         catchError(error =>
           of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
         )
