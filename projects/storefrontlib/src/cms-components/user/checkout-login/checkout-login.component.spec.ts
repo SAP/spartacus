@@ -7,6 +7,10 @@ import { CheckoutLoginComponent } from './checkout-login.component';
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
+  let controls: { [key: string]: AbstractControl };
+  let email: AbstractControl;
+  let emailConfirmation: AbstractControl;
+  let termsAndConditions: AbstractControl;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -18,6 +22,12 @@ describe('CheckoutLoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
     component = fixture.componentInstance;
+
+    controls = component.form.controls;
+    email = controls['email'];
+    emailConfirmation = controls['emailConfirmation'];
+    termsAndConditions = controls['termsAndConditions'];
+
     fixture.detectChanges();
   });
 
@@ -26,10 +36,9 @@ describe('CheckoutLoginComponent', () => {
   });
 
   it('should initialize the form', () => {
-    const controls = component.form.controls;
-    expect(controls['email'].value).toBe('');
-    expect(controls['emailConfirmation'].value).toBe('');
-    expect(controls['termsAndConditions'].value).toBe('');
+    expect(email.value).toBe('');
+    expect(emailConfirmation.value).toBe('');
+    expect(termsAndConditions.value).toBe('');
   });
 
   describe('Error messages without submit', () => {
@@ -38,7 +47,7 @@ describe('CheckoutLoginComponent', () => {
         let control: AbstractControl;
 
         beforeEach(() => {
-          control = component.form.controls[field];
+          control = controls[field];
         });
 
         it('should not be valid when empty', () => {
@@ -70,13 +79,12 @@ describe('CheckoutLoginComponent', () => {
       });
 
       it('should display error message when emails are not the same', () => {
-        const controls = component.form.controls;
-        controls['email'].setValue('a@b.com');
-        controls['email'].markAsTouched();
-        controls['email'].markAsDirty();
-        controls['emailConfirmation'].setValue('a@bc.com');
-        controls['emailConfirmation'].markAsTouched();
-        controls['emailConfirmation'].markAsDirty();
+        email.setValue('a@b.com');
+        email.markAsTouched();
+        email.markAsDirty();
+        emailConfirmation.setValue('a@bc.com');
+        emailConfirmation.markAsTouched();
+        emailConfirmation.markAsDirty();
 
         fixture.detectChanges();
 
@@ -89,9 +97,8 @@ describe('CheckoutLoginComponent', () => {
       });
 
       it('should not display error message when emails are the same', () => {
-        const controls = component.form.controls;
-        controls['email'].setValue('john@acme.com');
-        controls['emailConfirmation'].setValue('john@acme.com');
+        email.setValue('john@acme.com');
+        emailConfirmation.setValue('john@acme.com');
 
         fixture.detectChanges();
 
@@ -105,10 +112,9 @@ describe('CheckoutLoginComponent', () => {
 
   describe('on submit', () => {
     it('should submit when form is populated correctly', () => {
-      const controls = component.form.controls;
-      controls['email'].setValue('john@acme.com');
-      controls['emailConfirmation'].setValue('john@acme.com');
-      controls['termsAndConditions'].setValue('true');
+      email.setValue('john@acme.com');
+      emailConfirmation.setValue('john@acme.com');
+      termsAndConditions.setValue('true');
 
       fixture.detectChanges();
 
