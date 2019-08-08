@@ -34,7 +34,6 @@ export class OccEndpointsService {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return '';
     }
-    console.log(this.config);
     endpoint = this.config.backend.occ.endpoints[endpoint];
 
     if (!endpoint.startsWith('/')) {
