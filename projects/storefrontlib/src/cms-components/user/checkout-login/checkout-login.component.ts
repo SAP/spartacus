@@ -42,9 +42,7 @@ export class CheckoutLoginComponent {
 
   isEmailConfirmInvalid(): boolean {
     return (
-      this.form.hasError('NotEqual') &&
-      (this.form.get('emailConfirmation').touched &&
-        this.form.get('emailConfirmation').dirty)
+      this.isNotValid('emailConfirmation') || this.form.hasError('NotEqual')
     );
   }
 

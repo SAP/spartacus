@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label>
       <span class="label-content">{{
@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <button type="submit" (click)="onSubmit()" class="btn btn-block btn-primary">
+  <button type="submit" class="btn btn-block btn-primary">
     {{ 'checkoutLogin.continue' | cxTranslate }}
   </button>
 </form>

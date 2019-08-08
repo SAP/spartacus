@@ -157,6 +157,7 @@ describe('CheckoutLoginComponent', () => {
       fixture.whenStable().then(() => {
         expect(component.form.valid).toBeFalsy();
         expect(isFormControlDisplayingError('email')).toBeTruthy();
+        expect(isFormControlDisplayingError('emailConfirmation')).toBeTruthy();
         expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'checkoutLogin.termsAndConditionsIsRequired',
