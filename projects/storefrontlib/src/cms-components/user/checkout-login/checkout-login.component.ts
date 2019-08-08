@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-login',
@@ -15,13 +16,16 @@ export class CheckoutLoginComponent {
         '',
         [Validators.required, CustomFormValidators.emailValidator],
       ],
-      termsAndConditions: ['', []],
+      termsAndConditions: ['', [Validators.requiredTrue]],
     },
     { validator: this.emailsMatch }
   );
   private submitClicked = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    protected globalMessageService: GlobalMessageService
+  ) {}
 
   isNotValid(formControlName: string): boolean {
     return FormUtils.isNotValidField(
@@ -41,8 +45,22 @@ export class CheckoutLoginComponent {
 
   onSubmit() {
     this.submitClicked = true;
+
     if (this.form.invalid) {
+      this.validateTermsAndConditions();
       return;
+    }
+  }
+
+  private validateTermsAndConditions() {
+    const value = this.form.get('termsAndConditions').value;
+    if (value !== 'true') {
+      this.globalMessageService.add(
+        {
+          key: 'checkoutLogin.termsAndConditionsIsRequired',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     }
   }
 
