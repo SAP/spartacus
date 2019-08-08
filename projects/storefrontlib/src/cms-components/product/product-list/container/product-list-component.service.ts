@@ -156,6 +156,10 @@ export class ProductListComponentService {
     this.setQueryParams({ currentPage: pageNumber });
   }
 
+  /**
+   * Get items from a given page without using navigation
+   * @param pageNumber
+   */
   getPageItems(pageNumber: number): void {
     this.routing
       .getRouterState()

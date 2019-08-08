@@ -116,6 +116,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   setViewMode(mode: ViewModes): void {
     if (this.isInfiniteScroll) {
+      //Reset products to initial state to avoid rendering large lists on ViewMode change
       this.isViewChange = true;
       this.productListComponentService.getPageItems(0);
     }
