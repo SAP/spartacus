@@ -37,7 +37,9 @@ export class UserPaymentService {
   }
 
   getPaymentMethodsLoadedSuccess(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getPaymentMethodsLoading));
+    return this.store.pipe(
+      select(UsersSelectors.getPaymentMethodsLoadedSuccess)
+    );
   }
   /**
    * Sets the payment as a default one

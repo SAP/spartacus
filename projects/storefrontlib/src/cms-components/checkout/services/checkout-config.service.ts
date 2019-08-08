@@ -13,8 +13,8 @@ import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 export class CheckoutConfigService {
   steps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
   express: boolean = this.checkoutConfig.checkout.express;
-  defaultDeliveryMode: Array<DeliveryModePreferences | string> = this
-    .checkoutConfig.checkout.defaultDeliveryMode;
+  defaultDeliveryMode: Array<DeliveryModePreferences | string> =
+    this.checkoutConfig.checkout.defaultDeliveryMode || [];
 
   constructor(
     private checkoutConfig: CheckoutConfig,
