@@ -1,18 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  I18nTestingModule,
-  CartService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { I18nTestingModule, CartService } from '@spartacus/core';
 import { CheckoutLoginComponent } from './checkout-login.component';
-import createSpy = jasmine.createSpy;
-
-class MockGlobalMessageService {
-  add = createSpy();
-}
 
 class MockCartService {
   addEmail() {}
@@ -20,33 +10,26 @@ class MockCartService {
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
-  let mockGlobalMessageService: MockGlobalMessageService;
 
   let controls: { [key: string]: AbstractControl };
   let email: AbstractControl;
   let emailConfirmation: AbstractControl;
-  let termsAndConditions: AbstractControl;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [CheckoutLoginComponent],
-      providers: [
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: CartService, useClass: MockCartService },
-      ],
+      providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
     component = fixture.componentInstance;
-    mockGlobalMessageService = TestBed.get(GlobalMessageService);
 
     controls = component.form.controls;
     email = controls['email'];
     emailConfirmation = controls['emailConfirmation'];
-    termsAndConditions = controls['termsAndConditions'];
 
     fixture.detectChanges();
   });
@@ -58,7 +41,6 @@ describe('CheckoutLoginComponent', () => {
   it('should initialize the form', () => {
     expect(email.value).toBe('');
     expect(emailConfirmation.value).toBe('');
-    expect(termsAndConditions.value).toBe('');
   });
 
   describe('Error messages without submit', () => {
@@ -119,7 +101,6 @@ describe('CheckoutLoginComponent', () => {
       it('should not display error message when emails are the same', () => {
         email.setValue('john@acme.com');
         emailConfirmation.setValue('john@acme.com');
-        termsAndConditions.setValue(true);
 
         fixture.detectChanges();
 
@@ -135,7 +116,6 @@ describe('CheckoutLoginComponent', () => {
     it('should submit when form is populated correctly', () => {
       email.setValue('john@acme.com');
       emailConfirmation.setValue('john@acme.com');
-      termsAndConditions.setValue(true);
 
       fixture.detectChanges();
 
@@ -145,7 +125,6 @@ describe('CheckoutLoginComponent', () => {
         expect(component.form.valid).toBeTruthy();
         expect(isFormControlDisplayingError('email')).toBeFalsy();
         expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
-        expect(isFormControlDisplayingError('termsAndConditions')).toBeFalsy();
       });
     });
 
@@ -158,12 +137,6 @@ describe('CheckoutLoginComponent', () => {
         expect(component.form.valid).toBeFalsy();
         expect(isFormControlDisplayingError('email')).toBeTruthy();
         expect(isFormControlDisplayingError('emailConfirmation')).toBeTruthy();
-        expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-          {
-            key: 'checkoutLogin.termsAndConditionsIsRequired',
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
       });
     });
   });
