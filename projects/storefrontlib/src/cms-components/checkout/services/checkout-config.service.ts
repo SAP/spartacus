@@ -69,34 +69,35 @@ export class CheckoutConfigService {
     }
   }
 
-  protected getFirstCodeOrGoToNextMode(deliveryModes: DeliveryMode[], index) {
+  protected findMatchingDeliveryMode(deliveryModes: DeliveryMode[], index = 0) {
+    switch (this.defaultDeliveryMode[index]) {
+      case DeliveryModePreferences.FREE:
+        if (deliveryModes[0].deliveryCost === 0) {
+          return deliveryModes[0].code;
+        }
+        break;
+      case DeliveryModePreferences.LEAST_EXPENSIVE:
+        const leastExpensiveFound = deliveryModes.find(
+          deliveryMode => deliveryMode.deliveryCost !== 0
+        );
+        if (leastExpensiveFound) {
+          return leastExpensiveFound.code;
+        }
+        break;
+      case DeliveryModePreferences.MOST_EXPENSIVE:
+        return deliveryModes[deliveryModes.length - 1].code;
+      default:
+        const codeFound = deliveryModes.find(
+          deliveryMode => deliveryMode.code === this.defaultDeliveryMode[index]
+        );
+        if (codeFound) {
+          return codeFound.code;
+        }
+    }
     const lastMode = this.defaultDeliveryMode.length - 1 === index;
     return lastMode
       ? deliveryModes[0].code
       : this.findMatchingDeliveryMode(deliveryModes, index + 1);
-  }
-
-  protected findMatchingDeliveryMode(deliveryModes: DeliveryMode[], index = 0) {
-    switch (this.defaultDeliveryMode[index]) {
-      case DeliveryModePreferences.FREE:
-        return deliveryModes[0].deliveryCost === 0
-          ? deliveryModes[0].code
-          : this.getFirstCodeOrGoToNextMode(deliveryModes, index);
-      case DeliveryModePreferences.LEAST_EXPENSIVE:
-        return (
-          deliveryModes.find(deliveryMode => deliveryMode.deliveryCost !== 0)
-            .code || this.getFirstCodeOrGoToNextMode(deliveryModes, index)
-        );
-      case DeliveryModePreferences.MOST_EXPENSIVE:
-        return deliveryModes[deliveryModes.length - 1].code;
-      default:
-        return (
-          deliveryModes.find(
-            deliveryMode =>
-              deliveryMode.code === this.defaultDeliveryMode[index]
-          ) || this.getFirstCodeOrGoToNextMode(deliveryModes, index)
-        );
-    }
   }
 
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]) {
