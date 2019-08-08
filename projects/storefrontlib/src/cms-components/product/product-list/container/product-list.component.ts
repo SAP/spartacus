@@ -81,8 +81,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   isSamePage(subModel: ProductSearchPage): boolean {
-    //Do not replace lists if we are on the same page and aren't meant to be append items
-    //This prevents flickering issues when using filters
+    //If we are not changing viewMode or appending items, do not replace the list
+    //This prevents flickering issues when using filters/sorts
     if (!this.isViewChange && !this.isAppendProducts && this.model) {
       return (
         this.model.breadcrumbs[0].removeQuery.query.value ===
