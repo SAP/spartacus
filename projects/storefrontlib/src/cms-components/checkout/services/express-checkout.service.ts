@@ -40,17 +40,14 @@ export class ExpressCheckoutService {
       .pipe(
         filter(Boolean),
         switchMap(() => this.userAddressService.getAddresses()),
-        map(
-          (addresses: Address[]) =>
-            addresses.find(address => address.defaultAddress) || addresses[0]
-        ),
-        tap(defaultAddress =>
-          defaultAddress
-            ? this.checkoutDeliveryService.setDeliveryAddress(defaultAddress)
-            : this.checkoutService.clearCheckoutStep(1)
-        ),
-        switchMap(() => this.checkoutDetailsService.getDeliveryAddress()),
-        map(Boolean)
+        map((addresses: Address[]) => {
+          const defaultAddress =
+            addresses.find(address => address.defaultAddress) || addresses[0];
+          if (defaultAddress) {
+            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
+          }
+          return Boolean(defaultAddress);
+        })
       );
   }
 
