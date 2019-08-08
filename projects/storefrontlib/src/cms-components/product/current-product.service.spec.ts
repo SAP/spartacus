@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   PageType,
@@ -6,7 +7,6 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
 import { CurrentProductService } from './current-product.service';
 
 const router = {
@@ -52,7 +52,7 @@ describe('CurrentProductService', () => {
       ],
     });
 
-    service = TestBed.get(CurrentProductService);
+    service = TestBed.get(CurrentProductService as Type<CurrentProductService>);
   });
 
   it('should fetch product data', () => {

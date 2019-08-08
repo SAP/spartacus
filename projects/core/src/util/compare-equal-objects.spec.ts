@@ -1,4 +1,9 @@
-import { deepEqualObjects, shallowEqualObjects } from './compare-equal-objects';
+import {
+  countOfDeepEqualObjects,
+  deepEqualObjects,
+  indexOfFirstOccurrence,
+  shallowEqualObjects,
+} from './compare-equal-objects';
 
 describe('compare equal objects utilities', () => {
   describe('shallowEqualObjects utility', () => {
@@ -95,6 +100,56 @@ describe('compare equal objects utilities', () => {
       expect(
         deepEqualObjects({ x: 1, y: { z: 3 } }, { x: 1, y: { z: 3, h: 2 } })
       ).toEqual(false);
+    });
+  });
+
+  describe('countOfDeepEqualObjects utility', () => {
+    it('should return count of deep equal objects', () => {
+      expect(
+        countOfDeepEqualObjects({ x: 1, z: { z: 2 } }, [
+          { x: 1, z: { z: 2 } },
+          { x: 2, z: { z: 2 } },
+          { x: 1, z: { z: 2 } },
+        ])
+      ).toEqual(2);
+      expect(
+        countOfDeepEqualObjects({ x: 1 }, [
+          { x: 1 },
+          { y: 2 },
+          { z: 1 },
+          { x: 2 },
+        ])
+      ).toEqual(1);
+    });
+
+    it('should return count of equal primitives', () => {
+      expect(countOfDeepEqualObjects(2, [1, 2, 3, 4, 2, 3, 3])).toEqual(2);
+      expect(countOfDeepEqualObjects(5, [])).toEqual(0);
+    });
+  });
+
+  describe('indexOfFirstOccurrence utility', () => {
+    it('should return index of first deep equal object', () => {
+      expect(
+        indexOfFirstOccurrence({ x: 1, z: { z: 2 } }, [
+          { x: 2, z: { z: 2 } },
+          { x: 1, z: { z: 2 } },
+          { x: 1, z: { z: 2 } },
+        ])
+      ).toEqual(1);
+      expect(
+        indexOfFirstOccurrence({ x: 1 }, [
+          { y: 2 },
+          { z: 1 },
+          { x: 1 },
+          { x: 2 },
+        ])
+      ).toEqual(2);
+    });
+
+    it('should return index of first deep equal primitive', () => {
+      expect(indexOfFirstOccurrence(3, [1, 2, 3, 4, 2, 3, 3])).toEqual(2);
+      expect(indexOfFirstOccurrence(5, [])).toEqual(undefined);
     });
   });
 });

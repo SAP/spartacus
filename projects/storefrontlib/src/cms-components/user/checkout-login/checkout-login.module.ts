@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     I18nModule,
+    FormsModule,
+    ReactiveFormsModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         GuestCheckoutLoginComponent: {

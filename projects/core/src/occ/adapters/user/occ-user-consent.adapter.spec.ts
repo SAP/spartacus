@@ -2,15 +2,16 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import {
   CONSENT_TEMPLATE_NORMALIZER,
   ConverterService,
   Occ,
 } from '@spartacus/core';
 import { ConsentTemplate } from '../../../model/consent.model';
+import { OccConfig } from '../../config/occ-config';
+import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 
 const endpoint = '/users';
 const CONSENTS_TEMPLATES_ENDPOINT = '/consenttemplates';
@@ -42,10 +43,12 @@ describe('OccUserConsentAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
+    service = TestBed.get(OccUserConsentAdapter as Type<OccUserConsentAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
-    service = TestBed.get(OccUserConsentAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
   });

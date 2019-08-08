@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -29,7 +30,7 @@ describe('CartService', () => {
 
   const productCode = '1234';
   const userId = 'testUserId';
-  const cart = { code: 'testCartId', guid: 'testGuid' };
+  const cart = { code: 'testCartId', guid: 'testGuid', user: 'assigned' };
   const mockCartEntry: OrderEntry = {
     entryNumber: 0,
     product: { code: productCode },
@@ -48,9 +49,9 @@ describe('CartService', () => {
       ],
     });
 
-    service = TestBed.get(CartService);
-    cartData = TestBed.get(CartDataService);
-    store = TestBed.get(Store);
+    service = TestBed.get(CartService as Type<CartService>);
+    cartData = TestBed.get(CartDataService as Type<CartDataService>);
+    store = TestBed.get(Store as Type<Store<StateWithCart>>);
   });
 
   it('should CartService is injected', () => {
@@ -225,6 +226,37 @@ describe('CartService', () => {
         .subscribe(mergeComplete => (result = mergeComplete))
         .unsubscribe();
       expect(result).toEqual(true);
+    });
+  });
+
+  describe('addEmail', () => {
+    it('should be able to add email to cart', () => {
+      spyOn(store, 'dispatch').and.stub();
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+
+      service.addEmail('test@test.com');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.AddEmailToCart({
+          userId: userId,
+          cartId: cart.code,
+          email: 'test@test.com',
+        })
+      );
+    });
+  });
+
+  describe('getAssignedUser', () => {
+    it('should be able to return cart assigned user', () => {
+      store.dispatch(new CartActions.CreateCartSuccess(cart));
+      let result: any;
+      service
+        .getAssignedUser()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual('assigned');
     });
   });
 

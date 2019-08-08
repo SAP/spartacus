@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  CartService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-login',
@@ -24,7 +28,8 @@ export class CheckoutLoginComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected cartService: CartService
   ) {}
 
   isNotValid(formControlName: string): boolean {
@@ -50,6 +55,9 @@ export class CheckoutLoginComponent {
       this.validateTermsAndConditions();
       return;
     }
+
+    const email = this.form.value.email;
+    this.cartService.addEmail(email);
   }
 
   private validateTermsAndConditions() {

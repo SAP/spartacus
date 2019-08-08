@@ -1,18 +1,19 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
-import { ConverterService } from '../../../util/converter.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { DELIVERY_MODE_NORMALIZER, OccConfig } from '@spartacus/core';
+import { Address } from '../../../model/address.model';
+import { Cart } from '../../../model/cart.model';
 import {
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
 } from '../../../user/connectors/address/converters';
-import { Cart } from '../../../model/cart.model';
-import { Address } from '../../../model/address.model';
+import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
+import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 
 const userId = '123';
 const cartId = '456';
@@ -49,10 +50,13 @@ describe('OccCheckoutDeliveryAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-
-    service = TestBed.get(OccCheckoutDeliveryAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    service = TestBed.get(OccCheckoutDeliveryAdapter as Type<
+      OccCheckoutDeliveryAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();

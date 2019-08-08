@@ -3,6 +3,7 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
+  CartService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
@@ -13,6 +14,9 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
+class MockCartService {
+  addEmail() {}
+}
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
@@ -29,6 +33,7 @@ describe('CheckoutLoginComponent', () => {
       declarations: [CheckoutLoginComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: CartService, useClass: MockCartService },
       ],
     }).compileComponents();
   }));

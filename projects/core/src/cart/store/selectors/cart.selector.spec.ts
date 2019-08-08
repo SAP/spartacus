@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
@@ -6,6 +7,7 @@ import { CartActions } from '../actions/index';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers/index';
 import { CartSelectors } from './../selectors/index';
+import { User } from '../../../model/misc.model';
 
 describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
@@ -23,6 +25,7 @@ describe('Cart selectors', () => {
       currencyIso: 'USD',
       value: 0,
     },
+    user: { uid: 'test' },
   };
 
   const testEmptyCart: Cart = {
@@ -47,7 +50,7 @@ describe('Cart selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithCart>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -144,6 +147,21 @@ describe('Cart selectors', () => {
       store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual([{ entryNumber: 0, product: { code: '1234' } }]);
+    });
+  });
+
+  describe('getCartUser', () => {
+    it('should return the cart assigned user', () => {
+      let result: User;
+      store
+        .pipe(select(CartSelectors.getCartUser))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      expect(result).toEqual({ uid: 'test' });
     });
   });
 });

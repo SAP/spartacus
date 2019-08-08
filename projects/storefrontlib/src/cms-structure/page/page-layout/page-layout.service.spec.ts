@@ -1,10 +1,11 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CmsService, Page } from '@spartacus/core';
+import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { PageLayoutService } from './page-layout.service';
-import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 
 const PAGE_TITLE = 'The page title will be returned if `showTitle` enabled';
 
@@ -98,9 +99,13 @@ describe('PageLayoutService', () => {
       ],
     });
 
-    pageLayoutService = TestBed.get(PageLayoutService);
-    breakpointService = TestBed.get(BreakpointService);
-    cmsService = TestBed.get(CmsService);
+    pageLayoutService = TestBed.get(PageLayoutService as Type<
+      PageLayoutService
+    >);
+    breakpointService = TestBed.get(BreakpointService as Type<
+      BreakpointService
+    >);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
   });
 
   it('should inject service', () => {

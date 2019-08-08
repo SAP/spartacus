@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import * as NgrxStore from '@ngrx/store';
@@ -76,9 +77,9 @@ describe('SearchboxService', () => {
         },
       ],
     });
+    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
+    service = TestBed.get(SearchboxService as Type<SearchboxService>);
 
-    store = TestBed.get(Store);
-    service = TestBed.get(SearchboxService);
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
