@@ -40,7 +40,7 @@
             <ng-container *ngIf="viewMode === ViewModes.Grid">
               <div
                 infiniteScroll
-                [infiniteScrollDistance]="4"
+                [infiniteScrollDistance]="5"
                 [infiniteScrollThrottle]="50"
                 [infiniteScrollDisabled]="!isInfiniteScroll"
                 (scrolled)="scrollPage(model.pagination.currentPage + 1)"
