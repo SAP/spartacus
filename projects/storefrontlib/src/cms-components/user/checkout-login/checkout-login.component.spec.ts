@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { CheckoutLoginComponent } from './checkout-login.component';
 
@@ -71,12 +72,19 @@ describe('CheckoutLoginComponent', () => {
       it('should display error message when emails are not the same', () => {
         const controls = component.form.controls;
         controls['email'].setValue('a@b.com');
+        controls['email'].markAsTouched();
+        controls['email'].markAsDirty();
         controls['emailConfirmation'].setValue('a@bc.com');
+        controls['emailConfirmation'].markAsTouched();
+        controls['emailConfirmation'].markAsDirty();
 
         fixture.detectChanges();
 
         fixture.whenStable().then(() => {
           expect(component.form.valid).toBeFalsy();
+          expect(
+            isFormControlDisplayingError('emailConfirmation')
+          ).toBeTruthy();
         });
       });
 
@@ -89,8 +97,56 @@ describe('CheckoutLoginComponent', () => {
 
         fixture.whenStable().then(() => {
           expect(component.form.valid).toBeTruthy();
+          expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
         });
       });
     });
   });
+
+  describe('on submit', () => {
+    it('should submit when form is populated correctly', () => {
+      const controls = component.form.controls;
+      controls['email'].setValue('john@acme.com');
+      controls['emailConfirmation'].setValue('john@acme.com');
+      controls['termsAndConditions'].setValue('true');
+
+      fixture.detectChanges();
+
+      component.onSubmit();
+
+      fixture.whenStable().then(() => {
+        expect(component.form.valid).toBeTruthy();
+        expect(isFormControlDisplayingError('email')).toBeFalsy();
+        expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
+        expect(isFormControlDisplayingError('termsAndConditions')).toBeFalsy();
+      });
+    });
+
+    it('should not submit when form is populated incorrectly', () => {
+      component.onSubmit();
+
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        expect(component.form.valid).toBeFalsy();
+        expect(isFormControlDisplayingError('email')).toBeTruthy();
+      });
+    });
+  });
+
+  function isFormControlDisplayingError(formControlName: string): boolean {
+    const elementWithErrorMessage = fixture.debugElement.query(
+      By.css(
+        `input[formcontrolname="${formControlName}"] + div.invalid-feedback`
+      )
+    );
+
+    if (!elementWithErrorMessage) {
+      return false;
+    }
+
+    const errorMessage: string =
+      elementWithErrorMessage.nativeElement.innerText;
+    return errorMessage && errorMessage.trim().length > 0;
+  }
 });

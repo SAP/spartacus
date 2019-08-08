@@ -47,12 +47,9 @@ export class CheckoutLoginComponent {
   }
 
   private emailsMatch(abstractControl: AbstractControl): { NotEqual: boolean } {
-    if (
-      abstractControl.get('email').value !==
+    return abstractControl.get('email').value !==
       abstractControl.get('emailConfirmation').value
-    ) {
-      return { NotEqual: true };
-    }
-    return null;
+      ? { NotEqual: true }
+      : null;
   }
 }
