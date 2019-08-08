@@ -14,7 +14,7 @@
         [class.is-invalid]="isNotValid('email')"
       />
       <div class="invalid-feedback" *ngIf="isNotValid('email')">
-        <span>Invalid email format</span>
+        <span>{{ 'checkoutLogin.emailIsRequired' | cxTranslate }}</span>
       </div>
     </label>
   </div>
@@ -34,7 +34,7 @@
         [class.is-invalid]="isEmailConfirmInvalid()"
       />
       <div class="invalid-feedback" *ngIf="isEmailConfirmInvalid()">
-        <span>Emails must match</span>
+        <span>{{ 'checkoutLogin.emailsMustMatch' | cxTranslate }}</span>
       </div>
     </label>
   </div>
