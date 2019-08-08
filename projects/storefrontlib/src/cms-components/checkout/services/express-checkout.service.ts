@@ -10,6 +10,7 @@ import {
   PaymentDetails,
   DeliveryMode,
   CheckoutPaymentService,
+  CheckoutService,
 } from '@spartacus/core';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
@@ -24,10 +25,11 @@ export class ExpressCheckoutService {
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
-    protected checkoutDetailsService: CheckoutDetailsService,
-    protected checkoutPaymentService: CheckoutPaymentService,
     protected userPaymentService: UserPaymentService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutService: CheckoutService,
+    protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService
   ) {}
 
@@ -42,9 +44,10 @@ export class ExpressCheckoutService {
           (addresses: Address[]) =>
             addresses.find(address => address.defaultAddress) || addresses[0]
         ),
-        filter(Boolean),
         tap(defaultAddress =>
-          this.checkoutDeliveryService.setDeliveryAddress(defaultAddress)
+          defaultAddress
+            ? this.checkoutDeliveryService.setDeliveryAddress(defaultAddress)
+            : this.checkoutService.clearCheckoutStep(1)
         ),
         switchMap(() => this.checkoutDetailsService.getDeliveryAddress()),
         map(Boolean)
