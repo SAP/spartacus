@@ -12,6 +12,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { verifyGlobalMessageAfterRegistration } from './register';
 
 export function visitHomePage() {
   const homePage = waitForPage('homepage', 'getHomePage');
@@ -33,7 +34,7 @@ export function registerUser() {
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
   register(user);
-  cy.get('.cx-login-greet').should('contain', user.fullName);
+  verifyGlobalMessageAfterRegistration();
 }
 
 export function signOutUser() {

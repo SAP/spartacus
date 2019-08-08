@@ -1,3 +1,4 @@
+import * as login from '../../helpers/login';
 import * as register from '../../helpers/register';
 import { user } from '../../sample-data/checkout-flow';
 
@@ -7,20 +8,23 @@ describe('Register', () => {
     cy.visit('/');
   });
 
-  // Behavior changed to automatic login.
-  it('should login when trying to register with the same email and correct password', () => {
+  it('should register and redirect to login page', () => {
     register.registerUser(user);
     register.signOut();
     register.navigateToTermsAndConditions();
     register.registerUser(user);
     register.checkTermsAndConditions();
-    register.signOut();
+    register.verifyGlobalMessageAfterRegistration();
   });
 
-  it('should contain error when trying to register with the same email and different password', () => {
+  it('should be redirect to login page when trying to register with the same email and password', () => {
     register.registerUser(user);
+    register.verifyGlobalMessageAfterRegistration();
+    login.loginUser();
     register.signOut();
-    register.registerUser({ ...user, password: 'Different123.' });
-    register.verifyFailedRegistration();
+    register.navigateToTermsAndConditions();
+    register.checkTermsAndConditions();
+    register.registerUser(user);
+    register.verifyGlobalMessageAfterRegistration();
   });
 });

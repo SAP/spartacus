@@ -1,4 +1,5 @@
 import { login } from '../../../helpers/auth-forms';
+import { checkBanner } from '../../../helpers/homepage';
 import * as helper from '../../../helpers/login';
 
 describe('My Account - Update Password', () => {
@@ -24,6 +25,8 @@ describe('My Account - Update Password', () => {
       });
       cy.visit('/');
       user = helper.registerUser();
+      helper.loginUser();
+      checkBanner();
     });
 
     beforeEach(() => {

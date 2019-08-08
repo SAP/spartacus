@@ -36,7 +36,6 @@ context('Payment billing address', () => {
 
   it('should go to checkout', () => {
     checkout.registerUser();
-    checkout.signOutUser();
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndLogin();
   });
