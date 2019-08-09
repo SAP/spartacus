@@ -21,9 +21,10 @@
     }
   }
   .cx-map-col {
+    height: 100%;
     @include media-breakpoint-up(md) {
       height: 100%;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
   .cx-list {
