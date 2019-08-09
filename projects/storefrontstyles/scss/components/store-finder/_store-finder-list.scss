@@ -4,6 +4,7 @@
     @include media-breakpoint-up(md) {
       display: flex;
       height: 70vh;
+      margin-bottom: 1rem;
     }
   }
   .cx-columns-mobile {

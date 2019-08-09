@@ -4,7 +4,6 @@
     else loading
   "
 >
-  <cx-store-finder-list [locations]="locations"></cx-store-finder-list>
   <div *ngIf="locations?.stores">
     <div class="cx-pagination">
       <cx-pagination
@@ -13,6 +12,7 @@
       ></cx-pagination>
     </div>
   </div>
+  <cx-store-finder-list [locations]="locations"></cx-store-finder-list>
 </div>
 <ng-template #loading>
   <div class="cx-spinner">
