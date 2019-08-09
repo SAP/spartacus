@@ -55,14 +55,15 @@ if (!environment.production) {
           },
         },
       },
-      pagination: {
-        infiniteScroll: true,
-      },
       // we  bring in static translations to be up and running soon right away
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
         fallbackLang: 'en',
+      },
+      // pagination configurations for product list/grid pages
+      pagination: {
+        infiniteScroll: true,
       },
     }),
 
