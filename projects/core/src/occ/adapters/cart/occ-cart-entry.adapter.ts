@@ -38,8 +38,6 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     // TODO 2.0: Remove legacyUrl and all uses
     const legacyUrl = this.getCartEndpoint(userId);
 
-    console.log('1', legacyUrl);
-
     // TODO 2.0: Remove
     if (legacyUrl) {
       return this.legacyAdd(
@@ -83,8 +81,6 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     // TODO 2.0: Remove legacyUrl and all uses
     const legacyUrl = this.getCartEndpoint(userId);
 
-    console.log('2', legacyUrl);
-
     // TODO 2.0: Remove
     if (legacyUrl) {
       return this.legacyUpdate(
@@ -119,8 +115,6 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     // TODO 2.0: Remove legacyUrl and all uses
     const legacyUrl = this.getCartEndpoint(userId);
-
-    console.log('3', legacyUrl);
 
     // TODO 2.0: Remove
     if (legacyUrl) {
