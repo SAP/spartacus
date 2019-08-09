@@ -1,5 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService, GlobalMessageService, GlobalMessageType, RoutingService, UserService } from '@spartacus/core';
+import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  UserService,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -47,7 +53,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       this.authService.logout();
-      this.routingService.go({ cxRoute: 'login' }, {newUid: this.newUid });
+      this.routingService.go({ cxRoute: 'login' }, { newUid: this.newUid });
     }
   }
 
