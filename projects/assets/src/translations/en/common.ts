@@ -55,7 +55,7 @@ export const common = {
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
     conflict: 'Already exists',
     forbidden: 'You are not authorized to perform this action.',
-    gatewayTimeout: 'The server did not responded, please try again later.',
+    gatewayTimeout: 'The server did not respond, please try again later.',
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
     unknownError: 'An unknown error occurred',
