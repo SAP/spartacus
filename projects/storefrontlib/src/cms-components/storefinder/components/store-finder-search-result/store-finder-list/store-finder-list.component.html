@@ -32,12 +32,18 @@
             [ngClass]="{
               'cx-selected-item': selectedStore === i
             }"
-            class="cx-list-items cx-ordered"
+            class="cx-list-items"
           >
             <cx-store-finder-list-item
               [location]="location"
               [locationIndex]="i"
               (storeItemClick)="centerStoreOnMapByIndex($event, location)"
+              [listOrderLabel]="
+                i +
+                locations.pagination.currentPage *
+                  locations.pagination.pageSize +
+                1
+              "
             ></cx-store-finder-list-item>
           </li>
         </ol>
@@ -74,12 +80,18 @@
                   [ngClass]="{
                     'cx-selected-item': selectedStore === i
                   }"
-                  class="cx-list-items cx-ordered"
+                  class="cx-list-items"
                 >
                   <cx-store-finder-list-item
                     [location]="location"
                     [locationIndex]="i"
                     (storeItemClick)="centerStoreOnMapByIndex($event, location)"
+                    [listOrderLabel]="
+                      i +
+                      locations.pagination.currentPage *
+                        locations.pagination.pageSize +
+                      1
+                    "
                   ></cx-store-finder-list-item>
                 </li>
               </ol>

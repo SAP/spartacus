@@ -51,15 +51,6 @@
     }
   }
 
-  .cx-ordered {
-    counter-increment: resultCount;
-  }
-  .cx-ordered:before {
-    content: counter(resultCount, decimal);
-    position: absolute;
-    left: 1rem;
-  }
-
   .cx-not-found {
     @include type('4');
     text-align: center;

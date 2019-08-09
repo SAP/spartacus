@@ -2,6 +2,11 @@
   display: block;
   margin: 1.25rem 0;
 
+  .cx-store-list-order {
+    position: absolute;
+    left: 1rem;
+  }
+
   .cx-store-name {
     @include type('6');
     text-decoration: underline;
