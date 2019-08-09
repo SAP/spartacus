@@ -12,6 +12,7 @@ import {
   provideConfigFromMetaTags,
   StateModule,
   UserModule,
+  CaptchaModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
@@ -30,6 +31,7 @@ import { LayoutModule } from '../layout/layout.module';
     CheckoutModule.forRoot(),
     UserModule.forRoot(),
     ProductModule.forRoot(),
+    CaptchaModule.forRoot(),
 
     LayoutModule,
   ],
