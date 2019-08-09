@@ -36,6 +36,7 @@ const paymentMethodsTest = () => {
 describe('Payment Methods', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+    cy.deleteLocalStorage();
   });
 
   checkAnonymous();
@@ -71,6 +72,7 @@ describe('Payment Methods', () => {
 describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+    cy.deleteLocalStorage();
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
