@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import {
   AuthRedirectService,
   AuthService,
+  CartService,
   RoutingService,
+  User,
   UserToken,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -14,16 +16,22 @@ import { map } from 'rxjs/operators';
 })
 export class CheckoutAuthGuard implements CanActivate {
   constructor(
-    protected routingService: RoutingService,
-    protected authService: AuthService,
-    protected authRedirectService: AuthRedirectService,
-    protected router: Router
+    private routingService: RoutingService,
+    private authService: AuthService,
+    private authRedirectService: AuthRedirectService,
+    private cartService: CartService
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.authService.getUserToken().pipe(
-      map((token: UserToken) => {
+    return combineLatest([
+      this.authService.getUserToken(),
+      this.cartService.getAssignedUser(),
+    ]).pipe(
+      map(([token, user]: [UserToken, User]) => {
         if (!token.access_token) {
+          if (user && user.name === 'guest') {
+            return Boolean(user);
+          }
           this.routingService.go({ cxRoute: 'login' }, { forced: true });
           this.authRedirectService.reportAuthGuard();
         }

@@ -1,15 +1,21 @@
-import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { FormUtils } from '../../../shared/utils/forms/form-utils';
+import { Component, OnDestroy } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { AuthRedirectService, CartService } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
-import { CartService } from '@spartacus/core';
+import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
 @Component({
   selector: 'cx-checkout-login',
   templateUrl: './checkout-login.component.html',
 })
-export class CheckoutLoginComponent {
-  form = this.formBuilder.group(
+export class CheckoutLoginComponent implements OnDestroy {
+  form: FormGroup = this.formBuilder.group(
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       emailConfirmation: [
@@ -19,11 +25,15 @@ export class CheckoutLoginComponent {
     },
     { validator: this.emailsMatch }
   );
+
+  sub: Subscription;
+
   private submitClicked = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    protected cartService: CartService
+    private cartService: CartService,
+    private authRedirectService: AuthRedirectService
   ) {}
 
   isNotValid(formControlName: string): boolean {
@@ -49,6 +59,20 @@ export class CheckoutLoginComponent {
 
     const email = this.form.value.email;
     this.cartService.addEmail(email);
+
+    if (!this.sub) {
+      this.sub = this.cartService.getAssignedUser().subscribe(user => {
+        if (user.name === 'guest') {
+          this.authRedirectService.redirect();
+        }
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   private emailsMatch(abstractControl: AbstractControl): { NotEqual: boolean } {

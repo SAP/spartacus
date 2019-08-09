@@ -1,15 +1,35 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, CartService } from '@spartacus/core';
+import {
+  AuthRedirectService,
+  CartService,
+  I18nTestingModule,
+  User,
+} from '@spartacus/core';
+import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 
+import createSpy = jasmine.createSpy;
+
 class MockCartService {
-  addEmail() {}
+  addEmail = createSpy('MockCartService.addEmail');
+
+  getAssignedUser() {
+    return of();
+  }
 }
+class MockRedirectAfterAuthService {
+  redirect = createSpy('AuthRedirectService.redirect');
+}
+
+const testEmail = 'john@acme.com';
+
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
+  let cartService: CartService;
+  let authRedirectService: AuthRedirectService;
 
   let controls: { [key: string]: AbstractControl };
   let email: AbstractControl;
@@ -19,7 +39,13 @@ describe('CheckoutLoginComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [CheckoutLoginComponent],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        { provide: CartService, useClass: MockCartService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -30,6 +56,9 @@ describe('CheckoutLoginComponent', () => {
     controls = component.form.controls;
     email = controls['email'];
     emailConfirmation = controls['emailConfirmation'];
+
+    cartService = TestBed.get(CartService);
+    authRedirectService = TestBed.get(AuthRedirectService);
 
     fixture.detectChanges();
   });
@@ -99,8 +128,8 @@ describe('CheckoutLoginComponent', () => {
       });
 
       it('should not display error message when emails are the same', () => {
-        email.setValue('john@acme.com');
-        emailConfirmation.setValue('john@acme.com');
+        email.setValue(testEmail);
+        emailConfirmation.setValue(testEmail);
 
         fixture.detectChanges();
 
@@ -114,8 +143,12 @@ describe('CheckoutLoginComponent', () => {
 
   describe('on submit', () => {
     it('should submit when form is populated correctly', () => {
-      email.setValue('john@acme.com');
-      emailConfirmation.setValue('john@acme.com');
+      spyOn(cartService, 'getAssignedUser').and.returnValue(
+        of({ name: 'guest', uid: 'john@acme.com' } as User)
+      );
+
+      email.setValue(testEmail);
+      emailConfirmation.setValue(testEmail);
 
       fixture.detectChanges();
 
@@ -125,10 +158,17 @@ describe('CheckoutLoginComponent', () => {
         expect(component.form.valid).toBeTruthy();
         expect(isFormControlDisplayingError('email')).toBeFalsy();
         expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
+
+        expect(cartService.addEmail).toHaveBeenCalledWith(testEmail);
+        expect(authRedirectService.redirect).toHaveBeenCalled();
       });
     });
 
     it('should not submit when form is populated incorrectly', () => {
+      spyOn(cartService, 'getAssignedUser').and.returnValue(
+        of({ name: 'anonymous', uid: 'anonymous' } as User)
+      );
+
       component.onSubmit();
 
       fixture.detectChanges();
@@ -137,6 +177,7 @@ describe('CheckoutLoginComponent', () => {
         expect(component.form.valid).toBeFalsy();
         expect(isFormControlDisplayingError('email')).toBeTruthy();
         expect(isFormControlDisplayingError('emailConfirmation')).toBeTruthy();
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
       });
     });
   });
