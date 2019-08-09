@@ -2,13 +2,14 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsComponent, PageType } from '../../../model/cms.model';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { PageContext } from '../../../routing';
-import { ConverterService } from '../../../util/converter.service';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors';
 import { CmsStructureConfigService } from '../../../cms/services';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
 import createSpy = jasmine.createSpy;
 
@@ -74,10 +75,13 @@ describe('OccCmsPageAdapter', () => {
         { provide: ConverterService, useClass: MockComverterService },
       ],
     });
-
-    service = TestBed.get(OccCmsPageAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    endpointsService = TestBed.get(OccEndpointsService);
+    service = TestBed.get(OccCmsPageAdapter as Type<OccCmsPageAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    endpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
   });
 
   afterEach(() => {

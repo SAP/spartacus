@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -22,8 +23,12 @@ describe('Update Password Effect', () => {
       ],
     });
 
-    updatePasswordEffect = TestBed.get(fromEffects.UpdatePasswordEffects);
-    userService = TestBed.get(UserConnector);
+    updatePasswordEffect = TestBed.get(
+      fromEffects.UpdatePasswordEffects as Type<
+        fromEffects.UpdatePasswordEffects
+      >
+    );
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
   });
 
   describe('updatePassword$', () => {

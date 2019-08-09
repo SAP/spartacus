@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -73,9 +73,11 @@ describe('LoginFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
-    authService = TestBed.get(AuthService);
-    routingService = TestBed.get(RoutingService);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    authRedirectService = TestBed.get(AuthRedirectService as Type<
+      AuthRedirectService
+    >);
   });
 
   it('should autofill the newUid after changing email', () => {

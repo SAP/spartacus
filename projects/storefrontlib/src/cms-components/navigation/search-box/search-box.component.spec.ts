@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -124,7 +124,9 @@ describe('SearchBoxComponent', () => {
 
   describe('Default config', () => {
     beforeEach(() => {
-      cmsComponentData = TestBed.get(CmsComponentData);
+      cmsComponentData = TestBed.get(CmsComponentData as Type<
+        CmsComponentData<CmsSearchBoxComponent>
+      >);
 
       spyOnProperty(cmsComponentData, 'data$').and.returnValue(
         of(mockSearchBoxComponentData)
@@ -225,70 +227,14 @@ describe('SearchBoxComponent', () => {
         fixture.debugElement.query(By.css('.products a:first-child.has-media'))
       ).toBeTruthy();
     });
-
-    describe('Arrow key tests', () => {
-      function getFocusedElement(): HTMLElement {
-        return <HTMLElement>document.activeElement;
-      }
-
-      beforeEach(() => {
-        searchBoxComponent.queryText = 'te';
-        fixture.detectChanges();
-
-        // Focus should begin on searchbox input
-        const inputSearchBox: HTMLElement = fixture.debugElement.query(
-          By.css('input[aria-label="search"]')
-        ).nativeElement;
-        inputSearchBox.focus();
-        expect(inputSearchBox).toBe(getFocusedElement());
-      });
-
-      it('should navigate to first child', () => {
-        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
-
-        expect(
-          fixture.debugElement.query(By.css('.results div > a:first-child'))
-            .nativeElement
-        ).toBe(getFocusedElement());
-      });
-
-      it('should navigate to second child', () => {
-        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
-        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
-
-        expect(
-          fixture.debugElement.query(By.css('.results div > a:nth-child(2)'))
-            .nativeElement
-        ).toBe(getFocusedElement());
-      });
-
-      it('should navigate to last child', () => {
-        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
-
-        expect(
-          fixture.debugElement.query(
-            By.css('.results div:last-child > a:last-child')
-          ).nativeElement
-        ).toBe(getFocusedElement());
-      });
-
-      it('should navigate to second last child', () => {
-        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
-        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
-
-        expect(
-          fixture.debugElement.query(
-            By.css('.results div:nth-child(2) > a:last-child')
-          ).nativeElement
-        ).toBe(getFocusedElement());
-      });
-    });
   });
 
   describe('Searchbox config ', () => {
     describe('displayProductImages=false', () => {
       beforeEach(() => {
-        cmsComponentData = TestBed.get(CmsComponentData);
+        cmsComponentData = TestBed.get(CmsComponentData as Type<
+          CmsComponentData<CmsSearchBoxComponent>
+        >);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
           of({
@@ -323,7 +269,9 @@ describe('SearchBoxComponent', () => {
 
     describe('displaySuggestions=false', () => {
       beforeEach(() => {
-        cmsComponentData = TestBed.get(CmsComponentData);
+        cmsComponentData = TestBed.get(CmsComponentData as Type<
+          CmsComponentData<CmsSearchBoxComponent>
+        >);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
           of({

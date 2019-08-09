@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
@@ -42,7 +43,7 @@ describe('Product Reviews selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(reviews));
   });
 
