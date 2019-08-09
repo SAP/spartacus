@@ -64,6 +64,7 @@ describe('Payment Methods', () => {
 
     after(() => {
       login.signOutUser();
+      cy.deleteLocalStorage();
     });
   });
 });
@@ -106,6 +107,7 @@ describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
 
     after(() => {
       login.signOutUser();
+      cy.deleteLocalStorage();
     });
   });
 });
