@@ -83,7 +83,5 @@ export const user = {
     continue: 'Continue',
     emailIsRequired: 'Invalid email format',
     emailsMustMatch: 'Email addresses do not match',
-    termsAndConditionsIsRequired:
-      'Agreement with Terms & Conditions is mandatory',
   },
 };
