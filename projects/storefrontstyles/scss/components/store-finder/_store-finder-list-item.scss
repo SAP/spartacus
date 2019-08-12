@@ -1,6 +1,7 @@
 %cx-store-finder-list-item {
   display: block;
-  margin: 1.25rem 0;
+  margin: 0.25rem 0;
+  text-align: left;
 
   .cx-store-name {
     @include type('6');
