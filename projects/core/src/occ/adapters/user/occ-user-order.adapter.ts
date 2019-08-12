@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { Order, OrderHistoryList } from '../../../model/order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
@@ -14,24 +15,25 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected featureConfigService?: FeatureConfigService
   ) {}
 
   /**
    * @deprecated Since 1.1
    * Use configurable endpoints. Will be removed as of 2.0.
    */
-  protected getOrderEndpoint(_userId: string): string {
-    return;
+  protected getOrderEndpoint(userId: string): string {
+    const orderEndpoint = 'users/' + userId + '/orders';
+    return this.occEndpoints.getEndpoint(orderEndpoint);
   }
 
   public load(userId: string, orderCode: string): Observable<Order> {
-    // TODO 2.0: Remove legacyUrl and all uses
-    const legacyUrl = this.getOrderEndpoint(userId);
-
     // TODO 2.0: Remove
-    if (legacyUrl) {
-      return this.legacyLoad(legacyUrl, orderCode);
+    if (
+      !this.featureConfigService.isEnabled('userOrderConfigurableEndpoints')
+    ) {
+      return this.legacyLoad(userId, orderCode);
     }
 
     const url = this.occEndpoints.getUrl('orderDetail', {
@@ -50,12 +52,11 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     currentPage?: number,
     sort?: string
   ): Observable<OrderHistoryList> {
-    // TODO 2.0: Remove legacyUrl and all uses
-    const legacyUrl = this.getOrderEndpoint(userId);
-
     // TODO 2.0: Remove
-    if (legacyUrl) {
-      return this.legacyLoadHistory(legacyUrl, pageSize, currentPage, sort);
+    if (
+      !this.featureConfigService.isEnabled('userOrderConfigurableEndpoints')
+    ) {
+      return this.legacyLoadHistory(userId, pageSize, currentPage, sort);
     }
 
     const params = {};
@@ -80,8 +81,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
    * @deprecated Since 1.1
    * Use configurable endpoints. Will be removed as of 2.0.
    */
-  private legacyLoad(legacyUrl: string, orderCode: string): Observable<Order> {
-    const url = legacyUrl + '/' + orderCode;
+  private legacyLoad(userId: string, orderCode: string): Observable<Order> {
+    const url = this.getOrderEndpoint(userId) + '/' + orderCode;
 
     const params = new HttpParams({
       fromString: 'fields=FULL',
@@ -95,11 +96,12 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   }
 
   private legacyLoadHistory(
-    url: string,
+    userId: string,
     pageSize?: number,
     currentPage?: number,
     sort?: string
   ): Observable<OrderHistoryList> {
+    const url = this.getOrderEndpoint(userId);
     let params = new HttpParams();
     if (pageSize) {
       params = params.set('pageSize', pageSize.toString());

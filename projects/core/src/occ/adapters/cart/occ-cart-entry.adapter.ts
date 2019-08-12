@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
 import { CART_MODIFICATION_NORMALIZER } from '../../../cart/connectors/entry/converters';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { CartModification } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
@@ -12,15 +13,17 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
+    protected featureConfigService?: FeatureConfigService
   ) {}
 
   /**
    * @deprecated Since 1.1
    * Use configurable endpoints. Will be removed as of 2.0.
    */
-  protected getCartEndpoint(_userId: string): string {
-    return;
+  protected getCartEndpoint(userId: string): string {
+    const cartEndpoint = 'users/' + userId + '/carts/';
+    return this.occEndpointsService.getEndpoint(cartEndpoint);
   }
 
   public add(
@@ -35,19 +38,9 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    // TODO 2.0: Remove legacyUrl and all uses
-    const legacyUrl = this.getCartEndpoint(userId);
-
     // TODO 2.0: Remove
-    if (legacyUrl) {
-      return this.legacyAdd(
-        legacyUrl,
-        headers,
-        toAdd,
-        cartId,
-        productCode,
-        quantity
-      );
+    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+      return this.legacyAdd(userId, cartId, productCode, quantity);
     }
 
     const url = this.occEndpointsService.getUrl('addEntries', {
@@ -78,19 +71,9 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    // TODO 2.0: Remove legacyUrl and all uses
-    const legacyUrl = this.getCartEndpoint(userId);
-
     // TODO 2.0: Remove
-    if (legacyUrl) {
-      return this.legacyUpdate(
-        legacyUrl,
-        headers,
-        cartId,
-        entryNumber,
-        qty,
-        pickupStore
-      );
+    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+      return this.legacyUpdate(userId, cartId, entryNumber, qty, pickupStore);
     }
 
     const url = this.occEndpointsService.getUrl(
@@ -113,12 +96,9 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    // TODO 2.0: Remove legacyUrl and all uses
-    const legacyUrl = this.getCartEndpoint(userId);
-
     // TODO 2.0: Remove
-    if (legacyUrl) {
-      return this.legacyRemove(legacyUrl, headers, cartId, entryNumber);
+    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+      return this.legacyRemove(userId, cartId, entryNumber);
     }
 
     const url = this.occEndpointsService.getUrl('removeEntries', {
@@ -135,17 +115,20 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    * Use configurable endpoints. Will be removed as of 2.0.
    */
   private legacyAdd(
-    legacyUrl: string,
-    headers: HttpHeaders,
-    toAdd: string,
+    userId: string,
     cartId: string,
     productCode: string,
     quantity: number = 1
   ): Observable<CartModification> {
-    const url = legacyUrl + cartId + '/entries';
+    const url = this.getCartEndpoint(userId) + cartId + '/entries';
 
     const params = new HttpParams({
       fromString: 'code=' + productCode + '&qty=' + quantity,
+    });
+
+    const toAdd = JSON.stringify({});
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http
@@ -158,14 +141,14 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    * Use configurable endpoints. Will be removed as of 2.0.
    */
   private legacyUpdate(
-    legacyUrl: string,
-    headers: HttpHeaders,
+    userId: string,
     cartId: string,
     entryNumber: string,
     qty: number,
     pickupStore?: string
   ): Observable<CartModification> {
-    const url = legacyUrl + cartId + '/entries/' + entryNumber;
+    const url =
+      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
     let queryString = 'qty=' + qty;
 
     if (pickupStore) {
@@ -173,6 +156,9 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     }
     const params = new HttpParams({
       fromString: queryString,
+    });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
     return this.http
       .patch<CartModification>(url, {}, { headers, params })
@@ -184,12 +170,16 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    * Use configurable endpoints. Will be removed as of 2.0.
    */
   private legacyRemove(
-    legacyUrl: string,
-    headers: HttpHeaders,
+    userId: string,
     cartId: string,
     entryNumber: string
   ): Observable<any> {
-    const url = legacyUrl + cartId + '/entries/' + entryNumber;
+    const url =
+      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
     return this.http.delete(url, { headers });
   }
 }

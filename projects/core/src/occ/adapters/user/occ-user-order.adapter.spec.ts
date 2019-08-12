@@ -6,6 +6,7 @@ import {
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { ConverterService, OccUserOrderAdapter } from '@spartacus/core';
+import { FeatureConfigService } from 'projects/core/src/features-config';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { Order } from '../../../model/order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
@@ -24,6 +25,12 @@ const orderData: Order = {
   code: '00001004',
 };
 
+class MockFeatureConfigService {
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
+}
+
 describe('OccUserOrderAdapter', () => {
   let occUserOrderAdapter: OccUserOrderAdapter;
   let httpMock: HttpTestingController;
@@ -40,6 +47,7 @@ describe('OccUserOrderAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
@@ -68,9 +76,13 @@ describe('OccUserOrderAdapter', () => {
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
       }, `GET method and url`);
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('orderHistory', {
-        userId,
-      });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'orderHistory',
+        {
+          userId,
+        },
+        { pageSize: PAGE_SIZE.toString() }
+      );
     }));
 
     it('should fetch user Orders with defined options', async(() => {
@@ -81,19 +93,20 @@ describe('OccUserOrderAdapter', () => {
       occUserOrderAdapter
         .loadHistory(userId, PAGE_SIZE, currentPage, sort)
         .subscribe();
-      const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
+      httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
       }, `GET method`);
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('orderHistory', {
-        userId,
-      });
-      expect(mockReq.request.params.get('pageSize')).toEqual(
-        PAGE_SIZE.toString()
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'orderHistory',
+        {
+          userId,
+        },
+        {
+          pageSize: PAGE_SIZE.toString(),
+          currentPage: currentPage.toString(),
+          sort,
+        }
       );
-      expect(mockReq.request.params.get('currentPage')).toEqual(
-        currentPage.toString()
-      );
-      expect(mockReq.request.params.get('sort')).toEqual(sort);
     }));
 
     it('should use converter', () => {

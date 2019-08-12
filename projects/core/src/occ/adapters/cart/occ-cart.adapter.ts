@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { Cart } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
@@ -22,24 +23,23 @@ export class OccCartAdapter implements CartAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
+    protected featureConfigService?: FeatureConfigService
   ) {}
 
   /**
    * @deprecated Since 1.1
    * Use configurable endpoints. Will be removed as of 2.0.
    */
-  protected getCartEndpoint(_userId: string): string {
-    return;
+  protected getCartEndpoint(userId: string): string {
+    const cartEndpoint = `users/${userId}/carts/`;
+    return this.occEndpointsService.getEndpoint(cartEndpoint);
   }
 
   public loadAll(userId: string): Observable<Cart[]> {
-    // TODO 2.0: Remove legacyUrl and all uses
-    const legacyUrl = this.getCartEndpoint(userId);
-
     // TODO 2.0: Remove
-    if (legacyUrl) {
-      return this.legacyLoadAll(legacyUrl);
+    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+      return this.legacyLoadAll(userId);
     }
 
     return this.http
@@ -65,12 +65,9 @@ export class OccCartAdapter implements CartAdapter {
         })
       );
     } else {
-      // TODO 2.0: Remove legacyUrl and all uses
-      const legacyUrl = this.getCartEndpoint(userId);
-
       // TODO 2.0: Remove
-      if (legacyUrl) {
-        return this.legacyLoad(legacyUrl, cartId);
+      if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+        return this.legacyLoad(userId, cartId);
       }
       return this.http
         .get<Occ.Cart>(
@@ -86,13 +83,9 @@ export class OccCartAdapter implements CartAdapter {
     toMergeCartGuid?: string
   ): Observable<Cart> {
     const toAdd = JSON.stringify({});
-
-    // TODO 2.0: Remove legacyUrl and all uses
-    const legacyUrl = this.getCartEndpoint(userId);
-
     // TODO 2.0: Remove
-    if (legacyUrl) {
-      return this.legacyCreate(legacyUrl, toAdd, oldCartId, toMergeCartGuid);
+    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+      return this.legacyCreate(userId, toAdd, oldCartId, toMergeCartGuid);
     }
 
     let params = {};
@@ -116,12 +109,13 @@ export class OccCartAdapter implements CartAdapter {
    * @deprecated Since 1.1
    * Use configurable endpoints. Will be removed as of 2.0.
    */
-  private legacyLoadAll(legacyUrl: string): Observable<Cart[]> {
+  private legacyLoadAll(userId: string): Observable<Cart[]> {
+    const url = this.getCartEndpoint(userId);
     const params = new HttpParams({
       fromString: `fields=carts(${DETAILS_PARAMS},saveTime)`,
     });
 
-    return this.http.get<Occ.CartList>(legacyUrl, { params }).pipe(
+    return this.http.get<Occ.CartList>(url, { params }).pipe(
       pluck('carts'),
       this.converterService.pipeableMany(CART_NORMALIZER)
     );
@@ -131,8 +125,8 @@ export class OccCartAdapter implements CartAdapter {
    * @deprecated Since 1.1
    * Use configurable endpoints. Will be removed as of 2.0.
    */
-  private legacyLoad(legacyUrl: string, cartId: string): Observable<Cart> {
-    const url = legacyUrl + cartId;
+  private legacyLoad(userId: string, cartId: string): Observable<Cart> {
+    const url = this.getCartEndpoint(userId) + cartId;
     const params = new HttpParams({
       fromString: `fields=${DETAILS_PARAMS}`,
     });
@@ -147,11 +141,12 @@ export class OccCartAdapter implements CartAdapter {
    * Use configurable endpoints. Will be removed as of 2.0.
    */
   private legacyCreate(
-    url: string,
+    userId: string,
     toAdd: string,
     oldCartId?: string,
     toMergeCartGuid?: string
   ): Observable<Cart> {
+    const url = this.getCartEndpoint(userId);
     let queryString = `fields=${DETAILS_PARAMS}`;
 
     if (oldCartId) {

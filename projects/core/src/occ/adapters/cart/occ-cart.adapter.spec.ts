@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { FeatureConfigService } from 'projects/core/src/features-config';
 import { Cart } from '../../../model/cart.model';
 import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
 import { ConverterService } from '../../../util/converter.service';
@@ -34,6 +35,12 @@ class MockOccEndpointsService {
   }
 }
 
+class MockFeatureConfigService {
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
+}
+
 describe('OccCartAdapter', () => {
   let occCartAdapter: OccCartAdapter;
   let httpMock: HttpTestingController;
@@ -47,6 +54,7 @@ describe('OccCartAdapter', () => {
         OccCartAdapter,
         ProductImageNormalizer,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
