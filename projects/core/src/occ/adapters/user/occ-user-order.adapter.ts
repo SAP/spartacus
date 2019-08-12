@@ -20,22 +20,18 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getOrderEndpoint(userId: string): string {
-    const orderEndpoint = 'users/' + userId + '/orders';
-    return this.occEndpoints.getEndpoint(orderEndpoint);
-  }
-
   public load(userId: string, orderCode: string): Observable<Order> {
-    const url = this.getOrderEndpoint(userId);
-
-    const orderUrl = url + '/' + orderCode;
+    const url = this.occEndpoints.getUrl('orderDetail', {
+      userId,
+      orderId: orderCode,
+    });
 
     const params = new HttpParams({
       fromString: FULL_PARAMS,
     });
 
     return this.http
-      .get<Occ.Order>(orderUrl, {
+      .get<Occ.Order>(url, {
         params: params,
       })
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
@@ -47,7 +43,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     currentPage?: number,
     sort?: string
   ): Observable<OrderHistoryList> {
-    const url = this.getOrderEndpoint(userId);
+    const url = this.occEndpoints.getUrl('orderHistory', { userId });
+
     let params = new HttpParams();
     if (pageSize) {
       params = params.set('pageSize', pageSize.toString());
