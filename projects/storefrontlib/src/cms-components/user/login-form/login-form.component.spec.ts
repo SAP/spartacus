@@ -8,12 +8,12 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   UserToken,
+  WindowRef,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LoginFormComponent } from './login-form.component';
 
 import createSpy = jasmine.createSpy;
-import { ActivatedRoute } from '@angular/router';
 
 @Pipe({
   name: 'cxUrl',
@@ -36,33 +36,34 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
-const params: BehaviorSubject<any> = new BehaviorSubject({
-  newUid: '',
-});
+// const MockWindowRef = {
+//   nativeWindow: {
+//     history: {
+//       state: {},
+//     },
+//   },
+// };
 
-const mockActivatedRoute = {
-  params: params.asObservable(),
-};
-
-describe('LoginFormComponent', () => {
+fdescribe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: MockAuthService;
   let authRedirectService: AuthRedirectService;
+  let mockWindowRef: WindowRef;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
+        WindowRef,
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: AuthRedirectService,
           useClass: MockRedirectAfterAuthService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
   }));
@@ -74,9 +75,11 @@ describe('LoginFormComponent', () => {
     authRedirectService = TestBed.get(AuthRedirectService as Type<
       AuthRedirectService
     >);
+    mockWindowRef = TestBed.get(WindowRef as Type<WindowRef>);
   });
 
   beforeEach(() => {
+    mockWindowRef.nativeWindow.history.pushState(null, null);
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -85,17 +88,25 @@ describe('LoginFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the form correctly', () => {
+  it('should init the form - empty', () => {
     expect(component.form.controls['userId'].value).toBe('');
     expect(component.form.controls['password'].value).toBe('');
+  });
 
+  it('should init the form - prefilled', () => {
     const email = 'test@email.com';
-    params.next({
-      newUid: email,
-    });
+    mockWindowRef.nativeWindow.history.pushState(
+      {
+        newUid: email,
+      },
+      null
+    );
+
+    component.ngOnInit();
     fixture.detectChanges();
 
     expect(component.form.controls['userId'].value).toBe(email);
+    mockWindowRef.nativeWindow.history.pushState(null, null);
   });
 
   it('should login and redirect to return url after auth', () => {

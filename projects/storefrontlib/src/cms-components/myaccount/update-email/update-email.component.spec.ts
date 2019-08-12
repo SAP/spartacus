@@ -195,7 +195,12 @@ describe('UpdateEmailComponent', () => {
 
         expect(routingService.go).toHaveBeenCalledWith(
           { cxRoute: 'login' },
-          { newUid: newUid }
+          null,
+          {
+            state: {
+              newUid,
+            },
+          }
         );
       });
     });

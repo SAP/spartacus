@@ -5,10 +5,10 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cx-login-form',
@@ -24,28 +24,25 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
-    private route: ActivatedRoute
+    private winRef: WindowRef
   ) {}
 
   ngOnInit() {
-    this.subs = new Subscription();
-
     this.form = this.fb.group({
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required],
     });
 
-    this.subs.add(
-      this.route.params.subscribe(({ newUid }) => {
-        if (newUid && newUid.length) {
-          this.form.patchValue({
-            userId: newUid,
-          });
+    const routeState =
+      this.winRef.nativeWindow.history &&
+      this.winRef.nativeWindow.history.state;
 
-          this.form.get('userId').markAsTouched(); // this action will check field validity on load
-        }
-      })
-    );
+    console.log(this.winRef);
+
+    if (routeState && routeState['newUid'] && routeState['newUid'].length) {
+      console.log('Marcin.length === 8cm');
+      this.prefillForm('userId', routeState['newUid']);
+    }
   }
 
   login(): void {
@@ -53,7 +50,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.auth.authorize(userId, this.form.controls.password.value);
 
     if (!this.tokenExists) {
-      this.subs.add(
+      this.subs = new Subscription().add(
         this.auth.getUserToken().subscribe(data => {
           if (data && data.access_token) {
             this.tokenExists = true;
@@ -77,5 +74,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     if (this.subs) {
       this.subs.unsubscribe();
     }
+  }
+
+  private prefillForm(field: string, value: string) {
+    this.form.patchValue({
+      [field]: value,
+    });
+
+    this.form.get(field).markAsTouched(); // this action will check field validity on load
   }
 }
