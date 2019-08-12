@@ -27,9 +27,7 @@ class MockUserAddressService {
   loadAddresses(): void {}
 }
 
-class MockCartService {
-  loadDetails(): void {}
-}
+class MockCartService {}
 
 class MockCheckoutDeliveryService {
   createAndSetAddress = createSpy();
