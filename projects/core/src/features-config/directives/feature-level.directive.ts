@@ -13,11 +13,11 @@ export class FeatureLevelDirective {
 
   private hasView = false;
 
-  @Input() set cxFeatureLevel(level: string) {
-    if (this.featureConfig.isLevel(level) && !this.hasView) {
+  @Input() set cxFeatureLevel(level: string | number) {
+    if (this.featureConfig.isLevel(level.toString()) && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.hasView = true;
-    } else if (!this.featureConfig.isLevel(level) && this.hasView) {
+    } else if (!this.featureConfig.isLevel(level.toString()) && this.hasView) {
       this.viewContainer.clear();
       this.hasView = false;
     }

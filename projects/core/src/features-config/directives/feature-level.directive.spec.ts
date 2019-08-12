@@ -36,19 +36,39 @@ describe('cxFeatureLevel directive', () => {
     });
   });
 
-  it('should show components for enabled feature level', async(() => {
-    const template = `<span *cxFeatureLevel="'1.1'">hello</span>`;
-    fixture = createTestComponent(template);
-    fixture.detectChanges();
-    expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
-    expect(fixture.nativeElement.textContent).toEqual('hello');
-  }));
+  describe('when using string parameter', () => {
+    it('should show components for enabled feature level', async(() => {
+      const template = `<span *cxFeatureLevel="'1.1'">hello</span>`;
+      fixture = createTestComponent(template);
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
+      expect(fixture.nativeElement.textContent).toEqual('hello');
+    }));
 
-  it('should hide components for not enabled feature level', async(() => {
-    const template = `<span *cxFeatureLevel="'1.3'">hello</span>`;
-    fixture = createTestComponent(template);
-    fixture.detectChanges();
-    expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(0);
-    expect(fixture.nativeElement.textContent).toEqual('');
-  }));
+    it('should hide components for not enabled feature level', async(() => {
+      const template = `<span *cxFeatureLevel="'1.3'">hello</span>`;
+      fixture = createTestComponent(template);
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(0);
+      expect(fixture.nativeElement.textContent).toEqual('');
+    }));
+  });
+
+  describe('when using number parameter', () => {
+    it('should show components for enabled feature level', async(() => {
+      const template = `<span *cxFeatureLevel="1.1">hello</span>`;
+      fixture = createTestComponent(template);
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
+      expect(fixture.nativeElement.textContent).toEqual('hello');
+    }));
+
+    it('should hide components for not enabled feature level', async(() => {
+      const template = `<span *cxFeatureLevel="1.3">hello</span>`;
+      fixture = createTestComponent(template);
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(0);
+      expect(fixture.nativeElement.textContent).toEqual('');
+    }));
+  });
 });
