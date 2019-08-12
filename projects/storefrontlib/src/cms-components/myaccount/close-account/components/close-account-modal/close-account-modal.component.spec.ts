@@ -60,7 +60,7 @@ class MockCxIconComponent {
 })
 class MockCxSpinnerComponent {}
 
-describe('CloseAccountModalComponent', () => {
+fdescribe('CloseAccountModalComponent', () => {
   let component: CloseAccountModalComponent;
   let fixture: ComponentFixture<CloseAccountModalComponent>;
   let userService: UserService;
@@ -121,22 +121,22 @@ describe('CloseAccountModalComponent', () => {
 
   it('should close account', () => {
     spyOn(userService, 'remove');
+    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
 
     component.closeAccount();
 
     expect(userService.remove).toHaveBeenCalled();
+    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
 
   it('should navigate away and dismiss modal when account is closed', () => {
     spyOn(userService, 'getRemoveUserResultSuccess').and.returnValue(of(true));
     spyOn(component, 'onSuccess').and.callThrough();
-    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
 
     component.ngOnInit();
 
     expect(component.onSuccess).toHaveBeenCalledWith(true);
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
 });
