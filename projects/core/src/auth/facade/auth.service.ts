@@ -29,10 +29,29 @@ export class AuthService {
   }
 
   /**
+   * Loads a userToken for a customer support agent
+   * @param userId
+   * @param password
+   */
+  authorizeCustomerSupporAgent(userId: string, password: string): void {
+    console.log('AuthService.authorizeCustomerSupporAgent:', userId, password);
+    this.store.dispatch(
+      new AuthActions.LoadCustomerSupportAgentToken({
+        userId: userId,
+        password: password,
+      })
+    );
+  }
+
+  /**
    * Returns the user's token
    */
   getUserToken(): Observable<UserToken> {
     return this.store.pipe(select(AuthSelectors.getUserToken));
+  }
+
+  getCustomerSupportAgentToken(): Observable<UserToken> {
+    return this.store.pipe(select(AuthSelectors.getCustomerSupportAgentToken));
   }
 
   /**

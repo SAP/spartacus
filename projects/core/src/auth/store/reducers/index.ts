@@ -16,6 +16,7 @@ export function getReducers(): ActionReducerMap<AuthState> {
   return {
     userToken: combineReducers({ token: fromUserTokenReducer.reducer }),
     clientToken: loaderReducer<ClientToken>(CLIENT_TOKEN_DATA),
+    csagentToken: combineReducers({ token: fromUserTokenReducer.reducer }),
   };
 }
 
