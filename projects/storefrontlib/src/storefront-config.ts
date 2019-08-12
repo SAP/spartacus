@@ -9,6 +9,7 @@ import {
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
+  CaptchaConfig,
 } from '@spartacus/core';
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/index';
@@ -29,4 +30,5 @@ export type StorefrontConfig =
   | IconConfig
   | CheckoutConfig
   | KymaConfig
-  | GlobalMessageConfig;
+  | GlobalMessageConfig
+  | CaptchaConfig;
