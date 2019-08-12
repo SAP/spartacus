@@ -60,7 +60,7 @@ class MockCxIconComponent {
 })
 class MockCxSpinnerComponent {}
 
-fdescribe('CloseAccountModalComponent', () => {
+describe('CloseAccountModalComponent', () => {
   let component: CloseAccountModalComponent;
   let fixture: ComponentFixture<CloseAccountModalComponent>;
   let userService: UserService;
