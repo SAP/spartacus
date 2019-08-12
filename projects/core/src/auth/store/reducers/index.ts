@@ -43,4 +43,20 @@ export function clearAuthState(
   };
 }
 
-export const metaReducers: MetaReducer<any>[] = [clearAuthState];
+export function clearCustomerSupportAgentAuthState(
+  reducer: ActionReducer<AuthState, Action>
+): ActionReducer<AuthState, Action> {
+  return function(state, action) {
+    if (action.type === AuthActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
+      state = {
+        ...state,
+        csagentToken: undefined,
+      };
+    }
+    return reducer(state, action);
+  };
+}
+export const metaReducers: MetaReducer<any>[] = [
+  clearAuthState,
+  clearCustomerSupportAgentAuthState,
+];

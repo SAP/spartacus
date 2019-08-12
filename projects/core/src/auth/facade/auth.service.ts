@@ -80,6 +80,9 @@ export class AuthService {
     this.store.dispatch(new AuthActions.Logout());
   }
 
+  logoutCustomerSupportAgent(): void {
+    this.store.dispatch(new AuthActions.LogoutCustomerSupportAgent());
+  }
   /**
    * Returns a client token.  The client token from the store is returned if there is one.
    * Otherwise, an new token is fetched from the backend and saved in the store.

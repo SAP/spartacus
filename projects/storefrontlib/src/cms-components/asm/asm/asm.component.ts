@@ -36,5 +36,6 @@ export class AsmComponent implements OnInit {
 
   logoutCustomerSupportAgent(): void {
     console.log('Logut asm agent.');
+    this.auth.logoutCustomerSupportAgent();
   }
 }
