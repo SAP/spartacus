@@ -98,6 +98,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.vcr.element.nativeElement.parentElement,
         this.webElement
       );
+
+      if (this.cmsService.isLaunchInSmartEdit()) {
+        this.addSmartEditContract(this.webElement);
+      }
     }
   }
 
