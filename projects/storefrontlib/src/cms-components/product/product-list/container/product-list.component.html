@@ -64,7 +64,7 @@
                 [infiniteScrollDistance]="3"
                 [infiniteScrollThrottle]="50"
                 [infiniteScrollDisabled]="!isInfiniteScroll"
-                (scrolled)="scrollPage(model.pagination.currentPage + 1)"
+                (scrolled)="scrollPage(model.pagination.currentPage)"
               >
                 <cx-product-list-item
                   *ngFor="let product of model?.products"

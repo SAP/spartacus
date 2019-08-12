@@ -96,18 +96,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productListComponentService.viewPage(pageNumber);
   }
 
-  scrollPage(page: number): void {
-    const isMaxProducts =
-      this.model.products.length === this.model.pagination.totalResults;
+  scrollPage(currentPage: number): void {
+    const isLastPage =
+      this.model.pagination.currentPage ===
+      this.model.pagination.totalPages - 1;
 
-    if (isMaxProducts) {
+    if (isLastPage) {
       return;
     }
 
     this.isAppendProducts = true;
     this.isLoadingItems = true;
     this.ref.markForCheck();
-    this.productListComponentService.getPageItems(page);
+    this.productListComponentService.getPageItems(currentPage + 1);
   }
 
   sortList(sortCode: string): void {
