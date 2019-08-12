@@ -4,9 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
-import { ListNavigationModule, MediaComponent } from '../../../../shared';
+import {
+  ListNavigationModule,
+  MediaComponent,
+  SpinnerModule,
+} from '../../../../shared';
+import { PaginationConfig } from '../../config/pagination-config';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -42,6 +48,8 @@ class MockPageLayoutService {
 class MockProductListItemComponent {
   @Input()
   product;
+  paginationOperations = createSpy('paginationOperations');
+  infiniteScrollOperations = createSpy('infiniteScrollPagination');
 }
 
 @Pipe({
@@ -76,7 +84,13 @@ export class MockProductListComponentService {
   model$ = of({});
 }
 
-describe('ProductListComponent', () => {
+let isMockInfiniteScroll = false;
+
+export class MockPaginationConfig {
+  pagination = { infiniteScroll: isMockInfiniteScroll };
+}
+
+fdescribe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   let componentService: ProductListComponentService;
@@ -89,6 +103,8 @@ describe('ProductListComponent', () => {
         FormsModule,
         RouterTestingModule,
         I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,
       ],
       providers: [
         {
@@ -98,6 +114,10 @@ describe('ProductListComponent', () => {
         {
           provide: ProductListComponentService,
           useClass: MockProductListComponentService,
+        },
+        {
+          provide: PaginationConfig,
+          useClass: MockPaginationConfig,
         },
       ],
       declarations: [
@@ -127,15 +147,45 @@ describe('ProductListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should clear search results', () => {
-      component.ngOnInit();
-      expect(componentService.clearSearchResults).toHaveBeenCalled();
+  describe('component using pagination', () => {
+    beforeAll(() => {
+      isMockInfiniteScroll = false;
     });
+    describe('ngOnInit', () => {
+      it('should not use infinite scroll', () => {
+        expect(component.isInfiniteScroll).toBeFalsy();
+      });
 
-    it('should get model from the service', () => {
-      component.ngOnInit();
-      expect(component.model$).toBe(componentService.model$);
+      it('should clear search results', () => {
+        component.ngOnInit();
+        expect(componentService.clearSearchResults).toHaveBeenCalled();
+      });
+
+      it('should use pagination function', () => {
+        spyOn(component, 'paginationOperations');
+
+        component.ngOnInit();
+        expect(component.paginationOperations).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('component using infinite scroll', () => {
+    beforeAll(() => {
+      isMockInfiniteScroll = true;
+    });
+    describe('ngOnInit', () => {
+      it('should use infinite scroll', () => {
+        component.ngOnInit();
+        expect(component.isInfiniteScroll).toBeTruthy();
+      });
+
+      it('should call infinite scroll function', () => {
+        spyOn(component, 'infiniteScrollOperations');
+
+        component.ngOnInit();
+        expect(component.infiniteScrollOperations).toHaveBeenCalled();
+      });
     });
   });
 
