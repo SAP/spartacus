@@ -1,12 +1,10 @@
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-
-import { StoreFinderSearchComponent } from './store-finder-search.component';
-
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { StoreFinderSearchComponent } from './store-finder-search.component';
 
 const query = 'address';
 
@@ -53,7 +51,7 @@ describe('StoreFinderSearchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
     component = fixture.componentInstance;
-    routingService = TestBed.get(RoutingService);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
 
     fixture.detectChanges();
   });

@@ -2,6 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '../../../model/cart.model';
 import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
@@ -49,10 +50,14 @@ describe('OccCartAdapter', () => {
       ],
     });
 
-    occCartAdapter = TestBed.get(OccCartAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converterService = TestBed.get(ConverterService);
-    occEndpointService = TestBed.get(OccEndpointsService);
+    occCartAdapter = TestBed.get(OccCartAdapter as Type<OccCartAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converterService = TestBed.get(ConverterService as Type<ConverterService>);
+    occEndpointService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
 
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'pipeableMany').and.callThrough();

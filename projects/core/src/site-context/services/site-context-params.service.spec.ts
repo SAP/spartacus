@@ -1,6 +1,5 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { SiteContextParamsService } from './site-context-params.service';
 import {
   contextServiceMapProvider,
   LanguageService,
@@ -13,6 +12,8 @@ import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
 } from '../providers/context-ids';
+import { SiteContextParamsService } from './site-context-params.service';
+
 import createSpy = jasmine.createSpy;
 
 describe('SiteContextParamsService', () => {
@@ -45,7 +46,9 @@ describe('SiteContextParamsService', () => {
       ],
     });
 
-    service = TestBed.get(SiteContextParamsService);
+    service = TestBed.get(SiteContextParamsService as Type<
+      SiteContextParamsService
+    >);
   });
 
   it('should be created', () => {

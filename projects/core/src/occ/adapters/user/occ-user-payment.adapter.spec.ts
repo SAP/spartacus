@@ -2,6 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -35,10 +36,16 @@ describe('OccUserPaymentAdapter', () => {
       ],
     });
 
-    occUserPaymentAdapter = TestBed.get(OccUserPaymentAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
-    occEnpointsService = TestBed.get(OccEndpointsService);
+    occUserPaymentAdapter = TestBed.get(OccUserPaymentAdapter as Type<
+      OccUserPaymentAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    occEnpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });

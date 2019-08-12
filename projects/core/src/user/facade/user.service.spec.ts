@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Title, User, UserSignUp } from '../../model/misc.model';
@@ -26,9 +27,9 @@ describe('UserService', () => {
       providers: [UserService],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserService);
+    service = TestBed.get(UserService as Type<UserService>);
   });
 
   it('should UserService is injected', inject(

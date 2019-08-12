@@ -2,6 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ADDRESS_NORMALIZER,
@@ -40,10 +41,16 @@ describe('OccUserAddressAdapter', () => {
       ],
     });
 
-    occUserAddressAdapter = TestBed.get(OccUserAddressAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
-    occEnpointsService = TestBed.get(OccEndpointsService);
+    occUserAddressAdapter = TestBed.get(OccUserAddressAdapter as Type<
+      OccUserAddressAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    occEnpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
