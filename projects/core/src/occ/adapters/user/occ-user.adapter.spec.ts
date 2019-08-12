@@ -2,6 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
@@ -46,10 +47,14 @@ describe('OccUserAdapter', () => {
       ],
     });
 
-    occUserAdapter = TestBed.get(OccUserAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
-    occEnpointsService = TestBed.get(OccEndpointsService);
+    occUserAdapter = TestBed.get(OccUserAdapter as Type<OccUserAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    occEnpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();

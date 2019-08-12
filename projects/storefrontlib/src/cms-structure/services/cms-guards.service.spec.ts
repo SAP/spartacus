@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
@@ -61,7 +62,7 @@ describe('CmsGuardsService', () => {
         UrlTreeGuard,
       ],
     });
-    service = TestBed.get(CmsGuardsService);
+    service = TestBed.get(CmsGuardsService as Type<CmsGuardsService>);
   });
 
   it('should be created', () => {

@@ -1,13 +1,14 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { ClientAuthenticationTokenService } from './client-authentication-token.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
-import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
+import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 
 const token: ClientToken = {
   access_token: 'mockToken',
@@ -60,9 +61,15 @@ describe('ClientAuthenticationTokenService', () => {
       ],
     });
 
-    service = TestBed.get(ClientAuthenticationTokenService);
-    httpMock = TestBed.get(HttpTestingController);
-    occEndpointsService = TestBed.get(OccEndpointsService);
+    service = TestBed.get(ClientAuthenticationTokenService as Type<
+      ClientAuthenticationTokenService
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    occEndpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
     spyOn(occEndpointsService, 'getRawEndpoint').and.callThrough();
   });
 

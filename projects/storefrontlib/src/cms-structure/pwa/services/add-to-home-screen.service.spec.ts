@@ -1,13 +1,13 @@
-import { TestBed, inject } from '@angular/core/testing';
-import createSpy = jasmine.createSpy;
-
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
-import { AddToHomeScreenService } from './add-to-home-screen.service';
 import { PWAModuleConfig } from '../pwa.module-config';
+import { AddToHomeScreenService } from './add-to-home-screen.service';
+import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -34,9 +34,13 @@ describe('AddToHomeScreenService', () => {
       ],
     });
 
-    addToHomeService = TestBed.get(AddToHomeScreenService);
-    winRef = TestBed.get(WindowRef);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    addToHomeService = TestBed.get(AddToHomeScreenService as Type<
+      AddToHomeScreenService
+    >);
+    winRef = TestBed.get(WindowRef as Type<WindowRef>);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
   });
 
   it('should inject AddToHomeScreenService', inject(

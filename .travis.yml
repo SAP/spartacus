@@ -13,6 +13,7 @@ branches:
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
     - "/^doc\\/.*$/"
+    - "/^epic\\/.*$/"
 script: ./build.sh sonar
 deploy:
   provider: script

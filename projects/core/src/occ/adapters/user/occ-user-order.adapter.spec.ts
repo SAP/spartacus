@@ -3,6 +3,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { ConverterService, OccUserOrderAdapter } from '@spartacus/core';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
@@ -42,10 +43,16 @@ describe('OccUserOrderAdapter', () => {
       ],
     });
 
-    occUserOrderAdapter = TestBed.get(OccUserOrderAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
-    occEnpointsService = TestBed.get(OccEndpointsService);
+    occUserOrderAdapter = TestBed.get(OccUserOrderAdapter as Type<
+      OccUserOrderAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    occEnpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
