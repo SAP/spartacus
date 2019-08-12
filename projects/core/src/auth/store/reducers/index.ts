@@ -10,13 +10,16 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { ClientToken } from '../../models/token-types.model';
 import { AuthActions } from '../actions/index';
 import { AuthState, CLIENT_TOKEN_DATA } from '../auth-state';
+import * as fromCustomerSupportAgentTokenReducer from './csagent-token.reducer';
 import * as fromUserTokenReducer from './user-token.reducer';
 
 export function getReducers(): ActionReducerMap<AuthState> {
   return {
     userToken: combineReducers({ token: fromUserTokenReducer.reducer }),
     clientToken: loaderReducer<ClientToken>(CLIENT_TOKEN_DATA),
-    csagentToken: combineReducers({ token: fromUserTokenReducer.reducer }),
+    csagentToken: combineReducers({
+      token: fromCustomerSupportAgentTokenReducer.reducer,
+    }),
   };
 }
 

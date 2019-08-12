@@ -9,20 +9,17 @@ export function reducer(
   action:
     | AuthActions.UserTokenAction
     | fromUpdateEmailAction.UpdateEmailSuccessAction
-    | AuthActions.CustomerSupportAgentTokenAction
 ): UserToken {
   switch (action.type) {
     case AuthActions.LOAD_USER_TOKEN:
-    case AuthActions.REFRESH_USER_TOKEN:
-    case AuthActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN: {
+    case AuthActions.REFRESH_USER_TOKEN: {
       return {
         ...state,
       };
     }
 
     case AuthActions.LOAD_USER_TOKEN_SUCCESS:
-    case AuthActions.REFRESH_USER_TOKEN_SUCCESS:
-    case AuthActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS: {
+    case AuthActions.REFRESH_USER_TOKEN_SUCCESS: {
       return {
         ...state,
         ...action.payload,
@@ -30,8 +27,7 @@ export function reducer(
     }
 
     case AuthActions.LOAD_USER_TOKEN_FAIL:
-    case AuthActions.REFRESH_USER_TOKEN_FAIL:
-    case AuthActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL: {
+    case AuthActions.REFRESH_USER_TOKEN_FAIL: {
       return {
         ...state,
       };
