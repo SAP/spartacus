@@ -19,6 +19,7 @@ import { CheckoutDetailsService } from './checkout-details.service';
   providedIn: 'root',
 })
 export class ExpressCheckoutService {
+  defaultShippingAddress$;
   shippingAddressSet$;
   deliveryModeSet$;
   paymentMethodSet$;
@@ -34,21 +35,32 @@ export class ExpressCheckoutService {
   ) {}
 
   protected setShippingAddress() {
-    this.userAddressService.loadAddresses();
-    this.shippingAddressSet$ = this.userAddressService
-      .getAddressesLoadedSuccess()
-      .pipe(
-        filter(Boolean),
-        switchMap(() => this.userAddressService.getAddresses()),
-        map((addresses: Address[]) => {
-          const defaultAddress =
-            addresses.find(address => address.defaultAddress) || addresses[0];
-          if (defaultAddress) {
-            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
-          }
-          return Boolean(defaultAddress);
-        })
-      );
+    this.defaultShippingAddress$ = this.userAddressService.getAddresses().pipe(
+      withLatestFrom(this.userAddressService.getAddressesLoadedSuccess()),
+      tap(([, success]: [Address[], boolean]) => {
+        if (!success) {
+          this.userAddressService.loadAddresses();
+        }
+      }),
+      filter(([, success]: [Address[], boolean]) => success),
+      map(
+        ([addresses]: [Address[], boolean]) =>
+          addresses.find(address => address.defaultAddress) || addresses[0]
+      ),
+      tap(data => console.log('defaultShippingAddress$', data))
+    );
+
+    this.shippingAddressSet$ = this.defaultShippingAddress$.pipe(
+      tap(
+        defaultAddress =>
+          defaultAddress && Object.keys(defaultAddress).length
+            ? this.checkoutDeliveryService.setDeliveryAddress(defaultAddress)
+            : this.checkoutDetailsService.clearCheckoutDelivery()
+      ),
+      switchMap(() => this.checkoutDetailsService.getDeliveryAddress()),
+      tap(data => console.log('shippingAddressSet$', data)),
+      map(data => Boolean(data && Object.keys(data).length))
+    );
   }
 
   protected setPaymentMethod() {
@@ -103,19 +115,23 @@ export class ExpressCheckoutService {
 
   public trySetDefaultCheckoutDetails() {
     this.setShippingAddress();
-    this.setDeliveryMode();
-    this.setPaymentMethod();
-
-    return combineLatest([
-      this.shippingAddressSet$,
-      this.deliveryModeSet$,
-      this.paymentMethodSet$,
-    ]).pipe(
+    // this.setDeliveryMode();
+    // this.setPaymentMethod();
+    return this.shippingAddressSet$.pipe(
       tap(console.log),
-      map(
-        ([shippingAddressSet, deliveryModeSet, paymentMethodSet]) =>
-          shippingAddressSet && deliveryModeSet && paymentMethodSet
-      )
+      map(Boolean)
     );
+    // return combineLatest([
+    //   this.shippingAddressSet$,
+    //   this.deliveryModeSet$,
+    //   this.paymentMethodSet$,
+    // ]).pipe(
+    //   tap(console.log),
+    //   map(
+    //     ([shippingAddressSet, deliveryModeSet, paymentMethodSet]) =>
+    //       shippingAddressSet && deliveryModeSet && paymentMethodSet
+    //   )
+    //
+
   }
 }

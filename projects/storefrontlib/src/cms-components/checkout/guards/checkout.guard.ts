@@ -32,15 +32,28 @@ export class CheckoutGuard implements CanActivate {
     if (this.config.checkout.express) {
       return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
         switchMap((expressCheckoutPossible: boolean) => {
-          return expressCheckoutPossible
-            ? of(
-                this.router.parseUrl(
-                  this.routingConfigService.getRouteConfig(
-                    this.config.checkout.steps[3].routeName
-                  ).paths[0]
-                )
+          // return expressCheckoutPossible
+          //   ? of(
+          //       this.router.parseUrl(
+          //         this.routingConfigService.getRouteConfig(
+          //           this.config.checkout.steps[3].routeName
+          //         ).paths[0]
+          //       )
+          //     )
+          //   : this.firstStep$;
+          if (expressCheckoutPossible) {
+            console.log('express');
+            return of(
+              this.router.parseUrl(
+                this.routingConfigService.getRouteConfig(
+                  this.config.checkout.steps[3].routeName
+                ).paths[0]
               )
-            : this.firstStep$;
+            );
+          } else {
+            console.log('nope');
+            return this.firstStep$;
+          }
         })
       );
     } else {

@@ -156,6 +156,15 @@ export function reducer(
         paymentDetails: action.payload.paymentInfo,
       };
     }
+
+    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY: {
+      return {
+        ...state,
+        address: undefined,
+        deliveryMode: undefined,
+        paymentDetails: state.paymentDetails,
+      };
+    }
   }
 
   return state;

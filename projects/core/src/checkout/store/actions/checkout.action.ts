@@ -5,6 +5,17 @@ import { DeliveryMode, Order } from '../../../model/order.model';
 import { StateLoaderActions } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { CHECKOUT_DETAILS } from '../checkout-state';
+export const CLEAR_CHECKOUT_DELIVERY = '[Checkout] Clear Checkout Delivery';
+export const CLEAR_CHECKOUT_DELIVERY_SUCCESS =
+  '[Checkout] Clear Checkout Delivery Success';
+export const CLEAR_CHECKOUT_DELIVERY_FAIL =
+  '[Checkout] Clear Checkout Delivery Success';
+
+export const CLEAR_CHECKOUT_PAYMENT = '[Checkout] Clear Checkout Payment';
+export const CLEAR_CHECKOUT_PAYMENT_SUCCESS =
+  '[Checkout] Clear Checkout Payment Success';
+export const CLEAR_CHECKOUT_PAYMENT_FAIL =
+  '[Checkout] Clear Checkout Payment Success';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -72,21 +83,27 @@ export class AddDeliveryAddressSuccess implements Action {
   constructor(public payload: Address) {}
 }
 
-export class SetDeliveryAddress implements Action {
+export class SetDeliveryAddress extends StateLoaderActions.LoaderResetAction {
   readonly type = SET_DELIVERY_ADDRESS;
   constructor(
     public payload: { userId: string; cartId: string; address: Address }
-  ) {}
+  ) {
+    super(CHECKOUT_DETAILS);
+  }
 }
 
-export class SetDeliveryAddressFail implements Action {
+export class SetDeliveryAddressFail extends StateLoaderActions.LoaderFailAction {
   readonly type = SET_DELIVERY_ADDRESS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CHECKOUT_DETAILS, payload);
+  }
 }
 
-export class SetDeliveryAddressSuccess implements Action {
+export class SetDeliveryAddressSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = SET_DELIVERY_ADDRESS_SUCCESS;
-  constructor(public payload: Address) {}
+  constructor(public payload: Address) {
+    super(CHECKOUT_DETAILS);
+  }
 }
 
 export class LoadSupportedDeliveryModes implements Action {
@@ -214,6 +231,27 @@ export class LoadCheckoutDetailsSuccess extends StateLoaderActions.LoaderSuccess
 
 export class CheckoutClearMiscsData implements Action {
   readonly type = CHECKOUT_CLEAR_MISCS_DATA;
+}
+
+export class ClearCheckoutDelivery extends StateLoaderActions.LoaderResetAction {
+  readonly type = CLEAR_CHECKOUT_DELIVERY;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(CHECKOUT_DETAILS);
+  }
+}
+
+export class ClearCheckoutDeliverySuccess extends StateLoaderActions.LoaderSuccessAction {
+  readonly type = CLEAR_CHECKOUT_DELIVERY_SUCCESS;
+  constructor() {
+    super(CHECKOUT_DETAILS);
+  }
+}
+
+export class ClearCheckoutDeliveryFail extends StateLoaderActions.LoaderFailAction {
+  readonly type = CLEAR_CHECKOUT_DELIVERY_FAIL;
+  constructor(public payload: any) {
+    super(CHECKOUT_DETAILS, payload);
+  }
 }
 
 export type CheckoutAction =

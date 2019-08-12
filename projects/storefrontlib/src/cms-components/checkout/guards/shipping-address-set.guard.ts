@@ -31,19 +31,23 @@ export class ShippingAddressSetGuard implements CanActivate {
       );
     }
 
-    return this.checkoutDetailsService
-      .getDeliveryAddress()
-      .pipe(
-        map((deliveryAddress: Address) =>
+    return this.checkoutDetailsService.getDeliveryAddress().pipe(
+      map((deliveryAddress: Address) => {
+        console.log(
+          'ShippingAddressSetGuard',
+          deliveryAddress,
           deliveryAddress && Object.keys(deliveryAddress).length
-            ? true
-            : this.router.parseUrl(
-                checkoutStep &&
-                  this.routingConfigService.getRouteConfig(
-                    checkoutStep.routeName
-                  ).paths[0]
-              )
-        )
-      );
+        );
+        if (deliveryAddress && Object.keys(deliveryAddress).length) {
+          return true;
+        } else {
+          return this.router.parseUrl(
+            checkoutStep &&
+              this.routingConfigService.getRouteConfig(checkoutStep.routeName)
+                .paths[0]
+          );
+        }
+      })
+    );
   }
 }

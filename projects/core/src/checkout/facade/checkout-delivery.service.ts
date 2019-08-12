@@ -139,6 +139,7 @@ export class CheckoutDeliveryService {
    * @param address : The address to be set
    */
   setDeliveryAddress(address: Address): void {
+    console.log('set',address)
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new CheckoutActions.SetDeliveryAddress({
@@ -156,6 +157,15 @@ export class CheckoutDeliveryService {
   clearAddressVerificationResults(): void {
     this.checkoutStore.dispatch(
       new CheckoutActions.ClearAddressVerificationResults()
+    );
+  }
+
+  clearCheckoutDelivery() {
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ClearCheckoutDelivery({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cart.code,
+      })
     );
   }
 

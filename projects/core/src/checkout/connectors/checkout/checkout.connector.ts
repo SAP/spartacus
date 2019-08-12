@@ -20,4 +20,8 @@ export class CheckoutConnector {
   ): Observable<CheckoutDetails> {
     return this.adapter.loadCheckoutDetails(userId, cartId);
   }
+
+  public clearCheckoutDelivery(userId: string, cartId: string) : Observable<any> {
+    return this.adapter.clearCheckoutDelivery(userId, cartId)
+  }
 }

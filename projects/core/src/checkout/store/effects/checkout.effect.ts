@@ -279,6 +279,32 @@ export class CheckoutEffects {
     })
   );
 
+  @Effect()
+  clearCheckoutDelivery$: Observable<
+    | CheckoutActions.ClearCheckoutDeliveryFail
+    | CheckoutActions.ClearCheckoutDeliverySuccess
+    > = this.actions$.pipe(
+    ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY),
+    map((action: CheckoutActions.ClearCheckoutDelivery) => action.payload),
+    switchMap(payload => {
+      return this.checkoutConnector
+        .clearCheckoutDelivery(payload.userId, payload.cartId)
+        .pipe(
+          map(
+            () =>
+              new CheckoutActions.ClearCheckoutDeliverySuccess()
+          ),
+          catchError(error =>
+            of(
+              new CheckoutActions.ClearCheckoutDeliveryFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
