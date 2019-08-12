@@ -17,7 +17,7 @@ export class FeaturesConfigModule {
       providers: [
         provideConfig(<FeaturesConfig>{
           features: {
-            level: defaultLevel || 'next',
+            level: defaultLevel || '999',
           },
         }),
         {

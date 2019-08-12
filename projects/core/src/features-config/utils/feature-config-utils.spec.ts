@@ -6,21 +6,32 @@ import {
 
 describe('Feature Config Utils', () => {
   describe('isFeatureLevel', () => {
-    it('should return correct value if feature level is defined', () => {
+    describe('when feature level is defined', () => {
       const config: FeaturesConfig = {
         features: {
-          level: '1.1',
+          level: '1.3',
         },
       };
-      expect(isFeatureLevel(config, '1.0')).toBeTruthy();
-      expect(isFeatureLevel(config, '1.1')).toBeTruthy();
-      expect(isFeatureLevel(config, '1.2')).toBeFalsy();
-      expect(isFeatureLevel(config, '2.0')).toBeFalsy();
+      it('should return true for lower levels', () => {
+        expect(isFeatureLevel(config, '1.0')).toBeTruthy();
+        expect(isFeatureLevel(config, '1.02')).toBeTruthy();
+        expect(isFeatureLevel(config, '1.2.9')).toBeTruthy();
+      });
+      it('should return true for equal levels', () => {
+        expect(isFeatureLevel(config, '1.3')).toBeTruthy();
+        expect(isFeatureLevel(config, '1.3.0')).toBeTruthy();
+      });
+      it('should return false for higher levels', () => {
+        expect(isFeatureLevel(config, '1.5')).toBeFalsy();
+        expect(isFeatureLevel(config, '2.0')).toBeFalsy();
+        expect(isFeatureLevel(config, '1.3.1')).toBeFalsy();
+        expect(isFeatureLevel(config, '1.20')).toBeFalsy();
+      });
     });
-    it('should return correct value if feature level is set to next', () => {
+    it('should return correct value if feature level is set to 999', () => {
       const config: FeaturesConfig = {
         features: {
-          level: 'next',
+          level: '999',
         },
       };
       expect(isFeatureLevel(config, '1.2')).toBeTruthy();
