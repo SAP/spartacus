@@ -2,6 +2,9 @@ import { CaptchaConfig } from './captcha-config';
 
 export const defaultCaptchaConfig: CaptchaConfig = {
   captcha: {
-    siteKey: '6LdOO7IUAAAAAFhoJI_MBUkqwkQkFEDYBL10EUZ7',
+    captchaOptions: {
+      action: 'homepage',
+    },
+    captchaUrl: 'https://www.google.com/recaptcha/api.js',
   },
 };

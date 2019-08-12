@@ -1,19 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { HttpClient } from '@angular/common/http';
 import { CaptchaConfig } from '../config';
 
 declare var grecaptcha: any;
-const RECAPTCHA_URL =
-  'https://cors-anywhere.herokuapp.com/https://www.google.com/recaptcha/api.js';
 
 @Injectable()
 export class CaptchaService {
-  constructor(
-    protected captchaStore: Store<any>,
-    private http: HttpClient,
-    private config: CaptchaConfig
-  ) {
+  constructor(private http: HttpClient, private config: CaptchaConfig) {
     this.initializeCaptcha();
   }
 
@@ -23,7 +16,7 @@ export class CaptchaService {
     };
 
     this.http
-      .get(RECAPTCHA_URL, {
+      .get(this.config.captcha.captchaUrl, {
         params: params,
         responseType: 'text',
       })
@@ -37,9 +30,10 @@ export class CaptchaService {
   private executeCaptcha(): void {
     grecaptcha.ready(() => {
       grecaptcha
-        .execute(this.config.captcha.siteKey, {
-          action: 'homepage',
-        })
+        .execute(
+          this.config.captcha.siteKey,
+          this.config.captcha.captchaOptions
+        )
         .then(function(token) {
           console.log(token);
         });
