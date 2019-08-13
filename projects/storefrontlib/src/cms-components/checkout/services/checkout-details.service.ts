@@ -43,12 +43,6 @@ export class CheckoutDetailsService {
     );
   }
 
-  // loadCheckoutDetails() {
-  //   return this.cartId$.pipe(
-  //     tap(cartId => this.checkoutService.loadCheckoutDetails(cartId))
-  //   );
-  // }
-
   getDeliveryAddress(): Observable<Address> {
     return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutDeliveryService.getDeliveryAddress())
@@ -69,8 +63,4 @@ export class CheckoutDetailsService {
     );
   }
 
-  clearCheckoutDelivery() {
-    console.log('clear')
-    this.checkoutDeliveryService.clearCheckoutDelivery()
-  }
 }

@@ -28,7 +28,7 @@ export class CheckoutDeliveryService {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSupportedDeliveryModes),
       tap(deliveryModes => {
-        if (Object.keys(deliveryModes).length === 0) {
+        if (deliveryModes && Object.keys(deliveryModes).length === 0) {
           this.loadSupportedDeliveryModes();
         }
       }),

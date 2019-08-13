@@ -37,5 +37,6 @@ export const getPaymentMethodsLoadedSuccess: MemoizedSelector<
 > = createSelector(
   getPaymentMethodsState,
   (state: LoaderState<PaymentDetails[]>) =>
-    StateLoaderSelectors.loaderSuccessSelector(state)
+    StateLoaderSelectors.loaderSuccessSelector(state) &&
+    !StateLoaderSelectors.loaderLoadingSelector(state)
 );

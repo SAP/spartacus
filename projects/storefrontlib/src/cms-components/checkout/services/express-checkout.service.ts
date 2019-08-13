@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, of } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  mergeMap,
+  share,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import {
   Address,
@@ -35,7 +44,7 @@ export class ExpressCheckoutService {
   ) {}
 
   protected setShippingAddress() {
-    this.defaultShippingAddress$ = this.userAddressService.getAddresses().pipe(
+    this.shippingAddressSet$ = this.userAddressService.getAddresses().pipe(
       withLatestFrom(this.userAddressService.getAddressesLoadedSuccess()),
       tap(([, success]: [Address[], boolean]) => {
         if (!success) {
@@ -47,91 +56,93 @@ export class ExpressCheckoutService {
         ([addresses]: [Address[], boolean]) =>
           addresses.find(address => address.defaultAddress) || addresses[0]
       ),
-      tap(data => console.log('defaultShippingAddress$', data))
-    );
-
-    this.shippingAddressSet$ = this.defaultShippingAddress$.pipe(
+      //   tap(data => console.log('defaultShippingAddress$', data))
+      // );
+      //
+      // this.shippingAddressSet$ = this.defaultShippingAddress$.pipe(
       tap(
         defaultAddress =>
-          defaultAddress && Object.keys(defaultAddress).length
-            ? this.checkoutDeliveryService.setDeliveryAddress(defaultAddress)
-            : this.checkoutDetailsService.clearCheckoutDelivery()
+          defaultAddress &&
+          Object.keys(defaultAddress).length &&
+          this.checkoutDeliveryService.setDeliveryAddress(defaultAddress)
       ),
       switchMap(() => this.checkoutDetailsService.getDeliveryAddress()),
-      tap(data => console.log('shippingAddressSet$', data)),
-      map(data => Boolean(data && Object.keys(data).length))
+      map(data => Boolean(data && Object.keys(data).length)),
+      tap(data => console.log('shippingAddressSet$', data))
     );
   }
 
   protected setPaymentMethod() {
-    this.userPaymentService.loadPaymentMethods();
-    this.paymentMethodSet$ = this.userPaymentService
-      .getPaymentMethodsLoadedSuccess()
-      .pipe(
-        filter(Boolean),
-        switchMap(() => this.userPaymentService.getPaymentMethods()),
-        map((paymentMethods: PaymentDetails[]) => {
-          const defaultPayment =
-            paymentMethods.find(
-              paymentMethod => paymentMethod.defaultPayment
-            ) || paymentMethods[0];
-          if (defaultPayment) {
-            this.checkoutPaymentService.setPaymentDetails(defaultPayment);
-          }
-          return Boolean(defaultPayment);
-        })
-      );
+    this.paymentMethodSet$ = this.userPaymentService.getPaymentMethods().pipe(
+      withLatestFrom(this.userPaymentService.getPaymentMethodsLoadedSuccess()),
+      tap(([, success]: [PaymentDetails[], boolean]) => {
+        if (!success) {
+          this.userPaymentService.loadPaymentMethods();
+        }
+      }),
+      filter(([, success]: [PaymentDetails[], boolean]) => success),
+      map(
+        ([payments]: [PaymentDetails[], boolean]) =>
+          payments.find(address => address.defaultPayment) || payments[0]
+      ),
+      tap(
+        defaultPayment =>
+          defaultPayment &&
+          Object.keys(defaultPayment).length &&
+          this.checkoutPaymentService.setPaymentDetails(defaultPayment)
+      ),
+      switchMap(() => this.checkoutDetailsService.getPaymentDetails()),
+      map(data => Boolean(data && Object.keys(data).length)),
+      tap(data => console.log('paymentMethodSet$', data))
+    );
   }
 
   protected setDeliveryMode() {
-    this.deliveryModeSet$ = this.shippingAddressSet$.pipe(
-      switchMap(addressAvailable => {
-        if (addressAvailable) {
-          return this.checkoutDeliveryService.getSupportedDeliveryModes().pipe(
-            withLatestFrom(
-              this.checkoutDeliveryService.getSelectedDeliveryModeCode()
-            ),
-            filter(([deliveryModes]: [DeliveryMode[], string]) =>
-              Boolean(deliveryModes.length)
-            ),
-            map(([deliveryModes, code]: [DeliveryMode[], string]) => {
-              const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
-                deliveryModes
+    this.deliveryModeSet$ = this.checkoutDeliveryService
+      .getSupportedDeliveryModes()
+      .pipe(
+        withLatestFrom(
+          this.checkoutDeliveryService.getSelectedDeliveryModeCode(),
+          this.shippingAddressSet$
+        ),
+        switchMap(
+          ([modes, mode, addressSet]: [DeliveryMode[], string, boolean]) => {
+            if (addressSet) {
+              return of([modes, mode]).pipe(
+                filter(([deliveryModes]: [DeliveryMode[], string]) =>
+                  Boolean(deliveryModes.length)
+                ),
+                map(([deliveryModes, code]: [DeliveryMode[], string]) => {
+                  const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
+                    deliveryModes
+                  );
+                  if (code !== preferredDeliveryMode) {
+                    this.checkoutDeliveryService.setDeliveryMode(
+                      preferredDeliveryMode
+                    );
+                  }
+                  return Boolean(deliveryModes.length);
+                })
               );
-              if (code !== preferredDeliveryMode) {
-                this.checkoutDeliveryService.setDeliveryMode(
-                  preferredDeliveryMode
-                );
-              }
-              return Boolean(deliveryModes.length);
-            })
-          );
-        } else {
-          return of(false);
-        }
-      })
-    );
+            } else {
+              return of(false);
+            }
+          }
+        )
+      );
   }
 
   public trySetDefaultCheckoutDetails() {
     this.setShippingAddress();
-    // this.setDeliveryMode();
-    // this.setPaymentMethod();
-    return this.shippingAddressSet$.pipe(
-      tap(console.log),
-      map(Boolean)
-    );
-    // return combineLatest([
-    //   this.shippingAddressSet$,
-    //   this.deliveryModeSet$,
-    //   this.paymentMethodSet$,
-    // ]).pipe(
-    //   tap(console.log),
-    //   map(
-    //     ([shippingAddressSet, deliveryModeSet, paymentMethodSet]) =>
-    //       shippingAddressSet && deliveryModeSet && paymentMethodSet
-    //   )
-    //
+    this.setDeliveryMode();
+    this.setPaymentMethod();
 
+    return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
+      tap(console.log),
+      map(
+        ([deliveryModeSet, paymentMethodSet]) =>
+          deliveryModeSet && paymentMethodSet
+      )
+    );
   }
 }
