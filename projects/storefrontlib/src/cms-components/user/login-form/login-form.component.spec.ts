@@ -71,7 +71,6 @@ describe('LoginFormComponent', () => {
   });
 
   beforeEach(() => {
-    // mockWindowRef.nativeWindow.history.pushState(null, null);
     component.ngOnInit();
     fixture.detectChanges();
   });
