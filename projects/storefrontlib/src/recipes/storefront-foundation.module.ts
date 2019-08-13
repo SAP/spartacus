@@ -5,7 +5,6 @@ import {
   CheckoutModule,
   CmsModule,
   ConfigModule,
-  FeaturesConfigModule,
   GlobalMessageModule,
   I18nModule,
   ProcessModule,
@@ -31,7 +30,7 @@ import { LayoutModule } from '../layout/layout.module';
     CheckoutModule.forRoot(),
     UserModule.forRoot(),
     ProductModule.forRoot(),
-    FeaturesConfigModule.forRoot(),
+
     LayoutModule,
   ],
   exports: [LayoutModule],
