@@ -83,6 +83,7 @@ describe('CxApiService', () => {
       expect(service.productSearch).toEqual(productSearchService);
       expect(service.productReview).toEqual(productReviewService);
       expect(service.translation).toEqual(translationService);
+      expect(service.ngZone).toBeTruthy();
     }
   ));
 });
