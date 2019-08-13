@@ -27,7 +27,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private winRef: WindowRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.fb.group({
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required],
@@ -37,17 +37,17 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       this.winRef.nativeWindow.history &&
       this.winRef.nativeWindow.history.state;
 
-    console.log(this.winRef);
-
     if (routeState && routeState['newUid'] && routeState['newUid'].length) {
-      console.log('Marcin.length === 8cm');
       this.prefillForm('userId', routeState['newUid']);
     }
   }
 
   login(): void {
-    const userId = this.emailToLowerCase();
-    this.auth.authorize(userId, this.form.controls.password.value);
+    const { userId, password } = this.form.controls;
+    this.auth.authorize(
+      userId.value.toLowerCase(), // backend accepts lowercase emails only
+      password.value
+    );
 
     if (!this.tokenExists) {
       this.subs = new Subscription().add(
@@ -62,21 +62,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*
-   * Change the inputed email to lowercase because
-   * the backend only accepts lowercase emails
-   */
-  emailToLowerCase() {
-    return this.form.controls.userId.value.toLowerCase();
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.subs) {
       this.subs.unsubscribe();
     }
   }
 
-  private prefillForm(field: string, value: string) {
+  private prefillForm(field: string, value: string): void {
     this.form.patchValue({
       [field]: value,
     });

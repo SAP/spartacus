@@ -36,14 +36,6 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
-// const MockWindowRef = {
-//   nativeWindow: {
-//     history: {
-//       state: {},
-//     },
-//   },
-// };
-
 fdescribe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
@@ -79,7 +71,7 @@ fdescribe('LoginFormComponent', () => {
   });
 
   beforeEach(() => {
-    mockWindowRef.nativeWindow.history.pushState(null, null);
+    // mockWindowRef.nativeWindow.history.pushState(null, null);
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -106,19 +98,38 @@ fdescribe('LoginFormComponent', () => {
     fixture.detectChanges();
 
     expect(component.form.controls['userId'].value).toBe(email);
-    mockWindowRef.nativeWindow.history.pushState(null, null);
+
+    // reset the state
+    mockWindowRef.nativeWindow.history.replaceState(null, null);
   });
 
-  it('should login and redirect to return url after auth', () => {
-    const username = 'test@email.com';
-    const password = 'secret';
+  describe('login()', () => {
+    it('should login and redirect to return url after auth', () => {
+      const email = 'test@email.com';
+      const password = 'secret';
 
-    component.form.controls['userId'].setValue(username);
-    component.form.controls['password'].setValue(password);
-    component.login();
+      component.form.controls['userId'].setValue(email);
+      component.form.controls['password'].setValue(password);
+      component.login();
 
-    expect(authService.authorize).toHaveBeenCalledWith(username, password);
-    expect(authRedirectService.redirect).toHaveBeenCalled();
+      expect(authService.authorize).toHaveBeenCalledWith(email, password);
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
+
+    it('should handle changing email to lowercase', () => {
+      const email_uppercase = 'TEST@email.com';
+      const email_lowercase = 'test@email.com';
+      const password = 'secret';
+
+      component.form.controls['userId'].setValue(email_uppercase);
+      component.form.controls['password'].setValue(password);
+      component.login();
+
+      expect(authService.authorize).toHaveBeenCalledWith(
+        email_lowercase,
+        password
+      );
+    });
   });
 
   describe('userId form field', () => {
@@ -126,23 +137,6 @@ fdescribe('LoginFormComponent', () => {
 
     beforeEach(() => {
       control = component.form.controls['userId'];
-    });
-
-    it('should make email lowercase', () => {
-      const upperCaseEmail = 'Test@email.com';
-      const lowerCaseEmail = upperCaseEmail.toLowerCase();
-
-      control.setValue(upperCaseEmail);
-      const result = component.emailToLowerCase();
-      expect(result).toEqual(lowerCaseEmail);
-    });
-
-    it('original form email value should NOT be changed', () => {
-      const upperCaseEmail = 'Test@email.com';
-
-      control.setValue(upperCaseEmail);
-      component.emailToLowerCase();
-      expect(control.value).toEqual(upperCaseEmail);
     });
 
     it('should NOT be valid when empty', () => {
