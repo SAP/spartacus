@@ -8,7 +8,7 @@ import { CmsRoutesService } from './cms-routes.service';
 
 import createSpy = jasmine.createSpy;
 
-fdescribe('CmsRoutesService', () => {
+describe('CmsRoutesService', () => {
   let service: CmsRoutesService;
   let cmsMappingService: CmsMappingService;
   let mockRouter;
