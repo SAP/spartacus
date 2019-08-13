@@ -60,6 +60,22 @@ describe('AuthService', () => {
     expect(result).toEqual(mockToken);
   });
 
+  it('should expose Customer Support Agent token state', () => {
+    store.dispatch(
+      new AuthActions.LoadCustomerSupportAgentTokenSuccess(mockToken)
+    );
+
+    let result: UserToken;
+    const subscription = service
+      .getCustomerSupportAgentToken()
+      .subscribe(token => {
+        result = token;
+      });
+    subscription.unsubscribe();
+
+    expect(result).toEqual(mockToken);
+  });
+
   it('should expose clientToken', () => {
     store.dispatch(new AuthActions.LoadClientTokenSuccess(mockClientToken));
 
@@ -89,6 +105,18 @@ describe('AuthService', () => {
     service.authorize('user', 'password');
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.LoadUserToken({
+        userId: 'user',
+        password: 'password',
+      })
+    );
+  });
+
+  it('should dispatch proper action for authorizeCustomerSupporAgent', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.authorizeCustomerSupporAgent('user', 'password');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.LoadCustomerSupportAgentToken({
         userId: 'user',
         password: 'password',
       })
@@ -132,6 +160,15 @@ describe('AuthService', () => {
 
     service.logout();
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+  });
+
+  it('should dispatch proper action for logoutCustomerSupportAgent', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.logoutCustomerSupportAgent();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.LogoutCustomerSupportAgent()
+    );
   });
 
   it('should dispatch proper action for refresh the client token', () => {
