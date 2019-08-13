@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AuthRedirectService,
@@ -24,7 +24,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
-    private winRef: WindowRef
+    @Optional() private winRef: WindowRef
   ) {}
 
   ngOnInit(): void {
@@ -33,12 +33,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
-    const routeState =
-      this.winRef.nativeWindow.history &&
-      this.winRef.nativeWindow.history.state;
+    if (this.winRef) {
+      const routeState =
+        this.winRef.nativeWindow.history &&
+        this.winRef.nativeWindow.history.state;
 
-    if (routeState && routeState['newUid'] && routeState['newUid'].length) {
-      this.prefillForm('userId', routeState['newUid']);
+      if (routeState && routeState['newUid'] && routeState['newUid'].length) {
+        this.prefillForm('userId', routeState['newUid']);
+      }
     }
   }
 
