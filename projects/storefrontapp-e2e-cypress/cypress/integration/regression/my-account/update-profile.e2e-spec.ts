@@ -24,14 +24,14 @@ describe('Update profile', () => {
       cy.saveLocalStorage();
     });
 
-    const newTitle = 'Dr.';
+    const newTitle = 'dr';
     const newFirstName = 'N';
     const newLastName = 'Z';
 
     it('should be able to update its profile', () => {
       // update the data
       cy.get('cx-update-profile-form').within(() => {
-        cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
+        cy.get('[formcontrolname="titleCode"]').select(newTitle);
         cy.get('[formcontrolname="firstName"]')
           .clear()
           .type(newFirstName);
@@ -59,8 +59,8 @@ describe('Update profile', () => {
       // check where the user's details updated in the previous test
       cy.get('cx-update-profile-form').within(() => {
         cy.get('[formcontrolname="titleCode"]')
-          .get('.ng-value .ng-value-label')
-          .should('have.text', newTitle);
+          .find(':selected')
+          .should('have.value', newTitle);
         cy.get('[formcontrolname="firstName"]').should(
           'have.value',
           newFirstName

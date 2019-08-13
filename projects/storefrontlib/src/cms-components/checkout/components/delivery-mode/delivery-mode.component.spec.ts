@@ -123,7 +123,6 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should set delivery mode and change step after invoking next()', () => {
-    component.changedOption = true;
     component.currentDeliveryModeId = mockDeliveryMode1.code;
     spyOn(mockCheckoutConfigService, 'getNextCheckoutStepUrl').and.returnValue(
       mockStepUrl
@@ -140,7 +139,6 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should change step after invoking next()', () => {
-    component.changedOption = false;
     component.checkoutStepUrlNext = mockStepUrl;
     component.next();
     expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
