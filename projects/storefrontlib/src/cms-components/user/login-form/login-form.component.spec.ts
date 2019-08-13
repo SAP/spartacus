@@ -36,7 +36,7 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
-fdescribe('LoginFormComponent', () => {
+describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
