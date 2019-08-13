@@ -12,8 +12,10 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
+  LoginFormComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
+import { CaptchaGuard, NotAuthGuard } from '@spartacus/core';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -31,6 +33,12 @@ if (!environment.production) {
     BrowserTransferStateModule,
 
     B2cStorefrontModule.withConfig({
+      cmsComponents: {
+        ReturningCustomerLoginComponent: {
+          component: LoginFormComponent,
+          guards: [NotAuthGuard, CaptchaGuard],
+        },
+      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
@@ -60,6 +68,11 @@ if (!environment.production) {
         resources: translations,
         chunks: translationChunksConfig,
         fallbackLang: 'en',
+      },
+      captcha: {
+        siteKey: '6LdOO7IUAAAAAFhoJI_MBUkqwkQkFEDYBL10EUZ7',
+        captchaUrl:
+          'https://cors-anywhere.herokuapp.com/https://www.google.com/recaptcha/api.js',
       },
     }),
 
