@@ -59,7 +59,7 @@ class MockUserConsentService {}
 class MockUserOrderService {}
 class MockUserPaymentService {}
 
-fdescribe('CxApiService', () => {
+describe('CxApiService', () => {
   let authService: AuthService;
   let cmsService: CmsService;
   let routingService: RoutingService;
