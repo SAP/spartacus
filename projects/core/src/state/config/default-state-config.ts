@@ -9,7 +9,6 @@ export const defaultStateConfig: StateConfig = {
       localStorageKeyName: DEFAULT_LOCAL_STORAGE_KEY,
       sessionStorageKeyName: DEFAULT_SESSION_STORAGE_KEY,
       keys: {},
-      excludeKeys: {},
     },
   },
 };
