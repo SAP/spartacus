@@ -101,6 +101,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.vcr.element.nativeElement.parentElement,
         this.webElement
       );
+
+      if (this.cmsService.isLaunchInSmartEdit()) {
+        this.addSmartEditContract(this.webElement);
+      }
     }
   }
 
@@ -142,10 +146,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       this.cmpRef.destroy();
     }
     if (this.webElement) {
-      this.renderer.removeChild(
-        this.vcr.element.nativeElement.parentElement,
-        this.webElement
-      );
+      this.webElement.remove();
     }
   }
 }
