@@ -5,7 +5,7 @@ import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
-fdescribe('CSAgentLoginFormComponent', () => {
+describe('CSAgentLoginFormComponent', () => {
   let component: CSAgentLoginFormComponent;
   let fixture: ComponentFixture<CSAgentLoginFormComponent>;
   let userIdFormControl: AbstractControl;
