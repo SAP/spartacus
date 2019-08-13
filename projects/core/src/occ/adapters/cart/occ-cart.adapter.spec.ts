@@ -33,7 +33,7 @@ const DETAILS_PARAMS =
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue),updateable),' +
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
-  'appliedVouchers,productDiscounts(formattedValue)';
+  'appliedVouchers,productDiscounts(formattedValue),user';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -184,6 +184,31 @@ describe('OccCartAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mergedCart);
       expect(result).toEqual(mergedCart);
+    });
+  });
+
+  describe('add email to cart', () => {
+    it('should able to assign email to cart for anonymous user', () => {
+      const email = 'tester@sap.com';
+      let result: Object;
+
+      service
+        .addEmail(userId, cartId, email)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/email` &&
+          req.serializeBody() === `email=${email}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+
+      mockReq.flush('');
+      expect(result).toEqual('');
     });
   });
 });

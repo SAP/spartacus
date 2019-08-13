@@ -110,7 +110,8 @@ export class CartEffects {
       CartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_ENTRY_SUCCESS
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.ADD_EMAIL_TO_CART_SUCCESS
     ),
     map(
       (
@@ -119,6 +120,7 @@ export class CartEffects {
           | CartActions.CartAddEntrySuccess
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
+          | CartActions.AddEmailToCartSuccess
       ) => action.payload
     ),
     map(
@@ -139,6 +141,29 @@ export class CartEffects {
       SiteContextActions.CURRENCY_CHANGE
     ),
     map(() => new CartActions.ResetCartDetails())
+  );
+
+  @Effect()
+  addEmail$: Observable<
+    CartActions.AddEmailToCartSuccess | CartActions.AddEmailToCartFail
+  > = this.actions$.pipe(
+    ofType(CartActions.ADD_EMAIL_TO_CART),
+    map((action: CartActions.AddEmailToCart) => action.payload),
+    mergeMap(payload =>
+      this.cartConnector
+        .addEmail(payload.userId, payload.cartId, payload.email)
+        .pipe(
+          map(() => {
+            return new CartActions.AddEmailToCartSuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
+          }),
+          catchError(error =>
+            of(new CartActions.AddEmailToCartFail(makeErrorSerializable(error)))
+          )
+        )
+    )
   );
 
   constructor(

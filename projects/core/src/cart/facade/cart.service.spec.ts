@@ -30,7 +30,7 @@ describe('CartService', () => {
 
   const productCode = '1234';
   const userId = 'testUserId';
-  const cart = { code: 'testCartId', guid: 'testGuid' };
+  const cart = { code: 'testCartId', guid: 'testGuid', user: 'assigned' };
   const mockCartEntry: OrderEntry = {
     entryNumber: 0,
     product: { code: productCode },
@@ -226,6 +226,37 @@ describe('CartService', () => {
         .subscribe(mergeComplete => (result = mergeComplete))
         .unsubscribe();
       expect(result).toEqual(true);
+    });
+  });
+
+  describe('addEmail', () => {
+    it('should be able to add email to cart', () => {
+      spyOn(store, 'dispatch').and.stub();
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+
+      service.addEmail('test@test.com');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.AddEmailToCart({
+          userId: userId,
+          cartId: cart.code,
+          email: 'test@test.com',
+        })
+      );
+    });
+  });
+
+  describe('getAssignedUser', () => {
+    it('should be able to return cart assigned user', () => {
+      store.dispatch(new CartActions.CreateCartSuccess(cart));
+      let result: any;
+      service
+        .getAssignedUser()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual('assigned');
     });
   });
 
