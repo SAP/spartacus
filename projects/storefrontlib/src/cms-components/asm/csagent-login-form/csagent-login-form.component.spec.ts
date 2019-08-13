@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
-describe('CSAgentLoginFormComponent', () => {
+fdescribe('CSAgentLoginFormComponent', () => {
   let component: CSAgentLoginFormComponent;
   let fixture: ComponentFixture<CSAgentLoginFormComponent>;
   let userIdFormControl: AbstractControl;
@@ -49,7 +49,7 @@ describe('CSAgentLoginFormComponent', () => {
     it('should be called when submit button is clicked', () => {
       spyOn(component, 'onSubmit').and.stub();
 
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
 
       expect(component.onSubmit).toHaveBeenCalled();
     });
@@ -82,38 +82,38 @@ describe('CSAgentLoginFormComponent', () => {
     it('should NOT display when displaying the form', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('userId')).toBeFalsy();
-        expect(isFormControlDisplayingError('password')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeFalsy();
       });
     });
     it('should display when submit an empty form', () => {
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('userId')).toBeTruthy();
-        expect(isFormControlDisplayingError('password')).toBeTruthy();
+        expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeTruthy();
+        expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeTruthy();
       });
     });
 
     it('should NOT display when all field have valid valies', () => {
       userIdFormControl.setValue(validUserId);
       passwordFormControl.setValue(validPassword);
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('userId')).toBeFalsy();
-        expect(isFormControlDisplayingError('password')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeFalsy();
       });
     });
 
     it('should display when the user submits invalid input', () => {
       userIdFormControl.setValue('');
       passwordFormControl.setValue('');
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('userId')).toBeTruthy();
-        expect(isFormControlDisplayingError('password')).toBeTruthy();
+        expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeTruthy();
+        expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeTruthy();
       });
     });
   });
@@ -127,8 +127,8 @@ describe('CSAgentLoginFormComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('userId')).toBeFalsy();
-        expect(isFormControlDisplayingError('password')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeFalsy();
       });
     });
     it('should NOT display until the user is finished typing', () => {
@@ -139,8 +139,8 @@ describe('CSAgentLoginFormComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('userId')).toBeFalsy();
-        expect(isFormControlDisplayingError('password')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeFalsy();
       });
     });
 
@@ -154,8 +154,8 @@ describe('CSAgentLoginFormComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('userId')).toBeTruthy();
-        expect(isFormControlDisplayingError('password')).toBeTruthy();
+        expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeTruthy();
+        expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeTruthy();
       });
     });
     it('should NOT display when the user is finished typing valid input', () => {
@@ -168,32 +168,9 @@ describe('CSAgentLoginFormComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('userId')).toBeFalsy();
-        expect(isFormControlDisplayingError('password')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeFalsy();
       });
     });
   });
-
-  function isFormControlDisplayingError(formControlName: string): boolean {
-    const elementWithErrorMessage = fixture.debugElement.query(
-      By.css(
-        `input[formcontrolname="${formControlName}"] + div.invalid-feedback`
-      )
-    );
-
-    if (!elementWithErrorMessage) {
-      return false;
-    }
-
-    const errorMessage: string =
-      elementWithErrorMessage.nativeElement.innerText;
-    return errorMessage && errorMessage.trim().length > 0;
-  }
-
-  function clickSubmit() {
-    const submitBtn = fixture.debugElement.query(
-      By.css('button[type="submit"]')
-    );
-    submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-  }
 });
