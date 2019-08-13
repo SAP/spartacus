@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
 describe('CSAgentLoginFormComponent', () => {
@@ -8,9 +7,8 @@ describe('CSAgentLoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CSAgentLoginFormComponent ]
-    })
-    .compileComponents();
+      declarations: [CSAgentLoginFormComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
