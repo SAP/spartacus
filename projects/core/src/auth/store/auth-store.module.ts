@@ -17,6 +17,7 @@ export function authStoreConfigFactory(): StateConfig {
       storageSync: {
         keys: {
           'auth.userToken.token': StorageSyncType.LOCAL_STORAGE,
+          'auth.csagentToken.token': StorageSyncType.LOCAL_STORAGE,
         },
         excludeKeys: {
           'auth.userToken.token.refresh_token': StorageSyncType.LOCAL_STORAGE,
