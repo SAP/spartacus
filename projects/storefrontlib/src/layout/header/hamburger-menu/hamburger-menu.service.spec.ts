@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationStart, Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -15,7 +16,7 @@ describe('HamburgerMenuService', () => {
       providers: [{ provide: Router, useClass: MockRouter }],
     });
 
-    service = TestBed.get(HamburgerMenuService);
+    service = TestBed.get(HamburgerMenuService as Type<HamburgerMenuService>);
   });
 
   it('should inject service', () => {

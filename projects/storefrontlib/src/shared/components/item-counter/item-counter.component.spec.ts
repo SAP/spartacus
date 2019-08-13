@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import {
   async,
   ComponentFixture,
@@ -79,8 +80,8 @@ describe('ItemCounterComponent', () => {
       },
     };
 
-    keyBoardEvent = TestBed.get(KeyboardEvent);
-    focusEvent = TestBed.get(FocusEvent);
+    keyBoardEvent = TestBed.get(KeyboardEvent as Type<KeyboardEvent>);
+    focusEvent = TestBed.get(FocusEvent as Type<FocusEvent>);
 
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();

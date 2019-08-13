@@ -1,20 +1,21 @@
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import {
   ConverterService,
   PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '@spartacus/core';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { SearchConfig } from '../../../product/model/search-config';
-import createSpy = jasmine.createSpy;
 import { ProductSearchPage } from '../../../model/product-search.model';
+import { SearchConfig } from '../../../product/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OccProductSearchAdapter } from './occ-product-search.adapter';
+
+import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
@@ -47,11 +48,14 @@ describe('OccProductSearchAdapter', () => {
         },
       ],
     });
-
-    service = TestBed.get(OccProductSearchAdapter);
-    endpoints = TestBed.get(OccEndpointsService);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    service = TestBed.get(OccProductSearchAdapter as Type<
+      OccProductSearchAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    endpoints = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();

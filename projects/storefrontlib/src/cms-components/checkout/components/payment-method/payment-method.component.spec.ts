@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -198,10 +198,16 @@ describe('PaymentMethodComponent', () => {
       ],
     }).compileComponents();
 
-    mockUserPaymentService = TestBed.get(UserPaymentService);
-    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService);
-    mockRoutingService = TestBed.get(RoutingService);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
+    mockUserPaymentService = TestBed.get(UserPaymentService as Type<
+      UserPaymentService
+    >);
+    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
+      CheckoutPaymentService
+    >);
+    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
   }));
 
   beforeEach(() => {

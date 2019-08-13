@@ -1,9 +1,9 @@
+import { ChangeDetectorRef, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { TranslationService } from './translation.service';
-import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 import { TranslatePipe } from './translate.pipe';
-import { ChangeDetectorRef } from '@angular/core';
+import { TranslationService } from './translation.service';
+import createSpy = jasmine.createSpy;
 
 describe('TranslatePipe', () => {
   let pipe: TranslatePipe;
@@ -26,9 +26,9 @@ describe('TranslatePipe', () => {
       ],
     });
 
-    pipe = TestBed.get(TranslatePipe);
-    service = TestBed.get(TranslationService);
-    cd = TestBed.get(ChangeDetectorRef);
+    pipe = TestBed.get(TranslatePipe as Type<TranslatePipe>);
+    service = TestBed.get(TranslationService as Type<TranslationService>);
+    cd = TestBed.get(ChangeDetectorRef as Type<ChangeDetectorRef>);
   });
 
   describe('transform', () => {
