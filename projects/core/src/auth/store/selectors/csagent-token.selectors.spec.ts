@@ -7,7 +7,7 @@ import { StateWithAuth } from '../auth-state';
 import * as fromReducers from '../reducers/index';
 import { AuthSelectors } from './index';
 
-fdescribe('Customer Support Agent Token Selectors', () => {
+describe('Customer Support Agent Token Selectors', () => {
   let store: Store<StateWithAuth>;
 
   beforeEach(() => {
