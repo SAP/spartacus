@@ -42,8 +42,8 @@
                 infiniteScroll
                 [infiniteScrollDistance]="5"
                 [infiniteScrollThrottle]="50"
-                [infiniteScrollDisabled]="!isInfiniteScroll"
-                (scrolled)="scrollPage(model.pagination.currentPage + 1)"
+                [infiniteScrollDisabled]="!isInfiniteScroll || isProductLimit"
+                (scrolled)="scrollPage(model.pagination.currentPage)"
               >
                 <div class="row">
                   <cx-product-grid-item
@@ -63,7 +63,7 @@
                 infiniteScroll
                 [infiniteScrollDistance]="3"
                 [infiniteScrollThrottle]="50"
-                [infiniteScrollDisabled]="!isInfiniteScroll"
+                [infiniteScrollDisabled]="!isInfiniteScroll || isProductLimit"
                 (scrolled)="scrollPage(model.pagination.currentPage)"
               >
                 <cx-product-list-item
@@ -76,6 +76,14 @@
                 </div>
               </div>
             </ng-container>
+            <button
+              *ngIf="isProductLimit && !isLastPage"
+              style="margin:0 auto;
+            display:block;"
+              (click)="loadNextPage(model.pagination.currentPage)"
+            >
+              Show More
+            </button>
           </div>
           <div class="cx-sorting bottom">
             <div class="row">

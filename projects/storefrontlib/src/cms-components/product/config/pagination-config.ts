@@ -1,5 +1,8 @@
 export abstract class PaginationConfig {
   pagination?: {
-    infiniteScroll?: boolean;
+    infiniteScroll?: {
+      isActive: boolean;
+      limit: number;
+    };
   };
 }

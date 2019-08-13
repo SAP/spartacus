@@ -16,10 +16,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   model: ProductSearchPage;
 
+  //Variables used for infinite scroll
   isInfiniteScroll: boolean;
   isAppendProducts = false;
   isLoadingItems = false;
   isViewChange = false;
+
+  isLastPage = false;
+
+  productLimit: number;
+  isProductLimit = false;
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
@@ -32,7 +38,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll;
+    this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll.isActive;
+    this.productLimit = this.paginationConfig.pagination.infiniteScroll.limit;
 
     this.productListComponentService.clearSearchResults();
 
@@ -59,6 +66,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   infiniteScrollOperations(subModel: ProductSearchPage) {
+    console.log(subModel);
     if (this.isSamePage(subModel)) {
       return;
     }
@@ -68,12 +76,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
         ...subModel,
         products: this.model.products.concat(subModel.products),
       };
-      this.isAppendProducts = false;
-      this.isLoadingItems = false;
-      this.isViewChange = false;
+      this.resetConditions();
     } else {
       this.model = subModel;
     }
+
+    this.isProductLimit =
+      this.productLimit !== 0 &&
+      this.model.products.length >= this.productLimit;
   }
 
   paginationOperations(subModel: ProductSearchPage) {
@@ -83,13 +93,28 @@ export class ProductListComponent implements OnInit, OnDestroy {
   isSamePage(subModel: ProductSearchPage): boolean {
     //If we are not changing viewMode or appending items, do not replace the list
     //This prevents flickering issues when using filters/sorts
-    if (!this.isViewChange && !this.isAppendProducts && this.model) {
+    if (
+      !this.isProductLimit &&
+      !this.isViewChange &&
+      !this.isAppendProducts &&
+      this.model &&
+      this.model.breadcrumbs[0]
+    ) {
       return (
         this.model.breadcrumbs[0].removeQuery.query.value ===
-        subModel.breadcrumbs[0].removeQuery.query.value
+          subModel.breadcrumbs[0].removeQuery.query.value &&
+        this.model.breadcrumbs[0].facetValueCode ===
+          subModel.breadcrumbs[0].facetValueCode
       );
     }
     return false;
+  }
+
+  //Reset booleans after products have been retrieved
+  resetConditions(): void {
+    this.isAppendProducts = false;
+    this.isLoadingItems = false;
+    this.isViewChange = false;
   }
 
   viewPage(pageNumber: number): void {
@@ -97,17 +122,22 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   scrollPage(currentPage: number): void {
-    const isLastPage =
+    this.isLastPage =
       this.model.pagination.currentPage ===
       this.model.pagination.totalPages - 1;
 
-    if (isLastPage) {
+    if (this.isLastPage) {
       return;
     }
 
     this.isAppendProducts = true;
     this.isLoadingItems = true;
     this.ref.markForCheck();
+    this.productListComponentService.getPageItems(currentPage + 1);
+  }
+
+  loadNextPage(currentPage: number): void {
+    window.scroll(0, 0); //Scroll to top of page
     this.productListComponentService.getPageItems(currentPage + 1);
   }
 
