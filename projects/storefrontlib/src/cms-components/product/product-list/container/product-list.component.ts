@@ -20,12 +20,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
   isInfiniteScroll: boolean;
   isAppendProducts = false;
   isLoadingItems = false;
-  isViewChange = false;
-
-  isLastPage = false;
+  isResetList = false;
 
   productLimit: number;
   isProductLimit = false;
+  isLastPage = false;
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
@@ -66,7 +65,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   infiniteScrollOperations(subModel: ProductSearchPage) {
-    console.log(subModel);
     if (this.isSamePage(subModel)) {
       return;
     }
@@ -81,6 +79,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.model = subModel;
     }
 
+    this.isLastPage =
+      this.model.pagination.currentPage ===
+      this.model.pagination.totalPages - 1;
+
     this.isProductLimit =
       this.productLimit !== 0 &&
       this.model.products.length >= this.productLimit;
@@ -91,21 +93,29 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   isSamePage(subModel: ProductSearchPage): boolean {
-    //If we are not changing viewMode or appending items, do not replace the list
-    //This prevents flickering issues when using filters/sorts
     if (
-      !this.isProductLimit &&
-      !this.isViewChange &&
+      !this.isResetList &&
       !this.isAppendProducts &&
       this.model &&
-      this.model.breadcrumbs[0]
+      this.model.breadcrumbs.length > 0 &&
+      subModel.breadcrumbs.length > 0
     ) {
-      return (
-        this.model.breadcrumbs[0].removeQuery.query.value ===
-          subModel.breadcrumbs[0].removeQuery.query.value &&
-        this.model.breadcrumbs[0].facetValueCode ===
-          subModel.breadcrumbs[0].facetValueCode
-      );
+      if (this.model.breadcrumbs.length === subModel.breadcrumbs.length) {
+        for (let i = 0; i < this.model.breadcrumbs.length; i++) {
+          if (
+            this.model.breadcrumbs[i].facetCode ===
+              subModel.breadcrumbs[i].facetCode &&
+            this.model.breadcrumbs[i].facetValueCode ===
+              subModel.breadcrumbs[i].facetValueCode &&
+            this.model.breadcrumbs[i].removeQuery.query.value ===
+              subModel.breadcrumbs[i].removeQuery.query.value &&
+            this.model.pagination.currentPage ===
+              subModel.pagination.currentPage
+          ) {
+            return true;
+          }
+        }
+      }
     }
     return false;
   }
@@ -114,18 +124,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
   resetConditions(): void {
     this.isAppendProducts = false;
     this.isLoadingItems = false;
-    this.isViewChange = false;
+    this.isResetList = false;
   }
 
   viewPage(pageNumber: number): void {
     this.productListComponentService.viewPage(pageNumber);
   }
 
-  scrollPage(currentPage: number): void {
-    this.isLastPage =
-      this.model.pagination.currentPage ===
-      this.model.pagination.totalPages - 1;
-
+  scrollPage(pageNumber: number): void {
     if (this.isLastPage) {
       return;
     }
@@ -133,12 +139,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.isAppendProducts = true;
     this.isLoadingItems = true;
     this.ref.markForCheck();
-    this.productListComponentService.getPageItems(currentPage + 1);
+    this.productListComponentService.getPageItems(pageNumber);
   }
 
-  loadNextPage(currentPage: number): void {
-    window.scroll(0, 0); //Scroll to top of page
-    this.productListComponentService.getPageItems(currentPage + 1);
+  scrollToTop() {
+    window.scroll(0, 0);
   }
 
   sortList(sortCode: string): void {
@@ -148,7 +153,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   setViewMode(mode: ViewModes): void {
     if (this.isInfiniteScroll) {
       //Reset products to initial state to avoid rendering large lists on ViewMode change
-      this.isViewChange = true;
+      this.isResetList = true;
       this.productListComponentService.getPageItems(0);
     }
     this.viewMode$.next(mode);
