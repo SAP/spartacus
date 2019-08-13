@@ -12,34 +12,6 @@
     </button>
   </div>
   <ng-template #showLoginForm>
-    <form (submit)="loginCustomerSupportAgent()" [formGroup]="loginForm">
-      <div class="form-group col-sm">
-        <label>
-          <span class="label-content">Username</span>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="userId"
-            placeholder="username"
-          />
-        </label>
-      </div>
-      <div class="form-group col-sm">
-        <label>
-          <span class="label-content">password</span>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="***"
-            formControlName="password"
-          />
-        </label>
-      </div>
-      <div class="col-sm">
-        <button type="submit" class="btn btn-block btn-primary">
-          Sign In
-        </button>
-      </div>
-    </form>
-  </ng-template>
+    <cx-csagent-login-form (submitEvent)="loginCustomerSupportAgent($event)"></cx-csagent-login-form>
+ </ng-template>
 </ng-container>
