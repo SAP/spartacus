@@ -6,6 +6,11 @@ import { Observable, of } from 'rxjs';
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
+  selector: 'cx-asm',
+  template: '',
+})
+class MockAsmComponent {}
+@Component({
   selector: 'cx-header',
   template: '',
 })
@@ -57,6 +62,7 @@ describe('StorefrontComponent', () => {
         MockFooterComponent,
         DynamicSlotComponent,
         MockPageLayoutComponent,
+        MockAsmComponent,
       ],
       providers: [
         {
