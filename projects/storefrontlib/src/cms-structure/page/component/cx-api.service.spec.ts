@@ -2,28 +2,64 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   AuthService,
+  BaseSiteService,
+  CartDataService,
+  CartService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+  CheckoutService,
   CmsService,
   CurrencyService,
+  FeatureConfigService,
+  GlobalMessageService,
+  KymaService,
   LanguageService,
+  OccEndpointsService,
+  PageMetaService,
+  ProductReferenceService,
   ProductReviewService,
   ProductSearchService,
   ProductService,
   RoutingService,
+  SearchboxService,
   TranslationService,
+  UserAddressService,
+  UserConsentService,
+  UserOrderService,
+  UserPaymentService,
+  UserService,
 } from '@spartacus/core';
 import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}
+class MockCartService {}
+class MockCartDataService {}
+class MockCheckoutService {}
+class MockCheckoutDeliveryService {}
+class MockCheckoutPaymentService {}
 class MockCmsService {}
-class MockRoutingService {}
-class MockCurrencyService {}
-class MockLanguageService {}
+class MockPageMetaService {}
+class MockFeatureConfigService {}
+class MockGlobalMessageService {}
+class MockTranslationService {}
+class MockKymaService {}
+class MockOccEndpointsService {}
 class MockProductService {}
 class MockProductSearchService {}
 class MockProductReviewService {}
-class MockTranslationService {}
+class MockProductReferenceService {}
+class MockSearchboxService {}
+class MockRoutingService {}
+class MockCurrencyService {}
+class MockLanguageService {}
+class MockBaseSiteService {}
+class MockUserService {}
+class MockUserAddressService {}
+class MockUserConsentService {}
+class MockUserOrderService {}
+class MockUserPaymentService {}
 
-describe('CxApiService', () => {
+fdescribe('CxApiService', () => {
   let authService: AuthService;
   let cmsService: CmsService;
   let routingService: RoutingService;
@@ -39,14 +75,47 @@ describe('CxApiService', () => {
       providers: [
         CxApiService,
         { provide: AuthService, useClass: MockAuthService },
+        { provide: CartService, useClass: MockCartService },
+        { provide: CartDataService, useClass: MockCartDataService },
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
+        {
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
+        },
+
         { provide: CmsService, useClass: MockCmsService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CurrencyService, useClass: MockCurrencyService },
-        { provide: LanguageService, useClass: MockLanguageService },
+
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+
+        { provide: TranslationService, useClass: MockTranslationService },
+
+        { provide: KymaService, useClass: MockKymaService },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+
         { provide: ProductService, useClass: MockProductService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: ProductReviewService, useClass: MockProductReviewService },
-        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: ProductReferenceService,
+          useClass: MockProductReferenceService,
+        },
+        { provide: SearchboxService, useClass: MockSearchboxService },
+
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CurrencyService, useClass: MockCurrencyService },
+        { provide: LanguageService, useClass: MockLanguageService },
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: UserConsentService, useClass: MockUserConsentService },
+        { provide: UserOrderService, useClass: MockUserOrderService },
+        { provide: UserPaymentService, useClass: MockUserPaymentService },
       ],
     });
 
