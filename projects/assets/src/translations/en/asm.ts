@@ -1,5 +1,6 @@
 export const asm = {
   asm: {
+    logout: 'Sign Out',
     loginForm: {
       submit: 'Sign In',
       userId: {

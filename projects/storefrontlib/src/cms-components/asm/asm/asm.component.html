@@ -8,10 +8,12 @@
       type="button"
       (click)="logoutCustomerSupportAgent()"
     >
-      Sign Out Agent
+      {{ 'asm.loggout' | cxTranslate }}
     </button>
   </div>
   <ng-template #showLoginForm>
-    <cx-csagent-login-form (submitEvent)="loginCustomerSupportAgent($event)"></cx-csagent-login-form>
- </ng-template>
+    <cx-csagent-login-form
+      (submitEvent)="loginCustomerSupportAgent($event)"
+    ></cx-csagent-login-form>
+  </ng-template>
 </ng-container>
