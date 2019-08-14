@@ -42,7 +42,7 @@ describe('LoginFormComponent', () => {
 
   let authService: MockAuthService;
   let authRedirectService: AuthRedirectService;
-  let mockWindowRef: WindowRef;
+  let windowRef: WindowRef;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -67,7 +67,7 @@ describe('LoginFormComponent', () => {
     authRedirectService = TestBed.get(AuthRedirectService as Type<
       AuthRedirectService
     >);
-    mockWindowRef = TestBed.get(WindowRef as Type<WindowRef>);
+    windowRef = TestBed.get(WindowRef as Type<WindowRef>);
   });
 
   beforeEach(() => {
@@ -86,7 +86,7 @@ describe('LoginFormComponent', () => {
 
   it('should init the form - prefilled', () => {
     const email = 'test@email.com';
-    mockWindowRef.nativeWindow.history.pushState(
+    windowRef.nativeWindow.history.pushState(
       {
         newUid: email,
       },
@@ -99,7 +99,7 @@ describe('LoginFormComponent', () => {
     expect(component.form.controls['userId'].value).toBe(email);
 
     // reset the state
-    mockWindowRef.nativeWindow.history.replaceState(null, null);
+    windowRef.nativeWindow.history.replaceState(null, null);
   });
 
   describe('login()', () => {

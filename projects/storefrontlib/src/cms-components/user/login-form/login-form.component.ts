@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AuthRedirectService,
@@ -15,16 +15,35 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
   templateUrl: './login-form.component.html',
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
-  private tokenExists = false;
-  subs: Subscription;
+  sub: Subscription;
   form: FormGroup;
 
+  constructor(
+    auth: AuthService,
+    globalMessageService: GlobalMessageService,
+    fb: FormBuilder,
+    authRedirectService: AuthRedirectService,
+    winRef: WindowRef // tslint:disable-line
+  );
+
+  /**
+   * @deprecated since 1.1.0
+   * NOTE: check issue:#4055 for more info
+   *
+   * TODO(issue:#4055) Deprecated since 1.1.0
+   */
+  constructor(
+    auth: AuthService,
+    globalMessageService: GlobalMessageService,
+    fb: FormBuilder,
+    authRedirectService: AuthRedirectService
+  );
   constructor(
     private auth: AuthService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
-    @Optional() private winRef: WindowRef
+    private winRef?: WindowRef
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +52,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
-    if (this.winRef) {
+    // TODO(issue:#4055) Deprecated since 1.1.0
+    if (this.winRef && this.winRef.nativeWindow) {
       const routeState =
         this.winRef.nativeWindow.history &&
         this.winRef.nativeWindow.history.state;
@@ -51,22 +71,19 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password.value
     );
 
-    if (!this.tokenExists) {
-      this.subs = new Subscription().add(
-        this.auth.getUserToken().subscribe(data => {
-          if (data && data.access_token) {
-            this.tokenExists = true;
-            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-            this.authRedirectService.redirect();
-          }
-        })
-      );
+    if (!this.sub) {
+      this.sub = this.auth.getUserToken().subscribe(data => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
+      });
     }
   }
 
   ngOnDestroy(): void {
-    if (this.subs) {
-      this.subs.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 
