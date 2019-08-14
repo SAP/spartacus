@@ -80,7 +80,7 @@ export class ExpressCheckoutService {
               this.checkoutDeliveryService.getSelectedDeliveryModeCode()
             ),
             filter(([deliveryModes]: [DeliveryMode[], string]) =>
-              Boolean(deliveryModes.length)
+              Boolean(deliveryModes && deliveryModes.length)
             ),
             map(([deliveryModes, code]: [DeliveryMode[], string]) => {
               const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
@@ -91,7 +91,7 @@ export class ExpressCheckoutService {
                   preferredDeliveryMode
                 );
               }
-              return Boolean(deliveryModes.length);
+              return Boolean(deliveryModes && deliveryModes.length);
             })
           );
         } else {
@@ -106,15 +106,11 @@ export class ExpressCheckoutService {
     this.setDeliveryMode();
     this.setPaymentMethod();
 
-    return combineLatest([
-      this.shippingAddressSet$,
-      this.deliveryModeSet$,
-      this.paymentMethodSet$,
-    ]).pipe(
+    return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
       tap(console.log),
       map(
-        ([shippingAddressSet, deliveryModeSet, paymentMethodSet]) =>
-          shippingAddressSet && deliveryModeSet && paymentMethodSet
+        ([deliveryModeSet, paymentMethodSet]) =>
+          deliveryModeSet && paymentMethodSet
       )
     );
   }
