@@ -1,0 +1,31 @@
+<p>
+  customer-selection works!
+</p>
+<form (submit)="onSubmit()" [formGroup]="form">
+  <div class="form-group col-sm">
+    <label>
+      <span class="label-content">{{
+        'asm.customerSearch.customerId.label' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        [class.is-invalid]="isNotValid('customerId')"
+        formControlName="customerId"
+        placeholder="{{
+          'asm.customerSearch.customerId.placeholder' | cxTranslate
+        }}"
+      />
+      <div class="invalid-feedback" *ngIf="isNotValid('customerId')">
+        <span>{{
+          'asm.customerSearch.customerId.required' | cxTranslate
+        }}</span>
+      </div>
+    </label>
+  </div>
+  <div class="col-sm">
+    <button type="submit" class="btn btn-block btn-primary">
+      {{ 'asm.customerSearch.submit' | cxTranslate }}
+    </button>
+  </div>
+</form>

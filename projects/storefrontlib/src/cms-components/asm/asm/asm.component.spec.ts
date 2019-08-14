@@ -13,6 +13,14 @@ class MockAuthService {
 }
 
 @Component({
+  selector: 'cx-customer-selection',
+  template: '',
+})
+class MockCustomerSelectionComponent {
+  @Output()
+  submitEvent = new EventEmitter();
+}
+@Component({
   selector: 'cx-csagent-login-form',
   template: '',
 })
@@ -29,7 +37,11 @@ describe('AsmComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [AsmComponent, MockCSAgentLoginFormComponent],
+      declarations: [
+        AsmComponent,
+        MockCSAgentLoginFormComponent,
+        MockCustomerSelectionComponent,
+      ],
       providers: [{ provide: AuthService, useClass: MockAuthService }],
     }).compileComponents();
   }));

@@ -14,5 +14,13 @@ export const asm = {
         required: 'Password is required',
       },
     },
+    customerSearch: {
+      customerId: {
+        label: 'Customer Id',
+        placeholder: 'Customer Id',
+        required: 'Customer Id is required',
+      },
+      submit: 'Start Customer Session',
+    },
   },
 };

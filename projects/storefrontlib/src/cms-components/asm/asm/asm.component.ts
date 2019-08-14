@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, UserToken } from '@spartacus/core';
+import { AuthService, User, UserToken } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AsmComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
+  customer$: Observable<User>;
 
   constructor(private auth: AuthService) {}
 
@@ -27,5 +28,9 @@ export class AsmComponent implements OnInit {
 
   logoutCustomerSupportAgent(): void {
     this.auth.logoutCustomerSupportAgent();
+  }
+
+  startCustomerSession({ customerId }: { customerId: string }): void {
+    console.log('startCustomerSession:', customerId);
   }
 }
