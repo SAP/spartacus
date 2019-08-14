@@ -76,7 +76,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    if (this.mode.touched && this.mode.value) {
+    if (this.mode.valid && this.mode.value) {
       if (!this.currentDeliveryModeId) {
         this.currentDeliveryModeId = this.mode.value.deliveryModeId;
       }
