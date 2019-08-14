@@ -39,7 +39,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     // TODO 2.0: Remove
-    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyAdd(userId, cartId, productCode, quantity);
     }
 
@@ -72,7 +72,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     // TODO 2.0: Remove
-    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyUpdate(userId, cartId, entryNumber, qty, pickupStore);
     }
 
@@ -97,7 +97,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     // TODO 2.0: Remove
-    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyRemove(userId, cartId, entryNumber);
     }
 

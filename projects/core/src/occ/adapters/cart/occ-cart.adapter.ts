@@ -38,7 +38,7 @@ export class OccCartAdapter implements CartAdapter {
 
   public loadAll(userId: string): Observable<Cart[]> {
     // TODO 2.0: Remove
-    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyLoadAll(userId);
     }
 
@@ -66,7 +66,7 @@ export class OccCartAdapter implements CartAdapter {
       );
     } else {
       // TODO 2.0: Remove
-      if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+      if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
         return this.legacyLoad(userId, cartId);
       }
       return this.http
@@ -84,7 +84,7 @@ export class OccCartAdapter implements CartAdapter {
   ): Observable<Cart> {
     const toAdd = JSON.stringify({});
     // TODO 2.0: Remove
-    if (!this.featureConfigService.isEnabled('cartConfigurableEnpoints')) {
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyCreate(userId, toAdd, oldCartId, toMergeCartGuid);
     }
 

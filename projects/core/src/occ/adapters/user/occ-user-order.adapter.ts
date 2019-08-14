@@ -30,9 +30,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   public load(userId: string, orderCode: string): Observable<Order> {
     // TODO 2.0: Remove
-    if (
-      !this.featureConfigService.isEnabled('userOrderConfigurableEndpoints')
-    ) {
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyLoad(userId, orderCode);
     }
 
@@ -53,9 +51,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     sort?: string
   ): Observable<OrderHistoryList> {
     // TODO 2.0: Remove
-    if (
-      !this.featureConfigService.isEnabled('userOrderConfigurableEndpoints')
-    ) {
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyLoadHistory(userId, pageSize, currentPage, sort);
     }
 
@@ -82,7 +78,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
    * Use configurable endpoints. Will be removed as of 2.0.
    */
   private legacyLoad(userId: string, orderCode: string): Observable<Order> {
-    const url = this.getOrderEndpoint(userId) + '/' + orderCode;
+    const url = this.getOrderEndpoint(userId) + '/xxxx' + orderCode;
 
     const params = new HttpParams({
       fromString: 'fields=FULL',
@@ -95,6 +91,10 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 
+  /**
+   * @deprecated Since 1.1
+   * Use configurable endpoints. Will be removed as of 2.0.
+   */
   private legacyLoadHistory(
     userId: string,
     pageSize?: number,
