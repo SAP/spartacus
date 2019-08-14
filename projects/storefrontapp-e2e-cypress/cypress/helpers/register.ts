@@ -1,4 +1,5 @@
 import { register } from './auth-forms';
+import * as alerts from './global-message';
 
 export const loginLink = 'cx-login [role="link"]';
 
@@ -35,9 +36,8 @@ export function signOut() {
 }
 
 export function verifyFailedRegistration() {
-  cy.get('cx-global-message .alert-danger').should(
-    'contain',
-    'Bad credentials. Please login again.'
-  );
+  alerts
+    .getErrorAlert()
+    .should('contain', 'Bad credentials. Please login again.');
   cy.url().should('match', /\/login\/register/);
 }
