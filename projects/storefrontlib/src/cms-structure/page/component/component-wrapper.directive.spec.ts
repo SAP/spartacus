@@ -282,7 +282,7 @@ describe('ComponentWrapperDirective', () => {
           expect(cxApi.cms).toBeTruthy();
           expect(cxApi.auth).toBeTruthy();
           expect(cxApi.routing).toBeTruthy();
-          expect((cxApi as any).cmsComponentData).toBeTruthy();
+          expect(cxApi.cmsComponentData).toBeTruthy();
           done();
         });
       });

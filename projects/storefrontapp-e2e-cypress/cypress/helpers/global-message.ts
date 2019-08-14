@@ -5,3 +5,7 @@ export function getErrorAlert() {
 export function getSuccessAlert() {
   return cy.get('cx-global-message .alert-success');
 }
+
+export function getAlert() {
+  return cy.get('cx-global-message .alert');
+}

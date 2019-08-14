@@ -1,6 +1,7 @@
 import { login } from '../../../helpers/auth-forms';
 import { checkBanner } from '../../../helpers/homepage';
 import { generateMail, randomString } from '../../../helpers/user';
+import * as alerts from './../../../helpers/global-message';
 
 const UPDATE_EMAIL = '/my-account/update-email';
 const password = 'Password123.';
@@ -55,10 +56,9 @@ describe('Update email', () => {
 
       cy.get('cx-login-form').should('exist');
 
-      cy.get('cx-global-message .alert-success').should(
-        'contain',
-        `Success. Please sign in with ${newUid}`
-      );
+      alerts
+        .getSuccessAlert()
+        .should('contain', `Success. Please sign in with ${newUid}`);
     });
   });
 
