@@ -22,8 +22,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   isLoadingItems = false;
   isResetList = false;
 
-  productLimit: number;
-  isProductLimit = false;
+  configProductLimit: number;
+  maxProducts: number;
+  isMaxProducts = false;
   isLastPage = false;
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
@@ -38,7 +39,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll.isActive;
-    this.productLimit = this.paginationConfig.pagination.infiniteScroll.limit;
+    this.configProductLimit = this.paginationConfig.pagination.infiniteScroll.limit;
 
     this.productListComponentService.clearSearchResults();
 
@@ -76,6 +77,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       };
     } else {
       this.model = subModel;
+      this.maxProducts = this.configProductLimit;
     }
     this.setConditions();
   }
@@ -118,9 +120,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.model.pagination.currentPage ===
       this.model.pagination.totalPages - 1;
 
-    this.isProductLimit =
-      this.productLimit !== 0 &&
-      this.model.products.length >= this.productLimit;
+    this.isMaxProducts =
+      this.configProductLimit !== 0 &&
+      this.model.products.length >= this.maxProducts;
+
+    this.maxProducts = this.isMaxProducts
+      ? this.model.products.length + this.configProductLimit
+      : this.maxProducts;
 
     this.isAppendProducts = false;
     this.isResetList = false;
@@ -143,8 +149,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   loadNextPage(pageNumber: number): void {
-    this.scrollToTop();
-    this.productListComponentService.getPageItems(pageNumber);
+    this.isMaxProducts = false;
+    this.scrollPage(pageNumber);
   }
 
   sortList(sortCode: string): void {

@@ -43,7 +43,7 @@
                 [infiniteScrollDistance]="5"
                 [infiniteScrollThrottle]="50"
                 [infiniteScrollDisabled]="
-                  !isInfiniteScroll || isProductLimit || isLastPage
+                  !isInfiniteScroll || isMaxProducts || isLastPage
                 "
                 (scrolled)="scrollPage(model.pagination.currentPage + 1)"
               >
@@ -66,7 +66,7 @@
                 [infiniteScrollDistance]="3"
                 [infiniteScrollThrottle]="50"
                 [infiniteScrollDisabled]="
-                  !isInfiniteScroll || isProductLimit || isLastPage
+                  !isInfiniteScroll || isMaxProducts || isLastPage
                 "
                 (scrolled)="scrollPage(model.pagination.currentPage + 1)"
               >
@@ -81,7 +81,7 @@
               </div>
             </ng-container>
             <div
-              *ngIf="isProductLimit && !isLastPage"
+              *ngIf="isMaxProducts && !isLastPage"
               style="display: flex; justify-content: center; padding-top: 20px"
             >
               <p>
