@@ -93,32 +93,61 @@ describe('storage-sync-reducer', () => {
     });
 
     describe('when the action type is NOT UPDATE nor INIT', () => {
-      it('should set the configured keys to configured storage', () => {
-        spyOn(sessionStorageMock, 'getItem').and.returnValue('"xxx"');
-        spyOn(localStorageMock, 'getItem').and.returnValue('"yyy"');
+      describe('should set the configured keys to configured storage', () => {
+        beforeEach(() => {
+          spyOn(sessionStorageMock, 'setItem').and.stub();
+          spyOn(localStorageMock, 'setItem').and.stub();
+        });
 
-        spyOn(sessionStorageMock, 'setItem').and.stub();
-        spyOn(localStorageMock, 'setItem').and.stub();
-
-        const state = {
-          access_token: 'xxx',
-          refresh_token: 'yyy',
-        };
-
-        const result = reducer(state, { type: 'AN-ACTION' });
-        expect(result).toEqual(state);
-        expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-          DEFAULT_SESSION_STORAGE_KEY,
-          JSON.stringify({
+        it('for existing state', () => {
+          const state = {
             access_token: 'xxx',
-          })
-        );
-        expect(localStorageMock.setItem).toHaveBeenCalledWith(
-          DEFAULT_LOCAL_STORAGE_KEY,
-          JSON.stringify({
             refresh_token: 'yyy',
-          })
-        );
+          };
+
+          const result = reducer(state, { type: 'AN-ACTION' });
+          expect(result).toEqual(state);
+          expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
+            DEFAULT_SESSION_STORAGE_KEY,
+            JSON.stringify({
+              access_token: 'xxx',
+            })
+          );
+          expect(localStorageMock.setItem).toHaveBeenCalledWith(
+            DEFAULT_LOCAL_STORAGE_KEY,
+            JSON.stringify({
+              refresh_token: 'yyy',
+            })
+          );
+        });
+        it('for new state', () => {
+          const testReducer = metaReducer(
+            (_state, action: any) => action.payload
+          ) as any;
+
+          const newState = {
+            access_token: 'xxx',
+            refresh_token: 'yyy',
+          };
+
+          const result = testReducer(
+            {},
+            { type: 'AN-ACTION', payload: newState }
+          );
+          expect(result).toEqual(newState);
+          expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
+            DEFAULT_SESSION_STORAGE_KEY,
+            JSON.stringify({
+              access_token: 'xxx',
+            })
+          );
+          expect(localStorageMock.setItem).toHaveBeenCalledWith(
+            DEFAULT_LOCAL_STORAGE_KEY,
+            JSON.stringify({
+              refresh_token: 'yyy',
+            })
+          );
+        });
       });
     });
   });
