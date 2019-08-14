@@ -76,7 +76,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    if (this.mode.touched) {
+    if (this.mode.valid) {
       this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
     }
     this.routingService.go(this.checkoutStepUrlNext);
