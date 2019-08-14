@@ -6,6 +6,7 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
+  Config,
 } from '@spartacus/core';
 import {
   ItemCounterModule,
@@ -22,10 +23,13 @@ import { ProductGridItemComponent } from './product-grid-item/product-grid-item.
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { defaultPaginationConfig } from '../config/default-pagination-config';
+import { PaginationConfig } from '../config/pagination-config';
 
 @NgModule({
   imports: [
     CommonModule,
+    ConfigModule.withConfig(defaultPaginationConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductListComponent: {
@@ -64,5 +68,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     ProductGridItemComponent,
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
+  providers: [{ provide: PaginationConfig, useExisting: Config }],
 })
 export class ProductListModule {}

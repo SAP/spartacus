@@ -74,18 +74,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
         ...subModel,
         products: this.model.products.concat(subModel.products),
       };
-      this.resetConditions();
     } else {
       this.model = subModel;
     }
-
-    this.isLastPage =
-      this.model.pagination.currentPage ===
-      this.model.pagination.totalPages - 1;
-
-    this.isProductLimit =
-      this.productLimit !== 0 &&
-      this.model.products.length >= this.productLimit;
+    this.setConditions();
   }
 
   paginationOperations(subModel: ProductSearchPage) {
@@ -121,10 +113,18 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   //Reset booleans after products have been retrieved
-  resetConditions(): void {
+  setConditions(): void {
+    this.isLastPage =
+      this.model.pagination.currentPage ===
+      this.model.pagination.totalPages - 1;
+
+    this.isProductLimit =
+      this.productLimit !== 0 &&
+      this.model.products.length >= this.productLimit;
+
     this.isAppendProducts = false;
-    this.isLoadingItems = false;
     this.isResetList = false;
+    this.isLoadingItems = false;
   }
 
   viewPage(pageNumber: number): void {
@@ -132,10 +132,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   scrollPage(pageNumber: number): void {
-    if (this.isLastPage) {
-      return;
-    }
-
     this.isAppendProducts = true;
     this.isLoadingItems = true;
     this.ref.markForCheck();
@@ -144,6 +140,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   scrollToTop() {
     window.scroll(0, 0);
+  }
+
+  loadNextPage(pageNumber: number): void {
+    this.scrollToTop();
+    this.productListComponentService.getPageItems(pageNumber);
   }
 
   sortList(sortCode: string): void {

@@ -42,7 +42,9 @@
                 infiniteScroll
                 [infiniteScrollDistance]="5"
                 [infiniteScrollThrottle]="50"
-                [infiniteScrollDisabled]="!isInfiniteScroll || isProductLimit"
+                [infiniteScrollDisabled]="
+                  !isInfiniteScroll || isProductLimit || isLastPage
+                "
                 (scrolled)="scrollPage(model.pagination.currentPage + 1)"
               >
                 <div class="row">
@@ -63,7 +65,9 @@
                 infiniteScroll
                 [infiniteScrollDistance]="3"
                 [infiniteScrollThrottle]="50"
-                [infiniteScrollDisabled]="!isInfiniteScroll || isProductLimit"
+                [infiniteScrollDisabled]="
+                  !isInfiniteScroll || isProductLimit || isLastPage
+                "
                 (scrolled)="scrollPage(model.pagination.currentPage + 1)"
               >
                 <cx-product-list-item
@@ -82,18 +86,23 @@
             >
               <p>
                 <a
-                  style="margin-right:44px"
                   (click)="scrollToTop()"
                   aria-controls="reset-password"
                   class="btn-link"
+                  onmouseover="this.style.color='#FF0000'"
+                  onmouseout="this.style.color='#000000'"
+                  style="text-decoration: underline; margin-right:44px"
                   >BACK TO TOP</a
                 >
               </p>
               <p>
                 <a
-                  (click)="viewPage(model.pagination.currentPage + 1)"
+                  (click)="loadNextPage(model.pagination.currentPage + 1)"
                   aria-controls="reset-password"
                   class="btn-link"
+                  onmouseover="this.style.color='#FF0000'"
+                  onmouseout="this.style.color='#000000'"
+                  style="text-decoration: underline"
                   >SHOW MORE</a
                 >
               </p>
