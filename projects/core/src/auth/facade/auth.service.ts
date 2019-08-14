@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   /**
-   * Loads a userToken for a customer support agent
+   * Loads a user token for a customer support agent
    * @param userId
    * @param password
    */
@@ -50,6 +50,9 @@ export class AuthService {
     return this.store.pipe(select(AuthSelectors.getUserToken));
   }
 
+  /**
+   * Returns the customer support agent's token
+   */
   getCustomerSupportAgentToken(): Observable<UserToken> {
     return this.store.pipe(select(AuthSelectors.getCustomerSupportAgentToken));
   }
@@ -74,12 +77,15 @@ export class AuthService {
   }
 
   /**
-   * Logout
+   * Logout a storefront customer
    */
   logout(): void {
     this.store.dispatch(new AuthActions.Logout());
   }
 
+  /**
+   * Logout a customer support agent
+   */
   logoutCustomerSupportAgent(): void {
     this.store.dispatch(new AuthActions.LogoutCustomerSupportAgent());
   }

@@ -23,7 +23,7 @@ class UserAuthenticationTokenServiceMock {
   }
 }
 
-describe('UserToken effect', () => {
+describe('CustomerSupportAgentTokenEffects', () => {
   let userTokenService: UserAuthenticationTokenService;
   let customerSupportAgentTokenEffects: CustomerSupportAgentTokenEffects;
   let actions$: Observable<AuthActions.UserTokenAction>;
@@ -51,7 +51,7 @@ describe('UserToken effect', () => {
   });
 
   describe('loadCustomerSupportAgentToken$', () => {
-    it('should load a user token', () => {
+    it('should load a user token for the customer support agent', () => {
       const action = new AuthActions.LoadCustomerSupportAgentToken({
         userId: 'xxx',
         password: 'xxx',

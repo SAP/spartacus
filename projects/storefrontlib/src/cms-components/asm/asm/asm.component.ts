@@ -11,7 +11,7 @@ export class AsmComponent implements OnInit {
 
   constructor(private auth: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.csAgentToken$ = this.auth.getCustomerSupportAgentToken();
   }
 

@@ -15,7 +15,7 @@ export class CSAgentLoginFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.fb.group({
       userId: ['', [Validators.required]],
       password: ['', [Validators.required]],
