@@ -1,12 +1,13 @@
 export const asm = {
   asm: {
     logout: 'Sign Out Agent',
+    stopCustomerSession: 'Stop Customer Session',
     loginForm: {
       submit: 'Sign In Agent',
       userId: {
-        label: 'Username',
-        placeholder: 'Username',
-        required: 'Username is required',
+        label: 'Agent ID',
+        placeholder: 'Agent ID',
+        required: 'Agent ID is required',
       },
       password: {
         label: 'Password',
