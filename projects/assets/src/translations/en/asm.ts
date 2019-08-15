@@ -1,8 +1,8 @@
 export const asm = {
   asm: {
-    logout: 'Sign Out',
+    logout: 'Sign Out Agent',
     loginForm: {
-      submit: 'Sign In',
+      submit: 'Sign In Agent',
       userId: {
         label: 'Username',
         placeholder: 'Username',

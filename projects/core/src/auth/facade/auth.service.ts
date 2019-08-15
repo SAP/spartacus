@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
@@ -43,6 +44,40 @@ export class AuthService {
     );
   }
 
+  /**
+   * Starts an ASM customer emulation session.
+   * @param userId
+   * @param password
+   */
+  public startCustomerEmulationSession(
+    customerSupportAgentToken: UserToken,
+    customerId: string
+  ) {
+    this.authorizeWithToken({
+      ...customerSupportAgentToken,
+      userId: customerId,
+    });
+  }
+
+  /**
+   * This function provides the userId the OCC calls should use, depending
+   * on wether there is an active storefront session or not.
+   *
+   * It returns the userId of the current storefront user or 'anonymous'
+   * in the case there are no signed in user in the storefront.
+   *
+   * The user id of a regular customer session is 'current'.  In the case of an
+   * asm customer emulation session, the userId will be the customerId.
+   */
+  getStorefrontUserId(): Observable<string> {
+    return this.getUserToken().pipe(
+      map(userToken =>
+        Object.keys(userToken).length !== 0
+          ? userToken.userId
+          : USERID_ANONYMOUS
+      )
+    );
+  }
   /**
    * Returns the user's token
    */
