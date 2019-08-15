@@ -78,8 +78,8 @@ export const user = {
       label: 'Confirm email',
       placeholder: 'Confirm email',
     },
-    confirmThatRead: 'I am confirming that I have read and agreed with the',
-    termsAndConditions: 'Terms & Conditions',
     continue: 'Continue',
+    emailIsRequired: 'Invalid email format',
+    emailsMustMatch: 'Email addresses do not match',
   },
 };

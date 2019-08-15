@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutLoginComponent } from './checkout-login.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
+    CommonModule,
     I18nModule,
     FormsModule,
     ReactiveFormsModule,
@@ -15,6 +17,8 @@ import { CheckoutLoginComponent } from './checkout-login.component';
         },
       },
     }),
+    FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [CheckoutLoginComponent],
   exports: [CheckoutLoginComponent],
