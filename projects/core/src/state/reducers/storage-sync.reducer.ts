@@ -35,10 +35,7 @@ export function getStorageSyncReducer<T>(
           storageSyncConfig.keys,
           StorageSyncType.LOCAL_STORAGE
         );
-        const localStorageStateSlices = getStateSlice(
-          localStorageKeys,
-          newState
-        );
+        const localStorageStateSlices = getStateSlice(localStorageKeys, state);
         persistToStorage(
           config.state.storageSync.localStorageKeyName,
           localStorageStateSlices,
@@ -52,7 +49,7 @@ export function getStorageSyncReducer<T>(
         );
         const sessionStorageStateSlices = getStateSlice(
           sessionStorageKeys,
-          newState
+          state
         );
         persistToStorage(
           config.state.storageSync.sessionStorageKeyName,
