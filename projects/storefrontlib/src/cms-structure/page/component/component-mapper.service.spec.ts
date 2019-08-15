@@ -28,7 +28,6 @@ const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSTestComponent: { component: TestComponent },
     CMSWebComponent: { component: 'path/to/file.js#cms-component' },
-    CMSEagerWebComponent: { component: '#cms-eager-component' },
   },
 };
 
@@ -75,19 +74,14 @@ describe('ComponentMapperService', () => {
   });
 
   describe('initWebComponent', () => {
-    let mockRenderer: Renderer2;
-    let mockScriptElement;
+    const mockScriptElement = { setAttribute: createSpy(), onload: undefined };
 
-    beforeEach(() => {
-      mockScriptElement = { setAttribute: createSpy(), onload: undefined };
+    const mockRenderer: Renderer2 = {
+      createElement: createSpy().and.returnValue(mockScriptElement),
+      appendChild: createSpy(),
+    } as any;
 
-      mockRenderer = {
-        createElement: createSpy().and.returnValue(mockScriptElement),
-        appendChild: createSpy(),
-      } as any;
-    });
-
-    it('should return selector and initialize scripts', async () => {
+    it('should return selector', async () => {
       const selector = await mapperService.initWebComponent(
         'CMSWebComponent',
         mockRenderer
@@ -99,17 +93,6 @@ describe('ComponentMapperService', () => {
         'src',
         'path/to/file.js'
       );
-    });
-
-    it('should return selector for eagerly loaded web components', async () => {
-      const selector = await mapperService.initWebComponent(
-        'CMSEagerWebComponent',
-        mockRenderer
-      );
-      expect(selector).toEqual('cms-eager-component');
-      expect(mockRenderer.createElement).not.toHaveBeenCalled();
-      expect(mockRenderer.appendChild).not.toHaveBeenCalled();
-      expect(mockScriptElement.setAttribute).not.toHaveBeenCalled();
     });
 
     it('should return true to web component', inject(
