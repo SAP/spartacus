@@ -46,8 +46,9 @@ export class AuthService {
 
   /**
    * Starts an ASM customer emulation session.
-   * @param userId
-   * @param password
+   * A customer emulation session is stoped by calling logout().
+   * @param customerSupportAgentToken
+   * @param customerId
    */
   public startCustomerEmulationSession(
     customerSupportAgentToken: UserToken,
