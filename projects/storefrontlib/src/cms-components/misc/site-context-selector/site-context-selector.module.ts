@@ -40,6 +40,5 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
   providers: [SiteContextComponentService],
   declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
   entryComponents: [SiteContextSelectorComponent, LanguageCurrencyComponent],
-  exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
 })
 export class SiteContextSelectorModule {}
