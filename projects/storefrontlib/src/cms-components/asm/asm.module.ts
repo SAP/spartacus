@@ -7,7 +7,11 @@ import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-fo
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, I18nModule],
-  declarations: [AsmComponent, CSAgentLoginFormComponent, CustomerSelectionComponent],
+  declarations: [
+    AsmComponent,
+    CSAgentLoginFormComponent,
+    CustomerSelectionComponent,
+  ],
   exports: [AsmComponent],
 })
 export class AsmModule {}
