@@ -78,7 +78,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
    * Use configurable endpoints. Will be removed as of 2.0.
    */
   private legacyLoad(userId: string, orderCode: string): Observable<Order> {
-    const url = this.getOrderEndpoint(userId) + '/xxxx' + orderCode;
+    const url = this.getOrderEndpoint(userId) + '/' + orderCode;
 
     const params = new HttpParams({
       fromString: 'fields=FULL',
