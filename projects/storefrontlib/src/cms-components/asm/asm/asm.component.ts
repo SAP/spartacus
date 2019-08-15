@@ -56,4 +56,8 @@ export class AsmComponent implements OnInit {
       )
       .unsubscribe();
   }
+
+  stopCustomerSession(): void {
+    this.auth.logout();
+  }
 }
