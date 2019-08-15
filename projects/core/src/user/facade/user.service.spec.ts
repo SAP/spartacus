@@ -16,7 +16,7 @@ describe('UserService', () => {
   let service: UserService;
   let store: Store<StateWithUser>;
   class MockAuthService {
-    getStorefrontUserId(): Observable<string> {
+    getOccUserId(): Observable<string> {
       return of('current');
     }
   }

@@ -52,7 +52,7 @@ export class UserService {
    */
   load(): void {
     this.authService
-      .getStorefrontUserId()
+      .getOccUserId()
       .pipe(take(1))
       .subscribe(storefrontUserId =>
         this.store.dispatch(new UserActions.LoadUserDetails(storefrontUserId))

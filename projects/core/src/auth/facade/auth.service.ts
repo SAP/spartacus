@@ -70,7 +70,7 @@ export class AuthService {
    * The user id of a regular customer session is 'current'.  In the case of an
    * asm customer emulation session, the userId will be the customerId.
    */
-  getStorefrontUserId(): Observable<string> {
+  getOccUserId(): Observable<string> {
     return this.getUserToken().pipe(
       map(userToken =>
         Object.keys(userToken).length !== 0
