@@ -22,6 +22,6 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
   entryComponents: [SuggestedAddressDialogComponent],
-  exports: [AddressFormComponent, SuggestedAddressDialogComponent],
+  exports: [AddressFormComponent],
 })
 export class AddressFormModule {}

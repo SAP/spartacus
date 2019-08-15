@@ -28,7 +28,7 @@ import { UpdateProfileComponent } from './update-profile.component';
     I18nModule,
   ],
   declarations: [UpdateProfileComponent, UpdateProfileFormComponent],
-  exports: [UpdateProfileComponent, UpdateProfileFormComponent],
+  exports: [UpdateProfileComponent],
   entryComponents: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}

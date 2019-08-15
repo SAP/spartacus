@@ -31,7 +31,7 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     }),
   ],
   declarations: [CloseAccountComponent, CloseAccountModalComponent],
-  exports: [CloseAccountComponent, CloseAccountModalComponent],
+  exports: [CloseAccountComponent],
   entryComponents: [CloseAccountComponent, CloseAccountModalComponent],
 })
 export class CloseAccountModule {}
