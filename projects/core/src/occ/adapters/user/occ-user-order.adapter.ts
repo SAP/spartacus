@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { Order, OrderHistoryList } from '../../../model/order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
@@ -9,39 +10,92 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-// To be changed to a more optimised params after ticket: C3PO-1076
-const FULL_PARAMS = 'fields=FULL';
-
 @Injectable()
 export class OccUserOrderAdapter implements UserOrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected featureConfigService?: FeatureConfigService
   ) {}
 
+  /**
+   * @deprecated Since 1.1
+   * Use configurable endpoints. Will be removed as of 2.0.
+   */
   protected getOrderEndpoint(userId: string): string {
     const orderEndpoint = 'users/' + userId + '/orders';
     return this.occEndpoints.getEndpoint(orderEndpoint);
   }
 
   public load(userId: string, orderCode: string): Observable<Order> {
-    const url = this.getOrderEndpoint(userId);
+    // TODO 2.0: Remove
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+      return this.legacyLoad(userId, orderCode);
+    }
 
-    const orderUrl = url + '/' + orderCode;
-
-    const params = new HttpParams({
-      fromString: FULL_PARAMS,
+    const url = this.occEndpoints.getUrl('orderDetail', {
+      userId,
+      orderId: orderCode,
     });
 
     return this.http
-      .get<Occ.Order>(orderUrl, {
-        params: params,
-      })
+      .get<Occ.Order>(url)
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 
   public loadHistory(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList> {
+    // TODO 2.0: Remove
+    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+      return this.legacyLoadHistory(userId, pageSize, currentPage, sort);
+    }
+
+    const params = {};
+    if (pageSize) {
+      params['pageSize'] = pageSize.toString();
+    }
+    if (currentPage) {
+      params['currentPage'] = currentPage.toString();
+    }
+    if (sort) {
+      params['sort'] = sort.toString();
+    }
+
+    const url = this.occEndpoints.getUrl('orderHistory', { userId }, params);
+
+    return this.http
+      .get<Occ.OrderHistoryList>(url)
+      .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
+  }
+
+  /**
+   * @deprecated Since 1.1
+   * Use configurable endpoints. Will be removed as of 2.0.
+   */
+  private legacyLoad(userId: string, orderCode: string): Observable<Order> {
+    const url = this.getOrderEndpoint(userId) + '/xxxx' + orderCode;
+
+    const params = new HttpParams({
+      fromString: 'fields=FULL',
+    });
+
+    return this.http
+      .get<Occ.Order>(url, {
+        params,
+      })
+      .pipe(this.converter.pipeable(ORDER_NORMALIZER));
+  }
+
+  /**
+   * @deprecated Since 1.1
+   * Use configurable endpoints. Will be removed as of 2.0.
+   */
+  private legacyLoadHistory(
     userId: string,
     pageSize?: number,
     currentPage?: number,
