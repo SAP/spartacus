@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
@@ -15,7 +15,7 @@ export class CustomerSupportAgentTokenEffects {
   > = this.actions$.pipe(
     ofType(AuthActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN),
     map((action: AuthActions.LoadCustomerSupportAgentToken) => action.payload),
-    concatMap(({ userId, password }) =>
+    switchMap(({ userId, password }) =>
       this.userTokenService.loadToken(userId, password).pipe(
         map((token: UserToken) => {
           const date = new Date();

@@ -34,7 +34,6 @@ export class AuthService {
    * @param password
    */
   authorizeCustomerSupporAgent(userId: string, password: string): void {
-    console.log('AuthService.authorizeCustomerSupporAgent:', userId, password);
     this.store.dispatch(
       new AuthActions.LoadCustomerSupportAgentToken({
         userId: userId,
