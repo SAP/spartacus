@@ -26,6 +26,9 @@ const mergedCart: Cart = {
   name: 'mergedCart',
 };
 
+const usersEndpoint = 'users';
+const cartsEndpoint = 'carts';
+
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpoint);
@@ -182,7 +185,7 @@ describe('OccCartAdapter', () => {
       const email = 'tester@sap.com';
       let result: Object;
 
-      service
+      occCartAdapter
         .addEmail(userId, cartId, email)
         .subscribe(value => (result = value));
 
