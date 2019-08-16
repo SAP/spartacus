@@ -1,7 +1,12 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Order, PromotionResult } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  Order,
+  PromotionResult,
+  Consignment,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
@@ -75,6 +80,17 @@ class MockCartItemListComponent {
   cartIsLoading = false;
 }
 
+@Component({
+  selector: 'cx-consignment-tracking',
+  template: '',
+})
+class MockConsignmentTrackingComponent {
+  @Input()
+  consignment: Consignment;
+  @Input()
+  orderCode: string;
+}
+
 describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
@@ -93,7 +109,11 @@ describe('OrderDetailItemsComponent', () => {
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
       ],
-      declarations: [OrderDetailItemsComponent, MockCartItemListComponent],
+      declarations: [
+        OrderDetailItemsComponent,
+        MockCartItemListComponent,
+        MockConsignmentTrackingComponent,
+      ],
     }).compileComponents();
   }));
 

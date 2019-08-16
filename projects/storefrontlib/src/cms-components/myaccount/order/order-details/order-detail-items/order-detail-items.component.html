@@ -13,6 +13,12 @@
         <div>{{ 'orderDetails.shippedOn' | cxTranslate }}&nbsp;</div>
         <div>{{ consignment?.statusDate | cxDate }}</div>
       </div>
+
+      <cx-consignment-tracking
+        [orderCode]="order.code"
+        [consignment]="consignment"
+      >
+      </cx-consignment-tracking>
     </div>
     <div class="cx-list-item col-12">
       <cx-cart-item-list

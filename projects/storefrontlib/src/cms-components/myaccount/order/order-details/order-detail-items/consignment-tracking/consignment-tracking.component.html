@@ -1,0 +1,14 @@
+<div
+  *ngIf="
+    config.moduleConfig.consignmentTracking &&
+    consignmentStatus.includes(consignment.status)
+  "
+>
+  <button
+    (click)="openTrackingDialog(consignment)"
+    class="btn btn-action"
+    data-test="btn-events"
+  >
+    {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}
+  </button>
+</div>
