@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CaptchaConfig } from '../config';
-import { CaptchaActions, StateWithCaptcha } from '../store';
+import { CaptchaConfig } from '../config/index';
+import { CaptchaActions, StateWithCaptcha } from '../store/index';
 import { Store } from '@ngrx/store';
 
 declare var grecaptcha: any;
