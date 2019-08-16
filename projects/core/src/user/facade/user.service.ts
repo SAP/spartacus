@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -73,7 +72,13 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.store.dispatch(new UserActions.RemoveUser(USERID_CURRENT));
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(storefrontUserId =>
+        this.store.dispatch(new UserActions.RemoveUser(storefrontUserId))
+      )
+      .unsubscribe();
   }
 
   /**
@@ -137,12 +142,18 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.store.dispatch(
-      new UserActions.UpdateUserDetails({
-        username: USERID_CURRENT,
-        userDetails,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(storefrontUserId =>
+        this.store.dispatch(
+          new UserActions.UpdateUserDetails({
+            username: storefrontUserId,
+            userDetails,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
@@ -201,13 +212,19 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    this.store.dispatch(
-      new UserActions.UpdateEmailAction({
-        uid: USERID_CURRENT,
-        password,
-        newUid,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(storefrontUserId =>
+        this.store.dispatch(
+          new UserActions.UpdateEmailAction({
+            uid: storefrontUserId,
+            password,
+            newUid,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
@@ -250,13 +267,19 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.store.dispatch(
-      new UserActions.UpdatePassword({
-        userId: USERID_CURRENT,
-        oldPassword,
-        newPassword,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(storefrontUserId =>
+        this.store.dispatch(
+          new UserActions.UpdatePassword({
+            userId: storefrontUserId,
+            oldPassword,
+            newPassword,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
