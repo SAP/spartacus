@@ -5,7 +5,7 @@ import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
-fdescribe('CustomerSelectionComponent', () => {
+describe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
   let customerIdFormControl: AbstractControl;
