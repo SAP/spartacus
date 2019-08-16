@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
@@ -53,8 +53,8 @@ export class UserService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(storefrontUserId =>
-        this.store.dispatch(new UserActions.LoadUserDetails(storefrontUserId))
+      .subscribe(occUserId =>
+        this.store.dispatch(new UserActions.LoadUserDetails(occUserId))
       )
       .unsubscribe();
   }
@@ -75,8 +75,8 @@ export class UserService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(storefrontUserId =>
-        this.store.dispatch(new UserActions.RemoveUser(storefrontUserId))
+      .subscribe(occUserId =>
+        this.store.dispatch(new UserActions.RemoveUser(occUserId))
       )
       .unsubscribe();
   }
@@ -145,10 +145,10 @@ export class UserService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(storefrontUserId =>
+      .subscribe(occUserId =>
         this.store.dispatch(
           new UserActions.UpdateUserDetails({
-            username: storefrontUserId,
+            username: occUserId,
             userDetails,
           })
         )
@@ -215,10 +215,10 @@ export class UserService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(storefrontUserId =>
+      .subscribe(occUserId =>
         this.store.dispatch(
           new UserActions.UpdateEmailAction({
-            uid: storefrontUserId,
+            uid: occUserId,
             password,
             newUid,
           })
@@ -270,10 +270,10 @@ export class UserService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(storefrontUserId =>
+      .subscribe(occUserId =>
         this.store.dispatch(
           new UserActions.UpdatePassword({
-            userId: storefrontUserId,
+            userId: occUserId,
             oldPassword,
             newPassword,
           })
