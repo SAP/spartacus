@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -13,7 +13,15 @@ import { StateWithUser } from '../store/user-state';
   providedIn: 'root',
 })
 export class UserOrderService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  /**
+   * @deprecated since version 1.x
+   *  Use constructor(el: ElementRef, renderer: Renderer2) instead
+   */
+  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService?: AuthService
+  ) {}
 
   /**
    * Returns an order's detail
@@ -28,12 +36,18 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.store.dispatch(
-      new UserActions.LoadOrderDetails({
-        userId: USERID_CURRENT,
-        orderCode: orderCode,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.LoadOrderDetails({
+            userId: occUserId,
+            orderCode: orderCode,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
@@ -76,14 +90,20 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.store.dispatch(
-      new UserActions.LoadUserOrders({
-        userId: USERID_CURRENT,
-        pageSize: pageSize,
-        currentPage: currentPage,
-        sort: sort,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.LoadUserOrders({
+            userId: occUserId,
+            pageSize: pageSize,
+            currentPage: currentPage,
+            sort: sort,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
