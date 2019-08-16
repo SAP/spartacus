@@ -1,7 +1,13 @@
 import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AuthService, I18nTestingModule, User, UserService, UserToken } from '@spartacus/core';
+import {
+  AuthService,
+  I18nTestingModule,
+  User,
+  UserService,
+  UserToken,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmComponent } from './asm.component';
 
@@ -50,7 +56,7 @@ class MockCSAgentLoginFormComponent {
   submitEvent = new EventEmitter();
 }
 
-fdescribe('AsmComponent', () => {
+describe('AsmComponent', () => {
   let component: AsmComponent;
   let fixture: ComponentFixture<AsmComponent>;
   let authService: AuthService;
