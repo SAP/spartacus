@@ -15,7 +15,8 @@ import { StateWithUser } from '../store/user-state';
 export class UserOrderService {
   /**
    * @deprecated since version 1.x
-   *  Use constructor(el: ElementRef, renderer: Renderer2) instead
+   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
+   *  authService: AuthService) instead
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
