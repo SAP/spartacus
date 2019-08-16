@@ -2,6 +2,7 @@
  * Public API Surface of core
  */
 export * from './src/auth/index';
+export * from './src/captcha/index';
 export * from './src/cart/index';
 export * from './src/checkout/index';
 export * from './src/cms/index';
