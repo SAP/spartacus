@@ -3,7 +3,7 @@ import { CaptchaService } from './facade/captcha.service';
 import { CaptchaConfig } from './config';
 import { Config, provideConfig } from '../config/config.module';
 import { defaultCaptchaConfig } from './config/default-captcha-config';
-import { httpInterceptors } from './http-interceptors';
+import { captchaHttpInterceptors } from './http-interceptors/index';
 import { CaptchaStoreModule } from './store/captcha-store.module';
 
 @NgModule({
@@ -18,7 +18,7 @@ export class CaptchaModule {
         CaptchaService,
         { provide: CaptchaConfig, useExisting: Config },
         provideConfig(defaultCaptchaConfig),
-        ...httpInterceptors,
+        ...captchaHttpInterceptors,
       ],
     };
   }
