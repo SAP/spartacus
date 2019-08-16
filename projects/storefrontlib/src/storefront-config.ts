@@ -14,11 +14,7 @@ import { CheckoutConfig } from './cms-components/checkout/config/checkout-config
 import { IconConfig } from './cms-components/misc/icon/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { LayoutConfig } from './layout/config/layout-config';
-<<<<<<< HEAD
 import { FeatureToggles } from './feature-toggles';
-=======
-import { ModuleConfig } from './recipes/config/module-config/module-config';
->>>>>>> refs/remotes/origin/feature/consignment-tracking
 
 export type StorefrontConfig =
   | AuthConfig
@@ -35,8 +31,4 @@ export type StorefrontConfig =
   | CheckoutConfig
   | KymaConfig
   | GlobalMessageConfig
-<<<<<<< HEAD
   | FeatureToggles;
-=======
-  | ModuleConfig;
->>>>>>> refs/remotes/origin/feature/consignment-tracking

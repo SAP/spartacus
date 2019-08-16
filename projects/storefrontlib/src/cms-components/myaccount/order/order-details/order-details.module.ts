@@ -7,6 +7,7 @@ import {
   ConfigModule,
   I18nModule,
   Config,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
 import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component';
@@ -36,6 +37,7 @@ const moduleComponents = [
     CardModule,
     CommonModule,
     I18nModule,
+    FeaturesConfigModule,
     RouterModule.forChild([
       {
         path: null,

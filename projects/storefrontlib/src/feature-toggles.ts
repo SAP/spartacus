@@ -7,5 +7,6 @@ export interface FeatureToggles {
      */
     level?: string;
     configurableOccEndpoints?: boolean;
+    consignmentTracking?: boolean;
   };
 }

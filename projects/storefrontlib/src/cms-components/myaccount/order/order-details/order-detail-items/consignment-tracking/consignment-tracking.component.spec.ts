@@ -54,6 +54,7 @@ describe('ConsignmentTrackingComponent', () => {
   const userOrderService = jasmine.createSpyObj('UserOrderService', [
     'loadConsignmentTracking',
     'getConsignmentTracking',
+    'clearConsignmentTracking',
   ]);
 
   beforeEach(async(() => {
@@ -89,6 +90,7 @@ describe('ConsignmentTrackingComponent', () => {
     userOrderService.getConsignmentTracking.and.returnValue(
       of(mockConsignment)
     );
+    userOrderService.clearConsignmentTracking.and.callFake(() => {});
   });
 
   it('should create', () => {

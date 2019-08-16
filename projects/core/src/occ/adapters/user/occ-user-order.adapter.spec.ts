@@ -6,26 +6,17 @@ import {
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { ConverterService, OccUserOrderAdapter } from '@spartacus/core';
-<<<<<<< HEAD
 import { FeatureConfigService } from 'projects/core/src/features-config';
-=======
->>>>>>> refs/remotes/origin/feature/consignment-tracking
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
-<<<<<<< HEAD
-import { Order } from '../../../model/order.model';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
-import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
 } from './unit-test.helper';
-=======
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { Order } from '../../../model/order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { OccConfig } from '../../config/occ-config';
->>>>>>> refs/remotes/origin/feature/consignment-tracking
 
 const userId = '123';
 
@@ -36,13 +27,11 @@ const orderData: Order = {
 };
 const consignmentCode = 'a00001004';
 
-<<<<<<< HEAD
 class MockFeatureConfigService {
   isEnabled(_feature: string): boolean {
     return true;
   }
 }
-=======
 const usersEndpoint = '/users';
 const orderEndpoint = '/orders';
 const consignmentEndpoint = '/consignments';
@@ -59,7 +48,6 @@ const MockOccModuleConfig: OccConfig = {
     baseSite: [''],
   },
 };
->>>>>>> refs/remotes/origin/feature/consignment-tracking
 
 describe('OccUserOrderAdapter', () => {
   let occUserOrderAdapter: OccUserOrderAdapter;

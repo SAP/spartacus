@@ -3,11 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
-<<<<<<< HEAD
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
-=======
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
->>>>>>> refs/remotes/origin/feature/consignment-tracking
 import { Order, OrderHistoryList } from '../../../model/order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';

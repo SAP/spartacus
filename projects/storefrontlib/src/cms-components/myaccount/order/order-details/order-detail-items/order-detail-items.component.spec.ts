@@ -6,6 +6,8 @@ import {
   Order,
   PromotionResult,
   Consignment,
+  FeaturesConfig,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
@@ -105,9 +107,15 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule],
+      imports: [CardModule, I18nTestingModule, FeaturesConfigModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.1' },
+          },
+        },
       ],
       declarations: [
         OrderDetailItemsComponent,
