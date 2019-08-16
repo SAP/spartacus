@@ -12,14 +12,15 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
+class MockAuthService {
+  getOccUserId(): Observable<string> {
+    return of('current');
+  }
+}
+
 describe('UserService', () => {
   let service: UserService;
   let store: Store<StateWithUser>;
-  class MockAuthService {
-    getOccUserId(): Observable<string> {
-      return of('current');
-    }
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({

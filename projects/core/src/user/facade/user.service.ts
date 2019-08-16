@@ -25,7 +25,8 @@ import {
 export class UserService {
   /**
    * @deprecated since version 1.x
-   *  Use constructor(el: ElementRef, renderer: Renderer2) instead
+   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
+   *  authService: AuthService) instead
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
