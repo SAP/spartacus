@@ -95,7 +95,7 @@ describe('CSAgentLoginFormComponent', () => {
       });
     });
 
-    it('should NOT display when all field have valid valies', () => {
+    it('should NOT display when all field have valid values', () => {
       userIdFormControl.setValue(validUserId);
       passwordFormControl.setValue(validPassword);
       testUtils.clickSubmit(fixture);
