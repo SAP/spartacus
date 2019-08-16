@@ -53,7 +53,7 @@ export class AuthService {
   public startCustomerEmulationSession(
     customerSupportAgentToken: UserToken,
     customerId: string
-  ) {
+  ): void {
     this.authorizeWithToken({
       ...customerSupportAgentToken,
       userId: customerId,

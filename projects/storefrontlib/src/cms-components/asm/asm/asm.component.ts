@@ -43,8 +43,7 @@ export class AsmComponent implements OnInit {
     this.auth.logoutCustomerSupportAgent();
   }
 
-  startCustomerSession({ customerId }: { customerId: string }): void {
-    console.log('startCustomerSession:', customerId);
+  startCustomerEmulationSession({ customerId }: { customerId: string }): void {
     this.auth
       .getCustomerSupportAgentToken()
       .pipe(take(1))
@@ -57,7 +56,7 @@ export class AsmComponent implements OnInit {
       .unsubscribe();
   }
 
-  stopCustomerSession(): void {
+  stopCustomerEmulationSession(): void {
     this.auth.logout();
   }
 }

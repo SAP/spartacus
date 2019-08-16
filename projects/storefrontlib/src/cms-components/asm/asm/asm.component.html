@@ -6,19 +6,19 @@
       *ngIf="(customer$ | async) as customer; else showCustomerSelection"
     >
       <div>
-        {{ customer.name }}
+        {{ customer?.name }}
       </div>
       <button
         class="btn btn-block btn-secondary"
         type="button"
-        (click)="stopCustomerSession()"
+        (click)="stopCustomerEmulationSession()"
       >
         {{ 'asm.stopCustomerSession' | cxTranslate }}
       </button>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection
-        (submitEvent)="startCustomerSession($event)"
+        (submitEvent)="startCustomerEmulationSession($event)"
       ></cx-customer-selection>
       <button
         class="btn btn-block btn-secondary"
