@@ -89,15 +89,22 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     if (elementName) {
       this.webElement = this.renderer.createElement(elementName);
 
+      const cmsComponentData = this.getCmsDataForComponent();
+
       this.webElement.cxApi = {
         ...this.injector.get(CxApiService),
-        CmsComponentData: this.getCmsDataForComponent(),
+        CmsComponentData: cmsComponentData, // TODO: remove / deprecated since 1.0.x
+        cmsComponentData,
       };
 
       this.renderer.appendChild(
         this.vcr.element.nativeElement.parentElement,
         this.webElement
       );
+
+      if (this.cmsService.isLaunchInSmartEdit()) {
+        this.addSmartEditContract(this.webElement);
+      }
     }
   }
 
@@ -139,10 +146,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       this.cmpRef.destroy();
     }
     if (this.webElement) {
-      this.renderer.removeChild(
-        this.vcr.element.nativeElement.parentElement,
-        this.webElement
-      );
+      this.webElement.remove();
     }
   }
 }
