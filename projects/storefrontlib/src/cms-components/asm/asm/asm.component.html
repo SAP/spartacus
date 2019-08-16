@@ -1,0 +1,19 @@
+<ng-container>
+  <div
+    class="col-md-6"
+    *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm"
+  >
+    <button
+      class="btn btn-block btn-secondary"
+      type="button"
+      (click)="logoutCustomerSupportAgent()"
+    >
+      {{ 'asm.logout' | cxTranslate }}
+    </button>
+  </div>
+  <ng-template #showLoginForm>
+    <cx-csagent-login-form
+      (submitEvent)="loginCustomerSupportAgent($event)"
+    ></cx-csagent-login-form>
+  </ng-template>
+</ng-container>

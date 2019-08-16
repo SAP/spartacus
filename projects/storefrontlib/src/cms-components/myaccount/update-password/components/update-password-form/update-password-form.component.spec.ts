@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import * as testUtils from '../../../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../../../shared/utils/forms/form-utils';
 import { UpdatePasswordFormComponent } from './update-password-form.component';
 
@@ -55,7 +56,7 @@ describe('UpdatePasswordFormComponent', () => {
     it('should be called when submit button is clicked', () => {
       spyOn(component, 'onSubmit').and.stub();
 
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
 
       expect(component.onSubmit).toHaveBeenCalled();
     });
@@ -103,18 +104,30 @@ describe('UpdatePasswordFormComponent', () => {
     it('should NOT display when displaying the form', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'oldPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPasswordConfirm')
+        ).toBeFalsy();
       });
     });
     it('should display when submit an empty form', () => {
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'oldPassword')
+        ).toBeTruthy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPassword')
+        ).toBeTruthy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPasswordConfirm')
+        ).toBeFalsy();
       });
     });
 
@@ -122,12 +135,18 @@ describe('UpdatePasswordFormComponent', () => {
       oldPassword.setValue(validPassword);
       newPassword.setValue(validPassword);
       newPasswordConfirm.setValue(validPassword);
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'oldPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPasswordConfirm')
+        ).toBeFalsy();
       });
     });
 
@@ -135,12 +154,18 @@ describe('UpdatePasswordFormComponent', () => {
       oldPassword.setValue('');
       newPassword.setValue(invalidPassword);
       newPasswordConfirm.setValue(mismatchPassword);
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeTruthy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'oldPassword')
+        ).toBeTruthy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPassword')
+        ).toBeTruthy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPasswordConfirm')
+        ).toBeTruthy();
       });
     });
   });
@@ -155,9 +180,15 @@ describe('UpdatePasswordFormComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'oldPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPasswordConfirm')
+        ).toBeFalsy();
       });
     });
     it('should NOT display until the user is finished typing', () => {
@@ -170,9 +201,15 @@ describe('UpdatePasswordFormComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'oldPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPasswordConfirm')
+        ).toBeFalsy();
       });
     });
 
@@ -189,9 +226,15 @@ describe('UpdatePasswordFormComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeTruthy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'oldPassword')
+        ).toBeTruthy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPassword')
+        ).toBeTruthy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPasswordConfirm')
+        ).toBeTruthy();
       });
     });
     it('should NOT display when the user is finished typing valid input', () => {
@@ -207,33 +250,16 @@ describe('UpdatePasswordFormComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'oldPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPassword')
+        ).toBeFalsy();
+        expect(
+          testUtils.isCtrlShowingError(fixture, 'newPasswordConfirm')
+        ).toBeFalsy();
       });
     });
   });
-
-  function isFormControlDisplayingError(formControlName: string): boolean {
-    const elementWithErrorMessage = fixture.debugElement.query(
-      By.css(
-        `input[formcontrolname="${formControlName}"] + div.invalid-feedback`
-      )
-    );
-
-    if (!elementWithErrorMessage) {
-      return false;
-    }
-
-    const errorMessage: string =
-      elementWithErrorMessage.nativeElement.innerText;
-    return errorMessage && errorMessage.trim().length > 0;
-  }
-
-  function clickSubmit() {
-    const submitBtn = fixture.debugElement.query(
-      By.css('button[type="submit"]')
-    );
-    submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-  }
 });

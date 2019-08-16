@@ -29,10 +29,31 @@ export class AuthService {
   }
 
   /**
+   * Loads a user token for a customer support agent
+   * @param userId
+   * @param password
+   */
+  authorizeCustomerSupporAgent(userId: string, password: string): void {
+    this.store.dispatch(
+      new AuthActions.LoadCustomerSupportAgentToken({
+        userId: userId,
+        password: password,
+      })
+    );
+  }
+
+  /**
    * Returns the user's token
    */
   getUserToken(): Observable<UserToken> {
     return this.store.pipe(select(AuthSelectors.getUserToken));
+  }
+
+  /**
+   * Returns the customer support agent's token
+   */
+  getCustomerSupportAgentToken(): Observable<UserToken> {
+    return this.store.pipe(select(AuthSelectors.getCustomerSupportAgentToken));
   }
 
   /**
@@ -55,12 +76,18 @@ export class AuthService {
   }
 
   /**
-   * Logout
+   * Logout a storefront customer
    */
   logout(): void {
     this.store.dispatch(new AuthActions.Logout());
   }
 
+  /**
+   * Logout a customer support agent
+   */
+  logoutCustomerSupportAgent(): void {
+    this.store.dispatch(new AuthActions.LogoutCustomerSupportAgent());
+  }
   /**
    * Returns a client token.  The client token from the store is returned if there is one.
    * Otherwise, an new token is fetched from the backend and saved in the store.
