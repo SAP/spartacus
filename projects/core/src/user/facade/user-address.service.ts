@@ -13,6 +13,11 @@ import { StateWithUser } from '../store/user-state';
   providedIn: 'root',
 })
 export class UserAddressService {
+  /**
+   * @deprecated since version 1.x
+   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
+    authService: AuthService) instead
+   */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
