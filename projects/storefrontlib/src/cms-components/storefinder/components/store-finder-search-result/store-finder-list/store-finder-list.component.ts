@@ -14,7 +14,7 @@ export class StoreFinderListComponent {
   @ViewChild('storeMap', { static: false })
   storeMap: StoreFinderMapComponent;
 
-  selectedStore = 0;
+  selectedStore: number;
   isDetailsModeVisible: boolean;
   storeDetails: PointOfService;
 
@@ -49,5 +49,7 @@ export class StoreFinderListComponent {
 
   hideStoreDetails() {
     this.isDetailsModeVisible = false;
+    this.selectedStore = undefined;
+    this.storeMap.renderMap();
   }
 }
