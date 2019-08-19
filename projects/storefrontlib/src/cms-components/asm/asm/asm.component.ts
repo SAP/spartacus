@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, UserToken } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { AuthService, User, UserService, UserToken } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-asm',
@@ -8,11 +9,24 @@ import { Observable } from 'rxjs';
 })
 export class AsmComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
+  customer$: Observable<User>;
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    protected auth: AuthService,
+    protected userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.csAgentToken$ = this.auth.getCustomerSupportAgentToken();
+    this.customer$ = this.auth.getUserToken().pipe(
+      switchMap(token => {
+        if (token && !!token.access_token) {
+          return this.userService.get();
+        } else {
+          return of(undefined);
+        }
+      })
+    );
   }
 
   loginCustomerSupportAgent({
@@ -27,5 +41,22 @@ export class AsmComponent implements OnInit {
 
   logoutCustomerSupportAgent(): void {
     this.auth.logoutCustomerSupportAgent();
+  }
+
+  startCustomerEmulationSession({ customerId }: { customerId: string }): void {
+    this.auth
+      .getCustomerSupportAgentToken()
+      .pipe(take(1))
+      .subscribe(customerSupportAgentToken =>
+        this.auth.startCustomerEmulationSession(
+          customerSupportAgentToken,
+          customerId
+        )
+      )
+      .unsubscribe();
+  }
+
+  stopCustomerEmulationSession(): void {
+    this.auth.logout();
   }
 }

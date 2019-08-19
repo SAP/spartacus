@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
@@ -22,7 +23,16 @@ import {
 
 @Injectable()
 export class UserService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  /**
+   * @deprecated since version 1.x
+   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
+   *  authService: AuthService) instead
+   */
+  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService?: AuthService
+  ) {}
 
   /**
    * Returns a user
@@ -42,7 +52,13 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.store.dispatch(new UserActions.LoadUserDetails(USERID_CURRENT));
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(storefrontUserId =>
+        this.store.dispatch(new UserActions.LoadUserDetails(storefrontUserId))
+      )
+      .unsubscribe();
   }
 
   /**

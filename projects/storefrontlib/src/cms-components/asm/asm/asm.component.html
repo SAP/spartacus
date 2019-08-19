@@ -1,19 +1,38 @@
-<ng-container>
-  <div
-    class="col-md-6"
+<div class="col-md-6">
+  <ng-container
     *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm"
   >
-    <button
-      class="btn btn-block btn-secondary"
-      type="button"
-      (click)="logoutCustomerSupportAgent()"
+    <ng-container
+      *ngIf="(customer$ | async) as customer; else showCustomerSelection"
     >
-      {{ 'asm.logout' | cxTranslate }}
-    </button>
-  </div>
+      <div>
+        {{ customer?.name }}
+      </div>
+      <button
+        class="btn btn-block btn-secondary"
+        type="button"
+        (click)="stopCustomerEmulationSession()"
+      >
+        {{ 'asm.stopCustomerSession' | cxTranslate }}
+      </button>
+    </ng-container>
+    <ng-template #showCustomerSelection>
+      <cx-customer-selection
+        (submitEvent)="startCustomerEmulationSession($event)"
+      ></cx-customer-selection>
+      <button
+        class="btn btn-block btn-secondary"
+        type="button"
+        (click)="logoutCustomerSupportAgent()"
+      >
+        {{ 'asm.logout' | cxTranslate }}
+      </button>
+    </ng-template>
+  </ng-container>
+
   <ng-template #showLoginForm>
     <cx-csagent-login-form
       (submitEvent)="loginCustomerSupportAgent($event)"
     ></cx-csagent-login-form>
   </ng-template>
-</ng-container>
+</div>
