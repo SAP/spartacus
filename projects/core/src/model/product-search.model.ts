@@ -1,6 +1,5 @@
 import { PaginationModel, SortModel } from './misc.model';
 import { Product } from './product.model';
-import { SearchConfig } from '../product';
 
 export interface SearchQuery {
   value?: string;
@@ -53,7 +52,6 @@ export interface ProductSearchPage {
   products?: Product[];
   sorts?: SortModel[];
   spellingSuggestion?: SpellingSuggestion;
-  searchConfig?: SearchConfig;
 }
 
 export interface Suggestion {
