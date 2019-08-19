@@ -7,7 +7,6 @@ import {
 import { StateConfig, StorageSyncType } from '../config/state-config';
 import {
   exists,
-  getKeysForStorage,
   getStorage,
   getStorageSyncReducer,
   isSsr,
@@ -240,32 +239,6 @@ describe('storage-sync-reducer', () => {
       it('should return true', () => {
         expect(exists({ a: { b: {} } })).toEqual(true);
       });
-    });
-  });
-
-  describe('getKeysForStorage', () => {
-    const keys: { [key: string]: StorageSyncType } = {
-      a: StorageSyncType.LOCAL_STORAGE,
-      b: StorageSyncType.SESSION_STORAGE,
-      v: StorageSyncType.NO_STORAGE,
-      g: StorageSyncType.LOCAL_STORAGE,
-      d: StorageSyncType.SESSION_STORAGE,
-      dj: StorageSyncType.NO_STORAGE,
-    };
-
-    it('should return two keys for local storage', () => {
-      const result = getKeysForStorage(keys, StorageSyncType.LOCAL_STORAGE);
-      expect(result).toEqual(['a', 'g']);
-    });
-
-    it('should return two keys for session storage', () => {
-      const result = getKeysForStorage(keys, StorageSyncType.SESSION_STORAGE);
-      expect(result).toEqual(['b', 'd']);
-    });
-
-    it('should return two keys for no storage', () => {
-      const result = getKeysForStorage(keys, StorageSyncType.NO_STORAGE);
-      expect(result).toEqual(['v', 'dj']);
     });
   });
 
