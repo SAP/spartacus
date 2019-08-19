@@ -30,8 +30,7 @@ export class PageLayoutComponent {
   );
 
   readonly slots$: Observable<string[]> = this.section$.pipe(
-    switchMap(section => this.pageLayoutService.getSlots(section)),
-    tap(x => console.log('slots', x))
+    switchMap(section => this.pageLayoutService.getSlots(section))
   );
 
   private currentClass;
