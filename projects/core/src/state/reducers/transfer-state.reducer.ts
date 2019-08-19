@@ -40,6 +40,10 @@ export function getTransferStateReducer(
   return reducer => reducer;
 }
 
+export const filterConfigKeys = (keys: {
+  [key: string]: StateTransferType;
+}): string[] => Object.keys(keys).filter(key => Boolean(keys[key]));
+
 export function getServerTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType }
@@ -48,7 +52,7 @@ export function getServerTransferStateReducer(
     return function(state, action: any) {
       const newState = reducer(state, action);
       if (newState) {
-        const stateSlice = getStateSlice(Object.keys(keys), newState);
+        const stateSlice = getStateSlice(filterConfigKeys(keys), newState);
         transferState.set(CX_KEY, stateSlice);
       }
 
@@ -75,7 +79,10 @@ export function getBrowserTransferStateReducer(
 
         if (!isLoggedIn && transferState.hasKey(CX_KEY)) {
           const cxKey = transferState.get(CX_KEY, {});
-          const transferredStateSlice = getStateSlice(Object.keys(keys), cxKey);
+          const transferredStateSlice = getStateSlice(
+            filterConfigKeys(keys),
+            cxKey
+          );
 
           state = deepMerge({}, state, transferredStateSlice);
         }
