@@ -383,11 +383,17 @@ fdescribe('ProductListComponent', () => {
       it('should display "show more" and "back to top" buttons when there are additional pages', () => {
         SpyOnModelAndReturn(mockModel);
 
-        expect(mockModel.pagination.totalPages).toEqual(2);
+        expect(mockModel.pagination.currentPage).not.toEqual(
+          mockModel.pagination.totalPages - 1
+        );
+
         component.ngOnInit();
+
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
+
         fixture.detectChanges();
+
         expect(
           el.query(By.css('.btn-link.back-to-top')).nativeElement
         ).toBeDefined();
@@ -399,11 +405,17 @@ fdescribe('ProductListComponent', () => {
       it('should NOT display "show more" button when there are no addtional pages', () => {
         SpyOnModelAndReturn(mockModel2);
 
-        expect(mockModel.pagination.totalPages).toEqual(2);
+        expect(mockModel2.pagination.currentPage).toEqual(
+          mockModel2.pagination.totalPages - 1
+        );
+
         component.ngOnInit();
+
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeTruthy();
+
         fixture.detectChanges();
+
         expect(
           el.query(By.css('.btn-link.back-to-top')).nativeElement
         ).toBeDefined();
