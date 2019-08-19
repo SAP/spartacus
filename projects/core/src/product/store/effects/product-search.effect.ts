@@ -21,7 +21,6 @@ export class ProductsSearchEffects {
             .search(action.payload.queryText, action.payload.searchConfig)
             .pipe(
               map(data => {
-                data.searchConfig = action.payload.searchConfig;
                 return new ProductActions.SearchProductsSuccess(
                   data,
                   action.auxiliary
