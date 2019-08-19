@@ -1,21 +1,17 @@
-import { Injectable } from '@angular/core';
-import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
-import { Address, AddressValidation } from '../../../model/address.model';
-import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
+import { Address, AddressValidation } from '../../../model/address.model';
 import {
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
   ADDRESS_VALIDATION_NORMALIZER,
 } from '../../../user/connectors/address/converters';
-
-const USER_ENDPOINT = 'users/';
-const ADDRESSES_ENDPOINT = '/addresses';
-const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
+import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccUserAddressAdapter implements UserAddressAdapter {
@@ -25,13 +21,8 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     protected converter: ConverterService
   ) {}
 
-  private getUserEndpoint(userId: string): string {
-    const endpoint = `${USER_ENDPOINT}${userId}`;
-    return this.occEndpoints.getEndpoint(endpoint);
-  }
-
   loadAll(userId: string): Observable<Address[]> {
-    const url = this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT;
+    const url = this.occEndpoints.getUrl('addresses', { userId });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -44,7 +35,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   add(userId: string, address: Address): Observable<{}> {
-    const url = this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT;
+    const url = this.occEndpoints.getUrl('addresses', { userId });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -56,8 +47,10 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   update(userId: string, addressId: string, address: Address): Observable<{}> {
-    const url =
-      this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT + '/' + addressId;
+    const url = this.occEndpoints.getUrl('addressDetail', {
+      userId,
+      addressId,
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -69,7 +62,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   verify(userId: string, address: Address): Observable<AddressValidation> {
-    const url = this.getUserEndpoint(userId) + ADDRESSES_VERIFICATION_ENDPOINT;
+    const url = this.occEndpoints.getUrl('addressVerification', { userId });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -82,8 +75,10 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   delete(userId: string, addressId: string): Observable<{}> {
-    const url =
-      this.getUserEndpoint(userId) + ADDRESSES_ENDPOINT + '/' + addressId;
+    const url = this.occEndpoints.getUrl('addressDetail', {
+      userId,
+      addressId,
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
