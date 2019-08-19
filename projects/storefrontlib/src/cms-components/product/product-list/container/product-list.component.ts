@@ -160,7 +160,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @deprecated at release 2.0.
+   * @deprecate at release 2.0.
    * If the new list is the same and it is not intended to reset the list then return true
    * Return false otherwise.
    * @param subModel
