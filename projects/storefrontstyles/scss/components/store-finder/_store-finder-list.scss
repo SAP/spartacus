@@ -4,6 +4,7 @@
     @include media-breakpoint-up(md) {
       display: flex;
       height: 70vh;
+      margin-bottom: 1rem;
     }
   }
   .cx-columns-mobile {
@@ -21,9 +22,10 @@
     }
   }
   .cx-map-col {
+    height: 100%;
     @include media-breakpoint-up(md) {
       height: 100%;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
   .cx-list {
@@ -47,15 +49,6 @@
         background-color: var(--cx-color-light);
       }
     }
-  }
-
-  .cx-ordered {
-    counter-increment: resultCount;
-  }
-  .cx-ordered:before {
-    content: counter(resultCount, decimal);
-    position: absolute;
-    left: 1rem;
   }
 
   .cx-not-found {

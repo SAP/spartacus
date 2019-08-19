@@ -9,6 +9,8 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   @Input()
   locationIndex: number = null;
+  @Input()
+  listOrderLabel: any;
   @Output()
   storeItemClick: EventEmitter<number> = new EventEmitter();
 
