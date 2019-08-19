@@ -13,26 +13,12 @@ import {
   USER_SERIALIZER,
 } from '@spartacus/core';
 import { OccConfig } from '../../config/occ-config';
+import { OccEndpointsService } from '../../services';
 import { OccUserAdapter } from './occ-user.adapter';
-
-const endpoint = '/users';
-const forgotPasswordEndpoint = '/forgottenpasswordtokens';
-const resetPasswordEndpoint = '/resetpassword';
-const updateEmailEndpoint = '/login';
-const updatePasswordEndpoint = '/password';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  context: {
-    baseSite: [''],
-  },
-};
+import {
+  MockOccEndpointsService,
+  mockOccModuleConfig,
+} from './unit-test.helper';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -43,27 +29,36 @@ const user: User = {
 };
 
 describe('OccUserAdapter', () => {
-  let service: OccUserAdapter;
+  let occUserAdapter: OccUserAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccUserAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
-    service = TestBed.get(OccUserAdapter as Type<OccUserAdapter>);
+
+    occUserAdapter = TestBed.get(OccUserAdapter as Type<OccUserAdapter>);
     httpMock = TestBed.get(HttpTestingController as Type<
       HttpTestingController
     >);
     converter = TestBed.get(ConverterService as Type<ConverterService>);
-
+    occEnpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -72,22 +67,29 @@ describe('OccUserAdapter', () => {
 
   describe('load user details', () => {
     it('should load user details for given username and access token', () => {
-      service.load(username).subscribe(result => {
+      occUserAdapter.load(username).subscribe(result => {
         expect(result).toEqual(user);
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + `/${username}`;
+        return req.method === 'GET';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
+        userId: user.customerId,
+      });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(user);
     });
 
     it('should use converter', () => {
-      service.load(username).subscribe();
-      httpMock.expectOne(endpoint + `/${username}`).flush(user);
+      occUserAdapter.load(username).subscribe();
+      httpMock
+        .expectOne(req => {
+          return req.method === 'GET';
+        })
+        .flush(user);
       expect(converter.pipeable).toHaveBeenCalledWith(USER_NORMALIZER);
     });
   });
@@ -97,10 +99,13 @@ describe('OccUserAdapter', () => {
       const userUpdates: User = {
         title: 'mr',
       };
-      service.update(username, userUpdates).subscribe(_ => _);
+      occUserAdapter.update(username, userUpdates).subscribe(_ => _);
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'PATCH' && req.url === endpoint + `/${username}`;
+        return req.method === 'PATCH';
+      });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
+        userId: user.customerId,
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -114,8 +119,12 @@ describe('OccUserAdapter', () => {
         title: 'mr',
       };
 
-      service.update(username, userUpdates).subscribe();
-      httpMock.expectOne(endpoint + `/${username}`).flush(userUpdates);
+      occUserAdapter.update(username, userUpdates).subscribe();
+      httpMock
+        .expectOne(req => {
+          return req.method === 'PATCH';
+        })
+        .flush(userUpdates);
       expect(converter.convert).toHaveBeenCalledWith(
         userUpdates,
         USER_SERIALIZER
@@ -126,17 +135,20 @@ describe('OccUserAdapter', () => {
   describe('forgot password: ', () => {
     it('should request a forgot password email for userId', () => {
       const testUserId = 'test@test.com';
-      service
+      occUserAdapter
         .requestForgotPasswordEmail(testUserId)
         .subscribe(result => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'POST' &&
-          req.url === `${forgotPasswordEndpoint}` &&
           req.serializeBody() === `userId=${testUserId}`
         );
       });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'userForgotPassword'
+      );
+
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
@@ -147,14 +159,17 @@ describe('OccUserAdapter', () => {
       const token = 'test token';
       const newPassword = 'new password';
 
-      service
+      occUserAdapter
         .resetPassword(token, newPassword)
         .subscribe(result => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === `${resetPasswordEndpoint}`;
+        return req.method === 'POST';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'userResetPassword'
+      );
       expect(mockReq.request.headers.get('cx-use-client-token')).toBeTruthy();
       expect(mockReq.request.body).toEqual({
         token: 'test token',
@@ -168,14 +183,17 @@ describe('OccUserAdapter', () => {
 
   describe('remove user account: ', () => {
     it('should be able to close user account', () => {
-      service
+      occUserAdapter
         .remove('testUserId')
         .subscribe(result => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'DELETE' && req.url === `${endpoint}/testUserId`;
+        return req.method === 'DELETE';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
+        userId: 'testUserId',
+      });
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
@@ -189,19 +207,22 @@ describe('OccUserAdapter', () => {
 
       let result: Object;
 
-      service
+      occUserAdapter
         .updateEmail(userId, currentPassword, newUserId)
         .subscribe(value => (result = value));
 
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'PUT' &&
-          req.url === `${endpoint}/${userId}${updateEmailEndpoint}` &&
           req.serializeBody() ===
             `password=${currentPassword}&newLogin=${newUserId}`
         );
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'userUpdateLoginId',
+        { userId }
+      );
       expect(mockReq.cancelled).toBeFalsy();
 
       mockReq.flush('');
@@ -217,17 +238,22 @@ describe('OccUserAdapter', () => {
 
       let result: Object;
 
-      service
+      occUserAdapter
         .updatePassword(userId, oldPassword, newPassword)
         .subscribe(value => (result = value));
 
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'PUT' &&
-          req.url === `${endpoint}/${userId}${updatePasswordEndpoint}` &&
           req.serializeBody() === `old=${oldPassword}&new=${newPassword}`
         );
       });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'userUpdatePassword',
+        { userId }
+      );
+
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
       expect(result).toEqual('');
@@ -249,21 +275,22 @@ describe('OccUserAdapter', () => {
         ],
       };
 
-      service.loadTitles().subscribe(result => {
+      occUserAdapter.loadTitles().subscribe(result => {
         expect(result).toEqual(titlesList.titles);
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === '/titles';
+        return req.method === 'GET';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('titles');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(titlesList);
     });
 
     it('should use converter', () => {
-      service.loadTitles().subscribe();
+      occUserAdapter.loadTitles().subscribe();
       httpMock.expectOne('/titles').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(TITLE_NORMALIZER);
     });
