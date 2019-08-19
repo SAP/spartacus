@@ -1,9 +1,9 @@
 import {
-  Injectable,
   ComponentFactoryResolver,
   Inject,
-  Renderer2,
+  Injectable,
   PLATFORM_ID,
+  Renderer2,
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CmsConfig } from '@spartacus/core';
@@ -89,15 +89,18 @@ export class ComponentMapperService {
       let script = this.loadedWebComponents[path];
 
       if (!script) {
-        script = renderer.createElement('script');
-        this.loadedWebComponents[path] = script;
-        script.setAttribute('src', path);
-        renderer.appendChild(this.document.body, script);
-
-        if (isPlatformBrowser(this.platform)) {
-          script.onload = () => {
-            script.onload = null;
-          };
+        if (path) {
+          script = renderer.createElement('script');
+          this.loadedWebComponents[path] = script;
+          script.setAttribute('src', path);
+          renderer.appendChild(this.document.body, script);
+          if (isPlatformBrowser(this.platform)) {
+            script.onload = () => {
+              script.onload = null;
+            };
+          }
+        } else {
+          script = {};
         }
       }
 

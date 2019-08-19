@@ -1,4 +1,5 @@
 import { checkBanner } from '../../../helpers/homepage';
+import * as alerts from '../../../helpers/global-message';
 
 const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
@@ -42,10 +43,9 @@ describe('Update profile', () => {
       });
 
       // check for the global message and home screen
-      cy.get('cx-global-message .alert-success').should(
-        'contain',
-        'Personal details successfully updated'
-      );
+      alerts
+        .getSuccessAlert()
+        .should('contain', 'Personal details successfully updated');
       checkBanner();
 
       // check is the new name displayed in the upper right corner
