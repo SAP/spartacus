@@ -1,4 +1,5 @@
 import { deepMerge } from '../../config/utils/deep-merge';
+import { StateTransferType, StorageSyncType } from '../config/state-config';
 
 export function getStateSliceValue<T, E>(keys: string, state: T): E {
   return keys
@@ -44,4 +45,11 @@ export function getStateSlice<T, E>(keys: string[], state: T): E {
   }
 
   return stateSlices as E;
+}
+
+export function filterKeysByType(
+  keys: { [key: string]: StorageSyncType | StateTransferType },
+  type: StorageSyncType | StateTransferType
+): string[] {
+  return Object.keys(keys).filter(key => keys[key] === type);
 }
