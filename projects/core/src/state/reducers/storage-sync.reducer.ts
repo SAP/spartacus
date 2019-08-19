@@ -19,6 +19,14 @@ export function getStorageSyncReducer<T>(
   }
 
   const storageSyncConfig = config.state.storageSync;
+  const localStorageKeys = filterKeysByType(
+    storageSyncConfig.keys,
+    StorageSyncType.LOCAL_STORAGE
+  );
+  const sessionStorageKeys = filterKeysByType(
+    storageSyncConfig.keys,
+    StorageSyncType.SESSION_STORAGE
+  );
 
   return (reducer: ActionReducer<T, Action>): ActionReducer<T, Action> => {
     return (state, action): T => {
@@ -31,10 +39,6 @@ export function getStorageSyncReducer<T>(
 
       if (action.type !== INIT) {
         // handle local storage
-        const localStorageKeys = filterKeysByType(
-          storageSyncConfig.keys,
-          StorageSyncType.LOCAL_STORAGE
-        );
         const localStorageStateSlices = getStateSlice(
           localStorageKeys,
           newState
@@ -46,10 +50,6 @@ export function getStorageSyncReducer<T>(
         );
 
         // handle session storage
-        const sessionStorageKeys = filterKeysByType(
-          storageSyncConfig.keys,
-          StorageSyncType.SESSION_STORAGE
-        );
         const sessionStorageStateSlices = getStateSlice(
           sessionStorageKeys,
           newState
