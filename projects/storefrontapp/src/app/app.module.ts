@@ -64,8 +64,9 @@ if (!environment.production) {
       // pagination configurations for product list/grid pages
       pagination: {
         infiniteScroll: {
-          isActive: true,
-          limit: 15,
+          active: false,
+          button: false,
+          limit: 0,
         },
       },
     }),

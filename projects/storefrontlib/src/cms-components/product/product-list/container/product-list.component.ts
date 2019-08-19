@@ -18,17 +18,25 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   //Variables used for infinite scroll
   isInfiniteScroll: boolean;
-  isAppendProducts = false;
+  appendProducts = false;
+  resetList = false;
   isLoadingItems = false;
-  isResetList = false;
 
-  configProductLimit: number;
+  productLimit: number;
   maxProducts: number;
   isMaxProducts = false;
   isLastPage = false;
+  isEmpty = false;
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
+
+  constructor(
+    pageLayoutService: PageLayoutService,
+    productListComponentService: ProductListComponentService,
+    ref?: ChangeDetectorRef,
+    paginationConfig?: PaginationConfig
+  );
 
   constructor(
     private pageLayoutService: PageLayoutService,
@@ -38,8 +46,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll.isActive;
-    this.configProductLimit = this.paginationConfig.pagination.infiniteScroll.limit;
+    this.setComponentConfigurations();
 
     this.productListComponentService.clearSearchResults();
 
@@ -65,31 +72,101 @@ export class ProductListComponent implements OnInit, OnDestroy {
     );
   }
 
+  paginationOperations(subModel: ProductSearchPage) {
+    this.model = subModel;
+  }
+
+  viewPage(pageNumber: number): void {
+    this.productListComponentService.viewPage(pageNumber);
+  }
+
+  sortList(sortCode: string): void {
+    this.productListComponentService.sort(sortCode);
+  }
+
+  setViewMode(mode: ViewModes): void {
+    if (this.isInfiniteScroll) {
+      //Reset products to initial state to avoid rendering large lists on ViewMode change
+      this.scrollToTop();
+      this.resetList = true;
+      this.productListComponentService.getPageItems(0);
+    }
+    this.viewMode$.next(mode);
+  }
+
+  //Infinite Scroll functions
   infiniteScrollOperations(subModel: ProductSearchPage) {
     if (this.isSamePage(subModel)) {
       return;
     }
 
-    if (this.isAppendProducts) {
+    if (this.appendProducts) {
       this.model = {
         ...subModel,
         products: this.model.products.concat(subModel.products),
       };
     } else {
       this.model = subModel;
-      this.maxProducts = this.configProductLimit;
+      this.maxProducts = this.productLimit;
     }
     this.setConditions();
   }
 
-  paginationOperations(subModel: ProductSearchPage) {
-    this.model = subModel;
+  setComponentConfigurations() {
+    this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll.active;
+
+    if (this.isInfiniteScroll) {
+      const isButton = this.paginationConfig.pagination.infiniteScroll.button;
+      const configProductLimit = this.paginationConfig.pagination.infiniteScroll
+        .limit;
+
+      //Display "show more" button every time when button configuration is true
+      //Otherwise, only display "show more" when the configuration product limit is reached
+      this.productLimit = isButton ? 1 : configProductLimit;
+    }
   }
 
+  //Set booleans after model has been retrieved
+  setConditions(): void {
+    this.isEmpty = this.model.products.length === 0;
+
+    this.isLastPage =
+      this.model.pagination.currentPage ===
+      this.model.pagination.totalPages - 1;
+
+    this.isMaxProducts =
+      this.productLimit !== 0 && this.model.products.length >= this.maxProducts;
+
+    this.maxProducts = this.isMaxProducts
+      ? this.model.products.length + this.productLimit
+      : this.maxProducts;
+
+    this.appendProducts = false;
+    this.resetList = false;
+    this.isLoadingItems = false;
+  }
+
+  scrollPage(pageNumber: number): void {
+    this.appendProducts = true;
+    this.isLoadingItems = true;
+    this.ref.markForCheck();
+    this.productListComponentService.getPageItems(pageNumber);
+  }
+
+  loadNextPage(pageNumber: number): void {
+    this.isMaxProducts = false;
+    this.scrollPage(pageNumber);
+  }
+
+  /**
+   * @deprecated at release 2.0.
+   * If the new list is the same and it is not intended to reset the list then return true
+   * Return false otherwise.
+   * @param subModel
+   */
   isSamePage(subModel: ProductSearchPage): boolean {
     if (
-      !this.isResetList &&
-      !this.isAppendProducts &&
+      !this.resetList &&
       this.model &&
       this.model.breadcrumbs.length > 0 &&
       subModel.breadcrumbs.length > 0
@@ -114,59 +191,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  //Reset booleans after products have been retrieved
-  setConditions(): void {
-    this.isLastPage =
-      this.model.pagination.currentPage ===
-      this.model.pagination.totalPages - 1;
-
-    this.isMaxProducts =
-      this.configProductLimit !== 0 &&
-      this.model.products.length >= this.maxProducts;
-
-    this.maxProducts = this.isMaxProducts
-      ? this.model.products.length + this.configProductLimit
-      : this.maxProducts;
-
-    this.isAppendProducts = false;
-    this.isResetList = false;
-    this.isLoadingItems = false;
-  }
-
-  viewPage(pageNumber: number): void {
-    this.productListComponentService.viewPage(pageNumber);
-  }
-
-  scrollPage(pageNumber: number): void {
-    this.isAppendProducts = true;
-    this.isLoadingItems = true;
-    this.ref.markForCheck();
-    this.productListComponentService.getPageItems(pageNumber);
-  }
-
-  scrollToTop() {
+  private scrollToTop() {
     window.scroll(0, 0);
   }
 
-  loadNextPage(pageNumber: number): void {
-    this.isMaxProducts = false;
-    this.scrollPage(pageNumber);
-  }
-
-  sortList(sortCode: string): void {
-    this.productListComponentService.sort(sortCode);
-  }
-
-  setViewMode(mode: ViewModes): void {
-    if (this.isInfiniteScroll) {
-      //Reset products to initial state to avoid rendering large lists on ViewMode change
-      this.isResetList = true;
-      this.productListComponentService.getPageItems(0);
-    }
-    this.viewMode$.next(mode);
-  }
-
-  public ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

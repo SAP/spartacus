@@ -50,4 +50,21 @@
       padding: 0 35px 0 0;
     }
   }
+
+  .cx-scroll-buttons {
+    flex: 1 1 auto;
+    text-align: center;
+    margin: 10px;
+    text-decoration: underline;
+
+    :hover {
+      background-color: red;
+    }
+  }
+
+  .show-more {
+  }
+
+  .back-to-top {
+  }
 }

@@ -43,7 +43,7 @@
                 [infiniteScrollDistance]="5"
                 [infiniteScrollThrottle]="50"
                 [infiniteScrollDisabled]="
-                  !isInfiniteScroll || isMaxProducts || isLastPage
+                  !isInfiniteScroll || isMaxProducts || isLastPage || isEmpty
                 "
                 (scrolled)="scrollPage(model.pagination.currentPage + 1)"
               >
@@ -53,6 +53,26 @@
                     [product]="product"
                     class="col-12 col-sm-6 col-md-4"
                   ></cx-product-grid-item>
+                </div>
+                <div
+                  style="display: flex; justify-content: center; padding-top: 25px"
+                >
+                  <p>
+                    <a
+                      *ngIf="isMaxProducts || isLastPage"
+                      (click)="scrollToTop()"
+                      class="btn-link back-to-top cx-scroll-buttons"
+                      >BACK TO TOP</a
+                    >
+                  </p>
+                  <p>
+                    <a
+                      *ngIf="isMaxProducts && !isLastPage"
+                      (click)="loadNextPage(model?.pagination?.currentPage + 1)"
+                      class="btn-link show-more cx-scroll-buttons"
+                      >SHOW MORE</a
+                    >
+                  </p>
                 </div>
                 <div *ngIf="isLoadingItems" class="cx-spinner">
                   <cx-spinner></cx-spinner>
@@ -66,7 +86,7 @@
                 [infiniteScrollDistance]="3"
                 [infiniteScrollThrottle]="50"
                 [infiniteScrollDisabled]="
-                  !isInfiniteScroll || isMaxProducts || isLastPage
+                  !isInfiniteScroll || isMaxProducts || isLastPage || isEmpty
                 "
                 (scrolled)="scrollPage(model.pagination.currentPage + 1)"
               >
@@ -75,38 +95,29 @@
                   [product]="product"
                   class="cx-product-search-list"
                 ></cx-product-list-item>
+                <div style="display: flex; justify-content: center;">
+                  <p>
+                    <a
+                      *ngIf="isMaxProducts || isLastPage"
+                      (click)="scrollToTop()"
+                      class="btn-link back-to-top cx-scroll-buttons"
+                      >BACK TO TOP</a
+                    >
+                  </p>
+                  <p>
+                    <a
+                      *ngIf="isMaxProducts && !isLastPage"
+                      (click)="loadNextPage(model?.pagination?.currentPage + 1)"
+                      class="btn-link show-more cx-scroll-buttons"
+                      >SHOW MORE</a
+                    >
+                  </p>
+                </div>
                 <div *ngIf="isLoadingItems" class="cx-spinner">
                   <cx-spinner></cx-spinner>
                 </div>
               </div>
             </ng-container>
-            <div
-              *ngIf="isMaxProducts && !isLastPage"
-              style="display: flex; justify-content: center; padding-top: 20px"
-            >
-              <p>
-                <a
-                  (click)="scrollToTop()"
-                  aria-controls="reset-password"
-                  class="btn-link"
-                  onmouseover="this.style.color='#FF0000'"
-                  onmouseout="this.style.color='#000000'"
-                  style="text-decoration: underline; margin-right:44px"
-                  >BACK TO TOP</a
-                >
-              </p>
-              <p>
-                <a
-                  (click)="loadNextPage(model.pagination.currentPage + 1)"
-                  aria-controls="reset-password"
-                  class="btn-link"
-                  onmouseover="this.style.color='#FF0000'"
-                  onmouseout="this.style.color='#000000'"
-                  style="text-decoration: underline"
-                  >SHOW MORE</a
-                >
-              </p>
-            </div>
           </div>
           <div class="cx-sorting bottom">
             <div class="row">
