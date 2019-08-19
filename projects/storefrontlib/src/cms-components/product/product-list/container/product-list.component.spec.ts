@@ -298,6 +298,7 @@ fdescribe('ProductListComponent', () => {
 
       it('isSamePage should return true when they are the same products', () => {
         component.model = mockModel;
+
         expect(component.isSamePage(mockModel)).toBe(true);
       });
 
@@ -377,7 +378,6 @@ fdescribe('ProductListComponent', () => {
 
     describe('with button', () => {
       beforeAll(() => {
-        isMockInfiniteScroll = true;
         isMockButton = true;
       });
 
