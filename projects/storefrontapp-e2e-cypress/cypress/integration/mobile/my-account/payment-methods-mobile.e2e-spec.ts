@@ -3,8 +3,9 @@ import {
   checkAnonymous,
   paymentMethodsTest,
 } from '../../../helpers/payment-methods';
+import { formats } from '../../../sample-data/viewports';
 
-describe('Payment Methods', () => {
+describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });
@@ -18,6 +19,7 @@ describe('Payment Methods', () => {
       cy.visit('/');
       cy.selectUserMenuOption({
         option: 'Payment Details',
+        isMobile: true,
       });
     });
 
