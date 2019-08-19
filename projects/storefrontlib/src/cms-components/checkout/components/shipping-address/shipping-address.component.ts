@@ -39,6 +39,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   setAddress: Address;
   setAddressSub: Subscription;
   selectedAddressSub: Subscription;
+  cartUserSub: Subscription;
   selectedAddress$: BehaviorSubject<Address> = new BehaviorSubject<Address>(
     null
   );
@@ -108,7 +109,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.userAddressService.loadAddresses();
+    this.cartUserSub = this.cartService.getAssignedUser().subscribe(user => {
+      if (user && user.name !== 'guest') {
+        this.userAddressService.loadAddresses();
+      }
+    });
 
     this.setAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()
@@ -216,6 +221,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     }
     if (this.selectedAddressSub) {
       this.selectedAddressSub.unsubscribe();
+    }
+    if (this.cartUserSub) {
+      this.cartUserSub.unsubscribe();
     }
   }
 }

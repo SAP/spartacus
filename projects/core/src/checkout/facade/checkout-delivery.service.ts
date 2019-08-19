@@ -160,6 +160,10 @@ export class CheckoutDeliveryService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    const cartAssignedUser = this.cartData.cart.user;
+    return (
+      this.cartData.userId !== ANONYMOUS_USERID ||
+      (cartAssignedUser && cartAssignedUser.name === 'guest')
+    );
   }
 }

@@ -30,14 +30,24 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
-            return [
-              new UserActions.LoadUserAddresses(payload.userId),
-              new CheckoutActions.SetDeliveryAddress({
-                userId: payload.userId,
-                cartId: payload.cartId,
-                address: address,
-              }),
-            ];
+            if (payload.userId === 'anonymous') {
+              return [
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
+            } else {
+              return [
+                new UserActions.LoadUserAddresses(payload.userId),
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
+            }
           }),
           catchError(error =>
             of(
