@@ -193,7 +193,15 @@ describe('UpdateEmailComponent', () => {
 
         expect(authService.logout).toHaveBeenCalled();
 
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+        expect(routingService.go).toHaveBeenCalledWith(
+          { cxRoute: 'login' },
+          null,
+          {
+            state: {
+              newUid,
+            },
+          }
+        );
       });
     });
 

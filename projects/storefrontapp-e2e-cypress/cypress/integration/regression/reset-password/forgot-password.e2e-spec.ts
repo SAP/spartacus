@@ -1,3 +1,5 @@
+import * as alerts from '../../../helpers/global-message';
+
 context('Forgot Password Page', () => {
   beforeEach(() => {
     // Clear the session to make sure no user is athenticated.
@@ -13,10 +15,12 @@ context('Forgot Password Page', () => {
     // After requesting a reset password email, we should be taken back to the login page
     cy.url().should('match', /\/login/);
     // ... and display a success message.
-    cy.get('cx-global-message .alert-success').should(
-      'contain',
-      'An email has been sent to you with information on how to reset your password.'
-    );
+    alerts
+      .getSuccessAlert()
+      .should(
+        'contain',
+        'An email has been sent to you with information on how to reset your password.'
+      );
   });
 
   it('should not submit an invalid form', () => {
