@@ -15,6 +15,7 @@ import { IconConfig } from './cms-components/misc/icon/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { LayoutConfig } from './layout/config/layout-config';
 import { PaginationConfig } from './cms-components/product/config/pagination-config';
+import { FeatureToggles } from './feature-toggles';
 
 export type StorefrontConfig =
   | AuthConfig
@@ -31,4 +32,5 @@ export type StorefrontConfig =
   | CheckoutConfig
   | KymaConfig
   | GlobalMessageConfig
-  | PaginationConfig;
+  | PaginationConfig
+  | FeatureToggles;

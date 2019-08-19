@@ -14,6 +14,7 @@ import {
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
+import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -64,12 +65,14 @@ if (!environment.production) {
       // pagination configurations for product list/grid pages
       pagination: {
         infiniteScroll: {
-          active: false,
+          active: true,
           button: false,
           limit: 0,
         },
       },
     }),
+
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     ...devImports,
   ],

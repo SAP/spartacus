@@ -64,8 +64,10 @@ import { PaginationConfig } from '../config/pagination-config';
   ],
   exports: [
     ProductListComponent,
+    ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
+    ProductViewComponent,
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
   providers: [{ provide: PaginationConfig, useExisting: Config }],
