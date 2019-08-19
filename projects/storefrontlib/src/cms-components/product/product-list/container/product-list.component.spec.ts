@@ -161,7 +161,7 @@ export class MockPaginationConfig {
   pagination = {
     infiniteScroll: {
       active: isMockInfiniteScroll,
-      showMorebutton: isMockButton,
+      showMoreButton: isMockButton,
       limit: mockLimit,
     },
   };
@@ -224,6 +224,24 @@ describe('ProductListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('viewPage should call service.viewPage', () => {
+    component.viewPage(123);
+    expect(componentService.viewPage).toHaveBeenCalledWith(123);
+  });
+
+  it('sortList should call service.sort', () => {
+    component.sortList('testSortCode');
+    expect(componentService.sort).toHaveBeenCalledWith('testSortCode');
+  });
+
+  it('setViewMode should set view mode', () => {
+    component.setViewMode(ViewModes.List);
+    expect(component.viewMode$.value).toBe(ViewModes.List);
+
+    component.setViewMode(ViewModes.Grid);
+    expect(component.viewMode$.value).toBe(ViewModes.Grid);
   });
 
   describe('component using pagination', () => {
@@ -389,6 +407,8 @@ describe('ProductListComponent', () => {
 
         component.ngOnInit();
 
+        console.log(component.model);
+
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
 
@@ -427,24 +447,6 @@ describe('ProductListComponent', () => {
         expect(component.productLimit).toEqual(1);
       });
     });
-  });
-
-  it('viewPage should call service.viewPage', () => {
-    component.viewPage(123);
-    expect(componentService.viewPage).toHaveBeenCalledWith(123);
-  });
-
-  it('sortList should call service.sort', () => {
-    component.sortList('testSortCode');
-    expect(componentService.sort).toHaveBeenCalledWith('testSortCode');
-  });
-
-  it('setViewMode should set view mode', () => {
-    component.setViewMode(ViewModes.List);
-    expect(component.viewMode$.value).toBe(ViewModes.List);
-
-    component.setViewMode(ViewModes.Grid);
-    expect(component.viewMode$.value).toBe(ViewModes.Grid);
   });
 
   function SpyOnModelAndReturn(model: ProductSearchPage) {
