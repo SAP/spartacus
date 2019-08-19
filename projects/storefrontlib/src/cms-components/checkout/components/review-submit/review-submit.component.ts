@@ -15,6 +15,8 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
+import { CheckoutConfigService } from '../../services/index';
+import { CheckoutStepType } from '../../model/index';
 
 @Component({
   selector: 'cx-review-submit',
@@ -22,6 +24,7 @@ import { Card } from '../../../../shared/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
+  checkoutStepType = CheckoutStepType;
   entries$: Observable<OrderEntry[]>;
   cart$: Observable<Cart>;
   deliveryMode$: Observable<DeliveryMode>;
@@ -34,7 +37,8 @@ export class ReviewSubmitComponent implements OnInit {
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
-    private translation: TranslationService
+    private translation: TranslationService,
+    private checkoutConfigService: CheckoutConfigService
   ) {}
 
   ngOnInit() {
@@ -128,5 +132,9 @@ export class ReviewSubmitComponent implements OnInit {
         };
       })
     );
+  }
+
+  getCheckoutStepUrl(stepType: CheckoutStepType): string {
+    return this.checkoutConfigService.getCheckoutStep(stepType).routeName;
   }
 }

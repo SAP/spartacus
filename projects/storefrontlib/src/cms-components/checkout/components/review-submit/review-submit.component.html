@@ -16,6 +16,11 @@
           "
         ></cx-card>
       </div>
+      <div class="cx-review-summary-edit-step">
+        <a [routerLink]="{ cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS) } | cxUrl">{{
+          'checkoutReview.editShippingAddress' | cxTranslate
+        }}</a>
+      </div>
     </div>
 
     <!-- DELIVERY MODE SECTION -->
@@ -26,6 +31,11 @@
           [content]="getDeliveryModeCard(deliveryMode) | async"
         ></cx-card>
       </div>
+      <div class="cx-review-summary-edit-step">
+        <a [routerLink]="{ cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) } | cxUrl">{{
+          'checkoutReview.editShippingMethod' | cxTranslate
+        }}</a>
+      </div>
     </div>
 
     <!-- PAYMENT METHOD SECTION -->
@@ -34,6 +44,11 @@
         <cx-card
           [content]="getPaymentMethodCard(paymentDetails$ | async) | async"
         ></cx-card>
+      </div>
+      <div class="cx-review-summary-edit-step">
+        <a [routerLink]="{ cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) } | cxUrl">{{
+          'checkoutReview.editPaymentMethod' | cxTranslate
+        }}</a>
       </div>
     </div>
   </div>

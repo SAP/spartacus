@@ -5,6 +5,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
 import { CartSharedModule } from '../../../../cms-components/cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../../shared/components/card/card.module';
@@ -13,6 +14,7 @@ import { PaymentDetailsSetGuard } from '../../guards/payment-details-set.guard';
 import { ShippingAddressSetGuard } from '../../guards/shipping-address-set.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { ReviewSubmitComponent } from './review-submit.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -20,6 +22,8 @@ import { ReviewSubmitComponent } from './review-submit.component';
     CardModule,
     CartSharedModule,
     I18nModule,
+    UrlModule,
+    RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutReviewOrder: {
