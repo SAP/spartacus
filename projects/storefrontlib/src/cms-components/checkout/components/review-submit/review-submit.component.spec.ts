@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input, Type, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -20,6 +20,9 @@ import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
+import { CheckoutStepType, CheckoutStep } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -116,6 +119,26 @@ class MockCartService {
   }
 }
 
+const mockCheckoutStep: CheckoutStep = {
+  id: 'step',
+  name: 'name',
+  routeName: '/route',
+  type: [CheckoutStepType.SHIPPING_ADDRESS],
+};
+
+class MockCheckoutConfigService {
+  getCheckoutStep(): CheckoutStep {
+    return mockCheckoutStep;
+  }
+}
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform(): any {}
+}
+
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
@@ -123,11 +146,12 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
         MockCardComponent,
+        MockUrlPipe,
       ],
       providers: [
         {
@@ -140,6 +164,10 @@ describe('ReviewSubmitComponent', () => {
         },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: CartService, useClass: MockCartService },
+        {
+          provide: CheckoutConfigService,
+          useClass: MockCheckoutConfigService,
+        },
       ],
     }).compileComponents();
   }));
@@ -280,6 +308,12 @@ describe('ReviewSubmitComponent', () => {
         }`,
       ]);
     });
+  });
+
+  it('should get checkout step url', () => {
+    expect(
+      component.getCheckoutStepUrl(CheckoutStepType.SHIPPING_ADDRESS)
+    ).toEqual(mockCheckoutStep.routeName);
   });
 
   describe('UI cart total section', () => {
