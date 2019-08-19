@@ -68,9 +68,7 @@ const mockModel2: ProductSearchPage = {
     currentPage: 1,
     totalPages: 2,
   },
-  products: [
-    { averageRating: 3, code: 'mockCode2-1', name: 'mockName2-1' },
-  ],
+  products: [{ averageRating: 3, code: 'mockCode2-1', name: 'mockName2-1' }],
 };
 
 const mockModel3: ProductSearchPage = {
@@ -276,11 +274,7 @@ fdescribe('ProductListComponent', () => {
     });
 
     describe('functions', () => {
-      beforeAll(() => {
-        isMockInfiniteScroll = true;
-      });
-
-      it('should append product when isAppends is true', () => {
+      it('should append product when appendProducts is true', () => {
         component.model = mockModel;
 
         component.appendProducts = true;
@@ -295,7 +289,7 @@ fdescribe('ProductListComponent', () => {
         );
       });
 
-      it('should replace products when isAppends is false', () => {
+      it('should replace products when appendProducts is false', () => {
         component.model = mockModel;
         component.infiniteScrollOperations(mockModel2);
 
@@ -307,7 +301,7 @@ fdescribe('ProductListComponent', () => {
         expect(component.isSamePage(mockModel)).toBe(true);
       });
 
-      it('isSamePage should return false when products are the same but isResetList is true', () => {
+      it('isSamePage should return false when products are the same but resetList is true', () => {
         component.model = mockModel;
         component.resetList = true;
 
