@@ -116,7 +116,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll.active;
 
     if (this.isInfiniteScroll) {
-      const isButton = this.paginationConfig.pagination.infiniteScroll.button;
+      const isButton = this.paginationConfig.pagination.infiniteScroll
+        .showMoreButton;
       const configProductLimit = this.paginationConfig.pagination.infiniteScroll
         .limit;
 

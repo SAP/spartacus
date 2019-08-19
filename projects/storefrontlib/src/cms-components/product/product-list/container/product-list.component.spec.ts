@@ -161,7 +161,7 @@ export class MockPaginationConfig {
   pagination = {
     infiniteScroll: {
       active: isMockInfiniteScroll,
-      button: isMockButton,
+      showMorebutton: isMockButton,
       limit: mockLimit,
     },
   };

@@ -66,7 +66,7 @@ if (!environment.production) {
       pagination: {
         infiniteScroll: {
           active: true,
-          button: false,
+          showMoreButton: false,
           limit: 0,
         },
       },

@@ -4,7 +4,7 @@ export const defaultPaginationConfig: PaginationConfig = {
   pagination: {
     infiniteScroll: {
       active: false,
-      button: false,
+      showMoreButton: false,
       limit: 0,
     },
   },
