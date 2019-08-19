@@ -18,7 +18,7 @@ export class AsmComponent implements OnInit {
 
   ngOnInit(): void {
     this.csAgentToken$ = this.auth.getCustomerSupportAgentToken();
-    this.customer$ = this.customer$ = this.auth.getUserToken().pipe(
+    this.customer$ = this.auth.getUserToken().pipe(
       switchMap(token => {
         if (token && !!token.access_token) {
           return this.userService.get();
