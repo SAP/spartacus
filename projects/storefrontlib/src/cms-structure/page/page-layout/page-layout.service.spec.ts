@@ -16,6 +16,15 @@ const DEFAULT_FOOTER_SLOT_CONFIG = ['footer'];
 const FOOTER_SLOT_CONFIG_FOR_MD = ['footer-md'];
 const FOOTER_SLOT_CONFIG_FOR_PAGE2 = ['footer-page2'];
 
+const PAGE_DATA_SLOTS = {
+  slot1: {},
+  slot2: {},
+  slot11: {},
+  footer: {},
+  'footer-md': {},
+  'footer-page2': {},
+};
+
 const MockLayoutConfig: LayoutConfig = {
   layoutSlots: {
     footer: {
@@ -59,13 +68,13 @@ const page_1 = {
   uid: 'page_1',
   template: 'page_template_1',
   title: PAGE_TITLE,
-  slots: {},
+  slots: PAGE_DATA_SLOTS,
 };
 const page_2 = {
   uid: 'page_2',
   template: 'page_template_2',
   title: PAGE_TITLE,
-  slots: {},
+  slots: PAGE_DATA_SLOTS,
 };
 export class MockCmsService {
   getCurrentPage(): Observable<Page> {
