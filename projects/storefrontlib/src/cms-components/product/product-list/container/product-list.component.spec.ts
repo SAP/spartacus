@@ -86,7 +86,7 @@ const mockModel3: ProductSearchPage = {
   ],
   pagination: {
     currentPage: 0,
-    totalPages: 0,
+    totalPages: 1,
   },
   products: [],
 };
