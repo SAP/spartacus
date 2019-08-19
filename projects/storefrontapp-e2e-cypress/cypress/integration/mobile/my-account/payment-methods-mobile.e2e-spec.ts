@@ -19,6 +19,7 @@ describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
 
   describe('should go to payment details page for login user', () => {
     before(() => {
+      cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
