@@ -244,8 +244,8 @@ fdescribe('ProductListComponent', () => {
 
       it('should use pagination function', () => {
         spyOn(component, 'paginationOperations');
-
         component.ngOnInit();
+
         expect(component.paginationOperations).toHaveBeenCalled();
       });
     });
