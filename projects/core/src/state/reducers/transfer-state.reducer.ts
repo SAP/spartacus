@@ -8,7 +8,7 @@ import { INIT } from '@ngrx/store';
 import { AUTH_FEATURE, StateWithAuth } from '../../auth/store/auth-state';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
-import { getStateSlice } from '../utils/get-state-slice';
+import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
 
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 
@@ -40,10 +40,6 @@ export function getTransferStateReducer(
   return reducer => reducer;
 }
 
-export const filterConfigKeys = (keys: {
-  [key: string]: StateTransferType;
-}): string[] => Object.keys(keys).filter(key => Boolean(keys[key]));
-
 export function getServerTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType }
@@ -52,7 +48,10 @@ export function getServerTransferStateReducer(
     return function(state, action: any) {
       const newState = reducer(state, action);
       if (newState) {
-        const stateSlice = getStateSlice(filterConfigKeys(keys), newState);
+        const stateSlice = getStateSlice(
+          filterKeysByType(keys, StateTransferType.TRANSFER_STATE),
+          newState
+        );
         transferState.set(CX_KEY, stateSlice);
       }
 
@@ -80,7 +79,7 @@ export function getBrowserTransferStateReducer(
         if (!isLoggedIn && transferState.hasKey(CX_KEY)) {
           const cxKey = transferState.get(CX_KEY, {});
           const transferredStateSlice = getStateSlice(
-            filterConfigKeys(keys),
+            filterKeysByType(keys, StateTransferType.TRANSFER_STATE),
             cxKey
           );
 

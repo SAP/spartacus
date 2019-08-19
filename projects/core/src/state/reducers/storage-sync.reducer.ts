@@ -2,7 +2,7 @@ import { Action, ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
-import { getStateSlice } from '../utils/get-state-slice';
+import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
 
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
@@ -31,7 +31,7 @@ export function getStorageSyncReducer<T>(
 
       if (action.type !== INIT) {
         // handle local storage
-        const localStorageKeys = getKeysForStorage(
+        const localStorageKeys = filterKeysByType(
           storageSyncConfig.keys,
           StorageSyncType.LOCAL_STORAGE
         );
@@ -46,7 +46,7 @@ export function getStorageSyncReducer<T>(
         );
 
         // handle session storage
-        const sessionStorageKeys = getKeysForStorage(
+        const sessionStorageKeys = filterKeysByType(
           storageSyncConfig.keys,
           StorageSyncType.SESSION_STORAGE
         );
@@ -64,13 +64,6 @@ export function getStorageSyncReducer<T>(
       return newState;
     };
   };
-}
-
-export function getKeysForStorage(
-  keys: { [key: string]: StorageSyncType },
-  storageType: StorageSyncType
-): string[] {
-  return Object.keys(keys).filter(key => keys[key] === storageType);
 }
 
 export function rehydrate<T>(config: StateConfig, winRef: WindowRef): T {

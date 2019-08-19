@@ -2,7 +2,6 @@ import { INIT } from '@ngrx/store';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import {
   CX_KEY,
-  filterConfigKeys,
   getBrowserTransferStateReducer,
   getServerTransferStateReducer,
   getTransferStateReducer,
@@ -30,18 +29,6 @@ describe('TransferStateReducer', () => {
       );
 
       expect(reducer).toEqual(jasmine.any(Function));
-    });
-  });
-
-  describe('filterConfigKeys', () => {
-    it('should filter keys that have a falsy value', () => {
-      const keys = {
-        cms: StateTransferType.TRANSFER_STATE,
-        cms1: undefined,
-        cms2: null,
-      };
-      const result = filterConfigKeys(keys);
-      expect(result).toEqual(['cms']);
     });
   });
 
