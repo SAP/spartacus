@@ -59,8 +59,10 @@ import { ProductViewComponent } from './product-view/product-view.component';
   ],
   exports: [
     ProductListComponent,
+    ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
+    ProductViewComponent,
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })

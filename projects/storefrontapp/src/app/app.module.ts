@@ -15,6 +15,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { VariantRoutingModule } from './variant-semantic-path.service';
+import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -65,6 +66,7 @@ if (!environment.production) {
     }),
 
     VariantRoutingModule,
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     ...devImports,
   ],

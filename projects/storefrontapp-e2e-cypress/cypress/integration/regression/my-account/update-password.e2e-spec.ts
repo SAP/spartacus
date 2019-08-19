@@ -1,5 +1,6 @@
 import { login } from '../../../helpers/auth-forms';
 import * as helper from '../../../helpers/login';
+import * as alerts from '../../../helpers/global-message';
 
 describe('My Account - Update Password', () => {
   const PAGE_TITLE_UPDATE_PASSWORD = 'Update Password';
@@ -52,27 +53,27 @@ describe('My Account - Update Password', () => {
     it('should cancel bring back to the home page.', () => {
       cy.get('cx-update-password button[type="button"]').click();
       cy.title().should('eq', PAGE_TITLE_HOME);
-      cy.get('cx-global-message .alert').should('not.exist');
+      alerts.getAlert().should('not.exist');
     });
 
     it('should display server error if old password is wrong.', () => {
-      cy.get('cx-global-message .alert-danger').should('not.exist');
+      alerts.getErrorAlert().should('not.exist');
       cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
       cy.get('[formcontrolname="newPassword"]').type(newPassword);
       cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
       cy.get('cx-update-password button[type="submit"]').click();
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
-      cy.get('cx-global-message .alert-danger').should('exist');
+      alerts.getErrorAlert().should('exist');
     });
 
     it('should update the password with success.', () => {
-      cy.get('cx-global-message .alert-success').should('not.exist');
+      alerts.getSuccessAlert().should('not.exist');
       cy.get('[formcontrolname="oldPassword"]').type(user.password);
       cy.get('[formcontrolname="newPassword"]').type(newPassword);
       cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
       cy.get('cx-update-password button[type="submit"]').click();
       cy.title().should('eq', PAGE_TITLE_HOME);
-      cy.get('cx-global-message .alert-success').should('exist');
+      alerts.getSuccessAlert().should('exist');
 
       helper.signOutUser();
       cy.contains(/Sign In/i).click();

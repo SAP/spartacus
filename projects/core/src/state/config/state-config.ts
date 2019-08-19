@@ -27,12 +27,6 @@ export abstract class StateConfig {
       keys?: {
         [key: string]: StorageSyncType;
       };
-      /**
-       * A set of keys not to sync with the specified browser's storage.
-       */
-      excludeKeys?: {
-        [key: string]: StorageSyncType;
-      };
     };
     ssrTransfer?: {
       keys?: {
