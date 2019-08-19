@@ -107,7 +107,7 @@
                   <p>
                     <a
                       *ngIf="isMaxProducts && !isLastPage"
-                      (click)="loadNextPage(model?.pagination?.currentPage + 1)"
+                      (click)="loadNextPage(model.pagination.currentPage + 1)"
                       class="btn-link show-more cx-scroll-buttons"
                       >SHOW MORE</a
                     >
