@@ -70,7 +70,6 @@ const mockModel2: ProductSearchPage = {
   },
   products: [
     { averageRating: 3, code: 'mockCode2-1', name: 'mockName2-1' },
-    // { averageRating: 4, code: 'mockCode2-2', name: 'mockName2-2' },
   ],
 };
 
