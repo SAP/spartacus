@@ -46,6 +46,9 @@ const MockLayoutConfig: LayoutConfig = {
         slots: FOOTER_SLOT_CONFIG_FOR_PAGE2,
       },
     },
+    page_template_3: {
+      slots: ['slot1', 'slot123'],
+    },
   },
 };
 
@@ -75,6 +78,14 @@ const page_2 = {
   template: 'page_template_2',
   title: PAGE_TITLE,
   slots: PAGE_DATA_SLOTS,
+};
+const page_3 = {
+  uid: 'page_3',
+  template: 'page_template_3',
+  title: PAGE_TITLE,
+  slots: {
+    slot1: {},
+  },
 };
 export class MockCmsService {
   getCurrentPage(): Observable<Page> {
@@ -266,6 +277,24 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
       });
+    });
+  });
+
+  describe('Page template 3', () => {
+    beforeEach(() => {
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_3));
+      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        of(BREAKPOINT.lg)
+      );
+    });
+
+    it('should render only slots presents both in page data and layout configuration', () => {
+      let results;
+      pageLayoutService
+        .getSlots()
+        .subscribe(slots => (results = slots))
+        .unsubscribe();
+      expect(results).toEqual(['slot1']);
     });
   });
 });
