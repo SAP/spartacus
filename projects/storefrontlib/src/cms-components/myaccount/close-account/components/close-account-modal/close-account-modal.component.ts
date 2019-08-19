@@ -52,7 +52,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean): void {
     if (success) {
-    this.dismissModal();
+      this.dismissModal();
       this.translationService
         .translate('closeAccount.accountClosedSuccessfully')
         .pipe(first())
