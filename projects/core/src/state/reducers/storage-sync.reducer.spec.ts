@@ -63,13 +63,6 @@ describe('storage-sync-reducer', () => {
               access_token: StorageSyncType.SESSION_STORAGE,
               refresh_token: StorageSyncType.LOCAL_STORAGE,
               do_not_sync: StorageSyncType.NO_STORAGE,
-              user: StorageSyncType.SESSION_STORAGE,
-            },
-            excludeKeys: {
-              'user.account.details.currency.name':
-                StorageSyncType.SESSION_STORAGE,
-              'user.account.details.currency.symbol':
-                StorageSyncType.SESSION_STORAGE,
             },
           },
         },
@@ -100,76 +93,61 @@ describe('storage-sync-reducer', () => {
     });
 
     describe('when the action type is NOT UPDATE nor INIT', () => {
-      it('should set the configured keys to the configured storage', () => {
-        spyOn(sessionStorageMock, 'getItem').and.returnValue('"xxx"');
-        spyOn(localStorageMock, 'getItem').and.returnValue('"yyy"');
+      describe('should set the configured keys to configured storage', () => {
+        beforeEach(() => {
+          spyOn(sessionStorageMock, 'setItem').and.stub();
+          spyOn(localStorageMock, 'setItem').and.stub();
+        });
 
-        spyOn(sessionStorageMock, 'setItem').and.stub();
-        spyOn(localStorageMock, 'setItem').and.stub();
-
-        const state = {
-          access_token: 'xxx',
-          refresh_token: 'yyy',
-        };
-
-        const result = reducer(state, { type: 'AN-ACTION' });
-        expect(result).toEqual(state);
-        expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-          DEFAULT_SESSION_STORAGE_KEY,
-          JSON.stringify({
+        it('for existing state', () => {
+          const state = {
             access_token: 'xxx',
-          })
-        );
-        expect(localStorageMock.setItem).toHaveBeenCalledWith(
-          DEFAULT_LOCAL_STORAGE_KEY,
-          JSON.stringify({
             refresh_token: 'yyy',
-          })
-        );
-      });
+          };
 
-      it('should set the configured keys to the configured storage and exclude specified keys', () => {
-        const state = {
-          user: {
-            account: {
-              addresses: {
-                loading: false,
-              },
-              details: {
-                currency: {
-                  name: 'CAD',
-                  symbol: '$',
-                  value: 100,
-                },
-              },
-            },
-          },
-        };
-        spyOn(sessionStorageMock, 'getItem').and.returnValue(
-          JSON.stringify(state)
-        );
-        spyOn(sessionStorageMock, 'setItem').and.stub();
+          const result = reducer(state, { type: 'AN-ACTION' });
+          expect(result).toEqual(state);
+          expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
+            DEFAULT_SESSION_STORAGE_KEY,
+            JSON.stringify({
+              access_token: 'xxx',
+            })
+          );
+          expect(localStorageMock.setItem).toHaveBeenCalledWith(
+            DEFAULT_LOCAL_STORAGE_KEY,
+            JSON.stringify({
+              refresh_token: 'yyy',
+            })
+          );
+        });
+        it('for new state', () => {
+          const testReducer = metaReducer(
+            (_state, action: any) => action.payload
+          ) as any;
 
-        const result = reducer(state, { type: 'AN-ACTION' });
-        // excluded keys are not stored in the storage, but they're present in the state
-        expect(result).toEqual(state);
-        expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-          DEFAULT_SESSION_STORAGE_KEY,
-          JSON.stringify({
-            user: {
-              account: {
-                addresses: {
-                  loading: false,
-                },
-                details: {
-                  currency: {
-                    value: 100,
-                  },
-                },
-              },
-            },
-          })
-        );
+          const newState = {
+            access_token: 'xxx',
+            refresh_token: 'yyy',
+          };
+
+          const result = testReducer(
+            {},
+            { type: 'AN-ACTION', payload: newState }
+          );
+          expect(result).toEqual(newState);
+          expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
+            DEFAULT_SESSION_STORAGE_KEY,
+            JSON.stringify({
+              access_token: 'xxx',
+            })
+          );
+          expect(localStorageMock.setItem).toHaveBeenCalledWith(
+            DEFAULT_LOCAL_STORAGE_KEY,
+            JSON.stringify({
+              refresh_token: 'yyy',
+            })
+          );
+        });
       });
     });
   });
@@ -274,13 +252,6 @@ describe('storage-sync-reducer', () => {
       d: StorageSyncType.SESSION_STORAGE,
       dj: StorageSyncType.NO_STORAGE,
     };
-
-    describe('when null is provided instead of keys', () => {
-      it('should return an empty array', () => {
-        const result = getKeysForStorage(null, StorageSyncType.NO_STORAGE);
-        expect(result).toEqual([]);
-      });
-    });
 
     it('should return two keys for local storage', () => {
       const result = getKeysForStorage(keys, StorageSyncType.LOCAL_STORAGE);

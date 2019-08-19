@@ -26,7 +26,7 @@
               >{{ 'storeFinder.getDirections' | cxTranslate }}</a
             >
           </li>
-          <li class="cx-item">
+          <li class="cx-item" *ngIf="location.address?.phone">
             {{ 'storeFinder.call' | cxTranslate }}
             {{ location.address?.phone }}
           </li>
