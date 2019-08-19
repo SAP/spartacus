@@ -30,7 +30,7 @@ export const checkout = {
     termsAndConditions: 'Terms & Conditions',
     editShippingAddress: 'Edit shipping address',
     editShippingMethod: 'Edit shipping method',
-    editPaymentMethod: 'Edit payment method'
+    editPaymentMethod: 'Edit payment method',
   },
   checkoutShipping: {
     shippingMethod: 'Shipping Method',
