@@ -333,7 +333,6 @@ fdescribe('ProductListComponent', () => {
 
     describe('with limit', () => {
       beforeAll(() => {
-        isMockInfiniteScroll = true;
         mockLimit = 2;
       });
 
