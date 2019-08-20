@@ -26,9 +26,6 @@ const mergedCart: Cart = {
   name: 'mergedCart',
 };
 
-const usersEndpoint = 'users';
-const cartsEndpoint = 'carts';
-
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpoint);
@@ -189,15 +186,13 @@ describe('OccCartAdapter', () => {
         .addEmail(userId, cartId, email)
         .subscribe(value => (result = value));
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'PUT' &&
-          req.url ===
-            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/email` &&
-          req.serializeBody() === `email=${email}`
-        );
-      });
+      const mockReq = httpMock.expectOne({ method: 'PUT', url: 'addEmail' });
 
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('addEmail', {
+        userId,
+        cartId,
+        email: 'tester@sap.com',
+      });
       expect(mockReq.cancelled).toBeFalsy();
 
       mockReq.flush('');

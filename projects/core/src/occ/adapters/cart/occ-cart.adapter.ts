@@ -175,12 +175,12 @@ export class OccCartAdapter implements CartAdapter {
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
-    const httpParams: HttpParams = new HttpParams().set('email', email);
+    const url = this.occEndpointsService.getUrl('addEmail', {
+      userId,
+      cartId,
+      email,
+    });
 
-    return this.http.put(
-      this.getCartEndpoint(userId) + cartId + '/email',
-      httpParams,
-      { headers }
-    );
+    return this.http.put(url, {}, { headers });
   }
 }

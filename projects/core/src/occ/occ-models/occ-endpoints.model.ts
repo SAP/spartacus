@@ -96,6 +96,12 @@ export interface OccEndpoints {
    */
   removeEntries?: string;
   /**
+   * Assign email to cart
+   *
+   * @member {string} [addEmail]
+   */
+  addEmail?: string;
+  /**
    * Get a store location
    *
    * @member {string} [page]
