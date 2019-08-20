@@ -1,6 +1,6 @@
 export const ASM_FEATURE = 'asm';
 
-export interface StateWithAuth {
+export interface StateWithAsm {
   [ASM_FEATURE]: AsmState;
 }
 
