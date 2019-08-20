@@ -157,12 +157,20 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY: {
+    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS: {
       return {
         ...state,
-        address: undefined,
-        deliveryMode: undefined,
-        paymentDetails: state.paymentDetails,
+        address: {},
+      };
+    }
+
+    case CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE: {
+      return {
+        ...state,
+        deliveryMode: {
+          ...state.deliveryMode,
+          selected: ''
+        }
       };
     }
   }

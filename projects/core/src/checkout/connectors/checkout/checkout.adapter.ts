@@ -22,7 +22,12 @@ export abstract class CheckoutAdapter {
     cartId: string
   ): Observable<CheckoutDetails>;
 
-  abstract clearCheckoutDelivery(
+  abstract clearCheckoutDeliveryAddress(
+    userId: string,
+    cartId: string
+  ): Observable<any>;
+
+  abstract clearCheckoutDeliveryMode(
     userId: string,
     cartId: string
   ): Observable<any>;

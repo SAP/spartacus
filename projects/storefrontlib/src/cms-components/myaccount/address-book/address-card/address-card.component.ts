@@ -36,11 +36,11 @@ export class AddressCardComponent {
 
   setAddressAsDefault(addressId: string): void {
     this.userAddressService.setAddressAsDefault(addressId);
-    this.checkoutDeliveryService.clearCheckoutDelivery();
+    this.checkoutDeliveryService.clearCheckoutDeliveryAddress();
   }
 
   deleteAddress(addressId: string): void {
     this.userAddressService.deleteUserAddress(addressId);
-    this.checkoutDeliveryService.clearCheckoutDelivery();
+    this.checkoutDeliveryService.clearCheckoutDeliveryAddress();
   }
 }

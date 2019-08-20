@@ -1,15 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, of } from 'rxjs';
-import {
-  filter,
-  map,
-  mergeMap,
-  share,
-  shareReplay,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { combineLatest, of, asyncScheduler } from 'rxjs';
+import { filter, map, switchMap, tap, debounceTime } from 'rxjs/operators';
 
 import {
   Address,
@@ -44,27 +35,57 @@ export class ExpressCheckoutService {
   ) {}
 
   protected setShippingAddress() {
-    this.shippingAddressSet$ = this.userAddressService.getAddresses().pipe(
-      withLatestFrom(this.userAddressService.getAddressesLoadedSuccess()),
-      tap(([, success]: [Address[], boolean]) => {
+    this.checkoutService.resetSetDeliveryAddressProcess();
+    this.shippingAddressSet$ = combineLatest(
+      this.userAddressService.getAddresses(),
+      this.userAddressService.getAddressesLoadedSuccess(),
+      this.checkoutService.getSetDeliveryAddressResultLoading(),
+      this.checkoutService.getSetDeliveryAddressResultSuccess()
+    ).pipe(
+      debounceTime(1),
+      tap(res => console.log('start', res)),
+      tap(([, success]: [Address[], boolean, boolean, boolean]) => {
         if (!success) {
           this.userAddressService.loadAddresses();
         }
       }),
-      filter(([, success]: [Address[], boolean]) => success),
+      filter(([, success]: [Address[], boolean, boolean, boolean]) => success),
       map(
-        ([addresses]: [Address[], boolean]) =>
-          addresses.find(address => address.defaultAddress) || addresses[0]
+        ([
+          addresses,
+          ,
+          setDeliveryAddressInProgress,
+          setDeliveryAddressSuccess,
+        ]: [Address[], boolean, boolean, boolean]) => [
+          addresses.find(address => address.defaultAddress) || addresses[0],
+          setDeliveryAddressInProgress,
+          setDeliveryAddressSuccess,
+        ]
       ),
-      //   tap(data => console.log('defaultShippingAddress$', data))
-      // );
-      //
-      // this.shippingAddressSet$ = this.defaultShippingAddress$.pipe(
       tap(
-        defaultAddress =>
-          defaultAddress &&
-          Object.keys(defaultAddress).length &&
-          this.checkoutDeliveryService.setDeliveryAddress(defaultAddress)
+        ([
+          defaultAddress,
+          setDeliveryAddressInProgress,
+          setDeliveryAddressSuccess,
+        ]: [Address, boolean, boolean]) => {
+          if (
+            defaultAddress &&
+            Object.keys(defaultAddress).length &&
+            !setDeliveryAddressInProgress &&
+            !setDeliveryAddressSuccess
+          ) {
+            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
+          }
+        }
+      ),
+      filter(
+        ([, setDeliveryAddressInProgress, setDeliveryAddressSuccess]: [
+          Address,
+          boolean,
+          boolean
+        ]) => {
+          return setDeliveryAddressSuccess && !setDeliveryAddressInProgress;
+        }
       ),
       switchMap(() => this.checkoutDetailsService.getDeliveryAddress()),
       map(data => Boolean(data && Object.keys(data).length)),
@@ -73,8 +94,11 @@ export class ExpressCheckoutService {
   }
 
   protected setPaymentMethod() {
-    this.paymentMethodSet$ = this.userPaymentService.getPaymentMethods().pipe(
-      withLatestFrom(this.userPaymentService.getPaymentMethodsLoadedSuccess()),
+    this.checkoutService.resetSetPaymentDetailsProcess();
+    this.paymentMethodSet$ = combineLatest(
+      this.userPaymentService.getPaymentMethods(),
+      this.userPaymentService.getPaymentMethodsLoadedSuccess()
+    ).pipe(
       tap(([, success]: [PaymentDetails[], boolean]) => {
         if (!success) {
           this.userPaymentService.loadPaymentMethods();
@@ -98,38 +122,41 @@ export class ExpressCheckoutService {
   }
 
   protected setDeliveryMode() {
-    this.deliveryModeSet$ = this.checkoutDeliveryService
-      .getSupportedDeliveryModes()
-      .pipe(
-        withLatestFrom(
-          this.checkoutDeliveryService.getSelectedDeliveryModeCode(),
-          this.shippingAddressSet$
-        ),
-        switchMap(
-          ([modes, mode, addressSet]: [DeliveryMode[], string, boolean]) => {
-            if (addressSet) {
-              return of([modes, mode]).pipe(
-                filter(([deliveryModes]: [DeliveryMode[], string]) =>
-                  Boolean(deliveryModes.length)
-                ),
-                map(([deliveryModes, code]: [DeliveryMode[], string]) => {
-                  const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
-                    deliveryModes
+    this.deliveryModeSet$ = combineLatest(
+      this.checkoutDeliveryService.getSupportedDeliveryModes(),
+      this.checkoutDeliveryService.getSelectedDeliveryModeCode(),
+      this.shippingAddressSet$,
+      this.checkoutService.getSetDeliveryModeResultLoading(),
+      this.checkoutService.getSetDeliveryModeResultSuccess()
+    ).pipe(
+      debounceTime(1),
+      switchMap(
+        ([modes, mode, addressSet, setDeliveryModeInProgress, setDeliveryModeSuccess]: [DeliveryMode[], string, boolean, boolean, boolean]) => {
+          if (addressSet) {
+            return of([modes, mode, setDeliveryModeInProgress, setDeliveryModeSuccess]).pipe(
+              filter(([deliveryModes]: [DeliveryMode[], string, boolean, boolean]) =>
+                Boolean(deliveryModes.length)
+              ),
+              map(([deliveryModes, code]: [DeliveryMode[], string, boolean, boolean]) => {
+                const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
+                  deliveryModes
+                );
+                if (code !== preferredDeliveryMode) {
+                  this.checkoutDeliveryService.setDeliveryMode(
+                    preferredDeliveryMode
                   );
-                  if (code !== preferredDeliveryMode) {
-                    this.checkoutDeliveryService.setDeliveryMode(
-                      preferredDeliveryMode
-                    );
-                  }
-                  return Boolean(deliveryModes.length);
-                })
-              );
-            } else {
-              return of(false);
-            }
+                } else {
+                return Boolean(deliveryModes.length);
+                }
+              }),
+
+            );
+          } else {
+            return of(false);
           }
-        )
-      );
+        }
+      )
+    );
   }
 
   public trySetDefaultCheckoutDetails() {
@@ -138,7 +165,6 @@ export class ExpressCheckoutService {
     this.setPaymentMethod();
 
     return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
-      tap(console.log),
       map(
         ([deliveryModeSet, paymentMethodSet]) =>
           deliveryModeSet && paymentMethodSet

@@ -21,7 +21,11 @@ export class CheckoutConnector {
     return this.adapter.loadCheckoutDetails(userId, cartId);
   }
 
-  public clearCheckoutDelivery(userId: string, cartId: string) : Observable<any> {
-    return this.adapter.clearCheckoutDelivery(userId, cartId)
+  public clearCheckoutDeliveryAddress(userId: string, cartId: string) : Observable<any> {
+    return this.adapter.clearCheckoutDeliveryAddress(userId, cartId)
+  }
+
+  public clearCheckoutDeliveryMode(userId: string, cartId: string) : Observable<any> {
+    return this.adapter.clearCheckoutDeliveryMode(userId, cartId)
   }
 }

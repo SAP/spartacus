@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
@@ -62,6 +62,7 @@ export class CheckoutEffects {
       return this.checkoutDeliveryConnector
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
+          tap(() => console.log('address set in effect')),
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
             new CheckoutActions.LoadSupportedDeliveryModes({
@@ -280,23 +281,49 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  clearCheckoutDelivery$: Observable<
-    | CheckoutActions.ClearCheckoutDeliveryFail
-    | CheckoutActions.ClearCheckoutDeliverySuccess
+  clearCheckoutDeliveryAddress$: Observable<
+    | CheckoutActions.ClearCheckoutDeliveryAddressFail
+    | CheckoutActions.ClearCheckoutDeliveryAddressSuccess
     > = this.actions$.pipe(
-    ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY),
-    map((action: CheckoutActions.ClearCheckoutDelivery) => action.payload),
+    ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS),
+    map((action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload),
     switchMap(payload => {
       return this.checkoutConnector
-        .clearCheckoutDelivery(payload.userId, payload.cartId)
+        .clearCheckoutDeliveryAddress(payload.userId, payload.cartId)
         .pipe(
           map(
             () =>
-              new CheckoutActions.ClearCheckoutDeliverySuccess()
+              new CheckoutActions.ClearCheckoutDeliveryAddressSuccess()
           ),
           catchError(error =>
             of(
-              new CheckoutActions.ClearCheckoutDeliveryFail(
+              new CheckoutActions.ClearCheckoutDeliveryAddressFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    })
+  );
+
+  @Effect()
+  clearCheckoutDeliveryMode$: Observable<
+    | CheckoutActions.ClearCheckoutDeliveryModeFail
+    | CheckoutActions.ClearCheckoutDeliveryModeSuccess
+    > = this.actions$.pipe(
+    ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
+    map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
+    switchMap(payload => {
+      return this.checkoutConnector
+        .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
+        .pipe(
+          map(
+            () =>
+              new CheckoutActions.ClearCheckoutDeliveryModeSuccess()
+          ),
+          catchError(error =>
+            of(
+              new CheckoutActions.ClearCheckoutDeliveryModeFail(
                 makeErrorSerializable(error)
               )
             )

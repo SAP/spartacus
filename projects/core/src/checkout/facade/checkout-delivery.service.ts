@@ -160,13 +160,22 @@ export class CheckoutDeliveryService {
     );
   }
 
-  clearCheckoutDelivery() {
+  clearCheckoutDeliveryAddress() {
     this.checkoutStore.dispatch(
-      new CheckoutActions.ClearCheckoutDelivery({
+      new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId: this.cartData.userId,
-        cartId: this.cartData.cart.code,
+        cartId: this.cartData.cartId,
       })
     );
+  }
+
+  clearCheckoutDeliveryMode() {
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId
+      })
+    )
   }
 
   protected actionAllowed(): boolean {

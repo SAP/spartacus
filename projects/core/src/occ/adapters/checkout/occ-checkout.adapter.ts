@@ -54,8 +54,13 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     return this.http.get<CheckoutDetails>(url, { params });
   }
 
-  clearCheckoutDelivery(userId: string, cartId: string): Observable<any> {
+  clearCheckoutDeliveryAddress(userId: string, cartId: string): Observable<any> {
     const url = `${this.getEndpoint(userId, CARTS_ENDPOINT)}${cartId}/addresses/delivery`;
+    return this.http.delete<any>(url);
+  }
+
+  clearCheckoutDeliveryMode(userId: string, cartId: string): Observable<any> {
+    const url = `${this.getEndpoint(userId, CARTS_ENDPOINT)}${cartId}/deliverymode`;
     return this.http.delete<any>(url);
   }
 }

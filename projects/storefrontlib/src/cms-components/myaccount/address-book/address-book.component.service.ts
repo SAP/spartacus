@@ -31,6 +31,6 @@ export class AddressBookComponentService {
 
   updateUserAddress(addressId: string, address: Address) {
     this.userAddressService.updateUserAddress(addressId, address);
-    this.checkoutDeliveryService.clearCheckoutDelivery();
+    this.checkoutDeliveryService.clearCheckoutDeliveryAddress();
   }
 }
