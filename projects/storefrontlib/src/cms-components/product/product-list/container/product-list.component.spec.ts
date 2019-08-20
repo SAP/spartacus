@@ -407,8 +407,6 @@ describe('ProductListComponent', () => {
 
         component.ngOnInit();
 
-        console.log(component.model);
-
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
 
