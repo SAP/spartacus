@@ -30,6 +30,7 @@ import {
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
+import { ICON_TYPE } from '../../..';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
@@ -116,8 +117,8 @@ const mockModel2: ProductSearchPage = {
   template: '',
 })
 class MockStarRatingComponent {
-  @Input() rating: any;
-  @Input() disabled: any;
+  @Input() rating: number;
+  @Input() disabled: boolean;
 }
 
 class MockPageLayoutService {
@@ -150,7 +151,7 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 export class MockCxIconComponent {
-  @Input() type: any;
+  @Input() type: ICON_TYPE;
 }
 
 @Component({
@@ -158,8 +159,8 @@ export class MockCxIconComponent {
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode: any;
-  @Input() showQuantity: any;
+  @Input() productCode: string;
+  @Input() showQuantity: boolean;
 }
 
 export class MockProductListComponentService {
