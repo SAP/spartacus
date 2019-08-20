@@ -6,7 +6,8 @@ import {
 } from '../config/default-state-config';
 import { StateConfig, StorageSyncType } from '../config/state-config';
 import {
-  exists, getKeysForStorage,
+  exists,
+  getKeysForStorage,
   getStorage,
   getStorageSyncReducer,
   isSsr,
@@ -297,7 +298,6 @@ describe('storage-sync-reducer', () => {
         expect(result).toEqual([]);
       });
     });
-
   });
 
   describe('getStorage', () => {
