@@ -136,8 +136,6 @@ class MockPageLayoutService {
 class MockProductListItemComponent {
   @Input()
   product: any;
-  paginationOperations = createSpy('paginationOperations');
-  infiniteScrollOperations = createSpy('infiniteScrollPagination');
 }
 
 @Pipe({
@@ -272,7 +270,7 @@ fdescribe('ProductListComponent', () => {
     describe('ngOnInit', () => {
       beforeEach(() => {
         SpyOnModelAndReturn(mockModel1);
-        spyOn(component, 'paginationOperations');
+        spyOn(component, 'paginationOperations').and.stub();
         component.ngOnInit();
       });
 
@@ -298,7 +296,7 @@ fdescribe('ProductListComponent', () => {
     describe('ngOnInit', () => {
       beforeEach(() => {
         SpyOnModelAndReturn(mockModel1);
-        spyOn(component, 'infiniteScrollOperations');
+        spyOn(component, 'infiniteScrollOperations').and.stub();
         component.ngOnInit();
       });
 
