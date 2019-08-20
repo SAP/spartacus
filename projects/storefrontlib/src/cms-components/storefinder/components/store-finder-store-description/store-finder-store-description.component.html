@@ -7,7 +7,7 @@
 >
   <div class="row">
     <article class="cx-store col-md-4">
-      <h2>{{ location.displayName }}</h2>
+      <h2>{{ location.displayName || location.name }}</h2>
 
       <p *ngIf="location.address" class="storeAddress">
         {{ location.address.line1 }} {{ location.address.line2 }} <br />
@@ -32,7 +32,7 @@
           </li>
         </ul>
       </section>
-      <div class="cx-schedule">
+      <div class="cx-schedule" *ngIf="location.openingHours">
         <cx-schedule [location]="location">
           <h3>{{ 'storeFinder.storeHours' | cxTranslate }}</h3>
         </cx-schedule>
@@ -42,23 +42,24 @@
       <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
     </article>
   </div>
-
-  <div class="row cx-feature">
-    <div class="col-lg-12">
-      <h3 class="cx-features-header">
-        {{ 'storeFinder.storeFeatures' | cxTranslate }}
-      </h3>
+  <div *ngIf="(location.features | json) != '{}'">
+    <div class="row cx-feature">
+      <div class="col-lg-12">
+        <h3 class="cx-features-header">
+          {{ 'storeFinder.storeFeatures' | cxTranslate }}
+        </h3>
+      </div>
     </div>
+
+    <article class="row">
+      <div
+        class="col-lg-3 cx-feature-item"
+        *ngFor="let feature of location.features?.entry"
+      >
+        <div class="cx-feature-value">{{ feature.value }}</div>
+      </div>
+    </article>
   </div>
-
-  <article class="row">
-    <div
-      class="col-lg-3 cx-feature-item"
-      *ngFor="let feature of location.features?.entry"
-    >
-      <div class="cx-feature-value">{{ feature.value }}</div>
-    </div>
-  </article>
 </div>
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>
