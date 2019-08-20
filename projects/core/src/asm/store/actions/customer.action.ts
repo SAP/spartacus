@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-export const CUSTOMER_SEARCH = '[Auth] Load User Token';
-export const CUSTOMER_SEARCH_FAIL = '[Auth] Load User Token Fail';
-export const CUSTOMER_SEARCH_SUCCESS = '[Auth] Load User Token Success';
+export const CUSTOMER_SEARCH = '[Asm] Customer Search';
+export const CUSTOMER_SEARCH_FAIL = '[Asm] Customer Search Fail';
+export const CUSTOMER_SEARCH_SUCCESS = '[Asm] Customer Search Success';
 
 export class CustomerSearch implements Action {
   readonly type = CUSTOMER_SEARCH;
