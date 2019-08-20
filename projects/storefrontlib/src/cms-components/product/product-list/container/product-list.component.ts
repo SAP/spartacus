@@ -72,7 +72,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     );
   }
 
-  paginationOperations(subModel: ProductSearchPage) {
+  paginationOperations(subModel: ProductSearchPage): void {
     this.model = subModel;
   }
 
