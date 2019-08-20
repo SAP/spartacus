@@ -32,7 +32,7 @@ export class CheckoutDetailsService {
   ) {
     this.cartId$ = this.cartService.getActive().pipe(
       map(cartData => {
-        if (cartData.user && cartData.user.name === 'guest') {
+        if (this.cartService.isGuestCart()) {
           return cartData.guid;
         }
         return cartData.code;

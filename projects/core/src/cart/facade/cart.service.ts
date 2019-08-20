@@ -196,6 +196,10 @@ export class CartService {
     return this.store.pipe(select(CartSelectors.getCartUser));
   }
 
+  isGuestCart(): boolean {
+    return this.cartData.isGuestCart;
+  }
+
   private isCreated(cart: Cart): boolean {
     return cart && typeof cart.guid !== 'undefined';
   }

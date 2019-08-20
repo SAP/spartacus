@@ -7,6 +7,7 @@ import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 
 export const ANONYMOUS_USERID = 'anonymous';
+export const GUEST_NAME = 'guest';
 
 @Injectable()
 export class CartDataService {
@@ -49,5 +50,9 @@ export class CartDataService {
     if (this.hasCart) {
       return this.userId === ANONYMOUS_USERID ? this.cart.guid : this.cart.code;
     }
+  }
+
+  get isGuestCart(): boolean {
+    return this.cart.user && this.cart.user.name === GUEST_NAME;
   }
 }

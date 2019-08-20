@@ -29,7 +29,7 @@ export class CheckoutAuthGuard implements CanActivate {
     ]).pipe(
       map(([token, user]: [UserToken, User]) => {
         if (!token.access_token) {
-          if (user && user.name === 'guest') {
+          if (this.cartService.isGuestCart()) {
             return Boolean(user);
           }
           this.routingService.go({ cxRoute: 'login' }, { forced: true });
