@@ -1,6 +1,8 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { AuthService } from '../../auth/facade/auth.service';
 import { PaymentDetails } from '../../model/cart.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
@@ -10,6 +12,12 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserPaymentService } from './user-payment.service';
+
+class MockAuthService {
+  getOccUserId(): Observable<string> {
+    return of(USERID_CURRENT);
+  }
+}
 
 describe('UserPaymentService', () => {
   let service: UserPaymentService;
@@ -25,7 +33,10 @@ describe('UserPaymentService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserPaymentService],
+      providers: [
+        UserPaymentService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
     store = TestBed.get(Store as Type<Store<StateWithUser>>);
