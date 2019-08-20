@@ -136,7 +136,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.model.pagination.totalPages - 1;
 
     this.isMaxProducts =
-      this.productLimit !== 0 && this.model.products.length >= this.maxProducts;
+      this.productLimit &&
+      this.productLimit !== 0 &&
+      this.model.products.length >= this.maxProducts;
 
     this.maxProducts = this.isMaxProducts
       ? this.model.products.length + this.productLimit
