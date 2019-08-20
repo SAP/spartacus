@@ -1,7 +1,12 @@
 %cx-store-finder-list-item {
   display: block;
-  margin: 0.25rem 0;
+  margin: 1rem 0;
   text-align: left;
+  padding: 0 0.75rem;
+
+  @include media-breakpoint-down(md) {
+    padding: 0;
+  }
 
   .cx-store-list-order {
     position: absolute;
@@ -12,9 +17,15 @@
     @include type('6');
     text-decoration: underline;
     cursor: pointer;
+    min-height: 40px;
   }
   .cx-store-address {
     @include type('7');
+  }
+  .cx-store-address-street {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .cx-store-open {
     @include type('8');
