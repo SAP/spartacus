@@ -3,6 +3,12 @@
     margin: 1rem auto;
     justify-content: center;
     display: flex;
+
+    .pagination {
+      a.page-link:hover {
+        color: #fff;
+      }
+    }
   }
 
   .cx-spinner {
