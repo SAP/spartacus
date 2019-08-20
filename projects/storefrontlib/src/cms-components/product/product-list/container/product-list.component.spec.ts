@@ -116,8 +116,8 @@ const mockModel2: ProductSearchPage = {
   template: '',
 })
 class MockStarRatingComponent {
-  @Input() rating;
-  @Input() disabled;
+  @Input() rating: any;
+  @Input() disabled: any;
 }
 
 class MockPageLayoutService {
@@ -135,7 +135,7 @@ class MockPageLayoutService {
 })
 class MockProductListItemComponent {
   @Input()
-  product;
+  product: any;
   paginationOperations = createSpy('paginationOperations');
   infiniteScrollOperations = createSpy('infiniteScrollPagination');
 }
@@ -152,7 +152,7 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 export class MockCxIconComponent {
-  @Input() type;
+  @Input() type: any;
 }
 
 @Component({
@@ -160,8 +160,8 @@ export class MockCxIconComponent {
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode;
-  @Input() showQuantity;
+  @Input() productCode: any;
+  @Input() showQuantity: any;
 }
 
 export class MockProductListComponentService {
@@ -272,22 +272,19 @@ fdescribe('ProductListComponent', () => {
     describe('ngOnInit', () => {
       beforeEach(() => {
         SpyOnModelAndReturn(mockModel1);
+        spyOn(component, 'paginationOperations');
+        component.ngOnInit();
       });
 
       it('should not use infinite scroll', () => {
-        component.ngOnInit();
         expect(component.isInfiniteScroll).toBeFalsy();
       });
 
       it('should clear search results', () => {
-        component.ngOnInit();
         expect(componentService.clearSearchResults).toHaveBeenCalled();
       });
 
       it('should use pagination function', () => {
-        spyOn(component, 'paginationOperations');
-        component.ngOnInit();
-
         expect(component.paginationOperations).toHaveBeenCalled();
       });
     });
@@ -301,18 +298,15 @@ fdescribe('ProductListComponent', () => {
     describe('ngOnInit', () => {
       beforeEach(() => {
         SpyOnModelAndReturn(mockModel1);
+        spyOn(component, 'infiniteScrollOperations');
+        component.ngOnInit();
       });
 
       it('should use infinite scroll', () => {
-        component.ngOnInit();
-
         expect(component.isInfiniteScroll).toBeTruthy();
       });
 
       it('should call infinite scroll function', () => {
-        spyOn(component, 'infiniteScrollOperations');
-        component.ngOnInit();
-
         expect(component.infiniteScrollOperations).toHaveBeenCalled();
       });
     });
