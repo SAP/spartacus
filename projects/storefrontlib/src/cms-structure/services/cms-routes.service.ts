@@ -70,10 +70,7 @@ export class CmsRoutesService {
         component: PageLayoutComponent,
         children: routes,
         data: {
-          cxCmsRouteContext: {
-            id: pageLabel,
-            type: pageContext.type,
-          },
+          cxCmsRouteContext: pageContext,
         },
       };
 
