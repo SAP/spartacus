@@ -95,7 +95,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   //Infinite Scroll functions
-  infiniteScrollOperations(subModel: ProductSearchPage) {
+  infiniteScrollOperations(subModel: ProductSearchPage): void {
     if (this.isSamePage(subModel)) {
       return;
     }
@@ -112,7 +112,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.setConditions();
   }
 
-  setComponentConfigurations() {
+  setComponentConfigurations(): void {
     this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll.active;
 
     if (this.isInfiniteScroll) {
@@ -194,7 +194,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private scrollToTop() {
+  private scrollToTop(): void {
     window.scroll(0, 0);
   }
 
