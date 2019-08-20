@@ -11,46 +11,45 @@ import {
 } from '@spartacus/core';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { OccConfig } from '../../config/occ-config';
+import { OccEndpointsService } from '../../services';
 import { OccUserConsentAdapter } from './occ-user-consent.adapter';
-
-const endpoint = '/users';
-const CONSENTS_TEMPLATES_ENDPOINT = '/consenttemplates';
-const CONSENTS_ENDPOINT = '/consents';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  context: {
-    baseSite: [''],
-  },
-};
+import {
+  MockOccEndpointsService,
+  mockOccModuleConfig,
+} from './unit-test.helper';
 
 describe('OccUserConsentAdapter', () => {
-  let service: OccUserConsentAdapter;
+  let occUserConsentAdapter: OccUserConsentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccUserConsentAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
-    service = TestBed.get(OccUserConsentAdapter as Type<OccUserConsentAdapter>);
+
+    occUserConsentAdapter = TestBed.get(OccUserConsentAdapter as Type<
+      OccUserConsentAdapter
+    >);
     httpMock = TestBed.get(HttpTestingController as Type<
       HttpTestingController
     >);
     converter = TestBed.get(ConverterService as Type<ConverterService>);
-
+    occEnpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -64,17 +63,20 @@ describe('OccUserConsentAdapter', () => {
         consentTemplates: [{ id: 'xxx' }],
       };
 
-      service.loadConsents(userId).subscribe(result => {
+      occUserConsentAdapter.loadConsents(userId).subscribe(result => {
         expect(result).toEqual(mockConsentTemplateList.consentTemplates);
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url === endpoint + `/${userId}${CONSENTS_TEMPLATES_ENDPOINT}`
-        );
+        return req.method === 'GET';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'consentTemplates',
+        {
+          userId,
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockConsentTemplateList);
@@ -82,9 +84,11 @@ describe('OccUserConsentAdapter', () => {
 
     it('should use converter', () => {
       const userId = 'xxx@xxx.xxx';
-      service.loadConsents(userId).subscribe();
+      occUserConsentAdapter.loadConsents(userId).subscribe();
       httpMock
-        .expectOne(endpoint + `/${userId}${CONSENTS_TEMPLATES_ENDPOINT}`)
+        .expectOne(req => {
+          return req.method === 'GET';
+        })
         .flush([]);
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         CONSENT_TEMPLATE_NORMALIZER
@@ -105,17 +109,20 @@ describe('OccUserConsentAdapter', () => {
           consentGivenDate: new Date(),
         },
       };
-      service
+      occUserConsentAdapter
         .giveConsent(userId, consentTemplateId, consentTemplateVersion)
         .subscribe(result => expect(result).toEqual(expectedConsentTemplate));
 
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'POST' &&
-          req.url === `${endpoint}/${userId}${CONSENTS_ENDPOINT}` &&
           req.serializeBody() ===
             `consentTemplateId=${consentTemplateId}&consentTemplateVersion=${consentTemplateVersion}`
       );
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('consents', {
+        userId,
+      });
+
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
         'application/x-www-form-urlencoded'
@@ -126,8 +133,8 @@ describe('OccUserConsentAdapter', () => {
     it('should use converter', () => {
       const userId = 'xxx@xxx.xxx';
 
-      service.giveConsent(userId, 'xxx', 1).subscribe();
-      httpMock.expectOne(`${endpoint}/${userId}${CONSENTS_ENDPOINT}`).flush({});
+      occUserConsentAdapter.giveConsent(userId, 'xxx', 1).subscribe();
+      httpMock.expectOne(req => req.method === 'POST').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(
         CONSENT_TEMPLATE_NORMALIZER
       );
@@ -136,17 +143,18 @@ describe('OccUserConsentAdapter', () => {
 
   describe('withdrawConsent', () => {
     it('should withdraw the user consent', () => {
-      service
+      occUserConsentAdapter
         .withdrawConsent('xxx@xxx.xxx', 'xxx')
         .subscribe(result => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'DELETE' &&
-          req.url === `${endpoint}/xxx@xxx.xxx${CONSENTS_ENDPOINT}/xxx`
-        );
+        return req.method === 'DELETE';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('consentDetail', {
+        userId: 'xxx@xxx.xxx',
+        consentId: 'xxx',
+      });
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });

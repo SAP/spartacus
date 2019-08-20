@@ -109,7 +109,7 @@ describe('AsmComponent', () => {
     expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
   });
 
-  it('should call authService.startCustomerEmulationSession() startCustomerEmulationSession() is called', () => {
+  it('should call authService.startCustomerEmulationSession() when startCustomerEmulationSession() is called', () => {
     spyOn(authService, 'startCustomerEmulationSession').and.stub();
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
