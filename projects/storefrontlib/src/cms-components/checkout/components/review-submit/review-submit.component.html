@@ -16,7 +16,7 @@
           "
         ></cx-card>
       </div>
-      <div class="cx-review-summary-edit-step">
+      <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
         <a
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS) }
@@ -35,7 +35,7 @@
           [content]="getDeliveryModeCard(deliveryMode) | async"
         ></cx-card>
       </div>
-      <div class="cx-review-summary-edit-step">
+      <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
         <a
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
@@ -53,7 +53,7 @@
           [content]="getPaymentMethodCard(paymentDetails$ | async) | async"
         ></cx-card>
       </div>
-      <div class="cx-review-summary-edit-step">
+      <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
         <a
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }

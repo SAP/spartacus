@@ -6,6 +6,7 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { CartSharedModule } from '../../../../cms-components/cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../../shared/components/card/card.module';
@@ -24,6 +25,7 @@ import { RouterModule } from '@angular/router';
     I18nModule,
     UrlModule,
     RouterModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutReviewOrder: {
