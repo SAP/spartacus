@@ -9,7 +9,6 @@ import {
   I18nTestingModule,
   RoutingService,
   UserAddressService,
-  User,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
@@ -30,8 +29,8 @@ class MockUserAddressService {
 
 class MockCartService {
   loadDetails(): void {}
-  getAssignedUser(): Observable<User> {
-    return of();
+  isGuestCart(): Boolean {
+    return false;
   }
 }
 
@@ -97,6 +96,8 @@ const mockActivatedRoute = {
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
+  @Input() showTitleCode: boolean;
+  @Input() setAsDefaultField: boolean;
 }
 
 @Component({
@@ -179,9 +180,6 @@ describe('ShippingAddressComponent', () => {
         of(false)
       );
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(of([]));
-      spyOn(mockCartService, 'getAssignedUser').and.returnValue(
-        of({ name: 'test' })
-      );
       spyOn(mockUserAddressService, 'loadAddresses').and.stub();
 
       component.ngOnInit();
@@ -198,9 +196,7 @@ describe('ShippingAddressComponent', () => {
         of(false)
       );
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(of([]));
-      spyOn(mockCartService, 'getAssignedUser').and.returnValue(
-        of({ name: 'guest' })
-      );
+      spyOn(mockCartService, 'isGuestCart').and.returnValue(true);
       spyOn(mockUserAddressService, 'loadAddresses').and.stub();
 
       component.ngOnInit();
