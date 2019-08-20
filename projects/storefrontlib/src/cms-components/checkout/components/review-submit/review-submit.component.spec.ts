@@ -1,4 +1,11 @@
-import { Component, Input, Type, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Input,
+  Type,
+  Pipe,
+  PipeTransform,
+  Directive,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -139,6 +146,13 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+@Directive({
+  selector: '[cxFeatureLevel]',
+})
+class MockFeatureLevelDirective {
+  @Input() cxFeatureLevel() {}
+}
+
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
@@ -152,6 +166,7 @@ describe('ReviewSubmitComponent', () => {
         MockCartItemListComponent,
         MockCardComponent,
         MockUrlPipe,
+        MockFeatureLevelDirective,
       ],
       providers: [
         {
