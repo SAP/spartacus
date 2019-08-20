@@ -45,6 +45,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   cards$: Observable<CardWithAddress[]>;
   checkoutStepUrlNext: string;
   checkoutStepUrlPrevious: string;
+  isGuestCheckout = false;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -110,6 +111,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
     if (!this.cartService.isGuestCart()) {
       this.userAddressService.loadAddresses();
+    } else {
+      this.isGuestCheckout = true;
     }
 
     this.setAddressSub = this.checkoutDeliveryService
