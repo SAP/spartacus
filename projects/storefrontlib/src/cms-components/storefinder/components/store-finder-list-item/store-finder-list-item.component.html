@@ -4,7 +4,7 @@
       {{ listOrderLabel }}
     </div>
     <div class="cx-store-name">
-      {{ location.displayName }}
+      {{ location.displayName || location.name }}
     </div>
     <div class="cx-store-address" *ngIf="location.address">
       {{ location.address.line1 }} {{ location.address.line2 }} <br />
