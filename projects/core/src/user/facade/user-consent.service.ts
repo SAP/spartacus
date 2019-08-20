@@ -22,6 +22,12 @@ import {
   providedIn: 'root',
 })
 export class UserConsentService {
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    // tslint:disable-next-line:unified-signatures
+    authService: AuthService
+  );
+
   /**
    * @deprecated since version 1.x
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
