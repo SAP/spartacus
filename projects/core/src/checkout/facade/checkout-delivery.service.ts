@@ -161,8 +161,7 @@ export class CheckoutDeliveryService {
 
   protected actionAllowed(): boolean {
     return (
-      this.cartData.userId !== ANONYMOUS_USERID ||
-      this.cartData.isGuestCart
+      this.cartData.userId !== ANONYMOUS_USERID || this.cartData.isGuestCart
     );
   }
 }
