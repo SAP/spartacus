@@ -120,7 +120,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
               address => address.defaultAddress
             );
             selected = defaultAddress;
-            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
+            this.selectAddress(defaultAddress);
           }
 
           return addresses.map(address => {
@@ -176,17 +176,14 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   addAddress(address: Address): void {
-    this.userAddressService
-      .getAddresses()
-      .pipe(take(1))
-      .subscribe(addresses => {
-        if (addresses.includes(address)) {
-          this.checkoutDeliveryService.setDeliveryAddress(address);
-        } else {
-          this.checkoutDeliveryService.createAndSetAddress(address);
-        }
-        this.goNext();
-      });
+    this.existingAddresses$.pipe(take(1)).subscribe(addresses => {
+      if (addresses.includes(address)) {
+        this.checkoutDeliveryService.setDeliveryAddress(address);
+      } else {
+        this.checkoutDeliveryService.createAndSetAddress(address);
+      }
+      this.goNext();
+    });
   }
 
   showNewAddressForm(): void {

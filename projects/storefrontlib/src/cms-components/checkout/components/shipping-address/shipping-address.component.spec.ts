@@ -11,7 +11,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { ShippingAddressComponent } from './shipping-address.component';
@@ -115,7 +115,7 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
-describe('ShippingAddressComponent', () => {
+fdescribe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
@@ -191,6 +191,8 @@ describe('ShippingAddressComponent', () => {
     spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
       of(mockAddresses)
     );
+    spyOn(component, 'selectAddress');
+
     component.ngOnInit();
     let address: Address[];
     component.existingAddresses$
@@ -207,12 +209,7 @@ describe('ShippingAddressComponent', () => {
       })
       .unsubscribe();
 
-    component.selectedAddress$
-      .pipe(takeWhile(selectedAddress => selectedAddress !== null))
-      .subscribe(selectedAddress => {
-        expect(selectedAddress).toEqual(mockAddress2);
-      })
-      .unsubscribe();
+    expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
   });
 
   it('should call showNewAddressForm()', () => {
@@ -244,6 +241,7 @@ describe('ShippingAddressComponent', () => {
     spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
       of(mockAddresses)
     );
+    spyOn(component, 'selectAddress');
 
     component.ngOnInit();
     let address: Address[];
@@ -261,12 +259,7 @@ describe('ShippingAddressComponent', () => {
       })
       .unsubscribe();
 
-    component.selectedAddress$
-      .pipe(takeWhile(selectedAddress => selectedAddress !== null))
-      .subscribe(selectedAddress => {
-        expect(selectedAddress).toEqual(mockAddress2);
-      })
-      .unsubscribe();
+    expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
   });
 
   it('should NOT automatically select default shipping address when there is a current selection', () => {
@@ -287,7 +280,8 @@ describe('ShippingAddressComponent', () => {
     expect(address).toBe(mockAddresses);
 
     //The selected address is the non-default one
-    component.selectAddress(mockAddress1);
+    const spySelectAddress = spyOn(component, 'selectAddress');
+
     //The logic in the card$ subscription should keep the current selection
     component.cards$
       .subscribe(cards => {
@@ -295,15 +289,14 @@ describe('ShippingAddressComponent', () => {
       })
       .unsubscribe();
 
-    component.selectedAddress$
-      .pipe(takeWhile(selectedAddress => selectedAddress !== null))
-      .subscribe(selectedAddress => {
-        expect(selectedAddress).toEqual(mockAddress1);
-      })
-      .unsubscribe();
+    fixture.detectChanges();
+    component.selectAddress(mockAddress1);
+
+    expect(spySelectAddress.calls.allArgs().pop()[0]).toEqual(mockAddress1);
   });
 
   it('should set newly created address', () => {
+    component.ngOnInit();
     component.addAddress(mockAddress1);
     expect(
       mockCheckoutDeliveryService.createAndSetAddress
@@ -311,20 +304,27 @@ describe('ShippingAddressComponent', () => {
   });
 
   it('should call addAddress() with address selected from existing addresses', () => {
-    component.ngOnInit();
-    component.addAddress(mockAddress1);
+    spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+      of(mockAddresses)
+    );
 
+    component.ngOnInit();
+    let address: Address[];
     component.existingAddresses$
-      .pipe(takeWhile(addresses => addresses.length > 0))
-      .subscribe(() => {
-        expect(
-          mockCheckoutDeliveryService.createAndSetAddress
-        ).not.toHaveBeenCalledWith(mockAddress1);
-        expect(
-          mockCheckoutDeliveryService.setDeliveryAddress
-        ).toHaveBeenCalledWith(mockAddress1);
+      .subscribe(data => {
+        address = data;
       })
       .unsubscribe();
+    expect(address).toBe(mockAddresses);
+
+    component.addAddress(mockAddress1);
+
+    expect(
+      mockCheckoutDeliveryService.createAndSetAddress
+    ).not.toHaveBeenCalledWith(mockAddress1);
+    expect(mockCheckoutDeliveryService.setDeliveryAddress).toHaveBeenCalledWith(
+      mockAddress1
+    );
   });
 
   describe('UI continue button', () => {
@@ -360,18 +360,18 @@ describe('ShippingAddressComponent', () => {
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
         of(mockAddresses)
       );
+      spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
+        of(mockAddress1)
+      );
 
       component.ngOnInit();
-      component.selectAddress(mockAddress1);
 
-      component.selectedAddress$
-        .pipe(takeWhile(selectedAddress => selectedAddress !== null))
-        .subscribe(selectedAddress => {
-          fixture.detectChanges();
-          expect(selectedAddress).not.toBeNull();
-          expect(getContinueBtn().nativeElement.disabled).toEqual(false);
-        })
-        .unsubscribe();
+      component.selectedAddress$.pipe(take(1)).subscribe(selectedAddress => {
+        fixture.detectChanges();
+        expect(selectedAddress).not.toBeNull();
+        expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+        component.selectAddress(mockAddress1);
+      });
     });
 
     it('should call "next" function after being clicked', () => {
@@ -381,20 +381,22 @@ describe('ShippingAddressComponent', () => {
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
         of(mockAddresses)
       );
+      spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
+        of(mockAddress1)
+      );
       spyOn(component, 'goNext');
 
       component.ngOnInit();
       component.selectAddress(mockAddress1);
 
-      component.selectedAddress$
-        .pipe(takeWhile(selectedAddress => selectedAddress !== null))
-        .subscribe(() => {
-          fixture.detectChanges();
-          getContinueBtn().nativeElement.click();
-          fixture.detectChanges();
-          expect(component.goNext).toHaveBeenCalled();
-        })
-        .unsubscribe();
+      component.selectedAddress$.pipe(take(1)).subscribe(selectedAddress => {
+        fixture.detectChanges();
+        expect(selectedAddress).not.toBeNull();
+        expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+        getContinueBtn().nativeElement.click();
+        fixture.detectChanges();
+        expect(component.goNext).toHaveBeenCalled();
+      });
     });
   });
 
