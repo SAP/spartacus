@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthRedirectService, CartService } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
@@ -24,6 +25,8 @@ export class CheckoutLoginComponent implements OnDestroy {
     },
     { validator: this.emailsMatch }
   );
+
+  sub: Subscription;
 
   private submitClicked = false;
 
@@ -57,12 +60,20 @@ export class CheckoutLoginComponent implements OnDestroy {
     const email = this.form.value.email;
     this.cartService.addEmail(email);
 
-    if (this.cartService.isGuestCart()) {
-      this.authRedirectService.redirect();
+    if (!this.sub) {
+      this.sub = this.cartService.getAssignedUser().subscribe(_ => {
+        if (this.cartService.isGuestCart()) {
+          this.authRedirectService.redirect();
+        }
+      });
     }
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
 
   private emailsMatch(abstractControl: AbstractControl): { NotEqual: boolean } {
     return abstractControl.get('email').value !==

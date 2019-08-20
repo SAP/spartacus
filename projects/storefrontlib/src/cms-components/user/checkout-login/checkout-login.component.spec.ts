@@ -5,14 +5,18 @@ import {
   AuthRedirectService,
   CartService,
   I18nTestingModule,
+  User,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 
 import createSpy = jasmine.createSpy;
 
 class MockCartService {
   addEmail = createSpy('MockCartService.addEmail');
-
+  getAssignedUser() {
+    return of();
+  }
   isGuestCart(): Boolean {
     return false;
   }
@@ -141,6 +145,9 @@ describe('CheckoutLoginComponent', () => {
 
   describe('on submit', () => {
     it('should submit when form is populated correctly', () => {
+      spyOn(cartService, 'getAssignedUser').and.returnValue(
+        of({ name: 'guest', uid: 'john@acme.com' } as User)
+      );
       spyOn(cartService, 'isGuestCart').and.returnValue(true);
 
       email.setValue(testEmail);
@@ -161,6 +168,9 @@ describe('CheckoutLoginComponent', () => {
     });
 
     it('should not submit when form is populated incorrectly', () => {
+      spyOn(cartService, 'getAssignedUser').and.returnValue(
+        of({ name: 'anonymous', uid: 'anonymous' } as User)
+      );
       spyOn(cartService, 'isGuestCart').and.returnValue(false);
 
       component.onSubmit();
