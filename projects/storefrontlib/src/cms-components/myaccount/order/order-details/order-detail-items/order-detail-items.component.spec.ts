@@ -2,12 +2,12 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  I18nTestingModule,
-  Order,
-  PromotionResult,
   Consignment,
   FeaturesConfig,
   FeaturesConfigModule,
+  I18nTestingModule,
+  Order,
+  PromotionResult,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
@@ -113,7 +113,7 @@ describe('OrderDetailItemsComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '1.1' },
+            features: { level: "'1.1'", consignmentTracking: "'1.2'" },
           },
         },
       ],
