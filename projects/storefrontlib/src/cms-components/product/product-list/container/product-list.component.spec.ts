@@ -112,8 +112,8 @@ const mockModel2: ProductSearchPage = {
   products: [],
 };
 
-const backToTopBtn = 'BACK TO TOP';
-const showMoreBtn = 'SHOW MORE';
+const backToTopBtn = 'productList.backToTopBtn';
+const showMoreBtn = 'productList.showMoreBtn';
 
 @Component({
   selector: 'cx-star-rating',
@@ -189,7 +189,7 @@ export class MockPaginationConfig {
   };
 }
 
-describe('ProductListComponent', () => {
+fdescribe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   let componentService: ProductListComponentService;
