@@ -74,7 +74,7 @@ export class CmsPageGuard implements CanActivate {
         }
       }),
       map(([canActivate, componentTypes]) => {
-        const pageLabel = pageData.label || pageContext.id; // page label returned from backend can be different than id initially assumed from route
+        const pageLabel = pageData.label || pageContext.id; // for content pages the page label returned from backend can be different than ID initially assumed from route
         if (
           canActivate === true &&
           !route.data.cxCmsRouteContext &&

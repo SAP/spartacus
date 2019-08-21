@@ -24,7 +24,15 @@ export class LoadCmsPageDataFail extends StateEntityLoaderActions.EntityFailActi
 export class LoadCmsPageDataSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = LOAD_CMS_PAGE_DATA_SUCCESS;
   constructor(pageContext: PageContext, payload: Page) {
-    super(pageContext.type, pageContext.id, payload);
+    super(
+      pageContext.type,
+      // for content pages the page label returned from backend can be different than ID initially assumed from route
+      // so let's save the success response for both page ID (initially incorrectly assumed) and correct page label
+      payload.label && pageContext.id !== payload.label
+        ? [pageContext.id, payload.label]
+        : pageContext.id,
+      payload
+    );
   }
 }
 
