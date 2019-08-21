@@ -62,7 +62,6 @@ export class CheckoutEffects {
       return this.checkoutDeliveryConnector
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
-          tap(() => console.log('address set in effect')),
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
             new CheckoutActions.LoadSupportedDeliveryModes({

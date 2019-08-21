@@ -5,7 +5,7 @@ import { DeliveryMode, Order } from '../../../model/order.model';
 import { StateLoaderActions, StateEntityLoaderActions } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { CHECKOUT_DETAILS, CLEAR_CHECKOUT_DELIVERY_ADDRESS_PROCESS_ID, CLEAR_CHECKOUT_DELIVERY_MODE_PROCESS_ID, SET_DELIVERY_ADDRESS_PROCESS_ID, SET_PAYMENT_DETAILS_PROCESS_ID, SET_DELIVERY_MODE_PROCESS_ID } from '../checkout-state';
+import { CHECKOUT_DETAILS, SET_DELIVERY_ADDRESS_PROCESS_ID, SET_PAYMENT_DETAILS_PROCESS_ID, SET_DELIVERY_MODE_PROCESS_ID } from '../checkout-state';
 
 export const CLEAR_CHECKOUT_DELIVERY_ADDRESS = '[Checkout] Clear Checkout Delivery Address';
 export const CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS = '[Checkout] Clear Checkout Delivery Address Success';
@@ -269,45 +269,39 @@ export class CheckoutClearMiscsData implements Action {
   readonly type = CHECKOUT_CLEAR_MISCS_DATA;
 }
 
-export class ClearCheckoutDeliveryAddress extends StateEntityLoaderActions.EntityLoadAction {
+export class ClearCheckoutDeliveryAddress implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_ADDRESS;
   constructor(public payload: { userId: string; cartId: string }) {
-    super(PROCESS_FEATURE, CLEAR_CHECKOUT_DELIVERY_ADDRESS_PROCESS_ID);
   }
 }
 
-export class ClearCheckoutDeliveryAddressSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class ClearCheckoutDeliveryAddressSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS;
   constructor() {
-    super(PROCESS_FEATURE, CLEAR_CHECKOUT_DELIVERY_ADDRESS_PROCESS_ID);
   }
 }
 
-export class ClearCheckoutDeliveryAddressFail extends StateEntityLoaderActions.EntityFailAction {
+export class ClearCheckoutDeliveryAddressFail implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL;
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, CLEAR_CHECKOUT_DELIVERY_ADDRESS_PROCESS_ID, payload)
   }
 }
 
-export class ClearCheckoutDeliveryMode extends StateEntityLoaderActions.EntityLoadAction {
+export class ClearCheckoutDeliveryMode implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE;
   constructor(public payload: { userId: string; cartId: string }) {
-    super(PROCESS_FEATURE, CLEAR_CHECKOUT_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
-export class ClearCheckoutDeliveryModeSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class ClearCheckoutDeliveryModeSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS;
   constructor() {
-    super(PROCESS_FEATURE, CLEAR_CHECKOUT_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
-export class ClearCheckoutDeliveryModeFail extends StateEntityLoaderActions.EntityFailAction {
+export class ClearCheckoutDeliveryModeFail implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_FAIL;
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, CLEAR_CHECKOUT_DELIVERY_MODE_PROCESS_ID, payload);
   }
 }
 

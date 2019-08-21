@@ -100,7 +100,7 @@ export class CheckoutConfigService {
       : this.findMatchingDeliveryMode(deliveryModes, index + 1);
   }
 
-  getPreferredDeliveryMode(deliveryModes: DeliveryMode[]) {
+  getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string {
     deliveryModes.sort(this.compareDeliveryCost);
     return this.findMatchingDeliveryMode(deliveryModes);
   }

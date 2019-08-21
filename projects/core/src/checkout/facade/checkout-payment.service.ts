@@ -7,15 +7,17 @@ import {
 } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
 import { CheckoutActions } from '../store/actions/index';
-import { StateWithCheckout } from '../store/checkout-state';
+import { StateWithCheckout, SET_PAYMENT_DETAILS_PROCESS_ID } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { StateWithProcess } from '../../process/store/process-state';
+import { getProcessSuccessFactory, getProcessErrorFactory, getProcessLoadingFactory } from '../../process/store/selectors/process-group.selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutPaymentService {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
+    protected store: Store<StateWithCheckout | StateWithProcess<void>>,
     protected cartData: CartDataService
   ) {}
 
@@ -23,21 +25,43 @@ export class CheckoutPaymentService {
    * Get card types
    */
   getCardTypes(): Observable<CardType[]> {
-    return this.checkoutStore.pipe(select(CheckoutSelectors.getAllCardTypes));
+    return this.store.pipe(select(CheckoutSelectors.getAllCardTypes));
   }
 
   /**
    * Get payment details
    */
   getPaymentDetails(): Observable<PaymentDetails> {
-    return this.checkoutStore.pipe(select(CheckoutSelectors.getPaymentDetails));
+    return this.store.pipe(select(CheckoutSelectors.getPaymentDetails));
+  }
+
+  getSetPaymentDetailsResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+    );
+  }
+
+  getSetPaymentDetailsResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+    );
+  }
+
+  getSetPaymentDetailsResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+    );
+  }
+
+  resetSetPaymentDetailsProcess(): void {
+    this.store.dispatch(new CheckoutActions.ResetSetPaymentDetailsProcess());
   }
 
   /**
    * Load the supported card types
    */
   loadSupportedCardTypes(): void {
-    this.checkoutStore.dispatch(new CheckoutActions.LoadCardTypes());
+    this.store.dispatch(new CheckoutActions.LoadCardTypes());
   }
 
   /**
@@ -46,7 +70,7 @@ export class CheckoutPaymentService {
    */
   createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
+      this.store.dispatch(
         new CheckoutActions.CreatePaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
@@ -62,7 +86,7 @@ export class CheckoutPaymentService {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
+      this.store.dispatch(
         new CheckoutActions.SetPaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,

@@ -35,31 +35,36 @@ export class ExpressCheckoutService {
   ) {}
 
   protected setShippingAddress() {
-    this.checkoutService.resetSetDeliveryAddressProcess();
+    this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
     this.shippingAddressSet$ = combineLatest(
       this.userAddressService.getAddresses(),
       this.userAddressService.getAddressesLoadedSuccess(),
-      this.checkoutService.getSetDeliveryAddressResultLoading(),
-      this.checkoutService.getSetDeliveryAddressResultSuccess()
+      this.checkoutDeliveryService.getSetDeliveryAddressResultLoading(),
+      this.checkoutDeliveryService.getSetDeliveryAddressResultSuccess(),
+      this.checkoutDeliveryService.getSetDeliveryAddressResultError()
     ).pipe(
-      debounceTime(1),
-      tap(res => console.log('start', res)),
-      tap(([, success]: [Address[], boolean, boolean, boolean]) => {
+      debounceTime(1, asyncScheduler),
+      tap(([, success]: [Address[], boolean, boolean, boolean, boolean]) => {
         if (!success) {
           this.userAddressService.loadAddresses();
         }
       }),
-      filter(([, success]: [Address[], boolean, boolean, boolean]) => success),
+      filter(
+        ([, success]: [Address[], boolean, boolean, boolean, boolean]) =>
+          success
+      ),
       map(
         ([
           addresses,
           ,
           setDeliveryAddressInProgress,
           setDeliveryAddressSuccess,
-        ]: [Address[], boolean, boolean, boolean]) => [
+          setDeliveryAddressError,
+        ]: [Address[], boolean, boolean, boolean, boolean]) => [
           addresses.find(address => address.defaultAddress) || addresses[0],
           setDeliveryAddressInProgress,
           setDeliveryAddressSuccess,
+          setDeliveryAddressError,
         ]
       ),
       tap(
@@ -67,89 +72,235 @@ export class ExpressCheckoutService {
           defaultAddress,
           setDeliveryAddressInProgress,
           setDeliveryAddressSuccess,
-        ]: [Address, boolean, boolean]) => {
+          setDeliveryAddressError,
+        ]: [Address, boolean, boolean, boolean]) => {
           if (
             defaultAddress &&
             Object.keys(defaultAddress).length &&
             !setDeliveryAddressInProgress &&
-            !setDeliveryAddressSuccess
+            !setDeliveryAddressSuccess &&
+            !setDeliveryAddressError
           ) {
             this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
           }
         }
       ),
       filter(
-        ([, setDeliveryAddressInProgress, setDeliveryAddressSuccess]: [
+        ([
+          ,
+          setDeliveryAddressInProgress,
+          setDeliveryAddressSuccess,
+          setDeliveryAddressError,
+        ]: [Address, boolean, boolean, boolean]) => {
+          return (
+            (setDeliveryAddressSuccess || setDeliveryAddressError) &&
+            !setDeliveryAddressInProgress
+          );
+        }
+      ),
+      switchMap(
+        ([, , , setDeliveryAddressError]: [
           Address,
+          boolean,
           boolean,
           boolean
         ]) => {
-          return setDeliveryAddressSuccess && !setDeliveryAddressInProgress;
+          if (setDeliveryAddressError) {
+            return of(false);
+          }
+          return this.checkoutDetailsService.getDeliveryAddress();
         }
       ),
-      switchMap(() => this.checkoutDetailsService.getDeliveryAddress()),
-      map(data => Boolean(data && Object.keys(data).length)),
-      tap(data => console.log('shippingAddressSet$', data))
+      map(data => Boolean(data && Object.keys(data).length))
     );
   }
 
   protected setPaymentMethod() {
-    this.checkoutService.resetSetPaymentDetailsProcess();
+    this.checkoutPaymentService.resetSetPaymentDetailsProcess();
     this.paymentMethodSet$ = combineLatest(
       this.userPaymentService.getPaymentMethods(),
-      this.userPaymentService.getPaymentMethodsLoadedSuccess()
+      this.userPaymentService.getPaymentMethodsLoadedSuccess(),
+      this.checkoutPaymentService.getSetPaymentDetailsResultLoading(),
+      this.checkoutPaymentService.getSetPaymentDetailsResultSuccess(),
+      this.checkoutPaymentService.getSetPaymentDetailsResultError()
     ).pipe(
-      tap(([, success]: [PaymentDetails[], boolean]) => {
-        if (!success) {
-          this.userPaymentService.loadPaymentMethods();
+      debounceTime(1, asyncScheduler),
+      tap(
+        ([, success]: [
+          PaymentDetails[],
+          boolean,
+          boolean,
+          boolean,
+          boolean
+        ]) => {
+          if (!success) {
+            this.userPaymentService.loadPaymentMethods();
+          }
         }
-      }),
-      filter(([, success]: [PaymentDetails[], boolean]) => success),
+      ),
+      filter(
+        ([, success]: [PaymentDetails[], boolean, boolean, boolean, boolean]) =>
+          success
+      ),
       map(
-        ([payments]: [PaymentDetails[], boolean]) =>
-          payments.find(address => address.defaultPayment) || payments[0]
+        ([
+          payments,
+          ,
+          setPaymentDetailsInProgress,
+          setPaymentDetailsSuccess,
+          setPaymentDetailsError,
+        ]: [PaymentDetails[], boolean, boolean, boolean, boolean]) => [
+          payments.find(address => address.defaultPayment) || payments[0],
+          setPaymentDetailsInProgress,
+          setPaymentDetailsSuccess,
+          setPaymentDetailsError,
+        ]
       ),
       tap(
-        defaultPayment =>
-          defaultPayment &&
-          Object.keys(defaultPayment).length &&
-          this.checkoutPaymentService.setPaymentDetails(defaultPayment)
+        ([
+          defaultPayment,
+          setPaymentDetailsInProgress,
+          setPaymentDetailsSuccess,
+          setPaymentDetailsError,
+        ]: [PaymentDetails, boolean, boolean, boolean]) => {
+          if (
+            defaultPayment &&
+            Object.keys(defaultPayment).length &&
+            !setPaymentDetailsInProgress &&
+            !setPaymentDetailsSuccess &&
+            !setPaymentDetailsError
+          ) {
+            this.checkoutPaymentService.setPaymentDetails(defaultPayment);
+          }
+        }
       ),
-      switchMap(() => this.checkoutDetailsService.getPaymentDetails()),
-      map(data => Boolean(data && Object.keys(data).length)),
-      tap(data => console.log('paymentMethodSet$', data))
+      filter(
+        ([
+          ,
+          setPaymentDetailsInProgress,
+          setPaymentDetailsSuccess,
+          setPaymentDetailsError,
+        ]: [Address, boolean, boolean, boolean]) => {
+          return (
+            (setPaymentDetailsSuccess || setPaymentDetailsError) &&
+            !setPaymentDetailsInProgress
+          );
+        }
+      ),
+      switchMap(
+        ([, , , setPaymentDetailsError]: [
+          Address,
+          boolean,
+          boolean,
+          boolean
+        ]) => {
+          if (setPaymentDetailsError) {
+            return of(false);
+          }
+          return this.checkoutDetailsService.getPaymentDetails();
+        }
+      ),
+      map(data => Boolean(data && Object.keys(data).length))
     );
   }
 
   protected setDeliveryMode() {
+    this.checkoutDeliveryService.resetSetDeliveryModeProcess();
     this.deliveryModeSet$ = combineLatest(
       this.checkoutDeliveryService.getSupportedDeliveryModes(),
-      this.checkoutDeliveryService.getSelectedDeliveryModeCode(),
       this.shippingAddressSet$,
-      this.checkoutService.getSetDeliveryModeResultLoading(),
-      this.checkoutService.getSetDeliveryModeResultSuccess()
+      this.checkoutDeliveryService.getSetDeliveryModeResultLoading(),
+      this.checkoutDeliveryService.getSetDeliveryModeResultSuccess(),
+      this.checkoutDeliveryService.getSetDeliveryModeResultError()
     ).pipe(
-      debounceTime(1),
+      debounceTime(1, asyncScheduler),
       switchMap(
-        ([modes, mode, addressSet, setDeliveryModeInProgress, setDeliveryModeSuccess]: [DeliveryMode[], string, boolean, boolean, boolean]) => {
+        ([
+          modes,
+          addressSet,
+          setDeliveryModeInProgress,
+          setDeliveryModeSuccess,
+          setDeliveryModeError,
+        ]: [DeliveryMode[], boolean, boolean, boolean, boolean]) => {
           if (addressSet) {
-            return of([modes, mode, setDeliveryModeInProgress, setDeliveryModeSuccess]).pipe(
-              filter(([deliveryModes]: [DeliveryMode[], string, boolean, boolean]) =>
-                Boolean(deliveryModes.length)
+            return of([
+              modes,
+              setDeliveryModeInProgress,
+              setDeliveryModeSuccess,
+              setDeliveryModeError,
+            ]).pipe(
+              filter(
+                ([deliveryModes]: [
+                  DeliveryMode[],
+                  boolean,
+                  boolean,
+                  boolean
+                ]) => Boolean(deliveryModes.length)
               ),
-              map(([deliveryModes, code]: [DeliveryMode[], string, boolean, boolean]) => {
-                const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
-                  deliveryModes
-                );
-                if (code !== preferredDeliveryMode) {
-                  this.checkoutDeliveryService.setDeliveryMode(
-                    preferredDeliveryMode
+              map(
+                ([
+                  deliveryModes,
+                  setDeliveryModeInProgressFlag,
+                  setDeliveryModeSuccessFlag,
+                  setDeliveryModeErrorFlag,
+                ]: [DeliveryMode[], boolean, boolean, boolean]) => {
+                  const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
+                    deliveryModes
                   );
-                } else {
-                return Boolean(deliveryModes.length);
+                  return [
+                    preferredDeliveryMode,
+                    setDeliveryModeInProgressFlag,
+                    setDeliveryModeSuccessFlag,
+                    setDeliveryModeErrorFlag,
+                  ];
                 }
-              }),
-
+              ),
+              tap(
+                ([
+                  preferredDeliveryMode,
+                  setDeliveryModeInProgressFlag,
+                  setDeliveryModeSuccessFlag,
+                  setDeliveryModeErrorFlag,
+                ]: [string, boolean, boolean, boolean]) => {
+                  if (
+                    preferredDeliveryMode &&
+                    !setDeliveryModeInProgressFlag &&
+                    !setDeliveryModeSuccessFlag &&
+                    !setDeliveryModeErrorFlag
+                  ) {
+                    this.checkoutDeliveryService.setDeliveryMode(
+                      preferredDeliveryMode
+                    );
+                  }
+                }
+              ),
+              filter(
+                ([
+                  ,
+                  setDeliveryModeInProgressFlag,
+                  setDeliveryModeSuccessFlag,
+                  setDeliveryModeErrorFlag,
+                ]: [string, boolean, boolean, boolean]) => {
+                  return (
+                    (setDeliveryModeSuccessFlag || setDeliveryModeErrorFlag) &&
+                    !setDeliveryModeInProgressFlag
+                  );
+                }
+              ),
+              switchMap(
+                ([, , , setDeliveryModeErrorFlag]: [
+                  string,
+                  boolean,
+                  boolean,
+                  boolean
+                ]) => {
+                  if (setDeliveryModeErrorFlag) {
+                    return of(false);
+                  }
+                  return this.checkoutDetailsService.getSelectedDeliveryModeCode();
+                }
+              ),
+              map(data => Boolean(data))
             );
           } else {
             return of(false);
