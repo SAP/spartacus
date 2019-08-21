@@ -5,6 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CustomerService } from '../../services/customer.service';
 import { CustomerActions } from '../actions/index';
+import { CustomerSearchPage } from '../../models/asm.models';
 
 @Injectable()
 export class CustomerEffects {
@@ -16,7 +17,7 @@ export class CustomerEffects {
     map((action: CustomerActions.CustomerSearch) => action.payload),
     mergeMap(({ searchTerm }) =>
       this.customerService.search(searchTerm).pipe(
-        map((customerSearchResults: any) => {
+        map((customerSearchResults: CustomerSearchPage) => {
           return new CustomerActions.CustomerSearchSuccess(
             customerSearchResults
           );

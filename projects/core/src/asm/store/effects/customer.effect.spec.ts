@@ -2,13 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { CustomerSearchPage } from '../../models/asm.models';
 import { CustomerService } from '../../services/customer.service';
 import { CustomerActions } from '../actions/index';
 import { CustomerEffects } from './customer.effect';
 
 class CustomerServiceMock {
-  search(_searchTerm: string): Observable<any> {
-    return of({});
+  search(_searchTerm: string): Observable<CustomerSearchPage> {
+    return of(<CustomerSearchPage>{});
   }
 }
 

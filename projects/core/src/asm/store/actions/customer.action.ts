@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { CustomerSearchPage } from '../../models/asm.models';
 
 export const CUSTOMER_SEARCH = '[Asm] Customer Search';
 export const CUSTOMER_SEARCH_FAIL = '[Asm] Customer Search Fail';
@@ -16,7 +17,7 @@ export class CustomerSearchFail implements Action {
 
 export class CustomerSearchSuccess implements Action {
   readonly type = CUSTOMER_SEARCH_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: CustomerSearchPage) {}
 }
 // action types
 export type CustomerAction =

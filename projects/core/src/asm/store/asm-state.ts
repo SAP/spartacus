@@ -1,3 +1,5 @@
+import { CustomerSearchPage } from '../../models/asm.models';
+
 export const ASM_FEATURE = 'asm';
 
 export interface StateWithAsm {
@@ -5,5 +7,5 @@ export interface StateWithAsm {
 }
 
 export interface AsmState {
-  cusrtomerSearchResult: any;
+  cusrtomerSearchResult: CustomerSearchPage;
 }
