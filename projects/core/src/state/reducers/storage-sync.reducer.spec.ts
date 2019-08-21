@@ -7,7 +7,6 @@ import {
 import { StateConfig, StorageSyncType } from '../config/state-config';
 import {
   exists,
-  getKeysForStorage,
   getStorage,
   getStorageSyncReducer,
   isSsr,
@@ -15,6 +14,7 @@ import {
   readFromStorage,
   rehydrate,
 } from './storage-sync.reducer';
+import { filterKeysByType } from '../utils/get-state-slice';
 
 const sessionStorageMock = {
   getItem(_key: string): string | null {
@@ -294,7 +294,7 @@ describe('storage-sync-reducer', () => {
     });
     describe('when null is provided instead of keys', () => {
       it('should return an empty array', () => {
-        const result = getKeysForStorage(null, StorageSyncType.NO_STORAGE);
+        const result = filterKeysByType(null, StorageSyncType.NO_STORAGE);
         expect(result).toEqual([]);
       });
     });

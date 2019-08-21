@@ -97,5 +97,8 @@ export function filterKeysByType(
   keys: { [key: string]: StorageSyncType | StateTransferType },
   type: StorageSyncType | StateTransferType
 ): string[] {
+  if (!keys) {
+    return [];
+  }
   return Object.keys(keys).filter(key => keys[key] === type);
 }

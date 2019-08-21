@@ -2,7 +2,7 @@ import { Action, ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
-import { getStateSlice } from '../utils/get-state-slice';
+import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
 
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
@@ -31,11 +31,11 @@ export function getStorageSyncReducer<T>(
 
       if (action.type !== INIT) {
         // handle local storage
-        const localStorageKeys = getKeysForStorage(
+        const localStorageKeys = filterKeysByType(
           storageSyncConfig.keys,
           StorageSyncType.LOCAL_STORAGE
         );
-        const localStorageExclusionKeys = getKeysForStorage(
+        const localStorageExclusionKeys = filterKeysByType(
           storageSyncConfig.excludeKeys,
           StorageSyncType.LOCAL_STORAGE
         );
@@ -51,11 +51,11 @@ export function getStorageSyncReducer<T>(
         );
 
         // handle session storage
-        const sessionStorageKeys = getKeysForStorage(
+        const sessionStorageKeys = filterKeysByType(
           storageSyncConfig.keys,
           StorageSyncType.SESSION_STORAGE
         );
-        const sessionStorageExclusionKeys = getKeysForStorage(
+        const sessionStorageExclusionKeys = filterKeysByType(
           storageSyncConfig.excludeKeys,
           StorageSyncType.SESSION_STORAGE
         );
@@ -76,16 +76,6 @@ export function getStorageSyncReducer<T>(
   };
 }
 
-export function getKeysForStorage(
-  keys: { [key: string]: StorageSyncType },
-  storageType: StorageSyncType
-): string[] {
-  if (!keys) {
-    return [];
-  }
-  return Object.keys(keys).filter(key => keys[key] === storageType);
-}
-
 export function rehydrate<T>(config: StateConfig, winRef: WindowRef): T {
   const localStorageValue = readFromStorage(
     winRef.localStorage,
@@ -103,13 +93,8 @@ export function exists(value: Object): boolean {
   if (value != null) {
     if (typeof value === 'object') {
       return Object.keys(value).length !== 0;
-    } else if (value === '') {
-      return false;
-    } else {
-      return true;
-    }
+    } else return value !== '';
   }
-
   return false;
 }
 
