@@ -8,6 +8,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AsmService,
+  CustomerSearchPage,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
@@ -35,46 +36,33 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('CustomerSelectionComponent.ngOnInit:');
     this.form = this.fb.group({
-      customerId: ['', [Validators.required]],
+      searchTerm: ['', [Validators.required]],
     });
     this.asmService.customerSearchReset();
     this.subscription.add(
       this.asmService.getCustomerSearchResult().subscribe(results => {
-        if (results.entries) {
-          const customerHit = results.entries.find(
-            element => element.uid === this.form.controls.customerId.value
-          );
-          if (customerHit) {
-            console.log(
-              'Found customer with uid: ',
-              this.form.controls.customerId.value
-            );
-            this.submitEvent.emit({ customerId: customerHit.customerId });
-          } else {
-            this.globalMessageService.add(
-              {
-                key: 'asm.customerSearch.noHit',
-                params: { uid: this.form.controls.customerId.value },
-              },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-
-            console.log(
-              'no hit found for ',
-              this.form.controls.customerId.value
-            );
-          }
-        }
+        this.handleSearchResults(results);
       })
     );
   }
 
-  onSubmit(): void {
-    this.submitClicked = true;
-    if (this.form.invalid) {
-      return;
+  protected handleSearchResults(results: CustomerSearchPage): void {
+    if (results.entries) {
+      const customerHit = results.entries.find(
+        element => element.uid === this.form.controls.searchTerm.value
+      );
+      if (customerHit) {
+        this.submitEvent.emit({ customerId: customerHit.customerId });
+      } else {
+        this.globalMessageService.add(
+          {
+            key: 'asm.customerSearch.noHit',
+            params: { uid: this.form.controls.searchTerm.value },
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      }
     }
-    this.submitEvent.emit({ customerId: this.form.controls.customerId.value });
   }
 
   onSearch(): void {
@@ -82,7 +70,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
-    this.asmService.customerSearch(this.form.controls.customerId.value);
+    this.asmService.customerSearch(this.form.controls.searchTerm.value);
   }
 
   isNotValid(formControlName: string): boolean {
