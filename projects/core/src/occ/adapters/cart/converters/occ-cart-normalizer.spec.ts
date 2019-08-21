@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
@@ -18,8 +19,10 @@ describe('OccCartNormalizer', () => {
       ],
     });
 
-    occCartNormalizer = TestBed.get(OccCartNormalizer);
-    converter = TestBed.get(ConverterService);
+    occCartNormalizer = TestBed.get(OccCartNormalizer as Type<
+      OccCartNormalizer
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
     spyOn(converter, 'convert').and.callFake(product => ({
       ...product,
       code: product.code + 'converted',

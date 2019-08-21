@@ -2,10 +2,12 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  Consignment,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   Order,
   PromotionResult,
-  Consignment,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
@@ -105,9 +107,15 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule],
+      imports: [CardModule, I18nTestingModule, FeaturesConfigModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: "'1.1'", consignmentTracking: "'1.2'" },
+          },
+        },
       ],
       declarations: [
         OrderDetailItemsComponent,

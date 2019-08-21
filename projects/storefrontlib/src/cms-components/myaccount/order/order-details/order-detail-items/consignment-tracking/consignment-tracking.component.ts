@@ -5,7 +5,6 @@ import {
   UserOrderService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ModuleConfig } from '../../../../../../recipes/config/module-config/module-config';
 import {
   ModalRef,
   ModalService,
@@ -34,8 +33,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
 
   constructor(
     private userOrderService: UserOrderService,
-    private modalService: ModalService,
-    protected config: ModuleConfig
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {

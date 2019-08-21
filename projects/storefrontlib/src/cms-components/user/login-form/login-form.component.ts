@@ -5,6 +5,7 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -18,22 +19,57 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   constructor(
+    auth: AuthService,
+    globalMessageService: GlobalMessageService,
+    fb: FormBuilder,
+    authRedirectService: AuthRedirectService,
+    winRef: WindowRef // tslint:disable-line
+  );
+
+  /**
+   * @deprecated since 1.1.0
+   * NOTE: check issue:#4055 for more info
+   *
+   * TODO(issue:#4055) Deprecated since 1.1.0
+   */
+  constructor(
+    auth: AuthService,
+    globalMessageService: GlobalMessageService,
+    fb: FormBuilder,
+    authRedirectService: AuthRedirectService
+  );
+  constructor(
     private auth: AuthService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService
+    private authRedirectService: AuthRedirectService,
+    private winRef?: WindowRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.fb.group({
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required],
     });
+
+    // TODO(issue:#4055) Deprecated since 1.1.0
+    if (this.winRef && this.winRef.nativeWindow) {
+      const routeState =
+        this.winRef.nativeWindow.history &&
+        this.winRef.nativeWindow.history.state;
+
+      if (routeState && routeState['newUid'] && routeState['newUid'].length) {
+        this.prefillForm('userId', routeState['newUid']);
+      }
+    }
   }
 
   login(): void {
-    const userId = this.emailToLowerCase();
-    this.auth.authorize(userId, this.form.controls.password.value);
+    const { userId, password } = this.form.controls;
+    this.auth.authorize(
+      userId.value.toLowerCase(), // backend accepts lowercase emails only
+      password.value
+    );
 
     if (!this.sub) {
       this.sub = this.auth.getUserToken().subscribe(data => {
@@ -45,17 +81,17 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*
-   * Change the inputed email to lowercase because
-   * the backend only accepts lowercase emails
-   */
-  emailToLowerCase() {
-    return this.form.controls.userId.value.toLowerCase();
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  private prefillForm(field: string, value: string): void {
+    this.form.patchValue({
+      [field]: value,
+    });
+
+    this.form.get(field).markAsTouched(); // this action will check field validity on load
   }
 }

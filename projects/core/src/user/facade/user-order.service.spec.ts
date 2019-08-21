@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Order, OrderHistoryList } from '../../model/order.model';
@@ -26,9 +27,9 @@ describe('UserOrderService', () => {
       providers: [UserOrderService],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserOrderService);
+    service = TestBed.get(UserOrderService as Type<UserOrderService>);
   });
 
   it('should UserOrderService is injected', inject(

@@ -1,15 +1,15 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CmsService,
+  CMSTabParagraphContainer,
   ContentSlotComponentData,
   I18nTestingModule,
-  CMSTabParagraphContainer,
-  CmsService,
 } from '@spartacus/core';
-import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
-import { OutletDirective } from '../../../cms-structure/outlet/index';
-import { CmsComponentData } from '../../../cms-structure/index';
 import { of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/index';
+import { OutletDirective } from '../../../cms-structure/outlet/index';
+import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -78,7 +78,7 @@ describe('TabParagraphContainerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
     component = fixture.componentInstance;
-    cmsService = TestBed.get(CmsService);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
     fixture.detectChanges();
   });
 

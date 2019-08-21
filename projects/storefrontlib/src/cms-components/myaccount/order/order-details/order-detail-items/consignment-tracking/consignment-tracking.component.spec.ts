@@ -3,15 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
+  Consignment,
   I18nTestingModule,
   UserOrderService,
-  Consignment,
 } from '@spartacus/core';
+import { ModalService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
-import { ModalService } from '@spartacus/storefront';
-import { ModuleConfig } from '../../../../../../recipes/config/module-config/module-config';
 
 const consignmentStatus: string[] = [
   'DELIVERING',
@@ -54,6 +53,7 @@ describe('ConsignmentTrackingComponent', () => {
   const userOrderService = jasmine.createSpyObj('UserOrderService', [
     'loadConsignmentTracking',
     'getConsignmentTracking',
+    'clearConsignmentTracking',
   ]);
 
   beforeEach(async(() => {
@@ -63,10 +63,6 @@ describe('ConsignmentTrackingComponent', () => {
       providers: [
         { provide: NgbActiveModal, useValue: { open: () => {} } },
         { provide: UserOrderService, useValue: userOrderService },
-        {
-          provide: ModuleConfig,
-          useValue: { consignmentTracking: { enabled: true } },
-        },
       ],
     }).compileComponents();
   }));
@@ -89,11 +85,43 @@ describe('ConsignmentTrackingComponent', () => {
     userOrderService.getConsignmentTracking.and.returnValue(
       of(mockConsignment)
     );
+    userOrderService.clearConsignmentTracking.and.callFake(() => {});
   });
 
   it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should not display tracking package button when there is no consignment', () => {
+    component.consignment = undefined;
+    fixture.detectChanges();
+    expect(
+      arrayEqyals(consignmentStatus, component.consignmentStatus)
+    ).toBeTruthy();
+    expect(consignmentStatus.includes(status)).toBeFalsy();
+    expect(el.query(By.css('[data-test="btn-events"]'))).toBeFalsy();
+  });
+
+  it('should not display tracking package button when status not match', () => {
+    const status = 'WAITING';
+    mockConsignment.status = status;
+    fixture.detectChanges();
+    expect(
+      arrayEqyals(consignmentStatus, component.consignmentStatus)
+    ).toBeTruthy();
+    expect(consignmentStatus.includes(status)).toBeFalsy();
+    expect(el.query(By.css('[data-test="btn-events"]'))).toBeFalsy();
+  });
+
+  it('should not display tracking package button when consignment without status', () => {
+    mockConsignment.status = undefined;
+    fixture.detectChanges();
+    expect(
+      arrayEqyals(consignmentStatus, component.consignmentStatus)
+    ).toBeTruthy();
+    expect(consignmentStatus.includes(status)).toBeFalsy();
+    expect(el.query(By.css('[data-test="btn-events"]'))).toBeFalsy();
   });
 
   it('should display tracking package button', () => {
@@ -106,17 +134,6 @@ describe('ConsignmentTrackingComponent', () => {
     expect(
       arrayEqyals(consignmentStatus, component.consignmentStatus)
     ).toBeTruthy();
-  });
-
-  it('should not display tracking package button', () => {
-    const status = 'WAITING';
-    mockConsignment.status = status;
-    fixture.detectChanges();
-    expect(
-      arrayEqyals(consignmentStatus, component.consignmentStatus)
-    ).toBeTruthy();
-    expect(consignmentStatus.includes(status)).toBeFalsy();
-    expect(el.query(By.css('[data-test="btn-events"]'))).toBeFalsy();
   });
 
   it('should be able to open dialog', () => {
