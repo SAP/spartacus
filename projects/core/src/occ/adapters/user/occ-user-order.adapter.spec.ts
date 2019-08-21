@@ -8,6 +8,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { ConverterService, OccUserOrderAdapter } from '@spartacus/core';
 import { FeatureConfigService } from 'projects/core/src/features-config';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { Order } from '../../../model/order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
 import { OccConfig } from '../../config/occ-config';
@@ -24,12 +25,15 @@ const orderData: Order = {
   calculated: true,
   code: '00001004',
 };
+const consignmentCode = 'a00001004';
 
 class MockFeatureConfigService {
   isEnabled(_feature: string): boolean {
     return true;
   }
 }
+const orderEndpoint = '/orders';
+const consignmentEndpoint = '/consignments';
 
 describe('OccUserOrderAdapter', () => {
   let occUserOrderAdapter: OccUserOrderAdapter;
@@ -137,5 +141,30 @@ describe('OccUserOrderAdapter', () => {
       httpMock.expectOne(req => req.method === 'GET').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
+  });
+
+  describe('getConsignmentTracking', () => {
+    it('should fetch a consignment tracking', async(() => {
+      const tracking: ConsignmentTracking = {
+        trackingID: '1234567890',
+        trackingEvents: [],
+      };
+      occUserOrderAdapter
+        .getConsignmentTracking(orderData.code, consignmentCode)
+        .subscribe(result => expect(result).toEqual(tracking));
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.url ===
+            orderEndpoint +
+              `/${orderData.code}` +
+              consignmentEndpoint +
+              `/${consignmentCode}` +
+              '/tracking' && req.method === 'GET'
+        );
+      }, `GET a consignment tracking`);
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(tracking);
+    }));
   });
 });
