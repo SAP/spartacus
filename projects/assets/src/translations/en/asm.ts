@@ -22,6 +22,7 @@ export const asm = {
         required: 'Customer Id is required',
       },
       submit: 'Start Customer Session',
+      noHit: 'No customer uid match {{uid}}',
     },
   },
 };

@@ -1,5 +1,5 @@
+import { CustomerSearchPage } from '../../models/asm.models';
 import { CustomerActions } from '../actions/index';
-import { CustomerSearchPage } from '../models/asm.models';
 
 export const initialState: CustomerSearchPage = <CustomerSearchPage>{};
 
@@ -8,12 +8,6 @@ export function reducer(
   action: CustomerActions.CustomerAction
 ): CustomerSearchPage {
   switch (action.type) {
-    case CustomerActions.CUSTOMER_SEARCH: {
-      return {
-        ...state,
-      };
-    }
-
     case CustomerActions.CUSTOMER_SEARCH_SUCCESS: {
       return {
         ...state,
@@ -21,9 +15,9 @@ export function reducer(
       };
     }
 
-    case CustomerActions.CUSTOMER_SEARCH_FAIL: {
+    case CustomerActions.CUSTOMER_SEARCH_RESET: {
       return {
-        ...state,
+        ...initialState,
       };
     }
   }

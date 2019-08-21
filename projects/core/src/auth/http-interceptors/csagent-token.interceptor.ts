@@ -22,7 +22,6 @@ export class CustomerSupportAgentTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('CustomerSupportAgentTokenInterceptor called', request);
     return this.getCustomerSupportAgentToken(request).pipe(
       take(1),
       switchMap((token: UserToken) => {
@@ -47,15 +46,8 @@ export class CustomerSupportAgentTokenInterceptor implements HttpInterceptor {
         request.headers
       )
     ) {
-      console.log(
-        'CustomerSupportAgentTokenInterceptor getting casgent token for request: ',
-        request
-      );
       return this.authService.getCustomerSupportAgentToken();
     }
-    console.log(
-      'CustomerSupportAgentTokenInterceptor no relevant header found'
-    );
     return of(null);
   }
 }

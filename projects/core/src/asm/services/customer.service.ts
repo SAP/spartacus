@@ -25,7 +25,6 @@ export class CustomerService {
   }
 
   search(searchTerm: string): Observable<CustomerSearchPage> {
-    console.log('CustomerService.search');
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
@@ -37,7 +36,6 @@ export class CustomerService {
       .set('query', searchTerm);
 
     const url = '/assistedservicewebservices/customers/search';
-    console.log('CustomerService.search url', url);
     return this.http
       .get<CustomerSearchPage>(url, { headers, params })
       .pipe(catchError((error: any) => throwError(error)));

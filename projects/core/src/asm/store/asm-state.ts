@@ -1,4 +1,4 @@
-import { CustomerSearchPage } from '../../models/asm.models';
+import { CustomerSearchPage } from '../models/asm.models';
 
 export const ASM_FEATURE = 'asm';
 
