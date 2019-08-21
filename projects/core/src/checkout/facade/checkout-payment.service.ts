@@ -7,10 +7,17 @@ import {
 } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
 import { CheckoutActions } from '../store/actions/index';
-import { StateWithCheckout, SET_PAYMENT_DETAILS_PROCESS_ID } from '../store/checkout-state';
+import {
+  StateWithCheckout,
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+} from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 import { StateWithProcess } from '../../process/store/process-state';
-import { getProcessSuccessFactory, getProcessErrorFactory, getProcessLoadingFactory } from '../../process/store/selectors/process-group.selectors';
+import {
+  getProcessSuccessFactory,
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
+} from '../../process/store/selectors/process-group.selectors';
 
 @Injectable({
   providedIn: 'root',

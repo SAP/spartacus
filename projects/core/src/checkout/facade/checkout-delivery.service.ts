@@ -9,10 +9,18 @@ import {
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
-import { StateWithCheckout, SET_DELIVERY_ADDRESS_PROCESS_ID, SET_DELIVERY_MODE_PROCESS_ID } from '../store/checkout-state';
+import {
+  StateWithCheckout,
+  SET_DELIVERY_ADDRESS_PROCESS_ID,
+  SET_DELIVERY_MODE_PROCESS_ID,
+} from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 import { StateWithProcess } from '../../process/store/process-state';
-import { getProcessSuccessFactory, getProcessErrorFactory, getProcessLoadingFactory } from '../../process/store/selectors/process-group.selectors';
+import {
+  getProcessSuccessFactory,
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
+} from '../../process/store/selectors/process-group.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +50,7 @@ export class CheckoutDeliveryService {
    * Get selected delivery mode
    */
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
-    return this.store.pipe(
-      select(CheckoutSelectors.getSelectedDeliveryMode)
-    );
+    return this.store.pipe(select(CheckoutSelectors.getSelectedDeliveryMode));
   }
 
   /**
@@ -60,9 +66,7 @@ export class CheckoutDeliveryService {
    * Get delivery address
    */
   getDeliveryAddress(): Observable<Address> {
-    return this.store.pipe(
-      select(CheckoutSelectors.getDeliveryAddress)
-    );
+    return this.store.pipe(select(CheckoutSelectors.getDeliveryAddress));
   }
 
   getSetDeliveryAddressResultSuccess(): Observable<boolean> {
@@ -185,7 +189,6 @@ export class CheckoutDeliveryService {
    * @param address : The address to be set
    */
   setDeliveryAddress(address: Address): void {
-    console.log('set',address)
     if (this.actionAllowed()) {
       this.store.dispatch(
         new CheckoutActions.SetDeliveryAddress({
@@ -201,9 +204,7 @@ export class CheckoutDeliveryService {
    * Clear address verification results
    */
   clearAddressVerificationResults(): void {
-    this.store.dispatch(
-      new CheckoutActions.ClearAddressVerificationResults()
-    );
+    this.store.dispatch(new CheckoutActions.ClearAddressVerificationResults());
   }
 
   clearCheckoutDeliveryAddress() {
@@ -219,9 +220,9 @@ export class CheckoutDeliveryService {
     this.store.dispatch(
       new CheckoutActions.ClearCheckoutDeliveryMode({
         userId: this.cartData.userId,
-        cartId: this.cartData.cartId
+        cartId: this.cartData.cartId,
       })
-    )
+    );
   }
 
   protected actionAllowed(): boolean {

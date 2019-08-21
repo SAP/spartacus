@@ -169,8 +169,8 @@ export function reducer(
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          selected: ''
-        }
+          selected: '',
+        },
       };
     }
   }

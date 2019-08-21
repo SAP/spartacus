@@ -33,11 +33,6 @@ export class ShippingAddressSetGuard implements CanActivate {
 
     return this.checkoutDetailsService.getDeliveryAddress().pipe(
       map((deliveryAddress: Address) => {
-        console.log(
-          'ShippingAddressSetGuard',
-          deliveryAddress,
-          deliveryAddress && Object.keys(deliveryAddress).length
-        );
         if (deliveryAddress && Object.keys(deliveryAddress).length) {
           return true;
         } else {

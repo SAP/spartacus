@@ -62,5 +62,4 @@ export class CheckoutDetailsService {
       switchMap(() => this.checkoutPaymentService.getPaymentDetails())
     );
   }
-
 }
