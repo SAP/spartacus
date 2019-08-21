@@ -112,6 +112,9 @@ const mockModel2: ProductSearchPage = {
   products: [],
 };
 
+const backToTopBtn = 'BACK TO TOP';
+const showMoreBtn = 'SHOW MORE';
+
 @Component({
   selector: 'cx-star-rating',
   template: '',
@@ -186,7 +189,7 @@ export class MockPaginationConfig {
   };
 }
 
-fdescribe('ProductListComponent', () => {
+describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   let componentService: ProductListComponentService;
@@ -322,6 +325,9 @@ fdescribe('ProductListComponent', () => {
 
         expect(component.model.products.length).toEqual(totalLength);
         expect(component.model.products).toContain(
+          jasmine.objectContaining(mockModel1.products[0])
+        );
+        expect(component.model.products).toContain(
           jasmine.objectContaining(mockModel1Page2.products[0])
         );
       });
@@ -405,12 +411,9 @@ fdescribe('ProductListComponent', () => {
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
 
-        expect(
-          el.query(By.css('.btn-link.back-to-top')).nativeElement
-        ).toBeDefined();
-        expect(
-          el.query(By.css('.btn-link.show-more')).nativeElement
-        ).toBeDefined();
+        const buttons = el.queryAll(By.css('.btn-link'));
+        expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
+        expect(buttons[1].nativeElement.innerHTML).toEqual(showMoreBtn);
       });
 
       it('productLimit should be set to mockLimit value', () => {
@@ -438,12 +441,9 @@ fdescribe('ProductListComponent', () => {
 
         fixture.detectChanges();
 
-        expect(
-          el.query(By.css('.btn-link.back-to-top')).nativeElement
-        ).toBeDefined();
-        expect(
-          el.query(By.css('.btn-link.show-more')).nativeElement
-        ).toBeDefined();
+        const buttons = el.queryAll(By.css('.btn-link'));
+        expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
+        expect(buttons[1].nativeElement.innerHTML).toEqual(showMoreBtn);
       });
 
       it('should NOT display "show more" button when there are no addtional pages', () => {
@@ -460,10 +460,9 @@ fdescribe('ProductListComponent', () => {
 
         fixture.detectChanges();
 
-        expect(
-          el.query(By.css('.btn-link.back-to-top')).nativeElement
-        ).toBeDefined();
-        expect(el.query(By.css('.btn-link.show-more'))).toBeNull();
+        const buttons = el.queryAll(By.css('.btn-link'));
+        expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
+        expect(buttons[1]).toBeUndefined();
       });
 
       it('productLimit should be set to 1', () => {
