@@ -9,7 +9,7 @@
     <article class="cx-store col-md-4">
       <h2>{{ location.displayName || location.name }}</h2>
 
-      <p *ngIf="location.address" class="storeAddress">
+      <p *ngIf="location.address" class="cx-store-description-address">
         {{ location.address.line1 }} {{ location.address.line2 }} <br />
         {{ location.address.town + ',' }}
         {{ location.address.region ? location.address.region.name + ',' : '' }}
@@ -37,27 +37,28 @@
           <h3>{{ 'storeFinder.storeHours' | cxTranslate }}</h3>
         </cx-schedule>
       </div>
+
+      <div *ngIf="(location.features | json) != '{}'" class="cx-features">
+        <div class="row ">
+          <div class="col-lg-12">
+            <h3 class="cx-features-header">
+              {{ 'storeFinder.storeFeatures' | cxTranslate }}
+            </h3>
+          </div>
+        </div>
+
+        <article class="row">
+          <div
+            class="col-lg-12 cx-feature-item"
+            *ngFor="let feature of location.features?.entry"
+          >
+            <div class="cx-feature-value">{{ feature.value }}</div>
+          </div>
+        </article>
+      </div>
     </article>
     <article class="cx-storeMap col-lg-8" *ngIf="!disableMap">
       <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
-    </article>
-  </div>
-  <div *ngIf="(location.features | json) != '{}'">
-    <div class="row cx-feature">
-      <div class="col-lg-12">
-        <h3 class="cx-features-header">
-          {{ 'storeFinder.storeFeatures' | cxTranslate }}
-        </h3>
-      </div>
-    </div>
-
-    <article class="row">
-      <div
-        class="col-lg-3 cx-feature-item"
-        *ngFor="let feature of location.features?.entry"
-      >
-        <div class="cx-feature-value">{{ feature.value }}</div>
-      </div>
     </article>
   </div>
 </div>
