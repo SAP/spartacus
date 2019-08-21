@@ -16,10 +16,9 @@ export class DynamicTemplate {
     } catch (e) {
       if (isDevMode() && e instanceof ReferenceError) {
         console.warn(`Key "${e.message.split(' ')[0]}" not found`);
-        return templateString;
       }
 
-      throw e;
+      return templateString;
     }
   }
 }
