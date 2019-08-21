@@ -5,6 +5,7 @@ import { Page } from '../../model/page.model';
 export const LOAD_CMS_PAGE_DATA = '[Cms] Load Page Data';
 export const LOAD_CMS_PAGE_DATA_FAIL = '[Cms] Load Page Data Fail';
 export const LOAD_CMS_PAGE_DATA_SUCCESS = '[Cms] Load Page Data Success';
+export const CMS_SET_PAGE_SUCCESS_INDEX = '[Cms] Set Page Success Index';
 export const CMS_SET_PAGE_FAIL_INDEX = '[Cms] Set Page Fail Index';
 
 export class LoadCmsPageData extends StateEntityLoaderActions.EntityLoadAction {
@@ -24,15 +25,14 @@ export class LoadCmsPageDataFail extends StateEntityLoaderActions.EntityFailActi
 export class LoadCmsPageDataSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = LOAD_CMS_PAGE_DATA_SUCCESS;
   constructor(pageContext: PageContext, payload: Page) {
-    super(
-      pageContext.type,
-      // for content pages the page label returned from backend can be different than ID initially assumed from route
-      // so let's save the success response for both page ID (initially incorrectly assumed) and correct page label
-      payload.label && pageContext.id !== payload.label
-        ? [pageContext.id, payload.label]
-        : pageContext.id,
-      payload
-    );
+    super(pageContext.type, pageContext.id, payload);
+  }
+}
+
+export class CmsSetPageSuccessIndex extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = CMS_SET_PAGE_SUCCESS_INDEX;
+  constructor(pageContext: PageContext, payload: Page) {
+    super(pageContext.type, pageContext.id, payload);
   }
 }
 
