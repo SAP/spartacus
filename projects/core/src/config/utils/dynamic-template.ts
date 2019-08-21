@@ -8,6 +8,16 @@ export class DynamicTemplate {
       ...keys,
       `return \`${templateString}\`;`
     );
-    return templateFunction(...values);
+
+    try {
+      return templateFunction(...values);
+    } catch (e) {
+      if (e instanceof ReferenceError) {
+        console.warn(`Key "${e.message.split(' ')[0]}" not found`);
+      } else {
+        console.error(e);
+      }
+      return templateString;
+    }
   }
 }
