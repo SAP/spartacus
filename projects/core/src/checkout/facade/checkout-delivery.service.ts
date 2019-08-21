@@ -207,7 +207,7 @@ export class CheckoutDeliveryService {
     this.store.dispatch(new CheckoutActions.ClearAddressVerificationResults());
   }
 
-  clearCheckoutDeliveryAddress() {
+  clearCheckoutDeliveryAddress(): void {
     this.store.dispatch(
       new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId: this.cartData.userId,
@@ -216,13 +216,18 @@ export class CheckoutDeliveryService {
     );
   }
 
-  clearCheckoutDeliveryMode() {
+  clearCheckoutDeliveryMode(): void {
     this.store.dispatch(
       new CheckoutActions.ClearCheckoutDeliveryMode({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
       })
     );
+  }
+
+  clearCheckoutDeliveryDetails(): void {
+    this.clearCheckoutDeliveryAddress();
+    this.clearCheckoutDeliveryMode();
   }
 
   protected actionAllowed(): boolean {

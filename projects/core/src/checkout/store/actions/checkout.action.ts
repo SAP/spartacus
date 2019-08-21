@@ -328,6 +328,7 @@ export type CheckoutAction =
   | SetDeliveryMode
   | SetDeliveryModeFail
   | SetDeliveryModeSuccess
+  | ResetSetDeliveryModeProcess
   | ClearSupportedDeliveryModes
   | CreatePaymentDetails
   | CreatePaymentDetailsFail
@@ -335,6 +336,7 @@ export type CheckoutAction =
   | SetPaymentDetails
   | SetPaymentDetailsFail
   | SetPaymentDetailsSuccess
+  | ResetSetPaymentDetailsProcess
   | PlaceOrder
   | PlaceOrderFail
   | PlaceOrderSuccess

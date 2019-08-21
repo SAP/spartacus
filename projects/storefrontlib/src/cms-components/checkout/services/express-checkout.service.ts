@@ -19,7 +19,6 @@ import { CheckoutDetailsService } from './checkout-details.service';
   providedIn: 'root',
 })
 export class ExpressCheckoutService {
-  defaultShippingAddress$;
   shippingAddressSet$;
   deliveryModeSet$;
   paymentMethodSet$;
