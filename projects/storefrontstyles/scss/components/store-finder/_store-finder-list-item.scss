@@ -1,11 +1,18 @@
 %cx-store-finder-list-item {
   display: block;
-  margin: 1rem 0;
   text-align: left;
-  padding: 0 0.75rem;
+  padding: 1rem 0.75rem;
+  text-decoration: none;
 
   @include media-breakpoint-down(md) {
     padding: 0;
+  }
+
+  &:hover {
+    background-color: var(--cx-color-background);
+    .cx-store-name {
+      text-decoration: underline;
+    }
   }
 
   .cx-store-list-order {
@@ -15,7 +22,6 @@
 
   .cx-store-name {
     @include type('6');
-    text-decoration: underline;
     cursor: pointer;
     min-height: 40px;
   }

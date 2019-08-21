@@ -5,30 +5,35 @@
   "
 >
   <div class="cx-count container">
-    <div *ngFor="let country of locations" class="cx-set">
-      <a [routerLink]="['../country', country.isoCode]" class="btn-link">
-        <div class="cx-title">
-          <span
-            [ngClass]="
-              country?.storeCountDataList
-                ? 'country-header'
-                : 'country-header-link'
-            "
-            class="cx-name"
-            >{{ country.name }}</span
-          >
-          <span
-            [ngClass]="
-              country?.storeCountDataList
-                ? 'country-header'
-                : 'country-header-link'
-            "
-            *ngIf="!country?.storeCountDataList"
-            class="cx-country-count"
-            >({{ country.count }})</span
-          >
-        </div>
-      </a>
+    <div class="row">
+      <div
+        *ngFor="let country of locations"
+        class="cx-set col-sm-6 col-md-3 col-lg-4 col-xl-3"
+      >
+        <a [routerLink]="['../country', country.isoCode]" class="btn-link">
+          <div class="cx-title">
+            <span
+              [ngClass]="
+                country?.storeCountDataList
+                  ? 'country-header'
+                  : 'country-header-link'
+              "
+              class="cx-name"
+              >{{ country.name }}</span
+            >
+            <span
+              [ngClass]="
+                country?.storeCountDataList
+                  ? 'country-header'
+                  : 'country-header-link'
+              "
+              *ngIf="!country?.storeCountDataList"
+              class="cx-country-count"
+              >({{ country.count }})</span
+            >
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </ng-container>
