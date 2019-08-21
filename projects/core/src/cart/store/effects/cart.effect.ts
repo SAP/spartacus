@@ -42,7 +42,7 @@ export class CartEffects {
           catchError(error => {
             if (error && error.error && error.error.errors) {
               const cartNotFoundErrors = error.error.errors.filter(
-                err => err.reason === 'notFound'
+                err => err.reason === 'notFound' || 'UnknownResourceError'
               );
               if (cartNotFoundErrors.length > 0) {
                 return of(new CartActions.ClearCart());
