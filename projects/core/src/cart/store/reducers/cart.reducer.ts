@@ -82,6 +82,7 @@ export function reducer(
         content: {
           guid: state.content.guid,
           code: state.content.code,
+          user: state.content.user,
         },
         entries: {},
         refresh: false,

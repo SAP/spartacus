@@ -15,6 +15,7 @@ class CartDataServiceStub {
   userId;
   cart;
   cartId;
+  isGuestCart;
 }
 
 class AuthServiceStub {
@@ -257,6 +258,16 @@ describe('CartService', () => {
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toEqual('assigned');
+    });
+  });
+
+  describe('isGuestCart', () => {
+    it('should be able to return whether cart belongs to guest', () => {
+      cartData.isGuestCart = true;
+      expect(service.isGuestCart()).toBeTruthy();
+
+      cartData.isGuestCart = false;
+      expect(service.isGuestCart()).toBeFalsy();
     });
   });
 

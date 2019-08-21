@@ -108,7 +108,7 @@ describe('Checkout effect', () => {
   });
 
   describe('addDeliveryAddress$', () => {
-    it('should add delivery address to cart', () => {
+    it('should add delivery address to cart for login user', () => {
       const action = new CheckoutActions.AddDeliveryAddress({
         userId: userId,
         cartId: cartId,
@@ -124,6 +124,25 @@ describe('Checkout effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
+    });
+
+    it('should add delivery address to cart for guest user', () => {
+      const action = new CheckoutActions.AddDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
+
+      const completion = new CheckoutActions.SetDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
 
       expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
     });

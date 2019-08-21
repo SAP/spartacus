@@ -34,6 +34,9 @@ class CartServiceStub {
   getAssignedUser(): Observable<User> {
     return of();
   }
+  isGuestCart(): Boolean {
+    return true;
+  }
 }
 
 class MockAuthRedirectService {
@@ -89,6 +92,7 @@ describe('CheckoutGuard', () => {
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
         spyOn(cartService, 'getAssignedUser').and.returnValue(of({}));
+        spyOn(cartService, 'isGuestCart').and.returnValue(false);
       });
 
       it('should return false', () => {

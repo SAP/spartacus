@@ -31,7 +31,12 @@ export class CheckoutDetailsService {
     private cartService: CartService
   ) {
     this.cartId$ = this.cartService.getActive().pipe(
-      map(cartData => cartData.code),
+      map(cartData => {
+        if (this.cartService.isGuestCart()) {
+          return cartData.guid;
+        }
+        return cartData.code;
+      }),
       filter(cartId => !!cartId)
     );
 

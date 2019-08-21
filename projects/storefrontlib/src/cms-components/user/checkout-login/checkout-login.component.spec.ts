@@ -14,9 +14,11 @@ import createSpy = jasmine.createSpy;
 
 class MockCartService {
   addEmail = createSpy('MockCartService.addEmail');
-
   getAssignedUser() {
     return of();
+  }
+  isGuestCart(): Boolean {
+    return false;
   }
 }
 class MockRedirectAfterAuthService {
@@ -146,6 +148,7 @@ describe('CheckoutLoginComponent', () => {
       spyOn(cartService, 'getAssignedUser').and.returnValue(
         of({ name: 'guest', uid: 'john@acme.com' } as User)
       );
+      spyOn(cartService, 'isGuestCart').and.returnValue(true);
 
       email.setValue(testEmail);
       emailConfirmation.setValue(testEmail);
@@ -168,6 +171,7 @@ describe('CheckoutLoginComponent', () => {
       spyOn(cartService, 'getAssignedUser').and.returnValue(
         of({ name: 'anonymous', uid: 'anonymous' } as User)
       );
+      spyOn(cartService, 'isGuestCart').and.returnValue(false);
 
       component.onSubmit();
 

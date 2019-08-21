@@ -13,6 +13,7 @@ import { CheckoutConnector } from '../../connectors/checkout/checkout.connector'
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../actions/index';
+import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
 
 @Injectable()
 export class CheckoutEffects {
@@ -30,14 +31,24 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
-            return [
-              new UserActions.LoadUserAddresses(payload.userId),
-              new CheckoutActions.SetDeliveryAddress({
-                userId: payload.userId,
-                cartId: payload.cartId,
-                address: address,
-              }),
-            ];
+            if (payload.userId === ANONYMOUS_USERID) {
+              return [
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
+            } else {
+              return [
+                new UserActions.LoadUserAddresses(payload.userId),
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
+            }
           }),
           catchError(error =>
             of(

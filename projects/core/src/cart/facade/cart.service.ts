@@ -196,16 +196,20 @@ export class CartService {
     return this.store.pipe(select(CartSelectors.getCartUser));
   }
 
+  isGuestCart(): boolean {
+    return this.cartData.isGuestCart;
+  }
+
   private isCreated(cart: Cart): boolean {
     return cart && typeof cart.guid !== 'undefined';
   }
 
   /**
-   * Cart is incomplete if it contains only `guid` and `code` properties, which come from local storage.
+   * Cart is incomplete if it contains only `guid`, `code` and `user` properties, which come from local storage.
    * To get cart content, we need to load cart from backend.
    */
   private isIncomplete(cart: Cart): boolean {
-    return cart && Object.keys(cart).length <= 2;
+    return cart && Object.keys(cart).length <= 3;
   }
 
   private isJustLoggedIn(userId: string): boolean {

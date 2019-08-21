@@ -135,7 +135,8 @@ describe('Cart reducer', () => {
       const { initialState } = fromCart;
       const guid = 'guid';
       const code = 'code';
-      const modifiedState = { ...initialState, content: { code, guid } };
+      const user = { name: 'user' };
+      const modifiedState = { ...initialState, content: { code, guid, user } };
       const action = new CartActions.ResetCartDetails();
       const state = fromCart.reducer(modifiedState, action);
       expect(state.refresh).toEqual(false);
@@ -144,6 +145,7 @@ describe('Cart reducer', () => {
       expect(state.content).toEqual({
         guid,
         code,
+        user,
       });
     });
   });
