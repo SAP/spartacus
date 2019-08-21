@@ -68,11 +68,7 @@ const moduleComponents = [
     SpinnerModule,
   ],
   providers: [OrderDetailsService],
-  declarations: [
-    ...moduleComponents,
-    TrackingEventsComponent,
-    ConsignmentTrackingComponent,
-  ],
+  declarations: [...moduleComponents],
   exports: [...moduleComponents],
   entryComponents: [...moduleComponents],
 })
