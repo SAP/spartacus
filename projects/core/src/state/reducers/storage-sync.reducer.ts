@@ -93,7 +93,8 @@ export function exists(value: Object): boolean {
   if (value != null) {
     if (typeof value === 'object') {
       return Object.keys(value).length !== 0;
-    } else return value !== '';
+    }
+    return value !== '';
   }
   return false;
 }
