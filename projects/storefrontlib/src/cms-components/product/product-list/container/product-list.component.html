@@ -75,15 +75,13 @@
                       class="col-12 col-sm-6 col-md-4"
                     ></cx-product-grid-item>
                   </div>
-                  <div
-                    style="display: flex; justify-content: center; padding-top: 25px"
-                  >
+                  <div class="d-flex justify-content-center grid">
                     <p>
                       <a
                         *ngIf="isMaxProducts || isLastPage"
                         (click)="scrollToTop()"
-                        class="btn-link back-to-top cx-scroll-buttons"
-                        >BACK TO TOP</a
+                        class="btn-link cx-scroll-buttons"
+                        >{{ 'productList.backToTopBtn' | cxTranslate }}</a
                       >
                     </p>
                     <p>
@@ -92,8 +90,8 @@
                         (click)="
                           loadNextPage(model?.pagination?.currentPage + 1)
                         "
-                        class="btn-link show-more cx-scroll-buttons"
-                        >SHOW MORE</a
+                        class="btn-link cx-scroll-buttons"
+                        >{{ 'productList.showMoreBtn' | cxTranslate }}</a
                       >
                     </p>
                   </div>
@@ -118,21 +116,21 @@
                     [product]="product"
                     class="cx-product-search-list"
                   ></cx-product-list-item>
-                  <div style="display: flex; justify-content: center;">
+                  <div class="d-flex justify-content-center">
                     <p>
                       <a
                         *ngIf="isMaxProducts || isLastPage"
                         (click)="scrollToTop()"
-                        class="btn-link back-to-top cx-scroll-buttons"
-                        >BACK TO TOP</a
+                        class="btn-link cx-scroll-buttons"
+                        >{{ 'productList.backToTopBtn' | cxTranslate }}</a
                       >
                     </p>
                     <p>
                       <a
                         *ngIf="isMaxProducts && !isLastPage"
                         (click)="loadNextPage(model.pagination.currentPage + 1)"
-                        class="btn-link show-more cx-scroll-buttons"
-                        >SHOW MORE</a
+                        class="btn-link cx-scroll-buttons"
+                        >{{ 'productList.showMoreBtn' | cxTranslate }}</a
                       >
                     </p>
                   </div>
