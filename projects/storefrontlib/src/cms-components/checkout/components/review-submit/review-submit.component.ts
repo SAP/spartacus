@@ -61,8 +61,8 @@ export class ReviewSubmitComponent implements OnInit {
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
-    private translation: TranslationService,
-    private checkoutConfigService?: CheckoutConfigService
+    protected translation: TranslationService,
+    protected checkoutConfigService?: CheckoutConfigService
   ) {}
 
   ngOnInit() {
