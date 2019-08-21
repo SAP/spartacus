@@ -158,7 +158,6 @@ export class ProductListComponentService {
 
   /**
    * Get items from a given page without using navigation
-   * @param pageNumber
    */
   getPageItems(pageNumber: number): void {
     this.routing
