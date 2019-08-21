@@ -63,8 +63,8 @@ export class PageEffects {
               ];
 
               const pageLabel = cmsStructure.page.label;
-              // for content pages the page label returned from backend can be different than page ID initially assumed from route
-              // so let's save the success response not only for initially assumed page ID, but also for correct page label
+              // For content pages the page label returned from backend can be different than page ID initially assumed from route.
+              // In such a case let's save the success response not only for initially assumed page ID, but also for correct page label.
               if (pageLabel && pageLabel !== pageContext.id) {
                 actions.unshift(
                   new CmsActions.CmsSetPageSuccessIndex(
