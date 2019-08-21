@@ -38,17 +38,17 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
   }
 
   viewStore(location: any): void {
-    if (this.route.snapshot.params.region) {
-      this.routingService.go(
-        ['region', this.route.snapshot.params.region, location.name],
-        undefined,
-        { relativeTo: this.route }
-      );
-      return;
-    }
-    this.routingService.go(['region', '', location.name], undefined, {
-      relativeTo: this.route,
-    });
+    this.routingService.go([this.prepareRouteUrl(location)]);
+  }
+
+  prepareRouteUrl(location: any): string {
+    const countryParam = this.route.snapshot.params.country
+      ? `country/${this.route.snapshot.params.country}/`
+      : '';
+    const regionParam = this.route.snapshot.params.region
+      ? `region/${this.route.snapshot.params.region}/`
+      : '';
+    return `store-finder/${countryParam}${regionParam}${location.name}`;
   }
 
   ngOnDestroy() {}
