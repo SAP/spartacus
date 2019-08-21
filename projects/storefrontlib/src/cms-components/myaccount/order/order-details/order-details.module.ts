@@ -27,6 +27,8 @@ const moduleComponents = [
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
   OrderDetailShippingComponent,
+  TrackingEventsComponent,
+  ConsignmentTrackingComponent,
 ];
 
 @NgModule({
@@ -72,10 +74,6 @@ const moduleComponents = [
     ConsignmentTrackingComponent,
   ],
   exports: [...moduleComponents],
-  entryComponents: [
-    ...moduleComponents,
-    TrackingEventsComponent,
-    ConsignmentTrackingComponent,
-  ],
+  entryComponents: [...moduleComponents],
 })
 export class OrderDetailsModule {}

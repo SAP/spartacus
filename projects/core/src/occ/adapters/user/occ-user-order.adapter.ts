@@ -34,8 +34,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     orderCode: string,
     consignmentCode: string
   ): string {
-    const endpoint =
-      '/orders/' + orderCode + '/consignments/' + consignmentCode + '/tracking';
+    const endpoint = `/orders/${orderCode}/consignments/${consignmentCode}/tracking`;
     return this.occEndpoints.getEndpoint(endpoint);
   }
 
