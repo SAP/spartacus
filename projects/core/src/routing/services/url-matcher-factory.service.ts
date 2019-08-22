@@ -1,11 +1,11 @@
+import { Injectable } from '@angular/core';
 import {
+  Route,
   UrlMatcher,
   UrlMatchResult,
   UrlSegment,
   UrlSegmentGroup,
-  Route,
 } from '@angular/router';
-import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class UrlMatcherFactoryService {
@@ -40,7 +40,7 @@ export class UrlMatcherFactoryService {
   }
 
   // Similar to Angular's defaultUrlMatcher. The difference is that `path` comes from function's argument, not from `route.path`
-  private getPathUrlMatcher(path: string = ''): UrlMatcher {
+  protected getPathUrlMatcher(path: string = ''): UrlMatcher {
     return (
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
@@ -78,5 +78,21 @@ export class UrlMatcherFactoryService {
 
       return { consumed: segments.slice(0, parts.length), posParams };
     };
+  }
+
+  /**
+   * Returns URL matcher that accepts almost everything (like `**` route), but not paths are accepted by the given matcher
+   */
+  getOppositeUrlMatcher(matcher: UrlMatcher): UrlMatcher {
+    const oppositeMatcher = function oppositeUrlMatcher(
+      segments: UrlSegment[],
+      group: UrlSegmentGroup,
+      route: Route
+    ) {
+      return matcher(segments, group, route)
+        ? null
+        : { consumed: segments, posParams: {} };
+    };
+    return oppositeMatcher;
   }
 }
