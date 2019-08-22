@@ -53,9 +53,9 @@
     }
 
     &.cx-selected-item {
-      background-color: var(--cx-color-light);
+      background-color: var(--cx-color-background);
       &:hover {
-        background-color: var(--cx-color-light);
+        background-color: var(--cx-color-background);
       }
     }
   }
