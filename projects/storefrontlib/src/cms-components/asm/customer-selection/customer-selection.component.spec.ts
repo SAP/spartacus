@@ -1,29 +1,54 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  AsmService,
+  CustomerSearchPage,
+  GlobalMessageService,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
-describe('CustomerSelectionComponent', () => {
+class MockGlobalMessageService {
+  add = jasmine.createSpy();
+}
+
+class MockAsmService {
+  customerSearch(_searchTerm: string): void {}
+  customerSearchReset(): void {}
+  getCustomerSearchResult(): Observable<CustomerSearchPage> {
+    return of(<CustomerSearchPage>{});
+  }
+}
+
+fdescribe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
-  let customerIdFormControl: AbstractControl;
+  let searchTermFormControl: AbstractControl;
+  let asmService: AsmService;
 
-  const validCustomerId = 'testCustomerId1234567';
+  const validSearchTerm = 'customer@test.com';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [CustomerSelectionComponent],
+      providers: [
+        { provide: AsmService, useClass: MockAsmService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
+    asmService = TestBed.get(AsmService);
     fixture.detectChanges();
-    customerIdFormControl = component.form.controls['customerId'];
+    searchTermFormControl = component.form.controls['searchTerm'];
+    spyOn(asmService, 'customerSearch').and.stub();
   });
 
   it('should create', () => {
@@ -33,10 +58,10 @@ describe('CustomerSelectionComponent', () => {
   it('isNotValid() should delegate to FormUtils.isNotValidField()', () => {
     spyOn(FormUtils, 'isNotValidField').and.stub();
 
-    component.isNotValid('customerId');
+    component.isNotValid('searchTerm');
     expect(FormUtils.isNotValidField).toHaveBeenCalledWith(
       component.form,
-      'customerId',
+      'searchTerm',
       component['submitClicked']
     );
   });
@@ -50,26 +75,24 @@ describe('CustomerSelectionComponent', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
-    it('should NOT emit submited event if the form is not valid', () => {
+    it('should NOT trigger customer search if the form is not valid', () => {
       spyOn(component, 'onSubmit').and.stub();
-      spyOn(component.submitEvent, 'emit').and.stub();
 
       component.onSubmit();
 
       expect(component.form.valid).toBeFalsy();
       expect(component.onSubmit).toHaveBeenCalled();
-      expect(component.submitEvent.emit).not.toHaveBeenCalled();
+      expect(asmService.customerSearch).not.toHaveBeenCalled();
     });
 
-    it('should emit submited event when the form is valid', () => {
-      spyOn(component.submitEvent, 'emit').and.stub();
-
-      customerIdFormControl.setValue(validCustomerId);
+    it('should trigger customer search when the form is valid', () => {
+      searchTermFormControl.setValue(validSearchTerm);
       fixture.detectChanges();
       component.onSubmit();
 
       expect(component.form.valid).toBeTruthy();
-      expect(component.submitEvent.emit).toHaveBeenCalled();
+
+      expect(asmService.customerSearch).toHaveBeenCalledWith(validSearchTerm);
     });
   });
 
@@ -77,7 +100,7 @@ describe('CustomerSelectionComponent', () => {
     it('should NOT display when displaying the form', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(testUtils.isCtrlShowingError(fixture, 'customerId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'searchTerm')).toBeFalsy();
       });
     });
     it('should display when submit an empty form', () => {
@@ -85,27 +108,27 @@ describe('CustomerSelectionComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(
-          testUtils.isCtrlShowingError(fixture, 'customerId')
+          testUtils.isCtrlShowingError(fixture, 'searchTerm')
         ).toBeTruthy();
       });
     });
 
     it('should NOT display when all field have valid valies', () => {
-      customerIdFormControl.setValue(validCustomerId);
+      searchTermFormControl.setValue(validSearchTerm);
       testUtils.clickSubmit(fixture);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(testUtils.isCtrlShowingError(fixture, 'customerId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'searchTerm')).toBeFalsy();
       });
     });
 
     it('should display when the user submits invalid input', () => {
-      customerIdFormControl.setValue('');
+      searchTermFormControl.setValue('');
       testUtils.clickSubmit(fixture);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(
-          testUtils.isCtrlShowingError(fixture, 'customerId')
+          testUtils.isCtrlShowingError(fixture, 'searchTerm')
         ).toBeTruthy();
       });
     });
@@ -113,43 +136,43 @@ describe('CustomerSelectionComponent', () => {
 
   describe('Error messages without submit', () => {
     it('should NOT display for empty abandonment', () => {
-      customerIdFormControl.setValue('');
-      customerIdFormControl.markAsTouched();
+      searchTermFormControl.setValue('');
+      searchTermFormControl.markAsTouched();
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(testUtils.isCtrlShowingError(fixture, 'customerId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'searchTerm')).toBeFalsy();
       });
     });
     it('should NOT display until the user is finished typing', () => {
-      customerIdFormControl.setValue('');
-      customerIdFormControl.markAsDirty();
+      searchTermFormControl.setValue('');
+      searchTermFormControl.markAsDirty();
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(testUtils.isCtrlShowingError(fixture, 'customerId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'searchTerm')).toBeFalsy();
       });
     });
 
     it('should display when the user is finished typing invalid input', () => {
-      customerIdFormControl.setValue('');
-      customerIdFormControl.markAsDirty();
-      customerIdFormControl.markAsTouched();
+      searchTermFormControl.setValue('');
+      searchTermFormControl.markAsDirty();
+      searchTermFormControl.markAsTouched();
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(
-          testUtils.isCtrlShowingError(fixture, 'customerId')
+          testUtils.isCtrlShowingError(fixture, 'searchTerm')
         ).toBeTruthy();
       });
     });
     it('should NOT display when the user is finished typing valid input', () => {
-      customerIdFormControl.setValue(validCustomerId);
-      customerIdFormControl.markAsDirty();
-      customerIdFormControl.markAsTouched();
+      searchTermFormControl.setValue(validSearchTerm);
+      searchTermFormControl.markAsDirty();
+      searchTermFormControl.markAsTouched();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(testUtils.isCtrlShowingError(fixture, 'customerId')).toBeFalsy();
+        expect(testUtils.isCtrlShowingError(fixture, 'searchTerm')).toBeFalsy();
       });
     });
   });

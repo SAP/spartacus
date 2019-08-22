@@ -65,7 +65,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSearch(): void {
+  onSubmit(): void {
     this.submitClicked = true;
     if (this.form.invalid) {
       return;
