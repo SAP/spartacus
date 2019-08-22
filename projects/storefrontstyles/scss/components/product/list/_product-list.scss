@@ -51,14 +51,23 @@
     }
   }
 
-  .cx-scroll-buttons {
-    flex: 1 1 auto;
-    text-align: center;
-    margin: 10px;
-    text-decoration: underline;
+  .cx-double-btn-container {
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: 1fr 1fr;
   }
 
-  .grid {
+  .cx-single-btn-container {
+    display: grid;
+    width: 50%;
+    margin: auto;
+  }
+
+  .grid-btn-padding {
     padding-top: 25px;
+  }
+
+  .align-btn {
+    margin-top: 0px !important;
   }
 }

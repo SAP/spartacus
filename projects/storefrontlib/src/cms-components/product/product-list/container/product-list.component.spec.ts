@@ -112,8 +112,8 @@ const mockModel2: ProductSearchPage = {
   products: [],
 };
 
-const backToTopBtn = 'productList.backToTopBtn';
-const showMoreBtn = 'productList.showMoreBtn';
+const backToTopBtn = ' productList.backToTopBtn ';
+const showMoreBtn = ' productList.showMoreBtn ';
 
 @Component({
   selector: 'cx-star-rating',
@@ -368,7 +368,7 @@ describe('ProductListComponent', () => {
 
         fixture.detectChanges();
 
-        expect(el.query(By.css('.btn-link'))).toBeNull();
+        expect(el.query(By.css('.btn-action'))).toBeNull();
       });
 
       it('should display buttons when limit is reached', () => {
@@ -390,7 +390,7 @@ describe('ProductListComponent', () => {
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
 
-        const buttons = el.queryAll(By.css('.btn-link'));
+        const buttons = el.queryAll(By.css('.btn-action'));
         expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
         expect(buttons[1].nativeElement.innerHTML).toEqual(showMoreBtn);
       });
@@ -409,7 +409,7 @@ describe('ProductListComponent', () => {
       });
 
       it('should display "show more" and "back to top" buttons when there are additional pages', () => {
-        SpyOnModelAndReturn(mockModel1);
+        SpyOnModelAndReturn(mockModel1Page2);
 
         expect(mockModel1.pagination.currentPage).not.toEqual(
           mockModel1.pagination.totalPages - 1
@@ -422,7 +422,7 @@ describe('ProductListComponent', () => {
 
         fixture.detectChanges();
 
-        const buttons = el.queryAll(By.css('.btn-link'));
+        const buttons = el.queryAll(By.css('.btn-action'));
         expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
         expect(buttons[1].nativeElement.innerHTML).toEqual(showMoreBtn);
       });
@@ -441,7 +441,7 @@ describe('ProductListComponent', () => {
 
         fixture.detectChanges();
 
-        const buttons = el.queryAll(By.css('.btn-link'));
+        const buttons = el.queryAll(By.css('.btn-action'));
         expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
         expect(buttons[1]).toBeUndefined();
       });
