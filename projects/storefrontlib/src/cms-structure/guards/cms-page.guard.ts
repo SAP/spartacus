@@ -11,7 +11,15 @@ import {
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
-import { filter, first, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  first,
+  map,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
