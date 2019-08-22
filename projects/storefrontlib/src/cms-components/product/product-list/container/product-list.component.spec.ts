@@ -20,7 +20,7 @@ import {
   MediaComponent,
   SpinnerModule,
 } from '../../../../shared';
-import { PaginationConfig } from '../../config/pagination-config';
+import { ViewConfig } from '../../config/view-config';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -180,11 +180,11 @@ let isMockButton: boolean;
 let mockLimit: number;
 
 export class MockPaginationConfig {
-  pagination = {
+  view = {
     infiniteScroll: {
       active: isMockInfiniteScroll,
+      productLimit: mockLimit,
       showMoreButton: isMockButton,
-      limit: mockLimit,
     },
   };
 }
@@ -216,7 +216,7 @@ describe('ProductListComponent', () => {
           useClass: MockProductListComponentService,
         },
         {
-          provide: PaginationConfig,
+          provide: ViewConfig,
           useClass: MockPaginationConfig,
         },
       ],

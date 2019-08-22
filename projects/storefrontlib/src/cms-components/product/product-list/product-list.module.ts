@@ -23,13 +23,13 @@ import { ProductGridItemComponent } from './product-grid-item/product-grid-item.
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { defaultPaginationConfig } from '../config/default-pagination-config';
-import { PaginationConfig } from '../config/pagination-config';
+import { defaultScrollConfig } from '../config/default-scroll-config';
+import { ViewConfig } from '../config/view-config';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(defaultPaginationConfig),
+    ConfigModule.withConfig(defaultScrollConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductListComponent: {
@@ -70,6 +70,6 @@ import { PaginationConfig } from '../config/pagination-config';
     ProductViewComponent,
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
-  providers: [{ provide: PaginationConfig, useExisting: Config }],
+  providers: [{ provide: ViewConfig, useExisting: Config }],
 })
 export class ProductListModule {}

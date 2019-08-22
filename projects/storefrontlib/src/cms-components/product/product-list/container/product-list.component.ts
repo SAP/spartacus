@@ -3,7 +3,7 @@ import { ProductSearchPage } from '@spartacus/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
-import { PaginationConfig } from '../../config/pagination-config';
+import { ViewConfig } from '../../config/view-config';
 import { ViewModes } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 
@@ -35,14 +35,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     pageLayoutService: PageLayoutService,
     productListComponentService: ProductListComponentService,
     ref?: ChangeDetectorRef,
-    paginationConfig?: PaginationConfig
+    scrollConfig?: ViewConfig
   );
 
   constructor(
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
     private ref: ChangeDetectorRef,
-    private paginationConfig: PaginationConfig
+    private scrollConfig: ViewConfig
   ) {}
 
   ngOnInit(): void {
@@ -113,13 +113,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   setComponentConfigurations(): void {
-    this.isInfiniteScroll = this.paginationConfig.pagination.infiniteScroll.active;
+    this.isInfiniteScroll = this.scrollConfig.view.infiniteScroll.active;
 
     if (this.isInfiniteScroll) {
-      const isButton = this.paginationConfig.pagination.infiniteScroll
-        .showMoreButton;
-      const configProductLimit = this.paginationConfig.pagination.infiniteScroll
-        .limit;
+      const isButton = this.scrollConfig.view.infiniteScroll.showMoreButton;
+      const configProductLimit = this.scrollConfig.view.infiniteScroll
+        .productLimit;
 
       //Display "show more" button every time when button configuration is true
       //Otherwise, only display "show more" when the configuration product limit is reached
