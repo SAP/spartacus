@@ -163,51 +163,59 @@ export class ExpressCheckoutService {
           setPaymentDetailsError,
         ]
       ),
-      tap(
-        ([
-          defaultPayment,
-          setPaymentDetailsInProgress,
-          setPaymentDetailsSuccess,
-          setPaymentDetailsError,
-        ]: [PaymentDetails, boolean, boolean, boolean]) => {
-          if (
-            defaultPayment &&
-            Object.keys(defaultPayment).length &&
-            !setPaymentDetailsInProgress &&
-            !setPaymentDetailsSuccess &&
-            !setPaymentDetailsError
-          ) {
-            this.checkoutPaymentService.setPaymentDetails(defaultPayment);
-          }
-        }
-      ),
-      filter(
-        ([
-          ,
-          setPaymentDetailsInProgress,
-          setPaymentDetailsSuccess,
-          setPaymentDetailsError,
-        ]: [Address, boolean, boolean, boolean]) => {
-          return (
-            (setPaymentDetailsSuccess || setPaymentDetailsError) &&
-            !setPaymentDetailsInProgress
-          );
-        }
-      ),
       switchMap(
-        ([, , , setPaymentDetailsError]: [
-          Address,
-          boolean,
-          boolean,
-          boolean
-        ]) => {
-          if (setPaymentDetailsError) {
-            return of(false);
+        ([
+          _defaultPayment,
+          _setPaymentDetailsInProgress,
+          _setPaymentDetailsSuccess,
+          _setPaymentDetailsError,
+        ]: [PaymentDetails, boolean, boolean, boolean]) => {
+          if (_defaultPayment && Object.keys(_defaultPayment).length) {
+            if (
+              !_setPaymentDetailsInProgress &&
+              !_setPaymentDetailsSuccess &&
+              !_setPaymentDetailsError
+            ) {
+              this.checkoutPaymentService.setPaymentDetails(_defaultPayment);
+            }
+            return of([
+              _defaultPayment,
+              _setPaymentDetailsInProgress,
+              _setPaymentDetailsSuccess,
+              _setPaymentDetailsError,
+            ]).pipe(
+              filter(
+                ([
+                  ,
+                  setPaymentDetailsInProgress,
+                  setPaymentDetailsSuccess,
+                  setPaymentDetailsError,
+                ]: [Address, boolean, boolean, boolean]) => {
+                  return (
+                    (setPaymentDetailsSuccess || setPaymentDetailsError) &&
+                    !setPaymentDetailsInProgress
+                  );
+                }
+              ),
+              switchMap(
+                ([, , , setPaymentDetailsError]: [
+                  Address,
+                  boolean,
+                  boolean,
+                  boolean
+                ]) => {
+                  if (setPaymentDetailsError) {
+                    return of(false);
+                  }
+                  return this.checkoutDetailsService.getPaymentDetails();
+                }
+              ),
+              map(data => Boolean(data && Object.keys(data).length))
+            );
           }
-          return this.checkoutDetailsService.getPaymentDetails();
+          return of(false);
         }
-      ),
-      map(data => Boolean(data && Object.keys(data).length))
+      )
     );
   }
 
