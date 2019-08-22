@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { User } from '../../../model/misc.model';
 import { CustomerSearchPage } from '../../models/asm.models';
-import { CustomerActions } from '../actions';
+import { AsmActions } from '../actions';
 import { StateWithAsm } from '../asm-state';
 import * as fromReducers from '../reducers/index';
 import { AsmSelectors } from './index';
@@ -45,7 +45,7 @@ describe('Customer Search Results Selectors', () => {
     expect(result).toEqual(<CustomerSearchPage>{});
 
     store.dispatch(
-      new CustomerActions.CustomerSearchSuccess(mockCustomerSearchPage)
+      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage)
     );
 
     expect(result).toEqual(mockCustomerSearchPage);

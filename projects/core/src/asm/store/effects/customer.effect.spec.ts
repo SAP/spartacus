@@ -4,7 +4,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CustomerSearchPage } from '../../models/asm.models';
 import { CustomerService } from '../../services/customer.service';
-import { CustomerActions } from '../actions/index';
+import { AsmActions } from '../actions/index';
 import { CustomerEffects } from './customer.effect';
 
 class CustomerServiceMock {
@@ -16,7 +16,7 @@ class CustomerServiceMock {
 describe('Customer effect', () => {
   let customerService: CustomerService;
   let customerEffects: CustomerEffects;
-  let actions$: Observable<CustomerActions.CustomerAction>;
+  let actions$: Observable<AsmActions.CustomerAction>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,8 +38,8 @@ describe('Customer effect', () => {
 
   describe('customerSearch$', () => {
     it('should provide search results', () => {
-      const action = new CustomerActions.CustomerSearch({ searchTerm: 'abc' });
-      const completion = new CustomerActions.CustomerSearchSuccess(
+      const action = new AsmActions.CustomerSearch({ searchTerm: 'abc' });
+      const completion = new AsmActions.CustomerSearchSuccess(
         {} as CustomerSearchPage
       );
 

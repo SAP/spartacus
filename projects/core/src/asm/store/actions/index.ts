@@ -1,2 +1,2 @@
-import * as CustomerActions from './customer-group.actions';
-export { CustomerActions };
+import * as AsmActions from './customer-group.actions';
+export { AsmActions };

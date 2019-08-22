@@ -1,6 +1,6 @@
 import { User } from 'projects/core/src/model/misc.model';
 import { CustomerSearchPage } from '../../models/asm.models';
-import { CustomerActions } from '../actions';
+import { AsmActions } from '../actions';
 import * as fromReducer from './customer.reducer';
 
 const mockUser: User = {
@@ -19,7 +19,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
 describe('Customer reducer', () => {
   it('should return the same state for undefined action', () => {
     const { initialState } = fromReducer;
-    const action = {} as CustomerActions.CustomerAction;
+    const action = {} as AsmActions.CustomerAction;
     const state = fromReducer.reducer(initialState, action);
 
     expect(state).toBe(initialState);
@@ -27,7 +27,7 @@ describe('Customer reducer', () => {
 
   it('should return the initial state for undefined state', () => {
     const { initialState } = fromReducer;
-    const action = {} as CustomerActions.CustomerAction;
+    const action = {} as AsmActions.CustomerAction;
     const state = fromReducer.reducer(undefined, action);
 
     expect(state).toBe(initialState);
@@ -36,9 +36,7 @@ describe('Customer reducer', () => {
   it('should store search results on CustomerSearchSuccess', () => {
     const { initialState } = fromReducer;
 
-    const action = new CustomerActions.CustomerSearchSuccess(
-      mockCustomerSearchPage
-    );
+    const action = new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage);
     const state = fromReducer.reducer(initialState, action);
 
     expect(state).toEqual(mockCustomerSearchPage);
@@ -47,7 +45,7 @@ describe('Customer reducer', () => {
   it('should CustomerSearchFail not change the state', () => {
     const { initialState } = fromReducer;
 
-    const action = new CustomerActions.CustomerSearchFail({});
+    const action = new AsmActions.CustomerSearchFail({});
     const state = fromReducer.reducer(initialState, action);
 
     expect(state).toEqual(initialState);
@@ -56,7 +54,7 @@ describe('Customer reducer', () => {
   it('should CustomerSearch not change the state', () => {
     const { initialState } = fromReducer;
 
-    const action = new CustomerActions.CustomerSearch({ searchTerm: 'abc' });
+    const action = new AsmActions.CustomerSearch({ searchTerm: 'abc' });
     const state = fromReducer.reducer(initialState, action);
 
     expect(state).toEqual(initialState);
@@ -65,7 +63,7 @@ describe('Customer reducer', () => {
   it('should CustomerSearchReset reset the state', () => {
     const { initialState } = fromReducer;
 
-    const action = new CustomerActions.CustomerSearchReset();
+    const action = new AsmActions.CustomerSearchReset();
     const state = fromReducer.reducer(mockCustomerSearchPage, action);
 
     expect(state).toEqual(initialState);

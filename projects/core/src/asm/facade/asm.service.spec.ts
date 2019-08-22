@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { User } from '../../model/misc.model';
 import { CustomerSearchPage } from '../models/asm.models';
-import { CustomerActions } from '../store/actions/index';
+import { AsmActions } from '../store/actions/index';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmService } from './asm.service';
@@ -47,13 +47,13 @@ describe('AsmService', () => {
     const searchTerm = 'search term';
     service.customerSearch(searchTerm);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CustomerActions.CustomerSearch({ searchTerm })
+      new AsmActions.CustomerSearch({ searchTerm })
     );
   });
 
   it('should return search result', () => {
     store.dispatch(
-      new CustomerActions.CustomerSearchSuccess(mockCustomerSearchPage)
+      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage)
     );
 
     let result: CustomerSearchPage;
@@ -68,7 +68,7 @@ describe('AsmService', () => {
     spyOn(store, 'dispatch').and.stub();
     service.customerSearchReset();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CustomerActions.CustomerSearchReset()
+      new AsmActions.CustomerSearchReset()
     );
   });
 });

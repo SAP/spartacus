@@ -1,21 +1,21 @@
 import { CustomerSearchPage } from '../../models/asm.models';
-import { CustomerActions } from '../actions/index';
+import { AsmActions } from '../actions/index';
 
 export const initialState: CustomerSearchPage = <CustomerSearchPage>{};
 
 export function reducer(
   state = initialState,
-  action: CustomerActions.CustomerAction
+  action: AsmActions.CustomerAction
 ): CustomerSearchPage {
   switch (action.type) {
-    case CustomerActions.CUSTOMER_SEARCH_SUCCESS: {
+    case AsmActions.CUSTOMER_SEARCH_SUCCESS: {
       return {
         ...state,
         ...action.payload,
       };
     }
 
-    case CustomerActions.CUSTOMER_SEARCH_RESET: {
+    case AsmActions.CUSTOMER_SEARCH_RESET: {
       return {
         ...initialState,
       };

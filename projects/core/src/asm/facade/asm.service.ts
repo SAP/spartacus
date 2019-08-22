@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CustomerSearchPage } from '../models/asm.models';
-import { CustomerActions } from '../store/actions/index';
+import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
 
@@ -18,7 +18,7 @@ export class AsmService {
    */
   customerSearch(searchTerm: string): void {
     this.store.dispatch(
-      new CustomerActions.CustomerSearch({
+      new AsmActions.CustomerSearch({
         searchTerm,
       })
     );
@@ -28,7 +28,7 @@ export class AsmService {
    * Reset the customer search result data to the initial state.
    */
   customerSearchReset(): void {
-    this.store.dispatch(new CustomerActions.CustomerSearchReset());
+    this.store.dispatch(new AsmActions.CustomerSearchReset());
   }
 
   /**
