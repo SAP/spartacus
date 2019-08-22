@@ -192,7 +192,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private scrollToTop(): void {
+  scrollToTop(): void {
     window.scroll(0, 0);
   }
 
