@@ -24,7 +24,8 @@ package-lock.json
 .settings/
 *.sublime-workspace
 
-.vscode/
+# IDE - VSCode
+.vscode/settings.json
 
 # Coverage reports
 **/coverage
