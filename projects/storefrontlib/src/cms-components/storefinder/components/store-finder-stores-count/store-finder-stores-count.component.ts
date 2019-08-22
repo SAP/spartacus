@@ -14,7 +14,9 @@ export class StoreFinderStoresCountComponent implements OnInit {
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();
-    this.locations$ = this.storeFinderService.getViewAllStoresEntities();
-    this.isLoading$ = this.storeFinderService.getViewAllStoresLoading();
+
+    this.isLoading$ = this.storeFinderService.getStoresLoading();
+
+    this.locations$ = this.storeFinderService.getFindStoresEntities();
   }
 }

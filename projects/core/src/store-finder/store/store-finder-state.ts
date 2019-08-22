@@ -10,13 +10,8 @@ export interface StateWithStoreFinder {
 
 export interface StoresState {
   findStores: LoaderState<FindStoresState>;
-  viewAllStores: LoaderState<ViewAllStoresState>;
 }
 
 export interface FindStoresState {
   findStoresEntities: StoreEntities;
-}
-
-export interface ViewAllStoresState {
-  viewAllStoresEntities: StoreEntities;
 }

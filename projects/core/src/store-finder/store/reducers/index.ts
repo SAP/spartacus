@@ -6,8 +6,7 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 export function getReducers(): ActionReducerMap<StoresState> {
   return {
-    findStores: loaderReducer(STORE_FINDER_DATA),
-    viewAllStores: loaderReducer(STORE_FINDER_DATA),
+    findStores: loaderReducer(STORE_FINDER_DATA)
   };
 }
 

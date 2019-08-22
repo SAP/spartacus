@@ -8,7 +8,6 @@ import { StoreFinderSelectors } from '../store/selectors/index';
 import {
   FindStoresState,
   StateWithStoreFinder,
-  ViewAllStoresState,
 } from '../store/store-finder-state';
 import { StoreFinderSearchConfig } from './../model/search-config';
 
@@ -33,24 +32,6 @@ export class StoreFinderService {
    */
   getFindStoresEntities(): Observable<FindStoresState> {
     return this.store.pipe(select(StoreFinderSelectors.getFindStoresEntities));
-  }
-
-  /**
-   * Returns boolean observable for view all store's loading state
-   */
-  getViewAllStoresLoading(): Observable<boolean> {
-    return this.store.pipe(
-      select(StoreFinderSelectors.getViewAllStoresLoading)
-    );
-  }
-
-  /**
-   * Returns observable for view all store's entities
-   */
-  getViewAllStoresEntities(): Observable<ViewAllStoresState> {
-    return this.store.pipe(
-      select(StoreFinderSelectors.getViewAllStoresEntities)
-    );
   }
 
   /**
@@ -80,7 +61,10 @@ export class StoreFinderService {
    * View all stores
    */
   viewAllStores() {
-    this.clearWatchGeolocation(new StoreFinderActions.ViewAllStores());
+    const emptyQuery = {
+      queryText: ''
+    };
+    this.clearWatchGeolocation(new StoreFinderActions.FindStores(emptyQuery));
   }
 
   /**
