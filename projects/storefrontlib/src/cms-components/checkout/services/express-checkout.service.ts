@@ -35,13 +35,13 @@ export class ExpressCheckoutService {
 
   protected setShippingAddress() {
     this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
-    this.shippingAddressSet$ = combineLatest(
+    this.shippingAddressSet$ = combineLatest([
       this.userAddressService.getAddresses(),
       this.userAddressService.getAddressesLoadedSuccess(),
       this.checkoutDeliveryService.getSetDeliveryAddressResultLoading(),
       this.checkoutDeliveryService.getSetDeliveryAddressResultSuccess(),
-      this.checkoutDeliveryService.getSetDeliveryAddressResultError()
-    ).pipe(
+      this.checkoutDeliveryService.getSetDeliveryAddressResultError(),
+    ]).pipe(
       debounceTime(1, asyncScheduler),
       tap(([, success]: [Address[], boolean, boolean, boolean, boolean]) => {
         if (!success) {
@@ -66,63 +66,71 @@ export class ExpressCheckoutService {
           setDeliveryAddressError,
         ]
       ),
-      tap(
-        ([
-          defaultAddress,
-          setDeliveryAddressInProgress,
-          setDeliveryAddressSuccess,
-          setDeliveryAddressError,
-        ]: [Address, boolean, boolean, boolean]) => {
-          if (
-            defaultAddress &&
-            Object.keys(defaultAddress).length &&
-            !setDeliveryAddressInProgress &&
-            !setDeliveryAddressSuccess &&
-            !setDeliveryAddressError
-          ) {
-            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
-          }
-        }
-      ),
-      filter(
-        ([
-          ,
-          setDeliveryAddressInProgress,
-          setDeliveryAddressSuccess,
-          setDeliveryAddressError,
-        ]: [Address, boolean, boolean, boolean]) => {
-          return (
-            (setDeliveryAddressSuccess || setDeliveryAddressError) &&
-            !setDeliveryAddressInProgress
-          );
-        }
-      ),
       switchMap(
-        ([, , , setDeliveryAddressError]: [
-          Address,
-          boolean,
-          boolean,
-          boolean
-        ]) => {
-          if (setDeliveryAddressError) {
-            return of(false);
+        ([
+          _defaultAddress,
+          _setDeliveryAddressInProgress,
+          _setDeliveryAddressSuccess,
+          _setDeliveryAddressError,
+        ]: [Address, boolean, boolean, boolean]) => {
+          if (_defaultAddress && Object.keys(_defaultAddress).length) {
+            if (
+              !_setDeliveryAddressInProgress &&
+              !_setDeliveryAddressSuccess &&
+              !_setDeliveryAddressError
+            ) {
+              this.checkoutDeliveryService.setDeliveryAddress(_defaultAddress);
+            }
+            return of([
+              _defaultAddress,
+              _setDeliveryAddressInProgress,
+              _setDeliveryAddressSuccess,
+              _setDeliveryAddressError,
+            ]).pipe(
+              filter(
+                ([
+                  ,
+                  setDeliveryAddressInProgress,
+                  setDeliveryAddressSuccess,
+                  setDeliveryAddressError,
+                ]: [Address, boolean, boolean, boolean]) => {
+                  return (
+                    (setDeliveryAddressSuccess || setDeliveryAddressError) &&
+                    !setDeliveryAddressInProgress
+                  );
+                }
+              ),
+              switchMap(
+                ([, , , setDeliveryAddressError]: [
+                  Address,
+                  boolean,
+                  boolean,
+                  boolean
+                ]) => {
+                  if (setDeliveryAddressError) {
+                    return of(false);
+                  }
+                  return this.checkoutDetailsService.getDeliveryAddress();
+                }
+              ),
+              map(data => Boolean(data && Object.keys(data).length))
+            );
           }
-          return this.checkoutDetailsService.getDeliveryAddress();
+          return of(false);
         }
-      ),
-      map(data => Boolean(data && Object.keys(data).length))
+      )
     );
   }
 
   protected setPaymentMethod() {
     this.checkoutPaymentService.resetSetPaymentDetailsProcess();
-    this.paymentMethodSet$ = combineLatest(
+    this.paymentMethodSet$ = combineLatest([
       this.userPaymentService.getPaymentMethods(),
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
       this.checkoutPaymentService.getSetPaymentDetailsResultLoading(),
       this.checkoutPaymentService.getSetPaymentDetailsResultSuccess(),
-      this.checkoutPaymentService.getSetPaymentDetailsResultError()
-    ).pipe(
+      this.checkoutPaymentService.getSetPaymentDetailsResultError(),
+    ]).pipe(
       debounceTime(1, asyncScheduler),
       tap(
         ([, success]: [
@@ -205,13 +213,13 @@ export class ExpressCheckoutService {
 
   protected setDeliveryMode() {
     this.checkoutDeliveryService.resetSetDeliveryModeProcess();
-    this.deliveryModeSet$ = combineLatest(
+    this.deliveryModeSet$ = combineLatest([
       this.checkoutDeliveryService.getSupportedDeliveryModes(),
       this.shippingAddressSet$,
       this.checkoutDeliveryService.getSetDeliveryModeResultLoading(),
       this.checkoutDeliveryService.getSetDeliveryModeResultSuccess(),
-      this.checkoutDeliveryService.getSetDeliveryModeResultError()
-    ).pipe(
+      this.checkoutDeliveryService.getSetDeliveryModeResultError(),
+    ]).pipe(
       debounceTime(1, asyncScheduler),
       switchMap(
         ([
