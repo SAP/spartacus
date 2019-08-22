@@ -19,7 +19,7 @@ const mockUser: User = {
 
 const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
-} as CustomerSearchPage;
+};
 
 describe('AsmService', () => {
   let service: AsmService;
