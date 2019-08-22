@@ -23,7 +23,7 @@ class MockAsmService {
   }
 }
 
-fdescribe('CustomerSelectionComponent', () => {
+describe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
   let searchTermFormControl: AbstractControl;
