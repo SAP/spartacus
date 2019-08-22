@@ -61,46 +61,57 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to first checkout step if express checkout is turned off`, done => {
-    guard.canActivate().subscribe(result => {
-      expect(result.toString()).toEqual(
-        `/${
-          mockRoutingConfigService.getRouteConfig(
-            mockCheckoutConfigService.getFirstCheckoutStepRoute()
-          ).paths[0]
-        }`
-      );
-      done();
-    });
+    isExpressCheckoutSet.next(false);
+    guard
+      .canActivate()
+      .subscribe(result => {
+        expect(result.toString()).toEqual(
+          `/${
+            mockRoutingConfigService.getRouteConfig(
+              mockCheckoutConfigService.getFirstCheckoutStepRoute()
+            ).paths[0]
+          }`
+        );
+        done();
+      })
+      .unsubscribe();
   });
 
-  it(`should redirect to first checkout step if express checkout is not available`, done => {
+  it(`should redirect to first checkout step if express checkout is not possible`, done => {
     isExpressCheckoutSet.next(true);
-    guard.canActivate().subscribe(result => {
-      expect(result.toString()).toEqual(
-        `/${
-          mockRoutingConfigService.getRouteConfig(
-            mockCheckoutConfigService.getFirstCheckoutStepRoute()
-          ).paths[0]
-        }`
-      );
-      done();
-    });
+    setDefaultCheckoutDetailsSuccess.next(false);
+    guard
+      .canActivate()
+      .subscribe(result => {
+        expect(result.toString()).toEqual(
+          `/${
+            mockRoutingConfigService.getRouteConfig(
+              mockCheckoutConfigService.getFirstCheckoutStepRoute()
+            ).paths[0]
+          }`
+        );
+        done();
+      })
+      .unsubscribe();
   });
 
   it(`should redirect to last checkout step`, done => {
     isExpressCheckoutSet.next(true);
     setDefaultCheckoutDetailsSuccess.next(true);
-    guard.canActivate().subscribe(result => {
-      expect(result.toString()).toEqual(
-        `/${
-          mockRoutingConfigService.getRouteConfig(
-            mockCheckoutConfigService.getCheckoutStepRoute(
-              CheckoutStepType.REVIEW_ORDER
-            )
-          ).paths[0]
-        }`
-      );
-      done();
-    });
+    guard
+      .canActivate()
+      .subscribe(result => {
+        expect(result.toString()).toEqual(
+          `/${
+            mockRoutingConfigService.getRouteConfig(
+              mockCheckoutConfigService.getCheckoutStepRoute(
+                CheckoutStepType.REVIEW_ORDER
+              )
+            ).paths[0]
+          }`
+        );
+        done();
+      })
+      .unsubscribe();
   });
 });
