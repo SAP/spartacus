@@ -52,48 +52,35 @@ export class ExpressCheckoutService {
         ([, success]: [Address[], boolean, boolean, boolean, boolean]) =>
           success
       ),
-      map(
+      switchMap(
         ([
           addresses,
           ,
-          setDeliveryAddressInProgress,
-          setDeliveryAddressSuccess,
-          setDeliveryAddressError,
-        ]: [Address[], boolean, boolean, boolean, boolean]) => [
-          addresses.find(address => address.defaultAddress) || addresses[0],
-          setDeliveryAddressInProgress,
-          setDeliveryAddressSuccess,
-          setDeliveryAddressError,
-        ]
-      ),
-      switchMap(
-        ([
-          _defaultAddress,
           _setDeliveryAddressInProgress,
           _setDeliveryAddressSuccess,
           _setDeliveryAddressError,
-        ]: [Address, boolean, boolean, boolean]) => {
-          if (_defaultAddress && Object.keys(_defaultAddress).length) {
+        ]: [Address[], boolean, boolean, boolean, boolean]) => {
+          const defaultAddress =
+            addresses.find(address => address.defaultAddress) || addresses[0];
+          if (defaultAddress && Object.keys(defaultAddress).length) {
             if (
               !_setDeliveryAddressInProgress &&
               !_setDeliveryAddressSuccess &&
               !_setDeliveryAddressError
             ) {
-              this.checkoutDeliveryService.setDeliveryAddress(_defaultAddress);
+              this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
             }
             return of([
-              _defaultAddress,
               _setDeliveryAddressInProgress,
               _setDeliveryAddressSuccess,
               _setDeliveryAddressError,
             ]).pipe(
               filter(
                 ([
-                  ,
                   setDeliveryAddressInProgress,
                   setDeliveryAddressSuccess,
                   setDeliveryAddressError,
-                ]: [Address, boolean, boolean, boolean]) => {
+                ]: [boolean, boolean, boolean]) => {
                   return (
                     (setDeliveryAddressSuccess || setDeliveryAddressError) &&
                     !setDeliveryAddressInProgress
@@ -101,8 +88,7 @@ export class ExpressCheckoutService {
                 }
               ),
               switchMap(
-                ([, , , setDeliveryAddressError]: [
-                  Address,
+                ([, , setDeliveryAddressError]: [
                   boolean,
                   boolean,
                   boolean
@@ -149,48 +135,35 @@ export class ExpressCheckoutService {
         ([, success]: [PaymentDetails[], boolean, boolean, boolean, boolean]) =>
           success
       ),
-      map(
+      switchMap(
         ([
           payments,
           ,
-          setPaymentDetailsInProgress,
-          setPaymentDetailsSuccess,
-          setPaymentDetailsError,
-        ]: [PaymentDetails[], boolean, boolean, boolean, boolean]) => [
-          payments.find(address => address.defaultPayment) || payments[0],
-          setPaymentDetailsInProgress,
-          setPaymentDetailsSuccess,
-          setPaymentDetailsError,
-        ]
-      ),
-      switchMap(
-        ([
-          _defaultPayment,
           _setPaymentDetailsInProgress,
           _setPaymentDetailsSuccess,
           _setPaymentDetailsError,
-        ]: [PaymentDetails, boolean, boolean, boolean]) => {
-          if (_defaultPayment && Object.keys(_defaultPayment).length) {
+        ]: [PaymentDetails[], boolean, boolean, boolean, boolean]) => {
+          const defaultPayment =
+            payments.find(address => address.defaultPayment) || payments[0];
+          if (defaultPayment && Object.keys(defaultPayment).length) {
             if (
               !_setPaymentDetailsInProgress &&
               !_setPaymentDetailsSuccess &&
               !_setPaymentDetailsError
             ) {
-              this.checkoutPaymentService.setPaymentDetails(_defaultPayment);
+              this.checkoutPaymentService.setPaymentDetails(defaultPayment);
             }
             return of([
-              _defaultPayment,
               _setPaymentDetailsInProgress,
               _setPaymentDetailsSuccess,
               _setPaymentDetailsError,
             ]).pipe(
               filter(
                 ([
-                  ,
                   setPaymentDetailsInProgress,
                   setPaymentDetailsSuccess,
                   setPaymentDetailsError,
-                ]: [Address, boolean, boolean, boolean]) => {
+                ]: [boolean, boolean, boolean]) => {
                   return (
                     (setPaymentDetailsSuccess || setPaymentDetailsError) &&
                     !setPaymentDetailsInProgress
@@ -198,12 +171,7 @@ export class ExpressCheckoutService {
                 }
               ),
               switchMap(
-                ([, , , setPaymentDetailsError]: [
-                  Address,
-                  boolean,
-                  boolean,
-                  boolean
-                ]) => {
+                ([, , setPaymentDetailsError]: [boolean, boolean, boolean]) => {
                   if (setPaymentDetailsError) {
                     return of(false);
                   }
