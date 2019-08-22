@@ -25,6 +25,14 @@ export class CheckoutConfigService {
     return this.steps[this.getCheckoutStepIndex('type', currentStepType)];
   }
 
+  getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
+    return this.getCheckoutStep(currentStepType).routeName;
+  }
+
+  getFirstCheckoutStepRoute(): string {
+    return this.steps[0].routeName;
+  }
+
   getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
@@ -41,7 +49,7 @@ export class CheckoutConfigService {
       : null;
   }
 
-  getCurrentStepIndex(activatedRoute: ActivatedRoute) {
+  getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null {
     const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
       activatedRoute
     );
@@ -61,7 +69,10 @@ export class CheckoutConfigService {
     return stepIndex >= 0 ? stepIndex : null;
   }
 
-  protected compareDeliveryCost(deliveryMode1, deliveryMode2) {
+  protected compareDeliveryCost(
+    deliveryMode1: DeliveryMode,
+    deliveryMode2: DeliveryMode
+  ): number {
     if (deliveryMode1.deliveryCost > deliveryMode2.deliveryCost) {
       return 1;
     } else if (deliveryMode1.deliveryCost < deliveryMode2.deliveryCost) {
@@ -69,7 +80,10 @@ export class CheckoutConfigService {
     }
   }
 
-  protected findMatchingDeliveryMode(deliveryModes: DeliveryMode[], index = 0) {
+  protected findMatchingDeliveryMode(
+    deliveryModes: DeliveryMode[],
+    index = 0
+  ): string {
     switch (this.defaultDeliveryMode[index]) {
       case DeliveryModePreferences.FREE:
         if (deliveryModes[0].deliveryCost === 0) {
@@ -105,7 +119,13 @@ export class CheckoutConfigService {
     return this.findMatchingDeliveryMode(deliveryModes);
   }
 
-  private getStepUrlFromActivatedRoute(activatedRoute: ActivatedRoute) {
+  isExpressCheckout(): boolean {
+    return this.express;
+  }
+
+  private getStepUrlFromActivatedRoute(
+    activatedRoute: ActivatedRoute
+  ): string | null {
     return activatedRoute &&
       activatedRoute.snapshot &&
       activatedRoute.snapshot.url
@@ -113,11 +133,11 @@ export class CheckoutConfigService {
       : null;
   }
 
-  private getStepUrlFromStepRoute(stepRoute: string) {
+  private getStepUrlFromStepRoute(stepRoute: string): string {
     return this.routingConfigService.getRouteConfig(stepRoute).paths[0];
   }
 
-  private getCheckoutStepIndex(key: string, value: any): number {
+  private getCheckoutStepIndex(key: string, value: any): number | null {
     return key && value
       ? this.steps.findIndex((step: CheckoutStep) => step[key].includes(value))
       : null;

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 
-import { CheckoutConfig } from '../config/checkout-config';
 import { Observable, of } from 'rxjs';
 import { RoutingConfigService } from '@spartacus/core';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
@@ -17,32 +16,30 @@ export class CheckoutGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private config: CheckoutConfig,
+    private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
-    private expressCheckoutService: ExpressCheckoutService,
-    private checkoutConfigService: CheckoutConfigService
+    private expressCheckoutService: ExpressCheckoutService
   ) {
     this.firstStep$ = of(
       this.router.parseUrl(
         this.routingConfigService.getRouteConfig(
-          this.config.checkout.steps[0].routeName
+          this.checkoutConfigService.getFirstCheckoutStepRoute()
         ).paths[0]
       )
     );
   }
 
   canActivate(): Observable<boolean | UrlTree> {
-    // TODO create method in checkout config service `isExpressCheckout`
-    if (this.config.checkout.express) {
+    if (this.checkoutConfigService.isExpressCheckout()) {
       return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
         switchMap((expressCheckoutPossible: boolean) => {
           return expressCheckoutPossible
             ? of(
                 this.router.parseUrl(
                   this.routingConfigService.getRouteConfig(
-                    this.checkoutConfigService.getCheckoutStep(
+                    this.checkoutConfigService.getCheckoutStepRoute(
                       CheckoutStepType.REVIEW_ORDER
-                    ).routeName
+                    )
                   ).paths[0]
                 )
               )
