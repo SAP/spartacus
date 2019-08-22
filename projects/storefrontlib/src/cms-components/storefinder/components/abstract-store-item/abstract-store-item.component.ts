@@ -15,21 +15,17 @@ export class AbstractStoreItemComponent {
     return google_map_url + latitude + ',' + longitude;
   }
 
-  getClosingTime(location: any): Date {
+  getClosingTime(location: any): string {
     return this.storeDataService.getStoreClosingTime(
       location,
       this.current_date
     );
   }
 
-  getOpeningTime(location: any): Date {
+  getOpeningTime(location: any): string {
     return this.storeDataService.getStoreOpeningTime(
       location,
       this.current_date
     );
-  }
-
-  isOpen(location: any): boolean {
-    return this.storeDataService.isStoreOpen(location, this.current_date);
   }
 }

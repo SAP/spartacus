@@ -102,26 +102,4 @@ describe('StoreFinderListItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should get closing time', () => {
-    const closeTime = component.getClosingTime(sampleStore);
-    if (closeTime != null) {
-      expect(closeTime.getHours()).toEqual(20);
-    }
-  });
-
-  it('should get opening time', () => {
-    const openTime = component.getOpeningTime(sampleStore);
-    const day = component.current_date.getDay();
-    switch (day) {
-      case 0:
-        expect(openTime.getHours()).toEqual(0);
-        break;
-      case 6:
-        expect(openTime.getHours()).toEqual(10);
-        break;
-      default:
-        expect(openTime.getHours()).toEqual(9);
-    }
-  });
 });

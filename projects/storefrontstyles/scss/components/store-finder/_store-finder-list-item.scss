@@ -26,6 +26,7 @@
     min-height: 40px;
   }
   .cx-store-address {
+    cursor: pointer;
     @include type('7');
   }
   .cx-store-address-street {
