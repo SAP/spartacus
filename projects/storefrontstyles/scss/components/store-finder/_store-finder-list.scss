@@ -8,9 +8,16 @@
     }
   }
   .cx-columns-mobile {
+    margin-top: 1rem;
     display: block;
     @include media-breakpoint-up(md) {
       display: none;
+    }
+
+    .cx-list {
+      li:first-child {
+        border: none;
+      }
     }
   }
   .cx-address-col {
@@ -82,9 +89,17 @@
     margin-bottom: 0.5rem;
   }
 
+  .cx-back-wrapper {
+    margin-top: 0.5rem;
+  }
+
   .cx-back {
-    cursor: pointer;
-    font-weight: 600;
+    margin-top: 0.5rem;
+
+    span {
+      cursor: pointer;
+      font-weight: 600;
+    }
 
     &:hover {
       color: var(--cx-color-primary);

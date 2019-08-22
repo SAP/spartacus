@@ -14,10 +14,10 @@ export class StoreFinderListComponent {
   @ViewChild('storeMap', { static: false })
   storeMap: StoreFinderMapComponent;
 
-  selectedStore: number;
+  selectedStore: PointOfService;
+  selectedStoreIndex: number;
   isDetailsModeVisible: boolean;
   storeDetails: PointOfService;
-
   iconTypes = ICON_TYPE;
 
   constructor(
@@ -29,7 +29,8 @@ export class StoreFinderListComponent {
 
   centerStoreOnMapByIndex(index: number, location: PointOfService): void {
     this.showStoreDetails(location);
-    this.selectedStore = index;
+    this.selectedStoreIndex = index;
+    this.selectedStore = location;
     this.storeMap.centerMap(
       this.storeDataService.getStoreLatitude(this.locations.stores[index]),
       this.storeDataService.getStoreLongitude(this.locations.stores[index])
@@ -37,7 +38,7 @@ export class StoreFinderListComponent {
   }
 
   selectStoreItemList(index: number): void {
-    this.selectedStore = index;
+    this.selectedStoreIndex = index;
     const storeListItem = this.document.getElementById('item-' + index);
     storeListItem.scrollIntoView();
   }
@@ -49,6 +50,7 @@ export class StoreFinderListComponent {
 
   hideStoreDetails() {
     this.isDetailsModeVisible = false;
+    this.selectedStoreIndex = undefined;
     this.selectedStore = undefined;
     this.storeMap.renderMap();
   }
