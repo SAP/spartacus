@@ -37,7 +37,14 @@ export class StoreFinderStoreDescriptionComponent
   }
 
   requestStoresData() {
-    const storeId = this.route.snapshot.params.store;
+    const storeId = this.route.snapshot.params.store
+      .split('-')
+      .map(this.capitalizeLetter)
+      .join(' ');
     this.storeFinderService.viewStoreById(storeId);
+  }
+
+  private capitalizeLetter(str: string): string {
+    return str[0].toUpperCase() + str.slice(1);
   }
 }
