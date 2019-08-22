@@ -40,7 +40,7 @@ const MockAuthModuleConfig: OccConfig = {
   },
 };
 
-fdescribe('CustomerSupportAgentTokenInterceptor', () => {
+describe('CustomerSupportAgentTokenInterceptor', () => {
   let httpMock: HttpTestingController;
   let authService: AuthService;
 
