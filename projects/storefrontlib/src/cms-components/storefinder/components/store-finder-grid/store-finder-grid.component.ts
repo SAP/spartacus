@@ -48,8 +48,8 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
     const regionParam = this.route.snapshot.params.region
       ? `region/${this.route.snapshot.params.region}/`
       : '';
-    const result = `store-finder/${countryParam}${regionParam}${location.name}`;
-    return result.replace(/ /g, '-').toLocaleLowerCase();
+    const locationName = location.name.replace(/ /g, '-').toLocaleLowerCase();
+    return `store-finder/${countryParam}${regionParam}${locationName}`;
   }
 
   ngOnDestroy() {}

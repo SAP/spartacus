@@ -96,6 +96,8 @@ describe('StoreFinderStoreDescriptionComponent', () => {
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
-    expect(storeFinderService.viewStoreById).toHaveBeenCalledWith(storeId);
+    expect(storeFinderService.viewStoreById).toHaveBeenCalledWith(
+      'Shop_new_york_1'
+    );
   });
 });
