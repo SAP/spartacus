@@ -11,14 +11,7 @@ import {
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
-import {
-  filter,
-  first,
-  map,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { filter, first, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
@@ -64,6 +57,7 @@ export class CmsPageGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
+      take(1),
       switchMap(componentTypes =>
         this.cmsGuards
           .cmsPageCanActivate(componentTypes, route, state)
