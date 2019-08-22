@@ -17,7 +17,6 @@ export class AsmService {
    * @param userId
    */
   customerSearch(searchTerm: string): void {
-    console.log('ASM facade customerSearch', searchTerm);
     this.store.dispatch(
       new CustomerActions.CustomerSearch({
         searchTerm,

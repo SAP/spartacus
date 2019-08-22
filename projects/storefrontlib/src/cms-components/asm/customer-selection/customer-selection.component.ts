@@ -34,7 +34,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log('CustomerSelectionComponent.ngOnInit:');
     this.form = this.fb.group({
       searchTerm: ['', [Validators.required]],
     });
