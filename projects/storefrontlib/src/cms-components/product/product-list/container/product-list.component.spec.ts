@@ -274,7 +274,6 @@ describe('ProductListComponent', () => {
     describe('ngOnInit', () => {
       beforeEach(() => {
         SpyOnModelAndReturn(mockModel1);
-        spyOn(component, 'paginationOperations').and.stub();
         component.ngOnInit();
       });
 
@@ -284,10 +283,6 @@ describe('ProductListComponent', () => {
 
       it('should clear search results', () => {
         expect(componentService.clearSearchResults).toHaveBeenCalled();
-      });
-
-      it('should use pagination function', () => {
-        expect(component.paginationOperations).toHaveBeenCalled();
       });
     });
   });
@@ -300,16 +295,11 @@ describe('ProductListComponent', () => {
     describe('ngOnInit', () => {
       beforeEach(() => {
         SpyOnModelAndReturn(mockModel1);
-        spyOn(component, 'infiniteScrollOperations').and.stub();
         component.ngOnInit();
       });
 
       it('should use infinite scroll', () => {
         expect(component.isInfiniteScroll).toBeTruthy();
-      });
-
-      it('should call infinite scroll function', () => {
-        expect(component.infiniteScrollOperations).toHaveBeenCalled();
       });
     });
 
@@ -333,35 +323,24 @@ describe('ProductListComponent', () => {
       });
 
       it('should replace products when appendProducts is false', () => {
+        SpyOnModelAndReturn(mockModel1Page2);
         component.model = mockModel1;
         component.infiniteScrollOperations(mockModel1Page2);
 
         expect(component.model).toEqual(mockModel1Page2);
       });
 
-      it('isSamePage should return true when they are the same products', () => {
-        component.model = mockModel1;
-        expect(component.isSamePage(mockModel1)).toBe(true);
-      });
-
-      it('isSamePage should return false when products are the same but resetList is true', () => {
-        component.model = mockModel1;
-        component.resetList = true;
-
-        expect(component.isSamePage(mockModel1)).toBe(false);
-      });
-
       it('isEmpty should be true when there are no products', () => {
         //mockModel2 is a model that contains no products
-        component.model = mockModel2;
-        component.setConditions();
+        SpyOnModelAndReturn(mockModel2);
+        component.ngOnInit();
 
         expect(component.isEmpty).toBeTruthy();
       });
 
       it('isLastPage should be true when there are no more pages', () => {
-        component.model = mockModel1Page3;
-        component.setConditions();
+        SpyOnModelAndReturn(mockModel1Page3);
+        component.ngOnInit();
 
         expect(component.isLastPage).toBeTruthy();
       });
@@ -417,7 +396,9 @@ describe('ProductListComponent', () => {
       });
 
       it('productLimit should be set to mockLimit value', () => {
-        component.setComponentConfigurations();
+        SpyOnModelAndReturn(mockModel1);
+        component.ngOnInit();
+
         expect(component.productLimit).toEqual(mockLimit);
       });
     });
@@ -466,12 +447,13 @@ describe('ProductListComponent', () => {
       });
 
       it('productLimit should be set to 1', () => {
-        component.setComponentConfigurations();
+        SpyOnModelAndReturn(mockModel1);
+        component.ngOnInit();
+
         expect(component.productLimit).toEqual(1);
       });
     });
   });
-
   function SpyOnModelAndReturn(model: ProductSearchPage) {
     const getSpy = createSpy().and.returnValue(of(model));
     Object.defineProperty(componentService, 'model$', { get: getSpy });

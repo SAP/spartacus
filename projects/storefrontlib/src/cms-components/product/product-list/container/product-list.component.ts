@@ -76,6 +76,23 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.model = subModel;
   }
 
+  infiniteScrollOperations(subModel: ProductSearchPage): void {
+    if (this.isSamePage(subModel)) {
+      return;
+    }
+
+    if (this.appendProducts) {
+      this.model = {
+        ...subModel,
+        products: this.model.products.concat(subModel.products),
+      };
+    } else {
+      this.model = subModel;
+      this.maxProducts = this.productLimit;
+    }
+    this.setConditions();
+  }
+
   viewPage(pageNumber: number): void {
     this.productListComponentService.viewPage(pageNumber);
   }
@@ -94,25 +111,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.viewMode$.next(mode);
   }
 
-  //Infinite Scroll functions
-  infiniteScrollOperations(subModel: ProductSearchPage): void {
-    if (this.isSamePage(subModel)) {
-      return;
-    }
-
-    if (this.appendProducts) {
-      this.model = {
-        ...subModel,
-        products: this.model.products.concat(subModel.products),
-      };
-    } else {
-      this.model = subModel;
-      this.maxProducts = this.productLimit;
-    }
-    this.setConditions();
+  scrollPage(pageNumber: number): void {
+    this.appendProducts = true;
+    this.isLoadingItems = true;
+    this.ref.markForCheck();
+    this.productListComponentService.getPageItems(pageNumber);
   }
 
-  setComponentConfigurations(): void {
+  loadNextPage(pageNumber: number): void {
+    this.isMaxProducts = false;
+    this.scrollPage(pageNumber);
+  }
+
+  private setComponentConfigurations(): void {
     this.isInfiniteScroll = this.scrollConfig.view.infiniteScroll.active;
 
     if (this.isInfiniteScroll) {
@@ -127,7 +138,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   //Set booleans after model has been retrieved
-  setConditions(): void {
+  private setConditions(): void {
     this.isEmpty = this.model.products.length === 0;
 
     this.isLastPage =
@@ -139,6 +150,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.productLimit !== 0 &&
       this.model.products.length >= this.maxProducts;
 
+    //Add the productLimit to the current number of products to determine the next max number of products
     this.maxProducts = this.isMaxProducts
       ? this.model.products.length + this.productLimit
       : this.maxProducts;
@@ -148,24 +160,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.isLoadingItems = false;
   }
 
-  scrollPage(pageNumber: number): void {
-    this.appendProducts = true;
-    this.isLoadingItems = true;
-    this.ref.markForCheck();
-    this.productListComponentService.getPageItems(pageNumber);
-  }
-
-  loadNextPage(pageNumber: number): void {
-    this.isMaxProducts = false;
-    this.scrollPage(pageNumber);
-  }
-
   /**
    * @deprecate at release 2.0.
    * If the new list is the same and it is not intended to reset the list then return true
    * Return false otherwise.
    */
-  isSamePage(subModel: ProductSearchPage): boolean {
+  private isSamePage(subModel: ProductSearchPage): boolean {
     if (
       !this.resetList &&
       this.model &&
