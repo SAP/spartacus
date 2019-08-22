@@ -19,7 +19,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   protected getCartEndpoint(userId: string): string {
     const cartEndpoint = 'users/' + userId + '/carts/';
@@ -38,7 +39,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    // TODO 2.0: Remove
+    // TODO: Deprecated, remove Issue: #4125
     if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyAdd(userId, cartId, productCode, quantity);
     }
@@ -71,7 +72,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    // TODO 2.0: Remove
+    // TODO: Deprecated, remove Issue: #4125
     if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyUpdate(userId, cartId, entryNumber, qty, pickupStore);
     }
@@ -96,7 +97,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    // TODO 2.0: Remove
+    // TODO: Deprecated, remove Issue: #4125
     if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyRemove(userId, cartId, entryNumber);
     }
@@ -112,7 +113,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyAdd(
     userId: string,
@@ -138,7 +140,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyUpdate(
     userId: string,
@@ -167,7 +170,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyRemove(
     userId: string,

@@ -10,7 +10,7 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-// TODO 2.0: Remove
+// TODO: Deprecated, remove Issue: #4125. Use configurable endpoints
 const DETAILS_PARAMS =
   'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue),updateable),' +
@@ -29,7 +29,8 @@ export class OccCartAdapter implements CartAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   protected getCartEndpoint(userId: string): string {
     const cartEndpoint = `users/${userId}/carts/`;
@@ -37,7 +38,7 @@ export class OccCartAdapter implements CartAdapter {
   }
 
   public loadAll(userId: string): Observable<Cart[]> {
-    // TODO 2.0: Remove
+    // TODO: Deprecated, remove Issue: #4125.
     if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyLoadAll(userId);
     }
@@ -65,7 +66,7 @@ export class OccCartAdapter implements CartAdapter {
         })
       );
     } else {
-      // TODO 2.0: Remove
+      // TODO: Deprecated, remove Issue: #4125.
       if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
         return this.legacyLoad(userId, cartId);
       }
@@ -83,7 +84,7 @@ export class OccCartAdapter implements CartAdapter {
     toMergeCartGuid?: string
   ): Observable<Cart> {
     const toAdd = JSON.stringify({});
-    // TODO 2.0: Remove
+    // TODO: Deprecated, remove Issue: #4125.
     if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyCreate(userId, toAdd, oldCartId, toMergeCartGuid);
     }
@@ -107,7 +108,8 @@ export class OccCartAdapter implements CartAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyLoadAll(userId: string): Observable<Cart[]> {
     const url = this.getCartEndpoint(userId);
@@ -123,7 +125,8 @@ export class OccCartAdapter implements CartAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyLoad(userId: string, cartId: string): Observable<Cart> {
     const url = this.getCartEndpoint(userId) + cartId;
@@ -138,7 +141,8 @@ export class OccCartAdapter implements CartAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyCreate(
     userId: string,
