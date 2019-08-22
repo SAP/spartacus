@@ -13,8 +13,8 @@ export class AsmService {
   constructor(protected store: Store<StateWithAsm>) {}
 
   /**
-   * Loads a new user token
-   * @param userId
+   * search for customers
+   * @param searchTerm
    */
   customerSearch(searchTerm: string): void {
     this.store.dispatch(
