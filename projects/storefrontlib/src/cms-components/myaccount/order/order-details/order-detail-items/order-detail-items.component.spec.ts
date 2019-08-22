@@ -113,7 +113,7 @@ describe('OrderDetailItemsComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: "'1.1'", consignmentTracking: "'1.2'" },
+            features: { level: '1.1', consignmentTracking: '1.2' },
           },
         },
       ],

@@ -5,6 +5,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import * as fromAction from '../actions/consignment-tracking.action';
+import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class ConsignmentTrackingEffects {
@@ -23,7 +24,7 @@ export class ConsignmentTrackingEffects {
               new fromAction.LoadConsignmentTrackingSuccess(tracking)
           ),
           catchError(error =>
-            of(new fromAction.LoadConsignmentTrackingFail(error))
+            of(new fromAction.LoadConsignmentTrackingFail(makeErrorSerializable(error)))
           )
         );
     })

@@ -30,14 +30,6 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     return this.occEndpoints.getEndpoint(orderEndpoint);
   }
 
-  protected getConsignmentTrackingEndpoint(
-    orderCode: string,
-    consignmentCode: string
-  ): string {
-    const endpoint = `/orders/${orderCode}/consignments/${consignmentCode}/tracking`;
-    return this.occEndpoints.getEndpoint(endpoint);
-  }
-
   public load(userId: string, orderCode: string): Observable<Order> {
     // TODO 2.0: Remove
     if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
@@ -132,10 +124,12 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     orderCode: string,
     consignmentCode: string
   ): Observable<ConsignmentTracking> {
+    const url = this.occEndpoints.getUrl('consignmentTracking', {
+      orderCode,
+      consignmentCode,
+    });
     return this.http
-      .get<ConsignmentTracking>(
-        this.getConsignmentTrackingEndpoint(orderCode, consignmentCode)
-      )
+      .get<ConsignmentTracking>(url)
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 }
