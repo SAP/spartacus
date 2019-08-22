@@ -199,6 +199,10 @@ export function addProductAsAnonymous() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
 
+export function verifyCartNotEmpty() {
+  cy.get('cx-mini-cart .count').contains('1');
+}
+
 export function verifyMergedCartWhenLoggedIn() {
   const product0 = products[1];
   const product1 = products[2];
