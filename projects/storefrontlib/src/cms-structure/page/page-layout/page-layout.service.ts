@@ -9,7 +9,7 @@ import {
   LayoutSlotConfig,
   SlotConfig,
 } from '../../../layout/config/layout-config';
-import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
+import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
 
 @Injectable()
 export class PageLayoutService {
@@ -41,7 +41,17 @@ export class PageLayoutService {
         }
         return result;
       }),
-      distinctUntilChanged()
+      distinctUntilChanged((a, b) => {
+        if (a.length !== b.length) {
+          return false;
+        }
+        for (let i = 0; i < a.length; i++) {
+          if (a[i] !== b[i]) {
+            return false;
+          }
+        }
+        return true;
+      })
     );
   }
 
@@ -53,7 +63,8 @@ export class PageLayoutService {
       breakpoint
     );
     if (config && config.slots) {
-      return config.slots;
+      const pageSlots = Object.keys(page.slots);
+      return config.slots.filter(slot => pageSlots.includes(slot));
     } else if (!section) {
       this.logMissingLayoutConfig(page);
       return Object.keys(page.slots);

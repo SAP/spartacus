@@ -24,6 +24,7 @@ export function testOutletPagesCmsContentConfig(): CmsStructureConfig {
             Section2A: {
               componentIds: ['Paragraph1'],
             },
+            Section2B: {},
           },
           ignoreBackend: true,
           pageId: '/test/outlet/slot',
@@ -34,6 +35,7 @@ export function testOutletPagesCmsContentConfig(): CmsStructureConfig {
             Section2A: {
               componentIds: ['Paragraph1'],
             },
+            Section2B: {},
           },
           ignoreBackend: true,
           pageId: '/test/outlet/template',
