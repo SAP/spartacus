@@ -4,6 +4,7 @@ import { DebugElement } from '@angular/core';
 
 import {
   Address,
+  CheckoutDeliveryService,
   I18nTestingModule,
   UserAddressService,
 } from '@spartacus/core';
@@ -26,6 +27,10 @@ const mockAddress: Address = {
   defaultAddress: false,
 };
 
+class MockCheckoutDeliveryService {
+  clearCheckoutDeliveryDetails() {}
+}
+
 describe('AddressCardComponent', () => {
   let component: AddressCardComponent;
   let fixture: ComponentFixture<AddressCardComponent>;
@@ -37,6 +42,10 @@ describe('AddressCardComponent', () => {
       declarations: [AddressCardComponent],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
       ],
     }).compileComponents();
   }));
