@@ -39,7 +39,9 @@ describe('Customer effect', () => {
   describe('customerSearch$', () => {
     it('should provide search results', () => {
       const action = new CustomerActions.CustomerSearch({ searchTerm: 'abc' });
-      const completion = new CustomerActions.CustomerSearchSuccess({});
+      const completion = new CustomerActions.CustomerSearchSuccess(
+        {} as CustomerSearchPage
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

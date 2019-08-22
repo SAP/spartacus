@@ -2,11 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StateWithAsm } from '../asm-state';
-import { StateWithAuth } from '../auth-state';
 import * as fromReducers from '../reducers/index';
 
 describe('Customer Search Results Selectors', () => {
-  let store: Store<StateWithAuth>;
+  let store: Store<StateWithAsm>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

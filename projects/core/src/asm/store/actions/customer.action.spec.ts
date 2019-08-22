@@ -1,3 +1,4 @@
+import { CustomerSearchPage } from '../../models/asm.models';
 import { CustomerActions } from './index';
 
 describe('Customer Actions', () => {
@@ -22,11 +23,13 @@ describe('Customer Actions', () => {
     });
 
     it('should create the CustomerSearchSuccess action', () => {
-      const action = new CustomerActions.CustomerSearchSuccess({});
+      const action = new CustomerActions.CustomerSearchSuccess(
+        {} as CustomerSearchPage
+      );
 
       expect({ ...action }).toEqual({
         type: CustomerActions.CUSTOMER_SEARCH_SUCCESS,
-        payload: {},
+        payload: {} as CustomerSearchPage,
       });
     });
   });
