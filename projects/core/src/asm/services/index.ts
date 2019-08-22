@@ -1,3 +1,3 @@
 import { CustomerService } from './customer.service';
 
-export const CustomerServices: any[] = [CustomerService];
+export const AsmServices: any[] = [CustomerService];

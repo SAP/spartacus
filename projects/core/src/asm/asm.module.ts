@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CustomerServices } from './services/index';
+import { AsmServices } from './services/index';
 import { AsmStoreModule } from './store/asm-store.module';
 
 @NgModule({
@@ -11,7 +11,7 @@ export class AsmModule {
   static forRoot(): ModuleWithProviders<AsmModule> {
     return {
       ngModule: AsmModule,
-      providers: [...CustomerServices],
+      providers: [...AsmServices],
     };
   }
 }
