@@ -1,5 +1,8 @@
 import { User } from 'projects/core/src/model/misc.model';
-import { CustomerSearchPage } from '../../models/asm.models';
+import {
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '../../models/asm.models';
 import { AsmActions } from './index';
 
 const mockUser: User = {
@@ -18,11 +21,11 @@ const mockCustomerSearchPage: CustomerSearchPage = {
 describe('Customer Actions', () => {
   describe('Customer Search Actions', () => {
     it('should create the Customer Search Actions', () => {
-      const testSearchTerm = { searchTerm: 'abc' };
-      const action = new AsmActions.CustomerSearch(testSearchTerm);
+      const searchOptions: CustomerSearchOptions = { query: 'abc' };
+      const action = new AsmActions.CustomerSearch(searchOptions);
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_SEARCH,
-        payload: testSearchTerm,
+        payload: searchOptions,
       });
     });
 

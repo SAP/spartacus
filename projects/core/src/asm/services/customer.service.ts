@@ -7,7 +7,7 @@ import {
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { CustomerSearchPage } from '../models/asm.models';
+import { CustomerSearchPage, CustomerSearchOptions } from '../models/asm.models';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export class CustomerService {
       .subscribe(value => (this.activeBaseSite = value));
   }
 
-  search(searchTerm: string): Observable<CustomerSearchPage> {
+  search(options: CustomerSearchOptions): Observable<CustomerSearchPage> {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
@@ -33,7 +33,7 @@ export class CustomerService {
 
     const params: HttpParams = new HttpParams()
       .set('baseSite', this.activeBaseSite)
-      .set('query', searchTerm);
+      .set('query', options.query);
 
     const url = '/assistedservicewebservices/customers/search';
     return this.http

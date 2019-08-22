@@ -5,3 +5,7 @@ export interface CustomerSearchPage {
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
+
+export interface CustomerSearchOptions {
+  query?: string;
+}

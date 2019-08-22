@@ -2,7 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { User } from '../../model/misc.model';
-import { CustomerSearchPage } from '../models/asm.models';
+import {
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
@@ -44,10 +47,10 @@ describe('AsmService', () => {
 
   it('should dispatch proper action for customer search', () => {
     spyOn(store, 'dispatch').and.stub();
-    const searchTerm = 'search term';
-    service.customerSearch(searchTerm);
+    const searchOptions: CustomerSearchOptions = { query: 'search term' };
+    service.customerSearch(searchOptions);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.CustomerSearch({ searchTerm })
+      new AsmActions.CustomerSearch(searchOptions)
     );
   });
 

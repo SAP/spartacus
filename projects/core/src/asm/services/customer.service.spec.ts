@@ -8,7 +8,7 @@ import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { User } from '../../model/misc.model';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { CustomerSearchPage } from '../models/asm.models';
+import { CustomerSearchPage, CustomerSearchOptions } from '../models/asm.models';
 import { CustomerService } from './customer.service';
 
 const mockUser: User = {
@@ -57,15 +57,16 @@ describe('CustomerService', () => {
 
   it('should perform a customer search', () => {
     let result: CustomerSearchPage;
-    const searchTerm = 'user@test.com';
-    customerService.search(searchTerm).subscribe(data => {
+    const searchQuery = 'user@test.com';
+    const searchOptions: CustomerSearchOptions = { query: searchQuery};
+    customerService.search(searchOptions).subscribe(data => {
       result = data;
     });
 
     const mockReq: TestRequest = httpMock.expectOne(req => {
       return (
         req.method === 'GET' &&
-        req.params.get('query') === searchTerm &&
+        req.params.get('query') === searchQuery &&
         req.params.get('baseSite') === baseSite
       );
     });

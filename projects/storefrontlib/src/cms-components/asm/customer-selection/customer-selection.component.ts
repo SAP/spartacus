@@ -69,7 +69,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
-    this.asmService.customerSearch(this.form.controls.searchTerm.value);
+    this.asmService.customerSearch({
+      query: this.form.controls.searchTerm.value,
+    });
   }
 
   isNotValid(formControlName: string): boolean {

@@ -38,7 +38,7 @@ describe('Customer effect', () => {
 
   describe('customerSearch$', () => {
     it('should provide search results', () => {
-      const action = new AsmActions.CustomerSearch({ searchTerm: 'abc' });
+      const action = new AsmActions.CustomerSearch({ query: 'abc' });
       const completion = new AsmActions.CustomerSearchSuccess(
         {} as CustomerSearchPage
       );

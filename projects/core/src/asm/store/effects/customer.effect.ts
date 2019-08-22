@@ -13,8 +13,8 @@ export class CustomerEffects {
   customerSearch$: Observable<AsmActions.CustomerAction> = this.actions$.pipe(
     ofType(AsmActions.CUSTOMER_SEARCH),
     map((action: AsmActions.CustomerSearch) => action.payload),
-    mergeMap(({ searchTerm }) =>
-      this.customerService.search(searchTerm).pipe(
+    mergeMap(options =>
+      this.customerService.search(options).pipe(
         map((customerSearchResults: CustomerSearchPage) => {
           return new AsmActions.CustomerSearchSuccess(customerSearchResults);
         }),

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CustomerSearchPage } from '../../models/asm.models';
+import { CustomerSearchPage, CustomerSearchOptions } from '../../models/asm.models';
 
 export const CUSTOMER_SEARCH = '[Asm] Customer Search';
 export const CUSTOMER_SEARCH_FAIL = '[Asm] Customer Search Fail';
@@ -8,7 +8,7 @@ export const CUSTOMER_SEARCH_RESET = '[Asm] Customer Search Reset';
 
 export class CustomerSearch implements Action {
   readonly type = CUSTOMER_SEARCH;
-  constructor(public payload: { searchTerm: string }) {}
+  constructor(public payload: CustomerSearchOptions) {}
 }
 
 export class CustomerSearchFail implements Action {

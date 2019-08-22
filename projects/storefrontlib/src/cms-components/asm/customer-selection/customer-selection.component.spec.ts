@@ -92,7 +92,9 @@ describe('CustomerSelectionComponent', () => {
 
       expect(component.form.valid).toBeTruthy();
 
-      expect(asmService.customerSearch).toHaveBeenCalledWith(validSearchTerm);
+      expect(asmService.customerSearch).toHaveBeenCalledWith({
+        query: validSearchTerm,
+      });
     });
   });
 

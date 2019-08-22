@@ -54,7 +54,7 @@ describe('Customer reducer', () => {
   it('should CustomerSearch not change the state', () => {
     const { initialState } = fromReducer;
 
-    const action = new AsmActions.CustomerSearch({ searchTerm: 'abc' });
+    const action = new AsmActions.CustomerSearch({ query: 'abc' });
     const state = fromReducer.reducer(initialState, action);
 
     expect(state).toEqual(initialState);
