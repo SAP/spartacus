@@ -31,7 +31,7 @@ class MockBaseSiteService {
   }
 }
 
-fdescribe('CustomerService', () => {
+describe('CustomerService', () => {
   let customerService: CustomerService;
   let httpMock: HttpTestingController;
 
