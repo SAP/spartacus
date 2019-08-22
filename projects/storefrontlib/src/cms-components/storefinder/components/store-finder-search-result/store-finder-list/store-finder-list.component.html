@@ -6,7 +6,7 @@
           [pagination]="locations.pagination"
         ></cx-store-finder-pagination-details>
       </div>
-      <div class="col-md-12 text-left">
+      <div class="col-md-12 text-left cx-back-wrapper">
         <span
           class="cx-back"
           *ngIf="isDetailsModeVisible"
@@ -30,7 +30,7 @@
             *ngFor="let location of locations?.stores; let i = index"
             id="{{ 'item-' + i }}"
             [ngClass]="{
-              'cx-selected-item': selectedStore === i
+              'cx-selected-item': selectedStoreIndex === i
             }"
             class="cx-list-items"
           >
@@ -78,7 +78,7 @@
                   *ngFor="let location of locations?.stores; let i = index"
                   id="{{ 'item-' + i }}"
                   [ngClass]="{
-                    'cx-selected-item': selectedStore === i
+                    'cx-selected-item': selectedStoreIndex === i
                   }"
                   class="cx-list-items"
                 >
@@ -106,7 +106,7 @@
             <div class="cx-map-col">
               <cx-store-finder-map
                 #storeMap
-                [locations]="locations.stores"
+                [locations]="selectedStore ? [selectedStore] : locations.stores"
                 (selectedStoreItem)="selectStoreItemList($event)"
               ></cx-store-finder-map>
             </div>
