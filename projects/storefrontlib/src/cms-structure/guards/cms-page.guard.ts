@@ -15,6 +15,7 @@ import {
   first,
   map,
   switchMap,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -63,6 +64,7 @@ export class CmsPageGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
+      take(1),
       switchMap(componentTypes =>
         this.cmsGuards
           .cmsPageCanActivate(componentTypes, route, state)
