@@ -18,12 +18,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   //Variables used for infinite scroll
   isInfiniteScroll: boolean;
-  appendProducts = false;
-  resetList = false;
-  isLoadingItems = false;
-
   productLimit: number;
   maxProducts: number;
+  appendProducts = false;
+  resetList = false;
   isMaxProducts = false;
   isLastPage = false;
   isEmpty = false;
@@ -34,15 +32,26 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(
     pageLayoutService: PageLayoutService,
     productListComponentService: ProductListComponentService,
-    ref?: ChangeDetectorRef,
-    scrollConfig?: ViewConfig
+    ref: ChangeDetectorRef,
+    scrollConfig: ViewConfig
   );
 
+  /**
+   * @deprecated since version 1.x
+   *  Use constructor(pageLayoutService: PageLayoutService,
+   *  productListComponentService: ProductListComponentService,
+   *  ref: ChangeDetectorRef,
+   *  scrollConfig: ViewConfig) instead
+   */
+  constructor(
+    pageLayoutService: PageLayoutService,
+    productListComponentService: ProductListComponentService
+  );
   constructor(
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
-    private ref: ChangeDetectorRef,
-    private scrollConfig: ViewConfig
+    private ref?: ChangeDetectorRef,
+    private scrollConfig?: ViewConfig
   ) {}
 
   ngOnInit(): void {
@@ -113,7 +122,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   scrollPage(pageNumber: number): void {
     this.appendProducts = true;
-    this.isLoadingItems = true;
     this.ref.markForCheck();
     this.productListComponentService.getPageItems(pageNumber);
   }
@@ -157,7 +165,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.appendProducts = false;
     this.resetList = false;
-    this.isLoadingItems = false;
   }
 
   /**
@@ -192,7 +199,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  scrollToTop(): void {
+  private scrollToTop(): void {
     window.scroll(0, 0);
   }
 
