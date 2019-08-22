@@ -19,7 +19,7 @@ export class MockStoreFinderListItemComponent {
 }
 
 const location = {
-  name: 'testName',
+  name: 'Test Name',
 };
 
 const mockActivatedRoute = {
@@ -112,7 +112,7 @@ describe('StoreFinderGridComponent', () => {
     component.viewStore(location);
 
     expect(mockRoutingService.go).toHaveBeenCalledWith([
-      `store-finder/country/${countryIsoCode}/testName`,
+      `store-finder/country/${countryIsoCode}/test-name`,
     ]);
   });
 });
