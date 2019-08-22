@@ -91,11 +91,8 @@
 
   .cx-back {
     margin-top: 0.5rem;
-
-    span {
-      cursor: pointer;
-      font-weight: 600;
-    }
+    cursor: pointer;
+    font-weight: 600;
 
     &:hover {
       color: var(--cx-color-primary);
