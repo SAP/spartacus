@@ -6,15 +6,11 @@
       *ngIf="(customer$ | async) as customer; else showCustomerSelection"
     >
       <div>
-        {{ customer?.name }}
+        {{
+          'asm.customerEmulation'
+            | cxTranslate: { name: customer?.name, uid: customer?.uid }
+        }}
       </div>
-      <button
-        class="btn btn-block btn-secondary"
-        type="button"
-        (click)="stopCustomerEmulationSession()"
-      >
-        {{ 'asm.stopCustomerSession' | cxTranslate }}
-      </button>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection
