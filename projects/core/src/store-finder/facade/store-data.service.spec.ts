@@ -178,16 +178,4 @@ describe('StoreDataService', () => {
 
     expect(service.getStoreClosingTime(location, sunday)).toBe(null);
   });
-
-  it('should indiacte store as open', () => {
-    const saturday = new Date(2018, 8, 22, 14, 0);
-
-    expect(service.isStoreOpen(location, saturday)).toBe(true);
-  });
-
-  it('should indiacte store as closed on a closed day', () => {
-    const sunday = new Date(2018, 8, 23, 10, 0);
-
-    expect(service.isStoreOpen(location, sunday)).toBe(false);
-  });
 });
