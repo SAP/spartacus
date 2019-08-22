@@ -62,7 +62,7 @@ export class StoreFinderService {
    */
   viewAllStores() {
     const emptyQuery = {
-      queryText: ''
+      queryText: '',
     };
     this.clearWatchGeolocation(new StoreFinderActions.FindStores(emptyQuery));
   }
