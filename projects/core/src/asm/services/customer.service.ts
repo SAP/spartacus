@@ -7,7 +7,10 @@ import {
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { CustomerSearchPage, CustomerSearchOptions } from '../models/asm.models';
+import {
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '../models/asm.models';
 
 @Injectable({
   providedIn: 'root',

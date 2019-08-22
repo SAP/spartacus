@@ -1,5 +1,8 @@
 import { Action } from '@ngrx/store';
-import { CustomerSearchPage, CustomerSearchOptions } from '../../models/asm.models';
+import {
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '../../models/asm.models';
 
 export const CUSTOMER_SEARCH = '[Asm] Customer Search';
 export const CUSTOMER_SEARCH_FAIL = '[Asm] Customer Search Fail';
