@@ -18,8 +18,8 @@ class MockUrlPipe implements PipeTransform {
 
 const mockStoreFinderService = {
   viewAllStores: jasmine.createSpy(),
-  getViewAllStoresEntities: jasmine.createSpy(),
-  getViewAllStoresLoading: jasmine.createSpy(),
+  getStoresLoading: jasmine.createSpy(),
+  getFindStoresEntities: jasmine.createSpy(),
 };
 
 describe('StoreFinderStoresCountComponent', () => {
