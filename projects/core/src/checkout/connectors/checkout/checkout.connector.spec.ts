@@ -16,7 +16,7 @@ class MockOrderAdapter implements CheckoutAdapter {
   );
   clearCheckoutDeliveryAddress(): Observable<any> {
     return undefined;
-  };
+  }
   clearCheckoutDeliveryMode(): Observable<any> {
     return undefined;
   }
