@@ -28,7 +28,9 @@ export class RoutingMigrationService {
   addMigrationRoutes(): void {
     const router: Router = this.injector.get(Router);
     const migrationRoutes = this.getMigrationRoutes();
-    router.resetConfig([].concat(migrationRoutes, router.config));
+    if (migrationRoutes.length) {
+      router.resetConfig([].concat(migrationRoutes, router.config));
+    }
   }
 
   /**
@@ -84,13 +86,5 @@ export class RoutingMigrationService {
     }
 
     return true;
-  }
-
-  protected containsEmpty(array: string[]): boolean {
-    return array.findIndex(path => !path) !== -1;
-  }
-
-  protected filterNonEmpty(array: string[]): string[] {
-    return array.filter(path => Boolean(path));
   }
 }

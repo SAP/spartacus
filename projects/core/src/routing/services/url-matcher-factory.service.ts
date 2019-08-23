@@ -96,7 +96,7 @@ export class UrlMatcherFactoryService {
   }
 
   /**
-   * Returns URL matcher that accepts almost everything (like `**` route), but not paths are accepted by the given matcher
+   * Returns URL matcher that accepts almost everything (like `**` route), but not paths accepted by the given matcher
    */
   getOppositeUrlMatcher(matcher: UrlMatcher): UrlMatcher {
     const oppositeMatcher = function oppositeUrlMatcher(
