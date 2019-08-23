@@ -1,8 +1,13 @@
 export abstract class RoutingMigrationConfig {
   routing?: {
     migration?: {
-      type?: 'internal' | 'external';
+      type?: RoutingMigrationConfigType;
       paths?: string[];
     };
   };
+}
+
+export enum RoutingMigrationConfigType {
+  INTERNAL = 'internal',
+  EXTERNAL = 'external',
 }

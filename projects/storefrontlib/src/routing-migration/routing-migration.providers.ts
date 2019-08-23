@@ -1,8 +1,8 @@
+import { Routes } from '@angular/router';
 import { RoutingMigrationService } from './routing-migration.service';
 
-export function addMigrationRoutesFactory(service: RoutingMigrationService) {
-  const result = () => {
-    service.addMigrationRoutes();
-  };
-  return result;
+export function migrationRoutesFactory(
+  service: RoutingMigrationService
+): Routes {
+  return service.getMigrationRoutes();
 }

@@ -1,7 +1,10 @@
 import { Injectable, Injector, isDevMode } from '@angular/core';
-import { Router, Routes, UrlMatcher } from '@angular/router';
+import { Routes, UrlMatcher } from '@angular/router';
 import { UrlMatcherFactoryService } from '@spartacus/core';
-import { RoutingMigrationConfig } from './routing-migration-config';
+import {
+  RoutingMigrationConfig,
+  RoutingMigrationConfigType,
+} from './routing-migration-config';
 import { RoutingMigrationComponent } from './routing-migration.component';
 import { RoutingMigrationGuard } from './routing-migration.guard';
 
@@ -23,16 +26,10 @@ export class RoutingMigrationService {
     );
   }
 
-  addMigrationRoutes(): void {
-    const router: Router = this.injector.get(Router);
-    const migrationRoutes = this.getMigrationRoutes();
-    router.resetConfig([].concat(migrationRoutes, router.config));
-  }
-
   /**
    * Returns routes that are responsible for redirection to different storefront systems
    */
-  protected getMigrationRoutes(): Routes {
+  getMigrationRoutes(): Routes {
     if (!this.isConfigValid()) {
       return [];
     }
@@ -67,15 +64,14 @@ export class RoutingMigrationService {
   protected getUrlMatcher(paths: string[]): UrlMatcher {
     let matcher = this.matcherFactory.getMultiplePathsUrlMatcher(paths);
 
-    // When configured external paths: in case of match, perform redirect (activate guard), otherwise return null (pass on control)
-    // When configured internal paths: in case of match, pass on control (return null), otherwise perform redirect (activate guard)
+    // When configured EXTERNAL paths and URL matches one of them, we activate the redirect route
+    // When configured INTERNAL paths and URL matches one of them, we pass on control (return null), otherwise we activate the redirect route
     matcher =
-      this.migrationConfig.type === 'external'
+      this.migrationConfig.type === RoutingMigrationConfigType.EXTERNAL
         ? matcher
         : this.matcherFactory.getOppositeUrlMatcher(matcher);
 
-    // for easier debugging:
-    (matcher as any).paths = paths;
+    (matcher as any).paths = paths; // property added for easier debugging of routes
 
     return matcher;
   }
