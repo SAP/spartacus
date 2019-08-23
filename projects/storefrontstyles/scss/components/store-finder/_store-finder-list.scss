@@ -24,7 +24,7 @@
     height: 100%;
     @include media-breakpoint-up(md) {
       height: 100%;
-      overflow-y: scroll;
+      overflow-y: auto;
       padding: inherit inherit inherit 0;
     }
   }
@@ -86,7 +86,8 @@
   }
 
   .cx-back-wrapper {
-    margin-top: 0.5rem;
+    margin: 0.5rem 1rem;
+    min-width: 180px;
   }
 
   .cx-back {
