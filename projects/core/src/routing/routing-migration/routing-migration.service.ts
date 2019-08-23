@@ -1,5 +1,5 @@
 import { Injectable, Injector, isDevMode } from '@angular/core';
-import { Routes, UrlMatcher } from '@angular/router';
+import { Router, Routes, UrlMatcher } from '@angular/router';
 import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
 import {
   RoutingMigrationConfig,
@@ -25,34 +25,27 @@ export class RoutingMigrationService {
     );
   }
 
+  addMigrationRoutes(): void {
+    const router: Router = this.injector.get(Router);
+    const migrationRoutes = this.getMigrationRoutes();
+    router.resetConfig([].concat(migrationRoutes, router.config));
+  }
+
   /**
    * Returns routes that are responsible for redirection to different storefront systems
    */
-  getMigrationRoutes(): Routes {
+  protected getMigrationRoutes(): Routes {
     if (!this.isConfigValid()) {
       return [];
     }
     const routes: Routes = [];
 
-    if (this.containsEmpty(this.migrationConfig.paths)) {
-      // the empty path '' cannot be handled by multiplePathsUrlMatcher, so needs a separate route
-      routes.push({
-        pathMatch: 'full',
-        path: '',
-        canActivate: [RoutingMigrationGuard],
-        component: {} as any,
-      });
-    }
-
-    const paths = this.filterNonEmpty(this.migrationConfig.paths);
-    if (paths.length) {
-      routes.push({
-        pathMatch: 'full',
-        matcher: this.getUrlMatcher(paths),
-        canActivate: [RoutingMigrationGuard],
-        component: {} as any,
-      });
-    }
+    routes.push({
+      pathMatch: 'full',
+      matcher: this.getUrlMatcher(),
+      canActivate: [RoutingMigrationGuard],
+      component: {} as any,
+    });
 
     return routes;
   }
@@ -60,7 +53,8 @@ export class RoutingMigrationService {
   /**
    * Returns the URL matcher for the migration route
    */
-  protected getUrlMatcher(paths: string[]): UrlMatcher {
+  protected getUrlMatcher(): UrlMatcher {
+    const paths = this.migrationConfig.paths;
     let matcher = this.matcherFactory.getMultiplePathsUrlMatcher(paths);
 
     // When configured EXTERNAL paths and URL matches one of them, we activate the redirect route

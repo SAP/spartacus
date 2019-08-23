@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { ROUTES } from '@angular/router';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { Config } from '../../config/config.module';
 import { RoutingMigrationConfig } from './routing-migration-config';
-import { migrationRoutesFactory } from './routing-migration.providers';
+import { addMigrationRoutesFactory } from './routing-migration.providers';
 import { RoutingMigrationService } from './routing-migration.service';
 
 @NgModule({
@@ -10,9 +9,9 @@ import { RoutingMigrationService } from './routing-migration.service';
     RoutingMigrationService,
     { provide: RoutingMigrationConfig, useExisting: Config },
     {
-      provide: ROUTES,
+      provide: APP_INITIALIZER,
       multi: true,
-      useFactory: migrationRoutesFactory,
+      useFactory: addMigrationRoutesFactory,
       deps: [RoutingMigrationService],
     },
   ],
