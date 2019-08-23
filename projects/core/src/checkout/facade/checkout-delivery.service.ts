@@ -69,46 +69,70 @@ export class CheckoutDeliveryService {
     return this.store.pipe(select(CheckoutSelectors.getDeliveryAddress));
   }
 
+  /**
+   * Get status about successfully set Delivery Address
+   */
   getSetDeliveryAddressResultSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
     );
   }
 
+  /**
+   * Get status about the failure of set Delivery Address process
+   */
   getSetDeliveryAddressResultError(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessErrorFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
     );
   }
 
+  /**
+   * Get status about the processing of set Delivery Address
+   */
   getSetDeliveryAddressResultLoading(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessLoadingFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
     );
   }
 
+  /**
+   * Clear info about process of setting Delivery Address
+   */
   resetSetDeliveryAddressProcess(): void {
     this.store.dispatch(new CheckoutActions.ResetSetDeliveryAddressProcess());
   }
 
+  /**
+   * Get status about the failure of set Delivery Mode process
+   */
   getSetDeliveryModeResultSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(SET_DELIVERY_MODE_PROCESS_ID))
     );
   }
 
+  /**
+   * Get status about the failure of set Delivery Mode process
+   */
   getSetDeliveryModeResultError(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessErrorFactory(SET_DELIVERY_MODE_PROCESS_ID))
     );
   }
 
+  /**
+   * Clear info about process of setting Delivery Mode
+   */
   getSetDeliveryModeResultLoading(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessLoadingFactory(SET_DELIVERY_MODE_PROCESS_ID))
     );
   }
 
+  /**
+   * Clear info about process of setting Delivery Mode
+   */
   resetSetDeliveryModeProcess(): void {
     this.store.dispatch(new CheckoutActions.ResetSetDeliveryModeProcess());
   }
@@ -207,6 +231,9 @@ export class CheckoutDeliveryService {
     this.store.dispatch(new CheckoutActions.ClearAddressVerificationResults());
   }
 
+  /**
+   * Clear address already setup in last checkout process
+   */
   clearCheckoutDeliveryAddress(): void {
     this.store.dispatch(
       new CheckoutActions.ClearCheckoutDeliveryAddress({
@@ -216,6 +243,9 @@ export class CheckoutDeliveryService {
     );
   }
 
+  /**
+   * Clear delivery mode setup in last checkout process
+   */
   clearCheckoutDeliveryMode(): void {
     this.store.dispatch(
       new CheckoutActions.ClearCheckoutDeliveryMode({
@@ -225,6 +255,9 @@ export class CheckoutDeliveryService {
     );
   }
 
+  /**
+   * Clear address and delivery mode already setup in last checkout process
+   */
   clearCheckoutDeliveryDetails(): void {
     this.clearCheckoutDeliveryAddress();
     this.clearCheckoutDeliveryMode();
