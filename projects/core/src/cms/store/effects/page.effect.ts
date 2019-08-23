@@ -30,7 +30,6 @@ export class PageEffects {
     ),
     switchMap(_ =>
       this.routingService.getRouterState().pipe(
-        take(1),
         filter(
           routerState =>
             routerState &&
@@ -38,6 +37,7 @@ export class PageEffects {
             routerState.state.cmsRequired &&
             !routerState.nextState
         ),
+        take(1),
         map(routerState => routerState.state.context),
         mergeMap(context => of(new CmsActions.LoadCmsPageData(context)))
       )
