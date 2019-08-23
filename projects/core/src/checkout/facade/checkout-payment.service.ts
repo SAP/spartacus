@@ -42,24 +42,36 @@ export class CheckoutPaymentService {
     return this.store.pipe(select(CheckoutSelectors.getPaymentDetails));
   }
 
+  /**
+   * Get status about successfully set Payment Details
+   */
   getSetPaymentDetailsResultSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
     );
   }
 
+  /**
+   * Get status about the failure of set Payment Details process
+   */
   getSetPaymentDetailsResultError(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessErrorFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
     );
   }
 
+  /**
+   * Get status about the processing of set Payment Details
+   */
   getSetPaymentDetailsResultLoading(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessLoadingFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
     );
   }
 
+  /**
+   * Clear info about process of setting Payment Details
+   */
   resetSetPaymentDetailsProcess(): void {
     this.store.dispatch(new CheckoutActions.ResetSetPaymentDetailsProcess());
   }
