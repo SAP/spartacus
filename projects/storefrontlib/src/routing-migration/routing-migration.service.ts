@@ -5,7 +5,6 @@ import {
   RoutingMigrationConfig,
   RoutingMigrationConfigType,
 } from './routing-migration-config';
-import { RoutingMigrationComponent } from './routing-migration.component';
 import { RoutingMigrationGuard } from './routing-migration.guard';
 
 /**
@@ -41,7 +40,7 @@ export class RoutingMigrationService {
         pathMatch: 'full',
         path: '',
         canActivate: [RoutingMigrationGuard],
-        component: RoutingMigrationComponent,
+        component: {} as any,
       });
     }
 
@@ -51,7 +50,7 @@ export class RoutingMigrationService {
         pathMatch: 'full',
         matcher: this.getUrlMatcher(paths),
         canActivate: [RoutingMigrationGuard],
-        component: RoutingMigrationComponent,
+        component: {} as any,
       });
     }
 
