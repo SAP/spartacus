@@ -51,7 +51,7 @@ class MockCheckoutPaymentService {
 
 class MockCartService {
   getActive(): Observable<Cart> {
-    return of({ code: cartId, guid: 'guid' });
+    return of({ code: cartId, guid: 'guid', user: { uid: 'test-user' } });
   }
   isGuestCart(): Boolean {
     return false;

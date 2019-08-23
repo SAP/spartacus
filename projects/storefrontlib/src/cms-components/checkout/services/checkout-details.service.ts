@@ -34,7 +34,7 @@ export class CheckoutDetailsService {
     this.cartId$ = this.cartService.getActive().pipe(
       map(cartData => {
         if (
-          cartData.user.uid === ANONYMOUS_USERID ||
+          (cartData.user && cartData.user.uid === ANONYMOUS_USERID) ||
           this.cartService.isGuestCart()
         ) {
           return cartData.guid;
