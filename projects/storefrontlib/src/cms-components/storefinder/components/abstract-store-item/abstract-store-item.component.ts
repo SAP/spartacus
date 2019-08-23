@@ -28,4 +28,8 @@ export class AbstractStoreItemComponent {
       this.current_date
     );
   }
+
+  getFormattedStoreAddress(addressParts: string[]): string {
+    return addressParts.filter(Boolean).join(', ');
+  }
 }
