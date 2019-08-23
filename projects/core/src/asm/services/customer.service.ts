@@ -7,6 +7,7 @@ import {
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { AsmConfig } from '../config/asm-config';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -20,6 +21,7 @@ export class CustomerService {
 
   constructor(
     protected http: HttpClient,
+    protected config: AsmConfig,
     protected baseSiteService: BaseSiteService
   ) {
     this.baseSiteService
@@ -38,7 +40,9 @@ export class CustomerService {
       .set('baseSite', this.activeBaseSite)
       .set('query', options.query);
 
-    const url = '/assistedservicewebservices/customers/search';
+    const url =
+      this.config.backend.occ.baseUrl +
+      '/assistedservicewebservices/customers/search';
     return this.http
       .get<CustomerSearchPage>(url, { headers, params })
       .pipe(catchError((error: any) => throwError(error)));
