@@ -8,11 +8,20 @@ import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { User } from '../../model/misc.model';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { AsmConfig } from '../config/asm-config';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
 import { CustomerService } from './customer.service';
+
+const MockAsmConfig: AsmConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+    },
+  },
+};
 
 const mockUser: User = {
   displayUid: 'Display Uid',
@@ -44,6 +53,7 @@ describe('CustomerService', () => {
       providers: [
         CustomerService,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
+        { provide: AsmConfig, useValue: MockAsmConfig },
       ],
     });
 
