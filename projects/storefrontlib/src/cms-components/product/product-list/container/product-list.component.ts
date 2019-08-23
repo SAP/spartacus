@@ -131,6 +131,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.scrollPage(pageNumber);
   }
 
+  scrollToTop(): void {
+    window.scroll(0, 0);
+  }
+
   private setComponentConfigurations(): void {
     this.isInfiniteScroll = this.scrollConfig.view.infiniteScroll.active;
 
@@ -197,10 +201,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
       }
     }
     return false;
-  }
-
-  private scrollToTop(): void {
-    window.scroll(0, 0);
   }
 
   ngOnDestroy(): void {
