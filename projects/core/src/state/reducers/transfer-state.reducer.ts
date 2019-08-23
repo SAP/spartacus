@@ -53,7 +53,7 @@ export function getServerTransferStateReducer(
     return function(state, action: any) {
       const newState = reducer(state, action);
       if (newState) {
-        const stateSlice = getStateSlice(transferStateKeys, newState);
+        const stateSlice = getStateSlice(transferStateKeys, [], newState);
         transferState.set(CX_KEY, stateSlice);
       }
 
@@ -85,7 +85,11 @@ export function getBrowserTransferStateReducer(
 
         if (!isLoggedIn && transferState.hasKey(CX_KEY)) {
           const cxKey = transferState.get(CX_KEY, {});
-          const transferredStateSlice = getStateSlice(transferStateKeys, cxKey);
+          const transferredStateSlice = getStateSlice(
+            transferStateKeys,
+            [],
+            cxKey
+          );
 
           state = deepMerge({}, state, transferredStateSlice);
         }
