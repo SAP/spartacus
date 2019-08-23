@@ -7,6 +7,7 @@ import {
   OccConfig,
   PersonalizationConfig,
   RoutingConfig,
+  RoutingMigrationConfig,
   SiteContextConfig,
   StateConfig,
 } from '@spartacus/core';
@@ -15,7 +16,6 @@ import { IconConfig } from './cms-components/misc/icon/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { FeatureToggles } from './feature-toggles';
 import { LayoutConfig } from './layout/config/layout-config';
-import { RoutingMigrationConfig } from './routing-migration/routing-migration-config';
 
 export type StorefrontConfig =
   | AuthConfig

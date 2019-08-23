@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ROUTES } from '@angular/router';
-import { Config } from '@spartacus/core';
+import { Config } from '../../config/config.module';
 import { RoutingMigrationConfig } from './routing-migration-config';
 import { migrationRoutesFactory } from './routing-migration.providers';
 import { RoutingMigrationService } from './routing-migration.service';

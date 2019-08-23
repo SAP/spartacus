@@ -1,6 +1,6 @@
 import { Injectable, Injector, isDevMode } from '@angular/core';
 import { Routes, UrlMatcher } from '@angular/router';
-import { UrlMatcherFactoryService } from '@spartacus/core';
+import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
 import {
   RoutingMigrationConfig,
   RoutingMigrationConfigType,
