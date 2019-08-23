@@ -10,7 +10,7 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 export class CheckoutDetailsLoadedGuard implements CanActivate {
   constructor(private checkoutDetailsService: CheckoutDetailsService) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<boolean> {
     return this.checkoutDetailsService.getCheckoutDetailsLoaded$;
   }
 }
