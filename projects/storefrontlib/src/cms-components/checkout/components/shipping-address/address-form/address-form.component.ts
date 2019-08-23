@@ -159,7 +159,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       });
 
-    if (this.addressData) {
+    if (this.addressData && Object.keys(this.addressData).length !== 0) {
       this.address.patchValue(this.addressData);
 
       this.countrySelected(this.addressData.country);

@@ -72,6 +72,7 @@
         <cx-address-form
           [showTitleCode]="true"
           [setAsDefaultField]="!isGuestCheckout"
+          [addressData]="setAddress"
           cancelBtnLabel="{{ 'checkout.backToCart' | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
           (submitAddress)="addNewAddress($event)"
