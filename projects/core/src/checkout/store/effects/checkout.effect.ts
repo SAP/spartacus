@@ -187,10 +187,16 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
-          mergeMap(details => [
-            new UserActions.LoadUserPaymentMethods(payload.userId),
-            new CheckoutActions.CreatePaymentDetailsSuccess(details),
-          ]),
+          mergeMap(details => {
+            if (payload.userId === ANONYMOUS_USERID) {
+              return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
+            } else {
+              return [
+                new UserActions.LoadUserPaymentMethods(payload.userId),
+                new CheckoutActions.CreatePaymentDetailsSuccess(details),
+              ];
+            }
+          }),
           catchError(error =>
             of(
               new CheckoutActions.CreatePaymentDetailsFail(
