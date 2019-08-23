@@ -29,7 +29,7 @@ export class AbstractStoreItemComponent {
     );
   }
 
-  protected getFormattedStoreAddress(addressParts: string[]): string {
+  getFormattedStoreAddress(addressParts: string[]): string {
     return addressParts.filter(Boolean).join(', ');
   }
 }
