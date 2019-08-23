@@ -10,7 +10,7 @@ export interface UrlTreeWithSiteContext extends UrlTree {
   siteContext?: ParamValuesMap;
 }
 
-const UrlSplit = /(^[^;#?]*)(.*)/; // used to split url into path and query/fragment parts
+const UrlSplit = /(^[^#?]*)(.*)/; // used to split url into path and query/fragment parts
 
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
