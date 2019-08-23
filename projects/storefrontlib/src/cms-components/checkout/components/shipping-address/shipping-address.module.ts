@@ -10,6 +10,7 @@ import { CheckoutProgressMobileBottomModule } from '../checkout-progress/checkou
 import { CheckoutProgressMobileTopModule } from '../checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { AddressFormModule } from './address-form/address-form.module';
+import { CheckoutDetailsLoadedGuard } from '../../guards/checkout-details-loaded.guard';
 import { ShippingAddressComponent } from './shipping-address.component';
 
 @NgModule({
@@ -26,7 +27,11 @@ import { ShippingAddressComponent } from './shipping-address.component';
       cmsComponents: {
         CheckoutShippingAddress: {
           component: ShippingAddressComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [
+            CheckoutAuthGuard,
+            CartNotEmptyGuard,
+            CheckoutDetailsLoadedGuard,
+          ],
         },
       },
     }),
