@@ -39,14 +39,29 @@ export class UrlMatcherFactoryService {
     return matcher;
   }
 
-  // Similar to Angular's defaultUrlMatcher. The difference is that `path` comes from function's argument, not from `route.path`
+  /**
+   * Similar to Angular's defaultUrlMatcher. Differences:
+   * - the `path` comes from function's argument, not from `route.path`
+   * - the empty path `''` is handled here, but in Angular is handled one level higher in the match() function
+   */
   protected getPathUrlMatcher(path: string = ''): UrlMatcher {
     return (
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route
     ): UrlMatchResult | null => {
-      const parts = path.split('/');
+      // use function's argument, not the `route.path`
+      if (path === '') {
+        if (
+          route.pathMatch === 'full' &&
+          (segmentGroup.hasChildren() || segments.length > 0)
+        ) {
+          return null;
+        }
+        return { consumed: [], posParams: {} };
+      }
+
+      const parts = path.split('/'); // use function's argument, not the `route.path`
 
       if (parts.length > segments.length) {
         // The actual URL is shorter than the config, no match
