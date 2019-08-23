@@ -16,6 +16,7 @@ import {
   RoutingService,
   TranslationService,
   UserPaymentService,
+  CartService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -35,6 +36,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   selectedPayment: PaymentDetails;
   allowRouting: boolean;
+  isGuestCheckout = false;
 
   private getPaymentDetailsSub: Subscription;
 
@@ -45,6 +47,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
+    protected cartService: CartService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
@@ -57,7 +60,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.allowRouting = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
-    this.userPaymentService.loadPaymentMethods();
+
+    if (!this.cartService.isGuestCart()) {
+      this.userPaymentService.loadPaymentMethods();
+    } else {
+      this.isGuestCheckout = true;
+    }
 
     this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
       this.activatedRoute

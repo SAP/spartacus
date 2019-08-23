@@ -73,6 +73,8 @@ export class CheckoutPaymentService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    return (
+      this.cartData.userId !== ANONYMOUS_USERID || this.cartData.isGuestCart
+    );
   }
 }

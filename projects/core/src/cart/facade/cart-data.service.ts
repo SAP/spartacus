@@ -53,6 +53,14 @@ export class CartDataService {
   }
 
   get isGuestCart(): boolean {
-    return this.cart.user && this.cart.user.name === GUEST_NAME;
+    return (
+      this.cart.user &&
+      (this.cart.user.name === GUEST_NAME ||
+        this.isEmail(this.cart.user.uid.split('|')[1]))
+    );
+  }
+
+  private isEmail(str: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
   }
 }
