@@ -51,10 +51,6 @@
 
   .cx-feature-value {
     color: var(--cx-color-primary);
-
-    @include media-breakpoint-down(md) {
-      margin: 5px 0;
-    }
   }
 
   .cx-feature-item {
