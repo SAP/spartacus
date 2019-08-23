@@ -1,9 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
+
 import { CheckoutAdapter } from './checkout.adapter';
 import { CheckoutConnector } from './checkout.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements CheckoutAdapter {
@@ -13,6 +14,12 @@ class MockOrderAdapter implements CheckoutAdapter {
   loadCheckoutDetails = createSpy().and.callFake((user, cart) =>
     of('loadCheckoutDetails' + user + cart)
   );
+  clearCheckoutDeliveryAddress(): Observable<any> {
+    return undefined;
+  }
+  clearCheckoutDeliveryMode(): Observable<any> {
+    return undefined;
+  }
 }
 
 describe('OrderConnector', () => {

@@ -1,8 +1,14 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+
+import {
+  Address,
+  CheckoutDeliveryService,
+  User,
+  UserAddressService,
+} from '@spartacus/core';
 import { AddressBookComponentService } from './address-book.component.service';
 
 const mockAddresses: Address[] = [
@@ -38,6 +44,10 @@ class MockUserAddressService {
   }
 }
 
+class MockCheckoutDeliveryService {
+  clearCheckoutDeliveryDetails() {}
+}
+
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
 
@@ -48,6 +58,10 @@ describe('AddressBookComponentService', () => {
         {
           provide: UserAddressService,
           useClass: MockUserAddressService,
+        },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
         },
       ],
     });

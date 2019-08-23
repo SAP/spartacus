@@ -2,6 +2,7 @@ import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { CheckoutActions } from '../actions/index';
+import { PROCESS_FEATURE, StateEntityLoaderActions } from '@spartacus/core';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -77,6 +78,10 @@ describe('Checkout Actions', () => {
       expect({ ...action }).toEqual({
         type: CheckoutActions.SET_DELIVERY_ADDRESS,
         payload: payload,
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          'setDeliveryAddress'
+        ),
       });
     });
   });
@@ -89,6 +94,11 @@ describe('Checkout Actions', () => {
       expect({ ...action }).toEqual({
         type: CheckoutActions.SET_DELIVERY_ADDRESS_FAIL,
         payload: error,
+        meta: StateEntityLoaderActions.entityFailMeta(
+          PROCESS_FEATURE,
+          'setDeliveryAddress',
+          'anError'
+        ),
       });
     });
   });
@@ -99,6 +109,10 @@ describe('Checkout Actions', () => {
       expect({ ...action }).toEqual({
         type: CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS,
         payload: address,
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          PROCESS_FEATURE,
+          'setDeliveryAddress'
+        ),
       });
     });
   });
@@ -159,6 +173,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_DELIVERY_MODE,
           payload: payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            PROCESS_FEATURE,
+            'setDeliveryMode'
+          ),
         });
       });
     });
@@ -171,6 +189,11 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_DELIVERY_MODE_FAIL,
           payload: error,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            PROCESS_FEATURE,
+            'setDeliveryMode',
+            'anError'
+          ),
         });
       });
     });
@@ -183,6 +206,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_DELIVERY_MODE_SUCCESS,
           payload: selectedModeId,
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            PROCESS_FEATURE,
+            'setDeliveryMode'
+          ),
         });
       });
     });
@@ -243,6 +270,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_PAYMENT_DETAILS,
           payload: payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            PROCESS_FEATURE,
+            'setPaymentDetails'
+          ),
         });
       });
     });
@@ -255,6 +286,11 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_PAYMENT_DETAILS_FAIL,
           payload: error,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            PROCESS_FEATURE,
+            'setPaymentDetails',
+            'anError'
+          ),
         });
       });
     });
@@ -267,6 +303,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS,
           payload: paymentDetails,
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            PROCESS_FEATURE,
+            'setPaymentDetails'
+          ),
         });
       });
     });

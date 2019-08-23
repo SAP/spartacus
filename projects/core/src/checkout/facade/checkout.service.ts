@@ -13,7 +13,7 @@ import { CheckoutSelectors } from '../store/selectors/index';
 @Injectable()
 export class CheckoutService {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
+    protected store: Store<StateWithCheckout>,
     protected cartData: CartDataService
   ) {}
 
@@ -22,7 +22,7 @@ export class CheckoutService {
    */
   placeOrder(): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
+      this.store.dispatch(
         new CheckoutActions.PlaceOrder({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
@@ -35,7 +35,7 @@ export class CheckoutService {
    * Clear checkout data
    */
   clearCheckoutData(): void {
-    this.checkoutStore.dispatch(new CheckoutActions.ClearCheckoutData());
+    this.store.dispatch(new CheckoutActions.ClearCheckoutData());
   }
 
   /**
@@ -43,13 +43,11 @@ export class CheckoutService {
    * @param stepNumber : the step number to be cleared
    */
   clearCheckoutStep(stepNumber: number): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ClearCheckoutStep(stepNumber)
-    );
+    this.store.dispatch(new CheckoutActions.ClearCheckoutStep(stepNumber));
   }
 
   loadCheckoutDetails(cartId: string) {
-    this.checkoutStore.dispatch(
+    this.store.dispatch(
       new CheckoutActions.LoadCheckoutDetails({
         userId: this.cartData.userId,
         cartId,
@@ -58,18 +56,14 @@ export class CheckoutService {
   }
 
   getCheckoutDetailsLoaded(): Observable<boolean> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getCheckoutDetailsLoaded)
-    );
+    return this.store.pipe(select(CheckoutSelectors.getCheckoutDetailsLoaded));
   }
 
   /**
    * Get order details
    */
   getOrderDetails(): Observable<Order> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getCheckoutOrderDetails)
-    );
+    return this.store.pipe(select(CheckoutSelectors.getCheckoutOrderDetails));
   }
 
   protected actionAllowed(): boolean {
