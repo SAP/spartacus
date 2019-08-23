@@ -16,8 +16,8 @@ export class AsmService {
   constructor(protected store: Store<StateWithAsm>) {}
 
   /**
-   * search for customers
-   * @param searchTerm
+   * Search for customers
+   * @param options
    */
   customerSearch(options: CustomerSearchOptions): void {
     this.store.dispatch(new AsmActions.CustomerSearch(options));

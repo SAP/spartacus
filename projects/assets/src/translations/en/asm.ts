@@ -21,7 +21,7 @@ export const asm = {
         required: 'Customer Email Address is required',
       },
       submit: 'Start Customer Session',
-      noHit: 'No customer match for "{{uid}}"',
+      noMatch: 'No customer match for "{{uid}}"',
     },
     customerEmulation: 'ASM - Supporting customer: {{name}} ({{uid}})',
   },

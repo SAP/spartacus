@@ -55,7 +55,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       } else {
         this.globalMessageService.add(
           {
-            key: 'asm.customerSearch.noHit',
+            key: 'asm.customerSearch.noMatch',
             params: { uid: this.form.controls.searchTerm.value },
           },
           GlobalMessageType.MSG_TYPE_ERROR
