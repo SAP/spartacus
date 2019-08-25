@@ -68,6 +68,15 @@ export class ProductScrollComponent implements OnDestroy {
     window.scroll(0, 0);
   }
 
+  private setComponentConfigurations(scrollConfig: ViewConfig): void {
+    const isButton = scrollConfig.view.infiniteScroll.showMoreButton;
+    const configProductLimit = scrollConfig.view.infiniteScroll.productLimit;
+
+    //Display "show more" button every time when button configuration is true
+    //Otherwise, only display "show more" when the configuration product limit is reached
+    this.productLimit = isButton ? 1 : configProductLimit;
+  }
+
   private infiniteScrollOperations(inputModel: ProductSearchPage): void {
     if (this.isSamePage(inputModel)) {
       return;
@@ -90,15 +99,6 @@ export class ProductScrollComponent implements OnDestroy {
     this.scrollToTop();
     this.resetList = true;
     this.productListComponentService.getPageItems(0);
-  }
-
-  private setComponentConfigurations(scrollConfig: ViewConfig): void {
-    const isButton = scrollConfig.view.infiniteScroll.showMoreButton;
-    const configProductLimit = scrollConfig.view.infiniteScroll.productLimit;
-
-    //Display "show more" button every time when button configuration is true
-    //Otherwise, only display "show more" when the configuration product limit is reached
-    this.productLimit = isButton ? 1 : configProductLimit;
   }
 
   //Set booleans after model has been retrieved
@@ -138,6 +138,8 @@ export class ProductScrollComponent implements OnDestroy {
     if (
       !this.resetList &&
       this.model &&
+      this.model.breadcrumbs &&
+      inputModel.breadcrumbs &&
       this.model.breadcrumbs.length > 0 &&
       inputModel.breadcrumbs.length > 0
     ) {
