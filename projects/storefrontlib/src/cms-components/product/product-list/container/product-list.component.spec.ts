@@ -1,18 +1,9 @@
-import {
-  Component,
-  Input,
-  Pipe,
-  PipeTransform,
-  Type,
-  DebugElement,
-} from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
 import {
@@ -20,7 +11,6 @@ import {
   MediaComponent,
   SpinnerModule,
 } from '../../../../shared';
-import { ViewConfig } from '../../config/view-config';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -30,98 +20,17 @@ import {
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
-import { ICON_TYPE } from '../../..';
-
-const mockModel1: ProductSearchPage = {
-  breadcrumbs: [
-    {
-      facetCode: 'mock',
-      facetName: 'Mock',
-      facetValueCode: 'mockValueCode',
-      removeQuery: {
-        query: {
-          value: 'relevance',
-        },
-      },
-    },
-  ],
-  pagination: {
-    currentPage: 0,
-    totalPages: 2,
-  },
-  products: [{ averageRating: 3, code: 'mockCode1-1', name: 'mockName1-1' }],
-};
-
-const mockModel1Page2: ProductSearchPage = {
-  breadcrumbs: [
-    {
-      facetCode: 'mock',
-      facetName: 'Mock',
-      facetValueCode: 'mockValueCode',
-      removeQuery: {
-        query: {
-          value: 'relevance',
-        },
-      },
-    },
-  ],
-  pagination: {
-    currentPage: 1,
-    totalPages: 3,
-  },
-  products: [{ averageRating: 2, code: 'mockCode2-1', name: 'mockName2-1' }],
-};
-
-const mockModel1Page3: ProductSearchPage = {
-  breadcrumbs: [
-    {
-      facetCode: 'mock',
-      facetName: 'Mock',
-      facetValueCode: 'mockValueCode',
-      removeQuery: {
-        query: {
-          value: 'relevance',
-        },
-      },
-    },
-  ],
-  pagination: {
-    currentPage: 2,
-    totalPages: 3,
-  },
-  products: [{ averageRating: 4, code: 'mockCode3-1', name: 'mockName3-1' }],
-};
-
-const mockModel2: ProductSearchPage = {
-  breadcrumbs: [
-    {
-      facetCode: 'mock2',
-      facetName: 'Mock2',
-      facetValueCode: 'mockValueCode2',
-      removeQuery: {
-        query: {
-          value: 'relevance',
-        },
-      },
-    },
-  ],
-  pagination: {
-    currentPage: 0,
-    totalPages: 1,
-  },
-  products: [],
-};
-
-const backToTopBtn = ' productList.backToTopBtn ';
-const showMoreBtn = ' productList.showMoreBtn ';
+import { ProductScrollComponent } from './product-scroll/product-scroll.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ViewConfig } from '../../config/view-config';
 
 @Component({
   selector: 'cx-star-rating',
   template: '',
 })
 class MockStarRatingComponent {
-  @Input() rating: number;
-  @Input() disabled: boolean;
+  @Input() rating;
+  @Input() disabled;
 }
 
 class MockPageLayoutService {
@@ -139,7 +48,7 @@ class MockPageLayoutService {
 })
 class MockProductListItemComponent {
   @Input()
-  product: any;
+  product;
 }
 
 @Pipe({
@@ -154,7 +63,7 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 export class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  @Input() type;
 }
 
 @Component({
@@ -162,8 +71,8 @@ export class MockCxIconComponent {
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode: string;
-  @Input() showQuantity: boolean;
+  @Input() productCode;
+  @Input() showQuantity;
 }
 
 export class MockProductListComponentService {
@@ -171,20 +80,15 @@ export class MockProductListComponentService {
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
   clearSearchResults = createSpy('clearSearchResults');
-  getPageItems = createSpy('getPageItems');
-  model$ = createSpy('model$');
+  model$ = of({});
 }
 
-let isMockInfiniteScroll: boolean;
-let isMockButton: boolean;
-let mockLimit: number;
-
-export class MockPaginationConfig {
+export class MockViewConfig {
   view = {
     infiniteScroll: {
-      active: isMockInfiniteScroll,
-      productLimit: mockLimit,
-      showMoreButton: isMockButton,
+      active: true,
+      productLimit: 0,
+      showMoreButton: false,
     },
   };
 }
@@ -193,7 +97,6 @@ describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   let componentService: ProductListComponentService;
-  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -217,7 +120,7 @@ describe('ProductListComponent', () => {
         },
         {
           provide: ViewConfig,
-          useClass: MockPaginationConfig,
+          useClass: MockViewConfig,
         },
       ],
       declarations: [
@@ -231,6 +134,7 @@ describe('ProductListComponent', () => {
         MockProductListItemComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        ProductScrollComponent,
       ],
     }).compileComponents();
   }));
@@ -238,7 +142,6 @@ describe('ProductListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
-    el = fixture.debugElement;
     componentService = TestBed.get(ProductListComponentService as Type<
       ProductListComponentService
     >);
@@ -246,6 +149,23 @@ describe('ProductListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      component.ngOnInit();
+    });
+    it('should clear search results', () => {
+      expect(componentService.clearSearchResults).toHaveBeenCalled();
+    });
+
+    it('should get model from the service', () => {
+      expect(component.model$).toBe(componentService.model$);
+    });
+
+    it('should use infinite scroll when config setting is active', () => {
+      expect(component.isInfiniteScroll).toEqual(true);
+    });
   });
 
   it('viewPage should call service.viewPage', () => {
@@ -265,197 +185,4 @@ describe('ProductListComponent', () => {
     component.setViewMode(ViewModes.Grid);
     expect(component.viewMode$.value).toBe(ViewModes.Grid);
   });
-
-  describe('component using pagination', () => {
-    beforeAll(() => {
-      isMockInfiniteScroll = false;
-    });
-
-    describe('ngOnInit', () => {
-      beforeEach(() => {
-        SpyOnModelAndReturn(mockModel1);
-        component.ngOnInit();
-      });
-
-      it('should not use infinite scroll', () => {
-        expect(component.isInfiniteScroll).toBeFalsy();
-      });
-
-      it('should clear search results', () => {
-        expect(componentService.clearSearchResults).toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('component using infinite scroll', () => {
-    beforeAll(() => {
-      isMockInfiniteScroll = true;
-    });
-
-    describe('ngOnInit', () => {
-      beforeEach(() => {
-        SpyOnModelAndReturn(mockModel1);
-        component.ngOnInit();
-      });
-
-      it('should use infinite scroll', () => {
-        expect(component.isInfiniteScroll).toBeTruthy();
-      });
-    });
-
-    describe('functions', () => {
-      it('should append product when appendProducts is true', () => {
-        component.model = mockModel1;
-
-        component.appendProducts = true;
-        component.infiniteScrollOperations(mockModel1Page2);
-
-        const totalLength =
-          mockModel1.products.length + mockModel1Page2.products.length;
-
-        expect(component.model.products.length).toEqual(totalLength);
-        expect(component.model.products).toContain(
-          jasmine.objectContaining(mockModel1.products[0])
-        );
-        expect(component.model.products).toContain(
-          jasmine.objectContaining(mockModel1Page2.products[0])
-        );
-      });
-
-      it('should replace products when appendProducts is false', () => {
-        SpyOnModelAndReturn(mockModel1Page2);
-        component.model = mockModel1;
-        component.infiniteScrollOperations(mockModel1Page2);
-
-        expect(component.model).toEqual(mockModel1Page2);
-      });
-
-      it('isEmpty should be true when there are no products', () => {
-        //mockModel2 is a model that contains no products
-        SpyOnModelAndReturn(mockModel2);
-        component.ngOnInit();
-
-        expect(component.isEmpty).toBeTruthy();
-      });
-
-      it('isLastPage should be true when there are no more pages', () => {
-        SpyOnModelAndReturn(mockModel1Page3);
-        component.ngOnInit();
-
-        expect(component.isLastPage).toBeTruthy();
-      });
-
-      it('setViewMode should call service.getPageItems', () => {
-        component.isInfiniteScroll = true;
-        component.setViewMode(ViewModes.Grid);
-
-        expect(componentService.getPageItems).toHaveBeenCalledWith(0);
-      });
-    });
-
-    describe('with limit', () => {
-      beforeAll(() => {
-        mockLimit = 2;
-      });
-
-      it('should NOT display buttons when limit is not reached', () => {
-        SpyOnModelAndReturn(mockModel1);
-
-        component.ngOnInit();
-        expect(component.productLimit).toEqual(2);
-        expect(mockModel1.products.length).toEqual(1);
-        expect(component.isMaxProducts).toBeFalsy();
-
-        fixture.detectChanges();
-
-        expect(el.query(By.css('.btn-action'))).toBeNull();
-      });
-
-      it('should display buttons when limit is reached', () => {
-        SpyOnModelAndReturn(mockModel1);
-
-        component.ngOnInit();
-        expect(component.productLimit).toEqual(2);
-        expect(component.model.products.length).toEqual(1);
-        expect(component.isMaxProducts).toBeFalsy();
-        expect(component.isLastPage).toBeFalsy();
-
-        component.appendProducts = true;
-        SpyOnModelAndReturn(mockModel1Page2);
-
-        fixture.detectChanges();
-
-        expect(component.productLimit).toEqual(2);
-        expect(component.model.products.length).toEqual(2);
-        expect(component.isMaxProducts).toBeTruthy();
-        expect(component.isLastPage).toBeFalsy();
-
-        const buttons = el.queryAll(By.css('.btn-action'));
-        expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
-        expect(buttons[1].nativeElement.innerHTML).toEqual(showMoreBtn);
-      });
-
-      it('productLimit should be set to mockLimit value', () => {
-        SpyOnModelAndReturn(mockModel1);
-        component.ngOnInit();
-
-        expect(component.productLimit).toEqual(mockLimit);
-      });
-    });
-
-    describe('with button', () => {
-      beforeAll(() => {
-        isMockButton = true;
-      });
-
-      it('should display "show more" and "back to top" buttons when there are additional pages', () => {
-        SpyOnModelAndReturn(mockModel1Page2);
-
-        expect(mockModel1.pagination.currentPage).not.toEqual(
-          mockModel1.pagination.totalPages - 1
-        );
-
-        component.ngOnInit();
-
-        expect(component.isMaxProducts).toBeTruthy();
-        expect(component.isLastPage).toBeFalsy();
-
-        fixture.detectChanges();
-
-        const buttons = el.queryAll(By.css('.btn-action'));
-        expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
-        expect(buttons[1].nativeElement.innerHTML).toEqual(showMoreBtn);
-      });
-
-      it('should NOT display "show more" button when there are no addtional pages', () => {
-        SpyOnModelAndReturn(mockModel1Page3);
-
-        expect(mockModel1Page3.pagination.currentPage).toEqual(
-          mockModel1Page3.pagination.totalPages - 1
-        );
-
-        component.ngOnInit();
-
-        expect(component.isMaxProducts).toBeTruthy();
-        expect(component.isLastPage).toBeTruthy();
-
-        fixture.detectChanges();
-
-        const buttons = el.queryAll(By.css('.btn-action'));
-        expect(buttons[0].nativeElement.innerHTML).toEqual(backToTopBtn);
-        expect(buttons[1]).toBeUndefined();
-      });
-
-      it('productLimit should be set to 1', () => {
-        SpyOnModelAndReturn(mockModel1);
-        component.ngOnInit();
-
-        expect(component.productLimit).toEqual(1);
-      });
-    });
-  });
-  function SpyOnModelAndReturn(model: ProductSearchPage) {
-    const getSpy = createSpy().and.returnValue(of(model));
-    Object.defineProperty(componentService, 'model$', { get: getSpy });
-  }
 });
