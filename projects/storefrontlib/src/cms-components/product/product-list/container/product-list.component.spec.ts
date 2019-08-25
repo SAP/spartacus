@@ -155,6 +155,7 @@ describe('ProductListComponent', () => {
     beforeEach(() => {
       component.ngOnInit();
     });
+
     it('should clear search results', () => {
       expect(componentService.clearSearchResults).toHaveBeenCalled();
     });
