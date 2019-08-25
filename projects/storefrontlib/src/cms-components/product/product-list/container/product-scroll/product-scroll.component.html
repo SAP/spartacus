@@ -4,7 +4,7 @@
     [infiniteScrollDistance]="5"
     [infiniteScrollThrottle]="50"
     [infiniteScrollDisabled]="isMaxProducts || isLastPage || isEmpty"
-    (scrolled)="scrollPage(model.pagination.currentPage + 1)"
+    (scrolled)="scrollPage(model?.pagination?.currentPage + 1)"
   >
     <div class="row">
       <cx-product-grid-item
@@ -22,7 +22,7 @@
     >
       <div
         *ngIf="
-          (isMaxProducts || isLastPage) && model.pagination.currentPage > 0
+          (isMaxProducts || isLastPage) && model?.pagination?.currentPage > 0
         "
         (click)="scrollToTop()"
         class="btn btn-block btn-action"
@@ -31,7 +31,7 @@
       </div>
       <div
         *ngIf="isMaxProducts && !isLastPage"
-        (click)="loadNextPage(model.pagination.currentPage + 1)"
+        (click)="loadNextPage(model?.pagination?.currentPage + 1)"
         class="btn btn-block btn-action align-btn"
       >
         {{ 'productList.showMoreBtn' | cxTranslate }}
@@ -49,7 +49,7 @@
     [infiniteScrollDistance]="3"
     [infiniteScrollThrottle]="50"
     [infiniteScrollDisabled]="isMaxProducts || isLastPage || isEmpty"
-    (scrolled)="scrollPage(model.pagination.currentPage + 1)"
+    (scrolled)="scrollPage(model?.pagination?.currentPage + 1)"
   >
     <cx-product-list-item
       *ngFor="let product of model?.products"
@@ -65,7 +65,7 @@
     >
       <div
         *ngIf="
-          (isMaxProducts || isLastPage) && model.pagination.currentPage > 0
+          (isMaxProducts || isLastPage) && model?.pagination?.currentPage > 0
         "
         (click)="scrollToTop()"
         class="btn btn-block btn-action"
@@ -74,7 +74,7 @@
       </div>
       <div
         *ngIf="isMaxProducts && !isLastPage"
-        (click)="loadNextPage(model.pagination.currentPage + 1)"
+        (click)="loadNextPage(model?.pagination?.currentPage + 1)"
         class="btn btn-block btn-action align-btn"
       >
         {{ 'productList.showMoreBtn' | cxTranslate }}
