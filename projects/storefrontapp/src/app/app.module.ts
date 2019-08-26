@@ -62,14 +62,6 @@ if (!environment.production) {
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
-      // configurations related to the view of the applicaiton
-      view: {
-        infiniteScroll: {
-          active: true,
-          productLimit: 0,
-          showMoreButton: false,
-        },
-      },
     }),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
