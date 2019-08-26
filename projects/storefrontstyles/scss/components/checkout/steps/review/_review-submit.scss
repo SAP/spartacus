@@ -14,8 +14,11 @@
     margin: 0;
     background-color: var(--cx-color-background);
 
-    &-card {
-      min-height: 180px;
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
     }
 
     &-edit-step {

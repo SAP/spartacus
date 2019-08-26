@@ -163,7 +163,7 @@ export class ReviewSubmitComponent implements OnInit {
     if (this.checkoutConfigService) {
       const step = this.checkoutConfigService.getCheckoutStep(stepType);
 
-      return step && step.routeName ? step.routeName : null;
+      return step && step.routeName;
     }
   }
 }
