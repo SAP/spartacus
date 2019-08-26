@@ -1,4 +1,5 @@
 import { checkBanner } from '../../../helpers/homepage';
+import * as alerts from '../../../helpers/global-message';
 
 const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
@@ -24,14 +25,14 @@ describe('Update profile', () => {
       cy.saveLocalStorage();
     });
 
-    const newTitle = 'Dr.';
+    const newTitle = 'dr';
     const newFirstName = 'N';
     const newLastName = 'Z';
 
     it('should be able to update its profile', () => {
       // update the data
       cy.get('cx-update-profile-form').within(() => {
-        cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
+        cy.get('[formcontrolname="titleCode"]').select(newTitle);
         cy.get('[formcontrolname="firstName"]')
           .clear()
           .type(newFirstName);
@@ -42,10 +43,9 @@ describe('Update profile', () => {
       });
 
       // check for the global message and home screen
-      cy.get('cx-global-message .alert-success').should(
-        'contain',
-        'Personal details successfully updated'
-      );
+      alerts
+        .getSuccessAlert()
+        .should('contain', 'Personal details successfully updated');
       checkBanner();
 
       // check is the new name displayed in the upper right corner
@@ -59,8 +59,8 @@ describe('Update profile', () => {
       // check where the user's details updated in the previous test
       cy.get('cx-update-profile-form').within(() => {
         cy.get('[formcontrolname="titleCode"]')
-          .get('.ng-value .ng-value-label')
-          .should('have.text', newTitle);
+          .find(':selected')
+          .should('have.value', newTitle);
         cy.get('[formcontrolname="firstName"]').should(
           'have.value',
           newFirstName

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Product } from '@spartacus/core';
@@ -91,7 +91,9 @@ describe('ProductImagesComponent', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    currentProductService = TestBed.get(CurrentProductService);
+    currentProductService = TestBed.get(CurrentProductService as Type<
+      CurrentProductService
+    >);
   });
 
   describe('with multiple pictures', () => {

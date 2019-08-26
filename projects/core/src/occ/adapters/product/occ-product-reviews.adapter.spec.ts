@@ -1,17 +1,18 @@
-import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   PRODUCT_REVIEW_NORMALIZER,
   PRODUCT_REVIEW_SERIALIZER,
 } from '@spartacus/core';
-import createSpy = jasmine.createSpy;
 import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
+import createSpy = jasmine.createSpy;
 
 const productCode = 'testCode';
 const maxCount = 2;
@@ -43,11 +44,14 @@ describe('OccProductReviewsAdapter', () => {
         },
       ],
     });
-
-    service = TestBed.get(OccProductReviewsAdapter);
-    endpoints = TestBed.get(OccEndpointsService);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    service = TestBed.get(OccProductReviewsAdapter as Type<
+      OccProductReviewsAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    endpoints = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
 
     spyOn(converter, 'convert').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
