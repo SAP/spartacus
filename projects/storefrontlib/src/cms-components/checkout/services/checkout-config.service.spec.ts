@@ -29,6 +29,17 @@ class MockRoutingConfigService {
   }
 }
 
+const [FREE_CODE, STANDARD_CODE, PREMIUM_CODE] = [
+  'free-gross',
+  'standard-gross',
+  'premium-gross',
+];
+const [freeMode, standardMode, premiumMode] = [
+  { deliveryCost: { value: 0 }, code: FREE_CODE },
+  { deliveryCost: { value: 2 }, code: STANDARD_CODE },
+  { deliveryCost: { value: 3 }, code: PREMIUM_CODE },
+];
+
 describe('CheckoutConfigService', () => {
   let service: CheckoutConfigService;
   let activatedRoute: ActivatedRoute;
@@ -157,17 +168,6 @@ describe('CheckoutConfigService', () => {
   });
 
   describe('getPreferredDeliveryMode', () => {
-    const [FREE, STANDARD, PREMIUM] = [
-      'free-gross',
-      'standard-gross',
-      'premium-gross',
-    ];
-    const [freeMode, standardMode, premiumMode] = [
-      { deliveryCost: { value: 0 }, code: FREE },
-      { deliveryCost: { value: 1 }, code: STANDARD },
-      { deliveryCost: { value: 3 }, code: PREMIUM },
-    ];
-
     it('should call findMatchingDeliveryMode with ordered modes by price', () => {
       const findMatchingDeliveryMode = spyOn(
         service,
@@ -190,18 +190,6 @@ describe('CheckoutConfigService', () => {
   });
 
   describe('findMatchingDeliveryMode', () => {
-    const [FREE_CODE, STANDARD_CODE, PREMIUM_CODE] = [
-      'free-gross',
-      'standard-gross',
-      'premium-gross',
-    ];
-
-    const [freeMode, standardMode, premiumMode] = [
-      { deliveryCost: { value: 0 }, code: FREE_CODE },
-      { deliveryCost: { value: 1 }, code: STANDARD_CODE },
-      { deliveryCost: { value: 3 }, code: PREMIUM_CODE },
-    ];
-
     it('should return free or lower possible price code', () => {
       service.defaultDeliveryMode = [DeliveryModePreferences.FREE];
 
@@ -224,6 +212,7 @@ describe('CheckoutConfigService', () => {
 
     it('should return least expensive (but not free, if available) price code', () => {
       service.defaultDeliveryMode = [DeliveryModePreferences.LEAST_EXPENSIVE];
+
       expect(
         service['findMatchingDeliveryMode']([
           freeMode,
@@ -247,7 +236,7 @@ describe('CheckoutConfigService', () => {
       expect(service['findMatchingDeliveryMode']([freeMode])).toBe(FREE_CODE);
     });
 
-    it('should return most expensive price code if free is not available', () => {
+    it('should return free, or most expensive price code if free is not available', () => {
       service.defaultDeliveryMode = [
         DeliveryModePreferences.FREE,
         DeliveryModePreferences.MOST_EXPENSIVE,
@@ -314,6 +303,7 @@ describe('CheckoutConfigService', () => {
       service.defaultDeliveryMode = [
         'not_existing_code1',
         'not_existing_code2',
+        'existing_code',
         STANDARD_CODE,
       ];
       expect(
@@ -323,6 +313,14 @@ describe('CheckoutConfigService', () => {
           premiumMode,
         ])
       ).toBe(STANDARD_CODE);
+      expect(
+        service['findMatchingDeliveryMode']([
+          freeMode,
+          { deliveryCost: { value: 1 }, code: 'existing_code' },
+          standardMode,
+          premiumMode,
+        ])
+      ).toBe('existing_code');
     });
   });
 
