@@ -14,6 +14,9 @@ export class RoutingMigrationGuard implements CanActivate {
     @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
+  /**
+   * Redirects to different storefront system for anticipated URL
+   */
   async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -25,6 +28,10 @@ export class RoutingMigrationGuard implements CanActivate {
     return false;
   }
 
+  /**
+   * Unregisters service worker before redirecting to anticipated URL
+   * Needed only for redirects in scope of the same domain.
+   */
   protected async unregisterServiceWorker(): Promise<void> {
     const window = this.winRef.nativeWindow;
 
@@ -36,6 +43,9 @@ export class RoutingMigrationGuard implements CanActivate {
     }
   }
 
+  /**
+   * Redirects to anticipated URL using full page reload, not Angular routing
+   */
   protected redirect(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const location = this.winRef.document.location;
     location.href = state.url;
