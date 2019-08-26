@@ -70,12 +70,10 @@ class MockUserPaymentService implements Partial<UserPaymentService> {
 class MockCheckoutDetailsService implements Partial<CheckoutDetailsService> {
   getDeliveryAddress(): Observable<Address> {
     return of(mockDetails.deliveryAddress);
-
     // return mockDeliveryAddress;
   }
   getSelectedDeliveryModeCode(): Observable<string> {
     return of(mockDetails.deliveryMode.code);
-
     // return mockSelectedDeliveryModeCode;
   }
   getPaymentDetails(): Observable<PaymentDetails> {
