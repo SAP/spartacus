@@ -47,7 +47,10 @@ export class RoutingMigrationGuard implements CanActivate {
    * Redirects to anticipated URL using full page reload, not Angular routing
    */
   protected redirect(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const location = this.winRef.document.location;
-    location.href = state.url;
+    const window = this.winRef.nativeWindow;
+
+    if (window && window.location) {
+      window.location.href = state.url;
+    }
   }
 }
