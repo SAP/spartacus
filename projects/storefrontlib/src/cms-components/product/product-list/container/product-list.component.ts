@@ -43,7 +43,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
-    private scrollConfig?: ViewConfig
+    protected scrollConfig?: ViewConfig
   ) {}
 
   ngOnInit(): void {
