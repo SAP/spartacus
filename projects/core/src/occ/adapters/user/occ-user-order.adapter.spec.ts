@@ -32,10 +32,8 @@ class MockFeatureConfigService {
     return true;
   }
 }
-const orderEndpoint = '/orders';
-const consignmentEndpoint = '/consignments';
 
-describe('OccUserOrderAdapter', () => {
+fdescribe('OccUserOrderAdapter', () => {
   let occUserOrderAdapter: OccUserOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
@@ -153,15 +151,15 @@ describe('OccUserOrderAdapter', () => {
         .getConsignmentTracking(orderData.code, consignmentCode)
         .subscribe(result => expect(result).toEqual(tracking));
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.url ===
-            orderEndpoint +
-              `/${orderData.code}` +
-              consignmentEndpoint +
-              `/${consignmentCode}` +
-              '/tracking' && req.method === 'GET'
-        );
+        return req.method === 'GET';
       }, `GET a consignment tracking`);
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'consignmentTracking',
+        {
+          orderCode: orderData.code,
+          consignmentCode: consignmentCode,
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(tracking);
