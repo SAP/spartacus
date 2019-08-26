@@ -7,7 +7,7 @@ declare namespace Cypress {
        *
        * @example
         ```
-        cy.typeTab('','')
+        cy.typeTab(shiftKey,ctrlKey)
         ```
        */
     typeTab: (shiftKey, ctrlKey) => void;
