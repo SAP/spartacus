@@ -2,6 +2,7 @@
 /// <reference types="Cypress" />
 
 import 'cypress-testing-library/add-commands';
+import './key.commands';
 import './login.commands';
 import './ng-select.commands';
 import './require-logged-in.commands';
