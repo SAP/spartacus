@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Item } from '../../cart-shared';
 import { PromotionResult } from '@spartacus/core';
+import { Item } from 'projects/storefrontlib/src/cms-components/cart/cart-shared';
 
 @Component({
   selector: 'cx-save-for-later-item',

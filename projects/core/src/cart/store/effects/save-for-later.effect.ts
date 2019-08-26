@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
-import * as fromActions from './../actions/save-for-later.action';
+import { CartActions } from '../actions/index';
 import { SaveForLaterDataService } from '../../facade/save-for-later-data.service';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { Cart } from '../../../model/cart.model';
@@ -12,9 +11,9 @@ import { Cart } from '../../../model/cart.model';
 export class SaveForLaterEffects {
   @Effect()
   loadSaveForLater$: Observable<
-    fromActions.LoadSaveForLaterFail | fromActions.LoadSaveForLaterSuccess
+    CartActions.LoadSaveForLaterFail | CartActions.LoadSaveForLaterSuccess
   > = this.actions$.pipe(
-    ofType(fromActions.LOAD_SAVE_FOR_LATER, LANGUAGE_CHANGE, CURRENCY_CHANGE),
+    ofType(CartActions.LOAD_SAVE_FOR_LATER),
     map(
       (action: {
         type: string;
@@ -28,36 +27,32 @@ export class SaveForLaterEffects {
       };
 
       if (this.isMissingData(loadSaveForLaterParams)) {
-        return of(new fromActions.LoadSaveForLaterFail({}));
+        return of(new CartActions.LoadSaveForLaterFail({}));
       }
 
       return this.cartConnector
-        .load(
-          loadSaveForLaterParams.userId,
-          loadSaveForLaterParams.cartId,
-          true
-        )
+        .load(loadSaveForLaterParams.userId, loadSaveForLaterParams.cartId)
         .pipe(
           map((cart: Cart) => {
-            return new fromActions.LoadSaveForLaterSuccess(cart);
+            return new CartActions.LoadSaveForLaterSuccess(cart);
           }),
-          catchError(error => of(new fromActions.LoadSaveForLaterFail(error)))
+          catchError(error => of(new CartActions.LoadSaveForLaterFail(error)))
         );
     })
   );
 
   @Effect()
   createSaveForLater$: Observable<
-    fromActions.CreateSaveForLaterSuccess | fromActions.CreateSaveForLaterFail
+    CartActions.CreateSaveForLaterSuccess | CartActions.CreateSaveForLaterFail
   > = this.actions$.pipe(
-    ofType(fromActions.CREATE_SAVE_FOR_LATER),
-    map((action: fromActions.CreateSaveForLater) => action.payload),
+    ofType(CartActions.CREATE_SAVE_FOR_LATER),
+    map((action: CartActions.CreateSaveForLater) => action.payload),
     mergeMap(payload => {
-      return this.cartConnector.load(payload.userId, payload.cartId, true).pipe(
+      return this.cartConnector.load(payload.userId, payload.cartId).pipe(
         switchMap((cart: Cart) => {
-          return [new fromActions.CreateSaveForLaterSuccess(cart)];
+          return [new CartActions.CreateSaveForLaterSuccess(cart)];
         }),
-        catchError(error => of(new fromActions.CreateSaveForLaterFail(error)))
+        catchError(error => of(new CartActions.CreateSaveForLaterFail(error)))
       );
     })
   );

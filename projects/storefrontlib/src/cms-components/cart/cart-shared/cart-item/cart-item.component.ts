@@ -75,7 +75,7 @@ export class CartItemComponent implements OnInit {
     this.authService.getUserToken().subscribe(token => {
       if (!token.access_token) {
         this.routingService.go({ cxRoute: 'login' });
-        this.routingService.saveRedirectUrl(snapshot.url);
+        //this.routingService.saveRedirectUrl(snapshot.url);
       } else {
         this.saveForLater.emit(this.item);
       }
