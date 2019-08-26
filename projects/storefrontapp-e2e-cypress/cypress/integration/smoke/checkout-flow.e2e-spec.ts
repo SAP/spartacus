@@ -23,23 +23,23 @@ context('Checkout flow', () => {
     checkout.fillAddressFormWithCheapProduct();
   });
 
-  it('should choose delivery', () => {
+  xit('should choose delivery', () => {
     checkout.chooseDeliveryMethod();
   });
 
-  it('should fill in payment form', () => {
+  xit('should fill in payment form', () => {
     checkout.fillPaymentFormWithCheapProduct();
   });
 
-  it('should review and place order', () => {
+  xit('should review and place order', () => {
     checkout.placeOrderWithCheapProduct();
   });
 
-  it('should display summary page', () => {
+  xit('should display summary page', () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
-  it('should be able to check order in order history', () => {
+  xit('should be able to check order in order history', () => {
     checkout.viewOrderHistoryWithCheapProduct();
     checkout.signOut();
   });
