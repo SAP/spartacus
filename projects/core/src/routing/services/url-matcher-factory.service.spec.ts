@@ -1,25 +1,50 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Route, UrlSegment, UrlSegmentGroup } from '@angular/router';
+import {
+  Route,
+  UrlMatcher,
+  UrlSegment,
+  UrlSegmentGroup,
+} from '@angular/router';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 describe('UrlMatcherFactoryService', () => {
-  describe('create', () => {
-    let segmentGroup: UrlSegmentGroup;
-    let route: Route;
-    let factory: UrlMatcherFactoryService;
+  let segmentGroup: UrlSegmentGroup;
+  let route: Route;
+  let factory: UrlMatcherFactoryService;
 
-    beforeEach(() => {
-      segmentGroup = { hasChildren: () => false } as UrlSegmentGroup;
-      route = {} as Route;
+  beforeEach(() => {
+    segmentGroup = { hasChildren: () => false } as UrlSegmentGroup;
+    route = {} as Route;
 
-      TestBed.configureTestingModule({
-        providers: [UrlMatcherFactoryService],
-      });
+    TestBed.configureTestingModule({
+      providers: [UrlMatcherFactoryService],
+    });
 
-      factory = TestBed.get(UrlMatcherFactoryService as Type<
-        UrlMatcherFactoryService
-      >);
+    factory = TestBed.get(UrlMatcherFactoryService as Type<
+      UrlMatcherFactoryService
+    >);
+  });
+
+  describe('getMultiplePathsUrlMatcher', () => {
+    it('should match empty path', () => {
+      const matcher = factory.getMultiplePathsUrlMatcher(['']);
+      const segments = [] as UrlSegment[];
+      const result = matcher(segments, segmentGroup, route);
+      const expected = {
+        consumed: [],
+        posParams: {},
+      };
+      expect(result).toEqual(expected as any);
+    });
+
+    it('should not match empty path', () => {
+      route.pathMatch = 'full';
+      const matcher = factory.getMultiplePathsUrlMatcher(['']);
+      const segments = [{ path: 'test' }] as UrlSegment[];
+      const result = matcher(segments, segmentGroup, route);
+      const expected = null;
+      expect(result).toEqual(expected as any);
     });
 
     it('should match simple path', () => {
@@ -112,6 +137,35 @@ describe('UrlMatcherFactoryService', () => {
       const segments = [{ path: 'test3' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
+      expect(result).toEqual(expected as any);
+    });
+  });
+
+  describe('getOppositeUrlMatcher', () => {
+    let inputMatcher: UrlMatcher;
+
+    beforeEach(() => {
+      // accepts every path that starts from 'test'
+      inputMatcher = (segments: UrlSegment[]) => {
+        return segments[0].path === 'test'
+          ? { consumed: segments, posParams: {} }
+          : null;
+      };
+    });
+
+    it('should not match what the input matcher would match', () => {
+      const matcher = factory.getOppositeUrlMatcher(inputMatcher);
+      const segments = [{ path: 'test' }] as UrlSegment[];
+      const result = matcher(segments, segmentGroup, route);
+      const expected = null;
+      expect(result).toEqual(expected as any);
+    });
+
+    it('should match what the input matcher would not match', () => {
+      const matcher = factory.getOppositeUrlMatcher(inputMatcher);
+      const segments = [{ path: 'test2' }] as UrlSegment[];
+      const result = matcher(segments, segmentGroup, route);
+      const expected = { consumed: segments, posParams: {} };
       expect(result).toEqual(expected as any);
     });
   });
