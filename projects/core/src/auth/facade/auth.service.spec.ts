@@ -190,7 +190,7 @@ describe('AuthService', () => {
       access_token: 'foo',
     } as UserToken;
 
-    it('should return true if the userid is defined and not USERID_CURRENT, () => {
+    it('should return true if the userid is defined and not USERID_CURRENT', () => {
       expect(
         service.isCustomerEmulationToken({
           ...mockCustomerEmulationToken,
