@@ -26,10 +26,10 @@ export class ProductScrollComponent implements OnDestroy {
   inputViewMode: ViewModes;
   @Input('inputViewMode')
   set setViewMode(inputViewMode: ViewModes) {
-    this.inputViewMode = inputViewMode;
     //If viewMode is already set (meaning it is not the first load)
     //Reset the product list
     if (this.viewMode) {
+      this.inputViewMode = inputViewMode;
       this.resetListOnViewModeChange();
     } else {
       //If viewMode is not set (meaning it is the first load)
@@ -41,12 +41,13 @@ export class ProductScrollComponent implements OnDestroy {
   viewMode: ViewModes;
   productLimit: number;
   maxProducts: number;
+
+  ViewModes = ViewModes;
   appendProducts = false;
   resetList = false;
   isMaxProducts = false;
   isLastPage = false;
   isEmpty = false;
-  ViewModes = ViewModes;
 
   constructor(
     private productListComponentService: ProductListComponentService,
