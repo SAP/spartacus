@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, User, UserService, UserToken } from '@spartacus/core';
+import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  User,
+  UserService,
+  UserToken,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
@@ -10,10 +18,13 @@ import { switchMap, take } from 'rxjs/operators';
 export class AsmComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
   customer$: Observable<User>;
+  private startingCustomerSession = false;
 
   constructor(
     protected auth: AuthService,
-    protected userService: UserService
+    protected userService: UserService,
+    protected globalMessageService: GlobalMessageService,
+    protected routing: RoutingService
   ) {}
 
   ngOnInit(): void {
@@ -21,12 +32,24 @@ export class AsmComponent implements OnInit {
     this.customer$ = this.auth.getUserToken().pipe(
       switchMap(token => {
         if (token && !!token.access_token) {
+          this.handleCustomerSessionStartRedirection(token);
           return this.userService.get();
         } else {
           return of(undefined);
         }
       })
     );
+  }
+
+  private handleCustomerSessionStartRedirection(token: UserToken): void {
+    if (
+      this.startingCustomerSession &&
+      this.auth.isCustomerEmulationToken(token)
+    ) {
+      this.startingCustomerSession = false;
+      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+      this.routing.go('/');
+    }
   }
 
   loginCustomerSupportAgent({
@@ -54,5 +77,6 @@ export class AsmComponent implements OnInit {
         )
       )
       .unsubscribe();
+    this.startingCustomerSession = true;
   }
 }
