@@ -9,6 +9,9 @@ import {
   RoutingService,
   Title,
   UserService,
+  UserToken,
+  AuthService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
@@ -49,8 +52,22 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockSpinnerComponent {}
 
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ access_token: 'test' } as UserToken);
+  }
+}
+
 class MockRedirectAfterAuthService {
   redirect = createSpy('AuthRedirectService.redirect');
+}
+
+const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+class MockFeatureConfigService {
+  isLevel(_level: string): boolean {
+    return isLevelBool.value;
+  }
 }
 
 const registerUserIsLoading: BehaviorSubject<boolean> = new BehaviorSubject(
@@ -96,7 +113,7 @@ class MockRoutingService {
   go = createSpy();
 }
 
-describe('RegisterComponent', () => {
+fdescribe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -109,12 +126,14 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
+      // TODO(issue:4237) Register flow
       providers: [
         {
           provide: AuthRedirectService,
           useClass: MockRedirectAfterAuthService,
         },
         { provide: UserService, useClass: MockUserService },
+        { provide: AuthService, useClass: MockAuthService },
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
@@ -122,6 +141,10 @@ describe('RegisterComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();
@@ -139,6 +162,9 @@ describe('RegisterComponent', () => {
 
     fixture.detectChanges();
     controls = component.userRegistrationForm.controls;
+
+    // TODO(issue:4237) Register flow
+    component.isNewRegisterFlowEnabled = true;
   });
 
   it('should create', () => {

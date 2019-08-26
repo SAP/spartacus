@@ -13,6 +13,9 @@ import {
   Title,
   UserService,
   UserSignUp,
+  FeatureConfigService,
+  AuthService,
+  AuthRedirectService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -44,12 +47,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
     { validator: this.matchPassword }
   );
 
+  /**
+   * @deprecated since 1.1.0
+   *
+   * TODO(issue:4237) Register flow
+   */
   constructor(
-    private userService: UserService,
-    private globalMessageService: GlobalMessageService,
-    private router: RoutingService,
-    private fb: FormBuilder
+    protected userService: UserService,
+    protected globalMessageService: GlobalMessageService,
+    protected fb: FormBuilder,
+    protected auth?: AuthService,
+    protected authRedirectService?: AuthRedirectService,
+    protected router?: RoutingService,
+    protected featureConfig?: FeatureConfigService
   ) {}
+
+  // TODO(issue:4237) Register flow
+  isNewRegisterFlowEnabled: boolean =
+    this.featureConfig && this.featureConfig.isLevel('1.1');
 
   ngOnInit() {
     this.titles$ = this.userService.getTitles().pipe(
@@ -60,9 +75,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.loading$ = this.userService.getRegisterUserResultLoading();
-
-    this.registerUserProcessInit();
+    // TODO(issue:4237) Register flow
+    if (this.isNewRegisterFlowEnabled) {
+      this.loading$ = this.userService.getRegisterUserResultLoading();
+      this.registerUserProcessInit();
+    } else {
+      if (this.auth && this.authRedirectService) {
+        this.subscription.add(
+          this.auth.getUserToken().subscribe(data => {
+            if (data && data.access_token) {
+              this.globalMessageService.remove(
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+              this.authRedirectService.redirect();
+            }
+          })
+        );
+      }
+    }
 
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.subscription.add(
