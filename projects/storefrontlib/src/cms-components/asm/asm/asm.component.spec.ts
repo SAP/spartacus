@@ -33,6 +33,7 @@ class MockAuthService {
     _customerSupportAgentToken: UserToken,
     _customerId: string
   ) {}
+  isCustomerEmulationToken() {}
 }
 
 class MockUserService {
@@ -71,6 +72,8 @@ fdescribe('AsmComponent', () => {
   let authService: AuthService;
   let userService: UserService;
   let el: DebugElement;
+  let globalMessageService: GlobalMessageService;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -93,6 +96,8 @@ fdescribe('AsmComponent', () => {
     fixture = TestBed.createComponent(AsmComponent);
     authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
+    globalMessageService = TestBed.get(GlobalMessageService);
+    routingService = TestBed.get(RoutingService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -168,5 +173,56 @@ fdescribe('AsmComponent', () => {
     expect(el.nativeElement.textContent).toContain(testUser.name);
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
+  });
+
+  it('should redirect to home when starting a customer emulation session.', () => {
+    component['startingCustomerSession'] = true;
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(authService, 'isCustomerEmulationToken').and.returnValue(true);
+
+    spyOn(routingService, 'go').and.stub();
+    spyOn(globalMessageService, 'remove').and.stub();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(globalMessageService.remove).toHaveBeenCalled();
+    expect(routingService.go).toHaveBeenCalled();
+  });
+
+  it('should not redirect to home when not starting a customer emulation session.', () => {
+    component['startingCustomerSession'] = false;
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(authService, 'isCustomerEmulationToken').and.returnValue(true);
+
+    spyOn(routingService, 'go').and.stub();
+    spyOn(globalMessageService, 'remove').and.stub();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(globalMessageService.remove).not.toHaveBeenCalled();
+    expect(routingService.go).not.toHaveBeenCalled();
+  });
+
+  it('should not redirect to home when not handling a customer emulation session token.', () => {
+    component['startingCustomerSession'] = true;
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(authService, 'isCustomerEmulationToken').and.returnValue(false);
+
+    spyOn(routingService, 'go').and.stub();
+    spyOn(globalMessageService, 'remove').and.stub();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(globalMessageService.remove).not.toHaveBeenCalled();
+    expect(routingService.go).not.toHaveBeenCalled();
   });
 });
