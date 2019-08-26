@@ -3,7 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AuthService,
+  GlobalMessageService,
   I18nTestingModule,
+  RoutingService,
   User,
   UserService,
   UserToken,
@@ -55,8 +57,15 @@ class MockCSAgentLoginFormComponent {
   @Output()
   submitEvent = new EventEmitter();
 }
+class MockGlobalMessageService {
+  remove() {}
+}
 
-describe('AsmComponent', () => {
+class MockRoutingService {
+  go() {}
+}
+
+fdescribe('AsmComponent', () => {
   let component: AsmComponent;
   let fixture: ComponentFixture<AsmComponent>;
   let authService: AuthService;
@@ -74,6 +83,8 @@ describe('AsmComponent', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: UserService, useClass: MockUserService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   }));
