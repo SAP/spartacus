@@ -43,12 +43,14 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       return this.legacyAdd(userId, cartId, productCode, quantity);
     }
 
-    const url = this.occEndpointsService.getUrl('addEntries', {
-      userId,
-      cartId,
-      productCode,
-      quantity,
-    });
+    const url = this.occEndpointsService.getUrl(
+      'addEntries',
+      {
+        userId,
+        cartId,
+      },
+      { code: productCode, qty: quantity }
+    );
 
     return this.http
       .post<CartModification>(url, toAdd, { headers })
@@ -78,8 +80,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     const url = this.occEndpointsService.getUrl(
       'updateEntries',
-      { userId, cartId, entryNumber, quantity: qty },
-      params
+      { userId, cartId, entryNumber },
+      { qty, ...params }
     );
 
     return this.http
