@@ -4,6 +4,9 @@ import { RoutingMigrationConfig } from './routing-migration-config';
 import { addMigrationRoutesFactory } from './routing-migration.providers';
 import { RoutingMigrationService } from './routing-migration.service';
 
+/**
+ * Prepends the migration route that redirects to a different storefront system for configured URLs
+ */
 @NgModule({
   providers: [
     RoutingMigrationService,
