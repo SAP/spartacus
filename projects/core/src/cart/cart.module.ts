@@ -6,7 +6,6 @@ import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { CartStoreModule } from './store/cart-store.module';
 
 @NgModule({
-    SaveForLaterService,
   imports: [CartStoreModule],
 })
 export class CartModule {

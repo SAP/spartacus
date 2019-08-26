@@ -1,4 +1,4 @@
-import * as fromAction from './../actions';
+import { CartActions } from '../actions/index';
 import { CartState } from '../cart-state';
 import { OrderEntry } from '../../../model/order.model';
 
@@ -11,11 +11,11 @@ export const initialState: CartState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.SaveForLaterAction | fromAction.CartEntryAction
+  action: CartActions.SaveForLaterAction | CartActions.CartEntryAction
 ): CartState {
   switch (action.type) {
-    case fromAction.LOAD_SAVE_FOR_LATER_SUCCESS:
-    case fromAction.CREATE_SAVE_FOR_LATER_SUCCESS: {
+    case CartActions.LOAD_SAVE_FOR_LATER_SUCCESS:
+    case CartActions.CREATE_SAVE_FOR_LATER_SUCCESS: {
       const content = { ...action.payload };
       let entries = {};
       if (content.entries) {
@@ -51,9 +51,9 @@ export function reducer(
       };
     }
 
-    case fromAction.REMOVE_ENTRY_SUCCESS:
-    case fromAction.UPDATE_ENTRY_SUCCESS:
-    case fromAction.ADD_ENTRY_SUCCESS: {
+    case CartActions.CART_REMOVE_ENTRY_SUCCESS:
+    case CartActions.CART_UPDATE_ENTRY_SUCCESS:
+    case CartActions.CART_ADD_ENTRY_SUCCESS: {
       return {
         ...state,
         refresh: true,

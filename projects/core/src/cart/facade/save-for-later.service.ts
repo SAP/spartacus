@@ -6,8 +6,8 @@ import { filter } from 'rxjs/operators';
 
 import { AuthService, UserToken } from '../../auth/index';
 
-import * as fromAction from '../store/actions';
-import * as fromSelector from '../store/selectors';
+import { CartActions } from '../store/actions/index';
+import { CartSelectors } from '../store/selectors/index';
 import { SaveForLaterDataService } from './save-for-later-data.service';
 import { ANONYMOUS_USERID } from './cart-data.service';
 import { StateWithCart } from '../store/cart-state';
@@ -29,20 +29,20 @@ export class SaveForLaterService {
   }
 
   getSaveForLater(): Observable<Cart> {
-    return this.store.pipe(select(fromSelector.getSaveForLaterContent));
+    return this.store.pipe(select(CartSelectors.getSaveForLaterContent));
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.store.pipe(select(fromSelector.getSaveForLaterEntries));
+    return this.store.pipe(select(CartSelectors.getSaveForLaterEntries));
   }
 
   getLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromSelector.getSaveForLaterLoaded));
+    return this.store.pipe(select(CartSelectors.getSaveForLaterLoaded));
   }
 
   protected init(): void {
     this.store
-      .pipe(select(fromSelector.getSaveForLaterContent))
+      .pipe(select(CartSelectors.getSaveForLaterContent))
       .subscribe(cart => {
         this.saveForLaterData.cart = cart;
         if (this.callback) {
@@ -81,14 +81,14 @@ export class SaveForLaterService {
     if (this.saveForLaterData.userId !== ANONYMOUS_USERID) {
       if (this.isCreated(this.saveForLaterData.cart)) {
         this.store.dispatch(
-          new fromAction.LoadSaveForLater({
+          new CartActions.LoadSaveForLater({
             userId: this.saveForLaterData.userId,
             cartId: 'selectivecart' + this.saveForLaterData.customerId,
           })
         );
       } else {
         this.store.dispatch(
-          new fromAction.CreateSaveForLater({
+          new CartActions.CreateSaveForLater({
             userId: this.saveForLaterData.userId,
             cartId: 'selectivecart' + this.saveForLaterData.customerId,
           })
@@ -99,11 +99,11 @@ export class SaveForLaterService {
 
   protected refresh(): void {
     this.store
-      .pipe(select(fromSelector.getSaveForLaterRefresh))
+      .pipe(select(CartSelectors.getSaveForLaterRefresh))
       .subscribe(refresh => {
         if (refresh) {
           this.store.dispatch(
-            new fromAction.LoadSaveForLater({
+            new CartActions.LoadSaveForLater({
               userId: this.saveForLaterData.userId,
               cartId: this.saveForLaterData.cartId,
             })
@@ -115,14 +115,14 @@ export class SaveForLaterService {
   loadDetails(): void {
     if (this.saveForLaterData.userId !== ANONYMOUS_USERID) {
       this.store.dispatch(
-        new fromAction.CreateSaveForLater({
+        new CartActions.CreateSaveForLater({
           userId: this.saveForLaterData.userId,
           cartId: 'selectivecart' + this.saveForLaterData.customerId,
         })
       );
     } else if (this.saveForLaterData.cartId) {
       this.store.dispatch(
-        new fromAction.LoadSaveForLater({
+        new CartActions.LoadSaveForLater({
           userId: this.saveForLaterData.userId,
           cartId: this.saveForLaterData.cartId,
         })
@@ -133,14 +133,14 @@ export class SaveForLaterService {
   addEntry(productCode: string, quantity: number): void {
     if (!this.isCreated(this.saveForLaterData.cart)) {
       this.store.dispatch(
-        new fromAction.CreateSaveForLater({
+        new CartActions.CreateSaveForLater({
           userId: this.saveForLaterData.userId,
           cartId: 'selectivecart' + this.saveForLaterData.customerId,
         })
       );
       this.callback = function() {
         this.store.dispatch(
-          new fromAction.AddEntry({
+          new CartActions.CartAddEntry({
             userId: this.saveForLaterData.userId,
             cartId: this.saveForLaterData.cartId,
             productCode: productCode,
@@ -150,7 +150,7 @@ export class SaveForLaterService {
       };
     } else {
       this.store.dispatch(
-        new fromAction.AddEntry({
+        new CartActions.CartAddEntry({
           userId: this.saveForLaterData.userId,
           cartId: this.saveForLaterData.cartId,
           productCode: productCode,
@@ -162,7 +162,7 @@ export class SaveForLaterService {
 
   removeEntry(entry: OrderEntry): void {
     this.store.dispatch(
-      new fromAction.RemoveEntry({
+      new CartActions.CartRemoveEntry({
         userId: this.saveForLaterData.userId,
         cartId: this.saveForLaterData.cartId,
         entry: entry.entryNumber,
@@ -173,7 +173,7 @@ export class SaveForLaterService {
   updateEntry(entryNumber: string, quantity: number): void {
     if (+quantity > 0) {
       this.store.dispatch(
-        new fromAction.UpdateEntry({
+        new CartActions.CartUpdateEntry({
           userId: this.saveForLaterData.userId,
           cartId: this.saveForLaterData.cartId,
           entry: entryNumber,
@@ -182,7 +182,7 @@ export class SaveForLaterService {
       );
     } else {
       this.store.dispatch(
-        new fromAction.RemoveEntry({
+        new CartActions.CartRemoveEntry({
           userId: this.saveForLaterData.userId,
           cartId: this.saveForLaterData.cartId,
           entry: entryNumber,
@@ -193,7 +193,7 @@ export class SaveForLaterService {
 
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
-      select(fromSelector.getEntrySelectorFactory(productCode))
+      select(CartSelectors.getCartEntrySelectorFactory(productCode))
     );
   }
 

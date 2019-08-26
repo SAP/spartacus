@@ -8,15 +8,11 @@ import {
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
+import { getCartsState } from './cart.selector';
 
-import {
-  getCartsState,
-  getRefreshSelector,
-  getEntriesSelector,
-} from './cart-group.selectors';
-
-export const getSaveForLaterContentSelector = (state: CartState) =>
-  state.content;
+const getCartRefreshSelector = (state: CartState) => state.refresh;
+const getCartEntriesSelector = (state: CartState) => state.entries;
+const getSaveForLaterContentSelector = (state: CartState) => state.content;
 
 export const getSaveForLaterCartState: MemoizedSelector<
   StateWithCart,
@@ -47,7 +43,7 @@ export const getSaveForLaterRefresh: MemoizedSelector<
   boolean
 > = createSelector(
   getSaveForLaterState,
-  getRefreshSelector
+  getCartRefreshSelector
 );
 
 export const getSaveForLaterLoaded: MemoizedSelector<
@@ -66,7 +62,7 @@ export const getSaveForLaterEntriesMap: MemoizedSelector<
   { [code: string]: OrderEntry }
 > = createSelector(
   getSaveForLaterState,
-  getEntriesSelector
+  getCartEntriesSelector
 );
 
 export const getSaveForLaterEntrySelectorFactory = (

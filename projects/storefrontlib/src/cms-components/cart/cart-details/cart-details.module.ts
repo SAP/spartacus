@@ -9,8 +9,8 @@ import {
 } from '@spartacus/core';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
-import { SaveForLaterModule } from '../save-for-later/save-for-later.module';
 import { CartDetailsComponent } from './cart-details.component';
+import { SaveForLaterModule } from '../../checkout/cart/save-for-later/save-for-later.module';
 
 @NgModule({
   imports: [
