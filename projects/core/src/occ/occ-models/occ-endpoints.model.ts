@@ -239,7 +239,7 @@ export interface OccEndpoints {
    * @member {string}
    */
   addressVerification?: string;
-    /**
+  /**
    * Endpoint for consignment tracking
    *
    * @member {string}

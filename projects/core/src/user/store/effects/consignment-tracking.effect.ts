@@ -24,7 +24,11 @@ export class ConsignmentTrackingEffects {
               new fromAction.LoadConsignmentTrackingSuccess(tracking)
           ),
           catchError(error =>
-            of(new fromAction.LoadConsignmentTrackingFail(makeErrorSerializable(error)))
+            of(
+              new fromAction.LoadConsignmentTrackingFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
