@@ -101,6 +101,38 @@ describe('SiteContextUrlSerializer', () => {
 
       expect(result).toEqual(expected);
     });
+
+    it('should extract parameters when url contains query part', () => {
+      const result = service.urlExtractContextParameters('en/usd?test=ala');
+      const expected = {
+        url: '?test=ala',
+        params: { language: 'en', currency: 'usd' },
+      };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should extract parameters when url contains fragment part', () => {
+      const result = service.urlExtractContextParameters('en/usd#fragment');
+      const expected = {
+        url: '#fragment',
+        params: { language: 'en', currency: 'usd' },
+      };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should extract parameters when url contains query and fragment part', () => {
+      const result = service.urlExtractContextParameters(
+        'en/usd/?test=ala#fragment'
+      );
+      const expected = {
+        url: '?test=ala#fragment',
+        params: { language: 'en', currency: 'usd' },
+      };
+
+      expect(result).toEqual(expected);
+    });
   });
 
   describe('urlTreeExtractContextParameters', () => {
