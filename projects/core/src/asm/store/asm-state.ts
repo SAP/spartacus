@@ -7,6 +7,6 @@ export interface StateWithAsm {
 }
 
 export interface AsmState {
-  cusrtomerSearchResult: CustomerSearchPage;
+  customerSearchResult: CustomerSearchPage;
   asmUi: AsmUi;
 }

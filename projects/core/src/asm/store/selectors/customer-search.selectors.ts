@@ -8,5 +8,5 @@ export const getCustomerSearchResults: MemoizedSelector<
   CustomerSearchPage
 > = createSelector(
   getAsmState,
-  (state: AsmState) => state.cusrtomerSearchResult
+  (state: AsmState) => state.customerSearchResult
 );

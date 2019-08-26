@@ -44,4 +44,11 @@ export class AsmService {
   updateAsmUiState(asmUi: AsmUi) {
     this.store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
   }
+
+  /**
+   * Get the state of the UI
+   */
+  getAsmUiState(): Observable<AsmUi> {
+    return this.store.pipe(select(AsmSelectors.getAsmUi));
+  }
 }
