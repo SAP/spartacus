@@ -1,70 +1,139 @@
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
+import { apiUrl } from '../support/utils/login';
+import { login } from './auth-forms';
 import { generateMail, randomString } from './user';
 
-export const PRODUCT_CODE_1 = '1934793';
-export const PRODUCT_CODE_2 = '300938';
-export const PRODUCT_CODE_3 = '3470545';
-export const PRODUCT_CODE_4 = '29925';
-export const PRODUCT_TYPE = 'camera';
+interface TestProduct {
+  code: string;
+  type?: string;
+  name?: string;
+  price?: number;
+}
+
+const formatPrice = (price: number) =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  }).format(price);
+
+export const products: TestProduct[] = [
+  {
+    code: '1934793',
+    type: 'camera',
+    name: 'PowerShot A480',
+    price: 99.85,
+  },
+  {
+    code: '300938',
+    type: 'camera',
+    name: 'Photosmart E317 Digital Camera',
+    price: 114.12,
+  },
+  {
+    code: '3470545',
+    type: 'camera',
+    name: 'EASYSHARE M381',
+    price: 370.72,
+  },
+  {
+    code: '29925',
+  },
+];
 
 function getCartItem(name: string) {
   return cy.get('cx-cart-item-list').contains('cx-cart-item', name);
 }
 
-export function addProductToCartViaAutoComplete() {
-  cy.get('cx-searchbox input').type(PRODUCT_CODE_1);
-  cy.get('.dropdown-item.active').click();
+function goToProductFromSearch(id: string, mobile: boolean) {
+  cy.get('cx-storefront.stop-navigating');
+  if (mobile) {
+    cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+    cy.get('cx-searchbox input')
+      .clear({ force: true })
+      .type(id, { force: true })
+      .type('{enter}', { force: true });
+    cy.get('cx-product-list-item')
+      .first()
+      .get('.cx-product-name')
+      .first()
+      .click();
+  } else {
+    cy.get('cx-searchbox input')
+      .clear({ force: true })
+      .type(id, { force: true });
+    cy.get('cx-searchbox')
+      .get('.results .products .name')
+      .first()
+      .click();
+  }
+}
 
-  cy.get('cx-product-summary cx-add-to-cart button').click();
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+export function addProductToCartViaAutoComplete(mobile: boolean) {
+  const product = products[0];
+
+  goToProductFromSearch(product.code, mobile);
+
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .first()
+    .click({ force: true });
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
     cy.get('.count').should('contain', 1);
   });
-  miniCart.click();
+  miniCart.click({ force: true });
 
-  getCartItem('PowerShot A480').within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', '$99.85');
+  getCartItem(product.name).within(() => {
+    cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
     cy.get('.cx-counter-value').should('have.value', '1');
-    cy.get('.cx-total>.cx-value').should('contain', '$99.85');
+    cy.get('.cx-total>.cx-value').should('contain', formatPrice(product.price));
   });
 }
 
-export function addProductToCartViaSearchPage() {
-  cy.get('cx-searchbox input')
-    .clear()
-    .type(`${PRODUCT_TYPE}{enter}`);
-  cy.get('cx-product-list')
-    .contains('cx-product-list-item', 'Photosmart E317 Digital')
-    .within(() => {
-      cy.get('cx-add-to-cart button').click();
-    });
+export function addProductToCartViaSearchPage(mobile: boolean) {
+  const product = products[1];
 
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  goToProductFromSearch(product.type, mobile);
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click({ force: true });
+
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
     cy.get('.count').should('contain', 2);
   });
-  miniCart.click();
+  miniCart.click({ force: true });
 
-  getCartItem('Photosmart E317 Digital Camera').within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', '$114.12');
+  getCartItem(product.name).within(() => {
+    cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
     cy.get('.cx-counter-value').should('have.value', '1');
-    cy.get('.cx-total>.cx-value').should('contain', '$114.12');
+    cy.get('.cx-total>.cx-value').should('contain', formatPrice(product.price));
   });
 }
 
 export function removeAllItemsFromCart() {
-  getCartItem('PowerShot A480').within(() => {
+  const product0 = products[0];
+  const product1 = products[1];
+  cy.server();
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
+  ).as('refresh_cart');
+
+  getCartItem(product0.name).within(() => {
     cy.getByText('Remove').click();
   });
 
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (1 item)');
+  cy.wait('@refresh_cart');
 
-  getCartItem('Photosmart E317 Digital Camera').within(() => {
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
+
+  getCartItem(product1.name).within(() => {
     cy.getByText('Remove').click();
   });
 
@@ -77,22 +146,27 @@ export function removeAllItemsFromCart() {
 export function loginRegisteredUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
-  cy.visit('/login');
+  cy.reload();
 }
 
-export function addProductWhenLoggedIn() {
-  cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
-  cy.get('.dropdown-item.active').click();
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+export function addProductWhenLoggedIn(mobile: boolean) {
+  const product = products[1];
+
+  goToProductFromSearch(product.code, mobile);
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click({ force: true });
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
     'Cart total (1 item)'
   );
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
 
 export function logOutAndNavigateToEmptyCart() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
   cy.visit('/cart');
@@ -104,11 +178,17 @@ export function logOutAndNavigateToEmptyCart() {
 }
 
 export function addProductAsAnonymous() {
-  cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
+  const product = products[2];
+
+  cy.get('cx-searchbox input').type(`${product.code}{enter}`, {
+    force: true,
+  });
   cy.get('cx-product-list')
-    .contains('cx-product-list-item', 'EASYSHARE M381')
+    .contains('cx-product-list-item', product.name)
     .within(() => {
-      cy.get('cx-add-to-cart button').click();
+      cy.get('cx-add-to-cart')
+        .getByText(/Add To Cart/i)
+        .click({ force: true });
     });
 
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
@@ -116,39 +196,48 @@ export function addProductAsAnonymous() {
     'Cart total (1 item)'
   );
 
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
+}
+
+export function verifyCartNotEmpty() {
+  cy.get('cx-mini-cart .count').contains('1');
 }
 
 export function verifyMergedCartWhenLoggedIn() {
+  const product0 = products[1];
+  const product1 = products[2];
+
   cy.get('cx-login [role="link"]').click();
   login(
     standardUser.registrationData.email,
     standardUser.registrationData.password
   );
 
-  cy.get('cx-breadcrumb h1').should('contain', '1 results');
+  cy.get('cx-breadcrumb h1').should('contain', '1 result');
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
     cy.get('.count').should('contain', 2);
   });
-  miniCart.click();
+  miniCart.click({ force: true });
 
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
-  getCartItem('Photosmart E317 Digital Camera').within(() => {
+  getCartItem(product0.name).within(() => {
     cy.get('.cx-counter-value').should('have.value', '1');
-    cy.get('.cx-total>.cx-value').should('contain', '$114.12');
+    cy.get('.cx-total>.cx-value').should('contain', product0.price);
   });
 
-  getCartItem('EASYSHARE M381').within(() => {
+  getCartItem(product1.name).within(() => {
     cy.get('.cx-counter-value').should('have.value', '1');
-    cy.get('.cx-total>.cx-value').should('contain', '$370.72');
+    cy.get('.cx-total>.cx-value').should('contain', product1.price);
   });
 }
 
 export function logOutAndEmptyCart() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
   cy.visit('/cart');
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('.EmptyCartMiddleContent').should(
@@ -158,64 +247,72 @@ export function logOutAndEmptyCart() {
 }
 
 export function manipulateCartQuantity() {
-  cy.visit(`/product/${PRODUCT_CODE_2}`);
-  cy.get('cx-product-summary cx-add-to-cart button').click();
+  const product = products[1];
+
+  cy.visit(`/product/${product.code}`);
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
     'Cart total (1 item)'
   );
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 
   const miniCart = cy.get('cx-mini-cart');
   miniCart.within(() => {
     cy.get('.count').should('contain', 1);
   });
-  miniCart.click();
+  miniCart.click({ force: true });
 
-  getCartItem('Photosmart E317 Digital Camera').within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-    cy.get('.cx-counter-value').should('have.value', '1');
-    cy.get('.cx-total>.cx-value').should('contain', '$114.12');
+  checkCartItem(product, 1, true);
 
-    cy.get('.cx-counter-action')
-      .contains('+')
-      .click();
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
+
+  checkCartSummary('$208.24');
+
+  checkCartItem(product, 2, true);
+
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart #');
+
+  checkCartSummary('$322.36');
+
+  checkCartItem(product, 3, false);
+}
+
+function checkCartSummary(subtotal: string) {
+  cy.get('cx-order-summary').within(() => {
+    cy.get('.cx-summary-row:first').contains('Subtotal');
+    cy.get('.cx-summary-amount').should('contain', subtotal);
   });
+}
 
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (2 items)');
+function checkCartItem(
+  product: TestProduct,
+  numberOfItems: number,
+  increment: boolean
+) {
+  getCartItem(product.name).within(() => {
+    cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
+    cy.get('.cx-counter-value').should('have.value', '' + numberOfItems);
+    cy.get('.cx-total>.cx-value').should(
+      'contain',
+      formatPrice(numberOfItems * product.price)
+    );
 
-  cy.get('cx-order-summary')
-    .contains('.cx-summary-row', 'Subtotal:')
-    .get('.cx-summary-amount')
-    .should('contain', '$208.24');
-
-  getCartItem('Photosmart E317 Digital Camera').within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-    cy.get('.cx-counter-value').should('have.value', '2');
-    cy.get('.cx-total>.cx-value').should('contain', '$228.24');
-
-    cy.get('.cx-counter-action')
-      .contains('+')
-      .click();
-  });
-
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (3 items)');
-
-  cy.get('cx-order-summary')
-    .contains('.cx-summary-row', 'Subtotal:')
-    .get('.cx-summary-amount')
-    .should('contain', '$322.36');
-
-  getCartItem('Photosmart E317 Digital Camera').within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-    cy.get('.cx-counter-value').should('have.value', '3');
-    cy.get('.cx-total>.cx-value').should('contain', '$342.36');
+    if (increment) {
+      cy.get('.cx-counter-action')
+        .contains('+')
+        .click();
+    }
   });
 }
 
 export function outOfStock() {
-  cy.visit(`/product/${PRODUCT_CODE_4}`);
+  const product = products[3];
 
-  cy.get('cx-product-summary .quantity').should('contain', 'Out of stock');
-  cy.get('cx-product-summary cx-add-to-cart button').should('not.exist');
+  cy.visit(`/product/${product.code}`);
+
+  cy.get('cx-add-to-cart .quantity').should('contain', 'Out of stock');
+  cy.get('cx-add-to-cart cx-add-to-cart button').should('not.exist');
 }

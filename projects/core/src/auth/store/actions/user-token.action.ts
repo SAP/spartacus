@@ -25,7 +25,7 @@ export class LoadUserTokenSuccess implements Action {
 
 export class RefreshUserToken implements Action {
   readonly type = REFRESH_USER_TOKEN;
-  constructor(public payload: { userId: string; refreshToken: string }) {}
+  constructor(public payload: { refreshToken: string }) {}
 }
 
 export class RefreshUserTokenSuccess implements Action {

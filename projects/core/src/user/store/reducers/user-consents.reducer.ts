@@ -1,30 +1,25 @@
-import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
-import * as fromActions from '../actions/user-consents.action';
+import { ConsentTemplate } from '../../../model/consent.model';
+import { UserActions } from '../actions/index';
 
-export const initialState: ConsentTemplateList = {
-  consentTemplates: [],
-};
+export const initialState: ConsentTemplate[] = [];
 
 export function reducer(
   state = initialState,
-  action: fromActions.UserConsentsAction
-): ConsentTemplateList {
+  action: UserActions.UserConsentsAction
+): ConsentTemplate[] {
   switch (action.type) {
-    case fromActions.LOAD_USER_CONSENTS_SUCCESS: {
+    case UserActions.LOAD_USER_CONSENTS_SUCCESS: {
       const consents = action.payload;
       return consents ? consents : initialState;
     }
 
-    case fromActions.GIVE_USER_CONSENT_SUCCESS: {
+    case UserActions.GIVE_USER_CONSENT_SUCCESS: {
       const updatedConsentTemplate = action.consentTemplate;
-      const updatedTemplates = state.consentTemplates.map(consentTemplate =>
+      return state.map(consentTemplate =>
         consentTemplate.id === updatedConsentTemplate.id
           ? updatedConsentTemplate
           : consentTemplate
       );
-      return {
-        consentTemplates: updatedTemplates,
-      };
     }
   }
 

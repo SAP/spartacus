@@ -1,24 +1,39 @@
 import {
   Component,
-  DebugElement,
   Input,
   Pipe,
   PipeTransform,
+  TemplateRef,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductReferencesComponent,
+  Product,
   ProductReference,
   ProductReferenceService,
-  RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { SharedCarouselService } from '../shared-carousel.service';
+import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
-import { ProductReferencesService } from './product-references.component.service';
+
+@Component({
+  selector: 'cx-carousel',
+  template: `
+    <ng-container *ngFor="let item$ of items">
+      <ng-container
+        *ngTemplateOutlet="template; context: { item: item$ | async }"
+      ></ng-container>
+    </ng-container>
+  `,
+})
+class MockCarouselComponent {
+  @Input() title: string;
+  @Input() template: TemplateRef<any>;
+  @Input() items: any[];
+}
 
 @Pipe({
   name: 'cxUrl',
@@ -32,168 +47,145 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container;
+  @Input() container: any;
+  @Input() format: string;
 }
 
-const productCode = 'productCode';
-const product = {
-  code: productCode,
-  name: 'testProduct',
+const mockProduct: Product = {
+  code: '1',
 };
 
-const list: ProductReference[] = [
-  { referenceType: 'SIMILAR', target: product },
-  { referenceType: 'ACCESSORIES', target: product },
+const mockProductReferences = [
+  {
+    target: {
+      code: '111',
+      name: 'product reference 1',
+      price: {
+        formattedValue: '$100.00',
+      },
+      images: {
+        PRIMARY: {
+          image: {
+            url: 'whatever.jpg',
+          },
+        },
+      },
+    },
+  },
+  {
+    target: {
+      code: '222',
+      name: 'product reference 2',
+      price: {
+        formattedValue: '$200.00',
+      },
+    },
+  },
 ];
 
 const mockComponentData: CmsProductReferencesComponent = {
   uid: '001',
-  typeCode: 'ProductReferencesComponent',
-  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
-  productReferenceTypes: 'SIMILAR',
-  title: 'Mock Title',
-  name: 'Mock UIProduct References',
-  container: 'false',
-  displayProductTitles: 'true',
-  displayProductPrices: 'true',
+  typeCode: 'ProductCarouselComponent',
+  productReferenceTypes: 'UPSELL',
 };
 
-const MockCmsComponentData = <CmsComponentData<any>>{
+const MockCmsProductCarouselComponent = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
-const router = {
-  state: {
-    url: '/',
-    queryParams: {},
-    params: { productCode },
-  },
-};
-
-class MockRoutingService {
-  getRouterState(): Observable<any> {
-    return of(router);
+class MockCurrentProductService {
+  getProduct(): Observable<any> {
+    return of(mockProduct);
   }
 }
 
 class MockProductReferenceService {
-  get(): Observable<ProductReference[]> {
-    return of(list);
+  get(_code: string): Observable<ProductReference[]> {
+    return of([mockProductReferences[0], mockProductReferences[1]]);
   }
 }
 
-class MockProductReferencesService {
-  getTitle = jasmine
-    .createSpy('getTitle')
-    .and.callFake(() => of(mockComponentData.title));
-  fetchTitle = jasmine
-    .createSpy('fetchTitle')
-    .and.callFake(() => of(mockComponentData.title));
-  getDisplayProductTitles = jasmine
-    .createSpy('getDisplayProductTitles')
-    .and.callFake(() => of(mockComponentData.displayProductTitles));
-  fetchDisplayProductTitles = jasmine
-    .createSpy('fetchDisplayProductTitles')
-    .and.callFake(() => of(mockComponentData.displayProductTitles));
-  getDisplayProductPrices = jasmine
-    .createSpy('getDisplayProductPrices')
-    .and.callFake(() => of(mockComponentData.displayProductPrices));
-  fetchDisplayProductPrices = jasmine
-    .createSpy('fetchDisplayProductPrices')
-    .and.callFake(() => of(mockComponentData.displayProductPrices));
-  getReferenceList = jasmine
-    .createSpy('getReferenceList')
-    .and.callFake(() => of(list));
-  setReferenceList = jasmine
-    .createSpy('setReferenceList')
-    .and.callFake(() => of([list]));
-}
-
-class MockSharedCarouselService {
-  getItemSize = jasmine.createSpy('getItemSize').and.callFake(() => of(4));
-  setItemSize = jasmine.createSpy('setItemSize');
-  getItemAsActive = jasmine
-    .createSpy('getItemAsActive')
-    .and.callFake(() => of(0));
-  setItemAsActive = jasmine
-    .createSpy('setItemAsActive')
-    .and.callFake(() => of(1));
-  setPreviousItemAsActive = jasmine.createSpy('setPreviousItemAsActive');
-  getActiveItemWithDelay = jasmine.createSpy('getActiveItemWithDelay');
-  setNextItemAsActive = jasmine.createSpy('setNextItemAsActive');
-  getDelayValue = jasmine.createSpy('getDelayValue').and.callThrough();
-  getActiveItem = jasmine.createSpy('getActiveItem').and.callFake(() => of(1));
-}
-
 describe('ProductReferencesComponent', () => {
-  let productReferencesComponent: ProductReferencesComponent;
+  let component: ProductReferencesComponent;
   let fixture: ComponentFixture<ProductReferencesComponent>;
-  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [
         ProductReferencesComponent,
+        MockCarouselComponent,
         MockMediaComponent,
         MockUrlPipe,
       ],
       providers: [
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsProductCarouselComponent,
+        },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
         {
           provide: ProductReferenceService,
           useClass: MockProductReferenceService,
         },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
       ],
-    })
-      .overrideComponent(ProductReferencesComponent, {
-        set: {
-          providers: [
-            {
-              provide: ProductReferencesService,
-              useClass: MockProductReferencesService,
-            },
-            {
-              provide: SharedCarouselService,
-              useClass: MockSharedCarouselService,
-            },
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReferencesComponent);
-    productReferencesComponent = fixture.componentInstance;
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    el = fixture.debugElement;
   });
 
   it('should be created', async(() => {
-    productReferencesComponent.ngOnInit();
-    expect(productReferencesComponent).toBeTruthy();
+    expect(component).toBeTruthy();
   }));
 
-  it('should have product list', async(() => {
-    let list$: ProductReference[];
-    productReferencesComponent.productReferencesService.setReferenceList();
-    productReferencesComponent.productReferencesService
-      .getReferenceList()
-      .subscribe(productData$ => {
-        list$ = productData$;
-      })
-      .unsubscribe();
-    expect(list$).toBe(list);
+  it('should have 2 items', async(() => {
+    let items: Observable<Product>[];
+    component.items$.subscribe(i => (items = i));
+    expect(items.length).toBe(2);
   }));
 
-  it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(el.query(By.css('h3')).nativeElement.textContent).toContain(
-      mockComponentData.title
-    );
+  it('should have product reference code 111 in first product', async(() => {
+    let items: Observable<Product>[];
+    component.items$.subscribe(i => (items = i));
+    let product: Product;
+    items[0].subscribe(p => (product = p));
+
+    expect(product).toBe(mockProductReferences[0].target);
+  }));
+
+  describe('UI test', () => {
+    it('should have 2 rendered templates', async(() => {
+      const el = fixture.debugElement.queryAll(By.css('a'));
+      expect(el.length).toEqual(2);
+    }));
   });
+
+  it('should render product name in template', async(() => {
+    const el = fixture.debugElement.query(By.css('a:first-child h4'));
+    expect(el.nativeElement).toBeTruthy();
+    expect(el.nativeElement.innerText).toEqual('product reference 1');
+  }));
+
+  it('should render product price in template', async(() => {
+    const el = fixture.debugElement.query(By.css('a:last-child .price'));
+    expect(el.nativeElement).toBeTruthy();
+    expect(el.nativeElement.innerText).toEqual('$200.00');
+  }));
+
+  it('should render product primary image for the first item', async(() => {
+    const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
+    expect(el.nativeElement).toBeTruthy();
+  }));
+
+  it('should not render product primary image for the 2nd item', async(() => {
+    const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
+    expect(el).toBeNull();
+  }));
 });

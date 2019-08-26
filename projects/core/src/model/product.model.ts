@@ -163,6 +163,7 @@ export interface Product {
   manufacturer?: string;
   multidimensional?: boolean;
   name?: string;
+  nameHtml?: string;
   numberOfReviews?: number;
   potentialPromotions?: Promotion[];
   price?: Price;

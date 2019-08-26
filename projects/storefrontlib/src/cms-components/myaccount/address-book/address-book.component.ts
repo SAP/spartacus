@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Address } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 
 @Component({
@@ -12,7 +11,6 @@ export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;
   addressesStateLoading$: Observable<boolean>;
   currentAddress: Address;
-  userId: string;
 
   showAddAddressForm = false;
   showEditAddressForm = false;
@@ -22,14 +20,7 @@ export class AddressBookComponent implements OnInit {
   ngOnInit(): void {
     this.addresses$ = this.service.getAddresses();
     this.addressesStateLoading$ = this.service.getAddressesStateLoading();
-
-    this.service
-      .getUserId()
-      .pipe(take(1))
-      .subscribe(id => {
-        this.userId = id;
-        this.service.loadAddresses(id);
-      });
+    this.service.loadAddresses();
   }
 
   addAddressButtonHandle(): void {
@@ -45,7 +36,7 @@ export class AddressBookComponent implements OnInit {
 
   addAddressSubmit(address: Address): void {
     this.showAddAddressForm = false;
-    this.service.addUserAddress(this.userId, address);
+    this.service.addUserAddress(address);
   }
 
   addAddressCancel(): void {
@@ -54,11 +45,7 @@ export class AddressBookComponent implements OnInit {
 
   editAddressSubmit(address: Address): void {
     this.showEditAddressForm = false;
-    this.service.updateUserAddress(
-      this.userId,
-      this.currentAddress['id'],
-      address
-    );
+    this.service.updateUserAddress(this.currentAddress['id'], address);
   }
 
   editAddressCancel(): void {

@@ -1,6 +1,7 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
-import { defaultLayoutConfig, LayoutConfig } from '../../../layout';
+import { LayoutConfig } from '../../../layout';
 import { MediaService } from './media.service';
 
 const MockConfig: OccConfig = {
@@ -22,6 +23,7 @@ const mockMediaContainer = {
     url: 'desktopUrl',
     altText: 'alt text',
   },
+  wide: {},
 };
 
 const mockMedia = {
@@ -36,10 +38,11 @@ describe('MediaService', () => {
       providers: [
         MediaService,
         { provide: OccConfig, useValue: MockConfig },
-        { provide: LayoutConfig, useValue: defaultLayoutConfig },
+
+        { provide: LayoutConfig, useValue: {} },
       ],
     });
-    mediaService = TestBed.get(MediaService);
+    mediaService = TestBed.get(MediaService as Type<MediaService>);
   });
 
   it('should inject service', () => {
@@ -74,18 +77,14 @@ describe('MediaService', () => {
     );
   });
 
+  it('should return null if the media container has no url', () => {
+    expect(mediaService.getMedia(mockMediaContainer, 'wide').src).toBeFalsy();
+  });
+
   it('should not return alt text from media object when alt ', () => {
     expect(
       mediaService.getMedia(mockMediaContainer, 'desktop', 'other alt').alt
     ).toBe('other alt');
-  });
-
-  it('should return missing image if media cannot be found', () => {
-    expect(
-      mediaService
-        .getMedia(mockMediaContainer, 'xyz')
-        .src.indexOf('data:image/jpg;base64')
-    ).toBe(0);
   });
 
   it('should return srcset', () => {

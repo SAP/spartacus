@@ -1,10 +1,14 @@
-import { NgZone, Component } from '@angular/core';
+import { Component, NgZone, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  AuthService,
+  CmsService,
+  RoutingService,
+  SemanticPathService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
-import { AuthService, CmsService, RoutingService } from '@spartacus/core';
 import { LogoutGuard } from './logout-guard';
 
 class MockAuthService {
@@ -26,6 +30,10 @@ class MockCmsService {
 
 class MockRoutingService {
   go() {}
+}
+
+class MockSemanticPathService {
+  get() {}
 }
 
 describe('LogoutGuard', () => {
@@ -51,13 +59,14 @@ describe('LogoutGuard', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
-    authService = TestBed.get(AuthService);
-    logoutGuard = TestBed.get(LogoutGuard);
-    router = TestBed.get(Router);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    logoutGuard = TestBed.get(LogoutGuard as Type<LogoutGuard>);
+    router = TestBed.get(Router as Type<Router>);
 
-    zone = TestBed.get(NgZone);
+    zone = TestBed.get(NgZone as Type<NgZone>);
   });
 
   describe('When user is authorised,', () => {

@@ -1,33 +1,19 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  NgbCollapseModule,
-  NgbPaginationModule,
-  NgbRatingModule,
-} from '@ng-bootstrap/ng-bootstrap';
-import {
-  I18nTestingModule,
-  ProductSearchPage,
-  ProductSearchService,
-} from '@spartacus/core';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
-import {
-  ListNavigationModule,
-  MediaComponent,
-  PaginationComponent,
-  SortingComponent,
-} from '../../../../shared';
-import { AddToCartComponent } from '../../../checkout';
+import { ListNavigationModule, MediaComponent } from '../../../../shared';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
   ProductViewComponent,
   ViewModes,
 } from '../product-view/product-view.component';
+import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
 
@@ -49,21 +35,6 @@ class MockPageLayoutService {
   }
 }
 
-class MockProductSearchService {
-  search = createSpy('search');
-  searchResults$ = of();
-
-  getSearchResults(): Observable<ProductSearchPage> {
-    return of();
-  }
-
-  clearSearchResults(): void {}
-}
-class MockActivatedRoute {
-  params = of();
-  snapshot = { queryParams: {} };
-  setParams = params => (this.snapshot.queryParams = params);
-}
 @Component({
   template: '',
   selector: 'cx-product-list-item',
@@ -80,13 +51,6 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-@Pipe({
-  name: 'stripHtml',
-})
-class MockStripHtmlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -95,16 +59,32 @@ export class MockCxIconComponent {
   @Input() type;
 }
 
-describe('ProductListComponent in product-list', () => {
+@Component({
+  selector: 'cx-add-to-cart',
+  template: '<button>add to cart</button>',
+})
+export class MockAddToCartComponent {
+  @Input() productCode;
+  @Input() showQuantity;
+}
+
+export class MockProductListComponentService {
+  setQuery = createSpy('setQuery');
+  viewPage = createSpy('viewPage');
+  sort = createSpy('sort');
+  clearSearchResults = createSpy('clearSearchResults');
+  model$ = of({});
+}
+
+describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
+  let componentService: ProductListComponentService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPaginationModule,
         NgbCollapseModule,
-        NgbRatingModule,
         ListNavigationModule,
         FormsModule,
         RouterTestingModule,
@@ -112,16 +92,12 @@ describe('ProductListComponent in product-list', () => {
       ],
       providers: [
         {
-          provide: ProductSearchService,
-          useClass: MockProductSearchService,
-        },
-        {
-          provide: ActivatedRoute,
-          useClass: MockActivatedRoute,
-        },
-        {
           provide: PageLayoutService,
           useClass: MockPageLayoutService,
+        },
+        {
+          provide: ProductListComponentService,
+          useClass: MockProductListComponentService,
         },
       ],
       declarations: [
@@ -129,12 +105,11 @@ describe('ProductListComponent in product-list', () => {
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
         MockStarRatingComponent,
-        AddToCartComponent,
+        MockAddToCartComponent,
         MediaComponent,
         ProductViewComponent,
         MockProductListItemComponent,
         MockUrlPipe,
-        MockStripHtmlPipe,
         MockCxIconComponent,
       ],
     }).compileComponents();
@@ -143,50 +118,42 @@ describe('ProductListComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
+    componentService = TestBed.get(ProductListComponentService as Type<
+      ProductListComponentService
+    >);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update() method to be defined', done => {
-    expect(component.update).toBeDefined();
-    done();
-  });
-
-  it('should change pages', done => {
-    const pagination = new PaginationComponent();
-    component.query = 'mockQuery';
-    pagination.viewPageEvent.subscribe(event => {
-      expect(event).toEqual(1);
-      component.viewPage(event);
-      expect(component.searchConfig.currentPage).toBe(event);
-      done();
+  describe('ngOnInit', () => {
+    it('should clear search results', () => {
+      component.ngOnInit();
+      expect(componentService.clearSearchResults).toHaveBeenCalled();
     });
 
-    pagination.pageChange(2);
+    it('should get model from the service', () => {
+      component.ngOnInit();
+      expect(component.model$).toBe(componentService.model$);
+    });
   });
 
-  it('should change sortings', done => {
-    const pagination = new SortingComponent();
-    component.query = 'mockQuery';
-    pagination.sortListEvent.subscribe(event => {
-      expect(event).toEqual('sortCode');
-      component.viewPage(event);
-      expect(component.searchConfig.currentPage).toBe(event);
-      done();
-    });
-
-    pagination.sortList('sortCode');
+  it('viewPage should call service.viewPage', () => {
+    component.viewPage(123);
+    expect(componentService.viewPage).toHaveBeenCalledWith(123);
   });
 
-  it('should change view mode to grid from default list', done => {
-    const viewMode = new ProductViewComponent();
-    viewMode.modeChange.subscribe(event => {
-      expect(event).toEqual(ViewModes.Grid);
-      done();
-    });
+  it('sortList should call service.sort', () => {
+    component.sortList('testSortCode');
+    expect(componentService.sort).toHaveBeenCalledWith('testSortCode');
+  });
 
-    viewMode.changeMode();
+  it('setViewMode should set view mode', () => {
+    component.setViewMode(ViewModes.List);
+    expect(component.viewMode$.value).toBe(ViewModes.List);
+
+    component.setViewMode(ViewModes.Grid);
+    expect(component.viewMode$.value).toBe(ViewModes.Grid);
   });
 });

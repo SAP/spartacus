@@ -24,14 +24,14 @@ To import a snapshot build in your shell app, just update the library dependency
 
 This will allow you to import the latest (most recent) snapshot from github.
 
-If you want to import a specific snapshot, append the commit SHA in your dependency, as follows:
+If you want to import a specific snapshot, append the suffix of the github repo and the git tag of the release in your dependency version, as follows:
 
 ```json
 {
   "dependencies" : {
-    "@spartacus/core": "SAP/cloud-commerce-spartacus-storefront-core-builds+abcde23f",
-    "@spartacus/styles": "SAP/cloud-commerce-spartacus-storefront-styles-builds+abcde23f",
-    "@spartacus/storefront": "SAP/cloud-commerce-spartacus-storefront-storefront-builds+abcde23f"
+    "@spartacus/core": "SAP/cloud-commerce-spartacus-storefront-core-builds#core-0.1.0+abcde23f",
+    "@spartacus/styles": "SAP/cloud-commerce-spartacus-storefront-styles-builds#styles-0.1.0+abcde23f",
+    "@spartacus/storefront": "SAP/cloud-commerce-spartacus-storefront-storefront-builds#storefront-0.1.0+abcde23f"
   }
 }
  ```

@@ -1,18 +1,13 @@
+import { UserSignUp } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  entityFailMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
-} from '../../../state';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { REMOVE_USER_PROCESS_ID } from '../user-state';
-import * as fromUserRegister from './user-register.action';
-import { UserRegisterFormData } from '../../model/user.model';
+import { UserActions } from './index';
 
 describe('User Register Actions', () => {
   describe('RegisterUser Action', () => {
     it('should create the action', () => {
-      const user: UserRegisterFormData = {
+      const user: UserSignUp = {
         titleCode: '',
         firstName: '',
         lastName: '',
@@ -20,9 +15,9 @@ describe('User Register Actions', () => {
         uid: '',
       };
 
-      const action = new fromUserRegister.RegisterUser(user);
+      const action = new UserActions.RegisterUser(user);
       expect({ ...action }).toEqual({
-        type: fromUserRegister.REGISTER_USER,
+        type: UserActions.REGISTER_USER,
         payload: user,
       });
     });
@@ -31,10 +26,10 @@ describe('User Register Actions', () => {
   describe('RegisterUserFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromUserRegister.RegisterUserFail(error);
+      const action = new UserActions.RegisterUserFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserRegister.REGISTER_USER_FAIL,
+        type: UserActions.REGISTER_USER_FAIL,
         payload: error,
       });
     });
@@ -42,10 +37,10 @@ describe('User Register Actions', () => {
 
   describe('RegisterUserSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserRegister.RegisterUserSuccess();
+      const action = new UserActions.RegisterUserSuccess();
 
       expect({ ...action }).toEqual({
-        type: fromUserRegister.REGISTER_USER_SUCCESS,
+        type: UserActions.REGISTER_USER_SUCCESS,
       });
     });
   });
@@ -54,11 +49,14 @@ describe('User Register Actions', () => {
 describe('Remove User Actions', () => {
   describe('RemoveUser Action', () => {
     it('should create the action', () => {
-      const action = new fromUserRegister.RemoveUser('testUserId');
+      const action = new UserActions.RemoveUser('testUserId');
       expect({ ...action }).toEqual({
-        type: fromUserRegister.REMOVE_USER,
+        type: UserActions.REMOVE_USER,
         payload: 'testUserId',
-        meta: entityLoadMeta(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID),
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          REMOVE_USER_PROCESS_ID
+        ),
       });
     });
   });
@@ -66,23 +64,30 @@ describe('Remove User Actions', () => {
   describe('RemoveUserFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromUserRegister.RemoveUserFail(error);
+      const action = new UserActions.RemoveUserFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserRegister.REMOVE_USER_FAIL,
+        type: UserActions.REMOVE_USER_FAIL,
         payload: error,
-        meta: entityFailMeta(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID, error),
+        meta: StateEntityLoaderActions.entityFailMeta(
+          PROCESS_FEATURE,
+          REMOVE_USER_PROCESS_ID,
+          error
+        ),
       });
     });
   });
 
   describe('RemoveUserSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserRegister.RemoveUserSuccess();
+      const action = new UserActions.RemoveUserSuccess();
 
       expect({ ...action }).toEqual({
-        type: fromUserRegister.REMOVE_USER_SUCCESS,
-        meta: entitySuccessMeta(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID),
+        type: UserActions.REMOVE_USER_SUCCESS,
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          PROCESS_FEATURE,
+          REMOVE_USER_PROCESS_ID
+        ),
         payload: undefined,
       });
     });
@@ -90,11 +95,14 @@ describe('Remove User Actions', () => {
 
   describe('RemoveUserReset Action', () => {
     it('should create the action', () => {
-      const action = new fromUserRegister.RemoveUserReset();
+      const action = new UserActions.RemoveUserReset();
 
       expect({ ...action }).toEqual({
-        type: fromUserRegister.REMOVE_USER_RESET,
-        meta: entityResetMeta(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID),
+        type: UserActions.REMOVE_USER_RESET,
+        meta: StateEntityLoaderActions.entityResetMeta(
+          PROCESS_FEATURE,
+          REMOVE_USER_PROCESS_ID
+        ),
       });
     });
   });

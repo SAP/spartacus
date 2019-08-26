@@ -1,20 +1,27 @@
-import { NgModule } from '@angular/core';
-
-import {
-  CartDataService,
-  CartService,
-  SaveForLaterDataService,
-  SaveForLaterService,
-} from './facade/index';
-import { CartOccModule } from './occ/cart-occ.module';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { PageMetaResolver } from '../cms/page/page-meta.resolver';
+import { CartDataService } from './facade/cart-data.service';
+import { CartService } from './facade/index';
+import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { CartStoreModule } from './store/cart-store.module';
+
 @NgModule({
-  imports: [CartOccModule, CartStoreModule],
-  providers: [
-    CartDataService,
-    CartService,
-    SaveForLaterDataService,
     SaveForLaterService,
-  ],
+  imports: [CartStoreModule],
 })
-export class CartModule {}
+export class CartModule {
+  static forRoot(): ModuleWithProviders<CartModule> {
+    return {
+      ngModule: CartModule,
+      providers: [
+        CartDataService,
+        CartService,
+        {
+          provide: PageMetaResolver,
+          useExisting: CartPageMetaResolver,
+          multi: true,
+        },
+      ],
+    };
+  }
+}

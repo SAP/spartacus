@@ -1,14 +1,16 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';
-import * as fromStore from '../store/index';
-import { ProductsState } from '../store/index';
-import { ProductService } from './product.service';
 import { Product } from '../../model/product.model';
+import { ProductActions } from '../store/actions/index';
+import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
+import * as fromStoreReducers from '../store/reducers/index';
+import { ProductService } from './product.service';
 
 describe('ProductService', () => {
-  let store: Store<ProductsState>;
+  let store: Store<StateWithProduct>;
   let service: ProductService;
   const mockProduct: Product = { code: 'testId' };
 
@@ -16,13 +18,15 @@ describe('ProductService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromStoreReducers.getReducers()
+        ),
       ],
       providers: [ProductService],
     });
-
-    service = TestBed.get(ProductService);
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
+    service = TestBed.get(ProductService as Type<ProductService>);
     spyOn(store, 'dispatch').and.stub();
   });
 
@@ -103,7 +107,7 @@ describe('ProductService', () => {
         .subscribe()
         .unsubscribe();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.LoadProduct('productCode')
+        new ProductActions.LoadProduct('productCode')
       );
     });
 

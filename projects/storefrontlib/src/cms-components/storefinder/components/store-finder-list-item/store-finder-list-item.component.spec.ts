@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   I18nTestingModule,
   StoreDataService,
@@ -86,12 +85,7 @@ describe('StoreFinderListItemComponent', () => {
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        NgbTabsetModule,
-        I18nTestingModule,
-      ],
+      imports: [CommonModule, ReactiveFormsModule, I18nTestingModule],
       declarations: [StoreFinderListItemComponent],
       providers: [StoreFinderService, StoreDataService],
     }).compileComponents();

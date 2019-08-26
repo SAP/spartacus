@@ -1,8 +1,7 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { CartAdapter } from './cart.adapter';
-import { CheckoutDetails } from '../../../checkout/models/checkout.model';
+import { Observable } from 'rxjs';
 import { Cart } from '../../../model/cart.model';
+import { CartAdapter } from './cart.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -10,23 +9,12 @@ import { Cart } from '../../../model/cart.model';
 export class CartConnector {
   constructor(protected adapter: CartAdapter) {}
 
-  public loadAll(userId: string, details?: boolean): Observable<Cart[]> {
-    return this.adapter.loadAll(userId, details);
+  public loadAll(userId: string): Observable<Cart[]> {
+    return this.adapter.loadAll(userId);
   }
 
-  public load(
-    userId: string,
-    cartId: string,
-    details?: boolean
-  ): Observable<Cart> {
-    return this.adapter.load(userId, cartId, details);
-  }
-
-  public loadCheckoutDetails(
-    userId: string,
-    cartId: string
-  ): Observable<CheckoutDetails> {
-    return this.adapter.loadCheckoutDetails(userId, cartId);
+  public load(userId: string, cartId: string): Observable<Cart> {
+    return this.adapter.load(userId, cartId);
   }
 
   public create(

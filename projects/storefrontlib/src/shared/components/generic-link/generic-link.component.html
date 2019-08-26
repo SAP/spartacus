@@ -5,12 +5,13 @@
     role="link"
     [href]="url"
     [attr.target]="target"
+    [attr.rel]="rel"
     [attr.class]="class"
     [attr.id]="id"
     [attr.style]="style"
     [attr.title]="title"
   >
-    <ng-content></ng-content>
+    <ng-container *ngTemplateOutlet="content"></ng-container>
   </a>
 </ng-container>
 
@@ -24,6 +25,10 @@
     [attr.style]="style"
     [attr.title]="title"
   >
-    <ng-content></ng-content>
+    <ng-container *ngTemplateOutlet="content"></ng-container>
   </a>
+</ng-template>
+
+<ng-template #content>
+  <ng-content></ng-content>
 </ng-template>

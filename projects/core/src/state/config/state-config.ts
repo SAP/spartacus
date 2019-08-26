@@ -27,10 +27,15 @@ export abstract class StateConfig {
       keys?: {
         [key: string]: StorageSyncType;
       };
+      /**
+       * A set of keys not to sync with the specified browser's storage.
+       */
+      excludeKeys?: {
+        [key: string]: StorageSyncType;
+      };
     };
     ssrTransfer?: {
       keys?: {
-        // TODO:#sync-poc - maybe merge with `storageSync` keys
         /**
          * A set of state keys that should be transferred from server.
          */

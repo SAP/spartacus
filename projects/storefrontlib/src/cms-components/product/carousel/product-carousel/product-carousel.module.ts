@@ -1,43 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CmsConfig, ConfigModule, UrlModule } from '@spartacus/core';
 import {
-  CmsConfig,
-  ConfigModule,
-  ProductService,
-  UrlModule,
-} from '@spartacus/core';
-import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { MediaModule } from '../../../../shared/components/media/media.module';
-import { SharedCarouselService } from '../shared-carousel.service';
+  CarouselModule,
+  MediaModule,
+} from '../../../../shared/components/index';
 import { ProductCarouselComponent } from './product-carousel.component';
-import { ProductCarouselService } from './product-carousel.component.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
+    CarouselModule,
     MediaModule,
+    RouterModule,
+    UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductCarouselComponent: {
-          selector: 'cx-product-carousel',
-          providers: [
-            {
-              provide: ProductCarouselService,
-              useClass: ProductCarouselService,
-              deps: [CmsComponentData, ProductService],
-            },
-            {
-              provide: SharedCarouselService,
-              useClass: SharedCarouselService,
-              deps: [],
-            },
-          ],
+          component: ProductCarouselComponent,
         },
       },
     }),
-    UrlModule,
   ],
   declarations: [ProductCarouselComponent],
   entryComponents: [ProductCarouselComponent],

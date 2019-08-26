@@ -4,13 +4,7 @@ import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsParagraphComponent, Component, CmsConfig } from '@spartacus/core';
-
-const UseCmsModuleConfig: CmsConfig = {
-  cmsComponents: {
-    CMSLinkComponent: { selector: 'ParagraphComponent' },
-  },
-};
+import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
 
 describe('CmsParagraphComponent in CmsLib', () => {
   let paragraphComponent: ParagraphComponent;
@@ -20,7 +14,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   const componentData: CmsParagraphComponent = {
     uid: '001',
     typeCode: 'CMSParagraphComponent',
-    modifiedtime: new Date('2017-12-21T18:15:15+0000'),
+    modifiedTime: new Date('2017-12-21T18:15:15+0000'),
     name: 'TestCMSParagraphComponent',
     container: 'false',
     title: 'Paragraph',
@@ -29,7 +23,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
   const data$ = new BehaviorSubject<CmsParagraphComponent>({});
 
-  const MockCmsComponentData = <CmsComponentData<Component>>{
+  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: data$.asObservable(),
   };
 
@@ -37,7 +31,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
     TestBed.configureTestingModule({
       declarations: [ParagraphComponent],
       providers: [
-        { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,

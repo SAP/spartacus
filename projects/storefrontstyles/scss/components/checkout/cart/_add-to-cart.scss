@@ -1,0 +1,16 @@
+%cx-add-to-cart {
+  .quantity {
+    margin: 0 0 20px;
+
+    label {
+      @include type('8');
+      margin: 15px 0 10px 0;
+    }
+
+    .info {
+      @include type('7');
+      margin: 0 15px 0 15px;
+      color: var(--cx-color-secondary);
+    }
+  }
+}

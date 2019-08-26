@@ -1,32 +1,26 @@
 import {
-  MemoizedSelector,
-  createSelector,
   createFeatureSelector,
+  createSelector,
+  MemoizedSelector,
 } from '@ngrx/store';
-
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
-  CHECKOUT_FEATURE,
   CheckoutState,
   CheckoutStepsState,
+  CHECKOUT_FEATURE,
   StateWithCheckout,
 } from '../checkout-state';
-import {
-  loaderLoadingSelector,
-  loaderSuccessSelector,
-  loaderValueSelector,
-} from '../../../state/utils/loader/loader.selectors';
-import { DeliveryMode, Order } from '../../../model/order.model';
-import { PaymentDetails } from '../../../model/cart.model';
-import { Address } from '../../../model/address.model';
 
-export const getDeliveryAddressSelector = (state: CheckoutStepsState) =>
-  state.address;
-export const getDeliveryModeSelector = (state: CheckoutStepsState) =>
+const getDeliveryAddressSelector = (state: CheckoutStepsState) => state.address;
+const getDeliveryModeSelector = (state: CheckoutStepsState) =>
   state.deliveryMode;
-export const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
+const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
   state.paymentDetails;
-export const getOrderDetailsSelector = (state: CheckoutStepsState) =>
+const getOrderDetailsSelector = (state: CheckoutStepsState) =>
   state.orderDetails;
 
 export const getCheckoutState: MemoizedSelector<
@@ -47,7 +41,7 @@ export const getCheckoutSteps: MemoizedSelector<
   CheckoutStepsState
 > = createSelector(
   getCheckoutStepsState,
-  state => loaderValueSelector(state)
+  state => StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getDeliveryAddress: MemoizedSelector<
@@ -81,7 +75,7 @@ export const getSupportedDeliveryModes: MemoizedSelector<
   }
 );
 
-export const getSelectedCode: MemoizedSelector<
+export const getSelectedDeliveryModeCode: MemoizedSelector<
   StateWithCheckout,
   string
 > = createSelector(
@@ -127,5 +121,7 @@ export const getCheckoutDetailsLoaded: MemoizedSelector<
   boolean
 > = createSelector(
   getCheckoutStepsState,
-  state => loaderSuccessSelector(state) && !loaderLoadingSelector(state)
+  state =>
+    StateLoaderSelectors.loaderSuccessSelector(state) &&
+    !StateLoaderSelectors.loaderLoadingSelector(state)
 );

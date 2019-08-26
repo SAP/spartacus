@@ -1,18 +1,13 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
+import { ConsentTemplate } from '../../../model/consent.model';
+import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import {
-  loaderErrorSelector,
-  loaderLoadingSelector,
-  loaderSuccessSelector,
-  loaderValueSelector,
-} from '../../../state/utils/loader/loader.selectors';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
 export const getConsentsState: MemoizedSelector<
   StateWithUser,
-  LoaderState<ConsentTemplateList>
+  LoaderState<ConsentTemplate[]>
 > = createSelector(
   getUserState,
   (state: UserState) => state.consents
@@ -20,10 +15,10 @@ export const getConsentsState: MemoizedSelector<
 
 export const getConsentsValue: MemoizedSelector<
   StateWithUser,
-  ConsentTemplateList
+  ConsentTemplate[]
 > = createSelector(
   getConsentsState,
-  loaderValueSelector
+  StateLoaderSelectors.loaderValueSelector
 );
 
 export const getConsentsLoading: MemoizedSelector<
@@ -31,7 +26,7 @@ export const getConsentsLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getConsentsState,
-  loaderLoadingSelector
+  StateLoaderSelectors.loaderLoadingSelector
 );
 
 export const getConsentsSuccess: MemoizedSelector<
@@ -39,7 +34,7 @@ export const getConsentsSuccess: MemoizedSelector<
   boolean
 > = createSelector(
   getConsentsState,
-  loaderSuccessSelector
+  StateLoaderSelectors.loaderSuccessSelector
 );
 
 export const getConsentsError: MemoizedSelector<
@@ -47,5 +42,5 @@ export const getConsentsError: MemoizedSelector<
   boolean
 > = createSelector(
   getConsentsState,
-  loaderErrorSelector
+  StateLoaderSelectors.loaderErrorSelector
 );

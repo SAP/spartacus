@@ -10,10 +10,11 @@ import {
   PageImageResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
+import { TranslationService } from '../../i18n/translation.service';
+import { PageType } from '../../model/cms.model';
+import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
-import { Product } from '../../model/product.model';
-import { PageType } from '../../model/cms.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,8 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageImageResolver {
   constructor(
     protected routingService: RoutingService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected translation: TranslationService
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -44,7 +46,9 @@ export class ProductPageMetaResolver extends PageMetaResolver
           this.resolveHeading(p),
           this.resolveTitle(p),
           this.resolveDescription(p),
-          this.resolveBreadcrumbs(p),
+          this.resolveBreadcrumbLabel().pipe(
+            switchMap(label => this.resolveBreadcrumbs(p, label))
+          ),
           this.resolveImage(p),
         ])
       ),
@@ -59,7 +63,9 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   resolveHeading(product: Product): Observable<string> {
-    return of(product.name);
+    return this.translation.translate('pageMetaResolver.product.heading', {
+      heading: product.name,
+    });
   }
 
   resolveTitle(product: Product): Observable<string> {
@@ -67,20 +73,31 @@ export class ProductPageMetaResolver extends PageMetaResolver
     title += this.resolveFirstCategory(product);
     title += this.resolveManufacturer(product);
 
-    return of(title);
+    return this.translation.translate('pageMetaResolver.product.title', {
+      title: title,
+    });
   }
 
   resolveDescription(product: Product): Observable<string> {
-    return of(product.summary);
+    return this.translation.translate('pageMetaResolver.product.description', {
+      description: product.summary,
+    });
   }
 
-  resolveBreadcrumbs(product: Product): Observable<any[]> {
+  resolveBreadcrumbLabel(): Observable<string> {
+    return this.translation.translate('common.home');
+  }
+
+  resolveBreadcrumbs(
+    product: Product,
+    breadcrumbLabel: string
+  ): Observable<any[]> {
     const breadcrumbs = [];
-    breadcrumbs.push({ label: 'Home', link: '/' });
-    for (const c of product.categories) {
+    breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
+    for (const { name, code, url } of product.categories) {
       breadcrumbs.push({
-        label: c.name || c.code,
-        link: '/c/' + c.code,
+        label: name || code,
+        link: url,
       });
     }
     return of(breadcrumbs);

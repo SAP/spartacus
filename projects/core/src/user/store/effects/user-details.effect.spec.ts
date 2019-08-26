@@ -1,13 +1,14 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import * as fromUserDetailsAction from '../actions/user-details.action';
-import * as fromUserDetailsEffect from './user-details.effect';
 import { User } from '../../../model/misc.model';
-import { UserDetailsConnector } from '../../connectors/details/user-details.connector';
-import { UserDetailsAdapter } from '../../connectors/details/user-details.adapter';
+import { UserAdapter } from '../../connectors/user/user.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
+import * as fromUserDetailsEffect from './user-details.effect';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -18,28 +19,32 @@ const mockUserDetails: User = {
 
 describe('User Details effect', () => {
   let userDetailsEffect: fromUserDetailsEffect.UserDetailsEffects;
-  let userService: UserDetailsConnector;
+  let userService: UserConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromUserDetailsEffect.UserDetailsEffects,
-        { provide: UserDetailsAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    userDetailsEffect = TestBed.get(fromUserDetailsEffect.UserDetailsEffects);
-    userService = TestBed.get(UserDetailsConnector);
+    userDetailsEffect = TestBed.get(
+      fromUserDetailsEffect.UserDetailsEffects as Type<
+        fromUserDetailsEffect.UserDetailsEffects
+      >
+    );
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
   });
 
   describe('loadUserDetails$', () => {
     it('should load user details', () => {
       spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
 
-      const action = new fromUserDetailsAction.LoadUserDetails('mockName');
-      const completion = new fromUserDetailsAction.LoadUserDetailsSuccess(
+      const action = new UserActions.LoadUserDetails('mockName');
+      const completion = new UserActions.LoadUserDetailsSuccess(
         mockUserDetails
       );
 
@@ -59,13 +64,11 @@ describe('User Details effect', () => {
         title: 'mr',
       };
 
-      const action = new fromUserDetailsAction.UpdateUserDetails({
+      const action = new UserActions.UpdateUserDetails({
         username,
         userDetails,
       });
-      const completion = new fromUserDetailsAction.UpdateUserDetailsSuccess(
-        userDetails
-      );
+      const completion = new UserActions.UpdateUserDetailsSuccess(userDetails);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -82,11 +85,11 @@ describe('User Details effect', () => {
         title: 'mr',
       };
 
-      const action = new fromUserDetailsAction.UpdateUserDetails({
+      const action = new UserActions.UpdateUserDetails({
         username,
         userDetails,
       });
-      const completion = new fromUserDetailsAction.UpdateUserDetailsFail(error);
+      const completion = new UserActions.UpdateUserDetailsFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

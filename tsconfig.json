@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "rootDir": ".",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -17,7 +18,8 @@
     "paths": {
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
-      "@spartacus/vendor": ["projects/vendor/public_api"]
+      "@spartacus/vendor": ["projects/vendor/public_api"],
+      "@spartacus/assets": ["projects/assets/src/public_api"]
     }
   },
   "exclude": ["./dist"]

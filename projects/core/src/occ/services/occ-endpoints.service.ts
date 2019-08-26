@@ -1,9 +1,10 @@
-import { Injectable, Optional } from '@angular/core';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { OccConfig } from '../config/occ-config';
-import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { HttpParams } from '@angular/common/http';
-import { HttpParamsOptions } from '@angular/common/http/src/params';
+import { Injectable, Optional } from '@angular/core';
+import { DynamicTemplate } from '../../config/utils/dynamic-template';
+import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
+import { OccConfig } from '../config/occ-config';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class OccEndpointsService {
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
   ) {
-    this.activeBaseSite = (this.config.site && this.config.site.baseSite) || '';
+    this.activeBaseSite =
+      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID) || '';
 
     if (this.baseSiteService) {
       this.baseSiteService
@@ -24,6 +26,26 @@ export class OccEndpointsService {
     }
   }
 
+  /**
+   * Returns and endpoint starting from the OCC baseUrl (no baseSite)
+   * @param endpoint Endpoint suffix
+   */
+  getRawEndpoint(endpoint: string): string {
+    if (!this.config || !this.config.backend || !this.config.backend.occ) {
+      return '';
+    }
+    endpoint = this.config.backend.occ.endpoints[endpoint];
+
+    if (!endpoint.startsWith('/')) {
+      endpoint = '/' + endpoint;
+    }
+
+    return this.config.backend.occ.baseUrl + endpoint;
+  }
+
+  /**
+   * Returns base OCC endpoint (baseUrl + prefix + baseSite)
+   */
   getBaseEndpoint(): string {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return '';
@@ -36,6 +58,10 @@ export class OccEndpointsService {
     );
   }
 
+  /**
+   * Returns an OCC endpoint including baseUrl and baseSite
+   * @param endpoint Endpoint suffix
+   */
   getEndpoint(endpoint: string): string {
     if (!endpoint.startsWith('/')) {
       endpoint = '/' + endpoint;
@@ -43,6 +69,12 @@ export class OccEndpointsService {
     return this.getBaseEndpoint() + endpoint;
   }
 
+  /**
+   * Returns a fully qualified OCC Url (including baseUrl and baseSite)
+   * @param endpoint Name of the OCC endpoint key config
+   * @param urlParams  URL parameters
+   * @param queryParams Query parameters
+   */
   getUrl(endpoint: string, urlParams?: object, queryParams?: object): string {
     if (
       this.config.backend &&
@@ -57,7 +89,7 @@ export class OccEndpointsService {
     }
 
     if (queryParams) {
-      let httpParamsOptions: HttpParamsOptions;
+      let httpParamsOptions;
 
       if (endpoint.includes('?')) {
         let queryParamsFromEndpoint;

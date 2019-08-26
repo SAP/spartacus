@@ -17,7 +17,7 @@ import { UpdateProfileComponent } from './update-profile.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         UpdateProfileComponent: {
-          selector: 'cx-update-profile',
+          component: UpdateProfileComponent,
           guards: [AuthGuard],
         },
       },
@@ -28,7 +28,7 @@ import { UpdateProfileComponent } from './update-profile.component';
     I18nModule,
   ],
   declarations: [UpdateProfileComponent, UpdateProfileFormComponent],
-  exports: [UpdateProfileComponent],
+  exports: [UpdateProfileComponent, UpdateProfileFormComponent],
   entryComponents: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}

@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+  CmsComponent,
   CmsService,
   CmsSiteContextSelectorComponent,
-  Component as SpaComponent,
   contextServiceMapProvider,
   Currency,
   CurrencyService,
@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BootstrapModule } from '../../../lib/bootstrap.module';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
@@ -79,13 +78,13 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
     getComponentData: () => of(mockComponentData),
   };
 
-  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
+  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
     data$: of(mockComponentData),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BootstrapModule, BrowserAnimationsModule],
+      imports: [BrowserAnimationsModule],
       declarations: [
         LanguageCurrencyComponent,
         SiteContextSelectorComponent,
@@ -135,7 +134,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
 
   it('should contain a language select with number of options', () => {
     const selectBox = el.query(
-      By.css('cx-site-context-selector[context="LANGUAGE"] select')
+      By.css('cx-site-context-selector[context="language"] select')
     );
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockLanguages.length);
@@ -143,7 +142,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
 
   it('should contain a currency select with number of options', () => {
     const selectBox = el.query(
-      By.css('cx-site-context-selector[context="CURRENCY"] select')
+      By.css('cx-site-context-selector[context="currency"] select')
     );
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockCurrencies.length);

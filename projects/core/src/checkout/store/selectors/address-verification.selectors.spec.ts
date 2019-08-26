@@ -1,12 +1,11 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
 import { select, Store, StoreModule } from '@ngrx/store';
-
-import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
-import * as fromActions from '../actions/index';
-import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
 import { AddressValidation } from '../../../model/address.model';
+import { CheckoutActions } from '../actions/index';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
+import * as fromReducers from '../reducers/index';
+import { CheckoutSelectors } from '../selectors/index';
 
 describe('Address Verification Selectors', () => {
   let store: Store<StateWithCheckout>;
@@ -19,7 +18,7 @@ describe('Address Verification Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithCheckout>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -32,12 +31,14 @@ describe('Address Verification Selectors', () => {
 
       let result: string | AddressValidation;
       store
-        .pipe(select(fromSelectors.getAddressVerificationResults))
+        .pipe(select(CheckoutSelectors.getAddressVerificationResults))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.VerifyAddressSuccess(addressValidation));
+      store.dispatch(
+        new CheckoutActions.VerifyAddressSuccess(addressValidation)
+      );
 
       expect(result).toEqual(addressValidation);
     });

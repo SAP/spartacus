@@ -4,6 +4,7 @@ import {
   NgModule,
   PLATFORM_ID,
   Renderer2,
+  Type,
 } from '@angular/core';
 import {
   async,
@@ -12,17 +13,16 @@ import {
   TestModuleMetadata,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CmsComponentData } from '../model/cms-component-data';
 import {
   CmsComponent,
-  CmsService,
-  ComponentMapperService,
   CmsConfig,
-  CxApiService,
+  CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
+import { CmsComponentData } from '../model/cms-component-data';
+import { ComponentWrapperDirective } from './component-wrapper.directive';
+import { CxApiService } from './cx-api.service';
 
 const testText = 'test text';
 
@@ -49,7 +49,7 @@ export class TestModule {}
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSTestComponent: {
-      selector: 'cx-test',
+      component: TestComponent,
       providers: [
         {
           provide: 'testService',
@@ -101,7 +101,6 @@ describe('ComponentWrapperDirective', () => {
       imports: [TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
-        ComponentMapperService,
         Renderer2,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: CmsService, useClass: MockCmsService },
@@ -127,9 +126,11 @@ describe('ComponentWrapperDirective', () => {
 
     describe('with angular component', () => {
       beforeEach(() => {
-        fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.get(CmsService);
-        cmsConfig = TestBed.get(CmsConfig);
+        fixture = TestBed.createComponent(TestWrapperComponent as Type<
+          TestWrapperComponent
+        >);
+        cmsService = TestBed.get(CmsService as Type<CmsService>);
+        cmsConfig = TestBed.get(CmsConfig as Type<CmsConfig>);
       });
 
       it('should instantiate the found component if it was enabled for SSR', () => {
@@ -158,8 +159,10 @@ describe('ComponentWrapperDirective', () => {
     describe('with angular component', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.get(CmsService);
-        dynamicAttributeService = TestBed.get(DynamicAttributeService);
+        cmsService = TestBed.get(CmsService as Type<CmsService>);
+        dynamicAttributeService = TestBed.get(DynamicAttributeService as Type<
+          DynamicAttributeService
+        >);
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
@@ -240,8 +243,8 @@ describe('ComponentWrapperDirective', () => {
       let scriptEl;
 
       beforeEach(() => {
-        const cmsMapping = TestBed.get(CmsConfig) as CmsConfig;
-        cmsMapping.cmsComponents.CMSTestComponent.selector =
+        const cmsMapping = TestBed.get(CmsConfig as Type<CmsConfig>);
+        cmsMapping.cmsComponents.CMSTestComponent.component =
           'path/to/file.js#cms-component';
         fixture = TestBed.createComponent(TestWrapperComponent);
         fixture.detectChanges();
@@ -279,6 +282,7 @@ describe('ComponentWrapperDirective', () => {
           expect(cxApi.cms).toBeTruthy();
           expect(cxApi.auth).toBeTruthy();
           expect(cxApi.routing).toBeTruthy();
+          expect(cxApi.cmsComponentData).toBeTruthy();
           done();
         });
       });

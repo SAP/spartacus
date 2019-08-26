@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
+import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @NgModule({
@@ -8,9 +10,14 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSTabParagraphComponent: { selector: 'cx-tab-paragraph-container' },
+        CMSTabParagraphContainer: {
+          component: TabParagraphContainerComponent,
+        },
       },
     }),
+    PageComponentModule,
+    OutletModule,
+    I18nModule,
   ],
   declarations: [TabParagraphContainerComponent],
   entryComponents: [TabParagraphContainerComponent],

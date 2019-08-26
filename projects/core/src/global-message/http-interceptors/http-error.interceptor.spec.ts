@@ -3,8 +3,13 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { ErrorHandler, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  ErrorModel,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpResponseStatus } from '../models/response-status.model';
@@ -91,8 +96,10 @@ describe('HttpErrorInterceptor', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    http = TestBed.get(HttpClient);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    http = TestBed.get(HttpClient as Type<HttpClient>);
   });
 
   describe('Error Handlers', () => {
@@ -106,7 +113,7 @@ describe('HttpErrorInterceptor', () => {
           return req.method === 'GET';
         });
 
-        const handler = TestBed.get(handlerClass);
+        const handler = TestBed.get(handlerClass as Type<ErrorHandler>);
 
         spyOn(handler, 'handleError');
         mockReq.flush({}, { status: responseStatus, statusText: '' });
@@ -122,24 +129,58 @@ describe('HttpErrorInterceptor', () => {
     testHandlers(ForbiddenHandler, HttpResponseStatus.FORBIDDEN);
     testHandlers(GatewayTimeoutHandler, HttpResponseStatus.GATEWAY_TIMEOUT);
     testHandlers(NotFoundHandler, HttpResponseStatus.NOT_FOUND);
-  });
 
-  describe('GlobalMessageServices', () => {
-    it(`should display "An unknown error occured" in global message service`, () => {
-      http
-        .get('/unknown')
-        .pipe(catchError((error: any) => throwError(error)))
-        .subscribe(_result => {}, error => (this.error = error));
+    describe('Bad Request for ValidationError', () => {
+      it('Adds correct translation key when error type is ValidationError', () => {
+        const globalMessageService = TestBed.get(GlobalMessageService as Type<
+          GlobalMessageService
+        >);
+        const mockErrors = [
+          { type: 'ValidationError', subject: 'subject', reason: 'reason' },
+        ];
+        const mockResponseBody: { errors: ErrorModel[] } = {
+          errors: mockErrors,
+        };
+        const mockResponseOptions = {
+          status: HttpResponseStatus.BAD_REQUEST,
+          statusText: '',
+        };
+        const expectedKey = `httpHandlers.validationErrors.${
+          mockErrors[0].reason
+        }.${mockErrors[0].subject}`;
 
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET';
+        http
+          .get('/validation-error')
+          .pipe(catchError((error: any) => throwError(error)))
+          .subscribe(_result => {}, error => (this.error = error));
+
+        httpMock
+          .expectOne('/validation-error')
+          .flush(mockResponseBody, mockResponseOptions);
+
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: expectedKey },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
       });
+    });
 
-      mockReq.flush({}, { status: 123, statusText: 'unknown' });
-      expect(mockMessageService.add).toHaveBeenCalledWith(
-        { key: 'httpHandlers.unknownError' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
+    describe('Unknown response warning for non production env', () => {
+      it(`should display proper warning message in the console`, () => {
+        spyOn(console, 'warn');
+        http
+          .get('/unknown')
+          .pipe(catchError((error: any) => throwError(error)))
+          .subscribe(_result => {}, error => (this.error = error));
+
+        const mockReq = httpMock.expectOne(req => {
+          return req.method === 'GET';
+        });
+        mockReq.flush({}, { status: 123, statusText: 'unknown' });
+        expect(console.warn).toHaveBeenCalledWith(
+          `Unknown http response error: ${HttpResponseStatus.UNKNOWN}`
+        );
+      });
     });
   });
 });

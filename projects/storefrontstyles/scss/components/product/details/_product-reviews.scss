@@ -5,13 +5,13 @@ $gutterSize: 15px;
     display: flex;
     flex-wrap: wrap;
 
-    border-bottom: var(--cx-border-bottom, 1px solid var(--cx-g-color-light));
+    border-bottom: 1px solid var(--cx-color-light);
 
-    padding: var(--cx-padding, 0 $gutterSize $gutterSize);
-    margin: var(--cx-margin, 0 -#{$gutterSize} 40px -#{$gutterSize});
+    padding: 0 $gutterSize $gutterSize;
+    margin: 0 -#{$gutterSize} 40px -#{$gutterSize};
 
     button {
-      margin: var(--cx-margin, 0 0 0 auto);
+      margin: 0 0 0 auto;
     }
     .rating {
       flex-basis: 100%;
@@ -20,34 +20,30 @@ $gutterSize: 15px;
 
   .review {
     display: grid;
-    grid-template-columns: var(--cx-grid-template-columns, auto auto 10vw);
-    grid-template-rows: var(
-      --cx-grid-template-rows,
-      repeat(3, minmax(10px, auto)) auto
-    );
+    grid-template-columns: auto auto 10vw;
+    grid-template-rows: repeat(3, minmax(10px, auto)) auto;
     grid-column-gap: 1vw;
-    margin: 1vh 0;
+    margin: 4vh 0 2vh;
 
     // layout
     cx-star-rating,
     .title,
     .text {
-      grid-column: var(--cx-grid-column, 1 / span 2);
+      grid-column: 1 / span 2;
     }
     @include media-breakpoint-down(md) {
       .text {
-        grid-column: var(--cx-grid-column, 1 / span 3);
+        grid-column: 1 / span 3;
       }
     }
     .date {
-      grid-column: var(--cx-grid-column, 2 / span 3);
+      grid-column: 1 / span 1;
     }
     .name {
-      grid-column: var(--cx-grid-column, 2 / span 3);
-      grid-row: var(--cx-grid-row, 5);
+      grid-column: 1 / span 1;
     }
     .text {
-      grid-row: var(--cx-grid-row, 0);
+      grid-row: 0;
     }
 
     // formatting
@@ -59,7 +55,13 @@ $gutterSize: 15px;
     }
     .name,
     .date {
-      text-align: var(--cx-text-align, right);
+      text-align: left;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .btn-secondary {
+      margin: 0 0 1rem;
     }
   }
 }

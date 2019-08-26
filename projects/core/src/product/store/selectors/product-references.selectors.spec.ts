@@ -1,10 +1,12 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ProductReference } from '../../../model/product.model';
+import * as fromProductReducers from '../../store/reducers/index';
+import { ProductSelectors } from '../../store/selectors/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
-import * as fromStore from './../../store';
 
 const productCode = 'productCode';
 const product = {
@@ -24,18 +26,25 @@ describe('Product References selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(PRODUCT_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromProductReducers.getReducers()
+        ),
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(list));
   });
 
   it('getSelectedProductReferencesFactory should return references', () => {
     let result: ProductReference[];
     store
-      .pipe(select(fromStore.getSelectedProductReferencesFactory(productCode)))
+      .pipe(
+        select(
+          ProductSelectors.getSelectedProductReferencesFactory(productCode)
+        )
+      )
       .subscribe(data => (result = data))
       .unsubscribe();
 

@@ -11,7 +11,6 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
-  styleUrls: ['./update-email.component.scss'],
 })
 export class UpdateEmailComponent implements OnInit, OnDestroy {
   constructor(
@@ -22,15 +21,11 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   ) {}
 
   private subscription = new Subscription();
-  private uid: string;
   private newUid: string;
   isLoading$: Observable<boolean>;
 
   ngOnInit() {
     this.userService.resetUpdateEmailResultState();
-    this.subscription.add(
-      this.userService.get().subscribe(result => (this.uid = result.uid))
-    );
     this.subscription.add(
       this.userService
         .getUpdateEmailResultSuccess()
@@ -45,7 +40,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
 
   onSubmit({ newUid, password }: { newUid: string; password: string }): void {
     this.newUid = newUid;
-    this.userService.updateEmail(this.uid, password, newUid);
+    this.userService.updateEmail(password, newUid);
   }
 
   onSuccess(success: boolean): void {
@@ -58,14 +53,16 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       this.authService.logout();
-      this.routingService.go({ cxRoute: 'login' });
+      this.routingService.go({ cxRoute: 'login' }, null, {
+        state: {
+          newUid: this.newUid,
+        },
+      });
     }
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
     this.userService.resetUpdateEmailResultState();
   }
 }

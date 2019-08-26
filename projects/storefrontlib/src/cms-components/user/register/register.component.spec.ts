@@ -1,22 +1,20 @@
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  RoutingService,
   Title,
   UserService,
   UserToken,
 } from '@spartacus/core';
-
 import { Observable, of } from 'rxjs';
-
-import { Pipe, PipeTransform } from '@angular/core';
 import { RegisterComponent } from './register.component';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import createSpy = jasmine.createSpy;
 
 const mockTitlesList: Title[] = [
@@ -43,14 +41,8 @@ class MockAuthService {
   }
 }
 
-class MockRoutingService {
-  goByUrl = createSpy();
-  go = createSpy();
-  clearRedirectUrl = createSpy();
-
-  getRedirectUrl() {
-    return of();
-  }
+class MockRedirectAfterAuthService {
+  redirect = createSpy('AuthRedirectService.redirect');
 }
 
 class MockUserService {
@@ -81,7 +73,7 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let routingService: MockRoutingService;
+  let authRedirectService: AuthRedirectService;
   let userService: MockUserService;
   let globalMessageService: MockGlobalMessageService;
 
@@ -90,7 +82,10 @@ describe('RegisterComponent', () => {
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockUrlPipe],
       providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
         { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -100,9 +95,13 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    routingService = TestBed.get(RoutingService);
-    userService = TestBed.get(UserService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    authRedirectService = TestBed.get(AuthRedirectService as Type<
+      AuthRedirectService
+    >);
+    userService = TestBed.get(UserService as Type<UserService>);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -140,29 +139,6 @@ describe('RegisterComponent', () => {
           done();
         })
         .unsubscribe();
-    });
-
-    it('should remove error messages', () => {
-      spyOn(globalMessageService, 'remove').and.callThrough();
-      component.ngOnInit();
-      expect(globalMessageService.remove).toHaveBeenCalledWith(
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
-
-    it('should go to redirect url after registration', () => {
-      spyOn(routingService, 'getRedirectUrl').and.returnValue(of('testUrl'));
-      component.ngOnInit();
-
-      expect(routingService.goByUrl).toHaveBeenCalledWith('testUrl');
-      expect(routingService.clearRedirectUrl).toHaveBeenCalled();
-    });
-
-    it('should go to home page after registration', () => {
-      spyOn(routingService, 'getRedirectUrl').and.returnValue(of(undefined));
-      component.ngOnInit();
-
-      expect(routingService.go).toHaveBeenCalledWith(['/']);
     });
   });
 
@@ -238,10 +214,40 @@ describe('RegisterComponent', () => {
     });
   });
 
+  describe('validate email before submitting', () => {
+    it('should make email lowercase', () => {
+      const upperCaseEmail = 'JohnDoe@thebest.JOHn.InTHEworld.com';
+      const lowerCaseEmail = upperCaseEmail.toLowerCase();
+
+      component.ngOnInit();
+
+      controls['email'].setValue(upperCaseEmail);
+      component.emailToLowerCase();
+      expect(component.userRegistrationForm.value.email).toEqual(
+        lowerCaseEmail
+      );
+    });
+
+    it('original form email value should NOT be changed', () => {
+      const upperCaseEmail = 'JohnDoe@thebest.JOHn.InTHEworld.com';
+
+      component.ngOnInit();
+
+      controls['email'].setValue(upperCaseEmail);
+      component.emailToLowerCase();
+      expect(controls['email'].value).toEqual(upperCaseEmail);
+    });
+  });
+
   describe('submit', () => {
-    it('should submit form', () => {
+    beforeEach(() => {
+      spyOn(globalMessageService, 'remove').and.callThrough();
       spyOn(userService, 'register').and.stub();
+      component.ngOnInit();
       component.submit();
+    });
+
+    it('should submit form', () => {
       expect(userService.register).toHaveBeenCalledWith({
         firstName: '',
         lastName: '',
@@ -249,6 +255,13 @@ describe('RegisterComponent', () => {
         password: '',
         titleCode: '',
       });
+    });
+
+    it('should go to redirect url after registration and remove error messages', () => {
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+      expect(globalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

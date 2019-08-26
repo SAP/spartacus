@@ -7,7 +7,8 @@
     "types": [],
     "paths": {
       "@spartacus/core": ["../../dist/core"],
-      "@spartacus/storefront": ["../../dist/storefrontlib"]
+      "@spartacus/storefront": ["../../dist/storefrontlib"],
+      "@spartacus/assets": ["../../dist/assets"]
     }
   },
   "exclude": ["test.ts", "**/*.spec.ts"],

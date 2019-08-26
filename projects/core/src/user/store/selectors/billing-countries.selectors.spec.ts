@@ -1,12 +1,11 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromActions from '../actions/billing-countries.action';
-import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/billing-countries.selectors';
-
-import { USER_FEATURE, StateWithUser } from '../user-state';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
+import { UserActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { UsersSelectors } from '../selectors/index';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 describe('Billing Countries Selectors', () => {
   let store: Store<StateWithUser>;
@@ -19,7 +18,7 @@ describe('Billing Countries Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -38,13 +37,13 @@ describe('Billing Countries Selectors', () => {
 
       let result: Country[];
       store
-        .pipe(select(fromSelectors.getAllBillingCountries))
+        .pipe(select(UsersSelectors.getAllBillingCountries))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
       store.dispatch(
-        new fromActions.LoadBillingCountriesSuccess(mockCountries)
+        new UserActions.LoadBillingCountriesSuccess(mockCountries)
       );
 
       expect(result).toEqual(mockCountries);

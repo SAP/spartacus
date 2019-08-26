@@ -1,17 +1,18 @@
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-import { CloseAccountComponent } from './close-account.component';
-import { I18nTestingModule } from '@spartacus/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Pipe, PipeTransform, Component, Input } from '@angular/core';
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { I18nTestingModule } from '@spartacus/core';
+import { ICON_TYPE } from '../../../../../cms-components/misc/index';
+import { ModalService } from '../../../../../shared/components/modal/index';
 import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
+import { CloseAccountComponent } from './close-account.component';
 
 @Component({
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 @Pipe({
@@ -28,16 +29,16 @@ describe('CloseAccountComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, NgbModule, RouterTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [CloseAccountComponent, MockUrlPipe, MockCxIconComponent],
-      providers: [{ provide: NgbModal, useValue: { open: () => {} } }],
+      providers: [{ provide: ModalService, useValue: { open: () => {} } }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountComponent);
     component = fixture.componentInstance;
-    modalInstance = TestBed.get(NgbModal);
+    modalInstance = TestBed.get(ModalService as Type<ModalService>);
 
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     fixture.detectChanges();

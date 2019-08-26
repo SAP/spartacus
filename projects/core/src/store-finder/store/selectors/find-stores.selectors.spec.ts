@@ -1,10 +1,13 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromReducers from '../reducers';
-import * as fromActions from '../actions';
-import * as fromSelectors from './find-stores.selectors';
-import { StateWithStoreFinder } from '../store-finder-state';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { StoreFinderActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { StoreFinderSelectors } from '../selectors/index';
+import {
+  StateWithStoreFinder,
+  STORE_FINDER_FEATURE,
+} from '../store-finder-state';
 
 describe('FindStores Selectors', () => {
   let store: Store<StateWithStoreFinder>;
@@ -15,10 +18,14 @@ describe('FindStores Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.getReducers()),
+        StoreModule.forFeature(
+          STORE_FINDER_FEATURE,
+          fromReducers.getReducers()
+        ),
       ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.get(Store as Type<Store<StateWithStoreFinder>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -26,11 +33,11 @@ describe('FindStores Selectors', () => {
     it('should return the stores search results', () => {
       let result;
       store
-        .pipe(select(fromSelectors.getFindStoresEntities))
+        .pipe(select(StoreFinderSelectors.getFindStoresEntities))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.FindStores({ queryText: 'test' }));
-      store.dispatch(new fromActions.FindStoresSuccess(searchResult));
+      store.dispatch(new StoreFinderActions.FindStores({ queryText: 'test' }));
+      store.dispatch(new StoreFinderActions.FindStoresSuccess(searchResult));
 
       expect(result).toEqual(searchResult);
     });
@@ -38,14 +45,14 @@ describe('FindStores Selectors', () => {
 
   describe('getStoresLoading', () => {
     it('should return isLoading flag', () => {
-      let result;
+      let result: boolean;
       store
-        .pipe(select(fromSelectors.getStoresLoading))
+        .pipe(select(StoreFinderSelectors.getStoresLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.FindStores({ queryText: '' }));
+      store.dispatch(new StoreFinderActions.FindStores({ queryText: '' }));
 
       expect(result).toEqual(true);
     });

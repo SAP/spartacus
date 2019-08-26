@@ -1,15 +1,14 @@
-import { ProductsSearchState } from '../product-state';
-import * as fromActions from '../actions/product-search.action';
-import { SearchConfig } from '../../model/search-config';
-
-import * as fromProductSearch from './product-search.reducer';
 import { Suggestion } from '../../../model/product-search.model';
+import { SearchConfig } from '../../model/search-config';
+import { ProductActions } from '../actions/index';
+import { ProductsSearchState } from '../product-state';
+import * as fromProductSearch from './product-search.reducer';
 
 describe('Product Search Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromProductSearch;
-      const action = {} as fromActions.ProductSearchAction;
+      const action = {} as ProductActions.ProductSearchAction;
       const state: ProductsSearchState = fromProductSearch.reducer(
         undefined,
         action
@@ -25,12 +24,12 @@ describe('Product Search Reducer', () => {
 
       const results = { products: [{ code: '123' }] };
       const { initialState } = fromProductSearch;
-      const loadAction = new fromActions.SearchProducts({
+      const loadAction = new ProductActions.SearchProducts({
         queryText: 'test',
         searchConfig: mockSearchConfig,
       });
       const loadingState = fromProductSearch.reducer(initialState, loadAction);
-      const resultAction = new fromActions.SearchProductsSuccess(results);
+      const resultAction = new ProductActions.SearchProductsSuccess(results);
       const state: ProductsSearchState = fromProductSearch.reducer(
         loadingState,
         resultAction
@@ -44,7 +43,7 @@ describe('Product Search Reducer', () => {
 
       const results = { products: [{ code: '123' }] };
       const { initialState } = fromProductSearch;
-      const loadAction = new fromActions.SearchProducts(
+      const loadAction = new ProductActions.SearchProducts(
         {
           queryText: 'test',
           searchConfig: mockSearchConfig,
@@ -52,7 +51,10 @@ describe('Product Search Reducer', () => {
         true
       );
       const loadingState = fromProductSearch.reducer(initialState, loadAction);
-      const resultAction = new fromActions.SearchProductsSuccess(results, true);
+      const resultAction = new ProductActions.SearchProductsSuccess(
+        results,
+        true
+      );
       const state: ProductsSearchState = fromProductSearch.reducer(
         loadingState,
         resultAction
@@ -67,7 +69,9 @@ describe('Product Search Reducer', () => {
       const suggestions: Suggestion[] = [{ value: '123' }];
 
       const { initialState } = fromProductSearch;
-      const action = new fromActions.GetProductSuggestionsSuccess(suggestions);
+      const action = new ProductActions.GetProductSuggestionsSuccess(
+        suggestions
+      );
       const state: ProductsSearchState = fromProductSearch.reducer(
         initialState,
         action
@@ -83,14 +87,14 @@ describe('Product Search Reducer', () => {
       const suggestions: Suggestion[] = [];
 
       const { initialState } = fromProductSearch;
-      const queryAction = new fromActions.SearchProductsSuccess(results);
-      const querySuggestionAction = new fromActions.GetProductSuggestionsSuccess(
+      const queryAction = new ProductActions.SearchProductsSuccess(results);
+      const querySuggestionAction = new ProductActions.GetProductSuggestionsSuccess(
         suggestions
       );
       fromProductSearch.reducer(initialState, queryAction);
       fromProductSearch.reducer(initialState, querySuggestionAction);
 
-      const cleanAction = new fromActions.CleanProductSearchState();
+      const cleanAction = new ProductActions.ClearProductSearchResult();
       const newState: ProductsSearchState = fromProductSearch.reducer(
         initialState,
         cleanAction

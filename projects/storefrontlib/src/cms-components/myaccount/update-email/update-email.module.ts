@@ -17,7 +17,7 @@ import { UpdateEmailComponent } from './update-email.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         UpdateEmailComponent: {
-          selector: 'cx-update-email',
+          component: UpdateEmailComponent,
           guards: [AuthGuard],
         },
       },
@@ -28,7 +28,7 @@ import { UpdateEmailComponent } from './update-email.component';
     I18nModule,
   ],
   declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
-  exports: [UpdateEmailComponent],
+  exports: [UpdateEmailComponent, UpdateEmailFormComponent],
   entryComponents: [UpdateEmailComponent],
 })
 export class UpdateEmailModule {}

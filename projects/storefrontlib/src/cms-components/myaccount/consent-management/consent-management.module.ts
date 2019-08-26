@@ -17,7 +17,7 @@ import { ConsentManagementComponent } from './components/consent-management.comp
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ConsentManagementComponent: {
-          selector: 'cx-consent-management',
+          component: ConsentManagementComponent,
           guards: [AuthGuard],
         },
       },
@@ -28,7 +28,7 @@ import { ConsentManagementComponent } from './components/consent-management.comp
     I18nModule,
   ],
   declarations: [ConsentManagementComponent, ConsentManagementFormComponent],
-  exports: [ConsentManagementComponent],
+  exports: [ConsentManagementComponent, ConsentManagementFormComponent],
   entryComponents: [ConsentManagementComponent],
 })
 export class ConsentManagementModule {}

@@ -1,13 +1,10 @@
+import * as AngularCore from '@angular/core';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ServerConfig } from '../../config/server-config/server-config';
-import { RoutingConfigService } from './routing-config.service';
-import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
+import { ConfigurableRoutesService } from './configurable-routes.service';
+import { RoutingConfigService } from './routing-config.service';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
-
-class MockServerConfig {
-  production = false;
-}
 
 class MockRoutingConfigService {
   getRouteConfig() {}
@@ -31,7 +28,6 @@ class MockUrlMatcherFactoryService {
 
 describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
-  let serverConfig: MockServerConfig;
   let router: Router;
   let routingConfigService: RoutingConfigService;
 
@@ -43,7 +39,6 @@ describe('ConfigurableRoutesService', () => {
           provide: RoutingConfigService,
           useClass: MockRoutingConfigService,
         },
-        { provide: ServerConfig, useClass: MockServerConfig },
         {
           provide: UrlMatcherFactoryService,
           useClass: MockUrlMatcherFactoryService,
@@ -55,10 +50,13 @@ describe('ConfigurableRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ConfigurableRoutesService);
-    serverConfig = TestBed.get(ServerConfig);
-    router = TestBed.get(Router);
-    routingConfigService = TestBed.get(RoutingConfigService);
+    service = TestBed.get(ConfigurableRoutesService as Type<
+      ConfigurableRoutesService
+    >);
+    router = TestBed.get(Router as Type<Router>);
+    routingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
 
     router.config = [];
   });
@@ -122,10 +120,19 @@ describe('ConfigurableRoutesService', () => {
       expect(router.config[0].matcher).toBe(false);
     });
 
+    it('should generate route that will never match if it was disabled by config', async () => {
+      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+        paths: ['path1', 'path100'],
+        disabled: true,
+      });
+      await service.init();
+      expect(router.config[0].matcher).toBe(false);
+    });
+
     // tslint:disable-next-line:max-line-length
     it('should console.warn in non-production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
-      serverConfig.production = false;
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
@@ -135,7 +142,7 @@ describe('ConfigurableRoutesService', () => {
     // tslint:disable-next-line:max-line-length
     it('should NOT console.warn in production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
-      serverConfig.production = true;
+      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();

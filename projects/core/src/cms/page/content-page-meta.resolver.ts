@@ -6,13 +6,17 @@ import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 import { PageType } from '../../model/cms.model';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContentPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  constructor(protected cms: CmsService) {
+  constructor(
+    protected cms: CmsService,
+    protected translation: TranslationService
+  ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
   }
@@ -21,7 +25,12 @@ export class ContentPageMetaResolver extends PageMetaResolver
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
       switchMap(page =>
-        combineLatest([this.resolveTitle(page), this.resolveBreadcrumbs(page)])
+        combineLatest([
+          this.resolveTitle(page),
+          this.resolveBreadcrumbLabel().pipe(
+            switchMap(label => this.resolveBreadcrumbs(page, label))
+          ),
+        ])
       ),
       map(([title, breadcrumbs]) => ({ title, breadcrumbs }))
     );
@@ -31,9 +40,13 @@ export class ContentPageMetaResolver extends PageMetaResolver
     return of(page.title);
   }
 
-  resolveBreadcrumbs(_page: Page): Observable<any[]> {
+  resolveBreadcrumbLabel(): Observable<string> {
+    return this.translation.translate('common.home');
+  }
+
+  resolveBreadcrumbs(_page: Page, breadcrumbLabel: string): Observable<any[]> {
     // as long as we do not have CMSX-8689 in place
     // we need specific resolvers for nested pages
-    return of([{ label: 'Home', link: '/' }]);
+    return of([{ label: breadcrumbLabel, link: '/' }]);
   }
 }

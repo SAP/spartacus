@@ -11,13 +11,13 @@ function addressBookTest() {
   describe('when logged in', () => {
     before(() => {
       cy.requireLoggedIn();
-      cy.visit('/login');
-      cy.get('.cx-nav-link')
+      cy.visit('/');
+      cy.get('cx-page-layout cx-login')
         .getByText('My Account')
-        .click();
-      cy.get('.cx-nav-child-link')
+        .click({ force: true });
+      cy.get('nav')
         .getByText('Address Book')
-        .click();
+        .click({ force: true });
     });
 
     it('should display a new address form when no address exists', () => {

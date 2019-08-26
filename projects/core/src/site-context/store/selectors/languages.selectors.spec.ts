@@ -1,11 +1,15 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, select, StoreModule } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors/languages.selectors';
-import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { Language } from '../../../model/misc.model';
+import { SiteContextActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { SiteContextSelectors } from '../selectors/index';
+import {
+  LanguagesEntities,
+  SITE_CONTEXT_FEATURE,
+  StateWithSiteContext,
+} from '../state';
 
 describe('Languages Selectors', () => {
   let store: Store<StateWithSiteContext>;
@@ -28,21 +32,22 @@ describe('Languages Selectors', () => {
         ),
       ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('getLanguagesEntities', () => {
     it('should return Languages entities', () => {
-      let result;
+      let result: LanguagesEntities;
 
       store
-        .pipe(select(fromSelectors.getLanguagesEntities))
+        .pipe(select(SiteContextSelectors.getLanguagesEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
+      store.dispatch(new SiteContextActions.LoadLanguagesSuccess(languages));
 
       expect(result).toEqual(entities);
     });
@@ -50,15 +55,15 @@ describe('Languages Selectors', () => {
 
   describe('getActiveLanguage', () => {
     it('should return the active language', () => {
-      let result;
+      let result: string;
 
       store
-        .pipe(select(fromSelectors.getActiveLanguage))
+        .pipe(select(SiteContextSelectors.getActiveLanguage))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.SetActiveLanguage('zh'));
+      store.dispatch(new SiteContextActions.SetActiveLanguage('zh'));
 
       expect(result).toEqual('zh');
     });
@@ -66,15 +71,15 @@ describe('Languages Selectors', () => {
 
   describe('getAllLanguages', () => {
     it('should return all languages', () => {
-      let result;
+      let result: Language[];
 
       store
-        .pipe(select(fromSelectors.getAllLanguages))
+        .pipe(select(SiteContextSelectors.getAllLanguages))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
+      store.dispatch(new SiteContextActions.LoadLanguagesSuccess(languages));
 
       expect(result).toEqual(languages);
     });

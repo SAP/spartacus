@@ -12,7 +12,7 @@ import { tap } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { WindowRef } from '../../window/window-ref';
-import { isPlatformServer } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 
 const PERSONALIZATION_TIME_KEY = 'personalization-time';
 
@@ -20,6 +20,7 @@ const PERSONALIZATION_TIME_KEY = 'personalization-time';
 export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
   private timestamp: string;
   private requestHeader: string;
+  private enabled = false;
 
   constructor(
     private config: PersonalizationConfig,
@@ -27,17 +28,27 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     private winRef: WindowRef,
     @Inject(PLATFORM_ID) private platform: any
   ) {
-    this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
-    this.timestamp =
-      this.winRef.localStorage &&
-      this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY);
+    if (isPlatformBrowser(this.platform)) {
+      this.enabled =
+        (this.winRef.localStorage && this.config.personalization.enabled) ||
+        false;
+
+      if (this.enabled) {
+        this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
+        this.timestamp = this.winRef.localStorage.getItem(
+          PERSONALIZATION_TIME_KEY
+        );
+      } else if (this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY)) {
+        this.winRef.localStorage.removeItem(PERSONALIZATION_TIME_KEY);
+      }
+    }
   }
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (isPlatformServer(this.platform)) {
+    if (!this.enabled) {
       return next.handle(request);
     }
 

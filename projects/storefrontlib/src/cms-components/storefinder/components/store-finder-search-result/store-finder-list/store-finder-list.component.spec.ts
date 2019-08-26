@@ -1,19 +1,22 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   GoogleMapRendererService,
   I18nTestingModule,
+  PointOfService,
   StoreDataService,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 
-const location = {};
-const stores = [location];
+const location: PointOfService = {
+  displayName: 'Test Store',
+};
+const stores: Array<PointOfService> = [location];
 const locations = { stores: stores };
 
 class StoreDataServiceMock {
@@ -61,8 +64,10 @@ describe('StoreFinderDisplayListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
     component = fixture.componentInstance;
-    storeDataService = TestBed.get(StoreDataService);
-    googleMapRendererService = TestBed.get(GoogleMapRendererService);
+    storeDataService = TestBed.get(StoreDataService as Type<StoreDataService>);
+    googleMapRendererService = TestBed.get(GoogleMapRendererService as Type<
+      GoogleMapRendererService
+    >);
 
     spyOn(storeDataService, 'getStoreLatitude');
     spyOn(storeDataService, 'getStoreLongitude');
@@ -76,7 +81,6 @@ describe('StoreFinderDisplayListComponent', () => {
   });
 
   it('should center store on map', () => {
-    // given
     component.locations = locations;
     fixture.detectChanges();
     storeMapComponent = fixture.debugElement.query(
@@ -84,27 +88,45 @@ describe('StoreFinderDisplayListComponent', () => {
     ).componentInstance;
     spyOn(storeMapComponent, 'centerMap').and.callThrough();
 
-    // when
-    component.centerStoreOnMapByIndex(0);
+    component.centerStoreOnMapByIndex(0, location);
 
-    // then
     expect(storeMapComponent.centerMap).toHaveBeenCalled();
     expect(storeDataService.getStoreLatitude).toHaveBeenCalled();
     expect(storeDataService.getStoreLongitude).toHaveBeenCalled();
   });
 
   it('should select store from list', () => {
-    // given
     const itemNumber = 4;
     const storeListItemMock = { scrollIntoView: function() {} };
     spyOn(document, 'getElementById').and.returnValue(storeListItemMock);
     spyOn(storeListItemMock, 'scrollIntoView');
 
-    // when
     component.selectStoreItemList(itemNumber);
 
-    // then
     expect(document.getElementById).toHaveBeenCalledWith('item-' + itemNumber);
     expect(storeListItemMock.scrollIntoView).toHaveBeenCalled();
+  });
+
+  it('should show store details', () => {
+    component.locations = locations;
+    fixture.detectChanges();
+    expect(component.isDetailsModeVisible).toBe(false);
+
+    component.centerStoreOnMapByIndex(0, location);
+    fixture.detectChanges();
+    expect(component.isDetailsModeVisible).toBe(true);
+    expect(component.storeDetails).not.toBe(null);
+  });
+
+  it('should close store details', () => {
+    component.locations = locations;
+    fixture.detectChanges();
+
+    component.centerStoreOnMapByIndex(0, location);
+    fixture.detectChanges();
+    expect(component.isDetailsModeVisible).toBe(true);
+
+    component.hideStoreDetails();
+    expect(component.isDetailsModeVisible).toBe(false);
   });
 });

@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -7,7 +7,7 @@ import {
   I18nTestingModule,
   OrderHistoryList,
   RoutingService,
-  UserService,
+  UserOrderService,
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -44,7 +44,7 @@ class MockAuthService {
     return of({ userId: 'test' } as UserToken);
   }
 }
-class MockUserService {
+class MockUserOrderService {
   go = jasmine.createSpy('go');
   getOrderHistoryList(): Observable<OrderHistoryList> {
     return of();
@@ -61,12 +61,14 @@ class MockUserService {
   clearOrderList() {}
 }
 
-class MockRoutingService {}
+class MockRoutingService {
+  go() {}
+}
 
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let userService: MockUserService;
+  let userService: MockUserOrderService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -75,13 +77,13 @@ describe('OrderHistoryComponent', () => {
       declarations: [OrderHistoryComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserOrderService, useClass: MockUserOrderService },
         { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
 
-    userService = TestBed.get(UserService);
-    routingService = TestBed.get(RoutingService);
+    userService = TestBed.get(UserOrderService as Type<UserOrderService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
@@ -130,8 +132,9 @@ describe('OrderHistoryComponent', () => {
     expect(orders).toEqual(mockOrders);
   });
 
-  xit('should redirect when clicking on order id', () => {
+  it('should redirect when clicking on order id', () => {
     spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
+    spyOn(routingService, 'go').and.stub();
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -142,6 +145,7 @@ describe('OrderHistoryComponent', () => {
     rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
       expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'orderDetails',
         params: mockOrders.orders[1],
       });
     });
@@ -175,7 +179,6 @@ describe('OrderHistoryComponent', () => {
 
     expect(component.sortType).toBe('byOrderNumber');
     expect(userService.loadOrderList).toHaveBeenCalledWith(
-      'test',
       5,
       0,
       'byOrderNumber'
@@ -190,11 +193,6 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
     component.pageChange(1);
 
-    expect(userService.loadOrderList).toHaveBeenCalledWith(
-      'test',
-      5,
-      1,
-      'byDate'
-    );
+    expect(userService.loadOrderList).toHaveBeenCalledWith(5, 1, 'byDate');
   });
 });

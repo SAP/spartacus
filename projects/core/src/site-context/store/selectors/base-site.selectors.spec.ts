@@ -1,10 +1,11 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, select, StoreModule } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors/base-site.selectors';
-import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { BaseSite } from '../../../model/misc.model';
+import { SiteContextActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { SiteContextSelectors } from '../selectors/index';
+import { SITE_CONTEXT_FEATURE, StateWithSiteContext } from '../state';
 
 describe('BaseSite Selectors', () => {
   let store: Store<StateWithSiteContext>;
@@ -19,7 +20,8 @@ describe('BaseSite Selectors', () => {
         ),
       ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
   });
 
   describe('getActiveBaseSite', () => {
@@ -27,13 +29,33 @@ describe('BaseSite Selectors', () => {
       let result: string;
 
       store
-        .pipe(select(fromSelectors.getActiveBaseSite))
+        .pipe(select(SiteContextSelectors.getActiveBaseSite))
         .subscribe(value => (result = value));
 
       expect(result).toEqual('');
 
-      store.dispatch(new fromActions.SetActiveBaseSite('baseSite'));
+      store.dispatch(new SiteContextActions.SetActiveBaseSite('baseSite'));
       expect(result).toEqual('baseSite');
+    });
+  });
+
+  describe('getBaseSiteData', () => {
+    it('should return base site details data', () => {
+      const site: BaseSite = {
+        uid: 'test',
+        defaultPreviewCategoryCode: 'test category code',
+        defaultPreviewProductCode: 'test product code',
+      };
+
+      let result: BaseSite;
+      store
+        .pipe(select(SiteContextSelectors.getBaseSiteData))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({});
+
+      store.dispatch(new SiteContextActions.LoadBaseSiteSuccess(site));
+      expect(result).toEqual(site);
     });
   });
 });

@@ -3,7 +3,7 @@
 %cx-order-detail-totals {
   .cx-summary {
     @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 0 0.25rem);
+      padding: 0 0.25rem;
     }
   }
 }

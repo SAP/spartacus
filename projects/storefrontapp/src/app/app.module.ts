@@ -8,14 +8,13 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ConfigModule } from '@spartacus/core';
+import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
-  defaultCmsContentConfig,
+  B2cStorefrontModule,
   StorefrontComponent,
-  StorefrontModule,
-  translations,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
+import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -31,49 +30,44 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-    StorefrontModule.withConfig({
-      production: environment.production,
+
+    B2cStorefrontModule.withConfig({
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
+          legacy: false,
         },
       },
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: [
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
+        ],
       },
-      siteContext: {
-        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
-        parameters: {
-          BASE_SITE: {
-            values: [
-              'electronics-spa',
-              'electronics',
-              'apparel-de',
-              'apparel-uk',
-            ],
-            defaultValue: 'electronics-spa',
-            persistence: 'route',
-          },
-        },
-      },
+
+      // custom routing configuration for e2e testing
       routing: {
         routes: {
           product: {
-            paths: ['product/:name/:productCode', 'product/:productCode'],
+            paths: ['product/:productCode/:name', 'product/:productCode'],
           },
         },
       },
+      // we  bring in static translations to be up and running soon right away
       i18n: {
         resources: translations,
+        chunks: translationChunksConfig,
+        fallbackLang: 'en',
       },
     }),
 
-    ConfigModule.withConfigFactory(defaultCmsContentConfig),
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     ...devImports,
   ],
-
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

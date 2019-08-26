@@ -19,8 +19,8 @@ describe(`${formats.mobile.width +
   });
 
   it('adding different products to cart', () => {
-    cy.get('cx-searchbox [aria-label="Search"]').click();
-    addedToCartModal.addDifferentProducts();
+    cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+    addedToCartModal.addDifferentProducts(true);
   });
 
   it('refreshing page should not show modal', () => {

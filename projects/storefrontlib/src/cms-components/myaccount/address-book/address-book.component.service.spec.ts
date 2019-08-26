@@ -1,8 +1,8 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of, Observable } from 'rxjs';
+import { Address, User, UserAddressService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-
-import { UserService, Address, User } from '@spartacus/core';
 import { AddressBookComponentService } from './address-book.component.service';
 
 const mockAddresses: Address[] = [
@@ -22,7 +22,7 @@ const mockUser: User = {
   uid: '1234',
 };
 
-class MockUserService {
+class MockUserAddressService {
   loadAddresses = jasmine.createSpy();
   addUserAddress = jasmine.createSpy();
   updateUserAddress = jasmine.createSpy();
@@ -46,13 +46,15 @@ describe('AddressBookComponentService', () => {
       providers: [
         AddressBookComponentService,
         {
-          provide: UserService,
-          useClass: MockUserService,
+          provide: UserAddressService,
+          useClass: MockUserAddressService,
         },
       ],
     });
 
-    service = TestBed.get(AddressBookComponentService);
+    service = TestBed.get(AddressBookComponentService as Type<
+      AddressBookComponentService
+    >);
   });
 
   it('should service be created', () => {
@@ -74,15 +76,6 @@ describe('AddressBookComponentService', () => {
       .pipe(take(1))
       .subscribe((state: boolean) => {
         expect(state).toEqual(false);
-      });
-  });
-
-  it('should getUserId() return user ID', () => {
-    service
-      .getUserId()
-      .pipe(take(1))
-      .subscribe((id: string) => {
-        expect(id).toEqual(mockUser.uid);
       });
   });
 });

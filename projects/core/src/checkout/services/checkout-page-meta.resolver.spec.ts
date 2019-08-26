@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CartService } from '../../cart';
@@ -7,8 +8,9 @@ import {
   PageMetaService,
   PageRobotsMeta,
 } from '../../cms';
-import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
+import { I18nTestingModule } from '../../i18n';
 import { Cart } from '../../model/cart.model';
+import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
 
 const mockCart: Cart = {
   code: '1234',
@@ -21,12 +23,12 @@ class MockCartService {
   }
 }
 
-describe('CartPageTitleResolver', () => {
+describe('CheckoutPageMetaResolver', () => {
   let service: CheckoutPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CartService, useClass: MockCartService },
@@ -38,7 +40,9 @@ describe('CartPageTitleResolver', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutPageMetaResolver);
+    service = TestBed.get(CheckoutPageMetaResolver as Type<
+      CheckoutPageMetaResolver
+    >);
   });
 
   it('should inject service', () => {
@@ -55,7 +59,7 @@ describe('CartPageTitleResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Checkout 5 items');
+    expect(result.title).toEqual('pageMetaResolver.checkout.title count:5');
   });
 
   it('should resolve robots with nofollow,noindex', () => {

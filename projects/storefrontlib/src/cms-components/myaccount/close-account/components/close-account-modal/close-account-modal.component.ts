@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   AuthService,
   GlobalMessageService,
@@ -17,11 +16,11 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
+import { ModalService } from '../../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-close-account-modal',
   templateUrl: './close-account-modal.component.html',
-  styleUrls: ['./close-account-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseAccountModalComponent implements OnInit, OnDestroy {
@@ -32,7 +31,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
 
   constructor(
-    private activeModal: NgbActiveModal,
+    protected modalService: ModalService,
     private userService: UserService,
     private authService: AuthService,
     private globalMessageService: GlobalMessageService,
@@ -53,7 +52,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean): void {
     if (success) {
-      this.closeModal();
+      this.dismissModal();
       this.translationService
         .translate('closeAccount.accountClosedSuccessfully')
         .pipe(first())
@@ -67,12 +66,12 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeModal(): void {
-    this.activeModal.dismiss();
+  dismissModal(reason?: any): void {
+    this.modalService.dismissActiveModal(reason);
   }
 
-  closeAccount(userId: string) {
-    this.userService.remove(userId);
+  closeAccount() {
+    this.userService.remove();
   }
 
   ngOnDestroy() {

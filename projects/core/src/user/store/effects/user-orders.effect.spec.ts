@@ -1,23 +1,18 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { provideMockActions } from '@ngrx/effects/testing';
 import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of, throwError } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import { CLEAR_MISCS_DATA } from '../actions';
-import { USER_ORDERS } from '../user-state';
-import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { LoaderResetAction } from '../../../state';
-
-import * as fromUserOrdersEffect from './user-orders.effect';
+import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryList } from '../../../model/order.model';
-import { OrderConnector } from '../../connectors/order/order.connector';
-import { OrderAdapter } from '../../connectors/order/order.adapter';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
+import { USER_ORDERS } from '../user-state';
+import * as fromUserOrdersEffect from './user-orders.effect';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
@@ -27,7 +22,7 @@ const mockUserOrders: OrderHistoryList = {
 
 describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
-  let orderConnector: OrderConnector;
+  let orderConnector: UserOrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -35,27 +30,31 @@ describe('User Orders effect', () => {
       imports: [HttpClientTestingModule],
       providers: [
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: OrderAdapter, useValue: {} },
+        { provide: UserOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     actions$ = TestBed.get(Actions);
-    userOrdersEffect = TestBed.get(fromUserOrdersEffect.UserOrdersEffect);
-    orderConnector = TestBed.get(OrderConnector);
+    userOrdersEffect = TestBed.get(
+      fromUserOrdersEffect.UserOrdersEffect as Type<
+        fromUserOrdersEffect.UserOrdersEffect
+      >
+    );
+    orderConnector = TestBed.get(UserOrderConnector as Type<
+      UserOrderConnector
+    >);
   });
 
   describe('loadUserOrders$', () => {
     it('should load user Orders', () => {
       spyOn(orderConnector, 'getHistory').and.returnValue(of(mockUserOrders));
-      const action = new fromUserOrdersAction.LoadUserOrders({
+      const action = new UserActions.LoadUserOrders({
         userId: 'test@sap.com',
         pageSize: 5,
       });
 
-      const completion = new fromUserOrdersAction.LoadUserOrdersSuccess(
-        mockUserOrders
-      );
+      const completion = new UserActions.LoadUserOrdersSuccess(mockUserOrders);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -66,12 +65,12 @@ describe('User Orders effect', () => {
     it('should handle failures for load user Orders', () => {
       spyOn(orderConnector, 'getHistory').and.returnValue(throwError('Error'));
 
-      const action = new fromUserOrdersAction.LoadUserOrders({
+      const action = new UserActions.LoadUserOrders({
         userId: 'test@sap.com',
         pageSize: 5,
       });
 
-      const completion = new fromUserOrdersAction.LoadUserOrdersFail('Error');
+      const completion = new UserActions.LoadUserOrdersFail('Error');
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -83,10 +82,10 @@ describe('User Orders effect', () => {
   describe('resetUserOrders$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: CLEAR_MISCS_DATA,
+        type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
-      const completion = new LoaderResetAction(USER_ORDERS);
+      const completion = new StateLoaderActions.LoaderResetAction(USER_ORDERS);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

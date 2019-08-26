@@ -1,12 +1,22 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import {
+  CmsNavigationComponent,
+  CmsService,
+  SemanticPathService,
+} from '@spartacus/core';
+import { of } from 'rxjs';
+import { NavigationNode } from './navigation-node.model';
+import { NavigationService } from './navigation.service';
 import createSpy = jasmine.createSpy;
 
-import { CmsService, CmsNavigationComponent } from '@spartacus/core';
-import { NavigationComponentService } from './navigation.component.service';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BehaviorSubject, of } from 'rxjs';
-
 const itemsData: any = {
+  MainLink001_AbstractCMSComponent: {
+    uid: 'MainLink001',
+    url: '/main',
+    linkName: 'test link main',
+    target: false,
+  },
   MockLink001_AbstractCMSComponent: {
     uid: 'MockLink001',
     url: '/testLink1',
@@ -19,13 +29,36 @@ const itemsData: any = {
     linkName: 'test link 2',
     target: true,
   },
+  MockLink003_AbstractCMSComponent: {
+    uid: 'MockLink003',
+  },
+  MockLink004_AbstractCMSComponent: {
+    uid: 'MockLink004',
+    linkName: 'test link 4',
+    categoryCode: '444',
+    name: 'name 4',
+  },
+  MockSubLink001_AbstractCMSComponent: {
+    uid: 'MockSubLink001',
+    url: '/testsubLink1',
+    linkName: 'test sub link 1',
+    target: true,
+  },
 };
 
 const componentData: CmsNavigationComponent = {
   uid: 'MockNavigationComponent',
   typeCode: 'NavigationComponent',
+  name: 'NavigationComponent name',
   navigationNode: {
     uid: 'MockNavigationNode001',
+    entries: [
+      {
+        itemId: 'MainLink001',
+        itemSuperType: 'AbstractCMSComponent',
+        itemType: 'CMSLinkComponent',
+      },
+    ],
     children: [
       {
         uid: 'MockChildNode001',
@@ -46,127 +79,131 @@ const componentData: CmsNavigationComponent = {
             itemType: 'CMSLinkComponent',
           },
         ],
+        children: [
+          {
+            uid: 'MockSubChildNode001',
+            entries: [
+              {
+                itemId: 'MockSubLink001',
+                itemSuperType: 'AbstractCMSComponent',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        uid: 'MockChildNode003',
+        entries: [
+          {
+            itemId: 'MockLink003',
+            itemSuperType: 'AbstractCMSComponent',
+            itemType: 'CMSLinkComponent',
+          },
+        ],
+      },
+      {
+        uid: 'MockChildNode004',
+        entries: [
+          {
+            itemId: 'MockLink004',
+            itemSuperType: 'AbstractCMSComponent',
+            itemType: 'CMSLinkComponent',
+          },
+        ],
       },
     ],
   },
 };
 
-const mappedComponentData: any[] = [
-  {
-    superType: 'AbstractCMSComponent',
-    id: 'MockLink001',
-  },
-  {
-    superType: 'AbstractCMSComponent',
-    id: 'MockLink002',
-  },
-];
+class MockSemanticPathService {
+  transform(commands: any) {
+    return [commands.cxRoute, commands.params.code, commands.params.name];
+  }
+}
 
-const componentDataMock = { data$: of({}) };
-const componentData$ = new BehaviorSubject(componentData);
-
-const resultNode: any = {
-  children: [
-    { title: 'test link 1', url: '/testLink1', target: false },
-    { title: 'test link 2', url: '/testLink2', target: true },
-  ],
-};
 describe('NavigationComponentService', () => {
-  let navigationService: NavigationComponentService;
+  let navigationService: NavigationService;
   let mockCmsService: any;
 
   beforeEach(() => {
     mockCmsService = {
       loadNavigationItems: createSpy(),
       getNavigationEntryItems: createSpy().and.returnValue(of(undefined)),
-      getComponentData: createSpy().and.returnValue(of(componentData)),
     };
     TestBed.configureTestingModule({
       providers: [
-        NavigationComponentService,
+        NavigationService,
         { provide: CmsService, useValue: mockCmsService },
-        { provide: CmsComponentData, useValue: componentDataMock },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
 
-    navigationService = TestBed.get(NavigationComponentService);
+    navigationService = TestBed.get(NavigationService as Type<
+      NavigationService
+    >);
   });
 
-  it('should inject NavigationComponentService', inject(
-    [NavigationComponentService],
-    (service: NavigationComponentService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
-
-  describe('getNavigationEntryItems', () => {
-    it('should get all navigation entry items', () => {
-      navigationService.getNavigationEntryItems(
-        componentData.navigationNode,
-        true
-      );
-      expect(mockCmsService.loadNavigationItems).toHaveBeenCalledWith(
-        'MockNavigationNode001',
-        mappedComponentData
-      );
-    });
+  it('should inject service', () => {
+    expect(navigationService).toBeTruthy();
   });
 
-  describe('createNode', () => {
-    it('should create a new node tree for display', () => {
-      const node = navigationService.createNode(
-        componentData.navigationNode,
-        itemsData
-      );
-      expect(node['children']).toEqual(resultNode.children);
-    });
-  });
-
-  it('should return component data stream', () => {
-    return expect(navigationService.getComponentData()).toBe(
-      componentDataMock.data$
-    );
-  });
-
-  it('should able to get navigation entry item data even if they are not exist', () => {
-    spyOn(navigationService, 'getComponentData').and.returnValue(
-      componentData$
-    );
-    spyOn(navigationService, 'getNavigationEntryItems').and.returnValue(
-      undefined
-    );
-    spyOn(navigationService, 'createNode').and.callThrough();
-    navigationService.getNodes().subscribe();
-
-    expect(navigationService.getComponentData).toHaveBeenCalled();
-    expect(mockCmsService.getNavigationEntryItems).toHaveBeenCalledWith(
-      componentData.navigationNode.uid
-    );
-    expect(navigationService.getNavigationEntryItems).toHaveBeenCalledWith(
-      componentData.navigationNode,
-      true,
-      []
-    );
-    expect(navigationService.createNode).not.toHaveBeenCalled();
-  });
-
-  it('should able to create node data from the existing entry items', () => {
-    spyOn(navigationService, 'getComponentData').and.returnValue(
-      componentData$
-    );
+  it('should get main link for root entry based on CMS data', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
-    spyOn(navigationService, 'getNavigationEntryItems').and.callThrough();
-    spyOn(navigationService, 'createNode').and.callThrough();
-    navigationService.getNodes().subscribe();
 
-    expect(navigationService.getComponentData).toHaveBeenCalled();
-    expect(mockCmsService.getNavigationEntryItems).toHaveBeenCalledWith(
-      componentData.navigationNode.uid
-    );
-    expect(navigationService.getNavigationEntryItems).not.toHaveBeenCalled();
-    expect(navigationService.createNode).toHaveBeenCalledWith(
-      componentData.navigationNode,
-      itemsData
-    );
+    let result: NavigationNode;
+    navigationService
+      .getNavigationNode(of(componentData))
+      .subscribe(node => (result = node));
+
+    expect(result.url).toEqual('/main');
+  });
+
+  it('should not get a URL when no link is provided in the CMS data', () => {
+    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+
+    let result: NavigationNode;
+    navigationService
+      .getNavigationNode(of(componentData))
+      .subscribe(node => (result = node));
+
+    expect(result.children[2].url).toBeFalsy();
+  });
+
+  it('should get a link to a category when categoryCode is provided', () => {
+    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+
+    let result: NavigationNode;
+    navigationService
+      .getNavigationNode(of(componentData))
+      .subscribe(node => (result = node));
+
+    expect(result.children[3].url).toEqual(['category', '444', 'name 4']);
+  });
+
+  it('should get navigation node based on CMS data', () => {
+    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+
+    let result: NavigationNode;
+    navigationService
+      .getNavigationNode(of(componentData))
+      .subscribe(node => (result = node));
+
+    expect(result.children.length).toEqual(4);
+    expect(result.children[0].title).toEqual('test link 1');
+    expect(result.children[1].url).toEqual('/testLink2');
+  });
+
+  it('should create a virtual navigation root', () => {
+    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+
+    let result: NavigationNode;
+    navigationService
+      .createNavigation(of(componentData))
+      .subscribe(node => (result = node));
+
+    expect(result.title).toEqual('NavigationComponent name');
+    expect(result.children.length).toEqual(1);
+    expect(result.children[0].children.length).toEqual(4);
   });
 });

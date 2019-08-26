@@ -1,15 +1,16 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-
+import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
-import * as fromStore from '../store';
+import { Currency } from '../../model/misc.model';
+import { SiteConnector } from '../connectors/site.connector';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
-import { SiteContextStoreModule } from '../store/site-context-store.module';
-import { EffectsModule } from '@ngrx/effects';
-import { Currency } from '../../model/misc.model';
-import { SiteAdapter } from '../connectors/site.adapter';
 import createSpy = jasmine.createSpy;
 
 const mockCurrencies: Currency[] = [
@@ -17,6 +18,22 @@ const mockCurrencies: Currency[] = [
 ];
 
 const mockActiveCurr = 'USD';
+
+const mockSiteContextConfig: SiteContextConfig = {
+  context: {
+    currency: ['USD'],
+  },
+};
+
+class MockSiteConnector {
+  getCurrencies() {
+    return of([]);
+  }
+
+  getLanguages() {
+    return of([]);
+  }
+}
 
 describe('CurrencyService', () => {
   const mockSelect0 = createSpy('select').and.returnValue(() => of(undefined));
@@ -37,12 +54,16 @@ describe('CurrencyService', () => {
         EffectsModule.forRoot([]),
         SiteContextStoreModule,
       ],
-      providers: [CurrencyService, { provide: SiteAdapter, useValue: {} }],
+      providers: [
+        CurrencyService,
+        { provide: SiteConnector, useClass: MockSiteConnector },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(CurrencyService);
+    service = TestBed.get(CurrencyService as Type<CurrencyService>);
   });
 
   it('should CurrencyService is injected', inject(
@@ -59,7 +80,9 @@ describe('CurrencyService', () => {
   it('should be able to load currencies', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect0);
     service.getAll().subscribe();
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new SiteContextActions.LoadCurrencies()
+    );
   });
 
   it('should be able to get currencies', () => {
@@ -82,7 +105,7 @@ describe('CurrencyService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
       service.setActive('EUR');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SetActiveCurrency('EUR')
+        new SiteContextActions.SetActiveCurrency('EUR')
       );
     });
 
@@ -90,7 +113,7 @@ describe('CurrencyService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
       service.setActive(mockActiveCurr);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new fromStore.SetActiveCurrency(mockActiveCurr)
+        new SiteContextActions.SetActiveCurrency(mockActiveCurr)
       );
     });
   });

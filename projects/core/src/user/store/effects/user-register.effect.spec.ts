@@ -1,17 +1,18 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { combineReducers, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Action, combineReducers, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromStore from '../index';
+import { Observable, of } from 'rxjs';
+import { AuthActions } from '../../../auth/store/actions/index';
+import { UserSignUp } from '../../../model/misc.model';
+import { UserAdapter } from '../../connectors/user/user.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
+import * as fromStoreReducers from '../reducers/index';
 import { UserRegisterEffects } from './user-register.effect';
-import { UserRegisterFormData } from '../../../user/index';
-import { LoadUserToken, Logout } from '../../../auth/index';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 
-const user: UserRegisterFormData = {
+const user: UserSignUp = {
   firstName: '',
   lastName: '',
   password: '',
@@ -21,26 +22,26 @@ const user: UserRegisterFormData = {
 
 describe('UserRegister effect', () => {
   let effect: UserRegisterEffects;
-  let actions$: Observable<any>;
-  let userService: UserAccountConnector;
+  let actions$: Observable<Action>;
+  let userService: UserConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers()),
+          ...fromStoreReducers.getReducers(),
+          user: combineReducers(fromStoreReducers.getReducers()),
         }),
       ],
       providers: [
         UserRegisterEffects,
-        { provide: UserAccountAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    effect = TestBed.get(UserRegisterEffects);
-    userService = TestBed.get(UserAccountConnector);
+    effect = TestBed.get(UserRegisterEffects as Type<UserRegisterEffects>);
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
 
     spyOn(userService, 'register').and.returnValue(of({}));
     spyOn(userService, 'remove').and.returnValue(of({}));
@@ -48,12 +49,12 @@ describe('UserRegister effect', () => {
 
   describe('registerUser$', () => {
     it('should register user', () => {
-      const action = new fromStore.RegisterUser(user);
-      const loadUser = new LoadUserToken({
-        userId: '',
-        password: '',
+      const action = new UserActions.RegisterUser(user);
+      const loadUser = new AuthActions.LoadUserToken({
+        userId: user.uid,
+        password: user.password,
       });
-      const completion = new fromStore.RegisterUserSuccess();
+      const completion = new UserActions.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -67,9 +68,9 @@ describe('UserRegister effect', () => {
 
   describe('removeUser$', () => {
     it('should remove user', () => {
-      const action = new fromStore.RemoveUser('testUserId');
-      const logout = new Logout();
-      const completion = new fromStore.RemoveUserSuccess();
+      const action = new UserActions.RemoveUser('testUserId');
+      const logout = new AuthActions.Logout();
+      const completion = new UserActions.RemoveUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {

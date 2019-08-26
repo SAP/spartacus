@@ -7,11 +7,14 @@ import { HamburgerMenuComponent } from './hamburger-menu.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        HamburgerMenuComponent: { selector: 'cx-hamburger-menu' },
+        HamburgerMenuComponent: {
+          component: HamburgerMenuComponent,
+        },
       },
     }),
   ],
   declarations: [HamburgerMenuComponent],
+  exports: [HamburgerMenuComponent],
   entryComponents: [HamburgerMenuComponent],
 })
 export class HamburgerMenuModule {}

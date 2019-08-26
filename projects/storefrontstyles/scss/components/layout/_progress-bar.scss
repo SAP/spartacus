@@ -11,11 +11,11 @@
     z-index: 2;
   }
   &:before {
-    background-color: var(--cx-g-color-light);
+    background-color: var(--cx-color-light);
   }
 
   &:after {
-    background-color: var(--cx-g-color-dark);
+    background-color: var(--cx-color-dark);
   }
 }
 

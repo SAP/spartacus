@@ -2,25 +2,26 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { User } from '../../../model/misc.model';
-import { UserDetailsConnector } from '../../connectors/details/user-details.connector';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserDetailsEffects {
   @Effect()
   loadUserDetails$: Observable<
-    fromUserDetailsAction.UserDetailsAction
+    UserActions.UserDetailsAction
   > = this.actions$.pipe(
-    ofType(fromUserDetailsAction.LOAD_USER_DETAILS),
-    map((action: fromUserDetailsAction.LoadUserDetails) => action.payload),
+    ofType(UserActions.LOAD_USER_DETAILS),
+    map((action: UserActions.LoadUserDetails) => action.payload),
     mergeMap(userId => {
-      return this.userDetailsConnector.get(userId).pipe(
+      return this.userConnector.get(userId).pipe(
         map((user: User) => {
-          return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
+          return new UserActions.LoadUserDetailsSuccess(user);
         }),
         catchError(error =>
-          of(new fromUserDetailsAction.LoadUserDetailsFail(error))
+          of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
         )
       );
     })
@@ -28,30 +29,24 @@ export class UserDetailsEffects {
 
   @Effect()
   updateUserDetails$: Observable<
-    | fromUserDetailsAction.UpdateUserDetailsSuccess
-    | fromUserDetailsAction.UpdateUserDetailsFail
+    UserActions.UpdateUserDetailsSuccess | UserActions.UpdateUserDetailsFail
   > = this.actions$.pipe(
-    ofType(fromUserDetailsAction.UPDATE_USER_DETAILS),
-    map((action: fromUserDetailsAction.UpdateUserDetails) => action.payload),
+    ofType(UserActions.UPDATE_USER_DETAILS),
+    map((action: UserActions.UpdateUserDetails) => action.payload),
     concatMap(payload =>
-      this.userDetailsConnector
-        .update(payload.username, payload.userDetails)
-        .pipe(
-          map(
-            _ =>
-              new fromUserDetailsAction.UpdateUserDetailsSuccess(
-                payload.userDetails
-              )
-          ),
-          catchError(error =>
-            of(new fromUserDetailsAction.UpdateUserDetailsFail(error))
+      this.userConnector.update(payload.username, payload.userDetails).pipe(
+        map(_ => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)),
+        catchError(error =>
+          of(
+            new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
           )
         )
+      )
     )
   );
 
   constructor(
     private actions$: Actions,
-    private userDetailsConnector: UserDetailsConnector
+    private userConnector: UserConnector
   ) {}
 }

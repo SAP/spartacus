@@ -1,5 +1,5 @@
 import { ProductReference } from '../../../model/product.model';
-import * as fromProductReferences from '../actions/product-references.action';
+import { ProductActions } from '../actions/index';
 import { ProductReferencesState } from '../product-state';
 
 export const initialState: ProductReferencesState = {
@@ -9,10 +9,10 @@ export const initialState: ProductReferencesState = {
 
 export function reducer(
   state = initialState,
-  action: fromProductReferences.ProductReferencesAction
+  action: ProductActions.ProductReferencesAction
 ): ProductReferencesState {
   switch (action.type) {
-    case fromProductReferences.LOAD_PRODUCT_REFERENCES_SUCCESS: {
+    case ProductActions.LOAD_PRODUCT_REFERENCES_SUCCESS: {
       const productCode = action.payload.productCode;
       const list = action.payload.list;
 

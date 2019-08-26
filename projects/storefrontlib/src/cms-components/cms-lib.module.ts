@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
-import { HamburgerMenuModule, SkipLinkModule } from '../layout/index';
-import { CartComponentModule } from './checkout/cart/cart.module';
+import { HamburgerMenuModule } from '../layout/index';
+import { CartComponentModule } from './cart/cart.module';
+import { CheckoutComponentModule } from './checkout/checkout.module';
+import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
 import {
   BannerModule,
   CmsParagraphModule,
@@ -12,14 +14,14 @@ import {
   AddressBookModule,
   CloseAccountModule,
   ConsentManagementModule,
+  ForgotPasswordModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
+  ResetPasswordModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-  ForgotPasswordModule,
-  ResetPasswordModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -28,17 +30,20 @@ import {
   NavigationModule,
   SearchBoxModule,
 } from './navigation/index';
+import { OrderConfirmationModule } from './order-confirmation/index';
 import {
   ProductCarouselModule,
+  ProductIntroModule,
   ProductListModule,
   ProductReferencesModule,
   ProductTabsModule,
 } from './product/index';
-import { StoreFinderModule } from './storefinder/index';
+import { ProductImagesModule } from './product/product-images/product-images.module';
+import { ProductSummaryModule } from './product/product-summary/product-summary.module';
+import { UserComponentModule } from './user/user.module';
 
 @NgModule({
   imports: [
-    SkipLinkModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
@@ -64,9 +69,17 @@ import { StoreFinderModule } from './storefinder/index';
     CloseAccountModule,
     CartComponentModule,
     TabParagraphContainerModule,
-    StoreFinderModule,
+    OrderConfirmationModule,
+    // TODO:#2811 - uncomment to enable
+    // StoreFinderModule,
+    ProductImagesModule,
+    ProductSummaryModule,
+    ProductIntroModule,
+    CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
+    BannerCarouselModule,
+    UserComponentModule,
   ],
 })
 export class CmsLibModule {}

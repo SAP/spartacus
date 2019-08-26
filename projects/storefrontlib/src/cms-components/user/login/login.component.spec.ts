@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -46,9 +46,7 @@ class MockUserService {
   get(): Observable<User> {
     return of(mockUserDetails);
   }
-  load(_userId: string): Observable<any> {
-    return of();
-  }
+  load(): void {}
 }
 
 @Component({
@@ -97,13 +95,14 @@ describe('LoginComponent', () => {
       ],
     }).compileComponents();
 
-    authService = TestBed.get(AuthService);
-    userService = TestBed.get(UserService);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    userService = TestBed.get(UserService as Type<UserService>);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
     fixture.detectChanges();
   });
 
@@ -117,9 +116,10 @@ describe('LoginComponent', () => {
     expect(user).toEqual(mockUserDetails);
   });
 
-  it('should not have user details when token is lacking', () => {
+  it('should not get user details when token is lacking', () => {
     spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
     let user;
+    component.ngOnInit();
     component.user$.subscribe(result => (user = result));
     expect(user).toBeFalsy();
   });
@@ -127,7 +127,7 @@ describe('LoginComponent', () => {
   describe('UI tests', () => {
     it('should contain the dynamic slot: HeaderLinks', () => {
       spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
-
+      component.ngOnInit();
       fixture.detectChanges();
 
       expect(
@@ -138,23 +138,18 @@ describe('LoginComponent', () => {
     });
 
     it('should display greeting message when the user is logged in', () => {
-      fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'login.userGreeting name:First Last'
+        'miniLogin.userGreeting name:First Last'
       );
     });
 
     it('should display the register message when the user is not logged in', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+      component.ngOnInit();
       fixture.detectChanges();
 
-      // expect(
-      //   fixture.debugElement.query(By.css('a[role="link"]')).nativeElement
-      //     .innerText
-      // ).toContain('common.action.signInRegister');
-
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'login.signInRegister'
+        'miniLogin.signInRegister'
       );
     });
   });

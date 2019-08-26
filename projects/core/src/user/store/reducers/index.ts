@@ -5,13 +5,15 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { LOGOUT } from '../../../auth/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
+import { ConsentTemplate } from '../../../model/consent.model';
 import { OrderHistoryList } from '../../../model/order.model';
-import { ConsentTemplateList } from '../../../occ/occ-models/additional-occ.models';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
+  REGIONS,
+  RegionsState,
   UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
@@ -40,7 +42,7 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromAddressesReducer.reducer
     ),
     billingCountries: fromBillingCountriesReducer.reducer,
-    consents: loaderReducer<ConsentTemplateList>(
+    consents: loaderReducer<ConsentTemplate[]>(
       USER_CONSENTS,
       fromUserConsentsReducer.reducer
     ),
@@ -55,7 +57,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     order: fromOrderDetailsReducer.reducer,
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,
-    regions: fromRegionsReducer.reducer,
+    regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
   };
 }
@@ -73,7 +75,7 @@ export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === LOGOUT) {
+    if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }
 

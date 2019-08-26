@@ -1,16 +1,16 @@
-import * as fromGlobalMessage from './global-message.reducer';
-import * as fromActions from './../actions/index';
 import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
-import { GlobalMessageState, GlobalMessageAction } from '..';
+import { GlobalMessageActions } from '../actions/index';
+import { GlobalMessageState } from '../global-message-state';
+import * as fromGlobalMessage from './global-message.reducer';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromGlobalMessage;
-      const action = {} as GlobalMessageAction;
+      const action = {} as GlobalMessageActions.GlobalMessageAction;
       const state = fromGlobalMessage.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -26,7 +26,7 @@ describe('Cart reducer', () => {
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       };
 
-      const action = new fromActions.AddMessage(mockMessage);
+      const action = new GlobalMessageActions.AddMessage(mockMessage);
 
       const state = fromGlobalMessage.reducer(initialState, action);
 
@@ -42,7 +42,7 @@ describe('Cart reducer', () => {
         },
       };
 
-      const action = new fromActions.RemoveMessage({
+      const action = new GlobalMessageActions.RemoveMessage({
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         index: 0,
       });
@@ -67,7 +67,7 @@ describe('Cart reducer', () => {
         },
       };
 
-      const action = new fromActions.RemoveMessagesByType(
+      const action = new GlobalMessageActions.RemoveMessagesByType(
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
 

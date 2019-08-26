@@ -1,17 +1,15 @@
+import { Location } from '@angular/common';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { Action } from '@ngrx/store';
+import { AuthActions } from '@spartacus/core';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
-
+import { RoutingActions } from '../actions/index';
 import * as fromEffects from './router.effect';
-import * as fromActions from '../actions/router.action';
-import { Action } from '@ngrx/store';
-import { Logout } from '@spartacus/core';
 
 describe('Router Effects', () => {
   let actions$: Observable<Action>;
@@ -33,14 +31,16 @@ describe('Router Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.RouterEffects);
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
+    effects = TestBed.get(fromEffects.RouterEffects as Type<
+      fromEffects.RouterEffects
+    >);
+    router = TestBed.get(Router as Type<Router>);
+    location = TestBed.get(Location as Type<Location>);
   });
 
   describe('navigate$', () => {
     it('should navigate to path', () => {
-      const action = new fromActions.Go({
+      const action = new RoutingActions.RouteGoAction({
         path: ['/test'],
       });
 
@@ -58,7 +58,7 @@ describe('Router Effects', () => {
 
   describe('navigateByUrl$', () => {
     it('should navigate to url', () => {
-      const action = new fromActions.GoByUrl('/test');
+      const action = new RoutingActions.RouteGoByUrlAction('/test');
 
       actions$ = hot('-a', { a: action });
 
@@ -71,7 +71,7 @@ describe('Router Effects', () => {
 
   describe('clearCmsRoutes$', () => {
     it('should remove cms driven routes', () => {
-      const action = new Logout();
+      const action = new AuthActions.Logout();
 
       actions$ = hot('-a', { a: action });
 
@@ -86,7 +86,7 @@ describe('Router Effects', () => {
 
   describe('navigateBack$', () => {
     it('should navigate back', () => {
-      const action = new fromActions.Back();
+      const action = new RoutingActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 
@@ -99,7 +99,7 @@ describe('Router Effects', () => {
 
   describe('navigateForward$', () => {
     it('should navigate forward', () => {
-      const action = new fromActions.Back();
+      const action = new RoutingActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 

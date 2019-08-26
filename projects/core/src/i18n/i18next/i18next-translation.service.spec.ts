@@ -4,6 +4,7 @@ import i18next from 'i18next';
 import { first, take } from 'rxjs/operators';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
+import * as AngularCore from '@angular/core';
 
 const testKey = 'testKey';
 const testOptions = 'testOptions';
@@ -11,7 +12,6 @@ const nonBreakingSpace = String.fromCharCode(160);
 
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
-  let config: I18nConfig;
 
   beforeEach(() => {
     const mockTranslationChunk = {
@@ -31,8 +31,9 @@ describe('I18nextTranslationService', () => {
       ],
     });
 
-    service = TestBed.get(I18nextTranslationService);
-    config = TestBed.get(I18nConfig);
+    service = TestBed.get(I18nextTranslationService as AngularCore.Type<
+      I18nextTranslationService
+    >);
   });
 
   describe('loadChunks', () => {
@@ -123,7 +124,7 @@ describe('I18nextTranslationService', () => {
       });
 
       it('should return non-breaking space for production', () => {
-        config.production = true;
+        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
         let result;
         service
           .translate(testKey, testOptions)

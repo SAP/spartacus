@@ -1,10 +1,10 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
 import { Observable, of } from 'rxjs';
-
 import { CmsService, Page } from '../../cms/index';
+import { BaseSite } from '../../model/misc.model';
 import { RoutingService } from '../../routing';
-
+import { BaseSiteService } from '../../site-context';
 import { SmartEditService } from './smart-edit.service';
 
 class MockCmsService {
@@ -21,10 +21,16 @@ class MockRoutingService {
   }
   go() {}
 }
+class MockBaseSiteService {
+  getBaseSiteData(): Observable<BaseSite> {
+    return of();
+  }
+}
 describe('SmartEditService', () => {
   let service: SmartEditService;
   let cmsService: CmsService;
   let routingService: RoutingService;
+  let baseSiteService: BaseSiteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,12 +38,14 @@ describe('SmartEditService', () => {
         SmartEditService,
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
       ],
     });
 
-    service = TestBed.get(SmartEditService);
-    cmsService = TestBed.get(CmsService);
-    routingService = TestBed.get(RoutingService);
+    service = TestBed.get(SmartEditService as Type<SmartEditService>);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    baseSiteService = TestBed.get(BaseSiteService as Type<BaseSiteService>);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -113,8 +121,13 @@ describe('SmartEditService', () => {
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewProductCode: 'test product code',
+          defaultPreviewCategoryCode: 'test category code',
+        })
+      );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(
         document.body.classList.contains('smartedit-page-uid-testPageId')
       ).toBeTruthy();
@@ -147,7 +160,6 @@ describe('SmartEditService', () => {
         })
       );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).not.toHaveBeenCalled();
     });
 
@@ -167,11 +179,15 @@ describe('SmartEditService', () => {
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewProductCode: 'test product code',
+        })
+      );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
-        params: { code: 2053367 },
+        params: { code: 'test product code' },
       });
     });
 
@@ -191,11 +207,15 @@ describe('SmartEditService', () => {
           },
         })
       );
+      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+        of({
+          defaultPreviewCategoryCode: 'test category code',
+        })
+      );
       service['getCmsTicket']();
-      service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'category',
-        params: { code: 575 },
+        params: { code: 'test category code' },
       });
     });
   });

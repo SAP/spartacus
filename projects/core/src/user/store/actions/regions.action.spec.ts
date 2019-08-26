@@ -1,12 +1,17 @@
-import * as fromAction from './regions.action';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { REGIONS } from '../user-state';
+import { UserActions } from './index';
+
+const country = 'CA';
 
 describe('Regions Actions', () => {
   describe('LoadRegions', () => {
     it('should create the action', () => {
-      const action = new fromAction.LoadRegions('CA');
+      const action = new UserActions.LoadRegions(country);
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_REGIONS,
-        payload: 'CA',
+        type: UserActions.LOAD_REGIONS,
+        payload: country,
+        meta: StateLoaderActions.loadMeta(REGIONS),
       });
     });
   });
@@ -14,11 +19,12 @@ describe('Regions Actions', () => {
   describe('LoadRegionsFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.LoadRegionsFail(error);
+      const action = new UserActions.LoadRegionsFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_REGIONS_FAIL,
+        type: UserActions.LOAD_REGIONS_FAIL,
         payload: error,
+        meta: StateLoaderActions.failMeta(REGIONS, error),
       });
     });
   });
@@ -35,10 +41,26 @@ describe('Regions Actions', () => {
           name: 'Quebec',
         },
       ];
-      const action = new fromAction.LoadRegionsSuccess(regions);
+      const action = new UserActions.LoadRegionsSuccess({
+        country,
+        entities: regions,
+      });
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_REGIONS_SUCCESS,
-        payload: regions,
+        type: UserActions.LOAD_REGIONS_SUCCESS,
+        payload: {
+          entities: regions,
+          country,
+        },
+        meta: StateLoaderActions.successMeta(REGIONS),
+      });
+    });
+  });
+
+  describe('ClearRegions', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ClearRegions();
+      expect({ ...action }).toEqual({
+        type: UserActions.CLEAR_REGIONS,
       });
     });
   });

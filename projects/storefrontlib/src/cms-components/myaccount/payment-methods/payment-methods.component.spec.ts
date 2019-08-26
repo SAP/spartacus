@@ -1,11 +1,10 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   PaymentDetails,
-  User,
-  UserService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CardComponent } from '../../../shared/components/card/card.component';
@@ -26,25 +25,30 @@ const mockPayment: PaymentDetails = {
   id: '2',
 };
 
-class MockUserService {
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
+class MockUserPaymentService {
   getPaymentMethodsLoading(): Observable<boolean> {
     return of();
   }
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of([mockPayment]);
   }
-  loadPaymentMethods(_userId: string): void {}
-  deletePaymentMethod(_userId: string, _paymentMethodId: string): void {}
-  setPaymentMethodAsDefault(_userId: string, _paymentMethodId: string): void {}
-  get(): Observable<User> {
-    return of({ uid: 'userId' } as User);
-  }
+  loadPaymentMethods(): void {}
+  deletePaymentMethod(_paymentMethodId: string): void {}
+  setPaymentMethodAsDefault(_paymentMethodId: string): void {}
 }
 
 describe('PaymentMethodsComponent', () => {
   let component: PaymentMethodsComponent;
   let fixture: ComponentFixture<PaymentMethodsComponent>;
-  let userService: UserService;
+  let userService: UserPaymentService;
   let el: DebugElement;
 
   beforeEach(async(() => {
@@ -54,8 +58,11 @@ describe('PaymentMethodsComponent', () => {
         PaymentMethodsComponent,
         MockCxSpinnerComponent,
         CardComponent,
+        MockCxIconComponent,
       ],
-      providers: [{ provide: UserService, useClass: MockUserService }],
+      providers: [
+        { provide: UserPaymentService, useClass: MockUserPaymentService },
+      ],
     }).compileComponents();
   }));
 
@@ -63,7 +70,7 @@ describe('PaymentMethodsComponent', () => {
     fixture = TestBed.createComponent(PaymentMethodsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    userService = TestBed.get(UserService);
+    userService = TestBed.get(UserPaymentService as Type<UserPaymentService>);
   });
 
   it('should create', () => {
@@ -194,7 +201,6 @@ describe('PaymentMethodsComponent', () => {
     getConfirmButton(el).nativeElement.click();
     fixture.detectChanges();
     expect(userService.deletePaymentMethod).toHaveBeenCalledWith(
-      'userId',
       mockPayment.id
     );
   });
@@ -213,7 +219,6 @@ describe('PaymentMethodsComponent', () => {
     fixture.detectChanges();
     getSetDefaultButton(el).click();
     expect(userService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
-      'userId',
       mockPayment.id
     );
   });

@@ -1,20 +1,17 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-
-import { CmsComponentList } from '../../../occ/occ-models/index';
-import { RoutingService } from '../../../routing/index';
-import * as fromEffects from './navigation-entry-item.effect';
-import * as fromActions from '../actions/navigation-entry-item.action';
-
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { CmsComponent, OccConfig } from '@spartacus/core';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
 import * as fromCmsReducer from '../../../cms/store/reducers/index';
-import { OccConfig } from '@spartacus/core';
-import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { PageType } from '../../../model/cms.model';
+import { RoutingService } from '../../../routing/index';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import { CmsActions } from '../actions/index';
+import * as fromEffects from './navigation-entry-item.effect';
 
 const router = {
   state: {
@@ -48,7 +45,7 @@ class MockRoutingService {
 }
 
 class MockCmsComponentConnector {
-  getList(): Observable<CmsComponentList> {
+  getList(): Observable<CmsComponent[]> {
     return of(listComponents);
   }
 }
@@ -74,15 +71,17 @@ describe('Navigation Entry Items Effects', () => {
       ],
     });
 
-    service = TestBed.get(CmsComponentConnector);
-    effects = TestBed.get(fromEffects.NavigationEntryItemEffects);
+    service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
+    effects = TestBed.get(fromEffects.NavigationEntryItemEffects as Type<
+      fromEffects.NavigationEntryItemEffects
+    >);
 
     spyOn(service, 'getList').and.returnValue(of(listComponents));
   });
 
   describe('loadNavigationItems$', () => {
     it('should return list of components from LoadNavigationItemsSuccess', () => {
-      const action = new fromActions.LoadNavigationItems({
+      const action = new CmsActions.LoadCmsNavigationItems({
         nodeId: 'MockNavigationNode001',
         items: [
           {
@@ -95,7 +94,7 @@ describe('Navigation Entry Items Effects', () => {
           },
         ],
       });
-      const completion = new fromActions.LoadNavigationItemsSuccess({
+      const completion = new CmsActions.LoadCmsNavigationItemsSuccess({
         nodeId: 'MockNavigationNode001',
         components: listComponents,
       });

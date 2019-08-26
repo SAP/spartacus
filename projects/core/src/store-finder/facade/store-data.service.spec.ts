@@ -1,6 +1,7 @@
-import { StoreDataService } from '.';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { PointOfService } from '../../model/point-of-service.model';
+import { StoreDataService } from './store-data.service';
 
 const location: PointOfService = {
   geoPoint: {
@@ -111,7 +112,7 @@ describe('StoreDataService', () => {
       providers: [StoreDataService],
     });
 
-    service = TestBed.get(StoreDataService);
+    service = TestBed.get(StoreDataService as Type<StoreDataService>);
   });
 
   it('should create', () => {

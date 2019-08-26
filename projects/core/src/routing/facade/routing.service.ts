@@ -1,53 +1,51 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
-
 import { select, Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
-
-import * as fromStore from '../store';
-import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
+import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { UrlCommands } from '../configurable-routes/url-translation/url-command';
-import { UrlService } from '../configurable-routes/url-translation/url.service';
-import { RouterState } from '../store/reducers/router.reducer';
+import { PageContext } from '../models/page-context.model';
+import { RoutingActions } from '../store/actions/index';
+import { RouterState } from '../store/routing-state';
+import { RoutingSelector } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoutingService {
   constructor(
-    private store: Store<fromStore.RouterState>,
-    private winRef: WindowRef,
-    private urlService: UrlService
+    protected store: Store<RouterState>,
+    protected winRef: WindowRef,
+    protected semanticPathService: SemanticPathService
   ) {}
 
   /**
    * Get the current router state
    */
   getRouterState(): Observable<RouterState> {
-    return this.store.pipe(select(fromStore.getRouterState));
+    return this.store.pipe(select(RoutingSelector.getRouterState));
   }
 
   /**
    * Get the `PageContext` from the state
    */
   getPageContext(): Observable<PageContext> {
-    return this.store.pipe(select(fromStore.getPageContext));
+    return this.store.pipe(select(RoutingSelector.getPageContext));
   }
 
   /**
    * Get the next `PageContext` from the state
    */
   getNextPageContext(): Observable<PageContext> {
-    return this.store.pipe(select(fromStore.getNextPageContext));
+    return this.store.pipe(select(RoutingSelector.getNextPageContext));
   }
 
   /**
    * Get the `isNavigating` info from the state
    */
   isNavigating(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.isNavigating));
+    return this.store.pipe(select(RoutingSelector.isNavigating));
   }
 
   /**
@@ -57,7 +55,7 @@ export class RoutingService {
    * @param extras: Represents the extra options used during navigation.
    */
   go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
-    const path = this.urlService.generateUrl(commands);
+    const path = this.semanticPathService.transform(commands);
 
     return this.navigate(path, query, extras);
   }
@@ -67,7 +65,7 @@ export class RoutingService {
    * @param url
    */
   goByUrl(url: string) {
-    this.store.dispatch(new fromStore.GoByUrl(url));
+    this.store.dispatch(new RoutingActions.RouteGoByUrlAction(url));
   }
 
   /**
@@ -78,7 +76,7 @@ export class RoutingService {
       this.winRef.nativeWindow.location.origin
     );
     if (isLastPageInApp) {
-      this.store.dispatch(new fromStore.Back());
+      this.store.dispatch(new RoutingActions.RouteBackAction());
       return;
     }
     this.go(['/']);
@@ -89,29 +87,7 @@ export class RoutingService {
    * Navigating forward
    */
   forward(): void {
-    this.store.dispatch(new fromStore.Forward());
-  }
-
-  /**
-   * Get the redirect url from store
-   */
-  getRedirectUrl(): Observable<string> {
-    return this.store.pipe(select(fromStore.getRedirectUrl));
-  }
-
-  /**
-   * Remove the redirect url from store
-   */
-  clearRedirectUrl(): void {
-    this.store.dispatch(new fromStore.ClearRedirectUrl());
-  }
-
-  /**
-   * Put redirct url into store
-   * @param url: redirect url
-   */
-  saveRedirectUrl(url: string): void {
-    this.store.dispatch(new fromStore.SaveRedirectUrl(url));
+    this.store.dispatch(new RoutingActions.RouteForwardAction());
   }
 
   /**
@@ -120,13 +96,13 @@ export class RoutingService {
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  private navigate(
+  protected navigate(
     path: any[],
     query?: object,
     extras?: NavigationExtras
   ): void {
     this.store.dispatch(
-      new fromStore.Go({
+      new RoutingActions.RouteGoAction({
         path,
         query,
         extras,

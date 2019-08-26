@@ -1,7 +1,7 @@
-import { randomString, generateMail } from '../../../helpers/user';
-import { standardUser } from '../../../sample-data/shared-users';
 import { login } from '../../../helpers/auth-forms';
-import { checkBanner } from '../../../helpers/homepage';
+import { generateMail, randomString } from '../../../helpers/user';
+import { standardUser } from '../../../sample-data/shared-users';
+import * as alerts from '../../../helpers/global-message';
 
 const CLOSE_ACCOUNT = '/my-account/close-account';
 
@@ -22,16 +22,20 @@ describe('Close Account', () => {
     before(() => {
       standardUser.registrationData.email = generateMail(randomString(), true);
       cy.requireLoggedIn(standardUser);
+      cy.visit('/');
     });
 
     beforeEach(() => {
+      cy.restoreLocalStorage();
       cy.visit(CLOSE_ACCOUNT);
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
     });
 
     it('should be able to cancel and go back to home', () => {
       cy.get('cx-close-account a').click({ force: true });
-
-      checkBanner();
 
       cy.location('pathname').should('contain', '/');
     });
@@ -49,14 +53,9 @@ describe('Close Account', () => {
 
       cy.wait('@deleteQuery');
 
-      checkBanner();
-
       cy.location('pathname').should('contain', '/');
 
-      cy.get('cx-global-message').should(
-        'contain',
-        'Account closed with success'
-      );
+      alerts.getSuccessAlert().should('contain', 'Account closed with success');
     });
 
     it('should not allow login on closed account', () => {
@@ -67,8 +66,6 @@ describe('Close Account', () => {
       );
 
       cy.location('pathname').should('contain', '/login');
-
-      // cy.get('cx-global-message').should('contain', 'User is disabled');
     });
   });
 });

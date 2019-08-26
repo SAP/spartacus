@@ -1,37 +1,30 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
-
+import {
+  CardType,
+  CheckoutPaymentAdapter,
+  CheckoutPaymentConnector,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import { CheckoutActions } from '../actions/index';
+import { CardTypesEffects } from './card-types.effect';
 
-import * as fromActions from './../actions/index';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-
-import { CardTypesEffects } from '.';
-import { Occ } from '../../../occ/occ-models/occ.models';
-
-class MockMiscsService {
-  loadCardTypes() {}
-}
-
-const mockCardTypesList: Occ.CardTypeList = {
-  cardTypes: [
-    {
-      code: 'amex',
-      name: 'American Express',
-    },
-    {
-      code: 'maestro',
-      name: 'Maestro',
-    },
-  ],
-};
+const mockCardTypes: CardType[] = [
+  {
+    code: 'amex',
+    name: 'American Express',
+  },
+  {
+    code: 'maestro',
+    name: 'Maestro',
+  },
+];
 
 describe('Card Types effect', () => {
-  let service: OccMiscsService;
+  let service: CheckoutPaymentConnector;
   let effect: CardTypesEffects;
   let actions$: Observable<Action>;
 
@@ -39,22 +32,24 @@ describe('Card Types effect', () => {
     TestBed.configureTestingModule({
       providers: [
         CardTypesEffects,
-        { provide: OccMiscsService, useClass: MockMiscsService },
+        { provide: CheckoutPaymentAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    effect = TestBed.get(CardTypesEffects);
-    service = TestBed.get(OccMiscsService);
+    effect = TestBed.get(CardTypesEffects as Type<CardTypesEffects>);
+    service = TestBed.get(CheckoutPaymentConnector as Type<
+      CheckoutPaymentConnector
+    >);
 
-    spyOn(service, 'loadCardTypes').and.returnValue(of(mockCardTypesList));
+    spyOn(service, 'getCardTypes').and.returnValue(of(mockCardTypes));
   });
 
   describe('loadCardTypes$', () => {
     it('should load the card types', () => {
-      const action = new fromActions.LoadCardTypes();
-      const completion = new fromActions.LoadCardTypesSuccess(
-        mockCardTypesList.cardTypes
+      const action = new CheckoutActions.LoadCardTypes();
+      const completion = new CheckoutActions.LoadCardTypesSuccess(
+        mockCardTypes
       );
 
       actions$ = hot('-a', { a: action });

@@ -1,13 +1,7 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import {
-  AuthService,
-  Order,
-  RoutingService,
-  UserService,
-  UserToken,
-} from '@spartacus/core';
+import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
 const mockOrder: Order = {
@@ -74,17 +68,11 @@ const mockRouter = {
 
 const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ userId: 'test' } as UserToken);
-  }
-}
-
-class MockUserService {
+class MockUserOrderService {
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
   }
-  loadOrderDetails(_userId: string, _orderCode: string): void {}
+  loadOrderDetails(_orderCode: string): void {}
   clearOrderDetails(): void {}
 }
 
@@ -96,7 +84,6 @@ class MockRoutingService {
 
 describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
-  let authService;
   let userService;
   let routingService;
 
@@ -105,12 +92,8 @@ describe('OrderDetailsService', () => {
       providers: [
         OrderDetailsService,
         {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: UserService,
-          useClass: MockUserService,
+          provide: UserOrderService,
+          useClass: MockUserOrderService,
         },
         {
           provide: RoutingService,
@@ -119,10 +102,9 @@ describe('OrderDetailsService', () => {
       ],
     });
 
-    service = TestBed.get(OrderDetailsService);
-    authService = TestBed.get(AuthService);
-    userService = TestBed.get(UserService);
-    routingService = TestBed.get(RoutingService);
+    service = TestBed.get(OrderDetailsService as Type<OrderDetailsService>);
+    userService = TestBed.get(UserOrderService as Type<UserOrderService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   });
 
   it('should be created', () => {
@@ -130,7 +112,6 @@ describe('OrderDetailsService', () => {
   });
 
   it('should load order details', () => {
-    spyOn(authService, 'getUserToken');
     spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
     spyOn(userService, 'clearOrderDetails');
@@ -142,13 +123,12 @@ describe('OrderDetailsService', () => {
       .getOrderDetails()
       .subscribe(data => (orderDetails = data))
       .unsubscribe();
-    expect(userService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
+    expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
     expect(userService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
   });
 
   it('should clean order details', () => {
-    spyOn(authService, 'getUserToken');
     spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
     spyOn(userService, 'clearOrderDetails');

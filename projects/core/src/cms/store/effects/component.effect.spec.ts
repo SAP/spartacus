@@ -1,14 +1,14 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { CmsComponent, PageType } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
-import * as fromActions from '../actions/component.action';
+import { CmsActions } from '../actions/index';
 import * as fromEffects from './component.effect';
-import { PageType } from '../../../model/cms.model';
 
 const router = {
   state: {
@@ -53,14 +53,16 @@ describe('Component Effects', () => {
       ],
     });
 
-    service = TestBed.get(CmsComponentConnector);
-    effects = TestBed.get(fromEffects.ComponentEffects);
+    service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
+    effects = TestBed.get(fromEffects.ComponentEffects as Type<
+      fromEffects.ComponentEffects
+    >);
   });
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
-      const action = new fromActions.LoadComponent('comp1');
-      const completion = new fromActions.LoadComponentSuccess(component);
+      const action = new CmsActions.LoadCmsComponent('comp1');
+      const completion = new CmsActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'get').and.returnValue(of(component));
 
       actions$ = hot('-a', { a: action });
@@ -70,8 +72,8 @@ describe('Component Effects', () => {
     });
 
     it('should process only one ongoing request for multiple load component dispatches for the same uid', () => {
-      const action = new fromActions.LoadComponent('comp1');
-      const completion = new fromActions.LoadComponentSuccess(component);
+      const action = new CmsActions.LoadCmsComponent('comp1');
+      const completion = new CmsActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'get').and.returnValue(cold('---c', { c: component }));
 
       actions$ = hot('-aaa------a', { a: action });

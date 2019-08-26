@@ -1,29 +1,32 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import * as fromAction from '../actions/update-email.action';
+import { UserAdapter } from '../../connectors/user/user.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 import * as fromEffect from './update-email.effect';
-import { UserAccountConnector } from '../../connectors/account/user-account.connector';
-import { UserAccountAdapter } from '../../connectors/account/user-account.adapter';
 
 describe('Update Email Effect', () => {
   let updateEmailEffect: fromEffect.UpdateEmailEffects;
-  let userService: UserAccountConnector;
+  let userService: UserConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromEffect.UpdateEmailEffects,
-        { provide: UserAccountAdapter, useValue: {} },
+        { provide: UserAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    updateEmailEffect = TestBed.get(fromEffect.UpdateEmailEffects);
-    userService = TestBed.get(UserAccountConnector);
+    updateEmailEffect = TestBed.get(fromEffect.UpdateEmailEffects as Type<
+      fromEffect.UpdateEmailEffects
+    >);
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
   });
 
   describe('updateEmail$', () => {
@@ -34,12 +37,12 @@ describe('Update Email Effect', () => {
       const password = 'Qwe123!';
       const newUid = 'tester@sap.com';
 
-      const action = new fromAction.UpdateEmailAction({
+      const action = new UserActions.UpdateEmailAction({
         uid,
         password,
         newUid,
       });
-      const completion = new fromAction.UpdateEmailSuccessAction(newUid);
+      const completion = new UserActions.UpdateEmailSuccessAction(newUid);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -55,12 +58,12 @@ describe('Update Email Effect', () => {
       const password = 'Qwe123!';
       const newUid = 'tester@sap.com';
 
-      const action = new fromAction.UpdateEmailAction({
+      const action = new UserActions.UpdateEmailAction({
         uid,
         password,
         newUid,
       });
-      const completion = new fromAction.UpdateEmailErrorAction(error);
+      const completion = new UserActions.UpdateEmailErrorAction(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

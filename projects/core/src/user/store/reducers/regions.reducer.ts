@@ -1,37 +1,28 @@
-import { RegionsState } from '../user-state';
-import * as fromAction from '../actions/index';
 import { Region } from '../../../model/address.model';
+import { UserActions } from '../actions/index';
+import { RegionsState } from '../user-state';
 
 export const initialState: RegionsState = {
   entities: [],
+  country: null,
 };
 
 export function reducer(
   state = initialState,
-  action: fromAction.RegionsAction | fromAction.ClearMiscsData
+  action: UserActions.RegionsAction | UserActions.ClearUserMiscsData
 ): RegionsState {
   switch (action.type) {
-    case fromAction.LOAD_REGIONS_SUCCESS: {
-      const entities: Region[] = action.payload;
-      if (entities) {
+    case UserActions.LOAD_REGIONS_SUCCESS: {
+      const entities: Region[] = action.payload.entities;
+      const country: string = action.payload.country;
+      if (entities || country) {
         return {
           ...state,
           entities,
+          country,
         };
       }
       return initialState;
-    }
-
-    case fromAction.LOAD_REGIONS: {
-      return {
-        ...state,
-      };
-    }
-
-    case fromAction.CLEAR_MISCS_DATA: {
-      return {
-        ...initialState,
-      };
     }
   }
 

@@ -1,10 +1,12 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CmsService, Page, PageMetaResolver } from '..';
+import { I18nTestingModule } from '../../i18n';
+import { PageType } from '../../model/cms.model';
 import { PageMetaService } from '../facade';
 import { PageMeta } from '../model/page.model';
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
-import { PageType } from '../../model/cms.model';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -18,12 +20,12 @@ class MockCmsService {
   }
 }
 
-describe('ContentPageTitleResolver', () => {
+describe('ContentPageMetaResolver', () => {
   let service: ContentPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         { provide: CmsService, useClass: MockCmsService },
@@ -35,7 +37,9 @@ describe('ContentPageTitleResolver', () => {
       ],
     });
 
-    service = TestBed.get(ContentPageMetaResolver);
+    service = TestBed.get(ContentPageMetaResolver as Type<
+      ContentPageMetaResolver
+    >);
   });
 
   it('should inject service', () => {
@@ -74,6 +78,6 @@ describe('ContentPageTitleResolver', () => {
         result = meta;
       })
       .unsubscribe();
-    expect(result.breadcrumbs[0].label).toEqual('Home');
+    expect(result.breadcrumbs[0].label).toEqual('common.home');
   });
 });

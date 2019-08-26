@@ -1,17 +1,15 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
-import * as fromReducers from '../reducers';
-import { SearchConfig } from '../../model/search-config';
-
-import * as fromSelectors from './product-search.selectors';
+import { select, Store, StoreModule } from '@ngrx/store';
 import {
   ProductSearchPage,
   Suggestion,
 } from '../../../model/product-search.model';
+import { SearchConfig } from '../../model/search-config';
+import { ProductActions } from '../actions/index';
+import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
+import * as fromReducers from '../reducers/index';
+import { ProductSelectors } from '../selectors/index';
 
 describe('ProductSearch Selectors', () => {
   let store: Store<StateWithProduct>;
@@ -26,7 +24,8 @@ describe('ProductSearch Selectors', () => {
         StoreModule.forFeature(PRODUCT_FEATURE, fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -35,18 +34,18 @@ describe('ProductSearch Selectors', () => {
       let result: ProductSearchPage;
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
-        .pipe(select(fromSelectors.getSearchResults))
+        .pipe(select(ProductSelectors.getSearchResults))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
       store.dispatch(
-        new fromActions.SearchProducts({
+        new ProductActions.SearchProducts({
           queryText: 'test',
           searchConfig: searchConfig,
         })
       );
-      store.dispatch(new fromActions.SearchProductsSuccess(searchResults));
+      store.dispatch(new ProductActions.SearchProductsSuccess(searchResults));
 
       expect(result).toEqual(searchResults);
     });
@@ -57,13 +56,13 @@ describe('ProductSearch Selectors', () => {
       let result: ProductSearchPage;
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
-        .pipe(select(fromSelectors.getAuxSearchResults))
+        .pipe(select(ProductSelectors.getAuxSearchResults))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
       store.dispatch(
-        new fromActions.SearchProducts(
+        new ProductActions.SearchProducts(
           {
             queryText: 'test',
             searchConfig: searchConfig,
@@ -72,7 +71,7 @@ describe('ProductSearch Selectors', () => {
         )
       );
       store.dispatch(
-        new fromActions.SearchProductsSuccess(searchResults, true)
+        new ProductActions.SearchProductsSuccess(searchResults, true)
       );
 
       expect(result).toEqual(searchResults);
@@ -83,12 +82,14 @@ describe('ProductSearch Selectors', () => {
     it('should return the product suggestions', () => {
       let result: Suggestion[];
       store
-        .pipe(select(fromSelectors.getProductSuggestions))
+        .pipe(select(ProductSelectors.getProductSuggestions))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.GetProductSuggestionsSuccess(suggestions));
+      store.dispatch(
+        new ProductActions.GetProductSuggestionsSuccess(suggestions)
+      );
 
       expect(result).toEqual(suggestions);
     });

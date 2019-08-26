@@ -1,18 +1,16 @@
+import { clickHamburger, waitForHomePage } from '../../helpers/homepage';
 import * as register from '../../helpers/register';
-import { formats } from '../../sample-data/viewports';
-import {
-  waitForHomePage,
-  clickHamburger,
-  checkBanner,
-} from '../../helpers/homepage';
 import { user } from '../../sample-data/checkout-flow';
+import { formats } from '../../sample-data/viewports';
 
 describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
-  beforeEach(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
-    cy.viewport(formats.mobile.width, formats.mobile.height);
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
+  });
+
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
   // Behavior changed to automatic login.
@@ -21,10 +19,12 @@ describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
     register.registerUser(user);
     waitForHomePage();
     register.signOut();
+    register.navigateToTermsAndConditions();
     register.checkTermsAndConditions();
     clickHamburger();
     register.registerUser(user);
-    checkBanner();
+    register.checkTermsAndConditions();
+    register.signOut();
   });
 
   it('should contain error when trying to register with the same email and different password', () => {

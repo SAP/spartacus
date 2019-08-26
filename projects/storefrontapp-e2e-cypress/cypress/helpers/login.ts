@@ -1,5 +1,6 @@
 import { user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
+import * as alerts from './global-message';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
@@ -15,7 +16,9 @@ export function registerUser() {
 }
 
 export function signOutUser() {
-  cy.selectUserMenuOption('Sign Out');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
 
   cy.get(userGreetSelector).should('not.exist');
 }
@@ -32,8 +35,7 @@ export function loginWithBadCredentials() {
 
   cy.get(userGreetSelector).should('not.exist');
 
-  cy.get('cx-global-message .alert-danger').should(
-    'contain',
-    'Bad credentials. Please login again'
-  );
+  alerts
+    .getErrorAlert()
+    .should('contain', 'Bad credentials. Please login again');
 }

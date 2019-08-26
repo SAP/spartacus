@@ -42,6 +42,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
     '@spartacus/storefront': './projects/storefrontlib',
     '@spartacus/core': './projects/core',
     '@spartacus/styles': './projects/storefrontstyles',
+    '@spartacus/assets': './projects/assets',
   };
 
   return new Promise(resolve => {
@@ -208,6 +209,10 @@ if (typeof config.from === 'undefined') {
     case '@spartacus/styles':
     case 'storefrontstyles':
       config.library = '@spartacus/styles';
+      break;
+    case 'assets':
+    case '@spartacus/assets':
+      config.library = '@spartacus/assets';
       break;
     default:
       config.library = undefined;

@@ -1,17 +1,16 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
 import { select, Store, StoreModule } from '@ngrx/store';
-
-import { IndexType, StateWithCms } from '../cms-state';
-import * as fromActions from '../actions/index';
-import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/page.selectors';
+import { PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing/models/page-context.model';
 import { EntityLoaderState, LoaderState } from '../../../state';
+import { ContentSlotComponentData } from '../../model/content-slot-component-data.model';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import { PageContext } from '../../../routing/models/page-context.model';
-import { ContentSlotComponentData } from '@spartacus/core';
-import { PageType } from '../../../model/cms.model';
+import { CmsActions } from '../actions/index';
+import { IndexType, StateWithCms } from '../cms-state';
+import * as fromReducers from '../reducers/index';
+import { CmsSelectors } from '../selectors/index';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
@@ -48,17 +47,17 @@ describe('Cms PageData Selectors', () => {
         StoreModule.forFeature('cms', fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithCms>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('getPageStateIndex', () => {
     it('should return the index part of the state', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: IndexType;
       store
-        .pipe(select(fromSelectors.getPageStateIndex))
+        .pipe(select(CmsSelectors.getPageStateIndex))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -82,13 +81,15 @@ describe('Cms PageData Selectors', () => {
     });
   });
 
-  describe('getIndex', () => {
+  describe('getPageStateIndexEntityLoaderState', () => {
     it('should return an index', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: EntityLoaderState<string>;
       store
-        .pipe(select(fromSelectors.getIndex(pageContext)))
+        .pipe(
+          select(CmsSelectors.getPageStateIndexEntityLoaderState(pageContext))
+        )
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -105,23 +106,28 @@ describe('Cms PageData Selectors', () => {
     });
   });
 
-  describe('getIndexEntity', () => {
-    it('should retrn an empty object when there is no entity', () => {
+  describe('getPageStateIndexLoaderState', () => {
+    it('should return an initial entity state when there is no entity', () => {
       let result: LoaderState<string>;
       store
-        .pipe(select(fromSelectors.getIndexEntity(pageContext)))
+        .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual({});
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: undefined,
+      });
     });
 
     it('should return an entity from an index', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: LoaderState<string>;
       store
-        .pipe(select(fromSelectors.getIndexEntity(pageContext)))
+        .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -134,13 +140,27 @@ describe('Cms PageData Selectors', () => {
     });
   });
 
+  describe('getPageStateIndexValue', () => {
+    it('should return index value', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
+
+      let result: string;
+      store
+        .pipe(select(CmsSelectors.getPageStateIndexValue(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual('homepage');
+    });
+  });
+
   describe('getPageEntities', () => {
     it('should return the entities', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: { [id: string]: Page };
       store
-        .pipe(select(fromSelectors.getPageEntities))
+        .pipe(select(CmsSelectors.getPageEntities))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -150,11 +170,11 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageData', () => {
     it('should return the page', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: Page;
       store
-        .pipe(select(fromSelectors.getPageData(pageContext)))
+        .pipe(select(CmsSelectors.getPageData(pageContext)))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -164,11 +184,11 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageComponentTypes', () => {
     it('should return components', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: string[];
       store
-        .pipe(select(fromSelectors.getPageComponentTypes(pageContext)))
+        .pipe(select(CmsSelectors.getPageComponentTypes(pageContext)))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -180,14 +200,16 @@ describe('Cms PageData Selectors', () => {
     });
   });
 
-  describe('currentSlotSelectorFactory', () => {
+  describe('getCurrentSlotSelectorFactory', () => {
     it('should return current slot by position', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
       let result: ContentSlotData;
       store
         .pipe(
-          select(fromSelectors.currentSlotSelectorFactory(pageContext, 'left'))
+          select(
+            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, 'left')
+          )
         )
         .subscribe(value => (result = value))
         .unsubscribe();

@@ -13,7 +13,7 @@ import {
   getCartsState,
   getRefreshSelector,
   getEntriesSelector,
-} from './cart.selector';
+} from './cart-group.selectors';
 
 export const getSaveForLaterContentSelector = (state: CartState) =>
   state.content;

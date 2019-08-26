@@ -1,16 +1,15 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   Output,
-  ChangeDetectionStrategy,
-  EventEmitter,
 } from '@angular/core';
 import { SortModel } from '@spartacus/core';
 
 @Component({
   selector: 'cx-sorting',
   templateUrl: './sorting.component.html',
-  styleUrls: ['./sorting.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SortingComponent {
