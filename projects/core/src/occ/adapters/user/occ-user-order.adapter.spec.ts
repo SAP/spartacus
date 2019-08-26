@@ -33,7 +33,7 @@ class MockFeatureConfigService {
   }
 }
 
-fdescribe('OccUserOrderAdapter', () => {
+describe('OccUserOrderAdapter', () => {
   let occUserOrderAdapter: OccUserOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
