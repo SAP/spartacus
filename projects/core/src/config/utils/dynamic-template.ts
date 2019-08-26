@@ -1,3 +1,5 @@
+import { isDevMode } from '@angular/core';
+
 export class DynamicTemplate {
   static resolve(templateString: string, templateVariables: Object) {
     const keys = Object.keys(templateVariables);
@@ -8,6 +10,15 @@ export class DynamicTemplate {
       ...keys,
       `return \`${templateString}\`;`
     );
-    return templateFunction(...values);
+
+    try {
+      return templateFunction(...values);
+    } catch (e) {
+      if (isDevMode() && e instanceof ReferenceError) {
+        console.warn(`Key "${e.message.split(' ')[0]}" not found`);
+      }
+
+      return templateString;
+    }
   }
 }

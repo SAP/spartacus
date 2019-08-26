@@ -26,6 +26,7 @@ import { MiniCartComponent } from './mini-cart.component';
     I18nModule,
   ],
   declarations: [MiniCartComponent],
+  exports: [MiniCartComponent],
   entryComponents: [MiniCartComponent],
 })
 export class MiniCartModule {}
