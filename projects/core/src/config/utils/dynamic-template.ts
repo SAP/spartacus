@@ -15,7 +15,9 @@ export class DynamicTemplate {
       return templateFunction(...values);
     } catch (e) {
       if (isDevMode() && e instanceof ReferenceError) {
-        console.warn(`Key "${e.message.split(' ')[0]}" not found`);
+        console.warn(
+          `Could not build url. Key "${e.message.split(' ')[0]}" not found.`
+        );
       }
 
       return templateString;
