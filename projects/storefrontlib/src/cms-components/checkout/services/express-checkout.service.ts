@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, of, asyncScheduler } from 'rxjs';
+import { combineLatest, of, asyncScheduler, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, debounceTime } from 'rxjs/operators';
 
 import {
@@ -10,7 +10,6 @@ import {
   PaymentDetails,
   DeliveryMode,
   CheckoutPaymentService,
-  CheckoutService,
 } from '@spartacus/core';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
@@ -28,19 +27,21 @@ export class ExpressCheckoutService {
     protected userPaymentService: UserPaymentService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
-    protected checkoutService: CheckoutService,
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService
-  ) {}
+  ) {
+    this.setShippingAddress();
+    this.setDeliveryMode();
+    this.setPaymentMethod();
+  }
 
   protected setShippingAddress() {
-    this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
     this.shippingAddressSet$ = combineLatest([
       this.userAddressService.getAddresses(),
       this.userAddressService.getAddressesLoadedSuccess(),
-      this.checkoutDeliveryService.getSetDeliveryAddressResultLoading(),
       this.checkoutDeliveryService.getSetDeliveryAddressResultSuccess(),
       this.checkoutDeliveryService.getSetDeliveryAddressResultError(),
+      this.checkoutDeliveryService.getSetDeliveryAddressResultLoading(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
       tap(([, success]: [Address[], boolean, boolean, boolean, boolean]) => {
@@ -56,30 +57,30 @@ export class ExpressCheckoutService {
         ([
           addresses,
           ,
-          _setDeliveryAddressInProgress,
-          _setDeliveryAddressSuccess,
-          _setDeliveryAddressError,
+          setDeliveryAddressSuccessFlag,
+          setDeliveryAddressErrorFlag,
+          setDeliveryAddressInProgressFlag,
         ]: [Address[], boolean, boolean, boolean, boolean]) => {
           const defaultAddress =
             addresses.find(address => address.defaultAddress) || addresses[0];
           if (defaultAddress && Object.keys(defaultAddress).length) {
             if (
-              !_setDeliveryAddressInProgress &&
-              !_setDeliveryAddressSuccess &&
-              !_setDeliveryAddressError
+              !setDeliveryAddressSuccessFlag &&
+              !setDeliveryAddressErrorFlag &&
+              !setDeliveryAddressInProgressFlag
             ) {
               this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
             }
             return of([
-              _setDeliveryAddressInProgress,
-              _setDeliveryAddressSuccess,
-              _setDeliveryAddressError,
+              setDeliveryAddressSuccessFlag,
+              setDeliveryAddressErrorFlag,
+              setDeliveryAddressInProgressFlag,
             ]).pipe(
               filter(
                 ([
-                  setDeliveryAddressInProgress,
                   setDeliveryAddressSuccess,
                   setDeliveryAddressError,
+                  setDeliveryAddressInProgress,
                 ]: [boolean, boolean, boolean]) => {
                   return (
                     (setDeliveryAddressSuccess || setDeliveryAddressError) &&
@@ -88,15 +89,11 @@ export class ExpressCheckoutService {
                 }
               ),
               switchMap(
-                ([, , setDeliveryAddressError]: [
-                  boolean,
-                  boolean,
-                  boolean
-                ]) => {
-                  if (setDeliveryAddressError) {
-                    return of(false);
+                ([setDeliveryAddressSuccess]: [boolean, boolean, boolean]) => {
+                  if (setDeliveryAddressSuccess) {
+                    return this.checkoutDetailsService.getDeliveryAddress();
                   }
-                  return this.checkoutDetailsService.getDeliveryAddress();
+                  return of(false);
                 }
               ),
               map(data => Boolean(data && Object.keys(data).length))
@@ -109,13 +106,12 @@ export class ExpressCheckoutService {
   }
 
   protected setPaymentMethod() {
-    this.checkoutPaymentService.resetSetPaymentDetailsProcess();
     this.paymentMethodSet$ = combineLatest([
       this.userPaymentService.getPaymentMethods(),
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
-      this.checkoutPaymentService.getSetPaymentDetailsResultLoading(),
       this.checkoutPaymentService.getSetPaymentDetailsResultSuccess(),
       this.checkoutPaymentService.getSetPaymentDetailsResultError(),
+      this.checkoutPaymentService.getSetPaymentDetailsResultLoading(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
       tap(
@@ -139,30 +135,30 @@ export class ExpressCheckoutService {
         ([
           payments,
           ,
-          _setPaymentDetailsInProgress,
-          _setPaymentDetailsSuccess,
-          _setPaymentDetailsError,
+          setPaymentDetailsSuccessFlag,
+          setPaymentDetailsErrorFlag,
+          setPaymentDetailsInProgressFlag,
         ]: [PaymentDetails[], boolean, boolean, boolean, boolean]) => {
           const defaultPayment =
             payments.find(address => address.defaultPayment) || payments[0];
           if (defaultPayment && Object.keys(defaultPayment).length) {
             if (
-              !_setPaymentDetailsInProgress &&
-              !_setPaymentDetailsSuccess &&
-              !_setPaymentDetailsError
+              !setPaymentDetailsSuccessFlag &&
+              !setPaymentDetailsErrorFlag &&
+              !setPaymentDetailsInProgressFlag
             ) {
               this.checkoutPaymentService.setPaymentDetails(defaultPayment);
             }
             return of([
-              _setPaymentDetailsInProgress,
-              _setPaymentDetailsSuccess,
-              _setPaymentDetailsError,
+              setPaymentDetailsSuccessFlag,
+              setPaymentDetailsErrorFlag,
+              setPaymentDetailsInProgressFlag,
             ]).pipe(
               filter(
                 ([
-                  setPaymentDetailsInProgress,
                   setPaymentDetailsSuccess,
                   setPaymentDetailsError,
+                  setPaymentDetailsInProgress,
                 ]: [boolean, boolean, boolean]) => {
                   return (
                     (setPaymentDetailsSuccess || setPaymentDetailsError) &&
@@ -171,11 +167,11 @@ export class ExpressCheckoutService {
                 }
               ),
               switchMap(
-                ([, , setPaymentDetailsError]: [boolean, boolean, boolean]) => {
-                  if (setPaymentDetailsError) {
-                    return of(false);
+                ([setPaymentDetailsSuccess]: [boolean, boolean, boolean]) => {
+                  if (setPaymentDetailsSuccess) {
+                    return this.checkoutDetailsService.getPaymentDetails();
                   }
-                  return this.checkoutDetailsService.getPaymentDetails();
+                  return of(false);
                 }
               ),
               map(data => Boolean(data && Object.keys(data).length))
@@ -188,29 +184,28 @@ export class ExpressCheckoutService {
   }
 
   protected setDeliveryMode() {
-    this.checkoutDeliveryService.resetSetDeliveryModeProcess();
     this.deliveryModeSet$ = combineLatest([
       this.checkoutDeliveryService.getSupportedDeliveryModes(),
       this.shippingAddressSet$,
-      this.checkoutDeliveryService.getSetDeliveryModeResultLoading(),
       this.checkoutDeliveryService.getSetDeliveryModeResultSuccess(),
       this.checkoutDeliveryService.getSetDeliveryModeResultError(),
+      this.checkoutDeliveryService.getSetDeliveryModeResultLoading(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
       switchMap(
         ([
           modes,
           addressSet,
-          setDeliveryModeInProgress,
-          setDeliveryModeSuccess,
-          setDeliveryModeError,
+          setDeliveryModeSuccessFlag,
+          setDeliveryModeErrorFlag,
+          setDeliveryModeInProgressFlag,
         ]: [DeliveryMode[], boolean, boolean, boolean, boolean]) => {
           if (addressSet) {
             return of([
               modes,
-              setDeliveryModeInProgress,
-              setDeliveryModeSuccess,
-              setDeliveryModeError,
+              setDeliveryModeSuccessFlag,
+              setDeliveryModeErrorFlag,
+              setDeliveryModeInProgressFlag,
             ]).pipe(
               filter(
                 ([deliveryModes]: [
@@ -223,33 +218,33 @@ export class ExpressCheckoutService {
               map(
                 ([
                   deliveryModes,
-                  setDeliveryModeInProgressFlag,
-                  setDeliveryModeSuccessFlag,
-                  setDeliveryModeErrorFlag,
+                  setDeliveryModeSuccess,
+                  setDeliveryModeError,
+                  setDeliveryModeInProgress,
                 ]: [DeliveryMode[], boolean, boolean, boolean]) => {
                   const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
                     deliveryModes
                   );
                   return [
                     preferredDeliveryMode,
-                    setDeliveryModeInProgressFlag,
-                    setDeliveryModeSuccessFlag,
-                    setDeliveryModeErrorFlag,
+                    setDeliveryModeSuccess,
+                    setDeliveryModeError,
+                    setDeliveryModeInProgress,
                   ];
                 }
               ),
               tap(
                 ([
                   preferredDeliveryMode,
-                  setDeliveryModeInProgressFlag,
-                  setDeliveryModeSuccessFlag,
-                  setDeliveryModeErrorFlag,
+                  setDeliveryModeSuccess,
+                  setDeliveryModeError,
+                  setDeliveryModeInProgress,
                 ]: [string, boolean, boolean, boolean]) => {
                   if (
                     preferredDeliveryMode &&
-                    !setDeliveryModeInProgressFlag &&
-                    !setDeliveryModeSuccessFlag &&
-                    !setDeliveryModeErrorFlag
+                    !setDeliveryModeSuccess &&
+                    !setDeliveryModeError &&
+                    !setDeliveryModeInProgress
                   ) {
                     this.checkoutDeliveryService.setDeliveryMode(
                       preferredDeliveryMode
@@ -260,27 +255,27 @@ export class ExpressCheckoutService {
               filter(
                 ([
                   ,
-                  setDeliveryModeInProgressFlag,
-                  setDeliveryModeSuccessFlag,
-                  setDeliveryModeErrorFlag,
+                  setDeliveryModeSuccess,
+                  setDeliveryModeError,
+                  setDeliveryModeInProgress,
                 ]: [string, boolean, boolean, boolean]) => {
                   return (
-                    (setDeliveryModeSuccessFlag || setDeliveryModeErrorFlag) &&
-                    !setDeliveryModeInProgressFlag
+                    (setDeliveryModeSuccess || setDeliveryModeError) &&
+                    !setDeliveryModeInProgress
                   );
                 }
               ),
               switchMap(
-                ([, , , setDeliveryModeErrorFlag]: [
+                ([, setDeliveryModeSuccess]: [
                   string,
                   boolean,
                   boolean,
                   boolean
                 ]) => {
-                  if (setDeliveryModeErrorFlag) {
-                    return of(false);
+                  if (setDeliveryModeSuccess) {
+                    return this.checkoutDetailsService.getSelectedDeliveryModeCode();
                   }
-                  return this.checkoutDetailsService.getSelectedDeliveryModeCode();
+                  return of(false);
                 }
               ),
               map(data => Boolean(data))
@@ -293,15 +288,17 @@ export class ExpressCheckoutService {
     );
   }
 
-  public trySetDefaultCheckoutDetails() {
-    this.setShippingAddress();
-    this.setDeliveryMode();
-    this.setPaymentMethod();
+  protected resetCheckoutProcesses() {
+    this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
+    this.checkoutPaymentService.resetSetPaymentDetailsProcess();
+    this.checkoutDeliveryService.resetSetDeliveryModeProcess();
+  }
 
+  public trySetDefaultCheckoutDetails(): Observable<boolean> {
+    this.resetCheckoutProcesses();
     return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
-      map(
-        ([deliveryModeSet, paymentMethodSet]) =>
-          deliveryModeSet && paymentMethodSet
+      map(([deliveryModeSet, paymentMethodSet]) =>
+        Boolean(deliveryModeSet && paymentMethodSet)
       )
     );
   }
