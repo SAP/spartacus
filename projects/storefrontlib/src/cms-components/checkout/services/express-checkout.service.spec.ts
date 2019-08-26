@@ -31,7 +31,7 @@ const mockDetails: CheckoutDetails = {
   paymentInfo: { accountHolderName: 'name' },
 };
 
-// const mockAddresses = new BehaviorSubject([mockDetails.deliveryAddress]).asObservable();
+// const mockAddresses = new BehaviorSubject([mockDetails.deliveryAddress]);
 // const mockLoadAddresses = new BehaviorSubject(true);
 
 class MockUserAddressService implements Partial<UserAddressService> {
