@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { User } from '../../model/misc.model';
 import {
+  AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
@@ -72,6 +73,15 @@ describe('AsmService', () => {
     service.customerSearchReset();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.CustomerSearchReset()
+    );
+  });
+
+  it('should dispatch proper action for update asm UI', () => {
+    spyOn(store, 'dispatch').and.stub();
+    const asmUi: AsmUi = { visible: true };
+    service.updateAsmUiState(asmUi);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.AsmUiUpdate(asmUi)
     );
   });
 });
