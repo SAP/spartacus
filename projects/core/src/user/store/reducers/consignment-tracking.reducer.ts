@@ -1,21 +1,21 @@
 import { ConsignmentTracking } from '../../../model/index';
-import * as fromAction from '../actions/consignment-tracking.action';
+import { UserActions } from '../actions/index';
 import { ConsignmentTrackingState } from '../user-state';
 
 export const initialState: ConsignmentTrackingState = {};
 
 export function reducer(
   state = initialState,
-  action: fromAction.ConsignmentTrackingAction
+  action: UserActions.ConsignmentTrackingAction
 ): ConsignmentTrackingState {
   switch (action.type) {
-    case fromAction.LOAD_CONSIGNMENT_TRACKING_SUCCESS: {
+    case UserActions.LOAD_CONSIGNMENT_TRACKING_SUCCESS: {
       const tracking: ConsignmentTracking = action.payload;
       return {
         tracking,
       };
     }
-    case fromAction.CLEAR_CONSIGNMENT_TRACKING: {
+    case UserActions.CLEAR_CONSIGNMENT_TRACKING: {
       return initialState;
     }
   }

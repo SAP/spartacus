@@ -4,28 +4,28 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import * as fromAction from '../actions/consignment-tracking.action';
-import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
+import { UserActions } from '../actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 
 @Injectable()
 export class ConsignmentTrackingEffects {
   @Effect()
   loadConsignmentTracking$: Observable<
-    fromAction.ConsignmentTrackingAction
+    UserActions.ConsignmentTrackingAction
   > = this.actions$.pipe(
-    ofType(fromAction.LOAD_CONSIGNMENT_TRACKING),
-    map((action: fromAction.LoadConsignmentTracking) => action.payload),
+    ofType(UserActions.LOAD_CONSIGNMENT_TRACKING),
+    map((action: UserActions.LoadConsignmentTracking) => action.payload),
     switchMap(payload => {
       return this.userOrderConnector
         .getConsignmentTracking(payload.orderCode, payload.consignmentCode)
         .pipe(
           map(
             (tracking: ConsignmentTracking) =>
-              new fromAction.LoadConsignmentTrackingSuccess(tracking)
+              new UserActions.LoadConsignmentTrackingSuccess(tracking)
           ),
           catchError(error =>
             of(
-              new fromAction.LoadConsignmentTrackingFail(
+              new UserActions.LoadConsignmentTrackingFail(
                 makeErrorSerializable(error)
               )
             )

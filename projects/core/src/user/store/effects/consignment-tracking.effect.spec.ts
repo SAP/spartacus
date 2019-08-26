@@ -8,7 +8,7 @@ import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
-import * as fromTrackingAction from '../actions/consignment-tracking.action';
+import { UserActions } from '../actions/index';
 import { ConsignmentTrackingEffects } from './consignment-tracking.effect';
 
 const mockTracking: ConsignmentTracking = {};
@@ -53,11 +53,11 @@ describe('Consignment Tracking effect', () => {
       spyOn(userOrderConnector, 'getConsignmentTracking').and.returnValue(
         of(mockTracking)
       );
-      const action = new fromTrackingAction.LoadConsignmentTracking(
+      const action = new UserActions.LoadConsignmentTracking(
         mockTrackingParams
       );
 
-      const completion = new fromTrackingAction.LoadConsignmentTrackingSuccess(
+      const completion = new UserActions.LoadConsignmentTrackingSuccess(
         mockTracking
       );
 
@@ -72,13 +72,11 @@ describe('Consignment Tracking effect', () => {
         throwError('Error')
       );
 
-      const action = new fromTrackingAction.LoadConsignmentTracking(
+      const action = new UserActions.LoadConsignmentTracking(
         mockTrackingParams
       );
 
-      const completion = new fromTrackingAction.LoadConsignmentTrackingFail(
-        'Error'
-      );
+      const completion = new UserActions.LoadConsignmentTrackingFail('Error');
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
