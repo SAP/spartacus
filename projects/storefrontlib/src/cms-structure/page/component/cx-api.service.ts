@@ -27,8 +27,10 @@ import {
   UserOrderService,
   UserPaymentService,
   UserService,
+  SaveForLaterService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model';
+import { SaveForLaterDataService } from 'projects/core/src/cart/facade/save-for-later-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +44,9 @@ export class CxApiService {
     // cart
     @Optional() public cart: CartService,
     @Optional() public cartData: CartDataService,
+    // save for later
+    @Optional() public saveForLater: SaveForLaterService,
+    @Optional() public saveForLaterData: SaveForLaterDataService,
     // checkout
     @Optional() public checkout: CheckoutService,
     @Optional() public checkoutDelivery: CheckoutDeliveryService,

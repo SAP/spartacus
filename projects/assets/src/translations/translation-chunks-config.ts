@@ -14,7 +14,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'miniCart',
     'miniLogin',
   ],
-  cart: ['cartDetails', 'cartItems', 'orderCost'],
+  cart: ['cartDetails', 'cartItems', 'saveForLaterItems', 'orderCost'],
   address: ['addressForm', 'addressBook', 'addressCard'],
   payment: ['paymentForm', 'paymentMethods', 'paymentCard'],
   myAccount: [
