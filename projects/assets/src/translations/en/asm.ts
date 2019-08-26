@@ -1,7 +1,6 @@
 export const asm = {
   asm: {
     logout: 'Sign Out Agent',
-    stopCustomerSession: 'Stop Customer Session',
     loginForm: {
       submit: 'Sign In Agent',
       userId: {
@@ -16,12 +15,14 @@ export const asm = {
       },
     },
     customerSearch: {
-      customerId: {
-        label: 'Customer Id',
-        placeholder: 'Customer Id',
-        required: 'Customer Id is required',
+      searchTerm: {
+        label: 'Customer Email Address',
+        placeholder: 'Customer Email Address',
+        required: 'Customer Email Address is required',
       },
       submit: 'Start Customer Session',
+      noMatch: 'No customer match for "{{uid}}"',
     },
+    customerEmulation: 'ASM - Supporting customer: {{name}} ({{uid}})',
   },
 };

@@ -122,12 +122,6 @@ describe('AsmComponent', () => {
     );
   });
 
-  it('should call authService.logout() when stopCustomerSession() is called', () => {
-    spyOn(authService, 'logout').and.stub();
-    component.stopCustomerEmulationSession();
-    expect(authService.logout).toHaveBeenCalled();
-  });
-
   it('should display the login form by default', () => {
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(of({}));
     spyOn(authService, 'getUserToken').and.returnValue(of({}));
@@ -149,18 +143,19 @@ describe('AsmComponent', () => {
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
   });
 
-  it('should display stop customer session button during a customer session.', () => {
+  it('should display only user info during customer emulation.', () => {
+    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
     spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(userService, 'get').and.returnValue(
-      of({ uid: 'testUser', name: 'test' } as User)
-    );
+    spyOn(userService, 'get').and.returnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
+
+    expect(el.nativeElement.textContent).toContain(testUser.uid);
+    expect(el.nativeElement.textContent).toContain(testUser.name);
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
-    expect(el.query(By.css('button'))).toBeTruthy();
   });
 });

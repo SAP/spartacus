@@ -2,20 +2,20 @@
   <div class="form-group col-sm">
     <label>
       <span class="label-content">{{
-        'asm.customerSearch.customerId.label' | cxTranslate
+        'asm.customerSearch.searchTerm.label' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        [class.is-invalid]="isNotValid('customerId')"
-        formControlName="customerId"
+        [class.is-invalid]="isNotValid('searchTerm')"
+        formControlName="searchTerm"
         placeholder="{{
-          'asm.customerSearch.customerId.placeholder' | cxTranslate
+          'asm.customerSearch.searchTerm.placeholder' | cxTranslate
         }}"
       />
-      <div class="invalid-feedback" *ngIf="isNotValid('customerId')">
+      <div class="invalid-feedback" *ngIf="isNotValid('searchTerm')">
         <span>{{
-          'asm.customerSearch.customerId.required' | cxTranslate
+          'asm.customerSearch.searchTerm.required' | cxTranslate
         }}</span>
       </div>
     </label>
