@@ -103,7 +103,7 @@ export class ProductScrollComponent implements OnDestroy {
 
   //Set booleans after model has been retrieved
   private setConditions(): void {
-    this.isEmpty = this.model.products.length === 0;
+    this.isEmpty = !this.model.products || this.model.products.length === 0;
 
     this.isLastPage =
       this.model.pagination.currentPage ===
