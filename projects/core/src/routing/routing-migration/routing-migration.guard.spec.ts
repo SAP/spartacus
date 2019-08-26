@@ -4,7 +4,7 @@ import { RouterStateSnapshot } from '@angular/router';
 import { WindowRef } from '../../window';
 import { RoutingMigrationGuard } from './routing-migration.guard';
 
-fdescribe('RoutingMigrationGuard canActivate', () => {
+describe('RoutingMigrationGuard canActivate', () => {
   describe('for no-browser platform', () => {
     let guard: RoutingMigrationGuard;
     let winRef: WindowRef;
