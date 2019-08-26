@@ -1,4 +1,4 @@
-import { NgZone, Type } from '@angular/core';
+import { InjectionToken, NgZone, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CanActivate, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,15 +9,17 @@ import {
 import { RoutingMigrationGuard } from './routing-migration.guard';
 import { RoutingMigrationService } from './routing-migration.service';
 
+const InternalRouteGuard = new InjectionToken('InternalRouteGuard');
+
 describe('RoutingMigrationService', () => {
   let service: RoutingMigrationService;
   let router: Router;
   let zone: NgZone;
-  let internalRoute: CanActivate;
+  let internalRouteGuard: CanActivate;
   let migrationGuard: CanActivate;
 
   function beforeEachWithConfig(config: RoutingMigrationConfig) {
-    internalRoute = {
+    internalRouteGuard = {
       canActivate: jasmine
         .createSpy('testGuard.canActivate')
         .and.returnValue(false),
@@ -31,7 +33,7 @@ describe('RoutingMigrationService', () => {
     TestBed.configureTestingModule({
       providers: [
         RoutingMigrationService,
-        { provide: 'internal-route-guard', useValue: internalRoute },
+        { provide: InternalRouteGuard, useValue: internalRouteGuard },
         {
           provide: RoutingMigrationGuard,
           useValue: migrationGuard,
@@ -46,7 +48,7 @@ describe('RoutingMigrationService', () => {
         RouterTestingModule.withRoutes([
           {
             path: '**',
-            canActivate: ['internal-route-guard'],
+            canActivate: [InternalRouteGuard],
             component: {} as any,
           },
         ]),
@@ -81,28 +83,28 @@ describe('RoutingMigrationService', () => {
       it('should not redirect for internal routes', async () => {
         service.addMigrationRoutes();
         await zone.run(() => router.navigate(['test-route']));
-        expect(internalRoute.canActivate).toHaveBeenCalled();
+        expect(internalRouteGuard.canActivate).toHaveBeenCalled();
         expect(migrationGuard.canActivate).not.toHaveBeenCalled();
       });
 
       it('should redirect for external routes - root path', async () => {
         service.addMigrationRoutes();
         await zone.run(() => router.navigate(['/']));
-        expect(internalRoute.canActivate).not.toHaveBeenCalled();
+        expect(internalRouteGuard.canActivate).not.toHaveBeenCalled();
         expect(migrationGuard.canActivate).toHaveBeenCalled();
       });
 
       it('should redirect for external routes - normal path', async () => {
         service.addMigrationRoutes();
         await zone.run(() => router.navigate(['normal/path']));
-        expect(internalRoute.canActivate).not.toHaveBeenCalled();
+        expect(internalRouteGuard.canActivate).not.toHaveBeenCalled();
         expect(migrationGuard.canActivate).toHaveBeenCalled();
       });
 
       it('should redirect for external routes - path with param', async () => {
         service.addMigrationRoutes();
         await zone.run(() => router.navigate(['path/with/param/1234']));
-        expect(internalRoute.canActivate).not.toHaveBeenCalled();
+        expect(internalRouteGuard.canActivate).not.toHaveBeenCalled();
         expect(migrationGuard.canActivate).toHaveBeenCalled();
       });
     });
@@ -130,28 +132,28 @@ describe('RoutingMigrationService', () => {
     it('should redirect for external routes', async () => {
       service.addMigrationRoutes();
       await zone.run(() => router.navigate(['test-route']));
-      expect(internalRoute.canActivate).not.toHaveBeenCalled();
+      expect(internalRouteGuard.canActivate).not.toHaveBeenCalled();
       expect(migrationGuard.canActivate).toHaveBeenCalled();
     });
 
     it('should not redirect for internal routes - root path', async () => {
       service.addMigrationRoutes();
       await zone.run(() => router.navigate(['/']));
-      expect(internalRoute.canActivate).toHaveBeenCalled();
+      expect(internalRouteGuard.canActivate).toHaveBeenCalled();
       expect(migrationGuard.canActivate).not.toHaveBeenCalled();
     });
 
     it('should not redirect for internal routes - normal path', async () => {
       service.addMigrationRoutes();
       await zone.run(() => router.navigate(['normal/path']));
-      expect(internalRoute.canActivate).toHaveBeenCalled();
+      expect(internalRouteGuard.canActivate).toHaveBeenCalled();
       expect(migrationGuard.canActivate).not.toHaveBeenCalled();
     });
 
     it('should not redirect for external routes - path with param', async () => {
       service.addMigrationRoutes();
       await zone.run(() => router.navigate(['path/with/param/1234']));
-      expect(internalRoute.canActivate).toHaveBeenCalled();
+      expect(internalRouteGuard.canActivate).toHaveBeenCalled();
       expect(migrationGuard.canActivate).not.toHaveBeenCalled();
     });
   });
