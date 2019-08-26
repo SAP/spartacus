@@ -98,6 +98,7 @@ class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
   @Input() showTitleCode: boolean;
   @Input() setAsDefaultField: boolean;
+  @Input() addressData: Address;
 }
 
 @Component({

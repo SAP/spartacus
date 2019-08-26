@@ -6,6 +6,7 @@ import {
   PaymentDetails,
   CheckoutDeliveryService,
   CheckoutPaymentService,
+  ANONYMOUS_USERID,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -32,7 +33,10 @@ export class CheckoutDetailsService {
   ) {
     this.cartId$ = this.cartService.getActive().pipe(
       map(cartData => {
-        if (this.cartService.isGuestCart()) {
+        if (
+          (cartData.user && cartData.user.uid === ANONYMOUS_USERID) ||
+          this.cartService.isGuestCart()
+        ) {
           return cartData.guid;
         }
         return cartData.code;
