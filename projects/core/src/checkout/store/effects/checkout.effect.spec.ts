@@ -71,7 +71,6 @@ class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
   placeOrder = () => of({});
 }
-
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
@@ -251,30 +250,29 @@ describe('Checkout effect', () => {
   });
 
   describe('createPaymentDetails$', () => {
+    const mockPaymentDetails: PaymentDetails = {
+      accountHolderName: 'test test',
+      cardNumber: '4111111111111111',
+      cardType: {
+        code: 'visa',
+      },
+      defaultPayment: false,
+      expiryMonth: '01',
+      expiryYear: '2019',
+      cvn: '123',
+      billingAddress: {
+        firstName: 'test',
+        lastName: 'test',
+        line1: 'line1',
+        line2: 'line2',
+        postalCode: '12345',
+        town: 'MainCity',
+        country: {
+          isocode: 'US',
+        },
+      },
+    };
     it('should create payment details for cart', () => {
-      const mockPaymentDetails: PaymentDetails = {
-        accountHolderName: 'test test',
-        cardNumber: '4111111111111111',
-        cardType: {
-          code: 'visa',
-        },
-        defaultPayment: false,
-        expiryMonth: '01',
-        expiryYear: '2019',
-        cvn: '123',
-        billingAddress: {
-          firstName: 'test',
-          lastName: 'test',
-          line1: 'line1',
-          line2: 'line2',
-          postalCode: '12345',
-          town: 'MainCity',
-          country: {
-            isocode: 'US',
-          },
-        },
-      };
-
       const action = new CheckoutActions.CreatePaymentDetails({
         userId: userId,
         cartId: cartId,
@@ -287,6 +285,22 @@ describe('Checkout effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+    });
+
+    it('should create payment details for guest user', () => {
+      const action = new CheckoutActions.CreatePaymentDetails({
+        userId: 'anonymous',
+        cartId: cartId,
+        paymentDetails: mockPaymentDetails,
+      });
+      const completion = new CheckoutActions.CreatePaymentDetailsSuccess(
+        paymentDetails
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
 
       expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
     });
