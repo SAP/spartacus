@@ -87,7 +87,6 @@ export class AuthService {
    * @param userToken
    */
   isCustomerEmulationToken(userToken: UserToken): boolean {
-    console.log('userToken.userId', userToken.userId);
     return !!userToken.userId && userToken.userId !== USERID_CURRENT;
   }
 

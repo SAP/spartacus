@@ -200,7 +200,6 @@ describe('AuthService', () => {
     });
 
     it('should return false if there is no userId on the token', () => {
-      console.log('mockCustomerEmulationToken', mockCustomerEmulationToken);
       expect(service.isCustomerEmulationToken(mockCustomerEmulationToken)).toBe(
         false
       );
