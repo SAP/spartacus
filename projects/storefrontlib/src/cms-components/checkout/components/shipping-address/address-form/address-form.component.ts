@@ -159,7 +159,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       });
 
-    if (this.addressData) {
+    if (this.addressData && Object.keys(this.addressData).length !== 0) {
       this.address.patchValue(this.addressData);
 
       this.countrySelected(this.addressData.country);
@@ -197,7 +197,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
-    this.checkoutDeliveryService.verifyAddress(this.address.value);
+    if (this.address.dirty) {
+      this.checkoutDeliveryService.verifyAddress(this.address.value);
+    } else {
+      // address form value not changed
+      // ignore duplicate address
+      this.submitAddress.emit(undefined);
+    }
   }
 
   openSuggestedAddress(results: AddressValidation): void {

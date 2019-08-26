@@ -193,7 +193,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   addNewAddress(address: Address): void {
-    this.addAddress({ address, newAddress: true });
+    if (address) {
+      this.addAddress({ address, newAddress: true });
+    } else {
+      this.goNext();
+    }
   }
 
   showNewAddressForm(): void {
