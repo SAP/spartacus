@@ -15,9 +15,7 @@ export class DynamicTemplate {
       return templateFunction(...values);
     } catch (e) {
       if (isDevMode() && e instanceof ReferenceError) {
-        console.warn(
-          `Could not build url. Key "${e.message.split(' ')[0]}" not found.`
-        );
+        console.warn(`Key "${e.message.split(' ')[0]}" not found.`);
       }
 
       if (templateString.indexOf('?') > -1) {
@@ -28,6 +26,9 @@ export class DynamicTemplate {
         try {
           return templateFunction(...values);
         } catch (e) {
+          if (isDevMode()) {
+            console.warn('Could not resolve endpoint.');
+          }
           return templateString;
         }
       }
