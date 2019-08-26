@@ -3,7 +3,7 @@ import { ProductSearchPage } from '@spartacus/core';
 import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
-import { ViewConfig } from '../../config/view-config';
+import { ViewConfig } from '../../../../view-config';
 import { ViewModes } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 

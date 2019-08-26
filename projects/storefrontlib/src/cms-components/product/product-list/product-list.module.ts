@@ -25,7 +25,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { defaultScrollConfig } from '../config/default-scroll-config';
-import { ViewConfig } from '../config/view-config';
+import { ViewConfig } from '../../../view-config';
 
 @NgModule({
   imports: [

@@ -17,7 +17,7 @@ import { MediaComponent } from 'projects/storefrontlib/src/shared';
 import createSpy = jasmine.createSpy;
 import { ProductListComponentService } from '../product-list-component.service';
 import { ViewModes } from '../../product-view/product-view.component';
-import { ViewConfig } from '../../../config/view-config';
+import { ViewConfig } from '../../../../../view-config';
 import { By } from '@angular/platform-browser';
 
 const mockModel1: ProductSearchPage = {
