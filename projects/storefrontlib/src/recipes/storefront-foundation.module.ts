@@ -13,10 +13,10 @@ import {
   provideConfigFromMetaTags,
   StateModule,
   UserModule,
+  ViewConfigModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
-import { ViewConfigModule } from '../../../core/src/view-config/view-config.module';
 
 @NgModule({
   imports: [

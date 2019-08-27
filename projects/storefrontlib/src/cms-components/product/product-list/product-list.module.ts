@@ -7,6 +7,7 @@ import {
   I18nModule,
   UrlModule,
   ViewConfigModule,
+  ViewConfig,
 } from '@spartacus/core';
 import {
   ItemCounterModule,
@@ -25,7 +26,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { defaultScrollConfig } from '../config/default-scroll-config';
-import { ViewConfig } from '../../../../../core/src/view-config/config/view-config';
 
 @NgModule({
   imports: [

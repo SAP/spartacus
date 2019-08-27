@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductScrollComponent } from './product-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProductGridItemComponent } from '../..';
-import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
+import { I18nTestingModule, ProductSearchPage, ViewConfig } from '@spartacus/core';
 import { SpinnerModule } from 'projects/storefrontlib/src/shared/components/spinner/spinner.module';
 import {
   Component,
@@ -18,7 +18,6 @@ import createSpy = jasmine.createSpy;
 import { ProductListComponentService } from '../product-list-component.service';
 import { ViewModes } from '../../product-view/product-view.component';
 import { By } from '@angular/platform-browser';
-import { ViewConfig } from '../../../../../../../core/src/view-config/config/view-config';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [

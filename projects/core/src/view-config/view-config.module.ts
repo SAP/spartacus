@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ViewConfig } from './config/view-config';
+ import { ViewConfig } from './config/view-config';
 import { provideConfig, Config } from '../config';
 
 @NgModule({})
