@@ -29,6 +29,10 @@ class MockUserService {
     return of();
   }
 
+  getRemoveUserResultError(): Observable<Boolean> {
+    return of();
+  }
+
   getRemoveUserResultLoading(): Observable<Boolean> {
     return of(false);
   }
@@ -121,22 +125,34 @@ describe('CloseAccountModalComponent', () => {
 
   it('should close account', () => {
     spyOn(userService, 'remove');
-    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
 
     component.closeAccount();
 
     expect(userService.remove).toHaveBeenCalled();
-    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
 
   it('should navigate away and dismiss modal when account is closed', () => {
     spyOn(userService, 'getRemoveUserResultSuccess').and.returnValue(of(true));
     spyOn(component, 'onSuccess').and.callThrough();
+    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
 
     component.ngOnInit();
 
     expect(component.onSuccess).toHaveBeenCalledWith(true);
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
+  });
+
+  it('should dismiss modal when account failed to close', () => {
+    spyOn(userService, 'getRemoveUserResultError').and.returnValue(of(true));
+    spyOn(component, 'onError').and.callThrough();
+    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
+
+    component.ngOnInit();
+
+    expect(component.onError).toHaveBeenCalledWith(true);
+    expect(globalMessageService.add).toHaveBeenCalled();
+    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
 });

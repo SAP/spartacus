@@ -47,11 +47,18 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
         .getRemoveUserResultSuccess()
         .subscribe(success => this.onSuccess(success))
     );
+
+    this.subscription.add(
+      this.userService
+        .getRemoveUserResultError()
+        .subscribe(error => this.onError(error))
+    );
     this.isLoading$ = this.userService.getRemoveUserResultLoading();
   }
 
   onSuccess(success: boolean): void {
     if (success) {
+      this.dismissModal();
       this.translationService
         .translate('closeAccount.accountClosedSuccessfully')
         .pipe(first())
@@ -65,13 +72,24 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  onError(error: boolean): void {
+    if (error) {
+      this.dismissModal();
+      this.translationService
+        .translate('closeAccount.accountClosedFailure')
+        .pipe(first())
+        .subscribe(text => {
+          this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_ERROR);
+        });
+    }
+  }
+
   dismissModal(reason?: any): void {
     this.modalService.dismissActiveModal(reason);
   }
 
   closeAccount() {
     this.userService.remove();
-    this.dismissModal();
   }
 
   ngOnDestroy() {
