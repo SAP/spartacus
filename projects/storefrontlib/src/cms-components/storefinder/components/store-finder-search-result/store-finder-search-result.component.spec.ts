@@ -92,8 +92,10 @@ describe('StoreFinderListComponent', () => {
     // then
     expect(storeFinderService.findStoresAction).toHaveBeenCalledWith(
       '',
+      { currentPage: pageNumber },
       { longitude: 0, latitude: 0 },
-      { currentPage: pageNumber }
+      null,
+      undefined
     );
   });
 });

@@ -74,43 +74,43 @@ describe('StoreFinderService', () => {
 
   describe('Find Stores', () => {
     it('should dispatch a new action', () => {
-      service.findStores(queryText, false);
+      service.findStoresAction(
+        queryText,
+        { currentPage: 0 },
+        undefined,
+        undefined
+      );
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new StoreFinderActions.FindStores({ queryText: queryText })
+        new StoreFinderActions.FindStores({
+          queryText: queryText,
+          searchConfig: {
+            currentPage: 0,
+          },
+          longitudeLatitude: undefined,
+          countryIsoCode: undefined,
+        })
       );
     });
   });
 
   describe('Find Stores with My Location', () => {
     it('should dispatch a OnHold action and a FindStores action', () => {
-      service.findStores(queryText, true);
+      service.findStoresAction(
+        queryText,
+        { currentPage: 0 },
+        undefined,
+        undefined,
+        true
+      );
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new StoreFinderActions.FindStoresOnHold()
       );
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new StoreFinderActions.FindStores({
-          queryText,
-          longitudeLatitude,
-        })
-      );
-      expect(
-        winRef.nativeWindow.navigator.geolocation.watchPosition
-      ).toHaveBeenCalled();
-    });
-  });
 
-  describe('Find Stores Twice with My Location', () => {
-    it('should clear watch geolocation', () => {
-      service.findStores(queryText, true);
-      service.findStores(queryText, false);
       expect(
         winRef.nativeWindow.navigator.geolocation.watchPosition
       ).toHaveBeenCalled();
-      expect(
-        winRef.nativeWindow.navigator.geolocation.clearWatch
-      ).toHaveBeenCalledWith(geolocationWatchId);
     });
   });
 
