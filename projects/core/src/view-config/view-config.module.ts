@@ -8,7 +8,13 @@ export class ViewConfigModule {
     return {
       ngModule: ViewConfigModule,
       providers: [
-        provideConfig({}),
+        provideConfig({
+          view: {
+            infiniteScroll: {
+              active: true,
+            },
+          },
+        }),
         {
           provide: ViewConfig,
           useExisting: Config,
