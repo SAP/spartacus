@@ -6,7 +6,7 @@ const mockAsmUiUpdated: AsmUi = {
   visible: true,
 };
 
-fdescribe('AsmUi reducer', () => {
+describe('AsmUi reducer', () => {
   it('should return the same state for undefined action', () => {
     const { initialState } = fromReducer;
     const action = {} as AsmActions.AsmUiAction;
