@@ -416,6 +416,18 @@ describe('CartService', () => {
       });
     });
 
+    it('should load cart for logged user without cart', done => {
+      service['load'] = jasmine.createSpy().and.callFake(() => {});
+
+      service.getActive().subscribe();
+      store.dispatch(new CartActions.ClearCart());
+      userToken$.next(mockUserToken);
+      setTimeout(() => {
+        expect(service['load']).toHaveBeenCalled();
+        done();
+      });
+    })
+
     it('should not load cart when loaded', done => {
       service['load'] = jasmine.createSpy().and.callFake(() => {});
 
