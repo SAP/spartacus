@@ -181,6 +181,7 @@ describe('OccUserOrderAdapter', () => {
             req.method === 'GET'
           );
         }, `GET method`);
+
         expect(mockReq.request.params.get('pageSize')).toEqual(
           PAGE_SIZE.toString()
         );
