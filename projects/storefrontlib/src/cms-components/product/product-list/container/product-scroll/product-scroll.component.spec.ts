@@ -3,7 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductScrollComponent } from './product-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProductGridItemComponent } from '../..';
-import { I18nTestingModule, ProductSearchPage, ViewConfig } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductSearchPage,
+  ViewConfig,
+} from '@spartacus/core';
 import { SpinnerModule } from 'projects/storefrontlib/src/shared/components/spinner/spinner.module';
 import {
   Component,
