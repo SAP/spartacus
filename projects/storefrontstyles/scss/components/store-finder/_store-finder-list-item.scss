@@ -42,6 +42,10 @@
     @include type('8');
     color: var(--cx-color-danger);
   }
+  .cx-store-distance {
+    @include type('8');
+    margin: 1rem 0;
+  }
   .cx-button {
     line-height: 2;
     margin: 1rem 0 0;

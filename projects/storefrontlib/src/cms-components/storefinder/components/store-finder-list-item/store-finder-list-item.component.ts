@@ -11,6 +11,8 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   locationIndex: number = null;
   @Input()
   listOrderLabel: any;
+  @Input()
+  displayDistance: boolean;
   @Output()
   storeItemClick: EventEmitter<number> = new EventEmitter();
 

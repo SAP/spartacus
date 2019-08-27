@@ -12,7 +12,10 @@
       ></cx-pagination>
     </div>
   </div>
-  <cx-store-finder-list [locations]="locations"></cx-store-finder-list>
+  <cx-store-finder-list
+    [locations]="locations"
+    [useMylocation]="useMyLocation"
+  ></cx-store-finder-list>
 </div>
 <ng-template #loading>
   <div class="cx-spinner">

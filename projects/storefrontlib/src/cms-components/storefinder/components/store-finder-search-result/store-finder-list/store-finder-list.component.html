@@ -37,6 +37,7 @@
             <cx-store-finder-list-item
               [location]="location"
               [locationIndex]="i"
+              [displayDistance]="useMylocation"
               (storeItemClick)="centerStoreOnMapByIndex($event, location)"
               [listOrderLabel]="
                 i +
@@ -85,6 +86,7 @@
                   <cx-store-finder-list-item
                     [location]="location"
                     [locationIndex]="i"
+                    [displayDistance]="useMylocation"
                     (storeItemClick)="centerStoreOnMapByIndex($event, location)"
                     [listOrderLabel]="
                       i +

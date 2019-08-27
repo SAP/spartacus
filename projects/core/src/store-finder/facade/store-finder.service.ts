@@ -56,24 +56,47 @@ export class StoreFinderService {
   /**
    * Store finding action functionality
    * @param queryText text query
-   * @param longitudeLatitude longitude and latitude coordinates
    * @param searchConfig search configuration
+   * @param longitudeLatitude longitude and latitude coordinates
    * @param countryIsoCode country ISO code
+   * @param useMyLocation current location coordinates
    */
   findStoresAction(
     queryText: string,
-    longitudeLatitude: GeoPoint,
-    searchConfig: StoreFinderSearchConfig,
-    countryIsoCode?: string
+    searchConfig?: StoreFinderSearchConfig,
+    longitudeLatitude?: GeoPoint,
+    countryIsoCode?: string,
+    useMyLocation?: boolean
   ) {
-    this.store.dispatch(
-      new StoreFinderActions.FindStores({
-        queryText: queryText,
-        longitudeLatitude: longitudeLatitude,
-        searchConfig: searchConfig,
-        countryIsoCode: countryIsoCode,
-      })
-    );
+    if (useMyLocation && this.winRef.nativeWindow) {
+      this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
+      this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
+        (pos: Position) => {
+          const position: GeoPoint = {
+            longitude: pos.coords.longitude,
+            latitude: pos.coords.latitude,
+          };
+
+          this.clearWatchGeolocation(
+            new StoreFinderActions.FindStores({
+              queryText: queryText,
+              searchConfig: searchConfig,
+              longitudeLatitude: position,
+              countryIsoCode: countryIsoCode,
+            })
+          );
+        }
+      );
+    } else {
+      this.clearWatchGeolocation(
+        new StoreFinderActions.FindStores({
+          queryText: queryText,
+          searchConfig: searchConfig,
+          longitudeLatitude: longitudeLatitude,
+          countryIsoCode: countryIsoCode,
+        })
+      );
+    }
   }
 
   /**
@@ -91,32 +114,6 @@ export class StoreFinderService {
     this.clearWatchGeolocation(
       new StoreFinderActions.FindStoreById({ storeId })
     );
-  }
-
-  /**
-   * Find all stores
-   * @param queryText text query
-   * @param useMyLocation use current location
-   */
-  findStores(queryText: string, useMyLocation?: boolean) {
-    if (useMyLocation && this.winRef.nativeWindow) {
-      this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
-      this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
-        (pos: Position) => {
-          const longitudeLatitude: GeoPoint = {
-            longitude: pos.coords.longitude,
-            latitude: pos.coords.latitude,
-          };
-          this.clearWatchGeolocation(
-            new StoreFinderActions.FindStores({ queryText, longitudeLatitude })
-          );
-        }
-      );
-    } else {
-      this.clearWatchGeolocation(
-        new StoreFinderActions.FindStores({ queryText })
-      );
-    }
   }
 
   private clearWatchGeolocation(callbackAction: Action) {

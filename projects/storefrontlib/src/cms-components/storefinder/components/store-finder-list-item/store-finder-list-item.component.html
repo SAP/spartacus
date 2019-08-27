@@ -17,6 +17,12 @@
           location.address.postalCode
         ])
       }}
+      <div
+        class="cx-store-distance"
+        *ngIf="location.formattedDistance && displayDistance"
+      >
+        {{ location.formattedDistance }}
+      </div>
     </div>
     <a
       href="{{ getDirections(location) }}"
