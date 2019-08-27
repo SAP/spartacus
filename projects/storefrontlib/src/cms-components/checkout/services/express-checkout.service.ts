@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, of, asyncScheduler, Observable } from 'rxjs';
-import { filter, map, switchMap, tap, debounceTime } from 'rxjs/operators';
+import {
+  combineLatest,
+  of,
+  Observable,
+  asyncScheduler,
+} from 'rxjs';
+import {
+  filter,
+  map,
+  switchMap,
+  tap,
+  debounceTime,
+} from 'rxjs/operators';
 
 import {
   Address,
@@ -30,6 +41,7 @@ export class ExpressCheckoutService {
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService
   ) {
+    console.log('constructor');
     this.setShippingAddress();
     this.setDeliveryMode();
     this.setPaymentMethod();
@@ -45,6 +57,7 @@ export class ExpressCheckoutService {
     ]).pipe(
       debounceTime(1, asyncScheduler),
       tap(([, success]: [Address[], boolean, boolean, boolean, boolean]) => {
+        console.log(success);
         if (!success) {
           this.userAddressService.loadAddresses();
         }
