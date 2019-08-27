@@ -4,7 +4,7 @@ import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewModes } from '../product-view/product-view.component';
-import { ViewConfig } from '../../../../view-config';
+import { ViewConfig } from '../../../../../../core/src/config/view-config/config/view-config';
 import { ProductListComponentService } from './product-list-component.service';
 
 @Component({
