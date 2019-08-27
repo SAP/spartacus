@@ -18,8 +18,6 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const storeId = 'shop_new_york_1';
-
 const mockActivatedRoute = {
   snapshot: {
     params: {},
@@ -56,7 +54,6 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   let component: StoreFinderStoreDescriptionComponent;
   let fixture: ComponentFixture<StoreFinderStoreDescriptionComponent>;
   let storeFinderService: StoreFinderService;
-  let route: ActivatedRoute;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -81,7 +78,6 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderStoreDescriptionComponent);
     component = fixture.componentInstance;
-    route = TestBed.get(ActivatedRoute as Type<ActivatedRoute>);
     storeFinderService = TestBed.get(StoreFinderService as Type<
       StoreFinderService
     >);
@@ -89,15 +85,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
     spyOn(storeFinderService, 'viewStoreById');
   });
 
-  it('should call storeFinderService with store id', () => {
-    route.snapshot.params = {
-      store: storeId,
-    };
-    fixture.detectChanges();
-
+  it('should create', () => {
     expect(component).toBeTruthy();
-    expect(storeFinderService.viewStoreById).toHaveBeenCalledWith(
-      'Shop_new_york_1'
-    );
   });
 });
