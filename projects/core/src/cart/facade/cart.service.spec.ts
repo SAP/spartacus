@@ -426,7 +426,7 @@ describe('CartService', () => {
         expect(service['load']).toHaveBeenCalled();
         done();
       });
-    })
+    });
 
     it('should not load cart when loaded', done => {
       service['load'] = jasmine.createSpy().and.callFake(() => {});
