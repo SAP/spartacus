@@ -14,7 +14,7 @@ import { CheckoutConfig } from './cms-components/checkout/config/checkout-config
 import { IconConfig } from './cms-components/misc/icon/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { LayoutConfig } from './layout/config/layout-config';
-import { ViewConfig } from '../../core/src/config/view-config/config/view-config';
+import { ViewConfig } from 'projects/core/src/config/view-config/config/view-config';
 import { FeatureToggles } from './feature-toggles';
 
 export type StorefrontConfig =

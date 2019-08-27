@@ -1,4 +1,4 @@
-import { ViewConfig } from '../../../../../core/src/config/view-config/config/view-config';
+import { ViewConfig } from 'projects/core/src/config/view-config/config/view-config';
 
 export const defaultScrollConfig: ViewConfig = {
   view: {

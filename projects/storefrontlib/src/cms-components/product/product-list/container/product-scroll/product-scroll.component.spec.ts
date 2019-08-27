@@ -17,8 +17,8 @@ import { MediaComponent } from 'projects/storefrontlib/src/shared';
 import createSpy = jasmine.createSpy;
 import { ProductListComponentService } from '../product-list-component.service';
 import { ViewModes } from '../../product-view/product-view.component';
-import { ViewConfig } from '../../../../../../../core/src/config/view-config/config/view-config';
 import { By } from '@angular/platform-browser';
+import { ViewConfig } from 'projects/core/src/config/view-config/config/view-config';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
