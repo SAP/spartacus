@@ -28,6 +28,7 @@
       href="{{ getDirections(location) }}"
       target="_blank"
       class="btn btn-sm btn-action btn-block cx-button"
+      (click)="$event.stopPropagation()"
       >{{ 'storeFinder.getDirections' | cxTranslate }}</a
     >
   </div>
