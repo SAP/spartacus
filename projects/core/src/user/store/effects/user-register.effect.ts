@@ -40,13 +40,10 @@ export class UserRegisterEffects {
     map((action: UserActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
-        switchMap(_result => {
-          console.log('in here', _result);
-          return [
-            new UserActions.RemoveUserSuccess(),
-            new AuthActions.Logout(),
-          ];
-        }),
+        switchMap(_result => [
+          new UserActions.RemoveUserSuccess(),
+          new AuthActions.Logout(),
+        ]),
         catchError(error =>
           of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
         )
