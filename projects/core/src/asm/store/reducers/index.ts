@@ -6,7 +6,7 @@ import * as fromCustomerReducer from './customer.reducer';
 
 export function getReducers(): ActionReducerMap<AsmState> {
   return {
-    cusrtomerSearchResult: fromCustomerReducer.reducer,
+    customerSearchResult: fromCustomerReducer.reducer,
     asmUi: fromAsmUiReducer.reducer,
   };
 }
