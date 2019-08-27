@@ -84,4 +84,16 @@ describe('AsmService', () => {
       new AsmActions.AsmUiUpdate(asmUi)
     );
   });
+
+  it('should get the AsmUi state', () => {
+    const asmUi: AsmUi = { visible: true };
+    store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
+
+    let result: AsmUi;
+    service
+      .getAsmUiState()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(asmUi);
+  });
 });
