@@ -188,7 +188,7 @@ describe('UserAddressService', () => {
     expect(results).toEqual([false, true]);
   });
 
-  it('should be successful loading indication', () => {
+  it('should indicate successful loading', () => {
     const results: boolean[] = [];
     service
       .getAddressesLoadedSuccess()
