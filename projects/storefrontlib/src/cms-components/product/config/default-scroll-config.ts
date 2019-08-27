@@ -1,4 +1,4 @@
-import { ViewConfig } from '../../../view-config';
+import { ViewConfig } from '@spartacus/core';
 
 export const defaultScrollConfig: ViewConfig = {
   view: {

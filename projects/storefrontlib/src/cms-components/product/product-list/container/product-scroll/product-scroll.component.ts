@@ -3,7 +3,7 @@ import { ProductSearchPage } from '@spartacus/core';
 import { ViewModes } from '../../product-view/product-view.component';
 import { Subscription } from 'rxjs';
 import { ProductListComponentService } from '../product-list-component.service';
-import { ViewConfig } from '../../../../../view-config';
+import { ViewConfig } from '../../../../../../../core/src/view-config/config/view-config';
 
 @Component({
   selector: 'cx-product-scroll',

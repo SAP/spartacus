@@ -23,3 +23,4 @@ export * from './src/user/index';
 export * from './src/util/index';
 export * from './src/window/index';
 export * from './src/features-config/index';
+export * from './src/view-config/index';

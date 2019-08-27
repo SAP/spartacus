@@ -18,7 +18,7 @@ import createSpy = jasmine.createSpy;
 import { ProductListComponentService } from '../product-list-component.service';
 import { ViewModes } from '../../product-view/product-view.component';
 import { By } from '@angular/platform-browser';
-import { ViewConfig } from '../../../../../view-config';
+import { ViewConfig } from '../../../../../../../core/src/view-config/config/view-config';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [

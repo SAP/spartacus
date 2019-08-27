@@ -22,7 +22,7 @@ import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { ViewConfig } from '../../../../view-config';
+import { ViewConfig } from '../../../../../../core/src/view-config/config/view-config';
 
 @Component({
   selector: 'cx-star-rating',
