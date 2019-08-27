@@ -31,11 +31,16 @@ class MockFeatureConfigService {
   }
 }
 
+// Deprecated as of 1.1
+const usersEndpoint = '/users';
+const orderEndpoint = '/orders';
+
 describe('OccUserOrderAdapter', () => {
   let occUserOrderAdapter: OccUserOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,6 +65,9 @@ describe('OccUserOrderAdapter', () => {
     converter = TestBed.get(ConverterService as Type<ConverterService>);
     occEnpointsService = TestBed.get(OccEndpointsService as Type<
       OccEndpointsService
+    >);
+    featureConfigService = TestBed.get(FeatureConfigService as Type<
+      FeatureConfigService
     >);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
@@ -136,6 +144,81 @@ describe('OccUserOrderAdapter', () => {
       occUserOrderAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne(req => req.method === 'GET').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
+    });
+  });
+
+  /**
+   * @deprecated Since 1.1
+   * Remove when legacy code is removed.
+   */
+  describe('legacy', () => {
+    beforeEach(() => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+    });
+    describe('getUserOrders', () => {
+      it('should fetch user Orders with default options', async(() => {
+        const PAGE_SIZE = 5;
+        occUserOrderAdapter.loadHistory(userId, PAGE_SIZE).subscribe();
+        httpMock.expectOne((req: HttpRequest<any>) => {
+          return (
+            req.url === usersEndpoint + `/${userId}` + orderEndpoint &&
+            req.method === 'GET'
+          );
+        }, `GET method and url`);
+      }));
+
+      it('should fetch user Orders with defined options', async(() => {
+        const PAGE_SIZE = 5;
+        const currentPage = 1;
+        const sort = 'byDate';
+
+        occUserOrderAdapter
+          .loadHistory(userId, PAGE_SIZE, currentPage, sort)
+          .subscribe();
+        const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
+          return (
+            req.url === usersEndpoint + `/${userId}` + orderEndpoint &&
+            req.method === 'GET'
+          );
+        }, `GET method`);
+        expect(mockReq.request.params.get('pageSize')).toEqual(
+          PAGE_SIZE.toString()
+        );
+      }));
+
+      it('should use converter', () => {
+        occUserOrderAdapter.loadHistory(userId).subscribe();
+        httpMock
+          .expectOne((req: HttpRequest<any>) => {
+            return req.method === 'GET';
+          }, `GET method`)
+          .flush({});
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          ORDER_HISTORY_NORMALIZER
+        );
+      });
+    });
+
+    describe('getOrder', () => {
+      it('should fetch a single order', async(() => {
+        occUserOrderAdapter.load(userId, orderData.code).subscribe();
+        httpMock.expectOne((req: HttpRequest<any>) => {
+          return (
+            req.url ===
+              usersEndpoint +
+                `/${userId}` +
+                orderEndpoint +
+                '/' +
+                orderData.code && req.method === 'GET'
+          );
+        }, `GET a single order`);
+      }));
+
+      it('should use converter', () => {
+        occUserOrderAdapter.load(userId, orderData.code).subscribe();
+        httpMock.expectOne(req => req.method === 'GET').flush({});
+        expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
+      });
     });
   });
 });
