@@ -78,6 +78,19 @@ describe('UserPaymentService', () => {
     expect(flag).toEqual(true);
   });
 
+  it('should indicate successful loading', () => {
+    store.dispatch(new UserActions.LoadUserPaymentMethodsSuccess([]));
+
+    let flag: boolean;
+    service
+      .getPaymentMethodsLoadedSuccess()
+      .subscribe(data => {
+        flag = data;
+      })
+      .unsubscribe();
+    expect(flag).toEqual(true);
+  });
+
   it('should dispatch proper action for setPaymentMethodAsDefault', () => {
     service.setPaymentMethodAsDefault('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
