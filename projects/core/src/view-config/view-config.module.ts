@@ -1,7 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ViewConfig } from './config/view-config';
-import { provideConfig, Config } from '../config';
-import { defaultScrollConfig } from '@spartacus/storefront';
+import { Config } from '../config';
 
 @NgModule({})
 export class ViewConfigModule {
@@ -9,7 +8,6 @@ export class ViewConfigModule {
     return {
       ngModule: ViewConfigModule,
       providers: [
-        provideConfig(<ViewConfig>defaultScrollConfig),
         {
           provide: ViewConfig,
           useExisting: Config,
