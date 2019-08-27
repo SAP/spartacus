@@ -17,30 +17,14 @@ export class RoutingMigrationGuard implements CanActivate {
   /**
    * Redirects to different storefront system for anticipated URL
    */
-  async canActivate(
+  canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Promise<boolean> {
+  ): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      await this.unregisterServiceWorker();
       this.redirect(route, state);
     }
     return false;
-  }
-
-  /**
-   * Unregisters service worker before redirecting to anticipated URL
-   * Needed only for redirects in scope of the same domain.
-   */
-  protected async unregisterServiceWorker(): Promise<void> {
-    const window = this.winRef.nativeWindow;
-
-    if (window && 'serviceWorker' in window.navigator) {
-      const reg = await window.navigator.serviceWorker.getRegistration();
-      if (reg) {
-        await reg.unregister();
-      }
-    }
   }
 
   /**
