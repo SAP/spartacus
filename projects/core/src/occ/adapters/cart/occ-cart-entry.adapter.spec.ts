@@ -84,12 +84,14 @@ describe('OccCartEntryAdapter', () => {
         'application/x-www-form-urlencoded'
       );
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('addEntries', {
-        userId,
-        cartId,
-        productCode: '147852',
-        quantity: 5,
-      });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'addEntries',
+        {
+          userId,
+          cartId,
+        },
+        { code: '147852', qty: 5 }
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -123,9 +125,8 @@ describe('OccCartEntryAdapter', () => {
           userId,
           cartId,
           entryNumber: '12345',
-          quantity: 5,
         },
-        {}
+        { qty: 5 }
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -155,9 +156,8 @@ describe('OccCartEntryAdapter', () => {
           userId,
           cartId,
           entryNumber: '12345',
-          quantity: 5,
         },
-        { pickupStore }
+        { qty: 5, pickupStore }
       );
     });
   });
