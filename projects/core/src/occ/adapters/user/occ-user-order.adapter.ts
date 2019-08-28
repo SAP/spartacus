@@ -31,7 +31,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   public load(userId: string, orderCode: string): Observable<Order> {
     // TODO: Deprecated, remove Issue #4125
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyLoad(userId, orderCode);
     }
 
@@ -52,7 +52,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     sort?: string
   ): Observable<OrderHistoryList> {
     // TODO: Deprecated, remove Issue #4125
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyLoadHistory(userId, pageSize, currentPage, sort);
     }
 
