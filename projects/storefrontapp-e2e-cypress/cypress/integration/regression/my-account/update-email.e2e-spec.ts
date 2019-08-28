@@ -15,11 +15,12 @@ describe('Update Email Address page', () => {
   updateEmailTest();
 });
 
-describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
+describe(`${formats.mobile.width + 1}p resolution - Update Email page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
+
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });

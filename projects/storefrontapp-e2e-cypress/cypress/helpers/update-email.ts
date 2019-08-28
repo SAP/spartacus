@@ -65,14 +65,7 @@ export function verifyOldEmailInvalid() {
   );
   alerts.getErrorAlert().should('contain', 'Bad credentials');
 }
-/*
-export function verifyEmailUpdated() {
-  login(newUid, password);
-  // TODO: uncomment below component and remove update-email assertion when #1957 is implemented
-  cy.get('cx-update-email').should('exist');
-  // checkBanner();
-}
-*/
+
 export function verifyAsAnonymous() {
   it('should redirect to login page for anonymous user', () => {
     accessPageAsAnonymous();
@@ -99,8 +92,4 @@ export function updateEmailTest() {
   it('should not allow login with old email address', () => {
     verifyOldEmailInvalid();
   });
-  /*
-  it('should be able to login with its new email', () => {
-    verifyEmailUpdated();
-  });*/
 }
