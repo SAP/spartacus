@@ -7,6 +7,7 @@ import {
   CheckoutDetails,
   CheckoutPaymentService,
   DeliveryMode,
+  LoaderState,
   PaymentDetails,
   UserAddressService,
   UserPaymentService,
@@ -74,55 +75,52 @@ class MockCheckoutDetailsService implements Partial<CheckoutDetailsService> {
 const mockSupportedDeliveryModes = new BehaviorSubject([
   mockDetails.deliveryMode,
 ]);
-const mockSetDeliveryAddressResultSuccess = new BehaviorSubject(true);
-const mockSetDeliveryAddressResultError = new BehaviorSubject(false);
-const mockSetDeliveryAddressResultLoading = new BehaviorSubject(false);
-const mockSetDeliveryModeResultSuccess = new BehaviorSubject(true);
-const mockSetDeliveryModeResultError = new BehaviorSubject(false);
-const mockSetDeliveryModeResultLoading = new BehaviorSubject(false);
+const mockSetDeliveryAddressResult = new BehaviorSubject({
+  success: true,
+  error: false,
+  loading: false,
+});
+const mockSetDeliveryModeResult = new BehaviorSubject({
+  success: true,
+  error: false,
+  loading: false,
+});
+const mockLoadSupportedDeliveryModesResult = new BehaviorSubject({
+  success: true,
+  error: false,
+  loading: false,
+});
 
 class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryService> {
   setDeliveryAddress() {}
+  setDeliveryMode() {}
   resetSetDeliveryAddressProcess() {}
   resetSetDeliveryModeProcess() {}
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return mockSupportedDeliveryModes.asObservable();
   }
 
-  getSetDeliveryAddressResultSuccess(): Observable<boolean> {
-    return mockSetDeliveryAddressResultSuccess.asObservable();
+  getSetDeliveryAddressProcess(): Observable<LoaderState<void>> {
+    return mockSetDeliveryAddressResult.asObservable();
   }
-  getSetDeliveryAddressResultError(): Observable<boolean> {
-    return mockSetDeliveryAddressResultError.asObservable();
+  getSetDeliveryModeResultStatus(): Observable<LoaderState<void>> {
+    return mockSetDeliveryModeResult.asObservable();
   }
-  getSetDeliveryAddressResultLoading(): Observable<boolean> {
-    return mockSetDeliveryAddressResultLoading.asObservable();
-  }
-
-  getSetDeliveryModeResultSuccess(): Observable<boolean> {
-    return mockSetDeliveryModeResultSuccess.asObservable();
-  }
-  getSetDeliveryModeResultError(): Observable<boolean> {
-    return mockSetDeliveryModeResultError.asObservable();
-  }
-  getSetDeliveryModeResultLoading(): Observable<boolean> {
-    return mockSetDeliveryModeResultLoading.asObservable();
+  getLoadSupportedDeliveryModeStatus(): Observable<LoaderState<void>> {
+    return mockLoadSupportedDeliveryModesResult.asObservable();
   }
 }
 
-const mockSetPaymentDetailsResultSuccess = new BehaviorSubject(true);
-const mockSetPaymentDetailsResultError = new BehaviorSubject(false);
-const mockSetPaymentDetailsResultLoading = new BehaviorSubject(false);
+const mockSetPaymentDetailsResult = new BehaviorSubject({
+  success: true,
+  error: false,
+  loading: false,
+});
+
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
   resetSetPaymentDetailsProcess() {}
-  getSetPaymentDetailsResultSuccess(): Observable<boolean> {
-    return mockSetPaymentDetailsResultSuccess.asObservable();
-  }
-  getSetPaymentDetailsResultError(): Observable<boolean> {
-    return mockSetPaymentDetailsResultError.asObservable();
-  }
-  getSetPaymentDetailsResultLoading(): Observable<boolean> {
-    return mockSetPaymentDetailsResultLoading.asObservable();
+  getSetPaymentDetailsResultProcess(): Observable<LoaderState<void>> {
+    return mockSetPaymentDetailsResult.asObservable();
   }
   setPaymentDetails() {}
 }
@@ -185,15 +183,26 @@ describe('ExpressCheckoutService', () => {
     mockSelectedDeliveryModeCode.next(mockDetails.deliveryMode.code);
     mockPaymentDetails.next(mockDetails.paymentInfo);
     mockSupportedDeliveryModes.next([mockDetails.deliveryMode]);
-    mockSetDeliveryAddressResultSuccess.next(true);
-    mockSetDeliveryAddressResultError.next(false);
-    mockSetDeliveryAddressResultLoading.next(false);
-    mockSetDeliveryModeResultSuccess.next(true);
-    mockSetDeliveryModeResultError.next(false);
-    mockSetDeliveryModeResultLoading.next(false);
-    mockSetPaymentDetailsResultSuccess.next(true);
-    mockSetPaymentDetailsResultError.next(false);
-    mockSetPaymentDetailsResultLoading.next(false);
+    mockSetDeliveryAddressResult.next({
+      success: true,
+      error: false,
+      loading: false,
+    });
+    mockSetDeliveryModeResult.next({
+      success: true,
+      error: false,
+      loading: false,
+    });
+    mockLoadSupportedDeliveryModesResult.next({
+      success: true,
+      error: false,
+      loading: false,
+    });
+    mockSetPaymentDetailsResult.next({
+      success: true,
+      error: false,
+      loading: false,
+    });
 
     service = TestBed.get(ExpressCheckoutService as Type<
       ExpressCheckoutService
@@ -240,9 +249,17 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should set delivery address if it has been not loaded yet', done => {
-        mockSetDeliveryAddressResultSuccess.next(false);
+        mockSetDeliveryAddressResult.next({
+          success: false,
+          error: false,
+          loading: false,
+        });
         spyOn(checkoutDeliveryService, 'setDeliveryAddress').and.callFake(() =>
-          mockSetDeliveryAddressResultSuccess.next(true)
+          mockSetDeliveryAddressResult.next({
+            success: true,
+            error: false,
+            loading: false,
+          })
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
@@ -256,9 +273,17 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should return false if set delivery address error', done => {
-        mockSetDeliveryAddressResultSuccess.next(false);
+        mockSetDeliveryAddressResult.next({
+          success: false,
+          error: false,
+          loading: false,
+        });
         spyOn(checkoutDeliveryService, 'setDeliveryAddress').and.callFake(() =>
-          mockSetDeliveryAddressResultError.next(true)
+          mockSetDeliveryAddressResult.next({
+            success: false,
+            error: true,
+            loading: false,
+          })
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
@@ -295,9 +320,17 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should set payment method if it has been not loaded yet', done => {
-        mockSetPaymentDetailsResultSuccess.next(false);
+        mockSetPaymentDetailsResult.next({
+          success: false,
+          error: false,
+          loading: false,
+        });
         spyOn(checkoutPaymentService, 'setPaymentDetails').and.callFake(() =>
-          mockSetPaymentDetailsResultSuccess.next(true)
+          mockSetPaymentDetailsResult.next({
+            success: true,
+            error: false,
+            loading: false,
+          })
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
@@ -309,9 +342,17 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should return false if set payment method error', done => {
-        mockSetPaymentDetailsResultSuccess.next(false);
+        mockSetPaymentDetailsResult.next({
+          success: false,
+          error: false,
+          loading: false,
+        });
         spyOn(checkoutPaymentService, 'setPaymentDetails').and.callFake(() =>
-          mockSetPaymentDetailsResultError.next(true)
+          mockSetPaymentDetailsResult.next({
+            success: false,
+            error: true,
+            loading: false,
+          })
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
@@ -323,6 +364,61 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if there are no payment methods', done => {
         mockPaymentMethods.next([]);
+        subscription = service
+          .trySetDefaultCheckoutDetails()
+          .subscribe(data => {
+            expect(data).toBeFalsy();
+            done();
+          });
+      });
+    });
+
+    describe('deliveryModeSet$', () => {
+      it('should set delivery mode if it has been not loaded yet', done => {
+        mockSetDeliveryModeResult.next({
+          success: false,
+          error: false,
+          loading: false,
+        });
+        spyOn(checkoutDeliveryService, 'setDeliveryMode').and.callFake(() =>
+          mockSetDeliveryModeResult.next({
+            success: true,
+            error: false,
+            loading: false,
+          })
+        );
+        subscription = service
+          .trySetDefaultCheckoutDetails()
+          .subscribe(data => {
+            expect(checkoutDeliveryService.setDeliveryMode).toHaveBeenCalled();
+            expect(data).toBeTruthy();
+            done();
+          });
+      });
+
+      it('should return false if set delivery mode error', done => {
+        mockSetDeliveryModeResult.next({
+          success: false,
+          error: false,
+          loading: false,
+        });
+        spyOn(checkoutDeliveryService, 'setDeliveryMode').and.callFake(() =>
+          mockSetDeliveryModeResult.next({
+            success: false,
+            error: true,
+            loading: false,
+          })
+        );
+        subscription = service
+          .trySetDefaultCheckoutDetails()
+          .subscribe(data => {
+            expect(data).toBeFalsy();
+            done();
+          });
+      });
+
+      it('should return false if there are no delivery modes', done => {
+        mockSupportedDeliveryModes.next([]);
         subscription = service
           .trySetDefaultCheckoutDetails()
           .subscribe(data => {

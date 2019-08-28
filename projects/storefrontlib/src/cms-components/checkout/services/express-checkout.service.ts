@@ -59,9 +59,11 @@ export class ExpressCheckoutService {
             addresses.find(address => address.defaultAddress) || addresses[0];
           if (defaultAddress && Object.keys(defaultAddress).length) {
             if (
-              !setDeliveryAddressProcess.success &&
-              !setDeliveryAddressProcess.error &&
-              !setDeliveryAddressProcess.loading
+              !(
+                setDeliveryAddressProcess.success ||
+                setDeliveryAddressProcess.error ||
+                setDeliveryAddressProcess.loading
+              )
             ) {
               this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
             }
@@ -113,9 +115,11 @@ export class ExpressCheckoutService {
             payments.find(address => address.defaultPayment) || payments[0];
           if (defaultPayment && Object.keys(defaultPayment).length) {
             if (
-              !setPaymentDetailsProcess.success &&
-              !setPaymentDetailsProcess.error &&
-              !setPaymentDetailsProcess.loading
+              !(
+                setPaymentDetailsProcess.success ||
+                setPaymentDetailsProcess.error ||
+                setPaymentDetailsProcess.loading
+              )
             ) {
               this.checkoutPaymentService.setPaymentDetails(defaultPayment);
             }
@@ -191,9 +195,11 @@ export class ExpressCheckoutService {
                         ]) => {
                           if (
                             deliveryMode &&
-                            !deliveryModeLoadingStatus.success &&
-                            !deliveryModeLoadingStatus.error &&
-                            !deliveryModeLoadingStatus.loading
+                            !(
+                              deliveryModeLoadingStatus.success ||
+                              deliveryModeLoadingStatus.error ||
+                              deliveryModeLoadingStatus.loading
+                            )
                           ) {
                             this.checkoutDeliveryService.setDeliveryMode(
                               deliveryMode
