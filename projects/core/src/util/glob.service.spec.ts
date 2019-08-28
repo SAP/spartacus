@@ -9,13 +9,13 @@ describe('GlobService', () => {
     service = TestBed.get(GlobService);
   });
 
-  describe('getMatcher', () => {
+  describe('getValidator', () => {
     function test_matcher(
       patterns: string[],
       testCase: { input: string; expected: boolean }
     ) {
       it(`test case "${testCase.input}"`, () => {
-        const matcher = service.getMatcher(patterns);
+        const matcher = service.getValidator(patterns);
         expect(matcher(testCase.input)).toBe(testCase.expected);
       });
     }

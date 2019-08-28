@@ -126,14 +126,14 @@ export class UrlMatcherFactoryService {
    * Returns URL matcher for the given list of glob-like patterns. Each pattern must start with `/` or `!/`.
    */
   getGlobUrlMatcher(globPatterns: string[]): UrlMatcher {
-    const globMatcher = this.globService.getMatcher(globPatterns);
+    const globValidator = this.globService.getValidator(globPatterns);
 
     const matcher = function globUrlMatcher(
       segments: UrlSegment[]
     ): UrlMatchResult | null {
       const fullPath = `/${segments.map(s => s.path).join('/')}`;
 
-      return globMatcher(fullPath)
+      return globValidator(fullPath)
         ? { consumed: segments, posParams: {} }
         : null;
     };

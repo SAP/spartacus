@@ -6,24 +6,30 @@ import {
   UrlSegment,
   UrlSegmentGroup,
 } from '@angular/router';
+import { GlobService } from '../../util/glob.service';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 describe('UrlMatcherFactoryService', () => {
   let segmentGroup: UrlSegmentGroup;
   let route: Route;
   let factory: UrlMatcherFactoryService;
+  let globService: GlobService;
 
   beforeEach(() => {
     segmentGroup = { hasChildren: () => false } as UrlSegmentGroup;
     route = {} as Route;
 
-    TestBed.configureTestingModule({
-      providers: [UrlMatcherFactoryService],
-    });
-
     factory = TestBed.get(UrlMatcherFactoryService as Type<
       UrlMatcherFactoryService
     >);
+    globService = TestBed.get(GlobService);
+  });
+
+  describe('getFalsyUrlMatcher', () => {
+    it('should never match', () => {
+      const matcher = factory.getFalsyUrlMatcher();
+      expect(matcher(null, null, null)).toBe(null);
+    });
   });
 
   describe('getMultiplePathsUrlMatcher', () => {
@@ -167,6 +173,46 @@ describe('UrlMatcherFactoryService', () => {
       const result = matcher(segments, segmentGroup, route);
       const expected = { consumed: segments, posParams: {} };
       expect(result).toEqual(expected as any);
+    });
+  });
+
+  describe('getGlobUrlMatcher', () => {
+    it('should call GlobService.getValidator', () => {
+      spyOn(globService, 'getValidator');
+      factory.getGlobUrlMatcher(['/test/pattern']);
+      expect(globService.getValidator).toHaveBeenCalledWith(['/test/pattern']);
+    });
+
+    it('should call glob matcher with full path prepended with slash', () => {
+      const mockGlobValidator = jasmine.createSpy().and.returnValue(true);
+      spyOn(globService, 'getValidator').and.returnValue(mockGlobValidator);
+
+      const urlMatcher = factory.getGlobUrlMatcher([]);
+      const testSegments = [
+        { path: 'test' },
+        { path: 'segments' },
+      ] as UrlSegment[];
+      urlMatcher(testSegments, null, null);
+      expect(mockGlobValidator).toHaveBeenCalledWith('/test/segments');
+    });
+
+    it('should match given glob-like patterns', () => {
+      spyOn(globService, 'getValidator').and.returnValue(() => true);
+      const matcher = factory.getGlobUrlMatcher([]);
+      const testSegments = [
+        { path: 'test' },
+        { path: 'segments' },
+      ] as UrlSegment[];
+      expect(matcher(testSegments, null, null)).toEqual({
+        consumed: testSegments,
+        posParams: {},
+      });
+    });
+
+    it('should not match given glob-like patterns', () => {
+      spyOn(globService, 'getValidator').and.returnValue(() => false);
+      const matcher = factory.getGlobUrlMatcher([]);
+      expect(matcher([], null, null)).toEqual(null);
     });
   });
 });
