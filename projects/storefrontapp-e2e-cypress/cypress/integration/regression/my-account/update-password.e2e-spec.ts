@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import { login } from '../../../helpers/auth-forms';
-import { checkBanner } from '../../../helpers/homepage';
 import {
   updatePasswordTest,
   verifyAsAnonymous,
