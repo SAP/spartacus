@@ -37,7 +37,7 @@ export class RegisterGuest implements Action {
 }
 
 export class RegisterGuestFail implements Action {
-  readonly type = REGISTER_GUEST;
+  readonly type = REGISTER_GUEST_FAIL;
   constructor(public payload: any) {}
 }
 

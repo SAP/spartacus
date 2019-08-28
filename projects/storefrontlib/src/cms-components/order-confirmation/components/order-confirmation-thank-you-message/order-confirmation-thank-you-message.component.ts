@@ -15,8 +15,9 @@ import {
   Order,
   UserService,
   RoutingService,
+  AuthService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../../shared/utils/validators/custom-form-validators';
 
@@ -30,6 +31,8 @@ export class OrderConfirmationThankYouMessageComponent
   order$: Observable<Order>;
   isGuestCustomer = false;
   orderGuid: string;
+
+  subscription: Subscription;
 
   guestRegisterForm: FormGroup = this.fb.group(
     {
@@ -46,6 +49,7 @@ export class OrderConfirmationThankYouMessageComponent
     protected checkoutService: CheckoutService,
     protected userService: UserService,
     protected routingService: RoutingService,
+    protected authService: AuthService,
     protected fb: FormBuilder
   ) {}
 
@@ -60,14 +64,25 @@ export class OrderConfirmationThankYouMessageComponent
 
   ngOnDestroy() {
     this.checkoutService.clearCheckoutData();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   submit() {
-    this.userService.registerGuest(
-      this.orderGuid,
-      this.guestRegisterForm.value.password
-    );
-    this.routingService.go({ cxRoute: 'home' });
+    if (this.isGuestCustomer) {
+      this.userService.registerGuest(
+        this.orderGuid,
+        this.guestRegisterForm.value.password
+      );
+      if (!this.subscription) {
+        this.subscription = this.authService.getUserToken().subscribe(token => {
+          if (token.access_token) {
+            this.routingService.go({ cxRoute: 'home' });
+          }
+        });
+      }
+    }
   }
 
   private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
