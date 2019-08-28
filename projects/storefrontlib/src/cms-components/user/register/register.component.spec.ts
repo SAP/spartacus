@@ -12,11 +12,13 @@ import {
   UserToken,
   AuthService,
   FeatureConfigService,
+  GlobalMessageType,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 
 import createSpy = jasmine.createSpy;
+import { By } from '@angular/platform-browser';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -53,12 +55,13 @@ class MockUrlPipe implements PipeTransform {
 class MockSpinnerComponent {}
 
 class MockAuthService {
+  authorize = createSpy();
   getUserToken(): Observable<UserToken> {
     return of({ access_token: 'test' } as UserToken);
   }
 }
 
-class MockRedirectAfterAuthService {
+class MockAuthRedirectService {
   redirect = createSpy('AuthRedirectService.redirect');
 }
 
@@ -103,7 +106,7 @@ class MockUserService {
 
 class MockGlobalMessageService {
   add = createSpy();
-  remove() {}
+  remove = createSpy();
   get() {
     return of();
   }
@@ -119,8 +122,10 @@ describe('RegisterComponent', () => {
   let fixture: ComponentFixture<RegisterComponent>;
 
   let userService: MockUserService;
-  let globalMessageService: MockGlobalMessageService;
+  let mockGlobalMessageService: MockGlobalMessageService;
   let mockRoutingService: MockRoutingService;
+  let mockAuthService: MockAuthService;
+  let mockAuthRedirectService: MockAuthRedirectService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -130,7 +135,7 @@ describe('RegisterComponent', () => {
       providers: [
         {
           provide: AuthRedirectService,
-          useClass: MockRedirectAfterAuthService,
+          useClass: MockAuthRedirectService,
         },
         { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
@@ -153,10 +158,14 @@ describe('RegisterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
     userService = TestBed.get(UserService as Type<UserService>);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
+    mockGlobalMessageService = TestBed.get(GlobalMessageService as Type<
       GlobalMessageService
     >);
     mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
+    mockAuthService = TestBed.get(AuthService as Type<AuthService>);
+    mockAuthRedirectService = TestBed.get(AuthRedirectService as Type<
+      AuthRedirectService
+    >);
 
     component = fixture.componentInstance;
 
@@ -200,27 +209,21 @@ describe('RegisterComponent', () => {
         .unsubscribe();
     });
 
-    it('should fetch registerUser process loading state', done => {
-      let loadingState: boolean;
+    it('should fetch registerUser process loading state', () => {
+      const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
       component.ngOnInit();
 
       // when false
       registerUserIsLoading.next(false);
-      component.loading$.subscribe(loading => {
-        loadingState = loading;
-        done();
-      });
+      fixture.detectChanges();
 
-      expect(loadingState).toEqual(false);
+      expect(getSpinner()).toBeFalsy();
 
       // when true
       registerUserIsLoading.next(true);
-      component.loading$.subscribe(loading => {
-        loadingState = loading;
-        done();
-      });
+      fixture.detectChanges();
 
-      expect(loadingState).toEqual(true);
+      expect(getSpinner()).toBeTruthy();
     });
   });
 
@@ -314,9 +317,12 @@ describe('RegisterComponent', () => {
     });
   });
 
-  describe('submit', () => {
+  // TODO(issue:4237) Register flow
+  // NOTE: remove test for old flow
+  describe('submit (old flow)', () => {
     beforeEach(() => {
       spyOn(userService, 'register').and.stub();
+      isLevelBool.next(false);
       component.ngOnInit();
       component.submit();
     });
@@ -331,11 +337,47 @@ describe('RegisterComponent', () => {
       });
     });
 
-    it('should redirect to login page and show message', () => {
+    it('should redirect to homepage and log in user', () => {
       registerUserIsSuccess.next(true);
 
-      expect(mockRoutingService.go).toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalled();
+      expect(mockAuthService.authorize).toHaveBeenCalledWith('', '');
+      expect(mockGlobalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(mockAuthRedirectService.redirect).toHaveBeenCalled();
+    });
+  });
+
+  describe('submit', () => {
+    beforeEach(() => {
+      spyOn(userService, 'register').and.stub();
+
+      // TODO(issue:4237) Register flow
+      // NOTE: remove isLevelBool
+      isLevelBool.next(true);
+
+      component.ngOnInit();
+      component.submit();
+    });
+
+    it('should submit form', () => {
+      expect(userService.register).toHaveBeenCalledWith({
+        firstName: '',
+        lastName: '',
+        uid: '',
+        password: '',
+        titleCode: '',
+      });
+    });
+
+    it('should redirect to login page and show message (new flow)', () => {
+      registerUserIsSuccess.next(true);
+
+      expect(mockRoutingService.go).toHaveBeenCalledWith('login');
+      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+        { key: 'register.postRegisterMessage' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     });
   });
 });
