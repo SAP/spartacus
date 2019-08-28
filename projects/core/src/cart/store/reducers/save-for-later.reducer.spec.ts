@@ -1,5 +1,4 @@
-import * as fromActions from './../actions';
-
+import { CartActions } from '../actions/index';
 import * as fromReducer from './save-for-later.reducer';
 import { Cart } from '../../../model/cart.model';
 
@@ -31,7 +30,7 @@ describe('Save for later reducer', () => {
       };
       const { initialState } = fromReducer;
 
-      const action = new fromActions.CreateSaveForLaterSuccess(testCart);
+      const action = new CartActions.CreateSaveForLaterSuccess(testCart);
       const state = fromReducer.reducer(initialState, action);
 
       expect(state.content).toEqual(testCart);
@@ -57,7 +56,7 @@ describe('Save for later reducer', () => {
 
       const { initialState } = fromReducer;
 
-      const action = new fromActions.LoadSaveForLaterSuccess(testCart);
+      const action = new CartActions.LoadSaveForLaterSuccess(testCart);
       const state = fromReducer.reducer(initialState, action);
 
       delete testCart['entries'];
@@ -74,7 +73,7 @@ describe('Save for later reducer', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromReducer;
 
-      const action = new fromActions.AddEntrySuccess({});
+      const action = new CartActions.CartAddEntrySuccess({});
       const state = fromReducer.reducer(initialState, action);
       expect(state.refresh).toBeTruthy();
     });

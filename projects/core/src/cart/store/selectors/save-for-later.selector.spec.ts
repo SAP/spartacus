@@ -1,12 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
 import { select, Store, StoreModule } from '@ngrx/store';
-
-import * as fromSaveForLaterActions from './../actions/save-for-later.action';
-import * as fromCartEntyActions from './../actions/cart-entry.action';
+import { CartActions } from '../actions/index';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers';
-import * as fromSelectors from './../selectors';
+import { CartSelectors } from './../selectors/index';
 import { OrderEntry } from '../../../model/order.model';
 import { Cart } from '../../../model/cart.model';
 
@@ -58,14 +55,12 @@ describe('Select cart selectors', () => {
     it('should return the save for later content', () => {
       let result: Cart;
       store
-        .pipe(select(fromSelectors.getSaveForLaterContent))
+        .pipe(select(CartSelectors.getSaveForLaterContent))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(
-        new fromSaveForLaterActions.CreateSaveForLaterSuccess(testEmptyCart)
-      );
+      store.dispatch(new CartActions.CreateSaveForLaterSuccess(testEmptyCart));
       expect(result).toEqual(testEmptyCart);
     });
   });
@@ -74,13 +69,13 @@ describe('Select cart selectors', () => {
     it('should return the refresh value', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getSaveForLaterRefresh))
+        .pipe(select(CartSelectors.getSaveForLaterRefresh))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
       store.dispatch(
-        new fromCartEntyActions.AddEntrySuccess({
+        new CartActions.CartAddEntrySuccess({
           userId: 'testUserId',
           cartId: 'testCartId',
           productCode: 'testProductCode',
@@ -95,14 +90,12 @@ describe('Select cart selectors', () => {
     it('should return the loaded value', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getSaveForLaterLoaded))
+        .pipe(select(CartSelectors.getSaveForLaterLoaded))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
-      store.dispatch(
-        new fromSaveForLaterActions.CreateSaveForLater(testEmptyCart)
-      );
+      store.dispatch(new CartActions.CreateSaveForLater(testEmptyCart));
       expect(result).toEqual(false);
     });
   });
@@ -111,14 +104,12 @@ describe('Select cart selectors', () => {
     it('should return the save for later entries in map', () => {
       let result: { [code: string]: OrderEntry };
       store
-        .pipe(select(fromSelectors.getSaveForLaterEntriesMap))
+        .pipe(select(CartSelectors.getSaveForLaterEntriesMap))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(
-        new fromSaveForLaterActions.LoadSaveForLaterSuccess(testCart)
-      );
+      store.dispatch(new CartActions.LoadSaveForLaterSuccess(testCart));
 
       expect(result).toEqual({
         '1234': { entryNumber: 0, product: { code: '1234' } },
@@ -131,16 +122,14 @@ describe('Select cart selectors', () => {
       let result: OrderEntry;
 
       store
-        .pipe(select(fromSelectors.getSaveForLaterEntrySelectorFactory('1234')))
+        .pipe(select(CartSelectors.getSaveForLaterEntrySelectorFactory('1234')))
         .subscribe(value => {
           result = value;
         });
 
       expect(result).toEqual(undefined);
 
-      store.dispatch(
-        new fromSaveForLaterActions.LoadSaveForLaterSuccess(testCart)
-      );
+      store.dispatch(new CartActions.LoadSaveForLaterSuccess(testCart));
 
       expect(result).toEqual({ entryNumber: 0, product: { code: '1234' } });
     });
@@ -150,12 +139,10 @@ describe('Select cart selectors', () => {
     it('should return the list of entries', () => {
       let result: OrderEntry[];
       store
-        .pipe(select(fromSelectors.getSaveForLaterEntries))
+        .pipe(select(CartSelectors.getSaveForLaterEntries))
         .subscribe(value => (result = value));
       expect(result).toEqual([]);
-      store.dispatch(
-        new fromSaveForLaterActions.LoadSaveForLaterSuccess(testCart)
-      );
+      store.dispatch(new CartActions.LoadSaveForLaterSuccess(testCart));
       expect(result).toEqual([{ entryNumber: 0, product: { code: '1234' } }]);
     });
   });

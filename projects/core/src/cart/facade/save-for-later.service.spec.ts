@@ -1,20 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Store, StoreModule } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-
 import { AuthService, UserToken } from '../../auth';
-
 import { StateWithCart } from '../store/cart-state';
-import * as fromSaveForLaterCart from '../../cart/store';
-
+import { CartActions } from '../store/actions/index';
 import { ANONYMOUS_USERID } from './cart-data.service';
 import { SaveForLaterService } from './save-for-later.service';
 import { SaveForLaterDataService } from './save-for-later-data.service';
 import { OrderEntry } from '../../model/order.model';
 import { Cart } from '../../model/cart.model';
-import { UserRegisterFormData, UserService } from '../../user';
+import { UserService } from '../../user';
+import * as fromReducers from '../store/reducers/index';
 
 class SaveForLaterDataServiceStub {
   userId;
@@ -29,7 +25,7 @@ class AuthServiceStub {
 }
 
 class UserServiceStub {
-  get(): Observable<UserRegisterFormData> {
+  get(): Observable<any> {
     return of();
   }
 }
@@ -60,7 +56,7 @@ describe('SaveForLaterService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromSaveForLaterCart.getReducers()),
+        StoreModule.forFeature('cart', fromReducers.getReducers()),
       ],
       providers: [
         SaveForLaterService,
@@ -85,7 +81,7 @@ describe('SaveForLaterService', () => {
 
   describe('getSaveForLater', () => {
     it('should return a loaded state', () => {
-      store.dispatch(new fromSaveForLaterCart.CreateSaveForLaterSuccess(cart));
+      store.dispatch(new CartActions.CreateSaveForLaterSuccess(cart));
       let result: Cart;
       service
         .getSaveForLater()
@@ -124,7 +120,7 @@ describe('SaveForLaterService', () => {
 
           service[load]();
           expect(store.dispatch).toHaveBeenCalledWith(
-            new fromSaveForLaterCart.CreateSaveForLater({
+            new CartActions.CreateSaveForLater({
               userId: saveForLaterData.userId,
               cartId: 'selectivecartundefined',
             })
@@ -139,7 +135,7 @@ describe('SaveForLaterService', () => {
 
           service[load]();
           expect(store.dispatch).toHaveBeenCalledWith(
-            new fromSaveForLaterCart.LoadSaveForLater({
+            new CartActions.LoadSaveForLater({
               userId: saveForLaterData.userId,
               cartId: 'selectivecartundefined',
             })
@@ -153,13 +149,13 @@ describe('SaveForLaterService', () => {
   describe(refreshMethod, () => {
     describe('when refresh is true', () => {
       it('should load the cart', () => {
-        store.dispatch(new fromSaveForLaterCart.AddEntrySuccess('test'));
+        store.dispatch(new CartActions.CartAddEntrySuccess('test'));
         saveForLaterData.cart = cart;
         spyOn(store, 'dispatch').and.stub();
 
         service[refreshMethod]();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromSaveForLaterCart.LoadSaveForLater({
+          new CartActions.LoadSaveForLater({
             userId: saveForLaterData.userId,
             cartId: saveForLaterData.cartId,
           })
@@ -173,8 +169,8 @@ describe('SaveForLaterService', () => {
     describe(`when user's token and cart's user id are not equal`, () => {
       it(`should call '${setUserIdMethod}' and '${load}' methods`, () => {
         spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
-        store.dispatch(new fromSaveForLaterCart.LoadSaveForLaterSuccess(cart));
-        store.dispatch(new fromSaveForLaterCart.AddEntrySuccess('foo'));
+        store.dispatch(new CartActions.LoadSaveForLaterSuccess(cart));
+        store.dispatch(new CartActions.CartAddEntrySuccess('foo'));
         spyOn<any>(service, setUserIdMethod).and.stub();
         spyOn<any>(service, load).and.stub();
         spyOn<any>(service, refreshMethod).and.stub();
@@ -188,8 +184,8 @@ describe('SaveForLaterService', () => {
       it(`should not call '${setUserIdMethod}' and '${load}' methods`, () => {
         spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
         saveForLaterData.userId = userToken.userId;
-        store.dispatch(new fromSaveForLaterCart.LoadSaveForLaterSuccess(cart));
-        store.dispatch(new fromSaveForLaterCart.AddEntrySuccess('foo'));
+        store.dispatch(new CartActions.LoadSaveForLaterSuccess(cart));
+        store.dispatch(new CartActions.CartAddEntrySuccess('foo'));
 
         spyOn<any>(service, setUserIdMethod).and.stub();
         spyOn<any>(service, load).and.stub();
@@ -213,7 +209,7 @@ describe('SaveForLaterService', () => {
       service.loadDetails();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromSaveForLaterCart.CreateSaveForLater({
+        new CartActions.CreateSaveForLater({
           userId: userId,
           cartId: 'selectivecartundefined',
         })
@@ -232,7 +228,7 @@ describe('SaveForLaterService', () => {
       service.addEntry(productCode, 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromSaveForLaterCart.AddEntry({
+        new CartActions.CartAddEntry({
           userId: userId,
           cartId: cart.code,
           productCode: productCode,
@@ -243,7 +239,7 @@ describe('SaveForLaterService', () => {
 
     it('should be able to addEntry if cart does not exist', () => {
       spyOn(service, 'isCreated').and.returnValue(false);
-      store.dispatch(new fromSaveForLaterCart.LoadSaveForLaterSuccess(cart));
+      store.dispatch(new CartActions.LoadSaveForLaterSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
       saveForLaterData.userId = userId;
@@ -251,7 +247,7 @@ describe('SaveForLaterService', () => {
       service.addEntry(productCode, 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromSaveForLaterCart.CreateSaveForLater({
+        new CartActions.CreateSaveForLater({
           userId: userId,
           cartId: 'selectivecartundefined',
         })
@@ -269,7 +265,7 @@ describe('SaveForLaterService', () => {
       service.updateEntry('1', 1);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromSaveForLaterCart.UpdateEntry({
+        new CartActions.CartUpdateEntry({
           userId: userId,
           cartId: cart.code,
           entry: '1',
@@ -286,7 +282,7 @@ describe('SaveForLaterService', () => {
       service.updateEntry('1', 0);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromSaveForLaterCart.RemoveEntry({
+        new CartActions.CartRemoveEntry({
           userId: userId,
           cartId: cart.code,
           entry: '1',
@@ -305,7 +301,7 @@ describe('SaveForLaterService', () => {
       service.removeEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromSaveForLaterCart.RemoveEntry({
+        new CartActions.CartRemoveEntry({
           userId: userId,
           cartId: cart.code,
           entry: mockCartEntry.entryNumber,
@@ -343,7 +339,7 @@ describe('SaveForLaterService', () => {
 
   describe('getLoaded', () => {
     it('should return a loaded state', () => {
-      store.dispatch(new fromSaveForLaterCart.CreateSaveForLaterSuccess(cart));
+      store.dispatch(new CartActions.CreateSaveForLaterSuccess(cart));
       let result: boolean;
       service
         .getLoaded()

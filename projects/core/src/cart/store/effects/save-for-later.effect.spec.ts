@@ -10,7 +10,6 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromSaveForLaterActions from '../actions/save-for-later.action';
-import { ProductImageNormalizer } from '../../../product';
 import { SaveForLaterDataService } from '../../facade/save-for-later-data.service';
 import { SaveForLaterService } from '../../facade/save-for-later.service';
 import * as fromCart from '../../store/index';
@@ -72,7 +71,6 @@ describe('Save for later cart effect', () => {
           provide: CartConnector,
           useClass: MockCartConnector,
         },
-        ProductImageNormalizer,
         fromEffects.SaveForLaterEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         SaveForLaterService,
