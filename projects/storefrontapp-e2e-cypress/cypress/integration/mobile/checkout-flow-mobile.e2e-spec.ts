@@ -1,6 +1,7 @@
 import * as checkout from '../../helpers/checkout-flow';
 import { checkBanner } from '../../helpers/homepage';
 import { formats } from '../../sample-data/viewports';
+import { verifyGlobalMessageAfterRegistration } from '../../helpers/register';
 
 function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
@@ -26,6 +27,7 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
     waitForHomePage();
 
     checkout.registerUser();
+    verifyGlobalMessageAfterRegistration();
   });
 
   it('should go to product page from category page', () => {

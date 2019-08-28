@@ -12,7 +12,6 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
-import { verifyGlobalMessageAfterRegistration } from './register';
 
 export function visitHomePage() {
   const homePage = waitForPage('homepage', 'getHomePage');
