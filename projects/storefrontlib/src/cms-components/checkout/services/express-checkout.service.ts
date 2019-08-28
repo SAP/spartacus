@@ -43,12 +43,21 @@ export class ExpressCheckoutService {
       this.checkoutDeliveryService.getSetDeliveryAddressProcess(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
-      tap(([, success]: [Address[], boolean, LoaderState<void>]) => {
-        if (!success) {
-          this.userAddressService.loadAddresses();
+      tap(
+        ([, addressesLoadedSuccess]: [
+          Address[],
+          boolean,
+          LoaderState<void>
+        ]) => {
+          if (!addressesLoadedSuccess) {
+            this.userAddressService.loadAddresses();
+          }
         }
-      }),
-      filter(([, success]: [Address[], boolean, LoaderState<void>]) => success),
+      ),
+      filter(
+        ([, addressesLoadedSuccess]: [Address[], boolean, LoaderState<void>]) =>
+          addressesLoadedSuccess
+      ),
       switchMap(
         ([addresses, , setDeliveryAddressProcess]: [
           Address[],
@@ -97,11 +106,17 @@ export class ExpressCheckoutService {
       this.checkoutPaymentService.getSetPaymentDetailsResultProcess(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
-      tap(([, success]: [PaymentDetails[], boolean, LoaderState<void>]) => {
-        if (!success) {
-          this.userPaymentService.loadPaymentMethods();
+      tap(
+        ([, paymentMethodsLoadedSuccess]: [
+          PaymentDetails[],
+          boolean,
+          LoaderState<void>
+        ]) => {
+          if (!paymentMethodsLoadedSuccess) {
+            this.userPaymentService.loadPaymentMethods();
+          }
         }
-      }),
+      ),
       filter(
         ([, success]: [PaymentDetails[], boolean, LoaderState<void>]) => success
       ),
@@ -157,13 +172,13 @@ export class ExpressCheckoutService {
       switchMap(
         ([
           addressSet,
-          modes,
+          supportedDeliveryModes,
           setDeliveryModeStatusFlag,
           loadSupportedDeliveryModeStatus,
         ]: [boolean, DeliveryMode[], LoaderState<void>, LoaderState<void>]) => {
           if (addressSet) {
             return of([
-              modes,
+              supportedDeliveryModes,
               setDeliveryModeStatusFlag,
               loadSupportedDeliveryModeStatus,
             ]).pipe(
@@ -175,18 +190,18 @@ export class ExpressCheckoutService {
                 ]) => supportedDeliveryModeStatus.success
               ),
               switchMap(
-                ([_deliveryModes, _setDeliveryModeStatus, ,]: [
+                ([deliveryModes, setDeliveryModeStatus, ,]: [
                   DeliveryMode[],
                   LoaderState<void>,
                   LoaderState<void>
                 ]) => {
-                  if (Boolean(_deliveryModes.length)) {
+                  if (Boolean(deliveryModes.length)) {
                     const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
-                      _deliveryModes
+                      deliveryModes
                     );
                     return of([
                       preferredDeliveryMode,
-                      _setDeliveryModeStatus,
+                      setDeliveryModeStatus,
                     ]).pipe(
                       tap(
                         ([deliveryMode, deliveryModeLoadingStatus]: [
