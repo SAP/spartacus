@@ -6,15 +6,24 @@ import {
   UrlSegment,
   UrlSegmentGroup,
 } from '@angular/router';
+import { GlobService } from '../../util/glob.service';
 
 @Injectable({ providedIn: 'root' })
 export class UrlMatcherFactoryService {
+  constructor(protected globService: GlobService) {}
+
+  /**
+   * Returns a matcher that is always fails
+   */
   getFalsyUrlMatcher(): UrlMatcher {
     return function falsyUrlMatcher(): null {
       return null;
     };
   }
 
+  /**
+   * Returns a matcher for given list of paths
+   */
   getMultiplePathsUrlMatcher(paths: string[]): UrlMatcher {
     const self = this;
 
@@ -98,16 +107,37 @@ export class UrlMatcherFactoryService {
   /**
    * Returns URL matcher that accepts almost everything (like `**` route), but not paths accepted by the given matcher
    */
-  getOppositeUrlMatcher(matcher: UrlMatcher): UrlMatcher {
-    const oppositeMatcher = function oppositeUrlMatcher(
+  getOppositeUrlMatcher(originalMatcher: UrlMatcher): UrlMatcher {
+    const matcher = function oppositeUrlMatcher(
       segments: UrlSegment[],
       group: UrlSegmentGroup,
       route: Route
     ) {
-      return matcher(segments, group, route)
+      return originalMatcher(segments, group, route)
         ? null
         : { consumed: segments, posParams: {} };
     };
-    return oppositeMatcher;
+    matcher.originalMatcher = originalMatcher; // property added for easier debugging of routes
+
+    return matcher;
+  }
+
+  /**
+   * Returns URL matcher for the given list of glob-like patterns. Each pattern must start with `/` or `!/`.
+   */
+  getGlobUrlMatcher(globPatterns: string[]): UrlMatcher {
+    const globMatcher = this.globService.getMatcher(globPatterns);
+
+    const matcher = function globUrlMatcher(
+      segments: UrlSegment[]
+    ): UrlMatchResult | null {
+      const fullPath = `/${segments.map(s => s.path).join('/')}`;
+
+      return globMatcher(fullPath)
+        ? { consumed: segments, posParams: {} }
+        : null;
+    };
+    matcher.globPatterns = globPatterns; // property added for easier debugging of routes
+    return matcher;
   }
 }
