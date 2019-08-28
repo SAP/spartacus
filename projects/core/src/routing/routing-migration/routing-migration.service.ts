@@ -15,10 +15,9 @@ export class RoutingMigrationService {
     protected injector: Injector
   ) {}
 
-  protected get migrationConfig(): RoutingMigrationConfig['routing']['migration'] {
+  protected get internalUrlPatterns(): RoutingMigrationConfig['routing']['internal'] {
     return (
-      (this.config && this.config.routing && this.config.routing.migration) ||
-      {}
+      (this.config && this.config.routing && this.config.routing.internal) || []
     );
   }
 
@@ -56,20 +55,18 @@ export class RoutingMigrationService {
    * Returns the URL matcher for the migration route
    */
   protected getUrlMatcher(): UrlMatcher {
-    const internalUrls = this.migrationConfig.internalUrls;
-    const matcher = this.matcherFactory.getGlobUrlMatcher(internalUrls);
+    const matcher = this.matcherFactory.getGlobUrlMatcher(
+      this.internalUrlPatterns
+    );
     return this.matcherFactory.getOppositeUrlMatcher(matcher); // the migration route should be activated only when it's NOT an internal route
   }
 
   protected isConfigValid(): boolean {
     //spike todo improve:
-    if (
-      !this.migrationConfig.internalUrls ||
-      !this.migrationConfig.internalUrls.length
-    ) {
+    if (!this.internalUrlPatterns.length) {
       if (isDevMode()) {
         console.warn(
-          `Please specify internalUrls for the config 'routing.migration'.`
+          `Please specify the list of glob-like patterns for internal urls config: 'routing.internal'`
         );
       }
       return false;
