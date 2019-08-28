@@ -16,11 +16,7 @@ import {
   getProjectStyleFile,
   getProjectTargetOptions,
 } from '@angular/cdk/schematics';
-import {
-  addSymbolToNgModuleMetadata,
-  insertImport,
-  isImported,
-} from '@schematics/angular/utility/ast-utils';
+import { insertImport } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import {
   addPackageJsonDependency,
@@ -32,6 +28,7 @@ import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { of } from 'rxjs';
 import * as ts from 'typescript';
 import { Schema as SpartacusOptions } from './schema';
+import { addSymbolToNgModuleMetadata, isImported } from '../utils/ast-utils';
 
 function getWorkspace(
   host: Tree
