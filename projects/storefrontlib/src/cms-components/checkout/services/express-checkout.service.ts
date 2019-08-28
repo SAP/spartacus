@@ -1,17 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  combineLatest,
-  of,
-  Observable,
-  asyncScheduler,
-} from 'rxjs';
-import {
-  filter,
-  map,
-  switchMap,
-  tap,
-  debounceTime,
-} from 'rxjs/operators';
+import { combineLatest, of, Observable, asyncScheduler } from 'rxjs';
+import { filter, map, switchMap, tap, debounceTime } from 'rxjs/operators';
 
 import {
   Address,
@@ -21,6 +10,7 @@ import {
   PaymentDetails,
   DeliveryMode,
   CheckoutPaymentService,
+  LoaderState,
 } from '@spartacus/core';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
@@ -41,7 +31,6 @@ export class ExpressCheckoutService {
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService
   ) {
-    console.log('constructor');
     this.setShippingAddress();
     this.setDeliveryMode();
     this.setPaymentMethod();
@@ -198,100 +187,98 @@ export class ExpressCheckoutService {
 
   protected setDeliveryMode() {
     this.deliveryModeSet$ = combineLatest([
-      this.checkoutDeliveryService.getSupportedDeliveryModes(),
       this.shippingAddressSet$,
-      this.checkoutDeliveryService.getSetDeliveryModeResultSuccess(),
-      this.checkoutDeliveryService.getSetDeliveryModeResultError(),
-      this.checkoutDeliveryService.getSetDeliveryModeResultLoading(),
+      this.checkoutDeliveryService.getSupportedDeliveryModes(),
+      this.checkoutDeliveryService.getSetDeliveryModeResultStatus(),
+      this.checkoutDeliveryService.getLoadSupportedDeliveryModeStatus(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
       switchMap(
         ([
-          modes,
           addressSet,
-          setDeliveryModeSuccessFlag,
-          setDeliveryModeErrorFlag,
-          setDeliveryModeInProgressFlag,
-        ]: [DeliveryMode[], boolean, boolean, boolean, boolean]) => {
+          modes,
+          setDeliveryModeStatusFlag,
+          loadSupportedDeliveryModeStatus,
+        ]: [boolean, DeliveryMode[], LoaderState<void>, LoaderState<void>]) => {
+          console.log(
+            'setDeliveryMode',
+            addressSet,
+            modes,
+            loadSupportedDeliveryModeStatus
+          );
           if (addressSet) {
             return of([
               modes,
-              setDeliveryModeSuccessFlag,
-              setDeliveryModeErrorFlag,
-              setDeliveryModeInProgressFlag,
+              setDeliveryModeStatusFlag,
+              loadSupportedDeliveryModeStatus,
             ]).pipe(
               filter(
-                ([deliveryModes]: [
+                ([, , supportedDeliveryModeStatus]: [
                   DeliveryMode[],
-                  boolean,
-                  boolean,
-                  boolean
-                ]) => Boolean(deliveryModes.length)
-              ),
-              map(
-                ([
-                  deliveryModes,
-                  setDeliveryModeSuccess,
-                  setDeliveryModeError,
-                  setDeliveryModeInProgress,
-                ]: [DeliveryMode[], boolean, boolean, boolean]) => {
-                  const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
-                    deliveryModes
-                  );
-                  return [
-                    preferredDeliveryMode,
-                    setDeliveryModeSuccess,
-                    setDeliveryModeError,
-                    setDeliveryModeInProgress,
-                  ];
-                }
-              ),
-              tap(
-                ([
-                  preferredDeliveryMode,
-                  setDeliveryModeSuccess,
-                  setDeliveryModeError,
-                  setDeliveryModeInProgress,
-                ]: [string, boolean, boolean, boolean]) => {
-                  if (
-                    preferredDeliveryMode &&
-                    !setDeliveryModeSuccess &&
-                    !setDeliveryModeError &&
-                    !setDeliveryModeInProgress
-                  ) {
-                    this.checkoutDeliveryService.setDeliveryMode(
-                      preferredDeliveryMode
-                    );
-                  }
-                }
-              ),
-              filter(
-                ([
-                  ,
-                  setDeliveryModeSuccess,
-                  setDeliveryModeError,
-                  setDeliveryModeInProgress,
-                ]: [string, boolean, boolean, boolean]) => {
-                  return (
-                    (setDeliveryModeSuccess || setDeliveryModeError) &&
-                    !setDeliveryModeInProgress
-                  );
-                }
+                  LoaderState<void>,
+                  LoaderState<void>
+                ]) => supportedDeliveryModeStatus.success
               ),
               switchMap(
-                ([, setDeliveryModeSuccess]: [
-                  string,
-                  boolean,
-                  boolean,
-                  boolean
+                ([_deliveryModes, _setDeliveryModeStatus, ,]: [
+                  DeliveryMode[],
+                  LoaderState<void>,
+                  LoaderState<void>
                 ]) => {
-                  if (setDeliveryModeSuccess) {
-                    return this.checkoutDetailsService.getSelectedDeliveryModeCode();
+                  if (Boolean(_deliveryModes.length)) {
+                    const preferredDeliveryMode = this.checkoutConfigService.getPreferredDeliveryMode(
+                      _deliveryModes
+                    );
+                    return of([
+                      preferredDeliveryMode,
+                      _setDeliveryModeStatus,
+                    ]).pipe(
+                      tap(
+                        ([deliveryMode, deliveryModeLoadingStatus]: [
+                          string,
+                          LoaderState<void>
+                        ]) => {
+                          if (
+                            deliveryMode &&
+                            !deliveryModeLoadingStatus.success &&
+                            !deliveryModeLoadingStatus.error &&
+                            !deliveryModeLoadingStatus.loading
+                          ) {
+                            this.checkoutDeliveryService.setDeliveryMode(
+                              deliveryMode
+                            );
+                          }
+                        }
+                      ),
+                      filter(
+                        ([, deliveryModeLoadingStatus]: [
+                          string,
+                          LoaderState<void>
+                        ]) => {
+                          return (
+                            (deliveryModeLoadingStatus.success ||
+                              deliveryModeLoadingStatus.error) &&
+                            !deliveryModeLoadingStatus.loading
+                          );
+                        }
+                      ),
+                      switchMap(
+                        ([, deliveryModeLoadingStatus]: [
+                          string,
+                          LoaderState<void>
+                        ]) => {
+                          if (deliveryModeLoadingStatus.success) {
+                            return this.checkoutDetailsService.getSelectedDeliveryModeCode();
+                          }
+                          return of(false);
+                        }
+                      ),
+                      map(data => Boolean(data))
+                    );
                   }
                   return of(false);
                 }
-              ),
-              map(data => Boolean(data))
+              )
             );
           } else {
             return of(false);

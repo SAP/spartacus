@@ -8,6 +8,7 @@ export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
 
 export const SET_DELIVERY_ADDRESS_PROCESS_ID = 'setDeliveryAddress';
 export const SET_DELIVERY_MODE_PROCESS_ID = 'setDeliveryMode';
+export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID = 'setSupportedDeliveryMode';
 export const SET_PAYMENT_DETAILS_PROCESS_ID = 'setPaymentDetails';
 
 export interface StateWithCheckout {
