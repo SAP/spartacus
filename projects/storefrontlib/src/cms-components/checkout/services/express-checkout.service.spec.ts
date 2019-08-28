@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+
 import {
   Address,
   CheckoutDeliveryService,
@@ -12,13 +13,11 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-
-import { ExpressCheckoutService } from './express-checkout.service';
-
 import {
   CheckoutConfigService,
   CheckoutDetailsService,
 } from '@spartacus/storefront';
+import { ExpressCheckoutService } from './express-checkout.service';
 
 const mockDetails: CheckoutDetails = {
   deliveryAddress: {
@@ -138,8 +137,6 @@ describe('ExpressCheckoutService', () => {
   let userPaymentService;
   let checkoutDeliveryService;
   let checkoutPaymentService;
-  // let checkoutDetailsService;
-  // let checkoutConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -266,7 +263,7 @@ describe('ExpressCheckoutService', () => {
           .subscribe(data => {
             expect(
               checkoutDeliveryService.setDeliveryAddress
-            ).toHaveBeenCalled();
+            ).toHaveBeenCalledWith(mockDetails.deliveryAddress);
             expect(data).toBeTruthy();
             done();
           });
@@ -335,7 +332,9 @@ describe('ExpressCheckoutService', () => {
         subscription = service
           .trySetDefaultCheckoutDetails()
           .subscribe(data => {
-            expect(checkoutPaymentService.setPaymentDetails).toHaveBeenCalled();
+            expect(
+              checkoutPaymentService.setPaymentDetails
+            ).toHaveBeenCalledWith(mockDetails.paymentInfo);
             expect(data).toBeTruthy();
             done();
           });
@@ -390,7 +389,9 @@ describe('ExpressCheckoutService', () => {
         subscription = service
           .trySetDefaultCheckoutDetails()
           .subscribe(data => {
-            expect(checkoutDeliveryService.setDeliveryMode).toHaveBeenCalled();
+            expect(
+              checkoutDeliveryService.setDeliveryMode
+            ).toHaveBeenCalledWith(mockDetails.deliveryMode.code);
             expect(data).toBeTruthy();
             done();
           });
