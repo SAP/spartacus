@@ -43,8 +43,8 @@ export class SaveForLaterService {
   protected init(): void {
     this.store
       .pipe(select(CartSelectors.getSaveForLaterContent))
-      .subscribe(cart => {
-        this.saveForLaterData.cart = cart;
+      .subscribe(_cart => {
+        //this.saveForLaterData.cart = cart;
         if (this.callback) {
           this.callback();
           this.callback = null;
@@ -71,9 +71,9 @@ export class SaveForLaterService {
 
   protected setUserId(userToken: UserToken): void {
     if (Object.keys(userToken).length !== 0) {
-      this.saveForLaterData.userId = userToken.userId;
+      //this.saveForLaterData.userId = userToken.userId;
     } else {
-      this.saveForLaterData.userId = ANONYMOUS_USERID;
+      //this.saveForLaterData.userId = ANONYMOUS_USERID;
     }
   }
 

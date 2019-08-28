@@ -2,9 +2,12 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, UserToken } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  UserToken,
+  AuthRedirectService,
+} from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
-import { Router } from '@angular/router';
 import { AuthService, RoutingService } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
@@ -25,7 +28,10 @@ class MockAuthService {
 
 class MockRoutingService {
   go() {}
-  saveRedirectUrl() {}
+}
+
+class MockAuthRedirectService {
+  reportAuthGuard() {}
 }
 
 @Pipe({
@@ -68,11 +74,9 @@ describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
 
-  let router: Router;
   let authService: AuthService;
   let routingService: RoutingService;
-  // let routerStateSnapshot: RouterStateSnapshot;
-  // routerStateSnapshot.url='/test';
+  let authRedirectService: AuthRedirectService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
@@ -89,14 +93,15 @@ describe('CartItemComponent', () => {
           useClass: MockAuthService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     authService = TestBed.get(AuthService);
-    router = TestBed.get(Router);
     routingService = TestBed.get(RoutingService);
+    authRedirectService = TestBed.get(AuthRedirectService);
 
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
@@ -107,9 +112,7 @@ describe('CartItemComponent', () => {
 
     spyOn(cartItemComponent.saveForLater, 'emit').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
-    spyOn(routingService, 'saveRedirectUrl').and.callThrough();
-    // spyOn(router.routerState, 'snapshot').and.returnValue(routerStateSnapshot);
-    router.routerState.snapshot.url = '/testUrl';
+    spyOn(authRedirectService, 'reportAuthGuard').and.callThrough();
   });
 
   it('should create cart details component', () => {
@@ -136,7 +139,7 @@ describe('CartItemComponent', () => {
   it('should be able to handle anonymous users', () => {
     cartItemComponent.saveItemForLater();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
-    expect(routingService.saveRedirectUrl).toHaveBeenCalledWith('/testUrl');
+    expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
   });
 
   it('should be able to save item for later', () => {

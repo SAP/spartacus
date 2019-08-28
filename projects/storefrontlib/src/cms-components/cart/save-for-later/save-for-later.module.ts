@@ -5,10 +5,10 @@ import { SaveForLaterComponent } from './save-for-later.component';
 import { SaveForLaterItemListComponent } from './save-for-later-item-list/save-for-later-item-list.component';
 import { SaveForLaterItemComponent } from './save-for-later-item/save-for-later-item.component';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { MediaModule } from '../../../../shared';
+import { MediaModule } from '../../../shared';
 import { RouterModule } from '@angular/router';
-import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
-import { PromotionsModule } from '../../components/promotions/promotions.module';
+import { CartSharedModule } from '../cart-shared/cart-shared.module';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 @NgModule({
   declarations: [

@@ -28,9 +28,9 @@ import {
   UserPaymentService,
   UserService,
   SaveForLaterService,
+  SaveForLaterDataService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model';
-import { SaveForLaterDataService } from 'projects/core/src/cart/facade/save-for-later-data.service';
 
 @Injectable({
   providedIn: 'root',

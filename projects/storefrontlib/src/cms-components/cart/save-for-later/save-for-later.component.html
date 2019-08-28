@@ -8,7 +8,7 @@
   <div class="d-none d-md-block d-lg-block d-xl-block">
     <div class="cx-empty-cart-header row"></div>
   </div>
-  <div class="cx-msg">
+  <div class="cx-msg" data-test="cart-empty-msg">
     {{
       'saveForLaterItems.cartEmpty'
         | cxTranslate: { count: (sflCart$ | async).deliveryItemsQuantity }
@@ -20,7 +20,7 @@
   <ng-container *ngIf="(sflEntries$ | async) as entries">
     <ng-container *ngIf="entries.length > 0">
       <div class="cart-details-wrapper">
-        <div class="cx-total">
+        <div class="cx-total" data-test="sfl-total">
           {{
             'saveForLaterItems.itemTotal'
               | cxTranslate

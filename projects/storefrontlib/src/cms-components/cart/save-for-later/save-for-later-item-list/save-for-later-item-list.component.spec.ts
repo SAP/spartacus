@@ -1,10 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
+import { Component, Input, DebugElement, ViewChild } from '@angular/core';
 import {
   SaveForLaterService,
   CartService,
   PromotionResult,
   I18nTestingModule,
+  OrderEntry,
 } from '@spartacus/core';
 import { Item } from '../../cart-shared';
 import { SaveForLaterItemListComponent } from './save-for-later-item-list.component';
@@ -41,9 +42,6 @@ const mockPotentialProductPromotions = [
   },
 ];
 
-const sflService = jasmine.createSpyObj('SaveForLaterService', ['removeEntry']);
-const cartService = jasmine.createSpyObj('CartService', ['addEntry']);
-
 @Component({
   template: '',
   selector: 'cx-save-for-later-item',
@@ -57,14 +55,43 @@ class MockCartItemComponent {
   potentialProductPromotions: PromotionResult[];
 }
 
+@Component({
+  template: `
+    <cx-save-for-later-item-list
+      [saveForLaterLoading]="sflCartLoaded"
+      [items]="entries"
+      [potentialProductPromotions]="potentialProductPromotions"
+    >
+    </cx-save-for-later-item-list>
+    <button></button>
+  `,
+})
+class MockedSaveForLaterComponent {
+  sflCartLoaded = true;
+  entries: OrderEntry[] = mockItems;
+  potentialProductPromotions: PromotionResult[] = mockPotentialProductPromotions;
+
+  @ViewChild(SaveForLaterItemListComponent, { static: false })
+  saveForLaterItemListComponent: SaveForLaterItemListComponent;
+}
+
 describe('SaveForLaterItemListComponent', () => {
-  let component: SaveForLaterItemListComponent;
-  let fixture: ComponentFixture<SaveForLaterItemListComponent>;
+  let component: MockedSaveForLaterComponent;
+  let fixture: ComponentFixture<MockedSaveForLaterComponent>;
+  let el: DebugElement;
+  const sflService = jasmine.createSpyObj('SaveForLaterService', [
+    'removeEntry',
+  ]);
+  const cartService = jasmine.createSpyObj('CartService', ['addEntry']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [SaveForLaterItemListComponent, MockCartItemComponent],
+      declarations: [
+        MockedSaveForLaterComponent,
+        SaveForLaterItemListComponent,
+        MockCartItemComponent,
+      ],
       providers: [
         { provide: SaveForLaterService, useValue: sflService },
         { provide: CartService, useValue: cartService },
@@ -73,13 +100,11 @@ describe('SaveForLaterItemListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SaveForLaterItemListComponent);
+    fixture = TestBed.createComponent(MockedSaveForLaterComponent);
     component = fixture.componentInstance;
-    component.items = mockItems;
-    component.potentialProductPromotions = mockPotentialProductPromotions;
-    sflService.removeEntry.and.callFake((_item: Item) => {
-      component.items.pop();
-    });
+    el = fixture.debugElement;
+    sflService.removeEntry.and.stub();
+    cartService.addEntry.and.stub();
     fixture.detectChanges();
   });
 
@@ -87,46 +112,33 @@ describe('SaveForLaterItemListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get potential promotions for product', () => {
-    const item = mockItems[0];
-    const promotions = component.getPotentialProductPromotionsForItem(item);
-    expect(promotions).toEqual(mockPotentialProductPromotions);
+  it('should show save for later items', () => {
+    const slfItems = el.nativeElement.querySelectorAll(
+      'cx-save-for-later-item'
+    );
+    expect(slfItems.length).toBe(2);
   });
 
-  it('should be able to remove item from entry', () => {
-    let slfItems = fixture.debugElement.nativeElement.querySelectorAll(
+  it('should remove item from save for later list', () => {
+    const slfItems = fixture.debugElement.nativeElement.querySelectorAll(
       'cx-save-for-later-item'
     );
     expect(slfItems.length).toBe(2);
 
     const item = mockItems[0];
-    component.removeEntry(item);
+    component.saveForLaterItemListComponent.removeEntry(item);
     expect(sflService.removeEntry).toHaveBeenCalledWith(item);
-
-    fixture.detectChanges();
-    slfItems = fixture.debugElement.nativeElement.querySelectorAll(
-      'cx-save-for-later-item'
-    );
-    expect(slfItems.length).toBe(1);
   });
 
-  it('should be able to move item to cart', () => {
-    component.items = mockItems;
-    component.ngOnInit();
-    let slfItems = fixture.debugElement.nativeElement.querySelectorAll(
+  it('should move item to cart', () => {
+    const slfItems = fixture.debugElement.nativeElement.querySelectorAll(
       'cx-save-for-later-item'
     );
-    expect(slfItems.length).toBe(1);
+    expect(slfItems.length).toBe(2);
 
     const item = mockItems[0];
-    component.moveItemToCart(item);
+    component.saveForLaterItemListComponent.moveItemToCart(item);
     expect(cartService.addEntry).toHaveBeenCalledWith('PR0000', 5);
     expect(sflService.removeEntry).toHaveBeenCalledWith(item);
-
-    fixture.detectChanges();
-    slfItems = fixture.debugElement.nativeElement.querySelectorAll(
-      'cx-save-for-later-item'
-    );
-    expect(slfItems.length).toBe(0);
   });
 });

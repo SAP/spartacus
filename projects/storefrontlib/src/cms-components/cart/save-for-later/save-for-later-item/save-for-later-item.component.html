@@ -1,7 +1,10 @@
 <div class="row">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">
-    <a [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl">
+    <a
+      [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
+      data-test="product-img-url"
+    >
       <cx-media
         [container]="item.product.images?.PRIMARY"
         format="thumbnail"
@@ -13,20 +16,22 @@
     <div class="cx-info-container row ">
       <!-- Item Description -->
       <div class="col-md-3 col-lg-3 col-xl-5">
-        <div *ngIf="item.product.name" class="cx-name">
+        <div *ngIf="item.product.name" class="cx-name" data-test="product-name">
           <a
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
+            data-test="product-url"
             >{{ item.product.name }}</a
           >
         </div>
-        <div *ngIf="item.product.code" class="cx-code">
+        <div *ngIf="item.product.code" class="cx-code" data-test="product-code">
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Variants -->
         <div
           *ngFor="let variant of item.product.variantOptionQualifiers"
           class="cx-property"
+          data-test="product-variant"
         >
           <div class="cx-label">{{ variant.name }}</div>
           <div class="cx-value">{{ variant.value }}</div>
@@ -42,7 +47,11 @@
         </div>
       </div>
       <!-- Item Quantity -->
-      <div *ngIf="item.quantity" class="cx-quantity col-3">
+      <div
+        *ngIf="item.quantity"
+        class="cx-quantity col-3"
+        data-test="product-quantity"
+      >
         <div
           class="cx-label"
           class="d-block d-md-none d-lg-none d-xl-none"
@@ -54,7 +63,11 @@
         <div class="cx-value">{{ item.quantity }}</div>
       </div>
       <!-- Total -->
-      <div *ngIf="item.totalPrice" class="cx-total col-md-3 col-lg-3 col-xl-2">
+      <div
+        *ngIf="item.totalPrice"
+        class="cx-total col-md-3 col-lg-3 col-xl-2"
+        data-test="product-total-price"
+      >
         <div class="cx-label" class="d-block d-md-none d-lg-none d-xl-none">
           {{ 'cartItems.total' | cxTranslate }}
         </div>
@@ -65,6 +78,7 @@
     <div
       *ngIf="isProductOutOfStock(item.product)"
       class="cx-availability col-12"
+      data-test="product-availability"
     >
       {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
@@ -78,6 +92,7 @@
           [class.disabled]="saveForLaterLoading"
           [disabled]="saveForLaterLoading"
           (click)="moveItemToCart()"
+          data-test="move-btn"
         >
           {{ 'saveForLaterItems.moveToCart' | cxTranslate }}
         </button>
@@ -88,6 +103,7 @@
           [class.disabled]="saveForLaterLoading"
           [disabled]="saveForLaterLoading"
           (click)="removeItem()"
+          data-test="remove-btn"
         >
           {{ 'common.remove' | cxTranslate }}
         </button>

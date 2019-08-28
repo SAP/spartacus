@@ -94,6 +94,9 @@ describe('CartItemListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
     cartService = TestBed.get(CartService as Type<CartService>);
+    saveForLaterService = TestBed.get(SaveForLaterService as Type<
+      SaveForLaterService
+    >);
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;

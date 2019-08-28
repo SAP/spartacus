@@ -40,6 +40,17 @@ class MockCartItemListComponent {
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading: Observable<boolean>;
+  @Input()
+  enableSaveForLater = false;
+}
+
+@Component({
+  template: '',
+  selector: 'cx-save-for-later',
+})
+class MockSaveForLaterComponent {
+  @Input()
+  cartEntries$: Observable<OrderEntry[]>;
 }
 
 describe('CartDetailsComponent', () => {
@@ -49,7 +60,11 @@ describe('CartDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
-      declarations: [CartDetailsComponent, MockCartItemListComponent],
+      declarations: [
+        CartDetailsComponent,
+        MockCartItemListComponent,
+        MockSaveForLaterComponent,
+      ],
       providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));
