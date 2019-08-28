@@ -10,7 +10,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CheckoutService, Order } from '@spartacus/core';
+import { CheckoutService, Order, UserService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../../shared/utils/validators/custom-form-validators';
@@ -24,6 +24,7 @@ export class OrderConfirmationThankYouMessageComponent
   implements OnInit, OnDestroy {
   order$: Observable<Order>;
   isGuestCustomer = false;
+  orderGuid: string;
 
   guestRegisterForm: FormGroup = this.fb.group(
     {
@@ -38,13 +39,15 @@ export class OrderConfirmationThankYouMessageComponent
 
   constructor(
     protected checkoutService: CheckoutService,
-    private fb: FormBuilder
+    protected userService: UserService,
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails().pipe(
       tap(order => {
         this.isGuestCustomer = order.guestCustomer;
+        this.orderGuid = order.guid;
       })
     );
   }
@@ -53,7 +56,12 @@ export class OrderConfirmationThankYouMessageComponent
     this.checkoutService.clearCheckoutData();
   }
 
-  submit() {}
+  submit() {
+    this.userService.registerGuest(
+      this.orderGuid,
+      this.guestRegisterForm.value.password
+    );
+  }
 
   private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
     if (ac.get('password').value !== ac.get('passwordconf').value) {

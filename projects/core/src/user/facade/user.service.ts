@@ -54,6 +54,10 @@ export class UserService {
     this.store.dispatch(new UserActions.RegisterUser(userRegisterFormData));
   }
 
+  registerGuest(guid: string, password: string): void {
+    this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
+  }
+
   /**
    * Remove user account, that's also called close user's account
    */
