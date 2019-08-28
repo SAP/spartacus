@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
-import { AuthService, UserToken } from '../../auth/index';
-
+import { Observable, combineLatest, asyncScheduler } from 'rxjs';
+import {
+  filter,
+  debounceTime,
+  tap,
+  map,
+  shareReplay,
+  take,
+} from 'rxjs/operators';
+import { AuthService } from '../../auth/index';
 import { CartActions } from '../store/actions/index';
 import { CartSelectors } from '../store/selectors/index';
 import { SaveForLaterDataService } from './save-for-later-data.service';
@@ -13,23 +17,21 @@ import { ANONYMOUS_USERID } from './cart-data.service';
 import { StateWithCart } from '../store/cart-state';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { UserService } from '../../user/facade/user.service';
 
 @Injectable()
 export class SaveForLaterService {
-  private callback: Function;
+  private _saveForLater$: Observable<Cart>;
 
   constructor(
     protected store: Store<StateWithCart>,
     protected saveForLaterData: SaveForLaterDataService,
-    protected authService: AuthService,
-    protected userService: UserService
+    protected authService: AuthService
   ) {
     this.init();
   }
 
   getSaveForLater(): Observable<Cart> {
-    return this.store.pipe(select(CartSelectors.getSaveForLaterContent));
+    return this._saveForLater$;
   }
 
   getEntries(): Observable<OrderEntry[]> {
@@ -41,104 +43,77 @@ export class SaveForLaterService {
   }
 
   protected init(): void {
-    this.store
-      .pipe(select(CartSelectors.getSaveForLaterContent))
-      .subscribe(_cart => {
-        //this.saveForLaterData.cart = cart;
-        if (this.callback) {
-          this.callback();
-          this.callback = null;
+    this._saveForLater$ = combineLatest([
+      this.store.select(CartSelectors.getSaveForLaterContent),
+      this.store.select(CartSelectors.getSaveForLaterLoading),
+      this.authService.getUserToken(),
+      this.store.select(CartSelectors.getCartLoaded),
+    ]).pipe(
+      // copied from cart service, save for later only used for logged in customer
+      debounceTime(1, asyncScheduler),
+      filter(([, loading]) => !loading),
+      tap(([saveForLater, , userToken, loaded]) => {
+        if (
+          this.isLoggedIn(userToken.userId) &&
+          !this.isCreated(saveForLater) &&
+          !loaded
+        ) {
+          this.load();
         }
-      });
-
-    this.authService
-      .getUserToken()
-      .pipe(
-        filter(userToken => this.saveForLaterData.userId !== userToken.userId)
-      )
-      .subscribe(userToken => {
-        this.setUserId(userToken);
-        this.userService.get().subscribe(user => {
-          if (user.customerId) {
-            this.saveForLaterData.customerId = user.customerId;
-            this.load();
-          }
-        });
-      });
-
-    this.refresh();
-  }
-
-  protected setUserId(userToken: UserToken): void {
-    if (Object.keys(userToken).length !== 0) {
-      //this.saveForLaterData.userId = userToken.userId;
-    } else {
-      //this.saveForLaterData.userId = ANONYMOUS_USERID;
-    }
+      }),
+      filter(
+        ([cart]) =>
+          !this.isCreated(cart) ||
+          (this.isCreated(cart) && !this.isIncomplete(cart))
+      ),
+      map(([cart]) => cart),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   protected load(): void {
     if (this.saveForLaterData.userId !== ANONYMOUS_USERID) {
-      if (this.isCreated(this.saveForLaterData.cart)) {
+      if (this.isCreated(this.saveForLaterData.saveForLater)) {
         this.store.dispatch(
           new CartActions.LoadSaveForLater({
             userId: this.saveForLaterData.userId,
-            cartId: 'selectivecart' + this.saveForLaterData.customerId,
+            cartId: this.saveForLaterData.cartId,
           })
         );
       } else {
         this.store.dispatch(
           new CartActions.CreateSaveForLater({
             userId: this.saveForLaterData.userId,
-            cartId: 'selectivecart' + this.saveForLaterData.customerId,
+            cartId: this.saveForLaterData.cartId,
           })
         );
       }
     }
   }
 
-  protected refresh(): void {
-    this.store
-      .pipe(select(CartSelectors.getSaveForLaterRefresh))
-      .subscribe(refresh => {
-        if (refresh) {
-          this.store.dispatch(
-            new CartActions.LoadSaveForLater({
-              userId: this.saveForLaterData.userId,
-              cartId: this.saveForLaterData.cartId,
-            })
-          );
-        }
-      });
-  }
-
-  loadDetails(): void {
-    if (this.saveForLaterData.userId !== ANONYMOUS_USERID) {
-      this.store.dispatch(
-        new CartActions.CreateSaveForLater({
-          userId: this.saveForLaterData.userId,
-          cartId: 'selectivecart' + this.saveForLaterData.customerId,
-        })
-      );
-    } else if (this.saveForLaterData.cartId) {
-      this.store.dispatch(
-        new CartActions.LoadSaveForLater({
-          userId: this.saveForLaterData.userId,
-          cartId: this.saveForLaterData.cartId,
-        })
-      );
-    }
-  }
-
   addEntry(productCode: string, quantity: number): void {
-    if (!this.isCreated(this.saveForLaterData.cart)) {
-      this.store.dispatch(
-        new CartActions.CreateSaveForLater({
-          userId: this.saveForLaterData.userId,
-          cartId: 'selectivecart' + this.saveForLaterData.customerId,
-        })
-      );
-      this.callback = function() {
+    this.store
+      .pipe(
+        select(CartSelectors.getSaveForLaterCartState),
+        tap(saveForLaterState => {
+          if (
+            !this.isCreated(saveForLaterState.value.content) &&
+            !saveForLaterState.loading
+          ) {
+            this.store.dispatch(
+              new CartActions.CreateSaveForLater({
+                userId: this.saveForLaterData.userId,
+                cartId: this.saveForLaterData.cartId,
+              })
+            );
+          }
+        }),
+        filter(saveForLaterState =>
+          this.isCreated(saveForLaterState.value.content)
+        ),
+        take(1)
+      )
+      .subscribe(_ => {
         this.store.dispatch(
           new CartActions.CartAddEntry({
             userId: this.saveForLaterData.userId,
@@ -147,17 +122,7 @@ export class SaveForLaterService {
             quantity: quantity,
           })
         );
-      };
-    } else {
-      this.store.dispatch(
-        new CartActions.CartAddEntry({
-          userId: this.saveForLaterData.userId,
-          cartId: this.saveForLaterData.cartId,
-          productCode: productCode,
-          quantity: quantity,
-        })
-      );
-    }
+      });
   }
 
   removeEntry(entry: OrderEntry): void {
@@ -171,7 +136,7 @@ export class SaveForLaterService {
   }
 
   updateEntry(entryNumber: string, quantity: number): void {
-    if (+quantity > 0) {
+    if (quantity > 0) {
       this.store.dispatch(
         new CartActions.CartUpdateEntry({
           userId: this.saveForLaterData.userId,
@@ -201,7 +166,11 @@ export class SaveForLaterService {
     return cart && !!Object.keys(cart).length;
   }
 
-  isEmpty(cart: Cart): boolean {
-    return cart && !cart.totalItems;
+  private isLoggedIn(userId: string): boolean {
+    return typeof userId !== 'undefined';
+  }
+
+  private isIncomplete(cart: Cart): boolean {
+    return cart && Object.keys(cart).length <= 2;
   }
 }

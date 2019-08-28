@@ -1,16 +1,11 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { CartsState, CartState, StateWithCart } from '../cart-state';
-import {
-  loaderLoadingSelector,
-  loaderSuccessSelector,
-  loaderValueSelector,
-} from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
 import { getCartsState } from './cart.selector';
-
-const getCartRefreshSelector = (state: CartState) => state.refresh;
+import { StateLoaderSelectors } from '../../../state/utils/index';
+const getSaveForLaterRefreshSelector = (state: CartState) => state.refresh;
 const getCartEntriesSelector = (state: CartState) => state.entries;
 const getSaveForLaterContentSelector = (state: CartState) => state.content;
 
@@ -27,7 +22,7 @@ export const getSaveForLaterState: MemoizedSelector<
   CartState
 > = createSelector(
   getSaveForLaterCartState,
-  state => loaderValueSelector(state)
+  state => StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getSaveForLaterContent: MemoizedSelector<
@@ -43,7 +38,7 @@ export const getSaveForLaterRefresh: MemoizedSelector<
   boolean
 > = createSelector(
   getSaveForLaterState,
-  getCartRefreshSelector
+  getSaveForLaterRefreshSelector
 );
 
 export const getSaveForLaterLoaded: MemoizedSelector<
@@ -52,9 +47,20 @@ export const getSaveForLaterLoaded: MemoizedSelector<
 > = createSelector(
   getSaveForLaterCartState,
   state =>
-    loaderSuccessSelector(state) &&
-    !loaderLoadingSelector(state) &&
-    !loaderValueSelector(state).refresh
+    (StateLoaderSelectors.loaderSuccessSelector(state) &&
+      !StateLoaderSelectors.loaderLoadingSelector(state) &&
+      !StateLoaderSelectors.loaderValueSelector(state).refresh) ||
+    (StateLoaderSelectors.loaderErrorSelector(state) &&
+      !StateLoaderSelectors.loaderLoadingSelector(state) &&
+      !StateLoaderSelectors.loaderValueSelector(state).refresh)
+);
+
+export const getSaveForLaterLoading: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(
+  getSaveForLaterCartState,
+  state => StateLoaderSelectors.loaderLoadingSelector(state)
 );
 
 export const getSaveForLaterEntriesMap: MemoizedSelector<

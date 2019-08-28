@@ -6,6 +6,7 @@ import { CartActions } from '../actions/index';
 import { SaveForLaterDataService } from '../../facade/save-for-later-data.service';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { Cart } from '../../../model/cart.model';
+import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 
 @Injectable()
 export class SaveForLaterEffects {
@@ -36,7 +37,11 @@ export class SaveForLaterEffects {
           map((cart: Cart) => {
             return new CartActions.LoadSaveForLaterSuccess(cart);
           }),
-          catchError(error => of(new CartActions.LoadSaveForLaterFail(error)))
+          catchError(error =>
+            of(
+              new CartActions.LoadSaveForLaterFail(makeErrorSerializable(error))
+            )
+          )
         );
     })
   );
@@ -52,7 +57,11 @@ export class SaveForLaterEffects {
         switchMap((cart: Cart) => {
           return [new CartActions.CreateSaveForLaterSuccess(cart)];
         }),
-        catchError(error => of(new CartActions.CreateSaveForLaterFail(error)))
+        catchError(error =>
+          of(
+            new CartActions.CreateSaveForLaterFail(makeErrorSerializable(error))
+          )
+        )
       );
     })
   );
