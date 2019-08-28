@@ -45,10 +45,10 @@ export class UserRegisterEffects {
             userId: user.uid,
             password: password,
           }),
-          new UserActions.RegisterUserSuccess(),
+          new UserActions.RegisterGuestSuccess(),
         ]),
         catchError(error =>
-          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
         )
       )
     )

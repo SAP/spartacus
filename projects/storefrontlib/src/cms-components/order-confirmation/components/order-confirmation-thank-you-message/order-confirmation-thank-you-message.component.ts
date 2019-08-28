@@ -10,7 +10,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CheckoutService, Order, UserService } from '@spartacus/core';
+import {
+  CheckoutService,
+  Order,
+  UserService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../../shared/utils/validators/custom-form-validators';
@@ -40,6 +45,7 @@ export class OrderConfirmationThankYouMessageComponent
   constructor(
     protected checkoutService: CheckoutService,
     protected userService: UserService,
+    protected routingService: RoutingService,
     protected fb: FormBuilder
   ) {}
 
@@ -61,6 +67,7 @@ export class OrderConfirmationThankYouMessageComponent
       this.orderGuid,
       this.guestRegisterForm.value.password
     );
+    this.routingService.go({ cxRoute: 'home' });
   }
 
   private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
