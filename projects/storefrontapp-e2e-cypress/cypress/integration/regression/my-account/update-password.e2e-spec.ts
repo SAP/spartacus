@@ -1,4 +1,5 @@
 import { login } from '../../../helpers/auth-forms';
+import { checkBanner } from '../../../helpers/homepage';
 import * as helper from '../../../helpers/login';
 import * as alerts from '../../../helpers/global-message';
 
@@ -25,6 +26,8 @@ describe('My Account - Update Password', () => {
       });
       cy.visit('/');
       user = helper.registerUser();
+      helper.loginUser();
+      checkBanner();
     });
 
     beforeEach(() => {
