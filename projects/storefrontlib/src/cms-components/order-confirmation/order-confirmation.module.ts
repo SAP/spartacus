@@ -1,11 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-} from '@spartacus/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { CardModule } from '../../shared/components/card/card.module';
 import { CartSharedModule } from '../cart/cart-shared/cart-shared.module';
 import { PwaModule } from './../../cms-structure/pwa/pwa.module';
@@ -30,23 +26,24 @@ const orderConfirmationComponents = [
     CardModule,
     PwaModule,
     I18nModule,
+    ReactiveFormsModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrderConfirmationThankMessageComponent: {
           component: OrderConfirmationThankYouMessageComponent,
-          guards: [AuthGuard, OrderConfirmationGuard],
+          guards: [OrderConfirmationGuard],
         },
         OrderConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
-          guards: [AuthGuard, OrderConfirmationGuard],
+          guards: [OrderConfirmationGuard],
         },
         OrderConfirmationTotalsComponent: {
           component: OrderConfirmationTotalsComponent,
-          guards: [AuthGuard, OrderConfirmationGuard],
+          guards: [OrderConfirmationGuard],
         },
         OrderConfirmationOverviewComponent: {
           component: OrderConfirmationOverviewComponent,
-          guards: [AuthGuard, OrderConfirmationGuard],
+          guards: [OrderConfirmationGuard],
         },
       },
     }),

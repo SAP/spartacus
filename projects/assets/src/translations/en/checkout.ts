@@ -21,6 +21,9 @@ export const checkout = {
       'An invoice has been sent by email. You should receive it soon.',
     orderItems: 'Order Items',
     orderPlacedSuccessfully: 'Order placed successfully',
+    createAccount: 'Create an account?',
+    createAccountForNext:
+      'Create an account for <{{email}}> for a faster checkout on your next visit.',
   },
   checkoutReview: {
     review: 'Review',
