@@ -23,9 +23,7 @@ import {
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 import { StateWithProcess } from '../../process/store/process-state';
-import {
-  getProcessStateFactory,
-} from '../../process/store/selectors/process-group.selectors';
+import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 
 @Injectable({
