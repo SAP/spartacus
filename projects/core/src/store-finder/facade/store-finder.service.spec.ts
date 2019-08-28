@@ -7,6 +7,17 @@ import { StoreFinderActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
+import { GlobalMessageService } from '../../global-message/index';
+import { UrlCommands } from '../../routing/index';
+import { NavigationExtras } from '@angular/router';
+
+class MockRoutingService {
+  go(
+    _commands: any[] | UrlCommands,
+    _query?: object,
+    _extras?: NavigationExtras
+  ): void {}
+}
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -47,6 +58,8 @@ describe('StoreFinderService', () => {
       providers: [
         StoreFinderService,
         { provide: WindowRef, useValue: MockWindowRef },
+        { provide: RoutingService, useClass: MockRoutingService },
+        GlobalMessageService,
       ],
     });
 
