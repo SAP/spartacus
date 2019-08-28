@@ -23,7 +23,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   protected getOrderEndpoint(userId: string): string {
     const orderEndpoint = 'users/' + userId + '/orders';
@@ -31,7 +32,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   }
 
   public load(userId: string, orderCode: string): Observable<Order> {
-    // TODO 2.0: Remove
+    // TODO: Deprecated, remove Issue #4125
     if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyLoad(userId, orderCode);
     }
@@ -52,7 +53,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     currentPage?: number,
     sort?: string
   ): Observable<OrderHistoryList> {
-    // TODO 2.0: Remove
+    // TODO: Deprecated, remove Issue #4125
     if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
       return this.legacyLoadHistory(userId, pageSize, currentPage, sort);
     }
@@ -77,7 +78,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyLoad(userId: string, orderCode: string): Observable<Order> {
     const url = this.getOrderEndpoint(userId) + '/' + orderCode;
@@ -95,7 +97,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyLoadHistory(
     userId: string,
