@@ -11,6 +11,11 @@ import {
   ViewAllStoresState,
 } from '../store/store-finder-state';
 import { StoreFinderSearchConfig } from './../model/search-config';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from '../../global-message/index';
+import { RoutingService } from '../../routing/index';
 
 @Injectable()
 export class StoreFinderService {
@@ -18,7 +23,9 @@ export class StoreFinderService {
 
   constructor(
     protected store: Store<StateWithStoreFinder>,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -85,6 +92,13 @@ export class StoreFinderService {
               countryIsoCode: countryIsoCode,
             })
           );
+        },
+        () => {
+          this.globalMessageService.add(
+            { key: 'storeFinder.geolocationNotEnabled' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          this.routingService.go(['/store-finder']);
         }
       );
     } else {
