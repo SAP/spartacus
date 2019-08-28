@@ -14,4 +14,16 @@
   .cx-spinner {
     padding: 2rem 0;
   }
+
+  .item {
+    @include media-breakpoint-down(md) {
+      margin-top: 1rem;
+    }
+  }
+
+  .cx-pagination {
+    margin: 1rem auto;
+    justify-content: center;
+    display: flex;
+  }
 }

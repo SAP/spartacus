@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingService, StoreFinderService, GeoPoint } from '@spartacus/core';
+import {
+  RoutingService,
+  StoreFinderService,
+  GeoPoint,
+  SearchConfig,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -10,10 +15,15 @@ import { Observable, Subscription } from 'rxjs';
 export class StoreFinderGridComponent implements OnInit, OnDestroy {
   locations$: any;
   isLoading$: Observable<boolean>;
-  locationsSub: Subscription;
   defaultLocation: GeoPoint;
   country: string;
   region: string;
+
+  subscription: Subscription;
+  searchConfig: SearchConfig = {
+    pageSize: 24,
+    currentPage: 0,
+  };
 
   constructor(
     private storeFinderService: StoreFinderService,
@@ -24,18 +34,7 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading$ = this.storeFinderService.getViewAllStoresLoading();
     this.locations$ = this.storeFinderService.getViewAllStoresEntities();
-    this.defaultLocation = {};
-
-    if (this.route.snapshot.params.country) {
-      this.storeFinderService.findStoresAction(
-        '',
-        {
-          pageSize: -1,
-        },
-        undefined,
-        this.route.snapshot.params.country
-      );
-    }
+    this.findStores();
   }
 
   viewStore(location: any): void {
@@ -51,6 +50,20 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
       : '';
     const locationName = location.name.replace(/ /g, '-').toLocaleLowerCase();
     return `store-finder/${countryParam}${regionParam}${locationName}`;
+  }
+
+  viewPage(pageNumber: number) {
+    this.searchConfig = { ...this.searchConfig, currentPage: pageNumber };
+    this.findStores();
+  }
+
+  findStores() {
+    this.storeFinderService.findStoresAction(
+      '',
+      this.searchConfig,
+      this.defaultLocation,
+      this.route.snapshot.params.country
+    );
   }
 
   ngOnDestroy() {}
