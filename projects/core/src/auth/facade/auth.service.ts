@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import {
+  USERID_ANONYMOUS,
+  USERID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
@@ -78,6 +81,15 @@ export class AuthService {
       )
     );
   }
+
+  /**
+   * Utility function to determine if a given token is a customer emulation session token.
+   * @param userToken
+   */
+  isCustomerEmulationToken(userToken: UserToken): boolean {
+    return !!userToken.userId && userToken.userId !== USERID_CURRENT;
+  }
+
   /**
    * Returns the user's token
    */

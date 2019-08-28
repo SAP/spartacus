@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
 import { AuthState, AUTH_FEATURE } from '../store/auth-state';
@@ -182,5 +183,35 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.LoadClientToken()
     );
+  });
+
+  describe('isCustomerEmulationToken()', () => {
+    const mockCustomerEmulationToken = {
+      access_token: 'foo',
+    } as UserToken;
+
+    it('should return true if the userid is defined and not USERID_CURRENT', () => {
+      expect(
+        service.isCustomerEmulationToken({
+          ...mockCustomerEmulationToken,
+          userId: '1de31-d31d4-14d',
+        })
+      ).toBe(true);
+    });
+
+    it('should return false if there is no userId on the token', () => {
+      expect(service.isCustomerEmulationToken(mockCustomerEmulationToken)).toBe(
+        false
+      );
+    });
+
+    it('should return false if the userid "current"', () => {
+      expect(
+        service.isCustomerEmulationToken({
+          ...mockCustomerEmulationToken,
+          userId: USERID_CURRENT,
+        })
+      ).toBe(false);
+    });
   });
 });

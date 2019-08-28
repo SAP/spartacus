@@ -3,7 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AuthService,
+  GlobalMessageService,
   I18nTestingModule,
+  RoutingService,
   User,
   UserService,
   UserToken,
@@ -31,6 +33,7 @@ class MockAuthService {
     _customerSupportAgentToken: UserToken,
     _customerId: string
   ) {}
+  isCustomerEmulationToken() {}
 }
 
 class MockUserService {
@@ -55,6 +58,13 @@ class MockCSAgentLoginFormComponent {
   @Output()
   submitEvent = new EventEmitter();
 }
+class MockGlobalMessageService {
+  remove() {}
+}
+
+class MockRoutingService {
+  go() {}
+}
 
 describe('AsmComponent', () => {
   let component: AsmComponent;
@@ -62,6 +72,8 @@ describe('AsmComponent', () => {
   let authService: AuthService;
   let userService: UserService;
   let el: DebugElement;
+  let globalMessageService: GlobalMessageService;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -74,6 +86,8 @@ describe('AsmComponent', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: UserService, useClass: MockUserService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   }));
@@ -82,6 +96,8 @@ describe('AsmComponent', () => {
     fixture = TestBed.createComponent(AsmComponent);
     authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
+    globalMessageService = TestBed.get(GlobalMessageService);
+    routingService = TestBed.get(RoutingService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -157,5 +173,56 @@ describe('AsmComponent', () => {
     expect(el.nativeElement.textContent).toContain(testUser.name);
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
+  });
+
+  it('should redirect to home when starting a customer emulation session.', () => {
+    component['startingCustomerSession'] = true;
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(authService, 'isCustomerEmulationToken').and.returnValue(true);
+
+    spyOn(routingService, 'go').and.stub();
+    spyOn(globalMessageService, 'remove').and.stub();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(globalMessageService.remove).toHaveBeenCalled();
+    expect(routingService.go).toHaveBeenCalled();
+  });
+
+  it('should not redirect to home when not starting a customer emulation session.', () => {
+    component['startingCustomerSession'] = false;
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(authService, 'isCustomerEmulationToken').and.returnValue(true);
+
+    spyOn(routingService, 'go').and.stub();
+    spyOn(globalMessageService, 'remove').and.stub();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(globalMessageService.remove).not.toHaveBeenCalled();
+    expect(routingService.go).not.toHaveBeenCalled();
+  });
+
+  it('should not redirect to home when not handling a customer emulation session token.', () => {
+    component['startingCustomerSession'] = true;
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(authService, 'isCustomerEmulationToken').and.returnValue(false);
+
+    spyOn(routingService, 'go').and.stub();
+    spyOn(globalMessageService, 'remove').and.stub();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(globalMessageService.remove).not.toHaveBeenCalled();
+    expect(routingService.go).not.toHaveBeenCalled();
   });
 });
