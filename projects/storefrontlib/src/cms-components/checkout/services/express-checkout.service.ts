@@ -40,64 +40,46 @@ export class ExpressCheckoutService {
     this.shippingAddressSet$ = combineLatest([
       this.userAddressService.getAddresses(),
       this.userAddressService.getAddressesLoadedSuccess(),
-      this.checkoutDeliveryService.getSetDeliveryAddressResultSuccess(),
-      this.checkoutDeliveryService.getSetDeliveryAddressResultError(),
-      this.checkoutDeliveryService.getSetDeliveryAddressResultLoading(),
+      this.checkoutDeliveryService.getSetDeliveryAddressProcess(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
-      tap(([, success]: [Address[], boolean, boolean, boolean, boolean]) => {
+      tap(([, success]: [Address[], boolean, LoaderState<void>]) => {
         console.log(success);
         if (!success) {
           this.userAddressService.loadAddresses();
         }
       }),
-      filter(
-        ([, success]: [Address[], boolean, boolean, boolean, boolean]) =>
-          success
-      ),
+      filter(([, success]: [Address[], boolean, LoaderState<void>]) => success),
       switchMap(
-        ([
-          addresses,
-          ,
-          setDeliveryAddressSuccessFlag,
-          setDeliveryAddressErrorFlag,
-          setDeliveryAddressInProgressFlag,
-        ]: [Address[], boolean, boolean, boolean, boolean]) => {
+        ([addresses, , setDeliveryAddressProcess]: [
+          Address[],
+          boolean,
+          LoaderState<void>
+        ]) => {
           const defaultAddress =
             addresses.find(address => address.defaultAddress) || addresses[0];
           if (defaultAddress && Object.keys(defaultAddress).length) {
             if (
-              !setDeliveryAddressSuccessFlag &&
-              !setDeliveryAddressErrorFlag &&
-              !setDeliveryAddressInProgressFlag
+              !setDeliveryAddressProcess.success &&
+              !setDeliveryAddressProcess.error &&
+              !setDeliveryAddressProcess.loading
             ) {
               this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
             }
-            return of([
-              setDeliveryAddressSuccessFlag,
-              setDeliveryAddressErrorFlag,
-              setDeliveryAddressInProgressFlag,
-            ]).pipe(
-              filter(
-                ([
-                  setDeliveryAddressSuccess,
-                  setDeliveryAddressError,
-                  setDeliveryAddressInProgress,
-                ]: [boolean, boolean, boolean]) => {
-                  return (
-                    (setDeliveryAddressSuccess || setDeliveryAddressError) &&
-                    !setDeliveryAddressInProgress
-                  );
+            return of(setDeliveryAddressProcess).pipe(
+              filter((setDeliveryAddressProcessState: LoaderState<void>) => {
+                return (
+                  (setDeliveryAddressProcessState.success ||
+                    setDeliveryAddressProcessState.error) &&
+                  !setDeliveryAddressProcessState.loading
+                );
+              }),
+              switchMap((setDeliveryAddressProcessState: LoaderState<void>) => {
+                if (setDeliveryAddressProcessState.success) {
+                  return this.checkoutDetailsService.getDeliveryAddress();
                 }
-              ),
-              switchMap(
-                ([setDeliveryAddressSuccess]: [boolean, boolean, boolean]) => {
-                  if (setDeliveryAddressSuccess) {
-                    return this.checkoutDetailsService.getDeliveryAddress();
-                  }
-                  return of(false);
-                }
-              ),
+                return of(false);
+              }),
               map(data => Boolean(data && Object.keys(data).length))
             );
           }
@@ -111,71 +93,47 @@ export class ExpressCheckoutService {
     this.paymentMethodSet$ = combineLatest([
       this.userPaymentService.getPaymentMethods(),
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
-      this.checkoutPaymentService.getSetPaymentDetailsResultSuccess(),
-      this.checkoutPaymentService.getSetPaymentDetailsResultError(),
-      this.checkoutPaymentService.getSetPaymentDetailsResultLoading(),
+      this.checkoutPaymentService.getSetPaymentDetailsResultProcess(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
-      tap(
-        ([, success]: [
-          PaymentDetails[],
-          boolean,
-          boolean,
-          boolean,
-          boolean
-        ]) => {
-          if (!success) {
-            this.userPaymentService.loadPaymentMethods();
-          }
+      tap(([, success]: [PaymentDetails[], boolean, LoaderState<void>]) => {
+        if (!success) {
+          this.userPaymentService.loadPaymentMethods();
         }
-      ),
+      }),
       filter(
-        ([, success]: [PaymentDetails[], boolean, boolean, boolean, boolean]) =>
-          success
+        ([, success]: [PaymentDetails[], boolean, LoaderState<void>]) => success
       ),
       switchMap(
-        ([
-          payments,
-          ,
-          setPaymentDetailsSuccessFlag,
-          setPaymentDetailsErrorFlag,
-          setPaymentDetailsInProgressFlag,
-        ]: [PaymentDetails[], boolean, boolean, boolean, boolean]) => {
+        ([payments, , setPaymentDetailsProcess]: [
+          PaymentDetails[],
+          boolean,
+          LoaderState<void>
+        ]) => {
           const defaultPayment =
             payments.find(address => address.defaultPayment) || payments[0];
           if (defaultPayment && Object.keys(defaultPayment).length) {
             if (
-              !setPaymentDetailsSuccessFlag &&
-              !setPaymentDetailsErrorFlag &&
-              !setPaymentDetailsInProgressFlag
+              !setPaymentDetailsProcess.success &&
+              !setPaymentDetailsProcess.error &&
+              !setPaymentDetailsProcess.loading
             ) {
               this.checkoutPaymentService.setPaymentDetails(defaultPayment);
             }
-            return of([
-              setPaymentDetailsSuccessFlag,
-              setPaymentDetailsErrorFlag,
-              setPaymentDetailsInProgressFlag,
-            ]).pipe(
-              filter(
-                ([
-                  setPaymentDetailsSuccess,
-                  setPaymentDetailsError,
-                  setPaymentDetailsInProgress,
-                ]: [boolean, boolean, boolean]) => {
-                  return (
-                    (setPaymentDetailsSuccess || setPaymentDetailsError) &&
-                    !setPaymentDetailsInProgress
-                  );
+            return of(setPaymentDetailsProcess).pipe(
+              filter((setPaymentDetailsProcessState: LoaderState<void>) => {
+                return (
+                  (setPaymentDetailsProcessState.success ||
+                    setPaymentDetailsProcessState.error) &&
+                  !setPaymentDetailsProcessState.loading
+                );
+              }),
+              switchMap((setPaymentDetailsProcessState: LoaderState<void>) => {
+                if (setPaymentDetailsProcessState.success) {
+                  return this.checkoutDetailsService.getPaymentDetails();
                 }
-              ),
-              switchMap(
-                ([setPaymentDetailsSuccess]: [boolean, boolean, boolean]) => {
-                  if (setPaymentDetailsSuccess) {
-                    return this.checkoutDetailsService.getPaymentDetails();
-                  }
-                  return of(false);
-                }
-              ),
+                return of(false);
+              }),
               map(data => Boolean(data && Object.keys(data).length))
             );
           }

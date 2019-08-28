@@ -24,9 +24,6 @@ import {
 import { CheckoutSelectors } from '../store/selectors/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
-  getProcessSuccessFactory,
-  getProcessErrorFactory,
-  getProcessLoadingFactory,
   getProcessStateFactory,
 } from '../../process/store/selectors/process-group.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
@@ -89,27 +86,9 @@ export class CheckoutDeliveryService {
   /**
    * Get status about successfully set Delivery Address
    */
-  getSetDeliveryAddressResultSuccess(): Observable<boolean> {
+  getSetDeliveryAddressProcess(): Observable<LoaderState<void>> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
-    );
-  }
-
-  /**
-   * Get status about the failure of set Delivery Address process
-   */
-  getSetDeliveryAddressResultError(): Observable<boolean> {
-    return this.store.pipe(
-      select(getProcessErrorFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
-    );
-  }
-
-  /**
-   * Get status about the processing of set Delivery Address
-   */
-  getSetDeliveryAddressResultLoading(): Observable<boolean> {
-    return this.store.pipe(
-      select(getProcessLoadingFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
+      select(getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
     );
   }
 
@@ -128,33 +107,6 @@ export class CheckoutDeliveryService {
       select(getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID))
     );
   }
-  //
-  // /**
-  //  * Get status about the failure of set Delivery Mode process
-  //  */
-  // getSetDeliveryModeResultSuccess(): Observable<boolean> {
-  //   return this.store.pipe(
-  //     select(getProcessSuccessFactory(SET_DELIVERY_MODE_PROCESS_ID))
-  //   );
-  // }
-  //
-  // /**
-  //  * Get status about the failure of set Delivery Mode process
-  //  */
-  // getSetDeliveryModeResultError(): Observable<boolean> {
-  //   return this.store.pipe(
-  //     select(getProcessErrorFactory(SET_DELIVERY_MODE_PROCESS_ID))
-  //   );
-  // }
-  //
-  // /**
-  //  * Clear info about process of setting Delivery Mode
-  //  */
-  // getSetDeliveryModeResultLoading(): Observable<boolean> {
-  //   return this.store.pipe(
-  //     select(getProcessLoadingFactory(SET_DELIVERY_MODE_PROCESS_ID))
-  //   );
-  // }
 
   /**
    * Clear info about process of setting Delivery Mode

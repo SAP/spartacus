@@ -57,9 +57,12 @@ export const SET_DELIVERY_MODE_SUCCESS = '[Checkout] Set Delivery Mode Success';
 export const RESET_SET_DELIVERY_MODE_PROCESS =
   '[Checkout] Reset Set Delivery Mode Process';
 
-export const SET_SUPPORTED_DELIVERY_MODES = '[Checkout] Set Supported Delivery Modes';
-export const SET_SUPPORTED_DELIVERY_MODES_FAIL = '[Checkout] Set Supported Delivery Modes Fail';
-export const SET_SUPPORTED_DELIVERY_MODES_SUCCESS = '[Checkout] Set Supported Delivery Modes Success';
+export const SET_SUPPORTED_DELIVERY_MODES =
+  '[Checkout] Set Supported Delivery Modes';
+export const SET_SUPPORTED_DELIVERY_MODES_FAIL =
+  '[Checkout] Set Supported Delivery Modes Fail';
+export const SET_SUPPORTED_DELIVERY_MODES_SUCCESS =
+  '[Checkout] Set Supported Delivery Modes Success';
 export const RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS =
   '[Checkout] Reset Set Supported Delivery Modes Process';
 
@@ -141,7 +144,7 @@ export class ResetSetDeliveryAddressProcess extends StateEntityLoaderActions.Ent
 export class LoadSupportedDeliveryModes extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = LOAD_SUPPORTED_DELIVERY_MODES;
   constructor(public payload: { userId: string; cartId: string }) {
-    super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID)
+    super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
