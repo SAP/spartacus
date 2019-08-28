@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ViewConfig } from './config/view-config';
-import { Config, provideConfig } from '../config';
+import { ViewConfig } from './view-config';
+import { Config, provideConfig } from '@spartacus/core';
 
 @NgModule({})
 export class ViewConfigModule {
@@ -9,11 +9,7 @@ export class ViewConfigModule {
       ngModule: ViewConfigModule,
       providers: [
         provideConfig({
-          view: {
-            infiniteScroll: {
-              active: true,
-            },
-          },
+          view: {},
         }),
         {
           provide: ViewConfig,

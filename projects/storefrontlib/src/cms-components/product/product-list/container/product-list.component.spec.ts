@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { I18nTestingModule, ViewConfig } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
 import {
@@ -22,6 +22,7 @@ import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ViewConfig } from '../../../../shared/config/view-config';
 
 @Component({
   selector: 'cx-star-rating',
