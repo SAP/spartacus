@@ -44,7 +44,6 @@ export class ExpressCheckoutService {
     ]).pipe(
       debounceTime(1, asyncScheduler),
       tap(([, success]: [Address[], boolean, LoaderState<void>]) => {
-        console.log(success);
         if (!success) {
           this.userAddressService.loadAddresses();
         }
@@ -158,12 +157,6 @@ export class ExpressCheckoutService {
           setDeliveryModeStatusFlag,
           loadSupportedDeliveryModeStatus,
         ]: [boolean, DeliveryMode[], LoaderState<void>, LoaderState<void>]) => {
-          console.log(
-            'setDeliveryMode',
-            addressSet,
-            modes,
-            loadSupportedDeliveryModeStatus
-          );
           if (addressSet) {
             return of([
               modes,
