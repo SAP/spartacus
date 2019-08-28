@@ -33,6 +33,7 @@ export function registerUser() {
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
   register(user);
+  cy.wait(`@${loginPage}`);
 }
 
 export function signOutUser() {

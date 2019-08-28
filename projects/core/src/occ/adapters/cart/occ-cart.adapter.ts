@@ -39,7 +39,7 @@ export class OccCartAdapter implements CartAdapter {
 
   public loadAll(userId: string): Observable<Cart[]> {
     // TODO: Deprecated, remove Issue: #4125.
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyLoadAll(userId);
     }
 
@@ -67,7 +67,7 @@ export class OccCartAdapter implements CartAdapter {
       );
     } else {
       // TODO: Deprecated, remove Issue: #4125.
-      if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+      if (!this.featureConfigService.isLevel('1.1')) {
         return this.legacyLoad(userId, cartId);
       }
       return this.http
@@ -85,7 +85,7 @@ export class OccCartAdapter implements CartAdapter {
   ): Observable<Cart> {
     const toAdd = JSON.stringify({});
     // TODO: Deprecated, remove Issue: #4125.
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyCreate(userId, toAdd, oldCartId, toMergeCartGuid);
     }
 

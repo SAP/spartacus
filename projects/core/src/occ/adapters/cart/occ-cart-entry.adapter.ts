@@ -40,7 +40,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     // TODO: Deprecated, remove Issue: #4125
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyAdd(userId, cartId, productCode, quantity);
     }
 
@@ -75,7 +75,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     // TODO: Deprecated, remove Issue: #4125
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyUpdate(userId, cartId, entryNumber, qty, pickupStore);
     }
 
@@ -100,7 +100,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     // TODO: Deprecated, remove Issue: #4125
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyRemove(userId, cartId, entryNumber);
     }
 
