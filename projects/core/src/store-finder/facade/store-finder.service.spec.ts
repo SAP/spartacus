@@ -8,7 +8,7 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
 import { GlobalMessageService } from '../../global-message/index';
-import { UrlCommands } from '../../routing/index';
+import { UrlCommands, RoutingService } from '../../routing/index';
 import { NavigationExtras } from '@angular/router';
 
 class MockRoutingService {
