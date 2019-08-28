@@ -53,11 +53,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * TODO(issue:4237) Register flow
    */
   constructor(
+    protected auth: AuthService,
+    protected authRedirectService: AuthRedirectService,
     protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
-    protected auth?: AuthService,
-    protected authRedirectService?: AuthRedirectService,
     protected router?: RoutingService,
     protected featureConfig?: FeatureConfigService
   ) {}
@@ -81,6 +81,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.registerUserProcessInit();
     } else {
       if (this.auth && this.authRedirectService) {
+        this.subscription.add(
+          this.userService
+            .getRegisterUserResultSuccess()
+            .subscribe((success: boolean) => {
+              if (success) {
+                const { uid, password } = this.collectDataFromRegisterForm(
+                  this.userRegistrationForm.value
+                );
+                this.auth.authorize(uid, password);
+              }
+            })
+        );
         this.subscription.add(
           this.auth.getUserToken().subscribe(data => {
             if (data && data.access_token) {
@@ -141,11 +153,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private onRegisterUserSuccess(success: boolean): void {
-    if (success) {
+    if (this.router && success) {
       this.router.go('login');
       this.globalMessageService.add(
         { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_INFO
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
   }

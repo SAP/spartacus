@@ -43,9 +43,8 @@ export function verifyFailedRegistration() {
 }
 
 export function verifyGlobalMessageAfterRegistration() {
-  cy.get('cx-global-message .alert-warning').should(
-    'contain',
-    'Please log in with your new credentials.'
-  );
+  const alert = alerts.getSuccessAlert();
+
+  alert.should('contain', 'Please log in with provided credentials.');
   cy.url().should('match', /\/login/);
 }

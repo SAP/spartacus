@@ -53,7 +53,7 @@ describe('UserRegister effect', () => {
       const completion = new UserActions.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(b)', {
+      const expected = cold('-b', {
         b: completion,
       });
 

@@ -26,12 +26,6 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
     waitForHomePage();
 
     checkout.registerUser();
-
-    checkout.loginUser();
-
-    waitForHomePage();
-
-    checkout.signOutUser();
   });
 
   it('should go to product page from category page', () => {
