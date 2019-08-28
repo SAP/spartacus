@@ -69,7 +69,6 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should show tracking info', () => {
-    const eventDate = new Date('2019-01-06T07:18:22+0000');
     component.tracking$ = of<ConsignmentTracking>({
       carrierDetails: {
         code: 'MockCarrier',
@@ -79,19 +78,19 @@ describe('TrackingEventsComponent', () => {
       trackingEvents: [
         {
           detail: 'Your package has reached(Mock).',
-          eventDate: eventDate,
+          eventDate: '2019-01-06T07:18:22+0000',
           location: 'Boulder CO 80301, United States',
           referenceCode: 'DELIVERY_COMPLETED',
         },
         {
           detail: 'The package is delivering(Mock).',
-          eventDate: eventDate,
+          eventDate: '2019-01-06T07:18:22+0000',
           location: 'Evans Mills NY 13637, United States',
           referenceCode: 'DELIVERING',
         },
         {
           detail: 'The package is transferring(Mock).',
-          eventDate: eventDate,
+          eventDate: '2019-01-06T07:18:22+0000',
           location: 'Farmingdale NY 11735, United States',
           referenceCode: 'IN_TRANSIT',
         },

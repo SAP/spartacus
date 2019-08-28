@@ -1,5 +1,5 @@
 export interface ConsignmentTrackingEvent {
-  eventDate?: Date;
+  eventDate?: string;
   detail?: string;
   location?: string;
   referenceCode?: string;
@@ -15,6 +15,6 @@ export interface ConsignmentTracking {
   carrierDetails?: Carrier;
   trackingID?: string;
   trackingUrl?: string;
-  targetArrivalDate?: Date;
+  targetArrivalDate?: string;
   trackingEvents?: ConsignmentTrackingEvent[];
 }
