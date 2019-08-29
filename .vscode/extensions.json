@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    // Angular Language Service
+    "Angular.ng-template",
+    // Debugger for Chrome
+    "msjsdiag.debugger-for-chrome",
+    // Prettier - Code formatter
+    "esbenp.prettier-vscode",
+    // The ng lint command uses TSLint under the hood.
+    "ms-vscode.vscode-typescript-tslint-plugin"
+  ]
+}

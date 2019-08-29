@@ -20,7 +20,7 @@ import createSpy = jasmine.createSpy;
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
-    (url, { term, query }) => url + (term || query)
+    url => url
   );
 }
 
@@ -76,15 +76,16 @@ describe('OccProductSearchAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'productSearchtest'
+        req => req.method === 'GET' && req.url === 'productSearch'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(endpoints.getUrl).toHaveBeenCalledWith(
         'productSearch',
-        { query: queryText },
+        {},
         {
+          query: queryText,
           pageSize: mockSearchConfig.pageSize,
           currentPage: undefined,
           sort: undefined,
@@ -95,7 +96,7 @@ describe('OccProductSearchAdapter', () => {
 
     it('should call converter', () => {
       service.search(queryText, mockSearchConfig).subscribe();
-      httpMock.expectOne('productSearchtest').flush(searchResults);
+      httpMock.expectOne('productSearch').flush(searchResults);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
         PRODUCT_SEARCH_PAGE_NORMALIZER
@@ -112,21 +113,25 @@ describe('OccProductSearchAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'productSuggestionstest'
+        req => req.method === 'GET' && req.url === 'productSuggestions'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(endpoints.getUrl).toHaveBeenCalledWith('productSuggestions', {
-        term: queryText,
-        max: mockSearchConfig.pageSize.toString(),
-      });
+      expect(endpoints.getUrl).toHaveBeenCalledWith(
+        'productSuggestions',
+        {},
+        {
+          term: queryText,
+          max: mockSearchConfig.pageSize.toString(),
+        }
+      );
       mockReq.flush(suggestionList);
     });
 
     it('should call converter', () => {
       service.loadSuggestions(queryText, mockSearchConfig.pageSize).subscribe();
-      httpMock.expectOne('productSuggestionstest').flush(suggestionList);
+      httpMock.expectOne('productSuggestions').flush(suggestionList);
 
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         PRODUCT_SUGGESTION_NORMALIZER
