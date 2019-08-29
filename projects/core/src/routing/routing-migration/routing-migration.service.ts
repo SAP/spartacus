@@ -28,7 +28,7 @@ export class RoutingMigrationService {
     const router: Router = this.injector.get(Router);
     const migrationRoutes = this.getMigrationRoutes();
     if (migrationRoutes.length) {
-      router.resetConfig([].concat(migrationRoutes, router.config));
+      router.resetConfig([...migrationRoutes, ...router.config]);
     }
   }
 
