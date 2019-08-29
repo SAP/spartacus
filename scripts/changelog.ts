@@ -43,6 +43,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
     '@spartacus/core': './projects/core',
     '@spartacus/styles': './projects/storefrontstyles',
     '@spartacus/assets': './projects/assets',
+    '@spartacus/schematics': './projects/schematics',
   };
 
   return new Promise(resolve => {
@@ -55,7 +56,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
     }) as NodeJS.ReadStream)
       .on('error', err => {
         logger.fatal('An error happened: ' + err.message);
-        process.exit(1);
+        return '';
       })
       .pipe(
         through((chunk: Buffer, _: string, callback: Function) => {
@@ -213,6 +214,10 @@ if (typeof config.from === 'undefined') {
     case 'assets':
     case '@spartacus/assets':
       config.library = '@spartacus/assets';
+      break;
+    case 'schematics':
+    case '@spartacus/schematics':
+      config.library = '@spartacus/schematics';
       break;
     default:
       config.library = undefined;
