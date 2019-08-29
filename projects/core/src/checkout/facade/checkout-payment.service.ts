@@ -14,9 +14,10 @@ import {
 import { CheckoutSelectors } from '../store/selectors/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
-  getProcessStateFactory,
+  getProcessSuccessFactory,
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
 } from '../../process/store/selectors/process-group.selectors';
-import { LoaderState } from '../../state/utils/loader/loader-state';
 
 @Injectable({
   providedIn: 'root',
@@ -42,11 +43,29 @@ export class CheckoutPaymentService {
   }
 
   /**
-   * Get status about set Payment Details process
+   * Get status about successfully set Payment Details
    */
-  getSetPaymentDetailsResultProcess(): Observable<LoaderState<void>> {
+  getSetPaymentDetailsResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessStateFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+      select(getProcessSuccessFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Get status about the failure of set Payment Details process
+   */
+  getSetPaymentDetailsResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Get status about the processing of set Payment Details
+   */
+  getSetPaymentDetailsResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
     );
   }
 

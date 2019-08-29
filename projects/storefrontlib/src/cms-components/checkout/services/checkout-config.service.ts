@@ -73,11 +73,9 @@ export class CheckoutConfigService {
     deliveryMode1: DeliveryMode,
     deliveryMode2: DeliveryMode
   ): number {
-    if (deliveryMode1.deliveryCost.value > deliveryMode2.deliveryCost.value) {
+    if (deliveryMode1.deliveryCost > deliveryMode2.deliveryCost) {
       return 1;
-    } else if (
-      deliveryMode1.deliveryCost.value < deliveryMode2.deliveryCost.value
-    ) {
+    } else if (deliveryMode1.deliveryCost < deliveryMode2.deliveryCost) {
       return -1;
     }
   }
@@ -88,13 +86,13 @@ export class CheckoutConfigService {
   ): string {
     switch (this.defaultDeliveryMode[index]) {
       case DeliveryModePreferences.FREE:
-        if (deliveryModes[0].deliveryCost.value === 0) {
+        if (deliveryModes[0].deliveryCost === 0) {
           return deliveryModes[0].code;
         }
         break;
       case DeliveryModePreferences.LEAST_EXPENSIVE:
         const leastExpensiveFound = deliveryModes.find(
-          deliveryMode => deliveryMode.deliveryCost.value !== 0
+          deliveryMode => deliveryMode.deliveryCost !== 0
         );
         if (leastExpensiveFound) {
           return leastExpensiveFound.code;

@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  filter,
-  pluck,
-  shareReplay,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { filter, shareReplay, tap } from 'rxjs/operators';
 import {
   ANONYMOUS_USERID,
   CartDataService,
@@ -19,14 +13,14 @@ import {
   StateWithCheckout,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
-  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
-  getProcessStateFactory,
+  getProcessSuccessFactory,
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
 } from '../../process/store/selectors/process-group.selectors';
-import { LoaderState } from '../../state/utils/loader/loader-state';
 
 @Injectable({
   providedIn: 'root',
@@ -43,19 +37,11 @@ export class CheckoutDeliveryService {
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return this.store.pipe(
       select(CheckoutSelectors.getSupportedDeliveryModes),
-      withLatestFrom(
-        this.store.pipe(
-          select(getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
-        )
-      ),
-      tap(([, loadingState]) => {
-        if (
-          !(loadingState.loading || loadingState.success || loadingState.error)
-        ) {
+      tap(deliveryModes => {
+        if (deliveryModes && Object.keys(deliveryModes).length === 0) {
           this.loadSupportedDeliveryModes();
         }
       }),
-      pluck(0),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
@@ -86,9 +72,27 @@ export class CheckoutDeliveryService {
   /**
    * Get status about successfully set Delivery Address
    */
-  getSetDeliveryAddressProcess(): Observable<LoaderState<void>> {
+  getSetDeliveryAddressResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
+      select(getProcessSuccessFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Get status about the failure of set Delivery Address process
+   */
+  getSetDeliveryAddressResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Get status about the processing of set Delivery Address
+   */
+  getSetDeliveryAddressResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
     );
   }
 
@@ -100,11 +104,29 @@ export class CheckoutDeliveryService {
   }
 
   /**
-   * Get status about of set Delivery Mode process
+   * Get status about the failure of set Delivery Mode process
    */
-  getSetDeliveryModeResultStatus(): Observable<LoaderState<void>> {
+  getSetDeliveryModeResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID))
+      select(getProcessSuccessFactory(SET_DELIVERY_MODE_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Get status about the failure of set Delivery Mode process
+   */
+  getSetDeliveryModeResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(SET_DELIVERY_MODE_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Clear info about process of setting Delivery Mode
+   */
+  getSetDeliveryModeResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(SET_DELIVERY_MODE_PROCESS_ID))
     );
   }
 
@@ -113,28 +135,6 @@ export class CheckoutDeliveryService {
    */
   resetSetDeliveryModeProcess(): void {
     this.store.dispatch(new CheckoutActions.ResetSetDeliveryModeProcess());
-  }
-
-  /**
-   * Clear info about process of setting Supported Delivery Modes
-   */
-  resetLoadSupportedDeliveryModesProcess(): void {
-    this.store.dispatch(
-      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
-    );
-  }
-
-  getLoadSupportedDeliveryModeStatus(): Observable<LoaderState<void>> {
-    return this.store.pipe(
-      select(getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
-    );
-  }
-
-  /**
-   * Clear supported delivery modes loaded in last checkout process
-   */
-  clearCheckoutDeliveryModes(): void {
-    this.store.dispatch(new CheckoutActions.ClearSupportedDeliveryModes());
   }
 
   /**
@@ -244,7 +244,7 @@ export class CheckoutDeliveryService {
   }
 
   /**
-   * Clear selected delivery mode setup in last checkout process
+   * Clear delivery mode setup in last checkout process
    */
   clearCheckoutDeliveryMode(): void {
     this.store.dispatch(
@@ -261,7 +261,6 @@ export class CheckoutDeliveryService {
   clearCheckoutDeliveryDetails(): void {
     this.clearCheckoutDeliveryAddress();
     this.clearCheckoutDeliveryMode();
-    this.clearCheckoutDeliveryModes();
   }
 
   protected actionAllowed(): boolean {
