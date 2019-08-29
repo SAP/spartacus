@@ -28,7 +28,7 @@ const orderData: Order = {
 const consignmentCode = 'a00001004';
 
 class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
+  isLevel(_featureLevel: string): boolean {
     return true;
   }
 }
@@ -155,7 +155,7 @@ describe('OccUserOrderAdapter', () => {
    */
   describe('legacy', () => {
     beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      spyOn(featureConfigService, 'isLevel').and.returnValue(false);
     });
     describe('getUserOrders', () => {
       it('should fetch user Orders with default options', async(() => {
