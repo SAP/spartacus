@@ -1,6 +1,6 @@
 import * as orderDetail from '../../../helpers/consignment-tracking';
 
-describe('Login', () => {
+describe.skip('consignment tracking', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     orderDetail.loginUsingUserWithOrder();

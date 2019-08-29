@@ -1,7 +1,7 @@
 import * as orderDetail from '../../../helpers/consignment-tracking';
 import { formats } from '../../../sample-data/viewports';
 
-describe('Login', () => {
+describe.skip('consignment tracking', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
