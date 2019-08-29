@@ -45,12 +45,18 @@ export class OrderConfirmationThankYouMessageComponent
     { validator: this.matchPassword }
   );
 
+  /**
+   * @deprecated since version 1.1.0
+   *
+   *  TODO(issue:#1178) deprecated since 1.1.0
+   */
+  constructor(checkoutService: CheckoutService);
   constructor(
     protected checkoutService: CheckoutService,
-    protected userService: UserService,
-    protected routingService: RoutingService,
-    protected authService: AuthService,
-    protected fb: FormBuilder
+    protected userService?: UserService,
+    protected routingService?: RoutingService,
+    protected authService?: AuthService,
+    protected fb?: FormBuilder
   ) {}
 
   ngOnInit() {
