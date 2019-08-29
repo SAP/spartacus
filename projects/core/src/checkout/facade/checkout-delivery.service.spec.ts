@@ -9,6 +9,8 @@ import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
+import { PROCESS_FEATURE } from '@spartacus/core';
+import * as fromProcessReducers from '../../process/store/reducers/index';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
@@ -40,6 +42,10 @@ describe('CheckoutDeliveryService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         CheckoutDeliveryService,
