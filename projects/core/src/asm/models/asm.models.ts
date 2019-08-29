@@ -9,3 +9,7 @@ export interface CustomerSearchPage {
 export interface CustomerSearchOptions {
   query?: string;
 }
+
+export interface AsmUi {
+  visible?: boolean;
+}

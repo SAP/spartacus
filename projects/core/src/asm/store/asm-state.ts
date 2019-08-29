@@ -1,4 +1,4 @@
-import { CustomerSearchPage } from '../models/asm.models';
+import { AsmUi, CustomerSearchPage } from '../models/asm.models';
 
 export const ASM_FEATURE = 'asm';
 
@@ -7,5 +7,6 @@ export interface StateWithAsm {
 }
 
 export interface AsmState {
-  cusrtomerSearchResult: CustomerSearchPage;
+  customerSearchResult: CustomerSearchPage;
+  asmUi: AsmUi;
 }

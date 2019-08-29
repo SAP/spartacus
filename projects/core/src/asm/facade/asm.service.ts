@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
+  AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
@@ -35,5 +36,19 @@ export class AsmService {
    */
   getCustomerSearchResult(): Observable<CustomerSearchPage> {
     return this.store.pipe(select(AsmSelectors.getCustomerSearchResults));
+  }
+
+  /**
+   * Updates the state of the ASM UI
+   */
+  updateAsmUiState(asmUi: AsmUi) {
+    this.store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
+  }
+
+  /**
+   * Get the state of the ASM UI
+   */
+  getAsmUiState(): Observable<AsmUi> {
+    return this.store.pipe(select(AsmSelectors.getAsmUi));
   }
 }

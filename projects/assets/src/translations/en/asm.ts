@@ -1,6 +1,7 @@
 export const asm = {
   asm: {
     logout: 'Sign Out Agent',
+    hideUi: 'Close ASM',
     loginForm: {
       submit: 'Sign In Agent',
       userId: {
