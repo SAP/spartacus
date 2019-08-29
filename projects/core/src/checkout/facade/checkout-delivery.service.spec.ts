@@ -9,6 +9,8 @@ import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
+import { PROCESS_FEATURE, LoaderState } from '@spartacus/core';
+import * as fromProcessReducers from '../../process/store/reducers/index';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
@@ -40,6 +42,10 @@ describe('CheckoutDeliveryService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         CheckoutDeliveryService,
@@ -144,6 +150,141 @@ describe('CheckoutDeliveryService', () => {
     expect(deliveryAddress).toEqual(address);
   });
 
+  it('should be able to get the set delivery address process', () => {
+    let loaderState: LoaderState<any>;
+    service
+      .getSetDeliveryAddressProcess()
+      .subscribe(data => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: false,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to get the set delivery address process during loading state', () => {
+    service.setDeliveryAddress(address);
+
+    let loaderState: LoaderState<any>;
+    service
+      .getSetDeliveryAddressProcess()
+      .subscribe(data => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: true,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to reset set delivery address process', () => {
+    service.resetSetDeliveryAddressProcess();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ResetSetDeliveryAddressProcess()
+    );
+  });
+
+  it('should be able to get the set delivery mode status', () => {
+    let loaderState: LoaderState<any>;
+    service
+      .getSetDeliveryModeResultStatus()
+      .subscribe(data => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: false,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to get the set delivery mode status during loading state', () => {
+    const modeId = 'testId';
+    service.setDeliveryMode(modeId);
+
+    let loaderState: LoaderState<any>;
+    service
+      .getSetDeliveryModeResultStatus()
+      .subscribe(data => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: true,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to reset set delivery mode process', () => {
+    service.resetSetDeliveryModeProcess();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ResetSetDeliveryModeProcess()
+    );
+  });
+
+  it('should be able to reset load supported delivery modes process', () => {
+    service.resetLoadSupportedDeliveryModesProcess();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
+    );
+  });
+
+  it('should be able to get load supported delivery mode status', () => {
+    let loaderState: LoaderState<any>;
+    service
+      .getLoadSupportedDeliveryModeStatus()
+      .subscribe(data => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: false,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to get the load supported delivery mode status during loading state', () => {
+    service.loadSupportedDeliveryModes();
+
+    let loaderState: LoaderState<any>;
+    service
+      .getLoadSupportedDeliveryModeStatus()
+      .subscribe(data => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: true,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to clear checkout delivery modes', () => {
+    service.clearCheckoutDeliveryModes();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearSupportedDeliveryModes()
+    );
+  });
+
   it('should be able to get the address verification result', () => {
     store.dispatch(
       new CheckoutActions.VerifyAddressSuccess({ decision: 'DECLINE' })
@@ -222,6 +363,45 @@ describe('CheckoutDeliveryService', () => {
     service.clearAddressVerificationResults();
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearAddressVerificationResults()
+    );
+  });
+
+  it('should be able to clear checkout delivery address', () => {
+    service.clearCheckoutDeliveryAddress();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId: userId,
+        cartId: cartData.cart.code,
+      })
+    );
+  });
+
+  it('should be able to clear checkout delivery mode', () => {
+    service.clearCheckoutDeliveryMode();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId: userId,
+        cartId: cartData.cart.code,
+      })
+    );
+  });
+
+  it('should be able to clear checkout delivery details', () => {
+    service.clearCheckoutDeliveryDetails();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId: userId,
+        cartId: cartData.cart.code,
+      })
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId: userId,
+        cartId: cartData.cart.code,
+      })
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearSupportedDeliveryModes()
     );
   });
 });
