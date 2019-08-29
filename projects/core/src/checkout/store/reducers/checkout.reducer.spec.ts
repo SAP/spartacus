@@ -230,4 +230,32 @@ describe('Checkout reducer', () => {
       expect(state.paymentDetails.accountHolderName).toEqual(accountHolderName);
     });
   });
+
+  describe('CLEAR_CHECKOUT_DELIVERY_ADDRESS action', () => {
+    it('should clear supported delivery modes', () => {
+      const { initialState } = fromCheckout;
+      const payload = {
+        userId: 'userId',
+        cartId: 'cartId',
+      };
+
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddress(payload);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.address).toEqual(initialState.address);
+    });
+  });
+
+  describe('CLEAR_CHECKOUT_DELIVERY_MODE action', () => {
+    it('should clear supported delivery modes', () => {
+      const { initialState } = fromCheckout;
+      const payload = {
+        userId: 'userId',
+        cartId: 'cartId',
+      };
+
+      const action = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.deliveryMode).toEqual(initialState.deliveryMode);
+    });
+  });
 });
