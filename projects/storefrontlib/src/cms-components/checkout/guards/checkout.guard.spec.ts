@@ -1,16 +1,23 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  RoutesConfig,
+  RoutingConfigService,
+} from '@spartacus/core';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutGuard } from './checkout.guard';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 import { BehaviorSubject } from 'rxjs';
 import { CheckoutConfigService, CheckoutStepType } from '@spartacus/storefront';
+import { CheckoutConfig } from '../config/checkout-config';
+import { defaultCheckoutConfig } from '../config/default-checkout-config';
 
 const isExpressCheckoutSet = new BehaviorSubject(false);
 const setDefaultCheckoutDetailsSuccess = new BehaviorSubject(false);
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 
 class MockCheckoutConfigService {
   isExpressCheckout() {
@@ -36,6 +43,12 @@ class MockRoutingConfigService {
   }
 }
 
+class MockFeatureConfigService {
+  isLevel(_featureLevel: string): boolean {
+    return true;
+  }
+}
+
 describe(`CheckoutGuard`, () => {
   let guard: CheckoutGuard;
   let mockRoutingConfigService: RoutingConfigService;
@@ -45,10 +58,12 @@ describe(`CheckoutGuard`, () => {
       providers: [
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         {
           provide: ExpressCheckoutService,
           useClass: MockExpressCheckoutService,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
       imports: [RouterTestingModule],
     });
