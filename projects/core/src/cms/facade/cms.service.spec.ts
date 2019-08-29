@@ -249,7 +249,7 @@ describe('CmsService', () => {
     }
   ));
 
-  describe('hasPage()', () => {
+  describe('hasPage', () => {
     it('should dispatch a load action if the load was not attempted', inject(
       [CmsService],
       (service: CmsService) => {
@@ -371,6 +371,48 @@ describe('CmsService', () => {
           .unsubscribe();
 
         expect(result).toEqual(false);
+      }
+    ));
+  });
+
+  describe('getPage', () => {
+    let pageContext: PageContext;
+
+    beforeEach(() => {
+      pageContext = { id: 'testId' };
+    });
+
+    it('should call "hasPage"', inject([CmsService], (service: CmsService) => {
+      spyOn(service, 'hasPage').and.returnValue(of(false));
+      service.getPage(pageContext, true);
+      expect(service.hasPage).toHaveBeenCalledWith(pageContext, true);
+    }));
+
+    it('should return result of "getPageState" when page exists', inject(
+      [CmsService],
+      (service: CmsService) => {
+        spyOn(service, 'hasPage').and.returnValue(of(true));
+        spyOn(service, 'getPageState').and.returnValue(
+          of({ pageId: 'testId' })
+        );
+
+        let result;
+        service.getPage(pageContext, true).subscribe(res => (result = res));
+        expect(service.getPageState).toHaveBeenCalledWith(pageContext);
+        expect(result).toEqual({ pageId: 'testId' });
+      }
+    ));
+
+    it('should emit null when page does not exist', inject(
+      [CmsService],
+      (service: CmsService) => {
+        spyOn(service, 'hasPage').and.returnValue(of(false));
+        spyOn(service, 'getPageState');
+
+        let result;
+        service.getPage(pageContext, true).subscribe(res => (result = res));
+        expect(service.getPageState).not.toHaveBeenCalled();
+        expect(result).toEqual(null);
       }
     ));
   });
