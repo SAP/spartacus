@@ -142,6 +142,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES,
           payload: payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            PROCESS_FEATURE,
+            'setSupportedDeliveryMode'
+          ),
         });
       });
     });
@@ -156,6 +160,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL,
           payload: error,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            PROCESS_FEATURE,
+            'setSupportedDeliveryMode'
+          ),
         });
       });
     });
@@ -168,6 +176,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS,
           payload: modes,
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            PROCESS_FEATURE,
+            'setSupportedDeliveryMode'
+          ),
         });
       });
     });
