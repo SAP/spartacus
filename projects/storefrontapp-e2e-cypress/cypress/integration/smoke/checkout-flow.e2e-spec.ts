@@ -8,7 +8,6 @@ context('Checkout flow', () => {
 
   it('should register successfully', () => {
     checkout.registerUser();
-    checkout.signOutUser();
   });
 
   it('should go to product page from category page', () => {

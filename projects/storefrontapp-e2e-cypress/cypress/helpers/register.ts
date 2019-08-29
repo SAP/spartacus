@@ -41,3 +41,10 @@ export function verifyFailedRegistration() {
     .should('contain', 'Bad credentials. Please login again.');
   cy.url().should('match', /\/login\/register/);
 }
+
+export function verifyGlobalMessageAfterRegistration() {
+  const alert = alerts.getSuccessAlert();
+
+  alert.should('contain', 'Please log in with provided credentials.');
+  cy.url().should('match', /\/login/);
+}
