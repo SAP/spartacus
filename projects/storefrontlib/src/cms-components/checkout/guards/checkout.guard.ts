@@ -31,7 +31,7 @@ export class CheckoutGuard implements CanActivate {
      * @deprecated since 1.2.0
      * NOTE: check issue:#4309 for more info
      *
-     * TODO(issue:#4121) Deprecated since 1.2.0
+     * TODO(issue:#4309) Deprecated since 1.2.0
      */
     if (this.isExpressCheckoutFeatureEnabled && this.checkoutConfigService) {
       this.firstStep$ = of(
@@ -49,7 +49,7 @@ export class CheckoutGuard implements CanActivate {
      * @deprecated since 1.2.0
      * NOTE: check issue:#4309 for more info
      *
-     * TODO(issue:#4121) Deprecated since 1.2.0
+     * TODO(issue:#4309) Deprecated since 1.2.0
      */
     if (
       this.isExpressCheckoutFeatureEnabled &&
