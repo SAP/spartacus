@@ -44,17 +44,34 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   private checkoutStepUrlNext: string;
   private checkoutStepUrlPrevious: string;
 
+  /**
+   * @deprecated since 1.1
+   * NOTE: check issue:#1181 for more info
+   *
+   * TODO(issue:#1181) Deprecated since 1.1.0
+   */
+  constructor(
+    userPaymentService: UserPaymentService,
+    checkoutService: CheckoutService,
+    checkoutDeliveryService: CheckoutDeliveryService,
+    checkoutPaymentService: CheckoutPaymentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    checkoutConfigService: CheckoutConfigService,
+    activatedRoute: ActivatedRoute,
+    translation: TranslationService
+  );
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
-    protected cartService: CartService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected cartService?: CartService
   ) {}
 
   ngOnInit() {
