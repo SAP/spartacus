@@ -11,5 +11,5 @@
   },
   "hooks": {
     "after:version:bump": "cd ../.. && ng build core"
-  },
+  }
 }
