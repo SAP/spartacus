@@ -53,6 +53,7 @@ const packageJsonPaths = [
   path.join(__dirname, '..', 'projects', 'storefrontlib', 'package.json'),
   path.join(__dirname, '..', 'projects', 'storefrontstyles', 'package.json'),
   path.join(__dirname, '..', 'projects', 'assets', 'package.json'),
+  path.join(__dirname, '..', 'projects', 'schematics', 'package.json'),
 ];
 
 // All the supported packages. Go through the packages directory and create a map of
