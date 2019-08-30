@@ -15,6 +15,7 @@
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "esModuleInterop": true,
     "paths": {
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
