@@ -32,7 +32,6 @@ export class DynamicTemplate {
           return templateString;
         }
       }
-
       return templateString;
     }
   }
