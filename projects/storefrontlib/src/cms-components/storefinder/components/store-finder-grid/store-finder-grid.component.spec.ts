@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  NO_ERRORS_SCHEMA,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,10 +8,6 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
-const searchConfig = {
-  pageSize: 10,
-  currentPage: 0,
-};
 
 @Component({
   selector: 'cx-store-finder-list-item',
@@ -67,7 +56,6 @@ describe('StoreFinderGridComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, SpinnerModule],
-      schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         StoreFinderGridComponent,
         MockStoreFinderListItemComponent,
@@ -88,7 +76,6 @@ describe('StoreFinderGridComponent', () => {
     storeFinderService = TestBed.get(StoreFinderService as Type<
       StoreFinderService
     >);
-    component.searchConfig = searchConfig;
   });
 
   it('should create with country routing parameter', () => {
@@ -98,7 +85,9 @@ describe('StoreFinderGridComponent', () => {
     expect(component).toBeTruthy();
     expect(storeFinderService.findStoresAction).toHaveBeenCalledWith(
       '',
-      searchConfig,
+      {
+        pageSize: -1,
+      },
       undefined,
       countryIsoCode
     );

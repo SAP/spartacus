@@ -38,7 +38,7 @@
   .cx-list {
     @include type('6');
     list-style: none;
-    padding-left: 1.5rem;
+    padding: inherit inherit inherit 0;
   }
 
   %cx-store-finder-list-item {
