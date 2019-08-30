@@ -67,5 +67,6 @@ export const user = {
       'Password must be six characters minimum, with one uppercase letter, one number, one symbol',
     bothPasswordMustMatch: 'Both password must match',
     titleRequired: 'Title is required.',
+    postRegisterMessage: 'Please log in with provided credentials.',
   },
 };
