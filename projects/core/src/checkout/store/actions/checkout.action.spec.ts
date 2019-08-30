@@ -2,7 +2,14 @@ import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { CheckoutActions } from '../actions/index';
-import { PROCESS_FEATURE, StateEntityLoaderActions } from '@spartacus/core';
+import {
+  PROCESS_FEATURE,
+  SET_DELIVERY_ADDRESS_PROCESS_ID,
+  SET_DELIVERY_MODE_PROCESS_ID,
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
+  StateEntityLoaderActions,
+} from '@spartacus/core';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -80,7 +87,7 @@ describe('Checkout Actions', () => {
         payload: payload,
         meta: StateEntityLoaderActions.entityLoadMeta(
           PROCESS_FEATURE,
-          'setDeliveryAddress'
+          SET_DELIVERY_ADDRESS_PROCESS_ID
         ),
       });
     });
@@ -96,7 +103,7 @@ describe('Checkout Actions', () => {
         payload: error,
         meta: StateEntityLoaderActions.entityFailMeta(
           PROCESS_FEATURE,
-          'setDeliveryAddress',
+          SET_DELIVERY_ADDRESS_PROCESS_ID,
           'anError'
         ),
       });
@@ -111,7 +118,7 @@ describe('Checkout Actions', () => {
         payload: address,
         meta: StateEntityLoaderActions.entitySuccessMeta(
           PROCESS_FEATURE,
-          'setDeliveryAddress'
+          SET_DELIVERY_ADDRESS_PROCESS_ID
         ),
       });
     });
@@ -124,7 +131,7 @@ describe('Checkout Actions', () => {
         type: CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS,
         meta: StateEntityLoaderActions.entityResetMeta(
           PROCESS_FEATURE,
-          'setDeliveryAddress'
+          SET_DELIVERY_ADDRESS_PROCESS_ID
         ),
       });
     });
@@ -144,7 +151,7 @@ describe('Checkout Actions', () => {
           payload: payload,
           meta: StateEntityLoaderActions.entityLoadMeta(
             PROCESS_FEATURE,
-            'setSupportedDeliveryMode'
+            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
           ),
         });
       });
@@ -162,7 +169,7 @@ describe('Checkout Actions', () => {
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
             PROCESS_FEATURE,
-            'setSupportedDeliveryMode'
+            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
           ),
         });
       });
@@ -178,7 +185,7 @@ describe('Checkout Actions', () => {
           payload: modes,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             PROCESS_FEATURE,
-            'setSupportedDeliveryMode'
+            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
           ),
         });
       });
@@ -200,7 +207,7 @@ describe('Checkout Actions', () => {
           payload: payload,
           meta: StateEntityLoaderActions.entityLoadMeta(
             PROCESS_FEATURE,
-            'setDeliveryMode'
+            SET_DELIVERY_MODE_PROCESS_ID
           ),
         });
       });
@@ -216,7 +223,7 @@ describe('Checkout Actions', () => {
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
             PROCESS_FEATURE,
-            'setDeliveryMode',
+            SET_DELIVERY_MODE_PROCESS_ID,
             'anError'
           ),
         });
@@ -233,7 +240,7 @@ describe('Checkout Actions', () => {
           payload: selectedModeId,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             PROCESS_FEATURE,
-            'setDeliveryMode'
+            SET_DELIVERY_MODE_PROCESS_ID
           ),
         });
       });
@@ -246,7 +253,7 @@ describe('Checkout Actions', () => {
           type: CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS,
           meta: StateEntityLoaderActions.entityResetMeta(
             PROCESS_FEATURE,
-            'setDeliveryMode'
+            SET_DELIVERY_MODE_PROCESS_ID
           ),
         });
       });
@@ -310,7 +317,7 @@ describe('Checkout Actions', () => {
           payload: payload,
           meta: StateEntityLoaderActions.entityLoadMeta(
             PROCESS_FEATURE,
-            'setPaymentDetails'
+            SET_PAYMENT_DETAILS_PROCESS_ID
           ),
         });
       });
@@ -326,7 +333,7 @@ describe('Checkout Actions', () => {
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
             PROCESS_FEATURE,
-            'setPaymentDetails',
+            SET_PAYMENT_DETAILS_PROCESS_ID,
             'anError'
           ),
         });
@@ -343,7 +350,7 @@ describe('Checkout Actions', () => {
           payload: paymentDetails,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             PROCESS_FEATURE,
-            'setPaymentDetails'
+            SET_PAYMENT_DETAILS_PROCESS_ID
           ),
         });
       });
@@ -356,7 +363,7 @@ describe('Checkout Actions', () => {
           type: CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS,
           meta: StateEntityLoaderActions.entityResetMeta(
             PROCESS_FEATURE,
-            'setPaymentDetails'
+            SET_PAYMENT_DETAILS_PROCESS_ID
           ),
         });
       });
