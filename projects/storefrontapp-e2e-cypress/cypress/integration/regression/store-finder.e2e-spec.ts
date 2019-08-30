@@ -124,9 +124,7 @@ context.skip('Store finder', () => {
             .contains(
               day.closed
                 ? 'closed'
-                : `${day.openingTime.formattedHour} - ${
-                    day.closingTime.formattedHour
-                  }`
+                : `${day.openingTime.formattedHour} - ${day.closingTime.formattedHour}`
             );
         });
       });
