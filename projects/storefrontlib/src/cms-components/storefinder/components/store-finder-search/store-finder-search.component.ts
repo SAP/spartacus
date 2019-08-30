@@ -22,7 +22,11 @@ export class StoreFinderSearchComponent {
   }
 
   onKey(event: any) {
-    if (event.key === 'Enter') {
+    if (
+      this.searchBox.value &&
+      this.searchBox.value.length &&
+      event.key === 'Enter'
+    ) {
       this.findStores(this.searchBox.value);
     }
   }

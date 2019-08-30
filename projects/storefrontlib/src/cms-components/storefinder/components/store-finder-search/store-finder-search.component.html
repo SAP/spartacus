@@ -17,6 +17,9 @@
           class="search"
           [routerLink]="['/store-finder/find']"
           [queryParams]="{ query: queryInput.value }"
+          [ngClass]="{
+            'disabled-action': !(queryInput.value && queryInput.value.length)
+          }"
         ></cx-icon>
       </div>
     </div>
