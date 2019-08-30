@@ -12,7 +12,7 @@ import { CheckoutStepType } from '../model/checkout-step.model';
   providedIn: 'root',
 })
 export class CheckoutGuard implements CanActivate {
-  firstStep$: Observable<UrlTree>;
+  private firstStep$: Observable<UrlTree>;
 
   constructor(
     private router: Router,
