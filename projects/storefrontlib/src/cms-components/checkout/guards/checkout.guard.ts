@@ -16,9 +16,9 @@ export class CheckoutGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
-    private expressCheckoutService: ExpressCheckoutService
+    protected checkoutConfigService: CheckoutConfigService,
+    protected expressCheckoutService: ExpressCheckoutService
   ) {
     this.firstStep$ = of(
       this.router.parseUrl(
