@@ -20,8 +20,8 @@ export class CheckoutGuard implements CanActivate {
     private router: Router,
     private config: CheckoutConfig,
     private routingConfigService: RoutingConfigService,
-    private checkoutConfigService?: CheckoutConfigService,
-    private expressCheckoutService?: ExpressCheckoutService,
+    protected checkoutConfigService?: CheckoutConfigService,
+    protected expressCheckoutService?: ExpressCheckoutService,
     private featureConfigService?: FeatureConfigService
   ) {
     this.isExpressCheckoutFeatureEnabled = this.featureConfigService.isLevel(
