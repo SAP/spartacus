@@ -13,8 +13,8 @@ import { CheckoutConfig } from '../config/checkout-config';
   providedIn: 'root',
 })
 export class CheckoutGuard implements CanActivate {
-  firstStep$: Observable<UrlTree>;
-  isExpressCheckoutFeatureEnabled: boolean;
+  private firstStep$: Observable<UrlTree>;
+  private isExpressCheckoutFeatureEnabled: boolean;
 
   constructor(
     private router: Router,
@@ -28,9 +28,6 @@ export class CheckoutGuard implements CanActivate {
       '1.2'
     );
     /**
-     * @deprecated since 1.2.0
-     * NOTE: check issue:#4309 for more info
-     *
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
     if (this.isExpressCheckoutFeatureEnabled && this.checkoutConfigService) {
@@ -46,9 +43,6 @@ export class CheckoutGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     /**
-     * @deprecated since 1.2.0
-     * NOTE: check issue:#4309 for more info
-     *
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
     if (
