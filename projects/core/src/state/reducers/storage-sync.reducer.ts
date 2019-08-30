@@ -39,8 +39,17 @@ export function getStorageSyncReducer<T>(
 
       if (action.type !== INIT) {
         // handle local storage
+        const localStorageKeys = filterKeysByType(
+          storageSyncConfig.keys,
+          StorageSyncType.LOCAL_STORAGE
+        );
+        const localStorageExclusionKeys = filterKeysByType(
+          storageSyncConfig.excludeKeys,
+          StorageSyncType.LOCAL_STORAGE
+        );
         const localStorageStateSlices = getStateSlice(
           localStorageKeys,
+          localStorageExclusionKeys,
           newState
         );
         persistToStorage(
@@ -50,8 +59,17 @@ export function getStorageSyncReducer<T>(
         );
 
         // handle session storage
+        const sessionStorageKeys = filterKeysByType(
+          storageSyncConfig.keys,
+          StorageSyncType.SESSION_STORAGE
+        );
+        const sessionStorageExclusionKeys = filterKeysByType(
+          storageSyncConfig.excludeKeys,
+          StorageSyncType.SESSION_STORAGE
+        );
         const sessionStorageStateSlices = getStateSlice(
           sessionStorageKeys,
+          sessionStorageExclusionKeys,
           newState
         );
         persistToStorage(
@@ -83,13 +101,9 @@ export function exists(value: Object): boolean {
   if (value != null) {
     if (typeof value === 'object') {
       return Object.keys(value).length !== 0;
-    } else if (value === '') {
-      return false;
-    } else {
-      return true;
     }
+    return value !== '';
   }
-
   return false;
 }
 

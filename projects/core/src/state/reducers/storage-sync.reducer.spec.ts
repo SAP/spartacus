@@ -14,6 +14,7 @@ import {
   readFromStorage,
   rehydrate,
 } from './storage-sync.reducer';
+import { filterKeysByType } from '../utils/get-state-slice';
 
 const sessionStorageMock = {
   getItem(_key: string): string | null {
@@ -62,6 +63,13 @@ describe('storage-sync-reducer', () => {
               access_token: StorageSyncType.SESSION_STORAGE,
               refresh_token: StorageSyncType.LOCAL_STORAGE,
               do_not_sync: StorageSyncType.NO_STORAGE,
+              user: StorageSyncType.SESSION_STORAGE,
+            },
+            excludeKeys: {
+              'user.account.details.currency.name':
+                StorageSyncType.SESSION_STORAGE,
+              'user.account.details.currency.symbol':
+                StorageSyncType.SESSION_STORAGE,
             },
           },
         },
@@ -92,7 +100,7 @@ describe('storage-sync-reducer', () => {
     });
 
     describe('when the action type is NOT UPDATE nor INIT', () => {
-      describe('should set the configured keys to configured storage', () => {
+      describe('should set the configured keys to the configured storage', () => {
         beforeEach(() => {
           spyOn(sessionStorageMock, 'setItem').and.stub();
           spyOn(localStorageMock, 'setItem').and.stub();
@@ -147,6 +155,50 @@ describe('storage-sync-reducer', () => {
             })
           );
         });
+      });
+
+      it('should set the configured keys to the configured storage and exclude specified keys', () => {
+        const state = {
+          user: {
+            account: {
+              addresses: {
+                loading: false,
+              },
+              details: {
+                currency: {
+                  name: 'CAD',
+                  symbol: '$',
+                  value: 100,
+                },
+              },
+            },
+          },
+        };
+        spyOn(sessionStorageMock, 'getItem').and.returnValue(
+          JSON.stringify(state)
+        );
+        spyOn(sessionStorageMock, 'setItem').and.stub();
+
+        const result = reducer(state, { type: 'AN-ACTION' });
+        // excluded keys are not stored in the storage, but they're present in the state
+        expect(result).toEqual(state);
+        expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
+          DEFAULT_SESSION_STORAGE_KEY,
+          JSON.stringify({
+            user: {
+              account: {
+                addresses: {
+                  loading: false,
+                },
+                details: {
+                  currency: {
+                    value: 100,
+                  },
+                },
+              },
+            },
+          })
+        );
       });
     });
   });
@@ -238,6 +290,12 @@ describe('storage-sync-reducer', () => {
     describe('when a complex object is provided', () => {
       it('should return true', () => {
         expect(exists({ a: { b: {} } })).toEqual(true);
+      });
+    });
+    describe('when null is provided instead of keys', () => {
+      it('should return an empty array', () => {
+        const result = filterKeysByType(null, StorageSyncType.NO_STORAGE);
+        expect(result).toEqual([]);
       });
     });
   });
