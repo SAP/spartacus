@@ -1,11 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { take } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 
 import { CheckoutAdapter } from './checkout.adapter';
 import { CheckoutConnector } from './checkout.connector';
 import createSpy = jasmine.createSpy;
-import { take } from 'rxjs/operators';
 
 class MockOrderAdapter implements CheckoutAdapter {
   placeOrder = createSpy('CheckoutAdapter.placeOrder').and.callFake(
