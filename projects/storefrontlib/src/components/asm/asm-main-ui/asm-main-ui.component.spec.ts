@@ -14,7 +14,7 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AsmComponent } from './asm.component';
+import { AsmMainUiComponent } from './asm-main-ui.component';
 
 const mockToken = {
   access_token: 'asdfasf',
@@ -82,9 +82,9 @@ class MockRoutingService {
   go() {}
 }
 
-describe('AsmComponent', () => {
-  let component: AsmComponent;
-  let fixture: ComponentFixture<AsmComponent>;
+describe('AsmMainUiComponent', () => {
+  let component: AsmMainUiComponent;
+  let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
   let userService: UserService;
   let el: DebugElement;
@@ -96,7 +96,7 @@ describe('AsmComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
-        AsmComponent,
+        AsmMainUiComponent,
         MockCSAgentLoginFormComponent,
         MockCustomerSelectionComponent,
       ],
@@ -112,7 +112,7 @@ describe('AsmComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AsmComponent);
+    fixture = TestBed.createComponent(AsmMainUiComponent);
     authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
     globalMessageService = TestBed.get(GlobalMessageService);
