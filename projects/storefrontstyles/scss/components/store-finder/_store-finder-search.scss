@@ -28,4 +28,9 @@
       outline: none;
     }
   }
+
+  .disabled-action {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
