@@ -1,6 +1,7 @@
 import { login } from '../../../helpers/auth-forms';
 import { generateMail, randomString } from '../../../helpers/user';
 import { standardUser } from '../../../sample-data/shared-users';
+import * as alerts from '../../../helpers/global-message';
 
 const CLOSE_ACCOUNT = '/my-account/close-account';
 
@@ -54,10 +55,7 @@ describe('Close Account', () => {
 
       cy.location('pathname').should('contain', '/');
 
-      cy.get('cx-global-message').should(
-        'contain',
-        'Account closed with success'
-      );
+      alerts.getSuccessAlert().should('contain', 'Account closed with success');
     });
 
     it('should not allow login on closed account', () => {

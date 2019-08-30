@@ -14,6 +14,7 @@ import {
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
+import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -61,7 +62,12 @@ if (!environment.production) {
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
+      features: {
+        level: '1.2',
+      },
     }),
+
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     ...devImports,
   ],

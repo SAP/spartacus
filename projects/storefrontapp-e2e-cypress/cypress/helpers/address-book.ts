@@ -1,4 +1,5 @@
 import { fillShippingAddress, AddressData } from './checkout-forms';
+import * as alerts from './global-message';
 
 export const newAddress: AddressData = {
   firstName: 'Foo',
@@ -107,6 +108,13 @@ export function setSecondAddressToDefault() {
 }
 
 export function deleteExistingAddress() {
+  cy.server();
+  cy.route(
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/current/addresses?lang=en&curr=USD`
+  ).as('fetchAddresses');
+
   let firstCard = cy.get('cx-address-card').first();
 
   firstCard.find('.delete').click();
@@ -127,7 +135,8 @@ export function deleteExistingAddress() {
   firstCard = cy.get('cx-address-card').first();
   firstCard.find('.delete').click();
   cy.get('.cx-address-card-delete button.btn-primary').click();
-  cy.get('cx-global-message').contains('Address deleted successfully!');
+  cy.wait('@fetchAddresses');
+  alerts.getSuccessAlert().contains('Address deleted successfully!');
 
   cy.get('cx-address-card').should('have.length', 1);
 
