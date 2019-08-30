@@ -20,6 +20,9 @@ import { OrderEntry } from '../../model/order.model';
 
 @Injectable()
 export class SaveForLaterService {
+  private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
+    'PREVIOUS_USER_ID_INITIAL_VALUE';
+  private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
   private _saveForLater$: Observable<Cart>;
 
   constructor(
@@ -27,7 +30,37 @@ export class SaveForLaterService {
     protected saveForLaterData: SaveForLaterDataService,
     protected authService: AuthService
   ) {
-    this.init();
+    this._saveForLater$ = combineLatest([
+      this.store.select(CartSelectors.getSaveForLaterContent),
+      this.store.select(CartSelectors.getSaveForLaterLoading),
+      this.authService.getUserToken(),
+      this.store.select(CartSelectors.getSaveForLaterLoaded),
+    ]).pipe(
+      // copied from cart service, save for later only used for logged in customer
+      debounceTime(1, asyncScheduler),
+      filter(([, loading]) => !loading),
+      tap(([saveForLater, , userToken, loaded]) => {
+        if (this.isJustLoggedIn(userToken.userId)) {
+          this.load();
+        } else if (
+          (this.isCreated(saveForLater) && this.isIncomplete(saveForLater)) ||
+          (this.isLoggedIn(userToken.userId) &&
+            !this.isCreated(saveForLater) &&
+            !loaded) // try to load current cart for logged in user (loaded flag to prevent infinite loop when user doesn't have cart)
+        ) {
+          this.load();
+        }
+
+        this.previousUserId = userToken.userId;
+      }),
+      filter(
+        ([saveForLater]) =>
+          !this.isCreated(saveForLater) ||
+          (this.isCreated(saveForLater) && !this.isIncomplete(saveForLater))
+      ),
+      map(([saveForLater]) => saveForLater),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   getSaveForLater(): Observable<Cart> {
@@ -40,35 +73,6 @@ export class SaveForLaterService {
 
   getLoaded(): Observable<boolean> {
     return this.store.pipe(select(CartSelectors.getSaveForLaterLoaded));
-  }
-
-  protected init(): void {
-    this._saveForLater$ = combineLatest([
-      this.store.select(CartSelectors.getSaveForLaterContent),
-      this.store.select(CartSelectors.getSaveForLaterLoading),
-      this.authService.getUserToken(),
-      this.store.select(CartSelectors.getCartLoaded),
-    ]).pipe(
-      // copied from cart service, save for later only used for logged in customer
-      debounceTime(1, asyncScheduler),
-      filter(([, loading]) => !loading),
-      tap(([saveForLater, , userToken, loaded]) => {
-        if (
-          this.isLoggedIn(userToken.userId) &&
-          !this.isCreated(saveForLater) &&
-          !loaded
-        ) {
-          this.load();
-        }
-      }),
-      filter(
-        ([cart]) =>
-          !this.isCreated(cart) ||
-          (this.isCreated(cart) && !this.isIncomplete(cart))
-      ),
-      map(([cart]) => cart),
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
   }
 
   protected load(): void {
@@ -158,7 +162,7 @@ export class SaveForLaterService {
 
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
-      select(CartSelectors.getCartEntrySelectorFactory(productCode))
+      select(CartSelectors.getSaveForLaterEntrySelectorFactory(productCode))
     );
   }
 
@@ -172,5 +176,9 @@ export class SaveForLaterService {
 
   private isIncomplete(cart: Cart): boolean {
     return cart && Object.keys(cart).length <= 2;
+  }
+
+  private isJustLoggedIn(userId: string): boolean {
+    return this.isLoggedIn(userId) && this.previousUserId !== userId;
   }
 }

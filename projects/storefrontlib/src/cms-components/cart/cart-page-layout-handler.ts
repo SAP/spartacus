@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { CartService } from '@spartacus/core';
+import { CartService, SaveForLaterService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-layout-handler';
 
 @Injectable()
 export class CartPageLayoutHandler implements PageLayoutHandler {
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private saveForLaterService: SaveForLaterService
+  ) {}
 
   handle(
     slots$: Observable<string[]>,
@@ -14,9 +17,13 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
     section?: string
   ) {
     if (pageTemplate === 'CartPageTemplate' && !section) {
-      return combineLatest([slots$, this.cartService.getActive()]).pipe(
-        map(([slots, cart]) => {
-          if (cart.totalItems) {
+      return combineLatest([
+        slots$,
+        this.cartService.getActive(),
+        this.saveForLaterService.getSaveForLater(),
+      ]).pipe(
+        map(([slots, cart, saveForLater]) => {
+          if (cart.totalItems || saveForLater.totalItems) {
             return slots.filter(slot => slot !== 'EmptyCartMiddleContent');
           } else {
             return slots.filter(

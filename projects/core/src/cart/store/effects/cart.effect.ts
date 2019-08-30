@@ -105,7 +105,9 @@ export class CartEffects {
   );
 
   @Effect()
-  refresh$: Observable<CartActions.LoadCart> = this.actions$.pipe(
+  refresh$: Observable<
+    CartActions.LoadCart | CartActions.LoadSaveForLater
+  > = this.actions$.pipe(
     ofType(
       CartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
@@ -121,13 +123,19 @@ export class CartEffects {
           | CartActions.CartRemoveEntrySuccess
       ) => action.payload
     ),
-    map(
-      payload =>
-        new CartActions.LoadCart({
+    map(payload => {
+      if (payload.cartId.search('selective') !== -1) {
+        return new CartActions.LoadSaveForLater({
           userId: payload.userId,
           cartId: payload.cartId,
-        })
-    )
+        });
+      } else {
+        return new CartActions.LoadCart({
+          userId: payload.userId,
+          cartId: payload.cartId,
+        });
+      }
+    })
   );
 
   @Effect()
