@@ -10,12 +10,12 @@ export function submitInvalidForm() {
 }
 
 export function cancelForgotPasswordAction() {
-    // Click 'Cancel'
-    cy.get('cx-forgot-password a')
-      .contains('Cancel')
-      .click();
-    // After requesting a reset password email, we should be taken back to the login page
-    cy.url().should('match', /\/login/);
+  // Click 'Cancel'
+  cy.get('cx-forgot-password a')
+    .contains('Cancel')
+    .click();
+  // After requesting a reset password email, we should be taken back to the login page
+  cy.url().should('match', /\/login/);
 }
 
 export function submitForgotPassword() {

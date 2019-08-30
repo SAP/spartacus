@@ -16,8 +16,7 @@ describe('Reset Password', () => {
   resetPasswordTest();
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - Reset Password`, () => {
+describe(`${formats.mobile.width + 1}p resolution - Reset Password`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);

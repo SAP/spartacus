@@ -1,5 +1,5 @@
-import { forgotPasswordTest } from "../../../helpers/forgot-password";
-import { formats } from "../../../sample-data/viewports";
+import { forgotPasswordTest } from '../../../helpers/forgot-password';
+import { formats } from '../../../sample-data/viewports';
 
 export const PAGE_URL_FORGOT_PASSWORD = '/login/forgot-password';
 
@@ -13,8 +13,7 @@ context('Forgot Password Page', () => {
   forgotPasswordTest();
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - Forgot Password`, () => {
+describe(`${formats.mobile.width + 1}p resolution - Forgot Password`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
