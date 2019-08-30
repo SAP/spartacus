@@ -1,15 +1,19 @@
-import * as tabbingOrder from '../../helpers/tabbing-order';
+import { verifyTabOrder, tabOrderContent } from '../../helpers/tabbing-order';
 
-function tabbingOrderTest() {
-  describe('Tabbing Order', () => {
+function tabOrderTest() {
+  describe('Footer Tab Order', () => {
     before(() => {});
 
     it('should focus elements in correct order when pressing tab key', () => {
-      tabbingOrder.checkFooter();
+      cy.visit('/');
+      verifyTabOrder(
+        'cx-footer-navigation > cx-navigation-ui a',
+        tabOrderContent.footer
+      );
     });
   });
 }
 
 context('Check Tabbing Order', () => {
-  tabbingOrderTest();
+  tabOrderTest();
 });
