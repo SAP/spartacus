@@ -1,43 +1,41 @@
-<ng-container *ngIf="(asmUi$ | async)?.visible">
-  <div class="col-md-6">
+<div class="col-md-6">
+  <ng-container
+    *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm"
+  >
     <ng-container
-      *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm"
+      *ngIf="(customer$ | async) as customer; else showCustomerSelection"
     >
-      <ng-container
-        *ngIf="(customer$ | async) as customer; else showCustomerSelection"
-      >
-        <div>
-          {{
-            'asm.customerEmulation'
-              | cxTranslate: { name: customer?.name, uid: customer?.uid }
-          }}
-        </div>
-      </ng-container>
-      <ng-template #showCustomerSelection>
-        <cx-customer-selection
-          (submitEvent)="startCustomerEmulationSession($event)"
-        ></cx-customer-selection>
-        <button
-          class="btn btn-block btn-secondary"
-          type="button"
-          (click)="logoutCustomerSupportAgent()"
-        >
-          {{ 'asm.logout' | cxTranslate }}
-        </button>
-      </ng-template>
+      <div>
+        {{
+          'asm.customerEmulation'
+            | cxTranslate: { name: customer?.name, uid: customer?.uid }
+        }}
+      </div>
     </ng-container>
-
-    <ng-template #showLoginForm>
-      <cx-csagent-login-form
-        (submitEvent)="loginCustomerSupportAgent($event)"
-      ></cx-csagent-login-form>
+    <ng-template #showCustomerSelection>
+      <cx-customer-selection
+        (submitEvent)="startCustomerEmulationSession($event)"
+      ></cx-customer-selection>
       <button
         class="btn btn-block btn-secondary"
         type="button"
-        (click)="hideUi()"
+        (click)="logoutCustomerSupportAgent()"
       >
-        {{ 'asm.hideUi' | cxTranslate }}
+        {{ 'asm.logout' | cxTranslate }}
       </button>
     </ng-template>
-  </div>
-</ng-container>
+  </ng-container>
+
+  <ng-template #showLoginForm>
+    <cx-csagent-login-form
+      (submitEvent)="loginCustomerSupportAgent($event)"
+    ></cx-csagent-login-form>
+    <button
+      class="btn btn-block btn-secondary"
+      type="button"
+      (click)="hideUi()"
+    >
+      {{ 'asm.hideUi' | cxTranslate }}
+    </button>
+  </ng-template>
+</div>

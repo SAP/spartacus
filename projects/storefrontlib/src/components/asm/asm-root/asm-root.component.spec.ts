@@ -8,6 +8,9 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { AsmService, AsmUi } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { AsmRootComponent } from './asm-root.component';
 
 @Component({
@@ -30,10 +33,25 @@ class MockFeatureLevelDirective {
   }
 }
 
+class MockAsmService {
+  getAsmUiState(): Observable<AsmUi> {
+    return of({} as AsmUi);
+  }
+  updateAsmUiState(): void {}
+}
+
+const mockQueryParamMap = {
+  get() {},
+};
+const activatedRouteMock = {
+  queryParamMap: of(mockQueryParamMap),
+};
+
 fdescribe('AsmRootComponent', () => {
   let component: AsmRootComponent;
   let fixture: ComponentFixture<AsmRootComponent>;
   let el: DebugElement;
+  let asmService: AsmService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,6 +59,10 @@ fdescribe('AsmRootComponent', () => {
         AsmRootComponent,
         MockAsmMainUiComponent,
         MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: AsmService, useClass: MockAsmService },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
       ],
     }).compileComponents();
   }));
@@ -50,15 +72,32 @@ fdescribe('AsmRootComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     el = fixture.debugElement;
+    asmService = TestBed.get(AsmService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the asm main ui', () => {
+  it('should show the main asm UI if UI state is visisble', () => {
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ visible: true }));
     component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-asm-main-ui'))).toBeTruthy();
+  });
+
+  it('should update UI visible state if the activated route has query param ?asm=true', () => {
+    spyOn(asmService, 'updateAsmUiState').and.stub();
+    spyOn(mockQueryParamMap, 'get').and.returnValue('true');
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(asmService.updateAsmUiState).toHaveBeenCalledWith({ visible: true });
+  });
+
+  it('should not show the main asm UI if UI state is not visisble', () => {
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ visible: false }));
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-asm-main-ui'))).toBeFalsy();
   });
 });
