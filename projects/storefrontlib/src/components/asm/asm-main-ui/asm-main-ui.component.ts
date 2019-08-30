@@ -15,7 +15,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-asm',
+  selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {

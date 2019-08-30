@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
+import { AsmRootComponent } from './asm-root/asm-root.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-form.component';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 @NgModule({
@@ -11,7 +12,8 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerSelectionComponent,
+    AsmRootComponent,
   ],
-  exports: [AsmMainUiComponent],
+  exports: [AsmRootComponent],
 })
 export class AsmModule {}

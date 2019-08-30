@@ -9,7 +9,7 @@ import { StorefrontComponent } from './storefront.component';
   selector: 'cx-asm',
   template: '',
 })
-class MockAsmMainUiComponent {}
+class MockAsmRootComponent {}
 @Component({
   selector: 'cx-header',
   template: '',
@@ -62,7 +62,7 @@ describe('StorefrontComponent', () => {
         MockFooterComponent,
         DynamicSlotComponent,
         MockPageLayoutComponent,
-        MockAsmMainUiComponent,
+        MockAsmRootComponent,
       ],
       providers: [
         {
