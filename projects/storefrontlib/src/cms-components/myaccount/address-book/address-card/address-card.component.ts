@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   Address,
   CheckoutDeliveryService,
+  FeatureConfigService,
   UserAddressService,
 } from '@spartacus/core';
 
@@ -12,6 +13,7 @@ import {
 export class AddressCardComponent {
   editMode: boolean;
   isDefault: boolean;
+  private isExpressCheckoutFeatureEnabled: boolean;
 
   @Input() address: Address;
 
@@ -19,8 +21,13 @@ export class AddressCardComponent {
 
   constructor(
     private userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryService
-  ) {}
+    protected checkoutDeliveryService?: CheckoutDeliveryService,
+    private featureConfigService?: FeatureConfigService
+  ) {
+    this.isExpressCheckoutFeatureEnabled = this.featureConfigService.isLevel(
+      '1.2'
+    );
+  }
 
   openEditFormEvent(): void {
     this.editEvent.emit();
@@ -36,11 +43,21 @@ export class AddressCardComponent {
 
   setAddressAsDefault(addressId: string): void {
     this.userAddressService.setAddressAsDefault(addressId);
-    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    /**
+     * TODO(issue:#4309) Deprecated since 1.2.0
+     */
+    if (this.isExpressCheckoutFeatureEnabled) {
+      this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    }
   }
 
   deleteAddress(addressId: string): void {
     this.userAddressService.deleteUserAddress(addressId);
-    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    /**
+     * TODO(issue:#4309) Deprecated since 1.2.0
+     */
+    if (this.isExpressCheckoutFeatureEnabled) {
+      this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    }
   }
 }

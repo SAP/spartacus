@@ -5,6 +5,7 @@ import { DebugElement } from '@angular/core';
 import {
   Address,
   CheckoutDeliveryService,
+  FeatureConfigService,
   I18nTestingModule,
   UserAddressService,
 } from '@spartacus/core';
@@ -31,6 +32,12 @@ class MockCheckoutDeliveryService {
   clearCheckoutDeliveryDetails() {}
 }
 
+class MockFeatureConfigService {
+  isLevel(_featureLevel: string): boolean {
+    return true;
+  }
+}
+
 describe('AddressCardComponent', () => {
   let component: AddressCardComponent;
   let fixture: ComponentFixture<AddressCardComponent>;
@@ -46,6 +53,7 @@ describe('AddressCardComponent', () => {
           provide: CheckoutDeliveryService,
           useClass: MockCheckoutDeliveryService,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));

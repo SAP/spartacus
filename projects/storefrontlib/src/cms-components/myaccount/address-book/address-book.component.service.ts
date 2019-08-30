@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   Address,
   CheckoutDeliveryService,
+  FeatureConfigService,
   UserAddressService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -10,7 +11,8 @@ import { Observable } from 'rxjs';
 export class AddressBookComponentService {
   constructor(
     private userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryService
+    protected checkoutDeliveryService?: CheckoutDeliveryService,
+    private featureConfigService?: FeatureConfigService
   ) {}
 
   getAddresses(): Observable<Address[]> {
@@ -31,6 +33,14 @@ export class AddressBookComponentService {
 
   updateUserAddress(addressId: string, address: Address) {
     this.userAddressService.updateUserAddress(addressId, address);
-    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    /**
+     * TODO(issue:#4309) Deprecated since 1.2.0
+     */
+    if (
+      this.featureConfigService.isLevel('1.2') &&
+      this.checkoutDeliveryService
+    ) {
+      this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    }
   }
 }
