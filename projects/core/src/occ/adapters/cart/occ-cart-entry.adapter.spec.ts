@@ -31,7 +31,7 @@ class MockOccEndpointsService {
 }
 
 class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
+  isLevel(_featureLevel: string): boolean {
     return true;
   }
 }
@@ -200,7 +200,7 @@ describe('OccCartEntryAdapter', () => {
    */
   describe('legacy', () => {
     beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      spyOn(featureConfigService, 'isLevel').and.returnValue(false);
     });
 
     describe('add entry to cart', () => {
