@@ -112,7 +112,7 @@ describe('StoreFinderGridComponent', () => {
     component.viewStore(location);
 
     expect(mockRoutingService.go).toHaveBeenCalledWith([
-      `store-finder/country/${countryIsoCode}/test-name`,
+      `store-finder/country/${countryIsoCode}/Test Name`,
     ]);
   });
 });

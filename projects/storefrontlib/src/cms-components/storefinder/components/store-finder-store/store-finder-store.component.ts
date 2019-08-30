@@ -35,20 +35,12 @@ export class StoreFinderStoreComponent implements OnInit {
   }
 
   requestStoresData() {
-    const storeId = this.route.snapshot.params.store
-      .split('-')
-      .map(this.capitalizeLetter)
-      .join(' ');
-    this.storeFinderService.viewStoreById(storeId);
+    this.storeFinderService.viewStoreById(this.route.snapshot.params.store);
   }
 
   goBack(): void {
     this.routingService.go([
       `store-finder/country/${this.route.snapshot.params.country}`,
     ]);
-  }
-
-  private capitalizeLetter(str: string): string {
-    return str[0].toUpperCase() + str.slice(1);
   }
 }
