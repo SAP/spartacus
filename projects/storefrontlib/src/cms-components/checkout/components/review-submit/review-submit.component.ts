@@ -15,6 +15,8 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
+import { CheckoutConfigService } from '../../services/index';
+import { CheckoutStepType } from '../../model/index';
 
 @Component({
   selector: 'cx-review-submit',
@@ -22,6 +24,7 @@ import { Card } from '../../../../shared/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
+  checkoutStepType = CheckoutStepType;
   entries$: Observable<OrderEntry[]>;
   cart$: Observable<Cart>;
   deliveryMode$: Observable<DeliveryMode>;
@@ -30,11 +33,36 @@ export class ReviewSubmitComponent implements OnInit {
   paymentDetails$: Observable<PaymentDetails>;
 
   constructor(
+    checkoutDeliveryService: CheckoutDeliveryService,
+    checkoutPaymentService: CheckoutPaymentService,
+    userAddressService: UserAddressService,
+    cartService: CartService,
+    translation: TranslationService,
+    checkoutConfigService: CheckoutConfigService // tslint:disable-line
+  );
+
+  /**
+   * @deprecated since 1.1.0
+   * NOTE: check issue:#4121 for more info
+   *
+   * TODO(issue:#4121) Deprecated since 1.1.0
+   */
+
+  constructor(
+    checkoutDeliveryService: CheckoutDeliveryService,
+    checkoutPaymentService: CheckoutPaymentService,
+    userAddressService: UserAddressService,
+    cartService: CartService,
+    translation: TranslationService
+  );
+
+  constructor(
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
-    private translation: TranslationService
+    protected translation: TranslationService,
+    protected checkoutConfigService?: CheckoutConfigService
   ) {}
 
   ngOnInit() {
@@ -128,5 +156,14 @@ export class ReviewSubmitComponent implements OnInit {
         };
       })
     );
+  }
+
+  getCheckoutStepUrl(stepType: CheckoutStepType): string {
+    // TODO(issue:#4121) Deprecated since 1.1.0
+    if (this.checkoutConfigService) {
+      const step = this.checkoutConfigService.getCheckoutStep(stepType);
+
+      return step && step.routeName;
+    }
   }
 }

@@ -49,6 +49,7 @@ export const myAccount = {
       'Are you sure you want to close your account?',
     closeMyAccount: 'CLOSE MY ACCOUNT',
     accountClosedSuccessfully: 'Account closed with success',
+    accountClosedFailure: 'Failed to close account',
   },
   updateEmailForm: {
     newEmailAddress: {
