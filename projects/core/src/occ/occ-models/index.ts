@@ -1,2 +1,2 @@
+export * from './occ-endpoints.model';
 export * from './occ.models';
-export * from './cms-component.models';

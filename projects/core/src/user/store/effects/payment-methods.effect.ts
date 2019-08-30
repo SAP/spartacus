@@ -1,60 +1,51 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-
-import { OccUserService } from '../../occ/index';
-import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
-import { PaymentDetailsList } from '../../../occ/occ-models/index';
+import { PaymentDetails } from '../../../model/cart.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
   @Effect()
-  loadUserPaymentMethods$: Observable<any> = this.actions$.pipe(
-    ofType(fromUserPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS),
-    map(
-      (action: fromUserPaymentMethodsAction.LoadUserPaymentMethods) =>
-        action.payload
-    ),
+  loadUserPaymentMethods$: Observable<Action> = this.actions$.pipe(
+    ofType(UserActions.LOAD_USER_PAYMENT_METHODS),
+    map((action: UserActions.LoadUserPaymentMethods) => action.payload),
     mergeMap(payload => {
-      return this.occUserService.loadUserPaymentMethods(payload).pipe(
-        map((paymentsList: PaymentDetailsList) => {
-          return new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
-            paymentsList.payments
-          );
+      return this.userPaymentMethodConnector.getAll(payload).pipe(
+        map((payments: PaymentDetails[]) => {
+          return new UserActions.LoadUserPaymentMethodsSuccess(payments);
         }),
         catchError(error =>
-          of(new fromUserPaymentMethodsAction.LoadUserPaymentMethodsFail(error))
+          of(
+            new UserActions.LoadUserPaymentMethodsFail(
+              makeErrorSerializable(error)
+            )
+          )
         )
       );
     })
   );
 
   @Effect()
-  setDefaultUserPaymentMethod$: Observable<any> = this.actions$.pipe(
-    ofType(fromUserPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD),
-    map(
-      (action: fromUserPaymentMethodsAction.SetDefaultUserPaymentMethod) =>
-        action.payload
-    ),
+  setDefaultUserPaymentMethod$: Observable<Action> = this.actions$.pipe(
+    ofType(UserActions.SET_DEFAULT_USER_PAYMENT_METHOD),
+    map((action: UserActions.SetDefaultUserPaymentMethod) => action.payload),
     mergeMap(payload => {
-      return this.occUserService
-        .setDefaultUserPaymentMethod(payload.userId, payload.paymentMethodId)
+      return this.userPaymentMethodConnector
+        .setDefault(payload.userId, payload.paymentMethodId)
         .pipe(
-          switchMap((data: any) => {
-            return [
-              new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodSuccess(
-                data
-              ),
-              new fromUserPaymentMethodsAction.LoadUserPaymentMethods(
-                payload.userId
-              )
-            ];
-          }),
+          switchMap(data => [
+            new UserActions.SetDefaultUserPaymentMethodSuccess(data),
+            new UserActions.LoadUserPaymentMethods(payload.userId),
+          ]),
           catchError(error =>
             of(
-              new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodFail(
-                error
+              new UserActions.SetDefaultUserPaymentMethodFail(
+                makeErrorSerializable(error)
               )
             )
           )
@@ -62,30 +53,21 @@ export class UserPaymentMethodsEffects {
     })
   );
   @Effect()
-  deleteUserPaymentMethod$: Observable<any> = this.actions$.pipe(
-    ofType(fromUserPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD),
-    map(
-      (action: fromUserPaymentMethodsAction.DeleteUserPaymentMethod) =>
-        action.payload
-    ),
+  deleteUserPaymentMethod$: Observable<Action> = this.actions$.pipe(
+    ofType(UserActions.DELETE_USER_PAYMENT_METHOD),
+    map((action: UserActions.DeleteUserPaymentMethod) => action.payload),
     mergeMap(payload => {
-      return this.occUserService
-        .deleteUserPaymentMethod(payload.userId, payload.paymentMethodId)
+      return this.userPaymentMethodConnector
+        .delete(payload.userId, payload.paymentMethodId)
         .pipe(
-          switchMap((data: any) => {
-            return [
-              new fromUserPaymentMethodsAction.DeleteUserPaymentMethodSuccess(
-                data
-              ),
-              new fromUserPaymentMethodsAction.LoadUserPaymentMethods(
-                payload.userId
-              )
-            ];
-          }),
+          switchMap(data => [
+            new UserActions.DeleteUserPaymentMethodSuccess(data),
+            new UserActions.LoadUserPaymentMethods(payload.userId),
+          ]),
           catchError(error =>
             of(
-              new fromUserPaymentMethodsAction.DeleteUserPaymentMethodFail(
-                error
+              new UserActions.DeleteUserPaymentMethodFail(
+                makeErrorSerializable(error)
               )
             )
           )
@@ -95,6 +77,6 @@ export class UserPaymentMethodsEffects {
 
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userPaymentMethodConnector: UserPaymentConnector
   ) {}
 }

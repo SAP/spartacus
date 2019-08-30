@@ -1,11 +1,11 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Title } from '../../../model/misc.model';
+import { UserActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import { Title } from '../../../occ/occ-models';
 
 describe('Titles Selectors', () => {
   let store: Store<StateWithUser>;
@@ -14,11 +14,11 @@ describe('Titles Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -27,22 +27,22 @@ describe('Titles Selectors', () => {
       const mockTitles: Title[] = [
         {
           code: 'mr',
-          name: 'Mr.'
+          name: 'Mr.',
         },
         {
           code: 'mrs',
-          name: 'Mrs.'
-        }
+          name: 'Mrs.',
+        },
       ];
 
       let result: Title[];
       store
-        .pipe(select(fromSelectors.getAllTitles))
+        .pipe(select(UsersSelectors.getAllTitles))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadTitlesSuccess(mockTitles));
+      store.dispatch(new UserActions.LoadTitlesSuccess(mockTitles));
 
       expect(result).toEqual(mockTitles);
     });
@@ -54,21 +54,21 @@ describe('Titles Selectors', () => {
       const mockTitles: Title[] = [
         {
           code: 'mr',
-          name: 'Mr.'
+          name: 'Mr.',
         },
         {
           code: 'mrs',
-          name: 'Mrs.'
-        }
+          name: 'Mrs.',
+        },
       ];
 
       let result: Title;
 
       store
-        .pipe(select(fromSelectors.titleSelectorFactory(code)))
+        .pipe(select(UsersSelectors.titleSelectorFactory(code)))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadTitlesSuccess(mockTitles));
+      store.dispatch(new UserActions.LoadTitlesSuccess(mockTitles));
       expect(result).toEqual(mockTitles[0]);
     });
   });

@@ -1,26 +1,23 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
-  TestRequest
+  TestRequest,
 } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
-import { AuthConfig } from '../config/auth-config';
-
-import { of, Observable } from 'rxjs';
-
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
+import { OccConfig } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { AuthService } from '../facade/auth.service';
 import { ClientToken } from './../models/token-types.model';
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
-
 import { ClientTokenInterceptor } from './client-token.interceptor';
 
 const testToken = {
   access_token: 'abc-123',
   token_type: 'bearer',
   expires_in: 1000,
-  scope: ''
+  scope: '',
 } as ClientToken;
 
 class MockAuthService {
@@ -29,14 +26,16 @@ class MockAuthService {
   }
 }
 
-const MockAuthModuleConfig: AuthConfig = {
-  server: {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
+const MockAuthModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: 'https://localhost:9002',
+      prefix: '/rest/v2/',
+    },
   },
-  site: {
-    baseSite: 'electronics'
-  }
+  context: {
+    baseSite: ['electronics'],
+  },
 };
 
 describe('ClientTokenInterceptor', () => {
@@ -47,17 +46,19 @@ describe('ClientTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthConfig, useValue: MockAuthModuleConfig },
+        { provide: OccConfig, useValue: MockAuthModuleConfig },
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
-    httpMock = TestBed.get(HttpTestingController);
-    authService = TestBed.get(AuthService);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    authService = TestBed.get(AuthService as Type<AuthService>);
   });
 
   describe('Client Token', () => {

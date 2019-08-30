@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import {
+  GlobalMessage,
   GlobalMessageType,
-  GlobalMessage
 } from '../../models/global-message.model';
 
 export const ADD_MESSAGE = '[Global-message] Add a Message';

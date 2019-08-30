@@ -36,11 +36,18 @@
     '@spartacus/core',
     '@spartacus/storefront',
     '@spartacus/styles',
+    '@spartacus/assets',
+    '@spartacus/schematics',
   ];
 %>
 # Commits
 <table>
 <tbody>
+  <tr>
+    <td><b>Commit</b>
+    <td><b>Description</b>
+    <td><b>Notes</b>
+  </tr>
 <%
   // Get unique scopes.
   const scopes = commits.map(x => x.scope)
@@ -63,19 +70,6 @@
         continue;
     }
 %>
-<% if (scope === library || !library) { %>
-  <tr><td colspan=3><h3><%
-    if (scope) {
-      %><%= scope %> (<%= packages[scope].version %>)<%
-    } else {
-      %>Misc<%
-    }
-  %></h3></td></tr>
-    <tr>
-      <td><b>Commit</b>
-      <td><b>Description</b>
-      <td><b>Notes</b>
-    </tr>
   <%
       let nbRows = 0;
       for (const commit of scopeCommits) {
@@ -90,8 +84,13 @@
         <tr></tr>
       <% } %>
   <% } %>
-<% } %>
 </tbody>
 </table>
-----
-
+<% if(breakingChanges.length) { %>
+  # Breaking changes
+  <ul>
+  <% for (const change of breakingChanges) {
+    %><%- include('./breaking-change', change) %><%
+  } %>
+  </ul>
+<% } %>

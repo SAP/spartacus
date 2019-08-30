@@ -5,7 +5,7 @@ export class CurrenciesGenerator extends ClientGenerator {
   async generateForSite(site: string) {
     const result = await this.client.getCurrencies(site);
     return {
-      [`${site}-${ENDPOINTS.CURRENCIES}`]: result
+      [`${site}-${ENDPOINTS.CURRENCIES}`]: result,
     };
   }
 }

@@ -1,0 +1,19 @@
+@import '../../../theme';
+
+%cx-order-detail-shipping {
+  .cx-account-summary {
+    background-color: var(--cx-color-background);
+    margin-bottom: 3.125rem;
+
+    @include media-breakpoint-down(sm) {
+      margin-bottom: 0;
+    }
+
+    .cx-summary-card {
+      @include media-breakpoint-down(sm) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}

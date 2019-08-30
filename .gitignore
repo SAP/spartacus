@@ -4,6 +4,11 @@
 /dist
 /tmp
 /out-tsc
+/documentation
+
+# docs archives
+docs.tar.gz
+docs.zip
 
 # dependencies
 node_modules/
@@ -20,15 +25,10 @@ package-lock.json
 *.sublime-workspace
 
 # IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/settings.json
 
 # Coverage reports
 **/coverage
-**/jenkins
 
 # misc
 /.sass-cache

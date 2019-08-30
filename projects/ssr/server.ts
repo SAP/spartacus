@@ -19,7 +19,7 @@ const DIST_FOLDER = join(process.cwd(), 'dist');
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const {
   AppServerModuleNgFactory,
-  LAZY_MODULE_MAP
+  LAZY_MODULE_MAP,
 } = require('../../dist/storefrontapp-server/main');
 
 // Express Engine
@@ -31,7 +31,7 @@ app.engine(
   'html',
   ngExpressEngine({
     bootstrap: AppServerModuleNgFactory,
-    providers: [provideModuleMap(LAZY_MODULE_MAP)]
+    providers: [provideModuleMap(LAZY_MODULE_MAP)],
   })
 );
 

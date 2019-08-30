@@ -1,19 +1,22 @@
-import * as fromAuthActions from './';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { CLIENT_TOKEN_DATA } from '../auth-state';
 import { ClientToken } from './../../models/token-types.model';
+import { AuthActions } from './index';
 
 const clientToken: ClientToken = {
   access_token: 'xxx',
   token_type: 'xxx',
   expires_in: 1,
-  scope: 'xxx'
+  scope: 'xxx',
 };
 
 describe('Client Token Actions', () => {
   describe('LoadClientToken', () => {
     it('should create the action', () => {
-      const action = new fromAuthActions.LoadClientToken();
+      const action = new AuthActions.LoadClientToken();
       expect({ ...action }).toEqual({
-        type: fromAuthActions.LOAD_CLIENT_TOKEN
+        type: AuthActions.LOAD_CLIENT_TOKEN,
+        meta: StateLoaderActions.loadMeta(CLIENT_TOKEN_DATA),
       });
     });
   });
@@ -21,22 +24,23 @@ describe('Client Token Actions', () => {
   describe('LoadClientTokenFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAuthActions.LoadClientTokenFail(error);
-
+      const action = new AuthActions.LoadClientTokenFail(error);
       expect({ ...action }).toEqual({
-        type: fromAuthActions.LOAD_CLIENT_TOKEN_FAIL,
-        payload: error
+        type: AuthActions.LOAD_CLIENT_TOKEN_FAIL,
+        payload: error,
+        meta: StateLoaderActions.failMeta(CLIENT_TOKEN_DATA, error),
       });
     });
   });
 
   describe('LoadClientTokenSuccess', () => {
     it('should create the action', () => {
-      const action = new fromAuthActions.LoadClientTokenSuccess(clientToken);
+      const action = new AuthActions.LoadClientTokenSuccess(clientToken);
 
       expect({ ...action }).toEqual({
-        type: fromAuthActions.LOAD_CLIENT_TOKEN_SUCCESS,
-        payload: clientToken
+        type: AuthActions.LOAD_CLIENT_TOKEN_SUCCESS,
+        payload: clientToken,
+        meta: StateLoaderActions.successMeta(CLIENT_TOKEN_DATA),
       });
     });
   });

@@ -1,8 +1,9 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Order } from '../../../model/order.model';
 import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 
 describe('Order Details Selectors', () => {
@@ -12,18 +13,18 @@ describe('Order Details Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
   describe('getOrderDetails', () => {
     it('should return the Order state from the store', () => {
-      let result;
+      let result: Order;
       store
-        .pipe(select(fromSelectors.getOrderDetails))
+        .pipe(select(UsersSelectors.getOrderDetails))
         .subscribe(value => (result = value));
       expect(result).not.toBeNull();
     });

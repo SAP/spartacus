@@ -1,5 +1,5 @@
+import { StoreFinderActions } from '../actions/index';
 import * as fromReducers from './view-all-stores.reducer';
-import * as fromActions from '../actions/view-all-stores.action';
 
 describe('View All Stores Reducer', () => {
   describe('Undefined action', () => {
@@ -12,27 +12,17 @@ describe('View All Stores Reducer', () => {
     });
   });
 
-  describe('VIEW_ALL_STORES action', () => {
-    it('should set isLoading flag to true', () => {
-      const { initialState } = fromReducers;
-      const action = new fromActions.ViewAllStores();
-      const state = fromReducers.reducer(initialState, action);
-      expect(state.isLoading).toEqual(true);
-    });
-  });
-
   describe('VIEW_ALL_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
-      const loadAction = new fromActions.ViewAllStores();
+      const loadAction = new StoreFinderActions.ViewAllStores();
 
       const loadingState = fromReducers.reducer(initialState, loadAction);
-      const resultAction = new fromActions.ViewAllStoresSuccess(results);
+      const resultAction = new StoreFinderActions.ViewAllStoresSuccess(results);
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.viewAllStoresEntities).toEqual(results);
-      expect(state.isLoading).toEqual(false);
     });
   });
 });

@@ -1,12 +1,11 @@
 @import '../../theme';
-@import '../../mixins';
 @import '~bootstrap/scss/forms';
 @import '~bootstrap/scss/custom-forms';
 
 .form-control {
-  margin-bottom: spacer(1);
+  margin-bottom: 0.25rem;
   &:focus {
-    border-color: theme-color('secondary');
+    border-color: var(--cx-color-secondary);
     box-shadow: none;
     -webkit-box-shadow: none;
   }
@@ -16,15 +15,15 @@
   text-align: left;
   &::before {
     content: '!';
-    color: theme-color('inverse');
+    color: var(--cx-color-inverse);
     text-align: center;
     border-radius: 50%;
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-color: theme-color('danger');
+    background-color: var(--cx-color-danger);
     margin-right: 6px;
-    font-weight: $font-weight-bold;
+    font-weight: var(--cx-font-weight-bold);
   }
   &:focus {
     box-shadow: none;
@@ -33,7 +32,7 @@
 }
 
 .is-invalid {
-  color: theme-color('danger');
+  color: var(--cx-color-danger);
 }
 
 input[type='checkbox'],
@@ -62,7 +61,7 @@ label {
     display: block;
     margin-bottom: $label-margin-bottom;
     &.bold {
-      font-weight: $font-weight-semi;
+      font-weight: var(--cx-font-weight-semi);
     }
   }
 }
@@ -71,7 +70,7 @@ label {
   margin-bottom: 18px;
 
   label {
-    font-weight: $font-weight-normal;
+    font-weight: var(--cx-font-weight-normal);
   }
 
   .form-check-label {
@@ -82,7 +81,7 @@ label {
   }
 
   input + .form-check-label {
-    color: theme-color('text');
+    color: var(--cx-color-text);
 
     &::after {
       content: none;
@@ -90,7 +89,7 @@ label {
   }
 
   input:disabled + .form-check-label {
-    color: theme-color('light');
+    color: var(--cx-color-light);
   }
 
   input[role='checkbox'],
@@ -98,31 +97,35 @@ label {
     display: inline-block;
 
     &:focus {
-      box-shadow: 0px 0px 0px 3px theme-color('light');
-      border-color: theme-color('secondary');
+      box-shadow: 0px 0px 0px 3px var(--cx-color-light);
+      border-color: var(--cx-color-secondary);
     }
   }
 
   input[type='checkbox'] {
-    border: 2px solid theme-color('light');
+    border-style: solid;
     border-radius: 5px;
+    border-width: 2px;
+    border-color: var(--cx-color-light);
 
     &:checked {
       font-style: normal;
-      border: var(--cx-g-color-primary, theme-color('primary'));
-      background-color: var(--cx-g-color-primary, theme-color('primary'));
+      border-color: var(--cx-color-primary);
+      background-color: var(--cx-color-primary);
 
       &::after {
-        color: theme-color('inverse');
+        color: var(--cx-color-inverse);
         position: absolute;
+
         content: '';
         display: inline-block;
         height: 6px;
         width: 9px;
-        top: 7px;
-        left: 6px;
-        border-left: 2px solid theme-color('inverse');
-        border-bottom: 2px solid theme-color('inverse');
+        top: 5px;
+        left: 5px;
+        border-width: 0 0 2px 2px;
+        border-style: solid;
+        border-color: var(--cx-color-inverse);
         transform: rotate(-45deg);
       }
     }
@@ -131,7 +134,7 @@ label {
 
 .form-control[type='text'] {
   &:focus {
-    background-color: theme-color('background');
+    background-color: var(--cx-color-background);
     box-shadow: none;
     -webkit-box-shadow: none;
   }
@@ -140,7 +143,9 @@ label {
 input[type='radio'] {
   border-radius: 50%;
   display: inline-block;
-  border: 2px solid theme-color('light');
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--cx-color-light);
   position: absolute;
 
   &::after {
@@ -150,101 +155,24 @@ input[type='radio'] {
     height: 10px;
     width: 10px;
     border-radius: 50%;
-    background-color: theme-color('inverse');
+    background-color: var(--cx-color-inverse);
     left: 4px;
     top: 4px;
   }
   &:checked {
-    border-color: var(--cx-g-color-primary, theme-color('primary')) !important;
-    background-color: theme-color('inverse');
+    border-color: var(--cx-color-primary) !important;
+    background-color: var(--cx-color-inverse);
 
     &::after {
-      @include var-color('background-color', 'primary');
+      background-color: var(--cx-color-primary);
     }
   }
 }
 
-.form-toggle {
-  position: relative;
-  display: inline-block;
-  width: 88px;
-  height: 40px;
-}
-
-.form-toggle-input {
-  display: none;
-}
-
-.form-toggle__switch {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: theme-color('light');
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 34px;
-
-  &:before {
-    position: absolute;
-    content: '';
-    height: 32px;
-    width: 32px;
-    left: 4px;
-    bottom: 4px;
-    background-color: theme-color('inverse');
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    border-radius: 50%;
-  }
-}
-
-.toggle-on,
-.toggle-off {
-  color: theme-color('inverse');
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  @include type('5', 'bold');
-}
-
-.toggle-on {
-  display: none;
-  left: 30%;
-}
-
-.toggle-off {
-  right: -7%;
-}
-
-input:checked + .form-toggle__switch {
-  .toggle-on {
-    display: block;
-  }
-
-  .toggle-off {
-    display: none;
-  }
-}
-
-input[role='switch']:checked + .form-toggle__switch {
-  background-color: theme-color('primary');
-  &:before {
-    left: calc(100% - 5px);
-    transform: translateX(-100%);
-  }
-
-  &:focus + .form-toggle__switch {
-    box-shadow: 0 0 1px theme-color('info');
-  }
-}
-
 .form-message {
-  font-size: $small-font-size;
+  @include type(7);
   &--danger {
-    color: theme-color('danger');
+    color: var(--cx-color-danger);
   }
 }
 
@@ -253,21 +181,21 @@ input[role='switch']:checked + .form-toggle__switch {
   .ng-dropdown-panel {
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {
-        background-color: theme-color('light');
+        background-color: var(--cx-color-light);
       }
     }
   }
 
   .ng-arrow-wrapper {
     .ng-arrow {
-      border-color: theme-color('text') transparent transparent;
+      border-color: var(--cx-color-text) transparent transparent;
       border-style: solid;
       border-width: 5px 5px 2.5px;
     }
   }
 
   .ng-select-container {
-    padding: $input-padding-y 0;
+    padding: 0.6875rem 0;
     line-height: 1.6;
     height: unset;
   }

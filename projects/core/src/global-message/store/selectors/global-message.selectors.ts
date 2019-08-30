@@ -1,10 +1,12 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-import { getGlobalMessageState } from './feature.selector';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { Translatable } from '../../../i18n/translatable';
+import { GlobalMessageType } from '../../models/global-message.model';
 import {
-  StateWithGlobalMessage,
+  GlobalMessageEntities,
   GlobalMessageState,
-  GlobalMessageEntities
+  StateWithGlobalMessage,
 } from '../global-message-state';
+import { getGlobalMessageState } from './feature.selector';
 
 export const getGlobalMessageEntities: MemoizedSelector<
   StateWithGlobalMessage,
@@ -13,3 +15,21 @@ export const getGlobalMessageEntities: MemoizedSelector<
   getGlobalMessageState,
   (state: GlobalMessageState) => state.entities
 );
+
+export const getGlobalMessageEntitiesByType = (
+  type: GlobalMessageType
+): MemoizedSelector<StateWithGlobalMessage, Translatable[]> => {
+  return createSelector(
+    getGlobalMessageEntities,
+    entities => entities && entities[type]
+  );
+};
+
+export const getGlobalMessageCountByType = (
+  type: GlobalMessageType
+): MemoizedSelector<StateWithGlobalMessage, number> => {
+  return createSelector(
+    getGlobalMessageEntitiesByType(type),
+    entities => entities && entities.length
+  );
+};

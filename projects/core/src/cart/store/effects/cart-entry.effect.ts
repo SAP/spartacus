@@ -1,64 +1,95 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
-import * as fromActions from './../actions';
-
-import { OccCartService } from '../../occ/cart.service';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartEntryEffects {
   @Effect()
-  addEntry$: Observable<any> = this.actions$.pipe(
-    ofType(fromActions.ADD_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+  addEntry$: Observable<
+    CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
+  > = this.actions$.pipe(
+    ofType(CartActions.CART_ADD_ENTRY),
+    map((action: CartActions.CartAddEntry) => action.payload),
     mergeMap(payload =>
-      this.cartService
-        .addEntry(
+      this.cartEntryConnector
+        .add(
           payload.userId,
           payload.cartId,
           payload.productCode,
           payload.quantity
         )
         .pipe(
-          map((entry: any) => new fromActions.AddEntrySuccess(entry)),
-          catchError(error => of(new fromActions.AddEntryFail(error)))
+          map(
+            (entry: any) =>
+              new CartActions.CartAddEntrySuccess({
+                ...entry,
+                userId: payload.userId,
+                cartId: payload.cartId,
+              })
+          ),
+          catchError(error =>
+            of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
+          )
         )
     )
   );
 
   @Effect()
-  removeEntry$: Observable<any> = this.actions$.pipe(
-    ofType(fromActions.REMOVE_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+  removeEntry$: Observable<
+    CartActions.CartRemoveEntrySuccess | CartActions.CartRemoveEntryFail
+  > = this.actions$.pipe(
+    ofType(CartActions.CART_REMOVE_ENTRY),
+    map((action: CartActions.CartAddEntry) => action.payload),
     mergeMap(payload =>
-      this.cartService
-        .removeEntry(payload.userId, payload.cartId, payload.entry)
+      this.cartEntryConnector
+        .remove(payload.userId, payload.cartId, payload.entry)
         .pipe(
           map(() => {
-            return new fromActions.RemoveEntrySuccess();
+            return new CartActions.CartRemoveEntrySuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
-          catchError(error => of(new fromActions.RemoveEntryFail(error)))
+          catchError(error =>
+            of(
+              new CartActions.CartRemoveEntryFail(makeErrorSerializable(error))
+            )
+          )
         )
     )
   );
 
   @Effect()
-  updateEntry$: Observable<any> = this.actions$.pipe(
-    ofType(fromActions.UPDATE_ENTRY),
-    map((action: fromActions.AddEntry) => action.payload),
+  updateEntry$: Observable<
+    CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail
+  > = this.actions$.pipe(
+    ofType(CartActions.CART_UPDATE_ENTRY),
+    map((action: CartActions.CartAddEntry) => action.payload),
     mergeMap(payload =>
-      this.cartService
-        .updateEntry(payload.userId, payload.cartId, payload.entry, payload.qty)
+      this.cartEntryConnector
+        .update(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
           map(() => {
-            return new fromActions.UpdateEntrySuccess();
+            return new CartActions.CartUpdateEntrySuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
           }),
-          catchError(error => of(new fromActions.UpdateEntryFail(error)))
+          catchError(error =>
+            of(
+              new CartActions.CartUpdateEntryFail(makeErrorSerializable(error))
+            )
+          )
         )
     )
   );
 
-  constructor(private actions$: Actions, private cartService: OccCartService) {}
+  constructor(
+    private actions$: Actions,
+    private cartEntryConnector: CartEntryConnector
+  ) {}
 }

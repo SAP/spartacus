@@ -1,0 +1,52 @@
+/* IDEAS TO EXTEND
+  - sizing (variants: small, medium, big)
+  - theme (variants: primary, secondary)
+*/
+
+:root {
+  --cx-spinner-radius: 120px;
+  --cx-spinner-border-width: 15px;
+  --cx-spinner-animation-time: 1s;
+  --cx-spinner-primary-color: var(--cx-color-primary);
+  --cx-spinner-secondary-color: var(--cx-color-light);
+}
+
+%cx-spinner {
+  .loader-container {
+    position: relative;
+    margin: 30px auto;
+    width: var(--cx-spinner-radius);
+    height: var(--cx-spinner-radius);
+  }
+  .loader {
+    width: var(--cx-spinner-radius);
+    height: var(--cx-spinner-radius);
+    font-size: 10px;
+    overflow: hidden;
+    animation: load8 var(--cx-spinner-animation-time) infinite linear;
+
+    &::before,
+    &:before {
+      content: '';
+      box-sizing: border-box;
+      display: block;
+      width: var(--cx-spinner-radius);
+      height: var(--cx-spinner-radius);
+      border: var(--cx-spinner-border-width) solid;
+      margin: auto;
+      border-top-color: var(--cx-spinner-secondary-color);
+      border-bottom-color: var(--cx-spinner-secondary-color);
+      border-right-color: var(--cx-spinner-secondary-color);
+      border-left-color: var(--cx-spinner-primary-color);
+      border-radius: 50%;
+    }
+  }
+  @keyframes load8 {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

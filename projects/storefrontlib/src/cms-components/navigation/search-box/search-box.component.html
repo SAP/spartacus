@@ -1,0 +1,74 @@
+<label class="searchbox" [class.dirty]="!!searchInput.value">
+  <input
+    #searchInput
+    [placeholder]="'searchBox.placeholder' | cxTranslate"
+    aria-label="search"
+    (focus)="open()"
+    (input)="search(searchInput.value)"
+    (blur)="close($event)"
+    (keydown.escape)="close($event)"
+    (keydown.enter)="launchSearchResult($event, searchInput.value)"
+  />
+
+  <cx-icon
+    [type]="iconTypes.RESET"
+    aria-label="reset"
+    (mousedown)="clear(searchInput)"
+    class="reset"
+  ></cx-icon>
+
+  <cx-icon
+    [type]="iconTypes.SEARCH"
+    aria-label="search"
+    class="search"
+    (mousedown)="avoidReopen($event)"
+  ></cx-icon>
+</label>
+
+<div
+  *ngIf="(results$ | async) as result"
+  class="results"
+  (click)="close($event)"
+>
+  <div
+    *ngIf="result.message"
+    class="message"
+    [innerHTML]="result.message"
+  ></div>
+
+  <div class="suggestions" (mousedown)="disableClose()">
+    <a
+      *ngFor="let suggestion of result.suggestions"
+      [innerHTML]="suggestion | cxHighlight: searchInput.value"
+      [routerLink]="
+        {
+          cxRoute: 'search',
+          params: { query: suggestion }
+        } | cxUrl
+      "
+    >
+    </a>
+  </div>
+
+  <div class="products" (mousedown)="disableClose()" *ngIf="result.products">
+    <a
+      *ngFor="let product of result.products"
+      [routerLink]="
+        {
+          cxRoute: 'product',
+          params: product
+        } | cxUrl
+      "
+      [class.has-media]="config.displayProductImages"
+    >
+      <cx-media
+        *ngIf="config.displayProductImages"
+        [container]="product.images?.PRIMARY"
+        format="thumbnail"
+        [alt]="product.summary"
+      ></cx-media>
+      <h4 class="name" [innerHTML]="product.nameHtml"></h4>
+      <span class="price">{{ product.price?.formattedValue }}</span>
+    </a>
+  </div>
+</div>

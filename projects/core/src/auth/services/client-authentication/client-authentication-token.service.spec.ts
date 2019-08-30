@@ -1,47 +1,76 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
-  TestRequest
+  TestRequest,
 } from '@angular/common/http/testing';
-import { ClientAuthenticationTokenService } from './client-authentication-token.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
+import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 
 const token: ClientToken = {
   access_token: 'mockToken',
   token_type: 'mock',
   expires_in: 13123,
-  scope: 'user'
+  scope: 'user',
 };
 
-const mockOauthEndpoint = '/authorizationserver/oauth/token';
+const loginEndpoint = '/authorizationserver/oauth/token';
 
 const MockAuthConfig: AuthConfig = {
-  server: {
-    baseUrl: ''
+  backend: {
+    occ: {
+      baseUrl: '',
+      endpoints: {
+        login: loginEndpoint,
+      },
+    },
   },
   authentication: {
     client_id: '',
-    client_secret: ''
-  }
+    client_secret: '',
+  },
 };
+
+class MockOccEndpointsService {
+  getRawEndpoint(endpoint: string) {
+    return (
+      MockAuthConfig.backend.occ.baseUrl +
+      MockAuthConfig.backend.occ.endpoints[endpoint]
+    );
+  }
+}
 
 describe('ClientAuthenticationTokenService', () => {
   let service: ClientAuthenticationTokenService;
   let httpMock: HttpTestingController;
+  let occEndpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         ClientAuthenticationTokenService,
-        { provide: AuthConfig, useValue: MockAuthConfig }
-      ]
+        { provide: AuthConfig, useValue: MockAuthConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
+      ],
     });
 
-    service = TestBed.get(ClientAuthenticationTokenService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.get(ClientAuthenticationTokenService as Type<
+      ClientAuthenticationTokenService
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    occEndpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
+    spyOn(occEndpointsService, 'getRawEndpoint').and.callThrough();
   });
 
   afterEach(() => {
@@ -55,8 +84,10 @@ describe('ClientAuthenticationTokenService', () => {
       });
 
       const mockReq: TestRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
+        return req.method === 'POST' && req.url === loginEndpoint;
       });
+
+      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('login');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(token);

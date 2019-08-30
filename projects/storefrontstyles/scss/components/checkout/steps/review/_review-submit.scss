@@ -1,0 +1,123 @@
+@import '../../../../theme';
+
+%cx-review-submit {
+  .cx-review {
+    padding: 0 0 1rem;
+  }
+  .cx-review-title {
+    text-transform: uppercase;
+    margin: 0 auto;
+    padding: 2.375rem 0 1.25rem 0;
+  }
+
+  .cx-review-summary {
+    margin: 0;
+    background-color: var(--cx-color-background);
+
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+      word-break: break-all;
+    }
+
+    &-edit-step {
+      padding: 0 20px 20px;
+
+      @include media-breakpoint-down(md) {
+        padding: 10px 0 0;
+      }
+    }
+
+    .cx-review-summary-card {
+      @include media-breakpoint-down(md) {
+        background-color: theme-color('inverse');
+        border-style: solid;
+        border-width: 1px;
+        border-color: var(--cx-color-light);
+        min-height: auto;
+      }
+    }
+  }
+
+  .row {
+    margin: 0;
+  }
+
+  .form-check {
+    padding: 0;
+    margin: 0;
+  }
+
+  .col-md-4 {
+    padding: 0;
+  }
+
+  .cx-review-cart-total {
+    @include type('4');
+    margin: 2.625rem 0 0.5rem 0;
+  }
+
+  .cx-review-cart-heading {
+    @include type('4');
+    padding: 1.375rem 0;
+    margin: 0;
+    border-style: solid;
+    border-width: 1px 0;
+    border-color: var(--cx-color-light);
+
+    @include media-breakpoint-down(md) {
+      border-width: 1px 0 0;
+      max-width: 100%;
+      min-width: 100%;
+      padding: 1.375rem 0 1.375rem 3.5rem;
+    }
+    @include media-breakpoint-down(sm) {
+      max-width: 100%;
+      min-width: 100%;
+      padding: 1.375rem 0 1.375rem 1.25rem;
+    }
+  }
+
+  .cx-review-cart-item {
+    padding: 0;
+    .col-md-12 {
+      @include media-breakpoint-down(md) {
+        padding: 0;
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
+    }
+    @include media-breakpoint-down(md) {
+      border-style: solid;
+      border-width: 1px 0 0;
+      border-color: var(--cx-color-light);
+    }
+  }
+
+  // ***************************** MEDIA QUERIES *****************************
+
+  @include checkout-media-style();
+  .col-md-12 {
+    @include media-breakpoint-down(md) {
+      padding: 0 3.5rem 3.5rem 3.5rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 1.25rem 1.25rem 1.25rem;
+    }
+  }
+}
+
+cx-place-order {
+  @include media-breakpoint-down(lg) {
+    --cx-flex-basis: 45%;
+  }
+
+  .cx-place-order-form {
+    @include type('7');
+  }
+}

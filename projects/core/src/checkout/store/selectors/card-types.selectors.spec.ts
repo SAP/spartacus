@@ -1,25 +1,24 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
-import * as fromActions from '../actions/index';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { CardType } from '../../../model/cart.model';
+import { CheckoutActions } from '../actions/index';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
-import { CardType } from '../../../occ/occ-models/occ.models';
+import { CheckoutSelectors } from '../selectors/index';
 
 describe('Card Types Selectors', () => {
-  let store: Store<CheckoutState>;
+  let store: Store<StateWithCheckout>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithCheckout>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -28,22 +27,22 @@ describe('Card Types Selectors', () => {
       const cardTypes: CardType[] = [
         {
           code: 'amex',
-          name: 'American Express'
+          name: 'American Express',
         },
         {
           code: 'maestro',
-          name: 'Maestro'
-        }
+          name: 'Maestro',
+        },
       ];
 
       let result: CardType[];
       store
-        .pipe(select(fromSelectors.getAllCardTypes))
+        .pipe(select(CheckoutSelectors.getAllCardTypes))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadCardTypesSuccess(cardTypes));
+      store.dispatch(new CheckoutActions.LoadCardTypesSuccess(cardTypes));
 
       expect(result).toEqual(cardTypes);
     });

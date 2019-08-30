@@ -3,10 +3,13 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/app",
     "module": "es2015",
+    "target": "es2015",
     "types": [],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/vendor": ["dist/vendor"],
+      "@spartacus/assets": ["dist/assets"]
     }
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]

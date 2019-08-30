@@ -1,0 +1,230 @@
+@import '../../../theme';
+
+/**
+ * To control visual effects while searching the searchbox requries
+ * some CSS rules to the outer elements.
+ */
+%cx-searchbox__body {
+  // when there are results and the searchbox is active
+  // we display the searchbox
+  &.searchbox-is-active {
+    &.has-searchbox-results {
+      cx-searchbox {
+        .results {
+          display: block;
+        }
+      }
+
+      // the searchbox requires an overlay over the page (except for the header)
+      // we do this with an overlay under the header, on top of the rest of the page
+      header {
+        position: relative;
+        z-index: 100;
+      }
+      cx-storefront {
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 10;
+
+          background: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+
+  &:not(.searchbox-is-active) {
+    @include media-breakpoint-down(sm) {
+      // hide the input on mobile when there's no interaction with searchbox
+      cx-searchbox {
+        input {
+          // we cannot use display:none, visible:hidden or opacity: 0
+          // as this will no longer emit a focus event to the controller logic
+          width: 0;
+          padding: 0;
+        }
+        cx-icon.reset {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+%cx-searchbox {
+  @include media-breakpoint-up(md) {
+    // we position the parent relative to ensure the result panel
+    // is aligned to the left of searchbox
+    position: relative;
+  }
+
+  z-index: 10;
+  display: block;
+
+  > * {
+    z-index: 20;
+    @include media-breakpoint-up(md) {
+      background-color: var(--cx-color-secondary);
+      position: relative;
+    }
+  }
+
+  a,
+  .message {
+    padding: 6px 16px;
+    color: currentColor;
+    user-select: none;
+  }
+
+  label {
+    display: flex;
+    align-content: stretch;
+    margin: 0;
+    padding: 6px 6px 6px 10px;
+    @include media-breakpoint-up(md) {
+      width: 27vw;
+      min-width: 300px;
+      // hide search icon when the input is dirty
+      &.dirty cx-icon.search {
+        display: none;
+      }
+    }
+
+    input {
+      background: none;
+      border: none;
+      outline: none;
+
+      display: block;
+
+      @include media-breakpoint-down(sm) {
+        position: absolute;
+        left: 0;
+        top: 57px;
+        width: 100%;
+        background-color: var(--cx-color-secondary);
+        padding: 6px 16px;
+        height: 48px;
+        border-bottom: 1px solid var(--cx-color-light);
+      }
+
+      flex-basis: 100%;
+      height: 35px;
+      color: currentColor;
+      z-index: 20;
+
+      @include placeholder {
+        color: currentColor;
+      }
+    }
+
+    // hide reset icon when the input is empty
+    &:not(.dirty) cx-icon.reset {
+      display: none;
+    }
+
+    cx-icon {
+      color: currentColor;
+      flex-basis: 48px;
+      text-align: center;
+      cursor: pointer;
+      &.reset {
+        &:before {
+          font-size: 1.4rem;
+        }
+        @include media-breakpoint-down(sm) {
+          position: absolute;
+          right: 65px;
+          z-index: 20;
+          right: 20px;
+          margin-top: 52px;
+        }
+      }
+    }
+  }
+
+  .results {
+    // hide the result by default
+    display: none;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    color: #000;
+    background-color: #fff;
+    font-size: var(--cx-font-small, 1rem);
+
+    @include media-breakpoint-down(sm) {
+      top: 105px;
+      z-index: 10;
+    }
+
+    a {
+      text-decoration: none;
+      cursor: pointer;
+
+      font-weight: 800;
+
+      .highlight,
+      .search-results-highlight {
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      &:hover {
+        background: var(--cx-color-light);
+        color: currentColor;
+      }
+    }
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      a {
+        flex: 100%;
+        line-height: 2rem;
+      }
+    }
+    .products {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+
+      a {
+        display: grid;
+        grid-column-gap: 16px;
+
+        &.has-media {
+          // create a grid layout in case we show an image
+          grid-template-columns: 50px 1fr;
+        }
+
+        border-top: solid 1px var(--cx-color-light);
+
+        cx-media {
+          grid-row: 1 / 3;
+
+          &.is-missing {
+            min-height: 48px;
+            background-size: 48px;
+          }
+        }
+        h4.name {
+          text-overflow: ellipsis;
+
+          font-size: inherit;
+          font-weight: inherit;
+
+          /* Required for text-overflow to do anything */
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .price {
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}

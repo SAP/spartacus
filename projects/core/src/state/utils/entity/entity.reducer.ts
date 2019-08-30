@@ -1,6 +1,7 @@
+import { Action } from '@ngrx/store';
+
 import { EntityState } from './entity-state';
 import { EntityAction } from './entity.action';
-import { Action } from '@ngrx/store';
 
 export const initialEntityState: EntityState<any> = { entities: {} };
 
@@ -22,9 +23,29 @@ export function entityReducer<T>(
     if (
       action.meta &&
       action.meta.entityType === entityType &&
-      action.meta.entityId
+      action.meta.entityId !== undefined
     ) {
       ids = [].concat(action.meta.entityId);
+
+      // remove selected entities
+      if (action.meta.entityRemove) {
+        if (action.meta.entityId === null) {
+          return initialEntityState;
+        } else {
+          let removed = false;
+          const newEntities = Object.keys(state.entities).reduce((acc, cur) => {
+            if (ids.includes(cur)) {
+              removed = true;
+            } else {
+              acc[cur] = state.entities[cur];
+            }
+            return acc;
+          }, {});
+
+          return removed ? { entities: newEntities } : state;
+        }
+      }
+
       partitionPayload =
         Array.isArray(action.meta.entityId) && Array.isArray(action.payload);
     } else {
@@ -47,7 +68,7 @@ export function entityReducer<T>(
     if (Object.keys(entityUpdates).length > 0) {
       return {
         ...state,
-        entities: { ...state.entities, ...entityUpdates }
+        entities: { ...state.entities, ...entityUpdates },
       };
     }
 

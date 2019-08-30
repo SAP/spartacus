@@ -1,21 +1,21 @@
-import { GlobalMessageAction } from '../actions/global-message.actions';
+import { Translatable } from '../../../i18n/translatable';
 import {
   GlobalMessage,
-  GlobalMessageType
+  GlobalMessageType,
 } from '../../models/global-message.model';
-import * as fromAction from '../actions/index';
+import { GlobalMessageActions } from '../actions/index';
 import { GlobalMessageState } from '../global-message-state';
 
 export const initialState: GlobalMessageState = {
-  entities: {}
+  entities: {},
 };
 
 export function reducer(
   state = initialState,
-  action: GlobalMessageAction
+  action: GlobalMessageActions.GlobalMessageAction
 ): GlobalMessageState {
   switch (action.type) {
-    case fromAction.ADD_MESSAGE: {
+    case GlobalMessageActions.ADD_MESSAGE: {
       const message: GlobalMessage = action.payload;
 
       if (state.entities[message.type] === undefined) {
@@ -23,27 +23,22 @@ export function reducer(
           ...state,
           entities: {
             ...state.entities,
-            [message.type]: [message.text]
-          }
+            [message.type]: [message.text],
+          },
         };
       } else {
-        const msgs = state.entities[message.type];
-
-        if (msgs.indexOf(message.text) === -1) {
-          return {
-            ...state,
-            entities: {
-              ...state.entities,
-              [message.type]: [...msgs, message.text]
-            }
-          };
-        }
+        const messages: Translatable[] = state.entities[message.type];
+        return {
+          ...state,
+          entities: {
+            ...state.entities,
+            [message.type]: [...messages, message.text],
+          },
+        };
       }
-
-      return state;
     }
 
-    case fromAction.REMOVE_MESSAGE: {
+    case GlobalMessageActions.REMOVE_MESSAGE: {
       const msgType: GlobalMessageType = action.payload.type;
       const msgIndex: number = action.payload.index;
       if (
@@ -60,19 +55,19 @@ export function reducer(
         ...state,
         entities: {
           ...state.entities,
-          [msgType]: messages
-        }
+          [msgType]: messages,
+        },
       };
     }
 
-    case fromAction.REMOVE_MESSAGES_BY_TYPE: {
+    case GlobalMessageActions.REMOVE_MESSAGES_BY_TYPE: {
       const entities = {
         ...state.entities,
-        [action.payload]: []
+        [action.payload]: [],
       };
       return {
         ...state,
-        entities
+        entities,
       };
     }
   }

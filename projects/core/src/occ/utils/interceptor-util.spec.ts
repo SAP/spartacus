@@ -37,8 +37,8 @@ describe('InterceptorUtil', () => {
       const headerName = 'X';
       request = request.clone({
         setHeaders: {
-          headerName: `true`
-        }
+          headerName: `true`,
+        },
       });
 
       request = InterceptorUtil.removeHeader(headerName, request);

@@ -1,10 +1,36 @@
 %CartPageTemplate {
-  max-width: var(--cx-max-width, 1140px);
-  padding: var(--cx-padding, 0 1.5rem);
+  max-width: 1140px;
+  padding: 0 1.5rem;
   margin: auto;
-  &:not(.empty) {
-    .EmptyCartMiddleContent {
-      display: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  .TopContent {
+    --cx-flex-basis: 68%;
+
+    @include media-breakpoint-down(md) {
+      --cx-flex-basis: 100%;
+    }
+  }
+
+  .CenterRightContentSlot {
+    --cx-flex-basis: 30%;
+
+    @include media-breakpoint-down(md) {
+      --cx-flex-basis: 50%;
+      justify-content: flex-end;
+
+      cx-cart-totals {
+        max-width: 50%;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      --cx-flex-basis: 100%;
+
+      cx-cart-totals {
+        max-width: none;
+      }
     }
   }
 }

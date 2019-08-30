@@ -2,49 +2,33 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { OccOrderService } from '../../occ/index';
-
-import * as fromOrderDetailsAction from '../actions/order-details.action';
-import { ProductImageConverterService } from '../../../product/store/converters/index';
-import { Order } from '../../../occ/occ-models/index';
+import { Order } from '../../../model/order.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class OrderDetailsEffect {
-  constructor(
-    private actions$: Actions,
-    private occOrderService: OccOrderService,
-    private productImageConverter: ProductImageConverterService
-  ) {}
-
   @Effect()
-  loadOrderDetails$: Observable<any> = this.actions$.pipe(
-    ofType(fromOrderDetailsAction.LOAD_ORDER_DETAILS),
-    map((action: fromOrderDetailsAction.LoadOrderDetails) => action.payload),
+  loadOrderDetails$: Observable<
+    UserActions.OrderDetailsAction
+  > = this.actions$.pipe(
+    ofType(UserActions.LOAD_ORDER_DETAILS),
+    map((action: UserActions.LoadOrderDetails) => action.payload),
     switchMap(payload => {
-      return this.occOrderService
-        .getOrder(payload.userId, payload.orderCode)
-        .pipe(
-          map((order: Order) => {
-            if (order.consignments) {
-              order.consignments.forEach(element => {
-                element.entries.forEach(entry => {
-                  this.productImageConverter.convertProduct(
-                    entry.orderEntry.product
-                  );
-                });
-              });
-            }
-            if (order.unconsignedEntries) {
-              order.unconsignedEntries.forEach(entry => {
-                this.productImageConverter.convertProduct(entry.product);
-              });
-            }
-            return new fromOrderDetailsAction.LoadOrderDetailsSuccess(order);
-          }),
-          catchError(error =>
-            of(new fromOrderDetailsAction.LoadOrderDetailsFail(error))
-          )
-        );
+      return this.orderConnector.get(payload.userId, payload.orderCode).pipe(
+        map((order: Order) => {
+          return new UserActions.LoadOrderDetailsSuccess(order);
+        }),
+        catchError(error =>
+          of(new UserActions.LoadOrderDetailsFail(makeErrorSerializable(error)))
+        )
+      );
     })
   );
+
+  constructor(
+    private actions$: Actions,
+    private orderConnector: UserOrderConnector
+  ) {}
 }

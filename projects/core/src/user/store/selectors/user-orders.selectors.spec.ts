@@ -1,19 +1,26 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromActions from '../actions/index';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { OrderHistoryList } from '../../../model/order.model';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
-import { StateWithUser, USER_FEATURE, UserOrdersState } from '../user-state';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { UsersSelectors } from '../selectors/index';
+import { StateWithUser, USER_FEATURE } from '../user-state';
+
+const emptyOrder: OrderHistoryList = {
+  orders: [],
+  pagination: {},
+  sorts: [],
+};
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
   pagination: {
     currentPage: 1,
-    pageSize: 5
+    pageSize: 5,
   },
-  sorts: [{ code: 'byPage' }]
+  sorts: [{ code: 'byPage' }],
 };
 
 describe('User Orders Selectors', () => {
@@ -23,27 +30,27 @@ describe('User Orders Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
-  describe('getOrderState', () => {
-    it('should return the Order state from the store', () => {
-      let result: UserOrdersState;
+
+  describe('getOrdersLoaderState', () => {
+    it('should return orders state', () => {
+      let result: LoaderState<OrderHistoryList>;
       store
-        .pipe(select(fromSelectors.getOrdersState))
-        .subscribe(value => (result = value));
+        .pipe(select(UsersSelectors.getOrdersState))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
       expect(result).toEqual({
-        orders: {
-          orders: [],
-          pagination: {},
-          sorts: []
-        },
         loading: false,
-        loaded: false
+        error: false,
+        success: false,
+        value: emptyOrder,
       });
     });
   });
@@ -52,16 +59,27 @@ describe('User Orders Selectors', () => {
     it('should return a user Orders', () => {
       let result: OrderHistoryList;
       store
-        .pipe(select(fromSelectors.getOrders))
+        .pipe(select(UsersSelectors.getOrders))
         .subscribe(value => (result = value));
-      expect(result).toEqual({
-        orders: [],
-        pagination: {},
-        sorts: []
-      });
 
-      store.dispatch(new fromActions.LoadUserOrdersSuccess(mockUserOrders));
+      expect(result).toEqual(emptyOrder);
+
+      store.dispatch(new UserActions.LoadUserOrdersSuccess(mockUserOrders));
       expect(result).toEqual(mockUserOrders);
+    });
+  });
+
+  describe('getOrdersLoaded', () => {
+    it('should return success flag of orders state', () => {
+      let result: boolean;
+      store
+        .pipe(select(UsersSelectors.getOrdersLoaded))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new UserActions.LoadUserOrdersSuccess(mockUserOrders));
+      expect(result).toEqual(true);
     });
   });
 });

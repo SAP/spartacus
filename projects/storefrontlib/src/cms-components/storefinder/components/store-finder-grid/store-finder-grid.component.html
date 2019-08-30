@@ -1,0 +1,24 @@
+<ng-container
+  *ngIf="
+    !(isLoading$ | async) && (locations$ | async) as locations;
+    else loading
+  "
+>
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-md-3 item"
+        *ngFor="let location of locations?.stores"
+        (click)="viewStore(location)"
+      >
+        <cx-store-finder-list-item
+          [location]="location"
+        ></cx-store-finder-list-item>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>

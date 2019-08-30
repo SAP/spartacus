@@ -1,20 +1,17 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { hot, cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-
-import { PageType } from '../../../occ/occ-models/index';
-import { RoutingService } from '../../../routing/index';
-import { OccCmsService } from '../../occ/occ-cms.service';
-import { CmsConfig } from '../../config/cms-config';
-import * as fromEffects from './navigation-entry-item.effect';
-import * as fromActions from '../actions/navigation-entry-item.action';
-
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { CmsComponent, OccConfig } from '@spartacus/core';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
 import * as fromCmsReducer from '../../../cms/store/reducers/index';
-import { defaultCmsModuleConfig } from '../../config/default-cms-config';
+import { PageType } from '../../../model/cms.model';
+import { RoutingService } from '../../../routing/index';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import { CmsActions } from '../actions/index';
+import * as fromEffects from './navigation-entry-item.effect';
 
 const router = {
   state: {
@@ -22,83 +19,84 @@ const router = {
     queryParams: {},
     params: {},
     context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
+
+const listComponents: any = [
+  {
+    uid: 'MockLink001',
+    url: '/testLink1',
+    linkName: 'test link 1',
+    target: false,
+  },
+  {
+    uid: 'MockLink002',
+    url: '/testLink2',
+    linkName: 'test link 2',
+    target: true,
+  },
+];
+
 class MockRoutingService {
   getRouterState() {
     return of(router);
   }
 }
 
+class MockCmsComponentConnector {
+  getList(): Observable<CmsComponent[]> {
+    return of(listComponents);
+  }
+}
+
 describe('Navigation Entry Items Effects', () => {
   let actions$: Observable<any>;
-  let service: OccCmsService;
+  let service: CmsComponentConnector;
   let effects: fromEffects.NavigationEntryItemEffects;
-
-  const listComponents: any = {
-    component: [
-      {
-        uid: 'MockLink001',
-        url: '/testLink1',
-        linkName: 'test link 1',
-        target: false
-      },
-      {
-        uid: 'MockLink002',
-        url: '/testLink2',
-        linkName: 'test link 2',
-        target: true
-      }
-    ],
-    pagination: {
-      count: 2,
-      page: 0,
-      totalCount: 2,
-      totalPages: 1
-    }
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
       ],
       providers: [
-        OccCmsService,
-        { provide: CmsConfig, useValue: defaultCmsModuleConfig },
+        { provide: CmsComponentConnector, useClass: MockCmsComponentConnector },
+        { provide: OccConfig, useValue: {} },
         fromEffects.NavigationEntryItemEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
 
-    service = TestBed.get(OccCmsService);
-    effects = TestBed.get(fromEffects.NavigationEntryItemEffects);
+    service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
+    effects = TestBed.get(fromEffects.NavigationEntryItemEffects as Type<
+      fromEffects.NavigationEntryItemEffects
+    >);
 
-    spyOn(service, 'loadListComponents').and.returnValue(of(listComponents));
+    spyOn(service, 'getList').and.returnValue(of(listComponents));
   });
 
   describe('loadNavigationItems$', () => {
     it('should return list of components from LoadNavigationItemsSuccess', () => {
-      const action = new fromActions.LoadNavigationItems({
+      const action = new CmsActions.LoadCmsNavigationItems({
         nodeId: 'MockNavigationNode001',
         items: [
           {
             superType: 'AbstractCMSComponent',
-            id: 'MockLink001'
+            id: 'MockLink001',
           },
           {
             superType: 'AbstractCMSComponent',
-            id: 'MockLink002'
-          }
-        ]
+            id: 'MockLink002',
+          },
+        ],
       });
-      const completion = new fromActions.LoadNavigationItemsSuccess({
+      const completion = new CmsActions.LoadCmsNavigationItemsSuccess({
         nodeId: 'MockNavigationNode001',
-        components: listComponents.component
+        components: listComponents,
       });
 
       actions$ = hot('-a', { a: action });

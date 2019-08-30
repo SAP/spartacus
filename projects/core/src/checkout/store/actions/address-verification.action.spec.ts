@@ -1,23 +1,23 @@
-import * as fromAction from '../actions/address-verification.action';
-import { AddressValidation, Address } from '../../../occ';
+import { Address, AddressValidation } from '../../../model/address.model';
+import { CheckoutActions } from '../actions/index';
 
 describe('Address Verification Actions', () => {
   describe('VerifyAddress', () => {
     it('should create the action', () => {
       const address: Address = {
-        id: 'testAddress1'
+        id: 'testAddress1',
       };
 
       const payload = {
         userId: 'userId',
-        address
+        address,
       };
 
-      const action = new fromAction.VerifyAddress(payload);
+      const action = new CheckoutActions.VerifyAddress(payload);
 
       expect({ ...action }).toEqual({
-        type: fromAction.VERIFY_ADDRESS,
-        payload: payload
+        type: CheckoutActions.VERIFY_ADDRESS,
+        payload: payload,
       });
     });
   });
@@ -25,11 +25,11 @@ describe('Address Verification Actions', () => {
   describe('VerifyAddressFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.VerifyAddressFail(error);
+      const action = new CheckoutActions.VerifyAddressFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.VERIFY_ADDRESS_FAIL,
-        payload: error
+        type: CheckoutActions.VERIFY_ADDRESS_FAIL,
+        payload: error,
       });
     });
   });
@@ -38,21 +38,23 @@ describe('Address Verification Actions', () => {
     it('should create the action', () => {
       const addressValidation: AddressValidation = {
         decision: 'test address validation',
-        suggestedAddresses: [{ id: 'address1' }]
+        suggestedAddresses: [{ id: 'address1' }],
       };
-      const action = new fromAction.VerifyAddressSuccess(addressValidation);
+      const action = new CheckoutActions.VerifyAddressSuccess(
+        addressValidation
+      );
       expect({ ...action }).toEqual({
-        type: fromAction.VERIFY_ADDRESS_SUCCESS,
-        payload: addressValidation
+        type: CheckoutActions.VERIFY_ADDRESS_SUCCESS,
+        payload: addressValidation,
       });
     });
   });
 
   describe('ClearAddressVerificationResults', () => {
     it('should create the action', () => {
-      const action = new fromAction.ClearAddressVerificationResults();
+      const action = new CheckoutActions.ClearAddressVerificationResults();
       expect({ ...action }).toEqual({
-        type: fromAction.CLEAR_ADDRESS_VERIFICATION_RESULTS
+        type: CheckoutActions.CLEAR_ADDRESS_VERIFICATION_RESULTS,
       });
     });
   });

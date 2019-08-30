@@ -1,10 +1,11 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromActions from '../actions/index';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Address } from '../../../model/address.model';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
-import { Address } from '../../../occ/occ-models/index';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserAddresses: Address[] = [{ id: 'address1' }, { id: 'address2' }];
@@ -16,56 +17,58 @@ describe('User Addresses Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
+  });
+
+  describe('getAddressesLoaderState', () => {
+    it('should return a user addresses loader state', () => {
+      let result: LoaderState<Address[]>;
+      store
+        .pipe(select(UsersSelectors.getAddressesLoaderState))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: [],
+      });
+    });
   });
 
   describe('getAddresses', () => {
     it('should return a user addresses', () => {
       let result: Address[];
       store
-        .pipe(select(fromSelectors.getAddresses))
+        .pipe(select(UsersSelectors.getAddresses))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
       store.dispatch(
-        new fromActions.LoadUserAddressesSuccess(mockUserAddresses)
+        new UserActions.LoadUserAddressesSuccess(mockUserAddresses)
       );
 
       expect(result).toEqual(mockUserAddresses);
     });
   });
 
-  describe('getAddressLoading', () => {
-    it('should return isLoading flag', () => {
+  describe('getAddressesLoading', () => {
+    it('should return loading flag', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getAddressesLoading))
+        .pipe(select(UsersSelectors.getAddressesLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadUserAddresses('userId'));
-
-      expect(result).toEqual(true);
-    });
-  });
-
-  describe('getAddressProcessingStatus', () => {
-    it('should return isActionProcessing flag', () => {
-      let result;
-      store
-        .pipe(select(fromSelectors.getAddressActionProcessingStatus))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.DeleteUserAddress('addressId'));
+      store.dispatch(new UserActions.LoadUserAddresses('userId'));
 
       expect(result).toEqual(true);
     });

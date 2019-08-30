@@ -2,27 +2,36 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import * as fromAction from '../actions/delivery-countries.action';
+import { CountryType } from '../../../model/address.model';
+import { SiteConnector } from '../../../site-context/connectors/site.connector';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class DeliveryCountriesEffects {
   @Effect()
-  loadDeliveryCountries$: Observable<any> = this.actions$.pipe(
-    ofType(fromAction.LOAD_DELIVERY_COUNTRIES),
+  loadDeliveryCountries$: Observable<
+    UserActions.DeliveryCountriesAction
+  > = this.actions$.pipe(
+    ofType(UserActions.LOAD_DELIVERY_COUNTRIES),
     switchMap(() => {
-      return this.occMiscsService.loadDeliveryCountries().pipe(
+      return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(
         map(
-          data => new fromAction.LoadDeliveryCountriesSuccess(data.countries)
+          countries => new UserActions.LoadDeliveryCountriesSuccess(countries)
         ),
-        catchError(error => of(new fromAction.LoadDeliveryCountriesFail(error)))
+        catchError(error =>
+          of(
+            new UserActions.LoadDeliveryCountriesFail(
+              makeErrorSerializable(error)
+            )
+          )
+        )
       );
     })
   );
 
   constructor(
     private actions$: Actions,
-    private occMiscsService: OccMiscsService
+    private siteConnector: SiteConnector
   ) {}
 }

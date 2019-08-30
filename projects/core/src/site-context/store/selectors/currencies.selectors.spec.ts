@@ -1,31 +1,35 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, select, StoreModule } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors/currencies.selectors';
-import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
-import { Currency } from '../../../occ/occ-models';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Currency } from '../../../model/misc.model';
+import { SiteContextActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { SiteContextSelectors } from '../selectors/index';
+import { SITE_CONTEXT_FEATURE, StateWithSiteContext } from '../state';
 
 describe('Currencies Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
   const currencies: Currency[] = [
-    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   ];
 
   const entities: { [key: string]: Currency } = {
-    USD: currencies[0]
+    USD: currencies[0],
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(SITE_CONTEXT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(
+          SITE_CONTEXT_FEATURE,
+          fromReducers.getReducers()
+        ),
+      ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -34,12 +38,12 @@ describe('Currencies Selectors', () => {
       let result: Currency;
 
       store
-        .pipe(select(fromSelectors.getCurrenciesEntities))
+        .pipe(select(SiteContextSelectors.getCurrenciesEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
+      store.dispatch(new SiteContextActions.LoadCurrenciesSuccess(currencies));
       expect(result).toEqual(entities);
     });
   });
@@ -49,12 +53,12 @@ describe('Currencies Selectors', () => {
       let result: string;
 
       store
-        .pipe(select(fromSelectors.getActiveCurrency))
+        .pipe(select(SiteContextSelectors.getActiveCurrency))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.SetActiveCurrency('USD'));
+      store.dispatch(new SiteContextActions.SetActiveCurrency('USD'));
       expect(result).toEqual('USD');
     });
   });
@@ -64,12 +68,12 @@ describe('Currencies Selectors', () => {
       let result: Currency[];
 
       store
-        .pipe(select(fromSelectors.getAllCurrencies))
+        .pipe(select(SiteContextSelectors.getAllCurrencies))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
+      store.dispatch(new SiteContextActions.LoadCurrenciesSuccess(currencies));
       expect(result).toEqual(currencies);
     });
   });

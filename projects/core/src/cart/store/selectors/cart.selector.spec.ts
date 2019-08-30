@@ -1,12 +1,12 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromActions from './../actions';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { Cart } from '../../../model/cart.model';
+import { OrderEntry } from '../../../model/order.model';
+import { CartActions } from '../actions/index';
 import { StateWithCart } from '../cart-state';
-import * as fromReducers from './../reducers';
-import * as fromSelectors from './../selectors';
-import { Cart, OrderEntry } from '../../../occ';
+import * as fromReducers from './../reducers/index';
+import { CartSelectors } from './../selectors/index';
 
 describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
@@ -18,12 +18,12 @@ describe('Cart selectors', () => {
     entries: [{ entryNumber: 0, product: { code: '1234' } }],
     totalPrice: {
       currencyIso: 'USD',
-      value: 0
+      value: 0,
     },
     totalPriceWithTax: {
       currencyIso: 'USD',
-      value: 0
-    }
+      value: 0,
+    },
   };
 
   const testEmptyCart: Cart = {
@@ -32,23 +32,23 @@ describe('Cart selectors', () => {
     totalItems: 0,
     totalPrice: {
       currencyIso: 'USD',
-      value: 0
+      value: 0,
     },
     totalPriceWithTax: {
       currencyIso: 'USD',
-      value: 0
-    }
+      value: 0,
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cart', fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithCart>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -56,96 +56,93 @@ describe('Cart selectors', () => {
     it('should return the cart content from the state', () => {
       let result: Cart;
       store
-        .pipe(select(fromSelectors.getCartContent))
+        .pipe(select(CartSelectors.getCartContent))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.CreateCartSuccess(testEmptyCart));
+      store.dispatch(new CartActions.CreateCartSuccess(testEmptyCart));
       expect(result).toEqual(testEmptyCart);
     });
   });
 
-  describe('getRefresh', () => {
+  describe('getCartRefresh', () => {
     it('should return the refresh value', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getRefresh))
+        .pipe(select(CartSelectors.getCartRefresh))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
       store.dispatch(
-        new fromActions.AddEntrySuccess({
-          userId: 'testUserId',
-          cartId: 'testCartId',
-          productCode: 'testProductCode',
-          quantity: 1
+        new CartActions.CartAddEntrySuccess({
+          quantity: 1,
         })
       );
       expect(result).toEqual(true);
     });
   });
 
-  describe('getLoaded', () => {
+  describe('getCartLoaded', () => {
     it('should return the loaded value', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getLoaded))
+        .pipe(select(CartSelectors.getCartLoaded))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.CreateCart(testEmptyCart));
+      store.dispatch(new CartActions.CreateCart(testEmptyCart));
       expect(result).toEqual(false);
     });
   });
 
-  describe('getEntriesMap', () => {
+  describe('getCartEntriesMap', () => {
     it('should return the cart entries in map', () => {
       let result: { [code: string]: OrderEntry };
       store
-        .pipe(select(fromSelectors.getEntriesMap))
+        .pipe(select(CartSelectors.getCartEntriesMap))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.LoadCartSuccess(testCart));
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({
-        '1234': { entryNumber: 0, product: { code: '1234' } }
+        '1234': { entryNumber: 0, product: { code: '1234' } },
       });
     });
   });
 
-  describe('getEntrySelectorFactory', () => {
+  describe('getCartEntrySelectorFactory', () => {
     it('should return entry by productCode', () => {
       let result: OrderEntry;
 
       store
-        .pipe(select(fromSelectors.getEntrySelectorFactory('1234')))
+        .pipe(select(CartSelectors.getCartEntrySelectorFactory('1234')))
         .subscribe(value => {
           result = value;
         });
 
       expect(result).toEqual(undefined);
 
-      store.dispatch(new fromActions.LoadCartSuccess(testCart));
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({ entryNumber: 0, product: { code: '1234' } });
     });
   });
 
-  describe('getEntriesList', () => {
+  describe('getCartEntriesList', () => {
     it('should return the list of entries', () => {
       let result: OrderEntry[];
       store
-        .pipe(select(fromSelectors.getEntries))
+        .pipe(select(CartSelectors.getCartEntries))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadCartSuccess(testCart));
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual([{ entryNumber: 0, product: { code: '1234' } }]);
     });

@@ -1,18 +1,15 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpTestingController,
   HttpClientTestingModule,
-  TestRequest
+  HttpTestingController,
+  TestRequest,
 } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
-import { AuthConfig } from '../config/auth-config';
-
-import { of, Observable, Subscription } from 'rxjs';
-
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
+import { OccConfig } from '@spartacus/core';
+import { Observable, of, Subscription } from 'rxjs';
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from './../../auth/models/token-types.model';
-
 import { UserTokenInterceptor } from './user-token.interceptor';
 
 const userToken = {
@@ -21,7 +18,7 @@ const userToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx'
+  userId: 'xxx',
 } as UserToken;
 
 class MockAuthService {
@@ -30,16 +27,16 @@ class MockAuthService {
   }
 }
 
-const MockAuthConfig: AuthConfig = {
-  server: {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
+const MockAuthConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: 'https://localhost:9002',
+      prefix: '/rest/v2/',
+    },
   },
-  site: {
-    baseSite: 'electronics',
-    language: '',
-    currency: ''
-  }
+  context: {
+    baseSite: ['test-site'],
+  },
 };
 
 describe('UserTokenInterceptor', () => {
@@ -50,23 +47,27 @@ describe('UserTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthConfig, useValue: MockAuthConfig },
+        { provide: OccConfig, useValue: MockAuthConfig },
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: UserTokenInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    authService = TestBed.get(AuthService);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    authService = TestBed.get(AuthService as Type<AuthService>);
   });
 
   it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(
     [HttpClient],
     (http: HttpClient) => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+
       const sub: Subscription = http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
@@ -89,7 +90,7 @@ describe('UserTokenInterceptor', () => {
     (http: HttpClient) => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
       const sub: Subscription = http
-        .get('https://localhost:9002/rest/v2/electronics')
+        .get('https://localhost:9002/rest/v2/test-site')
         .subscribe(result => {
           expect(result).toBeTruthy();
         });
@@ -112,9 +113,11 @@ describe('UserTokenInterceptor', () => {
   it(`Should not add 'Authorization' token to header if there is already one`, inject(
     [HttpClient],
     (http: HttpClient) => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
+
       const headers = { Authorization: 'bearer 123' };
       const sub: Subscription = http
-        .get('https://localhost:9002/rest/v2/electronics', { headers })
+        .get('https://localhost:9002/rest/v2/test-site', { headers })
         .subscribe(result => {
           expect(result).toBeTruthy();
         });

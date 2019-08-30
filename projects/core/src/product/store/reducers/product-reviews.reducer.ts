@@ -1,25 +1,25 @@
+import { Review } from '../../../model/product.model';
+import { ProductActions } from '../actions/index';
 import { ProductReviewsState } from '../product-state';
-import * as fromProductReviews from './../actions/product-reviews.action';
-import { Review } from '../../../occ/occ-models';
 
 export const initialState: ProductReviewsState = {
   productCode: '',
-  list: []
+  list: [],
 };
 
 export function reducer(
   state = initialState,
-  action: fromProductReviews.ProductReviewsAction
+  action: ProductActions.ProductReviewsAction
 ): ProductReviewsState {
   switch (action.type) {
-    case fromProductReviews.LOAD_PRODUCT_REVIEWS_SUCCESS: {
+    case ProductActions.LOAD_PRODUCT_REVIEWS_SUCCESS: {
       const productCode = action.payload.productCode;
       const list = action.payload.list;
 
       return {
         ...state,
         productCode,
-        list
+        list,
       };
     }
   }

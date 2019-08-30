@@ -1,13 +1,13 @@
-import * as fromCurrency from './currencies.action';
-import { Currency } from '../../../occ/occ-models/occ.models';
+import { Currency } from '../../../model/misc.model';
+import { SiteContextActions } from './index';
 
 describe('Currencies Actions', () => {
   describe('LoadCurrencies Actions', () => {
     describe('LoadCurrencies', () => {
       it('should create an action', () => {
-        const action = new fromCurrency.LoadCurrencies();
+        const action = new SiteContextActions.LoadCurrencies();
         expect({ ...action }).toEqual({
-          type: fromCurrency.LOAD_CURRENCIES
+          type: SiteContextActions.LOAD_CURRENCIES,
         });
       });
     });
@@ -15,11 +15,11 @@ describe('Currencies Actions', () => {
     describe('LoadCurrenciesFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
-        const action = new fromCurrency.LoadCurrenciesFail(payload);
+        const action = new SiteContextActions.LoadCurrenciesFail(payload);
 
         expect({ ...action }).toEqual({
-          type: fromCurrency.LOAD_CURRENCIES_FAIL,
-          payload
+          type: SiteContextActions.LOAD_CURRENCIES_FAIL,
+          payload,
         });
       });
     });
@@ -27,13 +27,13 @@ describe('Currencies Actions', () => {
     describe('LoadCurrenciesSuccess', () => {
       it('should create an action', () => {
         const payload: Currency[] = [
-          { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+          { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
         ];
-        const action = new fromCurrency.LoadCurrenciesSuccess(payload);
+        const action = new SiteContextActions.LoadCurrenciesSuccess(payload);
 
         expect({ ...action }).toEqual({
-          type: fromCurrency.LOAD_CURRENCIES_SUCCESS,
-          payload
+          type: SiteContextActions.LOAD_CURRENCIES_SUCCESS,
+          payload,
         });
       });
     });
@@ -41,19 +41,19 @@ describe('Currencies Actions', () => {
 
   describe('SetActiveCurrency Action', () => {
     it('should create an action', () => {
-      const action = new fromCurrency.SetActiveCurrency('USD');
+      const action = new SiteContextActions.SetActiveCurrency('USD');
       expect({ ...action }).toEqual({
-        type: fromCurrency.SET_ACTIVE_CURRENCY,
-        payload: 'USD'
+        type: SiteContextActions.SET_ACTIVE_CURRENCY,
+        payload: 'USD',
       });
     });
   });
 
   describe('CurrencyChange Action', () => {
     it('should create an action', () => {
-      const action = new fromCurrency.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange();
       expect({ ...action }).toEqual({
-        type: fromCurrency.CURRENCY_CHANGE
+        type: SiteContextActions.CURRENCY_CHANGE,
       });
     });
   });

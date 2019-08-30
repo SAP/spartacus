@@ -1,26 +1,24 @@
-import { TestBed, inject } from '@angular/core/testing';
 import {
-  HttpTestingController,
-  HttpClientTestingModule,
-  TestRequest
-} from '@angular/common/http/testing';
-import {
-  HTTP_INTERCEPTORS,
   HttpClient,
   HttpHandler,
-  HttpRequest,
   HttpHeaders,
-  HttpParams
+  HttpParams,
+  HttpRequest,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-
-import { throwError, Observable, of } from 'rxjs';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+  TestRequest,
+} from '@angular/common/http/testing';
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
 import { AuthService } from '../facade/auth.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
-import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
-
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 
 class MockUserErrorHandlingService {
@@ -58,28 +56,34 @@ describe('AuthErrorInterceptor', () => {
       providers: [
         {
           provide: UserErrorHandlingService,
-          useClass: MockUserErrorHandlingService
+          useClass: MockUserErrorHandlingService,
         },
         {
           provide: ClientErrorHandlingService,
-          useClass: MockClientErrorHandlingService
+          useClass: MockClientErrorHandlingService,
         },
         {
           provide: AuthService,
-          useClass: MockAuthService
+          useClass: MockAuthService,
         },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthErrorInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
-    userErrorHandlingService = TestBed.get(UserErrorHandlingService);
-    clientErrorHandlingService = TestBed.get(ClientErrorHandlingService);
-    authService = TestBed.get(AuthService);
-    httpMock = TestBed.get(HttpTestingController);
+    userErrorHandlingService = TestBed.get(UserErrorHandlingService as Type<
+      UserErrorHandlingService
+    >);
+    clientErrorHandlingService = TestBed.get(ClientErrorHandlingService as Type<
+      ClientErrorHandlingService
+    >);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
 
     spyOn(userErrorHandlingService, 'handleExpiredUserToken').and.returnValue(
       of({})
@@ -96,7 +100,7 @@ describe('AuthErrorInterceptor', () => {
     (http: HttpClient) => {
       const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
       const options = {
-        headers
+        headers,
       };
       http.get('/test', options).subscribe(result => {
         expect(result).toBeTruthy();
@@ -110,9 +114,9 @@ describe('AuthErrorInterceptor', () => {
           errors: [
             {
               type: 'InvalidTokenError',
-              message: 'Invalid access token: some token'
-            }
-          ]
+              message: 'Invalid access token: some token',
+            },
+          ],
         },
         { status: 401, statusText: 'Error' }
       );
@@ -138,9 +142,9 @@ describe('AuthErrorInterceptor', () => {
           errors: [
             {
               type: 'InvalidTokenError',
-              message: 'Invalid access token: some token'
-            }
-          ]
+              message: 'Invalid access token: some token',
+            },
+          ],
         },
         { status: 401, statusText: 'Error' }
       );
@@ -164,7 +168,7 @@ describe('AuthErrorInterceptor', () => {
       mockReq.flush(
         {
           error: 'invalid_token',
-          error_description: 'Invalid refresh token (expired): 1234567890'
+          error_description: 'Invalid refresh token (expired): 1234567890',
         },
         { status: 401, statusText: 'Error' }
       );
@@ -180,7 +184,7 @@ describe('AuthErrorInterceptor', () => {
       .set('refresh_token', 'some_token')
       .set('grant_type', 'refresh_token'); // authorization_code, client_credentials, password
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     spyOn(authService, 'logout').and.stub();

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
   ServerModule,
-  ServerTransferStateModule
+  ServerTransferStateModule,
 } from '@angular/platform-server';
 // import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 
@@ -14,11 +14,11 @@ import { StorefrontComponent } from '@spartacus/storefront';
     // by the ServerModule from @angular/platform-server.
     AppModule,
     ServerModule,
-    ServerTransferStateModule
+    ServerTransferStateModule,
     // ModuleMapLoaderModule // <-- *Important* to have lazy-loaded routes work
   ],
   // Since the bootstrapped component is not inherited from your
   // imported AppModule, it needs to be repeated here.
-  bootstrap: [StorefrontComponent]
+  bootstrap: [StorefrontComponent],
 })
 export class AppServerModule {}

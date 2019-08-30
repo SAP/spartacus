@@ -1,18 +1,14 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  NavigationExtras
-} from '@angular/router';
-
-import { of, Observable } from 'rxjs';
-
-import { AuthGuard } from './auth.guard';
-import { UserToken } from '../models/token-types.model';
+import { Observable, of } from 'rxjs';
+import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { TranslateUrlOptions } from '../../routing/configurable-routes/url-translation/translate-url-options';
+import { UserToken } from '../models/token-types.model';
+import { AuthRedirectService } from './auth-redirect.service';
+import { AuthGuard } from './auth.guard';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -20,7 +16,7 @@ const mockUserToken = {
   refresh_token: 'test',
   expires_in: 1,
   scope: ['test'],
-  userId: 'test'
+  userId: 'test',
 } as UserToken;
 
 class AuthServiceStub {
@@ -28,94 +24,85 @@ class AuthServiceStub {
     return of();
   }
 }
-class ActivatedRouteSnapshotStub {}
-class RouterStateSnapshotStub {}
 class RoutingServiceStub {
-  go(
-    _path: any[] | TranslateUrlOptions,
-    _query?: object,
-    _extras?: NavigationExtras
-  ) {}
-  saveRedirectUrl(_url: string) {}
+  go(_path: any[] | UrlCommands, _query?: object, _extras?: NavigationExtras) {}
+}
+
+class MockAuthRedirectService {
+  reportAuthGuard = jasmine.createSpy('reportAuthGuard');
 }
 
 describe('AuthGuard', () => {
-  let authGuard: AuthGuard;
+  let guard: AuthGuard;
   let service: RoutingService;
   let authService: AuthService;
-  let activatedRouteSnapshot: ActivatedRouteSnapshot;
-  let routerStateSnapshot: RouterStateSnapshot;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AuthGuard,
         {
           provide: RoutingService,
-          useClass: RoutingServiceStub
-        },
-        {
-          provide: ActivatedRouteSnapshot,
-          useClass: ActivatedRouteSnapshotStub
-        },
-        {
-          provide: RouterStateSnapshot,
-          useClass: RouterStateSnapshotStub
+          useClass: RoutingServiceStub,
         },
         {
           provide: AuthService,
-          useClass: AuthServiceStub
-        }
+          useClass: AuthServiceStub,
+        },
+        {
+          provide: AuthRedirectService,
+          useClass: MockAuthRedirectService,
+        },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
-    authGuard = TestBed.get(AuthGuard);
-    service = TestBed.get(RoutingService);
-    activatedRouteSnapshot = TestBed.get(ActivatedRouteSnapshot);
-    routerStateSnapshot = TestBed.get(RouterStateSnapshot);
-    authService = TestBed.get(AuthService);
+    guard = TestBed.get(AuthGuard as Type<AuthGuard>);
+    service = TestBed.get(RoutingService as Type<RoutingService>);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    authRedirectService = TestBed.get(AuthRedirectService as Type<
+      AuthRedirectService
+    >);
 
     spyOn(service, 'go').and.stub();
-    spyOn(service, 'saveRedirectUrl').and.stub();
   });
 
-  it('should return false', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(
-      of({ access_token: undefined } as UserToken)
-    );
-    let result: boolean;
+  describe(', when user is NOT authorized,', () => {
+    beforeEach(() => {
+      spyOn(authService, 'getUserToken').and.returnValue(
+        of({ access_token: undefined } as UserToken)
+      );
+    });
 
-    authGuard
-      .canActivate(activatedRouteSnapshot, routerStateSnapshot)
-      .subscribe(value => (result = value))
-      .unsubscribe();
-    expect(result).toBe(false);
+    it('should return false', () => {
+      let result: boolean;
+      guard
+        .canActivate()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toBe(false);
+    });
+
+    it('should notify AuthRedirectService with the current navigation', () => {
+      guard
+        .canActivate()
+        .subscribe()
+        .unsubscribe();
+      expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
+    });
   });
 
-  it('should return true', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+  describe(', when user is authorized,', () => {
+    beforeEach(() => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+    });
 
-    let result: boolean;
-
-    authGuard
-      .canActivate(activatedRouteSnapshot, routerStateSnapshot)
-      .subscribe(value => (result = value))
-      .unsubscribe();
-    expect(result).toBe(true);
-  });
-
-  it('should redirect to login if invalid token', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(
-      of({ access_token: undefined } as UserToken)
-    );
-    routerStateSnapshot.url = '/test';
-
-    authGuard
-      .canActivate(activatedRouteSnapshot, routerStateSnapshot)
-      .subscribe()
-      .unsubscribe();
-
-    expect(service.go).toHaveBeenCalledWith({ route: ['login'] });
-    expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
+    it('should return true', () => {
+      let result: boolean;
+      guard
+        .canActivate()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toBe(true);
+    });
   });
 });

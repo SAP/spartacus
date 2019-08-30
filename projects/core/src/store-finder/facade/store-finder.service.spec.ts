@@ -1,12 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { StoresState } from '../store/store-finder-state';
-
-import * as fromStore from '../store';
-
-import { StoreFinderService } from './store-finder.service';
-import { LongitudeLatitude } from '../model/longitude-latitude';
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { GeoPoint } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
+import { StoreFinderActions } from '../store/actions/index';
+import * as fromStoreReducers from '../store/reducers/index';
+import { StoresState } from '../store/store-finder-state';
+import { StoreFinderService } from './store-finder.service';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -14,14 +14,13 @@ describe('StoreFinderService', () => {
   let winRef: WindowRef;
 
   const queryText = 'test';
-  const countryIsoCode = 'CA';
-  const regionIsoCode = 'CA-QC';
+
   const storeId = 'shop_los_angeles_1';
   const geolocationWatchId = 1;
 
-  const longitudeLatitude: LongitudeLatitude = {
+  const longitudeLatitude: GeoPoint = {
     longitude: 10.1,
-    latitude: 20.2
+    latitude: 20.2,
   };
 
   const MockWindowRef = {
@@ -32,28 +31,28 @@ describe('StoreFinderService', () => {
             callback({ coords: longitudeLatitude });
             return geolocationWatchId;
           },
-          clearWatch: () => {}
-        }
-      }
-    }
+          clearWatch: () => {},
+        },
+      },
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          store: combineReducers(fromStore.getReducers)
-        })
+          store: combineReducers(fromStoreReducers.getReducers),
+        }),
       ],
       providers: [
         StoreFinderService,
-        { provide: WindowRef, useValue: MockWindowRef }
-      ]
+        { provide: WindowRef, useValue: MockWindowRef },
+      ],
     });
 
-    service = TestBed.get(StoreFinderService);
-    store = TestBed.get(Store);
-    winRef = TestBed.get(WindowRef);
+    service = TestBed.get(StoreFinderService as Type<StoreFinderService>);
+    store = TestBed.get(Store as Type<Store<StoresState>>);
+    winRef = TestBed.get(WindowRef as Type<WindowRef>);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(
@@ -78,7 +77,7 @@ describe('StoreFinderService', () => {
       service.findStores(queryText, false);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStores({ queryText: queryText })
+        new StoreFinderActions.FindStores({ queryText: queryText })
       );
     });
   });
@@ -87,11 +86,13 @@ describe('StoreFinderService', () => {
     it('should dispatch a OnHold action and a FindStores action', () => {
       service.findStores(queryText, true);
 
-      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.OnHold());
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStores({
+        new StoreFinderActions.FindStoresOnHold()
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new StoreFinderActions.FindStores({
           queryText,
-          longitudeLatitude
+          longitudeLatitude,
         })
       );
       expect(
@@ -118,7 +119,7 @@ describe('StoreFinderService', () => {
       service.viewStoreById(storeId);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStoreById({ storeId })
+        new StoreFinderActions.FindStoreById({ storeId })
       );
     });
   });
@@ -128,27 +129,7 @@ describe('StoreFinderService', () => {
       service.viewAllStores();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.ViewAllStores()
-      );
-    });
-  });
-
-  describe('View All Stores for Country', () => {
-    it('should dispatch a new action', () => {
-      service.viewAllStoresForCountry(countryIsoCode);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindAllStoresByCountry({ countryIsoCode })
-      );
-    });
-  });
-
-  describe('View All Stores for Region', () => {
-    it('should dispatch a new action', () => {
-      service.viewAllStoresForRegion('CA', 'CA-QC');
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
+        new StoreFinderActions.ViewAllStores()
       );
     });
   });

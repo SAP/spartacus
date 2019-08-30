@@ -1,0 +1,53 @@
+%cx-product-list {
+  .cx-product-search-list {
+    display: block;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    margin: 0 0 25px 0;
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  .cx-product-container {
+    margin: 40px 0;
+  }
+
+  .cx-sorting {
+    border-style: solid;
+    border-color: var(--cx-color-light);
+
+    @include media-breakpoint-down(md) {
+      border: none;
+    }
+
+    &.top {
+      border-width: 0 0 1px 0;
+      padding: 0 0 8px 0;
+    }
+
+    &.bottom {
+      border-width: 1px 0 0 0;
+      padding: 25px 0 0px 0;
+    }
+  }
+
+  .cx-pagination {
+    display: inline-block;
+    vertical-align: top;
+
+    .page-link:hover {
+      color: var(--cx-color-inverse);
+    }
+  }
+
+  .cx-sort-dropdown {
+    height: 48px;
+
+    .ng-arrow-wrapper {
+      padding: 0 35px 0 0;
+    }
+  }
+}

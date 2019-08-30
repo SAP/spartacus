@@ -12,13 +12,13 @@ module.exports = (req, res, next) => {
 const users = [
   {
     username: 'john@loco.com',
-    password: 'Test2018!'
-  }
+    password: 'Test2018!',
+  },
 ];
 
 function authorizeUser(req, res) {
   const {
-    body: { username, password }
+    body: { username, password },
   } = req;
   const user = users.find(
     u => u.username === username && u.password === password
@@ -31,7 +31,7 @@ function authorizeUser(req, res) {
         refresh_token: 'xxxXXXxxx',
         expires_in: 1000,
         scope: ['xxx'],
-        userId: 'xxx'
+        userId: 'xxx',
       })
     );
   } else {

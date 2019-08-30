@@ -1,14 +1,16 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors';
-import { PaymentDetailsList } from '../../../occ/occ-models/index';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { PaymentDetails } from '../../../model/cart.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { UserActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 
-const mockUserPaymentMethods: PaymentDetailsList = {
-  payments: [{ id: 'payment1' }, { id: 'payment2' }]
+const mockUserPaymentMethods: Occ.PaymentDetailsList = {
+  payments: [{ id: 'payment1' }, { id: 'payment2' }],
 };
 
 describe('User Payment Methods Selectors', () => {
@@ -18,25 +20,42 @@ describe('User Payment Methods Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
+  });
+
+  describe('getPaymentMethodsLoaderState', () => {
+    it('should return a user payment methods loader', () => {
+      let result: LoaderState<PaymentDetails[]>;
+      store
+        .pipe(select(UsersSelectors.getPaymentMethodsState))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: [],
+      });
+    });
   });
 
   describe('getPaymentMethods', () => {
     it('should return a user payment methods', () => {
-      let result;
+      let result: PaymentDetails[];
       store
-        .pipe(select(fromSelectors.getPaymentMethods))
+        .pipe(select(UsersSelectors.getPaymentMethods))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
 
       store.dispatch(
-        new fromActions.LoadUserPaymentMethodsSuccess(
+        new UserActions.LoadUserPaymentMethodsSuccess(
           mockUserPaymentMethods.payments
         )
       );
@@ -47,17 +66,14 @@ describe('User Payment Methods Selectors', () => {
 
   describe('getPaymentMethodsLoading', () => {
     it('should return isLoading flag', () => {
-      // reset loading state
-      store.dispatch(new fromActions.LoadUserPaymentMethodsFail({}));
-
-      let result;
+      let result: boolean;
       store
-        .pipe(select(fromSelectors.getPaymentMethodsLoading))
+        .pipe(select(UsersSelectors.getPaymentMethodsLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadUserPaymentMethods('userId'));
+      store.dispatch(new UserActions.LoadUserPaymentMethods('userId'));
 
       expect(result).toEqual(true);
     });

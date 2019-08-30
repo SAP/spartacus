@@ -1,13 +1,13 @@
-import * as fromLanguage from './languages.action';
-import { Language } from '../../../occ/occ-models/occ.models';
+import { Language } from '../../../model/misc.model';
+import { SiteContextActions } from './index';
 
 describe('Languages Actions', () => {
   describe('LoadLanguages Actions', () => {
     describe('LoadLanguages', () => {
       it('should create an action', () => {
-        const action = new fromLanguage.LoadLanguages();
+        const action = new SiteContextActions.LoadLanguages();
         expect({ ...action }).toEqual({
-          type: fromLanguage.LOAD_LANGUAGES
+          type: SiteContextActions.LOAD_LANGUAGES,
         });
       });
     });
@@ -15,11 +15,11 @@ describe('Languages Actions', () => {
     describe('LoadLanguagesFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
-        const action = new fromLanguage.LoadLanguagesFail(payload);
+        const action = new SiteContextActions.LoadLanguagesFail(payload);
 
         expect({ ...action }).toEqual({
-          type: fromLanguage.LOAD_LANGUAGES_FAIL,
-          payload
+          type: SiteContextActions.LOAD_LANGUAGES_FAIL,
+          payload,
         });
       });
     });
@@ -31,14 +31,14 @@ describe('Languages Actions', () => {
             active: false,
             isocode: 'en',
             name: 'English',
-            nativeName: 'English'
-          }
+            nativeName: 'English',
+          },
         ];
-        const action = new fromLanguage.LoadLanguagesSuccess(payload);
+        const action = new SiteContextActions.LoadLanguagesSuccess(payload);
 
         expect({ ...action }).toEqual({
-          type: fromLanguage.LOAD_LANGUAGES_SUCCESS,
-          payload
+          type: SiteContextActions.LOAD_LANGUAGES_SUCCESS,
+          payload,
         });
       });
     });
@@ -46,19 +46,19 @@ describe('Languages Actions', () => {
 
   describe('SetActiveLanguage Action', () => {
     it('should create an action', () => {
-      const action = new fromLanguage.SetActiveLanguage('en');
+      const action = new SiteContextActions.SetActiveLanguage('en');
       expect({ ...action }).toEqual({
-        type: fromLanguage.SET_ACTIVE_LANGUAGE,
-        payload: 'en'
+        type: SiteContextActions.SET_ACTIVE_LANGUAGE,
+        payload: 'en',
       });
     });
   });
 
   describe('LanguageChange Action', () => {
     it('should create an action', () => {
-      const action = new fromLanguage.LanguageChange();
+      const action = new SiteContextActions.LanguageChange();
       expect({ ...action }).toEqual({
-        type: fromLanguage.LANGUAGE_CHANGE
+        type: SiteContextActions.LANGUAGE_CHANGE,
       });
     });
   });

@@ -1,11 +1,11 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { Country } from '../../../model/address.model';
 import {
-  UserState,
   DeliveryCountriesState,
+  DeliveryCountryEntities,
   StateWithUser,
-  DeliveryCountryEntities
+  UserState,
 } from '../user-state';
-import { Country } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
 
 export const getDeliveryCountriesState: MemoizedSelector<

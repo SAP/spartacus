@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
-import * as fromStore from '../store/index';
 import { filter, take, tap } from 'rxjs/operators';
-import { Currency } from '../../occ/occ-models';
+import { Currency } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextSelectors } from '../store/selectors/index';
+import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
+import { SiteContextConfig } from '../config/site-context-config';
+import {
+  getContextParameterValues,
+  getContextParameterDefault,
+} from '../config/context-config-utils';
+import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
@@ -18,8 +23,9 @@ export class CurrencyService implements SiteContext<Currency> {
   private sessionStorage: Storage;
 
   constructor(
-    private store: Store<fromStore.StateWithSiteContext>,
-    winRef: WindowRef
+    protected store: Store<StateWithSiteContext>,
+    winRef: WindowRef,
+    protected config: SiteContextConfig
   ) {
     this.sessionStorage = winRef.sessionStorage;
   }
@@ -29,13 +35,13 @@ export class CurrencyService implements SiteContext<Currency> {
    */
   getAll(): Observable<Currency[]> {
     return this.store.pipe(
-      select(fromStore.getAllCurrencies),
+      select(SiteContextSelectors.getAllCurrencies),
       tap(currencies => {
         if (!currencies) {
-          this.store.dispatch(new fromStore.LoadCurrencies());
+          this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter(Boolean)
+      filter(currenies => Boolean(currenies))
     );
   }
 
@@ -43,9 +49,10 @@ export class CurrencyService implements SiteContext<Currency> {
    * Represents the isocode of the active currency.
    */
   getActive(): Observable<string> {
-    return this.store
-      .pipe(select(fromStore.getActiveCurrency))
-      .pipe(filter(Boolean));
+    return this.store.pipe(
+      select(SiteContextSelectors.getActiveCurrency),
+      filter(active => Boolean(active))
+    );
   }
 
   /**
@@ -54,12 +61,14 @@ export class CurrencyService implements SiteContext<Currency> {
   setActive(isocode: string) {
     return this.store
       .pipe(
-        select(fromStore.getActiveCurrency),
+        select(SiteContextSelectors.getActiveCurrency),
         take(1)
       )
       .subscribe(activeCurrency => {
         if (activeCurrency !== isocode) {
-          this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
+          this.store.dispatch(
+            new SiteContextActions.SetActiveCurrency(isocode)
+          );
         }
       });
   }
@@ -69,11 +78,20 @@ export class CurrencyService implements SiteContext<Currency> {
    * by the last visit (stored in session storage) or by the
    * default session currency of the store.
    */
-  initialize(defaultCurrency: string) {
-    if (this.sessionStorage && !!this.sessionStorage.getItem('currency')) {
-      this.setActive(this.sessionStorage.getItem('currency'));
+  initialize() {
+    const sessionCurrency =
+      this.sessionStorage && this.sessionStorage.getItem('currency');
+    if (
+      sessionCurrency &&
+      getContextParameterValues(this.config, CURRENCY_CONTEXT_ID).includes(
+        sessionCurrency
+      )
+    ) {
+      this.setActive(sessionCurrency);
     } else {
-      this.setActive(defaultCurrency);
+      this.setActive(
+        getContextParameterDefault(this.config, CURRENCY_CONTEXT_ID)
+      );
     }
   }
 }

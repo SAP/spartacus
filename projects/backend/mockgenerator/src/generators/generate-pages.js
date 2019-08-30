@@ -11,7 +11,7 @@ exports.generate = function(sites) {
       generateHomepage(),
       generateProductPage(),
       generateNotFound(),
-      generateCartPage()
+      generateCartPage(),
     ];
   }
   return data;
@@ -23,8 +23,8 @@ function generateNotFound() {
     name: 'notFound',
     template: 'testTemplate',
     contentSlots: {
-      contentSlot: []
-    }
+      contentSlot: [],
+    },
   };
   return page;
 }
@@ -35,8 +35,8 @@ function generateProductPage() {
     name: 'testPage',
     template: 'testTemplate',
     contentSlots: {
-      contentSlot: []
-    }
+      contentSlot: [],
+    },
   };
   return page;
 }
@@ -64,20 +64,20 @@ function generateHomepage() {
                 popup: 'false',
                 scroll: 'ALLVISIBLE',
                 productCodes,
-                title: 'Our Bestselling Products'
-              }
-            ]
+                title: 'Our Bestselling Products',
+              },
+            ],
           },
           name: 'Section3 Slot for Homepage',
           position: 'Section3',
           slotId: 'Section3Slot-Homepage',
-          slotShared: false
-        }
+          slotShared: false,
+        },
       ]
         .concat(headerGenerator.generateHeaderSlots())
         .concat(generateHomePageSlots())
-        .concat(headerGenerator.generateFooterSlots())
-    }
+        .concat(headerGenerator.generateFooterSlots()),
+    },
   };
   return page;
 }
@@ -90,8 +90,8 @@ function generateCartPage() {
     contentSlots: {
       contentSlot: []
         .concat(headerGenerator.generateHeaderSlots())
-        .concat(headerGenerator.generateFooterSlots())
-    }
+        .concat(headerGenerator.generateFooterSlots()),
+    },
   };
   return page;
 }
@@ -101,20 +101,20 @@ generateHomePageSlots = function() {
     {
       position: 'Section1',
       components: {
-        component: [componentGenerator.banner(800, 200, '/a-link')]
-      }
+        component: [componentGenerator.banner(800, 200, '/a-link')],
+      },
     },
     {
       position: 'Section2A',
       components: {
-        component: [componentGenerator.banner()]
-      }
+        component: [componentGenerator.banner()],
+      },
     },
     {
       position: 'Section2B',
       components: {
-        component: [componentGenerator.banner()]
-      }
-    }
+        component: [componentGenerator.banner()],
+      },
+    },
   ];
 };

@@ -1,52 +1,44 @@
-import * as fromRouter from './router.action';
+import { RoutingActions } from './index';
 
 describe('Router Actions', () => {
-  describe('Go Action', () => {
+  describe('Route Go Action', () => {
     it('should create an action', () => {
       const payload: { path: string[] } = {
-        path: ['test']
+        path: ['test'],
       };
-      const action = new fromRouter.Go(payload);
+      const action = new RoutingActions.RouteGoAction(payload);
       expect({ ...action }).toEqual({
-        type: fromRouter.GO,
-        payload: payload
+        type: RoutingActions.ROUTER_GO,
+        payload: payload,
       });
     });
   });
 
-  describe('Back Action', () => {
+  describe('Route GoByUrl Action', () => {
     it('should create an action', () => {
-      const action = new fromRouter.Back();
+      const payload = 'test';
+      const action = new RoutingActions.RouteGoByUrlAction(payload);
       expect({ ...action }).toEqual({
-        type: fromRouter.BACK
+        type: RoutingActions.ROUTER_GO_BY_URL,
+        payload: payload,
       });
     });
   });
 
-  describe('Forward Action', () => {
+  describe('Route Back Action', () => {
     it('should create an action', () => {
-      const action = new fromRouter.Forward();
+      const action = new RoutingActions.RouteBackAction();
       expect({ ...action }).toEqual({
-        type: fromRouter.FORWARD
+        type: RoutingActions.ROUTER_BACK,
       });
     });
   });
 
-  describe('SaveRedirectUrl Action', () => {
+  describe('Route Forward Action', () => {
     it('should create an action', () => {
-      const action = new fromRouter.SaveRedirectUrl('/test');
+      const action = new RoutingActions.RouteForwardAction();
       expect({ ...action }).toEqual({
-        type: fromRouter.SAVE_REDIRECT_URL,
-        payload: '/test'
-      });
-    });
-  });
-
-  describe('ClearRedirectAction Action', () => {
-    it('should create an action', () => {
-      const action = new fromRouter.ClearRedirectUrl();
-      expect({ ...action }).toEqual({
-        type: fromRouter.CLEAR_REDIRECT_URL
+        type: RoutingActions.ROUTER_FORWARD,
       });
     });
   });

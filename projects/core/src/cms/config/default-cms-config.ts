@@ -1,11 +1,16 @@
 import { CmsConfig } from './cms-config';
 
 export const defaultCmsModuleConfig: CmsConfig = {
-  defaultPageIdForType: {
-    ProductPage: ['productDetails'],
-    CategoryPage: ['productList', 'productGrid', 'category']
+  backend: {
+    occ: {
+      endpoints: {
+        component: 'cms/components/${id}',
+        components: 'cms/components',
+        pages: 'cms/pages',
+        page: 'cms/pages/${id}',
+      },
+      legacy: false,
+    },
   },
-  cmsComponents: {
-    CMSTabParagraphComponent: { selector: 'cx-paragraph' }
-  }
+  cmsComponents: {},
 };

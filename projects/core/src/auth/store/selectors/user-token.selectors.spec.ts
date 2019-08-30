@@ -1,25 +1,24 @@
-import { select, Store, StoreModule } from '@ngrx/store';
-
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import * as fromReducers from './../reducers';
-import * as fromSelectors from './../selectors';
-import * as fromActions from './../actions';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { UserToken } from '../../models/token-types.model';
-import { AuthState } from '../auth-state';
+import { AuthActions } from '../actions/index';
+import { StateWithAuth } from '../auth-state';
+import * as fromReducers from '../reducers/index';
+import { AuthSelectors } from '../selectors/index';
 
 describe('UserToken Selectors', () => {
-  let store: Store<AuthState>;
+  let store: Store<StateWithAuth>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('auth', fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithAuth>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -28,7 +27,7 @@ describe('UserToken Selectors', () => {
       let result: UserToken;
 
       store
-        .pipe(select(fromSelectors.getUserToken))
+        .pipe(select(AuthSelectors.getUserToken))
         .subscribe(value => (result = value));
       expect(result).toEqual(<UserToken>{});
 
@@ -38,9 +37,9 @@ describe('UserToken Selectors', () => {
         refresh_token: 'xxx',
         expires_in: 1000,
         scope: ['xxx'],
-        userId: 'xxx'
+        userId: 'xxx',
       };
-      store.dispatch(new fromActions.LoadUserTokenSuccess(testToken));
+      store.dispatch(new AuthActions.LoadUserTokenSuccess(testToken));
 
       expect(result).toEqual(testToken);
     });

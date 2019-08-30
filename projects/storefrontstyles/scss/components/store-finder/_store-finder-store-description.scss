@@ -1,0 +1,47 @@
+%cx-store-finder-store-description {
+  .cx-store {
+    text-align: left;
+  }
+
+  .cx-contact {
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .cx-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .cx-link {
+    color: var(--cx-color-text);
+  }
+
+  .cx-item {
+    margin-bottom: 0.5rem;
+  }
+
+  .cx-schedule {
+    margin-top: 1.5rem;
+    font-weight: 700;
+  }
+
+  .cx-feature {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .cx-features-header {
+    text-align: left;
+  }
+
+  .cx-feature-value {
+    border-width: 1px;
+    border-style: solid;
+
+    @include media-breakpoint-down(md) {
+      margin: 5px 0;
+    }
+  }
+}

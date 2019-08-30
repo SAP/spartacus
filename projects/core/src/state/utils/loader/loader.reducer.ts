@@ -1,24 +1,25 @@
+import { Action } from '@ngrx/store';
+
 import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
-import { Action } from '@ngrx/store';
 
 export const initialLoaderState: LoaderState<any> = {
   loading: false,
   error: false,
   success: false,
-  value: undefined
+  value: undefined,
 };
 
 /**
  * Higher order reducer that adds generic loading flag to chunk of the state
  *
  * Utilizes "loader" meta field of actions to set specific flags for specific
- * action (LOAD, SUCCESS, FAIL)
+ * action (LOAD, SUCCESS, FAIL, RESET)
  */
 export function loaderReducer<T>(
   loadActionType: string,
   reducer?: (state: T, action: Action) => T
-) {
+): (state: LoaderState<T>, action: LoaderAction) => LoaderState<T> {
   return (
     state: LoaderState<T> = initialLoaderState,
     action: LoaderAction
@@ -34,7 +35,7 @@ export function loaderReducer<T>(
         return {
           ...state,
           loading: true,
-          value: reducer ? reducer(state.value, action) : state.value
+          value: reducer ? reducer(state.value, action) : state.value,
         };
       } else if (entity.error) {
         return {
@@ -42,15 +43,23 @@ export function loaderReducer<T>(
           loading: false,
           error: true,
           success: false,
-          value: reducer ? reducer(state.value, action) : undefined
+          value: reducer ? reducer(state.value, action) : undefined,
         };
-      } else {
+      } else if (entity.success) {
         return {
           ...state,
           value: reducer ? reducer(state.value, action) : action.payload,
           loading: false,
           error: false,
-          success: true
+          success: true,
+        };
+      } else {
+        // reset state action
+        return {
+          ...initialLoaderState,
+          value: reducer
+            ? reducer(initialLoaderState.value, action)
+            : initialLoaderState.value,
         };
       }
     }

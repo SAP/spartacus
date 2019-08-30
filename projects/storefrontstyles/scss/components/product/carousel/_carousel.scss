@@ -1,0 +1,115 @@
+%cx-carousel {
+  display: flex;
+  flex: 100%;
+  --cx-speed: 0.5;
+  flex-direction: column;
+
+  > h3 {
+    @include type('3');
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    @include media-breakpoint-up(xl) {
+      margin-bottom: 3rem;
+    }
+  }
+
+  .carousel-panel {
+    display: flex;
+    justify-content: space-between;
+
+    // The size of carousel items depends on the number of items per slide.
+    // We generate 10 sizes in case there are a lot of carousel items displayed
+    // on a single slide.
+    @for $i from 1 through 10 {
+      &.size-#{$i} .item {
+        flex: 0 0 calc((100 / #{$i}) * 1%);
+      }
+    }
+
+    .slides {
+      flex: auto;
+      position: relative;
+
+      .slide {
+        transition: 0.6s all;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+
+        &:not(:last-child) {
+          // we keep the last slide non-absolute, so the height
+          //  of the parent size is based on contetn
+          position: absolute;
+        }
+
+        .item {
+          opacity: 0;
+          z-index: -1;
+          &.active {
+            opacity: 1;
+            z-index: 1;
+          }
+          transition: 0.4s all;
+
+          // we add a transition delay so that items are nicely animated in a sequence
+          @for $i from 1 through 4 {
+            &:nth-child(#{$i}) {
+              transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
+            }
+          }
+        }
+      }
+    }
+  }
+
+  button {
+    &:focus {
+      outline: none;
+    }
+    color: var(--cx-color-light);
+    &:not(:disabled) {
+      cursor: pointer;
+    }
+  }
+
+  .indicators {
+    display: flex;
+    justify-content: center;
+
+    button {
+      border: none;
+      padding: 10px;
+      margin: 0;
+      transition: 0.6s all;
+      background-color: transparent;
+      &[disabled] {
+        color: var(--cx-color-primary);
+      }
+      &:not(:disabled):hover {
+        color: var(--cx-color-secondary);
+      }
+    }
+
+    @include media-breakpoint-only(xs) {
+      display: none;
+    }
+  }
+
+  .previous,
+  .next {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &:not(:disabled):hover {
+      color: var(--cx-color-primary);
+    }
+  }
+}

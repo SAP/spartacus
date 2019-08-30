@@ -1,8 +1,8 @@
-import { MemoizedSelector, createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
 import {
-  GLOBAL_MESSAGE_FEATURE,
   GlobalMessageState,
-  StateWithGlobalMessage
+  GLOBAL_MESSAGE_FEATURE,
+  StateWithGlobalMessage,
 } from '../global-message-state';
 
 export const getGlobalMessageState: MemoizedSelector<

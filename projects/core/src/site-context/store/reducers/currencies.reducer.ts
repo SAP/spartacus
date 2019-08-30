@@ -1,43 +1,43 @@
-import * as fromCurrencies from '../actions/currencies.action';
+import { Currency } from '../../../model/misc.model';
+import { SiteContextActions } from '../actions/index';
 import { CurrenciesState } from '../state';
-import { Currency } from '../../../occ/occ-models/occ.models';
 
 export const initialState: CurrenciesState = {
   entities: null,
-  activeCurrency: null
+  activeCurrency: null,
 };
 
 export function reducer(
   state = initialState,
-  action: fromCurrencies.CurrenciesAction
+  action: SiteContextActions.CurrenciesAction
 ): CurrenciesState {
   switch (action.type) {
-    case fromCurrencies.LOAD_CURRENCIES_SUCCESS: {
+    case SiteContextActions.LOAD_CURRENCIES_SUCCESS: {
       const currencies: Currency[] = action.payload;
       const entities = currencies.reduce(
         (currEntities: { [isocode: string]: Currency }, currency: Currency) => {
           return {
             ...currEntities,
-            [currency.isocode]: currency
+            [currency.isocode]: currency,
           };
         },
         {
-          ...state.entities
+          ...state.entities,
         }
       );
 
       return {
         ...state,
-        entities
+        entities,
       };
     }
 
-    case fromCurrencies.SET_ACTIVE_CURRENCY: {
+    case SiteContextActions.SET_ACTIVE_CURRENCY: {
       const isocode: string = action.payload;
 
       return {
         ...state,
-        activeCurrency: isocode
+        activeCurrency: isocode,
       };
     }
   }

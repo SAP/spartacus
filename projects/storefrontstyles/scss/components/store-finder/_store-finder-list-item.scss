@@ -1,0 +1,25 @@
+%cx-store-finder-list-item {
+  display: block;
+  margin: 1.25rem 0;
+
+  .cx-store-name {
+    @include type('6');
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .cx-store-address {
+    @include type('7');
+  }
+  .cx-store-open {
+    @include type('8');
+    color: var(--cx-color-success);
+  }
+  .cx-store-closed {
+    @include type('8');
+    color: var(--cx-color-danger);
+  }
+  .cx-button {
+    line-height: 2;
+    margin: 1rem 0 0;
+  }
+}

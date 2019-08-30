@@ -6,7 +6,7 @@ export class SuggestionsGenerator extends ClientGenerator {
   async generateForSite(site: string) {
     const suggestions = this.generateSuggestions();
     return {
-      [ENDPOINTS.SUGGESTIONS]: suggestions
+      [ENDPOINTS.SUGGESTIONS]: suggestions,
     };
   }
 

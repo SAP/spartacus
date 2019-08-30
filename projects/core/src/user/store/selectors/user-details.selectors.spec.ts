@@ -1,10 +1,10 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import * as fromActions from '../actions/index';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { User } from '../../../model/misc.model';
+import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
-import { User } from '../../../occ/occ-models/index';
+import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserDetails: User = {
@@ -12,7 +12,7 @@ const mockUserDetails: User = {
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  uid: 'UID'
+  uid: 'UID',
 };
 
 describe('User Details Selectors', () => {
@@ -22,11 +22,11 @@ describe('User Details Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -34,12 +34,12 @@ describe('User Details Selectors', () => {
     it('should return a user details', () => {
       let result: User;
       store
-        .pipe(select(fromSelectors.getDetails))
+        .pipe(select(UsersSelectors.getDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.LoadUserDetailsSuccess(mockUserDetails));
+      store.dispatch(new UserActions.LoadUserDetailsSuccess(mockUserDetails));
 
       expect(result).toEqual(mockUserDetails);
     });

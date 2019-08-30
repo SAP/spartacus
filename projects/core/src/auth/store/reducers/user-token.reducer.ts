@@ -1,37 +1,35 @@
-import * as fromAction from './../actions/user-token.action';
+import * as fromUpdateEmailAction from '../../../user/store/actions/update-email.action';
 import { UserToken } from '../../models/token-types.model';
-import { UserTokenState } from '../auth-state';
+import { AuthActions } from '../actions/index';
 
-export const initialState: UserTokenState = {
-  token: <UserToken>{}
-};
+export const initialState: UserToken = <UserToken>{};
 
 export function reducer(
   state = initialState,
-  action: fromAction.UserTokenAction
-): UserTokenState {
+  action:
+    | AuthActions.UserTokenAction
+    | fromUpdateEmailAction.UpdateEmailSuccessAction
+): UserToken {
   switch (action.type) {
-    case fromAction.LOAD_USER_TOKEN:
-    case fromAction.REFRESH_USER_TOKEN: {
-      return {
-        ...state
-      };
-    }
-
-    case fromAction.LOAD_USER_TOKEN_SUCCESS:
-    case fromAction.REFRESH_USER_TOKEN_SUCCESS: {
-      const token = action.payload;
-
+    case AuthActions.LOAD_USER_TOKEN:
+    case AuthActions.REFRESH_USER_TOKEN: {
       return {
         ...state,
-        token
       };
     }
 
-    case fromAction.LOAD_USER_TOKEN_FAIL:
-    case fromAction.REFRESH_USER_TOKEN_FAIL: {
+    case AuthActions.LOAD_USER_TOKEN_SUCCESS:
+    case AuthActions.REFRESH_USER_TOKEN_SUCCESS: {
       return {
-        ...state
+        ...state,
+        ...action.payload,
+      };
+    }
+
+    case AuthActions.LOAD_USER_TOKEN_FAIL:
+    case AuthActions.REFRESH_USER_TOKEN_FAIL: {
+      return {
+        ...state,
       };
     }
   }

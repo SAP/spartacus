@@ -1,46 +1,60 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import {
-  map,
   catchError,
-  switchMap,
   filter,
+  groupBy,
+  map,
   mergeMap,
-  take
+  switchMap,
+  take,
 } from 'rxjs/operators';
-
-import * as componentActions from '../actions/component.action';
-import { OccCmsService } from '../../occ/occ-cms.service';
+import { CmsComponent } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class ComponentEffects {
   constructor(
     private actions$: Actions,
-    private occCmsService: OccCmsService,
+    private cmsComponentLoader: CmsComponentConnector,
     private routingService: RoutingService
   ) {}
 
   @Effect()
-  loadComponent$: Observable<any> = this.actions$.pipe(
-    ofType(componentActions.LOAD_COMPONENT),
-    map((action: componentActions.LoadComponent) => action.payload),
-    switchMap(uid => {
-      return this.routingService.getRouterState().pipe(
-        filter(routerState => routerState !== undefined),
-        map(routerState => routerState.state.context),
-        take(1),
-        mergeMap(pageContext =>
-          this.occCmsService.loadComponent(uid, pageContext).pipe(
-            map(data => new componentActions.LoadComponentSuccess(data)),
-            catchError(error =>
-              of(new componentActions.LoadComponentFail(uid, error))
+  loadComponent$: Observable<
+    | CmsActions.LoadCmsComponentSuccess<CmsComponent>
+    | CmsActions.LoadCmsComponentFail
+  > = this.actions$.pipe(
+    ofType(CmsActions.LOAD_CMS_COMPONENT),
+    map((action: CmsActions.LoadCmsComponent) => action.payload),
+    groupBy(uid => uid),
+    mergeMap(group =>
+      group.pipe(
+        switchMap(uid =>
+          this.routingService.getRouterState().pipe(
+            filter(routerState => routerState !== undefined),
+            map(routerState => routerState.state.context),
+            take(1),
+            mergeMap(pageContext =>
+              this.cmsComponentLoader.get(uid, pageContext).pipe(
+                map(data => new CmsActions.LoadCmsComponentSuccess(data, uid)),
+                catchError(error =>
+                  of(
+                    new CmsActions.LoadCmsComponentFail(
+                      uid,
+                      makeErrorSerializable(error)
+                    )
+                  )
+                )
+              )
             )
           )
         )
-      );
-    })
+      )
+    )
   );
 }

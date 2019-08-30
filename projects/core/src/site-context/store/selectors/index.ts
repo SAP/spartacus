@@ -1,3 +1,2 @@
-export * from './site-context.selector';
-export * from './languages.selectors';
-export * from './currencies.selectors';
+import * as SiteContextSelectors from './site-context-group.selectors';
+export { SiteContextSelectors };

@@ -1,36 +1,35 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { TitlesEffects } from '.';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { Title } from '../../../model/index';
+import { UserAdapter } from '../../connectors/index';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
+import { TitlesEffects } from './titles.effect';
 
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from './../actions';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { TitleList } from '../../../occ/occ-models';
-
-class MockMiscsService {
-  loadTitles(): Observable<TitleList> {
-    return of();
-  }
-}
-
-const mockTitlesList: TitleList = {
-  titles: [
-    {
-      code: 'mr',
-      name: 'Mr.'
-    },
-    {
-      code: 'mrs',
-      name: 'Mrs.'
-    }
-  ]
-};
+const mockTitles: Title[] = [
+  {
+    code: 'mr',
+    name: 'Mr.',
+  },
+  {
+    code: 'mrs',
+    name: 'Mrs.',
+  },
+  {
+    code: 'dr',
+    name: 'Dr.',
+  },
+  {
+    code: 'rev',
+    name: 'Rev.',
+  },
+];
 
 describe('Titles effect', () => {
-  let service: OccMiscsService;
+  let service: UserConnector;
   let effect: TitlesEffects;
   let actions$: Observable<any>;
 
@@ -38,23 +37,21 @@ describe('Titles effect', () => {
     TestBed.configureTestingModule({
       providers: [
         TitlesEffects,
-        { provide: OccMiscsService, useClass: MockMiscsService },
-        provideMockActions(() => actions$)
-      ]
+        { provide: UserAdapter, useValue: {} },
+        provideMockActions(() => actions$),
+      ],
     });
 
-    effect = TestBed.get(TitlesEffects);
-    service = TestBed.get(OccMiscsService);
+    effect = TestBed.get(TitlesEffects as Type<TitlesEffects>);
+    service = TestBed.get(UserConnector as Type<UserConnector>);
 
-    spyOn(service, 'loadTitles').and.returnValue(of(mockTitlesList));
+    spyOn(service, 'getTitles').and.returnValue(of(mockTitles));
   });
 
   describe('loadTitles$', () => {
     it('should load the titles', () => {
-      const action = new fromActions.LoadTitles();
-      const completion = new fromActions.LoadTitlesSuccess(
-        mockTitlesList.titles
-      );
+      const action = new UserActions.LoadTitles();
+      const completion = new UserActions.LoadTitlesSuccess(mockTitles);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

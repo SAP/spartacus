@@ -1,30 +1,31 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-import { CmsComponent } from '../../../occ/occ-models/index';
-import * as fromReducers from '../reducers/index';
-import * as fromActions from '../actions/index';
-import * as fromSelectors from '../selectors/component.selectors';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { CmsComponent } from '../../../model/cms.model';
+import { CmsActions } from '../actions/index';
 import { StateWithCms } from '../cms-state';
+import * as fromReducers from '../reducers/index';
+import { CmsSelectors } from '../selectors/index';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithCms>;
 
   const component: CmsComponent = {
     uid: 'comp1',
-    typeCode: 'SimpleBannerComponent'
+    typeCode: 'SimpleBannerComponent',
   };
   const entities = {
-    comp1: component
+    comp1: component,
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cms', fromReducers.getReducers()),
+      ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithCms>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -33,12 +34,12 @@ describe('Cms Component Selectors', () => {
       let result;
 
       store
-        .pipe(select(fromSelectors.getComponentEntities))
+        .pipe(select(CmsSelectors.getComponentEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.LoadComponentSuccess(component));
+      store.dispatch(new CmsActions.LoadCmsComponentSuccess(component));
 
       expect(result).toEqual(entities);
     });
@@ -49,10 +50,10 @@ describe('Cms Component Selectors', () => {
       let result: CmsComponent;
 
       store
-        .pipe(select(fromSelectors.componentSelectorFactory('comp1')))
+        .pipe(select(CmsSelectors.componentSelectorFactory('comp1')))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadComponentSuccess(component));
+      store.dispatch(new CmsActions.LoadCmsComponentSuccess(component));
 
       expect(result).toEqual(entities['comp1']);
     });

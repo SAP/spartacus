@@ -1,5 +1,5 @@
-import * as fromUserToken from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
+import { AuthActions } from './index';
 
 const token: UserToken = {
   access_token: 'xxx',
@@ -7,7 +7,7 @@ const token: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx'
+  userId: 'xxx',
 };
 
 describe('User Token Actions', () => {
@@ -15,13 +15,13 @@ describe('User Token Actions', () => {
     it('should create the action', () => {
       const tokenRequest = {
         userId: 'xxx@xxx.xxx',
-        password: '1234'
+        password: '1234',
       };
 
-      const action = new fromUserToken.LoadUserToken(tokenRequest);
+      const action = new AuthActions.LoadUserToken(tokenRequest);
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_USER_TOKEN,
-        payload: tokenRequest
+        type: AuthActions.LOAD_USER_TOKEN,
+        payload: tokenRequest,
       });
     });
   });
@@ -29,22 +29,22 @@ describe('User Token Actions', () => {
   describe('LoadUserTokenFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromUserToken.LoadUserTokenFail(error);
+      const action = new AuthActions.LoadUserTokenFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_USER_TOKEN_FAIL,
-        payload: error
+        type: AuthActions.LOAD_USER_TOKEN_FAIL,
+        payload: error,
       });
     });
   });
 
   describe('LoadUserTokenSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserToken.LoadUserTokenSuccess(token);
+      const action = new AuthActions.LoadUserTokenSuccess(token);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.LOAD_USER_TOKEN_SUCCESS,
-        payload: token
+        type: AuthActions.LOAD_USER_TOKEN_SUCCESS,
+        payload: token,
       });
     });
   });
@@ -52,14 +52,13 @@ describe('User Token Actions', () => {
   describe('RefreshUserToken Actions', () => {
     it('should create the action', () => {
       const refreshTokenRequest = {
-        userId: 'xxx@xxx.xxx',
-        refreshToken: '1234'
+        refreshToken: '1234',
       };
 
-      const action = new fromUserToken.RefreshUserToken(refreshTokenRequest);
+      const action = new AuthActions.RefreshUserToken(refreshTokenRequest);
       expect({ ...action }).toEqual({
-        type: fromUserToken.REFRESH_USER_TOKEN,
-        payload: refreshTokenRequest
+        type: AuthActions.REFRESH_USER_TOKEN,
+        payload: refreshTokenRequest,
       });
     });
   });
@@ -67,22 +66,22 @@ describe('User Token Actions', () => {
   describe('RefreshUserTokenFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromUserToken.RefreshUserTokenFail(error);
+      const action = new AuthActions.RefreshUserTokenFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.REFRESH_USER_TOKEN_FAIL,
-        payload: error
+        type: AuthActions.REFRESH_USER_TOKEN_FAIL,
+        payload: error,
       });
     });
   });
 
   describe('LoadUserTokenSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserToken.RefreshUserTokenSuccess(token);
+      const action = new AuthActions.RefreshUserTokenSuccess(token);
 
       expect({ ...action }).toEqual({
-        type: fromUserToken.REFRESH_USER_TOKEN_SUCCESS,
-        payload: token
+        type: AuthActions.REFRESH_USER_TOKEN_SUCCESS,
+        payload: token,
       });
     });
   });

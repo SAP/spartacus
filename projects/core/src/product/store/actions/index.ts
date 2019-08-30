@@ -1,3 +1,2 @@
-export * from './product-search.action';
-export * from './product.action';
-export * from './product-reviews.action';
+import * as ProductActions from './product-group.actions';
+export { ProductActions };

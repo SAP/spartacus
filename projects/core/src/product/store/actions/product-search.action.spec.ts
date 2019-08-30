@@ -1,6 +1,7 @@
-import * as fromProductSearch from './product-search.action';
-import { Suggestion, ProductList, ErrorModel } from '../../../occ/occ-models';
+import { ErrorModel } from '../../../model/misc.model';
+import { ClearSearch, Suggestion } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
+import * as fromProductSearch from './product-search.action';
 
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;
@@ -12,26 +13,26 @@ describe('Product Search Actions', () => {
       it('should create an action', () => {
         const payload = {
           queryText: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         };
         const action = new fromProductSearch.SearchProducts(payload);
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS,
           payload: payload,
-          auxiliary: undefined
+          auxiliary: undefined,
         });
       });
 
       it('should create an action for auxiliary search', () => {
         const payload = {
           queryText: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         };
         const action = new fromProductSearch.SearchProducts(payload, true);
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS,
           payload: payload,
-          auxiliary: true
+          auxiliary: true,
         });
       });
     });
@@ -44,20 +45,20 @@ describe('Product Search Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS_FAIL,
           payload,
-          auxiliary: undefined
+          auxiliary: undefined,
         });
       });
     });
 
     describe('SearchProductsSuccess', () => {
       it('should create an action', () => {
-        const payload: ProductList = { products: [{ code: '123' }] };
+        const payload = { products: [{ code: '123' }] };
         const action = new fromProductSearch.SearchProductsSuccess(payload);
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS_SUCCESS,
           payload,
-          auxiliary: undefined
+          auxiliary: undefined,
         });
       });
     });
@@ -68,12 +69,12 @@ describe('Product Search Actions', () => {
       it('should create an action', () => {
         const payload = {
           term: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         };
         const action = new fromProductSearch.GetProductSuggestions(payload);
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -86,7 +87,7 @@ describe('Product Search Actions', () => {
         );
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -98,7 +99,7 @@ describe('Product Search Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS_FAIL,
-          payload
+          payload,
         });
       });
     });
@@ -107,9 +108,17 @@ describe('Product Search Actions', () => {
   describe('CleanProductSearchState Action', () => {
     describe('Clean ProductSearch State', () => {
       it('should create an action', () => {
-        const action = new fromProductSearch.CleanProductSearchState();
+        const payload: ClearSearch = {
+          clearPageResults: true,
+          clearSearchboxResults: false,
+        };
+        const action = new fromProductSearch.ClearProductSearchResult({
+          clearPageResults: true,
+          clearSearchboxResults: false,
+        });
         expect({ ...action }).toEqual({
-          type: fromProductSearch.CLEAN_PRODUCT_SEARCH
+          type: fromProductSearch.CLEAR_PRODUCT_SEARCH_RESULT,
+          payload,
         });
       });
     });

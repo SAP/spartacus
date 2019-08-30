@@ -1,0 +1,21 @@
+<div
+  *ngIf="
+    !(isLoading$ | async) && (locations$ | async) as locations;
+    else loading
+  "
+>
+  <cx-store-finder-list [locations]="locations"></cx-store-finder-list>
+  <div *ngIf="locations?.stores">
+    <div class="cx-pagination">
+      <cx-pagination
+        [pagination]="locations.pagination"
+        (viewPageEvent)="viewPage($event)"
+      ></cx-pagination>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

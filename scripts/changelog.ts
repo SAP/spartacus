@@ -30,6 +30,7 @@ export interface ChangelogOptions {
 export default function run(args: ChangelogOptions, logger: logging.Logger) {
   const commits: JsonObject[] = [];
   let toSha: string | null = null;
+  const breakingChanges: JsonObject[] = [];
 
   const githubToken = (
     args.githubToken ||
@@ -37,16 +38,25 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
     ''
   ).trim();
 
+  const libraryPaths = {
+    '@spartacus/storefront': './projects/storefrontlib',
+    '@spartacus/core': './projects/core',
+    '@spartacus/styles': './projects/storefrontstyles',
+    '@spartacus/assets': './projects/assets',
+    '@spartacus/schematics': './projects/schematics',
+  };
+
   return new Promise(resolve => {
     (gitRawCommits({
       from: args.from,
       to: args.to || 'HEAD',
+      path: args.library ? libraryPaths[args.library] : '.',
       format:
-        '%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n'
+        '%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n',
     }) as NodeJS.ReadStream)
       .on('error', err => {
         logger.fatal('An error happened: ' + err.message);
-        process.exit(1);
+        return '';
       })
       .pipe(
         through((chunk: Buffer, _: string, callback: Function) => {
@@ -62,9 +72,9 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
         conventionalCommitsParser({
           headerPattern: /^(\w*)(?:\(([^)]*)\))?: (.*)$/,
           headerCorrespondence: ['type', 'scope', 'subject'],
-          noteKeywords: ['BREAKING CHANGE'],
+          noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES'],
           revertPattern: /^revert:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
-          revertCorrespondence: [`header`, `hash`]
+          revertCorrespondence: [`header`, `hash`],
         })
       )
       .pipe(
@@ -78,7 +88,15 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
             if (tags && tags.find(x => x == args.to)) {
               toSha = chunk.hash as string;
             }
-
+            const notes: any = chunk.notes;
+            if (Array.isArray(notes)) {
+              notes.forEach(note => {
+                breakingChanges.push({
+                  content: note.text,
+                  commit: chunk,
+                });
+              });
+            }
             commits.push(chunk);
             cb();
           } catch (err) {
@@ -100,7 +118,8 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
             v
           ),
         commits,
-        packages
+        packages,
+        breakingChanges,
       });
 
       if (args.stdout || !githubToken) {
@@ -120,7 +139,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
       const id = maybeRelease ? `/${maybeRelease.id}` : '';
 
       const semversion = (args.to && semver.parse(args.to)) || {
-        prerelease: ''
+        prerelease: '',
       };
 
       return ghGot(
@@ -132,9 +151,9 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
             name: args.to,
             prerelease: semversion.prerelease.length > 0,
             tag_name: args.to,
-            ...(toSha ? { target_commitish: toSha } : {})
+            ...(toSha ? { target_commitish: toSha } : {}),
           },
-          token: githubToken
+          token: githubToken,
         }
       );
     });
@@ -155,7 +174,7 @@ const config = {
   stdout: program.verbose || false,
   githubToken: program.githubToken,
   githubTokenFile: program.tokenFile,
-  library: program.lib
+  library: program.lib,
 };
 
 if (typeof config.from === 'undefined') {
@@ -182,13 +201,23 @@ if (typeof config.from === 'undefined') {
       config.library = '@spartacus/core';
       break;
     case 'storefrontlib':
+    case 'storefront':
+    case '@spartacus/storefront':
     case '@spartacus/storefrontlib':
-      config.library = '@spartacus/storefrontlib';
+      config.library = '@spartacus/storefront';
       break;
     case 'styles':
     case '@spartacus/styles':
     case 'storefrontstyles':
       config.library = '@spartacus/styles';
+      break;
+    case 'assets':
+    case '@spartacus/assets':
+      config.library = '@spartacus/assets';
+      break;
+    case 'schematics':
+    case '@spartacus/schematics':
+      config.library = '@spartacus/schematics';
       break;
     default:
       config.library = undefined;

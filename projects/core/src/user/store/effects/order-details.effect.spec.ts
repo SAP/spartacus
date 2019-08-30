@@ -1,64 +1,55 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
-import * as fromOrderDetailsEffect from './order-details.effect';
-import * as fromOrderDetailsAction from '../actions/order-details.action';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { hot, cold } from 'jasmine-marbles';
-import { ProductImageConverterService } from '../../../product/store/converters/index';
-import { OccOrderService } from '../../occ/index';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { Order } from '../../../occ/occ-models/index';
+import { Order } from '../../../model/order.model';
+import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
+import * as fromOrderDetailsEffect from './order-details.effect';
 
 const mockOrderDetails: Order = {};
 
 const mockOrderDetailsParams = {
   userId: 'user15355363988711@ydev.hybris.com',
-  orderCode: '00000386'
-};
-
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  },
-
-  site: {
-    baseSite: ''
-  }
+  orderCode: '00000386',
 };
 
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
-  let orderService: OccOrderService;
+  let orderConnector: UserOrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccOrderService,
         fromOrderDetailsEffect.OrderDetailsEffect,
-        ProductImageConverterService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
-        provideMockActions(() => actions$)
-      ]
+        { provide: UserOrderAdapter, useValue: {} },
+        provideMockActions(() => actions$),
+      ],
     });
 
-    actions$ = TestBed.get(Actions);
-    orderDetailsEffect = TestBed.get(fromOrderDetailsEffect.OrderDetailsEffect);
-    orderService = TestBed.get(OccOrderService);
+    actions$ = TestBed.get(Actions as Type<Actions>);
+    orderDetailsEffect = TestBed.get(
+      fromOrderDetailsEffect.OrderDetailsEffect as Type<
+        fromOrderDetailsEffect.OrderDetailsEffect
+      >
+    );
+    orderConnector = TestBed.get(UserOrderConnector as Type<
+      UserOrderConnector
+    >);
   });
 
   describe('loadOrderDetails$', () => {
     it('should load order details', () => {
-      spyOn(orderService, 'getOrder').and.returnValue(of(mockOrderDetails));
-      const action = new fromOrderDetailsAction.LoadOrderDetails(
-        mockOrderDetailsParams
-      );
+      spyOn(orderConnector, 'get').and.returnValue(of(mockOrderDetails));
+      const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
 
-      const completion = new fromOrderDetailsAction.LoadOrderDetailsSuccess(
+      const completion = new UserActions.LoadOrderDetailsSuccess(
         mockOrderDetails
       );
 
@@ -69,15 +60,11 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderService, 'getOrder').and.returnValue(throwError('Error'));
+      spyOn(orderConnector, 'get').and.returnValue(throwError('Error'));
 
-      const action = new fromOrderDetailsAction.LoadOrderDetails(
-        mockOrderDetailsParams
-      );
+      const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
 
-      const completion = new fromOrderDetailsAction.LoadOrderDetailsFail(
-        'Error'
-      );
+      const completion = new UserActions.LoadOrderDetailsFail('Error');
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

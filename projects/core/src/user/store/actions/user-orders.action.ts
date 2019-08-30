@@ -1,11 +1,13 @@
-import { Action } from '@ngrx/store';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { OrderHistoryList } from '../../../model/order.model';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { USER_ORDERS } from '../user-state';
 
 export const LOAD_USER_ORDERS = '[User] Load User Orders';
 export const LOAD_USER_ORDERS_FAIL = '[User] Load User Orders Fail';
 export const LOAD_USER_ORDERS_SUCCESS = '[User] Load User Orders Success';
+export const CLEAR_USER_ORDERS = '[User] Clear User Orders';
 
-export class LoadUserOrders implements Action {
+export class LoadUserOrders extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_USER_ORDERS;
   constructor(
     public payload: {
@@ -14,21 +16,32 @@ export class LoadUserOrders implements Action {
       currentPage?: number;
       sort?: string;
     }
-  ) {}
+  ) {
+    super(USER_ORDERS);
+  }
 }
 
-export class LoadUserOrdersFail implements Action {
+export class LoadUserOrdersFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_USER_ORDERS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ORDERS, payload);
+  }
 }
 
-export class LoadUserOrdersSuccess implements Action {
+export class LoadUserOrdersSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_USER_ORDERS_SUCCESS;
-  constructor(public payload: OrderHistoryList) {}
+  constructor(public payload: OrderHistoryList) {
+    super(USER_ORDERS);
+  }
 }
 
-// exported type
+export class ClearUserOrders {
+  readonly type = CLEAR_USER_ORDERS;
+  constructor() {}
+}
+
 export type UserOrdersAction =
   | LoadUserOrders
   | LoadUserOrdersFail
-  | LoadUserOrdersSuccess;
+  | LoadUserOrdersSuccess
+  | ClearUserOrders;

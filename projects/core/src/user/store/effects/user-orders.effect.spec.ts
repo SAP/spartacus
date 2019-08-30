@@ -1,64 +1,60 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
-import * as fromUserOrdersEffect from './user-orders.effect';
-import * as fromUserOrdersAction from '../actions/user-orders.action';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { hot, cold } from 'jasmine-marbles';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { OccOrderService } from '../../occ/index';
-import { OrderHistoryList } from '../../../occ/occ-models';
+import { OrderHistoryList } from '../../../model/order.model';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
+import { USER_ORDERS } from '../user-state';
+import * as fromUserOrdersEffect from './user-orders.effect';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
   pagination: {},
-  sorts: []
-};
-
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  },
-
-  site: {
-    baseSite: ''
-  }
+  sorts: [],
 };
 
 describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
-  let orderService: OccOrderService;
+  let orderConnector: UserOrderConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
-        provideMockActions(() => actions$)
-      ]
+        { provide: UserOrderAdapter, useValue: {} },
+        provideMockActions(() => actions$),
+      ],
     });
 
     actions$ = TestBed.get(Actions);
-    userOrdersEffect = TestBed.get(fromUserOrdersEffect.UserOrdersEffect);
-    orderService = TestBed.get(OccOrderService);
+    userOrdersEffect = TestBed.get(
+      fromUserOrdersEffect.UserOrdersEffect as Type<
+        fromUserOrdersEffect.UserOrdersEffect
+      >
+    );
+    orderConnector = TestBed.get(UserOrderConnector as Type<
+      UserOrderConnector
+    >);
   });
 
   describe('loadUserOrders$', () => {
     it('should load user Orders', () => {
-      spyOn(orderService, 'getOrders').and.returnValue(of(mockUserOrders));
-      const action = new fromUserOrdersAction.LoadUserOrders({
+      spyOn(orderConnector, 'getHistory').and.returnValue(of(mockUserOrders));
+      const action = new UserActions.LoadUserOrders({
         userId: 'test@sap.com',
-        pageSize: 5
+        pageSize: 5,
       });
 
-      const completion = new fromUserOrdersAction.LoadUserOrdersSuccess(
-        mockUserOrders
-      );
+      const completion = new UserActions.LoadUserOrdersSuccess(mockUserOrders);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -67,19 +63,34 @@ describe('User Orders effect', () => {
     });
 
     it('should handle failures for load user Orders', () => {
-      spyOn(orderService, 'getOrders').and.returnValue(throwError('Error'));
+      spyOn(orderConnector, 'getHistory').and.returnValue(throwError('Error'));
 
-      const action = new fromUserOrdersAction.LoadUserOrders({
+      const action = new UserActions.LoadUserOrders({
         userId: 'test@sap.com',
-        pageSize: 5
+        pageSize: 5,
       });
 
-      const completion = new fromUserOrdersAction.LoadUserOrdersFail('Error');
+      const completion = new UserActions.LoadUserOrdersFail('Error');
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(userOrdersEffect.loadUserOrders$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetUserOrders$', () => {
+    it('should return a reset action', () => {
+      const action: Action = {
+        type: UserActions.CLEAR_USER_MISCS_DATA,
+      };
+
+      const completion = new StateLoaderActions.LoaderResetAction(USER_ORDERS);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userOrdersEffect.resetUserOrders$).toBeObservable(expected);
     });
   });
 });

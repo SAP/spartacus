@@ -1,25 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
-import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { OccOrderService } from '../../occ/index';
-import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { OrderHistoryList } from '../../../model/order.model';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserOrderConnector } from '../../connectors/order/user-order.connector';
+import { UserActions } from '../actions/index';
+import { USER_ORDERS } from '../user-state';
 
 @Injectable()
 export class UserOrdersEffect {
   constructor(
     private actions$: Actions,
-    private occOrderService: OccOrderService
+    private orderConnector: UserOrderConnector
   ) {}
 
   @Effect()
-  loadUserOrders$: Observable<any> = this.actions$.pipe(
-    ofType(fromUserOrdersAction.LOAD_USER_ORDERS),
-    map((action: fromUserOrdersAction.LoadUserOrders) => action.payload),
+  loadUserOrders$: Observable<
+    UserActions.UserOrdersAction
+  > = this.actions$.pipe(
+    ofType(UserActions.LOAD_USER_ORDERS),
+    map((action: UserActions.LoadUserOrders) => action.payload),
     switchMap(payload => {
-      return this.occOrderService
-        .getOrders(
+      return this.orderConnector
+        .getHistory(
           payload.userId,
           payload.pageSize,
           payload.currentPage,
@@ -27,12 +33,20 @@ export class UserOrdersEffect {
         )
         .pipe(
           map((orders: OrderHistoryList) => {
-            return new fromUserOrdersAction.LoadUserOrdersSuccess(orders);
+            return new UserActions.LoadUserOrdersSuccess(orders);
           }),
           catchError(error =>
-            of(new fromUserOrdersAction.LoadUserOrdersFail(error))
+            of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
           )
         );
+    })
+  );
+
+  @Effect()
+  resetUserOrders$: Observable<Action> = this.actions$.pipe(
+    ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_USER_ORDERS),
+    map(() => {
+      return new StateLoaderActions.LoaderResetAction(USER_ORDERS);
     })
   );
 }

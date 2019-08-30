@@ -1,34 +1,37 @@
+import { Address } from '../../../model/address.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
 import { CheckoutStepsState } from '../checkout-state';
-import * as fromAction from './../actions/index';
-import { Address, Order, DeliveryMode } from '../../../occ/occ-models/index';
+import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
   address: {},
   deliveryMode: {
     supported: {},
-    selected: ''
+    selected: '',
   },
   paymentDetails: {},
-  orderDetails: {}
+  orderDetails: {},
 };
 
 export function reducer(
   state = initialState,
-  action: fromAction.CheckoutAction | fromAction.CheckoutClearMiscsData
+  action:
+    | CheckoutActions.CheckoutAction
+    | CheckoutActions.CheckoutClearMiscsData
 ): CheckoutStepsState {
   switch (action.type) {
-    case fromAction.ADD_DELIVERY_ADDRESS_SUCCESS:
-    case fromAction.SET_DELIVERY_ADDRESS_SUCCESS: {
+    case CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS:
+    case CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS: {
       const address: Address = action.payload;
 
       return {
         ...state,
-        address
+        address,
       };
     }
 
-    case fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
-      const supportedModes = action.payload.deliveryModes;
+    case CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
+      const supportedModes = action.payload;
       if (!supportedModes) {
         return state;
       }
@@ -37,11 +40,11 @@ export function reducer(
         (modes: { [code: string]: DeliveryMode }, mode: DeliveryMode) => {
           return {
             ...modes,
-            [mode.code]: mode
+            [mode.code]: mode,
           };
         },
         {
-          ...state.deliveryMode.supported
+          ...state.deliveryMode.supported,
         }
       );
 
@@ -49,63 +52,63 @@ export function reducer(
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          supported
-        }
+          supported,
+        },
       };
     }
 
-    case fromAction.SET_DELIVERY_MODE_SUCCESS: {
+    case CheckoutActions.SET_DELIVERY_MODE_SUCCESS: {
       const selected = action.payload;
 
       return {
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          selected
-        }
+          selected,
+        },
       };
     }
 
-    case fromAction.CREATE_PAYMENT_DETAILS_SUCCESS:
-    case fromAction.SET_PAYMENT_DETAILS_SUCCESS: {
+    case CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS:
+    case CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS: {
       return {
         ...state,
-        paymentDetails: action.payload
+        paymentDetails: action.payload,
       };
     }
 
-    case fromAction.CREATE_PAYMENT_DETAILS_FAIL: {
+    case CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL: {
       const paymentDetails = action.payload;
       if (paymentDetails['hasError']) {
         return {
           ...state,
-          paymentDetails
+          paymentDetails,
         };
       }
 
       return state;
     }
 
-    case fromAction.PLACE_ORDER_SUCCESS: {
+    case CheckoutActions.PLACE_ORDER_SUCCESS: {
       const orderDetails: Order = action.payload;
 
       return {
         ...state,
-        orderDetails
+        orderDetails,
       };
     }
 
-    case fromAction.CLEAR_CHECKOUT_DATA: {
+    case CheckoutActions.CLEAR_CHECKOUT_DATA: {
       return initialState;
     }
 
-    case fromAction.CLEAR_CHECKOUT_STEP: {
+    case CheckoutActions.CLEAR_CHECKOUT_STEP: {
       const stepNumber = action.payload;
       switch (stepNumber) {
         case 1: {
           return {
             ...state,
-            address: {}
+            address: {},
           };
         }
 
@@ -115,15 +118,15 @@ export function reducer(
             deliveryMode: {
               ...state.deliveryMode,
               supported: {},
-              selected: ''
-            }
+              selected: '',
+            },
           };
         }
 
         case 3: {
           return {
             ...state,
-            paymentDetails: {}
+            paymentDetails: {},
           };
         }
       }
@@ -131,25 +134,29 @@ export function reducer(
       return state;
     }
 
-    case fromAction.CLEAR_SUPPORTED_DELIVERY_MODES:
-    case fromAction.CHECKOUT_CLEAR_MISCS_DATA: {
+    case CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES:
+    case CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA: {
       return {
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          supported: {}
-        }
+          supported: {},
+        },
+      };
+    }
+    case CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        address: action.payload.deliveryAddress,
+        deliveryMode: {
+          ...state.deliveryMode,
+          selected:
+            action.payload.deliveryMode && action.payload.deliveryMode.code,
+        },
+        paymentDetails: action.payload.paymentInfo,
       };
     }
   }
 
   return state;
 }
-
-export const getDeliveryAddress = (state: CheckoutStepsState) => state.address;
-export const getDeliveryMode = (state: CheckoutStepsState) =>
-  state.deliveryMode;
-export const getPaymentDetails = (state: CheckoutStepsState) =>
-  state.paymentDetails;
-export const getOrderDetails = (state: CheckoutStepsState) =>
-  state.orderDetails;

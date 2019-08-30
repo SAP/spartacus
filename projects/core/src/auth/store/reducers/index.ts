@@ -1,21 +1,21 @@
 import { InjectionToken, Provider } from '@angular/core';
-
 import {
+  Action,
   ActionReducer,
   ActionReducerMap,
+  combineReducers,
   MetaReducer,
-  Action
 } from '@ngrx/store';
-
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
+import { ClientToken } from '../../models/token-types.model';
+import { AuthActions } from '../actions/index';
+import { AuthState, CLIENT_TOKEN_DATA } from '../auth-state';
 import * as fromUserTokenReducer from './user-token.reducer';
-import * as fromClientTokenReducer from './client-token.reducer';
-import { AuthState } from '../auth-state';
-import { LOGOUT } from '../actions/login-logout.action';
 
 export function getReducers(): ActionReducerMap<AuthState> {
   return {
-    userToken: fromUserTokenReducer.reducer,
-    clientToken: fromClientTokenReducer.reducer
+    userToken: combineReducers({ token: fromUserTokenReducer.reducer }),
+    clientToken: loaderReducer<ClientToken>(CLIENT_TOKEN_DATA),
   };
 }
 
@@ -25,17 +25,17 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export function clearAuthState(
   reducer: ActionReducer<AuthState, Action>
 ): ActionReducer<AuthState, Action> {
   return function(state, action) {
-    if (action.type === LOGOUT) {
+    if (action.type === AuthActions.LOGOUT) {
       state = {
         ...state,
-        userToken: undefined
+        userToken: undefined,
       };
     }
     return reducer(state, action);

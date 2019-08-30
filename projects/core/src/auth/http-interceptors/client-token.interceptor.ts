@@ -3,39 +3,42 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpHandler,
-  HttpEvent
+  HttpEvent,
 } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
+
 import { AuthService } from '../facade/auth.service';
-import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
-  InterceptorUtil
+  InterceptorUtil,
 } from '../../occ/utils/interceptor-util';
-import { AuthConfig } from '../config/auth-config';
+import { ClientToken } from '../models/token-types.model';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
-  baseReqString =
-    (this.config.server.baseUrl || '') +
-    this.config.server.occPrefix +
-    this.config.site.baseSite;
-
-  constructor(private config: AuthConfig, private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.getClientToken(request).pipe(
-      switchMap((token: AuthenticationToken) => {
-        if (token && request.url.indexOf(this.baseReqString) > -1) {
+      take(1),
+      switchMap((token: ClientToken) => {
+        if (
+          token &&
+          request.url.includes(this.occEndpoints.getBaseEndpoint())
+        ) {
           request = request.clone({
             setHeaders: {
-              Authorization: `${token.token_type} ${token.access_token}`
-            }
+              Authorization: `${token.token_type} ${token.access_token}`,
+            },
           });
         }
         return next.handle(request);
@@ -43,9 +46,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     );
   }
 
-  private getClientToken(
-    request: HttpRequest<any>
-  ): Observable<AuthenticationToken> {
+  private getClientToken(request: HttpRequest<any>): Observable<ClientToken> {
     if (
       InterceptorUtil.getInterceptorParam(USE_CLIENT_TOKEN, request.headers)
     ) {

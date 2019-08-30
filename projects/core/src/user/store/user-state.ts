@@ -1,15 +1,24 @@
-import {
-  Address,
-  PaymentDetails,
-  OrderHistoryList,
-  User,
-  Region,
-  Order,
-  Country,
-  Title
-} from '../../occ/occ-models/index';
+import { Address, Country, Region } from '../../model/address.model';
+import { PaymentDetails } from '../../model/cart.model';
+import { ConsentTemplate } from '../../model/consent.model';
+import { Title, User } from '../../model/misc.model';
+import { Order, OrderHistoryList } from '../../model/order.model';
+import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';
+export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
+export const UPDATE_PASSWORD_PROCESS_ID = 'updatePassword';
+export const UPDATE_USER_DETAILS_PROCESS_ID = 'updateUserDetails';
+export const REGISTER_USER_PROCESS_ID = 'registerUser';
+export const REMOVE_USER_PROCESS_ID = 'removeUser';
+export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
+export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
+
+export const USER_CONSENTS = '[User] User Consents';
+export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
+export const USER_ORDERS = '[User] User Orders';
+export const USER_ADDRESSES = '[User] User Addresses';
+export const REGIONS = '[User] Regions';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -17,27 +26,25 @@ export interface StateWithUser {
 
 export interface UserState {
   account: UserDetailsState;
-  addresses: UserAddressesState;
+  addresses: LoaderState<Address[]>;
+  consents: LoaderState<ConsentTemplate[]>;
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
-  payments: UserPaymentMethodsState;
-  orders: UserOrdersState;
+  payments: LoaderState<PaymentDetails[]>;
+  orders: LoaderState<OrderHistoryList>;
   order: OrderDetailsState;
   titles: TitlesState;
-  regions: RegionsState;
+  regions: LoaderState<RegionsState>;
+  resetPassword: boolean;
 }
 
 export interface OrderDetailsState {
   order: Order;
 }
 
-export interface UserPaymentMethodsState {
-  list: PaymentDetails[];
-  isLoading: boolean;
-}
-
 export interface RegionsState {
   entities: Region[];
+  country: string;
 }
 
 export interface BillingCountryEntities {
@@ -64,18 +71,6 @@ export interface TitlesState {
   entities: TitleEntities;
 }
 
-export interface UserAddressesState {
-  list: Address[];
-  isLoading: boolean;
-  isActionProcessing: boolean;
-}
-
 export interface UserDetailsState {
   details: User;
-}
-
-export interface UserOrdersState {
-  orders: OrderHistoryList;
-  loading: boolean;
-  loaded: boolean;
 }

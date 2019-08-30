@@ -1,11 +1,12 @@
 import { EntityLoaderState } from './entity-loader-state';
 import { LoaderState } from '../loader/loader-state';
+import { initialLoaderState } from '../loader/loader.reducer';
 
 export function entityStateSelector<T>(
   state: EntityLoaderState<T>,
   id: string
 ): LoaderState<T> {
-  return state.entities[id] || {};
+  return state.entities[id] || initialLoaderState;
 }
 
 export function entityValueSelector<T>(

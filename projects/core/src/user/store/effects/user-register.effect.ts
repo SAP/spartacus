@@ -1,32 +1,52 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import * as fromActions from '../actions/user-register.action';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
-
-import { UserRegisterFormData } from '../../../user/model/user.model';
-import { OccUserService } from '../../../user/occ/index';
-import { LoadUserToken } from '../../../auth/index';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { AuthActions } from '../../../auth/store/actions/index';
+import { UserSignUp } from '../../../model/misc.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserRegisterEffects {
   @Effect()
-  registerUser$: Observable<any> = this.actions$.pipe(
-    ofType(fromActions.REGISTER_USER),
-    map((action: fromActions.RegisterUser) => action.payload),
-    mergeMap((user: UserRegisterFormData) => {
-      return this.userService.registerUser(user).pipe(
+  registerUser$: Observable<
+    UserActions.UserRegisterOrRemoveAction
+  > = this.actions$.pipe(
+    ofType(UserActions.REGISTER_USER),
+    map((action: UserActions.RegisterUser) => action.payload),
+    mergeMap((user: UserSignUp) =>
+      this.userConnector.register(user).pipe(
+        map(() => new UserActions.RegisterUserSuccess()),
+        catchError(error =>
+          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+        )
+      )
+    )
+  );
+
+  @Effect()
+  removeUser$: Observable<
+    UserActions.UserRegisterOrRemoveAction | AuthActions.Logout
+  > = this.actions$.pipe(
+    ofType(UserActions.REMOVE_USER),
+    map((action: UserActions.RemoveUser) => action.payload),
+    mergeMap((userId: string) => {
+      return this.userConnector.remove(userId).pipe(
         switchMap(_result => [
-          new LoadUserToken({
-            userId: user.uid,
-            password: user.password
-          }),
-          new fromActions.RegisterUserSuccess()
+          new UserActions.RemoveUserSuccess(),
+          new AuthActions.Logout(),
         ]),
-        catchError(error => of(new fromActions.RegisterUserFail(error)))
+        catchError(error =>
+          of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
+        )
       );
     })
   );
 
-  constructor(private actions$: Actions, private userService: OccUserService) {}
+  constructor(
+    private actions$: Actions,
+    private userConnector: UserConnector
+  ) {}
 }

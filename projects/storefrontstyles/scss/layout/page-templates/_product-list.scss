@@ -1,0 +1,27 @@
+%ProductListPageTemplate {
+  max-width: 1140px;
+  margin: auto;
+  display: flex;
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
+  .ProductLeftRefinements {
+    order: 1;
+    max-width: 25%;
+    padding: 60px 15px 15px 15px;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+  .ProductListSlot {
+    order: 2;
+    max-width: 75%;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+}

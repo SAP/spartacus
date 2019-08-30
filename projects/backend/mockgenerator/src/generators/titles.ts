@@ -8,7 +8,7 @@ export class TitlesGenerator extends ClientGenerator {
     console.log(`[${site}-${ENDPOINTS.TITLES}] generated`);
 
     return {
-      [`${site}-${ENDPOINTS.TITLES}`]: result
+      [`${site}-${ENDPOINTS.TITLES}`]: result,
     };
   }
 }

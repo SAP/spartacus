@@ -1,48 +1,21 @@
-import * as fromUserOrdersAction from '../actions/user-orders.action';
-import * as fromAction from '../actions/index';
-import { UserOrdersState } from '../user-state';
-import { OrderHistoryList } from '../../../occ/occ-models';
+import { OrderHistoryList } from '../../../model/order.model';
+import { UserActions } from '../actions/index';
 
-export const initialState: UserOrdersState = {
-  orders: {
-    orders: [],
-    pagination: {},
-    sorts: []
-  },
-  loading: false,
-  loaded: false
+export const initialState: OrderHistoryList = {
+  orders: [],
+  pagination: {},
+  sorts: [],
 };
 
 export function reducer(
   state = initialState,
-  action: fromUserOrdersAction.UserOrdersAction | fromAction.MiscsDataAction
-): UserOrdersState {
+  action: UserActions.UserOrdersAction
+): OrderHistoryList {
   switch (action.type) {
-    case fromUserOrdersAction.LOAD_USER_ORDERS: {
-      return {
-        ...state,
-        loaded: false,
-        loading: true
-      };
+    case UserActions.LOAD_USER_ORDERS_SUCCESS: {
+      return action.payload ? action.payload : initialState;
     }
-    case fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS: {
-      const orders: OrderHistoryList = action.payload;
-      return {
-        ...state,
-        orders,
-        loaded: true,
-        loading: false
-      };
-    }
-    case fromUserOrdersAction.LOAD_USER_ORDERS_FAIL: {
-      return {
-        ...state,
-        loaded: false,
-        loading: false
-      };
-    }
-
-    case fromAction.CLEAR_MISCS_DATA: {
+    case UserActions.LOAD_USER_ORDERS_FAIL: {
       return initialState;
     }
   }

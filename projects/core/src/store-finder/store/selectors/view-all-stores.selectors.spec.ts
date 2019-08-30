@@ -1,13 +1,16 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromReducers from '../reducers';
-import * as fromActions from '../actions';
-import * as fromSelectors from './view-all-stores.selectors';
-import { StoresState } from '../store-finder-state';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { StoreFinderActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
+import { StoreFinderSelectors } from '../selectors/index';
+import {
+  StateWithStoreFinder,
+  STORE_FINDER_FEATURE,
+} from '../store-finder-state';
 
 describe('ViewAllStores Selectors', () => {
-  let store: Store<StoresState>;
+  let store: Store<StateWithStoreFinder>;
 
   const searchResult = { stores: [{ name: 'test' }] };
 
@@ -15,23 +18,26 @@ describe('ViewAllStores Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(
+          STORE_FINDER_FEATURE,
+          fromReducers.getReducers()
+        ),
+      ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.get(Store as Type<Store<StateWithStoreFinder>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('viewAllStores', () => {
     it('should return the stores search results', () => {
+      store.dispatch(new StoreFinderActions.ViewAllStoresSuccess(searchResult));
+
       let result;
       store
-        .pipe(select(fromSelectors.getViewAllStoresEntities))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual({});
-
-      store.dispatch(new fromActions.ViewAllStoresSuccess(searchResult));
+        .pipe(select(StoreFinderSelectors.getViewAllStoresEntities))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual(searchResult);
     });
@@ -39,14 +45,14 @@ describe('ViewAllStores Selectors', () => {
 
   describe('getViewAllStoresLoading', () => {
     it('should return isLoading flag', () => {
-      let result;
+      let result: boolean;
       store
-        .pipe(select(fromSelectors.getViewAllStoresLoading))
+        .pipe(select(StoreFinderSelectors.getViewAllStoresLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.ViewAllStores());
+      store.dispatch(new StoreFinderActions.ViewAllStores());
 
       expect(result).toEqual(true);
     });

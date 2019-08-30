@@ -1,25 +1,25 @@
-import * as fromOrderDetailsAction from '../actions/order-details.action';
+import { Order } from '../../../model/order.model';
+import { UserActions } from '../actions/index';
 import { OrderDetailsState } from '../user-state';
-import { Order } from '../../../occ/occ-models/index';
 
 export const initialState: OrderDetailsState = {
-  order: {}
+  order: {},
 };
 
 export function reducer(
   state = initialState,
-  action: fromOrderDetailsAction.OrderDetailsAction
+  action: UserActions.OrderDetailsAction
 ): OrderDetailsState {
   switch (action.type) {
-    case fromOrderDetailsAction.LOAD_ORDER_DETAILS_SUCCESS: {
+    case UserActions.LOAD_ORDER_DETAILS_SUCCESS: {
       const order: Order = action.payload;
 
       return {
         ...state,
-        order
+        order,
       };
     }
-    case fromOrderDetailsAction.CLEAR_ORDER_DETAILS: {
+    case UserActions.CLEAR_ORDER_DETAILS: {
       return initialState;
     }
   }

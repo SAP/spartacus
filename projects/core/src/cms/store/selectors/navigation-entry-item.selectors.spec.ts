@@ -1,18 +1,18 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromReducers from '../reducers/index';
-import * as fromActions from '../actions/index';
-import * as fromSelectors from '../selectors/index';
-import { CmsComponent } from '../../../occ/occ-models/index';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { CmsComponent } from '../../../model/cms.model';
+import { CmsActions } from '../actions/index';
 import { StateWithCms } from '../cms-state';
+import * as fromReducers from '../reducers/index';
+import { CmsSelectors } from '../selectors/index';
 
 describe('Navigation Entry Items Selectors', () => {
   let store: Store<StateWithCms>;
 
   const mockComponents: CmsComponent[] = [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent1' },
-    { uid: 'comp2', typeCode: 'SimpleBannerComponent2' }
+    { uid: 'comp2', typeCode: 'SimpleBannerComponent2' },
   ];
 
   const mockPayload = { nodeId: 'testId', components: mockComponents };
@@ -20,22 +20,22 @@ describe('Navigation Entry Items Selectors', () => {
   const mockResult = {
     comp1_AbstractCMSComponent: {
       uid: 'comp1',
-      typeCode: 'SimpleBannerComponent1'
+      typeCode: 'SimpleBannerComponent1',
     },
     comp2_AbstractCMSComponent: {
       uid: 'comp2',
-      typeCode: 'SimpleBannerComponent2'
-    }
+      typeCode: 'SimpleBannerComponent2',
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cms', fromReducers.getReducers()),
+      ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithCms>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -45,13 +45,18 @@ describe('Navigation Entry Items Selectors', () => {
 
       store
         .pipe(
-          select(fromSelectors.getSelectedNavigationEntryItemState('testId'))
+          select(CmsSelectors.getSelectedNavigationEntryItemState('testId'))
         )
         .subscribe(value => (result = value));
 
-      expect(result).toEqual({});
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: undefined,
+      });
 
-      store.dispatch(new fromActions.LoadNavigationItemsSuccess(mockPayload));
+      store.dispatch(new CmsActions.LoadCmsNavigationItemsSuccess(mockPayload));
 
       expect(result.value).toEqual(mockResult);
     });
@@ -62,10 +67,10 @@ describe('Navigation Entry Items Selectors', () => {
       let result;
 
       store
-        .pipe(select(fromSelectors.itemsSelectorFactory('testId')))
+        .pipe(select(CmsSelectors.getNavigationEntryItems('testId')))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadNavigationItemsSuccess(mockPayload));
+      store.dispatch(new CmsActions.LoadCmsNavigationItemsSuccess(mockPayload));
 
       expect(result).toEqual(mockResult);
     });

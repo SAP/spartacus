@@ -1,16 +1,15 @@
+import { Location } from '@angular/common';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { Action } from '@ngrx/store';
+import { AuthActions } from '@spartacus/core';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
-
+import { RoutingActions } from '../actions/index';
 import * as fromEffects from './router.effect';
-import * as fromActions from '../actions/router.action';
-import { Action } from '@ngrx/store';
 
 describe('Router Effects', () => {
   let actions$: Observable<Action>;
@@ -18,37 +17,76 @@ describe('Router Effects', () => {
   let router: Router;
   let location: Location;
 
+  const mockRoutes = [
+    { path: 'test', component: true, data: { cxCmsRouteContext: true } },
+    { path: 'test2', component: true },
+  ] as any;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      providers: [fromEffects.RouterEffects, provideMockActions(() => actions$)]
+      imports: [RouterTestingModule.withRoutes(mockRoutes)],
+      providers: [
+        fromEffects.RouterEffects,
+        provideMockActions(() => actions$),
+      ],
     });
 
-    effects = TestBed.get(fromEffects.RouterEffects);
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
+    effects = TestBed.get(fromEffects.RouterEffects as Type<
+      fromEffects.RouterEffects
+    >);
+    router = TestBed.get(Router as Type<Router>);
+    location = TestBed.get(Location as Type<Location>);
   });
 
   describe('navigate$', () => {
     it('should navigate to path', () => {
-      const action = new fromActions.Go({
-        path: ['/test']
+      const action = new RoutingActions.RouteGoAction({
+        path: ['/test'],
       });
 
       actions$ = hot('-a', { a: action });
 
       spyOn(router, 'navigate');
+      spyOn(router, 'navigateByUrl');
       effects.navigate$.subscribe(() => {
         expect(router.navigate).toHaveBeenCalledWith(['/test'], {
-          queryParams: undefined
+          queryParams: undefined,
         });
+      });
+    });
+  });
+
+  describe('navigateByUrl$', () => {
+    it('should navigate to url', () => {
+      const action = new RoutingActions.RouteGoByUrlAction('/test');
+
+      actions$ = hot('-a', { a: action });
+
+      spyOn(router, 'navigate');
+      effects.navigate$.subscribe(() => {
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/test');
+      });
+    });
+  });
+
+  describe('clearCmsRoutes$', () => {
+    it('should remove cms driven routes', () => {
+      const action = new AuthActions.Logout();
+
+      actions$ = hot('-a', { a: action });
+
+      spyOn(router, 'resetConfig');
+      effects.clearCmsRoutes$.subscribe(() => {
+        expect(router.resetConfig).toHaveBeenCalledWith([
+          { path: 'test2', component: true },
+        ]);
       });
     });
   });
 
   describe('navigateBack$', () => {
     it('should navigate back', () => {
-      const action = new fromActions.Back();
+      const action = new RoutingActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 
@@ -61,7 +99,7 @@ describe('Router Effects', () => {
 
   describe('navigateForward$', () => {
     it('should navigate forward', () => {
-      const action = new fromActions.Back();
+      const action = new RoutingActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 

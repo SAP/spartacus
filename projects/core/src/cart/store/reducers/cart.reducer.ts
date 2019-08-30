@@ -1,35 +1,36 @@
-import * as fromAction from './../actions';
-import { OrderEntry } from '../../../occ/occ-models/index';
+import { OrderEntry } from '../../../model/order.model';
+import { CartActions } from '../actions/index';
 import { CartState } from '../cart-state';
 
 export const initialState: CartState = {
   content: {},
   entries: {},
   refresh: false,
-  cartMergeComplete: false
+  cartMergeComplete: false,
 };
 
 export function reducer(
   state = initialState,
-  action: fromAction.CartAction | fromAction.CartEntryAction
+  action: CartActions.CartAction | CartActions.CartEntryAction
 ): CartState {
   switch (action.type) {
-    case fromAction.MERGE_CART: {
+    case CartActions.MERGE_CART: {
       return {
         ...state,
-        cartMergeComplete: false
+        cartMergeComplete: false,
       };
     }
 
-    case fromAction.MERGE_CART_SUCCESS: {
+    case CartActions.MERGE_CART_SUCCESS: {
       return {
         ...state,
-        cartMergeComplete: true
+        cartMergeComplete: true,
+        refresh: true,
       };
     }
 
-    case fromAction.LOAD_CART_SUCCESS:
-    case fromAction.CREATE_CART_SUCCESS: {
+    case CartActions.LOAD_CART_SUCCESS:
+    case CartActions.CREATE_CART_SUCCESS: {
       const content = { ...action.payload };
       let entries = {};
       if (content.entries) {
@@ -43,16 +44,17 @@ export function reducer(
               In the case where the detailed once get resolved first, we merge the existing
               data with the new data from the response (to not delete existing detailed data).
               */
-              [entry.product.code]: state.entries[entry.product.code]
-                ? {
-                    ...state.entries[entry.product.code],
-                    ...entry
-                  }
-                : entry
+              [entry.product.code]:
+                state.entries && state.entries[entry.product.code]
+                  ? {
+                      ...state.entries[entry.product.code],
+                      ...entry,
+                    }
+                  : entry,
             };
           },
           {
-            ...entries
+            ...entries,
           }
         );
         delete content['entries'];
@@ -61,17 +63,33 @@ export function reducer(
         ...state,
         content,
         entries,
-        refresh: false
+        refresh: false,
       };
     }
 
-    case fromAction.REMOVE_ENTRY_SUCCESS:
-    case fromAction.UPDATE_ENTRY_SUCCESS:
-    case fromAction.ADD_ENTRY_SUCCESS: {
+    case CartActions.CART_REMOVE_ENTRY_SUCCESS:
+    case CartActions.CART_UPDATE_ENTRY_SUCCESS:
+    case CartActions.CART_ADD_ENTRY_SUCCESS: {
       return {
         ...state,
-        refresh: true
+        refresh: true,
       };
+    }
+
+    case CartActions.RESET_CART_DETAILS: {
+      return {
+        content: {
+          guid: state.content.guid,
+          code: state.content.code,
+        },
+        entries: {},
+        refresh: false,
+        cartMergeComplete: false,
+      };
+    }
+
+    case CartActions.CLEAR_CART: {
+      return initialState;
     }
   }
 

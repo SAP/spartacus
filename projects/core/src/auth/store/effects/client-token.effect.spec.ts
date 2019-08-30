@@ -1,19 +1,18 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
-import { ClientToken } from './../../models/token-types.model';
-import * as fromStore from './../';
-
-import { Observable, of } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot, cold } from 'jasmine-marbles';
-import { ClientTokenAction } from '../actions';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import * as fromStore from '../';
+import { AuthActions } from '../actions/index';
+import { ClientToken } from './../../models/token-types.model';
+import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
 
 const testToken: ClientToken = {
   access_token: 'xxx',
   token_type: 'xxx',
   expires_in: 1,
-  scope: 'xxx'
+  scope: 'xxx',
 };
 
 class ClientAuthenticationTokenServiceMock {
@@ -23,7 +22,7 @@ class ClientAuthenticationTokenServiceMock {
 describe('ClientTokenEffect', () => {
   let clientTokenEffect: fromStore.ClientTokenEffect;
   let clientAuthenticationTokenService: ClientAuthenticationTokenService;
-  let actions$: Observable<ClientTokenAction>;
+  let actions$: Observable<AuthActions.ClientTokenAction>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,15 +30,17 @@ describe('ClientTokenEffect', () => {
         fromStore.ClientTokenEffect,
         {
           provide: ClientAuthenticationTokenService,
-          useClass: ClientAuthenticationTokenServiceMock
+          useClass: ClientAuthenticationTokenServiceMock,
         },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
-    clientTokenEffect = TestBed.get(fromStore.ClientTokenEffect);
+    clientTokenEffect = TestBed.get(fromStore.ClientTokenEffect as Type<
+      fromStore.ClientTokenEffect
+    >);
     clientAuthenticationTokenService = TestBed.get(
-      ClientAuthenticationTokenService
+      ClientAuthenticationTokenService as Type<ClientAuthenticationTokenService>
     );
 
     spyOn(
@@ -50,8 +51,8 @@ describe('ClientTokenEffect', () => {
 
   describe('loadClientToken$', () => {
     it('should load a client token', () => {
-      const action = new fromStore.LoadClientToken();
-      const completition = new fromStore.LoadClientTokenSuccess(testToken);
+      const action = new AuthActions.LoadClientToken();
+      const completition = new AuthActions.LoadClientTokenSuccess(testToken);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completition });

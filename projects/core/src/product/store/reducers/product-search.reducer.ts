@@ -1,38 +1,50 @@
+import {
+  ProductSearchPage,
+  Suggestion,
+} from '../../../model/product-search.model';
+import { ProductActions } from '../actions/index';
 import { ProductsSearchState } from '../product-state';
-import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion, ProductSearchPage } from '../../../occ/occ-models';
 
 export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
-  auxResults: {}
+  auxResults: {},
 };
 
 export function reducer(
   state = initialState,
-  action: fromProductsSearch.ProductSearchAction
+  action: ProductActions.ProductSearchAction
 ): ProductsSearchState {
   switch (action.type) {
-    case fromProductsSearch.SEARCH_PRODUCTS_SUCCESS: {
+    case ProductActions.SEARCH_PRODUCTS_SUCCESS: {
       const results = action.payload;
       const res = action.auxiliary ? { auxResults: results } : { results };
       return {
         ...state,
-        ...res
+        ...res,
       };
     }
 
-    case fromProductsSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
+    case ProductActions.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
       const suggestions: Suggestion[] = action.payload;
 
       return {
         ...state,
-        suggestions
+        suggestions,
       };
     }
 
-    case fromProductsSearch.CLEAN_PRODUCT_SEARCH: {
-      return initialState;
+    case ProductActions.CLEAR_PRODUCT_SEARCH_RESULT: {
+      return {
+        ...state,
+        results: action.payload.clearPageResults ? {} : state.results,
+        suggestions: action.payload.clearSearchboxResults
+          ? []
+          : state.suggestions,
+        auxResults: action.payload.clearSearchboxResults
+          ? {}
+          : state.auxResults,
+      };
     }
   }
   return state;

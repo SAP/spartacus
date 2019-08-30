@@ -1,0 +1,18 @@
+%cx-store-finder-search {
+  display: block;
+  margin: 0 0 3rem;
+
+  .cx-find-store {
+    margin: 0 0 1rem;
+  }
+
+  .cx-bottom-links {
+    text-align: center;
+  }
+
+  .cx-link {
+    @include type('6');
+    border: 0;
+    padding: 0;
+  }
+}

@@ -1,107 +1,218 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-
-import * as fromReducers from '../reducers/index';
-import * as fromActions from '../actions/index';
-import * as fromSelectors from '../selectors/page.selectors';
-
+import { select, Store, StoreModule } from '@ngrx/store';
+import { PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing/models/page-context.model';
+import { EntityLoaderState, LoaderState } from '../../../state';
+import { ContentSlotComponentData } from '../../model/content-slot-component-data.model';
+import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import { CmsComponent } from '../../../occ/occ-models/index';
-import { StateWithCms } from '../cms-state';
-import { ContentSlotData } from '../../model/content-slot.model';
+import { CmsActions } from '../actions/index';
+import { IndexType, StateWithCms } from '../cms-state';
+import * as fromReducers from '../reducers/index';
+import { CmsSelectors } from '../selectors/index';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
 
-  const components: CmsComponent[] = [
-    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-    { uid: 'comp3', typeCode: 'NavigationComponent' }
+  const components: ContentSlotComponentData[] = [
+    {
+      uid: 'comp1',
+      flexType: 'SimpleBannerComponent',
+    },
+    {
+      uid: 'comp2',
+      flexType: 'CMSLinkComponent',
+    },
+    {
+      uid: 'comp3',
+      flexType: 'NavigationComponent',
+    },
   ];
   const page: Page = {
-    pageId: 'testPageId',
-    name: 'testPage',
-    seen: [],
-    slots: { left: { components } }
+    pageId: 'homepage',
+    name: 'HomePage',
+    slots: { left: { components } },
   };
-  const payload = { key: 'test', value: page };
 
-  const entities = {
-    test: page
+  const pageContext: PageContext = {
+    id: 'homepage',
+    type: PageType.CONTENT_PAGE,
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cms', fromReducers.getReducers()),
+      ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithCms>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getPageEntities', () => {
-    it('should return pages as entities', () => {
-      let result: { [key: string]: Page };
+  describe('getPageStateIndex', () => {
+    it('should return the index part of the state', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
+      let result: IndexType;
       store
-        .pipe(select(fromSelectors.getPageEntities))
-        .subscribe(value => (result = value));
+        .pipe(select(CmsSelectors.getPageStateIndex))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-      expect(result).toEqual({});
+      const expectedResult: IndexType = {
+        content: {
+          entities: {
+            homepage: {
+              loading: false,
+              error: false,
+              success: true,
+              value: page.pageId,
+            },
+          },
+        },
+        product: { entities: {} },
+        category: { entities: {} },
+        catalog: { entities: {} },
+      };
 
-      store.dispatch(new fromActions.LoadPageDataSuccess(payload));
-
-      expect(result).toEqual(entities);
+      expect(result).toEqual(expectedResult);
     });
   });
 
-  describe('getLatestPageKey', () => {
-    it('should return the latest page key', () => {
+  describe('getPageStateIndexEntityLoaderState', () => {
+    it('should return an index', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
+
+      let result: EntityLoaderState<string>;
+      store
+        .pipe(
+          select(CmsSelectors.getPageStateIndexEntityLoaderState(pageContext))
+        )
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual({
+        entities: {
+          homepage: {
+            loading: false,
+            error: false,
+            success: true,
+            value: page.pageId,
+          },
+        },
+      });
+    });
+  });
+
+  describe('getPageStateIndexLoaderState', () => {
+    it('should return an initial entity state when there is no entity', () => {
+      let result: LoaderState<string>;
+      store
+        .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: undefined,
+      });
+    });
+
+    it('should return an entity from an index', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
+
+      let result: LoaderState<string>;
+      store
+        .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: true,
+        value: page.pageId,
+      });
+    });
+  });
+
+  describe('getPageStateIndexValue', () => {
+    it('should return index value', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
+
       let result: string;
-
       store
-        .pipe(select(fromSelectors.getLatestPageKey))
-        .subscribe(value => (result = value));
+        .pipe(select(CmsSelectors.getPageStateIndexValue(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-      expect(result).toEqual('');
-
-      store.dispatch(new fromActions.UpdateLatestPageKey(payload.key));
-
-      expect(result).toEqual('test');
+      expect(result).toEqual('homepage');
     });
   });
 
-  describe('getLatestPage', () => {
-    it('should return the latest page', () => {
+  describe('getPageEntities', () => {
+    it('should return the entities', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
+
+      let result: { [id: string]: Page };
+      store
+        .pipe(select(CmsSelectors.getPageEntities))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual({ homepage: page });
+    });
+  });
+
+  describe('getPageData', () => {
+    it('should return the page', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
+
       let result: Page;
-
       store
-        .pipe(select(fromSelectors.getLatestPage))
-        .subscribe(value => (result = value));
+        .pipe(select(CmsSelectors.getPageData(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-      expect(result).toEqual(undefined);
-
-      store.dispatch(new fromActions.LoadPageDataSuccess(payload));
-      store.dispatch(new fromActions.UpdateLatestPageKey(payload.key));
-
-      expect(result).toEqual(payload.value);
+      expect(result).toEqual(page);
     });
   });
 
-  describe('currentSlotSelectorFactory', () => {
-    it('should return current slot by position', () => {
-      let result: ContentSlotData;
+  describe('getPageComponentTypes', () => {
+    it('should return components', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
+      let result: string[];
       store
-        .pipe(select(fromSelectors.currentSlotSelectorFactory('left')))
-        .subscribe(value => (result = value));
+        .pipe(select(CmsSelectors.getPageComponentTypes(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual([
+        'SimpleBannerComponent',
+        'CMSLinkComponent',
+        'NavigationComponent',
+      ]);
+    });
+  });
 
-      store.dispatch(new fromActions.LoadPageDataSuccess(payload));
-      store.dispatch(new fromActions.UpdateLatestPageKey(payload.key));
+  describe('getCurrentSlotSelectorFactory', () => {
+    it('should return current slot by position', () => {
+      store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
+
+      let result: ContentSlotData;
+      store
+        .pipe(
+          select(
+            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, 'left')
+          )
+        )
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual({ components });
     });

@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export class ExternalJsFileLoader {
-  constructor(@Inject(DOCUMENT) private document: any) {}
+  constructor(@Inject(DOCUMENT) protected document: any) {}
 
   /**
    * Loads a javascript from an external URL

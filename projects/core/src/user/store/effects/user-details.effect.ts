@@ -1,32 +1,52 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-
-import { OccUserService } from '../../occ/index';
-import * as fromUserDetailsAction from '../actions/user-details.action';
-import { User } from '../../../occ/occ-models/index';
+import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
+import { User } from '../../../model/misc.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserDetailsEffects {
   @Effect()
-  loadUserDetails$: Observable<any> = this.actions$.pipe(
-    ofType(fromUserDetailsAction.LOAD_USER_DETAILS),
-    map((action: fromUserDetailsAction.LoadUserDetails) => action.payload),
+  loadUserDetails$: Observable<
+    UserActions.UserDetailsAction
+  > = this.actions$.pipe(
+    ofType(UserActions.LOAD_USER_DETAILS),
+    map((action: UserActions.LoadUserDetails) => action.payload),
     mergeMap(userId => {
-      return this.occUserService.loadUser(userId).pipe(
+      return this.userConnector.get(userId).pipe(
         map((user: User) => {
-          return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
+          return new UserActions.LoadUserDetailsSuccess(user);
         }),
         catchError(error =>
-          of(new fromUserDetailsAction.LoadUserDetailsFail(error))
+          of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
         )
       );
     })
   );
 
+  @Effect()
+  updateUserDetails$: Observable<
+    UserActions.UpdateUserDetailsSuccess | UserActions.UpdateUserDetailsFail
+  > = this.actions$.pipe(
+    ofType(UserActions.UPDATE_USER_DETAILS),
+    map((action: UserActions.UpdateUserDetails) => action.payload),
+    concatMap(payload =>
+      this.userConnector.update(payload.username, payload.userDetails).pipe(
+        map(_ => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)),
+        catchError(error =>
+          of(
+            new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private userConnector: UserConnector
   ) {}
 }

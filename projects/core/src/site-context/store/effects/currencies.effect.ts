@@ -1,40 +1,52 @@
-import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { map, catchError, exhaustMap, tap } from 'rxjs/operators';
-
-import { OccSiteService } from '../../occ/occ-site.service';
-import * as actions from '../actions/currencies.action';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { WindowRef } from '../../../window/window-ref';
+import { SiteConnector } from '../../connectors/site.connector';
+import { SiteContextActions } from '../actions/index';
 
 @Injectable()
 export class CurrenciesEffects {
   @Effect()
-  loadCurrencies$: Observable<any> = this.actions$.pipe(
-    ofType(actions.LOAD_CURRENCIES),
+  loadCurrencies$: Observable<
+    | SiteContextActions.LoadCurrenciesSuccess
+    | SiteContextActions.LoadCurrenciesFail
+  > = this.actions$.pipe(
+    ofType(SiteContextActions.LOAD_CURRENCIES),
     exhaustMap(() => {
-      return this.occSiteService.loadCurrencies().pipe(
-        map(data => new actions.LoadCurrenciesSuccess(data.currencies)),
-        catchError(error => of(new actions.LoadCurrenciesFail(error)))
+      return this.siteConnector.getCurrencies().pipe(
+        map(
+          currencies => new SiteContextActions.LoadCurrenciesSuccess(currencies)
+        ),
+        catchError(error =>
+          of(
+            new SiteContextActions.LoadCurrenciesFail(
+              makeErrorSerializable(error)
+            )
+          )
+        )
       );
     })
   );
 
   @Effect()
-  activateCurrency$: Observable<any> = this.actions$.pipe(
-    ofType(actions.SET_ACTIVE_CURRENCY),
-    tap((action: actions.SetActiveCurrency) => {
+  activateCurrency$: Observable<
+    SiteContextActions.CurrencyChange
+  > = this.actions$.pipe(
+    ofType(SiteContextActions.SET_ACTIVE_CURRENCY),
+    tap((action: SiteContextActions.SetActiveCurrency) => {
       if (this.winRef.sessionStorage) {
         this.winRef.sessionStorage.setItem('currency', action.payload);
       }
     }),
-    map(() => new actions.CurrencyChange())
+    map(() => new SiteContextActions.CurrencyChange())
   );
 
   constructor(
     private actions$: Actions,
-    private occSiteService: OccSiteService,
+    private siteConnector: SiteConnector,
     private winRef: WindowRef
   ) {}
 }

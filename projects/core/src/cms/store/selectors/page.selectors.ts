@@ -1,13 +1,52 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
+import { PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
+import {
+  StateEntityLoaderSelectors,
+  StateLoaderSelectors,
+} from '../../../state/utils/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import { CmsState, PageState, StateWithCms } from '../cms-state';
+import { CmsState, IndexType, PageState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
-export const getPageEntitiesSelector = (state: PageState) => state.entities;
-export const getPageCount = (state: PageState) => state.count;
-export const getLatestPageKeySelector = (state: PageState) =>
-  state.latestPageKey;
+const getPageEntitiesSelector = (state: PageState) => state.pageData.entities;
+const getIndexByType = (
+  index: IndexType,
+  type: PageType
+): EntityLoaderState<string> => {
+  switch (type) {
+    case PageType.CONTENT_PAGE: {
+      return index.content;
+    }
+    case PageType.PRODUCT_PAGE: {
+      return index.product;
+    }
+    case PageType.CATEGORY_PAGE: {
+      return index.category;
+    }
+    case PageType.CATALOG_PAGE: {
+      return index.catalog;
+    }
+  }
+  return { entities: {} };
+};
+
+const getPageComponentTypesSelector: (page: Page) => string[] = (
+  page: Page
+) => {
+  const componentTypes = new Set<string>();
+  if (page && page.slots) {
+    for (const slot of Object.keys(page.slots)) {
+      for (const component of page.slots[slot].components || []) {
+        componentTypes.add(component.flexType);
+      }
+    }
+  }
+  return Array.from(componentTypes);
+};
 
 export const getPageState: MemoizedSelector<
   StateWithCms,
@@ -17,41 +56,74 @@ export const getPageState: MemoizedSelector<
   (state: CmsState) => state.page
 );
 
+export const getPageStateIndex: MemoizedSelector<
+  StateWithCms,
+  IndexType
+> = createSelector(
+  getPageState,
+  (page: PageState) => page.index
+);
+
+export const getPageStateIndexEntityLoaderState = (
+  pageContext: PageContext
+): MemoizedSelector<StateWithCms, EntityLoaderState<string>> =>
+  createSelector(
+    getPageStateIndex,
+    (index: IndexType) => getIndexByType(index, pageContext.type)
+  );
+
+export const getPageStateIndexLoaderState = (
+  pageContext: PageContext
+): MemoizedSelector<StateWithCms, LoaderState<string>> =>
+  createSelector(
+    getPageStateIndexEntityLoaderState(pageContext),
+    indexState =>
+      StateEntityLoaderSelectors.entityStateSelector(indexState, pageContext.id)
+  );
+
+export const getPageStateIndexValue = (
+  pageContext: PageContext
+): MemoizedSelector<StateWithCms, string> =>
+  createSelector(
+    getPageStateIndexLoaderState(pageContext),
+    entity => StateLoaderSelectors.loaderValueSelector<string>(entity)
+  );
+
 export const getPageEntities: MemoizedSelector<
   StateWithCms,
-  { [context: string]: Page }
+  { [id: string]: Page }
 > = createSelector(
   getPageState,
   getPageEntitiesSelector
 );
 
-export const getLatestPageKey: MemoizedSelector<
-  StateWithCms,
-  string
-> = createSelector(
-  getPageState,
-  getLatestPageKeySelector
-);
+export const getPageData = (
+  pageContext: PageContext
+): MemoizedSelector<StateWithCms, Page> =>
+  createSelector(
+    getPageEntities,
+    getPageStateIndexValue(pageContext),
+    (entities: { [id: string]: Page }, indexValue: string) =>
+      entities[indexValue]
+  );
 
-export const getLatestPage: MemoizedSelector<
-  StateWithCms,
-  any
-> = createSelector(
-  getPageEntities,
-  getLatestPageKey,
-  (entities, key): Page => {
-    return entities[key];
-  }
-);
+export const getPageComponentTypes = (
+  pageContext: PageContext
+): MemoizedSelector<StateWithCms, string[]> =>
+  createSelector(
+    getPageData(pageContext),
+    pageData => getPageComponentTypesSelector(pageData)
+  );
 
-export const currentSlotSelectorFactory = (
-  position
-): MemoizedSelector<StateWithCms, any> => {
+export const getCurrentSlotSelectorFactory = (
+  pageContext: PageContext,
+  position: string
+): MemoizedSelector<StateWithCms, ContentSlotData> => {
   return createSelector(
-    getLatestPage,
+    getPageData(pageContext),
     entity => {
       if (entity) {
-        return entity.slots[position];
+        return entity.slots[position] || { components: [] };
       }
     }
   );

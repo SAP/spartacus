@@ -1,69 +1,59 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/product-search.action';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
-import { SearchConfig } from '../../model/search-config';
-import { OccProductSearchService } from '../../occ/product-search.service';
+import { ProductSearchPage } from '../../../model/product-search.model';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
-import {
-  SuggestionList,
-  ProductSearchPage
-} from '../../../occ/occ-models/occ.models';
-
+import { Occ } from '../../../occ/occ-models/occ.models';
+import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
+import { SearchConfig } from '../../model/search-config';
+import { ProductActions } from '../actions/index';
 import * as fromEffects from './product-search.effect';
 
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
-};
+import createSpy = jasmine.createSpy;
+
+const searchResult: ProductSearchPage = { products: [] };
+const suggestionList: Occ.SuggestionList = { suggestions: [] };
+
+class MockProductSearchConnector {
+  search = createSpy().and.returnValue(of(searchResult));
+  getSuggestions = createSpy().and.returnValue(of(suggestionList.suggestions));
+}
 
 describe('ProductSearch Effects', () => {
   let actions$: Observable<Action>;
-  let service: OccProductSearchService;
   let effects: fromEffects.ProductsSearchEffects;
   let searchConfig: SearchConfig;
 
-  const searchResult: ProductSearchPage = { products: [] };
-  const suggestions: SuggestionList = { suggestions: [] };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
-        OccProductSearchService,
-        ProductImageConverterService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        {
+          provide: ProductSearchConnector,
+          useClass: MockProductSearchConnector,
+        },
+        { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductsSearchEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
-    service = TestBed.get(OccProductSearchService);
-    effects = TestBed.get(fromEffects.ProductsSearchEffects);
-
+    effects = TestBed.get(fromEffects.ProductsSearchEffects as Type<
+      fromEffects.ProductsSearchEffects
+    >);
     searchConfig = { pageSize: 10 };
-
-    spyOn(service, 'query').and.returnValue(of(searchResult));
-    spyOn(service, 'queryProductSuggestions').and.returnValue(of(suggestions));
   });
 
   describe('searchProducts$', () => {
     it('should return searchResult from SearchProductsSuccess', () => {
-      const action = new fromActions.SearchProducts({
+      const action = new ProductActions.SearchProducts({
         queryText: 'test',
-        searchConfig: searchConfig
+        searchConfig: searchConfig,
       });
-      const completion = new fromActions.SearchProductsSuccess(searchResult);
+      const completion = new ProductActions.SearchProductsSuccess(searchResult);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -74,14 +64,14 @@ describe('ProductSearch Effects', () => {
 
   describe('searchProducts$', () => {
     it('should return auxiliarySearchResult from SearchProductsSuccess', () => {
-      const action = new fromActions.SearchProducts(
+      const action = new ProductActions.SearchProducts(
         {
           queryText: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         },
         true
       );
-      const completion = new fromActions.SearchProductsSuccess(
+      const completion = new ProductActions.SearchProductsSuccess(
         searchResult,
         true
       );
@@ -95,12 +85,12 @@ describe('ProductSearch Effects', () => {
 
   describe('getProductSuggestions$', () => {
     it('should return suggestions from GetProductSuggestionsSuccess', () => {
-      const action = new fromActions.GetProductSuggestions({
+      const action = new ProductActions.GetProductSuggestions({
         term: 'test',
-        searchConfig: searchConfig
+        searchConfig: searchConfig,
       });
-      const completion = new fromActions.GetProductSuggestionsSuccess(
-        suggestions.suggestions
+      const completion = new ProductActions.GetProductSuggestionsSuccess(
+        suggestionList.suggestions
       );
 
       actions$ = hot('-a', { a: action });

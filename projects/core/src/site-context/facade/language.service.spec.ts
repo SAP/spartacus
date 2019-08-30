@@ -1,21 +1,39 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
+import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
+import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-import * as fromStore from '../store';
+import { Language } from '../../model/misc.model';
+import { SiteConnector } from '../connectors/site.connector';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
-import { OccConfig } from '../../occ/config/occ-config';
-import { defaultOccConfig } from '../../occ/config/default-occ-config';
-import { SiteContextModule } from '../site-context.module';
-import { Language } from '../../occ/occ-models/occ.models';
+import createSpy = jasmine.createSpy;
 
 const mockLanguages: Language[] = [
-  { active: true, isocode: 'ja', name: 'Japanese' }
+  { active: true, isocode: 'ja', name: 'Japanese' },
 ];
 
 const mockActiveLang = 'ja';
+
+const mockSiteContextConfig: SiteContextConfig = {
+  context: {
+    language: ['ja'],
+  },
+};
+
+class MockSiteConnector {
+  getCurrencies() {
+    return of([]);
+  }
+
+  getLanguages() {
+    return of([]);
+  }
+}
 
 describe('LanguageService', () => {
   const mockSelect1 = createSpy('select').and.returnValue(() =>
@@ -30,13 +48,21 @@ describe('LanguageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SiteContextModule],
-      providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
+      imports: [
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        SiteContextStoreModule,
+      ],
+      providers: [
+        LanguageService,
+        { provide: SiteConnector, useClass: MockSiteConnector },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(LanguageService);
+    service = TestBed.get(LanguageService as Type<LanguageService>);
   });
 
   it('should LanguageService is injected', inject(
@@ -68,7 +94,7 @@ describe('LanguageService', () => {
     it('shouldselect active language', () => {
       service.setActive('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SetActiveLanguage('ja')
+        new SiteContextActions.SetActiveLanguage('ja')
       );
     });
   });

@@ -1,0 +1,72 @@
+@mixin checkout-media-style() {
+  @include media-breakpoint-down(md) {
+    display: block;
+    background-color: var(--cx-color-background);
+  }
+
+  .col-md-12 {
+    @include media-breakpoint-down(md) {
+      padding: 0 4.375rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 2.25rem;
+    }
+  }
+
+  .container {
+    @include media-breakpoint-down(md) {
+      width: 100%;
+    }
+  }
+
+  .cx-checkout-btns {
+    padding: 1rem 0;
+    justify-content: flex-end;
+
+    @include media-breakpoint-down(md) {
+      padding: 1.25rem 0;
+    }
+    @include media-breakpoint-down(sm) {
+      padding: 1.25rem 0;
+    }
+
+    .btn-action {
+      @include media-breakpoint-down(md) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+
+  .cx-checkout-title {
+    text-transform: capitalize;
+    margin: 0 auto;
+    padding: 2.375rem 0 1.75rem 0;
+  }
+
+  .cx-checkout-body {
+    display: flex;
+    align-items: stretch;
+    &.row {
+      @include media-breakpoint-down(md) {
+        padding: 0;
+      }
+    }
+  }
+
+  .cx-checkout-text {
+    margin-bottom: 1.25rem;
+
+    @include media-breakpoint-down(md) {
+      padding-left: 3.5rem;
+    }
+    @include media-breakpoint-down(sm) {
+      padding-left: 1.5rem;
+    }
+  }
+
+  .cx-spinner {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+}

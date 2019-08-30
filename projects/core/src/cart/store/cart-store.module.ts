@@ -1,22 +1,38 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { reducerToken, reducerProvider } from './reducers/index';
-import { metaReducers } from './reducers/index';
-import { effects } from './effects/index';
+import { ConfigModule } from '../../config/config.module';
+import { StateConfig, StorageSyncType } from '../../state/config/state-config';
+import { StateModule } from '../../state/state.module';
 import { CART_FEATURE } from './cart-state';
-import { CartOccModule } from './../occ/cart-occ.module';
+import { effects } from './effects/index';
+import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+
+export function cartStoreConfigFactory(): StateConfig {
+  const config: StateConfig = {
+    state: {
+      storageSync: {
+        keys: {
+          [`${CART_FEATURE}.active.value.content.guid`]: StorageSyncType.LOCAL_STORAGE,
+          [`${CART_FEATURE}.active.value.content.code`]: StorageSyncType.LOCAL_STORAGE,
+        },
+      },
+    },
+  };
+  return config;
+}
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    CartOccModule,
+    StateModule,
     StoreModule.forFeature(CART_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    ConfigModule.withConfigFactory(cartStoreConfigFactory),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class CartStoreModule {}
