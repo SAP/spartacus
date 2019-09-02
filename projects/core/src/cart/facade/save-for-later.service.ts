@@ -77,8 +77,8 @@ export class SaveForLaterService {
     return this.store.pipe(select(CartSelectors.getSaveForLaterEntries));
   }
 
-  getLoaded(): Observable<boolean> {
-    return this.store.pipe(select(CartSelectors.getSaveForLaterLoaded));
+  getLoading(): Observable<boolean> {
+    return this.store.pipe(select(CartSelectors.getSaveForLaterLoading));
   }
 
   

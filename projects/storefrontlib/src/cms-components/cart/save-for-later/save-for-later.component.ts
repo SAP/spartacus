@@ -12,13 +12,13 @@ export class SaveForLaterComponent implements OnInit {
 
   sflCart$: Observable<Cart>;
   sflEntries$: Observable<OrderEntry[]>;
-  sflCartLoaded$: Observable<boolean>;
+  sflCartLoading$: Observable<boolean>;
 
   constructor(private saveForLaterService: SaveForLaterService) {}
 
   ngOnInit() {
     this.sflCart$ = this.saveForLaterService.getSaveForLater();
     this.sflEntries$ = this.saveForLaterService.getEntries();
-    this.sflCartLoaded$ = this.saveForLaterService.getLoaded();
+    this.sflCartLoading$ = this.saveForLaterService.getLoading();
   }
 }
