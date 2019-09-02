@@ -3,8 +3,8 @@ import {
   getFormFieldByValue,
   checkAllElements,
 } from '../../../helpers/accessibility/tabbing-order';
-import { RegisterUser } from '../../../helpers/auth-forms';
 import { user } from '../../../sample-data/checkout-flow';
+import { fillRegistrationForm } from '../../../helpers/auth-forms';
 
 context('Register page', () => {
   describe('tabbing order', () => {
@@ -17,20 +17,3 @@ context('Register page', () => {
     checkAllElements(tabbingOrderConfig.register);
   });
 });
-
-function fillRegistrationForm({
-  firstName,
-  lastName,
-  email,
-  password,
-}: RegisterUser) {
-  cy.get('cx-register form').within(() => {
-    cy.get('[formcontrolname="titleCode"]').select('mr');
-    cy.get('[formcontrolname="firstName"]').type(firstName);
-    cy.get('[formcontrolname="lastName"]').type(lastName);
-    cy.get('[formcontrolname="email"]').type(email);
-    cy.get('[formcontrolname="password"]').type(password);
-    cy.get('[formcontrolname="passwordconf"]').type(password);
-    cy.get('[formcontrolname="termsandconditions"]').check();
-  });
-}
