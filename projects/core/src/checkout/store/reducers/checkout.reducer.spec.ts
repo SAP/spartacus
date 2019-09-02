@@ -234,13 +234,17 @@ describe('Checkout reducer', () => {
   describe('CLEAR_CHECKOUT_DELIVERY_ADDRESS action', () => {
     it('should clear supported delivery modes', () => {
       const { initialState } = fromCheckout;
+      const stateWithAddress = {
+        ...initialState,
+        address: { firstName: 'firstName' },
+      };
       const payload = {
         userId: 'userId',
         cartId: 'cartId',
       };
 
       const action = new CheckoutActions.ClearCheckoutDeliveryAddress(payload);
-      const state = fromCheckout.reducer(initialState, action);
+      const state = fromCheckout.reducer(stateWithAddress, action);
       expect(state.address).toEqual(initialState.address);
     });
   });
