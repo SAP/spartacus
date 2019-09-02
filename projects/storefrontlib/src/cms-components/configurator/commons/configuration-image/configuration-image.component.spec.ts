@@ -1,7 +1,5 @@
-
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfigurationImageComponent } from './configuration-image.component';
- 
 
 describe('ConfigurationImageComponent', () => {
   let component: ConfigurationImageComponent;
@@ -9,11 +7,8 @@ describe('ConfigurationImageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ],
-      declarations: [
-        ConfigurationImageComponent 
-      ]
-
+      imports: [],
+      declarations: [ConfigurationImageComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -22,8 +17,6 @@ describe('ConfigurationImageComponent', () => {
   });
 
   it('should create component', () => {
-        expect(component).toBeDefined();
+    expect(component).toBeDefined();
   });
- 
- 
 });

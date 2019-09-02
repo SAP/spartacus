@@ -1,10 +1,5 @@
-
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
- 
-
 import { ConfigurationTitleComponent } from './configuration-title.component';
- 
-
 
 describe('ConfigurationTitleComponent', () => {
   let component: ConfigurationTitleComponent;
@@ -12,11 +7,8 @@ describe('ConfigurationTitleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ],
-      declarations: [
-        ConfigurationTitleComponent 
-      ]
-
+      imports: [],
+      declarations: [ConfigurationTitleComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -25,9 +17,6 @@ describe('ConfigurationTitleComponent', () => {
   });
 
   it('should create component', () => {
-        expect(component).toBeDefined();
+    expect(component).toBeDefined();
   });
- 
-
- 
 });

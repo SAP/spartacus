@@ -1,21 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
- 
-
-import { ConfigurationFormComponent } from './configuration-form.component';
-import { RoutingService } from '@spartacus/core';
 import { RouterState } from '@angular/router';
+import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
- 
-const PRODUCT_CODE = "CONF_LAPTOP";
+import { ConfigurationFormComponent } from './configuration-form.component';
+
+const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const mockRouterState: any = {
-  state:{
-    params:  {
-      pcCode :PRODUCT_CODE
-    }
-  }
+  state: {
+    params: {
+      pcCode: PRODUCT_CODE,
+    },
+  },
 };
- 
+
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return of(mockRouterState);
@@ -29,9 +27,7 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [],
-      declarations: [
-        ConfigurationFormComponent 
-      ],
+      declarations: [ConfigurationFormComponent],
       providers: [
         {
           provide: RoutingService,
@@ -54,8 +50,6 @@ describe('ConfigurationFormComponent', () => {
     fixture.detectChanges();
     let productCode: string;
     component.pcCode$.subscribe((data: string) => (productCode = data));
-    expect(productCode).toEqual(PRODUCT_CODE);     
+    expect(productCode).toEqual(PRODUCT_CODE);
   });
-  
- 
 });

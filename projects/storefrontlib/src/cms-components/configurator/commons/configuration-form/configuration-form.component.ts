@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RoutingService  } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -9,20 +9,13 @@ import { map } from 'rxjs/operators';
 })
 export class ConfigurationFormComponent implements OnInit, OnDestroy {
   pcCode$: Observable<string>;
-  constructor(private routingService: RoutingService
-  ) {}
+  constructor(private routingService: RoutingService) {}
 
-   sortType: string;
-
-  ngOnInit(): void {     
+  ngOnInit(): void {
     this.pcCode$ = this.routingService
-    .getRouterState()
-    .pipe(map(routingData => routingData.state.params.pcCode));
+      .getRouterState()
+      .pipe(map(routingData => routingData.state.params.pcCode));
   }
 
-  ngOnDestroy(): void {
-     
-  }
-
- 
+  ngOnDestroy(): void {}
 }

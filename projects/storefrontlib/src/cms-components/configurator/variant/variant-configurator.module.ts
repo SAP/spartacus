@@ -4,33 +4,29 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-
   CmsConfig,
   ConfigModule,
   I18nModule,
   UrlModule,
   UserService,
 } from '@spartacus/core';
-import {
-  PageLayoutComponent,  
-} from '../../../cms-structure/page/index';
-import {ConfigurationFormComponent} from '../commons/configuration-form/configuration-form.component';
-import {ConfigurationTitleComponent} from '../commons/configuration-title/configuration-title.component';
-import {ConfigurationImageComponent} from '../commons/configuration-image/configuration-image.component';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-
+import { PageLayoutComponent } from '../../../cms-structure/page/index';
+import { ConfigurationFormComponent } from '../commons/configuration-form/configuration-form.component';
+import { ConfigurationImageComponent } from '../commons/configuration-image/configuration-image.component';
+import { ConfigurationTitleComponent } from '../commons/configuration-title/configuration-title.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
-          path: 'configureCPQCONFIGURATOR/:pcCode', 
-          data: { pageLabel: '/configureCPQCONFIGURATOR' },
-          component: PageLayoutComponent,
-          canActivate: [CmsPageGuard]
-      }
-  ]),    
+        path: 'configureCPQCONFIGURATOR/:pcCode',
+        data: { pageLabel: '/configureCPQCONFIGURATOR' },
+        component: PageLayoutComponent,
+        canActivate: [CmsPageGuard],
+      },
+    ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationForm: {
@@ -44,24 +40,40 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
         VariantConfigurationImage: {
           component: ConfigurationImageComponent,
           guards: [],
-        }
+        },
       },
       layoutSlots: {
         VariantConfigurationTemplate: {
-          slots: [ 'VariantConfigTitle', 'VariantConfigHeader', 'VariantConfigContent'],
+          slots: [
+            'VariantConfigTitle',
+            'VariantConfigHeader',
+            'VariantConfigContent',
+          ],
         },
       },
     }),
 
     FormsModule,
-    NgSelectModule,   
+    NgSelectModule,
     UrlModule,
     I18nModule,
   ],
 
-  declarations: [ConfigurationFormComponent, ConfigurationTitleComponent,ConfigurationImageComponent],
-  exports: [ConfigurationFormComponent, ConfigurationTitleComponent,ConfigurationImageComponent],
+  declarations: [
+    ConfigurationFormComponent,
+    ConfigurationTitleComponent,
+    ConfigurationImageComponent,
+  ],
+  exports: [
+    ConfigurationFormComponent,
+    ConfigurationTitleComponent,
+    ConfigurationImageComponent,
+  ],
   providers: [UserService],
-  entryComponents: [ConfigurationFormComponent, ConfigurationTitleComponent,ConfigurationImageComponent],
+  entryComponents: [
+    ConfigurationFormComponent,
+    ConfigurationTitleComponent,
+    ConfigurationImageComponent,
+  ],
 })
 export class VariantConfiguratorModule {}
