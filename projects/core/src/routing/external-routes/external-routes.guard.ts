@@ -8,7 +8,7 @@ import {
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({ providedIn: 'root' })
-export class RoutingMigrationGuard implements CanActivate {
+export class ExternalRoutesGuard implements CanActivate {
   constructor(
     protected winRef: WindowRef,
     @Inject(PLATFORM_ID) protected platformId: Object

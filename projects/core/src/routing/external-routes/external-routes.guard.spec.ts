@@ -2,10 +2,10 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterStateSnapshot } from '@angular/router';
 import { WindowRef } from '../../window';
-import { RoutingMigrationGuard } from './routing-migration.guard';
+import { ExternalRoutesGuard } from './external-routes.guard';
 
-describe('RoutingMigrationGuard canActivate', () => {
-  let guard: RoutingMigrationGuard;
+describe('ExternalRoutesGuard canActivate', () => {
+  let guard: ExternalRoutesGuard;
   let winRef: WindowRef;
   let mockRouterState: RouterStateSnapshot;
 
@@ -20,13 +20,13 @@ describe('RoutingMigrationGuard canActivate', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        RoutingMigrationGuard,
+        ExternalRoutesGuard,
         { provide: PLATFORM_ID, useValue: platformId },
         { provide: WindowRef, useValue: mockWinRef },
       ],
     });
 
-    guard = TestBed.get(RoutingMigrationGuard);
+    guard = TestBed.get(ExternalRoutesGuard);
     winRef = TestBed.get(WindowRef);
   }
 
