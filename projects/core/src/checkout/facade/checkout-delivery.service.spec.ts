@@ -195,7 +195,7 @@ describe('CheckoutDeliveryService', () => {
   it('should be able to get the set delivery mode status', () => {
     let loaderState: LoaderState<any>;
     service
-      .getSetDeliveryModeResultStatus()
+      .getSetDeliveryModeProcess()
       .subscribe(data => {
         loaderState = data;
       })
@@ -214,7 +214,7 @@ describe('CheckoutDeliveryService', () => {
 
     let loaderState: LoaderState<any>;
     service
-      .getSetDeliveryModeResultStatus()
+      .getSetDeliveryModeProcess()
       .subscribe(data => {
         loaderState = data;
       })
@@ -246,7 +246,7 @@ describe('CheckoutDeliveryService', () => {
   it('should be able to get load supported delivery mode status', () => {
     let loaderState: LoaderState<any>;
     service
-      .getLoadSupportedDeliveryModeStatus()
+      .getLoadSupportedDeliveryModeProcess()
       .subscribe(data => {
         loaderState = data;
       })
@@ -264,7 +264,7 @@ describe('CheckoutDeliveryService', () => {
 
     let loaderState: LoaderState<any>;
     service
-      .getLoadSupportedDeliveryModeStatus()
+      .getLoadSupportedDeliveryModeProcess()
       .subscribe(data => {
         loaderState = data;
       })

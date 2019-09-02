@@ -100,7 +100,7 @@ export class CheckoutDeliveryService {
   /**
    * Get status about of set Delivery Mode process
    */
-  getSetDeliveryModeResultStatus(): Observable<LoaderState<void>> {
+  getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
     return this.store.pipe(
       select(getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID))
     );
@@ -122,7 +122,10 @@ export class CheckoutDeliveryService {
     );
   }
 
-  getLoadSupportedDeliveryModeStatus(): Observable<LoaderState<void>> {
+  /**
+   * Get status about of set supported Delivery Modes process
+   */
+  getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
     return this.store.pipe(
       select(getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
     );

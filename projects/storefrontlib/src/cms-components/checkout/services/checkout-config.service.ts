@@ -12,8 +12,8 @@ import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 })
 export class CheckoutConfigService {
   steps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
-  express: boolean = this.checkoutConfig.checkout.express;
-  defaultDeliveryMode: Array<DeliveryModePreferences | string> =
+  private express: boolean = this.checkoutConfig.checkout.express;
+  private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
     this.checkoutConfig.checkout.defaultDeliveryMode || [];
 
   constructor(
@@ -80,6 +80,7 @@ export class CheckoutConfigService {
     ) {
       return -1;
     }
+    return 0;
   }
 
   protected findMatchingDeliveryMode(

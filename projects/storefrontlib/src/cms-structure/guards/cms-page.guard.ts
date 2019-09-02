@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
+  Page,
   PageContext,
   PageType,
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-
 import { Observable, of } from 'rxjs';
 import {
   filter,
@@ -20,7 +19,6 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
@@ -46,14 +44,14 @@ export class CmsPageGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     return this.routingService.getNextPageContext().pipe(
       switchMap(pageContext =>
-        this.cmsService.hasPage(pageContext, true).pipe(
+        this.cmsService.getPage(pageContext, true).pipe(
           first(),
           withLatestFrom(of(pageContext))
         )
       ),
-      switchMap(([hasPage, pageContext]) =>
-        hasPage
-          ? this.resolveCmsPageLogic(pageContext, route, state)
+      switchMap(([pageData, pageContext]) =>
+        pageData
+          ? this.resolveCmsPageLogic(pageContext, pageData, route, state)
           : this.handleNotFoundPage(pageContext, route, state)
       )
     );
@@ -61,6 +59,7 @@ export class CmsPageGuard implements CanActivate {
 
   private resolveCmsPageLogic(
     pageContext: PageContext,
+    pageData: Page,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
@@ -77,15 +76,17 @@ export class CmsPageGuard implements CanActivate {
         }
       }),
       map(([canActivate, componentTypes]) => {
+        const pageLabel = pageData.label || pageContext.id; // for content pages the page label returned from backend can be different than ID initially assumed from route
         if (
           canActivate === true &&
           !route.data.cxCmsRouteContext &&
-          !this.cmsRoutes.cmsRouteExist(pageContext.id)
+          !this.cmsRoutes.cmsRouteExist(pageLabel)
         ) {
           return this.cmsRoutes.handleCmsRoutesInGuard(
             pageContext,
             componentTypes,
-            state.url
+            state.url,
+            pageLabel
           );
         }
         return canActivate;
@@ -102,9 +103,9 @@ export class CmsPageGuard implements CanActivate {
       type: PageType.CONTENT_PAGE,
       id: this.semanticPathService.get('notFound'),
     };
-    return this.cmsService.hasPage(notFoundCmsPageContext).pipe(
-      switchMap(hasNotFoundPage => {
-        if (hasNotFoundPage) {
+    return this.cmsService.getPage(notFoundCmsPageContext).pipe(
+      switchMap(notFoundPage => {
+        if (notFoundPage) {
           return this.cmsService.getPageIndex(notFoundCmsPageContext).pipe(
             tap(notFoundIndex => {
               this.cmsService.setPageFailIndex(pageContext, notFoundIndex);
@@ -115,7 +116,9 @@ export class CmsPageGuard implements CanActivate {
                 filter(index => index === notFoundIndex)
               )
             ),
-            switchMap(() => this.resolveCmsPageLogic(pageContext, route, state))
+            switchMap(() =>
+              this.resolveCmsPageLogic(pageContext, notFoundPage, route, state)
+            )
           );
         }
         return of(false);

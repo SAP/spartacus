@@ -19,9 +19,9 @@ import { CheckoutDetailsService } from './checkout-details.service';
   providedIn: 'root',
 })
 export class ExpressCheckoutService {
-  shippingAddressSet$;
-  deliveryModeSet$;
-  paymentMethodSet$;
+  private shippingAddressSet$: Observable<boolean>;
+  private deliveryModeSet$: Observable<boolean>;
+  private paymentMethodSet$: Observable<boolean>;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -165,8 +165,8 @@ export class ExpressCheckoutService {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
       this.checkoutDeliveryService.getSupportedDeliveryModes(),
-      this.checkoutDeliveryService.getSetDeliveryModeResultStatus(),
-      this.checkoutDeliveryService.getLoadSupportedDeliveryModeStatus(),
+      this.checkoutDeliveryService.getSetDeliveryModeProcess(),
+      this.checkoutDeliveryService.getLoadSupportedDeliveryModeProcess(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
       switchMap(
