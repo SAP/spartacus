@@ -50,7 +50,10 @@ export class SaveForLaterService {
       debounceTime(1, asyncScheduler),
       filter(([, loading]) => !loading),
       tap(([saveForLater, , userToken, loaded]) => {
-        if (this.isIncomplete(saveForLater) || this.isJustLoggedIn(userToken.userId)) {
+        if (
+          this.isIncomplete(saveForLater) ||
+          this.isJustLoggedIn(userToken.userId)
+        ) {
           this.createSaveForLater();
         } else if (
           (this.isCreated(saveForLater) && this.isIncomplete(saveForLater)) ||
@@ -81,7 +84,6 @@ export class SaveForLaterService {
     return this.store.pipe(select(CartSelectors.getSaveForLaterLoading));
   }
 
-  
   private createSaveForLater(): void {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
@@ -101,7 +103,7 @@ export class SaveForLaterService {
       );
     }
   }
-  
+
   protected load(): void {
     if (this.saveForLaterData.userId !== ANONYMOUS_USERID) {
       this.store.dispatch(
@@ -142,7 +144,7 @@ export class SaveForLaterService {
             cartId: this.saveForLaterData.cartId,
             productCode: productCode,
             quantity: quantity,
-            isSaveForLater:true
+            isSaveForLater: true,
           })
         );
       });
@@ -154,7 +156,7 @@ export class SaveForLaterService {
         userId: this.saveForLaterData.userId,
         cartId: this.saveForLaterData.cartId,
         entry: entry.entryNumber,
-        isSaveForLater:true
+        isSaveForLater: true,
       })
     );
   }
@@ -167,7 +169,7 @@ export class SaveForLaterService {
           cartId: this.saveForLaterData.cartId,
           entry: entryNumber,
           qty: quantity,
-          isSaveForLater:true
+          isSaveForLater: true,
         })
       );
     } else {
@@ -176,7 +178,7 @@ export class SaveForLaterService {
           userId: this.saveForLaterData.userId,
           cartId: this.saveForLaterData.cartId,
           entry: entryNumber,
-          isSaveForLater:true
+          isSaveForLater: true,
         })
       );
     }

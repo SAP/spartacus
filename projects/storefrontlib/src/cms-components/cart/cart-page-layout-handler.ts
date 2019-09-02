@@ -26,6 +26,8 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
           //If cart is empty but save for later is not empty, show save for later list
           if (cart.totalItems || saveForLater.totalItems) {
             return slots.filter(slot => slot !== 'EmptyCartMiddleContent');
+          } else if (!cart.totalItems && saveForLater.totalItems) {
+            return slots.filter(slot => slot !== 'TopContent');
           } else {
             return slots.filter(
               slot => slot !== 'TopContent' && slot !== 'CenterRightContentSlot'
