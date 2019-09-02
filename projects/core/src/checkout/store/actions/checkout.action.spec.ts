@@ -31,15 +31,15 @@ describe('Checkout Actions', () => {
   describe('AddDeliveryAddress', () => {
     it('should create the action', () => {
       const payload = {
-        userId: userId,
-        cartId: cartId,
-        address: address,
+        userId,
+        cartId,
+        address,
       };
 
       const action = new CheckoutActions.AddDeliveryAddress(payload);
       expect({ ...action }).toEqual({
         type: CheckoutActions.ADD_DELIVERY_ADDRESS,
-        payload: payload,
+        payload,
       });
     });
   });
@@ -69,9 +69,9 @@ describe('Checkout Actions', () => {
   describe('SetDeliveryAddress', () => {
     it('should create the action', () => {
       const payload = {
-        userId: userId,
-        cartId: cartId,
-        address: address,
+        userId,
+        cartId,
+        address,
       };
 
       const action = new CheckoutActions.SetDeliveryAddress(payload);
@@ -134,8 +134,8 @@ describe('Checkout Actions', () => {
     describe('LoadSupportedDeliveryModes', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
         };
 
         const action = new CheckoutActions.LoadSupportedDeliveryModes(payload);
@@ -189,8 +189,8 @@ describe('Checkout Actions', () => {
     describe('SetDeliveryMode', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
           selectedModeId: selectedModeId,
         };
 
@@ -257,8 +257,8 @@ describe('Checkout Actions', () => {
     describe('CreatePaymentDetails', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
           paymentDetails: paymentDetails,
         };
 
@@ -299,8 +299,8 @@ describe('Checkout Actions', () => {
     describe('SetPaymentDetails', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
           paymentDetails: paymentDetails,
         };
 
@@ -367,8 +367,8 @@ describe('Checkout Actions', () => {
     describe('PlaceOrder', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
         };
 
         const action = new CheckoutActions.PlaceOrder(payload);
@@ -403,127 +403,105 @@ describe('Checkout Actions', () => {
   });
 
   describe('Clear Checkout Step', () => {
-    describe('ClearCheckoutStep', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ClearCheckoutStep(2);
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_STEP,
-          payload: 2,
-        });
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearCheckoutStep(2);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_STEP,
+        payload: 2,
       });
     });
   });
 
   describe('Clear Checkout Data', () => {
-    describe('ClearCheckoutData', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ClearCheckoutData();
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_DATA,
-        });
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearCheckoutData();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DATA,
       });
     });
   });
 
   describe('Clear Checkout Delivery Address', () => {
-    describe('ClearCheckoutDeliveryAddress', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId: userId,
-          cartId: cartId,
-        };
-        const action = new CheckoutActions.ClearCheckoutDeliveryAddress(
-          payload
-        );
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS,
-          payload: payload,
-        });
+    it('should create the action', () => {
+      const payload = {
+        userId,
+        cartId,
+      };
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddress(payload);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS,
+        payload: payload,
       });
     });
   });
 
   describe('Clear Checkout Delivery Address Fail', () => {
-    describe('ClearCheckoutDeliveryAddressFail', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId: userId,
-          cartId: cartId,
-        };
-        const action = new CheckoutActions.ClearCheckoutDeliveryAddressFail(
-          payload
-        );
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL,
-          payload: payload,
-        });
+    it('should create the action', () => {
+      const payload = {
+        userId,
+        cartId,
+      };
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddressFail(
+        payload
+      );
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL,
+        payload: payload,
       });
     });
   });
 
   describe('Clear Checkout Delivery Address Success', () => {
-    describe('ClearCheckoutDeliveryAddressSuccess', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS,
-        });
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS,
       });
     });
   });
 
   describe('Clear Checkout Delivery Mode', () => {
-    describe('ClearCheckoutDeliveryMode', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId: userId,
-          cartId: cartId,
-        };
-        const action = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
-          payload: payload,
-        });
+    it('should create the action', () => {
+      const payload = {
+        userId,
+        cartId,
+      };
+      const action = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
+        payload: payload,
       });
     });
   });
 
   describe('Clear Checkout Delivery Mode Fail', () => {
-    describe('ClearCheckoutDeliveryModeFail', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId: userId,
-          cartId: cartId,
-        };
-        const action = new CheckoutActions.ClearCheckoutDeliveryModeFail(
-          payload
-        );
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL,
-          payload: payload,
-        });
+    it('should create the action', () => {
+      const payload = {
+        userId: userId,
+        cartId: cartId,
+      };
+      const action = new CheckoutActions.ClearCheckoutDeliveryModeFail(payload);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL,
+        payload: payload,
       });
     });
   });
 
   describe('Clear Checkout Delivery Mode Success', () => {
-    describe('ClearCheckoutDeliveryModeSuccess', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ClearCheckoutDeliveryModeSuccess();
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
-        });
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryModeSuccess();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
       });
     });
   });
 
   describe('Clear Supported Delivery Modes Data', () => {
-    describe('ClearSupportedDeliveryModes', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ClearSupportedDeliveryModes();
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES,
-        });
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearSupportedDeliveryModes();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES,
       });
     });
   });
