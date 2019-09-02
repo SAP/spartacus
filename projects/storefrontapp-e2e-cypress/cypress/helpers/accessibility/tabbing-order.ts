@@ -5,7 +5,7 @@ export interface TabElement {
   type: TabbingOrderTypes;
 }
 
-export function checkElement(tabElement: TabElement, pressTab: boolean) {
+export function checkElement(tabElement: TabElement) {
   if (!(tabElement.value && tabElement.value.length)) {
     return;
   }
@@ -24,20 +24,17 @@ export function checkElement(tabElement: TabElement, pressTab: boolean) {
       break;
     }
   }
-
-  if (pressTab) {
-    cy.tab(); // after the above check, tab to the next element
-  }
 }
 
 export function checkAllElements(tabElements: TabElement[]) {
   it('should focus elements in correct order when pressing tab key', () => {
-    tabElements.forEach(el => {
-      if (tabElements[tabElements.length - 1] === el) {
-        checkElement(el, false);
-      } else {
-        checkElement(el, true);
+    tabElements.forEach((element: TabElement, index: number) => {
+      // skip tabbing on first element
+      if (index !== 0) {
+        cy.tab();
       }
+
+      checkElement(element);
     });
   });
 }
