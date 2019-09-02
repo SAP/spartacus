@@ -1,8 +1,20 @@
-import { checkAllElements } from '../../helpers/accessibility/tabbing-order';
+import {
+  checkAllElements,
+  getFormFieldByValue,
+} from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig } from '../../helpers/accessibility/tabbing-order.config';
 
 context('Verify Tabbing Order', () => {
   describe('Tabbing Order', () => {
+    describe('resetPassword', () => {
+      before(() => {
+        cy.visit('/electronics-spa/en/USD/login/forgot-password');
+
+        getFormFieldByValue('userEmail').focus();
+      });
+      checkAllElements(tabbingOrderConfig.resetPassword);
+    });
+
     describe('footer', () => {
       before(() => {
         cy.visit('/');

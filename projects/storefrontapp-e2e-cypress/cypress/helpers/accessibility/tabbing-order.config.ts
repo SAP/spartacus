@@ -27,6 +27,20 @@ export const tabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
+  resetPassword: [
+    {
+      value: 'userEmail',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Submit',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
   footer: [
     { value: 'About SAP Commerce Cloud', type: TabbingOrderTypes.LINK },
     { value: 'Frequently Asked Questions', type: TabbingOrderTypes.LINK },
