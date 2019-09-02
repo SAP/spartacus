@@ -12,13 +12,13 @@ import { CheckoutStepType } from '../model/checkout-step.model';
   providedIn: 'root',
 })
 export class CheckoutGuard implements CanActivate {
-  firstStep$: Observable<UrlTree>;
+  private firstStep$: Observable<UrlTree>;
 
   constructor(
     private router: Router,
-    private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
-    private expressCheckoutService: ExpressCheckoutService
+    protected checkoutConfigService: CheckoutConfigService,
+    protected expressCheckoutService: ExpressCheckoutService
   ) {
     this.firstStep$ = of(
       this.router.parseUrl(
