@@ -45,11 +45,13 @@ class MockUserAddressService {
 }
 
 class MockCheckoutDeliveryService {
-  clearCheckoutDeliveryDetails() {}// TODO
+  clearCheckoutDeliveryDetails() {}
 }
 
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
+  let userAddressService: UserAddressService;
+  let checkoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,6 +70,12 @@ describe('AddressBookComponentService', () => {
 
     service = TestBed.get(AddressBookComponentService as Type<
       AddressBookComponentService
+    >);
+    userAddressService = TestBed.get(UserAddressService as Type<
+      UserAddressService
+    >);
+    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
     >);
   });
 
@@ -91,5 +99,35 @@ describe('AddressBookComponentService', () => {
       .subscribe((state: boolean) => {
         expect(state).toEqual(false);
       });
+  });
+
+  it('should loadAddresses() load addresses', () => {
+    service.loadAddresses();
+    expect(userAddressService.loadAddresses).toHaveBeenCalled();
+  });
+
+  it('should addUserAddress() add user address', () => {
+    service.addUserAddress(mockAddresses[0]);
+    expect(userAddressService.addUserAddress).toHaveBeenCalledWith(
+      mockAddresses[0]
+    );
+  });
+
+  describe('updateUserAddress', () => {
+    it('should run update user address', () => {
+      service.updateUserAddress('addressId', mockAddresses[0]);
+      expect(userAddressService.updateUserAddress).toHaveBeenCalledWith(
+        'addressId',
+        mockAddresses[0]
+      );
+    });
+
+    it('should clear checkout delivery details', () => {
+      spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
+      service.updateUserAddress('addressId', mockAddresses[0]);
+      expect(
+        checkoutDeliveryService.clearCheckoutDeliveryDetails
+      ).toHaveBeenCalled();
+    });
   });
 });

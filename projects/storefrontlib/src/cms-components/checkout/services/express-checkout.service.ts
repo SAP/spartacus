@@ -165,8 +165,8 @@ export class ExpressCheckoutService {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
       this.checkoutDeliveryService.getSupportedDeliveryModes(),
-      this.checkoutDeliveryService.getSetDeliveryModeResultStatus(),
-      this.checkoutDeliveryService.getLoadSupportedDeliveryModeStatus(),
+      this.checkoutDeliveryService.getSetDeliveryModeProcess(),
+      this.checkoutDeliveryService.getLoadSupportedDeliveryModeProcess(),
     ]).pipe(
       debounceTime(1, asyncScheduler),
       switchMap(

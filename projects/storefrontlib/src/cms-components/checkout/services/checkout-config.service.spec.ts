@@ -191,7 +191,7 @@ describe('CheckoutConfigService', () => {
 
   describe('findMatchingDeliveryMode', () => {
     it('should return free or lower possible price code', () => {
-      service.defaultDeliveryMode = [DeliveryModePreferences.FREE];
+      service['defaultDeliveryMode'] = [DeliveryModePreferences.FREE];
 
       expect(
         service['findMatchingDeliveryMode']([
@@ -211,7 +211,7 @@ describe('CheckoutConfigService', () => {
     });
 
     it('should return least expensive (but not free, if available) price code', () => {
-      service.defaultDeliveryMode = [DeliveryModePreferences.LEAST_EXPENSIVE];
+      service['defaultDeliveryMode']= [DeliveryModePreferences.LEAST_EXPENSIVE];
 
       expect(
         service['findMatchingDeliveryMode']([
@@ -229,7 +229,7 @@ describe('CheckoutConfigService', () => {
         PREMIUM_CODE
       );
 
-      service.defaultDeliveryMode = [
+      service['defaultDeliveryMode'] = [
         DeliveryModePreferences.LEAST_EXPENSIVE,
         DeliveryModePreferences.FREE,
       ];
@@ -237,7 +237,7 @@ describe('CheckoutConfigService', () => {
     });
 
     it('should return free, or most expensive price code if free is not available', () => {
-      service.defaultDeliveryMode = [
+      service['defaultDeliveryMode'] = [
         DeliveryModePreferences.FREE,
         DeliveryModePreferences.MOST_EXPENSIVE,
       ];
@@ -260,7 +260,7 @@ describe('CheckoutConfigService', () => {
     });
 
     it('should return matching code', () => {
-      service.defaultDeliveryMode = [FREE_CODE];
+      service['defaultDeliveryMode'] = [FREE_CODE];
 
       expect(
         service['findMatchingDeliveryMode']([
@@ -270,7 +270,7 @@ describe('CheckoutConfigService', () => {
         ])
       ).toBe(FREE_CODE);
 
-      service.defaultDeliveryMode = [STANDARD_CODE];
+      service['defaultDeliveryMode'] = [STANDARD_CODE];
       expect(
         service['findMatchingDeliveryMode']([
           freeMode,
@@ -279,7 +279,7 @@ describe('CheckoutConfigService', () => {
         ])
       ).toBe(STANDARD_CODE);
 
-      service.defaultDeliveryMode = [PREMIUM_CODE];
+      service['defaultDeliveryMode'] = [PREMIUM_CODE];
       expect(
         service['findMatchingDeliveryMode']([
           freeMode,
@@ -288,7 +288,7 @@ describe('CheckoutConfigService', () => {
         ])
       ).toBe(PREMIUM_CODE);
 
-      service.defaultDeliveryMode = [
+      service['defaultDeliveryMode'] = [
         'not_existing_code1',
         'not_existing_code2',
       ];
@@ -300,7 +300,7 @@ describe('CheckoutConfigService', () => {
         ])
       ).toBe(FREE_CODE);
 
-      service.defaultDeliveryMode = [
+      service['defaultDeliveryMode'] = [
         'not_existing_code1',
         'not_existing_code2',
         'existing_code',
@@ -330,7 +330,7 @@ describe('CheckoutConfigService', () => {
     });
 
     it('return true for express turned on', () => {
-      service.express = true;
+      service['express'] = true;
       expect(service.isExpressCheckout()).toBeTruthy();
     });
   });
