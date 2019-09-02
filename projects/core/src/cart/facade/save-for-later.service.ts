@@ -30,18 +30,28 @@ export class SaveForLaterService {
     protected saveForLaterData: SaveForLaterDataService,
     protected authService: AuthService
   ) {
-    this._saveForLater$ = combineLatest([
+    this._saveForLater$ = this.loadSaveForLater();
+  }
+
+  getSaveForLater(): Observable<Cart> {
+    return this._saveForLater$;
+  }
+
+  loadSaveForLater(): Observable<Cart> {
+    return combineLatest([
       this.store.select(CartSelectors.getSaveForLaterContent),
       this.store.select(CartSelectors.getSaveForLaterLoading),
       this.authService.getUserToken(),
       this.store.select(CartSelectors.getSaveForLaterLoaded),
     ]).pipe(
-      // copied from cart service, save for later only used for logged in customer
+      // combineLatest emits multiple times on each property update instead of one emit
+      // additionally dispatching actions that changes selectors used here needs to happen in order
+      // for this asyncScheduler is used here
       debounceTime(1, asyncScheduler),
       filter(([, loading]) => !loading),
       tap(([saveForLater, , userToken, loaded]) => {
-        if (this.isJustLoggedIn(userToken.userId)) {
-          this.load();
+        if (this.isIncomplete(saveForLater) || this.isJustLoggedIn(userToken.userId)) {
+          this.createSaveForLater();
         } else if (
           (this.isCreated(saveForLater) && this.isIncomplete(saveForLater)) ||
           (this.isLoggedIn(userToken.userId) &&
@@ -63,10 +73,6 @@ export class SaveForLaterService {
     );
   }
 
-  getSaveForLater(): Observable<Cart> {
-    return this._saveForLater$;
-  }
-
   getEntries(): Observable<OrderEntry[]> {
     return this.store.pipe(select(CartSelectors.getSaveForLaterEntries));
   }
@@ -75,23 +81,35 @@ export class SaveForLaterService {
     return this.store.pipe(select(CartSelectors.getSaveForLaterLoaded));
   }
 
+  
+  private createSaveForLater(): void {
+    // for login user, whenever there's an existing cart, we will load the user
+    // current cart and merge it into the existing cart
+    if (!this.isCreated(this.saveForLaterData.saveForLater)) {
+      this.store.dispatch(
+        new CartActions.CreateSaveForLater({
+          userId: this.saveForLaterData.userId,
+          cartId: this.saveForLaterData.cartId,
+        })
+      );
+    } else {
+      this.store.dispatch(
+        new CartActions.LoadSaveForLater({
+          userId: this.saveForLaterData.userId,
+          cartId: this.saveForLaterData.cartId,
+        })
+      );
+    }
+  }
+  
   protected load(): void {
     if (this.saveForLaterData.userId !== ANONYMOUS_USERID) {
-      if (this.isCreated(this.saveForLaterData.saveForLater)) {
-        this.store.dispatch(
-          new CartActions.LoadSaveForLater({
-            userId: this.saveForLaterData.userId,
-            cartId: this.saveForLaterData.cartId,
-          })
-        );
-      } else {
-        this.store.dispatch(
-          new CartActions.CreateSaveForLater({
-            userId: this.saveForLaterData.userId,
-            cartId: this.saveForLaterData.cartId,
-          })
-        );
-      }
+      this.store.dispatch(
+        new CartActions.LoadSaveForLater({
+          userId: this.saveForLaterData.userId,
+          cartId: this.saveForLaterData.cartId,
+        })
+      );
     }
   }
 
@@ -124,6 +142,7 @@ export class SaveForLaterService {
             cartId: this.saveForLaterData.cartId,
             productCode: productCode,
             quantity: quantity,
+            isSaveForLater:true
           })
         );
       });
@@ -135,6 +154,7 @@ export class SaveForLaterService {
         userId: this.saveForLaterData.userId,
         cartId: this.saveForLaterData.cartId,
         entry: entry.entryNumber,
+        isSaveForLater:true
       })
     );
   }
@@ -147,6 +167,7 @@ export class SaveForLaterService {
           cartId: this.saveForLaterData.cartId,
           entry: entryNumber,
           qty: quantity,
+          isSaveForLater:true
         })
       );
     } else {
@@ -155,6 +176,7 @@ export class SaveForLaterService {
           userId: this.saveForLaterData.userId,
           cartId: this.saveForLaterData.cartId,
           entry: entryNumber,
+          isSaveForLater:true
         })
       );
     }
@@ -166,12 +188,8 @@ export class SaveForLaterService {
     );
   }
 
-  isCreated(cart: Cart): boolean {
-    return cart && !!Object.keys(cart).length;
-  }
-
-  private isLoggedIn(userId: string): boolean {
-    return typeof userId !== 'undefined';
+  private isCreated(cart: Cart): boolean {
+    return cart && typeof cart.guid !== 'undefined';
   }
 
   private isIncomplete(cart: Cart): boolean {
@@ -179,6 +197,14 @@ export class SaveForLaterService {
   }
 
   private isJustLoggedIn(userId: string): boolean {
-    return this.isLoggedIn(userId) && this.previousUserId !== userId;
+    return (
+      this.isLoggedIn(userId) &&
+      this.previousUserId !== userId && // *just* logged in
+      this.previousUserId !== this.PREVIOUS_USER_ID_INITIAL_VALUE // not app initialization
+    );
+  }
+
+  private isLoggedIn(userId: string): boolean {
+    return typeof userId !== 'undefined';
   }
 }

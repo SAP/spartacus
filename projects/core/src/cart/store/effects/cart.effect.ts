@@ -124,7 +124,7 @@ export class CartEffects {
       ) => action.payload
     ),
     map(payload => {
-      if (payload.cartId.search('selective') !== -1) {
+        if(payload.isSaveForLater){
         return new CartActions.LoadSaveForLater({
           userId: payload.userId,
           cartId: payload.cartId,

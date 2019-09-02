@@ -23,6 +23,7 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
         this.saveForLaterService.getSaveForLater(),
       ]).pipe(
         map(([slots, cart, saveForLater]) => {
+          //If cart is empty but save for later is not empty, show save for later list
           if (cart.totalItems || saveForLater.totalItems) {
             return slots.filter(slot => slot !== 'EmptyCartMiddleContent');
           } else {
