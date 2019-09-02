@@ -6443,6 +6443,13 @@ ng-packagr@^5.2.0:
     terser "^3.16.1"
     update-notifier "^3.0.0"
 
+ngx-infinite-scroll@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-8.0.0.tgz#4fc1e1d1bb50baedc4793c28115faec656a8d027"
+  integrity sha512-9KRCFAszLttd735CY1GbqtiVRdEvAGWUL8FQqD+iBGitbhgws4OZS+qdKIV+lrJzYXh+Y2XnOOSiUFADOo4+fQ==
+  dependencies:
+    opencollective-postinstall "^2.0.2"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -6772,7 +6779,7 @@ open@6.2.0:
   dependencies:
     is-wsl "^1.1.0"
 
-opencollective-postinstall@^2.0.1:
+opencollective-postinstall@^2.0.1, opencollective-postinstall@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
   integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
