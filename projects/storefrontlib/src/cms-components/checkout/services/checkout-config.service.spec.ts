@@ -211,7 +211,9 @@ describe('CheckoutConfigService', () => {
     });
 
     it('should return least expensive (but not free, if available) price code', () => {
-      service['defaultDeliveryMode']= [DeliveryModePreferences.LEAST_EXPENSIVE];
+      service['defaultDeliveryMode'] = [
+        DeliveryModePreferences.LEAST_EXPENSIVE,
+      ];
 
       expect(
         service['findMatchingDeliveryMode']([
