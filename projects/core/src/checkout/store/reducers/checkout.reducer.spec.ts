@@ -252,13 +252,20 @@ describe('Checkout reducer', () => {
   describe('CLEAR_CHECKOUT_DELIVERY_MODE action', () => {
     it('should clear supported delivery modes', () => {
       const { initialState } = fromCheckout;
+      const stateWithDeliveryMode = {
+        ...initialState,
+        deliveryMode: {
+          supported: {},
+          selected: 'deliveryMode1',
+        },
+      };
       const payload = {
         userId: 'userId',
         cartId: 'cartId',
       };
 
       const action = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
-      const state = fromCheckout.reducer(initialState, action);
+      const state = fromCheckout.reducer(stateWithDeliveryMode, action);
       expect(state.deliveryMode).toEqual(initialState.deliveryMode);
     });
   });
