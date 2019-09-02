@@ -24,14 +24,17 @@ export function checkElement(tabElement: TabElement) {
       break;
     }
   }
-
-  cy.tab(); // after the above check, tab to the next element
 }
 
 export function checkAllElements(tabElements: TabElement[]) {
   it('should focus elements in correct order when pressing tab key', () => {
-    tabElements.forEach(el => {
-      checkElement(el);
+    tabElements.forEach((element: TabElement, index: number) => {
+      // skip tabbing on first element
+      if (index !== 0) {
+        cy.tab();
+      }
+
+      checkElement(element);
     });
   });
 }
