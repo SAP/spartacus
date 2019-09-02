@@ -102,10 +102,10 @@ class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryService> {
   getSetDeliveryAddressProcess(): Observable<LoaderState<void>> {
     return mockSetDeliveryAddressResult.asObservable();
   }
-  getSetDeliveryModeResultStatus(): Observable<LoaderState<void>> {
+  getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
     return mockSetDeliveryModeResult.asObservable();
   }
-  getLoadSupportedDeliveryModeStatus(): Observable<LoaderState<void>> {
+  getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
     return mockLoadSupportedDeliveryModesResult.asObservable();
   }
 }
