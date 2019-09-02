@@ -95,7 +95,7 @@ describe(`CheckoutGuard`, () => {
       .unsubscribe();
   });
 
-  it(`should redirect to last checkout step`, done => {
+  it(`should redirect to review order`, done => {
     isExpressCheckoutSet.next(true);
     setDefaultCheckoutDetailsSuccess.next(true);
     guard
