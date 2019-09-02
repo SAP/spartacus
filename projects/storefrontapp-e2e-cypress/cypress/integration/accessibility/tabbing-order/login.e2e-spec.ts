@@ -5,7 +5,7 @@ import {
 } from '../../../helpers/accessibility/tabbing-order';
 
 context('Login page', () => {
-  describe.only('tabbing order', () => {
+  describe('tabbing order', () => {
     before(() => {
       cy.visit('/login');
       getFormFieldByValue(tabbingOrderConfig.login[0].value).focus(); // focus the first element
