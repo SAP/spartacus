@@ -19,9 +19,9 @@ import { CheckoutDetailsService } from './checkout-details.service';
   providedIn: 'root',
 })
 export class ExpressCheckoutService {
-  private shippingAddressSet$;
-  private deliveryModeSet$;
-  private paymentMethodSet$;
+  private shippingAddressSet$: Observable<boolean>;
+  private deliveryModeSet$: Observable<boolean>;
+  private paymentMethodSet$: Observable<boolean>;
 
   constructor(
     protected userAddressService: UserAddressService,

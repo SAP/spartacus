@@ -157,13 +157,13 @@ describe('CheckoutConfigService', () => {
       ).toBe(-1);
     });
 
-    it('should return undefined (0) for same price', () => {
+    it('should return 0 for same price', () => {
       expect(
         service['compareDeliveryCost'](
           { deliveryCost: { value: 1 } },
           { deliveryCost: { value: 1 } }
         )
-      ).toBe(undefined);
+      ).toBe(0);
     });
   });
 
