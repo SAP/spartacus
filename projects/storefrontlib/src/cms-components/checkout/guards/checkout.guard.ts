@@ -3,7 +3,7 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { RoutingConfigService, FeatureConfigService } from '@spartacus/core';
+import { RoutingConfigService } from '@spartacus/core';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepType } from '../model/checkout-step.model';
@@ -14,27 +14,44 @@ import { CheckoutConfig } from '../config/checkout-config';
 })
 export class CheckoutGuard implements CanActivate {
   private firstStep$: Observable<UrlTree>;
-  private isExpressCheckoutFeatureEnabled: boolean;
 
+  /**
+   * @deprecated since version 1.2
+   *  Use constructor(router: Router,
+   *  routingConfigService: RoutingConfigService,
+   *  checkoutConfigService: CheckoutConfigService,
+   *  expressCheckoutService: ExpressCheckoutService) instead
+   *
+   *  TODO(issue:#4309) Deprecated since 1.2.0
+   */
+  constructor(
+    router: Router,
+    config: CheckoutConfig,
+    routingConfigService: RoutingConfigService
+  );
   constructor(
     private router: Router,
     private config: CheckoutConfig,
     private routingConfigService: RoutingConfigService,
     protected checkoutConfigService?: CheckoutConfigService,
-    protected expressCheckoutService?: ExpressCheckoutService,
-    private featureConfigService?: FeatureConfigService
+    protected expressCheckoutService?: ExpressCheckoutService
   ) {
-    this.isExpressCheckoutFeatureEnabled = this.featureConfigService.isLevel(
-      '1.2'
-    );
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
-    if (this.isExpressCheckoutFeatureEnabled && this.checkoutConfigService) {
+    if (this.checkoutConfigService) {
       this.firstStep$ = of(
         this.router.parseUrl(
           this.routingConfigService.getRouteConfig(
             this.checkoutConfigService.getFirstCheckoutStepRoute()
+          ).paths[0]
+        )
+      );
+    } else {
+      this.firstStep$ = of(
+        this.router.parseUrl(
+          this.routingConfigService.getRouteConfig(
+            this.config.checkout.steps[0].routeName
           ).paths[0]
         )
       );
@@ -45,11 +62,7 @@ export class CheckoutGuard implements CanActivate {
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
-    if (
-      this.isExpressCheckoutFeatureEnabled &&
-      this.checkoutConfigService &&
-      this.expressCheckoutService
-    ) {
+    if (this.checkoutConfigService && this.expressCheckoutService) {
       if (this.checkoutConfigService.isExpressCheckout()) {
         return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
           switchMap((expressCheckoutPossible: boolean) => {
@@ -66,17 +79,8 @@ export class CheckoutGuard implements CanActivate {
               : this.firstStep$;
           })
         );
-      } else {
-        return this.firstStep$;
       }
-    } else {
-      return of(
-        this.router.parseUrl(
-          this.routingConfigService.getRouteConfig(
-            this.config.checkout.steps[0].routeName
-          ).paths[0]
-        )
-      );
     }
+    return this.firstStep$;
   }
 }

@@ -13,21 +13,25 @@ import {
 export class AddressCardComponent {
   editMode: boolean;
   isDefault: boolean;
-  private isExpressCheckoutFeatureEnabled: boolean;
 
   @Input() address: Address;
 
   @Output() editEvent = new EventEmitter<any>();
 
+  /**
+   * @deprecated since version 1.2
+   *  Use constructor(userAddressService: UserAddressService,
+   *  checkoutDeliveryService: CheckoutDeliveryService
+   *  featureConfigService: FeatureConfigService) instead
+   *
+   *  TODO(issue:#4309) Deprecated since 1.2.0
+   */
+  constructor(userAddressService: UserAddressService);
   constructor(
     private userAddressService: UserAddressService,
     protected checkoutDeliveryService?: CheckoutDeliveryService,
     private featureConfigService?: FeatureConfigService
-  ) {
-    this.isExpressCheckoutFeatureEnabled = this.featureConfigService.isLevel(
-      '1.2'
-    );
-  }
+  ) {}
 
   openEditFormEvent(): void {
     this.editEvent.emit();
@@ -46,7 +50,10 @@ export class AddressCardComponent {
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
-    if (this.isExpressCheckoutFeatureEnabled) {
+    if (
+      this.featureConfigService.isLevel('1.2') &&
+      this.checkoutDeliveryService
+    ) {
       this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
     }
   }
@@ -56,7 +63,10 @@ export class AddressCardComponent {
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
-    if (this.isExpressCheckoutFeatureEnabled) {
+    if (
+      this.featureConfigService.isLevel('1.2') &&
+      this.checkoutDeliveryService
+    ) {
       this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
     }
   }

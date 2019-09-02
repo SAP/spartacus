@@ -1,11 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeatureConfigService,
-  RoutesConfig,
-  RoutingConfigService,
-} from '@spartacus/core';
+import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutGuard } from './checkout.guard';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
@@ -43,12 +39,6 @@ class MockRoutingConfigService {
   }
 }
 
-class MockFeatureConfigService {
-  isLevel(_featureLevel: string): boolean {
-    return true;
-  }
-}
-
 describe(`CheckoutGuard`, () => {
   let guard: CheckoutGuard;
   let mockRoutingConfigService: RoutingConfigService;
@@ -63,7 +53,6 @@ describe(`CheckoutGuard`, () => {
           provide: ExpressCheckoutService,
           useClass: MockExpressCheckoutService,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
       imports: [RouterTestingModule],
     });
