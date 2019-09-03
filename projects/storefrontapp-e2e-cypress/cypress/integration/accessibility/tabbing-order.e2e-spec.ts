@@ -5,6 +5,7 @@ import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/fo
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { login } from '../../helpers/accessibility/tabbing-order';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
+import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
 
 context('Tabbing order', () => {
   before(() => {
@@ -38,6 +39,16 @@ context('Tabbing order', () => {
   describe('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
+    });
+  });
+
+  describe('Change password', () => {
+    it('should allow to navigate with tab key', () => {
+      login();
+
+      changePasswordTabbingOrder(config.changePassword);
+
+      signOutUser();
     });
   });
 });
