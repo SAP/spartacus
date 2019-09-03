@@ -39,6 +39,20 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
   ],
+  changePassword: [
+    {
+      value: 'oldPassword',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'newPassword',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'newPasswordConfirm',
+      type: TabbingOrderTypes.FORM_FIELD,
+    }
+  ],
   updateEmail: [
     {
       value: 'email',

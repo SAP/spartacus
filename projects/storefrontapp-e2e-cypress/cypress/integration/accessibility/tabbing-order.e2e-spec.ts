@@ -6,6 +6,7 @@ import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/log
 import { login } from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
+import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
 
 context('Tabbing order', () => {
@@ -49,6 +50,16 @@ context('Tabbing order', () => {
     });
   });
 
+  describe('Change password', () => {
+    it('should allow to navigate with tab key', () => {
+      login();
+
+      changePasswordTabbingOrder(config.changePassword);
+      
+      signOutUser();
+    });
+  });
+    
   describe('Update email', () => {
     it('should allow to navigate with tab key', () => {
       login();
