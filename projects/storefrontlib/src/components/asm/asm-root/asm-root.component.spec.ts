@@ -47,7 +47,7 @@ const activatedRouteMock = {
   queryParamMap: of(mockQueryParamMap),
 };
 
-fdescribe('AsmRootComponent', () => {
+describe('AsmRootComponent', () => {
   let component: AsmRootComponent;
   let fixture: ComponentFixture<AsmRootComponent>;
   let el: DebugElement;
