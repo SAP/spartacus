@@ -46,6 +46,7 @@ describe('ConfigurationFormComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -69,6 +70,7 @@ describe('ConfigurationFormComponent', () => {
     component.configuration$.subscribe(
       (data: ProductConfiguration) => (productCode = data.productCode)
     );
+
     expect(productCode).toEqual(PRODUCT_CODE);
   });
 });
