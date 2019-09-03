@@ -5,12 +5,19 @@ import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/fo
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { login } from '../../helpers/accessibility/tabbing-order';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
+import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
 
 context('Tabbing order', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
     registerUser();
+  });
+
+  describe('Home page', () => {
+    it('should allow to navigate with tab key', () => {
+      homeTabbingOrder(config.home);
+    });
   });
 
   describe('Close account', () => {

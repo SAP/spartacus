@@ -25,6 +25,10 @@ export function checkElement(tabElement: TabElement) {
       cy.focused().should('contain', tabElement.value);
       break;
     }
+    case TabbingOrderTypes.IMG_LINK: {
+      cy.focused().should('have.attr', 'href', tabElement.value);
+      break;
+    }
   }
 }
 
