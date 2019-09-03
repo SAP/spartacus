@@ -16,6 +16,7 @@ import { IconConfig } from './cms-components/misc/icon/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { FeatureToggles } from './feature-toggles';
 import { LayoutConfig } from './layout/config/layout-config';
+import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =
   | AuthConfig
@@ -33,4 +34,5 @@ export type StorefrontConfig =
   | KymaConfig
   | GlobalMessageConfig
   | ExternalRoutesConfig
+  | ViewConfig
   | FeatureToggles;
