@@ -10,7 +10,7 @@
       <cx-cart-item-list
         [items]="entries"
         [potentialProductPromotions]="cart.potentialProductPromotions"
-        [cartIsLoading]="(cartLoading$ | async)"
+        [cartIsLoading]="cartLoading$ | async"
         [enableSaveForLater]="true"
       ></cx-cart-item-list>
       <!-- NOT FOR MVP  <cx-cart-coupon></cx-cart-coupon> -->

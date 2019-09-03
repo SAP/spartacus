@@ -39,14 +39,14 @@
       </div>
       <!-- Item Price -->
       <div
-      *ngIf="item.basePrice"
-      class="cx-price"
-      [ngClass]="compact ? '' : ' col-md-4 col-lg-4 col-xl-4'"
-    >
-    <div
-    class="cx-label"
-    [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
-  >
+        *ngIf="item.basePrice"
+        class="cx-price"
+        [ngClass]="compact ? '' : ' col-md-4 col-lg-4 col-xl-4'"
+      >
+        <div
+          class="cx-label"
+          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+        >
           {{ 'cartItems.item' | cxTranslate }}
         </div>
         <div *ngIf="item.basePrice" class="cx-value">
