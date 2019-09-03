@@ -1,11 +1,13 @@
-import { registerUser, signOutUser } from '../../helpers/login';
+import { registerUser, signOutUser, loginUser } from '../../helpers/login';
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { login } from '../../helpers/accessibility/tabbing-order';
+import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
+import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
 
 context('Tabbing order', () => {
   before(() => {
@@ -36,6 +38,12 @@ context('Tabbing order', () => {
     });
   });
 
+  describe('Register page', () => {
+    it('should verify tabbing order', () => {
+      registerTabbingOrder(config.register);
+    });
+  });
+  
   describe('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
@@ -47,6 +55,16 @@ context('Tabbing order', () => {
       login();
 
       changePasswordTabbingOrder(config.changePassword);
+      
+      signOutUser();
+    });
+  });
+    
+  describe('Update email', () => {
+    it('should allow to navigate with tab key', () => {
+      login();
+
+      updateEmailTabbingOrder(config.updateEmail);
 
       signOutUser();
     });

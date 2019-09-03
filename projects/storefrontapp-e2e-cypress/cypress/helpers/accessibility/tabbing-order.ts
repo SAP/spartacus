@@ -45,6 +45,7 @@ export function getFormFieldByValue(value: string) {
 
 export function login() {
   const homePage = waitForPage('homepage', 'getHomePage');
+  cy.visit('/login');
   loginUser();
   cy.wait(`@${homePage}`);
 }
