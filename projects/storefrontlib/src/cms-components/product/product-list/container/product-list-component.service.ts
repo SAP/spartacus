@@ -156,6 +156,26 @@ export class ProductListComponentService {
     this.setQueryParams({ currentPage: pageNumber });
   }
 
+  /**
+   * Get items from a given page without using navigation
+   */
+  getPageItems(pageNumber: number): void {
+    this.routing
+      .getRouterState()
+      .subscribe(route => {
+        const routeCriteria = this.getCriteriaFromRoute(
+          route.state.params,
+          route.state.queryParams
+        );
+        const criteria = {
+          ...routeCriteria,
+          currentPage: pageNumber,
+        };
+        this.search(criteria);
+      })
+      .unsubscribe();
+  }
+
   sort(sortCode: string): void {
     this.setQueryParams({ sortCode });
   }
