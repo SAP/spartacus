@@ -1,25 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
-
 import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromSaveForLaterActions from '../actions/save-for-later.action';
 import { SaveForLaterDataService } from '../../facade/save-for-later-data.service';
-import { SaveForLaterService } from '../../facade/save-for-later.service';
 import * as fromCart from '../../store/index';
 import * as fromAuth from '../../../auth/store/index';
 import * as fromUser from '../../../user/store/index';
-
 import * as fromEffects from './save-for-later.effect';
-import { OccConfig } from '@spartacus/core';
 import { Cart } from '../../../model/cart.model';
 import createSpy = jasmine.createSpy;
+import { OccConfig } from '../../../occ/config/occ-config';
+import { UserService } from '../../../user/facade/user.service';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -73,8 +68,8 @@ describe('Save for later cart effect', () => {
         },
         fromEffects.SaveForLaterEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        SaveForLaterService,
         SaveForLaterDataService,
+        UserService,
         provideMockActions(() => actions$),
       ],
     });

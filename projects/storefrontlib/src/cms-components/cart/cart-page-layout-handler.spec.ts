@@ -7,6 +7,13 @@ describe('CartPageLayoutHandler', () => {
       return of({ totalItems: 0 });
     },
   };
+
+  const mockSaveForLaterService: any = {
+    getSaveForLater() {
+      return of({ totalItems: 0 });
+    },
+  };
+
   const mockSlots = [
     'test',
     'EmptyCartMiddleContent',
@@ -17,11 +24,16 @@ describe('CartPageLayoutHandler', () => {
   const cartPageTemplate = 'CartPageTemplate';
 
   it('should create an instance', () => {
-    expect(new CartPageLayoutHandler(mockCartService)).toBeTruthy();
+    expect(
+      new CartPageLayoutHandler(mockCartService, mockSaveForLaterService)
+    ).toBeTruthy();
   });
 
   it('should remove cart slots when cart is empty', () => {
-    const handler = new CartPageLayoutHandler(mockCartService);
+    const handler = new CartPageLayoutHandler(
+      mockCartService,
+      mockSaveForLaterService
+    );
 
     let result;
     handler
@@ -32,7 +44,10 @@ describe('CartPageLayoutHandler', () => {
 
   it('should remove empty content slot when cart has items', () => {
     spyOn(mockCartService, 'getActive').and.returnValue(of({ totalItems: 3 }));
-    const handler = new CartPageLayoutHandler(mockCartService);
+    const handler = new CartPageLayoutHandler(
+      mockCartService,
+      mockSaveForLaterService
+    );
 
     let result;
     handler
@@ -42,7 +57,10 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should return untouched steam if not on a cart page', () => {
-    const handler = new CartPageLayoutHandler(mockCartService);
+    const handler = new CartPageLayoutHandler(
+      mockCartService,
+      mockSaveForLaterService
+    );
     const slots$ = handler.handle(mockSlots$, 'different page');
     expect(slots$).toBe(mockSlots$);
   });

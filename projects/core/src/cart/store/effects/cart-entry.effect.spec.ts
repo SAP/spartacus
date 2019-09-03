@@ -62,6 +62,7 @@ describe('Cart effect', () => {
         entry: 'testEntry',
         userId,
         cartId,
+        isSaveForLater: undefined,
       });
 
       actions$ = hot('-a', { a: action });
@@ -81,6 +82,7 @@ describe('Cart effect', () => {
       const completion = new CartActions.CartRemoveEntrySuccess({
         userId,
         cartId,
+        isSaveForLater: undefined,
       });
 
       actions$ = hot('-a', { a: action });
@@ -101,6 +103,7 @@ describe('Cart effect', () => {
       const completion = new CartActions.CartUpdateEntrySuccess({
         userId,
         cartId,
+        isSaveForLater: undefined,
       });
 
       actions$ = hot('-a', { a: action });

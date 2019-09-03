@@ -49,7 +49,11 @@
         >
           {{ 'cartItems.item' | cxTranslate }}
         </div>
-        <div *ngIf="item.basePrice" class="cx-value">
+        <div
+          *ngIf="item.basePrice"
+          class="cx-value"
+          data-test="product-base-price"
+        >
           {{ item.basePrice?.formattedValue }}
         </div>
       </div>
@@ -67,7 +71,9 @@
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
-        <div class="cx-value">{{ item.quantity }}</div>
+        <div class="cx-value" data-test="product-quantity">
+          {{ item.quantity }}
+        </div>
       </div>
       <!-- Total -->
     </div>

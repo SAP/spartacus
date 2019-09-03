@@ -149,11 +149,11 @@ describe('SaveForLaterItemComponent', () => {
     const variants = el.queryAll(By.css('[data-test="product-variant"]'));
     expect(variants.length).toBe(2);
 
+    const basePrice = el.queryAll(By.css('[data-test="product-base-price"]'));
+    expect(basePrice.length).toBe(1);
+
     const quantity = el.queryAll(By.css('[data-test="product-quantity"]'));
     expect(quantity.length).toBe(1);
-
-    const total = el.queryAll(By.css('[data-test="product-total-price"]'));
-    expect(total.length).toBe(1);
 
     const availability = el.queryAll(
       By.css('[data-test="product-availability"]')

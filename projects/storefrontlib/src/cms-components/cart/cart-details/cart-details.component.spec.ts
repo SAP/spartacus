@@ -24,8 +24,8 @@ class MockCartService {
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
   }
-  getLoaded(): Observable<boolean> {
-    return of(true);
+  getLoading(): Observable<boolean> {
+    return of(false);
   }
 }
 

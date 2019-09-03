@@ -47,7 +47,7 @@ describe('SaveForLaterComponent', () => {
   const sflService = jasmine.createSpyObj('SaveForLaterService', [
     'getSaveForLater',
     'getEntries',
-    'getLoaded',
+    'getLoading',
   ]);
 
   beforeEach(async(() => {
@@ -65,7 +65,7 @@ describe('SaveForLaterComponent', () => {
     component.cartEntries$ = of([]);
     sflService.getSaveForLater.and.returnValue(of({}));
     sflService.getEntries.and.returnValue(of([]));
-    sflService.getLoaded.and.returnValue(of(true));
+    sflService.getLoading.and.returnValue(of(false));
     component.ngOnInit();
   });
 
