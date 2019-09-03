@@ -4,6 +4,7 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbin
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { login } from '../../helpers/accessibility/tabbing-order';
+import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 
 context('Tabbing order', () => {
   before(() => {
@@ -31,6 +32,12 @@ context('Tabbing order', () => {
   describe('Login page', () => {
     it('should verify tabbing order', () => {
       loginTabbingOrder(config.login);
+    });
+  });
+
+  describe('Register page', () => {
+    it('should verify tabbing order', () => {
+      registerTabbingOrder(config.register);
     });
   });
 });
