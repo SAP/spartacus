@@ -1,4 +1,10 @@
-import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  EventEmitter,
+  Output,
+  Type,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -107,10 +113,12 @@ describe('UpdateEmailComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserService);
-    authService = TestBed.get(AuthService);
-    routingService = TestBed.get(RoutingService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    userService = TestBed.get(UserService as Type<UserService>);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
 
     fixture.detectChanges();
   });
@@ -185,7 +193,15 @@ describe('UpdateEmailComponent', () => {
 
         expect(authService.logout).toHaveBeenCalled();
 
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+        expect(routingService.go).toHaveBeenCalledWith(
+          { cxRoute: 'login' },
+          null,
+          {
+            state: {
+              newUid,
+            },
+          }
+        );
       });
     });
 

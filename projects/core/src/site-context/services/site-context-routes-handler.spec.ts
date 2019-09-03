@@ -1,11 +1,12 @@
-import { TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
-import { SiteContextRoutesHandler } from './site-context-routes-handler';
-import { SiteContextParamsService } from './site-context-params.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
-import createSpy = jasmine.createSpy;
+import { SiteContextParamsService } from './site-context-params.service';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
+import createSpy = jasmine.createSpy;
 
 describe('SiteContextRoutesHandlerService', () => {
   let mockRouterEvents;
@@ -70,7 +71,9 @@ describe('SiteContextRoutesHandlerService', () => {
       ],
     });
 
-    service = TestBed.get(SiteContextRoutesHandler);
+    service = TestBed.get(SiteContextRoutesHandler as Type<
+      SiteContextRoutesHandler
+    >);
     service.init();
   });
 

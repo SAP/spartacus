@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../checkout-config.service';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { ShippingAddressComponent } from './shipping-address.component';
 
 import createSpy = jasmine.createSpy;
@@ -147,14 +147,18 @@ describe('ShippingAddressComponent', () => {
       })
       .compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
-    mockRoutingService = TestBed.get(RoutingService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
+    >);
+    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShippingAddressComponent);
     component = fixture.componentInstance;
-    mockUserAddressService = TestBed.get(UserAddressService);
+    mockUserAddressService = TestBed.get(UserAddressService as Type<
+      UserAddressService
+    >);
 
     spyOn(component, 'addNewAddress').and.callThrough();
   });
@@ -217,6 +221,62 @@ describe('ShippingAddressComponent', () => {
     component.checkoutStepUrlPrevious = mockPreviousStepUrl;
     component.back();
     expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
+  });
+
+  it('should automatically select default shipping address when there is no current selection', () => {
+    spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+      of(false)
+    );
+    spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+      of(mockAddresses)
+    );
+
+    component.ngOnInit();
+    let address: Address[];
+    component.existingAddresses$
+      .subscribe(data => {
+        address = data;
+      })
+      .unsubscribe();
+    expect(address).toBe(mockAddresses);
+
+    //mockAddresses array contains an address that is default so it will be selected
+    component.cards$
+      .subscribe(cards => {
+        expect(component.selectedAddress).toEqual(mockAddress2);
+        expect(cards.length).toEqual(2);
+        expect(cards[1].card.header).toBe('addressCard.selected');
+      })
+      .unsubscribe();
+  });
+
+  it('should NOT automatically select default shipping address when there is a current selection', () => {
+    spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+      of(false)
+    );
+    spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+      of(mockAddresses)
+    );
+
+    component.ngOnInit();
+    let address: Address[];
+    component.existingAddresses$
+      .subscribe(data => {
+        address = data;
+      })
+      .unsubscribe();
+    expect(address).toBe(mockAddresses);
+
+    //The selected address is the non-default one
+    component.addressSelected(mockAddress1);
+    //The logic in the card$ subscription should keep the current selection
+    component.cards$
+      .subscribe(cards => {
+        expect(component.selectedAddress).toEqual(mockAddress1);
+        expect(cards.length).toEqual(2);
+        expect(cards[0].card.header).toBe('addressCard.selected');
+      })
+      .unsubscribe();
   });
 
   it('should set newly created address', () => {

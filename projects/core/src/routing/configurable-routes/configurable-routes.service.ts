@@ -1,7 +1,8 @@
 import { Injectable, Injector, isDevMode } from '@angular/core';
-import { Routes, Router, Route } from '@angular/router';
+import { Route, Router, Routes } from '@angular/router';
+import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
+import { RouteConfig } from './routes-config';
 import { RoutingConfigService } from './routing-config.service';
-import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
@@ -46,26 +47,27 @@ export class ConfigurableRoutesService {
   }
 
   private configureRoute(route: Route): Route {
-    if (this.getRouteName(route)) {
-      const paths = this.getConfiguredPaths(route);
-      switch (paths.length) {
-        case 0:
-          delete route.path;
-          return {
-            ...route,
-            matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
-          };
+    const routeName = this.getRouteName(route);
+    if (routeName) {
+      const routeConfig = this.routingConfigService.getRouteConfig(routeName);
+      const paths = this.getConfiguredPaths(routeConfig, routeName, route);
+      const isDisabled = routeConfig && routeConfig.disabled;
 
-        case 1:
-          delete route.matcher;
-          return { ...route, path: paths[0] };
-
-        default:
-          delete route.path;
-          return {
-            ...route,
-            matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
-          };
+      if (isDisabled || !paths.length) {
+        delete route.path;
+        return {
+          ...route,
+          matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
+        };
+      } else if (paths.length === 1) {
+        delete route.matcher;
+        return { ...route, path: paths[0] };
+      } else {
+        delete route.path;
+        return {
+          ...route,
+          matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+        };
       }
     }
     return route; // if route doesn't have a name, just pass the original route
@@ -75,9 +77,11 @@ export class ConfigurableRoutesService {
     return route.data && route.data.cxRoute;
   }
 
-  private getConfiguredPaths(route: Route): string[] {
-    const routeName = this.getRouteName(route);
-    const routeConfig = this.routingConfigService.getRouteConfig(routeName);
+  private getConfiguredPaths(
+    routeConfig: RouteConfig,
+    routeName: string,
+    route: Route
+  ): string[] {
     if (routeConfig === undefined) {
       this.warn(
         `Could not configure the named route '${routeName}'`,

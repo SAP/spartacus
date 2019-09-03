@@ -1,9 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { RoutingConfigService } from './routing-config.service';
-import { ConfigurableRoutesService } from './configurable-routes.service';
-import { Router, Routes } from '@angular/router';
-import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 import * as AngularCore from '@angular/core';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Router, Routes } from '@angular/router';
+import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
+import { ConfigurableRoutesService } from './configurable-routes.service';
+import { RoutingConfigService } from './routing-config.service';
 
 class MockRoutingConfigService {
   getRouteConfig() {}
@@ -49,9 +50,13 @@ describe('ConfigurableRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ConfigurableRoutesService);
-    router = TestBed.get(Router);
-    routingConfigService = TestBed.get(RoutingConfigService);
+    service = TestBed.get(ConfigurableRoutesService as Type<
+      ConfigurableRoutesService
+    >);
+    router = TestBed.get(Router as Type<Router>);
+    routingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
 
     router.config = [];
   });
@@ -111,6 +116,16 @@ describe('ConfigurableRoutesService', () => {
     it('should generate route that will never match if there are no configured paths in config', async () => {
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(null);
+      await service.init();
+      expect(router.config[0].matcher).toBe(false);
+    });
+
+    it('should generate route that will never match if it was disabled by config', async () => {
+      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+        paths: ['path1', 'path100'],
+        disabled: true,
+      });
       await service.init();
       expect(router.config[0].matcher).toBe(false);
     });

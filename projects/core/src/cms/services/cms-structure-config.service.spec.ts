@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CmsPageConfig,
@@ -24,7 +25,9 @@ describe('CmsStructureConfigService', () => {
         },
       };
 
-      service = TestBed.get(CmsStructureConfigService);
+      service = TestBed.get(CmsStructureConfigService as Type<
+        CmsStructureConfigService
+      >);
     });
 
     it('should CmsStructureConfigService is injected', () => {
@@ -113,7 +116,9 @@ describe('CmsStructureConfigService', () => {
         },
       };
 
-      service = TestBed.get(CmsStructureConfigService);
+      service = TestBed.get(CmsStructureConfigService as Type<
+        CmsStructureConfigService
+      >);
     });
 
     it('should CmsStructureConfigService is injected', () => {

@@ -3,6 +3,7 @@ import {
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsStructureConfigService } from '../../../cms/services';
@@ -71,11 +72,16 @@ describe('OccCmsComponentAdapter', () => {
         },
       ],
     });
-
-    service = TestBed.get(OccCmsComponentAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
-    endpointsService = TestBed.get(OccEndpointsService);
+    service = TestBed.get(OccCmsComponentAdapter as Type<
+      OccCmsComponentAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    endpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -218,16 +224,17 @@ describe('OccCmsComponentAdapter', () => {
   function assertPostRequestGetUrl(fields: string, pageSize: string) {
     expect(endpointsService.getUrl).toHaveBeenCalledWith(
       'components',
-      { fields },
-      { productCode: '123', currentPage: '0', pageSize }
+      {},
+      { fields, productCode: '123', currentPage: '0', pageSize }
     );
   }
 
   function assertGetRequestGetUrl(fields: string, pageSize: string) {
     expect(endpointsService.getUrl).toHaveBeenCalledWith(
       'components',
-      { fields },
+      {},
       {
+        fields,
         componentIds: ids.toString(),
         productCode: '123',
         currentPage: '0',

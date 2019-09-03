@@ -5,6 +5,7 @@ export const myAccount = {
     status: 'Status',
     shippedOn: 'Shipped on',
     inProcess: 'In process...',
+    pending: 'Pending',
     deliveryStatus_READY_FOR_PICKUP: 'Ready for pickup',
     deliveryStatus_PICKUP_COMPLETE: 'Picked up',
     deliveryStatus_SHIPPED: 'Shipped',
@@ -34,6 +35,7 @@ export const myAccount = {
       'Are you sure you want to close your account?',
     closeMyAccount: 'CLOSE MY ACCOUNT',
     accountClosedSuccessfully: 'Account closed with success',
+    accountClosedFailure: 'Failed to close account',
   },
   updateEmailForm: {
     newEmailAddress: {

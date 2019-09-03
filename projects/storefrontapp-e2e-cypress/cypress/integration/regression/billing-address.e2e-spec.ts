@@ -1,6 +1,7 @@
 import * as checkout from '../../helpers/checkout-flow';
-import { user } from '../../sample-data/checkout-flow';
 import { Address } from '../../helpers/checkout-forms';
+import { user } from '../../sample-data/checkout-flow';
+import { verifyGlobalMessageAfterRegistration } from '../../helpers/register';
 
 const usaAddress: Address = {
   city: 'Los Angeles',
@@ -36,14 +37,13 @@ context('Payment billing address', () => {
 
   it('should go to checkout', () => {
     checkout.registerUser();
-    checkout.signOutUser();
-    checkout.goToProductDetailsPage();
-    checkout.addProductToCart();
-    checkout.loginUser();
+    verifyGlobalMessageAfterRegistration();
+    checkout.goToCheapProductDetailsPage();
+    checkout.addCheapProductToCartAndLogin();
   });
 
   it('should fill address form', () => {
-    checkout.fillAddressForm();
+    checkout.fillAddressFormWithCheapProduct();
   });
 
   it('should choose delivery', () => {
@@ -51,7 +51,7 @@ context('Payment billing address', () => {
   });
 
   it('should fill in payment form with billing address same as shipping address', () => {
-    checkout.fillPaymentForm();
+    checkout.fillPaymentFormWithCheapProduct();
   });
 
   it('should redirect to review order page', () => {
@@ -67,7 +67,7 @@ context('Payment billing address', () => {
   });
 
   it('should fill in payment form with different billing address (same country)', () => {
-    checkout.fillPaymentForm(user, {
+    checkout.fillPaymentFormWithCheapProduct(user, {
       ...user,
       address: usaAddress,
     });
@@ -85,7 +85,10 @@ context('Payment billing address', () => {
   });
 
   it('should fill in payment form with different billing address (country with states)', () => {
-    checkout.fillPaymentForm(user, { ...user, address: canadaAddress });
+    checkout.fillPaymentFormWithCheapProduct(user, {
+      ...user,
+      address: canadaAddress,
+    });
   });
 
   it('should redirect to review order page', () => {
@@ -101,7 +104,7 @@ context('Payment billing address', () => {
   });
 
   it('should fill in payment form with different billing address (country without states)', () => {
-    checkout.fillPaymentForm(user, {
+    checkout.fillPaymentFormWithCheapProduct(user, {
       ...user,
       address: polandAddress,
     });

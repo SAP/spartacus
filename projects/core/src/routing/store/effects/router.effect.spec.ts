@@ -1,4 +1,5 @@
 import { Location } from '@angular/common';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -30,9 +31,11 @@ describe('Router Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.RouterEffects);
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
+    effects = TestBed.get(fromEffects.RouterEffects as Type<
+      fromEffects.RouterEffects
+    >);
+    router = TestBed.get(Router as Type<Router>);
+    location = TestBed.get(Location as Type<Location>);
   });
 
   describe('navigate$', () => {
