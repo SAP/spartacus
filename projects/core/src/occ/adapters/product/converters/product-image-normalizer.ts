@@ -56,11 +56,9 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
          */
         image.url = image.url.startsWith('http')
           ? image.url
-          : (
-            (this.config.backend.media.baseUrl ||
+          : (this.config.backend.media.baseUrl ||
               this.config.backend.occ.baseUrl ||
-              '') + image.url
-          );
+              '') + image.url;
 
         imageContainer[image.format] = image;
       }
