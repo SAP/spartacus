@@ -15,7 +15,7 @@
   <div class="cx-info col-10">
     <div class="cx-info-container row ">
       <!-- Item Description -->
-      <div class="col-md-3 col-lg-3 col-xl-5">
+      <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
         <div *ngIf="item.product.name" class="cx-name" data-test="product-name">
           <a
             class="cx-link"
@@ -38,8 +38,15 @@
         </div>
       </div>
       <!-- Item Price -->
-      <div *ngIf="item.basePrice" class="cx-price col-md-3 col-lg-3 col-xl-2">
-        <div class="cx-label" class="d-block d-md-none d-lg-none d-xl-none">
+      <div
+      *ngIf="item.basePrice"
+      class="cx-price"
+      [ngClass]="compact ? '' : ' col-md-4 col-lg-4 col-xl-4'"
+    >
+    <div
+    class="cx-label"
+    [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+  >
           {{ 'cartItems.item' | cxTranslate }}
         </div>
         <div *ngIf="item.basePrice" class="cx-value">
@@ -49,12 +56,12 @@
       <!-- Item Quantity -->
       <div
         *ngIf="item.quantity"
-        class="cx-quantity col-3"
-        data-test="product-quantity"
+        class="cx-quantity"
+        [ngClass]="compact ? '' : ' col-3'"
       >
         <div
           class="cx-label"
-          class="d-block d-md-none d-lg-none d-xl-none"
+          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
           placement="left"
           title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
         >
@@ -63,16 +70,6 @@
         <div class="cx-value">{{ item.quantity }}</div>
       </div>
       <!-- Total -->
-      <div
-        *ngIf="item.totalPrice"
-        class="cx-total col-md-3 col-lg-3 col-xl-2"
-        data-test="product-total-price"
-      >
-        <div class="cx-label" class="d-block d-md-none d-lg-none d-xl-none">
-          {{ 'cartItems.total' | cxTranslate }}
-        </div>
-        <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
-      </div>
     </div>
     <!-- Availability -->
     <div

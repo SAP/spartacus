@@ -18,8 +18,8 @@ export const cart = {
     saveForLater: 'Save for Later',
   },
   saveForLaterItems: {
-    itemTotal: 'Saved for later ({{count}} item): {{totalPrice}}',
-    itemTotal_plural: 'Saved for later ({{count}} items): {{totalPrice}}',
+    itemTotal: 'Saved for later ({{count}} item)',
+    itemTotal_plural: 'Saved for later ({{count}} items)',
     cartTitle: 'Cart',
     cartEmpty:
       'Your shopping cart is empty. But you have {{count}} item in the Save For Later list.',

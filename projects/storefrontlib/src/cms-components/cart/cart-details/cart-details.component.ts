@@ -10,14 +10,14 @@ import { Observable } from 'rxjs';
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
-  cartLoaded$: Observable<boolean>;
+  cartLoading$: Observable<boolean>;
 
   constructor(protected cartService: CartService) {}
 
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
     this.entries$ = this.cartService.getEntries();
-    this.cartLoaded$ = this.cartService.getLoaded();
+    this.cartLoading$ = this.cartService.getLoading();
   }
 
   getAllPromotionsForCart(cart: Cart): any[] {

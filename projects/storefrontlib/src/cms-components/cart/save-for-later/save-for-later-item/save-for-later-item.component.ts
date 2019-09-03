@@ -13,6 +13,8 @@ export class SaveForLaterItemComponent implements OnInit {
   saveForLaterLoading = false;
   @Input()
   potentialProductPromotions: PromotionResult[];
+  @Input()
+  compact = false;
 
   @Output()
   remove = new EventEmitter<any>();
