@@ -1,7 +1,7 @@
 <ng-container *ngIf="(configuration$ | async) as configuration">
   <div class="cx-total">
-    Root product: {{ configuration.productCode }}
+    {{ configuration.productCode }}
     <br />
-    Configuration complete: {{ configuration.complete }}
+    {{ configuration.complete }}
   </div>
 </ng-container>
