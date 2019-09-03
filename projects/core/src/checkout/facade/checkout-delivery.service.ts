@@ -31,7 +31,7 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 })
 export class CheckoutDeliveryService {
   constructor(
-    protected store: Store<StateWithCheckout | StateWithProcess<void>>,
+    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected cartData: CartDataService
   ) {}
 
@@ -39,10 +39,10 @@ export class CheckoutDeliveryService {
    * Get supported delivery modes
    */
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return this.store.pipe(
+    return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSupportedDeliveryModes),
       withLatestFrom(
-        this.store.pipe(
+        this.checkoutStore.pipe(
           select(getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
         )
       ),
@@ -62,14 +62,16 @@ export class CheckoutDeliveryService {
    * Get selected delivery mode
    */
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
-    return this.store.pipe(select(CheckoutSelectors.getSelectedDeliveryMode));
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getSelectedDeliveryMode)
+    );
   }
 
   /**
    * Get selected delivery mode code
    */
   getSelectedDeliveryModeCode(): Observable<string> {
-    return this.store.pipe(
+    return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSelectedDeliveryModeCode)
     );
   }
@@ -78,14 +80,16 @@ export class CheckoutDeliveryService {
    * Get delivery address
    */
   getDeliveryAddress(): Observable<Address> {
-    return this.store.pipe(select(CheckoutSelectors.getDeliveryAddress));
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getDeliveryAddress)
+    );
   }
 
   /**
    * Get status about successfully set Delivery Address
    */
   getSetDeliveryAddressProcess(): Observable<LoaderState<void>> {
-    return this.store.pipe(
+    return this.checkoutStore.pipe(
       select(getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
     );
   }
@@ -94,14 +98,16 @@ export class CheckoutDeliveryService {
    * Clear info about process of setting Delivery Address
    */
   resetSetDeliveryAddressProcess(): void {
-    this.store.dispatch(new CheckoutActions.ResetSetDeliveryAddressProcess());
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ResetSetDeliveryAddressProcess()
+    );
   }
 
   /**
    * Get status about of set Delivery Mode process
    */
   getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
-    return this.store.pipe(
+    return this.checkoutStore.pipe(
       select(getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID))
     );
   }
@@ -110,14 +116,16 @@ export class CheckoutDeliveryService {
    * Clear info about process of setting Delivery Mode
    */
   resetSetDeliveryModeProcess(): void {
-    this.store.dispatch(new CheckoutActions.ResetSetDeliveryModeProcess());
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ResetSetDeliveryModeProcess()
+    );
   }
 
   /**
    * Clear info about process of setting Supported Delivery Modes
    */
   resetLoadSupportedDeliveryModesProcess(): void {
-    this.store.dispatch(
+    this.checkoutStore.dispatch(
       new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
     );
   }
@@ -126,7 +134,7 @@ export class CheckoutDeliveryService {
    * Get status about of set supported Delivery Modes process
    */
   getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
-    return this.store.pipe(
+    return this.checkoutStore.pipe(
       select(getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
     );
   }
@@ -135,14 +143,16 @@ export class CheckoutDeliveryService {
    * Clear supported delivery modes loaded in last checkout process
    */
   clearCheckoutDeliveryModes(): void {
-    this.store.dispatch(new CheckoutActions.ClearSupportedDeliveryModes());
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ClearSupportedDeliveryModes()
+    );
   }
 
   /**
    * Get address verification results
    */
   getAddressVerificationResults(): Observable<AddressValidation | string> {
-    return this.store.pipe(
+    return this.checkoutStore.pipe(
       select(CheckoutSelectors.getAddressVerificationResults),
       filter(results => Object.keys(results).length !== 0)
     );
@@ -154,7 +164,7 @@ export class CheckoutDeliveryService {
    */
   createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
-      this.store.dispatch(
+      this.checkoutStore.dispatch(
         new CheckoutActions.AddDeliveryAddress({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
@@ -169,7 +179,7 @@ export class CheckoutDeliveryService {
    */
   loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
-      this.store.dispatch(
+      this.checkoutStore.dispatch(
         new CheckoutActions.LoadSupportedDeliveryModes({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
@@ -184,7 +194,7 @@ export class CheckoutDeliveryService {
    */
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
-      this.store.dispatch(
+      this.checkoutStore.dispatch(
         new CheckoutActions.SetDeliveryMode({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
@@ -200,7 +210,7 @@ export class CheckoutDeliveryService {
    */
   verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
-      this.store.dispatch(
+      this.checkoutStore.dispatch(
         new CheckoutActions.VerifyAddress({
           userId: this.cartData.userId,
           address,
@@ -215,7 +225,7 @@ export class CheckoutDeliveryService {
    */
   setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
-      this.store.dispatch(
+      this.checkoutStore.dispatch(
         new CheckoutActions.SetDeliveryAddress({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,
@@ -229,14 +239,16 @@ export class CheckoutDeliveryService {
    * Clear address verification results
    */
   clearAddressVerificationResults(): void {
-    this.store.dispatch(new CheckoutActions.ClearAddressVerificationResults());
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ClearAddressVerificationResults()
+    );
   }
 
   /**
    * Clear address already setup in last checkout process
    */
   clearCheckoutDeliveryAddress(): void {
-    this.store.dispatch(
+    this.checkoutStore.dispatch(
       new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
@@ -248,7 +260,7 @@ export class CheckoutDeliveryService {
    * Clear selected delivery mode setup in last checkout process
    */
   clearCheckoutDeliveryMode(): void {
-    this.store.dispatch(
+    this.checkoutStore.dispatch(
       new CheckoutActions.ClearCheckoutDeliveryMode({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,

@@ -21,7 +21,7 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 })
 export class CheckoutPaymentService {
   constructor(
-    protected store: Store<StateWithCheckout | StateWithProcess<void>>,
+    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected cartData: CartDataService
   ) {}
 
@@ -29,21 +29,21 @@ export class CheckoutPaymentService {
    * Get card types
    */
   getCardTypes(): Observable<CardType[]> {
-    return this.store.pipe(select(CheckoutSelectors.getAllCardTypes));
+    return this.checkoutStore.pipe(select(CheckoutSelectors.getAllCardTypes));
   }
 
   /**
    * Get payment details
    */
   getPaymentDetails(): Observable<PaymentDetails> {
-    return this.store.pipe(select(CheckoutSelectors.getPaymentDetails));
+    return this.checkoutStore.pipe(select(CheckoutSelectors.getPaymentDetails));
   }
 
   /**
    * Get status about set Payment Details process
    */
   getSetPaymentDetailsResultProcess(): Observable<LoaderState<void>> {
-    return this.store.pipe(
+    return this.checkoutStore.pipe(
       select(getProcessStateFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
     );
   }
@@ -52,14 +52,16 @@ export class CheckoutPaymentService {
    * Clear info about process of setting Payment Details
    */
   resetSetPaymentDetailsProcess(): void {
-    this.store.dispatch(new CheckoutActions.ResetSetPaymentDetailsProcess());
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ResetSetPaymentDetailsProcess()
+    );
   }
 
   /**
    * Load the supported card types
    */
   loadSupportedCardTypes(): void {
-    this.store.dispatch(new CheckoutActions.LoadCardTypes());
+    this.checkoutStore.dispatch(new CheckoutActions.LoadCardTypes());
   }
 
   /**
@@ -68,7 +70,7 @@ export class CheckoutPaymentService {
    */
   createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      this.store.dispatch(
+      this.checkoutStore.dispatch(
         new CheckoutActions.CreatePaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
@@ -84,7 +86,7 @@ export class CheckoutPaymentService {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      this.store.dispatch(
+      this.checkoutStore.dispatch(
         new CheckoutActions.SetPaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,

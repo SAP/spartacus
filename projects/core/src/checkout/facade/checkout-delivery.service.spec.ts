@@ -306,7 +306,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.AddDeliveryAddress({
         userId: userId,
-        cartId: cart.code,
+        cartId: cartData.cartId,
         address: address,
       })
     );
@@ -318,7 +318,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.LoadSupportedDeliveryModes({
         userId: userId,
-        cartId: cart.code,
+        cartId: cartData.cartId,
       })
     );
   });
@@ -330,7 +330,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetDeliveryMode({
         userId: userId,
-        cartId: cart.code,
+        cartId: cartData.cartId,
         selectedModeId: modeId,
       })
     );
@@ -353,7 +353,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetDeliveryAddress({
         userId: userId,
-        cartId: cartData.cart.code,
+        cartId: cartData.cartId,
         address: address,
       })
     );
@@ -371,7 +371,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId: userId,
-        cartId: cartData.cart.code,
+        cartId: cartData.cartId,
       })
     );
   });
@@ -381,7 +381,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearCheckoutDeliveryMode({
         userId: userId,
-        cartId: cartData.cart.code,
+        cartId: cartData.cartId,
       })
     );
   });
@@ -391,13 +391,13 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId: userId,
-        cartId: cartData.cart.code,
+        cartId: cartData.cartId,
       })
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearCheckoutDeliveryMode({
         userId: userId,
-        cartId: cartData.cart.code,
+        cartId: cartData.cartId,
       })
     );
     expect(store.dispatch).toHaveBeenCalledWith(
