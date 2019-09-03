@@ -12,8 +12,8 @@ export class AsmRootComponent implements OnInit, OnDestroy {
   asmUi$: Observable<AsmUi>;
 
   constructor(
-    protected activatedRoute: ActivatedRoute,
-    protected asmService: AsmService
+    protected asmService: AsmService,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
