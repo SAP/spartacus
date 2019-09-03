@@ -1,4 +1,6 @@
 import { TabbingOrderTypes } from './tabbing-order.config';
+import { waitForPage } from '../checkout-flow';
+import { loginUser } from '../login';
 
 export interface TabElement {
   value: string;
@@ -27,18 +29,22 @@ export function checkElement(tabElement: TabElement) {
 }
 
 export function checkAllElements(tabElements: TabElement[]) {
-  it('should focus elements in correct order when pressing tab key', () => {
-    tabElements.forEach((element: TabElement, index: number) => {
-      // skip tabbing on first element
-      if (index !== 0) {
-        cy.tab();
-      }
+  tabElements.forEach((element: TabElement, index: number) => {
+    // skip tabbing on first element
+    if (index !== 0) {
+      cy.tab();
+    }
 
-      checkElement(element);
-    });
+    checkElement(element);
   });
 }
 
 export function getFormFieldByValue(value: string) {
   return cy.get(`[formcontrolname="${value}"]`);
+}
+
+export function login() {
+  const homePage = waitForPage('homepage', 'getHomePage');
+  loginUser();
+  cy.wait(`@${homePage}`);
 }
