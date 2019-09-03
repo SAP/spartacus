@@ -1,6 +1,7 @@
 import {
   AuthConfig,
   CmsConfig,
+  ExternalRoutesConfig,
   GlobalMessageConfig,
   I18nConfig,
   KymaConfig,
@@ -13,8 +14,9 @@ import {
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
-import { LayoutConfig } from './layout/config/layout-config';
 import { FeatureToggles } from './feature-toggles';
+import { LayoutConfig } from './layout/config/layout-config';
+import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =
   | AuthConfig
@@ -31,4 +33,6 @@ export type StorefrontConfig =
   | CheckoutConfig
   | KymaConfig
   | GlobalMessageConfig
+  | ExternalRoutesConfig
+  | ViewConfig
   | FeatureToggles;
