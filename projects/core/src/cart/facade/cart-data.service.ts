@@ -5,6 +5,7 @@ import { AuthService } from '../../auth/facade/auth.service';
 import { Cart } from '../../model/cart.model';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
+import { EMAIL_PATTERN } from '../../util';
 
 export const ANONYMOUS_USERID = 'anonymous';
 export const GUEST_NAME = 'guest';
@@ -56,11 +57,19 @@ export class CartDataService {
     return (
       this.cart.user &&
       (this.cart.user.name === GUEST_NAME ||
-        this.isEmail(this.cart.user.uid.split('|')[1]))
+        this.isEmail(
+          this.cart.user.uid
+            .split('|')
+            .slice(1)
+            .join('|')
+        ))
     );
   }
 
   private isEmail(str: string): boolean {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+    if (str) {
+      return str.match(EMAIL_PATTERN) ? true : false;
+    }
+    return false;
   }
 }
