@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import {
+  ExternalRoutesModule,
   OccModule,
   PersonalizationModule,
   provideConfig,
@@ -42,10 +43,11 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     SmartEditModule.forRoot(), // should be custom
     PersonalizationModule.forRoot(), // should be custom
 
-    // opt-in explicitely
+    // opt-in explicitly
     OccModule.forRoot(),
     ProductDetailsPageModule,
     ProductListingPageModule,
+    ExternalRoutesModule.forRoot(),
   ],
   exports: [MainModule, StorefrontFoundationModule],
 })
