@@ -16,6 +16,7 @@ export function reducer(
     action:
       | CmsActions.LoadCmsPageDataSuccess
       | CmsActions.LoadCmsPageDataFail
+      | CmsActions.CmsSetPageSuccessIndex
       | CmsActions.CmsSetPageFailIndex
   ): string => {
     if (action.meta && action.meta.entityType === entityType) {
@@ -30,6 +31,10 @@ export function reducer(
 
         case CmsActions.CMS_SET_PAGE_FAIL_INDEX: {
           return action.payload;
+        }
+
+        case CmsActions.CMS_SET_PAGE_SUCCESS_INDEX: {
+          return action.payload.pageId;
         }
       }
     }
