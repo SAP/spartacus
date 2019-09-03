@@ -14,6 +14,7 @@ import {
   StateModule,
   UserModule,
 } from '@spartacus/core';
+import { ConfiguratorCommonsModule } from '../../../core/src/configurator/commons/configurator-commons.module';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
 
@@ -33,6 +34,7 @@ import { LayoutModule } from '../layout/layout.module';
     ProductModule.forRoot(),
     FeaturesConfigModule.forRoot('1.0'),
     LayoutModule,
+    ConfiguratorCommonsModule.forRoot(),
   ],
   exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],

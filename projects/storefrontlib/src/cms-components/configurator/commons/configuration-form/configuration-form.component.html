@@ -1,3 +1,7 @@
-<div class="cx-total">
-  {{ pcCode$ | async }}
-</div>
+<ng-container *ngIf="(configuration$ | async) as configuration">
+  <div class="cx-total">
+    Root product: {{ configuration.productCode }}
+    <br />
+    Configuration complete: {{ configuration.complete }}
+  </div>
+</ng-container>
