@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   Address,
   CheckoutDeliveryService,
+  FeatureConfigService,
   UserAddressService,
 } from '@spartacus/core';
 
@@ -17,9 +18,19 @@ export class AddressCardComponent {
 
   @Output() editEvent = new EventEmitter<any>();
 
+  /**
+   * @deprecated since version 1.2
+   *  Use constructor(userAddressService: UserAddressService,
+   *  checkoutDeliveryService: CheckoutDeliveryService
+   *  featureConfigService: FeatureConfigService) instead
+   *
+   *  TODO(issue:#4309) Deprecated since 1.2.0
+   */
+  constructor(userAddressService: UserAddressService);
   constructor(
     private userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryService
+    protected checkoutDeliveryService?: CheckoutDeliveryService,
+    private featureConfigService?: FeatureConfigService
   ) {}
 
   openEditFormEvent(): void {
@@ -36,11 +47,29 @@ export class AddressCardComponent {
 
   setAddressAsDefault(addressId: string): void {
     this.userAddressService.setAddressAsDefault(addressId);
-    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    /**
+     * TODO(issue:#4309) Deprecated since 1.2.0
+     */
+    if (
+      this.featureConfigService &&
+      this.featureConfigService.isLevel('1.2') &&
+      this.checkoutDeliveryService
+    ) {
+      this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    }
   }
 
   deleteAddress(addressId: string): void {
     this.userAddressService.deleteUserAddress(addressId);
-    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    /**
+     * TODO(issue:#4309) Deprecated since 1.2.0
+     */
+    if (
+      this.featureConfigService &&
+      this.featureConfigService.isLevel('1.2') &&
+      this.checkoutDeliveryService
+    ) {
+      this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    }
   }
 }

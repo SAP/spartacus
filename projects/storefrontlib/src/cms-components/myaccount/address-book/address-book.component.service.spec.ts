@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 import {
   Address,
   CheckoutDeliveryService,
+  FeatureConfigService,
   User,
   UserAddressService,
 } from '@spartacus/core';
@@ -48,6 +49,12 @@ class MockCheckoutDeliveryService {
   clearCheckoutDeliveryDetails() {}
 }
 
+class MockFeatureConfigService {
+  isLevel(_featureLevel: string): boolean {
+    return true;
+  }
+}
+
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
   let userAddressService: UserAddressService;
@@ -65,6 +72,7 @@ describe('AddressBookComponentService', () => {
           provide: CheckoutDeliveryService,
           useClass: MockCheckoutDeliveryService,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 

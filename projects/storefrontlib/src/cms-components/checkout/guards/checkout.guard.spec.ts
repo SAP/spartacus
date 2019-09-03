@@ -7,10 +7,13 @@ import { CheckoutGuard } from './checkout.guard';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 import { BehaviorSubject } from 'rxjs';
 import { CheckoutConfigService, CheckoutStepType } from '@spartacus/storefront';
+import { CheckoutConfig } from '../config/checkout-config';
+import { defaultCheckoutConfig } from '../config/default-checkout-config';
 
 const isExpressCheckoutSet = new BehaviorSubject(false);
 const setDefaultCheckoutDetailsSuccess = new BehaviorSubject(false);
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 
 class MockCheckoutConfigService {
   isExpressCheckout() {
@@ -45,6 +48,7 @@ describe(`CheckoutGuard`, () => {
       providers: [
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         {
           provide: ExpressCheckoutService,
           useClass: MockExpressCheckoutService,
