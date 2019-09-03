@@ -4,6 +4,7 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbin
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { login } from '../../helpers/accessibility/tabbing-order';
+import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 
 context('Tabbing order', () => {
   before(() => {
@@ -13,7 +14,7 @@ context('Tabbing order', () => {
   });
 
   describe('Close account', () => {
-    it('should verify tabbing order', () => {
+    it('should allow to navigate with tab key', () => {
       login();
 
       closeAccountTabbingOrder(config.closeAccount);
@@ -23,14 +24,20 @@ context('Tabbing order', () => {
   });
 
   describe('Footer', () => {
-    it('should verify tabbing order', () => {
+    it('should allow to navigate with tab key', () => {
       footerTabbingOrder(config.footer);
     });
   });
 
   describe('Login page', () => {
-    it('should verify tabbing order', () => {
+    it('should allow to navigate with tab key', () => {
       loginTabbingOrder(config.login);
+    });
+  });
+
+  describe('Reset password', () => {
+    it('should allow to navigate with tab key', () => {
+      forgotPasswordTabbingOrder(config.resetPassword);
     });
   });
 });
