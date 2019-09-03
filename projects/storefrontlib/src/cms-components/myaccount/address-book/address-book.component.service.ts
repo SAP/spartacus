@@ -46,6 +46,7 @@ export class AddressBookComponentService {
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
     if (
+      this.featureConfigService &&
       this.featureConfigService.isLevel('1.2') &&
       this.checkoutDeliveryService
     ) {

@@ -18,6 +18,7 @@ export class CheckoutGuard implements CanActivate {
   /**
    * @deprecated since version 1.2
    *  Use constructor(router: Router,
+   *  config: CheckoutConfig - @deprecated since 2.x,
    *  routingConfigService: RoutingConfigService,
    *  checkoutConfigService: CheckoutConfigService,
    *  expressCheckoutService: ExpressCheckoutService) instead
