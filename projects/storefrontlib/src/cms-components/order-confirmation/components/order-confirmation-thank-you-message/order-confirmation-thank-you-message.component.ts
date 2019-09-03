@@ -45,10 +45,17 @@ export class OrderConfirmationThankYouMessageComponent
     { validator: this.matchPassword }
   );
 
+  constructor(
+    checkoutService: CheckoutService,
+    userService: UserService, // tslint:disable-line
+    routingService: RoutingService, // tslint:disable-line
+    authService: AuthService, // tslint:disable-line
+    fb: FormBuilder // tslint:disable-line
+  );
   /**
-   * @deprecated since version 1.1.0
+   * @deprecated since version 1.x
    *
-   *  TODO(issue:#1178) deprecated since 1.1.0
+   *  TODO(issue:#1178) deprecated since 1.x
    */
   constructor(checkoutService: CheckoutService);
   constructor(

@@ -76,7 +76,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
-    protected cartService: CartService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
