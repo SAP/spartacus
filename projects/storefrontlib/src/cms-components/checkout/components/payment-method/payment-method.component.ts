@@ -44,11 +44,23 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   private checkoutStepUrlNext: string;
   private checkoutStepUrlPrevious: string;
 
+  constructor(
+    userPaymentService: UserPaymentService,
+    checkoutService: CheckoutService,
+    checkoutDeliveryService: CheckoutDeliveryService,
+    checkoutPaymentService: CheckoutPaymentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    checkoutConfigService: CheckoutConfigService,
+    activatedRoute: ActivatedRoute,
+    translation: TranslationService,
+    cartService: CartService // tslint:disable-line
+  );
   /**
-   * @deprecated since 1.1
+   * @deprecated since 1.x
    * NOTE: check issue:#1181 for more info
    *
-   * TODO(issue:#1181) Deprecated since 1.1.0
+   * TODO(issue:#1181) Deprecated since 1.x
    */
   constructor(
     userPaymentService: UserPaymentService,

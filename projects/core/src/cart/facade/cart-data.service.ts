@@ -61,6 +61,11 @@ export class CartDataService {
   }
 
   private isEmail(str: string): boolean {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+    return str.match(
+      // Email Standard RFC 5322:
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ // tslint:disable-line
+    )
+      ? true
+      : false;
   }
 }
