@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AsmService, AsmUi } from '@spartacus/core';
-import { Subscription, Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-asm',
@@ -10,7 +10,7 @@ import { Subscription, Observable } from 'rxjs';
 export class AsmRootComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   asmUi$: Observable<AsmUi>;
-  
+
   constructor(
     protected activatedRoute: ActivatedRoute,
     protected asmService: AsmService
