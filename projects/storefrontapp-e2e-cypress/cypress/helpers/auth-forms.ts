@@ -8,7 +8,7 @@ export interface RegisterUser {
   password: string;
 }
 
-export function register({
+export function fillRegistrationForm({
   firstName,
   lastName,
   email,
@@ -22,6 +22,12 @@ export function register({
     cy.get('[formcontrolname="password"]').type(password);
     cy.get('[formcontrolname="passwordconf"]').type(password);
     cy.get('[formcontrolname="termsandconditions"]').check();
+  });
+}
+
+export function register(user: RegisterUser) {
+  fillRegistrationForm(user);
+  cy.get('cx-register form').within(() => {
     cy.get('button[type="submit"]').click();
   });
 }

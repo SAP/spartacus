@@ -4,6 +4,7 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbin
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { login } from '../../helpers/accessibility/tabbing-order';
+import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
 
@@ -36,6 +37,12 @@ context('Tabbing order', () => {
     });
   });
 
+  describe('Register page', () => {
+    it('should verify tabbing order', () => {
+      registerTabbingOrder(config.register);
+    });
+  });
+  
   describe('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
