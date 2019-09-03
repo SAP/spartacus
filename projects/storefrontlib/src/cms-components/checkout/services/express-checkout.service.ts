@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, of, Observable, asyncScheduler } from 'rxjs';
+import { combineLatest, of, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, debounceTime } from 'rxjs/operators';
 
 import {
@@ -42,7 +42,7 @@ export class ExpressCheckoutService {
       this.userAddressService.getAddressesLoadedSuccess(),
       this.checkoutDeliveryService.getSetDeliveryAddressProcess(),
     ]).pipe(
-      debounceTime(0, asyncScheduler),
+      debounceTime(0),
       tap(
         ([, addressesLoadedSuccess]: [
           Address[],
@@ -105,7 +105,7 @@ export class ExpressCheckoutService {
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
       this.checkoutPaymentService.getSetPaymentDetailsResultProcess(),
     ]).pipe(
-      debounceTime(0, asyncScheduler),
+      debounceTime(0),
       tap(
         ([, paymentMethodsLoadedSuccess]: [
           PaymentDetails[],
@@ -168,7 +168,7 @@ export class ExpressCheckoutService {
       this.checkoutDeliveryService.getSetDeliveryModeProcess(),
       this.checkoutDeliveryService.getLoadSupportedDeliveryModeProcess(),
     ]).pipe(
-      debounceTime(0, asyncScheduler),
+      debounceTime(0),
       switchMap(
         ([
           addressSet,
