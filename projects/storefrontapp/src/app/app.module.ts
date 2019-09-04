@@ -14,8 +14,8 @@ import {
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
+import { TestConfigModule } from '../test-config/test-config.module';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -56,7 +56,7 @@ if (!environment.production) {
           },
         },
       },
-      // we  bring in static translations to be up and running soon right away
+      // we bring in static translations to be up and running soon right away
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
@@ -65,6 +65,7 @@ if (!environment.production) {
     }),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
+    TestConfigModule.forRoot(), // dynamic config only for e2e testing, should be imported as the last
 
     ...devImports,
   ],
