@@ -10,6 +10,7 @@ import { OrderConfirmationOverviewComponent } from './components/order-confirmat
 // tslint:disable-next-line
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
+import { GuestRegisterFormComponent } from './components/guest-register-form/guest-register-form.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
 
 const orderConfirmationComponents = [
@@ -17,6 +18,7 @@ const orderConfirmationComponents = [
   OrderConfirmationOverviewComponent,
   OrderConfirmationThankYouMessageComponent,
   OrderConfirmationTotalsComponent,
+  GuestRegisterFormComponent,
 ];
 
 @NgModule({
