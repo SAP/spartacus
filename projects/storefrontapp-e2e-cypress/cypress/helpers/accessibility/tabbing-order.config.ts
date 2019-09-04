@@ -32,7 +32,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'I already have an account. Sign In',
       type: TabbingOrderTypes.LINK,
-    }
+    },
   ],
   resetPassword: [
     { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
@@ -51,7 +51,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'newPasswordConfirm',
       type: TabbingOrderTypes.FORM_FIELD,
-    }
+    },
   ],
   updateEmail: [
     {
@@ -88,5 +88,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   closeAccount: [
     { value: 'Cancel', type: TabbingOrderTypes.LINK },
     { value: 'CLOSE MY ACCOUNT', type: TabbingOrderTypes.BUTTON },
+  ],
+  paymentDetails: [
+    { value: 'Delete', type: TabbingOrderTypes.LINK },
+    { value: 'Set as default', type: TabbingOrderTypes.LINK },
+    { value: 'Delete', type: TabbingOrderTypes.LINK },
   ],
 };

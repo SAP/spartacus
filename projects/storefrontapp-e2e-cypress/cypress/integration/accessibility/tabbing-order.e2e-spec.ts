@@ -1,19 +1,24 @@
-import { registerUser, signOutUser, loginUser } from '../../helpers/login';
+import { signOutUser } from '../../helpers/login';
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import { login } from '../../helpers/accessibility/tabbing-order';
+import { login, register } from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
+import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/payment-details';
+import {
+  paymentDetailCard,
+  addSecondaryPaymentCard,
+} from '../../helpers/payment-methods';
 
 context('Tabbing order', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
-    registerUser();
+    register();
   });
 
   describe('Close account', () => {
@@ -43,7 +48,7 @@ context('Tabbing order', () => {
       registerTabbingOrder(config.register);
     });
   });
-  
+
   describe('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
@@ -55,16 +60,29 @@ context('Tabbing order', () => {
       login();
 
       changePasswordTabbingOrder(config.changePassword);
-      
+
       signOutUser();
     });
   });
-    
+
   describe('Update email', () => {
     it('should allow to navigate with tab key', () => {
       login();
 
       updateEmailTabbingOrder(config.updateEmail);
+
+      signOutUser();
+    });
+  });
+
+  describe('Payment Details', () => {
+    it('should allow to navigate with tab key', () => {
+      login();
+
+      paymentDetailCard();
+      addSecondaryPaymentCard();
+
+      paymentDetailsTabbingOrder(config.paymentDetails);
 
       signOutUser();
     });
