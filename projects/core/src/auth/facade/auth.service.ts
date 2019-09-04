@@ -112,6 +112,7 @@ export class AuthService {
     this.store.dispatch(
       new AuthActions.RefreshUserToken({
         refreshToken: token.refresh_token,
+        userToken: token,
       })
     );
   }

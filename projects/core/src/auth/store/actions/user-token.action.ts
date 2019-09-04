@@ -25,7 +25,12 @@ export class LoadUserTokenSuccess implements Action {
 
 export class RefreshUserToken implements Action {
   readonly type = REFRESH_USER_TOKEN;
-  constructor(public payload: { refreshToken: string }) {}
+  constructor(payload: { refreshToken: string; userToken: UserToken });
+  // tslint:disable-next-line:unified-signatures
+  constructor(payload: { refreshToken: string });
+  constructor(
+    public payload: { refreshToken: string; userToken?: UserToken }
+  ) {}
 }
 
 export class RefreshUserTokenSuccess implements Action {

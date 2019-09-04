@@ -42,14 +42,18 @@ export class UserTokenEffects {
   > = this.actions$.pipe(
     ofType(AuthActions.REFRESH_USER_TOKEN),
     map((action: AuthActions.RefreshUserToken) => action.payload),
-    switchMap(({ refreshToken }) => {
+    switchMap(({ refreshToken, userToken }) => {
       return this.userTokenService.refreshToken(refreshToken).pipe(
-        map((token: UserToken) => {
+        map((newToken: UserToken) => {
           const date = new Date();
-          date.setSeconds(date.getSeconds() + token.expires_in);
-          token.expiration_time = date.toJSON();
-          token.userId = USERID_CURRENT;
-          return new AuthActions.RefreshUserTokenSuccess(token);
+          date.setSeconds(date.getSeconds() + newToken.expires_in);
+          newToken.expiration_time = date.toJSON();
+          if (!!userToken) {
+            newToken.userId = userToken.userId;
+          } else {
+            newToken.userId = USERID_CURRENT;
+          }
+          return new AuthActions.RefreshUserTokenSuccess(newToken);
         }, catchError(error => of(new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
       );
     })

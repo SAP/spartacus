@@ -17,6 +17,15 @@ const testToken: UserToken = {
   userId: 'xxx',
 };
 
+const expiredToken: UserToken = {
+  access_token: 'xxx',
+  token_type: 'bearer',
+  refresh_token: '123',
+  expires_in: 1000,
+  scope: ['xxx'],
+  userId: '123-456-789',
+};
+
 class UserAuthenticationTokenServiceMock {
   loadToken(_userId: string, _password: string): Observable<UserToken> {
     return;
@@ -72,6 +81,7 @@ describe('UserToken effect', () => {
     it('should refresh a user token', () => {
       const action = new AuthActions.RefreshUserToken({
         refreshToken: '123',
+        userToken: expiredToken,
       });
       const completion = new AuthActions.RefreshUserTokenSuccess(testToken);
 

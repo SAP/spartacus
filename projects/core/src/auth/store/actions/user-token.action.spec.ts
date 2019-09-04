@@ -50,9 +50,22 @@ describe('User Token Actions', () => {
   });
 
   describe('RefreshUserToken Actions', () => {
-    it('should create the action', () => {
+    it('should create the action with deprecated constructor', () => {
       const refreshTokenRequest = {
         refreshToken: '1234',
+      };
+
+      const action = new AuthActions.RefreshUserToken(refreshTokenRequest);
+      expect({ ...action }).toEqual({
+        type: AuthActions.REFRESH_USER_TOKEN,
+        payload: refreshTokenRequest,
+      });
+    });
+
+    it('should create the action', () => {
+      const refreshTokenRequest = {
+        refreshToken: token.refresh_token,
+        userToken: token,
       };
 
       const action = new AuthActions.RefreshUserToken(refreshTokenRequest);
