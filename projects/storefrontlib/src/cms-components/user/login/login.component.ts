@@ -25,9 +25,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
+    auth: AuthService,
+    userService: UserService,
+    routingService: RoutingService // tslint:disable-line
+  );
+  /**
+   * @deprecated since 1.x
+   * NOTE: check issue:#4155 for more info
+   *
+   * TODO(issue:#4155) Deprecated since 1.x
+   */
+  constructor(auth: AuthService, userService: UserService);
+  constructor(
     private auth: AuthService,
     private userService: UserService,
-    private routingService: RoutingService
+    private routingService?: RoutingService
   ) {}
 
   ngOnInit(): void {
