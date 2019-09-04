@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
 import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../models/token-types.model';
@@ -42,7 +42,7 @@ export class UserTokenEffects {
   > = this.actions$.pipe(
     ofType(AuthActions.REFRESH_USER_TOKEN),
     map((action: AuthActions.RefreshUserToken) => action.payload),
-    switchMap(({ refreshToken, expiredToken }) => {
+    exhaustMap(({ refreshToken, expiredToken }) => {
       return this.userTokenService.refreshToken(refreshToken).pipe(
         map((newToken: UserToken) => {
           const date = new Date();
