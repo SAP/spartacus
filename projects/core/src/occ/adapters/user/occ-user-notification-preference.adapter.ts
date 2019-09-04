@@ -29,7 +29,7 @@ export class OccUserNotificationPreferenceAdapter
 
   loadAll(userId: string): Observable<NotificationPreference[]> {
     return this.http
-      .get<NotificationPreferenceList>(this.getPreferenceEndpoint(userId), {
+      .get<NotificationPreferenceList>(this.occEndpoints.getUrl('notificationPreference', { userId }), {
         headers,
       })
       .pipe(
@@ -49,16 +49,10 @@ export class OccUserNotificationPreferenceAdapter
     );
     return this.http
       .patch(
-        this.getPreferenceEndpoint(userId),
+        this.occEndpoints.getUrl('notificationPreference', { userId }),
         { preferences: preferences },
         { headers }
       )
       .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  private getPreferenceEndpoint(userId: string): string {
-    return this.occEndpoints.getEndpoint(
-      `/users/${userId}/notificationpreferences`
-    );
   }
 }

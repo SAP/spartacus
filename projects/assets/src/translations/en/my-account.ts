@@ -97,8 +97,7 @@ export const myAccount = {
       },
     },
   },
-  notificationProference: {
-    title: 'Notification Preference',
+  notificationPreference: {
     message: 'Select your preferred notification channels',
     note: 'Note: ',
     noteMessage:

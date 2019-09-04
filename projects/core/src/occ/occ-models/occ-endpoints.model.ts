@@ -239,4 +239,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   addressVerification?: string;
+  /**
+   * Endpoint for notification preference
+   *
+   * @member {string}
+   */
+  notificationPreference?:string;
 }

@@ -17,14 +17,6 @@ import { NotificationPreferenceComponent } from './notification-preference.compo
     SpinnerModule,
     I18nModule,
     UrlModule,
-    // RouterModule.forChild([
-    //   {
-    //     path: null,
-    //     canActivate: [AuthGuard, CmsPageGuard],
-    //     component: PageLayoutComponent,
-    //     data: { cxRoute: 'notificationPreference' },
-    //   },
-    // ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         NotificationPreferenceComponent: {

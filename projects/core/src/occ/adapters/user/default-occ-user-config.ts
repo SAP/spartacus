@@ -21,6 +21,7 @@ export const defaultOccUserConfig: OccConfig = {
         addresses: 'users/${userId}/addresses',
         addressDetail: 'users/${userId}/addresses/${addressId}',
         addressVerification: 'users/${userId}/addresses/verification',
+        notificationPreference: 'users/${userId}/notificationpreferences',
       },
     },
   },

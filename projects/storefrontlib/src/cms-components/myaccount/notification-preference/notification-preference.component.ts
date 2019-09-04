@@ -4,7 +4,6 @@ import {
   UserNotificationPreferenceService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-notification-preference',
@@ -13,26 +12,24 @@ import { tap } from 'rxjs/operators';
 })
 export class NotificationPreferenceComponent implements OnInit {
   preferences$: Observable<NotificationPreference[]>;
-  loading$: Observable<boolean>;
-  updateResultLoading$: Observable<boolean>;
-  preferences: NotificationPreference[];
+  getNotificationPreferencesloading$: Observable<boolean>;
+  updateNotificationPreferencesLoading$: Observable<boolean>;
 
   constructor(
     private notificationPreferenceService: UserNotificationPreferenceService
   ) {}
 
   ngOnInit() {
-    this.preferences$ = this.notificationPreferenceService
-      .getPreferences()
-      .pipe(tap(preferences => (this.preferences = preferences)));
-    this.loading$ = this.notificationPreferenceService.getPreferencesLoading();
-    this.updateResultLoading$ = this.notificationPreferenceService.getUpdatePreferencesResultLoading();
+    this.preferences$ = this.notificationPreferenceService.getPreferences();
+    this.getNotificationPreferencesloading$ = this.notificationPreferenceService.getPreferencesLoading();
+    this.updateNotificationPreferencesLoading$ = this.notificationPreferenceService.getUpdatePreferencesResultLoading();
     this.notificationPreferenceService.loadPreferences();
   }
 
   updatePreference(preference: NotificationPreference) {
+    
     const updatedPreferences = [];
-    this.preferences.forEach(p => {
+    this.notificationPreferenceService.getPreferences().subscribe(preferences=>{preferences.forEach(p => {
       if (p.channel === preference.channel) {
         updatedPreferences.push({
           ...p,
@@ -41,7 +38,7 @@ export class NotificationPreferenceComponent implements OnInit {
       } else {
         updatedPreferences.push(p);
       }
-    });
+    });});
     this.notificationPreferenceService.updatePreferences(updatedPreferences);
   }
 }

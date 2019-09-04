@@ -15,14 +15,12 @@ export const LOAD_NOTIFICATION_PREFERENCES_FAIL =
   '[User] Load Notification Preferences Fail';
 export const LOAD_NOTIFICATION_PREFERENCES_SUCCESS =
   '[User] Load Notification Preferences Success';
-
 export const UPDATE_NOTIFICATION_PREFERENCES =
   '[User] Update Notification Preferences';
 export const UPDATE_NOTIFICATION_PREFERENCES_FAIL =
   '[User] Update Notification Preferences Fail';
 export const UPDATE_NOTIFICATION_PREFERENCES_SUCCESS =
   '[User] Update Notification Preferences Success';
-
 export const RESET_NOTIFICATION_PREFERENCES =
   '[User] Reset Notification Preferences';
 
