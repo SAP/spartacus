@@ -39,6 +39,20 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
   ],
+  changePassword: [
+    {
+      value: 'oldPassword',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'newPassword',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'newPasswordConfirm',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+  ],
   updateEmail: [
     { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'confirmEmail', type: TabbingOrderTypes.FORM_FIELD },
@@ -66,5 +80,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
     { value: 'Save', type: TabbingOrderTypes.BUTTON },
+  ],
+  paymentDetails: [
+    { value: 'Delete', type: TabbingOrderTypes.LINK },
+    { value: 'Set as default', type: TabbingOrderTypes.LINK },
+    { value: 'Delete', type: TabbingOrderTypes.LINK },
   ],
 };
