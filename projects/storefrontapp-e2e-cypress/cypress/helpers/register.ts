@@ -1,12 +1,13 @@
 import { register } from './auth-forms';
+import * as alerts from './global-message';
 
 export const loginLink = 'cx-login [role="link"]';
 
 export function registerUser(user) {
-  cy.get(loginLink).click();
+  cy.getByText(/Sign in \/ Register/i).click();
   cy.get('cx-page-layout')
     .getByText('Register')
-    .click();
+    .click({ force: true });
   register(user);
 }
 
@@ -35,9 +36,15 @@ export function signOut() {
 }
 
 export function verifyFailedRegistration() {
-  cy.get('cx-global-message .alert-danger').should(
-    'contain',
-    'Bad credentials. Please login again.'
-  );
+  alerts
+    .getErrorAlert()
+    .should('contain', 'Bad credentials. Please login again.');
   cy.url().should('match', /\/login\/register/);
+}
+
+export function verifyGlobalMessageAfterRegistration() {
+  const alert = alerts.getSuccessAlert();
+
+  alert.should('contain', 'Please log in with provided credentials.');
+  cy.url().should('match', /\/login/);
 }

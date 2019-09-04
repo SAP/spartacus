@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SpartacusSchematics",
+  "title": "Spartacus Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "The url of the OCC backend"
+    },
+    "baseSite": {
+      "type": "string",
+      "description": "The base site to use with spartacus"
+    },
+    "useMetaTags": {
+      "type": "boolean",
+      "description": "Configure baseUrl via meta tag in index.html"
+    }
+  },
+  "required": []
+}

@@ -1,6 +1,7 @@
 import { login } from '../../../helpers/auth-forms';
-import { generateMail, randomString } from '../../../helpers/user';
 import { checkBanner } from '../../../helpers/homepage';
+import { generateMail, randomString } from '../../../helpers/user';
+import * as alerts from './../../../helpers/global-message';
 
 const UPDATE_EMAIL = '/my-account/update-email';
 const password = 'Password123.';
@@ -55,17 +56,18 @@ describe('Update email', () => {
 
       cy.get('cx-login-form').should('exist');
 
-      cy.get('cx-global-message .alert-success').should(
-        'contain',
-        `Success. Please sign in with ${newUid}`
-      );
+      alerts
+        .getSuccessAlert()
+        .should('contain', `Success. Please sign in with ${newUid}`);
     });
   });
 
   describe('when a user can login with the new email', () => {
     it('should be able to login with its new email', () => {
       login(newUid, password);
-      checkBanner();
+      // TODO: uncomment below component and remove update-email assertion when #1957 is implemented
+      cy.get('cx-update-email').should('exist');
+      // checkBanner();
     });
   });
 });

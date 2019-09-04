@@ -50,4 +50,24 @@
       padding: 0 35px 0 0;
     }
   }
+
+  .cx-double-btn-container {
+    display: grid;
+    grid-gap: 5%;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cx-single-btn-container {
+    display: grid;
+    width: 50%;
+    margin: auto;
+  }
+
+  .grid-btn-padding {
+    padding-top: 25px;
+  }
+
+  .align-btn {
+    margin-top: 0px !important;
+  }
 }

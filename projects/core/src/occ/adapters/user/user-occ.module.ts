@@ -1,21 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ConfigModule } from '../../../config/config.module';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
-import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
+import { defaultOccUserConfig } from './default-occ-user-config';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import { OccUserConsentAdapter } from './occ-user-consent.adapter';
-import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
+import { UserNotificationPreferenceAdapter } from 'projects/core/src/user/connectors/notification-preference/user-notification-preference.adapter';
+import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    ConfigModule.withConfig(defaultOccUserConfig),
+  ],
   providers: [
     { provide: UserAdapter, useClass: OccUserAdapter },
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },

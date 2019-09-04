@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
   ConfigModule,
@@ -10,6 +9,7 @@ import {
   NotAuthGuard,
   UrlModule,
 } from '@spartacus/core';
+import { SpinnerModule } from '../../../shared/index';
 import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
 
@@ -29,7 +29,7 @@ import { RegisterComponent } from './register.component';
       },
     }),
     I18nModule,
-    NgSelectModule,
+    SpinnerModule,
   ],
   declarations: [RegisterComponent],
   exports: [RegisterComponent],

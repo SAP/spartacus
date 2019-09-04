@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
@@ -39,8 +40,8 @@ describe('UserRegister effect', () => {
       ],
     });
 
-    effect = TestBed.get(UserRegisterEffects);
-    userService = TestBed.get(UserConnector);
+    effect = TestBed.get(UserRegisterEffects as Type<UserRegisterEffects>);
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
 
     spyOn(userService, 'register').and.returnValue(of({}));
     spyOn(userService, 'remove').and.returnValue(of({}));
@@ -49,16 +50,11 @@ describe('UserRegister effect', () => {
   describe('registerUser$', () => {
     it('should register user', () => {
       const action = new UserActions.RegisterUser(user);
-      const loadUser = new AuthActions.LoadUserToken({
-        userId: user.uid,
-        password: user.password,
-      });
       const completion = new UserActions.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: loadUser,
-        c: completion,
+      const expected = cold('-b', {
+        b: completion,
       });
 
       expect(effect.registerUser$).toBeObservable(expected);

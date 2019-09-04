@@ -1,26 +1,26 @@
-<section class="cx-page-section container">
+<section
+  class="cx-page-section container"
+  *ngIf="!(loading$ | async); else loading"
+>
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
         <form [formGroup]="userRegistrationForm">
           <div class="form-group">
-            <label aria-required="true">
+            <label>
               <span class="label-content">{{
                 'register.title' | cxTranslate
               }}</span>
-              <ng-container *ngIf="(titles$ | async) as titles">
-                <ng-select
-                  class="title-select"
-                  formControlName="titleCode"
-                  [searchable]="false"
-                  [clearable]="false"
-                  [items]="titles"
-                  bindLabel="name"
-                  bindValue="code"
-                  (change)="titleSelected($event)"
+              <select formControlName="titleCode" class="form-control">
+                <option selected value="" disabled>{{
+                  'register.selectTitle' | cxTranslate
+                }}</option>
+                <option
+                  *ngFor="let title of (titles$ | async)"
+                  [value]="title.code"
+                  >{{ title.name }}</option
                 >
-                </ng-select>
-              </ng-container>
+              </select>
             </label>
           </div>
 
@@ -66,8 +66,9 @@
               <input
                 class="form-control"
                 [class.is-invalid]="
-                  (userRegistrationForm.get('email').errors?.email ||
-                    userRegistrationForm.get('email').errors?.InvalidEmail) &&
+                  userRegistrationForm.get('email').errors &&
+                  (userRegistrationForm.get('email').errors['email'] ||
+                    userRegistrationForm.get('email').errors['InvalidEmail']) &&
                   userRegistrationForm.get('email').dirty
                 "
                 type="email"
@@ -199,3 +200,7 @@
     </div>
   </div>
 </section>
+
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>
