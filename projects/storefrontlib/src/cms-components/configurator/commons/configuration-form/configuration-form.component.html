@@ -4,4 +4,12 @@
     <br />
     {{ configuration.complete }}
   </div>
+  <div
+    class="cx-item-list-row"
+    *ngFor="let attribute of configuration.attributes"
+  >
+    <div class="cx-item-list-items">
+      {{ attribute.label }}
+    </div>
+  </div>
 </ng-container>

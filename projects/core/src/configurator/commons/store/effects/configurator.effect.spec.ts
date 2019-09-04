@@ -5,15 +5,29 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { ProductConfiguration } from 'projects/core/src/model/configurator.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
+import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
 import * as fromEffects from './configurator.effect';
+
+const productCode = 'CONF_LAPTOP';
+const productConfiguration: ProductConfiguration = {
+  productCode: productCode,
+  complete: true,
+  consistent: true,
+};
+
+class MockConnector {
+  createConfiguration(): Observable<ProductConfiguration> {
+    return of(productConfiguration);
+  }
+}
 
 describe('ConfiguratorEffect', () => {
   let configEffects: fromEffects.ConfiguratorEffects;
-  const productCode = 'CONF_LAPTOP';
+
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -30,6 +44,10 @@ describe('ConfiguratorEffect', () => {
       providers: [
         fromEffects.ConfiguratorEffects,
         provideMockActions(() => actions$),
+        {
+          provide: ConfiguratorCommonsConnector,
+          useClass: MockConnector,
+        },
       ],
     });
 
@@ -37,24 +55,31 @@ describe('ConfiguratorEffect', () => {
       fromEffects.ConfiguratorEffects
     >);
   });
+
   it('should provide configuration effects', () => {
     expect(configEffects).toBeTruthy();
   });
 
-  it('should create a configuration for a product', () => {
+  it('should a success action with content for an action of type createConfiguration', () => {
     const payloadInput = { productCode: productCode };
     const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
-    const payloadResult: ProductConfiguration = {
-      complete: true,
-      consistent: true,
-      productCode: productCode,
-    };
+
     const completion = new ConfiguratorActions.CreateConfigurationSuccess(
-      payloadResult
+      productConfiguration
     );
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(configEffects.createConfiguration$).toBeObservable(expected);
+  });
+
+  it('must not emit anything in case source action is not covered ', () => {
+    const payloadInput = { productCode: productCode };
+    const action = new ConfiguratorActions.CreateConfigurationSuccess(
+      payloadInput
+    );
+    actions$ = hot('-a', { a: action });
+
+    configEffects.createConfiguration$.subscribe(emitted => fail(emitted));
   });
 });

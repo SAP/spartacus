@@ -239,4 +239,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   addressVerification?: string;
+  /**
+   * Endpoint for create configuration
+   *
+   * @member {string}
+   */
+  createConfiguration?: string;
 }

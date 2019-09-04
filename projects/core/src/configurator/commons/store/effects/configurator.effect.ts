@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { ProductConfiguration } from '../../../../model/configurator.model';
+import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import {
   CreateConfiguration,
   CreateConfigurationFail,
@@ -22,14 +23,18 @@ export class ConfiguratorEffects {
         action.payload
     ),
     mergeMap(payload => {
-      const config: ProductConfiguration = {
-        complete: true,
-        consistent: true,
-        productCode: payload.productCode,
-      };
-      return of(new CreateConfigurationSuccess(config));
+      return this.configuratorCommonsConnector
+        .createConfiguration(payload.productCode)
+        .pipe(
+          switchMap((configuration: ProductConfiguration) => {
+            return [new CreateConfigurationSuccess(configuration)];
+          })
+        );
     })
   );
 
-  constructor(private actions$: Actions) {}
+  constructor(
+    private actions$: Actions,
+    private configuratorCommonsConnector: ConfiguratorCommonsConnector
+  ) {}
 }
