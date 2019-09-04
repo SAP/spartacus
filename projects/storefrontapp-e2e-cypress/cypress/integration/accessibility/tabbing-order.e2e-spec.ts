@@ -1,28 +1,16 @@
-import { registerUser, signOutUser, loginUser } from '../../helpers/login';
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import { login } from '../../helpers/accessibility/tabbing-order';
+import { registerAndLogin } from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
+import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/personal-details';
 
-context('Tabbing order', () => {
+context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/');
-    registerUser();
-  });
-
-  describe('Close account', () => {
-    it('should allow to navigate with tab key', () => {
-      login();
-
-      closeAccountTabbingOrder(config.closeAccount);
-
-      signOutUser();
-    });
   });
 
   describe('Footer', () => {
@@ -42,20 +30,34 @@ context('Tabbing order', () => {
       registerTabbingOrder(config.register);
     });
   });
-  
+
   describe('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
     });
   });
+});
+
+context('Tabbing order - tests do require user to be logged in', () => {
+  before(() => {
+    registerAndLogin();
+  });
+
+  describe('Close account', () => {
+    it('should allow to navigate with tab key', () => {
+      closeAccountTabbingOrder(config.closeAccount);
+    });
+  });
+
+  describe('Personal details', () => {
+    it('should allow to navigate with tab key', () => {
+      personalDetailsTabbingOrder(config.personalDetails);
+    });
+  });
 
   describe('Update email', () => {
     it('should allow to navigate with tab key', () => {
-      login();
-
       updateEmailTabbingOrder(config.updateEmail);
-
-      signOutUser();
     });
   });
 });
