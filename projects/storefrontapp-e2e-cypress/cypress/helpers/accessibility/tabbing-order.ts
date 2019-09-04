@@ -1,6 +1,8 @@
 import { TabbingOrderTypes } from './tabbing-order.config';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
+import { user } from '../../sample-data/checkout-flow';
+import { register as authRegister } from '../auth-forms';
 
 export interface TabElement {
   value: string;
@@ -41,6 +43,13 @@ export function checkAllElements(tabElements: TabElement[]) {
 
 export function getFormFieldByValue(value: string) {
   return cy.get(`[formcontrolname="${value}"]`);
+}
+
+export function register() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.visit('/login/register');
+  authRegister(user);
+  cy.wait(`@${loginPage}`);
 }
 
 export function login() {
