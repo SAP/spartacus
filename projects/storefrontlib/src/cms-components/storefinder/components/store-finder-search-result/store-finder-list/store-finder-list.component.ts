@@ -42,7 +42,10 @@ export class StoreFinderListComponent {
   selectStoreItemList(index: number): void {
     this.selectedStoreIndex = index;
     const storeListItem = this.document.getElementById('item-' + index);
-    storeListItem.scrollIntoView(false);
+    storeListItem.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
   }
 
   showStoreDetails(location: PointOfService) {
