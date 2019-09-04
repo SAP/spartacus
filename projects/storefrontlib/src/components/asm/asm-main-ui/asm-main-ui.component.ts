@@ -1,8 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import {
   AsmService,
-  AsmUi,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -11,40 +9,28 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-asm',
+  selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
 })
-export class AsmMainUiComponent implements OnInit, OnDestroy {
+export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
   customer$: Observable<User>;
-  asmUi$: Observable<AsmUi>;
 
   private startingCustomerSession = false;
-  private subscription = new Subscription();
 
   constructor(
     protected auth: AuthService,
     protected userService: UserService,
     protected asmService: AsmService,
     protected globalMessageService: GlobalMessageService,
-    protected routing: RoutingService,
-    protected activatedRoute: ActivatedRoute
+    protected routing: RoutingService
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.activatedRoute.queryParamMap.subscribe(queryParams => {
-        if (queryParams.get('asm') === 'true') {
-          this.showUi();
-        }
-      })
-    );
-
-    this.asmUi$ = this.asmService.getAsmUiState();
     this.csAgentToken$ = this.auth.getCustomerSupportAgentToken();
     this.customer$ = this.auth.getUserToken().pipe(
       switchMap(token => {
@@ -97,15 +83,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.startingCustomerSession = true;
   }
 
-  showUi(): void {
-    this.asmService.updateAsmUiState({ visible: true });
-  }
-
   hideUi(): void {
     this.asmService.updateAsmUiState({ visible: false });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

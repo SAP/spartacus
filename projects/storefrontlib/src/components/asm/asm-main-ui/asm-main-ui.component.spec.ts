@@ -1,7 +1,6 @@
 import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import {
   AsmService,
   AsmUi,
@@ -70,14 +69,6 @@ class MockAsmService {
   }
   updateAsmUiState(): void {}
 }
-
-const mockQueryParamMap = {
-  get() {},
-};
-const activatedRouteMock = {
-  queryParamMap: of(mockQueryParamMap),
-};
-
 class MockRoutingService {
   go() {}
 }
@@ -106,7 +97,6 @@ describe('AsmMainUiComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmService, useClass: MockAsmService },
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
       ],
     }).compileComponents();
   }));
@@ -244,22 +234,6 @@ describe('AsmMainUiComponent', () => {
 
     expect(globalMessageService.remove).not.toHaveBeenCalled();
     expect(routingService.go).not.toHaveBeenCalled();
-  });
-
-  it('should not show UI if UI state is not visisble', () => {
-    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ visible: false }));
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
-    expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
-  });
-
-  it('should show UI if the activated route has query param ?asm=true', () => {
-    spyOn(asmService, 'updateAsmUiState').and.stub();
-    spyOn(mockQueryParamMap, 'get').and.returnValue('true');
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(asmService.updateAsmUiState).toHaveBeenCalledWith({ visible: true });
   });
 
   it('should hide the UI when the Close Asm button is clicked', () => {
