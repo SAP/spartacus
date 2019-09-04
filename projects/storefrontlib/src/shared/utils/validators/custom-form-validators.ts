@@ -20,4 +20,11 @@ export class CustomFormValidators {
     const password = control.value as string;
     return password.match(PASSWORD_PATTERN) ? null : { InvalidPassword: true };
   }
+
+  static matchPassword(control: AbstractControl): { NotEqual: boolean } {
+    if (control.get('password').value !== control.get('passwordconf').value) {
+      return { NotEqual: true };
+    }
+    return null;
+  }
 }

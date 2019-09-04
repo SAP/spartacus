@@ -4,12 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   CheckoutService,
   Order,
@@ -42,7 +37,7 @@ export class OrderConfirmationThankYouMessageComponent
       ],
       passwordconf: ['', Validators.required],
     },
-    { validator: this.matchPassword }
+    { validator: CustomFormValidators.matchPassword }
   );
 
   constructor(
@@ -95,12 +90,6 @@ export class OrderConfirmationThankYouMessageComponent
           }
         });
       }
-    }
-  }
-
-  private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
-    if (ac.get('password').value !== ac.get('passwordconf').value) {
-      return { NotEqual: true };
     }
   }
 }
