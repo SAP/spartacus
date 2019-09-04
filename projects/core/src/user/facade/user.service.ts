@@ -56,9 +56,9 @@ export class UserService {
 
   /**
    * Register a new user from guest
-   * 
-   * @param guid 
-   * @param password 
+   *
+   * @param guid
+   * @param password
    */
   registerGuest(guid: string, password: string): void {
     this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
