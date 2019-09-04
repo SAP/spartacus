@@ -21,7 +21,14 @@ export class ViewAllStoresEffect {
     ofType(StoreFinderActions.VIEW_ALL_STORES),
     switchMap(() => {
       return this.storeFinderConnector.getCounts().pipe(
-        map(data => new StoreFinderActions.ViewAllStoresSuccess(data)),
+        map(data => {
+          const result = data.sort((a, b) => {
+            if(a.name < b.name) { return -1; }
+            if(a.name > b.name) { return 1; }
+            return 0;
+          });
+          return new StoreFinderActions.ViewAllStoresSuccess(result);
+        }),
         catchError(error =>
           of(
             new StoreFinderActions.ViewAllStoresFail(
