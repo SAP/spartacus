@@ -143,7 +143,7 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.RefreshUserToken({
         refreshToken: mockToken.refresh_token,
-        userToken: mockToken,
+        expiredToken: mockToken,
       })
     );
   });

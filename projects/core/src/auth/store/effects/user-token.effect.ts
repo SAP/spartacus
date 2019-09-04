@@ -42,14 +42,14 @@ export class UserTokenEffects {
   > = this.actions$.pipe(
     ofType(AuthActions.REFRESH_USER_TOKEN),
     map((action: AuthActions.RefreshUserToken) => action.payload),
-    switchMap(({ refreshToken, userToken }) => {
+    switchMap(({ refreshToken, expiredToken }) => {
       return this.userTokenService.refreshToken(refreshToken).pipe(
         map((newToken: UserToken) => {
           const date = new Date();
           date.setSeconds(date.getSeconds() + newToken.expires_in);
           newToken.expiration_time = date.toJSON();
-          if (!!userToken) {
-            newToken.userId = userToken.userId;
+          if (!!expiredToken && expiredToken.userId) {
+            newToken.userId = expiredToken.userId;
           } else {
             newToken.userId = USERID_CURRENT;
           }

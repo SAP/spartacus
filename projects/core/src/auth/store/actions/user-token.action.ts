@@ -25,11 +25,11 @@ export class LoadUserTokenSuccess implements Action {
 
 export class RefreshUserToken implements Action {
   readonly type = REFRESH_USER_TOKEN;
-  constructor(payload: { refreshToken: string; userToken: UserToken });
+  constructor(payload: { refreshToken: string; expiredToken: UserToken });
   // tslint:disable-next-line:unified-signatures
   constructor(payload: { refreshToken: string });
   constructor(
-    public payload: { refreshToken: string; userToken?: UserToken }
+    public payload: { refreshToken: string; expiredToken?: UserToken }
   ) {}
 }
 

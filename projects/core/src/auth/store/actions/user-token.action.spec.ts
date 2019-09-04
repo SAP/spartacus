@@ -65,7 +65,7 @@ describe('User Token Actions', () => {
     it('should create the action', () => {
       const refreshTokenRequest = {
         refreshToken: token.refresh_token,
-        userToken: token,
+        expiredToken: token,
       };
 
       const action = new AuthActions.RefreshUserToken(refreshTokenRequest);

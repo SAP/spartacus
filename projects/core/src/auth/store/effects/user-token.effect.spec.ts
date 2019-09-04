@@ -81,7 +81,7 @@ describe('UserToken effect', () => {
     it('should refresh a user token', () => {
       const action = new AuthActions.RefreshUserToken({
         refreshToken: '123',
-        userToken: expiredToken,
+        expiredToken,
       });
       const completion = new AuthActions.RefreshUserTokenSuccess(testToken);
 
