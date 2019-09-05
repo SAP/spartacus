@@ -17,10 +17,10 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('cxConfig', config => {
-  cy.on('window:before:load', setTestCxConfig(config));
+  cy.on('window:before:load', setCxTestConfig(config));
 });
 
-function setTestCxConfig(config: StorefrontConfig): (win: Window) => void {
+function setCxTestConfig(config: StorefrontConfig): (win: Window) => void {
   return (win: Window) => {
     Object.defineProperty(win, 'cxTestConfig', {
       configurable: false,
