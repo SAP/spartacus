@@ -10,7 +10,6 @@ export function reducer(
   action: StoreFinderActions.StoreEntitiesAction
 ): StoreEntitiesState {
   switch (action.type) {
-
     case StoreFinderActions.STORE_ENTITIES: {
       const entities = action.payload;
 

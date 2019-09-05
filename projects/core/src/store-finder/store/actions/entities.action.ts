@@ -1,4 +1,3 @@
-
 export const STORE_ENTITIES = '[StoreFinder] Store entities';
 
 export class StoreEntities {
@@ -6,5 +5,4 @@ export class StoreEntities {
   constructor(public payload: any) {}
 }
 
-export type StoreEntitiesAction =
-  | StoreEntities;
+export type StoreEntitiesAction = StoreEntities;

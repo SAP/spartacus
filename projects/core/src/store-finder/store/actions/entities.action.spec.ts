@@ -1,7 +1,6 @@
 import { StoreFinderActions } from './index';
 
 describe('Entities Actions', () => {
-
   describe('StoreEntities', () => {
     it('should create StoreEntities action', () => {
       const payload = {
@@ -10,21 +9,21 @@ describe('Entities Actions', () => {
             count: 1,
             isoCode: 'DE',
             name: 'Germany',
-            type: 'COUNTRY'
+            type: 'COUNTRY',
           },
           {
             count: 1,
             isoCode: 'PL',
             name: 'Poland',
-            type: 'COUNTRY'
+            type: 'COUNTRY',
           },
           {
             count: 49,
             isoCode: 'JP',
             name: 'Japan',
-            type: 'COUNTRY'
-          }
-        ]
+            type: 'COUNTRY',
+          },
+        ],
       };
 
       const action = new StoreFinderActions.StoreEntities(payload);

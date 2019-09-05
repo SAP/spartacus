@@ -20,21 +20,21 @@ describe('FindStores Selectors', () => {
         count: 1,
         isoCode: 'DE',
         name: 'Germany',
-        type: 'COUNTRY'
+        type: 'COUNTRY',
       },
       {
         count: 1,
         isoCode: 'PL',
         name: 'Poland',
-        type: 'COUNTRY'
+        type: 'COUNTRY',
       },
       {
         count: 49,
         isoCode: 'JP',
         name: 'Japan',
-        type: 'COUNTRY'
-      }
-    ]
+        type: 'COUNTRY',
+      },
+    ],
   };
 
   beforeEach(() => {

@@ -64,9 +64,7 @@ export class StoreFinderService {
    * Returns boolean observable for store's value state
    */
   getEntitiesState(): Observable<any> {
-    return this.store.pipe(
-      select(StoreFinderSelectors.getEntitiesState)
-    );
+    return this.store.pipe(select(StoreFinderSelectors.getEntitiesState));
   }
 
   /**

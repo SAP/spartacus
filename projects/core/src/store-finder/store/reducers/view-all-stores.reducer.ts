@@ -2,9 +2,9 @@ import { StoreFinderActions } from '../actions/index';
 import { LoadingState } from '../store-finder-state';
 
 export const initialState: LoadingState = {
- loading: false,
- error: null,
- success: false
+  loading: false,
+  error: null,
+  success: false,
 };
 
 export function reducer(

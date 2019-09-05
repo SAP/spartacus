@@ -20,29 +20,32 @@ describe('Entities Reducer', () => {
             count: 1,
             isoCode: 'DE',
             name: 'Germany',
-            type: 'COUNTRY'
+            type: 'COUNTRY',
           },
           {
             count: 1,
             isoCode: 'PL',
             name: 'Poland',
-            type: 'COUNTRY'
+            type: 'COUNTRY',
           },
           {
             count: 49,
             isoCode: 'JP',
             name: 'Japan',
-            type: 'COUNTRY'
-          }
-        ]
+            type: 'COUNTRY',
+          },
+        ],
       };
 
       const { initialState } = fromEntitiesReducer;
 
       const storeEntitiesAction = new StoreFinderActions.StoreEntities(payload);
-      const state = fromEntitiesReducer.reducer(initialState, storeEntitiesAction);
+      const state = fromEntitiesReducer.reducer(
+        initialState,
+        storeEntitiesAction
+      );
 
-      expect(state.).toEqual(payload);
+      expect(state).toEqual(payload);
     });
   });
 });

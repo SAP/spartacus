@@ -15,7 +15,9 @@ export class FindStoresEffect {
 
   @Effect()
   findStores$: Observable<
-    StoreFinderActions.FindStoresSuccess | StoreFinderActions.FindStoresFail | StoreFinderActions.StoreEntities
+    | StoreFinderActions.FindStoresSuccess
+    | StoreFinderActions.FindStoresFail
+    | StoreFinderActions.StoreEntities
   > = this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORES),
     map((action: StoreFinderActions.FindStores) => action.payload),
@@ -37,7 +39,7 @@ export class FindStoresEffect {
 
             return [
               new StoreFinderActions.FindStoresSuccess(data),
-              new StoreFinderActions.StoreEntities(data)
+              new StoreFinderActions.StoreEntities(data),
             ];
           }),
           catchError(error =>

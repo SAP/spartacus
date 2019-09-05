@@ -4,7 +4,7 @@ import { LoadingState } from '../store-finder-state';
 export const initialState: LoadingState = {
   loading: false,
   error: null,
-  success: false
+  success: false,
 };
 
 export function reducer(
