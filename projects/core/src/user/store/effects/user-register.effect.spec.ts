@@ -51,16 +51,11 @@ describe('UserRegister effect', () => {
   describe('registerUser$', () => {
     it('should register user', () => {
       const action = new UserActions.RegisterUser(user);
-      const loadUser = new AuthActions.LoadUserToken({
-        userId: user.uid,
-        password: user.password,
-      });
       const completion = new UserActions.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: loadUser,
-        c: completion,
+      const expected = cold('-b', {
+        b: completion,
       });
 
       expect(effect.registerUser$).toBeObservable(expected);

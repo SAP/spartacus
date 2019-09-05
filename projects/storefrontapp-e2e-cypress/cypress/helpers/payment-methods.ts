@@ -124,10 +124,9 @@ export function setSecondPaymentToDefault() {
 }
 
 export function deletePayment() {
-  cy.getByText('Delete')
+  cy.getAllByText('Delete')
     .first()
     .click({ force: true });
-  // cy.get('.card-link').click({ force: true });
 
   // should see confirmation message
   cy.get('.cx-card-delete-msg').should(
@@ -144,7 +143,7 @@ export function deletePayment() {
   );
 
   // delete the payment
-  cy.getByText('Delete')
+  cy.getAllByText('Delete')
     .first()
     .click({ force: true });
   cy.get('.btn-primary').should('contain', 'Delete');
@@ -155,6 +154,34 @@ export function deletePayment() {
   const defaultCard = cy.get('.cx-payment-card');
   defaultCard.should('contain', 'Default Payment Method');
   defaultCard.should('contain', 'Winston Rumfoord');
+}
+
+export function checkAnonymous() {
+  it('should redirect to login page for anonymouse user', () => {
+    accessPageAsAnonymous();
+  });
+}
+
+export function paymentMethodsTest() {
+  it('should see title and some messages', () => {
+    verifyText();
+  });
+
+  it('should see payment method card', () => {
+    paymentDetailCard();
+  });
+
+  it('should be able to add a second payment card', () => {
+    addSecondaryPaymentCard();
+  });
+
+  it('should be able to set secondary card as default', () => {
+    setSecondPaymentToDefault();
+  });
+
+  it('should be able to delete the payment', () => {
+    deletePayment();
+  });
 }
 
 function requestPages() {

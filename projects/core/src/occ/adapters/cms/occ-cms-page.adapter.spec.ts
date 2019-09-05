@@ -114,8 +114,8 @@ describe('OccCmsPageAdapter', () => {
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'DEFAULT' },
-        { pageType: context.type, pageLabelOrId: context.id }
+        {},
+        { fields: 'DEFAULT', pageType: context.type, pageLabelOrId: context.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -147,8 +147,8 @@ describe('OccCmsPageAdapter', () => {
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'BASIC' },
-        { pageType: context.type, pageLabelOrId: context.id }
+        {},
+        { fields: 'BASIC', pageType: context.type, pageLabelOrId: context.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -177,8 +177,8 @@ describe('OccCmsPageAdapter', () => {
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'DEFAULT' },
-        { pageType: context1.type, code: context1.id }
+        {},
+        { fields: 'DEFAULT', pageType: context1.type, code: context1.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');

@@ -12,19 +12,13 @@ import { UserActions } from '../actions/index';
 export class UserRegisterEffects {
   @Effect()
   registerUser$: Observable<
-    UserActions.UserRegisterOrRemoveAction | AuthActions.LoadUserToken
+    UserActions.UserRegisterOrRemoveAction
   > = this.actions$.pipe(
     ofType(UserActions.REGISTER_USER),
     map((action: UserActions.RegisterUser) => action.payload),
     mergeMap((user: UserSignUp) =>
       this.userConnector.register(user).pipe(
-        switchMap(_result => [
-          new AuthActions.LoadUserToken({
-            userId: user.uid,
-            password: user.password,
-          }),
-          new UserActions.RegisterUserSuccess(),
-        ]),
+        map(() => new UserActions.RegisterUserSuccess()),
         catchError(error =>
           of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
         )

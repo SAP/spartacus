@@ -1,24 +1,32 @@
 import { UserSignUp } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
-import { REMOVE_USER_PROCESS_ID } from '../user-state';
+import {
+  REGISTER_USER_PROCESS_ID,
+  REMOVE_USER_PROCESS_ID,
+} from '../user-state';
 import { UserActions } from './index';
+
+const user: UserSignUp = {
+  titleCode: '',
+  firstName: '',
+  lastName: '',
+  password: '',
+  uid: '',
+};
 
 describe('User Register Actions', () => {
   describe('RegisterUser Action', () => {
     it('should create the action', () => {
-      const user: UserSignUp = {
-        titleCode: '',
-        firstName: '',
-        lastName: '',
-        password: '',
-        uid: '',
-      };
-
       const action = new UserActions.RegisterUser(user);
+
       expect({ ...action }).toEqual({
         type: UserActions.REGISTER_USER,
         payload: user,
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          REGISTER_USER_PROCESS_ID
+        ),
       });
     });
   });
@@ -31,6 +39,11 @@ describe('User Register Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.REGISTER_USER_FAIL,
         payload: error,
+        meta: StateEntityLoaderActions.entityFailMeta(
+          PROCESS_FEATURE,
+          REGISTER_USER_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -41,6 +54,11 @@ describe('User Register Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.REGISTER_USER_SUCCESS,
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          PROCESS_FEATURE,
+          REGISTER_USER_PROCESS_ID
+        ),
+        payload: undefined,
       });
     });
   });

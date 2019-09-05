@@ -1,20 +1,19 @@
-import { Injectable } from '@angular/core';
-import { ProductSearchAdapter } from '../../../product/connectors/search/product-search.adapter';
-import { SearchConfig } from '../../../product/model/search-config';
-
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
+import {
+  ProductSearchPage,
+  Suggestion,
+} from '../../../model/product-search.model';
 import {
   PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '../../../product/connectors/search/converters';
-import { pluck } from 'rxjs/operators';
-import {
-  Suggestion,
-  ProductSearchPage,
-} from '../../../model/product-search.model';
+import { ProductSearchAdapter } from '../../../product/connectors/search/product-search.adapter';
+import { SearchConfig } from '../../../product/model/search-config';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,
@@ -55,10 +54,9 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   ): string {
     return this.occEndpoints.getUrl(
       'productSearch',
+      {},
       {
         query,
-      },
-      {
         pageSize: searchConfig.pageSize,
         currentPage: searchConfig.currentPage,
         sort: searchConfig.sortCode,
@@ -67,9 +65,6 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   }
 
   protected getSuggestionEndpoint(term: string, max: string): string {
-    return this.occEndpoints.getUrl('productSuggestions', {
-      term,
-      max,
-    });
+    return this.occEndpoints.getUrl('productSuggestions', {}, { term, max });
   }
 }

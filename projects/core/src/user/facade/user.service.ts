@@ -13,6 +13,7 @@ import {
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
+  REGISTER_USER_PROCESS_ID,
   REMOVE_USER_PROCESS_ID,
   StateWithUser,
   UPDATE_EMAIL_PROCESS_ID,
@@ -62,6 +63,40 @@ export class UserService {
    */
   registerGuest(guid: string, password: string): void {
     this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
+  }
+
+  /**
+   * Returns the register user process loading flag
+   */
+  getRegisterUserResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(REGISTER_USER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the register user process success flag
+   */
+  getRegisterUserResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(REGISTER_USER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the register user process error flag
+   */
+  getRegisterUserResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(REGISTER_USER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the register user process flags
+   */
+  resetRegisterUserProcessState(): void {
+    return this.store.dispatch(new UserActions.ResetRegisterUserProcess());
   }
 
   /**
