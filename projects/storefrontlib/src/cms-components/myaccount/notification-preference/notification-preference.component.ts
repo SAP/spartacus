@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-notification-preference',
   templateUrl: './notification-preference.component.html',
-  styleUrls: ['./notification-preference.component.scss'],
 })
 export class NotificationPreferenceComponent implements OnInit {
   preferences$: Observable<NotificationPreference[]>;
@@ -27,18 +26,22 @@ export class NotificationPreferenceComponent implements OnInit {
   }
 
   updatePreference(preference: NotificationPreference) {
-    
     const updatedPreferences = [];
-    this.notificationPreferenceService.getPreferences().subscribe(preferences=>{preferences.forEach(p => {
-      if (p.channel === preference.channel) {
-        updatedPreferences.push({
-          ...p,
-          enabled: !p.enabled,
+    this.notificationPreferenceService
+      .getPreferences()
+      .subscribe(preferences => {
+        preferences.forEach(p => {
+          if (p.channel === preference.channel) {
+            updatedPreferences.push({
+              ...p,
+              enabled: !p.enabled,
+            });
+          } else {
+            updatedPreferences.push(p);
+          }
         });
-      } else {
-        updatedPreferences.push(p);
-      }
-    });});
+      })
+      .unsubscribe();
     this.notificationPreferenceService.updatePreferences(updatedPreferences);
   }
 }

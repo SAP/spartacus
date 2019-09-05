@@ -244,5 +244,5 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  notificationPreference?:string;
+  notificationPreference?: string;
 }

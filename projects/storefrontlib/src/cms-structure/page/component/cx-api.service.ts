@@ -78,7 +78,8 @@ export class CxApiService {
     @Optional() public userConsent: UserConsentService,
     @Optional() public userOrder: UserOrderService,
     @Optional() public userPayment: UserPaymentService,
-    @Optional() public userNotificationPreferenceService: UserNotificationPreferenceService,
+    @Optional()
+    public userNotificationPreferenceService: UserNotificationPreferenceService,
     // framework
     public ngZone: NgZone
   ) {}

@@ -1,0 +1,34 @@
+%cx-notification-preference {
+  .cx-np-list {
+    padding: 0;
+    list-style: none;
+    margin: 0 0 16px 16px;
+
+    .form-check {
+      margin: 0 0 0 0;
+    }
+  }
+
+  .cx-np-label {
+    @include type(6);
+    position: relative;
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    cursor: pointer;
+
+    &:hover .cx-np-checkbox:not(:checked) {
+      background-color: var(--cx-color-light);
+    }
+
+    .cx-np-text {
+      line-height: 22px;
+      margin: 0.5% 0 16px 8px;
+    }
+  }
+
+  .cx-notification-preference-note {
+    margin-top: var(--cx-margin, 20px);
+  }
+}

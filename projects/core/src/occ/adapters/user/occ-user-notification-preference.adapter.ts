@@ -29,9 +29,12 @@ export class OccUserNotificationPreferenceAdapter
 
   loadAll(userId: string): Observable<NotificationPreference[]> {
     return this.http
-      .get<NotificationPreferenceList>(this.occEndpoints.getUrl('notificationPreference', { userId }), {
-        headers,
-      })
+      .get<NotificationPreferenceList>(
+        this.occEndpoints.getUrl('notificationPreference', { userId }),
+        {
+          headers,
+        }
+      )
       .pipe(
         map(list => list.preferences),
         this.converter.pipeableMany(NOTIFICATION_PREFERENCE_NORMALIZER),

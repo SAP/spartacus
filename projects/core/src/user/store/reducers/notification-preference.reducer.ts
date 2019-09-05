@@ -12,9 +12,8 @@ export function reducer(
       return initialState;
     }
 
-    case UserActions.LOAD_NOTIFICATION_PREFERENCES_SUCCESS: 
-    case UserActions.UPDATE_NOTIFICATION_PREFERENCES_SUCCESS:
-    {
+    case UserActions.LOAD_NOTIFICATION_PREFERENCES_SUCCESS:
+    case UserActions.UPDATE_NOTIFICATION_PREFERENCES_SUCCESS: {
       return action.payload ? action.payload : initialState;
     }
   }
