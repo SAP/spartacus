@@ -3,7 +3,7 @@ import { StorefrontConfig } from '@spartacus/storefront';
 declare namespace Cypress {
   interface Chainable {
     /**
-       * Provides the `StorefrontConfig`
+       * Provides dynamically a chunk of the `StorefrontConfig`.
        *
        * @memberof Cypress.Chainable
        *
@@ -17,11 +17,5 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('cxConfig', config => {
-  cy.on('window:before:load', setCxTestConfig(config));
+  cy.setCookie('cxTestConfig', JSON.stringify(config));
 });
-
-function setCxTestConfig(config: StorefrontConfig): (win: Window) => void {
-  return (win: Window) => {
-    win['cxTestConfig'] = config;
-  };
-}
