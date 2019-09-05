@@ -1,7 +1,7 @@
 // prettier-ignore
 /// <reference types="Cypress" />
 
-import '@testing-library/cypress/add-commands';
+import 'cypress-testing-library/add-commands';
 import './login.commands';
 import './ng-select.commands';
 import './require-logged-in.commands';
