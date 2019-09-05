@@ -13,12 +13,23 @@ import {
   paymentDetailCard,
   addSecondaryPaymentCard,
 } from '../../helpers/payment-methods';
+import { addressBookAddAddressTabbingOrder } from '../../helpers/accessibility/tabbing-order/address-book';
 
 context('Tabbing order', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
     register();
+  });
+
+  describe('Address Book (Add Address)', () => {
+    it('should allow to navigate with tab key', () => {
+      login();
+
+      addressBookAddAddressTabbingOrder(config.addressBookAddAddress);
+
+      signOutUser();
+    });
   });
 
   describe('Close account', () => {

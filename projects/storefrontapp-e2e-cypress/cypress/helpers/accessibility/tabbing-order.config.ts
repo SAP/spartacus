@@ -4,6 +4,7 @@ export enum TabbingOrderTypes {
   FORM_FIELD = 'formField',
   LINK = 'link',
   BUTTON = 'button',
+  NG_SELECT = 'ngSelect',
 }
 
 export interface TabbingOrderConfig {
@@ -93,5 +94,51 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Delete', type: TabbingOrderTypes.LINK },
     { value: 'Set as default', type: TabbingOrderTypes.LINK },
     { value: 'Delete', type: TabbingOrderTypes.LINK },
+  ],
+  addressBookAddAddress: [
+    {
+      value: 'isocode',
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'titleCode',
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'firstName',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'lastName',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'line1',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'line2',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'town',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'postalCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'phone',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Add Address',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
   ],
 };
