@@ -5,7 +5,6 @@ import { getCookie } from './utils/get-cookie';
 
 export const TEST_CONFIG_KEY = 'cxTestConfig';
 
-// Reads the config chunk injected dynamically in e2e tests
 export function testConfigFactory(document: Document) {
   const configString = getCookie(document.cookie, TEST_CONFIG_KEY);
   try {
