@@ -52,7 +52,7 @@ class MockCustomerSupportAgentErrorHandlingService {
   terminateCustomerSupportAgentExpiredSession(): void {}
 }
 
-fdescribe('AuthErrorInterceptor', () => {
+describe('AuthErrorInterceptor', () => {
   let userErrorHandlingService: UserErrorHandlingService;
   let clientErrorHandlingService: ClientErrorHandlingService;
   let authService: AuthService;
