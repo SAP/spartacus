@@ -11,8 +11,8 @@ import { Observable } from 'rxjs';
 })
 export class NotificationPreferenceComponent implements OnInit {
   preferences$: Observable<NotificationPreference[]>;
-  getNotificationPreferencesloading$: Observable<boolean>;
-  updateNotificationPreferencesLoading$: Observable<boolean>;
+  getNotificationPreferencesloading: boolean;
+  updateNotificationPreferencesLoading: boolean;
 
   constructor(
     private notificationPreferenceService: UserNotificationPreferenceService
@@ -20,8 +20,14 @@ export class NotificationPreferenceComponent implements OnInit {
 
   ngOnInit() {
     this.preferences$ = this.notificationPreferenceService.getPreferences();
-    this.getNotificationPreferencesloading$ = this.notificationPreferenceService.getPreferencesLoading();
-    this.updateNotificationPreferencesLoading$ = this.notificationPreferenceService.getUpdatePreferencesResultLoading();
+    this.notificationPreferenceService
+      .getPreferencesLoading()
+      .subscribe(loading => (this.getNotificationPreferencesloading = loading));
+    this.notificationPreferenceService
+      .getUpdatePreferencesResultLoading()
+      .subscribe(
+        loading => (this.updateNotificationPreferencesLoading = loading)
+      );
     this.notificationPreferenceService.loadPreferences();
   }
 
