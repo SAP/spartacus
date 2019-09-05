@@ -13,7 +13,6 @@ export class CustomerSupportAgentErrorHandlingService {
   ) {}
 
   terminateCustomerSupportAgentExpiredSession(): void {
-    console.log('terminateCustomerSupportAgentExpiredSession Called');
     this.authService.logoutCustomerSupportAgent();
     this.globalMessageService.add(
       {
