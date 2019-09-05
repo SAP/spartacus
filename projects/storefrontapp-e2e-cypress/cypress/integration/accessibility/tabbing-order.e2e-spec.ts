@@ -14,6 +14,7 @@ import {
   addSecondaryPaymentCard,
 } from '../../helpers/payment-methods';
 import { addressBookAddAddressTabbingOrder } from '../../helpers/accessibility/tabbing-order/address-book';
+import { signOut } from '../../helpers/register';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -48,18 +49,20 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 
 context('Tabbing order - tests do require user to be logged in', () => {
   before(() => {
+    cy.restoreLocalStorage();
+  });
+
+  beforeEach(() => {
     registerAndLogin();
+  });
+
+  afterEach(() => {
+    signOut();
   });
 
   describe('Change password', () => {
     it('should allow to navigate with tab key', () => {
       changePasswordTabbingOrder(config.changePassword);
-    });
-  });
-
-  describe('Close account', () => {
-    it('should allow to navigate with tab key', () => {
-      closeAccountTabbingOrder(config.closeAccount);
     });
   });
 
@@ -75,6 +78,18 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
+  describe('Address Book (Add Address)', () => {
+    it('should allow to navigate with tab key', () => {
+      addressBookAddAddressTabbingOrder(config.addressBookAddAddress);
+    });
+  });
+
+  describe('Address Book (Edit Address)', () => {
+    it('should allow to navigate with tab key', () => {
+      addressBookAddAddressTabbingOrder(config.addressBookAddAddress);
+    });
+  });
+
   describe('Payment Details', () => {
     it('should allow to navigate with tab key', () => {
       paymentDetailCard();
@@ -84,9 +99,9 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  describe('Address Book (Add Address)', () => {
+  describe('Close account', () => {
     it('should allow to navigate with tab key', () => {
-      addressBookAddAddressTabbingOrder(config.addressBookAddAddress);
+      closeAccountTabbingOrder(config.closeAccount);
     });
   });
 });

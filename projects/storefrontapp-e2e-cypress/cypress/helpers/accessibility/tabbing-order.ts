@@ -1,8 +1,8 @@
 import { TabbingOrderTypes } from './tabbing-order.config';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
-import { register as authRegister } from '../auth-forms';
-import { user } from '../../sample-data/checkout-flow';
+import { register as authRegister, login } from '../auth-forms';
+import { generateMail, randomString } from '../user';
 
 export interface TabElement {
   value: string;
@@ -52,26 +52,56 @@ export function getFormFieldByValue(value: string) {
   return cy.get(`[formcontrolname="${value}"]`);
 }
 
-export function register() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.visit('/login/register');
-  authRegister(user);
-  cy.wait(`@${loginPage}`);
-}
+// export function register(user) {
+//   const loginPage = waitForPage('/login', 'getLoginPage');
+//   cy.visit('/login/register');
+//   authRegister(user);
+//   cy.wait(`@${loginPage}`);
+// }
 
-export function login() {
-  const homePage = waitForPage('homepage', 'getHomePage');
-  cy.visit('/login');
-  loginUser();
-  cy.wait(`@${homePage}`);
-}
+// export function login(user) {
+//   const homePage = waitForPage('homepage', 'getHomePage');
+//   cy.visit('/login');
+//   loginUser();
+//   cy.wait(`@${homePage}`);
+// }
 
 export function registerAndLogin(): void {
+  const user = getNewUser();
   const loginPage = waitForPage('/login', 'getLoginPage');
   const homePage = waitForPage('homepage', 'getHomePage');
+
   cy.visit('/login/register');
   authRegister(user);
   cy.wait(`@${loginPage}`);
-  loginUser();
+  login(user.email, user.password);
   cy.wait(`@${homePage}`);
+}
+
+export function getNewUser() {
+  return {
+    firstName: 'Winston',
+    lastName: 'Rumfoord',
+    fullName: 'Winston Rumfoord',
+    password: 'Password123.',
+    email: generateMail(randomString(), true),
+    phone: '555 555 555',
+    address: {
+      city: 'Tralfamadore',
+      line1: 'Chrono-Synclastic Infundibulum',
+      line2: 'Betelgeuse',
+      country: 'United States',
+      state: 'Connecticut',
+      postal: '06247',
+    },
+    payment: {
+      card: 'Visa',
+      number: '4111111111111111',
+      expires: {
+        month: '07',
+        year: '2022',
+      },
+      cvv: '123',
+    },
+  };
 }
