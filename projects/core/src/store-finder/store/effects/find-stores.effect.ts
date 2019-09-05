@@ -15,7 +15,7 @@ export class FindStoresEffect {
 
   @Effect()
   findStores$: Observable<
-    StoreFinderActions.FindStoresSuccess | StoreFinderActions.FindStoresFail
+    StoreFinderActions.FindStoresSuccess | StoreFinderActions.FindStoresFail | StoreFinderActions.StoreEntities
   > = this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORES),
     map((action: StoreFinderActions.FindStores) => action.payload),
@@ -27,7 +27,7 @@ export class FindStoresEffect {
           payload.longitudeLatitude
         )
         .pipe(
-          map(data => {
+          switchMap(data => {
             if (payload.countryIsoCode) {
               data.stores = data.stores.filter(
                 store =>
@@ -35,7 +35,10 @@ export class FindStoresEffect {
               );
             }
 
-            return new StoreFinderActions.FindStoresSuccess(data);
+            return [
+              new StoreFinderActions.FindStoresSuccess(data),
+              new StoreFinderActions.StoreEntities(data)
+            ];
           }),
           catchError(error =>
             of(
@@ -52,12 +55,16 @@ export class FindStoresEffect {
   findStoreById$: Observable<
     | StoreFinderActions.FindStoreByIdSuccess
     | StoreFinderActions.FindStoreByIdFail
+    | StoreFinderActions.StoreEntities
   > = this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORE_BY_ID),
     map((action: StoreFinderActions.FindStoreById) => action.payload),
     switchMap(payload =>
       this.storeFinderConnector.get(payload.storeId).pipe(
-        map(data => new StoreFinderActions.FindStoreByIdSuccess(data)),
+        switchMap(data => [
+          new StoreFinderActions.FindStoreByIdSuccess(data),
+          new StoreFinderActions.StoreEntities(data),
+        ]),
         catchError(error =>
           of(
             new StoreFinderActions.FindStoreByIdFail(

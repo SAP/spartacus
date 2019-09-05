@@ -29,5 +29,5 @@ export const getStoresLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getFindStoresState,
-  state => StateLoaderSelectors.loaderLoadingSelector(state)
+  state => state.loading
 );

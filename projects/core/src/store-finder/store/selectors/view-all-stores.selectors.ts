@@ -29,5 +29,5 @@ export const getViewAllStoresLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getViewAllStoresState,
-  state => StateLoaderSelectors.loaderLoadingSelector(state)
+  state => state.loading
 );

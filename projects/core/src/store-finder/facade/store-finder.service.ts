@@ -61,6 +61,15 @@ export class StoreFinderService {
   }
 
   /**
+   * Returns boolean observable for store's value state
+   */
+  getEntitiesState(): Observable<any> {
+    return this.store.pipe(
+      select(StoreFinderSelectors.getEntitiesState)
+    );
+  }
+
+  /**
    * Store finding action functionality
    * @param queryText text query
    * @param searchConfig search configuration

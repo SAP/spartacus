@@ -1,13 +1,16 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
 import { InjectionToken, Provider } from '@angular/core';
-import { StoresState, STORE_FINDER_DATA } from '../store-finder-state';
-import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
+import { StoresState } from '../store-finder-state';
+import * as fromFindStores from './find-stores.reducer';
+import * as fromViewAllStores from './view-all-stores.reducer';
+import * as fromEntities from './entities.reducer';
 
 export function getReducers(): ActionReducerMap<StoresState> {
   return {
-    findStores: loaderReducer(STORE_FINDER_DATA),
-    viewAllStores: loaderReducer(STORE_FINDER_DATA),
+    findStores: fromFindStores.reducer,
+    viewAllStores: fromViewAllStores.reducer,
+    value: fromEntities.reducer,
   };
 }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
@@ -17,11 +17,15 @@ export class ViewAllStoresEffect {
   viewAllStores$: Observable<
     | StoreFinderActions.ViewAllStoresSuccess
     | StoreFinderActions.ViewAllStoresFail
+    | StoreFinderActions.StoreEntities
   > = this.actions$.pipe(
     ofType(StoreFinderActions.VIEW_ALL_STORES),
     switchMap(() => {
       return this.storeFinderConnector.getCounts().pipe(
-        map(data => new StoreFinderActions.ViewAllStoresSuccess(data)),
+        switchMap(data => [
+          new StoreFinderActions.ViewAllStoresSuccess(data),
+          new StoreFinderActions.StoreEntities(data),
+        ]),
         catchError(error =>
           of(
             new StoreFinderActions.ViewAllStoresFail(
