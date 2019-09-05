@@ -44,7 +44,7 @@ export class StoreFinderListComponent {
     const storeListItem = this.document.getElementById('item-' + index);
     storeListItem.scrollIntoView({
       behavior: 'smooth',
-      block: 'start',
+      block: 'center',
     });
   }
 
