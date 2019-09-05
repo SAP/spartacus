@@ -1,17 +1,21 @@
-<div class="variant-section" *ngIf="(product$ | async) as product">
-  <div
-    class="variant-selector"
-    *ngFor="let variant of product.baseOptions; let i = index"
-  >
-    <ng-container
-      [ngTemplateOutlet]="
-        variant.variantType.toLowerCase().includes('style')
-          ? styleSelector
-          : sizeSelector
-      "
-      [ngTemplateOutletContext]="{ variant: variant }"
-    ></ng-container>
-  </div>
+<div class="variant-section"
+    style="display: flex; flex-direction: column;"
+    *ngIf="(product$ | async) as product">
+  <ng-container *ngFor="let variant of product.baseOptions">
+
+    <div
+      class="variant-selector" [ngStyle]="variant.variantType.toLowerCase().includes('style') ? {order: 1} : {order: 2}"
+    >
+      <ng-container
+        [ngTemplateOutlet]="
+          variant.variantType.toLowerCase().includes('style')
+            ? styleSelector
+            : sizeSelector
+        "
+        [ngTemplateOutletContext]="{ variant: variant }"
+      ></ng-container>
+    </div>
+  </ng-container>
 
   <ng-template #styleSelector let-variant="variant">
     <div class="variant-name">

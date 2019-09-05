@@ -42,6 +42,7 @@ if (!environment.production) {
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: [
+          'apparel-uk-spa',
           'electronics-spa',
           'electronics',
           'apparel-de',

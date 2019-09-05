@@ -32,6 +32,7 @@ export class PageLayoutService {
       map(([page, breakpoint]) => {
         const pageTemplate = page.template;
         const slots = this.resolveSlots(page, section, breakpoint);
+        console.log(slots);
         return { slots, pageTemplate, breakpoint };
       }),
       switchMap(({ slots, pageTemplate, breakpoint }) => {
