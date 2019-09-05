@@ -1,10 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AuthRedirectService,
   AuthService,
@@ -42,7 +37,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       newsletter: [false],
       termsandconditions: [false, Validators.requiredTrue],
     },
-    { validator: this.matchPassword }
+    { validator: CustomFormValidators.matchPassword }
   );
 
   constructor(
@@ -109,12 +104,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       titleCode,
     };
     this.userService.register(userRegisterFormData);
-  }
-
-  private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
-    if (ac.get('password').value !== ac.get('passwordconf').value) {
-      return { NotEqual: true };
-    }
   }
 
   /*

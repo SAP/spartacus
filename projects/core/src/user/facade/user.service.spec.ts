@@ -89,6 +89,13 @@ describe('UserService', () => {
     );
   });
 
+  it('should be able to register guest', () => {
+    service.registerGuest('guid', 'password');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.RegisterGuest({ guid: 'guid', password: 'password' })
+    );
+  });
+
   describe('Remove User Account', () => {
     it('should be able to remove user account', () => {
       service.remove();
