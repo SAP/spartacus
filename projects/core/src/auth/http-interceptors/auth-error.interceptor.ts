@@ -23,10 +23,30 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 @Injectable()
 export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(
+    userErrorHandlingService: UserErrorHandlingService,
+    clientErrorHandlingService: ClientErrorHandlingService,
+    authService: AuthService,
+    // tslint:disable-next-line: unified-signatures
+    csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService
+  );
+  /**
+   * @deprecated since version 1.x
+   * Instead, use constructor(
+   * userErrorHandlingService: UserErrorHandlingService,
+   * clientErrorHandlingService: ClientErrorHandlingService,
+   * authService: AuthService,
+   * csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService
+   */
+  constructor(
+    userErrorHandlingService: UserErrorHandlingService,
+    clientErrorHandlingService: ClientErrorHandlingService,
+    authService: AuthService
+  );
+  constructor(
     private userErrorHandlingService: UserErrorHandlingService,
     private clientErrorHandlingService: ClientErrorHandlingService,
     private authService: AuthService,
-    private csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService
+    private csagentErrorHandlingService?: CustomerSupportAgentErrorHandlingService
   ) {}
 
   intercept(
