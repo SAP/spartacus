@@ -1,7 +1,7 @@
 import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
-describe('Language switch - cart page', () => {
+describe('Currency switch - cart page', () => {
   const cartPath = siteContextSelector.CART_PATH;
   const jpCurrency_per_item = ' ¥9,720 ';
   const jpCurrency_total = ' ¥29,160 ';
