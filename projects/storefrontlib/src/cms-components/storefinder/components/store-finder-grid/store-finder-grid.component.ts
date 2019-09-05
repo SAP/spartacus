@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingService, StoreFinderService, GeoPoint } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-store-finder-grid',
@@ -10,7 +10,6 @@ import { Observable, Subscription } from 'rxjs';
 export class StoreFinderGridComponent implements OnInit, OnDestroy {
   locations$: any;
   isLoading$: Observable<boolean>;
-  locationsSub: Subscription;
   defaultLocation: GeoPoint;
   country: string;
   region: string;
