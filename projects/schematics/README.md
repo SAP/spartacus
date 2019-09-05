@@ -25,7 +25,7 @@ Run the following command from your project root:
 
 ## Building and using Spartacus Schematics from source
 
-This section is for Spartacus developers and anybody else who works with Spartacus soruce code.
+This section is for Spartacus developers and anybody else who works with Spartacus source code.
 
 ### Prerequisites
 

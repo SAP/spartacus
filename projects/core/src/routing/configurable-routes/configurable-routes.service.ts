@@ -1,8 +1,8 @@
 import { Injectable, Injector, isDevMode } from '@angular/core';
 import { Route, Router, Routes } from '@angular/router';
+import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
 import { RouteConfig } from './routes-config';
 import { RoutingConfigService } from './routing-config.service';
-import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {

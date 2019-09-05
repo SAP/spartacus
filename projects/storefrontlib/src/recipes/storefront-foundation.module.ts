@@ -16,6 +16,7 @@ import {
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
+import { ViewConfigModule } from '../shared/config/view-config.module';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { LayoutModule } from '../layout/layout.module';
     CheckoutModule.forRoot(),
     UserModule.forRoot(),
     ProductModule.forRoot(),
-    FeaturesConfigModule.forRoot(),
+    ViewConfigModule.forRoot(),
+    FeaturesConfigModule.forRoot('1.0'),
     LayoutModule,
   ],
   exports: [LayoutModule],
