@@ -22,7 +22,7 @@ Cypress.Commands.add('cxConfig', config => {
 
 function setTestCxConfig(config: StorefrontConfig): (win: Window) => void {
   return (win: Window) => {
-    Object.defineProperty(win, 'testCxConfig', {
+    Object.defineProperty(win, 'cxTestConfig', {
       configurable: false,
       get: () => config,
       set: () => {},

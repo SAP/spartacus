@@ -9,12 +9,13 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
+import { provideConfigFactory, WindowRef } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
+  StorefrontConfig,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
-import { TestConfigModule } from '../test-config/test-config.module';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -24,6 +25,11 @@ const devImports = [];
 
 if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
+}
+
+// Reads the config chunk injected dynamically in e2e tests
+export function testConfigFactory(winRef: WindowRef): StorefrontConfig {
+  return (winRef.nativeWindow && winRef.nativeWindow['cxTestConfig']) || {};
 }
 
 @NgModule({
@@ -65,10 +71,11 @@ if (!environment.production) {
     }),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-    TestConfigModule.forRoot(), // dynamic config only for e2e testing, should be imported as the last
 
     ...devImports,
   ],
+  providers: [provideConfigFactory(testConfigFactory, [WindowRef])],
+
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}
