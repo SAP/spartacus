@@ -9,11 +9,11 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
+import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
-import { TestConfigModule } from '../../../core/src/config/test-config.module';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 registerLocaleData(localeDe);
