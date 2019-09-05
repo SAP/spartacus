@@ -1,20 +1,30 @@
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { FormControl, ValidationErrors, FormGroup } from '@angular/forms';
 import { CustomFormValidators } from './custom-form-validators';
 
 describe('FormValidationService', () => {
   let email: FormControl;
   let emailError: ValidationErrors;
-  let password: FormControl;
   let passwordError: ValidationErrors;
+  let matchError: any;
+  let form: FormGroup;
 
   beforeEach(() => {
     email = new FormControl();
     emailError = {
       InvalidEmail: true,
     };
-    password = new FormControl();
+
+    form = new FormGroup({
+      password: new FormControl(),
+      passwordconf: new FormControl(),
+    });
+
     passwordError = {
       InvalidPassword: true,
+    };
+
+    matchError = {
+      NotEqual: true,
     };
   });
 
@@ -90,13 +100,26 @@ describe('FormValidationService', () => {
 
   describe('Password validator', () => {
     it('should apply specified rule', () => {
-      password.setValue('Test123!');
-      expect(CustomFormValidators.passwordValidator(password)).toBeNull();
+      form.get('password').setValue('Test123!');
+      expect(
+        CustomFormValidators.passwordValidator(form.get('password'))
+      ).toBeNull();
 
-      password.setValue('test123!');
-      expect(CustomFormValidators.passwordValidator(password)).toEqual(
-        passwordError
-      );
+      form.get('password').setValue('test123!');
+      expect(
+        CustomFormValidators.passwordValidator(form.get('password'))
+      ).toEqual(passwordError);
+    });
+  });
+
+  describe('Match password validator', () => {
+    it('should match password and passwordconf', () => {
+      form.get('password').setValue('Test123!');
+      form.get('passwordconf').setValue('Test123!');
+      expect(CustomFormValidators.matchPassword(form)).toBeNull();
+
+      form.get('passwordconf').setValue('Test1234');
+      expect(CustomFormValidators.matchPassword(form)).toEqual(matchError);
     });
   });
 });
