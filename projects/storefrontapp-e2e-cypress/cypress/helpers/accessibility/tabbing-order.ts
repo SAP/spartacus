@@ -5,11 +5,20 @@ import { register as authRegister } from '../auth-forms';
 import { user } from '../../sample-data/checkout-flow';
 
 export interface TabElement {
-  value: string;
+  value?: string;
   type: TabbingOrderTypes;
 }
 
 export function checkElement(tabElement: TabElement) {
+  // Check generic cases without value
+  switch (tabElement.type) {
+    case TabbingOrderTypes.GENERIC_CHECKBOX: {
+      cy.focused().should('have.attr', 'type', 'checkbox');
+      break;
+    }
+  }
+
+  // Check non-generic cases requiring value
   if (!(tabElement.value && tabElement.value.length)) {
     return;
   }

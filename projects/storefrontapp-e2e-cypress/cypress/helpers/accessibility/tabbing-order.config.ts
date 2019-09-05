@@ -4,6 +4,7 @@ export enum TabbingOrderTypes {
   FORM_FIELD = 'formField',
   LINK = 'link',
   BUTTON = 'button',
+  GENERIC_CHECKBOX = 'genericCheckbox',
 }
 
 export interface TabbingOrderConfig {
@@ -85,5 +86,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Delete', type: TabbingOrderTypes.LINK },
     { value: 'Set as default', type: TabbingOrderTypes.LINK },
     { value: 'Delete', type: TabbingOrderTypes.LINK },
+  ],
+  consentManagement: [
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
   ],
 };

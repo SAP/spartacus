@@ -13,6 +13,7 @@ import {
   paymentDetailCard,
   addSecondaryPaymentCard,
 } from '../../helpers/payment-methods';
+import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -79,6 +80,12 @@ context('Tabbing order - tests do require user to be logged in', () => {
       addSecondaryPaymentCard();
 
       paymentDetailsTabbingOrder(config.paymentDetails);
+    });
+  });
+
+  describe('Consent Management', () => {
+    it('should allow to navigate with tab key', () => {
+      consentManagementTabbingOrder(config.consentManagement);
     });
   });
 });
