@@ -10,6 +10,7 @@ import {
   User,
   UserService,
   UserToken,
+  RoutingConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
@@ -50,6 +51,12 @@ class MockUserService {
     return of(mockUserDetails);
   }
   load(): void {}
+}
+
+class MockRoutingConfigService {
+  getRouteConfig() {
+    return { paths: ['checkout'] };
+  }
 }
 
 @Component({
@@ -96,6 +103,7 @@ describe('LoginComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     }).compileComponents();
 

@@ -9,6 +9,7 @@ import {
   User,
   UserService,
   RoutingService,
+  RoutingConfigService,
 } from '@spartacus/core';
 import { Observable, of, Subscription, BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     auth: AuthService,
     userService: UserService,
-    routingService: RoutingService // tslint:disable-line
+    routingService: RoutingService, // tslint:disable-line
+    routingConfigService: RoutingConfigService
   );
   /**
    * @deprecated since 1.x
@@ -39,7 +41,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private userService: UserService,
-    private routingService?: RoutingService
+    private routingService?: RoutingService,
+    private routingConfigService?: RoutingConfigService
   ) {}
 
   ngOnInit(): void {
@@ -53,10 +56,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       })
     );
 
+    const checkoutPath =
+      '/' + this.routingConfigService.getRouteConfig('checkout').paths[0] + '/';
+
     this.subscription = this.routingService
       .getRouterState()
       .subscribe(routerState => {
-        if (routerState.state.context.id.indexOf('/checkout/') !== -1) {
+        if (routerState.state.context.id.indexOf(checkoutPath) !== -1) {
           this.hidden.next(true);
         } else {
           this.hidden.next(false);
