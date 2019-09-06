@@ -2,15 +2,15 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { ConfiguratorCommonsService } from 'projects/core/src/configurator/commons/facade/configurator-commons.service';
-import { ProductConfiguration } from 'projects/core/src/model/configurator.model';
+import { Configuration } from 'projects/core/src/model/configurator.model';
 import { Observable, of } from 'rxjs';
 import { StateWithConfiguration } from '../store/configuration-state';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 class MockStore {
   dispatch() {}
-  select(): Observable<ProductConfiguration> {
-    const productConfiguration: ProductConfiguration = {
+  select(): Observable<Configuration> {
+    const productConfiguration: Configuration = {
       productCode: PRODUCT_CODE,
     };
     return of(productConfiguration);

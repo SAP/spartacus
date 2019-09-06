@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ProductConfiguration } from '../../../model/configurator.model';
+import { Configuration } from '../../../model/configurator.model';
 
 export abstract class ConfiguratorCommonsAdapter {
   /**
@@ -7,7 +7,5 @@ export abstract class ConfiguratorCommonsAdapter {
    *
    * @param productCode Root product code
    */
-  abstract createConfiguration(
-    productCode: string
-  ): Observable<ProductConfiguration>;
+  abstract createConfiguration(productCode: string): Observable<Configuration>;
 }

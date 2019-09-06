@@ -1,4 +1,4 @@
-import { ProductConfiguration } from '../../../model/configurator.model';
+import { Configuration } from '../../../model/configurator.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 export const CONFIGURATION_FEATURE = 'productConfiguration';
@@ -13,6 +13,6 @@ export interface ConfigurationsState {
 }
 
 export interface ConfigurationState {
-  content: ProductConfiguration;
+  content: Configuration;
   refresh: boolean;
 }

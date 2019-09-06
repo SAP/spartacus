@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ProductConfiguration } from 'projects/core/src/model/configurator.model';
+import { Configuration } from 'projects/core/src/model/configurator.model';
 import { Observable } from 'rxjs';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import { FeatureConfigService } from '../../../../features-config/services/feature-config.service';
@@ -19,7 +19,7 @@ export class OccConfiguratorVariantAdapter
     protected featureConfigService?: FeatureConfigService
   ) {}
 
-  createConfiguration(productCode: string): Observable<ProductConfiguration> {
+  createConfiguration(productCode: string): Observable<Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.getUrl('createConfiguration', { productCode })

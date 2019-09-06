@@ -16,7 +16,7 @@ export interface Attribute {
 export interface Value {
   name: string;
 }
-export interface ProductConfiguration {
+export interface Configuration {
   consistent?: boolean;
   complete?: boolean;
   productCode?: string;

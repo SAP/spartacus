@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterState } from '@angular/router';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from 'projects/core/src/configurator/commons/facade/configurator-commons.service';
-import { ProductConfiguration } from 'projects/core/src/model/configurator.model';
+import { Configuration } from 'projects/core/src/model/configurator.model';
 import { Observable, of } from 'rxjs';
 import { ConfigurationFormComponent } from './configuration-form.component';
 
@@ -23,8 +23,8 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
-  createConfiguration(productCode: string): Observable<ProductConfiguration> {
-    const productConfig: ProductConfiguration = {
+  createConfiguration(productCode: string): Observable<Configuration> {
+    const productConfig: Configuration = {
       consistent: true,
       complete: true,
       productCode: productCode,
@@ -68,7 +68,7 @@ describe('ConfigurationFormComponent', () => {
     fixture.detectChanges();
     let productCode: string;
     component.configuration$.subscribe(
-      (data: ProductConfiguration) => (productCode = data.productCode)
+      (data: Configuration) => (productCode = data.productCode)
     );
 
     expect(productCode).toEqual(PRODUCT_CODE);

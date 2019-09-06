@@ -1,4 +1,4 @@
-import { ProductConfiguration } from 'projects/core/src/model/configurator.model';
+import { Configuration } from 'projects/core/src/model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { ConfigurationState } from '../configuration-state';
 import { reducer } from './configurator.reducer';
@@ -9,7 +9,7 @@ describe('ConfiguratorReducer', () => {
     refresh: false,
   };
   const productCode = 'CONF_LAPTOP';
-  const configuration: ProductConfiguration = {
+  const configuration: Configuration = {
     productCode: productCode,
   };
   it('should not change state on CreateConfiguration ', () => {

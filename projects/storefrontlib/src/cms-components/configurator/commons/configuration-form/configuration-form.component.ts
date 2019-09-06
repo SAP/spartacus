@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from 'projects/core/src/configurator/commons/facade/configurator-commons.service';
-import { ProductConfiguration } from 'projects/core/src/model/configurator.model';
+import { Configuration } from 'projects/core/src/model/configurator.model';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   templateUrl: './configuration-form.component.html',
 })
 export class ConfigurationFormComponent implements OnInit, OnDestroy {
-  configuration$: Observable<ProductConfiguration>;
+  configuration$: Observable<Configuration>;
 
   constructor(
     private routingService: RoutingService,

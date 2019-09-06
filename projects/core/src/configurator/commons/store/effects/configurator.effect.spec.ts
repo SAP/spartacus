@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { ProductConfiguration } from 'projects/core/src/model/configurator.model';
+import { Configuration } from 'projects/core/src/model/configurator.model';
 import { Observable, of } from 'rxjs';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions';
@@ -13,14 +13,14 @@ import { ConfiguratorCommonsConnector } from './../../connectors/configurator-co
 import * as fromEffects from './configurator.effect';
 
 const productCode = 'CONF_LAPTOP';
-const productConfiguration: ProductConfiguration = {
+const productConfiguration: Configuration = {
   productCode: productCode,
   complete: true,
   consistent: true,
 };
 
 class MockConnector {
-  createConfiguration(): Observable<ProductConfiguration> {
+  createConfiguration(): Observable<Configuration> {
     return of(productConfiguration);
   }
 }

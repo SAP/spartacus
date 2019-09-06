@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import {
   Attribute,
-  ProductConfiguration,
+  Configuration,
 } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable()
 export class OccConfiguratorVariantNormalizer
-  implements Converter<OccConfigurator.Configuration, ProductConfiguration> {
+  implements Converter<OccConfigurator.Configuration, Configuration> {
   constructor() {}
 
   convert(
     source: OccConfigurator.Configuration,
-    target?: ProductConfiguration
-  ): ProductConfiguration {
+    target?: Configuration
+  ): Configuration {
     if (target === undefined) {
       target = { ...(source as any) };
     }

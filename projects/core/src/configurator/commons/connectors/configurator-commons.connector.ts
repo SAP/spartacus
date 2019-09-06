@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductConfiguration } from '../../../model/configurator.model';
+import { Configuration } from '../../../model/configurator.model';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 
 @Injectable({
@@ -9,9 +9,7 @@ import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 export class ConfiguratorCommonsConnector {
   constructor(protected adapter: ConfiguratorCommonsAdapter) {}
 
-  public createConfiguration(
-    productCode: string
-  ): Observable<ProductConfiguration> {
+  public createConfiguration(productCode: string): Observable<Configuration> {
     return this.adapter.createConfiguration(productCode);
   }
 }
