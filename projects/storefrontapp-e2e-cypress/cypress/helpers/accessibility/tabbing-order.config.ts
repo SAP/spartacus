@@ -4,6 +4,8 @@ export enum TabbingOrderTypes {
   FORM_FIELD = 'formField',
   LINK = 'link',
   BUTTON = 'button',
+  GENERIC_CHECKBOX = 'genericCheckbox',
+  CHECKBOX_WITH_LABEL = 'checkboxWithLabel',
 }
 
 export interface TabbingOrderConfig {
@@ -85,5 +87,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Delete', type: TabbingOrderTypes.LINK },
     { value: 'Set as default', type: TabbingOrderTypes.LINK },
     { value: 'Delete', type: TabbingOrderTypes.LINK },
+  ],
+  consentManagement: [
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      value:
+        'This is a sample consent description that will need to be updated or replaced, based on the valid registration consent required',
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      value:
+        'This is a sample storage consent description that will need to be updated or replaced, based on the valid registration consent required.',
+    },
   ],
 };
