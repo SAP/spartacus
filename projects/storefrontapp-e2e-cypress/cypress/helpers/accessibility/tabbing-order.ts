@@ -14,7 +14,11 @@ export function checkElement(tabElement: TabElement) {
   switch (tabElement.type) {
     case TabbingOrderTypes.GENERIC_CHECKBOX: {
       cy.focused().should('have.attr', 'type', 'checkbox');
-      break;
+      return;
+    }
+    case TabbingOrderTypes.GENERIC_BUTTON: {
+      cy.focused().should('have.attr', 'type', 'button');
+      return;
     }
   }
 
@@ -40,6 +44,22 @@ export function checkElement(tabElement: TabElement) {
       cy.focused()
         .parent()
         .should('contain', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.IMG_LINK: {
+      cy.focused().should('have.attr', 'href', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.GENERIC_INPUT: {
+      cy.focused().should('have.attr', 'type', 'text');
+      break;
+    }
+    case TabbingOrderTypes.ITEM_COUNTER: {
+      cy.focused()
+        .parentsUntil('cx-item-counter')
+        .last()
+        .parent()
+        .should('have.attr', 'formcontrolname', tabElement.value);
       break;
     }
   }
