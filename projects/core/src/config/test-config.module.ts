@@ -1,7 +1,16 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { ModuleWithProviders, NgModule, PLATFORM_ID } from '@angular/core';
+import {
+  InjectionToken,
+  ModuleWithProviders,
+  NgModule,
+  PLATFORM_ID,
+} from '@angular/core';
 import { provideConfigFactory } from './config.module';
 import { getCookie } from './utils/get-cookie';
+
+export const TEST_CONFIG_COOKIE_NAME = new InjectionToken<string>(
+  'TEST_CONFIG_COOKIE_NAME'
+);
 
 export function parseConfigJSON(config: string) {
   try {
@@ -11,16 +20,20 @@ export function parseConfigJSON(config: string) {
   }
 }
 
-export function provideConfigFromCookie(cookieName: string) {
-  function configFromCookieFactory(platform: any, document: Document) {
-    if (isPlatformBrowser(platform)) {
-      const config = getCookie(document.cookie, cookieName);
-      return parseConfigJSON(config);
-    }
-    return {};
+export function configFromCookieFactory(
+  cookieName: string,
+  platform: any,
+  document: Document
+) {
+  if (isPlatformBrowser(platform) && cookieName) {
+    const config = getCookie(document.cookie, cookieName);
+    return parseConfigJSON(config);
   }
+  return {};
+}
 
-  return provideConfigFactory(configFromCookieFactory, [PLATFORM_ID, DOCUMENT]);
+export interface TestConfigModuleOptions {
+  cookie: string;
 }
 
 /**
@@ -35,10 +48,22 @@ export class TestConfigModule {
    *
    * Be aware of the cookie limitations (4096 bytes).
    */
-  static fromCookie(cookieName: string): ModuleWithProviders<TestConfigModule> {
+  static forRoot(
+    options: TestConfigModuleOptions
+  ): ModuleWithProviders<TestConfigModule> {
     return {
       ngModule: TestConfigModule,
-      providers: [provideConfigFromCookie(cookieName)],
+      providers: [
+        {
+          provide: TEST_CONFIG_COOKIE_NAME,
+          useValue: options && options.cookie,
+        },
+        provideConfigFactory(configFromCookieFactory, [
+          TEST_CONFIG_COOKIE_NAME,
+          PLATFORM_ID,
+          DOCUMENT,
+        ]),
+      ],
     };
   }
 }
