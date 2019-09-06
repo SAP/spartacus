@@ -1,14 +1,12 @@
 <div class="register-guest">
   <div class="col-md-6 col-lg-4">
-    <div class="title">
-      <h2>{{ 'checkoutOrderConfirmation.createAccount' | cxTranslate }}</h2>
-      <p>
-        {{
-          'checkoutOrderConfirmation.createAccountForNext'
-            | cxTranslate: { email: email }
-        }}
-      </p>
-    </div>
+    <h3>{{ 'checkoutOrderConfirmation.createAccount' | cxTranslate }}</h3>
+    <p>
+      {{
+        'checkoutOrderConfirmation.createAccountForNext'
+          | cxTranslate: { email: email }
+      }}
+    </p>
 
     <form [formGroup]="guestRegisterForm">
       <div class="form-group">
