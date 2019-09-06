@@ -11,7 +11,7 @@ export function parseConfigJSON(config: string) {
   }
 }
 
-export function provideConfigFromCookie(cookieName) {
+export function provideConfigFromCookie(cookieName: string) {
   function configFromCookieFactory(document: Document) {
     const config = getCookie(document.cookie, cookieName);
     return parseConfigJSON(config);
