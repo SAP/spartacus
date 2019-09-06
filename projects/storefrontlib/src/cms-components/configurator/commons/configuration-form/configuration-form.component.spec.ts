@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterState } from '@angular/router';
-import { RoutingService } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from 'projects/core/src/configurator/commons/facade/configurator-commons.service';
 import { ProductConfiguration } from 'projects/core/src/model/configurator.model';
 import { Observable, of } from 'rxjs';
@@ -39,7 +39,7 @@ describe('ConfigurationFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       declarations: [ConfigurationFormComponent],
       providers: [
         {
