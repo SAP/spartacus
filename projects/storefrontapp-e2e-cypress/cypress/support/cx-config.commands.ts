@@ -17,5 +17,5 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('cxConfig', config => {
-  cy.setCookie('cxTestConfig', JSON.stringify(config));
+  cy.setCookie('cxConfigE2E', JSON.stringify(config));
 });
