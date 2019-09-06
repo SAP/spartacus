@@ -10,6 +10,7 @@ import createSpy = jasmine.createSpy;
 
 describe('CmsRoutesService', () => {
   let service: CmsRoutesService;
+  let cmsMappingService: CmsMappingService;
   let mockRouter;
 
   const mockPageContext = {
@@ -49,6 +50,7 @@ describe('CmsRoutesService', () => {
     });
 
     service = TestBed.get(CmsRoutesService as Type<CmsRoutesService>);
+    cmsMappingService = TestBed.get(CmsMappingService);
   });
 
   it('should be created', () => {
@@ -68,12 +70,22 @@ describe('CmsRoutesService', () => {
   describe('handleCmsRoutesInGuard', () => {
     it('should return false for content page with cms driven route', () => {
       expect(
-        service.handleCmsRoutesInGuard(mockPageContext, [], '/testRoute2')
+        service.handleCmsRoutesInGuard(
+          mockPageContext,
+          [],
+          '/testRoute2',
+          '/testRoute2'
+        )
       ).toEqual(false);
     });
 
     it('should add new route for content page with cms driven route', () => {
-      service.handleCmsRoutesInGuard(mockPageContext, [], '/testRoute2');
+      service.handleCmsRoutesInGuard(
+        mockPageContext,
+        [],
+        '/testRoute2',
+        '/testRoute2'
+      );
 
       const expectedConfig = [
         {
@@ -81,28 +93,95 @@ describe('CmsRoutesService', () => {
           component: PageLayoutComponent,
           children: [{ path: 'sub-route' }],
           data: {
-            cxCmsRouteContext: mockPageContext,
+            cxCmsRouteContext: {
+              id: '/testRoute2',
+              type: mockPageContext.type,
+            },
           },
         },
         ...mockRouterConfig,
       ];
+      expect(mockRouter.resetConfig).toHaveBeenCalledWith(expectedConfig);
+    });
 
+    it('should add new route for content page using page label, not current url', () => {
+      service.handleCmsRoutesInGuard(
+        mockPageContext,
+        [],
+        '/testRoute2/sub-route',
+        '/testRoute2'
+      );
+
+      const expectedConfig = [
+        {
+          path: 'testRoute2',
+          component: PageLayoutComponent,
+          children: [{ path: 'sub-route' }],
+          data: {
+            cxCmsRouteContext: {
+              id: '/testRoute2',
+              type: mockPageContext.type,
+            },
+          },
+        },
+        ...mockRouterConfig,
+      ];
       expect(mockRouter.resetConfig).toHaveBeenCalledWith(expectedConfig);
     });
 
     it('should redirect for content page with cms driven route', () => {
-      service.handleCmsRoutesInGuard(mockPageContext, [], '/testRoute2');
+      service.handleCmsRoutesInGuard(
+        mockPageContext,
+        [],
+        '/testRoute2',
+        '/testRoute2'
+      );
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/testRoute2');
     });
 
     it('should return true for content pages without cms driven route', () => {
-      const pageContext = {
-        type: PageType.CONTENT_PAGE,
-        id: 'testRoute2',
-      };
+      spyOn(cmsMappingService, 'getRoutesForComponents').and.returnValue([]);
 
       expect(
-        service.handleCmsRoutesInGuard(pageContext, [], '/testRoute2')
+        service.handleCmsRoutesInGuard(
+          mockPageContext,
+          [],
+          '/testRoute2',
+          '/testRoute2'
+        )
+      ).toEqual(true);
+    });
+
+    it('should return true for non-content pages', () => {
+      expect(
+        service.handleCmsRoutesInGuard(
+          { ...mockPageContext, type: PageType.PRODUCT_PAGE },
+          [],
+          '/testRoute2',
+          '/testRoute2'
+        )
+      ).toEqual(true);
+    });
+
+    it('should return true for page label not starting with slash', () => {
+      expect(
+        service.handleCmsRoutesInGuard(
+          mockPageContext,
+          [],
+          '/testRoute2',
+          'testRoute2'
+        )
+      ).toEqual(true);
+    });
+
+    it('should return true for root path (slash)', () => {
+      expect(
+        service.handleCmsRoutesInGuard(
+          { type: PageType.CONTENT_PAGE, id: 'testHomepage' },
+          [],
+          '/',
+          '/'
+        )
       ).toEqual(true);
     });
   });

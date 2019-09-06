@@ -33,6 +33,7 @@ export class OccCmsPageNormalizer
       template: source.template,
       slots: {},
       properties: source.properties,
+      label: source.label,
     };
   }
 
