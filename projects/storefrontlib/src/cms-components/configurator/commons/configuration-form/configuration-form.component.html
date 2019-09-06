@@ -1,9 +1,14 @@
 <ng-container *ngIf="(configuration$ | async) as configuration">
   <div class="cx-total">
-    {{ configuration.productCode }}
+    {{ 'header.consistent' | cxTranslate }} : {{ configuration.consistent }}
     <br />
-    {{ configuration.complete }}
+    {{ 'header.complete' | cxTranslate }} : {{ configuration.complete }}
   </div>
+  <br />
+  <div class="cx-total">
+    {{ 'attribute.caption' | cxTranslate }}
+  </div>
+  <br />
   <div
     class="cx-item-list-row"
     *ngFor="let attribute of configuration.attributes"
