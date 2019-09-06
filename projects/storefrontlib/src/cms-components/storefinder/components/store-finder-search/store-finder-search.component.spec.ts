@@ -101,4 +101,11 @@ describe('StoreFinderSearchComponent', () => {
       useMyLocation: true,
     });
   });
+
+  it('should call findStores if search value provided and Enter is an event', () => {
+    spyOn(component, 'findStores');
+    component.searchBox.setValue(query);
+    component.onKey(keyEvent);
+    expect(component.findStores).toHaveBeenCalledWith(query);
+  });
 });

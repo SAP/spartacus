@@ -11,14 +11,14 @@ export class StoreFinderSearchComponent {
   searchBox: FormControl = new FormControl();
   iconTypes = ICON_TYPE;
 
-  constructor(private routing: RoutingService) {}
+  constructor(private routingService: RoutingService) {}
 
   findStores(address: string) {
-    this.routing.go(['store-finder/find'], { query: address });
+    this.routingService.go(['store-finder/find'], { query: address });
   }
 
   viewStoresWithMyLoc() {
-    this.routing.go(['store-finder/find'], { useMyLocation: true });
+    this.routingService.go(['store-finder/find'], { useMyLocation: true });
   }
 
   onKey(event: any) {

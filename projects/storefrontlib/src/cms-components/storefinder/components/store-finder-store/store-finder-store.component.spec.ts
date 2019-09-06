@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -16,10 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 const mockStoreFinderService = {
   getStoresLoading: jasmine.createSpy(),
   getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  getViewAllStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  findStoresAction: jasmine.createSpy().and.returnValue(of(Observable)),
   viewStoreById: jasmine.createSpy().and.returnValue(of(Observable)),
-  getViewAllStoresLoading: jasmine.createSpy(),
 };
 
 @Component({
@@ -51,6 +48,7 @@ const mockActivatedRoute = {
 describe('StoreFinderStoreComponent', () => {
   let component: StoreFinderStoreComponent;
   let fixture: ComponentFixture<StoreFinderStoreComponent>;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -75,6 +73,7 @@ describe('StoreFinderStoreComponent', () => {
   }));
 
   beforeEach(() => {
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
     fixture = TestBed.createComponent(StoreFinderStoreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -82,5 +81,13 @@ describe('StoreFinderStoreComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call goBack and return to previous view', () => {
+    component.goBack();
+
+    expect(routingService.go).toHaveBeenCalledWith([
+      `store-finder/country/${mockActivatedRoute.snapshot.params.country}`,
+    ]);
   });
 });

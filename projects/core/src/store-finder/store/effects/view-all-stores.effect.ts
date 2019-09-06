@@ -22,10 +22,15 @@ export class ViewAllStoresEffect {
     ofType(StoreFinderActions.VIEW_ALL_STORES),
     switchMap(() => {
       return this.storeFinderConnector.getCounts().pipe(
-        switchMap(data => [
-          new StoreFinderActions.ViewAllStoresSuccess(data),
-          new StoreFinderActions.StoreEntities(data),
-        ]),
+        switchMap(data => {
+          const result = data.sort((a, b) =>
+            a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+          );
+          return [
+            new StoreFinderActions.ViewAllStoresSuccess(result),
+            new StoreFinderActions.StoreEntities(result),
+          ];
+        }),
         catchError(error =>
           of(
             new StoreFinderActions.ViewAllStoresFail(
