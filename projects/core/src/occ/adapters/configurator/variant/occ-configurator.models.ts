@@ -23,5 +23,14 @@ export namespace OccConfigurator {
   export interface Characteristic {
     name?: string;
     langdepname?: string;
+    domainvalues?: Value[];
+  }
+
+  export interface Value {
+    key?: string;
+    name?: string;
+    langdepname?: string;
+    readonly?: boolean;
+    selected?: boolean;
   }
 }

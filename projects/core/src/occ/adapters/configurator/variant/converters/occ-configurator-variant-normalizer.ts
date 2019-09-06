@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   Attribute,
   Configuration,
+  Value,
 } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
@@ -38,8 +39,22 @@ export class OccConfiguratorVariantNormalizer
     const attribute: Attribute = {
       name: cstic.name,
       label: cstic.langdepname,
+      values: [],
+    };
+    if (cstic.domainvalues) {
+      cstic.domainvalues.forEach(value =>
+        this.convertValue(value, attribute.values)
+      );
+    }
+    attributeList.push(attribute);
+  }
+
+  convertValue(occValue: OccConfigurator.Value, values: Value[]): void {
+    const value: Value = {
+      valueCode: occValue.key,
+      valueDisplay: occValue.langdepname,
     };
 
-    attributeList.push(attribute);
+    values.push(value);
   }
 }

@@ -13,9 +13,18 @@ export interface Attribute {
   userInput?: string;
   isLineItem?: boolean;
 }
+
 export interface Value {
-  name: string;
+  valueCode?: string;
+  valueDisplay?: string;
+  description?: string;
+  selected?: boolean;
+  quantity?: number;
+  price?: number;
+  productSystemId?: string;
+  isCommerceProduct?: boolean;
 }
+
 export interface Configuration {
   consistent?: boolean;
   complete?: boolean;
