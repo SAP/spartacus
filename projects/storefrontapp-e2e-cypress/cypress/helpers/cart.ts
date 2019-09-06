@@ -75,7 +75,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
   goToProductFromSearch(product.code, mobile);
 
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .getAllByText(/Add To Cart/i)
     .first()
     .click({ force: true });
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
