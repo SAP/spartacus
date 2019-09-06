@@ -18,4 +18,6 @@ if [ $SUITE == 'regression' ]; then
     yarn e2e:cy:start-run-mobile-ci
 else
     yarn e2e:cy:start-run-ci
+    yarn e2e:cy:start-run-mobile-ci
+    yarn e2e:cy:start-run-regression-ci
 fi
