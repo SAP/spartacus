@@ -9,6 +9,11 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AddressBookComponentService {
+  constructor(
+    userAddressService: UserAddressService,
+    checkoutDeliveryService: CheckoutDeliveryService,
+    featureConfigService: FeatureConfigService
+  );
   /**
    * @deprecated since version 1.2
    *  Use constructor(userAddressService: UserAddressService,

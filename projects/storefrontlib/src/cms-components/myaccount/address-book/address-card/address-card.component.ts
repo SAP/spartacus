@@ -18,6 +18,11 @@ export class AddressCardComponent {
 
   @Output() editEvent = new EventEmitter<any>();
 
+  constructor(
+    userAddressService: UserAddressService,
+    checkoutDeliveryService: CheckoutDeliveryService,
+    featureConfigService: FeatureConfigService
+  );
   /**
    * @deprecated since version 1.2
    *  Use constructor(userAddressService: UserAddressService,

@@ -13,8 +13,15 @@ import { CheckoutConfig } from '../config/checkout-config';
   providedIn: 'root',
 })
 export class CheckoutGuard implements CanActivate {
-  private firstStep$: Observable<UrlTree>;
+  private readonly firstStep$: Observable<UrlTree>;
 
+  constructor(
+    router: Router,
+    config: CheckoutConfig,
+    routingConfigService: RoutingConfigService,
+    checkoutConfigService: CheckoutConfigService,
+    expressCheckoutService: ExpressCheckoutService
+  );
   /**
    * @deprecated since version 1.2
    *  Use constructor(router: Router,
