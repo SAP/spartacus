@@ -11,6 +11,13 @@ export abstract class UserOrderAdapter {
   abstract load(userId: string, orderCode: string): Observable<Order>;
 
   /**
+   * Abstract method used to load order data only by order guid or code
+   *
+   * @param code
+   */
+  abstract loadByCode(code: string): Observable<Order>;
+
+  /**
    * Abstract method used to load order history for an user.
    *
    * @param userId The `userId` for given user

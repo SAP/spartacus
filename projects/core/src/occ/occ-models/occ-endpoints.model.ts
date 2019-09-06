@@ -210,6 +210,12 @@ export interface OccEndpoints {
    */
   orderDetail?: string;
   /**
+   * Endpoint for the details of one user's order only by order's guid/code
+   *
+   * @member {string}
+   */
+  orderDetailByCode?: string;
+  /**
    * Endpoint for consent templates
    *
    * @member {string}
