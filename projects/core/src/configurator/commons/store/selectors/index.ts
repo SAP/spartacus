@@ -1,2 +1,2 @@
-import * as ConfiguratorSelectors from './configuration-selector';
+import * as ConfiguratorSelectors from './configurator.selector';
 export { ConfiguratorSelectors };

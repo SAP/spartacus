@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ProductConfiguration } from '../../../model/configurator.model';
 import { ConfiguratorActions } from '../store/actions/index';
 import { StateWithConfiguration } from '../store/configuration-state';
-import { ConfiguratorSelectors } from '../store/selectors';
+import { ConfiguratorSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class ConfiguratorCommonsService {

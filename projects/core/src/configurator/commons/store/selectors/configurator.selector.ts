@@ -13,7 +13,7 @@ import {
 const getConfigurationContentSelector = (state: ConfigurationsState) =>
   state.active.value.content;
 
-export const getConfigurationsState: MemoizedSelector<
+const getConfigurationsState: MemoizedSelector<
   StateWithConfiguration,
   ConfigurationsState
 > = createFeatureSelector<ConfigurationsState>(CONFIGURATION_FEATURE);
