@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ModuleWithProviders, NgModule, PLATFORM_ID } from '@angular/core';
 import { provideConfigFactory } from './config.module';
 import { getCookie } from './utils/get-cookie';
 
@@ -12,20 +12,26 @@ export function parseConfigJSON(config: string) {
 }
 
 export function provideConfigFromCookie(cookieName: string) {
-  function configFromCookieFactory(document: Document) {
-    const config = getCookie(document.cookie, cookieName);
-    return parseConfigJSON(config);
+  function configFromCookieFactory(platform: any, document: Document) {
+    if (isPlatformBrowser(platform)) {
+      const config = getCookie(document.cookie, cookieName);
+      return parseConfigJSON(config);
+    }
+    return {};
   }
 
-  return provideConfigFactory(configFromCookieFactory, [DOCUMENT]);
+  return provideConfigFactory(configFromCookieFactory, [PLATFORM_ID, DOCUMENT]);
 }
 
+/**
+ * CAUTION: DON'T USE IT IN PRODUCTION! IT WAS NOT TESTED FOR SECURITY.
+ */
 @NgModule({})
 export class TestConfigModule {
   /**
-   * Injects JSON config from the cookie of the given name.
+   * CAUTION: DON'T USE IT IN PRODUCTION! IT WAS NOT TESTED FOR SECURITY.
    *
-   * CAUTION: don't use it in production!
+   * Injects JSON config from the cookie of the given name.
    *
    * Be aware of the cookie limitations (4096 bytes).
    */
