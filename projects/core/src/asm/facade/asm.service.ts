@@ -38,6 +38,12 @@ export class AsmService {
     return this.store.pipe(select(AsmSelectors.getCustomerSearchResults));
   }
 
+  getCustomerSearchResultsLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(AsmSelectors.getCustomerSearchResultsLoading)
+    );
+  }
+
   /**
    * Updates the state of the ASM UI
    */
