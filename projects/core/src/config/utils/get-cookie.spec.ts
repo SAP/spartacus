@@ -1,6 +1,6 @@
 import { getCookie } from './get-cookie';
 
-fdescribe('getCookie utility', () => {
+describe('getCookie utility', () => {
   it('should get single cookie', () => {
     const cookie = 'testKey=testValue';
     expect(getCookie(cookie, 'testKey')).toBe('testValue');
