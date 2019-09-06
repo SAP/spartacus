@@ -36,6 +36,12 @@ export function checkElement(tabElement: TabElement) {
       cy.focused().should('contain', tabElement.value);
       break;
     }
+    case TabbingOrderTypes.CHECKBOX_WITH_LABEL: {
+      cy.focused()
+        .parent()
+        .should('contain', tabElement.value);
+      break;
+    }
   }
 }
 
