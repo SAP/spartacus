@@ -38,6 +38,8 @@ export interface TestConfigModuleOptions {
 
 /**
  * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
+ *
+ * Designed/intended to provide dynamic configuration for testing scenarios ONLY (e.g. e2e tests).
  */
 @NgModule({})
 export class TestConfigModule {
