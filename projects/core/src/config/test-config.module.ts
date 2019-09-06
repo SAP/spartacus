@@ -24,12 +24,12 @@ export function provideConfigFromCookie(cookieName: string) {
 }
 
 /**
- * CAUTION: DON'T USE IT IN PRODUCTION! IT WAS NOT TESTED FOR SECURITY.
+ * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
  */
 @NgModule({})
 export class TestConfigModule {
   /**
-   * CAUTION: DON'T USE IT IN PRODUCTION! IT WAS NOT TESTED FOR SECURITY.
+   * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
    *
    * Injects JSON config from the cookie of the given name.
    *
