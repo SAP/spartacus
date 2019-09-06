@@ -37,18 +37,18 @@ export interface TestConfigModuleOptions {
 }
 
 /**
- * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
- *
  * Designed/intended to provide dynamic configuration for testing scenarios ONLY (e.g. e2e tests).
+ *
+ * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
  */
 @NgModule({})
 export class TestConfigModule {
   /**
-   * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
-   *
    * Injects JSON config from the cookie of the given name.
    *
    * Be aware of the cookie limitations (4096 bytes).
+   *
+   * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
    */
   static forRoot(
     options: TestConfigModuleOptions
