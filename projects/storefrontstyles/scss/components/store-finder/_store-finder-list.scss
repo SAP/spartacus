@@ -1,7 +1,7 @@
 %cx-store-finder-list {
   .cx-columns {
     display: none;
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       display: flex;
       height: 70vh;
       margin-bottom: 1rem;
@@ -10,7 +10,7 @@
   .cx-columns-mobile {
     margin-top: 1rem;
     display: block;
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       display: none;
     }
 
@@ -18,6 +18,10 @@
       li:first-child {
         border: none;
       }
+    }
+
+    .cx-map-col {
+      height: 70vh;
     }
   }
   .cx-address-col {

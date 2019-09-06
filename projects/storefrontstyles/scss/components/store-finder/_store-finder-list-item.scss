@@ -3,9 +3,10 @@
   text-align: left;
   padding: 1rem 0.75rem;
   text-decoration: none;
+  position: relative;
 
   @include media-breakpoint-down(md) {
-    padding: 0;
+    padding: 0.5rem;
   }
 
   &:hover {
@@ -17,7 +18,7 @@
 
   .cx-store-list-order {
     position: absolute;
-    left: 1rem;
+    left: -2rem;
   }
 
   .cx-store-name {
