@@ -31,10 +31,6 @@ export class CustomerSupportAgentTokenInterceptor implements HttpInterceptor {
               Authorization: `${token.token_type} ${token.access_token}`,
             },
           });
-          request = InterceptorUtil.removeHeader(
-            USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-            request
-          );
         }
         return next.handle(request);
       })
