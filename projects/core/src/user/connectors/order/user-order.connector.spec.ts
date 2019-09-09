@@ -11,6 +11,10 @@ class MockOrderAdapter implements UserOrderAdapter {
     of(`order-${userId}-${orderCode}`)
   );
 
+  loadByCode = createSpy('UserOrderAdapter.loadByCode').and.callFake(code =>
+    of(`order-${code}`)
+  );
+
   loadHistory = createSpy('UserOrderAdapter.loadHistory').and.callFake(userId =>
     of(`orderHistory-${userId}`)
   );
@@ -33,11 +37,19 @@ describe('UserOrderConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('get should call adapter', () => {
+  it('get should call adapter "load" ', () => {
     let result;
     service.get('user2', 'order2').subscribe(res => (result = res));
     expect(result).toBe('order-user2-order2');
     expect(adapter.load).toHaveBeenCalledWith('user2', 'order2');
+  });
+
+  it('get should call adapter "loadByCode', () => {
+    const guid = '1b11111a-a111-1e11-a111-1b111111e11a';
+    let result;
+    service.get('user2', guid).subscribe(res => (result = res));
+    expect(result).toBe('order-' + guid);
+    expect(adapter.loadByCode).toHaveBeenCalledWith(guid);
   });
 
   it('getHistory should call adapter', () => {
