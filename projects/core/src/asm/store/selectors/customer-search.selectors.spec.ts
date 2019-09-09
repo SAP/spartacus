@@ -22,7 +22,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 } as CustomerSearchPage;
 
-fdescribe('Customer Search Results Selectors', () => {
+describe('Customer Search Results Selectors', () => {
   let store: Store<StateWithAsm>;
 
   beforeEach(() => {
