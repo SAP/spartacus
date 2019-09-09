@@ -38,7 +38,10 @@ export class AsmService {
     return this.store.pipe(select(AsmSelectors.getCustomerSearchResults));
   }
 
-  getCustomerSearchResultsLoading(): Observable<boolean> {
+  /**
+   * Returns the customer search result loading status.
+   */
+  getCustomerSearchResultLoading(): Observable<boolean> {
     return this.store.pipe(
       select(AsmSelectors.getCustomerSearchResultsLoading)
     );

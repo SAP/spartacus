@@ -68,6 +68,15 @@ describe('AsmService', () => {
     expect(result).toEqual(mockCustomerSearchPage);
   });
 
+  it('should return search result loading status', () => {
+    let result: boolean;
+    service
+      .getCustomerSearchResultLoading()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
+  });
+
   it('should dispatch proper action for customer search reset', () => {
     spyOn(store, 'dispatch').and.stub();
     service.customerSearchReset();
