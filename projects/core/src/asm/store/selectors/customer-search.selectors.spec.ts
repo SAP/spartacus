@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
 import { User } from '../../../model/misc.model';
 import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions';
@@ -21,7 +22,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 } as CustomerSearchPage;
 
-describe('Customer Search Results Selectors', () => {
+fdescribe('Customer Search Results Selectors', () => {
   let store: Store<StateWithAsm>;
 
   beforeEach(() => {
@@ -49,5 +50,37 @@ describe('Customer Search Results Selectors', () => {
     );
 
     expect(result).toEqual(mockCustomerSearchPage);
+  });
+
+  it('should return Customer Search results loading state from the state', () => {
+    let result: boolean;
+
+    store
+      .pipe(select(AsmSelectors.getCustomerSearchResultsLoading))
+      .subscribe(value => (result = value));
+    expect(result).toEqual(false);
+
+    store.dispatch(new AsmActions.CustomerSearch({ query: 'abc' }));
+
+    expect(result).toEqual(true);
+  });
+
+  it('should return Customer Search results loader state', () => {
+    store.dispatch(
+      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage)
+    );
+
+    let result: LoaderState<CustomerSearchPage>;
+    store
+      .pipe(select(AsmSelectors.getCustomerSearchResultsLoaderState))
+      .subscribe(value => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual({
+      error: false,
+      loading: false,
+      success: true,
+      value: mockCustomerSearchPage,
+    } as LoaderState<CustomerSearchPage>);
   });
 });
