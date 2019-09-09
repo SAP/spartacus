@@ -21,7 +21,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 } as CustomerSearchPage;
 
-describe('Customer Search Results Selectors', () => {
+fdescribe('Customer Search Results Selectors', () => {
   let store: Store<StateWithAsm>;
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('Customer Search Results Selectors', () => {
     store
       .pipe(select(AsmSelectors.getCustomerSearchResults))
       .subscribe(value => (result = value));
-    expect(result).toEqual(<CustomerSearchPage>{});
+    expect(result).toEqual(undefined);
 
     store.dispatch(
       new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage)
