@@ -91,6 +91,8 @@ export class CartService {
           cartId: 'current',
         })
       );
+    } else if (this.isGuestCart()) {
+      this.guestCartMerge();
     } else {
       this.store.dispatch(
         new CartActions.MergeCart({
@@ -222,5 +224,51 @@ export class CartService {
 
   private isLoggedIn(userId: string): boolean {
     return typeof userId !== 'undefined';
+  }
+
+  // TODO: Remove once backend is updated
+  /**
+   * Temporary method to merge guest cart with user cart because of beackend limitation
+   * This is for an edge case
+   */
+  private guestCartMerge(): void {
+    this.getEntries()
+      .pipe(take(1))
+      .subscribe(entries => {
+        this.store.dispatch(
+          new CartActions.DeleteCart({
+            userId: ANONYMOUS_USERID,
+            cartId: this.cartData.cart.guid,
+          })
+        );
+
+        combineLatest([
+          this.store.select(CartSelectors.getCartContent),
+          this.store.select(CartSelectors.getCartLoading),
+          this.store.select(CartSelectors.getCartLoaded),
+        ])
+          .pipe(
+            filter(([, loading]) => !loading),
+            tap(([cart, , loaded]) => {
+              // Load the cart if not created, loaded prevents infinite loop
+              if (!this.isCreated(cart) && !loaded) {
+                this.store.dispatch(
+                  new CartActions.LoadCart({
+                    userId: this.cartData.userId,
+                    cartId: 'current',
+                  })
+                );
+              }
+            }),
+            filter(([, , loaded]) => loaded),
+            take(1)
+          )
+          .subscribe(() => {
+            // Add entries from guest cart to user cart
+            for (const entry of entries) {
+              this.addEntry(entry.product.code, entry.quantity);
+            }
+          });
+      });
   }
 }

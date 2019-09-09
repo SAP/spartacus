@@ -1,5 +1,6 @@
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ANONYMOUS_USERID } from 'projects/core/src/cart';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
@@ -108,6 +109,17 @@ export class OccCartAdapter implements CartAdapter {
         toAdd
       )
       .pipe(this.converterService.pipeable(CART_NORMALIZER));
+  }
+
+  delete(userId: string, cartId: string): Observable<{}> {
+    let headers = new HttpHeaders();
+    if (userId === ANONYMOUS_USERID) {
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    }
+    return this.http.delete<{}>(
+      this.occEndpointsService.getUrl('deleteCart', { userId, cartId }),
+      { headers }
+    );
   }
 
   /**

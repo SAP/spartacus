@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -163,6 +169,22 @@ export class CartEffects {
             of(new CartActions.AddEmailToCartFail(makeErrorSerializable(error)))
           )
         )
+    )
+  );
+
+  @Effect()
+  deleteCart$: Observable<any> = this.actions$.pipe(
+    ofType(CartActions.DELETE_CART),
+    map((action: CartActions.DeleteCart) => action.payload),
+    exhaustMap(payload =>
+      this.cartConnector.delete(payload.userId, payload.cartId).pipe(
+        map(() => {
+          return new CartActions.ClearCart();
+        }),
+        catchError(error =>
+          of(new CartActions.DeleteCartFail(makeErrorSerializable(error)))
+        )
+      )
     )
   );
 
