@@ -249,7 +249,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         fallbackLang: 'en'
       },
       features: {
-        level: '${options.features}'
+        level: '${options.featureLevel}'
       }
     }`;
 }

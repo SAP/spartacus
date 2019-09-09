@@ -124,11 +124,11 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`baseSite: ['test-site']`)).toBe(true);
     });
 
-    it('should set features', async () => {
+    it('should set feature level', async () => {
       const tree = await schematicRunner
         .runSchematicAsync(
           'add-spartacus',
-          { ...defaultOptions, features: '1.5' },
+          { ...defaultOptions, featureLevel: '1.5' },
           appTree
         )
         .toPromise();
