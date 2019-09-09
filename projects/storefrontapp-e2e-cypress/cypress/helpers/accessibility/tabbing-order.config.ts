@@ -6,6 +6,10 @@ export enum TabbingOrderTypes {
   BUTTON = 'button',
   GENERIC_CHECKBOX = 'genericCheckbox',
   CHECKBOX_WITH_LABEL = 'checkboxWithLabel',
+  IMG_LINK = 'imgLink',
+  GENERIC_INPUT = 'genericInput',
+  GENERIC_BUTTON = 'genericButton',
+  ITEM_COUNTER = 'itemCounter',
 }
 
 export interface TabbingOrderConfig {
@@ -41,7 +45,22 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
   ],
-  cart: [],
+  cart: [
+    {
+      value: '/electronics-spa/en/USD/product/1981414/PL60%20Pink',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'PL60 Pink',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'quantity', type: TabbingOrderTypes.ITEM_COUNTER },
+    { value: '-', type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Proceed to Checkout', type: TabbingOrderTypes.BUTTON },
+  ],
   changePassword: [
     {
       value: 'oldPassword',
@@ -100,5 +119,24 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value:
         'This is a sample storage consent description that will need to be updated or replaced, based on the valid registration consent required.',
     },
+  ],
+  addToCart: [
+    { value: 'view cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'proceed to checkout', type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.GENERIC_BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/1981414/PL60%20Pink',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'PL60 Pink',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'quantity', type: TabbingOrderTypes.ITEM_COUNTER },
+    { value: '-', type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'view cart', type: TabbingOrderTypes.BUTTON },
   ],
 };

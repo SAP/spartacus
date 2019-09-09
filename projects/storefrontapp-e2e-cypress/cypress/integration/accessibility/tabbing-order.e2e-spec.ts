@@ -15,6 +15,7 @@ import {
 } from '../../helpers/payment-methods';
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
+import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -42,6 +43,12 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   describe('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
+    });
+  });
+
+  describe('Add to cart', () => {
+    it('should allow to navigate with tab key', () => {
+      addToCartTabbingOrder(config.addToCart);
     });
   });
 
