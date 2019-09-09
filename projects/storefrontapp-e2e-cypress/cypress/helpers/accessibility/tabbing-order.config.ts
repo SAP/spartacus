@@ -41,6 +41,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
   ],
+  cart: [],
   changePassword: [
     {
       value: 'oldPassword',
