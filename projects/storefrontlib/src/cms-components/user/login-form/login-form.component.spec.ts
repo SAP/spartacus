@@ -11,6 +11,7 @@ import {
   I18nTestingModule,
   UserToken,
   WindowRef,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginFormComponent } from './login-form.component';
@@ -46,6 +47,12 @@ class MockActivatedRoute {
   };
 }
 
+class MockFeatureConfigService {
+  isEnabled(): boolean {
+    return false;
+  }
+}
+
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
@@ -67,6 +74,7 @@ describe('LoginFormComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
