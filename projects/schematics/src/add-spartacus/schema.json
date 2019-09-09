@@ -22,6 +22,11 @@
     "useMetaTags": {
       "type": "boolean",
       "description": "Configure baseUrl via meta tag in index.html"
+    },
+    "features": {
+      "type": "string",
+      "description": "Configure feature level for application.",
+      "default": "1.1"
     }
   },
   "required": []

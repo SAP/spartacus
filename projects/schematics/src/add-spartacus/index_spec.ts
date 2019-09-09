@@ -123,6 +123,20 @@ describe('add-spartacus', () => {
       );
       expect(appModule.includes(`baseSite: ['test-site']`)).toBe(true);
     });
+
+    it('should set features', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync(
+          'add-spartacus',
+          { ...defaultOptions, features: '1.5' },
+          appTree
+        )
+        .toPromise();
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
+      expect(appModule.includes(`level: '1.5'`)).toBe(true);
+    });
   });
 
   it('Import Spartacus styles to main.scss', async () => {
