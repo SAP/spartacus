@@ -11,7 +11,6 @@ export function registerUser() {
     .getByText('Register')
     .click();
   register(user);
-  cy.get(userGreetSelector).should('contain', user.fullName);
   return user;
 }
 
@@ -24,7 +23,6 @@ export function signOutUser() {
 }
 
 export function loginUser() {
-  cy.get(loginLinkSelector).click();
   login(user.email, user.password);
 }
 
