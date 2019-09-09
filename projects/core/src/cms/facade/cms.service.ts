@@ -3,7 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
+  debounceTime,
   filter,
+  map,
   pluck,
   shareReplay,
   switchMap,
@@ -29,6 +31,10 @@ export class CmsService {
 
   private components: {
     [uid: string]: Observable<CmsComponent>;
+  } = {};
+
+  private componentsLists: {
+    [uidList: string]: Observable<CmsComponent[]>;
   } = {};
 
   constructor(
@@ -96,6 +102,60 @@ export class CmsService {
     }
 
     return this.components[uid] as Observable<T>;
+  }
+
+  getComponentsData<T extends CmsComponent>(uids: string[]): Observable<T[]> {
+    const uidsSerialized: string = uids.join(' ');
+
+    if (!this.componentsLists[uidsSerialized]) {
+      const componentsData$ = combineLatest(
+        uids.map(uid =>
+          this.store.pipe(
+            select(CmsSelectors.componentStateSelectorFactory(uid))
+          )
+        )
+      ).pipe(debounceTime(0));
+
+      this.componentsLists[uidsSerialized] = combineLatest([
+        this.routingService.isNavigating(),
+        componentsData$,
+      ]).pipe(
+        tap(([isNavigating, componentsData]) => {
+          if (!isNavigating) {
+            const indexesToLoad = [];
+
+            componentsData.forEach((componentState, index) => {
+              if (componentState !== undefined) {
+                const attemptedLoad =
+                  componentState.loading ||
+                  componentState.success ||
+                  componentState.error;
+                if (!attemptedLoad) {
+                  indexesToLoad.push(index);
+                }
+              }
+            });
+
+            const uidsToLoad = indexesToLoad.map(index => uids[index]);
+
+            if (uidsToLoad.length) {
+              this.store.dispatch(new CmsActions.LoadCmsComponents(uidsToLoad));
+            }
+          }
+        }),
+        pluck(1),
+        filter(
+          componentsState =>
+            componentsState && componentsState.every(state => state.success)
+        ),
+        map(componentsState =>
+          componentsState.map(state => state.value).filter(x => !!x)
+        ),
+        shareReplay({ bufferSize: 1, refCount: true })
+      );
+    }
+
+    return this.componentsLists[uidsSerialized] as Observable<T[]>;
   }
 
   /**

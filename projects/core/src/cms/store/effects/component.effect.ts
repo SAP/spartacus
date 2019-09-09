@@ -57,4 +57,61 @@ export class ComponentEffects {
       )
     )
   );
+
+  @Effect()
+  loadComponents$: Observable<
+    | CmsActions.LoadCmsComponentsSuccess<CmsComponent>
+    | CmsActions.LoadCmsComponentsFail
+  > = this.actions$.pipe(
+    ofType(CmsActions.LOAD_CMS_COMPONENTS),
+    map((action: CmsActions.LoadCmsComponents) => action.payload),
+    groupBy(uids => uids.join(' ')),
+    mergeMap(group => {
+      return group.pipe(
+        switchMap(uids =>
+          this.routingService.getRouterState().pipe(
+            filter(routerState => routerState !== undefined),
+            map(routerState => routerState.state.context),
+            take(1),
+            mergeMap(pageContext =>
+              this.cmsComponentLoader.getList(uids, pageContext).pipe(
+                map(componentsData => {
+                  const orderedComponentsData = this.orderComponentsByUids(
+                    componentsData,
+                    uids
+                  );
+                  return new CmsActions.LoadCmsComponentsSuccess(
+                    orderedComponentsData,
+                    uids
+                  );
+                }),
+                catchError(error =>
+                  of(
+                    new CmsActions.LoadCmsComponentsFail(
+                      uids,
+                      makeErrorSerializable(error)
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    })
+  );
+
+  /**
+   * Returns components in the order of the given list of uids.
+   *
+   * When the component of the given uid does not appear in the original
+   * array of components, it's added as the `undefined` value into the returned array.
+   */
+  private orderComponentsByUids(components: CmsComponent[], uids: string[]) {
+    const componentsByUid = components.reduce(
+      (acc, component) => ({ ...acc, [component.uid]: component }),
+      {}
+    );
+    return uids.map(uid => componentsByUid[uid]);
+  }
 }
