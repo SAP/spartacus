@@ -62,7 +62,7 @@ describe('AsmService', () => {
 
     let result: CustomerSearchPage;
     service
-      .getCustomerSearchResult()
+      .getCustomerSearchResults()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockCustomerSearchPage);
@@ -71,7 +71,7 @@ describe('AsmService', () => {
   it('should return search result loading status', () => {
     let result: boolean;
     service
-      .getCustomerSearchResultLoading()
+      .getCustomerSearchResultsLoading()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);

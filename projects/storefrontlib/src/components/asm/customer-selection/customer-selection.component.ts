@@ -23,7 +23,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   form: FormGroup;
   private submitClicked = false;
   private subscription = new Subscription();
-  searchResultLoading$: Observable<boolean>;
+  searchResultsLoading$: Observable<boolean>;
   @Output()
   submitEvent = new EventEmitter<{ customerId: string }>();
 
@@ -37,10 +37,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       searchTerm: ['', [Validators.required]],
     });
-    this.searchResultLoading$ = this.asmService.getCustomerSearchResultLoading();
+    this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
     this.asmService.customerSearchReset();
     this.subscription.add(
-      this.asmService.getCustomerSearchResult().subscribe(results => {
+      this.asmService.getCustomerSearchResults().subscribe(results => {
         this.handleSearchResults(results);
       })
     );

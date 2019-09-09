@@ -19,7 +19,7 @@ import { switchMap, take } from 'rxjs/operators';
 export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
   customer$: Observable<User>;
-  searchResultLoading$: Observable<boolean>;
+  searchResultsLoading$: Observable<boolean>;
   private startingCustomerSession = false;
 
   constructor(
@@ -32,7 +32,7 @@ export class AsmMainUiComponent implements OnInit {
 
   ngOnInit(): void {
     this.csAgentToken$ = this.auth.getCustomerSupportAgentToken();
-    this.searchResultLoading$ = this.asmService.getCustomerSearchResultLoading();
+    this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
     this.customer$ = this.auth.getUserToken().pipe(
       switchMap(token => {
         if (token && !!token.access_token) {
