@@ -131,9 +131,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.userService.register(
-      this.collectDataFromRegisterForm(this.userRegistrationForm.value)
-    );
+    if (this.userRegistrationForm.valid) {
+      this.userService.register(
+        this.collectDataFromRegisterForm(this.userRegistrationForm.value)
+      );
+    } else {
+      Object.keys(this.userRegistrationForm.controls).forEach(key => {
+        this.userRegistrationForm.controls[key].markAsDirty();
+      });
+    }
   }
 
   titleSelected(title: Title): void {
