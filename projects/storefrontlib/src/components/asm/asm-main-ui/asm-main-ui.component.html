@@ -17,7 +17,7 @@
         (submitEvent)="startCustomerEmulationSession($event)"
       ></cx-customer-selection>
       <button
-        *ngIf="! (searchResultsLoading$ | async)"
+        *ngIf="!(searchResultsLoading$ | async)"
         class="btn btn-block btn-secondary"
         type="button"
         (click)="logoutCustomerSupportAgent()"
