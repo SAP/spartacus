@@ -15,16 +15,10 @@
   </div>
 
   <div *ngIf="isGuestCustomer">
-    <h2>{{ 'checkoutOrderConfirmation.createAccount' | cxTranslate }}</h2>
-    <p>
-      {{
-        'checkoutOrderConfirmation.createAccountForNext'
-          | cxTranslate: { email: order.paymentInfo.billingAddress.email }
-      }}
-    </p>
-    <div>
-      <cx-guest-register-form [guid]="orderGuid"></cx-guest-register-form>
-    </div>
+    <cx-guest-register-form
+      [guid]="orderGuid"
+      [email]="order.paymentInfo.billingAddress.email"
+    ></cx-guest-register-form>
   </div>
 
   <cx-add-to-home-screen-banner></cx-add-to-home-screen-banner>

@@ -1,11 +1,11 @@
 import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
 
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
 class MockAddtoHomeScreenBannerComponent {}
@@ -13,6 +13,7 @@ class MockAddtoHomeScreenBannerComponent {}
 @Component({ selector: 'cx-guest-register-form', template: '' })
 class MockGuestRegisterFormComponent {
   @Input() guid;
+  @Input() email;
 }
 
 class MockCheckoutService {
