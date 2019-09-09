@@ -1,4 +1,4 @@
-import { User } from 'projects/core/src/model/misc.model';
+import { User } from '../../../model/misc.model';
 import { StateLoaderActions } from '../../../state/utils/index';
 import {
   CustomerSearchOptions,

@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateLoaderSelectors } from 'projects/core/src/state/utils/loader/loader-group.selectors';
-import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
+import { StateLoaderSelectors } from '../../../state/utils/loader/loader-group.selectors';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmState, StateWithAsm } from '../asm-state';
 import { getAsmState } from './feature.selector';
