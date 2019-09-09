@@ -1,13 +1,10 @@
-import * as pkgVersions from 'npm-package-versions';
-import * as program from 'commander';
-import chalk from 'chalk';
+import pkgVersions from 'npm-package-versions';
 import * as semverExtra from 'semver-extra';
-// import * as semverDiff from 'semver-diff';
 import * as semver from 'semver';
 
 function pkgVersionsPromise(packageName: string) {
   return new Promise((resolve, reject) => {
-    pkgVersions(packageName, (err, versions) => {
+    pkgVersions(packageName, (err: any, versions: string[]) => {
       if (err) {
         reject(err);
       }
@@ -16,51 +13,16 @@ function pkgVersionsPromise(packageName: string) {
   })
 }
 
-export interface VersionsOptions {
-  newVersion: string;
-  npmPackage: string;
-  tagTemplate: string;
+export async function fetchPackageVersions(npmPackage: string) {
+  try {
+    const packageVersions: string[] = (await pkgVersionsPromise(npmPackage)) as string[];
+    return packageVersions;
+  } catch (err) {
+    throw new Error('Package not found');
+  }
 }
 
-program.option('--new-version <version>', 'New proposed version')
-.option('--npm-package <package-name>', 'What package version check')
-.option('--tag-template <template>', 'Tag template used to find git tag for passed version')
-.parse(process.argv);
-
-const config = {
-  newVersion: program.newVersion,
-  npmPackage: program.npmPackage,
-  tagTemplate: program.tagTemplate,
-}
-
-if (typeof config.newVersion === 'undefined') {
-  console.error(chalk.red('Missing --new-version option'));
-  process.exit(1);
-}
-if (typeof config.npmPackage === 'undefined') {
-  console.error(chalk.red('Missing --npm-package option'));
-  process.exit(1);
-}
-if (typeof config.tagTemplate === 'undefined') {
-  console.error(chalk.red('Missing --tag-template option'));
-  process.exit(1);
-}
-
-async function extractPreviousVersionForChangelog({npmPackage, newVersion}: VersionsOptions) {
-  const packageVersions: string[] = (await pkgVersionsPromise(npmPackage)) as string[];
-
-  const testVersions = [
-    '0.1.0-alpha.1',
-    '0.2.0',
-    '1.0.0',
-    '1.2.3',
-    '1.2.3-rc.0',
-    '1.2.3-rc.1',
-    '1.2.4',
-    '2.4.2',
-    '3.4.2'
-  ]
-
+export function extractPreviousVersionForChangelog(packageVersions: string[], newVersion: string) {
   type VersionDetails = {
     version: string;
     prerelease: false | string;
@@ -78,11 +40,11 @@ async function extractPreviousVersionForChangelog({npmPackage, newVersion}: Vers
     }
   }
 
-  function searchLatestBeforeVersion(versions: string[], version: string): string {
-    if(!versions.length) {
+  function searchLatestBeforeVersion(versions: string[], version: string): string | null {
+    if (!versions.length) {
       return null;
     }
-    let latestStable = null;
+    let latestStable: string | null = null;
     versions.forEach(ver => {
       if (latestStable === null && semver.gt(version, ver)) {
         latestStable = ver;
@@ -93,21 +55,26 @@ async function extractPreviousVersionForChangelog({npmPackage, newVersion}: Vers
     return latestStable;
   }
 
-  function searchLatestStableBeforeVersion(versions: string[], version: string): string {
-    return searchLatestBeforeVersion(versions.filter(semverExtra.isStable), version);
+  function searchLatestStableBeforeVersion(versions: string[], version: string): string | null {
+    return searchLatestBeforeVersion(filterStableVersions(versions), version);
   }
 
-  const lastStableReleaseOnNpm = extractVersionDetails(semverExtra.maxStable(packageVersions));
-  const lastReleaseOnNpm = extractVersionDetails('1.0.0-rc.2' || semverExtra.max(packageVersions));
+  function filterStableVersions(versions: string[]): string[] {
+    return versions.filter(semverExtra.isStable);
+  }
+
+  function filterPrereleases(versions: string[], prereleases: string[]): string[] {
+    let filteredVersions: string[] = [];
+    prereleases.forEach(prerelease => {
+      const filtered = versions.map(version => extractVersionDetails(version)).filter(versionDetails => versionDetails.prerelease === prerelease).map(versionDetails => versionDetails.version);
+      filteredVersions = [...filteredVersions, ...filtered];
+    })
+    return filteredVersions;
+  }
+
   const nextVersion = extractVersionDetails(newVersion);
-  console.log('lastRelease', lastReleaseOnNpm);
-  console.log('lastStable', lastStableReleaseOnNpm);
-  console.log('nextVersion', nextVersion)
-  console.log('before', searchLatestBeforeVersion(testVersions, '0.1.0'));
-  console.log('before', searchLatestStableBeforeVersion(testVersions, '0.1.0'));
 
   const isNextReleaseStable = !nextVersion.prerelease;
-  console.log('stable', isNextReleaseStable)
 
   let prevVersionForChangelog;
 
@@ -124,18 +91,20 @@ async function extractPreviousVersionForChangelog({npmPackage, newVersion}: Vers
     // handle prereleases
     // show changelog since last prerelease for this version
     // is this is a first prerelease fallback to latestStable version before that
-
-    // TODO only look for stables and this type of prereleases
-    // beta could allow for alpha releases
-    // RC could allow for alpha and beta release
-    // next only allows next
-    prevVersionForChangelog = searchLatestBeforeVersion(packageVersions, nextVersion.version);
+    let allowedVersions = [...filterStableVersions(packageVersions)];
+    if (nextVersion.prerelease === 'alpha') {
+      allowedVersions = [...allowedVersions, ...filterPrereleases(packageVersions, ['alpha'])]
+    } else if (nextVersion.prerelease === 'beta') {
+      allowedVersions = [...allowedVersions, ...filterPrereleases(packageVersions, ['alpha', 'beta'])]
+    } else if (nextVersion.prerelease === 'rc') {
+      allowedVersions = [...allowedVersions, ...filterPrereleases(packageVersions, ['alpha', 'beta', 'rc'])]
+    } else if (nextVersion.prerelease === 'next') {
+      allowedVersions = [...allowedVersions, ...filterPrereleases(packageVersions, ['next'])]
+    } else {
+      allowedVersions = packageVersions;
+    }
+    prevVersionForChangelog = searchLatestBeforeVersion(allowedVersions, nextVersion.version);
   }
-
-
-  // const tagOfNewRelease =
-  // console.log(packageVersions);
+  return prevVersionForChangelog;
 }
-
-extractPreviousVersionForChangelog(config);
 
