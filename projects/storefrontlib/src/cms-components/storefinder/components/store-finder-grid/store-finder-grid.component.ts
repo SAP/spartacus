@@ -22,7 +22,7 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading$ = this.storeFinderService.getViewAllStoresLoading();
-    this.locations$ = this.storeFinderService.getViewAllStoresEntities();
+    this.locations$ = this.storeFinderService.getEntitiesState();
     this.defaultLocation = {};
 
     if (this.route.snapshot.params.country) {

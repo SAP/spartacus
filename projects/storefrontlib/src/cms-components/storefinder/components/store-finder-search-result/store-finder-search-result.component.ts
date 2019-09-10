@@ -66,7 +66,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
     );
 
     this.isLoading$ = this.storeFinderService.getStoresLoading();
-    this.locations$ = this.storeFinderService.getFindStoresEntities();
+    this.locations$ = this.storeFinderService.getEntitiesState();
   }
 
   private parseParameters(queryParams: {
