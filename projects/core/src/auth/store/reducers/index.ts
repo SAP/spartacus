@@ -7,19 +7,20 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-import { ClientToken } from '../../models/token-types.model';
+import { ClientToken, UserToken } from '../../models/token-types.model';
 import { AuthActions } from '../actions/index';
-import { AuthState, CLIENT_TOKEN_DATA } from '../auth-state';
-import * as fromCustomerSupportAgentTokenReducer from './csagent-token.reducer';
+import {
+  AuthState,
+  CLIENT_TOKEN_DATA,
+  CSAGENT_TOKEN_DATA,
+} from '../auth-state';
 import * as fromUserTokenReducer from './user-token.reducer';
 
 export function getReducers(): ActionReducerMap<AuthState> {
   return {
     userToken: combineReducers({ token: fromUserTokenReducer.reducer }),
     clientToken: loaderReducer<ClientToken>(CLIENT_TOKEN_DATA),
-    csagentToken: combineReducers({
-      token: fromCustomerSupportAgentTokenReducer.reducer,
-    }),
+    csagentToken: loaderReducer<UserToken>(CSAGENT_TOKEN_DATA),
   };
 }
 

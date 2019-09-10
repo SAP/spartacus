@@ -1,14 +1,13 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { StateLoaderSelectors } from '../../../state/utils/loader/loader-group.selectors';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { UserToken } from '../../models/token-types.model';
-import { AuthState, StateWithAuth, UserTokenState } from '../auth-state';
+import { AuthState, StateWithAuth } from '../auth-state';
 import { getAuthState } from './feature.selector';
-
-const getCustomerSupportAgentTokenSelector = (state: UserTokenState) =>
-  state.token;
 
 export const getCustomerSupportAgentTokenState: MemoizedSelector<
   StateWithAuth,
-  UserTokenState
+  LoaderState<UserToken>
 > = createSelector(
   getAuthState,
   (state: AuthState) => state.csagentToken
@@ -19,5 +18,5 @@ export const getCustomerSupportAgentToken: MemoizedSelector<
   UserToken
 > = createSelector(
   getCustomerSupportAgentTokenState,
-  getCustomerSupportAgentTokenSelector
+  state => StateLoaderSelectors.loaderValueSelector(state)
 );
