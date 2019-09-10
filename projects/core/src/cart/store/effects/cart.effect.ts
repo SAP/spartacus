@@ -8,6 +8,7 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartActions } from '../actions/index';
+import { CheckoutActions } from '../../../checkout/store/actions/index';
 
 @Injectable()
 export class CartEffects {
@@ -110,7 +111,8 @@ export class CartEffects {
       CartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_ENTRY_SUCCESS
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
     ),
     map(
       (

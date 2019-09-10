@@ -53,6 +53,8 @@ export class CheckoutEffects {
   @Effect()
   setDeliveryAddress$: Observable<
     | CheckoutActions.SetDeliveryAddressSuccess
+    | CheckoutActions.ClearSupportedDeliveryModes
+    | CheckoutActions.ClearCheckoutDeliveryMode
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
@@ -65,6 +67,8 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
+            new CheckoutActions.ClearCheckoutDeliveryMode(payload),
+            new CheckoutActions.ClearSupportedDeliveryModes(),
             new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
             new CheckoutActions.LoadSupportedDeliveryModes({
               userId: payload.userId,
@@ -317,7 +321,9 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
-          map(() => new CheckoutActions.ClearCheckoutDeliveryModeSuccess()),
+          map(
+            () => new CheckoutActions.ClearCheckoutDeliveryModeSuccess(payload)
+          ),
           catchError(error =>
             of(
               new CheckoutActions.ClearCheckoutDeliveryModeFail(
