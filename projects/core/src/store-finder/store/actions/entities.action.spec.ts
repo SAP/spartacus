@@ -29,9 +29,10 @@ describe('Entities Actions', () => {
       const action = new StoreFinderActions.StoreEntities(payload);
 
       expect({ ...action }).toEqual({
-        type: StoreFinderActions.VIEW_ALL_STORES_SUCCESS,
+        type: StoreFinderActions.STORE_ENTITIES,
         payload,
       });
     });
   });
 });
+
