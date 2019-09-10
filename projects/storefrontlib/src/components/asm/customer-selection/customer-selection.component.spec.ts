@@ -1,5 +1,7 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import {
   AsmService,
   CustomerSearchPage,
@@ -7,6 +9,7 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
@@ -18,8 +21,11 @@ class MockGlobalMessageService {
 class MockAsmService {
   customerSearch(_searchTerm: string): void {}
   customerSearchReset(): void {}
-  getCustomerSearchResult(): Observable<CustomerSearchPage> {
+  getCustomerSearchResults(): Observable<CustomerSearchPage> {
     return of(<CustomerSearchPage>{});
+  }
+  getCustomerSearchResultsLoading(): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -28,12 +34,13 @@ describe('CustomerSelectionComponent', () => {
   let fixture: ComponentFixture<CustomerSelectionComponent>;
   let searchTermFormControl: AbstractControl;
   let asmService: AsmService;
+  let el: DebugElement;
 
   const validSearchTerm = 'customer@test.com';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, SpinnerModule],
       declarations: [CustomerSelectionComponent],
       providers: [
         { provide: AsmService, useClass: MockAsmService },
@@ -45,7 +52,9 @@ describe('CustomerSelectionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
     asmService = TestBed.get(AsmService);
+    el = fixture.debugElement;
     fixture.detectChanges();
     searchTermFormControl = component.form.controls['searchTerm'];
     spyOn(asmService, 'customerSearch').and.stub();
@@ -168,6 +177,7 @@ describe('CustomerSelectionComponent', () => {
         ).toBeTruthy();
       });
     });
+
     it('should NOT display when the user is finished typing valid input', () => {
       searchTermFormControl.setValue(validSearchTerm);
       searchTermFormControl.markAsDirty();
@@ -176,6 +186,25 @@ describe('CustomerSelectionComponent', () => {
       fixture.whenStable().then(() => {
         expect(testUtils.isCtrlShowingError(fixture, 'searchTerm')).toBeFalsy();
       });
+    });
+  });
+
+  it('should display spinner when customer search is running', () => {
+    spyOn(asmService, 'getCustomerSearchResultsLoading').and.returnValue(
+      of(true)
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+      expect(el.query(By.css('form'))).toBeFalsy();
+    });
+  });
+  it('should not display spinner when customer search is not running', () => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(el.query(By.css('cx-spinner'))).toBeFalsy();
+      expect(el.query(By.css('form'))).toBeTruthy();
     });
   });
 });
