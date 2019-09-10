@@ -31,11 +31,7 @@ export class ViewAllStoresEffect {
             new StoreFinderActions.StoreEntities(result),
           ];
         }),
-        catchError(_=>
-          of(
-            new StoreFinderActions.ViewAllStoresFail(true)
-          )
-        )
+        catchError(_ => of(new StoreFinderActions.ViewAllStoresFail(true)))
       );
     })
   );
