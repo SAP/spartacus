@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, of } from 'rxjs';
+import { asyncScheduler, combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
-  debounceTime,
   filter,
   map,
+  observeOn,
   pluck,
   shareReplay,
   switchMap,
@@ -114,7 +114,7 @@ export class CmsService {
             select(CmsSelectors.componentStateSelectorFactory(uid))
           )
         )
-      ).pipe(debounceTime(0));
+      ).pipe(observeOn(asyncScheduler)); // prevent consuming partial updates from combineLatest
 
       this.componentsLists[uidsSerialized] = combineLatest([
         this.routingService.isNavigating(),
