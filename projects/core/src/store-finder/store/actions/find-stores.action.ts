@@ -37,7 +37,7 @@ export class FindStores extends StateLoaderActions.LoaderLoadAction {
 
 export class FindStoresFail extends StateLoaderActions.LoaderFailAction {
   readonly type = FIND_STORES_FAIL;
-  constructor(public payload: any) {
+  constructor(public payload: boolean) {
     super(STORE_FINDER_DATA, payload);
   }
 }

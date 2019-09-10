@@ -42,11 +42,9 @@ export class FindStoresEffect {
               new StoreFinderActions.StoreEntities(data),
             ];
           }),
-          catchError(error =>
+          catchError(_ =>
             of(
-              new StoreFinderActions.FindStoresFail(
-                makeErrorSerializable(error)
-              )
+              new StoreFinderActions.FindStoresFail(true)
             )
           )
         )
@@ -69,9 +67,11 @@ export class FindStoresEffect {
         ]),
         catchError(error =>
           of(
-            new StoreFinderActions.FindStoreByIdFail(
+            [new StoreFinderActions.FindStoreByIdFail(
               makeErrorSerializable(error)
-            )
+            ), new StoreFinderActions.FindStoreByIdFail(
+              makeErrorSerializable(error)
+            )]
           )
         )
       )

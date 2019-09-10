@@ -3,7 +3,7 @@ import { LoadingState } from '../store-finder-state';
 
 export const initialState: LoadingState = {
   loading: false,
-  error: null,
+  error: false,
   success: false,
 };
 
@@ -14,19 +14,23 @@ export function reducer(
   switch (action.type) {
     case StoreFinderActions.VIEW_ALL_STORES: {
       const loading = true;
+      const error = false;
 
       return {
         ...state,
         loading,
+        error,
       };
     }
     case StoreFinderActions.VIEW_ALL_STORES_SUCCESS: {
       const loading = false;
       const success = true;
+      const error = false;
 
       return {
         ...state,
         loading,
+        error,
         success,
       };
     }

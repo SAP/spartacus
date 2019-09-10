@@ -14,7 +14,7 @@ export class ViewAllStores extends StateLoaderActions.LoaderLoadAction {
 
 export class ViewAllStoresFail extends StateLoaderActions.LoaderFailAction {
   readonly type = VIEW_ALL_STORES_FAIL;
-  constructor(public payload: any) {
+  constructor(public payload: boolean) {
     super(STORE_FINDER_DATA, payload);
   }
 }
