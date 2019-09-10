@@ -31,6 +31,7 @@ const mockActivatedRoute = {
 const mockStoreFinderService = {
   getViewAllStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
   getViewAllStoresLoading: jasmine.createSpy(),
+  getEntitiesState: jasmine.createSpy().and.returnValue(of(Observable)),
   findStoresAction: jasmine.createSpy().and.returnValue(of(Observable)),
 };
 

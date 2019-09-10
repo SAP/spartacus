@@ -21,6 +21,7 @@ const mockStoreFinderService = {
   getStoresLoading: jasmine.createSpy(),
   getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
   findStoresAction: jasmine.createSpy().and.returnValue(of({})),
+  getEntitiesState: jasmine.createSpy(),
 };
 
 describe('StoreFinderListComponent', () => {

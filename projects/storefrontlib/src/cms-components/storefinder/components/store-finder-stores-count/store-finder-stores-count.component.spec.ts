@@ -8,6 +8,7 @@ const mockStoreFinderService = {
   viewAllStores: jasmine.createSpy(),
   getViewAllStoresEntities: jasmine.createSpy(),
   getViewAllStoresLoading: jasmine.createSpy(),
+  getEntitiesState: jasmine.createSpy(),
 };
 
 describe('StoreFinderStoresCountComponent', () => {
