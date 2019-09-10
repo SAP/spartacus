@@ -17,7 +17,7 @@ const testToken: UserToken = {
   userId: 'xxx',
 };
 
-fdescribe('Customer Support Agent Token Selectors', () => {
+describe('Customer Support Agent Token Selectors', () => {
   let store: Store<StateWithAuth>;
 
   beforeEach(() => {

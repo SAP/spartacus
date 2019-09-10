@@ -61,7 +61,7 @@ describe('AuthService', () => {
     expect(result).toEqual(mockToken);
   });
 
-  it('should expose Customer Support Agent token state', () => {
+  it('should get the Customer Support Agent token', () => {
     store.dispatch(
       new AuthActions.LoadCustomerSupportAgentTokenSuccess(mockToken)
     );
@@ -75,6 +75,15 @@ describe('AuthService', () => {
     subscription.unsubscribe();
 
     expect(result).toEqual(mockToken);
+  });
+
+  it('should get the Customer Support Agent token loading status', () => {
+    let result: boolean;
+    service
+      .getCustomerSupportAgentTokenLoading()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
   });
 
   it('should expose clientToken', () => {
