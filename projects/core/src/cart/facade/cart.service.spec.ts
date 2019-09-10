@@ -8,7 +8,7 @@ import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { StateWithCart } from '../store/cart-state';
-import { CartDataService } from './cart-data.service';
+import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
 
 class CartDataServiceStub {
@@ -35,6 +35,7 @@ describe('CartService', () => {
   const mockCartEntry: OrderEntry = {
     entryNumber: 0,
     product: { code: productCode },
+    quantity: 1,
   };
 
   beforeEach(() => {
@@ -89,6 +90,40 @@ describe('CartService', () => {
             })
           );
         });
+      });
+    });
+    describe('when user is guest', () => {
+      beforeEach(() => {
+        spyOn(service, 'isGuestCart').and.returnValue(true);
+        spyOn(store, 'dispatch').and.stub();
+
+        cartData.cart = cart;
+      });
+      it('should delete guest cart and create new cart', () => {
+        service[loadOrMergeMethod]();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.DeleteCart({
+            userId: ANONYMOUS_USERID,
+            cartId: cartData.cart.guid,
+          })
+        );
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.CreateCart({
+            userId: cartData.userId,
+          })
+        );
+      });
+
+      it('should copy content of guest cart to user cart', () => {
+        spyOn(service, 'addEntry').and.stub();
+        spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
+        spyOn(service, 'getLoaded').and.returnValue(of(true));
+
+        service[loadOrMergeMethod]();
+        expect(service.addEntry).toHaveBeenCalledWith(
+          mockCartEntry.product.code,
+          mockCartEntry.quantity
+        );
       });
     });
   });

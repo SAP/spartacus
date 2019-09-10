@@ -249,7 +249,7 @@ export class CartService {
     combineLatest([
       this.store.select(CartSelectors.getCartContent),
       this.store.select(CartSelectors.getCartLoading),
-      this.store.select(CartSelectors.getCartLoaded),
+      this.getLoaded(),
     ])
       .pipe(
         filter(([, loading]) => !loading),
