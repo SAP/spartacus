@@ -1,68 +1,46 @@
-<div class="variant-section"
-    style="display: flex; flex-direction: column;"
-    *ngIf="(product$ | async) as product">
-  <ng-container *ngFor="let variant of product.baseOptions">
-
-    <div
-      class="variant-selector" [ngStyle]="variant.variantType.toLowerCase().includes('style') ? {order: 1} : {order: 2}"
-    >
-      <ng-container
-        [ngTemplateOutlet]="
-          variant.variantType.toLowerCase().includes('style')
-            ? styleSelector
-            : sizeSelector
-        "
-        [ngTemplateOutletContext]="{ variant: variant }"
-      ></ng-container>
-    </div>
-  </ng-container>
-
-  <ng-template #styleSelector let-variant="variant">
+<ng-container *ngIf="(product$ | async) as product">
+<div class="variant-section" *ngIf="sizeVariants || styleVariants">
+  <div class="variant-selector" *ngIf="styleVariants">
     <div class="variant-name">
-      {{ getVariantName(variant)
-      }}<span class="variant-selected styleName"
-        >: {{ getSelectedVariantValue(variant.selected) }}</span
-      >
+      Style: <span class="variant-selected styleName">Selected style</span>
     </div>
     <ul class="variant-list">
-      <li *ngFor="let option of variant.options">
+      <li *ngFor="let v of styleVariants">
         <a
           [routerLink]="
-            { cxRoute: 'product', params: { code: option.code } } | cxUrl
+            { cxRoute: 'product', params: { code: v.code } } | cxUrl
           "
           class="colorVariant"
         >
           <img
-            src="{{ baseUrl }}{{ option.variantOptionQualifiers[0].image.url }}"
-            title="{{ option.variantOptionQualifiers[0].value }}"
-            alt="{{ option.variantOptionQualifiers[0].value }}"
+            src="{{ baseUrl }}{{ v.variantOptionQualifiers[0].image.url }}"
+            title="{{ v.variantOptionQualifiers[0].value }}"
+            alt="{{ v.variantOptionQualifiers[0].value }}"
           />
         </a>
       </li>
     </ul>
-  </ng-template>
+  </div>
 
-  <ng-template #sizeSelector let-variant="variant">
+  <div class="variant-selector" *ngIf="sizeVariants">
     <div class="variant-name">
-      {{ getVariantName(variant)
-      }}<span class="variant-selected styleName"
-        >: {{ getSelectedVariantValue(variant.selected) }}</span
-      >
+      Size: <span class="variant-selected styleName">Selected size</span>
     </div>
     <select
       (change)="routeToVariant($event.target.value)"
-      id="{{ getVariantName(variant) }}"
       class="form-control variant-select"
     >
+      <option>Please select size</option>
       <option
-        *ngFor="let option of variant.options"
-        value="{{ option.url }}"
-        [selected]="option.code === product.code"
-        >{{ option.variantOptionQualifiers[0].value }}</option
+        *ngFor="let v of sizeVariants"
+        value="{{ v.url }}"
+        [selected]="v.code === product.code"
+        >{{ v.variantOptionQualifiers[0].value }}</option
       >
     </select>
     <a href="#" class="size-guide" title="{{ sizeGuideLabel }}">{{
       sizeGuideLabel
     }}</a>
-  </ng-template>
+  </div>
 </div>
+</ng-container>
