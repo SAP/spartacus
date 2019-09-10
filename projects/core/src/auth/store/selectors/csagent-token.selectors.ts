@@ -20,3 +20,11 @@ export const getCustomerSupportAgentToken: MemoizedSelector<
   getCustomerSupportAgentTokenState,
   state => StateLoaderSelectors.loaderValueSelector(state)
 );
+
+export const getCustomerSupportAgentTokenLoading: MemoizedSelector<
+  StateWithAuth,
+  boolean
+> = createSelector(
+  getCustomerSupportAgentTokenState,
+  state => StateLoaderSelectors.loaderLoadingSelector(state)
+);
