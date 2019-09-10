@@ -6,6 +6,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -43,8 +44,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
-    private winRef?: WindowRef
+    private winRef?: WindowRef,
+    protected featureConfig?: FeatureConfigService
   ) {}
+
+  readonly isSomeNewFeatureEnabled = this.featureConfig.isLevel('1.1');
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -65,26 +69,52 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    if (this.form.valid) {
-      const { userId, password } = this.form.controls;
-      this.auth.authorize(
-        userId.value.toLowerCase(), // backend accepts lowercase emails only
-        password.value
-      );
-
-      if (!this.sub) {
-        this.sub = this.auth.getUserToken().subscribe(data => {
-          if (data && data.access_token) {
-            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-            this.authRedirectService.redirect();
-          }
-        });
-      }
+    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    if (this.shouldDisableLoginButton()) {
+      this.submitLogin();
     } else {
-      Object.keys(this.form.controls).forEach(key => {
-        this.form.controls[key].markAsDirty();
+      if (this.form.valid) {
+        this.submitLogin();
+      } else {
+        this.markFormAsDirty();
+      }
+    }
+  }
+
+  private submitLogin(): void {
+    const { userId, password } = this.form.controls;
+    this.auth.authorize(
+      userId.value.toLowerCase(), // backend accepts lowercase emails only
+      password.value
+    );
+
+    if (!this.sub) {
+      this.sub = this.auth.getUserToken().subscribe(data => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
       });
     }
+  }
+
+  private markFormAsDirty(): void {
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.controls[key].markAsDirty();
+    });
+  }
+
+  /**
+   * @deprecated since 1.3.0
+   * This function will be removed as login button should not be disabled
+   *
+   * TODO(issue:#xxxx) Deprecated since 1.3.0
+   */
+  protected shouldDisableLoginButton(): boolean {
+    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
+      return false;
+    }
+    return this.form.invalid;
   }
 
   ngOnDestroy(): void {

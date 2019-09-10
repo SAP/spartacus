@@ -47,7 +47,11 @@
     >
   </p>
 
-  <button type="submit" class="btn btn-block btn-primary">
+  <button
+    type="submit"
+    class="btn btn-block btn-primary"
+    [disabled]="shouldDisableLoginButton()"
+  >
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>
