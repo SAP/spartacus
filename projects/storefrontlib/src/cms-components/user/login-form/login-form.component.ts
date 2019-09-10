@@ -65,18 +65,24 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    const { userId, password } = this.form.controls;
-    this.auth.authorize(
-      userId.value.toLowerCase(), // backend accepts lowercase emails only
-      password.value
-    );
+    if (this.form.valid) {
+      const { userId, password } = this.form.controls;
+      this.auth.authorize(
+        userId.value.toLowerCase(), // backend accepts lowercase emails only
+        password.value
+      );
 
-    if (!this.sub) {
-      this.sub = this.auth.getUserToken().subscribe(data => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
+      if (!this.sub) {
+        this.sub = this.auth.getUserToken().subscribe(data => {
+          if (data && data.access_token) {
+            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+            this.authRedirectService.redirect();
+          }
+        });
+      }
+    } else {
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.controls[key].markAsDirty();
       });
     }
   }
