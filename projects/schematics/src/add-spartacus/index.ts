@@ -81,7 +81,7 @@ const defaultAppComponentTemplate = `<!--The content below is only a placeholder
 `;
 
 function addPackageJsonDependencies(): Rule {
-  const spartacusVersion = '~1.0.0';
+  const spartacusVersion = '^1.0.0';
   const ngrxVersion = '^8.0.0';
 
   return (tree: Tree, context: SchematicContext) => {
@@ -247,6 +247,9 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         resources: translations,
         chunks: translationChunksConfig,
         fallbackLang: 'en'
+      },
+      features: {
+        level: '${options.featureLevel}'
       }
     }`;
 }
