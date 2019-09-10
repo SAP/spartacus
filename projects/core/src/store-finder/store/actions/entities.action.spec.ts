@@ -35,4 +35,3 @@ describe('Entities Actions', () => {
     });
   });
 });
-
