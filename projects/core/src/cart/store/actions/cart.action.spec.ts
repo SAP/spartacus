@@ -173,6 +173,36 @@ describe('Cart Actions', () => {
     });
   });
 
+  describe('DeleteCart Actions', () => {
+    describe('DeleteCart', () => {
+      it('should create the action', () => {
+        const userId = 'xxx@xxx.xxx';
+        const cartId = 'testCartId';
+        const action = new CartActions.DeleteCart({
+          userId: userId,
+          cartId: cartId,
+        });
+        expect({ ...action }).toEqual({
+          type: CartActions.DELETE_CART,
+          payload: { userId: userId, cartId: cartId },
+          meta: StateLoaderActions.loadMeta(CART_DATA),
+        });
+      });
+    });
+    describe('DeleteCartFail', () => {
+      it('should create the action', () => {
+        const error = 'anError';
+        const action = new CartActions.DeleteCartFail(error);
+
+        expect({ ...action }).toEqual({
+          type: CartActions.DELETE_CART_FAIL,
+          payload: error,
+          meta: StateLoaderActions.failMeta(CART_DATA, error),
+        });
+      });
+    });
+  });
+
   describe('ResetCartDetails', () => {
     it('should create the action', () => {
       const action = new CartActions.ResetCartDetails();

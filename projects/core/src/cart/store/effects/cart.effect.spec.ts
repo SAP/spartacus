@@ -58,6 +58,7 @@ describe('Cart effect', () => {
       create = createSpy().and.returnValue(of(testCart));
       load = loadMock;
       addEmail = createSpy().and.returnValue(of({}));
+      delete = createSpy().and.returnValue(of({}));
     }
 
     TestBed.configureTestingModule({
@@ -180,6 +181,18 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.addEmail$).toBeObservable(expected);
+    });
+  });
+
+  describe('deleteCart$', () => {
+    it('should delete cart', () => {
+      const action = new CartActions.DeleteCart({ userId, cartId });
+      const completion = new CartActions.ClearCart();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.deleteCart$).toBeObservable(expected);
     });
   });
 });

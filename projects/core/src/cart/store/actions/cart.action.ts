@@ -23,7 +23,6 @@ export const CLEAR_CART = '[Cart] Clear Cart';
 
 export const DELETE_CART = '[Cart] Delete Cart';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
-export const DELETE_CART_SUCCESS = '[Cart] Delete Cart Success';
 
 export class CreateCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CART;
@@ -120,9 +119,9 @@ export class DeleteCart extends StateLoaderActions.LoaderLoadAction {
 }
 
 export class DeleteCartFail extends StateLoaderActions.LoaderFailAction {
-  readonly type = DELETE_CART;
+  readonly type = DELETE_CART_FAIL;
   constructor(public payload: any) {
-    super(CART_DATA);
+    super(CART_DATA, payload);
   }
 }
 
