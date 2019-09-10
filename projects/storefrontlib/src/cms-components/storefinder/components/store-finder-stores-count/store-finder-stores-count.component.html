@@ -5,7 +5,7 @@
   "
 >
   <div class="cx-count container">
-    <div class="row">
+    <div class="row" *ngIf="locations?.length">
       <div
         *ngFor="let country of locations"
         class="cx-set col-sm-6 col-md-4 col-lg-4 col-xl-3"
@@ -34,6 +34,11 @@
           </div>
         </a>
       </div>
+    </div>
+    <div class="row" *ngIf="!locations?.length">
+      <span class="cx-no-stores">{{
+        'storeFinder.noStoresMessage' | cxTranslate
+      }}</span>
     </div>
   </div>
 </ng-container>

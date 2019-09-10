@@ -4,7 +4,7 @@
     else loading
   "
 >
-  <div *ngIf="locations?.stores">
+  <div *ngIf="locations?.stores.length">
     <div class="cx-pagination">
       <cx-pagination
         [pagination]="locations.pagination"
@@ -13,9 +13,17 @@
     </div>
   </div>
   <cx-store-finder-list
+    *ngIf="locations?.stores.length"
     [locations]="locations"
     [useMylocation]="useMyLocation"
   ></cx-store-finder-list>
+  <div class="container" *ngIf="!locations?.stores.length">
+    <div class="row">
+      <span class="cx-no-stores">{{
+        'storeFinder.noStoresMessage' | cxTranslate
+      }}</span>
+    </div>
+  </div>
 </div>
 <ng-template #loading>
   <div class="cx-spinner">
