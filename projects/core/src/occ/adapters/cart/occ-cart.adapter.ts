@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ANONYMOUS_USERID } from 'projects/core/src/cart';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
+import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { Cart } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
