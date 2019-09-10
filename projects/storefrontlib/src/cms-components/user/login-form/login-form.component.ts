@@ -48,8 +48,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     protected featureConfig?: FeatureConfigService
   ) {}
 
-  readonly isSomeNewFeatureEnabled = this.featureConfig.isLevel('1.1');
-
   ngOnInit(): void {
     this.form = this.fb.group({
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
