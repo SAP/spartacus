@@ -232,43 +232,45 @@ export class CartService {
    * This is for an edge case
    */
   private guestCartMerge(): void {
+    let cartEntries;
     this.getEntries()
       .pipe(take(1))
       .subscribe(entries => {
-        this.store.dispatch(
-          new CartActions.DeleteCart({
-            userId: ANONYMOUS_USERID,
-            cartId: this.cartData.cart.guid,
-          })
-        );
+        cartEntries = entries;
+      });
 
-        combineLatest([
-          this.store.select(CartSelectors.getCartContent),
-          this.store.select(CartSelectors.getCartLoading),
-          this.store.select(CartSelectors.getCartLoaded),
-        ])
-          .pipe(
-            filter(([, loading]) => !loading),
-            tap(([cart, , loaded]) => {
-              // Load the cart if not created, loaded prevents infinite loop
-              if (!this.isCreated(cart) && !loaded) {
-                this.store.dispatch(
-                  new CartActions.LoadCart({
-                    userId: this.cartData.userId,
-                    cartId: 'current',
-                  })
-                );
-              }
-            }),
-            filter(([, , loaded]) => loaded),
-            take(1)
-          )
-          .subscribe(() => {
-            // Add entries from guest cart to user cart
-            for (const entry of entries) {
-              this.addEntry(entry.product.code, entry.quantity);
-            }
-          });
+    this.store.dispatch(
+      new CartActions.DeleteCart({
+        userId: ANONYMOUS_USERID,
+        cartId: this.cartData.cart.guid,
+      })
+    );
+
+    combineLatest([
+      this.store.select(CartSelectors.getCartContent),
+      this.store.select(CartSelectors.getCartLoading),
+      this.store.select(CartSelectors.getCartLoaded),
+    ])
+      .pipe(
+        filter(([, loading]) => !loading),
+        tap(([cart, , loaded]) => {
+          // Load the cart if not created, loaded prevents infinite loop
+          if (!this.isCreated(cart) && !loaded) {
+            this.store.dispatch(
+              new CartActions.CreateCart({
+                userId: this.cartData.userId,
+              })
+            );
+          }
+        }),
+        filter(([, , loaded]) => loaded),
+        take(1)
+      )
+      .subscribe(() => {
+        // Add entries from guest cart to user cart
+        for (const entry of cartEntries) {
+          this.addEntry(entry.product.code, entry.quantity);
+        }
       });
   }
 }
