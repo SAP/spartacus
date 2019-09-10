@@ -9,8 +9,9 @@ import {
   I18nTestingModule,
   UserToken,
   WindowRef,
+  FeatureConfigService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { LoginFormComponent } from './login-form.component';
 
 import createSpy = jasmine.createSpy;
@@ -36,6 +37,14 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
+const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+class MockFeatureConfigService {
+  isLevel(_level: string): boolean {
+    return isLevelBool.value;
+  }
+}
+
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
@@ -56,6 +65,7 @@ describe('LoginFormComponent', () => {
           useClass: MockRedirectAfterAuthService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -190,6 +200,17 @@ describe('LoginFormComponent', () => {
 
       control.setValue(null);
       expect(control.valid).toBeFalsy();
+    });
+  });
+
+  describe('submit button', () => {
+    it('should NOT be disabled', () => {
+      isLevelBool.next(true);
+      fixture.detectChanges();
+      const submitButton: HTMLElement = windowRef.document.querySelector(
+        'button[type="submit"]'
+      );
+      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
     });
   });
 });
