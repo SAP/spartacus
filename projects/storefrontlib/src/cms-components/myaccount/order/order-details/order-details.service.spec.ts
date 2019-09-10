@@ -1,8 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import {
+  Order,
+  RoutingService,
+  UserOrderService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
+import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   code: '1',
@@ -66,7 +73,17 @@ const mockRouter = {
   },
 };
 
+const mockMessages = {
+  [GlobalMessageType.MSG_TYPE_ERROR]: [
+    {
+      raw:
+        'OrderModel with guid 1 is not visible due to being older than 0 months',
+    },
+  ],
+};
+
 const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
+const messageSubject = new BehaviorSubject({});
 
 class MockUserOrderService {
   getOrderDetails(): Observable<Order> {
@@ -80,12 +97,21 @@ class MockRoutingService {
   getRouterState(): Observable<any> {
     return routerSubject.asObservable();
   }
+  go() {}
+}
+
+class MockGlobalMessageService {
+  remove = createSpy();
+  get() {
+    return messageSubject.asObservable();
+  }
 }
 
 describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
   let userService;
   let routingService;
+  let globalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,12 +125,19 @@ describe('OrderDetailsService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
     });
 
     service = TestBed.get(OrderDetailsService as Type<OrderDetailsService>);
     userService = TestBed.get(UserOrderService as Type<UserOrderService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
   });
 
   it('should be created', () => {
@@ -143,5 +176,21 @@ describe('OrderDetailsService', () => {
     expect(userService.clearOrderDetails).toHaveBeenCalled();
     expect(userService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
+  });
+
+  it('should redirect to orderExpired page if order data expired', () => {
+    spyOn(routingService, 'getRouterState');
+    routerSubject.next(mockRouter);
+    spyOn(routingService, 'go').and.stub();
+    service
+      .getOrderDetails()
+      .subscribe()
+      .unsubscribe();
+
+    messageSubject.next(mockMessages);
+    expect(globalMessageService.remove).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orderExpired' });
   });
 });

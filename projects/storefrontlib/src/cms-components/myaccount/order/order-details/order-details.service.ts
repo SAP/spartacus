@@ -1,23 +1,56 @@
 import { Injectable } from '@angular/core';
-import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import {
+  Order,
+  RoutingService,
+  UserOrderService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+  distinctUntilChanged,
+  filter,
+} from 'rxjs/operators';
 
 @Injectable()
 export class OrderDetailsService {
   orderCode$: Observable<string>;
   orderLoad$: Observable<{}>;
 
+  orderCode: string;
+
+  constructor(
+    userOrderService: UserOrderService,
+    routingService: RoutingService,
+    globalMessageService: GlobalMessageService // tslint:disable-line
+  );
+  /**
+   * @deprecated since 1.x
+   * NOTE: check issue:#1224 for more info
+   *
+   * TODO(issue:#1224) Deprecated since 1.x
+   */
+  constructor(
+    userOrderService: UserOrderService,
+    routingService: RoutingService
+  );
   constructor(
     private userOrderService: UserOrderService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private globalMessageService?: GlobalMessageService
   ) {
-    this.orderCode$ = this.routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.params.orderCode));
+    this.orderCode$ = this.routingService.getRouterState().pipe(
+      map(routingData => routingData.state.params.orderCode),
+      distinctUntilChanged()
+    );
 
     this.orderLoad$ = this.orderCode$.pipe(
       tap(orderCode => {
+        this.orderCode = orderCode;
         if (orderCode) {
           this.userOrderService.loadOrderDetails(orderCode);
         } else {
@@ -26,6 +59,27 @@ export class OrderDetailsService {
       }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
+
+    this.globalMessageService
+      .get()
+      .pipe(filter(messageEntities => !!Object.keys(messageEntities).length))
+      .subscribe(messageEntities => {
+        const messages =
+          messageEntities && messageEntities[GlobalMessageType.MSG_TYPE_ERROR];
+        if (
+          messages &&
+          messages.some(
+            message =>
+              message.raw ===
+              'OrderModel with guid ' +
+                this.orderCode +
+                ' is not visible due to being older than 0 months'
+          )
+        ) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.routingService.go({ cxRoute: 'orderExpired' });
+        }
+      });
   }
 
   getOrderDetails(): Observable<Order> {

@@ -41,6 +41,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orders: {
     paths: ['my-account/orders'],
   },
+  orderExpired: { paths: ['order-expired'] },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {
