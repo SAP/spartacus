@@ -37,8 +37,8 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
+// TODO(issue:#xxxx) Deprecated since 1.3.0
 const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
 class MockFeatureConfigService {
   isLevel(_level: string): boolean {
     return isLevelBool.value;
@@ -205,7 +205,9 @@ describe('LoginFormComponent', () => {
 
   describe('submit button', () => {
     it('should NOT be disabled', () => {
+      // TODO(issue:#xxxx) Deprecated since 1.3.0
       isLevelBool.next(true);
+
       fixture.detectChanges();
       const submitButton: HTMLElement = windowRef.document.querySelector(
         'button[type="submit"]'

@@ -74,7 +74,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       if (this.form.valid) {
         this.submitLogin();
       } else {
-        this.markFormAsDirty();
+        this.markFormAsTouched();
       }
     }
   }
@@ -96,9 +96,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private markFormAsDirty(): void {
+  private markFormAsTouched(): void {
     Object.keys(this.form.controls).forEach(key => {
-      this.form.controls[key].markAsDirty();
+      this.form.controls[key].markAsTouched();
     });
   }
 
