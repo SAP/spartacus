@@ -72,6 +72,9 @@ class MockAsmService {
     return of({ visible: true } as AsmUi);
   }
   updateAsmUiState(): void {}
+  getCustomerSearchResultsLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 class MockRoutingService {
   go() {}
@@ -171,6 +174,23 @@ describe('AsmMainUiComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
+    expect(el.query(By.css('button'))).toBeTruthy();
+  });
+
+  it('should not display the agent logout button when starting a customer emulation session', () => {
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of({}));
+    spyOn(userService, 'get').and.returnValue(of({}));
+    spyOn(asmService, 'getCustomerSearchResultsLoading').and.returnValue(
+      of(true)
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
+    expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
+    expect(el.query(By.css('button'))).toBeFalsy();
   });
 
   it('should display only user info during customer emulation.', () => {

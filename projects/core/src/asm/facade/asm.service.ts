@@ -34,8 +34,17 @@ export class AsmService {
   /**
    * Returns the customer search result data.
    */
-  getCustomerSearchResult(): Observable<CustomerSearchPage> {
+  getCustomerSearchResults(): Observable<CustomerSearchPage> {
     return this.store.pipe(select(AsmSelectors.getCustomerSearchResults));
+  }
+
+  /**
+   * Returns the customer search result loading status.
+   */
+  getCustomerSearchResultsLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(AsmSelectors.getCustomerSearchResultsLoading)
+    );
   }
 
   /**

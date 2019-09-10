@@ -1,28 +1,35 @@
-<form (submit)="onSubmit()" [formGroup]="form">
-  <div class="form-group col-sm">
-    <label>
-      <span class="label-content">{{
-        'asm.customerSearch.searchTerm.label' | cxTranslate
-      }}</span>
-      <input
-        type="text"
-        class="form-control"
-        [class.is-invalid]="isNotValid('searchTerm')"
-        formControlName="searchTerm"
-        placeholder="{{
-          'asm.customerSearch.searchTerm.placeholder' | cxTranslate
-        }}"
-      />
-      <div class="invalid-feedback" *ngIf="isNotValid('searchTerm')">
-        <span>{{
-          'asm.customerSearch.searchTerm.required' | cxTranslate
+<ng-container *ngIf="!(searchResultsLoading$ | async); else spinner">
+  <form (submit)="onSubmit()" [formGroup]="form">
+    <div class="form-group col-sm">
+      <label>
+        <span class="label-content">{{
+          'asm.customerSearch.searchTerm.label' | cxTranslate
         }}</span>
-      </div>
-    </label>
+        <input
+          type="text"
+          class="form-control"
+          [class.is-invalid]="isNotValid('searchTerm')"
+          formControlName="searchTerm"
+          placeholder="{{
+            'asm.customerSearch.searchTerm.placeholder' | cxTranslate
+          }}"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('searchTerm')">
+          <span>{{
+            'asm.customerSearch.searchTerm.required' | cxTranslate
+          }}</span>
+        </div>
+      </label>
+    </div>
+    <div class="col-sm">
+      <button type="submit" class="btn btn-block btn-primary">
+        {{ 'asm.customerSearch.submit' | cxTranslate }}
+      </button>
+    </div>
+  </form>
+</ng-container>
+<ng-template #spinner>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
   </div>
-  <div class="col-sm">
-    <button type="submit" class="btn btn-block btn-primary">
-      {{ 'asm.customerSearch.submit' | cxTranslate }}
-    </button>
-  </div>
-</form>
+</ng-template>

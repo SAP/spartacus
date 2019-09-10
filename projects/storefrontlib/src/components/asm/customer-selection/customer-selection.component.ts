@@ -12,7 +12,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
 @Component({
@@ -23,7 +23,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   form: FormGroup;
   private submitClicked = false;
   private subscription = new Subscription();
-
+  searchResultsLoading$: Observable<boolean>;
   @Output()
   submitEvent = new EventEmitter<{ customerId: string }>();
 
@@ -37,16 +37,17 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       searchTerm: ['', [Validators.required]],
     });
+    this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
     this.asmService.customerSearchReset();
     this.subscription.add(
-      this.asmService.getCustomerSearchResult().subscribe(results => {
+      this.asmService.getCustomerSearchResults().subscribe(results => {
         this.handleSearchResults(results);
       })
     );
   }
 
   protected handleSearchResults(results: CustomerSearchPage): void {
-    if (results.entries) {
+    if (!!results && results.entries) {
       const customerHit = results.entries.find(
         element => element.uid === this.form.controls.searchTerm.value
       );

@@ -62,10 +62,19 @@ describe('AsmService', () => {
 
     let result: CustomerSearchPage;
     service
-      .getCustomerSearchResult()
+      .getCustomerSearchResults()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockCustomerSearchPage);
+  });
+
+  it('should return search result loading status', () => {
+    let result: boolean;
+    service
+      .getCustomerSearchResultsLoading()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
   });
 
   it('should dispatch proper action for customer search reset', () => {
