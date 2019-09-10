@@ -13,6 +13,7 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
 const mockToken = {
@@ -27,6 +28,9 @@ class MockAuthService {
   logout(): void {}
   getCustomerSupportAgentToken(): Observable<UserToken> {
     return of({} as UserToken);
+  }
+  getCustomerSupportAgentTokenLoading(): Observable<boolean> {
+    return of(false);
   }
   getUserToken(): Observable<UserToken> {
     return of({} as UserToken);
@@ -85,7 +89,7 @@ describe('AsmMainUiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, SpinnerModule],
       declarations: [
         AsmMainUiComponent,
         MockCSAgentLoginFormComponent,
@@ -246,6 +250,25 @@ describe('AsmMainUiComponent', () => {
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
       visible: false,
+    });
+  });
+
+  it('should display spinner when login is running', () => {
+    spyOn(authService, 'getCustomerSupportAgentTokenLoading').and.returnValue(
+      of(true)
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+      expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
+    });
+  });
+  it('should not display spinner when login is not running', () => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(el.query(By.css('cx-spinner'))).toBeFalsy();
+      expect(el.query(By.css('cx-csagent-login-form'))).toBeTruthy();
     });
   });
 });
