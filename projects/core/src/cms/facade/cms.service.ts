@@ -139,7 +139,7 @@ export class CmsService {
             const uidsToLoad = indexesToLoad.map(index => uids[index]);
 
             if (uidsToLoad.length) {
-              this.store.dispatch(new CmsActions.LoadCmsComponents(uidsToLoad));
+              this.store.dispatch(new CmsActions.LoadCmsComponent(uidsToLoad));
             }
           }
         }),
@@ -148,8 +148,9 @@ export class CmsService {
           componentsState =>
             componentsState && componentsState.every(state => state.success)
         ),
-        map(componentsState =>
-          componentsState.map(state => state.value).filter(x => !!x)
+        map(
+          componentsState =>
+            componentsState.map(state => state.value).filter(x => !!x) // filter out undefined components
         ),
         shareReplay({ bufferSize: 1, refCount: true })
       );

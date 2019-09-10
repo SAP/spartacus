@@ -6,22 +6,18 @@ export const LOAD_CMS_COMPONENT = '[Cms] Load Component';
 export const LOAD_CMS_COMPONENT_FAIL = '[Cms] Load Component Fail';
 export const LOAD_CMS_COMPONENT_SUCCESS = '[Cms] Load Component Success';
 
-export const LOAD_CMS_COMPONENTS = '[Cms] Load Components';
-export const LOAD_CMS_COMPONENTS_FAIL = '[Cms] Load Components Fail';
-export const LOAD_CMS_COMPONENTS_SUCCESS = '[Cms] Load Components Success';
-
 export const CMS_GET_COMPONENET_FROM_PAGE = '[Cms] Get Component from Page';
 
 export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = LOAD_CMS_COMPONENT;
-  constructor(public payload: string) {
+  constructor(public payload: string | string[]) {
     super(COMPONENT_ENTITY, payload);
   }
 }
 
 export class LoadCmsComponentFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
-  constructor(uid: string, public payload: any) {
+  constructor(uid: string | string[], public payload: any) {
     super(COMPONENT_ENTITY, uid, payload);
   }
 }
@@ -30,31 +26,11 @@ export class LoadCmsComponentSuccess<
   T extends CmsComponent
 > extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = LOAD_CMS_COMPONENT_SUCCESS;
-  constructor(public payload: T, uid?: string) {
-    super(COMPONENT_ENTITY, uid || payload.uid || '');
-  }
-}
-
-export class LoadCmsComponents extends StateEntityLoaderActions.EntityLoadAction {
-  readonly type = LOAD_CMS_COMPONENTS;
-  constructor(public payload: string[]) {
-    super(COMPONENT_ENTITY, payload);
-  }
-}
-
-export class LoadCmsComponentsSuccess<
-  T extends CmsComponent
-> extends StateEntityLoaderActions.EntitySuccessAction {
-  readonly type = LOAD_CMS_COMPONENTS_SUCCESS;
-  constructor(public payload: T[], uids?: string[]) {
-    super(COMPONENT_ENTITY, uids);
-  }
-}
-
-export class LoadCmsComponentsFail extends StateEntityLoaderActions.EntityFailAction {
-  readonly type = LOAD_CMS_COMPONENTS_FAIL;
-  constructor(uids: string[], public payload: any) {
-    super(COMPONENT_ENTITY, uids, payload);
+  constructor(public payload: T | T[], uid?: string | string[]) {
+    super(
+      COMPONENT_ENTITY,
+      uid || (!Array.isArray(payload) && payload.uid) || ''
+    );
   }
 }
 
