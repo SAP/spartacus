@@ -23,7 +23,7 @@ const mockStoreFinderService = {
   findStoresAction: jasmine.createSpy().and.returnValue(of({})),
 };
 
-fdescribe('StoreFinderListComponent', () => {
+describe('StoreFinderListComponent', () => {
   let component: StoreFinderSearchResultComponent;
   let fixture: ComponentFixture<StoreFinderSearchResultComponent>;
   let storeFinderService: StoreFinderService;

@@ -34,6 +34,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @include media-breakpoint-down(md) {
+      white-space: normal;
+    }
   }
   .cx-store-open {
     @include type('8');
