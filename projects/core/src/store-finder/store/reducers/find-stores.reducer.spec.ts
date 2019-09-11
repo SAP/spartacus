@@ -13,10 +13,34 @@ describe('Find Stores Reducer', () => {
     });
   });
 
+  describe('FIND_STORES_FAIL action', () => {
+    it('should set the flags accordingly', () => {
+      const results = {
+        loading: false,
+        error: true,
+        success: false,
+      };
+      const { initialState } = fromReducers;
+      const loadAction = new StoreFinderActions.FindStores({
+        queryText: 'test',
+      });
+
+      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const resultAction = new StoreFinderActions.FindStoresFail(true);
+      const state = fromReducers.reducer(loadingState, resultAction);
+
+      expect(state).toEqual(results);
+    });
+  });
+
   describe('FIND_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
+      const results = {
+        loading: false,
+        error: false,
+        success: true,
+      };
       const searchConfig: StoreFinderSearchConfig = { pageSize: 10 };
-      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new StoreFinderActions.FindStores({
         queryText: 'test',
@@ -27,13 +51,17 @@ describe('Find Stores Reducer', () => {
       const resultAction = new StoreFinderActions.FindStoresSuccess(results);
       const state = fromReducers.reducer(loadingState, resultAction);
 
-      expect(state.findStoresEntities).toEqual(results);
+      expect(state).toEqual(results);
     });
   });
 
   describe('FIND_STORE_BY_ID_SUCCESS action', () => {
-    it('should populate results after loading', () => {
-      const results = { pointOfServices: [{ name: 'test' }] };
+    it('should set the flags accordingly', () => {
+      const results = {
+        loading: false,
+        error: false,
+        success: true,
+      };
       const { initialState } = fromReducers;
       const loadAction = new StoreFinderActions.FindStoreById({
         storeId: 'testId',
@@ -43,7 +71,7 @@ describe('Find Stores Reducer', () => {
       const resultAction = new StoreFinderActions.FindStoreByIdSuccess(results);
       const state = fromReducers.reducer(loadingState, resultAction);
 
-      expect(state.findStoresEntities).toEqual(results);
+      expect(state).toEqual(results);
     });
   });
 });

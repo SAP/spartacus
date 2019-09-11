@@ -12,17 +12,39 @@ describe('View All Stores Reducer', () => {
     });
   });
 
-  describe('VIEW_ALL_STORES_SUCCESS action', () => {
-    it('should populate results after loading', () => {
-      const results = { pointOfServices: [{ name: 'test' }] };
+  describe('VIEW_ALL_STORES_FAIL action', () => {
+    it('should set the flags accordingly', () => {
+      const results = {
+        loading: false,
+        error: true,
+        success: false,
+      };
       const { initialState } = fromReducers;
       const loadAction = new StoreFinderActions.ViewAllStores();
 
       const loadingState = fromReducers.reducer(initialState, loadAction);
-      const resultAction = new StoreFinderActions.ViewAllStoresSuccess(results);
+      const resultAction = new StoreFinderActions.ViewAllStoresFail(true);
       const state = fromReducers.reducer(loadingState, resultAction);
 
-      expect(state.viewAllStoresEntities).toEqual(results);
+      expect(state).toEqual(results);
+    });
+  });
+
+  describe('VIEW_ALL_STORES_SUCCESS action', () => {
+    it('should set the flags accordingly', () => {
+      const results = {
+        loading: false,
+        error: false,
+        success: true,
+      };
+      const { initialState } = fromReducers;
+      const loadAction = new StoreFinderActions.ViewAllStores();
+
+      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const resultAction = new StoreFinderActions.ViewAllStoresSuccess({});
+      const state = fromReducers.reducer(loadingState, resultAction);
+
+      expect(state).toEqual(results);
     });
   });
 });

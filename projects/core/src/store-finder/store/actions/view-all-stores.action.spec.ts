@@ -16,7 +16,7 @@ describe('View All Stores Actions', () => {
 
   describe('ViewAllStoresFail', () => {
     it('should create ViewAllStoresFail action', () => {
-      const payload = { errorMessage: 'Error' };
+      const payload = true;
       const action = new StoreFinderActions.ViewAllStoresFail(payload);
 
       expect({ ...action }).toEqual({

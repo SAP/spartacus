@@ -12,8 +12,6 @@ import {
 describe('FindStores Selectors', () => {
   let store: Store<StateWithStoreFinder>;
 
-  const searchResult = { stores: [{ name: 'test' }] };
-
   const data = {
     entities: [
       {

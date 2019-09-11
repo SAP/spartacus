@@ -52,7 +52,7 @@ describe('Find Stores Actions', () => {
 
   describe('FindStoresFail', () => {
     it('should create FindStoresFail action', () => {
-      const payload = { errorMessage: 'Error' };
+      const payload = true;
       const action = new StoreFinderActions.FindStoresFail(payload);
 
       expect({ ...action }).toEqual({

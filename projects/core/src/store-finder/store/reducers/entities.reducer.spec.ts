@@ -14,28 +14,26 @@ describe('Entities Reducer', () => {
 
   describe('STORE_ENTITIES action', () => {
     it('should populate entities', () => {
-      const payload = {
-        entities: [
-          {
-            count: 1,
-            isoCode: 'DE',
-            name: 'Germany',
-            type: 'COUNTRY',
-          },
-          {
-            count: 1,
-            isoCode: 'PL',
-            name: 'Poland',
-            type: 'COUNTRY',
-          },
-          {
-            count: 49,
-            isoCode: 'JP',
-            name: 'Japan',
-            type: 'COUNTRY',
-          },
-        ],
-      };
+      const payload = [
+        {
+          count: 1,
+          isoCode: 'DE',
+          name: 'Germany',
+          type: 'COUNTRY',
+        },
+        {
+          count: 1,
+          isoCode: 'PL',
+          name: 'Poland',
+          type: 'COUNTRY',
+        },
+        {
+          count: 49,
+          isoCode: 'JP',
+          name: 'Japan',
+          type: 'COUNTRY',
+        },
+      ];
 
       const { initialState } = fromEntitiesReducer;
 
