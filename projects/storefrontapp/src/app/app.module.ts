@@ -13,6 +13,7 @@ import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
+  B2bStorefrontModule,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
@@ -64,6 +65,34 @@ if (!environment.production) {
       },
       features: {
         level: '1.2',
+      },
+    }),
+
+    B2bStorefrontModule.withConfig({
+      backend: {
+        occ: {
+          baseUrl: environment.occBaseUrl,
+          legacy: false,
+        },
+      },
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: ['powertools'],
+      },
+
+      // custom routing configuration for e2e testing
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:productCode/:name', 'product/:productCode'],
+          },
+        },
+      },
+      // we bring in static translations to be up and running soon right away
+      i18n: {
+        resources: translations,
+        chunks: translationChunksConfig,
+        fallbackLang: 'en',
       },
     }),
 
