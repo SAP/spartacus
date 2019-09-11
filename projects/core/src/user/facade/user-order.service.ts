@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
+import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
@@ -117,5 +118,33 @@ export class UserOrderService {
    */
   clearOrderList(): void {
     this.store.dispatch(new UserActions.ClearUserOrders());
+  }
+
+  /**
+   *  Returns a consignment tracking detail
+   */
+  getConsignmentTracking(): Observable<ConsignmentTracking> {
+    return this.store.pipe(select(UsersSelectors.getConsignmentTracking));
+  }
+
+  /**
+   * Retrieves consignment tracking details
+   * @param orderCode an order code
+   * @param consignmentCode a consignment code
+   */
+  loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
+    this.store.dispatch(
+      new UserActions.LoadConsignmentTracking({
+        orderCode: orderCode,
+        consignmentCode: consignmentCode,
+      })
+    );
+  }
+
+  /**
+   * Cleaning consignment tracking
+   */
+  clearConsignmentTracking(): void {
+    this.store.dispatch(new UserActions.ClearConsignmentTracking());
   }
 }

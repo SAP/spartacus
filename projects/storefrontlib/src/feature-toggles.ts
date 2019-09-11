@@ -7,5 +7,6 @@ export interface FeatureToggles {
      */
     level?: string;
     asm?: boolean;
+    consignmentTracking?: boolean;
   };
 }
