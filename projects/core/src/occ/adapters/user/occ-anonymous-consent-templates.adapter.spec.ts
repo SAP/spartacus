@@ -11,7 +11,7 @@ import { OccEndpointsService } from '../../services';
 import { OccAnonymousConsentTemplatesAdapter } from './occ-anonymous-consent-templates.adapter';
 import { MockOccEndpointsService } from './unit-test.helper';
 
-fdescribe('OccAnonymousConsentTemplatesAdapter', () => {
+describe('OccAnonymousConsentTemplatesAdapter', () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
