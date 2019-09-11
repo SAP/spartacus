@@ -252,18 +252,7 @@ export class CartService {
       this.getLoaded(),
     ])
       .pipe(
-        filter(([, loading]) => !loading),
-        tap(([cart, , loaded]) => {
-          // Load the cart if not created, loaded prevents infinite loop
-          if (!this.isCreated(cart) && !loaded) {
-            this.store.dispatch(
-              new CartActions.CreateCart({
-                userId: this.cartData.userId,
-              })
-            );
-          }
-        }),
-        filter(([, , loaded]) => loaded),
+        filter(([cart, loading]) => !this.isCreated(cart) && !loading),
         take(1)
       )
       .subscribe(() => {

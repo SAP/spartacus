@@ -33,7 +33,6 @@ export class CheckoutDetailsService {
     private cartService: CartService
   ) {
     this.cartId$ = this.cartService.getActive().pipe(
-      distinctUntilChanged(),
       map(cartData => {
         if (
           (cartData.user && cartData.user.uid === ANONYMOUS_USERID) ||
@@ -43,7 +42,8 @@ export class CheckoutDetailsService {
         }
         return cartData.code;
       }),
-      filter(cartId => !!cartId)
+      filter(cartId => !!cartId),
+      distinctUntilChanged()
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(

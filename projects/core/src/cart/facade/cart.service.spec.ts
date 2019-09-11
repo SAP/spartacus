@@ -99,17 +99,12 @@ describe('CartService', () => {
 
         cartData.cart = cart;
       });
-      it('should delete guest cart and create new cart', () => {
+      it('should delete guest cart', () => {
         service[loadOrMergeMethod]();
         expect(store.dispatch).toHaveBeenCalledWith(
           new CartActions.DeleteCart({
             userId: ANONYMOUS_USERID,
             cartId: cartData.cart.guid,
-          })
-        );
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.CreateCart({
-            userId: cartData.userId,
           })
         );
       });
