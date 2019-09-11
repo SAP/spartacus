@@ -1,12 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../../model/order.model';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import {
+  ORDER_HISTORY_NORMALIZER,
+  CONSIGNMENT_TRACKING_NORMALIZER,
+} from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
@@ -133,6 +135,6 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     });
     return this.http
       .get<ConsignmentTracking>(url)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(this.converter.pipeable(CONSIGNMENT_TRACKING_NORMALIZER));
   }
 }
