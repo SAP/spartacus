@@ -112,7 +112,6 @@ describe('CartService', () => {
       it('should copy content of guest cart to user cart', () => {
         spyOn(service, 'addEntry').and.stub();
         spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
-        spyOn(service, 'getLoaded').and.returnValue(of(true));
 
         service[loadOrMergeMethod]();
         expect(service.addEntry).toHaveBeenCalledWith(

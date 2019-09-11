@@ -249,7 +249,6 @@ export class CartService {
     combineLatest([
       this.store.select(CartSelectors.getCartContent),
       this.store.select(CartSelectors.getCartLoading),
-      this.getLoaded(),
     ])
       .pipe(
         filter(([cart, loading]) => !this.isCreated(cart) && !loading),
