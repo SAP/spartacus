@@ -10,7 +10,10 @@ import { FeatureConfigService } from 'projects/core/src/features-config';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { Order } from '../../../model/order.model';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import {
+  ORDER_HISTORY_NORMALIZER,
+  CONSIGNMENT_TRACKING_NORMALIZER,
+} from '../../../user/connectors/order/converters';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
 import {
@@ -246,6 +249,20 @@ describe('OccUserOrderAdapter', () => {
         expect(mockReq.request.responseType).toEqual('json');
         mockReq.flush(tracking);
       }));
+
+      it('should use converter', () => {
+        occUserOrderAdapter
+          .getConsignmentTracking(orderData.code, consignmentCode)
+          .subscribe();
+        httpMock
+          .expectOne(req => {
+            return req.method === 'GET';
+          })
+          .flush({});
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          CONSIGNMENT_TRACKING_NORMALIZER
+        );
+      });
     });
   });
 });
