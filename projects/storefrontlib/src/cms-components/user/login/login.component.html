@@ -10,3 +10,10 @@
     'miniLogin.signInRegister' | cxTranslate
   }}</a>
 </ng-template>
+
+<button (click)="callit()">anons</button>
+<button (click)="giveit()">give anon</button>
+<button (click)="withdrawit()">withdraw anon</button>
+<div *ngIf="(anonConsents$ | async) as anonConsents">
+  {{ anonConsents | json }}
+</div>
