@@ -37,7 +37,7 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
-// TODO(issue:#xxxx) Deprecated since 1.3.0
+// TODO(issue:#4510) Deprecated since 1.3.0
 const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
 class MockFeatureConfigService {
   isLevel(_level: string): boolean {
@@ -65,6 +65,7 @@ describe('LoginFormComponent', () => {
           useClass: MockRedirectAfterAuthService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        // TODO(issue:#4510) Deprecated since 1.3.0
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
@@ -205,7 +206,7 @@ describe('LoginFormComponent', () => {
 
   describe('submit button', () => {
     it('should NOT be disabled', () => {
-      // TODO(issue:#xxxx) Deprecated since 1.3.0
+      // TODO(issue:#4510) Deprecated since 1.3.0
       isLevelBool.next(true);
 
       fixture.detectChanges();

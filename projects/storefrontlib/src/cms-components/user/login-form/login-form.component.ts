@@ -67,7 +67,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    // TODO(issue:#4510) Deprecated since 1.3.0
     if (this.shouldDisableLoginButton()) {
       this.submitLogin();
     } else {
@@ -106,7 +106,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
    * @deprecated since 1.3.0
    * This function will be removed as login button should not be disabled
    *
-   * TODO(issue:#xxxx) Deprecated since 1.3.0
+   * TODO(issue:#4510) Deprecated since 1.3.0
    */
   protected shouldDisableLoginButton(): boolean {
     if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
