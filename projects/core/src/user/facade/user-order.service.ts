@@ -27,13 +27,22 @@ export class UserOrderService {
    *
    * @param orderCode an order code
    */
-  loadOrderDetails(orderCode: string): void {
-    this.store.dispatch(
-      new UserActions.LoadOrderDetails({
-        userId: USERID_CURRENT,
-        orderCode: orderCode,
-      })
-    );
+  loadOrderDetails(orderCode: string, userId?: string): void {
+    if (userId) {
+      this.store.dispatch(
+        new UserActions.LoadOrderDetails({
+          userId: userId,
+          orderCode: orderCode,
+        })
+      );
+    } else {
+      this.store.dispatch(
+        new UserActions.LoadOrderDetails({
+          userId: USERID_CURRENT,
+          orderCode: orderCode,
+        })
+      );
+    }
   }
 
   /**
