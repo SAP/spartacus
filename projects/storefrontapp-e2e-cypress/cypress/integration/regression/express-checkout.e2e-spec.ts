@@ -1,5 +1,4 @@
 import * as checkout from '../../helpers/checkout-flow';
-import { deletePayment } from '../../helpers/payment-methods';
 
 context('Express checkout', () => {
   before(() => {
