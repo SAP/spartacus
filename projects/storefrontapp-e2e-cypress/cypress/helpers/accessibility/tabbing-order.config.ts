@@ -32,7 +32,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'newsletter', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'termsandconditions', type: TabbingOrderTypes.FORM_FIELD },
+    {
+      value: 'termsandconditions',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
     { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
     { value: 'Register', type: TabbingOrderTypes.BUTTON },
     {
@@ -67,11 +70,20 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Save', type: TabbingOrderTypes.BUTTON },
   ],
   footer: [
-    { value: 'About SAP Commerce Cloud', type: TabbingOrderTypes.LINK },
-    { value: 'Frequently Asked Questions', type: TabbingOrderTypes.LINK },
+    {
+      value: 'About SAP Commerce Cloud',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Frequently Asked Questions',
+      type: TabbingOrderTypes.LINK,
+    },
     { value: 'Visit SAP', type: TabbingOrderTypes.LINK },
     { value: 'Contact Us', type: TabbingOrderTypes.LINK },
-    { value: 'Agile Commerce Blog', type: TabbingOrderTypes.LINK },
+    {
+      value: 'Agile Commerce Blog',
+      type: TabbingOrderTypes.LINK,
+    },
     { value: 'Linked In', type: TabbingOrderTypes.LINK },
     { value: 'Facebook', type: TabbingOrderTypes.LINK },
     { value: 'Twitter', type: TabbingOrderTypes.LINK },
@@ -106,7 +118,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   addToCart: [
     { value: 'view cart', type: TabbingOrderTypes.BUTTON },
-    { value: 'proceed to checkout', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'proceed to checkout',
+      type: TabbingOrderTypes.BUTTON,
+    },
     { type: TabbingOrderTypes.GENERIC_BUTTON },
     {
       value: '/electronics-spa/en/USD/product/1981414/PL60%20Pink',
@@ -122,5 +137,23 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'view cart', type: TabbingOrderTypes.BUTTON },
+  ],
+  shippingAddress: [
+    { value: 'isocode', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'titleCode', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'line1', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'line2', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'town', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'isocode', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'postalCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'phone', type: TabbingOrderTypes.FORM_FIELD },
+    {
+      value: 'Set as default',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    { value: 'Back to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
   ],
 };

@@ -103,3 +103,15 @@ export function registerAndLogin(): void {
   loginUser();
   cy.wait(`@${homePage}`);
 }
+
+export function addProduct(): void {
+  const categoryPageUrl = '/Open-Catalogue/Cameras/Digital-Cameras/c/575';
+  const cartPage = waitForPage('/cart', 'getCartPage');
+
+  cy.visit(categoryPageUrl);
+  cy.getByText(/Add to cart/i).click();
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.getByText(/View cart/i).click();
+  });
+  cy.wait(`@${cartPage}`);
+}
