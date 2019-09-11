@@ -1,6 +1,6 @@
 import * as checkout from '../../helpers/checkout-flow';
 
-context('Checkout flow', () => {
+context('ASM', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });
