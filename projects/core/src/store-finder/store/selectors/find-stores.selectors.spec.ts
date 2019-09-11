@@ -33,11 +33,11 @@ describe('FindStores Selectors', () => {
     it('should return the stores search results', () => {
       let result;
       store
-        .pipe(select(StoreFinderSelectors.getFindStoresEntities))
+        .pipe(select(StoreFinderSelectors.getEntitiesState))
         .subscribe(value => (result = value));
 
       store.dispatch(new StoreFinderActions.FindStores({ queryText: 'test' }));
-      store.dispatch(new StoreFinderActions.FindStoresSuccess(searchResult));
+      store.dispatch(new StoreFinderActions.StoreEntities(searchResult));
 
       expect(result).toEqual(searchResult);
     });

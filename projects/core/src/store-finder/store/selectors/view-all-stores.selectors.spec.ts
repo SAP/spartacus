@@ -31,11 +31,11 @@ describe('ViewAllStores Selectors', () => {
 
   describe('viewAllStores', () => {
     it('should return the stores search results', () => {
-      store.dispatch(new StoreFinderActions.ViewAllStoresSuccess(searchResult));
+      store.dispatch(new StoreFinderActions.StoreEntities(searchResult));
 
       let result;
       store
-        .pipe(select(StoreFinderSelectors.getViewAllStoresEntities))
+        .pipe(select(StoreFinderSelectors.getEntitiesState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
