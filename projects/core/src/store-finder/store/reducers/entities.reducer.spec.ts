@@ -14,26 +14,7 @@ describe('Entities Reducer', () => {
 
   describe('STORE_ENTITIES action', () => {
     it('should populate entities', () => {
-      const payload = [
-        {
-          count: 1,
-          isoCode: 'DE',
-          name: 'Germany',
-          type: 'COUNTRY',
-        },
-        {
-          count: 1,
-          isoCode: 'PL',
-          name: 'Poland',
-          type: 'COUNTRY',
-        },
-        {
-          count: 49,
-          isoCode: 'JP',
-          name: 'Japan',
-          type: 'COUNTRY',
-        },
-      ];
+      const payload = { pointOfServices: [{ name: 'test' }] };
 
       const { initialState } = fromEntitiesReducer;
 
