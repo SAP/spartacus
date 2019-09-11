@@ -147,27 +147,6 @@ describe('OccUserOrderAdapter', () => {
     });
   });
 
-  describe('get order only by guid/code', () => {
-    it('should fetch a single order', async(() => {
-      occUserOrderAdapter.loadByCode(orderData.code).subscribe();
-      httpMock.expectOne((req: HttpRequest<any>) => {
-        return req.method === 'GET';
-      }, `GET a single order`);
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'orderDetailByCode',
-        {
-          code: orderData.code,
-        }
-      );
-    }));
-
-    it('should use converter', () => {
-      occUserOrderAdapter.loadByCode(orderData.code).subscribe();
-      httpMock.expectOne(req => req.method === 'GET').flush({});
-      expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
-    });
-  });
-
   /**
    * @deprecated Since 1.1
    * Remove when legacy code is removed.
