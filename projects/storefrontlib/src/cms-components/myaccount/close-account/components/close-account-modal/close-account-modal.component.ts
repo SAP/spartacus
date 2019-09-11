@@ -58,6 +58,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean): void {
     if (success) {
+      this.dismissModal();
       this.translationService
         .translate('closeAccount.accountClosedSuccessfully')
         .pipe(first())
@@ -89,7 +90,6 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
 
   closeAccount() {
     this.userService.remove();
-    this.dismissModal();
   }
 
   ngOnDestroy() {
