@@ -329,7 +329,14 @@ export class ClearCheckoutDeliveryMode implements Action {
 
 export class ClearCheckoutDeliveryModeSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {}
+  /**
+   * @deprecated since version 1.x
+   *  Use constructor(public payload?: { userId: string; cartId: string }) instead
+   *
+   *  TODO(issue:#TO_ADD) Deprecated since 1.x
+   */
+  constructor();
+  constructor(public payload?: { userId: string; cartId: string }) {}
 }
 
 export class ClearCheckoutDeliveryModeFail implements Action {
