@@ -18,7 +18,7 @@ context('ASM', () => {
   });
 
   it('should show the asm UI when ?asm=true is passed to the url', () => {
-    checkout.visitHomePage(true);
+    checkout.visitHomePage('asm=true');
     cy.get('cx-asm').should('exist');
     cy.get('cx-asm-main-ui').should('exist');
   });
