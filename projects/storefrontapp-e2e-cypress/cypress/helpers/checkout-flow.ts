@@ -13,9 +13,14 @@ import {
   PaymentDetails,
 } from './checkout-forms';
 
-export function visitHomePage() {
+export function visitHomePage(invokeAsmUi?: boolean) {
   const homePage = waitForPage('homepage', 'getHomePage');
-  cy.visit('/');
+
+  if (invokeAsmUi) {
+    cy.visit('/?asm=true');
+  } else {
+    cy.visit('/');
+  }
   cy.wait(`@${homePage}`);
 }
 
