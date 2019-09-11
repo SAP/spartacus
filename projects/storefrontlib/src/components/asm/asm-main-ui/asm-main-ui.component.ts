@@ -18,12 +18,13 @@ import { switchMap, take } from 'rxjs/operators';
 })
 export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
+  csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
   searchResultsLoading$: Observable<boolean>;
   private startingCustomerSession = false;
 
   constructor(
-    protected auth: AuthService,
+    protected authService: AuthService,
     protected userService: UserService,
     protected asmService: AsmService,
     protected globalMessageService: GlobalMessageService,
@@ -31,9 +32,10 @@ export class AsmMainUiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.csAgentToken$ = this.auth.getCustomerSupportAgentToken();
+    this.csAgentToken$ = this.authService.getCustomerSupportAgentToken();
+    this.csAgentTokenLoading$ = this.authService.getCustomerSupportAgentTokenLoading();
     this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
-    this.customer$ = this.auth.getUserToken().pipe(
+    this.customer$ = this.authService.getUserToken().pipe(
       switchMap(token => {
         if (token && !!token.access_token) {
           this.handleCustomerSessionStartRedirection(token);
@@ -48,7 +50,7 @@ export class AsmMainUiComponent implements OnInit {
   private handleCustomerSessionStartRedirection(token: UserToken): void {
     if (
       this.startingCustomerSession &&
-      this.auth.isCustomerEmulationToken(token)
+      this.authService.isCustomerEmulationToken(token)
     ) {
       this.startingCustomerSession = false;
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
@@ -63,19 +65,19 @@ export class AsmMainUiComponent implements OnInit {
     userId: string;
     password: string;
   }): void {
-    this.auth.authorizeCustomerSupporAgent(userId, password);
+    this.authService.authorizeCustomerSupporAgent(userId, password);
   }
 
   logoutCustomerSupportAgent(): void {
-    this.auth.logoutCustomerSupportAgent();
+    this.authService.logoutCustomerSupportAgent();
   }
 
   startCustomerEmulationSession({ customerId }: { customerId: string }): void {
-    this.auth
+    this.authService
       .getCustomerSupportAgentToken()
       .pipe(take(1))
       .subscribe(customerSupportAgentToken =>
-        this.auth.startCustomerEmulationSession(
+        this.authService.startCustomerEmulationSession(
           customerSupportAgentToken,
           customerId
         )

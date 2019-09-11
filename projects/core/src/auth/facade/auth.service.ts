@@ -105,6 +105,15 @@ export class AuthService {
   }
 
   /**
+   * Returns the customer support agent's token loading status
+   */
+  getCustomerSupportAgentTokenLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(AuthSelectors.getCustomerSupportAgentTokenLoading)
+    );
+  }
+
+  /**
    * Refreshes the user token
    * @param token a user token to refresh
    */

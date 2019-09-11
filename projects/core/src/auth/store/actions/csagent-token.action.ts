@@ -1,5 +1,6 @@
-import { Action } from '@ngrx/store';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { UserToken } from '../../models/token-types.model';
+import { CSAGENT_TOKEN_DATA } from '../auth-state';
 
 export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN =
   '[Auth] Load Customer Service Agent Token';
@@ -8,19 +9,26 @@ export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL =
 export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS =
   '[Auth] Load Customer Service Agent Token Success';
 
-export class LoadCustomerSupportAgentToken implements Action {
+export class LoadCustomerSupportAgentToken extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN;
-  constructor(public payload: { userId: string; password: string }) {}
+
+  constructor(public payload: { userId: string; password: string }) {
+    super(CSAGENT_TOKEN_DATA);
+  }
 }
 
-export class LoadCustomerSupportAgentTokenFail implements Action {
+export class LoadCustomerSupportAgentTokenFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CSAGENT_TOKEN_DATA);
+  }
 }
 
-export class LoadCustomerSupportAgentTokenSuccess implements Action {
+export class LoadCustomerSupportAgentTokenSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS;
-  constructor(public payload: UserToken) {}
+  constructor(public payload: UserToken) {
+    super(CSAGENT_TOKEN_DATA);
+  }
 }
 
 // action types

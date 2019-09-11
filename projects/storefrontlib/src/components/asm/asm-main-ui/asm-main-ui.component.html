@@ -28,15 +28,23 @@
   </ng-container>
 
   <ng-template #showLoginForm>
-    <cx-csagent-login-form
-      (submitEvent)="loginCustomerSupportAgent($event)"
-    ></cx-csagent-login-form>
-    <button
-      class="btn btn-block btn-secondary"
-      type="button"
-      (click)="hideUi()"
-    >
-      {{ 'asm.hideUi' | cxTranslate }}
-    </button>
+    <ng-container *ngIf="!(csAgentTokenLoading$ | async); else spinner">
+      <cx-csagent-login-form
+        (submitEvent)="loginCustomerSupportAgent($event)"
+      ></cx-csagent-login-form>
+      <button
+        class="btn btn-block btn-secondary"
+        type="button"
+        (click)="hideUi()"
+      >
+        {{ 'asm.hideUi' | cxTranslate }}
+      </button>
+    </ng-container>
+
+    <ng-template #spinner>
+      <div class="cx-spinner">
+        <cx-spinner></cx-spinner>
+      </div>
+    </ng-template>
   </ng-template>
 </div>
