@@ -23,6 +23,7 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-order-confirmation-totals, cx-order-confirmation-overview,
   cx-order-confirmation-thank-you-message, cx-promotions,
   cx-order-detail-headline, cx-order-detail-items, cx-order-detail-shipping,
+  cx-order-detail-totals, cx-tracking-events, cx-product-view, cx-payment-method,
   cx-order-detail-totals, cx-product-view, cx-payment-method, cx-payment-methods,
   cx-close-account, cx-close-account-modal, cx-store-finder-list-item,
   cx-store-finder-grid, cx-store-finder, cx-store-finder-store-description,
@@ -31,7 +32,7 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-store-finder-map, cx-add-to-home-screen-banner, cx-item-counter,
   cx-star-rating, cx-spinner, cx-icon, cx-media, cx-tab-paragraph-container,
   cx-add-to-cart, cx-global-message, cx-product-intro, cx-card,
-  cx-forgot-password, cx-banner-carousel, cx-update-password !default;
+  cx-forgot-password, cx-banner-carousel, cx-update-password, cx-tracking-events !default;
 
 // future theme's, can be introduced during minors
 $theme: '' !default;
