@@ -70,10 +70,14 @@ export class GoogleMapRendererService {
     mapElement: HTMLElement,
     mapCenter: google.maps.LatLng
   ): void {
+    type GestureHandlingOptions = 'cooperative' | 'greedy' | 'none' | 'auto';
+    const gestureOption: GestureHandlingOptions = 'greedy';
+
     const mapProp = {
       center: mapCenter,
       zoom: this.config.googleMaps.scale,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
+      gestureHandling: gestureOption,
     };
     this.googleMap = new google.maps.Map(mapElement, mapProp);
   }
