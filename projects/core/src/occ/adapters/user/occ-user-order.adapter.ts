@@ -55,18 +55,6 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 
-  public loadByCode(code: string): Observable<Order> {
-    const url = this.occEndpoints.getUrl('orderDetailByCode', { code });
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-
-    return this.http
-      .get<Occ.Order>(url, { headers })
-      .pipe(this.converter.pipeable(ORDER_NORMALIZER));
-  }
-
   public loadHistory(
     userId: string,
     pageSize?: number,

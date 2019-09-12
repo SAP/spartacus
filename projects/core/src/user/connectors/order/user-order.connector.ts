@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserOrderAdapter } from './user-order.adapter';
 import { Order, OrderHistoryList } from '../../../model/order.model';
-import { GUID_PATTERN } from '../../../util';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +10,6 @@ export class UserOrderConnector {
   constructor(protected adapter: UserOrderAdapter) {}
 
   public get(userId: string, orderCode: string): Observable<Order> {
-    if (this.isGuid(orderCode)) {
-      return this.adapter.loadByCode(orderCode);
-    }
     return this.adapter.load(userId, orderCode);
   }
 
@@ -24,9 +20,5 @@ export class UserOrderConnector {
     sort?: string
   ): Observable<OrderHistoryList> {
     return this.adapter.loadHistory(userId, pageSize, currentPage, sort);
-  }
-
-  protected isGuid(str: string): boolean {
-    return str.match(GUID_PATTERN) ? true : false;
   }
 }
