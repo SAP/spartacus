@@ -68,15 +68,7 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 
 context('Tabbing order - tests do require user to be logged in', () => {
   before(() => {
-    cy.restoreLocalStorage();
-  });
-
-  beforeEach(() => {
     registerAndLogin();
-  });
-
-  afterEach(() => {
-    signOut();
   });
 
   describe('Change password', () => {
