@@ -39,7 +39,7 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   });
 
   describe('Register page', () => {
-    it('should verify tabbing order', () => {
+    it('should allow to navigate with tab key', () => {
       registerTabbingOrder(config.register);
     });
   });
