@@ -26,6 +26,7 @@ import { StoreFinderSearchComponent } from './components/store-finder-search/sto
 import { StoreFinderStoreDescriptionComponent } from './components/store-finder-store-description/store-finder-store-description.component';
 import { StoreFinderStoresCountComponent } from './components/store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderComponent } from './components/store-finder/store-finder.component';
+import { StoreFinderStoreComponent } from './components/store-finder-store/store-finder-store.component';
 
 @NgModule({
   imports: [
@@ -62,11 +63,11 @@ import { StoreFinderComponent } from './components/store-finder/store-finder.com
             },
             {
               path: 'country/:country/region/:region/:store',
-              component: StoreFinderStoreDescriptionComponent,
+              component: StoreFinderStoreComponent,
             },
             {
               path: 'country/:country/:store',
-              component: StoreFinderStoreDescriptionComponent,
+              component: StoreFinderStoreComponent,
             },
           ],
         },
@@ -91,6 +92,7 @@ import { StoreFinderComponent } from './components/store-finder/store-finder.com
     StoreFinderSearchResultComponent,
     StoreFinderComponent,
     StoreFinderPaginationDetailsComponent,
+    StoreFinderStoreComponent,
   ],
   exports: [
     ScheduleComponent,
@@ -105,13 +107,14 @@ import { StoreFinderComponent } from './components/store-finder/store-finder.com
     StoreFinderListComponent,
     StoreFinderStoreDescriptionComponent,
     StoreFinderStoresCountComponent,
+    StoreFinderStoreComponent,
   ],
   entryComponents: [
     StoreFinderComponent,
     StoreFinderSearchResultComponent,
     StoreFinderStoresCountComponent,
     StoreFinderGridComponent,
-    StoreFinderStoreDescriptionComponent,
+    StoreFinderStoreComponent,
   ],
 })
 export class StoreFinderModule {}
