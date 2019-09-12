@@ -51,6 +51,13 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
   sameAsShippingAddress = true;
 
+  /**
+   * (GH-3102)
+   * Boolean to check whether the button has already been clicked.
+   * If so, this disables the button to prevent button click event to fire twice
+   */
+  buttonHasBeenClicked: boolean = false;
+
   @Input()
   paymentMethodsCount: number;
 
@@ -261,6 +268,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    // (GH-3102)
+    this.buttonHasBeenClicked = true;
+
     this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
