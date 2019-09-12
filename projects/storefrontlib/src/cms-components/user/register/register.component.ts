@@ -131,7 +131,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    // TODO(issue:#4534) Deprecated since 1.3.0
     if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
       this.userService.register(
         this.collectDataFromRegisterForm(this.userRegistrationForm.value)
@@ -192,7 +192,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * @deprecated since 1.3.0
    * This function will be removed as register button should not be disabled
    *
-   * TODO(issue:#xxxx) Deprecated since 1.3.0
+   * TODO(issue:#4534) Deprecated since 1.3.0
    */
   protected shouldDisableRegisterButton(): boolean {
     if (this.featureConfig && this.featureConfig.isLevel('1.3')) {

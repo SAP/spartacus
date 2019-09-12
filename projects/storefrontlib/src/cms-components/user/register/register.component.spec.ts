@@ -116,7 +116,7 @@ class MockRoutingService {
   go = createSpy();
 }
 
-fdescribe('RegisterComponent', () => {
+describe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -184,7 +184,7 @@ fdescribe('RegisterComponent', () => {
     it('should NOT be disabled', () => {
       fixture = TestBed.createComponent(RegisterComponent);
 
-      // TODO(issue:#xxxx) Deprecated since 1.3.0
+      // TODO(issue:#4534) Deprecated since 1.3.0
       isLevelBool.next(true);
 
       fixture.detectChanges();
