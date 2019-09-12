@@ -17,7 +17,7 @@ const location: PointOfService = {
   displayName: 'Test Store',
 };
 const stores: Array<PointOfService> = [location];
-const locations = { stores: stores };
+const locations = { stores: stores, pagination: { currentPage: 0 } };
 
 class StoreDataServiceMock {
   getStoreLatitude(_location: any): number {
