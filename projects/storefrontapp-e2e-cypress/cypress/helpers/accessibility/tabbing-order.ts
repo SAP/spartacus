@@ -1,7 +1,6 @@
 import { TabbingOrderTypes } from './tabbing-order.config';
 import { waitForPage, loginUser } from '../checkout-flow';
-import { register as authRegister, login } from '../auth-forms';
-import { generateMail, randomString } from '../user';
+import { register as authRegister } from '../auth-forms';
 import { user } from '../../sample-data/checkout-flow';
 
 export interface TabElement {
