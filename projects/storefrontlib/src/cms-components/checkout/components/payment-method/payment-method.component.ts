@@ -223,27 +223,27 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @deprecated since version 1.0.3
+   * @deprecated since version 1.3.0
    * This method will no longer be in use. Use goNext() instead.
-   * TODO(issue:#2291) deprecated since 1.0.3
+   * TODO(issue:#2291) deprecated since 1.3.0
    */
   next(): void {
     this.goNext();
   }
 
   /**
-   * @deprecated since version 1.0.3
+   * @deprecated since version 1.3.0
    * This method will no longer be in use. Use goPrevious() instead.
-   * TODO(issue:#2291) deprecated since 1.0.3
+   * TODO(issue:#2291) deprecated since 1.3.0
    */
   back(): void {
     this.goPrevious();
   }
 
   /**
-   * @deprecated since version 1.0.3
+   * @deprecated since version 1.3.0
    * This method will no longer be in use. Use selectPaymentMethod() instead.
-   * TODO(issue:#2291) deprecated since 1.0.3
+   * TODO(issue:#2291) deprecated since 1.3.0
    */
   paymentMethodSelected(paymentDetails: PaymentDetails): void {
     this.selectPaymentMethod(paymentDetails);
