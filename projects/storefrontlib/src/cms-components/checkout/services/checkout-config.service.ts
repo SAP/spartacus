@@ -111,7 +111,7 @@ export class CheckoutConfigService {
           return codeFound.code;
         }
     }
-    const lastMode = this.defaultDeliveryMode.length - 1 === index;
+    const lastMode = this.defaultDeliveryMode.length - 1 <= index;
     return lastMode
       ? deliveryModes[0].code
       : this.findMatchingDeliveryMode(deliveryModes, index + 1);
