@@ -59,7 +59,9 @@ context('Express checkout', () => {
           defaultDeliveryMode: ['MOST_EXPENSIVE'],
         },
       } as CheckoutConfig);
+      cy.saveLocalStorage();
       cy.visit('/');
+      cy.restoreLocalStorage();
     });
     it('open cart', () => {
       cy.get('cx-mini-cart').click();
