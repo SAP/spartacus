@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AnonymousConsentsService,
-  AuthService,
-  ConsentTemplate,
-  User,
-  UserService,
-} from '@spartacus/core';
+import { AuthService, User, UserService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -15,17 +9,10 @@ import { switchMap } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User>;
-  anonConsents$: Observable<ConsentTemplate[]>;
 
-  constructor(
-    private auth: AuthService,
-    private userService: UserService,
-    private anon: AnonymousConsentsService
-  ) {}
+  constructor(private auth: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.anonConsents$ = this.anon.getAnonymousConsentTemplates();
-
     this.user$ = this.auth.getUserToken().pipe(
       switchMap(token => {
         if (token && !!token.access_token) {
@@ -35,17 +22,5 @@ export class LoginComponent implements OnInit {
         }
       })
     );
-  }
-
-  callit(): void {
-    this.anon.loadAnonymousConsentTemplates();
-  }
-
-  giveit(): void {
-    this.anon.giveAnonymousConsent('MARKETING_NEWSLETTER');
-  }
-
-  withdrawit(): void {
-    this.anon.withdrawAnonymousConsent('MARKETING_NEWSLETTER');
   }
 }
