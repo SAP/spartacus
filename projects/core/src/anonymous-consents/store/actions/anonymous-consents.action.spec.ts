@@ -1,4 +1,7 @@
-import { ConsentTemplate } from '../../../model/consent.model';
+import {
+  AnonymousConsent,
+  ConsentTemplate,
+} from '../../../model/consent.model';
 import { StateLoaderActions } from '../../../state/utils/index';
 import { ANONYMOUS_CONSENTS } from '../anonymous-consents-state';
 import { AnonymousConsentsActions } from './index';
@@ -79,6 +82,24 @@ describe('anonymous consent actions', () => {
         const action = new AnonymousConsentsActions.GetAllAnonymousConsents();
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.GET_ALL_ANONYMOUS_CONSENTS,
+        });
+      });
+    });
+    describe('SetAnonymousConsents', () => {
+      it('should create the action', () => {
+        const mockAnonymousConsents: AnonymousConsent[] = [
+          {
+            consentState: undefined,
+            templateCode: 'MARKETING',
+            version: 0,
+          },
+        ];
+        const action = new AnonymousConsentsActions.SetAnonymousConsents(
+          mockAnonymousConsents
+        );
+        expect({ ...action }).toEqual({
+          type: AnonymousConsentsActions.SET_ANONYMOUS_CONSENTS,
+          payload: mockAnonymousConsents,
         });
       });
     });
