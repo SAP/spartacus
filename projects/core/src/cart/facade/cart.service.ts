@@ -232,7 +232,7 @@ export class CartService {
    * This is for an edge case
    */
   private guestCartMerge(): void {
-    let cartEntries;
+    let cartEntries: OrderEntry[];
     this.getEntries()
       .pipe(take(1))
       .subscribe(entries => {
@@ -251,14 +251,37 @@ export class CartService {
       this.store.select(CartSelectors.getCartLoading),
     ])
       .pipe(
-        filter(([cart, loading]) => !this.isCreated(cart) && !loading),
+        filter(([, loading]) => !loading),
+        tap(([cart]) => {
+          if (!this.isCreated(cart)) {
+            this.store.dispatch(
+              new CartActions.CreateCart({ userId: this.cartData.userId })
+            );
+          }
+        }),
+        filter(([cart]) => this.isCreated(cart)),
         take(1)
       )
       .subscribe(() => {
-        // Add entries from guest cart to user cart
-        for (const entry of cartEntries) {
-          this.addEntry(entry.product.code, entry.quantity);
-        }
+        this.store
+          .select(CartSelectors.getCartEntries)
+          .pipe(
+            tap(entries => {
+              if (entries.length < cartEntries.length) {
+                this.store.dispatch(
+                  new CartActions.CartAddEntry({
+                    userId: this.cartData.userId,
+                    cartId: this.cartData.cartId,
+                    productCode: cartEntries[entries.length].product.code,
+                    quantity: cartEntries[entries.length].quantity,
+                  })
+                );
+              }
+            }),
+            filter(entries => entries.length === cartEntries.length),
+            take(1)
+          )
+          .subscribe();
       });
   }
 }

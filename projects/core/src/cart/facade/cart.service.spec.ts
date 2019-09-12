@@ -92,6 +92,7 @@ describe('CartService', () => {
         });
       });
     });
+    const guestCartMergeMethod = 'guestCartMerge';
     describe('when user is guest', () => {
       beforeEach(() => {
         spyOn(service, 'isGuestCart').and.returnValue(true);
@@ -109,14 +110,30 @@ describe('CartService', () => {
         );
       });
 
-      it('should copy content of guest cart to user cart', () => {
-        spyOn(service, 'addEntry').and.stub();
-        spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
+      it('should create a new cart', () => {
+        spyOn<any>(service, 'isCreated').and.returnValue(false);
 
-        service[loadOrMergeMethod]();
-        expect(service.addEntry).toHaveBeenCalledWith(
-          mockCartEntry.product.code,
-          mockCartEntry.quantity
+        service[guestCartMergeMethod]();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.CreateCart({ userId: cartData.userId })
+        );
+      });
+
+      it('should copy content of guest cart to user cart', () => {
+        spyOn<any>(service, 'isCreated').and.returnValue(true);
+        spyOn(service, 'getEntries').and.returnValues(
+          of([mockCartEntry]),
+          of([])
+        );
+
+        service[guestCartMergeMethod]();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.CartAddEntry({
+            userId: cartData.userId,
+            cartId: cartData.cartId,
+            productCode: mockCartEntry.product.code,
+            quantity: mockCartEntry.quantity,
+          })
         );
       });
     });
