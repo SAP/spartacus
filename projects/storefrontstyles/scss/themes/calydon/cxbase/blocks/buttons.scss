@@ -1,0 +1,35 @@
+.btn {
+  
+    &-primary {
+  
+      &:focus {
+        box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
+      }
+  
+      &:not(:disabled):not(.disabled):active,
+      &:not(:disabled):not(.disabled).active {
+
+        &:focus {
+          box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
+        }
+      }
+    }
+  
+    &-secondary {
+  
+      &:focus {
+        //this here below will not work unles cx global colors are initially declared in rbg
+        box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
+      }
+  
+      &:not(:disabled):not(.disabled):active,
+      &:not(:disabled):not(.disabled).active {
+
+        &:focus {
+          //this here below will not work unles cx global colors are initially declared in rbg
+          box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
+        }
+      }
+    }
+  
+  }
