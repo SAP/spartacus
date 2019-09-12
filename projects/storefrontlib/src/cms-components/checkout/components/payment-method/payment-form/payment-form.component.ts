@@ -50,6 +50,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
   sameAsShippingAddress = true;
+  buttonHasBeenClicked: boolean = false; // (GH-3102) 
 
   @Input()
   paymentMethodsCount: number;
@@ -261,6 +262,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    this.buttonHasBeenClicked = true;
     this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
