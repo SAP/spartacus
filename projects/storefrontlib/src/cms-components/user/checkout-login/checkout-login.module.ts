@@ -1,8 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { CheckoutLoginComponent } from './checkout-login.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+  NotAuthGuard,
+} from '@spartacus/core';
+import { CheckoutLoginComponent } from './checkout-login.component';
 
 @NgModule({
   imports: [
@@ -14,6 +19,7 @@ import { CommonModule } from '@angular/common';
       cmsComponents: {
         GuestCheckoutLoginComponent: {
           component: CheckoutLoginComponent,
+          guards: [NotAuthGuard],
         },
       },
     }),

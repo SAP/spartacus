@@ -6,6 +6,8 @@ import {
   UserOrderService,
   GlobalMessageService,
   GlobalMessageType,
+  CartDataService,
+  ANONYMOUS_USERID,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
@@ -107,11 +109,16 @@ class MockGlobalMessageService {
   }
 }
 
+class MockCartDataService {
+  userId = 'test';
+}
+
 describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
   let userService;
   let routingService;
   let globalMessageService;
+  let cartDataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -129,6 +136,10 @@ describe('OrderDetailsService', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        {
+          provide: CartDataService,
+          useClass: MockCartDataService,
+        },
       ],
     });
 
@@ -138,13 +149,14 @@ describe('OrderDetailsService', () => {
     globalMessageService = TestBed.get(GlobalMessageService as Type<
       GlobalMessageService
     >);
+    cartDataService = TestBed.get(CartDataService as Type<CartDataService>);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load order details', () => {
+  it('should load order details for login user', () => {
     spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
     spyOn(userService, 'clearOrderDetails');
@@ -159,6 +171,21 @@ describe('OrderDetailsService', () => {
     expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
     expect(userService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
+  });
+
+  it('should load order details for anonymous user', () => {
+    cartDataService.userId = ANONYMOUS_USERID;
+    spyOn(routingService, 'getRouterState');
+    spyOn(userService, 'loadOrderDetails');
+
+    service
+      .getOrderDetails()
+      .subscribe()
+      .unsubscribe();
+    expect(userService.loadOrderDetails).toHaveBeenCalledWith(
+      '1',
+      ANONYMOUS_USERID
+    );
   });
 
   it('should clean order details', () => {

@@ -5,6 +5,8 @@ import {
   UserOrderService,
   GlobalMessageService,
   GlobalMessageType,
+  CartDataService,
+  ANONYMOUS_USERID,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -26,13 +28,14 @@ export class OrderDetailsService {
   constructor(
     userOrderService: UserOrderService,
     routingService: RoutingService,
-    globalMessageService: GlobalMessageService // tslint:disable-line
+    globalMessageService: GlobalMessageService, // tslint:disable-line
+    cartDataService: CartDataService // tslint:disable-line
   );
   /**
    * @deprecated since 1.x
-   * NOTE: check issue:#1224 for more info
+   * NOTE: check issue:#1224, #1225 for more info
    *
-   * TODO(issue:#1224) Deprecated since 1.x
+   * TODO(issue:#1224, #1225) Deprecated since 1.x
    */
   constructor(
     userOrderService: UserOrderService,
@@ -41,7 +44,8 @@ export class OrderDetailsService {
   constructor(
     private userOrderService: UserOrderService,
     private routingService: RoutingService,
-    private globalMessageService?: GlobalMessageService
+    private globalMessageService?: GlobalMessageService,
+    private cartDataService?: CartDataService
   ) {
     this.orderCode$ = this.routingService.getRouterState().pipe(
       map(routingData => routingData.state.params.orderCode),
@@ -52,7 +56,11 @@ export class OrderDetailsService {
       tap(orderCode => {
         this.orderCode = orderCode;
         if (orderCode) {
-          this.userOrderService.loadOrderDetails(orderCode);
+          if (this.cartDataService.userId === ANONYMOUS_USERID) {
+            this.userOrderService.loadOrderDetails(orderCode, ANONYMOUS_USERID);
+          } else {
+            this.userOrderService.loadOrderDetails(orderCode);
+          }
         } else {
           this.userOrderService.clearOrderDetails();
         }
