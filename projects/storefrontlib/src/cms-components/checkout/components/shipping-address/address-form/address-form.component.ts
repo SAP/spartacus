@@ -40,14 +40,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  /**
-   * (GH-3102)
-   * Add boolean to check whether the Add Address has been already clicked
-   * in order to prevent the double click issue that will otherwise add
-   * two copies of the address info.
-   */
-  buttonHasBeenClicked: boolean = false;
-
   @Input()
   addressData: Address;
 
@@ -205,9 +197,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
-    // GH-3102
-    this.buttonHasBeenClicked = true;
-
     this.checkoutDeliveryService.verifyAddress(this.address.value);
   }
 
