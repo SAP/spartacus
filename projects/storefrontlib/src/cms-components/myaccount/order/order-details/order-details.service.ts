@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import {
+  Order,
+  RoutingService,
+  UserOrderService,
+  CartDataService,
+  ANONYMOUS_USERID,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
@@ -10,7 +16,8 @@ export class OrderDetailsService {
 
   constructor(
     private userOrderService: UserOrderService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private cartDataService: CartDataService
   ) {
     this.orderCode$ = this.routingService
       .getRouterState()
@@ -19,7 +26,11 @@ export class OrderDetailsService {
     this.orderLoad$ = this.orderCode$.pipe(
       tap(orderCode => {
         if (orderCode) {
-          this.userOrderService.loadOrderDetails(orderCode);
+          if (this.cartDataService.userId === ANONYMOUS_USERID) {
+            this.userOrderService.loadOrderDetails(orderCode, ANONYMOUS_USERID);
+          } else {
+            this.userOrderService.loadOrderDetails(orderCode);
+          }
         } else {
           this.userOrderService.clearOrderDetails();
         }
