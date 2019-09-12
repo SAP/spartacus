@@ -59,7 +59,6 @@ context('Express checkout', () => {
           defaultDeliveryMode: ['MOST_EXPENSIVE'],
         },
       } as CheckoutConfig);
-
       cy.saveLocalStorage();
       cy.visit('/');
       cy.restoreLocalStorage();
