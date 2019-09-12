@@ -1,6 +1,8 @@
-
 import * as path from 'path';
-import {SchematicTestRunner, UnitTestTree} from "@angular-devkit/schematics/testing";
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 

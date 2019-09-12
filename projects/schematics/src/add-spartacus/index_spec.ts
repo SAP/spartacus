@@ -31,7 +31,7 @@ describe('add-spartacus', () => {
     target: 'build',
     configuration: 'production',
     baseSite: 'electronics',
-    baseUrl: 'https://localhost:9002'
+    baseUrl: 'https://localhost:9002',
   };
 
   beforeEach(async () => {
@@ -176,7 +176,9 @@ describe('add-spartacus', () => {
       );
       expect(
         indexHtmlFile.includes(
-          `<meta name="occ-backend-base-url" content="${defaultOptions.baseUrl}" />`
+          `<meta name="occ-backend-base-url" content="${
+            defaultOptions.baseUrl
+          }" />`
         )
       ).toBe(true);
       expect(

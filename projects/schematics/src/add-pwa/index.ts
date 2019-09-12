@@ -1,17 +1,17 @@
 import {
-  chain, ExecutionOptions,
+  chain,
+  ExecutionOptions,
   Rule,
-  SchematicContext, SchematicsException,
+  SchematicContext,
+  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import {Schema as SpartacusOptions} from "../add-spartacus/schema";
-import {of} from "rxjs";
-import {branch} from "@angular-devkit/schematics/src/tree/static";
-import {getAppModulePath} from "@schematics/angular/utility/ng-ast-utils";
-import {getProjectTargets} from "@schematics/angular/utility/project-targets";
-import * as ts from "typescript";
-
-
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { of } from 'rxjs';
+import { branch } from '@angular-devkit/schematics/src/tree/static';
+import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
+import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+import * as ts from 'typescript';
 
 function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
   const buffer = host.read(path);
@@ -54,7 +54,10 @@ function removeServiceWorkerSetup(host: Tree, modulePath: string) {
 
   const serviceWorkerImport = `import { ServiceWorkerModule } from '@angular/service-worker';`;
   const serviceWorkerModuleImport = `ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })`;
-  if (!fileContent.includes(serviceWorkerModuleImport) || !fileContent.includes(serviceWorkerImport)) {
+  if (
+    !fileContent.includes(serviceWorkerModuleImport) ||
+    !fileContent.includes(serviceWorkerImport)
+  ) {
     return;
   }
 
@@ -133,7 +136,6 @@ function updateAppModule(options: any): Rule {
     return host;
   };
 }
-
 
 export function addPWA(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
