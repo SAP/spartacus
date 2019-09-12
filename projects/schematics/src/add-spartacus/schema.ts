@@ -3,4 +3,5 @@ export interface Schema {
   baseUrl?: string;
   baseSite?: string;
   useMetaTags?: boolean;
+  featureLevel?: string;
 }

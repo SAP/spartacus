@@ -69,8 +69,11 @@ export const getSupportedDeliveryModes: MemoizedSelector<
 > = createSelector(
   getDeliveryMode,
   deliveryMode => {
-    return Object.keys(deliveryMode.supported).map(
-      code => deliveryMode.supported[code]
+    return (
+      deliveryMode &&
+      Object.keys(deliveryMode.supported).map(
+        code => deliveryMode.supported[code]
+      )
     );
   }
 );
@@ -81,7 +84,7 @@ export const getSelectedDeliveryModeCode: MemoizedSelector<
 > = createSelector(
   getDeliveryMode,
   deliveryMode => {
-    return deliveryMode.selected;
+    return deliveryMode && deliveryMode.selected;
   }
 );
 

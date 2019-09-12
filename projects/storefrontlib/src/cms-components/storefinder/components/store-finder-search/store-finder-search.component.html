@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="form-group">
+    <div class="col-md-12 col-lg-7">
+      <div class="form-group search-wrapper">
         <input
           #queryInput
           [formControl]="searchBox"
@@ -11,24 +11,36 @@
           placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
           required
         />
+        <cx-icon
+          [type]="iconTypes.SEARCH"
+          aria-label="search"
+          class="search"
+          [routerLink]="['/store-finder/find']"
+          [queryParams]="{ query: queryInput.value }"
+          [ngClass]="{
+            'disabled-action': !(queryInput.value && queryInput.value.length)
+          }"
+        ></cx-icon>
       </div>
-      <button
-        type="button"
-        class="btn btn-primary btn-block cx-find-store"
-        [routerLink]="['find']"
-        [queryParams]="{ query: queryInput.value }"
-      >
-        {{ 'storeFinder.findStore' | cxTranslate }}
-      </button>
-
-      <div class="cx-bottom-links">
-        <button (click)="viewStoresWithMyLoc()" class="cx-link btn-link">
-          {{ 'storeFinder.useMyLocation' | cxTranslate }}
-        </button>
-        |
-        <a [routerLink]="['view-all']" class="cx-link btn-link">{{
-          'storeFinder.viewAllStores' | cxTranslate
-        }}</a>
+    </div>
+    <div class="col-md-12 col-lg-5">
+      <div class="row cx-search-links mb-3">
+        <div class="col-6">
+          <button
+            (click)="viewStoresWithMyLoc()"
+            class="btn btn-primary btn-block"
+          >
+            {{ 'storeFinder.useMyLocation' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-6">
+          <button
+            [routerLink]="['/store-finder/view-all']"
+            class="btn btn-primary btn-block"
+          >
+            {{ 'storeFinder.viewAllStores' | cxTranslate }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
