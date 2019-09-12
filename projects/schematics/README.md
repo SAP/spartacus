@@ -13,6 +13,7 @@ Run the following command from your project root:
 - `baseUrl`: Base url of your CX OCC backend
 - `baseSite`: Name of your base site
 - `useMetaTags`: Whether or not to configure baseUrl and mediaUrl in the meta tags from `index.html`
+- `featureLevel`: Application feature level
 
 ## Steps performed by Spartacus schematics
 
@@ -25,7 +26,7 @@ Run the following command from your project root:
 
 ## Building and using Spartacus Schematics from source
 
-This section is for Spartacus developers and anybody else who works with Spartacus soruce code.
+This section is for Spartacus developers and anybody else who works with Spartacus source code.
 
 ### Prerequisites
 

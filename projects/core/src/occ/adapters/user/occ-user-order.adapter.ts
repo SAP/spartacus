@@ -3,8 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
+import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../../model/order.model';
-import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import {
+  ORDER_HISTORY_NORMALIZER,
+  CONSIGNMENT_TRACKING_NORMALIZER,
+} from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
@@ -21,7 +25,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   protected getOrderEndpoint(userId: string): string {
     const orderEndpoint = 'users/' + userId + '/orders';
@@ -29,8 +34,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   }
 
   public load(userId: string, orderCode: string): Observable<Order> {
-    // TODO 2.0: Remove
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    // TODO: Deprecated, remove Issue #4125
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyLoad(userId, orderCode);
     }
 
@@ -50,8 +55,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     currentPage?: number,
     sort?: string
   ): Observable<OrderHistoryList> {
-    // TODO 2.0: Remove
-    if (!this.featureConfigService.isEnabled('configurableOccEndpoints')) {
+    // TODO: Deprecated, remove Issue #4125
+    if (!this.featureConfigService.isLevel('1.1')) {
       return this.legacyLoadHistory(userId, pageSize, currentPage, sort);
     }
 
@@ -75,7 +80,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyLoad(userId: string, orderCode: string): Observable<Order> {
     const url = this.getOrderEndpoint(userId) + '/' + orderCode;
@@ -93,7 +99,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   /**
    * @deprecated Since 1.1
-   * Use configurable endpoints. Will be removed as of 2.0.
+   * Use configurable endpoints.
+   * Remove issue: #4125
    */
   private legacyLoadHistory(
     userId: string,
@@ -116,5 +123,18 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     return this.http
       .get<Occ.OrderHistoryList>(url, { params: params })
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
+  }
+
+  public getConsignmentTracking(
+    orderCode: string,
+    consignmentCode: string
+  ): Observable<ConsignmentTracking> {
+    const url = this.occEndpoints.getUrl('consignmentTracking', {
+      orderCode,
+      consignmentCode,
+    });
+    return this.http
+      .get<ConsignmentTracking>(url)
+      .pipe(this.converter.pipeable(CONSIGNMENT_TRACKING_NORMALIZER));
   }
 }
