@@ -30,6 +30,8 @@ describe('add-spartacus', () => {
     project: 'schematics-test',
     target: 'build',
     configuration: 'production',
+    baseSite: 'electronics',
+    baseUrl: 'https://localhost:9002'
   };
 
   beforeEach(async () => {
@@ -60,24 +62,6 @@ describe('add-spartacus', () => {
     expect(depPackageList.includes('@spartacus/core')).toBe(true);
     expect(depPackageList.includes('@spartacus/storefront')).toBe(true);
     expect(depPackageList.includes('@spartacus/styles')).toBe(true);
-  });
-
-  it('Add PWA/ServiceWorker support for your project', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
-    const packageJson = tree.readContent('/package.json');
-    const packageObj = JSON.parse(packageJson);
-    const depPackageList = Object.keys(packageObj.dependencies);
-    expect(depPackageList.includes('@angular/service-worker')).toBe(true);
-    expect(
-      tree.files.includes('/projects/schematics-test/src/manifest.webmanifest')
-    ).toBe(true);
-    expect(
-      tree.files.includes(
-        '/projects/schematics-test/src/assets/icons/icon-96x96.png'
-      )
-    ).toBe(true);
   });
 
   it('Import Spartacus modules in app.module', async () => {
@@ -192,7 +176,7 @@ describe('add-spartacus', () => {
       );
       expect(
         indexHtmlFile.includes(
-          `<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />`
+          `<meta name="occ-backend-base-url" content="${defaultOptions.baseUrl}" />`
         )
       ).toBe(true);
       expect(

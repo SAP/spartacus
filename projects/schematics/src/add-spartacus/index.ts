@@ -2,14 +2,12 @@ import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
 import { italic, red } from '@angular-devkit/core/src/terminal';
 import {
   chain,
-  ExecutionOptions,
   noop,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { branch } from '@angular-devkit/schematics/src/tree/static';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   appendHtmlElementToHead,
@@ -29,7 +27,6 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
-import { of } from 'rxjs';
 import * as ts from 'typescript';
 import { Schema as SpartacusOptions } from './schema';
 
@@ -226,10 +223,7 @@ function importModule(host: Tree, modulePath: string, importText: string) {
 }
 
 function getStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrl = options.baseUrl || 'https://localhost:9002';
-  const baseUrlPart = `
-          baseUrl: '${baseUrl}',`;
-  const baseSite = options.baseSite || 'electronics';
+  const baseUrlPart = `baseUrl: '${options.baseUrl}',`;
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
@@ -241,7 +235,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         client_secret: 'secret'
       },
       context: {
-        baseSite: ['${baseSite}']
+        baseSite: ['${options.baseSite}']
       },
       i18n: {
         resources: translations,
@@ -252,77 +246,6 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         level: '${options.featureLevel}'
       }
     }`;
-}
-
-function getLineFromTSFile(
-  host: Tree,
-  modulePath: string,
-  position: number
-): [number, number] {
-  const tsFile = getTsSourceFile(host, modulePath);
-
-  const lac = tsFile.getLineAndCharacterOfPosition(position);
-  const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
-  const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
-
-  return [lineStart, nextLineStart - lineStart];
-}
-
-function removeServiceWorkerSetup(host: Tree, modulePath: string) {
-  const buffer = host.read(modulePath);
-
-  if (!buffer) {
-    return;
-  }
-
-  let fileContent = buffer.toString();
-
-  const serviceWorkerImport = `import { ServiceWorkerModule } from '@angular/service-worker';`;
-  const serviceWorkerModuleImport = `ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })`;
-  if (!fileContent.includes(serviceWorkerModuleImport)) {
-    return;
-  }
-  if (!fileContent.includes(serviceWorkerImport)) {
-    return;
-  }
-
-  const recorder = host.beginUpdate(modulePath);
-
-  recorder.remove(
-    ...getLineFromTSFile(
-      host,
-      modulePath,
-      fileContent.indexOf(serviceWorkerImport)
-    )
-  );
-
-  recorder.remove(
-    ...getLineFromTSFile(
-      host,
-      modulePath,
-      fileContent.indexOf(serviceWorkerModuleImport)
-    )
-  );
-
-  host.commitUpdate(recorder);
-
-  // clean up environment import
-  fileContent = (host.read(modulePath) || {}).toString();
-
-  const environmentImport = `import { environment } from '../environments/environment';`;
-  if (fileContent.includes(environmentImport)) {
-    const importPos =
-      fileContent.indexOf(environmentImport) + environmentImport.length;
-
-    // check if it's not needed
-    if (
-      !fileContent.includes('environment', importPos + environmentImport.length)
-    ) {
-      const envRecorder = host.beginUpdate(modulePath);
-      envRecorder.remove(...getLineFromTSFile(host, modulePath, importPos));
-      host.commitUpdate(envRecorder);
-    }
-  }
 }
 
 function updateAppModule(options: any): Rule {
@@ -362,8 +285,6 @@ function updateAppModule(options: any): Rule {
       modulePath,
       `ConfigModule.withConfigFactory(defaultCmsContentConfig)`
     );
-
-    removeServiceWorkerSetup(host, modulePath);
 
     return host;
   };
@@ -477,7 +398,6 @@ function updateIndexFile(
 ): Rule {
   return (host: Tree) => {
     const projectIndexHtmlPath = getIndexHtmlPath(project);
-
     const baseUrl = options.baseUrl || 'OCC_BACKEND_BASE_URL_VALUE';
 
     const metaTags = [
@@ -490,28 +410,6 @@ function updateIndexFile(
     });
 
     return host;
-  };
-}
-
-/**
- * We have to use our custom function because pwa schematics is currently private
- * so it's not possible to reuse it via standard externalSchematics
- */
-function privateExternalSchematic<OptionT extends object>(
-  collectionName: string,
-  schematicName: string,
-  options: OptionT,
-  executionOptions?: Partial<ExecutionOptions>
-): Rule {
-  return (input: Tree, context: SchematicContext) => {
-    const collection = context.engine.createCollection(collectionName);
-    const schematic = collection.createSchematic(schematicName, true);
-    return schematic.call(
-      options,
-      of(branch(input)),
-      context,
-      executionOptions
-    );
   };
 }
 
@@ -538,9 +436,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(),
-      privateExternalSchematic('@angular/pwa', 'ng-add', {
-        project: options.project,
-      }),
       updateAppModule(options),
       installStyles(project),
       updateMainComponent(project),
