@@ -1,4 +1,7 @@
-import { ConsentTemplate } from '../../../model/consent.model';
+import {
+  AnonymousConsent,
+  ConsentTemplate,
+} from '../../../model/consent.model';
 import { StateLoaderActions } from '../../../state/utils/index';
 import { ANONYMOUS_CONSENTS } from '../anonymous-consents-state';
 
@@ -17,6 +20,8 @@ export const GET_ALL_ANONYMOUS_CONSENTS =
   '[Anonymous Consents] Get All Anonymous Consents';
 export const GET_ANONYMOUS_CONSENT =
   '[Anonymous Consents] Get Anonymous Consent';
+export const SET_ANONYMOUS_CONSENTS =
+  '[Anonymous Consents] Set Anonymous Consents';
 export const GIVE_ANONYMOUS_CONSENT =
   '[Anonymous Consents] Give Anonymous Consent';
 export const WITHDRAW_ANONYMOUS_CONSENT =
@@ -64,6 +69,11 @@ export class GetAnonymousConsent {
   constructor(public templateCode: string) {}
 }
 
+export class SetAnonymousConsents {
+  readonly type = SET_ANONYMOUS_CONSENTS;
+  constructor(public payload: AnonymousConsent[]) {}
+}
+
 export class GiveAnonymousConsent {
   readonly type = GIVE_ANONYMOUS_CONSENT;
   constructor(public templateCode: string) {}
@@ -81,6 +91,7 @@ export type AnonymousConsentsActions =
   | ResetLoadAnonymousConsentTemplates
   | InitializeAnonymousConsents
   | GetAllAnonymousConsents
+  | SetAnonymousConsents
   | GetAnonymousConsent
   | GiveAnonymousConsent
   | WithdrawAnonymousConsent;

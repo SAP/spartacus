@@ -62,6 +62,10 @@ export function reducer(
         ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN
       );
     }
+
+    case AnonymousConsentsActions.SET_ANONYMOUS_CONSENTS: {
+      return action.payload;
+    }
   }
 
   return state;

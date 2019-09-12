@@ -88,6 +88,15 @@ export class AnonymousConsentsService {
   }
 
   /**
+   * Puts the provided anonymous consents into the store.
+   */
+  setAnonymousConsents(consents: AnonymousConsent[]): void {
+    return this.store.dispatch(
+      new AnonymousConsentsActions.SetAnonymousConsents(consents)
+    );
+  }
+
+  /**
    * Returns the anonymous consent with the given template code.
    * @param templateCode a template code by which to filter anonymous consent templates.
    */

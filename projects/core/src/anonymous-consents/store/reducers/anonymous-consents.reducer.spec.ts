@@ -128,5 +128,14 @@ describe('anonymous consents reducer', () => {
         expect(result).toEqual(expected);
       });
     });
+    describe('SET_ANONYMOUS_CONSENTS', () => {
+      it('should toggle the consent to withdrawn', () => {
+        const action = new AnonymousConsentsActions.SetAnonymousConsents(
+          mockAnonymousConsents
+        );
+        const result = fromReducer.reducer(mockState, action);
+        expect(result).toEqual(mockAnonymousConsents);
+      });
+    });
   });
 });
