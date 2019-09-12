@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry } from '@spartacus/core';
+import { CartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -48,7 +48,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.subscription = this.currentProductService
         .getProduct()
         .pipe(filter(Boolean))
-        .subscribe(product => {
+        .subscribe((product: Product) => {
           this.productCode = product.code;
           this.quantity = 1;
 

@@ -78,9 +78,7 @@ describe('ClientErrorHandlingService', () => {
 
       httpRequest = httpRequest.clone({
         setHeaders: {
-          Authorization: `${newClientToken.token_type} ${
-            newClientToken.access_token
-          }`,
+          Authorization: `${newClientToken.token_type} ${newClientToken.access_token}`,
         },
       });
       expect(httpHandler.handle).toHaveBeenCalledWith(httpRequest);
