@@ -13,7 +13,6 @@ describe('Consent Management', () => {
   verifyAsAnonymous();
 
   describe('should go to consent management page for login user', () => {
-
     before(() => {
       cy.requireLoggedIn();
       cy.reload();
@@ -38,16 +37,15 @@ describe('Consent Management', () => {
 
 describe(`${formats.mobile.width +
   1}p resolution - Consent Management page`, () => {
-
-    function clickHamburger() {
-      cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
-    }
+  function clickHamburger() {
+    cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
+  }
 
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
-  
+
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
