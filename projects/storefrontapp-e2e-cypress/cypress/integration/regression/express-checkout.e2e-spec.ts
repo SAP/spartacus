@@ -16,6 +16,12 @@ context('Express checkout', () => {
       checkout.addCheapProductToCartAndLogin();
     });
 
+    it('should verify Shipping Address page', () => {
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+    });
+  });
+
+  describe('should redirect to last step if there are address and payment', () => {
     it('fill address form', () => {
       checkout.fillAddressFormWithCheapProduct();
     });
@@ -31,9 +37,7 @@ context('Express checkout', () => {
     it('should redirect to review order page', () => {
       checkout.verifyReviewOrderPage();
     });
-  });
 
-  describe('should redirect to last step if there are address and payment', () => {
     it('open cart', () => {
       cy.get('cx-mini-cart').click();
     });
@@ -42,20 +46,22 @@ context('Express checkout', () => {
       cy.getByText(/proceed to checkout/i).click();
     });
 
-    it('should redirect to review order page', () => {
+    it('should redirect to review order page with Standard Delivery', () => {
       checkout.verifyReviewOrderPage();
       cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
     });
   });
 
   describe('should setup express checkout with another preferred delivery mode', () => {
-    it('open cart', () => {
+    it('setup most expensive delivery mode in config', () => {
       cy.cxConfig({
         checkout: {
           defaultDeliveryMode: ['MOST_EXPENSIVE'],
         },
       } as CheckoutConfig);
       cy.visit('/');
+    });
+    it('open cart', () => {
       cy.get('cx-mini-cart').click();
     });
 
@@ -63,7 +69,7 @@ context('Express checkout', () => {
       cy.getByText(/proceed to checkout/i).click();
     });
 
-    it('should redirect to review order page', () => {
+    it('should redirect to review order page with Premium Delivery', () => {
       checkout.verifyReviewOrderPage();
       cy.get('.cx-review-card-shipping').should('contain', 'Premium Delivery');
     });
@@ -88,7 +94,7 @@ context('Express checkout', () => {
       cy.getByText(/proceed to checkout/i).click();
     });
 
-    it('should verify Shipping Address', () => {
+    it('should verify Shipping Address page', () => {
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
     });
   });
