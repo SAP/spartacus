@@ -76,6 +76,7 @@ describe('CheckoutConfigService', () => {
 
   it('should get checkout step route by type', () => {
     const type = mockCheckoutSteps[0].type[0];
+
     expect(service.getCheckoutStepRoute(type)).toEqual(
       mockCheckoutSteps[0].routeName
     );
