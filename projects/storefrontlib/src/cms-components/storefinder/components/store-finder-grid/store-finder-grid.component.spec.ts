@@ -114,9 +114,7 @@ describe('StoreFinderGridComponent', () => {
     const result = component.prepareRouteUrl(location);
 
     expect(result).toEqual(
-      `store-finder/country/${countryIsoCode}/region/${regionIsoCode}/${
-        location.name
-      }`
+      `store-finder/country/${countryIsoCode}/region/${regionIsoCode}/${location.name}`
     );
   });
 });
