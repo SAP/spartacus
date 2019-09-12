@@ -185,6 +185,7 @@
           <button
             type="submit"
             (click)="submit()"
+            [disabled]="shouldDisableRegisterButton()"
             class="btn btn-block btn-primary"
           >
             {{ 'register.register' | cxTranslate }}

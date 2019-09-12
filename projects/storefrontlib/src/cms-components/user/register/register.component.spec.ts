@@ -116,7 +116,7 @@ class MockRoutingService {
   go = createSpy();
 }
 
-describe('RegisterComponent', () => {
+fdescribe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -178,6 +178,22 @@ describe('RegisterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('submit button', () => {
+    it('should NOT be disabled', () => {
+      fixture = TestBed.createComponent(RegisterComponent);
+
+      // TODO(issue:#xxxx) Deprecated since 1.3.0
+      isLevelBool.next(true);
+
+      fixture.detectChanges();
+      const el: HTMLElement = fixture.debugElement.nativeElement;
+      const submitButton: HTMLElement = el.querySelector(
+        'button[type="submit"]'
+      );
+      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
+    });
   });
 
   describe('ngOnInit', () => {
@@ -354,7 +370,7 @@ describe('RegisterComponent', () => {
 
       // TODO(issue:4237) Register flow
       // NOTE: remove isLevelBool
-      isLevelBool.next(true);
+      isLevelBool.next(false);
 
       component.ngOnInit();
       component.submit();

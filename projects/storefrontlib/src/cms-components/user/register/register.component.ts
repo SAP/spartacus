@@ -131,14 +131,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    if (this.userRegistrationForm.valid) {
+    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
       this.userService.register(
         this.collectDataFromRegisterForm(this.userRegistrationForm.value)
       );
     } else {
-      Object.keys(this.userRegistrationForm.controls).forEach(key => {
-        this.userRegistrationForm.controls[key].markAsDirty();
-      });
+      if (this.userRegistrationForm.valid) {
+        this.userService.register(
+          this.collectDataFromRegisterForm(this.userRegistrationForm.value)
+        );
+      } else {
+        this.markFormAsTouched();
+      }
     }
   }
 
@@ -181,6 +186,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (ac.get('password').value !== ac.get('passwordconf').value) {
       return { NotEqual: true };
     }
+  }
+
+  /**
+   * @deprecated since 1.3.0
+   * This function will be removed as register button should not be disabled
+   *
+   * TODO(issue:#xxxx) Deprecated since 1.3.0
+   */
+  protected shouldDisableRegisterButton(): boolean {
+    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
+      return false;
+    }
+    return this.userRegistrationForm.invalid;
+  }
+
+  private markFormAsTouched(): void {
+    Object.keys(this.userRegistrationForm.controls).forEach(key => {
+      this.userRegistrationForm.controls[key].markAsTouched();
+    });
   }
 
   ngOnDestroy() {
