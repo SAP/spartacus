@@ -78,7 +78,7 @@ describe('CmsPageGuard', () => {
     it('should return true when CmsService getPage is truthy for the page context', inject(
       [CmsService, CmsPageGuard],
       (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
-        spyOn(cmsService, 'getPage').and.returnValue(of({}));
+        spyOn(cmsService, 'getPage').and.returnValue(of({} as any));
         let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
@@ -131,7 +131,7 @@ describe('CmsPageGuard', () => {
         cmsI18n: CmsI18nService,
         cmsPageGuard: CmsPageGuard
       ) => {
-        spyOn(cmsService, 'getPage').and.returnValue(of({}));
+        spyOn(cmsService, 'getPage').and.returnValue(of({} as any));
 
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
@@ -151,7 +151,7 @@ describe('CmsPageGuard', () => {
         cmsGuards: CmsGuardsService,
         cmsPageGuard: CmsPageGuard
       ) => {
-        spyOn(cmsService, 'getPage').and.returnValue(of({}));
+        spyOn(cmsService, 'getPage').and.returnValue(of({} as any));
 
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
@@ -174,7 +174,7 @@ describe('CmsPageGuard', () => {
         cmsRoutes: CmsRoutesService
       ) => {
         spyOn(cmsService, 'getPage').and.returnValue(
-          of({ label: '/testPageLabel' })
+          of({ label: '/testPageLabel' } as any)
         );
         spyOn(cmsRoutes, 'cmsRouteExist').and.returnValue(false);
         spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.callThrough();

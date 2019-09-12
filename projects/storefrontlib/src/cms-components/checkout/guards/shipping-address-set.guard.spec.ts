@@ -107,7 +107,7 @@ describe(`ShippingAddressSetGuard`, () => {
   describe(`when there is shipping address present`, () => {
     it(`should return true`, done => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
-        of({ id: 'testAddress' })
+        of({ id: 'testAddress' } as any)
       );
 
       guard.canActivate().subscribe(result => {
