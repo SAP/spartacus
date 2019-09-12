@@ -42,10 +42,6 @@ context("Tabbing order - tests don't require user to be logged in", () => {
     it('should allow to navigate with tab key', () => {
       registerTabbingOrder(config.register);
     });
-
-    it('should allow to navigate with tab key (filled out form)', () => {
-      registerTabbingOrder(config.register, true);
-    });
   });
 
   describe('Reset password', () => {
