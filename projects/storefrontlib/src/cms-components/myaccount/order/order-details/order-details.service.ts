@@ -15,9 +15,24 @@ export class OrderDetailsService {
   orderLoad$: Observable<{}>;
 
   constructor(
+    userOrderService: UserOrderService,
+    routingService: RoutingService,
+    cartDataService: CartDataService // tslint:disable-line
+  );
+  /**
+   * @deprecated since 1.x
+   * NOTE: check issue:#1225 for more info
+   *
+   * TODO(issue:#1225) Deprecated since 1.x
+   */
+  constructor(
+    userOrderService: UserOrderService,
+    routingService: RoutingService
+  );
+  constructor(
     private userOrderService: UserOrderService,
     private routingService: RoutingService,
-    private cartDataService: CartDataService
+    private cartDataService?: CartDataService
   ) {
     this.orderCode$ = this.routingService
       .getRouterState()
