@@ -77,7 +77,7 @@ if (!environment.production) {
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: ['powertools'],
+        baseSite: ['powertools-spa'],
       },
 
       // custom routing configuration for e2e testing
