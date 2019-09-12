@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
@@ -9,6 +9,11 @@ import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adap
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../utils/interceptor-util';
 
 @Injectable()
 export class OccUserOrderAdapter implements UserOrderAdapter {
@@ -40,8 +45,13 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       orderId: orderCode,
     });
 
+    let headers = new HttpHeaders();
+    if (userId === ANONYMOUS_USERID) {
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    }
+
     return this.http
-      .get<Occ.Order>(url)
+      .get<Occ.Order>(url, { headers })
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 
