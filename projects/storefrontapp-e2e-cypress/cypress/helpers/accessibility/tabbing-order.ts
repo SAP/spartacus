@@ -1,15 +1,27 @@
 import { TabbingOrderTypes } from './tabbing-order.config';
 import { waitForPage } from '../checkout-flow';
-import { loginUser } from '../login';
 import { register as authRegister, login } from '../auth-forms';
 import { generateMail, randomString } from '../user';
 
 export interface TabElement {
-  value: string;
+  value?: string;
   type: TabbingOrderTypes;
 }
 
 export function checkElement(tabElement: TabElement) {
+  // Check generic cases without value
+  switch (tabElement.type) {
+    case TabbingOrderTypes.GENERIC_CHECKBOX: {
+      cy.focused().should('have.attr', 'type', 'checkbox');
+      return;
+    }
+    case TabbingOrderTypes.GENERIC_BUTTON: {
+      cy.focused().should('have.attr', 'type', 'button');
+      return;
+    }
+  }
+
+  // Check non-generic cases requiring value
   if (!(tabElement.value && tabElement.value.length)) {
     return;
   }
@@ -33,6 +45,29 @@ export function checkElement(tabElement: TabElement) {
         .last()
         .parent()
         .should('have.attr', 'formcontrolname', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.CHECKBOX_WITH_LABEL: {
+      cy.focused()
+        .parent()
+        .should('contain', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.IMG_LINK: {
+      cy.focused().should('have.attr', 'href', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.GENERIC_INPUT: {
+      cy.focused().should('have.attr', 'type', 'text');
+      break;
+    }
+    case TabbingOrderTypes.ITEM_COUNTER: {
+      cy.focused()
+        .parentsUntil('cx-item-counter')
+        .last()
+        .parent()
+        .should('have.attr', 'formcontrolname', tabElement.value);
+      break;
     }
   }
 }

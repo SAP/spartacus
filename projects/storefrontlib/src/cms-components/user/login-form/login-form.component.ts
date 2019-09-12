@@ -6,6 +6,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -43,7 +44,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
-    private winRef?: WindowRef
+    private winRef?: WindowRef,
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +67,19 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
+    // TODO(issue:#4510) Deprecated since 1.3.0
+    if (this.shouldDisableLoginButton()) {
+      this.submitLogin();
+    } else {
+      if (this.form.valid) {
+        this.submitLogin();
+      } else {
+        this.markFormAsTouched();
+      }
+    }
+  }
+
+  private submitLogin(): void {
     const { userId, password } = this.form.controls;
     this.auth.authorize(
       userId.value.toLowerCase(), // backend accepts lowercase emails only
@@ -79,6 +94,25 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  private markFormAsTouched(): void {
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.controls[key].markAsTouched();
+    });
+  }
+
+  /**
+   * @deprecated since 1.3.0
+   * This function will be removed as login button should not be disabled
+   *
+   * TODO(issue:#4510) Deprecated since 1.3.0
+   */
+  protected shouldDisableLoginButton(): boolean {
+    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
+      return false;
+    }
+    return this.form.invalid;
   }
 
   ngOnDestroy(): void {

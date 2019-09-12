@@ -15,6 +15,9 @@ import {
 } from '../../helpers/payment-methods';
 import { addressBookAddAddressTabbingOrder } from '../../helpers/accessibility/tabbing-order/address-book';
 import { signOut } from '../../helpers/register';
+import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
+import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
+import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -29,8 +32,12 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   });
 
   describe('Login page', () => {
-    it('should allow to navigate with tab key', () => {
+    it('should allow to navigate with tab key (empty form)', () => {
       loginTabbingOrder(config.login);
+    });
+
+    it('should allow to navigate with tab key (filled out form)', () => {
+      loginTabbingOrder(config.login, true);
     });
   });
 
@@ -43,6 +50,18 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   describe('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
+    });
+  });
+
+  describe('Add to cart', () => {
+    it('should allow to navigate with tab key', () => {
+      addToCartTabbingOrder(config.addToCart);
+    });
+  });
+
+  describe('Cart', () => {
+    it('should allow to navigate with tab key', () => {
+      cartTabbingOrder(config.cart);
     });
   });
 });
@@ -102,6 +121,12 @@ context('Tabbing order - tests do require user to be logged in', () => {
   describe('Close account', () => {
     it('should allow to navigate with tab key', () => {
       closeAccountTabbingOrder(config.closeAccount);
+    });
+  });
+
+  describe('Consent Management', () => {
+    it('should allow to navigate with tab key', () => {
+      consentManagementTabbingOrder(config.consentManagement);
     });
   });
 });
