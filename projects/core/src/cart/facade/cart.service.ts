@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -38,7 +38,7 @@ export class CartService {
       // combineLatest emits multiple times on each property update instead of one emit
       // additionally dispatching actions that changes selectors used here needs to happen in order
       // for this asyncScheduler is used here
-      debounceTime(1, asyncScheduler),
+      debounceTime(0),
       filter(([, loading]) => !loading),
       tap(([cart, , userToken, loaded]) => {
         if (this.isJustLoggedIn(userToken.userId)) {

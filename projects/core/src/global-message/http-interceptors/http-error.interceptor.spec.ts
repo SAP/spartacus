@@ -145,9 +145,7 @@ describe('HttpErrorInterceptor', () => {
           status: HttpResponseStatus.BAD_REQUEST,
           statusText: '',
         };
-        const expectedKey = `httpHandlers.validationErrors.${
-          mockErrors[0].reason
-        }.${mockErrors[0].subject}`;
+        const expectedKey = `httpHandlers.validationErrors.${mockErrors[0].reason}.${mockErrors[0].subject}`;
 
         http
           .get('/validation-error')
