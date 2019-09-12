@@ -53,6 +53,7 @@ export class CheckoutEffects {
   @Effect()
   setDeliveryAddress$: Observable<
     | CheckoutActions.SetDeliveryAddressSuccess
+    | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
   > = this.actions$.pipe(
@@ -64,6 +65,7 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
+            new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
             new CheckoutActions.LoadSupportedDeliveryModes({
               userId: payload.userId,
               cartId: payload.cartId,
@@ -276,6 +278,54 @@ export class CheckoutEffects {
         userId: payload.userId,
         cartId: payload.cartId ? payload.cartId : 'current',
       });
+    })
+  );
+
+  @Effect()
+  clearCheckoutDeliveryAddress$: Observable<
+    | CheckoutActions.ClearCheckoutDeliveryAddressFail
+    | CheckoutActions.ClearCheckoutDeliveryAddressSuccess
+  > = this.actions$.pipe(
+    ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS),
+    map(
+      (action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload
+    ),
+    switchMap(payload => {
+      return this.checkoutConnector
+        .clearCheckoutDeliveryAddress(payload.userId, payload.cartId)
+        .pipe(
+          map(() => new CheckoutActions.ClearCheckoutDeliveryAddressSuccess()),
+          catchError(error =>
+            of(
+              new CheckoutActions.ClearCheckoutDeliveryAddressFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    })
+  );
+
+  @Effect()
+  clearCheckoutDeliveryMode$: Observable<
+    | CheckoutActions.ClearCheckoutDeliveryModeFail
+    | CheckoutActions.ClearCheckoutDeliveryModeSuccess
+  > = this.actions$.pipe(
+    ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
+    map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
+    switchMap(payload => {
+      return this.checkoutConnector
+        .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
+        .pipe(
+          map(() => new CheckoutActions.ClearCheckoutDeliveryModeSuccess()),
+          catchError(error =>
+            of(
+              new CheckoutActions.ClearCheckoutDeliveryModeFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
     })
   );
 
