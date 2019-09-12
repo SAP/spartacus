@@ -3,18 +3,12 @@ import {
   checkAllElements,
   TabElement,
 } from '../../tabbing-order';
+import { fillShippingAddress } from '../../../checkout-forms';
+import { user } from '../../../../sample-data/checkout-flow';
 
 export function shippingAddressTabbingOrder(config: TabElement[]) {
-  const country = 'Canada'; // country with regions field available
-  cy.server();
-  cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/countries/CA/regions*`
-  ).as('regions');
-
-  // fill out country field, so region field is visible
-  cy.get('.country-select[formcontrolname="isocode"]').ngSelect(country);
-
-  cy.wait('@regions');
+  const { firstName, lastName, phone, address } = user;
+  fillShippingAddress({ firstName, lastName, phone, address }, false);
 
   getFormFieldByValue(config[0].value).within(() => {
     cy.get('input')

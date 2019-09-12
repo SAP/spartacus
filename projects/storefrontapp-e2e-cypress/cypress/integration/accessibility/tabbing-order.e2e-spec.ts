@@ -70,11 +70,11 @@ context('Tabbing order - tests do require user to be logged in', () => {
     before(() => {
       addProduct();
       cy.getByText(/Proceed to checkout/i).click(); // move to checkout
+      cy.get('cx-breadcrumb').should('contain', 'Checkout'); // check if we begin checkout tests in checkout
     });
 
     describe('Shipping address', () => {
       it('should allow to navigate with tab key', () => {
-        cy.get('cx-breadcrumb').should('contain', 'Checkout');
         shippingAddressTabbingOrder(config.shippingAddress);
       });
     });
