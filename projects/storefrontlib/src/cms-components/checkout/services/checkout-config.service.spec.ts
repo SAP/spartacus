@@ -333,8 +333,8 @@ describe('CheckoutConfigService', () => {
           premiumMode,
         ])
       ).toBe(FREE_CODE);
+    });
   });
-
   describe('isExpressCheckout', () => {
     it('return default config value', () => {
       expect(service.isExpressCheckout()).toBeFalsy();
