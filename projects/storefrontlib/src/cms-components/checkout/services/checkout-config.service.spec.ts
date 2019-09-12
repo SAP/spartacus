@@ -324,6 +324,16 @@ describe('CheckoutConfigService', () => {
         ])
       ).toBe('existing_code');
     });
+    it('should return first option if defaultDeliveryMode is empty', () => {
+      service['defaultDeliveryMode'] = [];
+      expect(
+        service['findMatchingDeliveryMode']([
+          freeMode,
+          standardMode,
+          premiumMode,
+        ])
+      ).toBe(FREE_CODE);
+    });
   });
 
   describe('isExpressCheckout', () => {
