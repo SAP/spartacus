@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -11,33 +11,50 @@ import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartEffects {
+  // TODO: remove when removing cart store module
+  @Effect()
+  loadCart2$: Observable<CartActions.LoadMultiCart> = this.actions$.pipe(
+    ofType(CartActions.LOAD_CART),
+    map(
+      (action: CartActions.LoadCart) => new CartActions.LoadMultiCart(action.payload)
+    )
+  );
+
+  // TODO: change to listen on LoadMultiCart action, remove old actions usage
   @Effect()
   loadCart$: Observable<
     | CartActions.LoadCartFail
+    | CartActions.LoadMultiCartFail
     | CartActions.LoadCartSuccess
+    | CartActions.LoadMultiCartSuccess
     | CartActions.ClearCart
+    | CartActions.ClearMultiCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map(
-      (action: {
-        type: string;
-        payload?: { userId: string; cartId: string };
-      }) => action.payload
+      (action: CartActions.LoadCart) => action.payload
     ),
     mergeMap(payload => {
+      // TODO: get rid of cartData
       const loadCartParams = {
         userId: (payload && payload.userId) || this.cartData.userId,
         cartId: (payload && payload.cartId) || this.cartData.cartId,
       };
 
       if (this.isMissingData(loadCartParams)) {
-        return of(new CartActions.LoadCartFail({}));
+        return from([
+          new CartActions.LoadCartFail({}),
+          new CartActions.LoadMultiCartFail({ cartId: payload.cartId }),
+        ]);
       }
       return this.cartConnector
         .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
-          map((cart: Cart) => {
-            return new CartActions.LoadCartSuccess(cart);
+          mergeMap((cart: Cart) => {
+            return [
+              new CartActions.LoadCartSuccess(cart),
+              new CartActions.LoadMultiCartSuccess(cart),
+            ];
           }),
           catchError(error => {
             if (error && error.error && error.error.errors) {
@@ -45,22 +62,42 @@ export class CartEffects {
                 err => err.reason === 'notFound' || 'UnknownResourceError'
               );
               if (cartNotFoundErrors.length > 0) {
-                return of(new CartActions.ClearCart());
+                return from([
+                  new CartActions.ClearCart(),
+                  new CartActions.ClearMultiCart({ cartId: payload.cartId }),
+                ]);
               }
             }
-            return of(
-              new CartActions.LoadCartFail(makeErrorSerializable(error))
-            );
+            return from([
+              new CartActions.LoadCartFail(makeErrorSerializable(error)),
+              new CartActions.LoadMultiCartFail({
+                cartId: payload.cartId,
+                error: makeErrorSerializable(error),
+              }),
+            ]);
           })
         );
     })
   );
 
+  // TODO: remove when removing cart store module
+  @Effect()
+  createCart2$: Observable<CartActions.CreateMultiCart> = this.actions$.pipe(
+    ofType(CartActions.CREATE_CART),
+    map(
+      (action: CartActions.CreateCart) => new CartActions.CreateMultiCart(action.payload)
+    )
+  );
+
+  // TODO: change to listen on CreateMultiCart action, remove old actions usage
   @Effect()
   createCart$: Observable<
     | CartActions.MergeCartSuccess
+    | CartActions.MergeMultiCartSuccess
     | CartActions.CreateCartSuccess
+    | CartActions.CreateMultiCartSuccess
     | CartActions.CreateCartFail
+    | CartActions.CreateMultiCartFail
   > = this.actions$.pipe(
     ofType(CartActions.CREATE_CART),
     map((action: CartActions.CreateCart) => action.payload),
@@ -72,40 +109,77 @@ export class CartEffects {
             if (payload.oldCartId) {
               return [
                 new CartActions.CreateCartSuccess(cart),
+                new CartActions.CreateMultiCartSuccess(cart),
                 new CartActions.MergeCartSuccess({
                   userId: payload.userId,
                   cartId: cart.code,
                 }),
+                new CartActions.MergeMultiCartSuccess({
+                  userId: payload.userId,
+                  cartId: cart.code,
+                  oldCartId: payload.oldCartId,
+                }),
               ];
             }
-            return [new CartActions.CreateCartSuccess(cart)];
+            return [
+              new CartActions.CreateCartSuccess(cart),
+              new CartActions.CreateMultiCartSuccess(cart),
+            ];
           }),
           catchError(error =>
-            of(new CartActions.CreateCartFail(makeErrorSerializable(error)))
+            from([
+              new CartActions.CreateCartFail(makeErrorSerializable(error)),
+              new CartActions.CreateMultiCartFail({
+                cartId: payload.cartId,
+                error: makeErrorSerializable(error),
+              }),
+            ])
           )
         );
     })
   );
 
+  // TODO: remove when removing cart store module
   @Effect()
-  mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
+  mergeCart2$: Observable<CartActions.MergeMultiCart> = this.actions$.pipe(
+    ofType(CartActions.MERGE_CART),
+    map(
+      (action: CartActions.MergeCart) => new CartActions.MergeMultiCart(action.payload)
+    )
+  );
+
+  // TODO fix for multi cart usage (no only current)
+  @Effect()
+  mergeCart$: Observable<
+    CartActions.CreateCart | CartActions.CreateMultiCart
+  > = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map((action: CartActions.MergeCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector.load(payload.userId, 'current').pipe(
-        map(currentCart => {
-          return new CartActions.CreateCart({
-            userId: payload.userId,
-            oldCartId: payload.cartId,
-            toMergeCartGuid: currentCart ? currentCart.guid : undefined,
-          });
+        mergeMap(currentCart => {
+          return [
+            new CartActions.CreateCart({
+              userId: payload.userId,
+              oldCartId: payload.cartId,
+              toMergeCartGuid: currentCart ? currentCart.guid : undefined,
+            }),
+            new CartActions.CreateMultiCart({
+              userId: payload.userId,
+              oldCartId: payload.cartId,
+              toMergeCartGuid: currentCart ? currentCart.guid : undefined,
+            }),
+          ];
         })
       );
     })
   );
 
+  // TODO: remove old actions usage (LoadCart)
   @Effect()
-  refresh$: Observable<CartActions.LoadCart> = this.actions$.pipe(
+  refresh$: Observable<
+    CartActions.LoadCart | CartActions.LoadMultiCart
+  > = this.actions$.pipe(
     ofType(
       CartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
@@ -121,25 +195,44 @@ export class CartEffects {
           | CartActions.CartRemoveEntrySuccess
       ) => action.payload
     ),
-    map(
-      payload =>
-        new CartActions.LoadCart({
-          userId: payload.userId,
-          cartId: payload.cartId,
-        })
-    )
+    mergeMap(payload => [
+      new CartActions.LoadCart({
+        userId: payload.userId,
+        cartId: payload.cartId,
+      }),
+      new CartActions.LoadMultiCart({
+        userId: payload.userId,
+        cartId: payload.cartId,
+      }),
+    ])
   );
 
+  // TODO: remove old actions usage
   @Effect()
   resetCartDetailsOnSiteContextChange$: Observable<
-    CartActions.ResetCartDetails
+    CartActions.ResetCartDetails | CartActions.ResetMultiCartDetails
   > = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE
     ),
-    map(() => new CartActions.ResetCartDetails())
+    mergeMap(() => {
+      return [
+      new CartActions.ResetCartDetails(),
+      new CartActions.ResetMultiCartDetails(),
+    ]})
   );
+
+
+  @Effect()
+  setFreshCartId$: Observable<
+    CartActions.SetFreshCartId
+  > = this.actions$.pipe(
+    ofType(CartActions.CREATE_MULTI_CART_SUCCESS),
+    map((action: any) =>
+      new CartActions.SetFreshCartId(action.payload)
+    )
+  )
 
   constructor(
     private actions$: Actions,

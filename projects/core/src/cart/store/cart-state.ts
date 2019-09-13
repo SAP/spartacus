@@ -1,9 +1,12 @@
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
 export const CART_FEATURE = 'cart';
 export const CART_DATA = '[Cart] Cart Data';
+export const MULTI_CART_FEATURE = 'multi-cart';
+export const MULTI_CART_DATA = '[Multi Cart] Multi Cart Data';
 
 export interface StateWithCart {
   [CART_FEATURE]: CartsState;
@@ -18,4 +21,17 @@ export interface CartState {
   entries: { [code: string]: OrderEntry };
   refresh: boolean;
   cartMergeComplete: boolean;
+}
+
+export interface StateWithMultiCart {
+  [MULTI_CART_FEATURE]: MultiCartState;
+}
+
+export interface MultiCartState {
+  carts: EntityLoaderState<NewCartState>;
+  active: string;
+}
+
+export interface NewCartState {
+  content: Cart;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import { asyncScheduler, combineLatest, Observable, of } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -16,7 +16,6 @@ import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { LowLevelCartService } from './low-level-cart.service';
 
 @Injectable()
 export class CartService {
@@ -28,8 +27,7 @@ export class CartService {
   constructor(
     protected store: Store<StateWithCart>,
     protected cartData: CartDataService,
-    protected authService: AuthService,
-    protected lowLevelCart: LowLevelCartService,
+    protected authService: AuthService
   ) {
     this._activeCart$ = combineLatest([
       this.store.select(CartSelectors.getCartContent),
@@ -66,8 +64,8 @@ export class CartService {
     );
   }
 
-  getActive(): Observable<Cart> {
-    return this._activeCart$;
+  getCart(): Observable<Cart> {
+    return of({} as Cart);
   }
 
   getEntries(): Observable<OrderEntry[]> {
@@ -126,10 +124,9 @@ export class CartService {
         select(CartSelectors.getActiveCartState),
         tap(cartState => {
           if (!this.isCreated(cartState.value.content) && !cartState.loading) {
-            this.lowLevelCart.createCart(this.cartData.userId).subscribe();
-            // this.store.dispatch(
-            //   new CartActions.CreateCart({ userId: this.cartData.userId })
-            // );
+            this.store.dispatch(
+              new CartActions.CreateCart({ userId: this.cartData.userId })
+            );
           }
         }),
         filter(cartState => this.isCreated(cartState.value.content)),
