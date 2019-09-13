@@ -55,28 +55,6 @@ function getWorkspace(
   };
 }
 
-const defaultAppComponentTemplate = `<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
-`;
-
 function addPackageJsonDependencies(): Rule {
   const spartacusVersion = '^1.0.0';
   const ngrxVersion = '^8.0.0';
@@ -232,7 +210,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
     }`;
 }
 
-function updateAppModule(options: any): Rule {
+function updateAppModule(options: SpartacusOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     context.logger.debug('Updating main module');
 
@@ -326,11 +304,11 @@ function installStyles(project: experimental.workspace.WorkspaceProject): Rule {
 }
 
 function updateMainComponent(
-  project: experimental.workspace.WorkspaceProject
+  project: experimental.workspace.WorkspaceProject,
+  options: SpartacusOptions
 ): Rule {
   return (host: Tree, _context: SchematicContext) => {
     const filePath = project.sourceRoot + '/app/app.component.html';
-
     const buffer = host.read(filePath);
 
     if (!buffer) {
@@ -347,11 +325,7 @@ function updateMainComponent(
 
     const recorder = host.beginUpdate(filePath);
 
-    const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
-    if (
-      htmlContent.replace(newLineRegEx, '') ===
-      defaultAppComponentTemplate.replace(newLineRegEx, '')
-    ) {
+    if (options && options.overwriteAppComponent) {
       recorder.remove(0, htmlContent.length);
       recorder.insertLeft(0, insertion);
     } else {
@@ -422,7 +396,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       addPackageJsonDependencies(),
       updateAppModule(options),
       installStyles(project),
-      updateMainComponent(project),
+      updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(project, options) : noop(),
       installPackageJsonDependencies(),
     ])(tree, context);
