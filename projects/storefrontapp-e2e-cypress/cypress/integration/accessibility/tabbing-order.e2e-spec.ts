@@ -78,9 +78,6 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 context('Tabbing order - tests do require user to be logged in', () => {
   before(() => {
     register();
-    // login();
-    // setupForAddressBookTests();
-    // signOut();
   });
 
   beforeEach(() => {

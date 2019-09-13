@@ -35,14 +35,14 @@ function addAddress() {
   const address = {
     country: { isocode: 'AD' },
     defaultAddress: false,
-    firstName: 'asdfg@gmail.com',
-    lastName: 'A$DF12',
-    line1: 'sdaf',
-    line2: '',
-    phone: '',
-    postalCode: '4132',
+    firstName: 'Winston',
+    lastName: 'Rumfoord',
+    line1: 'Chrono-Synclastic Infundibulum',
+    line2: 'Betelgeuse',
+    phone: '555 555 555',
+    postalCode: '06247',
     titleCode: '',
-    town: 'fasd',
+    town: 'Tralfamadore',
   };
 
   let authObj;
