@@ -40,6 +40,14 @@ export function checkElement(tabElement: TabElement) {
       cy.focused().should('contain', tabElement.value);
       break;
     }
+    case TabbingOrderTypes.NG_SELECT: {
+      cy.focused()
+        .parentsUntil('ng-select')
+        .last()
+        .parent()
+        .should('have.attr', 'formcontrolname', tabElement.value);
+      break;
+    }
     case TabbingOrderTypes.CHECKBOX_WITH_LABEL: {
       cy.focused()
         .parent()
