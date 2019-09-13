@@ -105,7 +105,7 @@ describe(`PaymentDetailsSetGuard`, () => {
   describe(`when there is payment details present`, () => {
     it(`should return true`, done => {
       spyOn(mockCheckoutDetailsService, 'getPaymentDetails').and.returnValue(
-        of({ id: 'testDetails' })
+        of({ id: 'testDetails' } as any)
       );
 
       guard.canActivate().subscribe(result => {

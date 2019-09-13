@@ -37,9 +37,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.innerText).toContain(
-      `1 - ${component.pagination.pageSize} storeFinder.fromStoresFound count:${
-        component.pagination.totalResults
-      }`
+      `1 - ${component.pagination.pageSize} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
     );
   });
 
@@ -52,9 +50,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.innerText).toContain(
-      `1 - ${
-        component.pagination.totalResults
-      } storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+      `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
     );
   });
 
@@ -68,9 +64,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.innerText).toContain(
-      `1 - ${
-        component.pagination.totalResults
-      } storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+      `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
     );
   });
 });
