@@ -2,7 +2,10 @@ import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-or
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import { registerAndLogin } from '../../helpers/accessibility/tabbing-order';
+import {
+  registerAndLogin,
+  addProduct,
+} from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
@@ -16,6 +19,7 @@ import {
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
+import { shippingAddressTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -66,6 +70,20 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 context('Tabbing order - tests do require user to be logged in', () => {
   before(() => {
     registerAndLogin();
+  });
+
+  describe('Checkout', () => {
+    before(() => {
+      addProduct();
+      cy.getByText(/Proceed to checkout/i).click(); // move to checkout
+      cy.get('cx-breadcrumb').should('contain', 'Checkout'); // check if we begin checkout tests in checkout
+    });
+
+    describe('Shipping address', () => {
+      it('should allow to navigate with tab key', () => {
+        shippingAddressTabbingOrder(config.shippingAddress);
+      });
+    });
   });
 
   describe('Change password', () => {

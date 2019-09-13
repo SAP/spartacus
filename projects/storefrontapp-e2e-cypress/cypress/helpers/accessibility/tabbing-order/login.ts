@@ -6,7 +6,10 @@ import {
 import { fillLoginForm } from '../../auth-forms';
 import { user } from '../../../sample-data/checkout-flow';
 
-export function loginTabbingOrder(config: TabElement[], prefillForm: boolean = false) {
+export function loginTabbingOrder(
+  config: TabElement[],
+  prefillForm: boolean = false
+) {
   cy.visit('/login');
   if (prefillForm) {
     const { email: username, password } = user;
