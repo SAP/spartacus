@@ -253,6 +253,8 @@ export class CartService {
       .pipe(
         filter(([, loading]) => !loading),
         tap(([cart]) => {
+          // If the cart is not created it needs to be created
+          // This step should happen before adding entries to avoid conflicts in the requests
           if (!this.isCreated(cart)) {
             this.store.dispatch(
               new CartActions.CreateCart({ userId: this.cartData.userId })
@@ -267,6 +269,8 @@ export class CartService {
           .select(CartSelectors.getCartEntries)
           .pipe(
             tap(entries => {
+              // Keep adding entries until the user cart contains the same number of entries
+              // as the guest cart did
               if (entries.length < cartEntries.length) {
                 this.store.dispatch(
                   new CartActions.CartAddEntry({
