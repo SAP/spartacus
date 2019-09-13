@@ -19,7 +19,10 @@ import {
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
-import { shippingAddressTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
+import {
+  shippingAddressNewTabbingOrder,
+  shippingAddressExistingTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -72,6 +75,14 @@ context('Tabbing order - tests do require user to be logged in', () => {
     registerAndLogin();
   });
 
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
   describe('Checkout', () => {
     before(() => {
       addProduct();
@@ -80,8 +91,13 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
 
     describe('Shipping address', () => {
-      it('should allow to navigate with tab key', () => {
-        shippingAddressTabbingOrder(config.shippingAddress);
+      it('should allow to navigate with tab key (add address)', () => {
+        shippingAddressNewTabbingOrder(config.shippingAddressNew);
+      });
+
+      it('should allow to navigate with tab key (choose existing)', () => {
+        cy.visit('/checkout/shipping-address'); // revisit shipping address page, so the address card is visible
+        shippingAddressExistingTabbingOrder(config.shippingAddressExisting);
       });
     });
   });
