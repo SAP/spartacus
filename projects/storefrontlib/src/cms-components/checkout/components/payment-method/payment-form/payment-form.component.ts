@@ -152,6 +152,19 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
           this.openSuggestedAddress(results);
         }
       });
+
+      /**
+       * (GH-3102)
+       * Listen to globalMessageService's Observable and if a global message appears,
+       * then act upon that change and re-enable button since clicking the button
+       * disables it. 
+       * 
+       * When testing this out, the button will still be disabled until you change
+       * the invalid input. 
+       */
+      this.globalMessageService.get().subscribe(() => {
+        this.buttonHasBeenClicked = false; //This re-enables the button
+      });
   }
 
   expMonthAndYear(): void {
