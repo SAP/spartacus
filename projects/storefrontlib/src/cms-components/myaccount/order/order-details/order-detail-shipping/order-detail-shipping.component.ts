@@ -38,9 +38,7 @@ export class OrderDetailShippingComponent implements OnInit {
           text: [
             address.line1,
             address.line2,
-            `${address.town}, ${address.country.isocode}, ${
-              address.postalCode
-            }`,
+            `${address.town}, ${address.country.isocode}, ${address.postalCode}`,
             address.phone,
           ],
         };
@@ -59,9 +57,7 @@ export class OrderDetailShippingComponent implements OnInit {
           text: [
             billingAddress.line1,
             billingAddress.line2,
-            `${billingAddress.town}, ${billingAddress.country.isocode}, ${
-              billingAddress.postalCode
-            }`,
+            `${billingAddress.town}, ${billingAddress.country.isocode}, ${billingAddress.postalCode}`,
             billingAddress.phone,
           ],
         };

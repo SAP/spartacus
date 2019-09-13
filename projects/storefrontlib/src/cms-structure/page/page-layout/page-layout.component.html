@@ -9,7 +9,7 @@
   <ng-content></ng-content>
 
   <cx-page-slot
-    *ngFor="let slot of (slots$ | async)"
+    *ngFor="let slot of slots$ | async"
     [position]="slot"
   ></cx-page-slot>
 </ng-template>

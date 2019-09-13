@@ -35,21 +35,18 @@ export class StoreDataService {
    * @param location store location
    * @param date date to compare
    */
-  getStoreClosingTime(location: PointOfService, date: Date): Date {
+  getStoreClosingTime(location: PointOfService, date: Date): string {
     const requestedDaySchedule = this.getSchedule(location, date);
-    let result: Date = null;
 
-    if (requestedDaySchedule.closed === false) {
-      const closingHour = requestedDaySchedule.closingTime.formattedHour.split(
-        ':'
-      )[0];
-      const closingMinute = requestedDaySchedule.closingTime.minute;
-      result = new Date(date.valueOf());
-      result.setHours(closingHour);
-      result.setMinutes(closingMinute);
+    if (requestedDaySchedule) {
+      if (requestedDaySchedule.closed && requestedDaySchedule.closed === true) {
+        return 'closed';
+      }
+
+      if (requestedDaySchedule.closingTime) {
+        return requestedDaySchedule.closingTime.formattedHour;
+      }
     }
-
-    return result;
   }
 
   /**
@@ -57,40 +54,18 @@ export class StoreDataService {
    * @param location store location
    * @param date date to compare
    */
-  getStoreOpeningTime(location: PointOfService, date: Date): Date {
+  getStoreOpeningTime(location: PointOfService, date: Date): string {
     const requestedDaySchedule = this.getSchedule(location, date);
-    let result: Date = null;
 
-    if (requestedDaySchedule.closed === false) {
-      const openingHour = requestedDaySchedule.openingTime.formattedHour.split(
-        ':'
-      )[0];
-      const openingMinutes = requestedDaySchedule.openingTime.minute;
-      result = new Date(date.valueOf());
-      result.setHours(openingHour);
-      result.setMinutes(openingMinutes);
+    if (requestedDaySchedule) {
+      if (requestedDaySchedule.closed && requestedDaySchedule.closed === true) {
+        return 'closed';
+      }
+
+      if (requestedDaySchedule.openingTime) {
+        return requestedDaySchedule.openingTime.formattedHour;
+      }
     }
-
-    return result;
-  }
-
-  /**
-   * Returns information about store open status
-   * @param location store location
-   * @param date date to compare
-   */
-  isStoreOpen(location: PointOfService, date: Date): boolean {
-    const requestedDaySchedule = this.getSchedule(location, date);
-    let result = false;
-
-    if (requestedDaySchedule.closed === false) {
-      const openingDate = this.getStoreOpeningTime(location, date);
-      const closingDate = this.getStoreClosingTime(location, date);
-
-      result = date > openingDate && date < closingDate;
-    }
-
-    return result;
   }
 
   /**

@@ -1,4 +1,4 @@
-<ng-container *ngIf="(mainImage$ | async) as main">
+<ng-container *ngIf="mainImage$ | async as main">
   <cx-media [container]="main" format="zoom"> </cx-media>
 </ng-container>
 

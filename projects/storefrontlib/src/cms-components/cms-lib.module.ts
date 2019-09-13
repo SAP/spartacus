@@ -37,6 +37,7 @@ import { ProductImagesModule } from './product/product-images/product-images.mod
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
 import { ProductVariantSelectorModule } from './product/product-variant-selector/product-variant-selector.module';
 import { UserComponentModule } from './user/user.module';
+import { StoreFinderModule } from './storefinder/store-finder.module';
 
 @NgModule({
   imports: [
@@ -66,8 +67,7 @@ import { UserComponentModule } from './user/user.module';
     CartComponentModule,
     // TabParagraphContainerModule,
     OrderConfirmationModule,
-    // TODO:#2811 - uncomment to enable
-    // StoreFinderModule,
+    StoreFinderModule,
     ProductImagesModule,
     ProductSummaryModule,
     ProductVariantSelectorModule,
