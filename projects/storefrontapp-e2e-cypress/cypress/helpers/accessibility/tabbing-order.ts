@@ -70,6 +70,11 @@ export function checkElement(tabElement: TabElement) {
         .should('have.attr', 'formcontrolname', tabElement.value);
       break;
     }
+    case TabbingOrderTypes.RADIO: {
+      cy.focused()
+        .should('have.attr', 'type', 'radio')
+        .should('have.attr', 'formcontrolname', tabElement.value);
+    }
   }
 }
 
