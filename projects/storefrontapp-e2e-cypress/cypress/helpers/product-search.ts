@@ -182,6 +182,6 @@ export function createProductFacetQuery(
 ): void {
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?*fields=*&query=${search}:relevance:${param}*`
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}:relevance:${param}*`
   ).as(alias);
 }
