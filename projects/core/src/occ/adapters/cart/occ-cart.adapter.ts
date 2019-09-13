@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
@@ -179,12 +179,13 @@ export class OccCartAdapter implements CartAdapter {
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
+    const httpParams: HttpParams = new HttpParams().set('email', email);
+
     const url = this.occEndpointsService.getUrl('addEmail', {
       userId,
       cartId,
-      email,
     });
 
-    return this.http.put(url, {}, { headers });
+    return this.http.put(url, httpParams, { headers });
   }
 }

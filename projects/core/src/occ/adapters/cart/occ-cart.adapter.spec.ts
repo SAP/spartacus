@@ -200,12 +200,13 @@ describe('OccCartAdapter', () => {
         .addEmail(userId, cartId, email)
         .subscribe(value => (result = value));
 
-      const mockReq = httpMock.expectOne({ method: 'PUT', url: 'addEmail' });
+      const mockReq = httpMock.expectOne({ method: 'PUT' });
+
+      expect(mockReq.request.serializeBody()).toEqual(`email=${email}`);
 
       expect(occEndpointService.getUrl).toHaveBeenCalledWith('addEmail', {
         userId,
         cartId,
-        email: 'tester@sap.com',
       });
       expect(mockReq.cancelled).toBeFalsy();
 
