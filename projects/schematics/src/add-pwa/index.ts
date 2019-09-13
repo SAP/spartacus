@@ -11,23 +11,7 @@ import { of } from 'rxjs';
 import { branch } from '@angular-devkit/schematics/src/tree/static';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
-import * as ts from 'typescript';
-
-function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
-  const buffer = host.read(path);
-  if (!buffer) {
-    throw new SchematicsException(`Could not read file (${path}).`);
-  }
-  const content = buffer.toString();
-  const source = ts.createSourceFile(
-    path,
-    content,
-    ts.ScriptTarget.Latest,
-    true
-  );
-
-  return source;
-}
+import { getTsSourceFile } from '../shared/utils/file-utils';
 
 function getLineFromTSFile(
   host: Tree,

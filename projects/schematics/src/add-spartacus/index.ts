@@ -27,8 +27,8 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
-import * as ts from 'typescript';
 import { Schema as SpartacusOptions } from './schema';
+import { getTsSourceFile } from '../shared/utils/file-utils';
 
 function getWorkspace(
   host: Tree
@@ -162,22 +162,6 @@ function installPackageJsonDependencies(): Rule {
     context.logger.log('info', `🔍 Installing packages...`);
     return tree;
   };
-}
-
-function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
-  const buffer = host.read(path);
-  if (!buffer) {
-    throw new SchematicsException(`Could not read file (${path}).`);
-  }
-  const content = buffer.toString();
-  const source = ts.createSourceFile(
-    path,
-    content,
-    ts.ScriptTarget.Latest,
-    true
-  );
-
-  return source;
 }
 
 function addImport(

@@ -176,9 +176,7 @@ describe('add-spartacus', () => {
       );
       expect(
         indexHtmlFile.includes(
-          `<meta name="occ-backend-base-url" content="${
-            defaultOptions.baseUrl
-          }" />`
+          `<meta name="occ-backend-base-url" content="${defaultOptions.baseUrl}" />`
         )
       ).toBe(true);
       expect(
