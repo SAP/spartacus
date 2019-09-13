@@ -121,20 +121,14 @@ describe('CartService', () => {
 
       it('should copy content of guest cart to user cart', () => {
         spyOn<any>(service, 'isCreated').and.returnValue(true);
+        spyOn(service, 'addEntries').and.stub();
         spyOn(service, 'getEntries').and.returnValues(
           of([mockCartEntry]),
           of([])
         );
 
         service[guestCartMergeMethod]();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.CartAddEntry({
-            userId: cartData.userId,
-            cartId: cartData.cartId,
-            productCode: mockCartEntry.product.code,
-            quantity: mockCartEntry.quantity,
-          })
-        );
+        expect(service.addEntries).toHaveBeenCalledWith([mockCartEntry]);
       });
     });
   });
@@ -314,6 +308,37 @@ describe('CartService', () => {
 
       cartData.isGuestCart = false;
       expect(service.isGuestCart()).toBeFalsy();
+    });
+  });
+
+  describe('addEntries', () => {
+    beforeEach(() => {
+      spyOn(store, 'dispatch').and.stub();
+    });
+
+    it('should add entries to the cart if cart HAS content', () => {
+      service.addEntries([mockCartEntry]);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartAddEntry({
+          userId: cartData.userId,
+          cartId: cartData.cartId,
+          productCode: mockCartEntry.product.code,
+          quantity: mockCartEntry.quantity,
+        })
+      );
+    });
+    it('should add entries to the cart if cart is empty', () => {
+      service.addEntries([mockCartEntry]);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartAddEntry({
+          userId: cartData.userId,
+          cartId: cartData.cartId,
+          productCode: mockCartEntry.product.code,
+          quantity: mockCartEntry.quantity,
+        })
+      );
     });
   });
 

@@ -202,6 +202,37 @@ export class CartService {
     return this.cartData.isGuestCart;
   }
 
+  /**
+   * Add multiple entries to a cart
+   * Requires a created cart
+   *
+   * @param {OrderEntry[]} cartEntries
+   */
+  addEntries(cartEntries: OrderEntry[]): void {
+    let newEntries = 0;
+    this.getEntries()
+      .pipe(
+        tap(() => {
+          // Keep adding entries until the user cart contains the same number of entries
+          // as the guest cart did
+          if (newEntries < cartEntries.length) {
+            this.store.dispatch(
+              new CartActions.CartAddEntry({
+                userId: this.cartData.userId,
+                cartId: this.cartData.cartId,
+                productCode: cartEntries[newEntries].product.code,
+                quantity: cartEntries[newEntries].quantity,
+              })
+            );
+            newEntries++;
+          }
+        }),
+        filter(() => newEntries === cartEntries.length),
+        take(1)
+      )
+      .subscribe();
+  }
+
   private isCreated(cart: Cart): boolean {
     return cart && typeof cart.guid !== 'undefined';
   }
@@ -246,46 +277,24 @@ export class CartService {
       })
     );
 
-    combineLatest([
-      this.store.select(CartSelectors.getCartContent),
-      this.store.select(CartSelectors.getCartLoading),
-    ])
+    this.store
       .pipe(
-        filter(([, loading]) => !loading),
-        tap(([cart]) => {
+        select(CartSelectors.getActiveCartState),
+        filter(cartState => !cartState.loading),
+        tap(cartState => {
           // If the cart is not created it needs to be created
           // This step should happen before adding entries to avoid conflicts in the requests
-          if (!this.isCreated(cart)) {
+          if (!this.isCreated(cartState.value.content)) {
             this.store.dispatch(
               new CartActions.CreateCart({ userId: this.cartData.userId })
             );
           }
         }),
-        filter(([cart]) => this.isCreated(cart)),
+        filter(cartState => this.isCreated(cartState.value.content)),
         take(1)
       )
       .subscribe(() => {
-        this.store
-          .select(CartSelectors.getCartEntries)
-          .pipe(
-            tap(entries => {
-              // Keep adding entries until the user cart contains the same number of entries
-              // as the guest cart did
-              if (entries.length < cartEntries.length) {
-                this.store.dispatch(
-                  new CartActions.CartAddEntry({
-                    userId: this.cartData.userId,
-                    cartId: this.cartData.cartId,
-                    productCode: cartEntries[entries.length].product.code,
-                    quantity: cartEntries[entries.length].quantity,
-                  })
-                );
-              }
-            }),
-            filter(entries => entries.length === cartEntries.length),
-            take(1)
-          )
-          .subscribe();
+        this.addEntries(cartEntries);
       });
   }
 }
