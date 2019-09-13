@@ -204,6 +204,12 @@ export interface OccEndpoints {
    */
   orderDetail?: string;
   /**
+   * Endpoint for anonymous consent templates
+   *
+   * @member {string}
+   */
+  anonymousConsentTemplates?: string;
+  /**
    * Endpoint for consent templates
    *
    * @member {string}

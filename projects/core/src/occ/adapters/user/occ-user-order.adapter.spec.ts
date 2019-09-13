@@ -5,17 +5,18 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { ConverterService, OccUserOrderAdapter } from '@spartacus/core';
-import { FeatureConfigService } from 'projects/core/src/features-config';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { FeatureConfigService } from '../../../features-config/index';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { Order } from '../../../model/order.model';
 import {
-  ORDER_HISTORY_NORMALIZER,
   CONSIGNMENT_TRACKING_NORMALIZER,
+  ORDER_HISTORY_NORMALIZER,
 } from '../../../user/connectors/order/converters';
+import { ConverterService } from '../../../util/index';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
+import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
