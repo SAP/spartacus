@@ -1,4 +1,4 @@
-<header class="cx-page-header" *ngIf="(order$ | async) as order">
+<header class="cx-page-header" *ngIf="order$ | async as order">
   <h1 class="cx-page-title">
     {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
     {{ order.code }}

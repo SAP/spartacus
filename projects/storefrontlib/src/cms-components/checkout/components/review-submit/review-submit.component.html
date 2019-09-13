@@ -35,7 +35,7 @@
       <div class="cx-review-summary-wrapper">
         <div class="cx-review-summary-card cx-review-card-shipping">
           <cx-card
-            *ngIf="(deliveryMode$ | async) as deliveryMode"
+            *ngIf="deliveryMode$ | async as deliveryMode"
             [content]="getDeliveryModeCard(deliveryMode) | async"
           ></cx-card>
         </div>
@@ -73,7 +73,7 @@
   </div>
 
   <!-- CART ITEM SECTION -->
-  <ng-container *ngIf="(cart$ | async) as cart">
+  <ng-container *ngIf="cart$ | async as cart">
     <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
       {{
         'cartItems.cartTotal'
@@ -86,7 +86,7 @@
     </h4>
     <div
       class="cx-review-cart-item col-md-12"
-      *ngIf="(entries$ | async) as entries"
+      *ngIf="entries$ | async as entries"
     >
       <cx-cart-item-list
         [items]="entries"
