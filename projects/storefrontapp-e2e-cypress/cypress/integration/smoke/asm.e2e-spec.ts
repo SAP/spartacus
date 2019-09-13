@@ -5,7 +5,7 @@ context('ASM', () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  it('should have ASM enabled', () => {
+  it('should have ASM feature enabled', () => {
     checkout.visitHomePage();
     cy.get('cx-asm').should('exist');
   });
@@ -49,7 +49,7 @@ context('ASM', () => {
     cy.get('cx-customer-selection').should('not.exist');
   });
 
-  it('should stop cusrtomer emulation.', () => {
+  it('should stop customer emulation.', () => {
     checkout.signOutUser();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('exist');
