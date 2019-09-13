@@ -62,7 +62,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
-    { value: 'Proceed to Checkout', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'Proceed to Checkout',
+      type: TabbingOrderTypes.BUTTON,
+    },
   ],
   changePassword: [
     {
@@ -154,7 +157,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'view cart', type: TabbingOrderTypes.BUTTON },
   ],
-  shippingAddress: [
+  shippingAddressNew: [
     { value: 'isocode', type: TabbingOrderTypes.GENERIC_INPUT },
     { value: 'titleCode', type: TabbingOrderTypes.GENERIC_INPUT },
     { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
@@ -169,6 +172,12 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Set as default',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
+    { value: 'Back to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+  ],
+  shippingAddressExisting: [
+    { value: 'Add New Address', type: TabbingOrderTypes.BUTTON },
+    { value: 'Ship to this address', type: TabbingOrderTypes.LINK },
     { value: 'Back to cart', type: TabbingOrderTypes.BUTTON },
     { value: 'Continue', type: TabbingOrderTypes.BUTTON },
   ],
