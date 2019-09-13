@@ -109,7 +109,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Set as default', type: TabbingOrderTypes.LINK },
     { value: 'Delete', type: TabbingOrderTypes.LINK },
   ],
-  addressBookAddAddress: [
+  addressBookForm: [
     {
       value: 'isocode',
       type: TabbingOrderTypes.NG_SELECT,
@@ -161,6 +161,32 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Add address',
       type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  addressBookDirectory: [
+    {
+      value: 'Add new address',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Edit',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Delete',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Set as default',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Edit',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Delete',
+      type: TabbingOrderTypes.LINK,
     },
   ],
   consentManagement: [

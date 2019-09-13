@@ -2,7 +2,12 @@ import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-or
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import { registerAndLogin } from '../../helpers/accessibility/tabbing-order';
+import {
+  registerAndLogin,
+  loginRequest,
+  login,
+  register,
+} from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
@@ -13,11 +18,15 @@ import {
   paymentDetailCard,
   addSecondaryPaymentCard,
 } from '../../helpers/payment-methods';
-import { addressBookAddAddressTabbingOrder } from '../../helpers/accessibility/tabbing-order/address-book';
-import { signOut } from '../../helpers/register';
+import {
+  addressBookFormTabbingOrder,
+  addressBookDirectoryTabbingOrder,
+  setupForAddressBookTests,
+} from '../../helpers/accessibility/tabbing-order/address-book';
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
+import { signOut } from '../../helpers/register';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -68,7 +77,18 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 
 context('Tabbing order - tests do require user to be logged in', () => {
   before(() => {
-    registerAndLogin();
+    register();
+    // login();
+    // setupForAddressBookTests();
+    // signOut();
+  });
+
+  beforeEach(() => {
+    login();
+  });
+
+  afterEach(() => {
+    signOut();
   });
 
   describe('Change password', () => {
@@ -89,27 +109,6 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  describe('Address Book (Add Address)', () => {
-    it('should allow to navigate with tab key', () => {
-      addressBookAddAddressTabbingOrder(config.addressBookAddAddress);
-    });
-  });
-
-  describe('Address Book (Edit Address)', () => {
-    it('should allow to navigate with tab key', () => {
-      addressBookAddAddressTabbingOrder(config.addressBookAddAddress);
-    });
-  });
-
-  describe('Payment Details', () => {
-    it('should allow to navigate with tab key', () => {
-      paymentDetailCard();
-      addSecondaryPaymentCard();
-
-      paymentDetailsTabbingOrder(config.paymentDetails);
-    });
-  });
-
   describe('Close account', () => {
     it('should allow to navigate with tab key', () => {
       closeAccountTabbingOrder(config.closeAccount);
@@ -119,6 +118,26 @@ context('Tabbing order - tests do require user to be logged in', () => {
   describe('Consent Management', () => {
     it('should allow to navigate with tab key', () => {
       consentManagementTabbingOrder(config.consentManagement);
+    });
+  });
+
+  describe('Address Book (Form)', () => {
+    it('should allow to navigate with tab key (Directory)', () => {
+      setupForAddressBookTests();
+      addressBookFormTabbingOrder(config.addressBookForm);
+    });
+
+    it('should allow to navigate with tab key (Form)', () => {
+      addressBookDirectoryTabbingOrder(config.addressBookDirectory);
+    });
+  });
+
+  describe('Payment Details', () => {
+    it('should allow to navigate with tab key', () => {
+      paymentDetailCard();
+      addSecondaryPaymentCard();
+
+      paymentDetailsTabbingOrder(config.paymentDetails);
     });
   });
 });
