@@ -32,7 +32,6 @@ import {
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/');
   });
 
   describe('Footer', () => {

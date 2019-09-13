@@ -1,5 +1,6 @@
 import { TabbingOrderTypes } from './tabbing-order.config';
-import { waitForPage, loginUser } from '../checkout-flow';
+import { waitForPage } from '../checkout-flow';
+import { loginUser } from '../login';
 import { register as authRegister } from '../auth-forms';
 import { user } from '../../sample-data/checkout-flow';
 
@@ -104,7 +105,6 @@ export function login() {
 export function registerAndLogin(): void {
   const loginPage = waitForPage('/login', 'getLoginPage');
   const homePage = waitForPage('homepage', 'getHomePage');
-
   cy.visit('/login/register');
   authRegister(user);
   cy.wait(`@${loginPage}`);
