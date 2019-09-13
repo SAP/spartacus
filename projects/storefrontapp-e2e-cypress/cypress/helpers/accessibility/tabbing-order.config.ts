@@ -10,6 +10,7 @@ export enum TabbingOrderTypes {
   GENERIC_INPUT = 'genericInput',
   GENERIC_BUTTON = 'genericButton',
   ITEM_COUNTER = 'itemCounter',
+  RADIO = 'radio',
 }
 
 export interface TabbingOrderConfig {
@@ -177,8 +178,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   shippingAddressExisting: [
     { value: 'Add New Address', type: TabbingOrderTypes.BUTTON },
-    { value: 'Ship to this address', type: TabbingOrderTypes.LINK },
+    {
+      value: 'Ship to this address',
+      type: TabbingOrderTypes.LINK,
+    },
     { value: 'Back to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+  ],
+  deliveryMode: [
+    { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
+    { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
+    { value: 'Back', type: TabbingOrderTypes.BUTTON },
     { value: 'Continue', type: TabbingOrderTypes.BUTTON },
   ],
 };

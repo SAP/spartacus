@@ -23,6 +23,7 @@ import {
   shippingAddressNewTabbingOrder,
   shippingAddressExistingTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
+import { deliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -98,6 +99,12 @@ context('Tabbing order - tests do require user to be logged in', () => {
       it('should allow to navigate with tab key (choose existing)', () => {
         cy.visit('/checkout/shipping-address'); // revisit shipping address page, so the address card is visible
         shippingAddressExistingTabbingOrder(config.shippingAddressExisting);
+      });
+    });
+
+    describe('Delivery mode', () => {
+      it('should allow to navigate with tab key', () => {
+        deliveryModeTabbingOrder(config.deliveryMode);
       });
     });
   });
