@@ -224,6 +224,18 @@ describe('Checkout effect', () => {
     });
   });
 
+  describe('clearCheckoutDataOnLogin$', () => {
+    it('should dispatch clear checkout data action on login', () => {
+      const action = new AuthActions.Login();
+      const completion = new CheckoutActions.ClearCheckoutData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDataOnLogin$).toBeObservable(expected);
+    });
+  });
+
   describe('setDeliveryMode$', () => {
     it('should set delivery mode for cart', () => {
       const action = new CheckoutActions.SetDeliveryMode({
