@@ -16,6 +16,11 @@ import {
   paymentDetailCard,
   addSecondaryPaymentCard,
 } from '../../helpers/payment-methods';
+import {
+  addressBookFormTabbingOrder,
+  addressBookDirectoryTabbingOrder,
+  setupForAddressBookTests,
+} from '../../helpers/accessibility/tabbing-order/address-book';
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
@@ -115,12 +120,6 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  describe('Close account', () => {
-    it('should allow to navigate with tab key', () => {
-      closeAccountTabbingOrder(config.closeAccount);
-    });
-  });
-
   describe('Personal details', () => {
     it('should allow to navigate with tab key', () => {
       personalDetailsTabbingOrder(config.personalDetails);
@@ -133,18 +132,35 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  describe('Payment Details', () => {
+  describe('Close account', () => {
     it('should allow to navigate with tab key', () => {
-      paymentDetailCard();
-      addSecondaryPaymentCard();
-
-      paymentDetailsTabbingOrder(config.paymentDetails);
+      closeAccountTabbingOrder(config.closeAccount);
     });
   });
 
   describe('Consent Management', () => {
     it('should allow to navigate with tab key', () => {
       consentManagementTabbingOrder(config.consentManagement);
+    });
+  });
+
+  describe('Address Book (Form)', () => {
+    it('should allow to navigate with tab key (Directory)', () => {
+      setupForAddressBookTests();
+      addressBookFormTabbingOrder(config.addressBookForm);
+    });
+
+    it('should allow to navigate with tab key (Form)', () => {
+      addressBookDirectoryTabbingOrder(config.addressBookDirectory);
+    });
+  });
+
+  describe('Payment Details', () => {
+    it('should allow to navigate with tab key', () => {
+      paymentDetailCard();
+      addSecondaryPaymentCard();
+
+      paymentDetailsTabbingOrder(config.paymentDetails);
     });
   });
 });

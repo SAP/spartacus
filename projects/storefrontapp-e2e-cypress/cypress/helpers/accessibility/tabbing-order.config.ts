@@ -4,6 +4,7 @@ export enum TabbingOrderTypes {
   FORM_FIELD = 'formField',
   LINK = 'link',
   BUTTON = 'button',
+  NG_SELECT = 'ngSelect',
   GENERIC_CHECKBOX = 'genericCheckbox',
   CHECKBOX_WITH_LABEL = 'checkboxWithLabel',
   IMG_LINK = 'imgLink',
@@ -123,6 +124,86 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Delete', type: TabbingOrderTypes.LINK },
     { value: 'Set as default', type: TabbingOrderTypes.LINK },
     { value: 'Delete', type: TabbingOrderTypes.LINK },
+  ],
+  addressBookForm: [
+    {
+      value: 'isocode',
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'titleCode',
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'firstName',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'lastName',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'line1',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'line2',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'town',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'isocode',
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'postalCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'phone',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'defaultAddress',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Back to address list',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Add address',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  addressBookDirectory: [
+    {
+      value: 'Add new address',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Edit',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Delete',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Set as default',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Edit',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Delete',
+      type: TabbingOrderTypes.LINK,
+    },
   ],
   consentManagement: [
     {
