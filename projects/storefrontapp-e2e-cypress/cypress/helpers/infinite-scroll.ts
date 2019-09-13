@@ -1,4 +1,5 @@
-import { createProductQuery } from './product-search';
+import { PRODUCT_LISTING } from './data-configuration';
+import { createProductQuery, verifyProductSearch } from './product-search';
 
 const scrollDuration = 1000;
 let defaultProductLimit = 10;
@@ -132,4 +133,41 @@ export function scrollToFooter(productLimit?: number) {
   // );
 
   // const numberOfIteration = Math.ceil();
+}
+
+export function verifySortingList() {
+  verifyProductSearch(
+    '@productQuery',
+    '@query-topRated',
+    PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
+  );
+  assertNumberOfProducts();
+}
+
+export function verifyProductSearch(
+  productAlias: string,
+  sortingAlias: string,
+  sortBy: string
+): void {
+  cy.get(productNameSelector)
+    .first()
+    .invoke('text')
+    .should('match', /\w+/)
+    .then(firstProduct => {
+      // Navigate to next page
+      cy.get('.page-item:last-of-type .page-link:first').click();
+      cy.get('.page-item.active > .page-link').should('contain', '2');
+
+      cy.wait(productAlias);
+
+      checkDistinctProductName(firstProduct);
+
+      cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
+
+      cy.wait(sortingAlias);
+
+      cy.get('.page-item.active > .page-link').should('contain', '2');
+
+      checkDistinctProductName(firstProduct);
+    });
 }

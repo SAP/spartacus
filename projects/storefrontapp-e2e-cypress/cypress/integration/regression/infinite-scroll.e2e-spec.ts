@@ -22,6 +22,10 @@ context('Infinite scroll', () => {
       infiniteScroll.backToTopIsVisisble();
     });
 
+    it('should reset the list when sorting', () => {
+      infiniteScroll.verifySortingList();
+    });
+
     describe('infinite scroll should be active, product limist is 15 and show more button is false', () => {});
 
     describe('infinite scroll should be active, product limist is 0 and show more button is true', () => {});
