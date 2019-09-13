@@ -155,7 +155,11 @@ describe('add-spartacus', () => {
 
   it('Overwrite app.component with cx-storefront', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+      .runSchematicAsync(
+        'add-spartacus',
+        { ...defaultOptions, overwriteAppComponent: true },
+        appTree
+      )
       .toPromise();
     const appComponentTemplate = tree
       .readContent('/projects/schematics-test/src/app/app.component.html')

@@ -31,7 +31,7 @@
     "overwriteAppComponent": {
       "type": "boolean",
       "description": "Overwrite whole app.component.html file.",
-      "default": true
+      "default": false
     }
   },
   "required": []
