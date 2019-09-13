@@ -4,9 +4,7 @@ import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/fo
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import {
   registerAndLogin,
-  loginRequest,
-  login,
-  register,
+  addProduct,
 } from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
@@ -26,7 +24,10 @@ import {
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
-import { signOut } from '../../helpers/register';
+import {
+  shippingAddressNewTabbingOrder,
+  shippingAddressExistingTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -51,7 +52,7 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   });
 
   describe('Register page', () => {
-    it('should verify tabbing order', () => {
+    it('should allow to navigate with tab key', () => {
       registerTabbingOrder(config.register);
     });
   });
@@ -77,15 +78,34 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 
 context('Tabbing order - tests do require user to be logged in', () => {
   before(() => {
-    register();
+    registerAndLogin();
   });
 
   beforeEach(() => {
-    login();
+    cy.restoreLocalStorage();
   });
 
   afterEach(() => {
-    signOut();
+    cy.saveLocalStorage();
+  });
+
+  describe('Checkout', () => {
+    before(() => {
+      addProduct();
+      cy.getByText(/Proceed to checkout/i).click(); // move to checkout
+      cy.get('cx-breadcrumb').should('contain', 'Checkout'); // check if we begin checkout tests in checkout
+    });
+
+    describe('Shipping address', () => {
+      it('should allow to navigate with tab key (add address)', () => {
+        shippingAddressNewTabbingOrder(config.shippingAddressNew);
+      });
+
+      it('should allow to navigate with tab key (choose existing)', () => {
+        cy.visit('/checkout/shipping-address'); // revisit shipping address page, so the address card is visible
+        shippingAddressExistingTabbingOrder(config.shippingAddressExisting);
+      });
+    });
   });
 
   describe('Change password', () => {

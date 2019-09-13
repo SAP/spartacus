@@ -29,7 +29,7 @@ export interface PaymentDetails {
 
 export function fillShippingAddress(
   shippingAddress: AddressData,
-  submit: boolean = true
+  submitForm: boolean = true
 ) {
   cy.get('cx-address-form').within(() => {
     cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
@@ -64,7 +64,7 @@ export function fillShippingAddress(
     cy.get('[formcontrolname="phone"]')
       .clear()
       .type(shippingAddress.phone);
-    if (submit) {
+    if (submitForm) {
       cy.get('button.btn-primary').click();
     }
   });
