@@ -1,44 +1,50 @@
-import * as infiniteScroll from '../../helpers/infinite-scroll';
+import {
+  infiniteScrollNoShowMoreTest,
+  infiniteScrollNotActivatedTest,
+  infiniteScrollWithShowMoreAtALimit,
+  infiniteScrollWithShowMoreAtTheBeginningTest,
+  scrollConfig,
+  verifyProductListLoaded,
+} from '../../helpers/infinite-scroll';
 
 context('Infinite scroll', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  describe('infinite scroll is active', () => {
-    before(() => {
-      infiniteScroll.scrollConfig(true, 0, false);
-    });
-
+  describe('infinite scroll is active and no show more button', () => {
     beforeEach(() => {
-      infiniteScroll.verifyProductListLoaded();
+      scrollConfig(true, 0, false);
+      verifyProductListLoaded();
     });
 
-    it('should be active', () => {
-      cy.get('cx-pagination .pagination').should('not.exist');
-
-      infiniteScroll.backtoTopIsNotVisible();
-      infiniteScroll.scrollToFooter();
-      infiniteScroll.backToTopIsVisisble();
-    });
-
-    it('should reset the list when sorting', () => {
-      infiniteScroll.verifySortingList();
-    });
-
-    describe('infinite scroll should be active, product limist is 15 and show more button is false', () => {});
-
-    describe('infinite scroll should be active, product limist is 0 and show more button is true', () => {});
+    infiniteScrollNoShowMoreTest();
   });
 
-  describe('infinite scroll is not active', () => {
+  describe('infinite scroll should be active using the show more button from the beggining', () => {
     beforeEach(() => {
-      infiniteScroll.scrollConfig(false, 0, false);
-      infiniteScroll.verifyProductListLoaded();
+      scrollConfig(true, 0, true);
+      verifyProductListLoaded();
     });
 
-    it('should not be active', () => {
-      cy.get('cx-pagination .pagination').should('exist');
+    infiniteScrollWithShowMoreAtTheBeginningTest();
+  });
+
+  describe('infinite scroll should be active using the show more button starting from the 15th and more products', () => {
+    beforeEach(() => {
+      scrollConfig(true, 15, false);
+      verifyProductListLoaded();
     });
+
+    infiniteScrollWithShowMoreAtALimit();
+  });
+
+  describe('infinite scroll is not active when not using the view config', () => {
+    beforeEach(() => {
+      scrollConfig(false, 0, false);
+      verifyProductListLoaded();
+    });
+
+    infiniteScrollNotActivatedTest();
   });
 });

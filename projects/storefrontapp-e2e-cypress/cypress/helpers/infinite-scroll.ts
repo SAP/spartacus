@@ -1,10 +1,16 @@
 import { PRODUCT_LISTING } from './data-configuration';
-import { createProductQuery, verifyProductSearch } from './product-search';
+import { createProductQuery } from './product-search';
+import { clickFacet } from './product-search-product-type-flow';
 
 const scrollDuration = 1000;
+const defaultNumberOfProducts = 10;
 let defaultProductLimit = 10;
 let numberOfIteration = 0;
-let numberOfProducts = 10;
+
+const productLoadedQuery = 'productLoaded';
+
+const doubleButton = 'double';
+const singleButton = 'single';
 
 export function scrollConfig(
   active: boolean,
@@ -24,150 +30,152 @@ export function scrollConfig(
 
 export function verifyProductListLoaded() {
   cy.server();
-  createProductQuery('product');
+  createProductQuery(productLoadedQuery);
   cy.visit('/Open-Catalogue/Components/Power-Supplies/c/816');
-  cy.wait('@product');
+  cy.wait(`@${productLoadedQuery}`);
 }
 
-export function assertNumberOfProducts() {
-  cy.get('cx-product-list-item').should('have.length', numberOfProducts);
+export function assertDefaultNumberOfProducts(view) {
+  cy.get(`cx-product-${view}-item`).should(
+    'have.length',
+    defaultNumberOfProducts
+  );
 }
 
-export function backToTopIsVisisble() {
-  cy.get('.cx-single-btn-container').should('be.visible');
+export function isPaginationNotVisible() {
+  cy.get('cx-pagination .pagination').should('not.exist');
+}
+
+export function isPaginationVisible() {
+  cy.get('cx-pagination .pagination').should('exist');
+}
+
+export function backToTopIsVisisble(isShowMoreButton?: boolean) {
+  if (isShowMoreButton) {
+    cy.get(`.cx-${doubleButton}-btn-container`).should('be.visible');
+  } else {
+    cy.get(`.cx-${singleButton}-btn-container`).should('be.visible');
+  }
 }
 
 export function backtoTopIsNotVisible() {
-  cy.get('.cx-single-btn-container').should('not.be.visible');
+  cy.get(`.cx-${singleButton}-btn-container`).should('not.be.visible');
 }
 
-export function scrollToFooter(productLimit?: number) {
+export function scrollToFooter(
+  isShowMoreButton?: boolean,
+  productLimit?: number
+) {
   if (productLimit) {
     defaultProductLimit = productLimit;
   }
-  // cy.get('cx-breadcrumb h1').should($breadcrumb => {
-  //   const breadcrumbQuantityNumber = Number($breadcrumb.text().split(' ')[0]);
-  //   const numberOfIteration = Math.ceil(
-  //     breadcrumbQuantityNumber / defaultProductLimit
-  //   );
-  //   console.log('breadnum', breadcrumbQuantityNumber);
-  //   console.log('typeof', typeof breadcrumbQuantityNumber);
-  //   console.log('productlimit', defaultProductLimit);
-  //   console.log('typeof', typeof defaultProductLimit);
-  //   console.log('numberOfIteration', numberOfIteration);
-  //   // for (let i = 0; i < numberOfIteration; i++) {
-  //   // cy.get('cx-footer-navigation').scrollIntoView({
-  //   //   duration: 1000,
-  //   //   easing: 'linear',
-  //   // });
-  //   // }
-  // });
-  // for (let i = 0; i < 2; i++) {
-  //   cy.get('cx-footer-navigation')
-  //     .scrollIntoView({
-  //       duration: 1000,
-  //       easing: 'linear',
-  //     })
-  //     .should('be.visible');
-  // }
-  /* better one */
-  // cy.get('cx-breadcrumb h1').then($breadcrumb => {
-  //   const breadcrumbQuantityNumber = Number($breadcrumb.text().split(' ')[0]);
-  //   numberOfIteration = Math.floor(
-  //     breadcrumbQuantityNumber / defaultProductLimit
-  //   );
-  //   for (let i = 0; i < numberOfIteration; i++) {
-  //     console.log('numof', numberOfIteration);
-  //     cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
-  //       .wait('@product')
-  //       .wait(scrollDuration);
-  //   }
-  // });
 
-  /* working solution */
   cy.get('cx-breadcrumb h1').then($breadcrumb => {
     const breadcrumbQuantityNumber = Number($breadcrumb.text().split(' ')[0]);
+
     numberOfIteration = Math.floor(
       breadcrumbQuantityNumber / defaultProductLimit
     );
+
+    let numberOfProducts = defaultNumberOfProducts;
+
     for (let i = 1; i < numberOfIteration; i++) {
-      console.log('numof', numberOfIteration);
-      cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
-        .wait('@product')
-        .then(() => {
-          numberOfProducts += 10;
-          cy.get('cx-product-list-item').should(
-            'have.length',
-            numberOfProducts
-          );
-        });
+      if (isShowMoreButton) {
+        cy.get('div')
+          .contains('SHOW MORE')
+          .click({ force: true })
+          .wait(`@${productLoadedQuery}`)
+          .then(() => {
+            numberOfProducts += defaultNumberOfProducts;
+            cy.get('cx-product-list-item').should(
+              'have.length',
+              numberOfProducts
+            );
+          });
+      } else {
+        cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
+          .wait(`@${productLoadedQuery}`)
+          .then(() => {
+            numberOfProducts += defaultNumberOfProducts;
+            cy.get('cx-product-list-item').should(
+              'have.length',
+              numberOfProducts
+            );
+          });
+      }
     }
   });
-
-  // cy.get('cx-product-list-item').then($list => {
-  //   const element = $list[defaultProductLimit - 1];
-
-  //   console.log(element);
-  // });
-
-  // for (let i = 1; i < 3; i++) {
-  //   cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
-  //     .wait('@product')
-  //     .then(() => {
-  //       numberOfProducts += 10;
-  //       cy.get('cx-product-list-item').should('have.length', numberOfProducts);
-  //     });
-  // }
-
-  // cy.get('.cx-page').should($el => {
-  //   console.log('$el', $el[0].clientHeight);
-  // });
-
-  // cy.get('.cx-single-btn-container').isInViewport();
-  // cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration }).then(
-  //   () => {
-  //     numberOfProducts += numberOfProducts;
-
-  //     cy.get('cx-product-list-item').should('have.length', numberOfProducts);
-  //   }
-  // );
-
-  // const numberOfIteration = Math.ceil();
 }
 
-export function verifySortingList() {
-  verifyProductSearch(
-    '@productQuery',
-    '@query-topRated',
+export function verifySortingResetsList() {
+  cy.get('cx-sorting .ng-select:first').ngSelect(
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
-  assertNumberOfProducts();
+
+  cy.wait(`@${productLoadedQuery}`);
+
+  assertDefaultNumberOfProducts('list');
 }
 
-export function verifyProductSearch(
-  productAlias: string,
-  sortingAlias: string,
-  sortBy: string
-): void {
-  cy.get(productNameSelector)
-    .first()
-    .invoke('text')
-    .should('match', /\w+/)
-    .then(firstProduct => {
-      // Navigate to next page
-      cy.get('.page-item:last-of-type .page-link:first').click();
-      cy.get('.page-item.active > .page-link').should('contain', '2');
+export function verifyFilterResetsList() {
+  clickFacet('Brand');
 
-      cy.wait(productAlias);
+  cy.wait(`@${productLoadedQuery}`);
 
-      checkDistinctProductName(firstProduct);
+  assertDefaultNumberOfProducts('list');
+}
 
-      cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
+export function verifyGridResetsList() {
+  cy.get('cx-product-view > div > div:first').click({ force: true });
 
-      cy.wait(sortingAlias);
+  cy.wait(`@${productLoadedQuery}`);
 
-      cy.get('.page-item.active > .page-link').should('contain', '2');
+  assertDefaultNumberOfProducts('grid');
+}
 
-      checkDistinctProductName(firstProduct);
-    });
+export function infiniteScrollNoShowMoreTest() {
+  it('should be active', () => {
+    isPaginationNotVisible();
+
+    backtoTopIsNotVisible();
+    scrollToFooter();
+    backToTopIsVisisble();
+  });
+
+  it('should reset the list when sorting', () => {
+    verifySortingResetsList();
+  });
+
+  it('should reset the list when filtering', () => {
+    verifyFilterResetsList();
+  });
+
+  it('should reset the list when in grid view', () => {
+    verifyGridResetsList();
+  });
+}
+
+export function infiniteScrollWithShowMoreAtTheBeginningTest() {
+  it('should be active', () => {
+    isPaginationNotVisible();
+
+    scrollToFooter(true);
+    backToTopIsVisisble();
+  });
+}
+
+export function infiniteScrollWithShowMoreAtALimit() {
+  it('should be active', () => {
+    isPaginationNotVisible();
+
+    backtoTopIsNotVisible();
+    scrollToFooter(false, 15);
+    backToTopIsVisisble(true);
+  });
+}
+
+export function infiniteScrollNotActivatedTest() {
+  it('should not be active', () => {
+    isPaginationVisible();
+  });
 }

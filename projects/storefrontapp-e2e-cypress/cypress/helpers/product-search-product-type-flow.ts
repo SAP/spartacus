@@ -1,12 +1,11 @@
 import { PRODUCT_LISTING } from './data-configuration';
 import {
+  checkFirstItem,
   clickSearchIcon,
-  productItemSelector,
-  createProductQuery,
   createProductFacetQuery,
+  createProductQuery,
+  productItemSelector,
 } from './product-search';
-
-import { checkFirstItem } from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
 
@@ -121,7 +120,7 @@ function clearSelectedFacet(mobile: string) {
   }
 }
 
-function clickFacet(header: string) {
+export function clickFacet(header: string) {
   cy.get('.cx-facet-header')
     .contains(header)
     .parents('.cx-facet-group')
