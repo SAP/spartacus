@@ -205,8 +205,7 @@ export class CartService {
   /**
    * Add multiple entries to a cart
    * Requires a created cart
-   *
-   * @param {OrderEntry[]} cartEntries
+   * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[]): void {
     let newEntries = 0;
