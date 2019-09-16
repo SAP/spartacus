@@ -28,7 +28,7 @@ class MockRedirectAfterAuthService {
 
 const testEmail = 'john@acme.com';
 
-fdescribe('CheckoutLoginComponent', () => {
+describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
   let cartService: CartService;
