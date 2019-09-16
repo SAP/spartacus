@@ -14,7 +14,7 @@ describe(`${formats.mobile.width +
   });
 
   verifyAsAnonymous();
- 
+
   describe('update profile test for logged in user', () => {
     before(() => {
       cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -32,7 +32,7 @@ describe(`${formats.mobile.width +
       cy.saveLocalStorage();
     });
 
-   after(() => {
+    after(() => {
       login.signOutUser();
     });
   });
