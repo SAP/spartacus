@@ -1,5 +1,6 @@
 import { BillingCountriesEffect } from './billing-countries.effect';
 import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
+import { ConsignmentTrackingEffects } from './consignment-tracking.effect';
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
 import { ForgotPasswordEffects } from './forgot-password.effect';
 import { NotificationPreferenceEffects } from './notification-preference.effect';
@@ -33,11 +34,13 @@ export const effects: any[] = [
   UpdateEmailEffects,
   UpdatePasswordEffects,
   UserConsentsEffect,
+  ConsignmentTrackingEffects,
   NotificationPreferenceEffects,
 ];
 
 export * from './billing-countries.effect';
 export * from './clear-miscs-data.effect';
+export * from './consignment-tracking.effect';
 export * from './delivery-countries.effect';
 export * from './notification-preference.effect';
 export * from './order-details.effect';

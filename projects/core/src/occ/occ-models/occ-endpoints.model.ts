@@ -240,6 +240,12 @@ export interface OccEndpoints {
    */
   addressVerification?: string;
   /**
+   * Endpoint for consignment tracking
+   *
+   * @member {string}
+   */
+  consignmentTracking?: string;
+  /**
    * Endpoint for notification preference
    *
    * @member {string}

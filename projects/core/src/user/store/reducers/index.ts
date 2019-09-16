@@ -23,6 +23,7 @@ import {
   USER_PAYMENT_METHODS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
+import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
@@ -62,6 +63,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     titles: fromTitlesReducer.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
+    consignmentTracking: fromConsignmentTrackingReducer.reducer,
     notificationPreferences: loaderReducer<NotificationPreference[]>(
       NOTIFICATION_PREFERENCES,
       fromNotificationPreferenceReducer.reducer
