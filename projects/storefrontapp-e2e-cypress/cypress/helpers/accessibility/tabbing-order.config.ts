@@ -52,11 +52,12 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   cart: [
     {
-      value: '/electronics-spa/en/USD/product/1981414/PL60%20Pink',
+      value:
+        '/electronics-spa/en/USD/product/3708646/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
-      value: 'PL60 Pink',
+      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'quantity', type: TabbingOrderTypes.ITEM_COUNTER },
@@ -225,11 +226,12 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     { type: TabbingOrderTypes.GENERIC_BUTTON },
     {
-      value: '/electronics-spa/en/USD/product/1981414/PL60%20Pink',
+      value:
+        '/electronics-spa/en/USD/product/3708646/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
-      value: 'PL60 Pink',
+      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'quantity', type: TabbingOrderTypes.ITEM_COUNTER },
