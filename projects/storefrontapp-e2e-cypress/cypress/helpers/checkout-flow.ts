@@ -13,9 +13,14 @@ import {
   PaymentDetails,
 } from './checkout-forms';
 
-export function visitHomePage() {
+export function visitHomePage(queryStringParams?: string) {
   const homePage = waitForPage('homepage', 'getHomePage');
-  cy.visit('/');
+
+  if (queryStringParams) {
+    cy.visit(`/?${queryStringParams}`);
+  } else {
+    cy.visit('/');
+  }
   cy.wait(`@${homePage}`);
 }
 
