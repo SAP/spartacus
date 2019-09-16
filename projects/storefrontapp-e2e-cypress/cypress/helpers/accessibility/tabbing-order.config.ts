@@ -10,6 +10,7 @@ export enum TabbingOrderTypes {
   IMG_LINK = 'imgLink',
   GENERIC_INPUT = 'genericInput',
   GENERIC_BUTTON = 'genericButton',
+  GENERIC_NG_SELECT = 'genericNgSelect',
   ITEM_COUNTER = 'itemCounter',
   RADIO = 'radio',
 }
@@ -273,5 +274,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'Back', type: TabbingOrderTypes.BUTTON },
     { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+  ],
+  orderHistoryNoOrders: [
+    { value: 'Start Shopping', type: TabbingOrderTypes.BUTTON },
   ],
 };
