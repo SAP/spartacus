@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, combineLatest, asyncScheduler } from 'rxjs';
+import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import {
+  debounceTime,
+  filter,
+  map,
+  shareReplay,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { CartActions } from '../store/actions';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
-import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
-import { LowLevelCartService } from './low-level-cart.service';
+import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { ActiveCartService } from './active-cart.service';
-import { debounceTime, filter, tap, map, shareReplay, take } from 'rxjs/operators';
-import { CartActions } from '../store/actions';
 
 @Injectable()
 export class CartService {
@@ -23,8 +29,7 @@ export class CartService {
     protected store: Store<StateWithCart>,
     protected cartData: CartDataService,
     protected authService: AuthService,
-    protected lowLevelCart?: LowLevelCartService,
-    protected activeCartService?: ActiveCartService,
+    protected activeCartService?: ActiveCartService
   ) {
     this._activeCart$ = combineLatest([
       this.store.select(CartSelectors.getCartContent),
@@ -168,7 +173,10 @@ export class CartService {
 
   updateEntry(entryNumber: string, quantity: number): void {
     if (this.activeCartService) {
-      return this.activeCartService.updateEntry(parseInt(entryNumber, 10), quantity);
+      return this.activeCartService.updateEntry(
+        parseInt(entryNumber, 10),
+        quantity
+      );
     }
     if (quantity > 0) {
       this.store.dispatch(
