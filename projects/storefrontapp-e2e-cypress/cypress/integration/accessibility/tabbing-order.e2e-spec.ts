@@ -2,10 +2,7 @@ import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-or
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import {
-  registerAndLogin,
-  addProduct,
-} from '../../helpers/accessibility/tabbing-order';
+import { addProduct } from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
@@ -33,7 +30,6 @@ import {
   orderHistoryNoOrdersTabbingOrder,
   orderHistoryWithOrdersTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/order-history';
-import { doPlaceOrder } from '../../helpers/order-history';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
