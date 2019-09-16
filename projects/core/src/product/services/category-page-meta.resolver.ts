@@ -29,7 +29,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
   resolve(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
-      switchMap(page => {
+      switchMap((page: Page) => {
         // only the existence of a plp component tells us if products
         // are rendered or if this is an ordinary content page
         if (this.hasProductListComponent(page)) {

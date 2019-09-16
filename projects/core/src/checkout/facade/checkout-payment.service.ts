@@ -7,15 +7,21 @@ import {
 } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
 import { CheckoutActions } from '../store/actions/index';
-import { StateWithCheckout } from '../store/checkout-state';
+import {
+  StateWithCheckout,
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+} from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { StateWithProcess } from '../../process/store/process-state';
+import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutPaymentService {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
+    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected cartData: CartDataService
   ) {}
 
@@ -31,6 +37,24 @@ export class CheckoutPaymentService {
    */
   getPaymentDetails(): Observable<PaymentDetails> {
     return this.checkoutStore.pipe(select(CheckoutSelectors.getPaymentDetails));
+  }
+
+  /**
+   * Get status about set Payment Details process
+   */
+  getSetPaymentDetailsResultProcess(): Observable<LoaderState<void>> {
+    return this.checkoutStore.pipe(
+      select(getProcessStateFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Clear info about process of setting Payment Details
+   */
+  resetSetPaymentDetailsProcess(): void {
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ResetSetPaymentDetailsProcess()
+    );
   }
 
   /**

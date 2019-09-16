@@ -7,5 +7,6 @@ export interface FeatureToggles {
      */
     level?: string;
     guestCheckout?: boolean;
+    consignmentTracking?: boolean;
   };
 }

@@ -48,6 +48,10 @@ export class CheckoutService {
     );
   }
 
+  /**
+   * Load checkout details data
+   * @param cartId : string Cart ID of loaded cart
+   */
   loadCheckoutDetails(cartId: string) {
     this.checkoutStore.dispatch(
       new CheckoutActions.LoadCheckoutDetails({
@@ -57,6 +61,9 @@ export class CheckoutService {
     );
   }
 
+  /**
+   * Get status of checkout details loaded
+   */
   getCheckoutDetailsLoaded(): Observable<boolean> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getCheckoutDetailsLoaded)
