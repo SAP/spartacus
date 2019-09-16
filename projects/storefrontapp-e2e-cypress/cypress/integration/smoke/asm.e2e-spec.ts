@@ -39,7 +39,7 @@ context('ASM', () => {
     cy.get('cx-customer-selection').should('exist');
   });
 
-  it('should start cusrtomer emulation.', () => {
+  it('customer emulation - should start cusrtomer emulation.', () => {
     const customerSearchRequestAlias = listenForCusrtomerSearchRequest();
     const userDetailsRequestAlias = listenForUserDetailsRequest();
 
@@ -59,36 +59,36 @@ context('ASM', () => {
     cy.get('cx-customer-selection').should('not.exist');
   });
 
-  it('should add a product to cart and begin checkout.', () => {
+  it('customer emulation - should add a product to cart and begin checkout.', () => {
     checkout.clickCheapProductDetailsFromHomePage();
     checkout.addCheapProductToCartAndBeginCheckout();
   });
 
-  it('should fill in address form', () => {
+  it('customer emulation - should fill in address form', () => {
     checkout.fillAddressFormWithCheapProduct();
   });
 
-  it('should choose delivery', () => {
+  it('customer emulation - should choose delivery', () => {
     checkout.chooseDeliveryMethod();
   });
 
-  it('should fill in payment form', () => {
+  it('customer emulation - should fill in payment form', () => {
     checkout.fillPaymentFormWithCheapProduct();
   });
 
-  it('should review and place order', () => {
+  it('customer emulation - should review and place order', () => {
     checkout.placeOrderWithCheapProduct();
   });
 
-  it('should display summary page', () => {
+  it('customer emulation - should display summary page', () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
-  it('should be able to check order in order history', () => {
+  it('customer emulation - should be able to check order in order history', () => {
     checkout.viewOrderHistoryWithCheapProduct();
   });
 
-  it('should stop customer emulation.', () => {
+  it('customer emulation - should stop customer emulation.', () => {
     checkout.signOutUser();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('exist');
