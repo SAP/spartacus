@@ -105,6 +105,13 @@ context('ASM', () => {
     cy.get('cx-asm-main-ui').should('not.exist');
   });
 
+  it('should the customer see the order.', () => {
+    checkout.visitHomePage();
+    checkout.signInUser();
+    checkout.viewOrderHistoryWithCheapProduct();
+    checkout.signOutUser();
+  });
+
   function listenForAuthenticationRequest(): string {
     const aliasName = 'csAgentAuthentication';
     cy.server();

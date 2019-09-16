@@ -42,6 +42,13 @@ export function registerUser() {
   return user;
 }
 
+export function signInUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.getByText(/Sign in \/ Register/i).click();
+  cy.wait(`@${loginPage}`);
+  login(user.email, user.password);
+}
+
 export function signOutUser() {
   const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
