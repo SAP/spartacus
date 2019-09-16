@@ -12,7 +12,7 @@ import {
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { CartActions } from '../store/actions';
+import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
