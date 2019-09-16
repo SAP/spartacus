@@ -22,7 +22,7 @@ describe('Configurator selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           CONFIGURATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getConfiguratorReducers()
         ),
       ],
     });
