@@ -31,6 +31,7 @@ describe('NotificationPreferenceComponent', () => {
       'getPreferencesLoading',
       'updatePreferences',
       'getUpdatePreferencesResultLoading',
+      'resetUpdatePreferencesProcessState',
     ]
   );
 
@@ -78,6 +79,7 @@ describe('NotificationPreferenceComponent', () => {
     notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
       of(false)
     );
+    notificationPreferenceService.resetUpdatePreferencesProcessState.and.stub();
   });
 
   it('should create', () => {

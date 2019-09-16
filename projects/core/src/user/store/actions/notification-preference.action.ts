@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { NotificationPreference } from '../../../model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
@@ -7,7 +7,10 @@ import {
   EntityResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID } from '../user-state';
+import {
+  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
+  NOTIFICATION_PREFERENCES,
+} from '../user-state';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';
@@ -24,19 +27,25 @@ export const UPDATE_NOTIFICATION_PREFERENCES_SUCCESS =
 export const RESET_NOTIFICATION_PREFERENCES =
   '[User] Reset Notification Preferences';
 
-export class LoadNotificationPreferences implements Action {
+export class LoadNotificationPreferences extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES;
-  constructor(public payload: string) {}
+  constructor(public payload: string) {
+    super(NOTIFICATION_PREFERENCES);
+  }
 }
 
-export class LoadNotificationPreferencesFail implements Action {
+export class LoadNotificationPreferencesFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(NOTIFICATION_PREFERENCES, payload);
+  }
 }
 
-export class LoadNotificationPreferencesSuccess implements Action {
+export class LoadNotificationPreferencesSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES_SUCCESS;
-  constructor(public payload: NotificationPreference[]) {}
+  constructor(public payload: NotificationPreference[]) {
+    super(NOTIFICATION_PREFERENCES);
+  }
 }
 
 export class UpdateNotificationPreferences extends EntityLoadAction {

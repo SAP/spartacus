@@ -10,7 +10,7 @@ import { UserActions } from '../store/actions/index';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 
-fdescribe('UserNotificationPreferenceService', () => {
+describe('UserNotificationPreferenceService', () => {
   let userNotificationPreferenceService: UserNotificationPreferenceService;
   let store: Store<StateWithUser>;
   const mockNotificationPreference: NotificationPreference[] = [
@@ -45,8 +45,8 @@ fdescribe('UserNotificationPreferenceService', () => {
 
   it('should UserNotificationPreferenceService is injected', inject(
     [UserNotificationPreferenceService],
-    (userNotificationPreferenceService: UserNotificationPreferenceService) => {
-      expect(userNotificationPreferenceService).toBeTruthy();
+    (service: UserNotificationPreferenceService) => {
+      expect(service).toBeTruthy();
     }
   ));
 

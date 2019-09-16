@@ -1,7 +1,7 @@
 import { NotificationPreference } from '../../../model';
 import { UserActions } from '../actions/index';
 
-const initialState: NotificationPreference[] = [];
+export const initialState: NotificationPreference[] = [];
 
 export function reducer(
   state = initialState,

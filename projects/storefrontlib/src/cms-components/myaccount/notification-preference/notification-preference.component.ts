@@ -19,6 +19,8 @@ export class NotificationPreferenceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.notificationPreferenceService.resetUpdatePreferencesProcessState();
+
     this.preferences$ = this.notificationPreferenceService.getPreferences();
     this.notificationPreferenceService
       .getPreferencesLoading()

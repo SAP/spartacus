@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: '',
+  occBaseUrl: 'https://electronics.local:9002',
 };
