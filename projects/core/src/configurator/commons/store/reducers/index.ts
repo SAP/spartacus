@@ -8,7 +8,9 @@ import {
 } from './../configuration-state';
 import { reducer as configurationReducer } from './configurator.reducer';
 
-export function getReducers(): ActionReducerMap<ConfigurationsState> {
+export function getConfiguratorReducers(): ActionReducerMap<
+  ConfigurationsState
+> {
   return {
     active: loaderReducer<ConfigurationState>(
       CONFIGURATION_DATA,
@@ -17,15 +19,15 @@ export function getReducers(): ActionReducerMap<ConfigurationsState> {
   };
 }
 
-export const reducerToken: InjectionToken<
+export const configuratorReducerToken: InjectionToken<
   ActionReducerMap<ConfigurationsState>
 > = new InjectionToken<ActionReducerMap<ConfigurationsState>>(
-  'ConfigurationReducers'
+  'ConfiguratorReducers'
 );
 
-export const reducerProvider: Provider = {
-  provide: reducerToken,
-  useFactory: getReducers,
+export const configuratorReducerProvider: Provider = {
+  provide: configuratorReducerToken,
+  useFactory: getConfiguratorReducers,
 };
 
 export function clearConfigurationState(
@@ -36,4 +38,6 @@ export function clearConfigurationState(
   };
 }
 
-export const metaReducers: MetaReducer<any>[] = [clearConfigurationState];
+export const metaConfiguratorReducers: MetaReducer<any>[] = [
+  clearConfigurationState,
+];

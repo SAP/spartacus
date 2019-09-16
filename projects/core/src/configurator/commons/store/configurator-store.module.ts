@@ -10,8 +10,11 @@ import {
 } from '../../../state/config/state-config';
 import { StateModule } from '../../../state/state.module';
 import { CONFIGURATION_FEATURE } from './configuration-state';
-import { effects } from './effects/index';
-import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+import { configuratorEffects } from './effects/index';
+import {
+  configuratorReducerProvider,
+  configuratorReducerToken,
+} from './reducers/index';
 
 export function configuratorStoreConfigFactory(): StateConfig {
   const config: StateConfig = {
@@ -32,12 +35,10 @@ export function configuratorStoreConfigFactory(): StateConfig {
     CommonModule,
     HttpClientModule,
     StateModule,
-    StoreModule.forFeature(CONFIGURATION_FEATURE, reducerToken, {
-      metaReducers,
-    }),
-    EffectsModule.forFeature(effects),
+    StoreModule.forFeature(CONFIGURATION_FEATURE, configuratorReducerToken),
+    EffectsModule.forFeature(configuratorEffects),
     ConfigModule.withConfigFactory(configuratorStoreConfigFactory),
   ],
-  providers: [reducerProvider],
+  providers: [configuratorReducerProvider],
 })
 export class ConfiguratorStoreModule {}
