@@ -101,7 +101,7 @@ describe('AuthErrorInterceptor', () => {
       CustomerSupportAgentErrorHandlingService
     );
     spyOn(userErrorHandlingService, 'handleExpiredUserToken').and.returnValue(
-      of({})
+      of({} as any)
     );
     spyOn(userErrorHandlingService, 'handleExpiredRefreshToken').and.stub();
     spyOn(
