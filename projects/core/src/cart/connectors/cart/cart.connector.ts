@@ -25,6 +25,10 @@ export class CartConnector {
     return this.adapter.create(userId, oldCartId, toMergeCartGuid);
   }
 
+  public delete(userId: string, cartId: string): Observable<{}> {
+    return this.adapter.delete(userId, cartId);
+  }
+
   public addEmail(
     userId: string,
     cartId: string,

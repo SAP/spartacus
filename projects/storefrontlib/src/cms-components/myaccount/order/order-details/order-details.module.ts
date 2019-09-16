@@ -32,6 +32,12 @@ const moduleComponents = [
     I18nModule,
     RouterModule.forChild([
       {
+        path: 'guest/order/:orderCode',
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'order' },
+      },
+      {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,

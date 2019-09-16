@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
+import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
@@ -13,7 +14,6 @@ import { CheckoutConnector } from '../../connectors/checkout/checkout.connector'
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../actions/index';
-import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
 
 @Injectable()
 export class CheckoutEffects {
@@ -137,6 +137,14 @@ export class CheckoutEffects {
     CheckoutActions.ClearCheckoutData
   > = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
+    map(() => new CheckoutActions.ClearCheckoutData())
+  );
+
+  @Effect()
+  clearCheckoutDataOnLogin$: Observable<
+    CheckoutActions.ClearCheckoutData
+  > = this.actions$.pipe(
+    ofType(AuthActions.LOGIN),
     map(() => new CheckoutActions.ClearCheckoutData())
   );
 

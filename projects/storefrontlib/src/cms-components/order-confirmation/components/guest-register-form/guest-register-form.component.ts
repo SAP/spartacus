@@ -1,7 +1,7 @@
-import { Component, OnDestroy, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService, RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { UserService, RoutingService, AuthService } from '@spartacus/core';
 import { CustomFormValidators } from '../../../../shared/utils/validators/custom-form-validators';
 
 @Component({
@@ -10,6 +10,7 @@ import { CustomFormValidators } from '../../../../shared/utils/validators/custom
 })
 export class GuestRegisterFormComponent implements OnDestroy {
   @Input() guid: string;
+  @Input() email: string;
 
   subscription: Subscription;
 

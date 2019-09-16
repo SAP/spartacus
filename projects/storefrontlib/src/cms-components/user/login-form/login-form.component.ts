@@ -7,6 +7,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -26,7 +27,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     fb: FormBuilder,
     authRedirectService: AuthRedirectService,
     winRef: WindowRef, // tslint:disable-line,
-    activatedRoute: ActivatedRoute
+    activatedRoute: ActivatedRoute,
+    featureConfig: FeatureConfigService
   );
 
   /**
@@ -47,7 +49,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
     private winRef?: WindowRef,
-    private activatedRoute?: ActivatedRoute
+    private activatedRoute?: ActivatedRoute,
+    private featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +59,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
-    this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+    if (this.featureConfig.isEnabled('guestCheckout')) {
+      this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+    }
 
     // TODO(issue:#4055) Deprecated since 1.1.0
     if (this.winRef && this.winRef.nativeWindow) {

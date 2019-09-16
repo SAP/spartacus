@@ -1,15 +1,21 @@
+import { HttpHeaders } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FeatureConfigService } from 'projects/core/src/features-config';
+import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { Cart } from '../../../model/cart.model';
 import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../utils/interceptor-util';
 import { OccCartAdapter } from './occ-cart.adapter';
 
 const userId = '123';
@@ -209,6 +215,55 @@ describe('OccCartAdapter', () => {
         cartId,
       });
       expect(mockReq.cancelled).toBeFalsy();
+
+      mockReq.flush('');
+      expect(result).toEqual('');
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete the cart', () => {
+      let result: Object;
+
+      occCartAdapter
+        .delete(userId, cartId)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne({
+        method: 'DELETE',
+        url: 'deleteCart',
+      });
+
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('deleteCart', {
+        userId,
+        cartId,
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+
+      mockReq.flush('');
+      expect(result).toEqual('');
+    });
+
+    it('should add client token if userId is anonymous', () => {
+      let result: Object;
+      let headers = new HttpHeaders();
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+
+      occCartAdapter
+        .delete(ANONYMOUS_USERID, cartId)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne({
+        method: 'DELETE',
+        url: 'deleteCart',
+      });
+
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('deleteCart', {
+        userId: ANONYMOUS_USERID,
+        cartId,
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.headers).toEqual(headers);
 
       mockReq.flush('');
       expect(result).toEqual('');

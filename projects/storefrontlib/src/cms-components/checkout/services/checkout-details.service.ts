@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import {
   Address,
+  ANONYMOUS_USERID,
   CartService,
-  CheckoutService,
-  PaymentDetails,
   CheckoutDeliveryService,
   CheckoutPaymentService,
-  ANONYMOUS_USERID,
+  CheckoutService,
+  PaymentDetails,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
+  distinctUntilChanged,
+  filter,
   map,
   shareReplay,
   skipWhile,
   switchMap,
   tap,
-  filter,
 } from 'rxjs/operators';
 
 @Injectable({
@@ -41,7 +42,8 @@ export class CheckoutDetailsService {
         }
         return cartData.code;
       }),
-      filter(cartId => !!cartId)
+      filter(cartId => !!cartId),
+      distinctUntilChanged()
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(

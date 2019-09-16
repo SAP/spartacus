@@ -9,6 +9,7 @@ import {
   UrlCommands,
   User,
   UserToken,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
@@ -43,12 +44,19 @@ class MockAuthRedirectService {
   reportAuthGuard = jasmine.createSpy('reportAuthGuard');
 }
 
+class MockFeatureConfigService {
+  isEnabled(): boolean {
+    return false;
+  }
+}
+
 describe('CheckoutGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
   let service: RoutingService;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let cartService: CartService;
+  let featureConfig: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -70,6 +78,10 @@ describe('CheckoutGuard', () => {
           provide: CartService,
           useClass: CartServiceStub,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -78,6 +90,7 @@ describe('CheckoutGuard', () => {
     authService = TestBed.get(AuthService);
     authRedirectService = TestBed.get(AuthRedirectService);
     cartService = TestBed.get(CartService);
+    featureConfig = TestBed.get(FeatureConfigService);
 
     spyOn(service, 'go').and.stub();
   });
@@ -104,7 +117,8 @@ describe('CheckoutGuard', () => {
         expect(result).toBe(false);
       });
 
-      it('should redirect to login with forced flag', () => {
+      it('should redirect to login with forced flag when guestCheckout feature enabled', () => {
+        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
         checkoutGuard
           .canActivate()
           .subscribe()
@@ -113,6 +127,14 @@ describe('CheckoutGuard', () => {
           { cxRoute: 'login' },
           { forced: true }
         );
+      });
+
+      it('should redirect to login without forced flag when guestCheckout feature disabled', () => {
+        checkoutGuard
+          .canActivate()
+          .subscribe()
+          .unsubscribe();
+        expect(service.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       });
 
       it('should notify AuthRedirectService with the current navigation', () => {

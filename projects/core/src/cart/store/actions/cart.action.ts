@@ -21,6 +21,9 @@ export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
 export const CLEAR_CART = '[Cart] Clear Cart';
 
+export const DELETE_CART = '[Cart] Delete Cart';
+export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
+
 export class CreateCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CART;
   constructor(public payload: any) {
@@ -108,6 +111,20 @@ export class ClearCart extends StateLoaderActions.LoaderResetAction {
   }
 }
 
+export class DeleteCart extends StateLoaderActions.LoaderLoadAction {
+  readonly type = DELETE_CART;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(CART_DATA);
+  }
+}
+
+export class DeleteCartFail extends StateLoaderActions.LoaderFailAction {
+  readonly type = DELETE_CART_FAIL;
+  constructor(public payload: any) {
+    super(CART_DATA, payload);
+  }
+}
+
 export type CartAction =
   | CreateCart
   | CreateCartFail
@@ -121,4 +138,6 @@ export type CartAction =
   | ClearCart
   | AddEmailToCart
   | AddEmailToCartFail
-  | AddEmailToCartSuccess;
+  | AddEmailToCartSuccess
+  | DeleteCart
+  | DeleteCartFail;
