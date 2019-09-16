@@ -2,10 +2,7 @@ import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-or
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import {
-  registerAndLogin,
-  addProduct,
-} from '../../helpers/accessibility/tabbing-order';
+import { addProduct } from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
@@ -29,6 +26,10 @@ import {
   shippingAddressExistingTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
 import { deliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
+import {
+  orderHistoryNoOrdersTabbingOrder,
+  orderHistoryWithOrdersTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/order-history';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -78,7 +79,7 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 
 context('Tabbing order - tests do require user to be logged in', () => {
   before(() => {
-    registerAndLogin();
+    cy.requireLoggedIn();
   });
 
   beforeEach(() => {
@@ -87,6 +88,18 @@ context('Tabbing order - tests do require user to be logged in', () => {
 
   afterEach(() => {
     cy.saveLocalStorage();
+  });
+
+  describe('Order History', () => {
+    it('should allow to navigate with tab key (no orders)', () => {
+      orderHistoryNoOrdersTabbingOrder(config.orderHistoryNoOrders);
+    });
+
+    it('should allow to navigate with tab key (with orders)', () => {
+      cy.window().then(win => win.sessionStorage.clear());
+      cy.requireLoggedIn();
+      orderHistoryWithOrdersTabbingOrder();
+    });
   });
 
   describe('Checkout', () => {

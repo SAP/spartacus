@@ -20,6 +20,14 @@ export function checkElement(tabElement: TabElement) {
       cy.focused().should('have.attr', 'type', 'button');
       return;
     }
+    case TabbingOrderTypes.GENERIC_INPUT: {
+      cy.focused().should('have.attr', 'type', 'text');
+      break;
+    }
+    case TabbingOrderTypes.GENERIC_NG_SELECT: {
+      cy.focused().should('have.attr', 'type', 'ng-select');
+      return;
+    }
   }
 
   // Check non-generic cases requiring value
@@ -56,10 +64,6 @@ export function checkElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.IMG_LINK: {
       cy.focused().should('have.attr', 'href', tabElement.value);
-      break;
-    }
-    case TabbingOrderTypes.GENERIC_INPUT: {
-      cy.focused().should('have.attr', 'type', 'text');
       break;
     }
     case TabbingOrderTypes.ITEM_COUNTER: {
