@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="(existingPaymentMethods$ | async) as existingPaymentMethods"
->
+<ng-container *ngIf="existingPaymentMethods$ | async as existingPaymentMethods">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'paymentForm.payment' | cxTranslate }}
   </h3>

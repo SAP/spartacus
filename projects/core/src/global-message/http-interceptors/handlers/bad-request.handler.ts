@@ -54,9 +54,7 @@ export class BadRequestHandler extends HttpErrorHandler {
           } else if (error.type === 'ValidationError') {
             // build translation key in case of backend field validation error
             errorMessage = {
-              key: `httpHandlers.validationErrors.${error.reason}.${
-                error.subject
-              }`,
+              key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
             };
           } else {
             // this is currently showing up in case we have a page not found. It should be a 404.

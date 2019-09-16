@@ -78,6 +78,12 @@ export interface OccEndpoints {
    */
   createCart?: string;
   /**
+   * Deletes a cart with a given cart id
+   *
+   * @member {string} [deleteCart]
+   */
+  deleteCart?: string;
+  /**
    * Adds a product to the cart
    *
    * @member {string} [addEntries]
@@ -245,4 +251,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   addressVerification?: string;
+  /**
+   * Endpoint for consignment tracking
+   *
+   * @member {string}
+   */
+  consignmentTracking?: string;
 }

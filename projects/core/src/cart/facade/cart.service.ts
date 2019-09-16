@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -39,7 +39,7 @@ export class CartService {
       // combineLatest emits multiple times on each property update instead of one emit
       // additionally dispatching actions that changes selectors used here needs to happen in order
       // for this asyncScheduler is used here
-      debounceTime(1, asyncScheduler),
+      debounceTime(0),
       filter(([, loading]) => !loading),
       tap(([cart, , userToken, loaded]) => {
         if (this.isJustLoggedIn(userToken.userId)) {
@@ -91,6 +91,8 @@ export class CartService {
           cartId: 'current',
         })
       );
+    } else if (this.isGuestCart()) {
+      this.guestCartMerge();
     } else {
       this.store.dispatch(
         new CartActions.MergeCart({
@@ -200,6 +202,36 @@ export class CartService {
     return this.cartData.isGuestCart;
   }
 
+  /**
+   * Add multiple entries to a cart
+   * Requires a created cart
+   * @param cartEntries : list of entries to add (OrderEntry[])
+   */
+  addEntries(cartEntries: OrderEntry[]): void {
+    let newEntries = 0;
+    this.getEntries()
+      .pipe(
+        tap(() => {
+          // Keep adding entries until the user cart contains the same number of entries
+          // as the guest cart did
+          if (newEntries < cartEntries.length) {
+            this.store.dispatch(
+              new CartActions.CartAddEntry({
+                userId: this.cartData.userId,
+                cartId: this.cartData.cartId,
+                productCode: cartEntries[newEntries].product.code,
+                quantity: cartEntries[newEntries].quantity,
+              })
+            );
+            newEntries++;
+          }
+        }),
+        filter(() => newEntries === cartEntries.length),
+        take(1)
+      )
+      .subscribe();
+  }
+
   private isCreated(cart: Cart): boolean {
     return cart && typeof cart.guid !== 'undefined';
   }
@@ -222,5 +254,46 @@ export class CartService {
 
   private isLoggedIn(userId: string): boolean {
     return typeof userId !== 'undefined';
+  }
+
+  // TODO: Remove once backend is updated
+  /**
+   * Temporary method to merge guest cart with user cart because of beackend limitation
+   * This is for an edge case
+   */
+  private guestCartMerge(): void {
+    let cartEntries: OrderEntry[];
+    this.getEntries()
+      .pipe(take(1))
+      .subscribe(entries => {
+        cartEntries = entries;
+      });
+
+    this.store.dispatch(
+      new CartActions.DeleteCart({
+        userId: ANONYMOUS_USERID,
+        cartId: this.cartData.cart.guid,
+      })
+    );
+
+    this.store
+      .pipe(
+        select(CartSelectors.getActiveCartState),
+        filter(cartState => !cartState.loading),
+        tap(cartState => {
+          // If the cart is not created it needs to be created
+          // This step should happen before adding entries to avoid conflicts in the requests
+          if (!this.isCreated(cartState.value.content)) {
+            this.store.dispatch(
+              new CartActions.CreateCart({ userId: this.cartData.userId })
+            );
+          }
+        }),
+        filter(cartState => this.isCreated(cartState.value.content)),
+        take(1)
+      )
+      .subscribe(() => {
+        this.addEntries(cartEntries);
+      });
   }
 }

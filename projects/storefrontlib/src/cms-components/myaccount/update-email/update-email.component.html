@@ -1,5 +1,5 @@
 <ng-container>
-  <div *ngIf="(isLoading$ | async); else loaded">
+  <div *ngIf="isLoading$ | async; else loaded">
     <div class="cx-spinner">
       <cx-spinner> </cx-spinner>
     </div>
