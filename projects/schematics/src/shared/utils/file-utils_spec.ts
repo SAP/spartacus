@@ -53,7 +53,9 @@ describe('File utils', () => {
         .toPromise();
 
       const tsFile = getTsSourceFile(tree, tsFilePath);
+      const tsFileName = tsFile.fileName.split('/').pop();
       expect(tsFile).toBeTruthy();
+      expect(tsFileName).toEqual('test.ts');
     });
   });
 });
