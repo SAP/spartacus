@@ -1,5 +1,4 @@
 import { CartActions } from '../actions/index';
-// import { isActiveCart } from '../../utils/utils';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import { NewCartState } from '../cart-state';
 
