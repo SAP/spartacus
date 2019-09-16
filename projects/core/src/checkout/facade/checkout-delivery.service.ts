@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, shareReplay, tap } from 'rxjs/operators';
 import {
-  ANONYMOUS_USERID,
   CartDataService,
 } from '../../cart/facade/cart-data.service';
 import { Address, AddressValidation } from '../../model/address.model';
@@ -11,6 +10,7 @@ import { DeliveryMode } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -160,6 +160,6 @@ export class CheckoutDeliveryService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    return this.cartData.userId !== USERID_ANONYMOUS;
   }
 }

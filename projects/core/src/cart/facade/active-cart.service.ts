@@ -7,11 +7,11 @@ import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { CartActions } from '../store/actions/index';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { StateWithMultiCart, NewCartState } from '../store/cart-state';
+import { CartDataService } from './cart-data.service';
+import { StateWithMultiCart } from '../store/cart-state';
 import { LowLevelCartService } from './low-level-cart.service';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { USERID_CURRENT, USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class ActiveCartService {
@@ -20,7 +20,7 @@ export class ActiveCartService {
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
   private _activeCart$: Observable<Cart>;
 
-  private userId = ANONYMOUS_USERID;
+  private userId = USERID_ANONYMOUS;
   private cartId;
 
   private activeCartId = this.store.pipe(
@@ -45,7 +45,7 @@ export class ActiveCartService {
       if (token && token.userId) {
         this.userId = USERID_CURRENT;
       } else {
-        this.userId = ANONYMOUS_USERID;
+        this.userId = USERID_ANONYMOUS;
       }
     });
 
@@ -57,8 +57,8 @@ export class ActiveCartService {
       this.cartSelector,
       this.authService.getUserToken(),
     ]).pipe(
-      map(([cartEntity, userToken]: [LoaderState<NewCartState>, any]) => [
-        cartEntity.value ? cartEntity.value.content : {},
+      map(([cartEntity, userToken]: [LoaderState<Cart>, any]) => [
+        cartEntity.value ? cartEntity.value : {},
         cartEntity.loading,
         userToken,
         (cartEntity.error || cartEntity.success) && !cartEntity.loading,
@@ -128,7 +128,7 @@ export class ActiveCartService {
   }
 
   private load(cart: Cart): void {
-    if (this.userId !== ANONYMOUS_USERID) {
+    if (this.userId !== USERID_ANONYMOUS) {
       this.lowLevelCartService.loadCart({
         userId: this.userId,
         cartId: cart && cart.code ? cart.code : 'current',
@@ -154,7 +154,7 @@ export class ActiveCartService {
         filter(() => !createInitialized),
         switchMap(cartState => {
           if (
-            !this.isCreated(cartState.value ? cartState.value.content : {}) &&
+            !this.isCreated(cartState.value ? cartState.value : {}) &&
             !cartState.loading
           ) {
             createInitialized = true;
@@ -168,7 +168,7 @@ export class ActiveCartService {
           return of(cartState);
         }),
         filter(cartState =>
-          this.isCreated(cartState.value ? cartState.value.content : {})
+          this.isCreated(cartState.value ? cartState.value : {})
         ),
         take(1)
       )

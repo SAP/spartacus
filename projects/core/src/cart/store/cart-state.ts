@@ -28,10 +28,6 @@ export interface StateWithMultiCart {
 }
 
 export interface MultiCartState {
-  carts: EntityLoaderState<NewCartState>;
+  carts: EntityLoaderState<Cart>;
   active: string;
-}
-
-export interface NewCartState {
-  content: Cart;
 }

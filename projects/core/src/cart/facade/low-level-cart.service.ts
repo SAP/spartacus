@@ -3,11 +3,12 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { OrderEntry } from '../../model/order.model';
 import { CartActions } from '../store/actions/index';
-import { StateWithMultiCart, NewCartState } from '../store/cart-state';
+import { StateWithMultiCart } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
 import { LoadCart } from '../store/actions/cart.action';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { Cart } from '../../model/cart.model';
 
 @Injectable()
 export class LowLevelCartService {
@@ -17,17 +18,17 @@ export class LowLevelCartService {
   ) {}
 
   // finished
-  getCart(cartId: string): Observable<NewCartState> {
+  getCart(cartId: string): Observable<Cart> {
     return this.store.pipe(select(MultiCartSelectors.getCartSelectorFactory(cartId)));
   }
 
   // finished
-  getCartEntity(cartId: string): Observable<LoaderState<NewCartState>> {
+  getCartEntity(cartId: string): Observable<LoaderState<Cart>> {
     return this.store.pipe(select(MultiCartSelectors.getCartEntitySelectorFactory(cartId)));
   }
 
   // finished
-  createCart({userId, oldCartId, toMergeCartGuid, extraData}: {userId: string, oldCartId?: string, toMergeCartGuid?: string, extraData?: any}): Observable<LoaderState<NewCartState>> {
+  createCart({userId, oldCartId, toMergeCartGuid, extraData}: {userId: string, oldCartId?: string, toMergeCartGuid?: string, extraData?: any}): Observable<LoaderState<Cart>> {
     this.store.dispatch(new CartActions.ResetFreshCart())
     this.store.dispatch(new CartActions.CreateCart({
       extraData,

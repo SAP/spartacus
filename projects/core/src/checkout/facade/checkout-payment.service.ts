@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
-  ANONYMOUS_USERID,
   CartDataService,
 } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -73,6 +73,6 @@ export class CheckoutPaymentService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    return this.cartData.userId !== USERID_ANONYMOUS;
   }
 }

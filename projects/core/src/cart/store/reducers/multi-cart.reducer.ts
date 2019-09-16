@@ -1,6 +1,6 @@
 import { CartActions } from '../actions/index';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import { NewCartState } from '../cart-state';
+import { Cart } from '../../../model/cart.model';
 
 export const initialState2 = '';
 
@@ -29,27 +29,19 @@ export function multiCartReducer(
   return state;
 }
 
-export const initialState: NewCartState = {
-  content: {},
-};
+export const initialState = undefined
 
 export function cartEntitiesReducer(
   state = initialState,
   action: LoaderAction
-): NewCartState {
+): Cart {
   switch (action.type) {
     case CartActions.LOAD_MULTI_CART_SUCCESS:
-      return {
-        content: action.payload.cart,
-      };
+      return action.payload.cart;
     case CartActions.CREATE_MULTI_CART_SUCCESS:
-      return {
-        content: action.payload.cart,
-      };
+      return action.payload.cart;
     case CartActions.SET_FRESH_CART_ID:
-      return {
-        content: action.payload,
-      };
+      return action.payload;
   }
   return state;
 }

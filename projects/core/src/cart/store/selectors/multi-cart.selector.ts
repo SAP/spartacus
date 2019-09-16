@@ -5,7 +5,6 @@ import {
 } from '@ngrx/store';
 import {
   StateWithMultiCart,
-  NewCartState,
   MultiCartState,
   MULTI_CART_FEATURE,
 } from '../cart-state';
@@ -14,8 +13,9 @@ import {
   entityStateSelector,
   entityValueSelector,
 } from '../../../state/utils/entity-loader/entity-loader.selectors';
-import { EntityLoaderState } from 'projects/core/src/state';
+import { EntityLoaderState } from '../../../state';
 import { OrderEntry } from '../../../model/order.model';
+import { Cart } from '../../../model/cart.model';
 
 export const getMultiCartsState: MemoizedSelector<
   StateWithMultiCart,
@@ -24,7 +24,7 @@ export const getMultiCartsState: MemoizedSelector<
 
 export const getMultiCartsEntities: MemoizedSelector<
   StateWithMultiCart,
-  EntityLoaderState<NewCartState>
+  EntityLoaderState<Cart>
 > = createSelector(
   getMultiCartsState,
   (state: MultiCartState) => state.carts
@@ -32,20 +32,20 @@ export const getMultiCartsEntities: MemoizedSelector<
 
 export const getCartEntitySelectorFactory = (
   cartId: string
-): MemoizedSelector<StateWithMultiCart, LoaderState<NewCartState>> => {
+): MemoizedSelector<StateWithMultiCart, LoaderState<Cart>> => {
   return createSelector(
     getMultiCartsEntities,
-    (state: EntityLoaderState<NewCartState>) =>
+    (state: EntityLoaderState<Cart>) =>
       entityStateSelector(state, cartId)
   );
 };
 
 export const getCartSelectorFactory = (
   cartId: string
-): MemoizedSelector<StateWithMultiCart, NewCartState> => {
+): MemoizedSelector<StateWithMultiCart, Cart> => {
   return createSelector(
     getMultiCartsEntities,
-    (state: EntityLoaderState<NewCartState>) =>
+    (state: EntityLoaderState<Cart>) =>
       entityValueSelector(state, cartId)
   );
 };
@@ -56,8 +56,8 @@ export const getCartEntriesSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, OrderEntry[]> => {
   return createSelector(
     getMultiCartsEntities,
-    (state: EntityLoaderState<NewCartState>) =>
-      entityValueSelector(state, cartId) && entityValueSelector(state, cartId).content ? entityValueSelector(state, cartId).content.entries : []
+    (state: EntityLoaderState<Cart>) =>
+      entityValueSelector(state, cartId) ? entityValueSelector(state, cartId).entries : []
   );
 };
 
@@ -68,8 +68,8 @@ export const getCartEntrySelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, OrderEntry> => {
   return createSelector(
     getMultiCartsEntities,
-    (state: EntityLoaderState<NewCartState>) =>
-      entityValueSelector(state, cartId) && entityValueSelector(state, cartId).content && entityValueSelector(state, cartId).content.entries ? entityValueSelector(state, cartId).content.entries.find(
+    (state: EntityLoaderState<Cart>) =>
+      entityValueSelector(state, cartId) && entityValueSelector(state, cartId).entries ? entityValueSelector(state, cartId).entries.find(
         entry => '' + entry.product.code ===  '' + productCode
       ) : null
   );
