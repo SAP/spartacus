@@ -125,6 +125,7 @@ export class CartEffects {
     ),
     map(
       payload =>
+        payload &&
         new CartActions.LoadCart({
           userId: payload.userId,
           cartId: payload.cartId,
