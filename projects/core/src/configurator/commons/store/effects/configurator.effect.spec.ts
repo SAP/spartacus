@@ -37,7 +37,7 @@ describe('ConfiguratorEffect', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           CONFIGURATION_FEATURE,
-          fromConfigurationReducers.getReducers()
+          fromConfigurationReducers.getConfiguratorReducers()
         ),
       ],
 
