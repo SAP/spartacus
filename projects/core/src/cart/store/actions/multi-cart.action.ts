@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_FEATURE } from '../cart-state';
 import { EntityLoadAction, EntitySuccessAction, EntityFailAction, EntityResetAction } from '../../../state/utils/entity-loader/entity-loader.action';
-import { EntityRemoveAction, EntityRemoveAllAction } from '../../../state/utils/entity/entity.action';
+import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
+import { getCartIdByUserId } from '../../utils/utils';
 
 export const RESET_FRESH_CART = '[New Cart] Reset Fresh Cart';
 
@@ -21,6 +22,12 @@ export const RESET_MULTI_CART_DETAILS = '[New Cart] Reset Cart Details';
 export const CLEAR_MULTI_CART = '[New Cart] Clear Cart';
 
 export const SET_FRESH_CART_ID = '[New Cart] Set Fresh Cart Id';
+
+export const SET_FAKE_LOADING_CART = '[New Cart] Set Fake Loading Cart';
+
+export const REMOVE_CART = '[New Cart] Remove Cart';
+
+// TODO: validate need for all actions, some could be merged
 
 export class ResetFreshCart extends EntityResetAction {
   readonly type = RESET_FRESH_CART;
@@ -46,7 +53,7 @@ export class CreateMultiCartFail extends EntityRemoveAction {
 export class CreateMultiCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_MULTI_CART_SUCCESS;
   constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, payload.guid, payload);
+    super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
 
@@ -74,7 +81,7 @@ export class LoadMultiCartFail extends EntityFailAction {
 export class LoadMultiCartSuccess extends EntitySuccessAction {
   readonly type = LOAD_MULTI_CART_SUCCESS;
   constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, payload.guid, payload);
+    super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
 
@@ -104,6 +111,21 @@ export class ClearMultiCart extends EntityRemoveAction {
   }
 }
 
+export class SetFakeLoadingCart extends EntityLoadAction {
+  readonly type = SET_FAKE_LOADING_CART;
+  constructor(public payload: any) {
+    super(MULTI_CART_FEATURE, payload.cartId)
+  };
+}
+
+export class RemoveCart extends EntityRemoveAction {
+  readonly type = REMOVE_CART;
+  constructor(public payload: any) {
+    super(MULTI_CART_FEATURE, payload);
+  }
+}
+
+// TODO: export everything needed
 export type MultiCartActions =
   | CreateMultiCart
   | CreateMultiCartFail
@@ -115,4 +137,6 @@ export type MultiCartActions =
   | MergeMultiCartSuccess
   | ResetMultiCartDetails
   | ClearMultiCart
-  | SetFreshCartId;
+  | SetFreshCartId
+  | SetFakeLoadingCart
+  | RemoveCart;

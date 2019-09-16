@@ -6,6 +6,7 @@ import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 import { LowLevelCartService } from './facade/low-level-cart.service';
+import { ActiveCartService } from './facade/active-cart.service';
 
 @NgModule({
   imports: [CartStoreModule, MultiCartStoreModule],
@@ -18,6 +19,7 @@ export class CartModule {
         CartDataService,
         CartService,
         LowLevelCartService,
+        ActiveCartService,
         {
           provide: PageMetaResolver,
           useExisting: CartPageMetaResolver,

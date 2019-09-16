@@ -13,10 +13,19 @@ export function multiCartReducer(
     | CartActions.MultiCartActions
 ): string {
   switch (action.type) {
-    // case CartActions.LOAD_MULTI_CART_SUCCESS:
-    //   if (isActiveCart(action.payload)) {
-    //     return action.payload.guid;
-    //   }
+    case CartActions.LOAD_MULTI_CART_SUCCESS:
+    case CartActions.CREATE_MULTI_CART_SUCCESS:
+      if (action.payload && action.payload.extraData && action.payload.extraData.active) {
+        return action.meta.entityId as string;
+      } else {
+        return state;
+      }
+    case CartActions.REMOVE_CART:
+      if (action.payload === state) {
+        return initialState2;
+      } else {
+        return state;
+      }
   }
   return state;
 }
@@ -29,16 +38,19 @@ export function cartEntitiesReducer(
   state = initialState,
   action: LoaderAction
 ): NewCartState {
-  console.log(action);
   switch (action.type) {
     case CartActions.LOAD_MULTI_CART_SUCCESS:
       return {
-        content: action.payload,
-      }
+        content: action.payload.cart,
+      };
+    case CartActions.CREATE_MULTI_CART_SUCCESS:
+      return {
+        content: action.payload.cart,
+      };
     case CartActions.SET_FRESH_CART_ID:
       return {
-        content: action.payload
-      }
+        content: action.payload,
+      };
   }
   return state;
 }

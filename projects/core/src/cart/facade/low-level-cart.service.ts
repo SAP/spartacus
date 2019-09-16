@@ -7,7 +7,7 @@ import { StateWithMultiCart, NewCartState } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
 import { LoadCart } from '../store/actions/cart.action';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { LoaderState } from '../../state';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 
 @Injectable()
 export class LowLevelCartService {
@@ -27,9 +27,10 @@ export class LowLevelCartService {
   }
 
   // finished
-  createCart(userId: string, oldCartId?: string, toMergeCartGuid?: string): Observable<LoaderState<NewCartState>> {
+  createCart({userId, oldCartId, toMergeCartGuid, extraData}: {userId: string, oldCartId?: string, toMergeCartGuid?: string, extraData?: any}): Observable<LoaderState<NewCartState>> {
     this.store.dispatch(new CartActions.ResetFreshCart())
     this.store.dispatch(new CartActions.CreateCart({
+      extraData,
       userId,
       oldCartId,
       toMergeCartGuid,
@@ -38,10 +39,11 @@ export class LowLevelCartService {
   }
 
   // finished
-  loadCart(cartId: string, userId: string): void {
+  loadCart({cartId, userId, extraData}: {cartId: string, userId: string, extraData?: any}): void {
     this.store.dispatch(new LoadCart({
       userId,
-      cartId
+      cartId,
+      extraData
     }));
   }
 
@@ -63,7 +65,7 @@ export class LowLevelCartService {
   }
 
   // finished
-  removeEntry(userId: string, cartId: string, entryNumber: string): void {
+  removeEntry(userId: string, cartId: string, entryNumber: number): void {
     this.store.dispatch(
       new CartActions.CartRemoveEntry({
         userId,
@@ -74,7 +76,7 @@ export class LowLevelCartService {
   }
 
   // finished
-  updateEntry(userId: string, cartId: string, entryNumber: string, quantity: number): void {
+  updateEntry(userId: string, cartId: string, entryNumber: number, quantity: number): void {
     if (quantity > 0) {
       this.store.dispatch(
         new CartActions.CartUpdateEntry({

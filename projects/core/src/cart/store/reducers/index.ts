@@ -37,7 +37,22 @@ export function clearCartState(
   };
 }
 
+export function clearMultiCartState(
+  reducer: ActionReducer<any>
+): ActionReducer<any> {
+  return function(state, action) {
+    if (
+      action.type === AuthActions.LOGOUT
+    ) {
+      state = undefined;
+    }
+    return reducer(state, action);
+  };
+}
+
 export const metaReducers: MetaReducer<any>[] = [clearCartState];
+
+export const multiCartMetaReducers: MetaReducer<any>[] = [clearMultiCartState];
 
 export const multiCartReducerToken: InjectionToken<ActionReducerMap<MultiCartState>> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 

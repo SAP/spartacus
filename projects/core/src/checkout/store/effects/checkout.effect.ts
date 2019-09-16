@@ -224,6 +224,7 @@ export class CheckoutEffects {
     | CheckoutActions.PlaceOrderSuccess
     | GlobalMessageActions.AddMessage
     | CheckoutActions.PlaceOrderFail
+    | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map((action: any) => action.payload),
@@ -231,7 +232,10 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
-          switchMap(data => [new CheckoutActions.PlaceOrderSuccess(data)]),
+          switchMap(data => [
+            new CartActions.RemoveCart(payload.cartId),
+            new CheckoutActions.PlaceOrderSuccess(data),
+          ]),
           catchError(error =>
             of(new CheckoutActions.PlaceOrderFail(makeErrorSerializable(error)))
           )

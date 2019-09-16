@@ -16,7 +16,8 @@ export class CartEffects {
   loadCart2$: Observable<CartActions.LoadMultiCart> = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map(
-      (action: CartActions.LoadCart) => new CartActions.LoadMultiCart(action.payload)
+      (action: CartActions.LoadCart) =>
+        new CartActions.LoadMultiCart(action.payload)
     )
   );
 
@@ -29,11 +30,10 @@ export class CartEffects {
     | CartActions.LoadMultiCartSuccess
     | CartActions.ClearCart
     | CartActions.ClearMultiCart
+    | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
-    map(
-      (action: CartActions.LoadCart) => action.payload
-    ),
+    map((action: CartActions.LoadCart) => action.payload),
     mergeMap(payload => {
       // TODO: get rid of cartData
       const loadCartParams = {
@@ -44,16 +44,31 @@ export class CartEffects {
       if (this.isMissingData(loadCartParams)) {
         return from([
           new CartActions.LoadCartFail({}),
-          new CartActions.LoadMultiCartFail({ cartId: payload.cartId }),
+          new CartActions.LoadMultiCartFail({ cartId: loadCartParams.cartId }),
         ]);
       }
       return this.cartConnector
         .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
           mergeMap((cart: Cart) => {
+            if (loadCartParams.cartId === 'current' && cart) {
+              return [
+                new CartActions.LoadCartSuccess(cart),
+                new CartActions.LoadMultiCartSuccess({
+                  cart,
+                  userId: loadCartParams.userId,
+                  extraData: payload.extraData,
+                }),
+                new CartActions.RemoveCart('current'),
+              ];
+            }
             return [
               new CartActions.LoadCartSuccess(cart),
-              new CartActions.LoadMultiCartSuccess(cart),
+              new CartActions.LoadMultiCartSuccess({
+                cart,
+                userId: loadCartParams.userId,
+                extraData: payload.extraData,
+              }),
             ];
           }),
           catchError(error => {
@@ -64,14 +79,16 @@ export class CartEffects {
               if (cartNotFoundErrors.length > 0) {
                 return from([
                   new CartActions.ClearCart(),
-                  new CartActions.ClearMultiCart({ cartId: payload.cartId }),
+                  new CartActions.ClearMultiCart({
+                    cartId: loadCartParams.cartId,
+                  }),
                 ]);
               }
             }
             return from([
               new CartActions.LoadCartFail(makeErrorSerializable(error)),
               new CartActions.LoadMultiCartFail({
-                cartId: payload.cartId,
+                cartId: loadCartParams.cartId,
                 error: makeErrorSerializable(error),
               }),
             ]);
@@ -85,7 +102,8 @@ export class CartEffects {
   createCart2$: Observable<CartActions.CreateMultiCart> = this.actions$.pipe(
     ofType(CartActions.CREATE_CART),
     map(
-      (action: CartActions.CreateCart) => new CartActions.CreateMultiCart(action.payload)
+      (action: CartActions.CreateCart) =>
+        new CartActions.CreateMultiCart(action.payload)
     )
   );
 
@@ -98,6 +116,7 @@ export class CartEffects {
     | CartActions.CreateMultiCartSuccess
     | CartActions.CreateCartFail
     | CartActions.CreateMultiCartFail
+    | CartActions.SetFreshCartId
   > = this.actions$.pipe(
     ofType(CartActions.CREATE_CART),
     map((action: CartActions.CreateCart) => action.payload),
@@ -109,7 +128,12 @@ export class CartEffects {
             if (payload.oldCartId) {
               return [
                 new CartActions.CreateCartSuccess(cart),
-                new CartActions.CreateMultiCartSuccess(cart),
+                new CartActions.CreateMultiCartSuccess({
+                  cart,
+                  userId: payload.userId,
+                  extraData: payload.extraData,
+                }),
+                new CartActions.SetFreshCartId(cart),
                 new CartActions.MergeCartSuccess({
                   userId: payload.userId,
                   cartId: cart.code,
@@ -123,7 +147,12 @@ export class CartEffects {
             }
             return [
               new CartActions.CreateCartSuccess(cart),
-              new CartActions.CreateMultiCartSuccess(cart),
+              new CartActions.CreateMultiCartSuccess({
+                cart,
+                userId: payload.userId,
+                extraData: payload.extraData,
+              }),
+              new CartActions.SetFreshCartId(cart)
             ];
           }),
           catchError(error =>
@@ -144,7 +173,8 @@ export class CartEffects {
   mergeCart2$: Observable<CartActions.MergeMultiCart> = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map(
-      (action: CartActions.MergeCart) => new CartActions.MergeMultiCart(action.payload)
+      (action: CartActions.MergeCart) =>
+        new CartActions.MergeMultiCart(action.payload)
     )
   );
 
@@ -163,23 +193,42 @@ export class CartEffects {
               userId: payload.userId,
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
-            }),
-            new CartActions.CreateMultiCart({
-              userId: payload.userId,
-              oldCartId: payload.cartId,
-              toMergeCartGuid: currentCart ? currentCart.guid : undefined,
-            }),
+              extraData: payload.extraData,
+            })
           ];
         })
       );
     })
   );
 
+  @Effect()
+  setLoading$: Observable<CartActions.SetFakeLoadingCart> = this.actions$.pipe(
+    ofType(
+      CartActions.MERGE_CART,
+      CartActions.CART_ADD_ENTRY,
+      CartActions.CART_UPDATE_ENTRY,
+      CartActions.CART_REMOVE_ENTRY
+    ),
+    map(
+      (
+        action:
+          | CartActions.MergeCart
+          | CartActions.CartAddEntry
+          | CartActions.CartUpdateEntry
+          | CartActions.CartRemoveEntry
+      ) => action.payload
+    ),
+    mergeMap(payload => [
+      new CartActions.SetFakeLoadingCart({
+        userId: payload.userId,
+        cartId: payload.cartId,
+      }),
+    ])
+  );
+
   // TODO: remove old actions usage (LoadCart)
   @Effect()
-  refresh$: Observable<
-    CartActions.LoadCart | CartActions.LoadMultiCart
-  > = this.actions$.pipe(
+  refresh$: Observable<CartActions.LoadCart> = this.actions$.pipe(
     ofType(
       CartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
@@ -200,10 +249,6 @@ export class CartEffects {
         userId: payload.userId,
         cartId: payload.cartId,
       }),
-      new CartActions.LoadMultiCart({
-        userId: payload.userId,
-        cartId: payload.cartId,
-      }),
     ])
   );
 
@@ -218,21 +263,11 @@ export class CartEffects {
     ),
     mergeMap(() => {
       return [
-      new CartActions.ResetCartDetails(),
-      new CartActions.ResetMultiCartDetails(),
-    ]})
+        new CartActions.ResetCartDetails(),
+        new CartActions.ResetMultiCartDetails(),
+      ];
+    })
   );
-
-
-  @Effect()
-  setFreshCartId$: Observable<
-    CartActions.SetFreshCartId
-  > = this.actions$.pipe(
-    ofType(CartActions.CREATE_MULTI_CART_SUCCESS),
-    map((action: any) =>
-      new CartActions.SetFreshCartId(action.payload)
-    )
-  )
 
   constructor(
     private actions$: Actions,
