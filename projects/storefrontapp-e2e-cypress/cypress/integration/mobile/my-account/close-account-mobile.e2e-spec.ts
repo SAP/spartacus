@@ -5,7 +5,6 @@ import {
 import { formats } from '../../../sample-data/viewports';
 import * as homepage from '../../../helpers/homepage';
 
-
 describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());

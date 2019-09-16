@@ -8,7 +8,6 @@ import { formats } from '../../../sample-data/viewports';
 
 describe(`${formats.mobile.width +
   1}p resolution - Consent Management Page`, () => {
-
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);

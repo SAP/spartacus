@@ -15,7 +15,6 @@ describe(`${formats.mobile.width +
 
   verifyAsAnonymous();
 
- 
   describe('update password test for logged in user', () => {
     before(() => {
       cy.viewport(formats.mobile.width, formats.mobile.height);

@@ -16,7 +16,7 @@ describe('My Account - Close Account', () => {
       cy.restoreLocalStorage();
     });
 
-  closeAccountTest();
+    closeAccountTest();
 
     afterEach(() => {
       cy.saveLocalStorage();
