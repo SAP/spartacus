@@ -53,7 +53,7 @@ export const b2bLayoutConfig: LayoutConfig = {
         'Section2',
         'SearchResultsListSlot',
         'ProductLeftRefinements',
-        'Section4',
+        // 'Section4',
       ],
     },
     ProductDetailsPageTemplate: {

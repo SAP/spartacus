@@ -11,7 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
 import {
-  B2cStorefrontModule,
+  //B2cStorefrontModule,
   StorefrontComponent,
   B2bStorefrontModule,
 } from '@spartacus/storefront';
@@ -32,7 +32,7 @@ if (!environment.production) {
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
 
-    B2cStorefrontModule.withConfig({
+    /*B2cStorefrontModule.withConfig({
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
@@ -66,7 +66,7 @@ if (!environment.production) {
       features: {
         level: '1.2',
       },
-    }),
+    }),*/
 
     B2bStorefrontModule.withConfig({
       backend: {
