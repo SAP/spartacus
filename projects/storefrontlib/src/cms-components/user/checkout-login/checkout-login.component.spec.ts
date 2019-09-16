@@ -1,3 +1,4 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -27,11 +28,12 @@ class MockRedirectAfterAuthService {
 
 const testEmail = 'john@acme.com';
 
-describe('CheckoutLoginComponent', () => {
+fdescribe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
   let cartService: CartService;
   let authRedirectService: AuthRedirectService;
+  let el: DebugElement;
 
   let controls: { [key: string]: AbstractControl };
   let email: AbstractControl;
@@ -54,6 +56,7 @@ describe('CheckoutLoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
 
     controls = component.form.controls;
     email = controls['email'];
@@ -168,26 +171,41 @@ describe('CheckoutLoginComponent', () => {
     });
 
     it('should not submit when form is populated incorrectly', () => {
-      spyOn(cartService, 'getAssignedUser').and.returnValue(
-        of({ name: 'anonymous', uid: 'anonymous' } as User)
-      );
-      spyOn(cartService, 'isGuestCart').and.returnValue(false);
+      email.setValue('xxxx');
+      expect(isFormControlDisplayingError('email')).toBeFalsy();
+      expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
 
-      component.onSubmit();
+      const submitBtn = el.query(By.css('button[type="submit"]'));
+      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
 
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(component.form.valid).toBeFalsy();
-        expect(isFormControlDisplayingError('email')).toBeTruthy();
-        expect(isFormControlDisplayingError('emailConfirmation')).toBeTruthy();
-        expect(authRedirectService.redirect).not.toHaveBeenCalled();
-      });
+      expect(component.form.valid).toBeFalsy();
+      expect(isFormControlDisplayingError('email')).toBeTruthy();
+      expect(isFormControlDisplayingError('emailConfirmation')).toBeTruthy();
+      expect(authRedirectService.redirect).not.toHaveBeenCalled();
+    });
+
+    it('should show warning when emails do not match', () => {
+      email.setValue(testEmail);
+      emailConfirmation.setValue('xxxx');
+
+      expect(isFormControlDisplayingError('email')).toBeFalsy();
+      expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
+
+      const submitBtn = el.query(By.css('button[type="submit"]'));
+      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+
+      fixture.detectChanges();
+
+      expect(component.form.valid).toBeFalsy();
+      expect(isFormControlDisplayingError('email')).toBeFalsy();
+      expect(isFormControlDisplayingError('emailConfirmation')).toBeTruthy();
     });
   });
 
   function isFormControlDisplayingError(formControlName: string): boolean {
-    const elementWithErrorMessage = fixture.debugElement.query(
+    const elementWithErrorMessage = el.query(
       By.css(
         `input[formcontrolname="${formControlName}"] + div.invalid-feedback`
       )
@@ -199,6 +217,7 @@ describe('CheckoutLoginComponent', () => {
 
     const errorMessage: string =
       elementWithErrorMessage.nativeElement.innerText;
+
     return errorMessage && errorMessage.trim().length > 0;
   }
 });
