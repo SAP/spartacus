@@ -1,4 +1,4 @@
-<ng-container *ngIf="(order$ | async) as order">
+<ng-container *ngIf="order$ | async as order">
   <div *ngFor="let consignment of order.consignments" class="cx-list row">
     <div class="cx-list-header col-12">
       <div class="cx-list-status">
