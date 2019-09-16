@@ -18,6 +18,7 @@ import { CartSelectors } from '../store/selectors/index';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { ActiveCartService } from './active-cart.service';
 
+// TODO: Add deprecation comment
 @Injectable()
 export class CartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
