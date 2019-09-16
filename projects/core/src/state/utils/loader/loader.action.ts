@@ -11,7 +11,6 @@ export interface LoaderMeta {
     load?: boolean;
     error?: any;
     success?: boolean;
-    custom?: boolean;
   };
 }
 
