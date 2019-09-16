@@ -1,6 +1,6 @@
-import { Configuration } from 'projects/core/src/model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { ConfigurationState } from '../configuration-state';
+import { Configuration } from './../../../../model/configurator.model';
 import { reducer } from './configurator.reducer';
 
 describe('ConfiguratorReducer', () => {

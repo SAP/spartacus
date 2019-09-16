@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { ConfiguratorCommonsService } from 'projects/core/src/configurator/commons/facade/configurator-commons.service';
-import { Configuration } from 'projects/core/src/model/configurator.model';
+import {
+  Configuration,
+  ConfiguratorCommonsService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -4,11 +4,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Configuration } from 'projects/core/src/model/configurator.model';
 import { Observable, of } from 'rxjs';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
+import { Configuration } from './../../../../model/configurator.model';
 import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
 import * as fromEffects from './configurator.effect';
 

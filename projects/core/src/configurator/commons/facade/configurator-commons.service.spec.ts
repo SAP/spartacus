@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { ConfiguratorCommonsService } from 'projects/core/src/configurator/commons/facade/configurator-commons.service';
-import { Configuration } from 'projects/core/src/model/configurator.model';
 import { Observable, of } from 'rxjs';
 import { StateWithConfiguration } from '../store/configuration-state';
+import { Configuration } from './../../../model/configurator.model';
+import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 class MockStore {

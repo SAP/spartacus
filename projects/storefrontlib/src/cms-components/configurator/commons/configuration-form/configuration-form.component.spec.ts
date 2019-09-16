@@ -1,8 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterState } from '@angular/router';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { ConfiguratorCommonsService } from 'projects/core/src/configurator/commons/facade/configurator-commons.service';
-import { Configuration } from 'projects/core/src/model/configurator.model';
+import {
+  Configuration,
+  ConfiguratorCommonsService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConfigurationFormComponent } from './configuration-form.component';
 
