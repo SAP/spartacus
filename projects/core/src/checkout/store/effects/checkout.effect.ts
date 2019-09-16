@@ -67,7 +67,10 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
-            new CheckoutActions.ClearCheckoutDeliveryMode(payload),
+            new CheckoutActions.ClearCheckoutDeliveryMode({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
             new CheckoutActions.ClearSupportedDeliveryModes(),
             new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
             new CheckoutActions.LoadSupportedDeliveryModes({
@@ -322,7 +325,11 @@ export class CheckoutEffects {
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
           map(
-            () => new CheckoutActions.ClearCheckoutDeliveryModeSuccess(payload)
+            () =>
+              new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              })
           ),
           catchError(error =>
             of(
