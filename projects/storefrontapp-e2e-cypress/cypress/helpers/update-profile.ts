@@ -2,7 +2,6 @@ import { standardUser } from '../sample-data/shared-users';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
 import { generateMail, randomString } from './user';
-import { signOut } from './register';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 export const newTitle = 'dr';
 export const newFirstName = 'N';
@@ -73,7 +72,6 @@ export function verifyUpdatedProfile() {
     cy.get('[formcontrolname="firstName"]').should('have.value', newFirstName);
     cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
   });
-  signOut();
 }
 
 export function verifyAsAnonymous() {

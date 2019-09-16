@@ -50,6 +50,15 @@ export function accessPageAsAnonymous() {
   cy.location('pathname').should('contain', '/login');
 }
 
+export function accessAddressBookPage() {
+  cy.get('cx-page-layout cx-login')
+        .getByText('My Account')
+        .click({ force: true });
+      cy.get('nav')
+        .getByText('Address Book')
+        .click({ force: true });
+}
+
 export function displayAddressForm() {
   cy.get('cx-address-form').should('exist');
 }
@@ -144,4 +153,48 @@ export function deleteExistingAddress() {
   const defaultCard = cy.get('cx-address-card').first();
   defaultCard.should('contain', '✓ DEFAULT');
   defaultCard.should('contain', 'Baz Qux');
+}
+
+export function verifyAsAnonymous() {
+  it('should redirect to login page for anonymous user', () => {
+    accessPageAsAnonymous();
+  });
+}
+
+export function addressBookTest() {
+  it('should go to address  book page when logged in', () => {
+    accessAddressBookPage();
+  });
+  
+  it('should display a new address form when no address exists', () => {
+    displayAddressForm();
+  });
+
+  it('should create a new address', () => {
+    createNewAddress();
+  });
+
+  it('should display the newly added address card in the address book', () => {
+    verifyNewAddress();
+  });
+
+  it('should edit the existing address', () => {
+    editAddress();
+  });
+
+  it('should display the edited address card in the address book', () => {
+    verifyEditedAddress();
+  });
+
+  it('should add a second address', () => {
+    addSecondAddress();
+  });
+
+  it('should set the second address as the default one', () => {
+    setSecondAddressToDefault();
+  });
+
+  it('should delete the existing address', () => {
+    deleteExistingAddress();
+  });
 }

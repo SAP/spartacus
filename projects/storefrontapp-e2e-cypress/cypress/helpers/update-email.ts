@@ -2,8 +2,8 @@ import { standardUser } from '../sample-data/shared-users';
 import { login } from './auth-forms';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
-import { signOut } from './register';
 import { generateMail, randomString } from './user';
+import { signOut } from './register';
 export const UPDATE_EMAIL = '/my-account/update-email';
 export const password = 'Password123.';
 
@@ -54,10 +54,10 @@ export function updateEmail() {
   // TODO: uncomment below component and remove update-email assertion when #1957 is implemented
   cy.get('cx-update-email').should('exist');
   // checkBanner();
-  signOut();
 }
 
 export function verifyOldEmailInvalid() {
+  signOut();
   cy.visit('/login');
   login(
     standardUser.registrationData.email,
