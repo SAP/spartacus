@@ -1,6 +1,8 @@
+import { assertAddressForm } from '../../helpers/address-book';
+import { login } from '../../helpers/auth-forms';
 import * as checkout from '../../helpers/checkout-flow';
 import { waitForPage } from '../../helpers/checkout-flow';
-import { user } from '../../sample-data/checkout-flow';
+import { cheapProduct, user } from '../../sample-data/checkout-flow';
 
 context('Checkout as guest', () => {
   before(() => {
@@ -83,6 +85,112 @@ context('Checkout as guest', () => {
         cy.get('button[type=submit]').click();
       });
       cy.wait(`@${homePage}`);
+    });
+  });
+
+  describe('Guest account', () => {
+    it('should be able to check order in order history', () => {
+      checkout.viewOrderHistoryWithCheapProduct();
+    });
+
+    it('should show address in Address Book', () => {
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+      });
+
+      assertAddressForm(
+        {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phone: '',
+          address: user.address,
+        },
+        'US-CT'
+      );
+    });
+
+    it('should show payment in Payment Methods', () => {
+      cy.selectUserMenuOption({
+        option: 'Payment Details',
+      });
+
+      cy.get('.cx-payment .cx-body').then(() => {
+        cy.get('cx-card').should('exist');
+      });
+    });
+
+    it('should show personal details in Personal Details', () => {
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+      });
+
+      cy.get('cx-update-profile-form').within(() => {
+        cy.get('[formcontrolname="titleCode"]')
+          .find(':selected')
+          .should('have.value', 'mr');
+        cy.get('[formcontrolname="firstName"]').should(
+          'have.value',
+          user.firstName
+        );
+        cy.get('[formcontrolname="lastName"]').should(
+          'have.value',
+          user.lastName
+        );
+      });
+    });
+  });
+
+  describe('Guest cart merge', () => {
+    it('should keep guest cart content and restart checkout', () => {
+      checkout.signOut();
+
+      checkout.goToCheapProductDetailsPage();
+      checkout.addCheapProductToCartAndProceedToCheckout();
+
+      const guestLoginPage = checkout.waitForPage(
+        '/checkout-login',
+        'getguestLoginPage'
+      );
+
+      cy.get('.register')
+        .getByText(/Guest Checkout/i)
+        .click();
+      cy.wait(`@${guestLoginPage}`);
+      cy.get('cx-checkout-login').within(() => {
+        cy.get('[formcontrolname="email"]')
+          .clear()
+          .type(user.email);
+        cy.get('[formcontrolname="emailConfirmation"]')
+          .clear()
+          .type(user.email);
+        cy.get('button[type=submit]').click();
+      });
+      const shippingPage = waitForPage(
+        '/checkout/shipping-address',
+        'getShippingPage'
+      );
+      cy.wait(`@${shippingPage}`);
+
+      checkout.fillAddressFormWithCheapProduct();
+
+      const loginPage = waitForPage('/login', 'getLoginPage');
+      cy.getByText(/Sign in \/ Register/i).click();
+      cy.wait(`@${loginPage}`);
+      login(user.email, user.password);
+
+      cy.wait(`@${shippingPage}`);
+
+      cy.get('cx-mini-cart .count').contains('1');
+
+      const cartPage = waitForPage('/cart', 'getCartPage');
+      cy.get('cx-mini-cart').click();
+      cy.wait(`@${cartPage}`);
+
+      cy.get('cx-cart-item-list')
+        .contains('cx-cart-item', cheapProduct.code)
+        .within(() => {
+          cy.get('.cx-counter-value').should('have.value', '1');
+        });
     });
   });
 });
