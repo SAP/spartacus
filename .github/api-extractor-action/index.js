@@ -73,7 +73,10 @@ Toolkit.run(
                 ? 'nothing changed ;)'
                 : '``` diff\n' + libDiff.diff + '\n```')
           )
-          .join('\n')
+          .join('\n') +
+        '### @spartacus/core public API diff\n' +
+        'unable to analyze this library :(' +
+        'Please check changes in public API manually.'
       );
     }
 
