@@ -35,7 +35,7 @@ export class SearchPageMetaResolver extends PageMetaResolver
       string
     > = this.routingService.getRouterState().pipe(
       map(state => state.state.params['query']),
-      filter(Boolean)
+      filter(q => !!q)
     );
 
     return combineLatest([total$, query$]).pipe(

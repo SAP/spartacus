@@ -1,17 +1,21 @@
 {
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "add-spartacus": {
-      "description": "Add spartacus to Angular project.",
-      "factory": "./add-spartacus/index#addSpartacus",
-      "schema": "./add-spartacus/schema.json"
-    },
     "ng-add": {
       "factory": "./ng-add/index",
       "description": "Install and configure spartacus",
       "schema": "./add-spartacus/schema.json",
       "private": true,
       "hidden": true
+    },
+    "add-spartacus": {
+      "description": "Add spartacus to Angular project.",
+      "factory": "./add-spartacus/index#addSpartacus",
+      "schema": "./add-spartacus/schema.json"
+    },
+    "add-pwa": {
+      "description": "Add PWA to project.",
+      "factory": "./add-pwa/index#addPWA"
     }
   }
 }

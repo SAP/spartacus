@@ -1,4 +1,4 @@
-<ng-container *ngIf="(order$ | async) as order">
+<ng-container *ngIf="order$ | async as order">
   <div *ngFor="let consignment of order.consignments" class="cx-list row">
     <div class="cx-list-header col-12">
       <div class="cx-list-status">
@@ -13,6 +13,13 @@
         <div>{{ 'orderDetails.shippedOn' | cxTranslate }}&nbsp;</div>
         <div>{{ consignment?.statusDate | cxDate }}</div>
       </div>
+
+      <cx-consignment-tracking
+        [orderCode]="order.code"
+        [consignment]="consignment"
+        *cxFeature="'consignmentTracking'"
+      >
+      </cx-consignment-tracking>
     </div>
     <div class="cx-list-item col-12">
       <cx-cart-item-list
