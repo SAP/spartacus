@@ -1,7 +1,9 @@
 import * as checkout from '../../helpers/checkout-flow';
+import * as profile from '../../helpers/update-profile';
 
 context('ASM', () => {
   let customer: any;
+
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     checkout.visitHomePage();
@@ -88,6 +90,10 @@ context('ASM', () => {
     checkout.viewOrderHistoryWithCheapProduct();
   });
 
+  it('customer emulation - update personal details.', () => {
+    profile.updateProfile();
+  });
+
   it('customer emulation - should stop customer emulation.', () => {
     checkout.signOutUser();
     cy.get('cx-csagent-login-form').should('not.exist');
@@ -105,10 +111,18 @@ context('ASM', () => {
     cy.get('cx-asm-main-ui').should('not.exist');
   });
 
-  it('should the customer see the order.', () => {
+  it('customer - should sign in the customer.', () => {
     checkout.visitHomePage();
     checkout.signInUser();
+  });
+  it('customer - should the customer see the order placed by the agent.', () => {
     checkout.viewOrderHistoryWithCheapProduct();
+  });
+
+  it('customer - verify personal details updated by the agent.', () => {
+    profile.verifyUpdatedProfile();
+  });
+  it('customer - should sign out the user.', () => {
     checkout.signOutUser();
   });
 
