@@ -3,11 +3,12 @@ import { AuthService } from '../../auth/facade/auth.service';
 import { CartDataService } from './cart-data.service';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
-import { StateWithCart, CartActions } from '../store';
+import { StateWithCart, CartActions } from '../store/index';
 import { Type } from '@angular/core';
 import * as fromReducers from '../store/reducers/index';
 import { UserToken } from '../../auth/models/token-types.model';
 import { ANONYMOUS_USERID } from './cart-data.service';
+import { Cart } from '../../model/cart.model';
 
 const userToken$ = new ReplaySubject<UserToken | any>();
 
@@ -25,7 +26,7 @@ const testUserToken: UserToken = {
   expires_in: 1,
   scope: ['scope'],
 };
-const testCart = {
+const testCart: Cart = {
   totalItems: 2,
   guid: 'testGuid',
   code: 'testCode',

@@ -27,8 +27,6 @@ class MockUserAddressService {
   loadAddresses(): void {}
 }
 
-class MockCartService {}
-
 class MockCheckoutDeliveryService {
   createAndSetAddress = createSpy();
   setDeliveryAddress = createSpy();
@@ -130,7 +128,7 @@ describe('ShippingAddressComponent', () => {
       ],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: CartService, useClass: MockCartService },
+        { provide: CartService, useValue: {} },
         {
           provide: CheckoutDeliveryService,
           useClass: MockCheckoutDeliveryService,
