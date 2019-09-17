@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  CartDataService,
-} from '../../cart/facade/cart-data.service';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Order } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';

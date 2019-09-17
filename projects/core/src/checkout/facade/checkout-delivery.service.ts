@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, shareReplay, tap } from 'rxjs/operators';
-import {
-  CartDataService,
-} from '../../cart/facade/cart-data.service';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';

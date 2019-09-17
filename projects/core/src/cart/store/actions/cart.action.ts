@@ -40,7 +40,9 @@ export class CreateCartSuccess extends StateLoaderActions.LoaderSuccessAction {
 
 export class LoadCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_CART;
-  constructor(public payload: { userId: string; cartId: string, extraData?: any }) {
+  constructor(
+    public payload: { userId: string; cartId: string; extraData?: any }
+  ) {
     super(CART_DATA);
   }
 }

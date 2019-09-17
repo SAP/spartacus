@@ -1,6 +1,11 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
-import { EntityLoadAction, EntitySuccessAction, EntityFailAction, EntityResetAction } from '../../../state/utils/entity-loader/entity-loader.action';
+import {
+  EntityLoadAction,
+  EntitySuccessAction,
+  EntityFailAction,
+  EntityResetAction,
+} from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { getCartIdByUserId } from '../../utils/utils';
 import { Cart } from '../../../model/cart.model';
@@ -58,7 +63,7 @@ export class CreateMultiCartFail extends EntityFailAction {
 
 export class CreateMultiCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_MULTI_CART_SUCCESS;
-  constructor(public payload: { cart: Cart, userId: string, extraData: any }) {
+  constructor(public payload: { cart: Cart; userId: string; extraData: any }) {
     super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
@@ -72,26 +77,29 @@ export class LoadMultiCart extends EntityLoadAction {
 
 export class LoadMultiCartFail extends EntityFailAction {
   readonly type = LOAD_MULTI_CART_FAIL;
-  constructor(public payload: { cartId: string, error?: any }) {
+  constructor(public payload: { cartId: string; error?: any }) {
     super(MULTI_CART_FEATURE, payload.cartId, payload.error);
   }
 }
 
 export class LoadMultiCartSuccess extends EntitySuccessAction {
   readonly type = LOAD_MULTI_CART_SUCCESS;
-  constructor(public payload: { cart: Cart, userId: string, extraData: any }) {
+  constructor(public payload: { cart: Cart; userId: string; extraData: any }) {
     super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
 
-export class MergeMultiCart implements Action {
+export class MergeWithCurrentCart implements Action {
   readonly type = MERGE_MULTI_CART;
   constructor(public payload: any) {}
 }
 
+// I don't know if we should keep it or replace with different action for removal
 export class MergeMultiCartSuccess extends EntityRemoveAction {
   readonly type = MERGE_MULTI_CART_SUCCESS;
-  constructor(public payload: { oldCartId: string, cartId: string, userId: string }) {
+  constructor(
+    public payload: { oldCartId: string; cartId: string; userId: string }
+  ) {
     super(MULTI_CART_FEATURE, payload.oldCartId);
   }
 }
@@ -113,8 +121,8 @@ export class ClearMultiCart extends EntityRemoveAction {
 export class SetFakeLoadingCart extends EntityLoadAction {
   readonly type = SET_FAKE_LOADING_CART;
   constructor(public payload: { cartId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId)
-  };
+    super(MULTI_CART_FEATURE, payload.cartId);
+  }
 }
 
 export class RemoveCart extends EntityRemoveAction {
@@ -133,7 +141,7 @@ export type MultiCartActions =
   | LoadMultiCart
   | LoadMultiCartFail
   | LoadMultiCartSuccess
-  | MergeMultiCart
+  | MergeWithCurrentCart
   | MergeMultiCartSuccess
   | ResetMultiCartDetails
   | ClearMultiCart

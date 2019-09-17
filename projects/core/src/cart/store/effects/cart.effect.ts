@@ -170,19 +170,19 @@ export class CartEffects {
 
   // TODO: remove when removing cart store module
   @Effect()
-  mergeCart2$: Observable<CartActions.MergeMultiCart> = this.actions$.pipe(
+  mergeCart2$: Observable<
+    CartActions.MergeWithCurrentCart
+  > = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map(
       (action: CartActions.MergeCart) =>
-        new CartActions.MergeMultiCart(action.payload)
+        new CartActions.MergeWithCurrentCart(action.payload)
     )
   );
 
-  // TODO fix for multi cart usage (no only current)
+  // TODO replace in 2.0 with multi cart action
   @Effect()
-  mergeCart$: Observable<
-    CartActions.CreateCart | CartActions.CreateMultiCart
-  > = this.actions$.pipe(
+  mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map((action: CartActions.MergeCart) => action.payload),
     mergeMap(payload => {
