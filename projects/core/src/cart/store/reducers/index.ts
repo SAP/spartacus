@@ -7,7 +7,7 @@ import { CartsState, CartState, CART_DATA, } from '../cart-state';
 import { MultiCartState, MULTI_CART_FEATURE } from '../multi-cart-state';
 import { reducer as cartReducer } from './cart.reducer';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
-import { multiCartReducer, cartEntitiesReducer } from './multi-cart.reducer';
+import { activeCartReducer, cartEntitiesReducer } from './multi-cart.reducer';
 import { Cart } from '../../../model/cart.model';
 
 export function getReducers(): ActionReducerMap<CartsState> {
@@ -61,7 +61,7 @@ export const multiCartReducerToken: InjectionToken<ActionReducerMap<MultiCartSta
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   return {
     carts: entityLoaderReducer<Cart>(MULTI_CART_FEATURE, cartEntitiesReducer),
-    active: multiCartReducer
+    active: activeCartReducer
   };
 }
 
