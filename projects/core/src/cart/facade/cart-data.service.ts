@@ -46,7 +46,9 @@ export class CartDataService {
 
   get cartId(): string {
     if (this.hasCart) {
-      return this.userId === OCC_USERID_ANONYMOUS ? this.cart.guid : this.cart.code;
+      return this.userId === OCC_USERID_ANONYMOUS
+        ? this.cart.guid
+        : this.cart.code;
     }
   }
 }

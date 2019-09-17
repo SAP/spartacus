@@ -19,7 +19,9 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.store.dispatch(new UserActions.LoadUserPaymentMethods(OCC_USERID_CURRENT));
+    this.store.dispatch(
+      new UserActions.LoadUserPaymentMethods(OCC_USERID_CURRENT)
+    );
   }
 
   /**
