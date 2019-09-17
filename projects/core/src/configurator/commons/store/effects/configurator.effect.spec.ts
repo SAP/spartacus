@@ -14,6 +14,7 @@ import * as fromEffects from './configurator.effect';
 
 const productCode = 'CONF_LAPTOP';
 const productConfiguration: Configuration = {
+  configId: 'a',
   productCode: productCode,
   complete: true,
   consistent: true,

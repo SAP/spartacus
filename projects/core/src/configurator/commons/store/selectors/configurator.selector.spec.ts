@@ -13,6 +13,7 @@ import { ConfiguratorSelectors } from './index';
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;
   const configuration: Configuration = {
+    configId: 'a',
     productCode: 'CONF_PRODUCT',
   };
 
@@ -36,7 +37,7 @@ describe('Configurator selectors', () => {
       .pipe(select(ConfiguratorSelectors.getConfigurationContent))
       .subscribe(value => (result = value));
 
-    expect(result).toEqual({});
+    expect(result).toEqual(null);
   });
 
   it('should return content from state when selecting with content selector', () => {

@@ -10,6 +10,7 @@ describe('ConfiguratorReducer', () => {
   };
   const productCode = 'CONF_LAPTOP';
   const configuration: Configuration = {
+    configId: 'a',
     productCode: productCode,
   };
   it('should not change state on CreateConfiguration ', () => {

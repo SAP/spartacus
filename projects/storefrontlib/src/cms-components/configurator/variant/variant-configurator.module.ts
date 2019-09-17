@@ -21,7 +21,7 @@ import { ConfigurationTitleComponent } from '../commons/configuration-title/conf
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'configureCPQCONFIGURATOR/:pcCode',
+        path: 'configureCPQCONFIGURATOR/:rootProduct',
         data: { pageLabel: '/configureCPQCONFIGURATOR' },
         component: PageLayoutComponent,
         canActivate: [CmsPageGuard],

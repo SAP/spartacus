@@ -11,6 +11,7 @@ class MockStore {
   dispatch() {}
   select(): Observable<Configuration> {
     const productConfiguration: Configuration = {
+      configId: 'a',
       productCode: PRODUCT_CODE,
     };
     return of(productConfiguration);

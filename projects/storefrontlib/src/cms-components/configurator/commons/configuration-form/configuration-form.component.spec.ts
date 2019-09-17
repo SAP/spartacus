@@ -14,7 +14,7 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const mockRouterState: any = {
   state: {
     params: {
-      pcCode: PRODUCT_CODE,
+      rootProduct: PRODUCT_CODE,
     },
   },
 };
@@ -28,6 +28,7 @@ class MockRoutingService {
 class MockConfiguratorCommonsService {
   createConfiguration(productCode: string): Observable<Configuration> {
     const productConfig: Configuration = {
+      configId: 'a',
       consistent: true,
       complete: true,
       productCode: productCode,

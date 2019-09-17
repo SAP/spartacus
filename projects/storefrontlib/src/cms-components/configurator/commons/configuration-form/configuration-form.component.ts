@@ -4,7 +4,7 @@ import {
   ConfiguratorCommonsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-config-form',
@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class ConfigurationFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configuration>;
+  subscription = new Subscription();
 
   constructor(
     private routingService: RoutingService,
@@ -19,16 +20,22 @@ export class ConfigurationFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routingService
-      .getRouterState()
-      .forEach(state => this.createConfiguration(state));
+    this.subscription.add(
+      this.routingService
+        .getRouterState()
+        .subscribe(state => this.createConfiguration(state))
+    );
   }
 
   createConfiguration(routingData) {
     this.configuration$ = this.configuratorCommonsService.createConfiguration(
-      routingData.state.params.pcCode
+      routingData.state.params.rootProduct
     );
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

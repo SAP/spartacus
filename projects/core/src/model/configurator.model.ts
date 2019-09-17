@@ -26,6 +26,7 @@ export interface Value {
 }
 
 export interface Configuration {
+  configId: string;
   consistent?: boolean;
   complete?: boolean;
   productCode?: string;

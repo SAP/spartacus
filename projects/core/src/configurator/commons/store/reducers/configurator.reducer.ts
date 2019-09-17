@@ -2,7 +2,7 @@ import { ConfiguratorActions } from '../actions/index';
 import { ConfigurationState } from '../configuration-state';
 
 export const initialState: ConfigurationState = {
-  content: {},
+  content: null,
   refresh: false,
 };
 

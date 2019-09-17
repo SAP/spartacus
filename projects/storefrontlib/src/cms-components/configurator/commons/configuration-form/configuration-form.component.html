@@ -1,5 +1,7 @@
 <ng-container *ngIf="(configuration$ | async) as configuration">
   <div class="cx-total">
+    {{ 'header.configId' | cxTranslate }} : {{ configuration.configId }}
+    <br />
     {{ 'header.consistent' | cxTranslate }} : {{ configuration.consistent }}
     <br />
     {{ 'header.complete' | cxTranslate }} : {{ configuration.complete }}
