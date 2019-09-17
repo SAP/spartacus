@@ -8,10 +8,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import {
-  ANONYMOUS_USERID,
-  CartDataService,
-} from '../../cart/facade/cart-data.service';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
@@ -25,6 +22,7 @@ import { CheckoutSelectors } from '../store/selectors/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -278,6 +276,6 @@ export class CheckoutDeliveryService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    return this.cartData.userId !== OCC_USER_ID_ANONYMOUS;
   }
 }
