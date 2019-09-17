@@ -41,7 +41,7 @@ class MockUserAddressService {
   }
 }
 
-// TODO(issue:#xxxx) Deprecated since 1.3.0
+// TODO(issue:#4604) Deprecated since 1.3.0
 const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
 class MockFeatureConfigService {
   isLevel(_level: string): boolean {
@@ -116,7 +116,7 @@ describe('AddressFormComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        // TODO(issue:#xxxx) Deprecated since 1.3.0
+        // TODO(issue:#4604) Deprecated since 1.3.0
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
@@ -361,7 +361,7 @@ describe('AddressFormComponent', () => {
       expect(component.verifyAddress).toHaveBeenCalled();
     });
 
-    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    // TODO(issue:#4604) Deprecated since 1.3.0
     it('should be enabled only when form has all mandatory fields filled', () => {
       const isContinueBtnDisabled = () => {
         fixture.detectChanges();
@@ -392,7 +392,7 @@ describe('AddressFormComponent', () => {
     });
 
     it('should be enabled whether or not form has all mandatory fields filled', () => {
-      // TODO(issue:#xxxx) Deprecated since 1.3.0
+      // TODO(issue:#4604) Deprecated since 1.3.0
       isLevelBool.next(true);
 
       const isContinueBtnDisabled = () => {
@@ -424,7 +424,7 @@ describe('AddressFormComponent', () => {
     });
 
     it('should touch all form fields when clicking submit invalid form', () => {
-      // TODO(issue:#xxxx) Deprecated since 1.3.0
+      // TODO(issue:#4604) Deprecated since 1.3.0
       isLevelBool.next(true);
       fixture.detectChanges();
 

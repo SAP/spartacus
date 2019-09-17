@@ -93,7 +93,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     private modalService: ModalService,
-    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    // TODO(issue:#4604) Deprecated since 1.3.0
     protected featureConfig?: FeatureConfigService
   ) {}
 
@@ -200,7 +200,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
-    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    // TODO(issue:#4604) Deprecated since 1.3.0
     if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
       this.checkoutDeliveryService.verifyAddress(this.address.value);
     } else {
@@ -216,7 +216,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
    * @deprecated since 1.3.0
    * This function will be removed as continue button should not be disabled
    *
-   * TODO(issue:#xxxx) Deprecated since 1.3.0
+   * TODO(issue:#4604) Deprecated since 1.3.0
    */
   protected shouldDisableContinueButton(): boolean {
     if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
