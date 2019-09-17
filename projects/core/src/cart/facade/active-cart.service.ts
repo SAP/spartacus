@@ -8,7 +8,7 @@ import { OrderEntry } from '../../model/order.model';
 import { CartActions } from '../store/actions/index';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { CartDataService } from './cart-data.service';
-import { StateWithMultiCart } from '../store/cart-state';
+import { StateWithMultiCart } from '../store/multi-cart-state';
 import { LowLevelCartService } from './low-level-cart.service';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import {

@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
-import { MULTI_CART_FEATURE } from './cart-state';
+import { MULTI_CART_FEATURE } from './multi-cart-state';
 import { multiCartReducerProvider, multiCartReducerToken, multiCartMetaReducers } from './reducers/index';
 import { ConfigModule } from '../../config/config.module';
 import { StorageSyncType, StateConfig } from '../../state/config/state-config';

@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { OrderEntry } from '../../model/order.model';
 import { CartActions } from '../store/actions/index';
-import { StateWithMultiCart } from '../store/cart-state';
+import { StateWithMultiCart } from '../store/multi-cart-state';
 import { LoadCart } from '../store/actions/cart.action';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { LoaderState } from '../../state/utils/loader/loader-state';

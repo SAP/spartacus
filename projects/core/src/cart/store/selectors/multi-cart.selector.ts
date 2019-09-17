@@ -7,7 +7,7 @@ import {
   StateWithMultiCart,
   MultiCartState,
   MULTI_CART_FEATURE,
-} from '../cart-state';
+} from '../multi-cart-state';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   entityStateSelector,
@@ -50,18 +50,16 @@ export const getCartSelectorFactory = (
   );
 };
 
-// TODO: check for nulls
 export const getCartEntriesSelectorFactory = (
   cartId: string
 ): MemoizedSelector<StateWithMultiCart, OrderEntry[]> => {
   return createSelector(
     getMultiCartsEntities,
     (state: EntityLoaderState<Cart>) =>
-      entityValueSelector(state, cartId) ? entityValueSelector(state, cartId).entries : []
+      entityValueSelector(state, cartId) && entityValueSelector(state, cartId).entries ? entityValueSelector(state, cartId).entries : []
   );
 };
 
-// TODO: checks for nulls
 export const getCartEntrySelectorFactory = (
   cartId: string,
   productCode: string
@@ -70,7 +68,7 @@ export const getCartEntrySelectorFactory = (
     getMultiCartsEntities,
     (state: EntityLoaderState<Cart>) =>
       entityValueSelector(state, cartId) && entityValueSelector(state, cartId).entries ? entityValueSelector(state, cartId).entries.find(
-        entry => '' + entry.product.code ===  '' + productCode
+        entry => entry.product.code ===  productCode
       ) : null
   );
 };
