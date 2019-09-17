@@ -114,7 +114,7 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
-describe('PaymentFormComponent', () => {
+fdescribe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;

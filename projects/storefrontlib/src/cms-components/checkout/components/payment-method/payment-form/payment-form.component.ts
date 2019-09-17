@@ -56,7 +56,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
    * Boolean to check whether the button has already been clicked.
    * If so, this disables the button to prevent button click event to fire twice
    */
-  buttonHasBeenClicked: boolean = false;
+  buttonHasBeenClicked = false;
 
   @Input()
   paymentMethodsCount: number;

@@ -45,7 +45,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
    * Boolean to check whether the button has already been clicked.
    * If so, this disables the button to prevent button click event to fire twice
    */
-  buttonHasBeenClicked: boolean = false;
+  buttonHasBeenClicked = false;
 
   @Input()
   addressData: Address;
@@ -256,5 +256,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();
     }
+
+    this.buttonHasBeenClicked = false;
   }
 }
