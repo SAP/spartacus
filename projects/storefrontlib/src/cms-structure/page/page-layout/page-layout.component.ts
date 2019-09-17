@@ -46,6 +46,6 @@ export class PageLayoutComponent {
       this.renderer.removeClass(this.el.nativeElement, this.currentClass);
     }
     this.renderer.addClass(this.el.nativeElement, cls);
-    this.currentClass = cls;
+    this.currentClass = cls + ' test';
   }
 }
