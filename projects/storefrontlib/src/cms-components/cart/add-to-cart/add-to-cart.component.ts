@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry, Product } from '@spartacus/core';
+import { CartService, OrderEntry, Product, GlobalMessageService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -33,11 +33,19 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
+  /**
+   * (GH-4363)
+   * This boolean will check if the product is a variant or not.
+   * If it is a variant, then its value should be set to true, else false.
+   */
+  variantHasBeenChosen: boolean;
+
   constructor(
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {
@@ -68,6 +76,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
         });
     }
+
+    this.globalMessageService.get().subscribe(() => {
+      this.variantHasBeenChosen = false;
+    });
   }
 
   updateCount(value: number): void {
@@ -86,7 +98,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         if (entry) {
           this.increment = true;
         }
-        this.openModal();
+
+        /**
+         * (GH-4363)
+         * Added an if state that checks whether the chosen product
+         * is indeed a variant. If not, then modal will not pop up.
+         */
+        if(this.variantHasBeenChosen)
+          this.openModal();
         this.cartService.addEntry(this.productCode, this.quantity);
         this.increment = false;
       })
