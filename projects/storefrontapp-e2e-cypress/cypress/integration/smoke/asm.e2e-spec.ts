@@ -1,3 +1,4 @@
+import * as addressBook from '../../helpers/address-book';
 import * as checkout from '../../helpers/checkout-flow';
 import * as profile from '../../helpers/update-profile';
 
@@ -94,6 +95,21 @@ context('ASM', () => {
     profile.updateProfile();
   });
 
+  it('customer emulation - delete address', () => {
+    cy.selectUserMenuOption({
+      option: 'Address Book',
+    });
+    cy.get('cx-address-card').should('have.length', 1);
+    addressBook.deleteFirstAddress();
+    cy.get('cx-address-card').should('have.length', 0);
+  });
+
+  it('customer emulation - create new address', () => {
+    addressBook.createNewAddress();
+    cy.get('cx-address-card').should('have.length', 1);
+    addressBook.verifyNewAddress();
+  });
+
   it('customer emulation - should stop customer emulation.', () => {
     checkout.signOutUser();
     cy.get('cx-csagent-login-form').should('not.exist');
@@ -122,6 +138,15 @@ context('ASM', () => {
   it('customer - verify personal details updated by the agent.', () => {
     profile.verifyUpdatedProfile();
   });
+
+  it('customer - verify address created by the agent.', () => {
+    cy.selectUserMenuOption({
+      option: 'Address Book',
+    });
+    cy.get('cx-address-card').should('have.length', 1);
+    addressBook.verifyNewAddress();
+  });
+
   it('customer - should sign out the user.', () => {
     checkout.signOutUser();
   });

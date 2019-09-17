@@ -1,4 +1,4 @@
-import { fillShippingAddress, AddressData } from './checkout-forms';
+import { AddressData, fillShippingAddress } from './checkout-forms';
 import * as alerts from './global-message';
 
 export const newAddress: AddressData = {
@@ -108,13 +108,6 @@ export function setSecondAddressToDefault() {
 }
 
 export function deleteExistingAddress() {
-  cy.server();
-  cy.route(
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/addresses?lang=en&curr=USD`
-  ).as('fetchAddresses');
-
   let firstCard = cy.get('cx-address-card').first();
 
   firstCard.find('.delete').click();
@@ -132,10 +125,7 @@ export function deleteExistingAddress() {
   );
 
   // click delete
-  firstCard = cy.get('cx-address-card').first();
-  firstCard.find('.delete').click();
-  cy.get('.cx-address-card-delete button.btn-primary').click();
-  cy.wait('@fetchAddresses');
+  deleteFirstAddress();
   alerts.getSuccessAlert().contains('Address deleted successfully!');
 
   cy.get('cx-address-card').should('have.length', 1);
@@ -144,4 +134,25 @@ export function deleteExistingAddress() {
   const defaultCard = cy.get('cx-address-card').first();
   defaultCard.should('contain', '✓ DEFAULT');
   defaultCard.should('contain', 'Baz Qux');
+}
+
+export function deleteFirstAddress() {
+  cy.server();
+  cy.route(
+    'DELETE',
+    '/rest/v2/electronics-spa/users/*/addresses/*?lang=en&curr=USD'
+  ).as('deleteAddress');
+  cy.route('/rest/v2/electronics-spa/users/*/addresses?lang=en&curr=USD').as(
+    'fetchAddresses'
+  );
+
+  const firstCard = cy.get('cx-address-card').first();
+  firstCard.find('.delete').click();
+  cy.get('.cx-address-card-delete button.btn-primary').click();
+  cy.wait('@deleteAddress')
+    .its('status')
+    .should('eq', 200);
+  cy.wait('@fetchAddresses')
+    .its('status')
+    .should('eq', 200);
 }
