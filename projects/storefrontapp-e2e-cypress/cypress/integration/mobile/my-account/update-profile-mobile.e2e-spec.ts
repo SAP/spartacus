@@ -10,20 +10,29 @@ describe(`${formats.mobile.width +
   1}p resolution - Update Profile Page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  verifyAsAnonymous();
+  describe('update profile test for anonymous user', () => {
+    verifyAsAnonymous();
+  });
 
   describe('update profile test for logged in user', () => {
     before(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-      homepage.clickHamburger();
+      cy.requireLoggedIn();
+      cy.visit('/');
     });
 
     beforeEach(() => {
       cy.restoreLocalStorage();
-      cy.viewport(formats.mobile.width, formats.mobile.height);
+      homepage.clickHamburger();
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+        isMobile: true,
+      });
     });
 
     updateProfileTest();

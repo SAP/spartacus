@@ -21,13 +21,7 @@ export function accessPageAsAnonymous() {
   cy.url().should('contain', PAGE_URL_LOGIN);
 }
 
-export function accessUpdatePasswordPage() {
-  cy.get('cx-page-layout cx-login')
-    .getByText('My Account')
-    .click({ force: true });
-  cy.get('nav')
-    .getByText('Password')
-    .click({ force: true });
+export function verifyPasswordPage() {
   cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
   cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
 }
@@ -39,7 +33,6 @@ export function cancelUpdatePasswordAction() {
 }
 
 export function updatePasswordInvalidPassword() {
-  accessUpdatePasswordPage();
   alerts.getErrorAlert().should('not.exist');
   cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
   cy.get('[formcontrolname="newPassword"]').type(newPassword);
@@ -50,7 +43,6 @@ export function updatePasswordInvalidPassword() {
 }
 
 export function updatePassword() {
-  accessUpdatePasswordPage();
   alerts.getSuccessAlert().should('not.exist');
   cy.get('[formcontrolname="oldPassword"]').type(
     standardUser.registrationData.password
@@ -79,7 +71,7 @@ export function updatePasswordTest() {
   });
 
   it('should be able to go to Update Password Page', () => {
-    accessUpdatePasswordPage();
+    verifyPasswordPage();
   });
 
   it('should be able to cancel and go back to home', () => {

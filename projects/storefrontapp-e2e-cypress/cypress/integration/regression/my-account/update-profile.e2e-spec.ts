@@ -9,11 +9,21 @@ describe('My Account - Update Profile', () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  verifyAsAnonymous();
+  describe('update profile test for anonymous user', () => {
+    verifyAsAnonymous();
+  });
 
   describe('update profile test for logged in user', () => {
+    before(() => {
+      cy.requireLoggedIn();
+      cy.visit('/');
+    });
+
     beforeEach(() => {
       cy.restoreLocalStorage();
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+      });
     });
 
     updateProfileTest();

@@ -9,7 +9,9 @@ describe('My Account - Consent Management', () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  verifyAsAnonymous();
+  describe('consent management test for anonymous user', () => {
+    verifyAsAnonymous();
+  });
 
   describe('consent management test for logged in user', () => {
     before(() => {
@@ -20,6 +22,9 @@ describe('My Account - Consent Management', () => {
 
     beforeEach(() => {
       cy.restoreLocalStorage();
+      cy.selectUserMenuOption({
+        option: 'Consent Management',
+      });
     });
 
     consentManagementTest();

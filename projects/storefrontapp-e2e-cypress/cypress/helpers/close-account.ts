@@ -15,14 +15,6 @@ export function accessPageAsAnonymous() {
   cy.location('pathname').should('contain', '/login');
 }
 
-export function accessCloseAccountPage() {
-  cy.get('cx-page-layout cx-login')
-    .getByText('My Account')
-    .click({ force: true });
-  cy.get('nav')
-    .getByText('Close Account')
-    .click({ force: true });
-}
 export function cancelCloseAccountAction() {
   cy.get('cx-close-account a').click({ force: true });
   cy.location('pathname').should('contain', '/');
@@ -31,7 +23,7 @@ export function cancelCloseAccountAction() {
 export function closeAccount() {
   cy.server();
   cy.route('DELETE', '/rest/v2/electronics-spa/users/*').as('deleteQuery');
-  accessCloseAccountPage();
+
   cy.location('pathname').should('contain', CLOSE_ACCOUNT);
 
   cy.get('cx-close-account button').click({ force: true });
@@ -67,9 +59,6 @@ export function closeAccountTest() {
     registerAndLogin();
   });
 
-  it('should be able to go to Close Account Page', () => {
-    accessCloseAccountPage();
-  });
   it('should be able to cancel and go back to home', () => {
     cancelCloseAccountAction();
   });

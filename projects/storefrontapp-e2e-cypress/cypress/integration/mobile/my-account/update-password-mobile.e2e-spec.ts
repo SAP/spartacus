@@ -10,20 +10,24 @@ describe(`${formats.mobile.width +
   1}p resolution - Update Password page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  verifyAsAnonymous();
+  describe('update password test for anonymous user', () => {
+    verifyAsAnonymous();
+  });
 
   describe('update password test for logged in user', () => {
-    before(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-      homepage.clickHamburger();
-    });
-
     beforeEach(() => {
       cy.restoreLocalStorage();
-      cy.viewport(formats.mobile.width, formats.mobile.height);
+      homepage.clickHamburger();
+      cy.selectUserMenuOption({
+        option: 'Password',
+        isMobile: true,
+      });
     });
 
     updatePasswordTest();

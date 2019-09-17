@@ -11,11 +11,16 @@ describe('My Account - Update Password', () => {
     })
   );
 
-  verifyAsAnonymous();
+  describe('update password test for anonymous user', () => {
+    verifyAsAnonymous();
+  });
 
-  describe('update profile test for logged in user', () => {
+  describe('update password test for logged in user', () => {
     beforeEach(() => {
       cy.restoreLocalStorage();
+      cy.selectUserMenuOption({
+        option: 'Password',
+      });
     });
 
     updatePasswordTest();

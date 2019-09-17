@@ -50,15 +50,6 @@ export function accessPageAsAnonymous() {
   cy.location('pathname').should('contain', '/login');
 }
 
-export function accessAddressBookPage() {
-  cy.get('cx-page-layout cx-login')
-    .getByText('My Account')
-    .click({ force: true });
-  cy.get('nav')
-    .getByText('Address Book')
-    .click({ force: true });
-}
-
 export function displayAddressForm() {
   cy.get('cx-address-form').should('exist');
 }
@@ -162,10 +153,6 @@ export function verifyAsAnonymous() {
 }
 
 export function addressBookTest() {
-  it('should go to address  book page when logged in', () => {
-    accessAddressBookPage();
-  });
-
   it('should display a new address form when no address exists', () => {
     displayAddressForm();
   });
