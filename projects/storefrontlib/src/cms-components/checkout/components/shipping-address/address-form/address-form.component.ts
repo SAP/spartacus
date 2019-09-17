@@ -22,6 +22,7 @@ import {
   Title,
   UserAddressService,
   UserService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import {
@@ -91,7 +92,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit() {
@@ -197,7 +200,35 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
-    this.checkoutDeliveryService.verifyAddress(this.address.value);
+    // TODO(issue:#xxxx) Deprecated since 1.3.0
+    if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
+      this.checkoutDeliveryService.verifyAddress(this.address.value);
+    } else {
+      if (this.address.valid) {
+        this.checkoutDeliveryService.verifyAddress(this.address.value);
+      } else {
+        this.markFormAsTouched();
+      }
+    }
+  }
+
+  /**
+   * @deprecated since 1.3.0
+   * This function will be removed as continue button should not be disabled
+   *
+   * TODO(issue:#xxxx) Deprecated since 1.3.0
+   */
+  protected shouldDisableContinueButton(): boolean {
+    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
+      return false;
+    }
+    return this.address.invalid;
+  }
+
+  private markFormAsTouched(): void {
+    Object.keys(this.address.controls).forEach(key => {
+      this.address.controls[key].markAsDirty();
+    });
   }
 
   openSuggestedAddress(results: AddressValidation): void {
