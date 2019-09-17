@@ -7,6 +7,7 @@ import {
 import {Schema as SpartacusOptions} from "../add-spartacus/schema";
 import {addPackageJsonDependency, NodeDependency, NodeDependencyType} from "@schematics/angular/utility/dependencies";
 import {NodePackageInstallTask} from "@angular-devkit/schematics/tasks";
+import {addImport, importModule} from "../shared/utils/module-file-utils";
 
 
 function addPackageJsonDependencies(): Rule {
@@ -139,6 +140,15 @@ function overwriteMainServerTsFile(): Rule {
   };
 }
 
+function modifyAppServerModuleFile(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const appServerModulePath = 'src/app/app.server.module.ts';
+    addImport(tree, appServerModulePath, 'ServerTransferStateModule', '@angular/platform-server');
+    importModule(tree, appServerModulePath, `ServerTransferStateModule`);
+    context.logger.log('info', `✅️ Modified app.server.module.ts file.`);
+  };
+}
+
 
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -152,6 +162,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       addServerConfigInAngularJsonFile(options),
       modifyTSConfigServerFile(),
       overwriteMainServerTsFile(),
+      modifyAppServerModuleFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };

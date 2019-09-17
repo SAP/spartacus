@@ -15,12 +15,6 @@ import {
   getProjectTargetOptions,
 } from '@angular/cdk/schematics';
 import {
-  addSymbolToNgModuleMetadata,
-  insertImport,
-  isImported,
-} from '@schematics/angular/utility/ast-utils';
-import { InsertChange } from '@schematics/angular/utility/change';
-import {
   addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
@@ -28,7 +22,7 @@ import {
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { Schema as SpartacusOptions } from './schema';
-import { getTsSourceFile } from '../shared/utils/file-utils';
+import {addImport, importModule} from "../shared/utils/module-file-utils";
 
 function getWorkspace(
   host: Tree
@@ -140,48 +134,6 @@ function installPackageJsonDependencies(): Rule {
     context.logger.log('info', `🔍 Installing packages...`);
     return tree;
   };
-}
-
-function addImport(
-  host: Tree,
-  modulePath: string,
-  importText: string,
-  importPath: string
-) {
-  const moduleSource = getTsSourceFile(host, modulePath) as any;
-  if (!isImported(moduleSource, importText, importPath)) {
-    const change = insertImport(
-      moduleSource,
-      modulePath,
-      importText,
-      importPath
-    );
-    if (change) {
-      const recorder = host.beginUpdate(modulePath);
-      recorder.insertLeft(
-        (change as InsertChange).pos,
-        (change as InsertChange).toAdd
-      );
-      host.commitUpdate(recorder);
-    }
-  }
-}
-
-function importModule(host: Tree, modulePath: string, importText: string) {
-  const moduleSource = getTsSourceFile(host, modulePath);
-  const metadataChanges = addSymbolToNgModuleMetadata(
-    moduleSource,
-    modulePath,
-    'imports',
-    importText
-  );
-  if (metadataChanges) {
-    const recorder = host.beginUpdate(modulePath);
-    metadataChanges.forEach((change: InsertChange) => {
-      recorder.insertRight(change.pos, change.toAdd);
-    });
-    host.commitUpdate(recorder);
-  }
 }
 
 function getStorefrontConfig(options: SpartacusOptions): string {
