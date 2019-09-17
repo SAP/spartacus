@@ -5,7 +5,6 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  UrlModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { NotificationPreferenceComponent } from './notification-preference.component';
@@ -16,7 +15,6 @@ import { NotificationPreferenceComponent } from './notification-preference.compo
     CommonModule,
     SpinnerModule,
     I18nModule,
-    UrlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         NotificationPreferenceComponent: {

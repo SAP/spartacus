@@ -118,4 +118,11 @@ describe('UserNotificationPreferenceService', () => {
 
     expect(result).toEqual(true);
   });
+
+  it('should be able to reset notification preferences', () => {
+    userNotificationPreferenceService.resetNotificationPreferences();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ResetNotificationPreferences()
+    );
+  });
 });
