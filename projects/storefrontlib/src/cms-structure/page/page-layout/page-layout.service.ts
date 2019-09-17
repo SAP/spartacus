@@ -9,7 +9,7 @@ import {
   LayoutSlotConfig,
   SlotConfig,
 } from '../../../layout/config/layout-config';
-import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
+import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 
 @Injectable()
 export class PageLayoutService {
@@ -75,7 +75,7 @@ export class PageLayoutService {
   }
 
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter(Boolean));
+    return this.cms.getCurrentPage().pipe(filter(page => !!page));
   }
 
   get templateName$(): Observable<string> {

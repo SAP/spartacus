@@ -9,6 +9,7 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
+import { take } from 'rxjs/operators';
 
 describe('UserAddressService', () => {
   let service: UserAddressService;
@@ -175,6 +176,30 @@ describe('UserAddressService', () => {
     );
   });
 
+  it('should get address loading status', () => {
+    const results: boolean[] = [];
+    service
+      .getAddressesLoading()
+      .pipe(take(2))
+      .subscribe(loadingStatus => {
+        results.push(loadingStatus);
+      });
+    store.dispatch(new UserActions.LoadUserAddresses(USERID_CURRENT));
+    expect(results).toEqual([false, true]);
+  });
+
+  it('should indicate successful loading', () => {
+    const results: boolean[] = [];
+    service
+      .getAddressesLoadedSuccess()
+      .pipe(take(2))
+      .subscribe(loadedStatus => {
+        results.push(loadedStatus);
+      });
+    store.dispatch(new UserActions.LoadUserAddressesSuccess([]));
+    expect(results).toEqual([false, true]);
+  });
+
   describe('getRegions', () => {
     const regionsList: Region[] = [{ name: 'r1' }, { name: 'r2' }];
     const country = 'CA';
@@ -260,6 +285,13 @@ describe('UserAddressService', () => {
         expect(service.loadRegions).not.toHaveBeenCalled();
         done();
       });
+    });
+
+    it('should call clear regions', () => {
+      service.clearRegions();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.ClearRegions()
+      );
     });
   });
 });

@@ -25,9 +25,7 @@ export class PaymentDetailsSetGuard implements CanActivate {
 
     if (!checkoutStep && isDevMode()) {
       console.warn(
-        `Missing step with type ${
-          CheckoutStepType.PAYMENT_DETAILS
-        } in checkout configuration.`
+        `Missing step with type ${CheckoutStepType.PAYMENT_DETAILS} in checkout configuration.`
       );
     }
 

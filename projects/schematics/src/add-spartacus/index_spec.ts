@@ -32,6 +32,8 @@ describe('add-spartacus', () => {
     configuration: 'production',
   };
 
+  const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
+
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(
@@ -123,6 +125,20 @@ describe('add-spartacus', () => {
       );
       expect(appModule.includes(`baseSite: ['test-site']`)).toBe(true);
     });
+
+    it('should set feature level', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync(
+          'add-spartacus',
+          { ...defaultOptions, featureLevel: '1.5' },
+          appTree
+        )
+        .toPromise();
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
+      expect(appModule.includes(`level: '1.5'`)).toBe(true);
+    });
   });
 
   it('Import Spartacus styles to main.scss', async () => {
@@ -137,16 +153,35 @@ describe('add-spartacus', () => {
     );
   });
 
+  it('Overwrite app.component with cx-storefront', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        'add-spartacus',
+        { ...defaultOptions, overwriteAppComponent: true },
+        appTree
+      )
+      .toPromise();
+    const appComponentTemplate = tree
+      .readContent('/projects/schematics-test/src/app/app.component.html')
+      .replace(newLineRegEx, '');
+
+    expect(appComponentTemplate).toEqual(`<cx-storefront></cx-storefront>`);
+  });
+
   it('Add cx-storefront component to your app.component', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+      .runSchematicAsync(
+        'add-spartacus',
+        { ...defaultOptions, overwriteAppComponent: false },
+        appTree
+      )
       .toPromise();
     const appComponentTemplate = tree.readContent(
       '/projects/schematics-test/src/app/app.component.html'
     );
-    expect(
-      appComponentTemplate.includes(`<cx-storefront></cx-storefront>`)
-    ).toBe(true);
+    const cxTemplate = `<cx-storefront></cx-storefront>`;
+    expect(appComponentTemplate.includes(cxTemplate)).toBe(true);
+    expect(appComponentTemplate.length).toBeGreaterThan(cxTemplate.length);
   });
 
   describe('Update index.html', async () => {

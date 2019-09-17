@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreFinderService } from '@spartacus/core';
+import { StoreFinderService, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
@@ -31,7 +31,7 @@ describe('StoreFinderListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StoreFinderSearchResultComponent],
       providers: [
@@ -92,8 +92,10 @@ describe('StoreFinderListComponent', () => {
     // then
     expect(storeFinderService.findStoresAction).toHaveBeenCalledWith(
       '',
+      { currentPage: pageNumber },
       { longitude: 0, latitude: 0 },
-      { currentPage: pageNumber }
+      null,
+      undefined
     );
   });
 });

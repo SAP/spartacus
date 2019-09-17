@@ -1,70 +1,64 @@
-<div
-  class="container"
-  *ngIf="
-    location || (!(isLoading$ | async) && (location$ | async)) as location;
-    else loading
-  "
->
-  <div class="row">
-    <article class="cx-store col-md-4">
-      <h2>{{ location.displayName }}</h2>
+<ng-container *ngIf="location">
+  <div class="container">
+    <div class="row">
+      <article class="cx-store col-md-4">
+        <h2>{{ location.displayName || location.name }}</h2>
 
-      <p *ngIf="location.address" class="storeAddress">
-        {{ location.address.line1 }} <br />
-        {{ location.address.town + ',' }}
-        {{ location.address.region ? location.address.region.name + ',' : '' }}
-        {{ location.address.postalCode }}
-      </p>
+        <p *ngIf="location.address" class="cx-store-description-address">
+          {{ location.address.line1 }} {{ location.address.line2 }} <br />
+          {{
+            getFormattedStoreAddress([
+              location.address.town,
+              location.address.postalCode,
+              location.address.country.isocode
+            ])
+          }}
+        </p>
 
-      <section class="cx-contact">
-        <ul class="cx-list">
-          <li class="cx-item">
-            <a
-              class="cx-link"
-              [href]="getDirections(location)"
-              target="_blank"
-              >{{ 'storeFinder.getDirections' | cxTranslate }}</a
+        <section class="cx-contact">
+          <ul class="cx-list">
+            <li class="cx-item">
+              <a
+                class="cx-link"
+                [href]="getDirections(location)"
+                target="_blank"
+                >{{ 'storeFinder.getDirections' | cxTranslate }}</a
+              >
+            </li>
+            <li class="cx-item" *ngIf="location.address?.phone">
+              {{ 'storeFinder.call' | cxTranslate }}
+              {{ location.address?.phone }}
+            </li>
+          </ul>
+        </section>
+        <div class="cx-schedule" *ngIf="location.openingHours">
+          <cx-schedule [location]="location">
+            <h3>{{ 'storeFinder.storeHours' | cxTranslate }}</h3>
+          </cx-schedule>
+        </div>
+
+        <div *ngIf="(location.features | json) != '{}'" class="cx-features">
+          <div class="row ">
+            <div class="col-lg-12">
+              <h3 class="cx-features-header">
+                {{ 'storeFinder.storeFeatures' | cxTranslate }}
+              </h3>
+            </div>
+          </div>
+
+          <article class="row">
+            <div
+              class="col-lg-12 cx-feature-item"
+              *ngFor="let feature of location.features?.entry"
             >
-          </li>
-          <li class="cx-item">
-            {{ 'storeFinder.call' | cxTranslate }}
-            {{ location.address?.phone }}
-          </li>
-          <li class="cx-item">
-            <a class="cx-link" [routerLink]="['/contact']">{{
-              'storeFinder.contactUs' | cxTranslate
-            }}</a>
-          </li>
-        </ul>
-      </section>
-      <div class="cx-schedule">
-        <cx-schedule [location]="location">
-          <h3>{{ 'storeFinder.storeHours' | cxTranslate }}</h3>
-        </cx-schedule>
-      </div>
-    </article>
-    <article class="cx-storeMap col-lg-8" *ngIf="!disableMap">
-      <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
-    </article>
-  </div>
-
-  <div class="row cx-feature">
-    <div class="col-lg-12">
-      <h3 class="cx-features-header">
-        {{ 'storeFinder.storeFeatures' | cxTranslate }}
-      </h3>
+              <div class="cx-feature-value">{{ feature.value }}</div>
+            </div>
+          </article>
+        </div>
+      </article>
+      <article class="cx-storeMap col-lg-8" *ngIf="!disableMap">
+        <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
+      </article>
     </div>
   </div>
-
-  <article class="row">
-    <div
-      class="col-lg-3 cx-feature-item"
-      *ngFor="let feature of location.features?.entry"
-    >
-      <div class="cx-feature-value">{{ feature.value }}</div>
-    </div>
-  </article>
-</div>
-<ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
-</ng-template>
+</ng-container>
