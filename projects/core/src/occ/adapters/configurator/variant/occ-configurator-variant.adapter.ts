@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
+import { CONFIGURATION_NORMALIZER } from '../../../../configurator/commons/connectors/converters';
 import { FeatureConfigService } from '../../../../features-config/services/feature-config.service';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
-import { CONFIGURATION_NORMALIZER } from './../../../../configurator/commons/connectors/converters';
 import { Configuration } from './../../../../model/configurator.model';
 import { OccConfigurator } from './occ-configurator.models';
 

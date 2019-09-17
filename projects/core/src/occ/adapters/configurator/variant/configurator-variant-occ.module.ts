@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ConfigModule } from '../../../../config';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
-import { ConfigModule } from './../../../../config';
-import { CONFIGURATION_NORMALIZER } from './../../../../configurator/commons/connectors/converters';
-import { OccConfiguratorVariantNormalizer } from './converters';
+import { CONFIGURATION_NORMALIZER } from '../../../../configurator/commons/connectors/converters';
+import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { defaultOccCartConfig } from './default-occ-configurator-variant-config';
 import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapter';
 
