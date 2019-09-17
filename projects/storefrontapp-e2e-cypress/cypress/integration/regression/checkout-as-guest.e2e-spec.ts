@@ -1,7 +1,9 @@
 import { assertAddressForm } from '../../helpers/address-book';
 import { login } from '../../helpers/auth-forms';
+import * as guestCheckout from '../../helpers/checkout-as-guest';
 import * as checkout from '../../helpers/checkout-flow';
 import { waitForPage } from '../../helpers/checkout-flow';
+import { validateUpdateProfileForm } from '../../helpers/update-profile';
 import { cheapProduct, user } from '../../sample-data/checkout-flow';
 
 context('Checkout as guest', () => {
@@ -23,29 +25,8 @@ context('Checkout as guest', () => {
   });
 
   describe('Login as guest', () => {
-    it('should add product to cart and go to login', () => {
-      const guestLoginPage = checkout.waitForPage(
-        '/checkout-login',
-        'getguestLoginPage'
-      );
-      cy.get('.register')
-        .getByText(/Guest Checkout/i)
-        .click();
-      cy.wait(`@${guestLoginPage}`);
-      cy.get('cx-checkout-login').within(() => {
-        cy.get('[formcontrolname="email"]')
-          .clear()
-          .type(user.email);
-        cy.get('[formcontrolname="emailConfirmation"]')
-          .clear()
-          .type(user.email);
-        cy.get('button[type=submit]').click();
-      });
-      const shippingPage = waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
-      );
-      cy.wait(`@${shippingPage}`);
+    it('should login as guest', () => {
+      guestCheckout.loginAsGuest();
     });
   });
 
@@ -73,18 +54,7 @@ context('Checkout as guest', () => {
 
   describe('Create account', () => {
     it('should create an account', () => {
-      const homePage = waitForPage('homepage', 'getHomePage');
-
-      cy.get('cx-guest-register-form').within(() => {
-        cy.get('[formcontrolname="password"]')
-          .clear()
-          .type(user.password);
-        cy.get('[formcontrolname="passwordconf"]')
-          .clear()
-          .type(user.password);
-        cy.get('button[type=submit]').click();
-      });
-      cy.wait(`@${homePage}`);
+      guestCheckout.createAccountFromGuest(user.password);
     });
   });
 
@@ -124,60 +94,33 @@ context('Checkout as guest', () => {
         option: 'Personal Details',
       });
 
-      cy.get('cx-update-profile-form').within(() => {
-        cy.get('[formcontrolname="titleCode"]')
-          .find(':selected')
-          .should('have.value', 'mr');
-        cy.get('[formcontrolname="firstName"]').should(
-          'have.value',
-          user.firstName
-        );
-        cy.get('[formcontrolname="lastName"]').should(
-          'have.value',
-          user.lastName
-        );
-      });
+      validateUpdateProfileForm('mr', user.firstName, user.lastName);
+      checkout.signOut();
     });
   });
 
   describe('Guest cart merge', () => {
+    before(() => {
+      cy.cxConfig({ features: { guestCheckout: true } });
+    });
     it('should keep guest cart content and restart checkout', () => {
-      checkout.signOut();
-
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 
-      const guestLoginPage = checkout.waitForPage(
-        '/checkout-login',
-        'getguestLoginPage'
-      );
+      guestCheckout.loginAsGuest();
 
-      cy.get('.register')
-        .getByText(/Guest Checkout/i)
-        .click();
-      cy.wait(`@${guestLoginPage}`);
-      cy.get('cx-checkout-login').within(() => {
-        cy.get('[formcontrolname="email"]')
-          .clear()
-          .type(user.email);
-        cy.get('[formcontrolname="emailConfirmation"]')
-          .clear()
-          .type(user.email);
-        cy.get('button[type=submit]').click();
-      });
-      const shippingPage = waitForPage(
+      checkout.fillAddressFormWithCheapProduct();
+
+      const shippingPage = checkout.waitForPage(
         '/checkout/shipping-address',
         'getShippingPage'
       );
-      cy.wait(`@${shippingPage}`);
-
-      checkout.fillAddressFormWithCheapProduct();
 
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.getByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`);
-      login(user.email, user.password);
 
+      login(user.email, user.password);
       cy.wait(`@${shippingPage}`);
 
       cy.get('cx-mini-cart .count').contains('1');
