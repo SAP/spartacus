@@ -39,6 +39,8 @@ export function clearCartState(
   };
 }
 
+export const metaReducers: MetaReducer<any>[] = [clearCartState];
+
 export function clearMultiCartState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
@@ -51,8 +53,6 @@ export function clearMultiCartState(
     return reducer(state, action);
   };
 }
-
-export const metaReducers: MetaReducer<any>[] = [clearCartState];
 
 export const multiCartMetaReducers: MetaReducer<any>[] = [clearMultiCartState];
 
