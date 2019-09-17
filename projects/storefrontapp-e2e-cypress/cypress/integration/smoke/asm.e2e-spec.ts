@@ -37,7 +37,9 @@ context('ASM', () => {
       cy.get('button[type="submit"]').click();
     });
 
-    cy.wait(authenticationRequestAlias);
+    cy.wait(authenticationRequestAlias)
+      .its('status')
+      .should('eq', 200);
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('exist');
   });
@@ -52,8 +54,12 @@ context('ASM', () => {
       cy.get('[formcontrolname="searchTerm"]').type(customer.email);
       cy.get('button[type="submit"]').click();
     });
-    cy.wait(customerSearchRequestAlias);
-    cy.wait(userDetailsRequestAlias);
+    cy.wait(customerSearchRequestAlias)
+      .its('status')
+      .should('eq', 200);
+    cy.wait(userDetailsRequestAlias)
+      .its('status')
+      .should('eq', 200);
     cy.get('cx-asm-main-ui').should(
       'contain',
       `ASM - Supporting customer: ${customer.fullName} (${customer.email})`
@@ -110,6 +116,15 @@ context('ASM', () => {
     addressBook.verifyNewAddress();
   });
 
+  it('customer emulation - verify payment details', () => {
+    cy.selectUserMenuOption({
+      option: 'Payment Details',
+    });
+    cy.get('.cx-payment .cx-body').then(() => {
+      cy.get('cx-card').should('have.length', 1);
+    });
+  });
+
   it('customer emulation - should stop customer emulation.', () => {
     checkout.signOutUser();
     cy.get('cx-csagent-login-form').should('not.exist');
@@ -145,6 +160,15 @@ context('ASM', () => {
     });
     cy.get('cx-address-card').should('have.length', 1);
     addressBook.verifyNewAddress();
+  });
+
+  it('customer - verify payment details', () => {
+    cy.selectUserMenuOption({
+      option: 'Payment Details',
+    });
+    cy.get('.cx-payment .cx-body').then(() => {
+      cy.get('cx-card').should('have.length', 1);
+    });
   });
 
   it('customer - should sign out the user.', () => {
