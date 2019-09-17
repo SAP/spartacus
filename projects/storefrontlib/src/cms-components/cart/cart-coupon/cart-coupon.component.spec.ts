@@ -6,6 +6,7 @@ import { Cart, CartService, I18nTestingModule, Voucher } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 import { CartCouponComponent } from './cart-coupon.component';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 const coupon1: Voucher = { code: 'coupon1' };
 const coupon2: Voucher = { code: 'coupon2' };
@@ -18,14 +19,10 @@ const cart: Cart = {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
-  @Input() type;
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
-@Component({
-  selector: 'cx-applied-coupons',
-  template: '',
-})
 export class MockAppliedCouponsComponent {
   @Input()
   vouchers: Voucher[];
