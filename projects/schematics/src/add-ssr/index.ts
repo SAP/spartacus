@@ -97,6 +97,32 @@ function addServerConfigInAngularJsonFile(options: any): Rule {
   };
 }
 
+function modifyTSConfigServerFile(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const buffer = tree.read('tsconfig.server.json');
+
+    if(buffer) {
+      const newTSConfigServerContent = {
+        "extends": "./tsconfig.json",
+        "compilerOptions": {
+          "outDir": "../out-tsc/app",
+          "baseUrl": "./",
+          "module": "commonjs",
+          "types": []
+        },
+        "exclude": ["test.ts", "e2e/src/app.e2e-spec.ts", "**/*.spec.ts"],
+        "angularCompilerOptions": {
+          "entryModule": "src/app/app.server.module#AppServerModule"
+        }
+      };
+
+      tree.overwrite('tsconfig.server.json', JSON.stringify(newTSConfigServerContent, null, 2));
+      context.logger.log('info', `✅️ Modified tsconfig.server.json file.`);
+    }
+    return tree;
+  };
+}
+
 
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -108,6 +134,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       }),
       addPackageJsonScripts(),
       addServerConfigInAngularJsonFile(options),
+      modifyTSConfigServerFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
