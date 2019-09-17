@@ -1,4 +1,4 @@
-import { OCC_USERID_ANONYMOUS } from './utils/occ-constants';
+import { OCC_USER_ID_ANONYMOUS } from './utils/occ-constants';
 
 export * from './config/config-from-meta-tag-factory';
 export * from './config/default-occ-config';
@@ -12,6 +12,6 @@ export * from './adapters/index';
 export * from './utils/occ-constants';
 /**
  * @deprecated since 1.2.0
- * Use OCC_USERID_ANONYMOUS instead
+ * Use OCC_USER_ID_ANONYMOUS instead
  */
-export const ANONYMOUS_USERID = OCC_USERID_ANONYMOUS;
+export const ANONYMOUS_USERID = OCC_USER_ID_ANONYMOUS;

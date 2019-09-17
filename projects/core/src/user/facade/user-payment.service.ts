@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
-import { OCC_USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -20,7 +20,7 @@ export class UserPaymentService {
    */
   loadPaymentMethods(): void {
     this.store.dispatch(
-      new UserActions.LoadUserPaymentMethods(OCC_USERID_CURRENT)
+      new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT)
     );
   }
 
@@ -50,7 +50,7 @@ export class UserPaymentService {
   setPaymentMethodAsDefault(paymentMethodId: string): void {
     this.store.dispatch(
       new UserActions.SetDefaultUserPaymentMethod({
-        userId: OCC_USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         paymentMethodId,
       })
     );
@@ -64,7 +64,7 @@ export class UserPaymentService {
   deletePaymentMethod(paymentMethodId: string): void {
     this.store.dispatch(
       new UserActions.DeleteUserPaymentMethod({
-        userId: OCC_USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         paymentMethodId,
       })
     );

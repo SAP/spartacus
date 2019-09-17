@@ -6,7 +6,7 @@ import { Order } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
-import { OCC_USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class CheckoutService {
@@ -78,6 +78,6 @@ export class CheckoutService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== OCC_USERID_ANONYMOUS;
+    return this.cartData.userId !== OCC_USER_ID_ANONYMOUS;
   }
 }
