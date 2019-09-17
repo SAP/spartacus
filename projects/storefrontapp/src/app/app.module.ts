@@ -10,7 +10,6 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
-
 import {
   B2cStorefrontModule,
   StorefrontComponent,
