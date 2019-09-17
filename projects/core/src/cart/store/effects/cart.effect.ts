@@ -116,7 +116,7 @@ export class CartEffects {
     | CartActions.CreateMultiCartSuccess
     | CartActions.CreateCartFail
     | CartActions.CreateMultiCartFail
-    | CartActions.SetFreshCartId
+    | CartActions.SetFreshCart
   > = this.actions$.pipe(
     ofType(CartActions.CREATE_CART),
     map((action: CartActions.CreateCart) => action.payload),
@@ -133,7 +133,7 @@ export class CartEffects {
                   userId: payload.userId,
                   extraData: payload.extraData,
                 }),
-                new CartActions.SetFreshCartId(cart),
+                new CartActions.SetFreshCart(cart),
                 new CartActions.MergeCartSuccess({
                   userId: payload.userId,
                   cartId: cart.code,
@@ -152,7 +152,7 @@ export class CartEffects {
                 userId: payload.userId,
                 extraData: payload.extraData,
               }),
-              new CartActions.SetFreshCartId(cart),
+              new CartActions.SetFreshCart(cart),
             ];
           }),
           catchError(error =>
@@ -220,7 +220,6 @@ export class CartEffects {
     ),
     mergeMap(payload => [
       new CartActions.SetFakeLoadingCart({
-        userId: payload.userId,
         cartId: payload.cartId,
       }),
     ])
