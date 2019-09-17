@@ -227,7 +227,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   private markFormAsTouched(): void {
     Object.keys(this.address.controls).forEach(key => {
-      this.address.controls[key].markAsDirty();
+      this.address.controls[key].markAsTouched();
     });
   }
 

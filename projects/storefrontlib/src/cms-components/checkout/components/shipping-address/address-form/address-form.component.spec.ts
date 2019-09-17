@@ -13,8 +13,9 @@ import {
   Title,
   UserAddressService,
   UserService,
+  FeatureConfigService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
 
@@ -37,6 +38,14 @@ class MockUserAddressService {
 
   getRegions(): Observable<Region[]> {
     return of();
+  }
+}
+
+// TODO(issue:#xxxx) Deprecated since 1.3.0
+const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
+class MockFeatureConfigService {
+  isLevel(_level: string): boolean {
+    return isLevelBool.value;
   }
 }
 
@@ -107,6 +116,8 @@ describe('AddressFormComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        // TODO(issue:#xxxx) Deprecated since 1.3.0
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(AddressFormComponent, {
@@ -350,6 +361,7 @@ describe('AddressFormComponent', () => {
       expect(component.verifyAddress).toHaveBeenCalled();
     });
 
+    // TODO(issue:#xxxx) Deprecated since 1.3.0
     it('should be enabled only when form has all mandatory fields filled', () => {
       const isContinueBtnDisabled = () => {
         fixture.detectChanges();
@@ -377,6 +389,69 @@ describe('AddressFormComponent', () => {
       controls['postalCode'].setValue('test postalCode');
 
       expect(isContinueBtnDisabled()).toBeFalsy();
+    });
+
+    it('should be enabled whether or not form has all mandatory fields filled', () => {
+      // TODO(issue:#xxxx) Deprecated since 1.3.0
+      isLevelBool.next(true);
+
+      const isContinueBtnDisabled = () => {
+        fixture.detectChanges();
+        return getContinueBtn().nativeElement.disabled;
+      };
+      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+      spyOn(userService, 'getTitles').and.returnValue(of([]));
+      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+
+      expect(isContinueBtnDisabled()).toBeFalsy();
+      controls['titleCode'].setValue('test titleCode');
+      expect(isContinueBtnDisabled()).toBeFalsy();
+      controls['firstName'].setValue('test firstName');
+      expect(isContinueBtnDisabled()).toBeFalsy();
+      controls['lastName'].setValue('test lastName');
+      expect(isContinueBtnDisabled()).toBeFalsy();
+      controls['line1'].setValue('test line1');
+      expect(isContinueBtnDisabled()).toBeFalsy();
+      controls['town'].setValue('test town');
+      expect(isContinueBtnDisabled()).toBeFalsy();
+      controls.region['controls'].isocode.setValue('test region isocode');
+      expect(isContinueBtnDisabled()).toBeFalsy();
+      controls.country['controls'].isocode.setValue('test country isocode');
+      expect(isContinueBtnDisabled()).toBeFalsy();
+      controls['postalCode'].setValue('test postalCode');
+
+      expect(isContinueBtnDisabled()).toBeFalsy();
+    });
+
+    it('should touch all form fields when clicking submit invalid form', () => {
+      // TODO(issue:#xxxx) Deprecated since 1.3.0
+      isLevelBool.next(true);
+      fixture.detectChanges();
+
+      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+      spyOn(userService, 'getTitles').and.returnValue(of([]));
+      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+
+      expect(controls['titleCode'].touched).toBeFalsy();
+      expect(controls['firstName'].touched).toBeFalsy();
+      expect(controls['lastName'].touched).toBeFalsy();
+      expect(controls['line1'].touched).toBeFalsy();
+      expect(controls['town'].touched).toBeFalsy();
+      expect(controls.region.touched).toBeFalsy();
+      expect(controls.country.touched).toBeFalsy();
+      expect(controls['postalCode'].touched).toBeFalsy();
+
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+
+      expect(controls['titleCode'].touched).toBeTruthy();
+      expect(controls['firstName'].touched).toBeTruthy();
+      expect(controls['lastName'].touched).toBeTruthy();
+      expect(controls['line1'].touched).toBeTruthy();
+      expect(controls['town'].touched).toBeTruthy();
+      expect(controls.region.touched).toBeTruthy();
+      expect(controls.country.touched).toBeTruthy();
+      expect(controls['postalCode'].touched).toBeTruthy();
     });
   });
 
