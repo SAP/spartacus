@@ -1,5 +1,4 @@
 import { StateLoaderActions } from '../../../state/utils/index';
-import { NotificationPreference } from '../../../model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -11,6 +10,7 @@ import {
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
   NOTIFICATION_PREFERENCES,
 } from '../user-state';
+import { NotificationPreference } from '../../../model/notification-preference.model';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';
@@ -71,7 +71,7 @@ export class UpdateNotificationPreferencesSuccess extends EntitySuccessAction {
   }
 }
 
-export class UpdateNotificationPreferencesReset extends EntityResetAction {
+export class ResetNotificationPreferences extends EntityResetAction {
   readonly type = RESET_NOTIFICATION_PREFERENCES;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID);
@@ -85,4 +85,4 @@ export type NotificationPreferenceAction =
   | UpdateNotificationPreferences
   | UpdateNotificationPreferencesFail
   | UpdateNotificationPreferencesSuccess
-  | UpdateNotificationPreferencesReset;
+  | ResetNotificationPreferences;

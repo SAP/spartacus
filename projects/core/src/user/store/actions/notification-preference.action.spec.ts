@@ -108,7 +108,7 @@ describe('Notification Preference Actions', () => {
 
   describe('UpdateNotificationPreferencesReset', () => {
     it('should create the action', () => {
-      const action = new UserActions.UpdateNotificationPreferencesReset();
+      const action = new UserActions.ResetNotificationPreferences();
       expect({ ...action }).toEqual({
         type: UserActions.RESET_NOTIFICATION_PREFERENCES,
         meta: StateEntityLoaderActions.entityResetMeta(

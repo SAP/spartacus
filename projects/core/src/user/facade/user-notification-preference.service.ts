@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { NotificationPreference } from '../../model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
@@ -11,6 +10,7 @@ import {
   StateWithUser,
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from '../store/user-state';
+import { NotificationPreference } from '../../model/notification-preference.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +67,7 @@ export class UserNotificationPreferenceService {
    * Resets the update notification preferences process state. The state needs to be
    * reset after the process concludes, regardless if it's a success or an error.
    */
-  resetUpdatePreferencesProcessState(): void {
-    this.store.dispatch(new UserActions.UpdateNotificationPreferencesReset());
+  resetNotificationPreferences(): void {
+    this.store.dispatch(new UserActions.ResetNotificationPreferences());
   }
 }
