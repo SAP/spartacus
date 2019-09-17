@@ -28,7 +28,7 @@ class MockRedirectAfterAuthService {
 
 const testEmail = 'john@acme.com';
 
-describe('CheckoutLoginComponent', () => {
+fdescribe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
   let cartService: CartService;
@@ -78,70 +78,31 @@ describe('CheckoutLoginComponent', () => {
   });
 
   describe('Error messages without submit', () => {
-    ['email', 'emailConfirmation'].forEach(field => {
-      describe(`${field} form field inline validation`, () => {
-        let control: AbstractControl;
+    it('should display error message when emails are not the same', () => {
+      email.setValue('a@b.com');
+      email.markAsTouched();
+      email.markAsDirty();
+      emailConfirmation.setValue('a@bc.com');
+      emailConfirmation.markAsTouched();
+      emailConfirmation.markAsDirty();
 
-        beforeEach(() => {
-          control = controls[field];
-        });
+      fixture.detectChanges();
 
-        it('should not be valid when empty', () => {
-          control.setValue('');
-          expect(control.valid).toBeFalsy();
-        });
-
-        it('should be invalid with an invalid email', () => {
-          control.setValue('with space@email.com');
-          expect(control.valid).toBeFalsy();
-
-          control.setValue('without.domain@');
-          expect(control.valid).toBeFalsy();
-
-          control.setValue('without.at.com');
-          expect(control.valid).toBeFalsy();
-
-          control.setValue('@without.username.com');
-          expect(control.valid).toBeFalsy();
-        });
-
-        it('should be valid with a valid email', () => {
-          control.setValue('valid@email.com');
-          expect(control.valid).toBeTruthy();
-
-          control.setValue('valid123@example.email.com');
-          expect(control.valid).toBeTruthy();
-        });
+      fixture.whenStable().then(() => {
+        expect(component.form.valid).toBeFalsy();
+        expect(isFormControlDisplayingError('emailConfirmation')).toBeTruthy();
       });
+    });
 
-      it('should display error message when emails are not the same', () => {
-        email.setValue('a@b.com');
-        email.markAsTouched();
-        email.markAsDirty();
-        emailConfirmation.setValue('a@bc.com');
-        emailConfirmation.markAsTouched();
-        emailConfirmation.markAsDirty();
+    it('should not display error message when emails are the same', () => {
+      email.setValue(testEmail);
+      emailConfirmation.setValue(testEmail);
 
-        fixture.detectChanges();
+      fixture.detectChanges();
 
-        fixture.whenStable().then(() => {
-          expect(component.form.valid).toBeFalsy();
-          expect(
-            isFormControlDisplayingError('emailConfirmation')
-          ).toBeTruthy();
-        });
-      });
-
-      it('should not display error message when emails are the same', () => {
-        email.setValue(testEmail);
-        emailConfirmation.setValue(testEmail);
-
-        fixture.detectChanges();
-
-        fixture.whenStable().then(() => {
-          expect(component.form.valid).toBeTruthy();
-          expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
-        });
+      fixture.whenStable().then(() => {
+        expect(component.form.valid).toBeTruthy();
+        expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
       });
     });
   });
