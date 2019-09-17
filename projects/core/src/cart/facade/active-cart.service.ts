@@ -16,6 +16,8 @@ import {
   USERID_ANONYMOUS,
 } from '../../occ/utils/occ-constants';
 
+// TODO document methods
+
 @Injectable()
 export class ActiveCartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
