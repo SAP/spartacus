@@ -10,6 +10,7 @@ export default function(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     return chain([
       schematic('add-spartacus', options),
+      schematic('add-pwa', options),
       schematic('add-ssr', options)
     ])(host, context);
   };
