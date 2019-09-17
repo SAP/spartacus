@@ -8,9 +8,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
-
 import {
   Address,
   AddressValidation,
@@ -23,11 +20,13 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import {
   ModalRef,
   ModalService,
 } from '../../../../../shared/components/modal/index';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
   selector: 'cx-address-form',
@@ -197,6 +196,18 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
+    if (this.address.controls['region'].value.isocode) {
+      this.regions$.pipe(take(1)).subscribe(regions => {
+        const obj = regions.find(
+          region =>
+            region.isocode === this.address.controls['region'].value.isocode
+        );
+        Object.assign(this.address.value.region, {
+          isocodeShort: obj.isocodeShort,
+        });
+      });
+    }
+
     if (this.address.dirty) {
       this.checkoutDeliveryService.verifyAddress(this.address.value);
     } else {
