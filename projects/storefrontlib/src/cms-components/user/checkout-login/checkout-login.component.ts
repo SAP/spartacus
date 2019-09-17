@@ -7,8 +7,8 @@ import {
 } from '@angular/forms';
 import { AuthRedirectService, CartService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
+import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-checkout-login',
@@ -18,10 +18,7 @@ export class CheckoutLoginComponent implements OnDestroy {
   form: FormGroup = this.formBuilder.group(
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
-      emailConfirmation: [
-        '',
-        [Validators.required, CustomFormValidators.emailValidator],
-      ],
+      emailConfirmation: ['', [Validators.required]],
     },
     { validator: this.emailsMatch }
   );
@@ -46,7 +43,10 @@ export class CheckoutLoginComponent implements OnDestroy {
 
   isEmailConfirmInvalid(): boolean {
     return (
-      this.isNotValid('emailConfirmation') || this.form.hasError('NotEqual')
+      this.form.hasError('NotEqual') &&
+      (this.submitClicked ||
+        (this.form.get('emailConfirmation').touched &&
+          this.form.get('emailConfirmation').dirty))
     );
   }
 
