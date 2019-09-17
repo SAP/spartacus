@@ -1,7 +1,7 @@
 import * as addressBook from '../../helpers/address-book';
 import * as checkout from '../../helpers/checkout-flow';
+import * as consent from '../../helpers/consent-management';
 import * as profile from '../../helpers/update-profile';
-
 context('ASM', () => {
   let customer: any;
 
@@ -125,6 +125,13 @@ context('ASM', () => {
     });
   });
 
+  it('customer emulation - agent adds a consent', () => {
+    cy.selectUserMenuOption({
+      option: 'Consent Management',
+    });
+    consent.giveConsent();
+  });
+
   it('customer emulation - should stop customer emulation.', () => {
     checkout.signOutUser();
     cy.get('cx-csagent-login-form').should('not.exist');
@@ -169,6 +176,15 @@ context('ASM', () => {
     cy.get('.cx-payment .cx-body').then(() => {
       cy.get('cx-card').should('have.length', 1);
     });
+  });
+
+  it('customer - verify consent given by agent', () => {
+    cy.selectUserMenuOption({
+      option: 'Consent Management',
+    });
+    cy.get('input[type="checkbox"]')
+      .first()
+      .should('be.checked');
   });
 
   it('customer - should sign out the user.', () => {
