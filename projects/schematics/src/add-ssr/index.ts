@@ -73,14 +73,41 @@ function addPackageJsonScripts(): Rule {
   };
 }
 
+function addServerConfigInAngularJsonFile(options: any): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const buffer = tree.read('angular.json');
+
+    if(buffer) {
+      const angularJsonFileObject = JSON.parse(buffer.toString('utf-8'));
+      const projectArchitectObject = angularJsonFileObject.projects[options.project].architect;
+      projectArchitectObject.build.options['outputPath'] = `dist/${options.project}`;
+      projectArchitectObject['server'] = {
+        "builder": "@angular-devkit/build-angular:server",
+        "options": {
+          "outputPath": "dist/server",
+          "main": "src/main.server.ts",
+          "tsConfig": "tsconfig.server.json"
+        }
+      };
+
+      tree.overwrite('angular.json', JSON.stringify(angularJsonFileObject, null, 2));
+      context.logger.log('info', `✅️ Modified build scripts in angular.json file.`);
+    }
+    return tree;
+  };
+}
+
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
+
     return chain([
       addPackageJsonDependencies(),
       externalSchematic('@nguniversal/express-engine', 'ng-add', {
         clientProject: options.project,
       }),
       addPackageJsonScripts(),
+      addServerConfigInAngularJsonFile(options),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
