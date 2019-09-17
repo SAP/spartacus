@@ -152,7 +152,7 @@ export class CartEffects {
                 userId: payload.userId,
                 extraData: payload.extraData,
               }),
-              new CartActions.SetFreshCartId(cart)
+              new CartActions.SetFreshCartId(cart),
             ];
           }),
           catchError(error =>
@@ -194,7 +194,7 @@ export class CartEffects {
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
               extraData: payload.extraData,
-            })
+            }),
           ];
         })
       );
@@ -244,15 +244,16 @@ export class CartEffects {
           | CartActions.CartRemoveEntrySuccess
       ) => action.payload
     ),
-    mergeMap(payload => [
-      new CartActions.LoadCart({
-        userId: payload.userId,
-        cartId: payload.cartId,
-      }),
-    ])
+    map(
+      payload =>
+        new CartActions.LoadCart({
+          userId: payload.userId,
+          cartId: payload.cartId,
+        })
+    )
   );
 
-  // TODO: remove old actions usage
+  // TODO: remove old actions usage, replace with new
   @Effect()
   resetCartDetailsOnSiteContextChange$: Observable<
     CartActions.ResetCartDetails | CartActions.ResetMultiCartDetails

@@ -7,7 +7,6 @@ import { MULTI_CART_FEATURE } from './cart-state';
 import { multiCartReducerProvider, multiCartReducerToken, multiCartMetaReducers } from './reducers/index';
 import { ConfigModule } from '../../config/config.module';
 import { StorageSyncType, StateConfig } from '../../state/config/state-config';
-// import { EffectsModule } from '@ngrx/effects';
 
 export function multiCartStoreConfigFactory(): StateConfig {
   const config: StateConfig = {
@@ -29,7 +28,6 @@ export function multiCartStoreConfigFactory(): StateConfig {
     HttpClientModule,
     StateModule,
     StoreModule.forFeature(MULTI_CART_FEATURE, multiCartReducerToken, { metaReducers: multiCartMetaReducers }),
-    // EffectsModule.forFeature(effects),
     ConfigModule.withConfigFactory(multiCartStoreConfigFactory),
   ],
   providers: [multiCartReducerProvider],
