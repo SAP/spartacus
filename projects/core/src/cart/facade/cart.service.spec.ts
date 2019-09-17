@@ -8,8 +8,9 @@ import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { StateWithCart } from '../store/cart-state';
-import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
+import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 class CartDataServiceStub {
   userId;
@@ -128,7 +129,7 @@ describe('CartService', () => {
     it('should dispatch with cartId for anonymous user', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.cartId = cart.code;
-      cartData.userId = ANONYMOUS_USERID;
+      cartData.userId = OCC_USER_ID_ANONYMOUS;
 
       service['load']();
       expect(store.dispatch).toHaveBeenCalledWith(

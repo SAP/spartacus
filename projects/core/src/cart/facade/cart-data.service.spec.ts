@@ -7,8 +7,8 @@ import { StateWithCart, CartActions } from '../store/index';
 import { Type } from '@angular/core';
 import * as fromReducers from '../store/reducers/index';
 import { UserToken } from '../../auth/models/token-types.model';
-import { ANONYMOUS_USERID } from './cart-data.service';
 import { Cart } from '../../model/cart.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 const userToken$ = new ReplaySubject<UserToken | any>();
 
@@ -55,14 +55,14 @@ describe('CartDataService', () => {
   });
 
   describe('userId', () => {
-    it('should return ANONYMOUS_USERID when user not logged in', () => {
-      expect(service.userId).toEqual(ANONYMOUS_USERID);
+    it('should return OCC_USER_ID_ANONYMOUS when user not logged in', () => {
+      expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
       userToken$.next({});
-      expect(service.userId).toEqual(ANONYMOUS_USERID);
+      expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
     });
 
     it('should return userId when user logged in', () => {
-      expect(service.userId).toEqual(ANONYMOUS_USERID);
+      expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
       userToken$.next(testUserToken);
       expect(service.userId).toEqual(testUserToken.userId);
     });
