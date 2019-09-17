@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Address, Country, Region } from '../../model/address.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -43,7 +43,7 @@ describe('UserAddressService', () => {
   it('should be able to load user addresses', () => {
     service.loadAddresses();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserAddresses(USERID_CURRENT)
+      new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT)
     );
   });
 
@@ -132,7 +132,7 @@ describe('UserAddressService', () => {
     service.addUserAddress(mockAddress);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.AddUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         address: mockAddress,
       })
     );
@@ -146,7 +146,7 @@ describe('UserAddressService', () => {
     service.updateUserAddress('123', mockAddressUpdate);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: mockAddressUpdate,
       })
@@ -157,7 +157,7 @@ describe('UserAddressService', () => {
     service.deleteUserAddress('123');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.DeleteUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
       })
     );
@@ -167,7 +167,7 @@ describe('UserAddressService', () => {
     service.setAddressAsDefault('123');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: {
           defaultAddress: true,
@@ -184,7 +184,7 @@ describe('UserAddressService', () => {
       .subscribe(loadingStatus => {
         results.push(loadingStatus);
       });
-    store.dispatch(new UserActions.LoadUserAddresses(USERID_CURRENT));
+    store.dispatch(new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT));
     expect(results).toEqual([false, true]);
   });
 
