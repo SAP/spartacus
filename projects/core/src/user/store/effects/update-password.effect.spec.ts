@@ -1,12 +1,13 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import * as fromActions from '../actions/update-password.action';
-import * as fromEffects from './update-password.effect';
-import { UserConnector } from '../../connectors/user/user.connector';
 import { UserAdapter } from '../../connectors/user/user.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
+import * as fromEffects from './update-password.effect';
 
 describe('Update Password Effect', () => {
   let updatePasswordEffect: fromEffects.UpdatePasswordEffects;
@@ -22,8 +23,12 @@ describe('Update Password Effect', () => {
       ],
     });
 
-    updatePasswordEffect = TestBed.get(fromEffects.UpdatePasswordEffects);
-    userService = TestBed.get(UserConnector);
+    updatePasswordEffect = TestBed.get(
+      fromEffects.UpdatePasswordEffects as Type<
+        fromEffects.UpdatePasswordEffects
+      >
+    );
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
   });
 
   describe('updatePassword$', () => {
@@ -34,12 +39,12 @@ describe('Update Password Effect', () => {
       const oldPassword = 'oldPwd123';
       const newPassword = 'newPwd345';
 
-      const action = new fromActions.UpdatePassword({
+      const action = new UserActions.UpdatePassword({
         userId,
         oldPassword,
         newPassword,
       });
-      const completion = new fromActions.UpdatePasswordSuccess();
+      const completion = new UserActions.UpdatePasswordSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -55,12 +60,12 @@ describe('Update Password Effect', () => {
       const oldPassword = 'oldPwd123';
       const newPassword = 'newPwd345';
 
-      const action = new fromActions.UpdatePassword({
+      const action = new UserActions.UpdatePassword({
         userId,
         oldPassword,
         newPassword,
       });
-      const completion = new fromActions.UpdatePasswordFail(error);
+      const completion = new UserActions.UpdatePasswordFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

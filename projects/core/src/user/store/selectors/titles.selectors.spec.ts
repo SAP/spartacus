@@ -1,8 +1,9 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Title } from '../../../model/misc.model';
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
+import { UserActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 
@@ -17,7 +18,7 @@ describe('Titles Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -41,7 +42,7 @@ describe('Titles Selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadTitlesSuccess(mockTitles));
+      store.dispatch(new UserActions.LoadTitlesSuccess(mockTitles));
 
       expect(result).toEqual(mockTitles);
     });
@@ -67,7 +68,7 @@ describe('Titles Selectors', () => {
         .pipe(select(UsersSelectors.titleSelectorFactory(code)))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadTitlesSuccess(mockTitles));
+      store.dispatch(new UserActions.LoadTitlesSuccess(mockTitles));
       expect(result).toEqual(mockTitles[0]);
     });
   });

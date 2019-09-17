@@ -1,11 +1,12 @@
+import * as AngularCore from '@angular/core';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UrlParsingService } from './url-parsing.service';
-import { SemanticPathService } from './semantic-path.service';
 import { RouteConfig } from '../routes-config';
-import { UrlCommands } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
+import { SemanticPathService } from './semantic-path.service';
+import { UrlCommands } from './url-command';
+import { UrlParsingService } from './url-parsing.service';
 
 const mockRoutingConfigService = {
   getRouteConfig: () => {},
@@ -13,7 +14,6 @@ const mockRoutingConfigService = {
 
 describe('SemanticPathService', () => {
   let service: SemanticPathService;
-  let serverConfig: ServerConfig;
   let routingConfigService: RoutingConfigService;
 
   beforeEach(() => {
@@ -26,13 +26,13 @@ describe('SemanticPathService', () => {
           provide: RoutingConfigService,
           useValue: mockRoutingConfigService,
         },
-        { provide: ServerConfig, useValue: {} },
       ],
     });
 
-    service = TestBed.get(SemanticPathService);
-    serverConfig = TestBed.get(ServerConfig);
-    routingConfigService = TestBed.get(RoutingConfigService);
+    service = TestBed.get(SemanticPathService as Type<SemanticPathService>);
+    routingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
   });
 
   describe('get', () => {
@@ -53,7 +53,6 @@ describe('SemanticPathService', () => {
     describe(`, when commands contain 'route' property,`, () => {
       // tslint:disable-next-line:max-line-length
       it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
-        serverConfig.production = false;
         spyOn(console, 'warn');
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
@@ -67,7 +66,7 @@ describe('SemanticPathService', () => {
 
       // tslint:disable-next-line:max-line-length
       it('should NOT console.warn in production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
-        serverConfig.production = true;
+        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
         spyOn(console, 'warn');
         spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],

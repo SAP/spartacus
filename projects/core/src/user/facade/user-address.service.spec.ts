@@ -1,22 +1,25 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Address, Country, Region } from '../../model/address.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import * as fromStore from '../store/index';
-import { USER_FEATURE } from '../store/user-state';
+import { UserActions } from '../store/actions/index';
+import * as fromStoreReducers from '../store/reducers/index';
+import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
+import { take } from 'rxjs/operators';
 
 describe('UserAddressService', () => {
   let service: UserAddressService;
-  let store: Store<fromStore.UserState>;
+  let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
           fromProcessReducers.getReducers()
@@ -25,9 +28,9 @@ describe('UserAddressService', () => {
       providers: [UserAddressService],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserAddressService);
+    service = TestBed.get(UserAddressService as Type<UserAddressService>);
   });
 
   it('should UserAddressService is injected', inject(
@@ -40,7 +43,7 @@ describe('UserAddressService', () => {
   it('should be able to load user addresses', () => {
     service.loadAddresses();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserAddresses(USERID_CURRENT)
+      new UserActions.LoadUserAddresses(USERID_CURRENT)
     );
   });
 
@@ -49,7 +52,7 @@ describe('UserAddressService', () => {
       { id: 'address1' },
       { id: 'address2' },
     ];
-    store.dispatch(new fromStore.LoadUserAddressesSuccess(mockUserAddresses));
+    store.dispatch(new UserActions.LoadUserAddressesSuccess(mockUserAddresses));
 
     let addresses: Address[];
     service
@@ -64,13 +67,13 @@ describe('UserAddressService', () => {
   it('should be able to load delivery countries', () => {
     service.loadDeliveryCountries();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadDeliveryCountries()
+      new UserActions.LoadDeliveryCountries()
     );
   });
 
   it('should be able to get all delivery countries', () => {
     store.dispatch(
-      new fromStore.LoadDeliveryCountriesSuccess([
+      new UserActions.LoadDeliveryCountriesSuccess([
         { isocode: 'c1', name: 'n1' },
         { isocode: 'c2', name: 'n2' },
       ])
@@ -90,7 +93,7 @@ describe('UserAddressService', () => {
 
   it('should be able to get country by isocode', () => {
     store.dispatch(
-      new fromStore.LoadDeliveryCountriesSuccess([
+      new UserActions.LoadDeliveryCountriesSuccess([
         { isocode: 'c1', name: 'n1' },
         { isocode: 'c2', name: 'n2' },
       ])
@@ -109,7 +112,7 @@ describe('UserAddressService', () => {
   it('should be able to load regions based on country isocode', () => {
     service.loadRegions('ca');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadRegions('ca')
+      new UserActions.LoadRegions('ca')
     );
   });
 
@@ -128,7 +131,7 @@ describe('UserAddressService', () => {
 
     service.addUserAddress(mockAddress);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddUserAddress({
+      new UserActions.AddUserAddress({
         userId: USERID_CURRENT,
         address: mockAddress,
       })
@@ -142,7 +145,7 @@ describe('UserAddressService', () => {
 
     service.updateUserAddress('123', mockAddressUpdate);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.UpdateUserAddress({
+      new UserActions.UpdateUserAddress({
         userId: USERID_CURRENT,
         addressId: '123',
         address: mockAddressUpdate,
@@ -153,7 +156,7 @@ describe('UserAddressService', () => {
   it('should be able to delete user address', () => {
     service.deleteUserAddress('123');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.DeleteUserAddress({
+      new UserActions.DeleteUserAddress({
         userId: USERID_CURRENT,
         addressId: '123',
       })
@@ -163,7 +166,7 @@ describe('UserAddressService', () => {
   it('should be able to set address as default address', () => {
     service.setAddressAsDefault('123');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.UpdateUserAddress({
+      new UserActions.UpdateUserAddress({
         userId: USERID_CURRENT,
         addressId: '123',
         address: {
@@ -173,6 +176,30 @@ describe('UserAddressService', () => {
     );
   });
 
+  it('should get address loading status', () => {
+    const results: boolean[] = [];
+    service
+      .getAddressesLoading()
+      .pipe(take(2))
+      .subscribe(loadingStatus => {
+        results.push(loadingStatus);
+      });
+    store.dispatch(new UserActions.LoadUserAddresses(USERID_CURRENT));
+    expect(results).toEqual([false, true]);
+  });
+
+  it('should indicate successful loading', () => {
+    const results: boolean[] = [];
+    service
+      .getAddressesLoadedSuccess()
+      .pipe(take(2))
+      .subscribe(loadedStatus => {
+        results.push(loadedStatus);
+      });
+    store.dispatch(new UserActions.LoadUserAddressesSuccess([]));
+    expect(results).toEqual([false, true]);
+  });
+
   describe('getRegions', () => {
     const regionsList: Region[] = [{ name: 'r1' }, { name: 'r2' }];
     const country = 'CA';
@@ -180,7 +207,7 @@ describe('UserAddressService', () => {
     it('should be able to get all regions', done => {
       let regions: Region[];
       store.dispatch(
-        new fromStore.LoadRegionsSuccess({ entities: regionsList, country })
+        new UserActions.LoadRegionsSuccess({ entities: regionsList, country })
       );
       service.getRegions(country).subscribe(data => {
         regions = data;
@@ -192,7 +219,7 @@ describe('UserAddressService', () => {
     it('should clear regions on empty country', done => {
       let regions: Region[];
       store.dispatch(
-        new fromStore.LoadRegionsSuccess({
+        new UserActions.LoadRegionsSuccess({
           entities: regionsList,
           country,
         })
@@ -208,7 +235,7 @@ describe('UserAddressService', () => {
 
     it('should return empty array while loading', done => {
       let regions: Region[];
-      store.dispatch(new fromStore.LoadRegions(country));
+      store.dispatch(new UserActions.LoadRegions(country));
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
       service.getRegions(country).subscribe(data => {
@@ -227,7 +254,7 @@ describe('UserAddressService', () => {
       spyOn(service, 'loadRegions').and.stub();
       const country2 = 'AB';
       store.dispatch(
-        new fromStore.LoadRegionsSuccess({
+        new UserActions.LoadRegionsSuccess({
           entities: regionsList,
           country,
         })
@@ -244,7 +271,7 @@ describe('UserAddressService', () => {
     it('should return already loaded results on another request', done => {
       let regions: Region[];
       store.dispatch(
-        new fromStore.LoadRegionsSuccess({
+        new UserActions.LoadRegionsSuccess({
           entities: regionsList,
           country,
         })
@@ -258,6 +285,13 @@ describe('UserAddressService', () => {
         expect(service.loadRegions).not.toHaveBeenCalled();
         done();
       });
+    });
+
+    it('should call clear regions', () => {
+      service.clearRegions();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.ClearRegions()
+      );
     });
   });
 });

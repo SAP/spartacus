@@ -1,17 +1,19 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
-import * as fromStore from '../store/index';
-import { StateWithProduct } from '../store/product-state';
+import { ProductActions } from '../store/actions/index';
+import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
+import * as fromStoreReducers from '../store/reducers/index';
 import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
-  let store: Store<fromStore.ProductsState>;
+  let store: Store<StateWithProduct>;
   const mockSearchResults: ProductSearchPage = {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
@@ -33,13 +35,15 @@ describe('ProductSearchService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromStoreReducers.getReducers()
+        ),
       ],
       providers: [ProductSearchService],
     });
-
-    store = TestBed.get(Store);
-    service = TestBed.get(ProductSearchService);
+    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
+    service = TestBed.get(ProductSearchService as Type<ProductSearchService>);
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -63,7 +67,7 @@ describe('ProductSearchService', () => {
   it('should be able to clear search results', () => {
     service.clearResults();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.ClearProductSearchResult({
+      new ProductActions.ClearProductSearchResult({
         clearPageResults: true,
       })
     );
@@ -75,7 +79,7 @@ describe('ProductSearchService', () => {
 
       service.search('test query', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SearchProducts({
+        new ProductActions.SearchProducts({
           queryText: 'test query',
           searchConfig: searchConfig,
         })

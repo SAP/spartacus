@@ -15,13 +15,16 @@ import { AuthStoreModule } from './store/auth-store.module';
     AuthStoreModule,
     ConfigModule.withConfig(defaultAuthConfig),
   ],
-  providers: [...AuthServices, { provide: AuthConfig, useExisting: Config }],
 })
 export class AuthModule {
   static forRoot(): ModuleWithProviders<AuthModule> {
     return {
       ngModule: AuthModule,
-      providers: [...interceptors],
+      providers: [
+        ...interceptors,
+        ...AuthServices,
+        { provide: AuthConfig, useExisting: Config },
+      ],
     };
   }
 }

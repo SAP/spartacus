@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry } from '@spartacus/core';
+import { CartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -27,6 +27,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock = false;
   quantity = 1;
+  increment = false;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -47,8 +48,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.subscription = this.currentProductService
         .getProduct()
         .pipe(filter(Boolean))
-        .subscribe(product => {
+        .subscribe((product: Product) => {
           this.productCode = product.code;
+          this.quantity = 1;
 
           if (
             product.stock &&
@@ -76,8 +78,19 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
-    this.openModal();
-    this.cartService.addEntry(this.productCode, this.quantity);
+    // check item is already present in the cart
+    // so modal will have proper header text displayed
+    this.cartService
+      .getEntry(this.productCode)
+      .subscribe(entry => {
+        if (entry) {
+          this.increment = true;
+        }
+        this.openModal();
+        this.cartService.addEntry(this.productCode, this.quantity);
+        this.increment = false;
+      })
+      .unsubscribe();
   }
 
   private openModal() {
@@ -92,6 +105,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalInstance.cart$ = this.cartService.getActive();
     modalInstance.loaded$ = this.cartService.getLoaded();
     modalInstance.quantity = this.quantity;
+    modalInstance.increment = this.increment;
   }
 
   ngOnDestroy() {

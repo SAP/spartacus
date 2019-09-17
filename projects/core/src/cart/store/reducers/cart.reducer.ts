@@ -92,6 +92,10 @@ export function reducer(
         cartMergeComplete: false,
       };
     }
+
+    case CartActions.CLEAR_CART: {
+      return initialState;
+    }
   }
 
   return state;

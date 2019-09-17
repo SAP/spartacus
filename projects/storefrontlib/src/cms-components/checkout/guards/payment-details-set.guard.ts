@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
+import { RoutingConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { ServerConfig, RoutingConfigService } from '@spartacus/core';
-import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutConfigService } from '../checkout-config.service';
+import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +15,7 @@ export class PaymentDetailsSetGuard implements CanActivate {
     private checkoutDetailsService: CheckoutDetailsService,
     private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
-    private router: Router,
-    private serverConfig: ServerConfig
+    private router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -25,11 +23,9 @@ export class PaymentDetailsSetGuard implements CanActivate {
       CheckoutStepType.PAYMENT_DETAILS
     );
 
-    if (!checkoutStep && !this.serverConfig.production) {
+    if (!checkoutStep && isDevMode()) {
       console.warn(
-        `Missing step with type ${
-          CheckoutStepType.PAYMENT_DETAILS
-        } in checkout configuration.`
+        `Missing step with type ${CheckoutStepType.PAYMENT_DETAILS} in checkout configuration.`
       );
     }
 

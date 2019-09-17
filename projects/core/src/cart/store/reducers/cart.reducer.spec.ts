@@ -13,7 +13,28 @@ describe('Cart reducer', () => {
     });
   });
 
-  describe('CREATE_CART_SUCCESSS or LOAD_CART_SUCCESS action', () => {
+  describe('MERGE_CART action', () => {
+    it('should set cartMergeComplete flag to false', () => {
+      const { initialState } = fromCart;
+      const action = new CartActions.MergeCart({});
+      const state = fromCart.reducer(initialState, action);
+
+      expect(state.cartMergeComplete).toEqual(false);
+    });
+  });
+
+  describe('MERGE_CART_SUCCESS action', () => {
+    it('should set cartMergeComplete and refresh flag to true ', () => {
+      const { initialState } = fromCart;
+      const action = new CartActions.MergeCartSuccess({});
+      const state = fromCart.reducer(initialState, action);
+
+      expect(state.cartMergeComplete).toEqual(true);
+      expect(state.refresh).toEqual(true);
+    });
+  });
+
+  describe('CREATE_CART_SUCCESS or LOAD_CART_SUCCESS action', () => {
     it('should create an empty cart', () => {
       const testCart: Cart = {
         code: 'xxx',
@@ -70,7 +91,17 @@ describe('Cart reducer', () => {
     });
   });
 
-  describe('REMOVE_ENTRY_SUCCESS or ADD_ENTRY_SUCCESS action', () => {
+  describe('REMOVE_ENTRY_SUCCESS action', () => {
+    it('should set refresh to true', () => {
+      const { initialState } = fromCart;
+
+      const action = new CartActions.CartRemoveEntrySuccess({});
+      const state = fromCart.reducer(initialState, action);
+      expect(state.refresh).toEqual(true);
+    });
+  });
+
+  describe('ADD_ENTRY_SUCCESS action', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
@@ -90,6 +121,48 @@ describe('Cart reducer', () => {
       });
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
+    });
+  });
+
+  describe('UPDATE_ENTRY_SUCCESS action', () => {
+    it('should set refresh to true', () => {
+      const { initialState } = fromCart;
+
+      const action = new CartActions.CartUpdateEntrySuccess({});
+      const state = fromCart.reducer(initialState, action);
+      expect(state.refresh).toEqual(true);
+    });
+  });
+
+  describe('RESET_CART_DETAILS', () => {
+    it('should reset state apart from code and guid', () => {
+      const { initialState } = fromCart;
+      const guid = 'guid';
+      const code = 'code';
+      const modifiedState = { ...initialState, content: { code, guid } };
+      const action = new CartActions.ResetCartDetails();
+      const state = fromCart.reducer(modifiedState, action);
+      expect(state.refresh).toEqual(false);
+      expect(state.cartMergeComplete).toEqual(false);
+      expect(state.entries).toEqual({});
+      expect(state.content).toEqual({
+        guid,
+        code,
+      });
+    });
+  });
+
+  describe('CLEAR_CART', () => {
+    it('should reset state', () => {
+      const { initialState } = fromCart;
+      const modifiedState = {
+        ...initialState,
+        refresh: true,
+        cartMergeComplete: true,
+      };
+      const action = new CartActions.ClearCart();
+      const state = fromCart.reducer(modifiedState, action);
+      expect(state).toEqual(initialState);
     });
   });
 });

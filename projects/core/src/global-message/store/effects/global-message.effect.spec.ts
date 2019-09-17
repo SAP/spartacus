@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -10,12 +11,13 @@ import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
-import * as fromActions from '../actions/index';
+import { GlobalMessageActions } from '../actions/index';
 import * as fromEffects from '../effects/global-message.effect';
 import {
   GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
+import * as utils from '../../../util/compare-equal-objects';
 
 function spyOnOperator(obj: any, prop: string): any {
   const oldProp: Function = obj[prop];
@@ -33,8 +35,13 @@ const message: GlobalMessage = {
   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
 };
 
+const message2: GlobalMessage = {
+  text: { key: 'test' },
+  type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+};
+
 describe('GlobalMessage Effects', () => {
-  let actions$: Observable<fromActions.GlobalMessageAction>;
+  let actions$: Observable<GlobalMessageActions.GlobalMessageAction>;
   let effects: fromEffects.GlobalMessageEffect;
   let config: GlobalMessageConfig;
 
@@ -62,16 +69,18 @@ describe('GlobalMessage Effects', () => {
         },
       ],
     });
-    effects = TestBed.get(fromEffects.GlobalMessageEffect);
-    config = TestBed.get(GlobalMessageConfig);
+    effects = TestBed.get(fromEffects.GlobalMessageEffect as Type<
+      fromEffects.GlobalMessageEffect
+    >);
+    config = TestBed.get(GlobalMessageConfig as Type<GlobalMessageConfig>);
   });
 
   describe('hideAfterDelay$', () => {
     it('should hide message after delay', () => {
       spyOnOperator(operators, 'delay').and.returnValue(data => data);
 
-      const action = new fromActions.AddMessage(message);
-      const completion = new fromActions.RemoveMessage({
+      const action = new GlobalMessageActions.AddMessage(message);
+      const completion = new GlobalMessageActions.RemoveMessage({
         type: message.type,
         index: 0,
       });
@@ -82,6 +91,28 @@ describe('GlobalMessage Effects', () => {
       expect(operators.delay).toHaveBeenCalledWith(
         config.globalMessages[message.type].timeout
       );
+    });
+  });
+  describe('removeDuplicated$', () => {
+    it('should remove message if already exist', () => {
+      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(2);
+      spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
+
+      const action = new GlobalMessageActions.AddMessage(message2);
+      const completion = new GlobalMessageActions.RemoveMessage({
+        type: message.type,
+        index: 0,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.removeDuplicated$).toBeObservable(expected);
+      expect(utils.indexOfFirstOccurrence).toHaveBeenCalledWith(message2.text, [
+        {
+          key: 'test',
+        },
+      ]);
     });
   });
 });

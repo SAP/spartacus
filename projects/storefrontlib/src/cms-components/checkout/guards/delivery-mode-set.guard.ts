@@ -1,12 +1,10 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, UrlTree, Router } from '@angular/router';
-
+import { Injectable, isDevMode } from '@angular/core';
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { RoutingConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { CheckoutConfigService } from '../checkout-config.service';
-import { ServerConfig, RoutingConfigService } from '@spartacus/core';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 @Injectable({
@@ -17,8 +15,7 @@ export class DeliveryModeSetGuard implements CanActivate {
     private checkoutDetailsService: CheckoutDetailsService,
     private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
-    private router: Router,
-    private serverConfig: ServerConfig
+    private router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -26,11 +23,9 @@ export class DeliveryModeSetGuard implements CanActivate {
       CheckoutStepType.DELIVERY_MODE
     );
 
-    if (!checkoutStep && !this.serverConfig.production) {
+    if (!checkoutStep && isDevMode()) {
       console.warn(
-        `Missing step with type ${
-          CheckoutStepType.DELIVERY_MODE
-        } in checkout configuration.`
+        `Missing step with type ${CheckoutStepType.DELIVERY_MODE} in checkout configuration.`
       );
     }
 

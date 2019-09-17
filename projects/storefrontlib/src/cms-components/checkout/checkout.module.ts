@@ -1,8 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CheckoutModule } from '@spartacus/core';
-import { CartComponentModule } from '../cart/cart.module';
-import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutOrchestratorModule } from './components/checkout-orchestrator/checkout-orchestrator.module';
 import { CheckoutOrderSummaryModule } from './components/checkout-order-summary/checkout-order-summary.module';
 // tslint:disable-next-line
@@ -20,8 +17,6 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
 @NgModule({
   imports: [
     CommonModule,
-    CartComponentModule,
-    CheckoutModule,
     CheckoutOrchestratorModule,
     CheckoutOrderSummaryModule,
     CheckoutProgressModule,
@@ -34,7 +29,5 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
     ReviewSubmitModule,
     ShippingAddressModule,
   ],
-  // @todo: should we keep below provider here?
-  providers: [CheckoutConfigService],
 })
 export class CheckoutComponentModule {}

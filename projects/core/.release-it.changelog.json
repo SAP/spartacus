@@ -7,8 +7,10 @@
     "tagAnnotation": "Bumping core version to ${version}"
   },
   "npm": {
-    "publishPath": "./../../dist/core",
-    "tag": "latest"
+    "publishPath": "./../../dist/core"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && ng build core"
   },
   "github": {
     "release": true,

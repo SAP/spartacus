@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -70,7 +70,7 @@ describe('PaymentMethodsComponent', () => {
     fixture = TestBed.createComponent(PaymentMethodsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    userService = TestBed.get(UserPaymentService);
+    userService = TestBed.get(UserPaymentService as Type<UserPaymentService>);
   });
 
   it('should create', () => {
@@ -155,9 +155,7 @@ describe('PaymentMethodsComponent', () => {
     expect(getTextBold(el)).toContain(mockPayment.accountHolderName);
     expect(getCardNumber(el)).toContain(mockPayment.cardNumber);
     expect(getExpiration(el)).toContain(
-      `paymentCard.expires month:${mockPayment.expiryMonth} year:${
-        mockPayment.expiryYear
-      }`
+      `paymentCard.expires month:${mockPayment.expiryMonth} year:${mockPayment.expiryYear}`
     );
   });
 

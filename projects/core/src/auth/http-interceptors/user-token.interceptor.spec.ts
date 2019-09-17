@@ -4,6 +4,7 @@ import {
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
@@ -34,11 +35,7 @@ const MockAuthConfig: OccConfig = {
     },
   },
   context: {
-    parameters: {
-      baseSite: { default: 'test-site' },
-      language: { default: '' },
-      currency: { default: '' },
-    },
+    baseSite: ['test-site'],
   },
 };
 
@@ -60,8 +57,10 @@ describe('UserTokenInterceptor', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    authService = TestBed.get(AuthService);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    authService = TestBed.get(AuthService as Type<AuthService>);
   });
 
   it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(

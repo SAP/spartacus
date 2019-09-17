@@ -1,39 +1,28 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { SiteContextParamsService } from './site-context-params.service';
 import {
-  BASE_SITE_CONTEXT_ID,
   contextServiceMapProvider,
-  CURRENCY_CONTEXT_ID,
-  LANGUAGE_CONTEXT_ID,
   LanguageService,
   SiteContext,
   SiteContextConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import {
+  BASE_SITE_CONTEXT_ID,
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID,
+} from '../providers/context-ids';
+import { SiteContextParamsService } from './site-context-params.service';
+
 import createSpy = jasmine.createSpy;
 
 describe('SiteContextParamsService', () => {
   const siteContextConfig: SiteContextConfig = {
     context: {
-      parameters: {
-        [LANGUAGE_CONTEXT_ID]: {
-          persistence: 'route',
-          default: 'en',
-          values: ['en', 'de', 'ja', 'zh'],
-        },
-        [CURRENCY_CONTEXT_ID]: {
-          persistence: 'route',
-          default: 'USD',
-          values: ['USD', 'JPY'],
-        },
-        [BASE_SITE_CONTEXT_ID]: {
-          persistence: 'session',
-          default: 'electronics',
-          values: ['electronics', 'apparel-de'],
-        },
-      },
-      urlEncodingParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID],
+      [LANGUAGE_CONTEXT_ID]: ['en', 'de', 'ja', 'zh'],
+      [CURRENCY_CONTEXT_ID]: ['USD', 'JPY'],
+      [BASE_SITE_CONTEXT_ID]: ['electronics', 'apparel-de'],
+      urlParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID],
     },
   };
 
@@ -57,7 +46,9 @@ describe('SiteContextParamsService', () => {
       ],
     });
 
-    service = TestBed.get(SiteContextParamsService);
+    service = TestBed.get(SiteContextParamsService as Type<
+      SiteContextParamsService
+    >);
   });
 
   it('should be created', () => {
@@ -68,10 +59,6 @@ describe('SiteContextParamsService', () => {
     it('should get all site context parameters', () => {
       const params = service.getContextParameters();
       expect(params).toEqual(['language', 'currency', 'baseSite']);
-    });
-    it('should get context parameters by type', () => {
-      const params = service.getContextParameters('route');
-      expect(params).toEqual(['language', 'currency']);
     });
   });
 

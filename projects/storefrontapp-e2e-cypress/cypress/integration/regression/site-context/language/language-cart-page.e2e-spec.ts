@@ -17,6 +17,11 @@ describe('Language switch - cart page', () => {
     siteContextSelector.LANGUAGES
   );
 
+  siteContextSelector.stub(
+    siteContextSelector.CART_REQUEST,
+    siteContextSelector.CART
+  );
+
   describe('cart page', () => {
     it('should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
@@ -31,7 +36,7 @@ describe('Language switch - cart page', () => {
     it('should change language in the page', () => {
       siteContextSelector.siteContextChange(
         cartPath,
-        siteContextSelector.LANGUAGES,
+        siteContextSelector.CART,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );

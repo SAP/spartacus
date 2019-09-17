@@ -1,10 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { PaymentDetails } from '../../../model/cart.model';
+import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import {
-  loaderLoadingSelector,
-  loaderValueSelector,
-} from '../../../state/utils/loader/loader.selectors';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
@@ -21,7 +18,8 @@ export const getPaymentMethods: MemoizedSelector<
   PaymentDetails[]
 > = createSelector(
   getPaymentMethodsState,
-  (state: LoaderState<PaymentDetails[]>) => loaderValueSelector(state)
+  (state: LoaderState<PaymentDetails[]>) =>
+    StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getPaymentMethodsLoading: MemoizedSelector<
@@ -29,5 +27,16 @@ export const getPaymentMethodsLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getPaymentMethodsState,
-  (state: LoaderState<PaymentDetails[]>) => loaderLoadingSelector(state)
+  (state: LoaderState<PaymentDetails[]>) =>
+    StateLoaderSelectors.loaderLoadingSelector(state)
+);
+
+export const getPaymentMethodsLoadedSuccess: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getPaymentMethodsState,
+  (state: LoaderState<PaymentDetails[]>) =>
+    StateLoaderSelectors.loaderSuccessSelector(state) &&
+    !StateLoaderSelectors.loaderLoadingSelector(state)
 );

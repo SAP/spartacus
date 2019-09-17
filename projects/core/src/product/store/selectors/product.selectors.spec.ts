@@ -1,7 +1,8 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Product } from '../../../model/product.model';
-import * as fromActions from '../actions/index';
+import { ProductActions } from '../actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 import * as fromReducers from '../reducers/index';
 import { ProductSelectors } from '../selectors/index';
@@ -30,7 +31,8 @@ describe('Cms Component Selectors', () => {
         StoreModule.forFeature(PRODUCT_FEATURE, fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -41,7 +43,7 @@ describe('Cms Component Selectors', () => {
         .pipe(select(ProductSelectors.getSelectedProductsFactory(['testCode'])))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
 
       expect(result).toEqual([entities['testCode'].value]);
     });
@@ -56,7 +58,7 @@ describe('Cms Component Selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
 
       expect(result).toEqual(['testCode']);
     });
@@ -69,7 +71,7 @@ describe('Cms Component Selectors', () => {
         .pipe(select(ProductSelectors.getSelectedProductFactory(code)))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
       expect(result).toEqual(product);
     });
   });
@@ -82,10 +84,10 @@ describe('Cms Component Selectors', () => {
         .pipe(select(ProductSelectors.getSelectedProductLoadingFactory(code)))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadProduct(product.code));
+      store.dispatch(new ProductActions.LoadProduct(product.code));
       expect(result).toBeTruthy();
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
       expect(result).toBeFalsy();
     });
   });
@@ -100,7 +102,7 @@ describe('Cms Component Selectors', () => {
 
       expect(result).toBeFalsy();
 
-      store.dispatch(new fromActions.LoadProductSuccess(product));
+      store.dispatch(new ProductActions.LoadProductSuccess(product));
       expect(result).toBeTruthy();
     });
   });
@@ -115,7 +117,7 @@ describe('Cms Component Selectors', () => {
 
       expect(result).toBeFalsy();
 
-      store.dispatch(new fromActions.LoadProductFail(code, undefined));
+      store.dispatch(new ProductActions.LoadProductFail(code, undefined));
       expect(result).toBeTruthy();
     });
   });

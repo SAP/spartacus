@@ -1,4 +1,4 @@
-import * as fromStoreFinder from '../actions/view-all-stores.action';
+import { StoreFinderActions } from '../actions/index';
 import { ViewAllStoresState } from '../store-finder-state';
 
 export const initialState: ViewAllStoresState = {
@@ -7,10 +7,10 @@ export const initialState: ViewAllStoresState = {
 
 export function reducer(
   state = initialState,
-  action: fromStoreFinder.ViewAllStoresAction
+  action: StoreFinderActions.ViewAllStoresAction
 ): ViewAllStoresState {
   switch (action.type) {
-    case fromStoreFinder.VIEW_ALL_STORES_SUCCESS: {
+    case StoreFinderActions.VIEW_ALL_STORES_SUCCESS: {
       const viewAllStoresEntities = action.payload;
 
       return {

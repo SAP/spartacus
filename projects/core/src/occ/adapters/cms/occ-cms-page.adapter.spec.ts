@@ -2,13 +2,14 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsComponent, PageType } from '../../../model/cms.model';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { PageContext } from '../../../routing';
-import { ConverterService } from '../../../util/converter.service';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors';
 import { CmsStructureConfigService } from '../../../cms/services';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
 import createSpy = jasmine.createSpy;
 
@@ -74,10 +75,13 @@ describe('OccCmsPageAdapter', () => {
         { provide: ConverterService, useClass: MockComverterService },
       ],
     });
-
-    service = TestBed.get(OccCmsPageAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    endpointsService = TestBed.get(OccEndpointsService);
+    service = TestBed.get(OccCmsPageAdapter as Type<OccCmsPageAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    endpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
   });
 
   afterEach(() => {
@@ -88,9 +92,7 @@ describe('OccCmsPageAdapter', () => {
     it('Should get cms content page data without parameter fields', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint +
-          `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${
-            context.id
-          }`
+          `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${context.id}`
       );
 
       service.load(context).subscribe(result => {
@@ -102,16 +104,14 @@ describe('OccCmsPageAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${
-                context.id
-              }`
+              `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${context.id}`
         );
       });
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'DEFAULT' },
-        { pageType: context.type, pageLabelOrId: context.id }
+        {},
+        { fields: 'DEFAULT', pageType: context.type, pageLabelOrId: context.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -121,9 +121,7 @@ describe('OccCmsPageAdapter', () => {
     it('Should get cms content page data with parameter fields', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint +
-          `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${
-            context.id
-          }`
+          `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${context.id}`
       );
 
       service.load(context, 'BASIC').subscribe(result => {
@@ -135,16 +133,14 @@ describe('OccCmsPageAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${
-                context.id
-              }`
+              `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${context.id}`
         );
       });
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'BASIC' },
-        { pageType: context.type, pageLabelOrId: context.id }
+        {},
+        { fields: 'BASIC', pageType: context.type, pageLabelOrId: context.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -165,16 +161,14 @@ describe('OccCmsPageAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/pages?fields=DEFAULT&pageType=${context1.type}&code=${
-                context1.id
-              }`
+              `/pages?fields=DEFAULT&pageType=${context1.type}&code=${context1.id}`
         );
       });
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'DEFAULT' },
-        { pageType: context1.type, code: context1.id }
+        {},
+        { fields: 'DEFAULT', pageType: context1.type, code: context1.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');

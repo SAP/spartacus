@@ -1,10 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Address } from '../../../model/address.model';
+import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import {
-  loaderLoadingSelector,
-  loaderValueSelector,
-} from '../../../state/utils/loader/loader.selectors';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
@@ -21,7 +18,8 @@ export const getAddresses: MemoizedSelector<
   Address[]
 > = createSelector(
   getAddressesLoaderState,
-  (state: LoaderState<Address[]>) => loaderValueSelector(state)
+  (state: LoaderState<Address[]>) =>
+    StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getAddressesLoading: MemoizedSelector<
@@ -29,5 +27,16 @@ export const getAddressesLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getAddressesLoaderState,
-  (state: LoaderState<Address[]>) => loaderLoadingSelector(state)
+  (state: LoaderState<Address[]>) =>
+    StateLoaderSelectors.loaderLoadingSelector(state)
+);
+
+export const getAddressesLoadedSuccess: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getAddressesLoaderState,
+  (state: LoaderState<Address[]>) =>
+    StateLoaderSelectors.loaderSuccessSelector(state) &&
+    !StateLoaderSelectors.loaderLoadingSelector(state)
 );

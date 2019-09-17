@@ -1,11 +1,16 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { SiteConnector, StateWithSiteContext } from '@spartacus/core';
+import {
+  SiteConnector,
+  SiteContextConfig,
+  StateWithSiteContext,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { SiteAdapter } from '../connectors/site.adapter';
-import * as fromStore from '../store';
+import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { BaseSiteService } from './base-site.service';
 import createSpy = jasmine.createSpy;
@@ -34,11 +39,12 @@ describe('BaseSiteService', () => {
           provide: SiteAdapter,
           useValue: {},
         },
+        { provide: SiteContextConfig, useValue: {} },
       ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.stub();
-    service = TestBed.get(BaseSiteService);
+    service = TestBed.get(BaseSiteService as Type<BaseSiteService>);
   });
 
   it('should be created', () => {
@@ -65,11 +71,11 @@ describe('BaseSiteService', () => {
   describe('setActive', () => {
     it('should dispatch SetActiveBaseSite action', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
-      const connector = TestBed.get(SiteConnector);
+      const connector = TestBed.get(SiteConnector as Type<SiteConnector>);
       spyOn(connector, 'getBaseSite').and.returnValue(of({}));
       service.setActive('my-base-site');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SetActiveBaseSite('my-base-site')
+        new SiteContextActions.SetActiveBaseSite('my-base-site')
       );
     });
 
@@ -96,6 +102,8 @@ describe('BaseSiteService', () => {
     );
 
     service.getBaseSiteData().subscribe();
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadBaseSite());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new SiteContextActions.LoadBaseSite()
+    );
   });
 });

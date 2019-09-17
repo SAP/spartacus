@@ -5,6 +5,7 @@ export const myAccount = {
     status: 'Status',
     shippedOn: 'Shipped on',
     inProcess: 'In process...',
+    pending: 'Pending',
     deliveryStatus_READY_FOR_PICKUP: 'Ready for pickup',
     deliveryStatus_PICKUP_COMPLETE: 'Picked up',
     deliveryStatus_SHIPPED: 'Shipped',
@@ -17,6 +18,20 @@ export const myAccount = {
     statusDisplay_Error: 'Pending',
     statusDisplay_open: 'Open',
     statusDisplay_processing: 'In Process',
+    consignmentTracking: {
+      action: 'Track package',
+      dialog: {
+        header: 'Tracking Information',
+        shipped: 'Shipped',
+        estimate: 'Estimated Delivery',
+        carrier: 'Delivery Service',
+        trackingId: 'Tracking Number',
+        noTracking:
+          'The package has not been dispatched from the warehouse. ' +
+          'The tracking information will be available after the package is shipped.',
+        loadingHeader: 'Consignment Tracking',
+      },
+    },
   },
   orderHistory: {
     orderHistory: 'Order history',
@@ -34,6 +49,7 @@ export const myAccount = {
       'Are you sure you want to close your account?',
     closeMyAccount: 'CLOSE MY ACCOUNT',
     accountClosedSuccessfully: 'Account closed with success',
+    accountClosedFailure: 'Failed to close account',
   },
   updateEmailForm: {
     newEmailAddress: {

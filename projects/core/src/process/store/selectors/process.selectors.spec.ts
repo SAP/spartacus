@@ -1,6 +1,7 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import * as fromActions from '../../../state/utils/entity-loader/entity-loader.action';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { PROCESS_FEATURE, StateWithProcess } from '../process-state';
 import * as fromReducers from '../reducers/index';
@@ -18,13 +19,16 @@ describe('Process selectors', () => {
         StoreModule.forFeature(PROCESS_FEATURE, fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithProcess<void>>>);
   });
 
   describe('getProcessStateFactory', () => {
     it('should return requested process slice of the state', () => {
       store.dispatch(
-        new fromActions.EntitySuccessAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateEntityLoaderActions.EntitySuccessAction(
+          PROCESS_FEATURE,
+          MOCK_PROCESS_ID
+        )
       );
 
       let result: LoaderState<void>;
@@ -45,7 +49,10 @@ describe('Process selectors', () => {
   describe('getProcessLoadingFactory', () => {
     it('should return loading flag', () => {
       store.dispatch(
-        new fromActions.EntityLoadAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateEntityLoaderActions.EntityLoadAction(
+          PROCESS_FEATURE,
+          MOCK_PROCESS_ID
+        )
       );
 
       let result = false;
@@ -63,7 +70,10 @@ describe('Process selectors', () => {
   describe('getProcessSuccessFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
-        new fromActions.EntitySuccessAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateEntityLoaderActions.EntitySuccessAction(
+          PROCESS_FEATURE,
+          MOCK_PROCESS_ID
+        )
       );
 
       let result = false;
@@ -81,7 +91,10 @@ describe('Process selectors', () => {
   describe('getProcessErrorFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
-        new fromActions.EntityFailAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateEntityLoaderActions.EntityFailAction(
+          PROCESS_FEATURE,
+          MOCK_PROCESS_ID
+        )
       );
 
       let result = false;

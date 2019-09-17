@@ -1,17 +1,14 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from './../actions';
-
-import { ForgotPasswordEffects } from './forgot-password.effect';
-import { GlobalMessageType, AddMessage } from '../../../global-message/index';
-import { UserConnector } from '../../connectors/user/user.connector';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import { UserAdapter } from '../../connectors/user/user.adapter';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
+import { ForgotPasswordEffects } from './forgot-password.effect';
 
 describe('', () => {
   let service: UserConnector;
@@ -27,19 +24,19 @@ describe('', () => {
       ],
     });
 
-    effect = TestBed.get(ForgotPasswordEffects);
-    service = TestBed.get(UserConnector);
+    effect = TestBed.get(ForgotPasswordEffects as Type<ForgotPasswordEffects>);
+    service = TestBed.get(UserConnector as Type<UserConnector>);
 
     spyOn(service, 'requestForgotPasswordEmail').and.returnValue(of({}));
   });
 
   describe('requestForgotPasswordEmail$', () => {
     it('should be able to request a forgot password email', () => {
-      const action = new fromActions.ForgotPasswordEmailRequest(
+      const action = new UserActions.ForgotPasswordEmailRequest(
         'test@test.com'
       );
-      const completion1 = new fromActions.ForgotPasswordEmailRequestSuccess();
-      const completion2 = new AddMessage({
+      const completion1 = new UserActions.ForgotPasswordEmailRequestSuccess();
+      const completion2 = new GlobalMessageActions.AddMessage({
         text: { key: 'forgottenPassword.passwordResetEmailSent' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });

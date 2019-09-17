@@ -1,14 +1,13 @@
-import * as fromUserOrdersAction from '../actions/user-orders.action';
-
-import * as fromUserOrdersReducer from './user-orders.reducer';
-import { OrderHistory, OrderHistoryList } from '../../../model/order.model';
 import { PaginationModel, SortModel } from '../../../model/misc.model';
+import { OrderHistory, OrderHistoryList } from '../../../model/order.model';
+import { UserActions } from '../actions/index';
+import * as fromUserOrdersReducer from './user-orders.reducer';
 
 describe('User Orders Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserOrdersReducer;
-      const action = {} as fromUserOrdersAction.UserOrdersAction;
+      const action = {} as UserActions.UserOrdersAction;
       const state = fromUserOrdersReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -31,9 +30,7 @@ describe('User Orders Reducer', () => {
       };
 
       const { initialState } = fromUserOrdersReducer;
-      const action = new fromUserOrdersAction.LoadUserOrdersSuccess(
-        mockUserOrders
-      );
+      const action = new UserActions.LoadUserOrdersSuccess(mockUserOrders);
       const state = fromUserOrdersReducer.reducer(initialState, action);
 
       expect(state).toEqual(mockUserOrders);
@@ -43,7 +40,7 @@ describe('User Orders Reducer', () => {
   describe('LOAD_USER_ORDERS_FAIL action', () => {
     it('should return the initial state', () => {
       const { initialState } = fromUserOrdersReducer;
-      const action = new fromUserOrdersAction.LoadUserOrdersFail('error');
+      const action = new UserActions.LoadUserOrdersFail('error');
       const state = fromUserOrdersReducer.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });

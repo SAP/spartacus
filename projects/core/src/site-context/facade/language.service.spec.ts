@@ -1,15 +1,16 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-
+import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
-import * as fromStore from '../store';
-import { StateWithSiteContext } from '../store/state';
-import { LanguageService } from './language.service';
-import { EffectsModule } from '@ngrx/effects';
-import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { Language } from '../../model/misc.model';
 import { SiteConnector } from '../connectors/site.connector';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextStoreModule } from '../store/site-context-store.module';
+import { StateWithSiteContext } from '../store/state';
+import { LanguageService } from './language.service';
 import createSpy = jasmine.createSpy;
 
 const mockLanguages: Language[] = [
@@ -17,6 +18,12 @@ const mockLanguages: Language[] = [
 ];
 
 const mockActiveLang = 'ja';
+
+const mockSiteContextConfig: SiteContextConfig = {
+  context: {
+    language: ['ja'],
+  },
+};
 
 class MockSiteConnector {
   getCurrencies() {
@@ -49,12 +56,13 @@ describe('LanguageService', () => {
       providers: [
         LanguageService,
         { provide: SiteConnector, useClass: MockSiteConnector },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(LanguageService);
+    service = TestBed.get(LanguageService as Type<LanguageService>);
   });
 
   it('should LanguageService is injected', inject(
@@ -86,7 +94,7 @@ describe('LanguageService', () => {
     it('shouldselect active language', () => {
       service.setActive('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SetActiveLanguage('ja')
+        new SiteContextActions.SetActiveLanguage('ja')
       );
     });
   });

@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -8,7 +9,7 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
-import { OpenIdTokenActions } from '../actions';
+import { KymaActions } from '../actions/index';
 
 const testToken = {
   access_token: 'xxx',
@@ -36,7 +37,7 @@ const mockConfigValue: KymaConfig = {
 describe('Open ID Token Effect', () => {
   let openIdTokenEffect: fromStore.OpenIdTokenEffect;
   let openIdService: OpenIdAuthenticationTokenService;
-  let actions$: Observable<OpenIdTokenActions>;
+  let actions$: Observable<KymaActions.OpenIdTokenActions>;
   let mockConfig: KymaConfig;
 
   beforeEach(() => {
@@ -55,9 +56,13 @@ describe('Open ID Token Effect', () => {
       ],
     });
 
-    openIdTokenEffect = TestBed.get(fromStore.OpenIdTokenEffect);
-    openIdService = TestBed.get(OpenIdAuthenticationTokenService);
-    mockConfig = TestBed.get(KymaConfig);
+    openIdTokenEffect = TestBed.get(fromStore.OpenIdTokenEffect as Type<
+      fromStore.OpenIdTokenEffect
+    >);
+    openIdService = TestBed.get(OpenIdAuthenticationTokenService as Type<
+      OpenIdAuthenticationTokenService
+    >);
+    mockConfig = TestBed.get(KymaConfig as Type<KymaConfig>);
 
     spyOn(openIdService, 'loadOpenIdAuthenticationToken').and.returnValue(
       of(testToken)
@@ -76,7 +81,7 @@ describe('Open ID Token Effect', () => {
           userId: 'xxx@xxx.xxx',
           password: 'pwd',
         });
-        const completition = new fromStore.LoadOpenIdToken({
+        const completition = new KymaActions.LoadOpenIdToken({
           username: 'xxx@xxx.xxx',
           password: 'pwd',
         });
@@ -114,11 +119,11 @@ describe('Open ID Token Effect', () => {
 
   describe('loadClientToken$', () => {
     it('should load a client token', () => {
-      const action = new fromStore.LoadOpenIdToken({
+      const action = new KymaActions.LoadOpenIdToken({
         username: 'xxx@xxx.xxx',
         password: 'pwd',
       });
-      const completition = new fromStore.LoadOpenIdTokenSuccess(testToken);
+      const completition = new KymaActions.LoadOpenIdTokenSuccess(testToken);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completition });

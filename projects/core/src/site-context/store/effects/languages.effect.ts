@@ -5,34 +5,43 @@ import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
-import * as actions from '../actions/languages.action';
+import { SiteContextActions } from '../actions/index';
 
 @Injectable()
 export class LanguagesEffects {
   @Effect()
   loadLanguages$: Observable<
-    actions.LoadLanguagesSuccess | actions.LoadLanguagesFail
+    | SiteContextActions.LoadLanguagesSuccess
+    | SiteContextActions.LoadLanguagesFail
   > = this.actions$.pipe(
-    ofType(actions.LOAD_LANGUAGES),
+    ofType(SiteContextActions.LOAD_LANGUAGES),
     exhaustMap(() => {
       return this.siteConnector.getLanguages().pipe(
-        map(languages => new actions.LoadLanguagesSuccess(languages)),
+        map(
+          languages => new SiteContextActions.LoadLanguagesSuccess(languages)
+        ),
         catchError(error =>
-          of(new actions.LoadLanguagesFail(makeErrorSerializable(error)))
+          of(
+            new SiteContextActions.LoadLanguagesFail(
+              makeErrorSerializable(error)
+            )
+          )
         )
       );
     })
   );
 
   @Effect()
-  activateLanguage$: Observable<actions.LanguageChange> = this.actions$.pipe(
-    ofType(actions.SET_ACTIVE_LANGUAGE),
-    tap((action: actions.SetActiveLanguage) => {
+  activateLanguage$: Observable<
+    SiteContextActions.LanguageChange
+  > = this.actions$.pipe(
+    ofType(SiteContextActions.SET_ACTIVE_LANGUAGE),
+    tap((action: SiteContextActions.SetActiveLanguage) => {
       if (this.winRef.sessionStorage) {
         this.winRef.sessionStorage.setItem('language', action.payload);
       }
     }),
-    map(() => new actions.LanguageChange())
+    map(() => new SiteContextActions.LanguageChange())
   );
 
   constructor(

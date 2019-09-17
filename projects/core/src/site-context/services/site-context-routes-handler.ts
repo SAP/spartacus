@@ -12,7 +12,6 @@ import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from './site-context-params.service';
 import { Subscription } from 'rxjs';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
-import { ContextPersistence } from '../config/site-context-config';
 
 @Injectable({
   providedIn: 'root',
@@ -38,9 +37,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
     this.router = this.injector.get<Router>(Router);
 
     this.location = this.injector.get<Location>(Location);
-    const routingParams = this.siteContextParams.getContextParameters(
-      ContextPersistence.ROUTE
-    );
+    const routingParams = this.siteContextParams.getUrlEncodingParameters();
 
     if (routingParams.length) {
       this.setContextParamsFromRoute(this.router.url);

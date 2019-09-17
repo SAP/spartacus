@@ -1,27 +1,32 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Review } from '../../model/product.model';
-import * as fromStore from '../store/index';
+import { ProductActions } from '../store/actions/index';
+import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
+import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReviewService } from './product-review.service';
 
 describe('ReviewService', () => {
   let service: ProductReviewService;
-  let store: Store<fromStore.ProductsState>;
+  let store: Store<ProductsState>;
   const mockReview: Review = { id: 'testId' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('products', fromStore.getReducers()),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromStoreReducers.getReducers()
+        ),
       ],
       providers: [ProductReviewService],
     });
-
-    store = TestBed.get(Store);
-    service = TestBed.get(ProductReviewService);
+    store = TestBed.get(Store as Type<Store<ProductsState>>);
+    service = TestBed.get(ProductReviewService as Type<ProductReviewService>);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -55,7 +60,7 @@ describe('ReviewService', () => {
         .unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.LoadProductReviews('testId')
+        new ProductActions.LoadProductReviews('testId')
       );
     });
   });
@@ -66,7 +71,7 @@ describe('ReviewService', () => {
       const review: Review = { id: '123', comment: 'test review' };
       service.add(productCode, review);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.PostProductReview({ productCode, review })
+        new ProductActions.PostProductReview({ productCode, review })
       );
     });
   });

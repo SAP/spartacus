@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, CartService, RoutingService } from '@spartacus/core';
@@ -13,9 +14,6 @@ const mockRoutingService = { go: () => {} };
 class CartServiceStub {
   getActive(): Observable<Cart> {
     return of();
-  }
-  isEmpty(_cart: any): boolean {
-    return false;
   }
 }
 
@@ -39,9 +37,11 @@ describe('CartNotEmptyGuard', () => {
       imports: [RouterTestingModule],
     });
 
-    cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard);
-    routingService = TestBed.get(RoutingService);
-    cartService = TestBed.get(CartService);
+    cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard as Type<
+      CartNotEmptyGuard
+    >);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    cartService = TestBed.get(CartService as Type<CartService>);
   });
 
   describe('canActivate:', () => {
@@ -56,7 +56,6 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should redirect to main page', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           cartNotEmptyGuard
             .canActivate()
             .subscribe()
@@ -67,7 +66,6 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then returned observable should emit false', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
@@ -83,7 +81,6 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should redirect to main page', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           cartNotEmptyGuard
             .canActivate()
             .subscribe()
@@ -94,7 +91,6 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then returned observable should emit false', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()

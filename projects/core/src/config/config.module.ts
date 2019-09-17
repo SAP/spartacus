@@ -1,21 +1,18 @@
-import {
-  InjectionToken,
-  ModuleWithProviders,
-  NgModule,
-  Provider,
-  Optional,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  defaultServerConfig,
-  ServerConfig,
-} from './server-config/server-config';
-import { deepMerge } from './utils/deep-merge';
+  InjectionToken,
+  isDevMode,
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  Provider,
+} from '@angular/core';
 import {
   ConfigValidator,
   ConfigValidatorToken,
   validateConfig,
 } from './utils/config-validator';
+import { deepMerge } from './utils/deep-merge';
 
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app
@@ -64,7 +61,7 @@ export function configurationFactory(
   configValidators: ConfigValidator[]
 ) {
   const config = deepMerge({}, ...configChunks);
-  if (!config.production) {
+  if (isDevMode()) {
     validateConfig(config, configValidators || []);
   }
   return config;
@@ -112,8 +109,6 @@ export class ConfigModule {
     return {
       ngModule: ConfigModule,
       providers: [
-        { provide: ServerConfig, useExisting: Config },
-        provideConfig(defaultServerConfig),
         provideConfig(config),
         {
           provide: Config,

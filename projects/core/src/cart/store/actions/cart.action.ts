@@ -1,9 +1,5 @@
 import { Action } from '@ngrx/store';
-import {
-  LoaderFailAction,
-  LoaderLoadAction,
-  LoaderSuccessAction,
-} from '../../../state/utils/loader/loader.action';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { CART_DATA } from '../cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -21,42 +17,44 @@ export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
 export const CLEAR_EXPIRED_COUPONS = '[Cart] Clear Expired Coupon';
 
-export class CreateCart extends LoaderLoadAction {
+export const CLEAR_CART = '[Cart] Clear Cart';
+
+export class CreateCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CART;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class CreateCartFail extends LoaderFailAction {
+export class CreateCartFail extends StateLoaderActions.LoaderFailAction {
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class CreateCartSuccess extends LoaderSuccessAction {
+export class CreateCartSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CREATE_CART_SUCCESS;
   constructor(public payload: any) {
     super(CART_DATA);
   }
 }
 
-export class LoadCart extends LoaderLoadAction {
+export class LoadCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_CART;
   constructor(public payload: { userId: string; cartId: string }) {
     super(CART_DATA);
   }
 }
 
-export class LoadCartFail extends LoaderFailAction {
+export class LoadCartFail extends StateLoaderActions.LoaderFailAction {
   readonly type = LOAD_CART_FAIL;
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
 }
 
-export class LoadCartSuccess extends LoaderSuccessAction {
+export class LoadCartSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = LOAD_CART_SUCCESS;
   constructor(public payload: any) {
     super(CART_DATA);
@@ -83,6 +81,13 @@ export class ClearExpiredCoupons implements Action {
   constructor(public payload: any) {}
 }
 
+export class ClearCart extends StateLoaderActions.LoaderResetAction {
+  readonly type = CLEAR_CART;
+  constructor() {
+    super(CART_DATA);
+  }
+}
+
 export type CartAction =
   | CreateCart
   | CreateCartFail
@@ -93,4 +98,5 @@ export type CartAction =
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails
-  | ClearExpiredCoupons;
+  | ClearExpiredCoupons
+  | ClearCart;

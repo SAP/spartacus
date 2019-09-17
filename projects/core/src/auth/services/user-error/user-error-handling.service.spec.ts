@@ -1,4 +1,5 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
@@ -64,10 +65,12 @@ describe('UserErrorHandlingService', () => {
       ],
     });
 
-    routingService = TestBed.get(RoutingService);
-    service = TestBed.get(UserErrorHandlingService);
-    httpHandler = TestBed.get(HttpHandler);
-    authService = TestBed.get(AuthService);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    service = TestBed.get(UserErrorHandlingService as Type<
+      UserErrorHandlingService
+    >);
+    httpHandler = TestBed.get(HttpHandler as Type<HttpHandler>);
+    authService = TestBed.get(AuthService as Type<AuthService>);
 
     spyOn(routingService, 'go').and.stub();
     spyOn(httpHandler, 'handle').and.callThrough();
@@ -75,7 +78,7 @@ describe('UserErrorHandlingService', () => {
 
   describe('handleExpiredUserToken', () => {
     it('should redirect to login if no token', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of({}));
+      spyOn(authService, 'getUserToken').and.returnValue(of({} as any));
       service
         .handleExpiredUserToken(httpRequest, httpHandler)
         .subscribe()
@@ -89,7 +92,7 @@ describe('UserErrorHandlingService', () => {
     it('should logout and redirect to login if no refresh_token', () => {
       spyOn(authService, 'logout').and.stub();
       spyOn(authService, 'getUserToken').and.returnValue(
-        of({ access_token: 'xxx' })
+        of({ access_token: 'xxx' } as any)
       );
       service
         .handleExpiredUserToken(httpRequest, httpHandler)
@@ -115,7 +118,7 @@ describe('UserErrorHandlingService', () => {
 
     it('should only dispatch refresh token event once', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
-      spyOn(authService, 'refreshUserToken').and.returnValue(of(newToken));
+      spyOn(authService, 'refreshUserToken');
 
       service
         .handleExpiredUserToken(httpRequest, httpHandler)

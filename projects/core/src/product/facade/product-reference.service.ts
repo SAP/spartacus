@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ProductReference } from '../../model/product.model';
-import * as fromProductActions from '../store/actions/index';
+import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 
@@ -21,7 +21,7 @@ export class ProductReferenceService {
       tap(references => {
         if (references === undefined && productCode !== undefined) {
           this.store.dispatch(
-            new fromProductActions.LoadProductReferences({
+            new ProductActions.LoadProductReferences({
               productCode,
               referenceType,
               pageSize,

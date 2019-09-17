@@ -10,19 +10,14 @@ import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
 
 @NgModule({
-  imports: [
-    CartModule,
-    NgbModule,
-    CartDetailsModule,
-    CartTotalsModule,
-    CartSharedModule,
-  ],
+  imports: [NgbModule, CartDetailsModule, CartTotalsModule, CartSharedModule],
   exports: [
     CartDetailsModule,
     CartTotalsModule,
     CartSharedModule,
     AddToCartModule,
     MiniCartModule,
+    CartModule,
   ],
   declarations: [],
   providers: [

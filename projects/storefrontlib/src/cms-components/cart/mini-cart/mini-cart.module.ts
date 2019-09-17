@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  CartModule,
   CmsConfig,
   ConfigModule,
   I18nModule,
@@ -15,7 +14,6 @@ import { MiniCartComponent } from './mini-cart.component';
   imports: [
     CommonModule,
     RouterModule,
-    CartModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MiniCartComponent: {
@@ -28,6 +26,7 @@ import { MiniCartComponent } from './mini-cart.component';
     I18nModule,
   ],
   declarations: [MiniCartComponent],
+  exports: [MiniCartComponent],
   entryComponents: [MiniCartComponent],
 })
 export class MiniCartModule {}

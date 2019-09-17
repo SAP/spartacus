@@ -18,10 +18,10 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/icon';
-import { CheckoutConfigService } from '../../checkout-config.service';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 @Component({
   selector: 'cx-payment-method',
@@ -34,10 +34,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
   selectedPayment: PaymentDetails;
-  newPayment = false;
+  allowRouting: boolean;
 
   private getPaymentDetailsSub: Subscription;
-  private getDeliveryAddressSub: Subscription;
 
   private deliveryAddress: Address;
   private checkoutStepUrlNext: string;
@@ -56,6 +55,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.allowRouting = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
     this.userPaymentService.loadPaymentMethods();
 
@@ -66,8 +66,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
 
-    this.getDeliveryAddressSub = this.checkoutDeliveryService
+    this.checkoutDeliveryService
       .getDeliveryAddress()
+      .pipe(take(1))
       .subscribe((address: Address) => {
         this.deliveryAddress = address;
       });
@@ -76,16 +77,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .pipe(
-        filter(
-          paymentInfo => paymentInfo && Object.keys(paymentInfo).length !== 0
-        ),
-        tap(paymentInfo => {
-          if (paymentInfo === this.selectedPayment || this.newPayment) {
-            this.routingService.go(this.checkoutStepUrlNext);
-          }
-        })
+        filter(paymentInfo => paymentInfo && !!Object.keys(paymentInfo).length)
       )
       .subscribe(paymentInfo => {
+        if (this.allowRouting) {
+          this.routingService.go(this.checkoutStepUrlNext);
+        }
         if (!paymentInfo['hasError']) {
           this.selectedPayment = paymentInfo;
         } else {
@@ -129,6 +126,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             img: this.getCardIcon(payment.cardType.code),
             actions: [{ name: textUseThisPayment, event: 'send' }],
           };
+          if (!this.selectedPayment && payment.defaultPayment) {
+            this.selectedPayment = payment;
+          }
           if (this.selectedPayment && this.selectedPayment.id === payment.id) {
             card.header = textSelected;
           }
@@ -151,9 +151,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    this.addPaymentInfo({
-      payment: this.selectedPayment,
-      newPayment: false,
+    this.setPaymentDetails({
+      paymentDetails: this.selectedPayment,
+      isNewPayment: false,
     });
   }
 
@@ -161,49 +161,30 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.routingService.go(this.checkoutStepUrlPrevious);
   }
 
-  addNewPaymentMethod({
+  setPaymentDetails({
     paymentDetails,
     billingAddress,
+    isNewPayment = true,
   }: {
     paymentDetails: PaymentDetails;
-    billingAddress: Address;
-  }): void {
-    this.addPaymentInfo({
-      payment: paymentDetails,
-      billingAddress,
-      newPayment: true,
-    });
-  }
-
-  addPaymentInfo({
-    newPayment,
-    payment,
-    billingAddress,
-  }: {
-    newPayment: boolean;
-    payment: PaymentDetails;
     billingAddress?: Address;
+    isNewPayment?: boolean;
   }): void {
-    if (newPayment) {
-      payment.billingAddress = billingAddress
-        ? billingAddress
-        : this.deliveryAddress;
+    const details: PaymentDetails = { ...paymentDetails };
+    details.billingAddress = billingAddress || this.deliveryAddress;
 
-      this.checkoutPaymentService.createPaymentDetails(payment);
-      this.checkoutService.clearCheckoutStep(3);
-      this.newPayment = newPayment;
-    } else if (this.selectedPayment && this.selectedPayment.id === payment.id) {
-      this.checkoutPaymentService.setPaymentDetails(payment);
-      this.checkoutService.clearCheckoutStep(3);
+    if (isNewPayment) {
+      this.checkoutPaymentService.createPaymentDetails(details);
+    } else if (this.selectedPayment && this.selectedPayment.id === details.id) {
+      this.checkoutPaymentService.setPaymentDetails(details);
     }
+
+    this.allowRouting = true;
   }
 
   ngOnDestroy(): void {
     if (this.getPaymentDetailsSub) {
       this.getPaymentDetailsSub.unsubscribe();
-    }
-    if (this.getDeliveryAddressSub) {
-      this.getDeliveryAddressSub.unsubscribe();
     }
   }
 

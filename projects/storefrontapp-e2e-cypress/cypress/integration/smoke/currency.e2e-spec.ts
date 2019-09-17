@@ -6,7 +6,7 @@ context('Currency change', () => {
 
   beforeEach(() => {
     cy.server();
-    siteContextSelector.createGerericQuery(
+    siteContextSelector.createRoute(
       siteContextSelector.CURRENCY_REQUEST,
       siteContextSelector.CURRENCIES
     );
@@ -38,9 +38,7 @@ context('Currency change', () => {
   });
 
   describe('on the login page', () => {
-    const LOGIN_URL_USD = `/${
-      siteContextSelector.CONTENT_CATALOG
-    }/en/USD/login`;
+    const LOGIN_URL_USD = `/${siteContextSelector.CONTENT_CATALOG}/en/USD/login`;
     const TEST_EMAIL = 'my@email.com';
 
     it('user input should not be removed on currency change', () => {

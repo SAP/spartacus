@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
@@ -41,7 +41,17 @@ export class PageLayoutService {
         }
         return result;
       }),
-      distinctUntilChanged()
+      distinctUntilChanged((a, b) => {
+        if (a.length !== b.length) {
+          return false;
+        }
+        for (let i = 0; i < a.length; i++) {
+          if (a[i] !== b[i]) {
+            return false;
+          }
+        }
+        return true;
+      })
     );
   }
 
@@ -53,7 +63,8 @@ export class PageLayoutService {
       breakpoint
     );
     if (config && config.slots) {
-      return config.slots;
+      const pageSlots = Object.keys(page.slots);
+      return config.slots.filter(slot => pageSlots.includes(slot));
     } else if (!section) {
       this.logMissingLayoutConfig(page);
       return Object.keys(page.slots);
@@ -64,7 +75,7 @@ export class PageLayoutService {
   }
 
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter(Boolean));
+    return this.cms.getCurrentPage().pipe(filter(page => !!page));
   }
 
   get templateName$(): Observable<string> {
@@ -192,7 +203,7 @@ export class PageLayoutService {
    * in a format that can be copied / paste to the configuration.
    */
   private logMissingLayoutConfig(page: Page, section?: string): void {
-    if (this.config.production) {
+    if (!isDevMode()) {
       return;
     }
     if (!this.logSlots[page.template]) {

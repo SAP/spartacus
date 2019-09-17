@@ -3,15 +3,15 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { ErrorHandler, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import {
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
-  ServerConfig,
 } from '@spartacus/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { HttpResponseStatus } from '../models/response-status.model';
 import {
   BadGatewayHandler,
@@ -30,7 +30,6 @@ describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
   let http: HttpClient;
-  const MockServerConfig: ServerConfig = { production: false };
 
   beforeEach(() => {
     mockMessageService = {
@@ -94,12 +93,13 @@ describe('HttpErrorInterceptor', () => {
           multi: true,
         },
         { provide: GlobalMessageService, useValue: mockMessageService },
-        { provide: ServerConfig, useValue: MockServerConfig },
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    http = TestBed.get(HttpClient);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    http = TestBed.get(HttpClient as Type<HttpClient>);
   });
 
   describe('Error Handlers', () => {
@@ -113,7 +113,7 @@ describe('HttpErrorInterceptor', () => {
           return req.method === 'GET';
         });
 
-        const handler = TestBed.get(handlerClass);
+        const handler = TestBed.get(handlerClass as Type<ErrorHandler>);
 
         spyOn(handler, 'handleError');
         mockReq.flush({}, { status: responseStatus, statusText: '' });
@@ -132,7 +132,9 @@ describe('HttpErrorInterceptor', () => {
 
     describe('Bad Request for ValidationError', () => {
       it('Adds correct translation key when error type is ValidationError', () => {
-        const globalMessageService = TestBed.get(GlobalMessageService);
+        const globalMessageService = TestBed.get(GlobalMessageService as Type<
+          GlobalMessageService
+        >);
         const mockErrors = [
           { type: 'ValidationError', subject: 'subject', reason: 'reason' },
         ];
@@ -143,9 +145,7 @@ describe('HttpErrorInterceptor', () => {
           status: HttpResponseStatus.BAD_REQUEST,
           statusText: '',
         };
-        const expectedKey = `httpHandlers.validationErrors.${
-          mockErrors[0].reason
-        }.${mockErrors[0].subject}`;
+        const expectedKey = `httpHandlers.validationErrors.${mockErrors[0].reason}.${mockErrors[0].subject}`;
 
         http
           .get('/validation-error')

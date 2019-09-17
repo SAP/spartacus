@@ -4,9 +4,16 @@ import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { Language } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
-import * as fromStore from '../store/index';
+import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
+import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
+import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
+import { SiteContextConfig } from '../config/site-context-config';
+import {
+  getContextParameterValues,
+  getContextParameterDefault,
+} from '../config/context-config-utils';
 
 /**
  * Facade that provides easy access to language state, actions and selectors.
@@ -16,8 +23,9 @@ export class LanguageService implements SiteContext<Language> {
   private sessionStorage: Storage;
 
   constructor(
-    protected store: Store<fromStore.StateWithSiteContext>,
-    winRef: WindowRef
+    protected store: Store<StateWithSiteContext>,
+    winRef: WindowRef,
+    protected config: SiteContextConfig
   ) {
     this.sessionStorage = winRef.sessionStorage;
   }
@@ -30,7 +38,7 @@ export class LanguageService implements SiteContext<Language> {
       select(SiteContextSelectors.getAllLanguages),
       tap(languages => {
         if (!languages) {
-          this.store.dispatch(new fromStore.LoadLanguages());
+          this.store.dispatch(new SiteContextActions.LoadLanguages());
         }
       }),
       filter(languages => Boolean(languages))
@@ -58,7 +66,9 @@ export class LanguageService implements SiteContext<Language> {
       )
       .subscribe(activeLanguage => {
         if (activeLanguage !== isocode) {
-          this.store.dispatch(new fromStore.SetActiveLanguage(isocode));
+          this.store.dispatch(
+            new SiteContextActions.SetActiveLanguage(isocode)
+          );
         }
       });
   }
@@ -68,11 +78,20 @@ export class LanguageService implements SiteContext<Language> {
    * by the last visit (stored in session storage) or by the
    * default session language of the store.
    */
-  initialize(defaultLanguage: string) {
-    if (this.sessionStorage && !!this.sessionStorage.getItem('language')) {
-      this.setActive(this.sessionStorage.getItem('language'));
+  initialize() {
+    const sessionLanguage =
+      this.sessionStorage && this.sessionStorage.getItem('language');
+    if (
+      sessionLanguage &&
+      getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID).includes(
+        sessionLanguage
+      )
+    ) {
+      this.setActive(sessionLanguage);
     } else {
-      this.setActive(defaultLanguage);
+      this.setActive(
+        getContextParameterDefault(this.config, LANGUAGE_CONTEXT_ID)
+      );
     }
   }
 }

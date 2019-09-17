@@ -1,7 +1,7 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { OccEndpointsService } from './occ-endpoints.service';
 import { OccConfig } from '@spartacus/core';
+import { OccEndpointsService } from './occ-endpoints.service';
 
 describe('OccEndpointsService', () => {
   const mockOccConfig: OccConfig = {
@@ -10,14 +10,13 @@ describe('OccEndpointsService', () => {
         baseUrl: 'test-baseUrl',
         prefix: '/test-occPrefix',
         endpoints: {
-          endpoint1: 'configured-endpoint1/${test}?fields=abc',
+          login: '/authorizationserver/oauth/token',
+          product: 'configured-endpoint1/${test}?fields=abc',
         },
       },
     },
     context: {
-      parameters: {
-        baseSite: { default: '/test-baseSite' },
-      },
+      baseSite: ['/test-baseSite'],
     },
   };
 
@@ -29,26 +28,33 @@ describe('OccEndpointsService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: OccConfig, useValue: mockOccConfig }],
     });
-    service = TestBed.get(OccEndpointsService);
+    service = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getBaseEndpoint should return base endpoint', () => {
+  it('should return base endpoint', () => {
     expect(service.getBaseEndpoint()).toEqual(baseEndpoint);
   });
 
-  it('getEndpoint should return base endpoint + added endpoint', () => {
+  it('should return base endpoint + added endpoint', () => {
     expect(service.getEndpoint('test-endpoint')).toEqual(
       baseEndpoint + '/test-endpoint'
     );
   });
 
+  it('should return raw endpoint', () => {
+    const occ = mockOccConfig.backend.occ;
+    expect(service.getRawEndpoint('login')).toEqual(
+      occ.baseUrl + occ.endpoints['login']
+    );
+  });
+
   describe('getUrl', () => {
     it('should return endpoint from config', () => {
-      const url = service.getUrl('endpoint1');
+      const url = service.getUrl('product');
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
@@ -56,7 +62,7 @@ describe('OccEndpointsService', () => {
     });
 
     it('should apply parameters to configured endpoint', () => {
-      const url = service.getUrl('endpoint1', { test: 'test-value' });
+      const url = service.getUrl('product', { test: 'test-value' });
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/test-value?fields=abc'
@@ -65,7 +71,7 @@ describe('OccEndpointsService', () => {
 
     it('should add query parameters to configured endpoint', () => {
       const url = service.getUrl(
-        'endpoint1',
+        'product',
         { test: 'test-value' },
         { param: 'test-param' }
       );
@@ -78,7 +84,7 @@ describe('OccEndpointsService', () => {
 
     it('should allow to redefine preconfigured query parameters', () => {
       const url = service.getUrl(
-        'endpoint1',
+        'product',
         { test: 'test-value' },
         { fields: 'xyz' }
       );
@@ -90,7 +96,7 @@ describe('OccEndpointsService', () => {
 
     it('should allow to remove preconfigured query parameters', () => {
       const url = service.getUrl(
-        'endpoint1',
+        'product',
         { test: 'test-value' },
         { fields: null }
       );

@@ -1,10 +1,23 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { GeoPoint } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
-import * as fromStore from '../store';
+import { StoreFinderActions } from '../store/actions/index';
+import * as fromStoreReducers from '../store/reducers/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
+import { GlobalMessageService } from '../../global-message/index';
+import { UrlCommands, RoutingService } from '../../routing/index';
+import { NavigationExtras } from '@angular/router';
+
+class MockRoutingService {
+  go(
+    _commands: any[] | UrlCommands,
+    _query?: object,
+    _extras?: NavigationExtras
+  ): void {}
+}
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -39,18 +52,20 @@ describe('StoreFinderService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          store: combineReducers(fromStore.getReducers),
+          store: combineReducers(fromStoreReducers.getReducers),
         }),
       ],
       providers: [
         StoreFinderService,
         { provide: WindowRef, useValue: MockWindowRef },
+        { provide: RoutingService, useClass: MockRoutingService },
+        GlobalMessageService,
       ],
     });
 
-    service = TestBed.get(StoreFinderService);
-    store = TestBed.get(Store);
-    winRef = TestBed.get(WindowRef);
+    service = TestBed.get(StoreFinderService as Type<StoreFinderService>);
+    store = TestBed.get(Store as Type<Store<StoresState>>);
+    winRef = TestBed.get(WindowRef as Type<WindowRef>);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(
@@ -72,41 +87,43 @@ describe('StoreFinderService', () => {
 
   describe('Find Stores', () => {
     it('should dispatch a new action', () => {
-      service.findStores(queryText, false);
+      service.findStoresAction(
+        queryText,
+        { currentPage: 0 },
+        undefined,
+        undefined
+      );
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStores({ queryText: queryText })
+        new StoreFinderActions.FindStores({
+          queryText: queryText,
+          searchConfig: {
+            currentPage: 0,
+          },
+          longitudeLatitude: undefined,
+          countryIsoCode: undefined,
+        })
       );
     });
   });
 
   describe('Find Stores with My Location', () => {
     it('should dispatch a OnHold action and a FindStores action', () => {
-      service.findStores(queryText, true);
-
-      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.OnHold());
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStores({
-          queryText,
-          longitudeLatitude,
-        })
+      service.findStoresAction(
+        queryText,
+        { currentPage: 0 },
+        undefined,
+        undefined,
+        true
       );
-      expect(
-        winRef.nativeWindow.navigator.geolocation.watchPosition
-      ).toHaveBeenCalled();
-    });
-  });
 
-  describe('Find Stores Twice with My Location', () => {
-    it('should clear watch geolocation', () => {
-      service.findStores(queryText, true);
-      service.findStores(queryText, false);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new StoreFinderActions.FindStoresOnHold()
+      );
+
       expect(
         winRef.nativeWindow.navigator.geolocation.watchPosition
       ).toHaveBeenCalled();
-      expect(
-        winRef.nativeWindow.navigator.geolocation.clearWatch
-      ).toHaveBeenCalledWith(geolocationWatchId);
     });
   });
 
@@ -115,7 +132,7 @@ describe('StoreFinderService', () => {
       service.viewStoreById(storeId);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindStoreById({ storeId })
+        new StoreFinderActions.FindStoreById({ storeId })
       );
     });
   });
@@ -125,7 +142,7 @@ describe('StoreFinderService', () => {
       service.viewAllStores();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.ViewAllStores()
+        new StoreFinderActions.ViewAllStores()
       );
     });
   });

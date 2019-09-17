@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -8,7 +9,7 @@ import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
-import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { UserActions } from '../actions/index';
 import * as fromUserAddressesEffect from './user-addresses.effect';
 
 class MockUserAddressService {
@@ -49,9 +50,13 @@ describe('User Addresses effect', () => {
     });
 
     userAddressesEffect = TestBed.get(
-      fromUserAddressesEffect.UserAddressesEffects
+      fromUserAddressesEffect.UserAddressesEffects as Type<
+        fromUserAddressesEffect.UserAddressesEffects
+      >
     );
-    userAddressConnector = TestBed.get(UserAddressConnector);
+    userAddressConnector = TestBed.get(UserAddressConnector as Type<
+      UserAddressConnector
+    >);
 
     spyOn(userAddressConnector, 'getAll').and.returnValue(
       of(mockUserAddresses)
@@ -64,10 +69,8 @@ describe('User Addresses effect', () => {
 
   describe('loadUserAddresses$', () => {
     it('should load user addresses', () => {
-      const action = new fromUserAddressesAction.LoadUserAddresses(
-        'address123'
-      );
-      const completion = new fromUserAddressesAction.LoadUserAddressesSuccess(
+      const action = new UserActions.LoadUserAddresses('address123');
+      const completion = new UserActions.LoadUserAddressesSuccess(
         mockUserAddresses
       );
 
@@ -80,11 +83,11 @@ describe('User Addresses effect', () => {
 
   describe('addUserAddress$', () => {
     it('should add user address', () => {
-      const action = new fromUserAddressesAction.AddUserAddress({
+      const action = new UserActions.AddUserAddress({
         userId: USERID_CURRENT,
         address: mockUserAddress,
       });
-      const completion = new fromUserAddressesAction.AddUserAddressSuccess({});
+      const completion = new UserActions.AddUserAddressSuccess({});
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -94,16 +97,14 @@ describe('User Addresses effect', () => {
 
   describe('updateUserAddress$', () => {
     it('should update user address', () => {
-      const action = new fromUserAddressesAction.UpdateUserAddress({
+      const action = new UserActions.UpdateUserAddress({
         userId: USERID_CURRENT,
         addressId: '123',
         address: {
           firstName: 'test',
         },
       });
-      const completion = new fromUserAddressesAction.UpdateUserAddressSuccess(
-        {}
-      );
+      const completion = new UserActions.UpdateUserAddressSuccess({});
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -113,13 +114,11 @@ describe('User Addresses effect', () => {
 
   describe('deleteUserAddress$', () => {
     it('should delete user address', () => {
-      const action = new fromUserAddressesAction.DeleteUserAddress({
+      const action = new UserActions.DeleteUserAddress({
         userId: USERID_CURRENT,
         addressId: 'address123',
       });
-      const completion = new fromUserAddressesAction.DeleteUserAddressSuccess(
-        {}
-      );
+      const completion = new UserActions.DeleteUserAddressSuccess({});
       actions$ = hot('-a', { a: action });
 
       const expected = cold('-b', { b: completion });

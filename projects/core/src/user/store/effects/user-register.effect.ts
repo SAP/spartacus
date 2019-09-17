@@ -6,27 +6,21 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromActions from '../actions/user-register.action';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserRegisterEffects {
   @Effect()
   registerUser$: Observable<
-    fromActions.UserRegisterOrRemoveAction | AuthActions.LoadUserToken
+    UserActions.UserRegisterOrRemoveAction
   > = this.actions$.pipe(
-    ofType(fromActions.REGISTER_USER),
-    map((action: fromActions.RegisterUser) => action.payload),
+    ofType(UserActions.REGISTER_USER),
+    map((action: UserActions.RegisterUser) => action.payload),
     mergeMap((user: UserSignUp) =>
       this.userConnector.register(user).pipe(
-        switchMap(_result => [
-          new AuthActions.LoadUserToken({
-            userId: user.uid,
-            password: user.password,
-          }),
-          new fromActions.RegisterUserSuccess(),
-        ]),
+        map(() => new UserActions.RegisterUserSuccess()),
         catchError(error =>
-          of(new fromActions.RegisterUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
         )
       )
     )
@@ -34,18 +28,18 @@ export class UserRegisterEffects {
 
   @Effect()
   removeUser$: Observable<
-    fromActions.UserRegisterOrRemoveAction | AuthActions.Logout
+    UserActions.UserRegisterOrRemoveAction | AuthActions.Logout
   > = this.actions$.pipe(
-    ofType(fromActions.REMOVE_USER),
-    map((action: fromActions.RemoveUser) => action.payload),
+    ofType(UserActions.REMOVE_USER),
+    map((action: UserActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
         switchMap(_result => [
-          new fromActions.RemoveUserSuccess(),
+          new UserActions.RemoveUserSuccess(),
           new AuthActions.Logout(),
         ]),
         catchError(error =>
-          of(new fromActions.RemoveUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
         )
       );
     })

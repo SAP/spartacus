@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  ActivatedRouterStateSnapshot,
+  CurrencyService,
+  LanguageService,
   ProductSearchPage,
   ProductSearchService,
   RoutingService,
@@ -10,7 +13,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  map,
+  pluck,
   shareReplay,
   tap,
 } from 'rxjs/operators';
@@ -41,6 +44,8 @@ export class ProductListComponentService {
     protected productSearchService: ProductSearchService,
     protected routing: RoutingService,
     protected activatedRoute: ActivatedRoute,
+    protected currencyService: CurrencyService,
+    protected languageService: LanguageService,
     protected router: Router
   ) {}
 
@@ -51,14 +56,21 @@ export class ProductListComponentService {
     .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
 
   private searchByRouting$: Observable<
-    any
-  > = this.routing.getRouterState().pipe(
-    distinctUntilChanged((x, y) => {
-      // router emits new value also when the anticipated `nextState` changes
-      // but we want to perform search only when current url changes
-      return x.state.url === y.state.url;
-    }),
-    tap(({ state }) => {
+    ActivatedRouterStateSnapshot
+  > = combineLatest([
+    this.routing.getRouterState().pipe(
+      distinctUntilChanged((x, y) => {
+        // router emits new value also when the anticipated `nextState` changes
+        // but we want to perform search only when current url changes
+        return x.state.url === y.state.url;
+      })
+    ),
+    // also trigger search on site context changes
+    this.languageService.getActive(),
+    this.currencyService.getActive(),
+  ]).pipe(
+    pluck(0, 'state'),
+    tap((state: ActivatedRouterStateSnapshot) => {
       const criteria = this.getCriteriaFromRoute(
         state.params,
         state.queryParams
@@ -76,11 +88,11 @@ export class ProductListComponentService {
    * When a user leaves the PLP route, the PLP component unsubscribes from this stream
    * so no longer the search is performed on route change.
    */
-  readonly model$: Observable<ProductSearchPage> = combineLatest(
+  readonly model$: Observable<ProductSearchPage> = combineLatest([
     this.searchResults$,
-    this.searchByRouting$
-  ).pipe(
-    map(([searchResults]) => searchResults),
+    this.searchByRouting$,
+  ]).pipe(
+    pluck(0),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
@@ -142,6 +154,26 @@ export class ProductListComponentService {
 
   viewPage(pageNumber: number): void {
     this.setQueryParams({ currentPage: pageNumber });
+  }
+
+  /**
+   * Get items from a given page without using navigation
+   */
+  getPageItems(pageNumber: number): void {
+    this.routing
+      .getRouterState()
+      .subscribe(route => {
+        const routeCriteria = this.getCriteriaFromRoute(
+          route.state.params,
+          route.state.queryParams
+        );
+        const criteria = {
+          ...routeCriteria,
+          currentPage: pageNumber,
+        };
+        this.search(criteria);
+      })
+      .unsubscribe();
   }
 
   sort(sortCode: string): void {

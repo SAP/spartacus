@@ -1,12 +1,13 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConsentTemplate } from '../../../model/consent.model';
-import { UserConsentAdapter } from '../../connectors';
-import * as fromAction from '../actions/user-consents.action';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { UserConsentAdapter } from '../../connectors/index';
+import { UserActions } from '../actions/index';
 import * as fromEffect from './user-consents.effect';
 
 class MockOccUserAdapter {
@@ -39,8 +40,12 @@ describe('User Consents effect', () => {
       ],
     });
 
-    userConsentEffect = TestBed.get(fromEffect.UserConsentsEffect);
-    userConsentAdapter = TestBed.get(UserConsentAdapter);
+    userConsentEffect = TestBed.get(fromEffect.UserConsentsEffect as Type<
+      fromEffect.UserConsentsEffect
+    >);
+    userConsentAdapter = TestBed.get(UserConsentAdapter as Type<
+      UserConsentAdapter
+    >);
   });
 
   describe('getConsents$', () => {
@@ -55,8 +60,8 @@ describe('User Consents effect', () => {
         of(templateList)
       );
 
-      const action = new fromAction.LoadUserConsents(userId);
-      const completion = new fromAction.LoadUserConsentsSuccess(templateList);
+      const action = new UserActions.LoadUserConsents(userId);
+      const completion = new UserActions.LoadUserConsentsSuccess(templateList);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -78,12 +83,14 @@ describe('User Consents effect', () => {
         of(consentTemplate)
       );
 
-      const action = new fromAction.GiveUserConsent({
+      const action = new UserActions.GiveUserConsent({
         userId,
         consentTemplateId,
         consentTemplateVersion,
       });
-      const completion = new fromAction.GiveUserConsentSuccess(consentTemplate);
+      const completion = new UserActions.GiveUserConsentSuccess(
+        consentTemplate
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -96,11 +103,11 @@ describe('User Consents effect', () => {
     it('should return WithdrawUserConsentSuccess', () => {
       spyOn(userConsentAdapter, 'withdrawConsent').and.returnValue(of({}));
 
-      const action = new fromAction.WithdrawUserConsent({
+      const action = new UserActions.WithdrawUserConsent({
         userId: 'xxx@xxx.xxx',
         consentCode: 'xxx',
       });
-      const completion = new fromAction.WithdrawUserConsentSuccess();
+      const completion = new UserActions.WithdrawUserConsentSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -111,8 +118,8 @@ describe('User Consents effect', () => {
 
   describe('resetConsents$', () => {
     it('should return ResetLoadUserConsents', () => {
-      const action = new fromSiteContextActions.LanguageChange();
-      const completion = new fromAction.ResetLoadUserConsents();
+      const action = new SiteContextActions.LanguageChange();
+      const completion = new UserActions.ResetLoadUserConsents();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

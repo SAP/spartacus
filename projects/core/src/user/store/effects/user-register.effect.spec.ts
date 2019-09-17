@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
@@ -7,7 +8,8 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
-import * as fromStore from '../index';
+import { UserActions } from '../actions/index';
+import * as fromStoreReducers from '../reducers/index';
 import { UserRegisterEffects } from './user-register.effect';
 
 const user: UserSignUp = {
@@ -27,8 +29,8 @@ describe('UserRegister effect', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers()),
+          ...fromStoreReducers.getReducers(),
+          user: combineReducers(fromStoreReducers.getReducers()),
         }),
       ],
       providers: [
@@ -38,8 +40,8 @@ describe('UserRegister effect', () => {
       ],
     });
 
-    effect = TestBed.get(UserRegisterEffects);
-    userService = TestBed.get(UserConnector);
+    effect = TestBed.get(UserRegisterEffects as Type<UserRegisterEffects>);
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
 
     spyOn(userService, 'register').and.returnValue(of({}));
     spyOn(userService, 'remove').and.returnValue(of({}));
@@ -47,17 +49,12 @@ describe('UserRegister effect', () => {
 
   describe('registerUser$', () => {
     it('should register user', () => {
-      const action = new fromStore.RegisterUser(user);
-      const loadUser = new AuthActions.LoadUserToken({
-        userId: user.uid,
-        password: user.password,
-      });
-      const completion = new fromStore.RegisterUserSuccess();
+      const action = new UserActions.RegisterUser(user);
+      const completion = new UserActions.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: loadUser,
-        c: completion,
+      const expected = cold('-b', {
+        b: completion,
       });
 
       expect(effect.registerUser$).toBeObservable(expected);
@@ -66,9 +63,9 @@ describe('UserRegister effect', () => {
 
   describe('removeUser$', () => {
     it('should remove user', () => {
-      const action = new fromStore.RemoveUser('testUserId');
+      const action = new UserActions.RemoveUser('testUserId');
       const logout = new AuthActions.Logout();
-      const completion = new fromStore.RemoveUserSuccess();
+      const completion = new UserActions.RemoveUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {

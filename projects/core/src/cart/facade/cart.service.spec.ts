@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -55,9 +56,9 @@ describe('CartService', () => {
       ],
     });
 
-    service = TestBed.get(CartService);
-    cartData = TestBed.get(CartDataService);
-    store = TestBed.get(Store);
+    service = TestBed.get(CartService as Type<CartService>);
+    cartData = TestBed.get(CartDataService as Type<CartDataService>);
+    store = TestBed.get(Store as Type<Store<StateWithCart>>);
   });
 
   it('should CartService is injected', () => {

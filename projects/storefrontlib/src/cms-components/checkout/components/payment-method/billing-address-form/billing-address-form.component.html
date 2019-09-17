@@ -1,13 +1,13 @@
 <div [formGroup]="billingAddress">
   <div class="form-group">
-    <ng-container *ngIf="(countries$ | async) as countries">
+    <ng-container *ngIf="countries$ | async as countries">
       <div *ngIf="countries.length !== 0">
         <label aria-required="true">
           <span class="label-content required">{{
             'addressForm.country' | cxTranslate
           }}</span>
           <ng-select
-            [searchable]="false"
+            [searchable]="true"
             [clearable]="false"
             [items]="countries"
             bindLabel="name"
@@ -91,42 +91,24 @@
       </label>
     </div>
     <div class="form-group col-md-6">
-      <ng-container
-        *ngIf="(regions$ | async) as regions"
-        formGroupName="region"
-      >
+      <ng-container *ngIf="regions$ | async as regions" formGroupName="region">
         <div *ngIf="regions.length !== 0">
           <label aria-required="true">
             <span class="label-content required">{{
               'addressForm.state' | cxTranslate
             }}</span>
-            <ng-container *ngIf="regions[0].name">
-              <ng-select
-                class="region-select"
-                formControlName="isocodeShort"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="regions"
-                bindLabel="name"
-                bindValue="isocodeShort"
-                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-                (change)="regionSelected($event)"
-              >
-              </ng-select>
-            </ng-container>
-            <ng-container *ngIf="!regions[0].name">
-              <ng-select
-                class="region-select"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="regions"
-                bindLabel="isocodeShort"
-                bindValue="region"
-                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-                (change)="regionSelected($event)"
-              >
-              </ng-select>
-            </ng-container>
+            <ng-select
+              class="region-select"
+              formControlName="isocodeShort"
+              [searchable]="true"
+              [clearable]="false"
+              [items]="regions"
+              bindLabel="{{ regions[0].name ? 'name' : 'isocodeShort' }}"
+              bindValue="{{ regions[0].name ? 'isocodeShort' : 'region' }}"
+              placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+              (change)="regionSelected($event)"
+            >
+            </ng-select>
           </label>
         </div>
       </ng-container>

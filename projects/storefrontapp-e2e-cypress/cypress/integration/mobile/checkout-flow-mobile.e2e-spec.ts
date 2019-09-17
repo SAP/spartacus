@@ -1,6 +1,7 @@
-import * as bigHappyPath from '../../helpers/checkout-flow';
+import * as checkout from '../../helpers/checkout-flow';
 import { checkBanner } from '../../helpers/homepage';
 import { formats } from '../../sample-data/viewports';
+import { verifyGlobalMessageAfterRegistration } from '../../helpers/register';
 
 function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
@@ -15,7 +16,7 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.visit('/');
+    checkout.visitHomePage();
   });
 
   beforeEach(() => {
@@ -25,46 +26,42 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   it('should register successfully', () => {
     waitForHomePage();
 
-    bigHappyPath.registerUser();
-
-    waitForHomePage();
-
-    bigHappyPath.signOutUser();
+    checkout.registerUser();
+    verifyGlobalMessageAfterRegistration();
   });
 
   it('should go to product page from category page', () => {
-    bigHappyPath.goToProductDetailsPage();
+    checkout.goToCheapProductDetailsPage();
   });
 
   it('should add product to cart and go to checkout', () => {
-    bigHappyPath.addProductToCart();
-    bigHappyPath.loginUser();
+    checkout.addCheapProductToCartAndLogin();
   });
 
   it('should fill in address form', () => {
-    bigHappyPath.fillAddressForm();
+    checkout.fillAddressFormWithCheapProduct();
   });
 
   it('should choose delivery', () => {
-    bigHappyPath.chooseDeliveryMethod();
+    checkout.chooseDeliveryMethod();
   });
 
   it('should fill in payment form', () => {
-    bigHappyPath.fillPaymentForm();
+    checkout.fillPaymentFormWithCheapProduct();
   });
 
   it('should review and place order', () => {
-    bigHappyPath.placeOrder();
+    checkout.placeOrderWithCheapProduct();
   });
 
   it('should display summary page', () => {
-    bigHappyPath.verifyOrderConfirmationPage();
+    checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
   it('should be able to check order in order history', () => {
     clickHamburger();
-    bigHappyPath.viewOrderHistory();
+    checkout.viewOrderHistoryWithCheapProduct();
     clickHamburger();
-    bigHappyPath.signOut();
+    checkout.signOut();
   });
 });

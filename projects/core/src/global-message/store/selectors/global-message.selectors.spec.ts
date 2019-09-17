@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Translatable } from '@spartacus/core';
@@ -12,7 +13,7 @@ import {
   GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
-import * as fromActions from './../actions/index';
+import { GlobalMessageActions } from './../actions/index';
 import * as fromReducers from './../reducers/index';
 import { GlobalMessageSelectors } from './../selectors/index';
 
@@ -49,7 +50,7 @@ describe('Global Messages selectors', () => {
     if (sub) {
       sub.unsubscribe();
     }
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithGlobalMessage>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -75,7 +76,9 @@ describe('Global Messages selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.AddMessage(testMessageConfirmation));
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+      );
 
       expect(result).toEqual({
         [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'testConf' }],
@@ -99,11 +102,15 @@ describe('Global Messages selectors', () => {
           result = value;
         });
 
-      store.dispatch(new fromActions.AddMessage(testMessageError));
+      store.dispatch(new GlobalMessageActions.AddMessage(testMessageError));
       expect(result).toEqual(undefined);
-      store.dispatch(new fromActions.AddMessage(testMessageConfirmation));
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+      );
       expect(result).toEqual([{ raw: 'testConf' }]);
-      store.dispatch(new fromActions.AddMessage(testMessageConfirmation2));
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation2)
+      );
       expect(result).toEqual([{ raw: 'testConf' }, { raw: 'testConf2' }]);
     });
   });
@@ -124,11 +131,15 @@ describe('Global Messages selectors', () => {
           result = value;
         });
 
-      store.dispatch(new fromActions.AddMessage(testMessageError));
+      store.dispatch(new GlobalMessageActions.AddMessage(testMessageError));
       expect(result).toBe(undefined);
-      store.dispatch(new fromActions.AddMessage(testMessageConfirmation));
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+      );
       expect(result).toBe(1);
-      store.dispatch(new fromActions.AddMessage(testMessageConfirmation2));
+      store.dispatch(
+        new GlobalMessageActions.AddMessage(testMessageConfirmation2)
+      );
       expect(result).toBe(2);
     });
   });

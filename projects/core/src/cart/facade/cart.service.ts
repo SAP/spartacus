@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -41,16 +41,22 @@ export class CartService {
       this.store.select(CartSelectors.getCartContent),
       this.store.select(CartSelectors.getCartLoading),
       this.authService.getUserToken(),
+      this.store.select(CartSelectors.getCartLoaded),
     ]).pipe(
       // combineLatest emits multiple times on each property update instead of one emit
       // additionally dispatching actions that changes selectors used here needs to happen in order
       // for this asyncScheduler is used here
-      debounceTime(1, asyncScheduler),
+      debounceTime(0),
       filter(([, loading]) => !loading),
-      tap(([cart, , userToken]) => {
+      tap(([cart, , userToken, loaded]) => {
         if (this.isJustLoggedIn(userToken.userId)) {
           this.loadOrMerge();
-        } else if (this.isCreated(cart) && this.isIncomplete(cart)) {
+        } else if (
+          (this.isCreated(cart) && this.isIncomplete(cart)) ||
+          (this.isLoggedIn(userToken.userId) &&
+            !this.isCreated(cart) &&
+            !loaded) // try to load current cart for logged in user (loaded flag to prevent infinite loop when user doesn't have cart)
+        ) {
           this.load();
         }
 
@@ -197,10 +203,14 @@ export class CartService {
 
   private isJustLoggedIn(userId: string): boolean {
     return (
-      typeof userId !== 'undefined' && // logged in user
+      this.isLoggedIn(userId) &&
       this.previousUserId !== userId && // *just* logged in
       this.previousUserId !== this.PREVIOUS_USER_ID_INITIAL_VALUE // not app initialization
     );
+  }
+
+  private isLoggedIn(userId: string): boolean {
+    return typeof userId !== 'undefined';
   }
 
   addVoucher(voucherId: string): void {

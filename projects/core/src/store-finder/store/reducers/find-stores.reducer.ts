@@ -1,4 +1,4 @@
-import * as fromStoreFinder from '../actions/find-stores.action';
+import { StoreFinderActions } from '../actions/index';
 import { FindStoresState } from '../store-finder-state';
 
 export const initialState: FindStoresState = {
@@ -7,11 +7,11 @@ export const initialState: FindStoresState = {
 
 export function reducer(
   state = initialState,
-  action: fromStoreFinder.FindStoresAction
+  action: StoreFinderActions.FindStoresAction
 ): FindStoresState {
   switch (action.type) {
-    case fromStoreFinder.FIND_STORES_SUCCESS:
-    case fromStoreFinder.FIND_STORE_BY_ID_SUCCESS: {
+    case StoreFinderActions.FIND_STORES_SUCCESS:
+    case StoreFinderActions.FIND_STORE_BY_ID_SUCCESS: {
       const findStoresEntities = action.payload;
 
       return { ...state, findStoresEntities };

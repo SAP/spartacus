@@ -4,6 +4,7 @@ import i18next from 'i18next';
 import { first, take } from 'rxjs/operators';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
+import * as AngularCore from '@angular/core';
 
 const testKey = 'testKey';
 const testOptions = 'testOptions';
@@ -11,7 +12,6 @@ const nonBreakingSpace = String.fromCharCode(160);
 
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
-  let config: I18nConfig;
 
   beforeEach(() => {
     const mockTranslationChunk = {
@@ -31,14 +31,15 @@ describe('I18nextTranslationService', () => {
       ],
     });
 
-    service = TestBed.get(I18nextTranslationService);
-    config = TestBed.get(I18nConfig);
+    service = TestBed.get(I18nextTranslationService as AngularCore.Type<
+      I18nextTranslationService
+    >);
   });
 
   describe('loadChunks', () => {
     it('should return result of i18next.loadChunks', () => {
       const expectedResult = new Promise(() => {});
-      spyOn(i18next, 'loadNamespaces').and.returnValue(expectedResult);
+      spyOn(i18next, 'loadNamespaces').and.returnValue(expectedResult as any);
       const chunks = ['chunk1', 'chunk2'];
       const result = service.loadChunks(chunks);
       expect(i18next.loadNamespaces).toHaveBeenCalledWith(chunks);
@@ -108,9 +109,10 @@ describe('I18nextTranslationService', () => {
     describe(', when key does NOT exist even after chunk was loaded,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValues(false, false);
-        spyOn(i18next, 'loadNamespaces').and.callFake(
-          (_namespaces, onChunkLoad) => onChunkLoad()
-        );
+        spyOn(i18next, 'loadNamespaces').and.callFake(((
+          _namespaces,
+          onChunkLoad
+        ) => onChunkLoad()) as any);
       });
 
       it('should emit key in brackets for non-production', () => {
@@ -123,7 +125,7 @@ describe('I18nextTranslationService', () => {
       });
 
       it('should return non-breaking space for production', () => {
-        config.production = true;
+        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
         let result;
         service
           .translate(testKey, testOptions)
@@ -136,9 +138,10 @@ describe('I18nextTranslationService', () => {
     describe(', when key does NOT exist firstly, but it comes with loaded chunk,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValues(false, true);
-        spyOn(i18next, 'loadNamespaces').and.callFake(
-          (_namespaces, onChunkLoad) => onChunkLoad()
-        );
+        spyOn(i18next, 'loadNamespaces').and.callFake(((
+          _namespaces,
+          onChunkLoad
+        ) => onChunkLoad()) as any);
       });
 
       it('should emit result of i18next.t', () => {

@@ -1,16 +1,12 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Order,
-  RoutesConfig,
-  RoutingConfigService,
-  ServerConfig,
-} from '@spartacus/core';
+import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
-import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 
@@ -32,7 +28,6 @@ class MockCheckoutConfigService {
 }
 
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
-const MockServerConfig: ServerConfig = { production: false };
 
 describe(`ShippingAddressSetGuard`, () => {
   let guard: ShippingAddressSetGuard;
@@ -49,18 +44,25 @@ describe(`ShippingAddressSetGuard`, () => {
           useClass: MockCheckoutDetailsService,
         },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
-        { provide: ServerConfig, useValue: MockServerConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(ShippingAddressSetGuard);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
+    guard = TestBed.get(ShippingAddressSetGuard as Type<
+      ShippingAddressSetGuard
+    >);
+    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
+      CheckoutDetailsService
+    >);
+    mockCheckoutConfig = TestBed.get(CheckoutConfig as Type<CheckoutConfig>);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
+    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
+      CheckoutConfigService
+    >);
   });
 
   describe(`when there is NO shipping address present`, () => {
@@ -105,7 +107,7 @@ describe(`ShippingAddressSetGuard`, () => {
   describe(`when there is shipping address present`, () => {
     it(`should return true`, done => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
-        of({ id: 'testAddress' })
+        of({ id: 'testAddress' } as any)
       );
 
       guard.canActivate().subscribe(result => {

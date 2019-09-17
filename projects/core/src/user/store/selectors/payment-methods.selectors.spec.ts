@@ -1,10 +1,11 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { PaymentDetails } from '../../../model/cart.model';
 import { Occ } from '../../../occ/occ-models/occ.models';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
+import { UserActions } from '../actions/index';
+import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 
@@ -23,7 +24,7 @@ describe('User Payment Methods Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -54,7 +55,7 @@ describe('User Payment Methods Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new fromActions.LoadUserPaymentMethodsSuccess(
+        new UserActions.LoadUserPaymentMethodsSuccess(
           mockUserPaymentMethods.payments
         )
       );
@@ -72,7 +73,22 @@ describe('User Payment Methods Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadUserPaymentMethods('userId'));
+      store.dispatch(new UserActions.LoadUserPaymentMethods('userId'));
+
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getPaymentMethodsLoadedSuccess', () => {
+    it('should return paymentMethodsLoadedSuccess flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(UsersSelectors.getPaymentMethodsLoadedSuccess))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new UserActions.LoadUserPaymentMethodsSuccess([]));
 
       expect(result).toEqual(true);
     });

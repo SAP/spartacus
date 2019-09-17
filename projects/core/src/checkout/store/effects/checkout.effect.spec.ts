@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -14,8 +15,8 @@ import {
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
-import * as fromSiteContextActions from '../../../site-context/store/actions/index';
-import { LoadUserAddresses, LoadUserPaymentMethods } from '../../../user';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { UserActions } from '../../../user/store/actions/index';
 import { CheckoutConnector } from '../../connectors/checkout';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
@@ -69,6 +70,8 @@ class MockCheckoutPaymentConnector {
 class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
   placeOrder = () => of({});
+  clearCheckoutDeliveryAddress = () => of({});
+  clearCheckoutDeliveryMode = () => of({});
 }
 
 describe('Checkout effect', () => {
@@ -96,8 +99,12 @@ describe('Checkout effect', () => {
       ],
     });
 
-    entryEffects = TestBed.get(fromEffects.CheckoutEffects);
-    checkoutConnector = TestBed.get(CheckoutConnector);
+    entryEffects = TestBed.get(fromEffects.CheckoutEffects as Type<
+      fromEffects.CheckoutEffects
+    >);
+    checkoutConnector = TestBed.get(CheckoutConnector as Type<
+      CheckoutConnector
+    >);
 
     spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
@@ -110,7 +117,7 @@ describe('Checkout effect', () => {
         address: address,
       });
 
-      const completion1 = new LoadUserAddresses(userId);
+      const completion1 = new UserActions.LoadUserAddresses(userId);
       const completion2 = new CheckoutActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
@@ -132,13 +139,18 @@ describe('Checkout effect', () => {
         address: address,
       });
       const completion = new CheckoutActions.SetDeliveryAddressSuccess(address);
-      const completion2 = new CheckoutActions.LoadSupportedDeliveryModes({
+      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion3 = new CheckoutActions.LoadSupportedDeliveryModes({
         userId,
         cartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion, c: completion2 });
+      const expected = cold('-(bcd)', {
+        b: completion,
+        c: completion2,
+        d: completion3,
+      });
 
       expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
@@ -163,7 +175,7 @@ describe('Checkout effect', () => {
 
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
-      const action = new fromSiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange();
       const completion = new CheckoutActions.CheckoutClearMiscsData();
 
       actions$ = hot('-a', { a: action });
@@ -177,7 +189,7 @@ describe('Checkout effect', () => {
 
   describe('clearDeliveryModesOnCurrencyChange$', () => {
     it('should dispatch clear supported delivery modes action on currency change', () => {
-      const action = new fromSiteContextActions.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange();
       const completion = new CheckoutActions.ClearSupportedDeliveryModes();
 
       actions$ = hot('-a', { a: action });
@@ -256,7 +268,7 @@ describe('Checkout effect', () => {
         cartId: cartId,
         paymentDetails: mockPaymentDetails,
       });
-      const completion1 = new LoadUserPaymentMethods(userId);
+      const completion1 = new UserActions.LoadUserPaymentMethods(userId);
       const completion2 = new CheckoutActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
@@ -315,6 +327,38 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.loadCheckoutDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('clearCheckoutDeliveryAddress$', () => {
+    it('should clear checkout delivery address', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDeliveryAddress$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('clearCheckoutDeliveryMode$', () => {
+    it('should clear checkout delivery modes', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new CheckoutActions.ClearCheckoutDeliveryModeSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
     });
   });
 });

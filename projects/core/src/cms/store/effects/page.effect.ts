@@ -11,9 +11,9 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { RoutingService } from '../../../routing/index';
-import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
@@ -23,10 +23,13 @@ import { CmsActions } from '../actions/index';
 export class PageEffects {
   @Effect()
   refreshPage$: Observable<Action> = this.actions$.pipe(
-    ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
+    ofType(
+      SiteContextActions.LANGUAGE_CHANGE,
+      AuthActions.LOGOUT,
+      AuthActions.LOGIN
+    ),
     switchMap(_ =>
       this.routingService.getRouterState().pipe(
-        take(1),
         filter(
           routerState =>
             routerState &&
@@ -34,6 +37,7 @@ export class PageEffects {
             routerState.state.cmsRequired &&
             !routerState.nextState
         ),
+        take(1),
         map(routerState => routerState.state.context),
         mergeMap(context => of(new CmsActions.LoadCmsPageData(context)))
       )
@@ -50,13 +54,27 @@ export class PageEffects {
         switchMap(pageContext =>
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
-              return [
+              const actions: Action[] = [
                 new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
                 ),
               ];
+
+              const pageLabel = cmsStructure.page.label;
+              // For content pages the page label returned from backend can be different than page ID initially assumed from route.
+              // In such a case let's save the success response not only for initially assumed page ID, but also for correct page label.
+              if (pageLabel && pageLabel !== pageContext.id) {
+                actions.unshift(
+                  new CmsActions.CmsSetPageSuccessIndex(
+                    { id: pageLabel, type: pageContext.type },
+                    cmsStructure.page
+                  )
+                );
+              }
+
+              return actions;
             }),
             catchError(error =>
               of(

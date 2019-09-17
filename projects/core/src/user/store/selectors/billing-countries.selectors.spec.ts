@@ -1,7 +1,8 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
-import * as fromActions from '../actions/billing-countries.action';
+import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
 import { StateWithUser, USER_FEATURE } from '../user-state';
@@ -17,7 +18,7 @@ describe('Billing Countries Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -42,7 +43,7 @@ describe('Billing Countries Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new fromActions.LoadBillingCountriesSuccess(mockCountries)
+        new UserActions.LoadBillingCountriesSuccess(mockCountries)
       );
 
       expect(result).toEqual(mockCountries);

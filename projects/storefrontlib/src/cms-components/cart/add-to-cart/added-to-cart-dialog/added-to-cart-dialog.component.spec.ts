@@ -4,6 +4,7 @@ import {
   Input,
   Pipe,
   PipeTransform,
+  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -128,8 +129,8 @@ describe('AddedToCartDialogComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     component.entry$ = of(mockOrderEntry[0]);
-    cartService = TestBed.get(CartService);
-    mockModalService = TestBed.get(ModalService);
+    cartService = TestBed.get(CartService as Type<CartService>);
+    mockModalService = TestBed.get(ModalService as Type<ModalService>);
 
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
@@ -210,7 +211,8 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show increment dialog title message', () => {
-    component.entry$ = of(mockOrderEntry[1]);
+    component.entry$ = of(mockOrderEntry[0]);
+    component.increment = true;
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(

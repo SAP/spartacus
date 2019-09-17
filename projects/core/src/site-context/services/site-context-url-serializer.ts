@@ -1,7 +1,6 @@
 import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { SiteContextParamsService } from './site-context-params.service';
-import { SiteContextConfig } from '../config/site-context-config';
 
 export interface ParamValuesMap {
   [name: string]: string;
@@ -11,6 +10,8 @@ export interface UrlTreeWithSiteContext extends UrlTree {
   siteContext?: ParamValuesMap;
 }
 
+const UrlSplit = /(^[^#?]*)(.*)/; // used to split url into path and query/fragment parts
+
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   private readonly urlEncodingParameters: string[];
@@ -19,13 +20,9 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     return this.urlEncodingParameters.length > 0;
   }
 
-  constructor(
-    private siteContextParams: SiteContextParamsService,
-    private config: SiteContextConfig
-  ) {
+  constructor(private siteContextParams: SiteContextParamsService) {
     super();
-    this.urlEncodingParameters =
-      (this.config.context && this.config.context.urlEncodingParameters) || [];
+    this.urlEncodingParameters = this.siteContextParams.getUrlEncodingParameters();
   }
 
   parse(url: string): UrlTreeWithSiteContext {
@@ -42,7 +39,9 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   urlExtractContextParameters(
     url: string
   ): { url: string; params: ParamValuesMap } {
-    const segments = url.split('/');
+    const [, urlPart, queryPart] = url.match(UrlSplit);
+
+    const segments = urlPart.split('/');
     if (segments[0] === '') {
       segments.shift();
     }
@@ -64,7 +63,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
       paramId++;
     }
 
-    url = segments.slice(Object.keys(params).length).join('/');
+    url = segments.slice(Object.keys(params).length).join('/') + queryPart;
     return { url, params };
   }
 

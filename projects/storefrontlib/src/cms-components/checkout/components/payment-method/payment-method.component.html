@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="(existingPaymentMethods$ | async) as existingPaymentMethods"
->
+<ng-container *ngIf="existingPaymentMethods$ | async as existingPaymentMethods">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'paymentForm.payment' | cxTranslate }}
   </h3>
@@ -61,7 +59,7 @@
 
     <ng-template #newPaymentForm>
       <cx-payment-form
-        (addPaymentInfo)="addNewPaymentMethod($event)"
+        (setPaymentDetails)="setPaymentDetails($event)"
         (closeForm)="hideNewPaymentForm()"
         (goBack)="back()"
         [paymentMethodsCount]="existingPaymentMethods?.length || 0"

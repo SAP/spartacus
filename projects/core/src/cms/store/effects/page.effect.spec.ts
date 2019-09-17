@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
@@ -8,7 +9,7 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { PageType } from '../../../model/cms.model';
 import { PageContext, RoutingService } from '../../../routing/index';
-import { LanguageChange } from '../../../site-context/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel, Page } from '../../model/page.model';
 import { CmsActions } from '../actions/index';
@@ -103,9 +104,11 @@ describe('Page Effects', () => {
       ],
     });
 
-    cmsPageConnector = TestBed.get(CmsPageConnector);
-    effects = TestBed.get(fromEffects.PageEffects);
-    routingService = TestBed.get(RoutingService);
+    cmsPageConnector = TestBed.get(CmsPageConnector as Type<CmsPageConnector>);
+    effects = TestBed.get(fromEffects.PageEffects as Type<
+      fromEffects.PageEffects
+    >);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
     Date.now = mockDateNow;
   });
 
@@ -153,10 +156,10 @@ describe('Page Effects', () => {
     describe('when a language changes', () => {
       it('should dispatch LoadPageIndex action', () => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockRouterState)
+          of(mockRouterState as any)
         );
 
-        const action = new LanguageChange();
+        const action = new SiteContextActions.LanguageChange();
         const completion = new CmsActions.LoadCmsPageData(context);
 
         actions$ = hot('-a', { a: action });
@@ -168,7 +171,7 @@ describe('Page Effects', () => {
     describe('when a user logs in', () => {
       it('should dispatch LoadPageIndex action', () => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockRouterState)
+          of(mockRouterState as any)
         );
 
         const action = new AuthActions.Logout();
@@ -183,7 +186,7 @@ describe('Page Effects', () => {
     describe('when a user logs out', () => {
       it('should dispatch LoadPageIndex action', () => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockRouterState)
+          of(mockRouterState as any)
         );
 
         const action = new AuthActions.Login();
