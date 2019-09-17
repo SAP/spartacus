@@ -123,6 +123,22 @@ function modifyTSConfigServerFile(): Rule {
   };
 }
 
+function overwriteMainServerTsFile(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const buffer = tree.read('src/main.server.ts');
+    const newFileContent = `export { AppServerModule } from './app/app.server.module';`;
+
+    if(buffer) {
+      tree.overwrite('src/main.server.ts', newFileContent);
+      context.logger.log('info', `✅️ Modified main.server.ts file.`);
+    } else {
+      tree.create('src/main.server.ts', newFileContent);
+      context.logger.log('info', `✅️ Created main.server.ts file.`);
+    }
+    return tree;
+  };
+}
+
 
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -135,6 +151,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       addPackageJsonScripts(),
       addServerConfigInAngularJsonFile(options),
       modifyTSConfigServerFile(),
+      overwriteMainServerTsFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
