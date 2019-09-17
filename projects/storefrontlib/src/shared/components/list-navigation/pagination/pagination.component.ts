@@ -87,7 +87,7 @@ export class PaginationComponent {
     );
   }
 
-  private clickPageNo(page: number): number {
+  clickPageNo(page: number): number {
     // Change page on valid index
     if (
       page >= PAGE_FIRST &&
