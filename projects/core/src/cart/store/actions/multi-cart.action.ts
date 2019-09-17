@@ -28,8 +28,6 @@ export const SET_FAKE_LOADING_CART = '[Multi Cart] Set Fake Loading Cart';
 
 export const REMOVE_CART = '[Multi Cart] Remove Cart';
 
-// TODO: validate need for all actions, some could be merged
-
 export class ResetFreshCart extends EntityResetAction {
   readonly type = RESET_FRESH_CART;
   constructor() {
@@ -126,7 +124,6 @@ export class RemoveCart extends EntityRemoveAction {
   }
 }
 
-// TODO: export everything needed
 export type MultiCartActions =
   | ResetFreshCart
   | SetFreshCart
