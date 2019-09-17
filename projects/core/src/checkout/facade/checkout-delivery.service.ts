@@ -22,7 +22,7 @@ import { CheckoutSelectors } from '../store/selectors/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { OCC_USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -276,6 +276,6 @@ export class CheckoutDeliveryService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== USERID_ANONYMOUS;
+    return this.cartData.userId !== OCC_USERID_ANONYMOUS;
   }
 }

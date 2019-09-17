@@ -1,2 +1,2 @@
-export const USERID_CURRENT = 'current';
-export const USERID_ANONYMOUS = 'anonymous';
+export const OCC_USERID_CURRENT = 'current';
+export const OCC_USERID_ANONYMOUS = 'anonymous';

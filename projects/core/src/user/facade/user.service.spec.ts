@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -64,14 +64,14 @@ describe('UserService', () => {
       .unsubscribe();
     expect(userDetails).toEqual({});
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserDetails(USERID_CURRENT)
+      new UserActions.LoadUserDetails(OCC_USERID_CURRENT)
     );
   });
 
   it('should be able to load user details', () => {
     service.load();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserDetails(USERID_CURRENT)
+      new UserActions.LoadUserDetails(OCC_USERID_CURRENT)
     );
   });
 
@@ -93,7 +93,7 @@ describe('UserService', () => {
     it('should be able to remove user account', () => {
       service.remove();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.RemoveUser(USERID_CURRENT)
+        new UserActions.RemoveUser(OCC_USERID_CURRENT)
       );
     });
 
@@ -176,7 +176,7 @@ describe('UserService', () => {
       service.updatePersonalDetails(userDetails);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.UpdateUserDetails({
-          username: USERID_CURRENT,
+          username: OCC_USERID_CURRENT,
           userDetails,
         })
       );
@@ -264,7 +264,7 @@ describe('UserService', () => {
       service.updateEmail(password, newUid);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.UpdateEmailAction({
-          uid: USERID_CURRENT,
+          uid: OCC_USERID_CURRENT,
           password,
           newUid,
         })
@@ -325,7 +325,7 @@ describe('UserService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.UpdatePassword({
-          userId: USERID_CURRENT,
+          userId: OCC_USERID_CURRENT,
           oldPassword,
           newPassword,
         })

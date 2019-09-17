@@ -5,11 +5,11 @@ import { AuthService } from '../../auth/facade/auth.service';
 import { Cart } from '../../model/cart.model';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
-import { USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { OCC_USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartDataService {
-  private _userId = USERID_ANONYMOUS;
+  private _userId = OCC_USERID_ANONYMOUS;
   private _cart: Cart;
 
   constructor(
@@ -23,7 +23,7 @@ export class CartDataService {
         if (Object.keys(userToken).length !== 0) {
           this._userId = userToken.userId;
         } else {
-          this._userId = USERID_ANONYMOUS;
+          this._userId = OCC_USERID_ANONYMOUS;
         }
       });
 
@@ -46,7 +46,7 @@ export class CartDataService {
 
   get cartId(): string {
     if (this.hasCart) {
-      return this.userId === USERID_ANONYMOUS ? this.cart.guid : this.cart.code;
+      return this.userId === OCC_USERID_ANONYMOUS ? this.cart.guid : this.cart.code;
     }
   }
 }

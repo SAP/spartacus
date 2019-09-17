@@ -16,7 +16,7 @@ import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 import { CartDataService } from './cart-data.service';
-import { USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { OCC_USERID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartService {
@@ -102,7 +102,7 @@ export class CartService {
   }
 
   private load(): void {
-    if (this.cartData.userId !== USERID_ANONYMOUS) {
+    if (this.cartData.userId !== OCC_USERID_ANONYMOUS) {
       this.store.dispatch(
         new CartActions.LoadCart({
           userId: this.cartData.userId,
