@@ -18,10 +18,7 @@ export class CheckoutLoginComponent implements OnDestroy {
   form: FormGroup = this.formBuilder.group(
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
-      emailConfirmation: [
-        '',
-        [Validators.required, CustomFormValidators.emailValidator],
-      ],
+      emailConfirmation: ['', [Validators.required]],
     },
     { validator: this.emailsMatch }
   );
